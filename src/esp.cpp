@@ -312,9 +312,9 @@ void ESP::DrawBombBox(C_BasePlantedC4* entity)
 
 	int width = 7;
 	int additionalHeight = 4;
-	float bombTime = entity->GetBombTime() - globalvars->curtime;
 
-	if(bombTime <= 0.0f)
+	float bombTime = entity->GetBombTime() - globalvars->curtime;
+	if (bombTime <= 0.0f)
 		return;
 
 	Vector vecOrigin = entity->GetVecOrigin();
