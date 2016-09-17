@@ -2,7 +2,7 @@ CC = g++
 CXXFLAGS = -std=c++0x -m64 -Wall -c -fno-use-cxa-atexit -fPIC
 LDFLAGS = -nostartfiles -nostdlib -m64 -shared
 
-SOURCES=./src/AimTux.cpp
+SOURCES=./src/*.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 
 OUT := libchameleon-csgo.so
