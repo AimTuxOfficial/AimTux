@@ -1,36 +1,22 @@
-/*
-
-	Chameleon -- basic skin changer for CS:GO on 64-bit Linux.
-	Copyright (C) 2016, aixxe. (www.aixxe.net)
-	
-	This program is free software; you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation; either version 2 of the License, or
-	(at your option) any later version.
-
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License
-	along with Chameleon. If not, see <http://www.gnu.org/licenses/>.
-
-*/
-
 #include <iostream>
 #include <memory.h>
 
 #include "SDK.h"
+#include "Weapons.h"
 
 /* game interface pointers */
 CHLClient* clientdll = nullptr;
-IVEngineClient* engine = nullptr;
+CEngineClient* engine = nullptr;
 IClientEntityList* entitylist = nullptr;
 
 /* CHLClient virtual table pointers */
 uintptr_t** client_vmt = nullptr;
 uintptr_t* original_client_vmt = nullptr;
+
+typedef void(*oPaintTraverse)(void*,unsigned long long, bool, bool);
+void PaintTraverseHook(void* v1, unsigned long long vguiPanel, bool forceRepaint, bool allowForce)
+{
+}
 
 /* original FrameStageNotify function */
 FrameStageNotifyFn oFrameStageNotify = 0;
@@ -93,7 +79,7 @@ void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
 			}
 
 			/* write to weapon name tag */
-			snprintf(weapon->GetCustomName(), 32, "%s", "chameleon-x64 // aixxe.net");
+			snprintf(weapon->GetCustomName(), 32, "%s", "AimTux");
 
 			/* remove all wear */
 			*weapon->GetFallbackWear() = 0.f;
@@ -110,10 +96,10 @@ void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
 }
 
 /* called when the library is loading */
-int __attribute__((constructor)) chameleon_init() {
+int __attribute__((constructor)) aimtux_init() {
 	/* obtain pointers to game interface classes */
 	clientdll = GetInterface<CHLClient>("./csgo/bin/linux64/client_client.so", CLIENT_DLL_INTERFACE_VERSION);
-	engine = GetInterface<IVEngineClient>("./bin/linux64/engine_client.so", VENGINE_CLIENT_INTERFACE_VERSION);
+	engine = GetInterface<CEngineClient>("./bin/linux64/engine_client.so", VENGINE_CLIENT_INTERFACE_VERSION);
 	entitylist = GetInterface<IClientEntityList>("./csgo/bin/linux64/client_client.so", VCLIENTENTITYLIST_INTERFACE_VERSION);
 	
 	/* get CHLClient virtual function table */
@@ -145,7 +131,7 @@ int __attribute__((constructor)) chameleon_init() {
 	return 0;
 }
 
-void __attribute__((destructor)) chameleon_shutdown() {
+void __attribute__((destructor)) aimtux_shutdown() {
 	/* restore CHLClient virtual table to normal */
 	*client_vmt = original_client_vmt;
 }

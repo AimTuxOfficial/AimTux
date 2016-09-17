@@ -1,5 +1,6 @@
 #include <cstdint>
 #include <dlfcn.h>
+#include "vector.h"
 
 /* interface versions */
 #define CLIENT_DLL_INTERFACE_VERSION "VClient017"
@@ -23,6 +24,20 @@
 /* generic constants */
 #define LIFE_ALIVE 0
 
+inline void**& getvtable(void* inst, size_t offset = 0)
+{
+	return *reinterpret_cast<void***>((size_t)inst + offset);
+}
+inline const void** getvtable(const void* inst, size_t offset = 0)
+{
+	return *reinterpret_cast<const void***>((size_t)inst + offset);
+}
+template< typename Fn >
+inline Fn getvfunc(const void* inst, size_t index, size_t offset = 0)
+{
+	return reinterpret_cast<Fn>(getvtable(inst, offset)[index]);
+}
+
 /* function prototypes */
 typedef void* (*CreateInterfaceFn) (const char*, int*);
 typedef void (*FrameStageNotifyFn) (void*, int);
@@ -37,62 +52,6 @@ enum ClientFrameStage_t: int {
 	FRAME_NET_UPDATE_END,
 	FRAME_RENDER_START,
 	FRAME_RENDER_END
-};
-
-enum ItemDefinitionIndex: int {
-	WEAPON_DEAGLE = 1,
-	WEAPON_ELITE = 2,
-	WEAPON_FIVESEVEN = 3,
-	WEAPON_GLOCK = 4,
-	WEAPON_AK47 = 7,
-	WEAPON_AUG = 8,
-	WEAPON_AWP = 9,
-	WEAPON_FAMAS = 10,
-	WEAPON_G3SG1 = 11,
-	WEAPON_GALILAR = 13,
-	WEAPON_M249 = 14,
-	WEAPON_M4A1 = 16,
-	WEAPON_MAC10 = 17,
-	WEAPON_P90 = 19,
-	WEAPON_UMP45 = 24,
-	WEAPON_XM1014 = 25,
-	WEAPON_BIZON = 26,
-	WEAPON_MAG7 = 27,
-	WEAPON_NEGEV = 28,
-	WEAPON_SAWEDOFF = 29,
-	WEAPON_TEC9 = 30,
-	WEAPON_TASER = 31,
-	WEAPON_HKP2000 = 32,
-	WEAPON_MP7 = 33,
-	WEAPON_MP9 = 34,
-	WEAPON_NOVA = 35,
-	WEAPON_P250 = 36,
-	WEAPON_SCAR20 = 38,
-	WEAPON_SG556 = 39,
-	WEAPON_SSG08 = 40,
-	WEAPON_KNIFE = 42,
-	WEAPON_FLASHBANG = 43,
-	WEAPON_HEGRENADE = 44,
-	WEAPON_SMOKEGRENADE = 45,
-	WEAPON_MOLOTOV = 46,
-	WEAPON_DECOY = 47,
-	WEAPON_INCGRENADE = 48,
-	WEAPON_C4 = 49,
-	WEAPON_KNIFE_T = 59,
-	WEAPON_M4A1_SILENCER = 60,
-	WEAPON_USP_SILENCER = 61,
-	WEAPON_CZ75A = 63,
-	WEAPON_REVOLVER = 64,
-	WEAPON_KNIFE_BAYONET = 500,
-	WEAPON_KNIFE_FLIP = 505,
-	WEAPON_KNIFE_GUT = 506,
-	WEAPON_KNIFE_KARAMBIT = 507,
-	WEAPON_KNIFE_M9_BAYONET = 508,
-	WEAPON_KNIFE_TACTICAL = 509,
-	WEAPON_KNIFE_FALCHION = 512,
-	WEAPON_KNIFE_SURVIVAL_BOWIE = 514,
-	WEAPON_KNIFE_BUTTERFLY = 515,
-	WEAPON_KNIFE_PUSH = 516
 };
 
 /* helper functions */
@@ -163,15 +122,113 @@ class C_BaseAttributableItem {
 		}
 };
 
-/* game interface classes */
-class CHLClient {};
-
-class IVEngineClient {
-	public:
-		int GetLocalPlayer() {
-			return GetVirtualFunction<int(*)(void*)>(this, 12)(this);
+class CDebugOverlay
+{
+public:
+    bool ScreenPosition(const Vector& vIn, Vector& vOut)
+    {
+        typedef bool(* oScreenPosition)(void*, const Vector&, Vector&);
+        return getvfunc<oScreenPosition>(this, 11)(this, vIn, vOut);
+    }
+};
+class ISurface
+{
+public:
+		void DrawSetColor(int r, int g, int b, int a)
+		{
+			typedef void(* oDrawSetColor)(void*, int, int, int, int);
+			getvfunc<oDrawSetColor>(this, 14)(this, r, g, b, a);
+		}
+		void DrawFilledRect(int x0, int y0, int x1, int y1)
+		{
+			typedef void(* oDrawFilledRect)(void*, int, int, int, int);
+			getvfunc<oDrawFilledRect>(this, 16)(this, x0, y0, x1, y1);
+		}
+		void DrawLine(int x0, int y0, int x1, int y1)
+		{
+			typedef void(* oDrawLine)(void*, int, int, int, int);
+			getvfunc<oDrawLine>(this, 19)(this, x0, y0, x1, y1);
+		}
+		void DrawSetTextFont(unsigned long long font)
+		{
+			typedef void(* oDrawSetTextFont)(void*, unsigned long long);
+			getvfunc<oDrawSetTextFont>(this, 23)(this, font);
+		}
+		void DrawSetTextColor(int r, int g, int b, int a)
+		{
+			typedef void(* oDrawSetTextColor)(void*, int, int, int, int);
+			getvfunc<oDrawSetTextColor>(this, 24)(this, r, g, b, a);
+		}
+		void DrawSetTextPos(int x, int y)
+		{
+			typedef void(* oDrawSetTextPos)(void*, int, int);
+			getvfunc<oDrawSetTextPos>(this, 26)(this, x, y);
+		}
+		void DrawPrintText(const wchar_t *text, int textLen)
+		{
+			typedef void(* oDrawPrintText)(void*, const wchar_t *, int, int);
+			return getvfunc<oDrawPrintText>(this, 28)(this, text, textLen, 0);
+		}
+		unsigned long long CreateFont()
+		{
+			typedef unsigned long long(* oCreateFont)(void*);
+			return getvfunc<oCreateFont>(this, 71)(this);
+		}
+		void SetFontGlyphSet(unsigned long long &font, const char *FontName, int tall, int weight, int blur, int scanlines, int flags)
+		{
+			typedef void(* oSetFontGlyphSet)(void*, unsigned long long, const char*, int, int, int, int, int, int, int);
+			getvfunc<oSetFontGlyphSet>(this, 72)(this, font, FontName, tall, weight, blur, scanlines, flags, 0, 0);
+		}
+		void GetTextSize(unsigned long long font, const wchar_t *text, int &wide, int &tall)
+		{
+			typedef void(* oGetTextSize)(void*, unsigned long long font, const wchar_t *text, int &wide, int &tall);
+			getvfunc<oGetTextSize>(this, 79)(this, font, text, wide, tall);
 		}
 };
+
+class IPanel
+{
+public:
+	const char *GetName(unsigned long long vguiPanel)
+    {
+			typedef const char* (* oGetName)(void*, unsigned long long);
+			return getvfunc<oGetName>(this, 37)(this, vguiPanel);
+    }
+	
+};
+
+class CEngineClient
+{
+public:
+	typedef struct player_info_s
+		{
+	unsigned long long unknown;
+	unsigned long long unknown1;
+	char			name[128];
+	int				userID;
+	char			guid[33];
+	int32_t			friendsID;
+	char			friendsName[128];
+	char			_pad[0x28];
+
+	
+	} player_info_t;
+	
+    bool GetPlayerInfo(int iIndex, player_info_t *pInfo)
+    {
+        typedef bool(* oGetPlayerInfo)(void*, int, player_info_t*);
+        return getvfunc<oGetPlayerInfo>(this, 8)(this, iIndex, pInfo);
+    }
+
+    int GetLocalPlayer(void)
+    {
+        typedef int(* oGetLocalPlayer)(void*);
+        return getvfunc< oGetLocalPlayer >(this, 12)(this);
+    }
+};
+
+/* game interface classes */
+class CHLClient {};
 
 class IClientEntityList {
 	public:
