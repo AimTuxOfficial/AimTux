@@ -57,9 +57,8 @@ void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
 				case WEAPON_AK47:
 					*weapon->GetFallbackPaintKit() = 524; break;
 
-				/* M4A4 | Howl */
 				case WEAPON_M4A1:
-					*weapon->GetFallbackPaintKit() = 309; break;
+					*weapon->GetFallbackPaintKit() = 512; break;
 				
 				//	548
 				case WEAPON_M4A1_SILENCER:
@@ -67,7 +66,7 @@ void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
 				
 				/* Desert Eagle | Conspiracy */
 				case WEAPON_DEAGLE:
-					*weapon->GetFallbackPaintKit() = 351; break;
+					*weapon->GetFallbackPaintKit() = 277; break;
 
 				/* Glock-18 | Fade */
 				case WEAPON_GLOCK:
@@ -75,7 +74,24 @@ void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
 
 				/* USP-S | Stainless */
 				case WEAPON_USP_SILENCER:
-					*weapon->GetFallbackPaintKit() = 277; break;
+					*weapon->GetFallbackPaintKit() = 332; break;
+				
+				case WEAPON_FIVESEVEN:
+					*weapon->GetFallbackPaintKit() = 252; break;
+				
+				//Cardiac
+				case WEAPON_SCAR20:
+					*weapon->GetFallbackPaintKit() = 391; break;
+				
+				case WEAPON_ELITE:
+					*weapon->GetFallbackPaintKit() = 249; break;
+					
+				//Detour
+				case WEAPON_SSG08:
+					*weapon->GetFallbackPaintKit() = 319; break;
+				
+				case WEAPON_TEC9:
+					*weapon->GetFallbackPaintKit() = 179; break;
 			}
 
 			/* write to weapon name tag */
