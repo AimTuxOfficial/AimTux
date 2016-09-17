@@ -63,30 +63,37 @@ void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
 				continue;
 
 			switch (*weapon->GetItemDefinitionIndex()) {
-				/* AWP | Asiimov */
+				/* AWP | Dragon Lore */
 				case WEAPON_AWP:
-					*weapon->GetFallbackPaintKit() = 279; break;
+					*weapon->GetFallbackPaintKit() = 344; break;
 
-				/* AK-47 | Redline */
+				/* AK-47 | Fuel Injector */
 				case WEAPON_AK47:
-					*weapon->GetFallbackPaintKit() = 282; break;
+					*weapon->GetFallbackPaintKit() = 524; break;
 
 				/* M4A4 | Howl */
 				case WEAPON_M4A1:
 					*weapon->GetFallbackPaintKit() = 309; break;
-
+				
+				//	548
+				case WEAPON_M4A1_SILENCER:
+					*weapon->GetFallbackPaintKit() = 548; break;
+				
 				/* Desert Eagle | Conspiracy */
 				case WEAPON_DEAGLE:
-					*weapon->GetFallbackPaintKit() = 328; break;
+					*weapon->GetFallbackPaintKit() = 351; break;
 
 				/* Glock-18 | Fade */
 				case WEAPON_GLOCK:
 					*weapon->GetFallbackPaintKit() = 38; break;
 
+				/* USP-S | Stainless */
+				case WEAPON_USP_SILENCER:
+					*weapon->GetFallbackPaintKit() = 277; break;
 			}
 
 			/* write to weapon name tag */
-			snprintf(weapon->GetCustomName(), 32, "%s", "Skins = Skills");
+			snprintf(weapon->GetCustomName(), 32, "%s", "chameleon-x64 // aixxe.net");
 
 			/* remove all wear */
 			*weapon->GetFallbackWear() = 0.f;
