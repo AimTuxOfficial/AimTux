@@ -1,6 +1,7 @@
 #include <cstdint>
 #include <dlfcn.h>
 #include "vector.h"
+#include "draw.h"
 
 /* interface versions */
 #define CLIENT_DLL_INTERFACE_VERSION "VClient017"
@@ -41,9 +42,14 @@ inline Fn getvfunc(const void* inst, size_t index, size_t offset = 0)
 	return reinterpret_cast<Fn>(getvtable(inst, offset)[index]);
 }
 
+class IPanel;
+
+#define VPANEL unsigned long long
+
 /* function prototypes */
 typedef void* (*CreateInterfaceFn) (const char*, int*);
-typedef void (*FrameStageNotifyFn) (void*, int);
+typedef void  (*FrameStageNotifyFn) (void*, int);
+typedef void  (*PaintTraverseFn)    (void*, VPANEL, bool, bool);
 
 /* game enumerated types */
 enum ClientFrameStage_t: int {
@@ -198,12 +204,24 @@ public:
 class IPanel
 {
 public:
-	const char *GetName(unsigned long long vguiPanel)
-    {
-			typedef const char* (* oGetName)(void*, unsigned long long);
-			return getvfunc<oGetName>(this, 37)(this, vguiPanel);
-    }
+	const char *GetName(VPANEL vguiPanel)
+	{
+		typedef const char* (* oGetName)(void*, VPANEL);
+		return getvfunc<oGetName>(this, 37)(this, vguiPanel);
+	}
 	
+};
+
+enum FontDrawType_t
+{
+	// Use the "additive" value from the scheme file
+	FONT_DRAW_DEFAULT = 0,
+ 
+	// Overrides
+	FONT_DRAW_NONADDITIVE,
+	FONT_DRAW_ADDITIVE,
+ 
+	FONT_DRAW_TYPE_COUNT = 2,
 };
 
 class CEngineClient

@@ -9,14 +9,29 @@ ISurface* surface;	//VGUI
 IPanel* panel;		//VGUI2
 CEngineClient* engine;
 IClientEntityList* entitylist;
+CDraw g_Draw;
 
 /* CHLClient virtual table pointers */
 uintptr_t** client_vmt = nullptr;
+uintptr_t** panel_vmt = nullptr;
 uintptr_t* original_client_vmt = nullptr;
+uintptr_t* original_panel_vmt = nullptr;
 
-typedef void(*oPaintTraverse)(void*,unsigned long long, bool, bool);
-void PaintTraverseHook(void* v1, unsigned long long vguiPanel, bool forceRepaint, bool allowForce)
+unsigned long long font;
+
+PaintTraverseFn oPaintTraverse = 0;
+
+void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool allow_force)
 {
+	oPaintTraverse (thisptr, vgui_panel, force_repaint, allow_force);
+	
+	if (strcmp(panel->GetName(vgui_panel), "FocusOverlayPanel")) // 37
+		return;
+ 
+	surface->DrawSetTextColor(150, 255, 150, 255); // 25
+	surface->DrawSetTextFont(font); // 23
+	surface->DrawSetTextPos(15, 15); // 26
+	surface->DrawPrintText(L"Hello world!", 12); // 28
 }
 
 /* original FrameStageNotify function */
@@ -24,6 +39,7 @@ FrameStageNotifyFn oFrameStageNotify = 0;
 
 /* replacement FrameStageNotify function */
 void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
+	
 	/* perform replacements during postdataupdate */
 	while (stage == ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_START) {
 		/* get our player entity */
@@ -114,14 +130,22 @@ void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
 }
 
 /* called when the library is loading */
-int __attribute__((constructor)) aimtux_init() {
+int __attribute__((constructor)) aimtux_init()
+{
 	/* obtain pointers to game interface classes */
 	client = GetInterface<HLClient>("./csgo/bin/linux64/client_client.so", CLIENT_DLL_INTERFACE_VERSION);
 	engine = GetInterface<CEngineClient>("./bin/linux64/engine_client.so", VENGINE_CLIENT_INTERFACE_VERSION);
 	entitylist = GetInterface<IClientEntityList>("./csgo/bin/linux64/client_client.so", VCLIENTENTITYLIST_INTERFACE_VERSION);
 	surface = GetInterface<ISurface>("./bin/linux64/vguimatsurface_client.so", SURFACE_INTERFACE_VERSION);
 	panel = GetInterface<IPanel>("./bin/linux64/vgui2_client.so", PANEL_INTERFACE_VERSION);
-		
+	
+	
+	/*--------------------------
+	
+	CLIENT VMT
+	
+	-------------------------*/
+	
 	/* get CHLClient virtual function table */
 	client_vmt = reinterpret_cast<uintptr_t**>(client);
 
@@ -141,19 +165,48 @@ int __attribute__((constructor)) aimtux_init() {
 
 	/* store original function in oFrameStageNotify variable */
 	oFrameStageNotify = reinterpret_cast<FrameStageNotifyFn>(original_client_vmt[36]);
-
-	/* overwrite the FrameStageNotify function pointer with our hook function */
-	new_client_vmt[36] = reinterpret_cast<uintptr_t>(hkFrameStageNotify);
-
+	new_client_vmt[36] = reinterpret_cast<uintptr_t>(hkPaintTraverse);
+	
 	/* write the new virtual table */
 	*client_vmt = new_client_vmt;
 	
+	
+	font = surface->CreateFont ();
+	surface->SetFontGlyphSet (font, "Tahoma", 32, 0, 0, 0, true);
+	
+	
+	/*--------------------------
+	
+	PANEL VMT
+	
+	-------------------------*/
+	
+	panel_vmt = reinterpret_cast<uintptr_t**>(panel);
+	
+	original_panel_vmt = *panel_vmt;
+	
+	total_functions = 0;
+	
+	while (reinterpret_cast<uintptr_t*>(*panel_vmt)[total_functions])
+		total_functions++;
+		
+	uintptr_t* new_panel_vmt = new uintptr_t[total_functions];
+	
+	memcpy(new_panel_vmt, original_panel_vmt, (sizeof(uintptr_t) * total_functions));
+	
+	oPaintTraverse = reinterpret_cast<PaintTraverseFn>(original_panel_vmt[42]);
+	new_panel_vmt[42] = reinterpret_cast<uintptr_t>(hkPaintTraverse);
+	
+	*panel_vmt = new_panel_vmt;
+	
+	
 	engine->SendClientCommand ("say AimTux");
-
+	
 	return 0;
 }
 
-void __attribute__((destructor)) aimtux_shutdown() {
+void __attribute__((destructor)) aimtux_shutdown()
+{
 	/* restore CHLClient virtual table to normal */
 	*client_vmt = original_client_vmt;
 }

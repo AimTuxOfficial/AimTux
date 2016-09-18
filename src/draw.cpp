@@ -3,8 +3,8 @@
 
 void CDraw::InitFont(int size, const char* name)
 {
-    font = g_pSurface->CreateFont();
-    g_pSurface->SetFontGlyphSet(font,name,size,0,0,0,0x80);
+    font = surface->CreateFont();
+    surface->SetFontGlyphSet(font,name,size,0,0,0,0x80);
 }
 int CDraw::WidthCalc(const char* input)
 {
@@ -16,7 +16,7 @@ int CDraw::WidthCalc(const char* input)
 
 	mbstowcs( pszUnicode, input, iBufSize );
 
-	g_pSurface->GetTextSize( font, pszUnicode, wide, tall );
+	surface->GetTextSize( font, pszUnicode, wide, tall );
 
 	delete [ ] pszUnicode;
 
@@ -44,10 +44,10 @@ void CDraw::DrawString(bool center,int x, int y, int r,int g, int b, int a,const
 	if ( center )
 		x -= WidthCalc( szBuffer ) / 2;
 
-	g_pSurface->DrawSetTextColor ( r, g, b, a );
-	g_pSurface->DrawSetTextFont ( font );
-	g_pSurface->DrawSetTextPos ( x, y );
+	surface->DrawSetTextColor ( r, g, b, a );
+	surface->DrawSetTextFont ( font );
+	surface->DrawSetTextPos ( x, y );
 
 	std::wstring wide = stringToWide( std::string( szBuffer ) );
-	g_pSurface->DrawPrintText ( wide.c_str(), wide.length() );
+	surface->DrawPrintText ( wide.c_str(), wide.length() );
 }
