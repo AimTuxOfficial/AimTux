@@ -5,7 +5,7 @@ LDFLAGS = -nostartfiles -nostdlib -m64 -shared
 SOURCES=./src/AimTux.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 
-OUT := libchameleon-csgo.so
+OUT := aimtux-csgo.so
 
 all: clean build
 
