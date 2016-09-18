@@ -165,7 +165,7 @@ int __attribute__((constructor)) aimtux_init()
 
 	/* store original function in oFrameStageNotify variable */
 	oFrameStageNotify = reinterpret_cast<FrameStageNotifyFn>(original_client_vmt[36]);
-	new_client_vmt[36] = reinterpret_cast<uintptr_t>(hkPaintTraverse);
+	new_client_vmt[36] = reinterpret_cast<uintptr_t>(hkFrameStageNotify);
 	
 	/* write the new virtual table */
 	*client_vmt = new_client_vmt;
