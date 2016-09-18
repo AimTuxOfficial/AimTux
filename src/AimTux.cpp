@@ -4,10 +4,11 @@
 #include "SDK.h"
 #include "Weapons.h"
 
-/* game interface pointers */
-CHLClient* clientdll = nullptr;
-CEngineClient* engine = nullptr;
-IClientEntityList* entitylist = nullptr;
+HLClient* client;
+ISurface* surface;	//VGUI
+IPanel* panel;		//VGUI2
+CEngineClient* engine;
+IClientEntityList* entitylist;
 
 /* CHLClient virtual table pointers */
 uintptr_t** client_vmt = nullptr;
@@ -96,10 +97,11 @@ void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
 
 			/* write to weapon name tag */
 			snprintf(weapon->GetCustomName(), 32, "%s", "AimTux");
-
+			
 			/* remove all wear */
-			*weapon->GetFallbackWear() = 0.f;
-
+			*weapon->GetFallbackWear() = 0.00000000f;
+			*weapon->GetFallbackStatTrak() = 1337;
+			
 			/* force our fallback values to be used */
 			*weapon->GetItemIDHigh() = -1;
 		}
@@ -114,12 +116,14 @@ void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
 /* called when the library is loading */
 int __attribute__((constructor)) aimtux_init() {
 	/* obtain pointers to game interface classes */
-	clientdll = GetInterface<CHLClient>("./csgo/bin/linux64/client_client.so", CLIENT_DLL_INTERFACE_VERSION);
+	client = GetInterface<HLClient>("./csgo/bin/linux64/client_client.so", CLIENT_DLL_INTERFACE_VERSION);
 	engine = GetInterface<CEngineClient>("./bin/linux64/engine_client.so", VENGINE_CLIENT_INTERFACE_VERSION);
 	entitylist = GetInterface<IClientEntityList>("./csgo/bin/linux64/client_client.so", VCLIENTENTITYLIST_INTERFACE_VERSION);
-	
+	surface = GetInterface<ISurface>("./bin/linux64/vguimatsurface_client.so", SURFACE_INTERFACE_VERSION);
+	panel = GetInterface<IPanel>("./bin/linux64/vgui2_client.so", PANEL_INTERFACE_VERSION);
+		
 	/* get CHLClient virtual function table */
-	client_vmt = reinterpret_cast<uintptr_t**>(clientdll);
+	client_vmt = reinterpret_cast<uintptr_t**>(client);
 
 	/* create backup of the original table */
 	original_client_vmt = *client_vmt;

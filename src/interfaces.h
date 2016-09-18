@@ -3,9 +3,10 @@
 
 #include "SDK.h"
 
-extern HLClient* g_pClient;
-extern CEngineClient* g_pEngine;
-extern ISurface* g_pSurface;
-extern IPanel* g_pPanel;
+extern HLClient* client;
+extern ISurface* surface;
+extern IPanel* panel;
+extern CEngineClient* engine = nullptr;
+extern IClientEntityList* entitylist = nullptr;
 
 #endif
