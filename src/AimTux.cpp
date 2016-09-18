@@ -147,6 +147,8 @@ int __attribute__((constructor)) aimtux_init() {
 
 	/* write the new virtual table */
 	*client_vmt = new_client_vmt;
+	
+	engine->SendClientCommand ("say AimTux");
 
 	return 0;
 }

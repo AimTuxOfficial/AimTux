@@ -234,6 +234,12 @@ public:
         typedef int(* oGetLocalPlayer)(void*);
         return getvfunc< oGetLocalPlayer >(this, 12)(this);
     }
+	
+	void SendClientCommand (const char* Command)
+	{
+		typedef void(* oCmd)(void*, const char* cmd);
+		return getvfunc<oCmd>(this, 7)(this, Command);
+	}
 };
 
 class IClientEntityList {
