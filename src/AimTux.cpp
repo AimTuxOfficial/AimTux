@@ -1,15 +1,16 @@
 #include <iostream>
 #include <memory.h>
 
-#include "SDK.h"
+#include "interfaces.h"
 #include "Weapons.h"
 
-HLClient* client;
-ISurface* surface;	//VGUI
-IPanel* panel;		//VGUI2
-CEngineClient* engine;
-IClientEntityList* entitylist;
-CDraw g_Draw;
+HLClient* client = nullptr;
+ISurface* surface = nullptr;	//VGUI
+IPanel* panel = nullptr;		//VGUI2
+CEngineClient* engine = nullptr;
+IClientEntityList* entitylist = nullptr;
+CDebugOverlay* debugOverlay = nullptr;
+CDraw* g_Draw = new CDraw;
 
 /* CHLClient virtual table pointers */
 uintptr_t** client_vmt = nullptr;
@@ -19,19 +20,38 @@ uintptr_t* original_panel_vmt = nullptr;
 
 unsigned long long font;
 
+bool WorldToScreen ( const Vector &vOrigin, Vector &vScreen )
+{
+	return ( debugOverlay->ScreenPosition( vOrigin, vScreen ));
+}
+
 PaintTraverseFn oPaintTraverse = 0;
 
 void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool allow_force)
 {
+	g_Draw->test();
+	
 	oPaintTraverse (thisptr, vgui_panel, force_repaint, allow_force);
 	
-	if (strcmp(panel->GetName(vgui_panel), "FocusOverlayPanel")) // 37
+	if (strcmp(panel->GetName(vgui_panel), "FocusOverlayPanel"))
 		return;
  
-	surface->DrawSetTextColor(150, 255, 150, 255); // 25
-	surface->DrawSetTextFont(font); // 23
-	surface->DrawSetTextPos(15, 15); // 26
-	surface->DrawPrintText(L"Hello world!", 12); // 28
+	surface->DrawSetTextColor(255, 100, 100, 255);
+	surface->DrawSetTextFont(font);
+	surface->DrawSetTextPos(15, 15);
+	surface->DrawPrintText(L"AimTux", 18);
+	
+	
+	const char* name = panel->GetName(vgui_panel);
+	if(name && name[0] == 'F' && name[5] == 'O' && name[12] == 'P')
+	{
+		static bool bDidOnce =  false;
+		if(!bDidOnce)
+		{
+			//g_Draw->InitFont(12,"Tahoma");
+			bDidOnce = true;
+		}
+	}
 }
 
 /* original FrameStageNotify function */
@@ -138,7 +158,7 @@ int __attribute__((constructor)) aimtux_init()
 	entitylist = GetInterface<IClientEntityList>("./csgo/bin/linux64/client_client.so", VCLIENTENTITYLIST_INTERFACE_VERSION);
 	surface = GetInterface<ISurface>("./bin/linux64/vguimatsurface_client.so", SURFACE_INTERFACE_VERSION);
 	panel = GetInterface<IPanel>("./bin/linux64/vgui2_client.so", PANEL_INTERFACE_VERSION);
-	
+	debugOverlay = GetInterface<CDebugOverlay>("./bin/linux64/engine_client.so", DEBUG_OVERLAY_VERSION);
 	
 	/*--------------------------
 	
@@ -172,7 +192,7 @@ int __attribute__((constructor)) aimtux_init()
 	
 	
 	font = surface->CreateFont ();
-	surface->SetFontGlyphSet (font, "Tahoma", 32, 0, 0, 0, true);
+	surface->SetFontGlyphSet (font, "TeX Gyre Adventor", 32, 0, 0, 0, false);
 	
 	
 	/*--------------------------
@@ -209,4 +229,5 @@ void __attribute__((destructor)) aimtux_shutdown()
 {
 	/* restore CHLClient virtual table to normal */
 	*client_vmt = original_client_vmt;
+	*panel_vmt = original_panel_vmt;
 }

@@ -1,6 +1,8 @@
 #include "draw.h"
-#include "interfaces.h"
 
+void CDraw::test()
+{
+}
 void CDraw::InitFont(int size, const char* name)
 {
     font = surface->CreateFont();

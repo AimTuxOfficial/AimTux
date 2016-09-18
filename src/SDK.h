@@ -1,7 +1,6 @@
 #include <cstdint>
 #include <dlfcn.h>
 #include "vector.h"
-#include "draw.h"
 
 /* interface versions */
 #define CLIENT_DLL_INTERFACE_VERSION "VClient017"
@@ -9,6 +8,7 @@
 #define VCLIENTENTITYLIST_INTERFACE_VERSION	"VClientEntityList003"
 #define SURFACE_INTERFACE_VERSION "VGUI_Surface031"
 #define PANEL_INTERFACE_VERSION "VGUI_Panel009"
+#define DEBUG_OVERLAY_VERSION "VDebugOverlay004"
 
 
 /* network variable offsets */
@@ -268,10 +268,16 @@ public:
 	}
 };
 
+class CBaseEntity
+{
+public: 
+};
+
 class IClientEntityList {
 	public:
-	void* GetClientEntity(int index)
+	CBaseEntity* GetClientEntity(int index)
 	{
-		return GetVirtualFunction<void*(*)(void*, int)>(this, 3)(this, index);
+		typedef CBaseEntity* (* oGetClientEntity)(void*, int);
+		return getvfunc<oGetClientEntity>(this, 3)(this, index);
 	}
 };
