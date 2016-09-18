@@ -29,8 +29,6 @@ PaintTraverseFn oPaintTraverse = 0;
 
 void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool allow_force)
 {
-	g_Draw->test();
-	
 	oPaintTraverse (thisptr, vgui_panel, force_repaint, allow_force);
 	
 	if (strcmp(panel->GetName(vgui_panel), "FocusOverlayPanel"))

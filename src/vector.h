@@ -4,6 +4,7 @@
 #pragma GCC diagnostic ignored "-Wreturn-type"
 
 #include <math.h>
+#include <stdlib.h>
 
 #pragma once
 
