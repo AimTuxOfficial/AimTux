@@ -7,18 +7,16 @@ class CDraw;
 
 #include <chrono>
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
 #include <stdarg.h>
 #include <wchar.h>
-#include <string>
 
 class CDraw
 {
 public:
     void InitFont(int size, const char* name);
-    int WidthCalc(const char* input);
-    void DrawString(bool center, int x, int y, int r, int g, int b, int  a, const char* text, ...);
+    int WidthCalc(const wchar_t* input);
+    void DrawString(bool center, int x, int y, int r, int g, int b, int  a, const wchar_t* text, ...);
     
     unsigned long long font;
 };
