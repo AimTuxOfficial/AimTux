@@ -14,7 +14,7 @@ int CDraw::WidthCalc(const wchar_t* input)
 	
 	return wide;
 }
-void CDraw::DrawString(bool center, int x, int y, int r,int g, int b, int a, const wchar_t *text, ...)
+void CDraw::DrawString(bool center, int x, int y, int r,int g, int b, int a, wchar_t *text)
 {
 	if ( !text  )
 		return;
@@ -26,5 +26,5 @@ void CDraw::DrawString(bool center, int x, int y, int r,int g, int b, int a, con
 	surface->DrawSetTextFont ( font );
 	surface->DrawSetTextPos ( x, y );
 	
-	surface->DrawPrintText ( text, 18 );
+	surface->DrawPrintText ( text, WidthCalc( text ) );
 }

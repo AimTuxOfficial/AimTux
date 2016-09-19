@@ -10,15 +10,13 @@ IPanel* panel = nullptr;		//VGUI2
 CEngineClient* engine = nullptr;
 IClientEntityList* entitylist = nullptr;
 CDebugOverlay* debugOverlay = nullptr;
-CDraw* g_Draw = new CDraw;
+CDraw* g_Draw;
 
 /* CHLClient virtual table pointers */
 uintptr_t** client_vmt = nullptr;
 uintptr_t** panel_vmt = nullptr;
 uintptr_t* original_client_vmt = nullptr;
 uintptr_t* original_panel_vmt = nullptr;
-
-unsigned long long font;
 
 bool WorldToScreen ( const Vector &vOrigin, Vector &vScreen )
 {
@@ -33,21 +31,54 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 	
 	if (strcmp(panel->GetName(vgui_panel), "FocusOverlayPanel"))
 		return;
- 
-	surface->DrawSetTextColor(255, 100, 100, 255);
-	surface->DrawSetTextFont(font);
-	surface->DrawSetTextPos(15, 15);
-	surface->DrawPrintText(L"AimTux", 18);
-	
 	
 	const char* name = panel->GetName(vgui_panel);
 	if(name && name[0] == 'F' && name[5] == 'O' && name[12] == 'P')
 	{
-		static bool bDidOnce =  false;
-		if(!bDidOnce)
+		g_Draw->DrawString (false, 15, 20, 255, 0, 0, 255, L"AAA");
+		g_Draw->DrawString (false, 15, 40, 0, 255, 0, 255, L"BBB");
+		g_Draw->DrawString (false, 15, 60, 0, 0, 255, 255, L"CCC");
+		
+		CBaseEntity* pLocal = entitylist->GetClientEntity(engine->GetLocalPlayer());
+		if(pLocal)
+		for(int i = 0; i < 64; ++i)
 		{
-			//g_Draw->InitFont(12,"Tahoma");
-			bDidOnce = true;
+			CBaseEntity* entity = entitylist->GetClientEntity(i);
+			
+			if(!entity)
+			continue;
+			
+			if(entity == pLocal)
+				continue;
+			if(*(bool*)((unsigned long long)entity + 0x119)) //Dormant check
+				continue;
+			if(*(int*)((unsigned long long)entity + 0x28B) != 0) //Lifestate check
+				continue;
+			if(*(int*)((unsigned long long)entity + 0x12C) <= 0) //Health check
+				continue;
+			
+			int r = 255,g = 255,b = 255;
+			if(*(int*)((unsigned long long)entity + 0x120) == 2) //Esp color by team
+			{
+				r = 255; 
+				g = 0;
+				b = 0;
+			}
+			else
+			{
+				r = 0; 
+				g = 0;
+				b = 255;
+			}
+			
+			Vector vecOrigin = *(Vector*)((unsigned long long)entity + 0x164);
+			Vector Screen2D;
+			if(!WorldToScreen(vecOrigin,Screen2D))
+			{
+				CEngineClient::player_info_t pInfo;
+				engine->GetPlayerInfo(i,&pInfo);
+				// g_Draw->DrawString (false, Screen2D.x, Screen2D.y, 255, 0, 0, 255, L"DDD");
+			}
 		}
 	}
 }
@@ -189,8 +220,8 @@ int __attribute__((constructor)) aimtux_init()
 	*client_vmt = new_client_vmt;
 	
 	
-	font = surface->CreateFont ();
-	surface->SetFontGlyphSet (font, "TeX Gyre Adventor", 32, 0, 0, 0, false);
+	g_Draw = new CDraw;
+	g_Draw->InitFont(12,"TeX Gyre Adventor");
 	
 	
 	/*--------------------------
