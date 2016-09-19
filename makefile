@@ -19,4 +19,5 @@ clean:
 	$(CC) $(CFLAGS) $(CFLAGS) -o "$@" "$<"
 
 build: $(OBJECTS)
+	$(CC) $(LDFLAGS) ./src/*.o -o $(OUT)
 	rm  ./src/*.o
