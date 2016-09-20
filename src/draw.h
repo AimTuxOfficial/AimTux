@@ -1,24 +1,21 @@
 #ifndef DRAW_H_INCLUDED
 #define DRAW_H_INCLUDED
 
-class CDraw;
+#define FONT unsigned long long
+#define LOC(x,y) Vector2D (x,y)
 
 #include "interfaces.h"
 
-#include <chrono>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
 #include <wchar.h>
 
-class CDraw
+namespace Draw
 {
-public:
-    void InitFont(int size, const char* name);
-    int GetWidth(const wchar_t* input);
-    void DrawString(bool center, int x, int y, int r, int g, int b, int  a, const wchar_t* text);
-    
-    unsigned long long font;
-};
+    FONT    CreateFont      (const char* fontName, int size);
+    int     GetTextWidth    (const wchar_t* input, FONT font);
+    void    DrawString      (const wchar_t* text, Vector2D location, Color color, FONT font, bool center);
+}
 
 #endif

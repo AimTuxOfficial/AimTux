@@ -1,30 +1,37 @@
 #include "draw.h"
 
-void CDraw::InitFont(int size, const char* name)
+FONT Draw::CreateFont (const char* fontName, int size)
 {
-    font = surface->CreateFont();
-    surface->SetFontGlyphSet(font,name,size,0,0,0,0x0);
+	FONT newFont = surface->CreateFont ();
+	
+	surface->SetFontGlyphSet (newFont, fontName, size, 0, 0, 0, 0x80);
+	
+	return newFont;
 }
-int CDraw::GetWidth(const wchar_t* input)
+
+int Draw::GetTextWidth (const wchar_t* text, FONT font)
 {
 	int wide = 0;
-    int tall = 0;
+	int tall = 0;
 	
-	surface->GetTextSize( font, input, wide, tall );
+	surface->GetTextSize(font, text, wide, tall);
 	
 	return wide;
 }
-void CDraw::DrawString(bool center, int x, int y, int r,int g, int b, int a, const wchar_t *text)
+
+void Draw::DrawString (const wchar_t* text, Vector2D location, Color color, FONT font, bool center)
 {
-	if ( !text  )
+	if (!text)
 		return;
 	
-	if ( center )
-		x -= GetWidth( text ) / 2;
+	if (center)
+		location.x -= GetTextWidth(text, font) / 2;
 	
-	surface->DrawSetTextColor ( r, g, b, a );
-	surface->DrawSetTextFont ( font );
-	surface->DrawSetTextPos ( x, y );
+	surface->DrawSetTextColor (color.r, color.g, color.b, color.a);
+	surface->DrawSetTextFont (font);
+	surface->DrawSetTextPos ((int)location.x, (int)location.y);
 	
-	surface->DrawPrintText ( text, wcslen(text) );
+	surface->DrawPrintText (text, wcslen(text));
 }
+
+
