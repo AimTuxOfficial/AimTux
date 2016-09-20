@@ -2,6 +2,9 @@
 #include <dlfcn.h>
 #include "vector.h"
 #include "color.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdarg.h>
 
 /* interface versions */
 #define CLIENT_DLL_INTERFACE_VERSION "VClient017"
@@ -33,6 +36,7 @@
 /* generic constants */
 #define LIFE_ALIVE 0
 #define VPANEL unsigned long long
+#define PRINT(c) engine->Print(c)
 
 inline void**& getvtable(void* inst, size_t offset = 0)
 {
@@ -364,11 +368,22 @@ public:
 		return getvfunc< oGetLocalPlayer >(this, 12)(this);
 	}
 	
+	void Print (const char* message)
+	{
+		char buffer[256];
+		sprintf (buffer, "echo %s", message);
+		
+		typedef void(* oCmd)(void*, const char* cmd);
+		return getvfunc<oCmd>(this, 108)(this, buffer);
+	}
+	
 	void SendClientCommand (const char* Command)
 	{
 		typedef void(* oCmd)(void*, const char* cmd);
-		return getvfunc<oCmd>(this, 7)(this, Command);
+		return getvfunc<oCmd>(this, 108)(this, Command);
 	}
+	
+	
 };
 
 class IVModelInfo
