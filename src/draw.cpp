@@ -9,6 +9,15 @@ FONT Draw::CreateFont (const char* fontName, int size)
 	return newFont;
 }
 
+FONT Draw::CreateFont (const char* fontName, int size, int flag)
+{
+	FONT newFont = surface->CreateFont ();
+	
+	surface->SetFontGlyphSet (newFont, fontName, size, 0, 0, 0, flag);
+	
+	return newFont;
+}
+
 int Draw::GetTextWidth (const wchar_t* text, FONT font)
 {
 	int wide = 0;
