@@ -40,7 +40,6 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 		surface->DrawSetColor(150, 100, 255, 255);
 		surface->DrawFilledRect (0, 0, 100, 100);
 		
-		surface->DrawSetTextFont ( font );
 		g_Draw->DrawString (false, 15, 20, 255, 0, 0, 255, L"AAA");
 		g_Draw->DrawString (false, 15, 40, 0, 255, 0, 255, L"BBB");
 		g_Draw->DrawString (false, 15, 60, 0, 0, 255, 255, L"CCC");

@@ -23,7 +23,7 @@ void CDraw::DrawString(bool center, int x, int y, int r,int g, int b, int a, con
 		x -= GetWidth( text ) / 2;
 	
 	surface->DrawSetTextColor ( r, g, b, a );
-	//surface->DrawSetTextFont ( font );
+	surface->DrawSetTextFont ( font );
 	surface->DrawSetTextPos ( x, y );
 	
 	surface->DrawPrintText ( text, wcslen(text) );
