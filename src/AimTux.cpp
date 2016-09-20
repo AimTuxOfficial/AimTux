@@ -40,7 +40,6 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 	{
 		Draw::DrawString (L"AimTux", LOC(15, 15), Color(255, 0, 0), normalFont, false);
 		
-		
 		CBaseEntity* pLocal = entitylist->GetClientEntity(engine->GetLocalPlayer());
 		if(pLocal)
 		for(int i = 0; i < 64; ++i)
@@ -161,15 +160,13 @@ void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
 				case WEAPON_TEC9:
 					*weapon->GetFallbackPaintKit() = 179; break;
 				
-				/* Karambit | Tiger Tooth */
-				case WEAPON_KNIFE:
-					*weapon->GetItemDefinitionIndex() = WEAPON_KNIFE_KARAMBIT;
-					*weapon->GetFallbackPaintKit() = 418; break;
-					
-				/* M9 Bayonet | Crimson Web */
 				case WEAPON_KNIFE_T:
+					*weapon->GetItemDefinitionIndex() = WEAPON_KNIFE_KARAMBIT;
+					*weapon->GetFallbackPaintKit() = 417; break;
+				
+				case WEAPON_KNIFE:
 					*weapon->GetItemDefinitionIndex() = WEAPON_KNIFE_M9_BAYONET;
-					*weapon->GetFallbackPaintKit() = 558; break;
+					*weapon->GetFallbackPaintKit() = 431; break;
 			}
 			
 			/* write to weapon name tag */
