@@ -12,6 +12,7 @@ IClientEntityList* entitylist = nullptr;
 CDebugOverlay* debugOverlay = nullptr;
 IVModelInfo* modelInfo = nullptr;
 
+#define CONV(c) cwConvert(c)
 
 FONT normalFont;
 
@@ -24,6 +25,15 @@ uintptr_t* original_panel_vmt = nullptr;
 bool WorldToScreen ( const Vector &vOrigin, Vector &vScreen )
 {
 	return ( debugOverlay->ScreenPosition( vOrigin, vScreen ));
+}
+
+
+static wchar_t* cwConvert(const char* text)
+{
+	const size_t size = strlen(text) + 1;
+	wchar_t* wText = new wchar_t[size];
+	mbstowcs(wText, text, size);
+	return wText;
 }
 
 PaintTraverseFn oPaintTraverse = 0;
@@ -47,19 +57,23 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 			CBaseEntity* entity = entitylist->GetClientEntity(i);
 			
 			if(!entity)
+			{
 				continue;
+			}
 			
 			if(entity == pLocal)
 				continue;
-			if(*(bool*)((unsigned long long)entity + 0x119)) //Dormant check
+			if(*(bool*)((unsigned long long)entity + 0x121)) //Dormant check
 				continue;
-			if(*(int*)((unsigned long long)entity + 0x28B) != 0) //Lifestate check
+			if(*(int*)((unsigned long long)entity + 0x293) != 0) //Lifestate check
 				continue;
-			if(*(int*)((unsigned long long)entity + 0x12C) <= 0) //Health check
+			if(*(int*)((unsigned long long)entity + 0x134) <= 0) //Health check
 				continue;
 			
+			
+			
 			int r = 255,g = 255,b = 255;
-			if(*(int*)((unsigned long long)entity + 0x120) == 2) //Esp color by team
+			if(*(int*)((unsigned long long)entity + 0x128) == 2) //Esp color by team
 			{
 				r = 255; 
 				g = 0;
@@ -72,13 +86,14 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 				b = 255;
 			}
 			
-			Vector vecOrigin = *(Vector*)((unsigned long long)entity + 0x164);
+			Vector vecOrigin = *(Vector*)((unsigned long long)entity + 0xE4);
 			Vector Screen2D;
 			if(!WorldToScreen(vecOrigin,Screen2D))
 			{
 				CEngineClient::player_info_t pInfo;
 				engine->GetPlayerInfo(i,&pInfo);
-				//Draw::DrawString (false, Screen2D.x, Screen2D.y, 255, 0, 0, 255, L"DDD");
+				
+				Draw::DrawString (CONV(pInfo.name), LOC(Screen2D.x, Screen2D.y), Color(255, 0, 0), normalFont, true);
 			}
 		}
 	}
