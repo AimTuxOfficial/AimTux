@@ -166,7 +166,7 @@ void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
 				
 				case WEAPON_KNIFE:
 					*weapon->GetItemDefinitionIndex() = WEAPON_KNIFE_M9_BAYONET;
-					*weapon->GetFallbackPaintKit() = 431; break;
+					*weapon->GetFallbackPaintKit() = 417; break;
 			}
 			
 			/* write to weapon name tag */
