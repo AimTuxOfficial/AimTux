@@ -99,13 +99,62 @@ public:
 };
 
 /* generic game classes */
-class C_BasePlayer : C_BaseEntity {
-	public:
+class C_BasePlayer : C_BaseEntity
+{
+public:
+	
+	char __buf_0x00[0xCC]; // 0x0
+	Vector m_vecAbsVelocity; // 0xCC
+	Vector m_vecAbsOrigin; // 0xD8
+	Vector m_vecOrigin; // 0xE4
+	Vector m_vecAngVelocity; // 0xF0
+	QAngle m_angAbsRotation; // 0xFC
+	QAngle m_angRotation; // 0x108
+	float m_flGravity; // 0x114
+	float m_flProxyRandomValue; // 0x118
+	int m_iEFlags; // 0x11C
+	unsigned char m_nWaterType; // 0x120
+	unsigned char m_bDormant; // 0x121
+	char __buf_0x122[0x2]; // 0x122
+	float m_fEffects; // 0x124
+	int m_iTeamNum; // 0x128
+	int m_iPendingTeamNum; // 0x12C
+	char __buf_0x130[0x4]; // 0x130
+	int m_iHealth; // 0x134
+	int m_fFlags; // 0x138
+	Vector m_vecViewOffset; // 0x13C
+	Vector m_vecVelocity; // 0x148
+	Vector m_vecBaseVelocity; // 0x154
+	QAngle m_angNetworkAngles; // 0x160
+	Vector m_vecNetworkOrigin; // 0x16C
+	float m_flFriction; // 0x178
+	unsigned long long m_hNetworkMoveParent; // 0x17C
+	unsigned long long m_hOwnerEntity; // 0x180
+	unsigned long long m_hGroundEntity; // 0x184
+	char __buf_0x18C[0x100]; // 0x18C
+	unsigned char _m_nModelIndex; // 0x28C
+	char __buf_0x28D[0x1]; // 0x28D
+	unsigned char m_nRenderFX; // 0x28E
+	unsigned char m_nRenderMode; // 0x28F
+	char m_MoveType; // 0x290
+	char m_MoveCollide; // 0x291
+	unsigned char m_nWaterLevel; // 0x292
+	char __buf_0x293[0x85]; // 0x293
+	float m_flUseLookAtAngle; // 0x318
+	char __buf_0x31C[0x54]; // 0x31C
+	char m_ModelName; // 0x370
+	char __buf_0x371[0x7]; // 0x371
+	unsigned long long m_Collision; // 0x378
+	char __buf_0x380[0x198]; // 0x380
+	char m_rgflCoordinateFrame; // 0x518
+	char __buf_0x519[0x9AF]; // 0x519
+	unsigned char m_bEverHadPredictionErrorsForThisCommand; // 0xEC8
+	
 	unsigned char GetLifeState()
 	{
 		return *(unsigned char*)((uintptr_t)this + m_lifeState);
 	}
-
+	
 	int* GetWeapons()
 	{
 		return (int*)((uintptr_t)this + m_hMyWeapons);
@@ -332,7 +381,53 @@ public:
 
 class CBaseEntity
 {
-public: 
+public:
+	char __buf_0x00[0xCC]; // 0x0
+	Vector m_vecAbsVelocity; // 0xCC
+	Vector m_vecAbsOrigin; // 0xD8
+	Vector m_vecOrigin; // 0xE4
+	Vector m_vecAngVelocity; // 0xF0
+	QAngle m_angAbsRotation; // 0xFC
+	QAngle m_angRotation; // 0x108
+	float m_flGravity; // 0x114
+	float m_flProxyRandomValue; // 0x118
+	int m_iEFlags; // 0x11C
+	unsigned char m_nWaterType; // 0x120
+	unsigned char m_bDormant; // 0x121
+	char __buf_0x122[0x2]; // 0x122
+	float m_fEffects; // 0x124
+	int m_iTeamNum; // 0x128
+	int m_iPendingTeamNum; // 0x12C
+	char __buf_0x130[0x4]; // 0x130
+	int m_iHealth; // 0x134
+	int m_fFlags; // 0x138
+	Vector m_vecViewOffset; // 0x13C
+	Vector m_vecVelocity; // 0x148
+	Vector m_vecBaseVelocity; // 0x154
+	QAngle m_angNetworkAngles; // 0x160
+	Vector m_vecNetworkOrigin; // 0x16C
+	float m_flFriction; // 0x178
+	unsigned long long m_hNetworkMoveParent; // 0x17C
+	unsigned long long m_hOwnerEntity; // 0x180
+	unsigned long long m_hGroundEntity; // 0x184
+	char __buf_0x18C[0x100]; // 0x18C
+	unsigned char _m_nModelIndex; // 0x28C
+	char __buf_0x28D[0x1]; // 0x28D
+	unsigned char m_nRenderFX; // 0x28E
+	unsigned char m_nRenderMode; // 0x28F
+	char m_MoveType; // 0x290
+	char m_MoveCollide; // 0x291
+	unsigned char m_nWaterLevel; // 0x292
+	char __buf_0x293[0x85]; // 0x293
+	float m_flUseLookAtAngle; // 0x318
+	char __buf_0x31C[0x54]; // 0x31C
+	char m_ModelName; // 0x370
+	char __buf_0x371[0x7]; // 0x371
+	unsigned long long m_Collision; // 0x378
+	char __buf_0x380[0x198]; // 0x380
+	char m_rgflCoordinateFrame; // 0x518
+	char __buf_0x519[0x9AF]; // 0x519
+	unsigned char m_bEverHadPredictionErrorsForThisCommand; // 0xEC8
 };
 
 class IClientEntityList {
