@@ -229,14 +229,6 @@ enum class FontFeature: int
 	FONT_FEATURE_OUTLINE_FONTS = 6
 };
 
-enum FontDrawType_t: int
-{
-	FONT_DRAW_DEFAULT = 0,
-	FONT_DRAW_NONADDITIVE,
-	FONT_DRAW_ADDITIVE,
-	FONT_DRAW_TYPE_COUNT = 2
-};
-
 enum FontFlags: int
 {
 	FONTFLAG_NONE = 0,
