@@ -25,9 +25,16 @@ uintptr_t** panel_vmt = nullptr;
 uintptr_t* original_client_vmt = nullptr;
 uintptr_t* original_panel_vmt = nullptr;
 
-bool WorldToScreen ( const Vector &vOrigin, Vector &vScreen )
+bool WorldToScreen (const Vector &vOrigin, Vector &vScreen)
 {
 	return ( debugOverlay->ScreenPosition( vOrigin, vScreen ));
+}
+
+Vector WorldToScreen (const Vector &vOrigin)
+{
+	Vector vec;
+	debugOverlay->ScreenPosition( vOrigin, vec );
+	return vec;
 }
 
 
@@ -82,11 +89,13 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 			
 			if (playerTeam != entityTeam)
 			{
-				color.r = 255;
+				color.r = 200;
+				color.b = 50;
 			}
 			else
 			{
-				color.b = 255;
+				color.b = 200;
+				color.g = 50;
 			}
 			
 			Vector vecOrigin = entity->m_vecOrigin;
@@ -99,10 +108,35 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 				CEngineClient::player_info_t pInfo;
 				engine->GetPlayerInfo(i,&pInfo);
 				
-				char title[256];
-				sprintf (title, "%s%d", "Health: ", entity->m_iHealth);
+				Vector s_vecBox_w = vecOrigin + vecViewOffset - Vector (0, -20, 0);
+				Vector s_vecBox_s;
 				
-				Draw::DrawString (CONV(title), LOC(Screen2D.x, Screen2D.y), color, espFont, true);
+				Vector e_vecBox_w = vecOrigin - Vector (0, 20, 0);
+				Vector e_vecBox_s;
+				
+				if (!WorldToScreen(s_vecBox_w, s_vecBox_s) && !WorldToScreen(e_vecBox_w, e_vecBox_s))
+				{
+					if (s_vecBox_s.x > e_vecBox_s.x)
+					{
+						int s = s_vecBox_s.x;
+						int e = e_vecBox_s.x;
+						
+						s_vecBox_s.x = e;
+						e_vecBox_s.x = s;
+					}
+					
+					Draw::DrawBox (LOC(s_vecBox_s.x-10, s_vecBox_s.y), LOC(e_vecBox_s.x+10, e_vecBox_s.y), color);
+					
+					Vector s_vecPlayer_s;
+					if (!WorldToScreen(localplayer->m_vecOrigin, s_vecPlayer_s))
+					{
+						Draw::DrawLine (LOC(s_vecPlayer_s.x, s_vecPlayer_s.y), LOC(Screen2D.x, Screen2D.y), color);
+					}
+					
+					//Draw::DrawLine (Loc())
+				}
+				
+				Draw::DrawString (CONV(pInfo.name), LOC(Screen2D.x, Screen2D.y), color, espFont, true);
 			}
 		}
 	}
@@ -112,6 +146,7 @@ void DrawHackInfo ()
 {
 	int width = 350;
 	Draw::DrawRect (LOC(15, 15), LOC (width, 190), Color(0, 0, 0, 120));
+	Draw::DrawBox (LOC(15, 15), LOC (width, 190), Color(255, 0, 0, 255));
 	Draw::DrawString (L"AimTux", LOC(width / 2, 15), Color(220, 220, 220), normalFont, true);
 }
 
