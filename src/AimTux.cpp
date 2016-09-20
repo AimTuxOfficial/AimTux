@@ -23,6 +23,8 @@ bool WorldToScreen ( const Vector &vOrigin, Vector &vScreen )
 	return ( debugOverlay->ScreenPosition( vOrigin, vScreen ));
 }
 
+unsigned long long font;
+
 PaintTraverseFn oPaintTraverse = 0;
 
 void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool allow_force)
@@ -35,9 +37,16 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 	const char* name = panel->GetName(vgui_panel);
 	if(name && name[0] == 'F' && name[5] == 'O' && name[12] == 'P')
 	{
+		surface->DrawSetColor(150, 100, 255, 255);
+		surface->DrawFilledRect (0, 0, 100, 100);
+		
+		surface->DrawSetTextFont ( font );
 		g_Draw->DrawString (false, 15, 20, 255, 0, 0, 255, L"AAA");
 		g_Draw->DrawString (false, 15, 40, 0, 255, 0, 255, L"BBB");
 		g_Draw->DrawString (false, 15, 60, 0, 0, 255, 255, L"CCC");
+		
+		
+		return;
 		
 		CBaseEntity* pLocal = entitylist->GetClientEntity(engine->GetLocalPlayer());
 		if(pLocal)
@@ -78,6 +87,8 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 				CEngineClient::player_info_t pInfo;
 				engine->GetPlayerInfo(i,&pInfo);
 				// g_Draw->DrawString (false, Screen2D.x, Screen2D.y, 255, 0, 0, 255, L"DDD");
+				surface->DrawSetColor(255, 0, 255, 255);
+				surface->DrawLine (0, 0, Screen2D.x, Screen2D.y);
 			}
 		}
 	}
@@ -223,6 +234,8 @@ int __attribute__((constructor)) aimtux_init()
 	g_Draw = new CDraw;
 	g_Draw->InitFont(12,"TeX Gyre Adventor");
 	
+	font = surface->CreateFont ();
+	surface->SetFontGlyphSet (font, "Tahoma", 12, 0, 0, 0, true);
 	
 	/*--------------------------
 	
