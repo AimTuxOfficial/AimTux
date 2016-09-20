@@ -15,6 +15,7 @@ IVModelInfo* modelInfo = nullptr;
 #define CONV(c) cwConvert(c)
 
 FONT normalFont;
+FONT espFont;
 
 /* CHLClient virtual table pointers */
 uintptr_t** client_vmt = nullptr;
@@ -70,30 +71,36 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 			if(*(int*)((unsigned long long)entity + 0x134) <= 0) //Health check
 				continue;
 			
+			Color color;
 			
+			C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
 			
-			int r = 255,g = 255,b = 255;
-			if(*(int*)((unsigned long long)entity + 0x128) == 2) //Esp color by team
+			int playerTeam = localplayer->m_iTeamNum;
+			int entityTeam = entity->m_iTeamNum;
+			
+			if (playerTeam != entityTeam)
 			{
-				r = 255; 
-				g = 0;
-				b = 0;
+				color.r = 255;
 			}
 			else
 			{
-				r = 0; 
-				g = 0;
-				b = 255;
+				color.b = 255;
 			}
 			
-			Vector vecOrigin = *(Vector*)((unsigned long long)entity + 0xE4);
+			Vector vecOrigin = entity->m_vecOrigin;
+			Vector vecViewOffset = entity->m_vecViewOffset;
+			
+			Vector vecHead = vecOrigin + vecViewOffset + Vector (0, 0, 10);
 			Vector Screen2D;
 			if(!WorldToScreen(vecOrigin,Screen2D))
 			{
 				CEngineClient::player_info_t pInfo;
 				engine->GetPlayerInfo(i,&pInfo);
 				
-				Draw::DrawString (CONV(pInfo.name), LOC(Screen2D.x, Screen2D.y), Color(255, 0, 0), normalFont, true);
+				char title[256];
+				sprintf (title, "%s%d", "Health: ", entity->m_iHealth);
+				
+				Draw::DrawString (CONV(title), LOC(Screen2D.x, Screen2D.y), color, espFont, true);
 			}
 		}
 	}
@@ -264,8 +271,8 @@ int __attribute__((constructor)) aimtux_init()
 	*client_vmt = new_client_vmt;
 	
 	
-	normalFont = Draw::CreateFont ("TeX Gyre Adventor", 20);
-			
+	normalFont = Draw::CreateFont ("Arial", 20, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
+	espFont = Draw::CreateFont ("TeX Gyre Adventor", 17, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
 	/*--------------------------
 	
 	PANEL VMT
