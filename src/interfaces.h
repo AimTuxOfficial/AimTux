@@ -10,6 +10,5 @@ extern IPanel*				panel;
 extern CEngineClient*		engine;
 extern IClientEntityList*	entitylist;
 extern CDebugOverlay*		debugOverlay;
-extern CDraw*				g_Draw;
 
 #endif

@@ -1,6 +1,7 @@
 #include <cstdint>
 #include <dlfcn.h>
 #include "vector.h"
+#include "color.h"
 
 /* interface versions */
 #define CLIENT_DLL_INTERFACE_VERSION "VClient017"
