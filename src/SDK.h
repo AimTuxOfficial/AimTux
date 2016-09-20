@@ -10,6 +10,7 @@
 #define SURFACE_INTERFACE_VERSION "VGUI_Surface031"
 #define PANEL_INTERFACE_VERSION "VGUI_Panel009"
 #define DEBUG_OVERLAY_VERSION "VDebugOverlay004"
+#define VMODELINFO_CLIENT_INTERFACE_VERSION "VModelInfoClient004"
 
 
 /* network variable offsets */
@@ -25,6 +26,9 @@
 #define m_nFallbackSeed 0x39B4
 #define m_flFallbackWear 0x39B8
 #define m_nFallbackStatTrak 0x39BC
+#define m_nModelIndex 0x28C
+#define m_hViewModel 0x3AD4
+#define m_hWeapon 0x3060
 
 /* generic constants */
 #define LIFE_ALIVE 0
@@ -85,8 +89,17 @@ template <typename Fn> inline Fn GetVirtualFunction(void* baseclass, size_t inde
 	return (Fn)((uintptr_t**)*(uintptr_t***)baseclass)[index];
 }
 
+class IClientEntity {};
+
+class C_BaseEntity: public IClientEntity {
+public:
+	int* GetModelIndex() {
+		return (int*)((uintptr_t)this + m_nModelIndex);
+	}
+};
+
 /* generic game classes */
-class C_BasePlayer {
+class C_BasePlayer : C_BaseEntity {
 	public:
 	unsigned char GetLifeState()
 	{
@@ -97,9 +110,16 @@ class C_BasePlayer {
 	{
 		return (int*)((uintptr_t)this + m_hMyWeapons);
 	}
+	
+	int GetViewModel()
+	{
+		return *(int*)((uintptr_t)this + m_hViewModel);
+	}
 };
 
-class C_BaseAttributableItem {
+
+class C_BaseAttributableItem : public C_BaseEntity
+{
 public:
 	int* GetItemDefinitionIndex()
 	{
@@ -139,6 +159,15 @@ public:
 	int* GetFallbackStatTrak()
 	{
 		return (int*)((uintptr_t)this + m_nFallbackStatTrak);
+	}
+};
+
+class C_BaseCombatWeapon: public C_BaseAttributableItem {};
+
+class C_BaseViewModel: public C_BaseEntity {
+public:
+	int GetWeapon() {
+		return *(int*)((uintptr_t)this + m_hWeapon);
 	}
 };
 
@@ -290,6 +319,14 @@ public:
 	{
 		typedef void(* oCmd)(void*, const char* cmd);
 		return getvfunc<oCmd>(this, 7)(this, Command);
+	}
+};
+
+class IVModelInfo
+{
+public:
+	int GetModelIndex(const char* Filename) {
+		return GetVirtualFunction<int(*)(void*, const char*)>(this, 3)(this, Filename);
 	}
 };
 

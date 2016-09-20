@@ -10,6 +10,8 @@ IPanel* panel = nullptr;		//VGUI2
 CEngineClient* engine = nullptr;
 IClientEntityList* entitylist = nullptr;
 CDebugOverlay* debugOverlay = nullptr;
+IVModelInfo* modelInfo = nullptr;
+
 
 FONT normalFont;
 
@@ -37,10 +39,6 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 	if(name && name[0] == 'F' && name[5] == 'O' && name[12] == 'P')
 	{
 		Draw::DrawString (L"AimTux", LOC(15, 15), Color(255, 0, 0), normalFont, false);
-		
-		// Draw::DrawString (false, 15, 20, 255, 0, 0, 255, L"AAA");
-		// Draw::DrawString (false, 15, 40, 0, 255, 0, 255, L"BBB");
-		// Draw::DrawString (false, 15, 60, 0, 0, 255, 255, L"CCC");
 		
 		
 		CBaseEntity* pLocal = entitylist->GetClientEntity(engine->GetLocalPlayer());
@@ -162,8 +160,18 @@ void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
 				
 				case WEAPON_TEC9:
 					*weapon->GetFallbackPaintKit() = 179; break;
+				
+				/* Karambit | Tiger Tooth */
+				case WEAPON_KNIFE:
+					*weapon->GetItemDefinitionIndex() = WEAPON_KNIFE_KARAMBIT;
+					*weapon->GetFallbackPaintKit() = 418; break;
+					
+				/* M9 Bayonet | Crimson Web */
+				case WEAPON_KNIFE_T:
+					*weapon->GetItemDefinitionIndex() = WEAPON_KNIFE_M9_BAYONET;
+					*weapon->GetFallbackPaintKit() = 558; break;
 			}
-
+			
 			/* write to weapon name tag */
 			snprintf(weapon->GetCustomName(), 32, "%s", "AimTux");
 			
@@ -174,7 +182,26 @@ void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
 			/* force our fallback values to be used */
 			*weapon->GetItemIDHigh() = -1;
 		}
+		
+		/* viewmodel replacements */
+		C_BaseViewModel* viewmodel = reinterpret_cast<C_BaseViewModel*>(entitylist->GetClientEntity(localplayer->GetViewModel() & 0xFFF));
 
+		if (!viewmodel)
+			break;
+
+		C_BaseCombatWeapon* active_weapon = reinterpret_cast<C_BaseCombatWeapon*>(entitylist->GetClientEntity(viewmodel->GetWeapon() & 0xFFF));
+
+		if (!active_weapon)
+			break;
+
+		switch (*active_weapon->GetItemDefinitionIndex())
+		{
+			case WEAPON_KNIFE_KARAMBIT:
+				*viewmodel->GetModelIndex() = modelInfo->GetModelIndex("models/weapons/v_knife_karam.mdl"); break;
+			case WEAPON_KNIFE_M9_BAYONET:
+				*viewmodel->GetModelIndex() = modelInfo->GetModelIndex("models/weapons/v_knife_m9_bay.mdl"); break;
+		}
+		
 		break;
 	}
 
@@ -192,6 +219,7 @@ int __attribute__((constructor)) aimtux_init()
 	surface = GetInterface<ISurface>("./bin/linux64/vguimatsurface_client.so", SURFACE_INTERFACE_VERSION);
 	panel = GetInterface<IPanel>("./bin/linux64/vgui2_client.so", PANEL_INTERFACE_VERSION);
 	debugOverlay = GetInterface<CDebugOverlay>("./bin/linux64/engine_client.so", DEBUG_OVERLAY_VERSION);
+	modelInfo = GetInterface<IVModelInfo>("./bin/linux64/engine_client.so", VMODELINFO_CLIENT_INTERFACE_VERSION);
 	
 	/*--------------------------
 	

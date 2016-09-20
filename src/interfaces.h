@@ -10,5 +10,6 @@ extern IPanel*				panel;
 extern CEngineClient*		engine;
 extern IClientEntityList*	entitylist;
 extern CDebugOverlay*		debugOverlay;
+extern IVModelInfo*			modelInfo;
 
 #endif
