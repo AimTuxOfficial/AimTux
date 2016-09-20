@@ -26,5 +26,5 @@ void CDraw::DrawString(bool center, int x, int y, int r,int g, int b, int a, con
 	//surface->DrawSetTextFont ( font );
 	surface->DrawSetTextPos ( x, y );
 	
-	surface->DrawPrintText ( text, GetWidth(text) );
+	surface->DrawPrintText ( text, wcslen(text) );
 }
