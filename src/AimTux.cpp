@@ -17,6 +17,8 @@ IVModelInfo* modelInfo = nullptr;
 FONT normalFont;
 FONT espFont;
 
+void DrawHackInfo ();
+
 /* CHLClient virtual table pointers */
 uintptr_t** client_vmt = nullptr;
 uintptr_t** panel_vmt = nullptr;
@@ -49,7 +51,7 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 	const char* name = panel->GetName(vgui_panel);
 	if(name && name[0] == 'F' && name[5] == 'O' && name[12] == 'P')
 	{
-		Draw::DrawString (L"AimTux", LOC(15, 15), Color(255, 0, 0), normalFont, false);
+		DrawHackInfo ();
 		
 		CBaseEntity* pLocal = entitylist->GetClientEntity(engine->GetLocalPlayer());
 		if(pLocal)
@@ -104,6 +106,13 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 			}
 		}
 	}
+}
+
+void DrawHackInfo ()
+{
+	int width = 350;
+	Draw::DrawRect (LOC(15, 15), LOC (width, 190), Color(0, 0, 0, 120));
+	Draw::DrawString (L"AimTux", LOC(width / 2, 15), Color(220, 220, 220), normalFont, true);
 }
 
 /* original FrameStageNotify function */
@@ -297,8 +306,7 @@ int __attribute__((constructor)) aimtux_init()
 	
 	*panel_vmt = new_panel_vmt;
 	
-	
-	engine->SendClientCommand ("say AimTux");
+	PRINT ("Hello World");
 	
 	return 0;
 }
