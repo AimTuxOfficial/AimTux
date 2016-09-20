@@ -43,4 +43,9 @@ void Draw::DrawString (const wchar_t* text, Vector2D location, Color color, FONT
 	surface->DrawPrintText (text, wcslen(text));
 }
 
+void Draw::DrawRect (Vector2D start, Vector2D end, Color color)
+{
+	surface->DrawSetColor (color.r, color.g, color.b, color.a);
+	surface->DrawFilledRect ((int)start.x, (int)start.y, (int)end.x, (int)end.y);
+}
 
