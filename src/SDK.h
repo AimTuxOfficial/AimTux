@@ -247,6 +247,11 @@ public:
 		typedef void(* oDrawFilledRect)(void*, int, int, int, int);
 		getvfunc<oDrawFilledRect>(this, 16)(this, x0, y0, x1, y1);
 	}
+	void DrawOutlinedRect(int x0, int y0, int x1, int y1)
+	{
+		typedef void(* oDrawFilledRect)(void*, int, int, int, int);
+		getvfunc<oDrawFilledRect>(this, 18)(this, x0, y0, x1, y1);
+	}
 	void DrawLine(int x0, int y0, int x1, int y1)
 	{
 		typedef void(* oDrawLine)(void*, int, int, int, int);
