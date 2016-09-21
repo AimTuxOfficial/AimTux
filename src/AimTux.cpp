@@ -18,6 +18,7 @@ FONT normalFont;
 FONT espFont;
 
 void DrawHackInfo ();
+void DrawESPBox (Vector vecOrigin, Vector vecViewOffset, Color color, int width, int additionalHeight);
 
 /* CHLClient virtual table pointers */
 uintptr_t** client_vmt = nullptr;
@@ -30,11 +31,11 @@ bool WorldToScreen (const Vector &vOrigin, Vector &vScreen)
 	return ( debugOverlay->ScreenPosition( vOrigin, vScreen ));
 }
 
-Vector WorldToScreen (const Vector &vOrigin)
+Vector2D WorldToScreen (const Vector &vOrigin)
 {
 	Vector vec;
 	debugOverlay->ScreenPosition( vOrigin, vec );
-	return vec;
+	return LOC(vec.x, vec.y);
 }
 
 
@@ -108,38 +109,99 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 				CEngineClient::player_info_t pInfo;
 				engine->GetPlayerInfo(i,&pInfo);
 				
-				Vector s_vecBox_w = vecOrigin + vecViewOffset - Vector (0, -20, 0);
-				Vector s_vecBox_s;
+				int width = 14;
+				int additionalHeight = 8;
 				
-				Vector e_vecBox_w = vecOrigin - Vector (0, 20, 0);
-				Vector e_vecBox_s;
+				DrawESPBox (vecOrigin, vecViewOffset, color, width, additionalHeight);
 				
-				if (!WorldToScreen(s_vecBox_w, s_vecBox_s) && !WorldToScreen(e_vecBox_w, e_vecBox_s))
+				
+				/*---------- END ----------*/
+				Vector s_vecPlayer_s;
+				if (!WorldToScreen(localplayer->m_vecOrigin, s_vecPlayer_s))
 				{
-					if (s_vecBox_s.x > e_vecBox_s.x)
-					{
-						int s = s_vecBox_s.x;
-						int e = e_vecBox_s.x;
-						
-						s_vecBox_s.x = e;
-						e_vecBox_s.x = s;
-					}
-					
-					Draw::DrawBox (LOC(s_vecBox_s.x-10, s_vecBox_s.y), LOC(e_vecBox_s.x+10, e_vecBox_s.y), color);
-					
-					Vector s_vecPlayer_s;
-					if (!WorldToScreen(localplayer->m_vecOrigin, s_vecPlayer_s))
-					{
-						Draw::DrawLine (LOC(s_vecPlayer_s.x, s_vecPlayer_s.y), LOC(Screen2D.x, Screen2D.y), color);
-					}
-					
-					//Draw::DrawLine (Loc())
+					//Draw::DrawLine (LOC(s_vecPlayer_s.x, s_vecPlayer_s.y), LOC(Screen2D.x, Screen2D.y), color);
 				}
-				
 				Draw::DrawString (CONV(pInfo.name), LOC(Screen2D.x, Screen2D.y), color, espFont, true);
 			}
 		}
 	}
+}
+
+void DrawESPBox (Vector vecOrigin, Vector vecViewOffset, Color color, int width, int additionalHeight)
+{
+	//SIDES
+	
+	Vector2D a = WorldToScreen (vecOrigin + Vector(width, width, additionalHeight));
+	Vector2D b = WorldToScreen (vecOrigin + vecViewOffset + Vector (width, width, additionalHeight));
+	
+	Draw::DrawLine (a, b, color);
+	
+	
+	a = WorldToScreen (vecOrigin + Vector(-width, width, additionalHeight));
+	b = WorldToScreen (vecOrigin + vecViewOffset + Vector (-width, width, additionalHeight));
+	
+	Draw::DrawLine (a, b, color);
+	
+	
+	a = WorldToScreen (vecOrigin + Vector(-width, -width, additionalHeight));
+	b = WorldToScreen (vecOrigin + vecViewOffset + Vector (-width, -width, additionalHeight));
+	
+	Draw::DrawLine (a, b, color);
+	
+	a = WorldToScreen (vecOrigin + Vector(width, -width, additionalHeight));
+	b = WorldToScreen (vecOrigin + vecViewOffset + Vector (width, -width, additionalHeight));
+	
+	Draw::DrawLine (a, b, color);
+	
+	
+	//TOP
+	
+	a = WorldToScreen (vecOrigin + vecViewOffset + Vector(width, width, additionalHeight));
+	b = WorldToScreen (vecOrigin + vecViewOffset + Vector (width, -width, additionalHeight));
+	
+	Draw::DrawLine (a, b, color);
+	
+	
+	a = WorldToScreen (vecOrigin + vecViewOffset + Vector(width, width, additionalHeight));
+	b = WorldToScreen (vecOrigin + vecViewOffset + Vector (-width, width, additionalHeight));
+	
+	Draw::DrawLine (a, b, color);
+	
+	a = WorldToScreen (vecOrigin + vecViewOffset + Vector(-width, -width, additionalHeight));
+	b = WorldToScreen (vecOrigin + vecViewOffset + Vector (-width, width, additionalHeight));
+	
+	Draw::DrawLine (a, b, color);
+	
+	
+	a = WorldToScreen (vecOrigin + vecViewOffset + Vector(width, -width, additionalHeight));
+	b = WorldToScreen (vecOrigin + vecViewOffset + Vector (-width, -width, additionalHeight));
+	
+	Draw::DrawLine (a, b, color);
+	
+	
+	//BOTTOM
+	
+	a = WorldToScreen (vecOrigin + Vector(width, width, additionalHeight));
+	b = WorldToScreen (vecOrigin + Vector (width, -width, additionalHeight));
+	
+	Draw::DrawLine (a, b, color);
+	
+	
+	a = WorldToScreen (vecOrigin + Vector(width, width, additionalHeight));
+	b = WorldToScreen (vecOrigin + Vector (-width, width, additionalHeight));
+	
+	Draw::DrawLine (a, b, color);
+	
+	a = WorldToScreen (vecOrigin + Vector(-width, -width, additionalHeight));
+	b = WorldToScreen (vecOrigin + Vector (-width, width, additionalHeight));
+	
+	Draw::DrawLine (a, b, color);
+	
+	
+	a = WorldToScreen (vecOrigin + Vector(width, -width, additionalHeight));
+	b = WorldToScreen (vecOrigin + Vector (-width, -width, additionalHeight));
+	
+	Draw::DrawLine (a, b, color);
 }
 
 void DrawHackInfo ()
