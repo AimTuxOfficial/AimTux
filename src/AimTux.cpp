@@ -47,6 +47,102 @@ static wchar_t* cwConvert(const char* text)
 	return wText;
 }
 
+double hyp;
+
+void CalculateAngle (Vector& src, Vector& dst, QAngle& angles){
+	// Angle deltas
+	double delta[3] = { (src[0]-dst[0]), (src[1]-dst[1]), (src[2]-dst[2]) };
+
+	// Hypotenuse
+	hyp = sqrt(delta[0]*delta[0] + delta[1]*delta[1]);
+	
+	//0x3760
+	angles[0] = (float) (atan(delta[2]/hyp) * 57.295779513082f);
+	angles[1] = (float) (atan(delta[1]/delta[0]) * 57.295779513082f);
+	angles[2] = 0.0f;
+
+	if(delta[0] >= 0.0) { angles[1] += 180.0f; }
+
+	//Safeguards
+	if(angles[1] > 180)angles[1] -= 360;
+	if(angles[1] < -180)angles[1] += 360;
+	if(angles[0] > 89)angles[0] = 89;
+	if(angles[0] < -89)angles[0] = -89;
+}
+
+CBaseEntity* GetClosestEnemy ()
+{
+	CBaseEntity* pLocal = entitylist->GetClientEntity(engine->GetLocalPlayer());
+	CBaseEntity* closestEntity;
+	if(pLocal)
+	for(int i = 0; i < 64; ++i)
+	{
+		CBaseEntity* entity = entitylist->GetClientEntity(i);
+		
+		if(!entity)
+		{
+			continue;
+		}
+		
+		if(entity == pLocal)
+			continue;
+		if(*(bool*)((unsigned long long)entity + 0x121)) //Dormant check
+			continue;
+		if(*(int*)((unsigned long long)entity + 0x293) != 0) //Lifestate check
+			continue;
+		if(*(int*)((unsigned long long)entity + 0x134) <= 0) //Health check
+			continue;
+		
+		C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
+		
+		if (entity->m_iTeamNum == localplayer->m_iTeamNum)
+			continue;
+		
+		return entity;
+	}
+}
+
+CreateMoveFn oCreateMove = 0;
+
+void hkCreateMove (void* thisptr, int sequence_number, float input_sample_frametime, bool active)
+{
+	oCreateMove (thisptr, sequence_number, input_sample_frametime, active);
+	
+	CBaseEntity* pLocal = entitylist->GetClientEntity(engine->GetLocalPlayer());
+	if(pLocal)
+	for(int i = 0; i < 64; ++i)
+	{
+		CBaseEntity* entity = entitylist->GetClientEntity(i);
+		
+		if(!entity)
+		{
+			continue;
+		}
+		
+		if(entity == pLocal)
+			continue;
+		if(*(bool*)((unsigned long long)entity + 0x121)) //Dormant check
+			continue;
+		if(*(int*)((unsigned long long)entity + 0x293) != 0) //Lifestate check
+			continue;
+		if(*(int*)((unsigned long long)entity + 0x134) <= 0) //Health check
+			continue;
+		
+		C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
+		
+		if (entity->m_iTeamNum == localplayer->m_iTeamNum)
+			continue;
+		
+		Vector e_vecOrigin = entity->m_vecOrigin;
+		Vector p_vecOrigin = localplayer->m_vecOrigin;
+		
+		QAngle angle;
+		CalculateAngle (p_vecOrigin, e_vecOrigin, angle);
+		
+		engine->SetViewAngles (angle);
+	}
+}
+
 PaintTraverseFn oPaintTraverse = 0;
 
 void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool allow_force)
@@ -81,9 +177,11 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 			if(*(int*)((unsigned long long)entity + 0x134) <= 0) //Health check
 				continue;
 			
+			
 			Color color;
 			
 			C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
+			
 			
 			int playerTeam = localplayer->m_iTeamNum;
 			int entityTeam = entity->m_iTeamNum;
@@ -117,9 +215,9 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 				
 				/*---------- END ----------*/
 				Vector s_vecPlayer_s;
-				if (!WorldToScreen(localplayer->m_vecOrigin, s_vecPlayer_s))
+				if (!WorldToScreen(localplayer->m_vecOrigin, s_vecPlayer_s) && localplayer->m_iHealth > 0)
 				{
-					//Draw::DrawLine (LOC(s_vecPlayer_s.x, s_vecPlayer_s.y), LOC(Screen2D.x, Screen2D.y), color);
+					Draw::DrawLine (LOC(s_vecPlayer_s.x, s_vecPlayer_s.y), LOC(Screen2D.x, Screen2D.y), color);
 				}
 				Draw::DrawString (CONV(pInfo.name), LOC(Screen2D.x, Screen2D.y), color, espFont, true);
 			}
@@ -208,8 +306,8 @@ void DrawHackInfo ()
 {
 	int width = 350;
 	Draw::DrawRect (LOC(15, 15), LOC (width, 190), Color(0, 0, 0, 120));
-	Draw::DrawBox (LOC(15, 15), LOC (width, 190), Color(255, 0, 0, 255));
-	Draw::DrawString (L"AimTux", LOC(width / 2, 15), Color(220, 220, 220), normalFont, true);
+	Draw::DrawBox (LOC(15, 15), LOC (width, 190), Color(190, 190, 190, 120));
+	Draw::DrawString (L"AimTux", LOC(width / 2, 15), Color(190, 190, 190), normalFont, true);
 }
 
 /* original FrameStageNotify function */
@@ -373,6 +471,9 @@ int __attribute__((constructor)) aimtux_init()
 	oFrameStageNotify = reinterpret_cast<FrameStageNotifyFn>(original_client_vmt[36]);
 	new_client_vmt[36] = reinterpret_cast<uintptr_t>(hkFrameStageNotify);
 	
+	oCreateMove = reinterpret_cast<CreateMoveFn>(original_client_vmt[21]);
+	new_client_vmt[21] = reinterpret_cast<uintptr_t>(hkCreateMove);
+	
 	/* write the new virtual table */
 	*client_vmt = new_client_vmt;
 	
@@ -403,7 +504,7 @@ int __attribute__((constructor)) aimtux_init()
 	
 	*panel_vmt = new_panel_vmt;
 	
-	PRINT ("Hello World");
+	PRINT ("-------- AimTux --------");
 	
 	return 0;
 }

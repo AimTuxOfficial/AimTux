@@ -54,9 +54,10 @@ inline Fn getvfunc(const void* inst, size_t index, size_t offset = 0)
 
 
 /* function prototypes */
-typedef void* (*CreateInterfaceFn) (const char*, int*);
+typedef void* (*CreateInterfaceFn)	(const char*, int*);
 typedef void  (*FrameStageNotifyFn) (void*, int);
 typedef void  (*PaintTraverseFn)    (void*, VPANEL, bool, bool);
+typedef void  (*CreateMoveFn)		(void*, int sequence_number, float input_sample_frametime, bool active);
 
 /* game enumerated types */
 enum ClientFrameStage_t: int {
@@ -388,6 +389,17 @@ public:
 		return getvfunc<oCmd>(this, 108)(this, Command);
 	}
 	
+	void GetViewAngles (QAngle& angle) // 18
+	{
+		typedef void(* oGetViewAngles)(void*, QAngle&);
+		return getvfunc<oGetViewAngles>(this, 18)(this, angle);
+	}
+	
+	void SetViewAngles (QAngle& angle) // 19
+	{
+		typedef void(* oSetViewAngles)(void*, QAngle&);
+		return getvfunc<oSetViewAngles>(this, 19)(this, angle);
+	}
 	
 };
 
