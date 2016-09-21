@@ -17,6 +17,7 @@ IVModelInfo* modelInfo = nullptr;
 FONT normalFont;
 FONT espFont;
 
+void Aimbot();
 void DrawHackInfo ();
 void DrawESPBox (Vector vecOrigin, Vector vecViewOffset, Color color, int width, int additionalHeight);
 
@@ -73,7 +74,8 @@ void CalculateAngle (Vector& src, Vector& dst, QAngle& angles){
 CBaseEntity* GetClosestEnemy ()
 {
 	CBaseEntity* pLocal = entitylist->GetClientEntity(engine->GetLocalPlayer());
-	CBaseEntity* closestEntity;
+	CBaseEntity* closestEntity = NULL;
+	float dist = 10000000.0f;
 	if(pLocal)
 	for(int i = 0; i < 64; ++i)
 	{
@@ -98,8 +100,16 @@ CBaseEntity* GetClosestEnemy ()
 		if (entity->m_iTeamNum == localplayer->m_iTeamNum)
 			continue;
 		
-		return entity;
+		float e_dist = localplayer->m_vecOrigin.DistToSqr (entity->m_vecOrigin);
+		
+		if (e_dist < dist)
+		{
+			closestEntity = entity;
+			dist = e_dist;
+		}
 	}
+	
+	return closestEntity;
 }
 
 CreateMoveFn oCreateMove = 0;
@@ -107,40 +117,26 @@ CreateMoveFn oCreateMove = 0;
 void hkCreateMove (void* thisptr, int sequence_number, float input_sample_frametime, bool active)
 {
 	oCreateMove (thisptr, sequence_number, input_sample_frametime, active);
+	Aimbot();
 	
-	CBaseEntity* pLocal = entitylist->GetClientEntity(engine->GetLocalPlayer());
-	if(pLocal)
-	for(int i = 0; i < 64; ++i)
-	{
-		CBaseEntity* entity = entitylist->GetClientEntity(i);
-		
-		if(!entity)
-		{
-			continue;
-		}
-		
-		if(entity == pLocal)
-			continue;
-		if(*(bool*)((unsigned long long)entity + 0x121)) //Dormant check
-			continue;
-		if(*(int*)((unsigned long long)entity + 0x293) != 0) //Lifestate check
-			continue;
-		if(*(int*)((unsigned long long)entity + 0x134) <= 0) //Health check
-			continue;
-		
-		C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
-		
-		if (entity->m_iTeamNum == localplayer->m_iTeamNum)
-			continue;
-		
-		Vector e_vecOrigin = entity->m_vecOrigin;
-		Vector p_vecOrigin = localplayer->m_vecOrigin;
-		
-		QAngle angle;
-		CalculateAngle (p_vecOrigin, e_vecOrigin, angle);
-		
-		engine->SetViewAngles (angle);
-	}
+}
+
+void Aimbot ()
+{
+	CBaseEntity* entity = GetClosestEnemy ();
+	
+	if (entity == NULL)
+		return;
+	
+	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
+	
+	Vector e_vecOrigin = entity->m_vecOrigin;
+	Vector p_vecOrigin = localplayer->m_vecOrigin;
+	
+	QAngle angle;
+	CalculateAngle (p_vecOrigin, e_vecOrigin, angle);
+	
+	engine->SetViewAngles (angle);
 }
 
 PaintTraverseFn oPaintTraverse = 0;
