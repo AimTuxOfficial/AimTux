@@ -3,6 +3,7 @@
 
 #include "SDK.h"
 #include "draw.h"
+#include "NetVarManager.h"
 
 extern HLClient*			client;
 extern ISurface*			surface;

@@ -81,18 +81,16 @@ CBaseEntity* GetClosestEnemy ()
 	{
 		CBaseEntity* entity = entitylist->GetClientEntity(i);
 
-		if(!entity)
-		{
+		if (!entity)
 			continue;
-		}
 
-		if(entity == pLocal)
+		if (entity == pLocal)
 			continue;
-		if(*(bool*)((unsigned long long)entity + 0x121)) //Dormant check
+		if (*(bool*)((unsigned long long)entity + 0x121)) // Dormant check
 			continue;
-		if(*(int*)((unsigned long long)entity + 0x293) != 0) //Lifestate check
+		if (*(int*)((unsigned long long)entity + 0x293) != 0) // Lifestate check
 			continue;
-		if(*(int*)((unsigned long long)entity + 0x134) <= 0) //Health check
+		if (*(int*)((unsigned long long)entity + 0x134) <= 0) // Health check
 			continue;
 
 		C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
@@ -505,6 +503,8 @@ int __attribute__((constructor)) aimtux_init()
 	new_panel_vmt[42] = reinterpret_cast<uintptr_t>(hkPaintTraverse);
 
 	*panel_vmt = new_panel_vmt;
+
+	NetVarManager::dumpTables();
 
 	PRINT ("-------- AimTux --------");
 
