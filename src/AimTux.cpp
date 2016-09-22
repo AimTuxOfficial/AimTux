@@ -504,7 +504,7 @@ int __attribute__((constructor)) aimtux_init()
 
 	*panel_vmt = new_panel_vmt;
 
-	NetVarManager::dumpTables();
+	Offsets::getOffsets();
 
 	PRINT ("-------- AimTux --------");
 

@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include "Offsets.h"
 
 /* interface versions */
 #define CLIENT_DLL_INTERFACE_VERSION "VClient017"
@@ -17,24 +18,6 @@
 #define PANEL_INTERFACE_VERSION "VGUI_Panel009"
 #define DEBUG_OVERLAY_VERSION "VDebugOverlay004"
 #define VMODELINFO_CLIENT_INTERFACE_VERSION "VModelInfoClient004"
-
-
-/* network variable offsets */
-#define m_lifeState 0x293
-#define m_hMyWeapons 0x3528
-#define m_AttributeManager 0x34C0
-#define m_Item 0x60
-#define m_iItemDefinitionIndex 0x268
-#define m_iEntityQuality 0x26C
-#define m_iItemIDHigh 0x280
-#define m_szCustomName 0x340
-#define m_nFallbackPaintKit 0x39B0
-#define m_nFallbackSeed 0x39B4
-#define m_flFallbackWear 0x39B8
-#define m_nFallbackStatTrak 0x39BC
-#define m_nModelIndex 0x28C
-#define m_hViewModel 0x3AD4
-#define m_hWeapon 0x3060
 
 /* generic constants */
 #define LIFE_ALIVE 0
@@ -102,7 +85,7 @@ class IClientEntity {};
 class C_BaseEntity: public IClientEntity {
 public:
 	int* GetModelIndex() {
-		return (int*)((uintptr_t)this + m_nModelIndex);
+		return (int*)((uintptr_t)this + offsets.m_nModelIndex);
 	}
 };
 
@@ -160,17 +143,17 @@ public:
 	
 	unsigned char GetLifeState()
 	{
-		return *(unsigned char*)((uintptr_t)this + m_lifeState);
+		return *(unsigned char*)((uintptr_t)this + offsets.m_lifeState);
 	}
-	
+
 	int* GetWeapons()
 	{
-		return (int*)((uintptr_t)this + m_hMyWeapons);
+		return (int*)((uintptr_t)this + offsets.m_hMyWeapons);
 	}
 	
 	int GetViewModel()
 	{
-		return *(int*)((uintptr_t)this + m_hViewModel);
+		return *(int*)((uintptr_t)this + offsets.m_hViewModel);
 	}
 };
 
@@ -180,42 +163,42 @@ class C_BaseAttributableItem : public C_BaseEntity
 public:
 	int* GetItemDefinitionIndex()
 	{
-		return (int*)((uintptr_t)this + m_AttributeManager + m_Item + m_iItemDefinitionIndex);
+		return (int*)((uintptr_t)this + offsets.m_iItemDefinitionIndex);
 	}
 
 	int* GetItemIDHigh()
 	{
-		return (int*)((uintptr_t)this + m_AttributeManager + m_Item + m_iItemIDHigh);
+		return (int*)((uintptr_t)this + offsets.m_iItemIDHigh);
 	}
 
 	int* GetEntityQuality()
 	{
-		return (int*)((uintptr_t)this + m_AttributeManager + m_Item + m_iEntityQuality);
+		return (int*)((uintptr_t)this + offsets.m_iEntityQuality);
 	}
 
 	char* GetCustomName()
 	{
-		return (char*)((uintptr_t)this + m_AttributeManager + m_Item + m_szCustomName);
+		return (char*)((uintptr_t)this + offsets.m_szCustomName);
 	}
 
 	int* GetFallbackPaintKit()
 	{
-		return (int*)((uintptr_t)this + m_nFallbackPaintKit);
+		return (int*)((uintptr_t)this + offsets.m_nFallbackPaintKit);
 	}
 
 	int* GetFallbackSeed()
 	{
-		return (int*)((uintptr_t)this + m_nFallbackSeed);
+		return (int*)((uintptr_t)this + offsets.m_nFallbackSeed);
 	}
 
 	float* GetFallbackWear()
 	{
-		return (float*)((uintptr_t)this + m_flFallbackWear);
+		return (float*)((uintptr_t)this + offsets.m_flFallbackWear);
 	}
 
 	int* GetFallbackStatTrak()
 	{
-		return (int*)((uintptr_t)this + m_nFallbackStatTrak);
+		return (int*)((uintptr_t)this + offsets.m_nFallbackStatTrak);
 	}
 };
 
@@ -224,7 +207,7 @@ class C_BaseCombatWeapon: public C_BaseAttributableItem {};
 class C_BaseViewModel: public C_BaseEntity {
 public:
 	int GetWeapon() {
-		return *(int*)((uintptr_t)this + m_hWeapon);
+		return *(int*)((uintptr_t)this + offsets.m_hWeapon);
 	}
 };
 
