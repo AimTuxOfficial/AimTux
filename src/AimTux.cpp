@@ -56,7 +56,7 @@ void CalculateAngle (Vector& src, Vector& dst, QAngle& angles){
 
 	// Hypotenuse
 	hyp = sqrt(delta[0]*delta[0] + delta[1]*delta[1]);
-	
+
 	//0x3760
 	angles[0] = (float) (atan(delta[2]/hyp) * 57.295779513082f);
 	angles[1] = (float) (atan(delta[1]/delta[0]) * 57.295779513082f);
@@ -80,12 +80,12 @@ CBaseEntity* GetClosestEnemy ()
 	for(int i = 0; i < 64; ++i)
 	{
 		CBaseEntity* entity = entitylist->GetClientEntity(i);
-		
+
 		if(!entity)
 		{
 			continue;
 		}
-		
+
 		if(entity == pLocal)
 			continue;
 		if(*(bool*)((unsigned long long)entity + 0x121)) //Dormant check
@@ -94,21 +94,21 @@ CBaseEntity* GetClosestEnemy ()
 			continue;
 		if(*(int*)((unsigned long long)entity + 0x134) <= 0) //Health check
 			continue;
-		
+
 		C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
-		
+
 		if (entity->m_iTeamNum == localplayer->m_iTeamNum)
 			continue;
-		
+
 		float e_dist = localplayer->m_vecOrigin.DistToSqr (entity->m_vecOrigin);
-		
+
 		if (e_dist < dist)
 		{
 			closestEntity = entity;
 			dist = e_dist;
 		}
 	}
-	
+
 	return closestEntity;
 }
 
@@ -118,24 +118,24 @@ void hkCreateMove (void* thisptr, int sequence_number, float input_sample_framet
 {
 	oCreateMove (thisptr, sequence_number, input_sample_frametime, active);
 	Aimbot();
-	
+
 }
 
 void Aimbot ()
 {
 	CBaseEntity* entity = GetClosestEnemy ();
-	
+
 	if (entity == NULL)
 		return;
-	
+
 	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
-	
+
 	Vector e_vecOrigin = entity->m_vecOrigin;
 	Vector p_vecOrigin = localplayer->m_vecOrigin;
-	
+
 	QAngle angle;
 	CalculateAngle (p_vecOrigin, e_vecOrigin, angle);
-	
+
 	engine->SetViewAngles (angle);
 }
 */
@@ -144,26 +144,26 @@ PaintTraverseFn oPaintTraverse = 0;
 void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool allow_force)
 {
 	oPaintTraverse (thisptr, vgui_panel, force_repaint, allow_force);
-	
+
 	if (strcmp(panel->GetName(vgui_panel), "FocusOverlayPanel"))
 		return;
-	
+
 	const char* name = panel->GetName(vgui_panel);
 	if(name && name[0] == 'F' && name[5] == 'O' && name[12] == 'P')
 	{
 		DrawHackInfo ();
-		
+
 		CBaseEntity* pLocal = entitylist->GetClientEntity(engine->GetLocalPlayer());
 		if(pLocal)
 		for(int i = 0; i < 64; ++i)
 		{
 			CBaseEntity* entity = entitylist->GetClientEntity(i);
-			
+
 			if(!entity)
 			{
 				continue;
 			}
-			
+
 			if(entity == pLocal)
 				continue;
 			if(*(bool*)((unsigned long long)entity + 0x121)) //Dormant check
@@ -172,16 +172,16 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 				continue;
 			if(*(int*)((unsigned long long)entity + 0x134) <= 0) //Health check
 				continue;
-			
-			
+
+
 			Color color;
-			
+
 			C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
-			
-			
+
+
 			int playerTeam = localplayer->m_iTeamNum;
 			int entityTeam = entity->m_iTeamNum;
-			
+
 			if (playerTeam != entityTeam)
 			{
 				color.r = 200;
@@ -192,23 +192,23 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 				color.b = 200;
 				color.g = 50;
 			}
-			
+
 			Vector vecOrigin = entity->m_vecOrigin;
 			Vector vecViewOffset = entity->m_vecViewOffset;
-			
+
 			Vector vecHead = vecOrigin + vecViewOffset + Vector (0, 0, 10);
 			Vector Screen2D;
 			if(!WorldToScreen(vecOrigin,Screen2D))
 			{
 				CEngineClient::player_info_t pInfo;
 				engine->GetPlayerInfo(i,&pInfo);
-				
+
 				int width = 14;
 				int additionalHeight = 8;
-				
+
 				DrawESPBox (vecOrigin, vecViewOffset, color, width, additionalHeight);
-				
-				
+
+
 				/*---------- END ----------*/
 				Vector s_vecPlayer_s;
 				if (!WorldToScreen(localplayer->m_vecOrigin, s_vecPlayer_s) && localplayer->m_iHealth > 0)
@@ -224,86 +224,92 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 void DrawESPBox (Vector vecOrigin, Vector vecViewOffset, Color color, int width, int additionalHeight)
 {
 	//SIDES
-	
+
 	Vector2D a = WorldToScreen (vecOrigin + Vector(width, width, additionalHeight));
 	Vector2D b = WorldToScreen (vecOrigin + vecViewOffset + Vector (width, width, additionalHeight));
-	
+
 	Draw::DrawLine (a, b, color);
-	
-	
+
+
 	a = WorldToScreen (vecOrigin + Vector(-width, width, additionalHeight));
 	b = WorldToScreen (vecOrigin + vecViewOffset + Vector (-width, width, additionalHeight));
-	
+
 	Draw::DrawLine (a, b, color);
-	
-	
+
+
 	a = WorldToScreen (vecOrigin + Vector(-width, -width, additionalHeight));
 	b = WorldToScreen (vecOrigin + vecViewOffset + Vector (-width, -width, additionalHeight));
-	
+
 	Draw::DrawLine (a, b, color);
-	
+
 	a = WorldToScreen (vecOrigin + Vector(width, -width, additionalHeight));
 	b = WorldToScreen (vecOrigin + vecViewOffset + Vector (width, -width, additionalHeight));
-	
+
 	Draw::DrawLine (a, b, color);
-	
-	
+
+
 	//TOP
-	
+
 	a = WorldToScreen (vecOrigin + vecViewOffset + Vector(width, width, additionalHeight));
 	b = WorldToScreen (vecOrigin + vecViewOffset + Vector (width, -width, additionalHeight));
-	
+
 	Draw::DrawLine (a, b, color);
-	
-	
+
+
 	a = WorldToScreen (vecOrigin + vecViewOffset + Vector(width, width, additionalHeight));
 	b = WorldToScreen (vecOrigin + vecViewOffset + Vector (-width, width, additionalHeight));
-	
+
 	Draw::DrawLine (a, b, color);
-	
+
 	a = WorldToScreen (vecOrigin + vecViewOffset + Vector(-width, -width, additionalHeight));
 	b = WorldToScreen (vecOrigin + vecViewOffset + Vector (-width, width, additionalHeight));
-	
+
 	Draw::DrawLine (a, b, color);
-	
-	
+
+
 	a = WorldToScreen (vecOrigin + vecViewOffset + Vector(width, -width, additionalHeight));
 	b = WorldToScreen (vecOrigin + vecViewOffset + Vector (-width, -width, additionalHeight));
-	
+
 	Draw::DrawLine (a, b, color);
-	
-	
+
+
 	//BOTTOM
-	
+
 	a = WorldToScreen (vecOrigin + Vector(width, width, additionalHeight));
 	b = WorldToScreen (vecOrigin + Vector (width, -width, additionalHeight));
-	
+
 	Draw::DrawLine (a, b, color);
-	
-	
+
+
 	a = WorldToScreen (vecOrigin + Vector(width, width, additionalHeight));
 	b = WorldToScreen (vecOrigin + Vector (-width, width, additionalHeight));
-	
+
 	Draw::DrawLine (a, b, color);
-	
+
 	a = WorldToScreen (vecOrigin + Vector(-width, -width, additionalHeight));
 	b = WorldToScreen (vecOrigin + Vector (-width, width, additionalHeight));
-	
+
 	Draw::DrawLine (a, b, color);
-	
-	
+
+
 	a = WorldToScreen (vecOrigin + Vector(width, -width, additionalHeight));
 	b = WorldToScreen (vecOrigin + Vector (-width, -width, additionalHeight));
-	
+
 	Draw::DrawLine (a, b, color);
 }
 
 void DrawHackInfo ()
 {
 	int width = 350;
-	Draw::DrawRect (LOC(15, 15), LOC (width, 190), Color(0, 0, 0, 120));
-	Draw::DrawBox (LOC(15, 15), LOC (width, 190), Color(190, 190, 190, 120));
-	Draw::DrawString (L"AimTux", LOC(width / 2, 15), Color(190, 190, 190), normalFont, true);
+
+	try {
+		Draw::DrawRect (LOC(15, 15), LOC (width, 190), Color(0, 0, 0, 120));
+		Draw::DrawBox (LOC(15, 15), LOC (width, 190), Color(190, 190, 190, 120));
+		Draw::DrawString (L"AimTux", LOC(width / 2, 15), Color(190, 190, 190), normalFont, true);
+	} catch (int exception) {
+		// ignore (?)
+	}
+
 }
 
 /* original FrameStageNotify function */
@@ -311,7 +317,7 @@ FrameStageNotifyFn oFrameStageNotify = 0;
 
 /* replacement FrameStageNotify function */
 void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
-	
+
 	/* perform replacements during postdataupdate */
 	while (stage == ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_START) {
 		/* get our player entity */
@@ -348,11 +354,11 @@ void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
 
 				case WEAPON_M4A1:
 					*weapon->GetFallbackPaintKit() = 512; break;
-				
+
 				//	548
 				case WEAPON_M4A1_SILENCER:
 					*weapon->GetFallbackPaintKit() = 548; break;
-				
+
 				/* Desert Eagle | Conspiracy */
 				case WEAPON_DEAGLE:
 					*weapon->GetFallbackPaintKit() = 277; break;
@@ -364,44 +370,44 @@ void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
 				/* USP-S | Stainless */
 				case WEAPON_USP_SILENCER:
 					*weapon->GetFallbackPaintKit() = 332; break;
-				
+
 				case WEAPON_FIVESEVEN:
 					*weapon->GetFallbackPaintKit() = 252; break;
-				
+
 				//Cardiac
 				case WEAPON_SCAR20:
 					*weapon->GetFallbackPaintKit() = 391; break;
-				
+
 				case WEAPON_ELITE:
 					*weapon->GetFallbackPaintKit() = 249; break;
-					
+
 				//Detour
 				case WEAPON_SSG08:
 					*weapon->GetFallbackPaintKit() = 319; break;
-				
+
 				case WEAPON_TEC9:
 					*weapon->GetFallbackPaintKit() = 179; break;
-				
+
 				case WEAPON_KNIFE_T:
 					*weapon->GetItemDefinitionIndex() = WEAPON_KNIFE_KARAMBIT;
 					*weapon->GetFallbackPaintKit() = 417; break;
-				
+
 				case WEAPON_KNIFE:
 					*weapon->GetItemDefinitionIndex() = WEAPON_KNIFE_M9_BAYONET;
 					*weapon->GetFallbackPaintKit() = 417; break;
 			}
-			
+
 			/* write to weapon name tag */
 			snprintf(weapon->GetCustomName(), 32, "%s", "AimTux");
-			
+
 			/* remove all wear */
 			*weapon->GetFallbackWear() = 0.00000000f;
 			*weapon->GetFallbackStatTrak() = 1337;
-			
+
 			/* force our fallback values to be used */
 			*weapon->GetItemIDHigh() = -1;
 		}
-		
+
 		/* viewmodel replacements */
 		C_BaseViewModel* viewmodel = reinterpret_cast<C_BaseViewModel*>(entitylist->GetClientEntity(localplayer->GetViewModel() & 0xFFF));
 
@@ -420,7 +426,7 @@ void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
 			case WEAPON_KNIFE_M9_BAYONET:
 				*viewmodel->GetModelIndex() = modelInfo->GetModelIndex("models/weapons/v_knife_m9_bay.mdl"); break;
 		}
-		
+
 		break;
 	}
 
@@ -439,13 +445,13 @@ int __attribute__((constructor)) aimtux_init()
 	panel = GetInterface<IPanel>("./bin/linux64/vgui2_client.so", PANEL_INTERFACE_VERSION);
 	debugOverlay = GetInterface<CDebugOverlay>("./bin/linux64/engine_client.so", DEBUG_OVERLAY_VERSION);
 	modelInfo = GetInterface<IVModelInfo>("./bin/linux64/engine_client.so", VMODELINFO_CLIENT_INTERFACE_VERSION);
-	
+
 	/*--------------------------
-	
+
 	CLIENT VMT
-	
+
 	-------------------------*/
-	
+
 	/* get CHLClient virtual function table */
 	client_vmt = reinterpret_cast<uintptr_t**>(client);
 
@@ -466,42 +472,42 @@ int __attribute__((constructor)) aimtux_init()
 	/* store original function in oFrameStageNotify variable */
 	oFrameStageNotify = reinterpret_cast<FrameStageNotifyFn>(original_client_vmt[36]);
 	new_client_vmt[36] = reinterpret_cast<uintptr_t>(hkFrameStageNotify);
-	
+
 //	oCreateMove = reinterpret_cast<CreateMoveFn>(original_client_vmt[21]);
 //	new_client_vmt[21] = reinterpret_cast<uintptr_t>(hkCreateMove);
-	
+
 	/* write the new virtual table */
 	*client_vmt = new_client_vmt;
-	
-	
+
+
 	normalFont = Draw::CreateFont ("Arial", 20, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
 	espFont = Draw::CreateFont ("TeX Gyre Adventor", 17, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
 	/*--------------------------
-	
+
 	PANEL VMT
-	
+
 	-------------------------*/
-	
+
 	panel_vmt = reinterpret_cast<uintptr_t**>(panel);
-	
+
 	original_panel_vmt = *panel_vmt;
-	
+
 	total_functions = 0;
-	
+
 	while (reinterpret_cast<uintptr_t*>(*panel_vmt)[total_functions])
 		total_functions++;
-		
+
 	uintptr_t* new_panel_vmt = new uintptr_t[total_functions];
-	
+
 	memcpy(new_panel_vmt, original_panel_vmt, (sizeof(uintptr_t) * total_functions));
-	
+
 	oPaintTraverse = reinterpret_cast<PaintTraverseFn>(original_panel_vmt[42]);
 	new_panel_vmt[42] = reinterpret_cast<uintptr_t>(hkPaintTraverse);
-	
+
 	*panel_vmt = new_panel_vmt;
-	
+
 	PRINT ("-------- AimTux --------");
-	
+
 	return 0;
 }
 
