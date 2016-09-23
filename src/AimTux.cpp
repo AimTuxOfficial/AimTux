@@ -17,7 +17,7 @@ IVModelInfo* modelInfo = nullptr;
 FONT normalFont;
 FONT espFont;
 
-//void Aimbot();
+void Aimbot();
 void DrawHackInfo ();
 void DrawESPBox (Vector vecOrigin, Vector vecViewOffset, Color color, int width, int additionalHeight);
 
@@ -110,13 +110,12 @@ CBaseEntity* GetClosestEnemy ()
 	return closestEntity;
 }
 
-/*CreateMoveFn oCreateMove = 0;
+CreateMoveFn oCreateMove = 0;
 
 void hkCreateMove (void* thisptr, int sequence_number, float input_sample_frametime, bool active)
 {
 	oCreateMove (thisptr, sequence_number, input_sample_frametime, active);
-	Aimbot();
-
+	// Aimbot();
 }
 
 void Aimbot ()
@@ -136,7 +135,7 @@ void Aimbot ()
 
 	engine->SetViewAngles (angle);
 }
-*/
+
 PaintTraverseFn oPaintTraverse = 0;
 
 void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool allow_force)
@@ -471,8 +470,8 @@ int __attribute__((constructor)) aimtux_init()
 	oFrameStageNotify = reinterpret_cast<FrameStageNotifyFn>(original_client_vmt[36]);
 	new_client_vmt[36] = reinterpret_cast<uintptr_t>(hkFrameStageNotify);
 
-//	oCreateMove = reinterpret_cast<CreateMoveFn>(original_client_vmt[21]);
-//	new_client_vmt[21] = reinterpret_cast<uintptr_t>(hkCreateMove);
+	oCreateMove = reinterpret_cast<CreateMoveFn>(original_client_vmt[21]);
+	new_client_vmt[21] = reinterpret_cast<uintptr_t>(hkCreateMove);
 
 	/* write the new virtual table */
 	*client_vmt = new_client_vmt;
