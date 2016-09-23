@@ -1,5 +1,6 @@
 #include <iostream>
 #include <memory.h>
+#include <zconf.h>
 
 #include "interfaces.h"
 #include "Weapons.h"
@@ -14,8 +15,8 @@ IVModelInfo* modelInfo = nullptr;
 
 #define CONV(c) cwConvert(c)
 
-FONT normalFont;
-FONT espFont;
+FONT normalFont = 0;
+FONT espFont = 0;
 
 void Aimbot();
 void DrawHackInfo ();
@@ -115,6 +116,7 @@ CreateMoveFn oCreateMove = 0;
 void hkCreateMove (void* thisptr, int sequence_number, float input_sample_frametime, bool active)
 {
 	oCreateMove (thisptr, sequence_number, input_sample_frametime, active);
+
 	// Aimbot();
 }
 
@@ -141,6 +143,12 @@ PaintTraverseFn oPaintTraverse = 0;
 void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool allow_force)
 {
 	oPaintTraverse (thisptr, vgui_panel, force_repaint, allow_force);
+
+	if (normalFont == 0)
+		normalFont = Draw::CreateFont ("Arial", 20, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
+
+	if (espFont == 0)
+		espFont = Draw::CreateFont ("TeX Gyre Adventor", 17, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
 
 	if (strcmp(panel->GetName(vgui_panel), "FocusOverlayPanel"))
 		return;
@@ -476,9 +484,6 @@ int __attribute__((constructor)) aimtux_init()
 	/* write the new virtual table */
 	*client_vmt = new_client_vmt;
 
-
-	normalFont = Draw::CreateFont ("Arial", 20, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
-	espFont = Draw::CreateFont ("TeX Gyre Adventor", 17, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
 	/*--------------------------
 
 	PANEL VMT
@@ -504,8 +509,6 @@ int __attribute__((constructor)) aimtux_init()
 	*panel_vmt = new_panel_vmt;
 
 	Offsets::getOffsets();
-
-	PRINT ("-------- AimTux --------");
 
 	return 0;
 }
