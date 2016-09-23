@@ -1,10 +1,8 @@
-CC = g++
-CXXFLAGS = -std=c++0x -m64 -Wall -c -fno-use-cxa-atexit -fPIC
-LDFLAGS = -nostartfiles -nostdlib -m64 -shared
+CC = c++
+CXXFLAGS = -fPIC -std=c++14 -ldl -g -shared
 
-SOURCES=./src/AimTux.cpp ./src/draw.cpp
-OBJECTS=./src/AimTux.o ./src/draw.o
-
+SOURCES := ./src/AimTux.cpp ./src/draw.cpp ./src/NetVarManager.cpp ./src/Offsets.cpp
+OBJECTS := ./src/AimTux.o ./src/draw.o ./src/NetVarManager.o ./src/Offsets.o
 OUT := aimtux-csgo.so
 
 all: clean build
@@ -19,5 +17,5 @@ clean:
 	$(CC) $(CFLAGS) $(CFLAGS) -o "$@" "$<"
 
 build: $(OBJECTS)
-	$(CC) $(LDFLAGS) ./src/*.o -o $(OUT)
+	$(CC) $(CXXFLAGS) -o $(OUT) $(OBJECTS)
 	rm  ./src/*.o
