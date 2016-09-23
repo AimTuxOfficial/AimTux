@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.5)
 project(AimTux)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -ldl")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 
 file(GLOB SOURCE_FILES src/*.cpp)
 add_library(AimTux SHARED ${SOURCE_FILES})
+target_link_libraries(AimTux dl)

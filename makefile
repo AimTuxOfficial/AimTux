@@ -1,5 +1,5 @@
 CC = c++
-CXXFLAGS = -fPIC -std=c++14 -ldl -g -shared
+CXXFLAGS = -fPIC -std=c++14 -g -shared -ldl
 
 SOURCES := ./src/AimTux.cpp ./src/draw.cpp ./src/NetVarManager.cpp ./src/Offsets.cpp
 OBJECTS := ./src/AimTux.o ./src/draw.o ./src/NetVarManager.o ./src/Offsets.o
