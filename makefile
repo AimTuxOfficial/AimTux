@@ -11,11 +11,11 @@ clean:
 	rm -vf $(OBJECTS) $(OUT)
 
 %.cpp: ../%.cpp
-	$(CC) $(CFLAGS) $(CFLAGS) -o "$@" "$<"
+	$(CC) $(CFLAGS) $(CFLAGS) -o "$@" "$<" -ldl
 
 %.o: ../%.cpp
-	$(CC) $(CFLAGS) $(CFLAGS) -o "$@" "$<"
+	$(CC) $(CFLAGS) $(CFLAGS) -o "$@" "$<" -ldl
 
 build: $(OBJECTS)
-	$(CC) $(CXXFLAGS) -o $(OUT) $(OBJECTS)
+	$(CC) $(CXXFLAGS) -o $(OUT) $(OBJECTS) -ldl
 	rm  ./src/*.o
