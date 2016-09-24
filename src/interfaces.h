@@ -2,8 +2,7 @@
 #define __INTERFACES_H_
 
 #include "SDK.h"
-#include "draw.h"
-#include "NetVarManager.h"
+#include "vmt.h"
 
 extern HLClient*			client;
 extern ISurface*			surface;
@@ -12,5 +11,8 @@ extern CEngineClient*		engine;
 extern IClientEntityList*	entitylist;
 extern CDebugOverlay*		debugOverlay;
 extern IVModelInfo*			modelInfo;
+
+extern VMT* panel_vmt;
+extern VMT* client_vmt;
 
 #endif

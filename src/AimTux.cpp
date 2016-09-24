@@ -1,17 +1,12 @@
 #include <iostream>
 #include <memory.h>
 #include <zconf.h>
+#include <stdio.h>
 
 #include "interfaces.h"
+#include "draw.h"
+#include "hooker.h"
 #include "Weapons.h"
-
-HLClient* client = nullptr;
-ISurface* surface = nullptr;	//VGUI
-IPanel* panel = nullptr;		//VGUI2
-CEngineClient* engine = nullptr;
-IClientEntityList* entitylist = nullptr;
-CDebugOverlay* debugOverlay = nullptr;
-IVModelInfo* modelInfo = nullptr;
 
 #define CONV(c) cwConvert(c)
 
@@ -21,12 +16,6 @@ FONT espFont = 0;
 void Aimbot();
 void DrawHackInfo ();
 void DrawESPBox (Vector vecOrigin, Vector vecViewOffset, Color color, int width, int additionalHeight);
-
-/* CHLClient virtual table pointers */
-uintptr_t** client_vmt = nullptr;
-uintptr_t** panel_vmt = nullptr;
-uintptr_t* original_client_vmt = nullptr;
-uintptr_t* original_panel_vmt = nullptr;
 
 bool WorldToScreen (const Vector &vOrigin, Vector &vScreen)
 {
@@ -111,12 +100,9 @@ CBaseEntity* GetClosestEnemy ()
 	return closestEntity;
 }
 
-CreateMoveFn oCreateMove = 0;
-
 void hkCreateMove (void* thisptr, int sequence_number, float input_sample_frametime, bool active)
 {
-	oCreateMove (thisptr, sequence_number, input_sample_frametime, active);
-
+	client_vmt->GetOriginalMethod<CreateMoveFn>(21)(thisptr, sequence_number, input_sample_frametime, active);
 	// Aimbot();
 }
 
@@ -138,12 +124,10 @@ void Aimbot ()
 	engine->SetViewAngles (angle);
 }
 
-PaintTraverseFn oPaintTraverse = 0;
-
 void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool allow_force)
 {
-	oPaintTraverse (thisptr, vgui_panel, force_repaint, allow_force);
-
+	panel_vmt->GetOriginalMethod<PaintTraverseFn>(42)(thisptr, vgui_panel, force_repaint, allow_force);
+	
 	if (normalFont == 0)
 		normalFont = Draw::CreateFont ("Arial", 20, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
 
@@ -317,9 +301,6 @@ void DrawHackInfo ()
 
 }
 
-/* original FrameStageNotify function */
-FrameStageNotifyFn oFrameStageNotify = 0;
-
 /* replacement FrameStageNotify function */
 void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
 
@@ -434,88 +415,44 @@ void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
 
 		break;
 	}
-
-	/* call original function after we've made our changes */
-	return oFrameStageNotify(thisptr, stage);
+	
+	return client_vmt->GetOriginalMethod<FrameStageNotifyFn>(36)(thisptr, stage);
 }
 
 /* called when the library is loading */
 int __attribute__((constructor)) aimtux_init()
 {
-	/* obtain pointers to game interface classes */
-	client = GetInterface<HLClient>("./csgo/bin/linux64/client_client.so", CLIENT_DLL_INTERFACE_VERSION);
-	engine = GetInterface<CEngineClient>("./bin/linux64/engine_client.so", VENGINE_CLIENT_INTERFACE_VERSION);
-	entitylist = GetInterface<IClientEntityList>("./csgo/bin/linux64/client_client.so", VCLIENTENTITYLIST_INTERFACE_VERSION);
-	surface = GetInterface<ISurface>("./bin/linux64/vguimatsurface_client.so", SURFACE_INTERFACE_VERSION);
-	panel = GetInterface<IPanel>("./bin/linux64/vgui2_client.so", PANEL_INTERFACE_VERSION);
-	debugOverlay = GetInterface<CDebugOverlay>("./bin/linux64/engine_client.so", DEBUG_OVERLAY_VERSION);
-	modelInfo = GetInterface<IVModelInfo>("./bin/linux64/engine_client.so", VMODELINFO_CLIENT_INTERFACE_VERSION);
-
+	Hooker::HookInterfaces ();
+	
+	Hooker::HookVMethods ();
 	/*--------------------------
-
+	
 	CLIENT VMT
-
+	
 	-------------------------*/
-
-	/* get CHLClient virtual function table */
-	client_vmt = reinterpret_cast<uintptr_t**>(client);
-
-	/* create backup of the original table */
-	original_client_vmt = *client_vmt;
-
-	size_t total_functions = 0;
-
-	while (reinterpret_cast<uintptr_t*>(*client_vmt)[total_functions])
-		total_functions++;
-
-	/* create replacement virtual table */
-	uintptr_t* new_client_vmt = new uintptr_t[total_functions];
-
-	/* copy original table contents into new table */
-	memcpy(new_client_vmt, original_client_vmt, (sizeof(uintptr_t) * total_functions));
-
-	/* store original function in oFrameStageNotify variable */
-	oFrameStageNotify = reinterpret_cast<FrameStageNotifyFn>(original_client_vmt[36]);
-	new_client_vmt[36] = reinterpret_cast<uintptr_t>(hkFrameStageNotify);
-
-	oCreateMove = reinterpret_cast<CreateMoveFn>(original_client_vmt[21]);
-	new_client_vmt[21] = reinterpret_cast<uintptr_t>(hkCreateMove);
-
-	/* write the new virtual table */
-	*client_vmt = new_client_vmt;
-
-	/*--------------------------
-
+	
+	client_vmt->HookVM ((void*)hkCreateMove, 21);
+	client_vmt->HookVM ((void*)hkFrameStageNotify, 36);
+	client_vmt->ApplyVMT ();
+	
+	/*-------------------------
+	
 	PANEL VMT
-
+	
 	-------------------------*/
-
-	panel_vmt = reinterpret_cast<uintptr_t**>(panel);
-
-	original_panel_vmt = *panel_vmt;
-
-	total_functions = 0;
-
-	while (reinterpret_cast<uintptr_t*>(*panel_vmt)[total_functions])
-		total_functions++;
-
-	uintptr_t* new_panel_vmt = new uintptr_t[total_functions];
-
-	memcpy(new_panel_vmt, original_panel_vmt, (sizeof(uintptr_t) * total_functions));
-
-	oPaintTraverse = reinterpret_cast<PaintTraverseFn>(original_panel_vmt[42]);
-	new_panel_vmt[42] = reinterpret_cast<uintptr_t>(hkPaintTraverse);
-
-	*panel_vmt = new_panel_vmt;
-
+	
+	
+	panel_vmt->HookVM ((void*)hkPaintTraverse, 42);
+	
+	panel_vmt->ApplyVMT ();
+	
 	Offsets::getOffsets();
-
+	
 	return 0;
 }
 
 void __attribute__((destructor)) aimtux_shutdown()
 {
-	/* restore CHLClient virtual table to normal */
-	*client_vmt = original_client_vmt;
-	*panel_vmt = original_panel_vmt;
+	client_vmt->ReleaseVMT ();
+	panel_vmt->ReleaseVMT ();
 }
