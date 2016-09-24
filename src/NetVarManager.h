@@ -1,5 +1,5 @@
-#ifndef NETVARMANAGER_H_INCLUDED
-#define NETVARMANAGER_H_INCLUDED
+#ifndef __NETVARMANAGER_H_
+#define __NETVARMANAGER_H_
 
 #include "SDK.h"
 #include <vector>

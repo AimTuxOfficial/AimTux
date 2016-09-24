@@ -1,5 +1,5 @@
-#ifndef SDK_H_INCLUDED
-#define SDK_H_INCLUDED
+#ifndef __SDK_H_
+#define __SDK_H_
 
 #include <cstdint>
 #include <dlfcn.h>

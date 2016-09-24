@@ -11,11 +11,10 @@
 
 namespace ESP
 {
-void Tick ();
-void DrawTracer (C_BasePlayer* localPlayer, CBaseEntity* entity);
-void DrawPlayerBox (C_BasePlayer* localPlayer, CBaseEntity* entity);
-void DrawPlayerName (C_BasePlayer* localPlayer, CBaseEntity* entity, int entityIndex);
+	void Tick ();
+	void DrawTracer (C_BasePlayer* localPlayer, CBaseEntity* entity);
+	void DrawPlayerBox (C_BasePlayer* localPlayer, CBaseEntity* entity);
+	void DrawPlayerName (C_BasePlayer* localPlayer, CBaseEntity* entity, int entityIndex);
 }
-
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef OFFSETS_H_INCLUDED
-#define OFFSETS_H_INCLUDED
+#ifndef __OFFSETS_H_
+#define __OFFSETS_H_
 
 struct COffsets
 {

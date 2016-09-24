@@ -1,5 +1,5 @@
-#ifndef DRAW_H_INCLUDED
-#define DRAW_H_INCLUDED
+#ifndef __DRAW_H_
+#define __DRAW_H_
 
 #define FONT unsigned long long
 #define LOC(x,y) Vector2D (x,y)

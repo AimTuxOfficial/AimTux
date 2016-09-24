@@ -1,5 +1,6 @@
-#ifndef VECTOR_H
-#define VECTOR_H
+#ifndef __VECTOR_H_
+#define __VECTOR_H_
+
 #pragma GCC diagnostic ignored "-Wunused-value"
 #pragma GCC diagnostic ignored "-Wreturn-type"
 
