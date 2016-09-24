@@ -1,8 +1,4 @@
 #include "aimbot.h"
-#include "settings.h"
-#include "SDK.h"
-#include "interfaces.h"
-
 
 // Default aimbot settings
 bool Settings::Aimbot::enabled = false;
