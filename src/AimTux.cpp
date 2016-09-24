@@ -215,25 +215,12 @@ int __attribute__((constructor)) aimtux_init()
 {
 	Hooker::HookInterfaces ();
 	Hooker::HookVMethods ();
-	/*--------------------------
-	
-	CLIENT VMT
-	
-	-------------------------*/
 	
 	client_vmt->HookVM ((void*)hkCreateMove, 21);
 	client_vmt->HookVM ((void*)hkFrameStageNotify, 36);
 	client_vmt->ApplyVMT ();
-	
-	/*-------------------------
-	
-	PANEL VMT
-	
-	-------------------------*/
-	
-	
+
 	panel_vmt->HookVM ((void*)hkPaintTraverse, 42);
-	
 	panel_vmt->ApplyVMT ();
 
 	NetVarManager::dumpNetvars();
