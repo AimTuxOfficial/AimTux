@@ -1,9 +1,19 @@
 #ifndef __NETVARMANAGER_H_
 #define __NETVARMANAGER_H_
 
-#include "SDK.h"
 #include <vector>
 #include <string>
+#include <vector>
+#include <strings.h>
+#include <string>
+#include <ios>
+#include <iomanip>
+#include <pwd.h>
+#include <zconf.h>
+#include <fstream>
+
+#include "SDK.h"
+#include "interfaces.h"
 
 namespace NetVarManager {
 	std::vector<HLClient::RecvTable *> getTables();

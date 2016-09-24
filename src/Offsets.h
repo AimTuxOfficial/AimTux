@@ -1,6 +1,8 @@
 #ifndef __OFFSETS_H_
 #define __OFFSETS_H_
 
+#include <cstdio>
+
 struct COffsets
 {
 	int m_lifeState;

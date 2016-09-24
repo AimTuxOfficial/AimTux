@@ -1,13 +1,4 @@
-#include <vector>
-#include <strings.h>
-#include <string>
-#include <ios>
-#include <iomanip>
-#include <pwd.h>
-#include <zconf.h>
-#include <fstream>
 #include "NetVarManager.h"
-#include "interfaces.h"
 
 std::vector<HLClient::RecvTable *> NetVarManager::getTables()
 {
