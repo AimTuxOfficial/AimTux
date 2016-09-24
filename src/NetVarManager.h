@@ -3,6 +3,7 @@
 
 #include "SDK.h"
 #include <vector>
+#include <string>
 
 namespace NetVarManager {
 	std::vector<HLClient::RecvTable *> getTables();
@@ -10,8 +11,8 @@ namespace NetVarManager {
 	int getOffset(std::vector<HLClient::RecvTable *> tables, const char *tableName, const char *propName);
 	int getProp(std::vector<HLClient::RecvTable *> tables, const char *tableName, const char *propName, HLClient::RecvProp **prop = 0);
 	int getProp(std::vector<HLClient::RecvTable *> tables, HLClient::RecvTable *recvTable, const char *propName, HLClient::RecvProp **prop = 0);
-	void dumpTable(HLClient::RecvTable *table, int depth);
-	void dumpTables();
+	std::string dumpTable(HLClient::RecvTable *table, int depth);
+	void dumpNetvars();
 }
 
 #endif

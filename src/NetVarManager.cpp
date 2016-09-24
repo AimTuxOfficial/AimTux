@@ -3,6 +3,9 @@
 #include <string>
 #include <ios>
 #include <iomanip>
+#include <pwd.h>
+#include <zconf.h>
+#include <fstream>
 #include "NetVarManager.h"
 #include "interfaces.h"
 
@@ -95,7 +98,7 @@ int NetVarManager::getProp(std::vector<HLClient::RecvTable *> tables, HLClient::
 	return extraOffset;
 }
 
-void NetVarManager::dumpTable(HLClient::RecvTable *table, int depth)
+std::string NetVarManager::dumpTable(HLClient::RecvTable *table, int depth)
 {
 	std::string pre("");
 	std::stringstream ss;
@@ -121,14 +124,27 @@ void NetVarManager::dumpTable(HLClient::RecvTable *table, int depth)
 			dumpTable(prop->m_pDataTable, depth + 1);
 	}
 
-	printf(ss.str().c_str());
+	return ss.str();
 }
 
-void NetVarManager::dumpTables()
+void NetVarManager::dumpNetvars()
 {
+	std::stringstream ss;
+	std::ofstream file;
+
 	for (HLClient::ClientClass *pClass = client->GetAllClasses(); pClass != NULL; pClass = pClass->m_pNext)
 	{
 		HLClient::RecvTable *table = pClass->m_pRecvTable;
-		NetVarManager::dumpTable(table, 0);
+		ss << NetVarManager::dumpTable(table, 0);
 	}
+
+	struct passwd *pw = getpwuid(getuid());
+	const char *homedir = pw->pw_dir;
+
+	char* netvarsPath;
+	asprintf(&netvarsPath, "%s/%s", homedir, ".steam/steam/steamapps/common/Counter-Strike Global Offensive/netvars.txt");
+
+	file.open(netvarsPath);
+	file << ss.str();
+	file.close();
 }

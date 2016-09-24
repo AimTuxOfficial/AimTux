@@ -10,6 +10,7 @@
 #include "settings.h"
 #include "aimbot.h"
 #include "esp.h"
+#include "NetVarManager.h"
 
 #define CONV(c) cwConvert(c)
 
@@ -217,7 +218,8 @@ int __attribute__((constructor)) aimtux_init()
 	panel_vmt->HookVM ((void*)hkPaintTraverse, 42);
 	
 	panel_vmt->ApplyVMT ();
-	
+
+	NetVarManager::dumpNetvars();
 	Offsets::getOffsets();
 	
 	return 0;
