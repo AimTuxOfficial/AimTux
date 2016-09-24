@@ -9,6 +9,7 @@
 #include "Weapons.h"
 #include "settings.h"
 #include "aimbot.h"
+#include "esp.h"
 
 #define CONV(c) cwConvert(c)
 
@@ -16,20 +17,6 @@ FONT normalFont = 0;
 FONT espFont = 0;
 
 void DrawHackInfo ();
-void DrawESPBox (Vector vecOrigin, Vector vecViewOffset, Color color, int width, int additionalHeight);
-
-bool WorldToScreen (const Vector &vOrigin, Vector &vScreen)
-{
-	return ( debugOverlay->ScreenPosition( vOrigin, vScreen ));
-}
-
-Vector2D WorldToScreen (const Vector &vOrigin)
-{
-	Vector vec;
-	debugOverlay->ScreenPosition( vOrigin, vec );
-	return LOC(vec.x, vec.y);
-}
-
 
 static wchar_t* cwConvert(const char* text)
 {
@@ -68,150 +55,8 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 	if(name && name[0] == 'F' && name[5] == 'O' && name[12] == 'P')
 	{
 		DrawHackInfo ();
-
-		CBaseEntity* pLocal = entitylist->GetClientEntity(engine->GetLocalPlayer());
-		if(pLocal)
-		for(int i = 0; i < 64; ++i)
-		{
-			CBaseEntity* entity = entitylist->GetClientEntity(i);
-
-			if(!entity)
-			{
-				continue;
-			}
-
-			if(entity == pLocal)
-				continue;
-			if(*(bool*)((unsigned long long)entity + 0x121)) //Dormant check
-				continue;
-			if(*(int*)((unsigned long long)entity + 0x293) != 0) //Lifestate check
-				continue;
-			if(*(int*)((unsigned long long)entity + 0x134) <= 0) //Health check
-				continue;
-
-
-			Color color;
-
-			C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
-
-
-			int playerTeam = localplayer->m_iTeamNum;
-			int entityTeam = entity->m_iTeamNum;
-
-			if (playerTeam != entityTeam)
-			{
-				color.r = 200;
-				color.b = 50;
-			}
-			else
-			{
-				color.b = 200;
-				color.g = 50;
-			}
-
-			Vector vecOrigin = entity->m_vecOrigin;
-			Vector vecViewOffset = entity->m_vecViewOffset;
-
-			Vector vecHead = vecOrigin + vecViewOffset + Vector (0, 0, 10);
-			Vector Screen2D;
-			if(!WorldToScreen(vecOrigin,Screen2D))
-			{
-				CEngineClient::player_info_t pInfo;
-				engine->GetPlayerInfo(i,&pInfo);
-
-				int width = 14;
-				int additionalHeight = 8;
-
-				DrawESPBox (vecOrigin, vecViewOffset, color, width, additionalHeight);
-
-
-				/*---------- END ----------*/
-				Vector s_vecPlayer_s;
-				if (!WorldToScreen(localplayer->m_vecOrigin, s_vecPlayer_s) && localplayer->m_iHealth > 0)
-				{
-					Draw::DrawLine (LOC(s_vecPlayer_s.x, s_vecPlayer_s.y), LOC(Screen2D.x, Screen2D.y), color);
-				}
-				Draw::DrawString (CONV(pInfo.name), LOC(Screen2D.x, Screen2D.y), color, espFont, true);
-			}
-		}
+		ESP::Tick ();
 	}
-}
-
-void DrawESPBox (Vector vecOrigin, Vector vecViewOffset, Color color, int width, int additionalHeight)
-{
-	//SIDES
-
-	Vector2D a = WorldToScreen (vecOrigin + Vector(width, width, additionalHeight));
-	Vector2D b = WorldToScreen (vecOrigin + vecViewOffset + Vector (width, width, additionalHeight));
-
-	Draw::DrawLine (a, b, color);
-
-
-	a = WorldToScreen (vecOrigin + Vector(-width, width, additionalHeight));
-	b = WorldToScreen (vecOrigin + vecViewOffset + Vector (-width, width, additionalHeight));
-
-	Draw::DrawLine (a, b, color);
-
-
-	a = WorldToScreen (vecOrigin + Vector(-width, -width, additionalHeight));
-	b = WorldToScreen (vecOrigin + vecViewOffset + Vector (-width, -width, additionalHeight));
-
-	Draw::DrawLine (a, b, color);
-
-	a = WorldToScreen (vecOrigin + Vector(width, -width, additionalHeight));
-	b = WorldToScreen (vecOrigin + vecViewOffset + Vector (width, -width, additionalHeight));
-
-	Draw::DrawLine (a, b, color);
-
-
-	//TOP
-
-	a = WorldToScreen (vecOrigin + vecViewOffset + Vector(width, width, additionalHeight));
-	b = WorldToScreen (vecOrigin + vecViewOffset + Vector (width, -width, additionalHeight));
-
-	Draw::DrawLine (a, b, color);
-
-
-	a = WorldToScreen (vecOrigin + vecViewOffset + Vector(width, width, additionalHeight));
-	b = WorldToScreen (vecOrigin + vecViewOffset + Vector (-width, width, additionalHeight));
-
-	Draw::DrawLine (a, b, color);
-
-	a = WorldToScreen (vecOrigin + vecViewOffset + Vector(-width, -width, additionalHeight));
-	b = WorldToScreen (vecOrigin + vecViewOffset + Vector (-width, width, additionalHeight));
-
-	Draw::DrawLine (a, b, color);
-
-
-	a = WorldToScreen (vecOrigin + vecViewOffset + Vector(width, -width, additionalHeight));
-	b = WorldToScreen (vecOrigin + vecViewOffset + Vector (-width, -width, additionalHeight));
-
-	Draw::DrawLine (a, b, color);
-
-
-	//BOTTOM
-
-	a = WorldToScreen (vecOrigin + Vector(width, width, additionalHeight));
-	b = WorldToScreen (vecOrigin + Vector (width, -width, additionalHeight));
-
-	Draw::DrawLine (a, b, color);
-
-
-	a = WorldToScreen (vecOrigin + Vector(width, width, additionalHeight));
-	b = WorldToScreen (vecOrigin + Vector (-width, width, additionalHeight));
-
-	Draw::DrawLine (a, b, color);
-
-	a = WorldToScreen (vecOrigin + Vector(-width, -width, additionalHeight));
-	b = WorldToScreen (vecOrigin + Vector (-width, width, additionalHeight));
-
-	Draw::DrawLine (a, b, color);
-
-
-	a = WorldToScreen (vecOrigin + Vector(width, -width, additionalHeight));
-	b = WorldToScreen (vecOrigin + Vector (-width, -width, additionalHeight));
-
-	Draw::DrawLine (a, b, color);
 }
 
 void DrawHackInfo ()
