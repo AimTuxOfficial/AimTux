@@ -91,7 +91,8 @@ void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
 		if (!weapons)
 			break;
 
-		for (int i = 0; i < 64; i++) {
+		for (int i = 0; i < 64; i++)
+		{
 			/* check if the handle is invalid */
 			if (weapons[i] == -1)
 				continue;
@@ -102,58 +103,73 @@ void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
 			if (!weapon)
 				continue;
 
-			switch (*weapon->GetItemDefinitionIndex()) {
+			switch (*weapon->GetItemDefinitionIndex())
+			{
 				/* AWP | Dragon Lore */
 				case WEAPON_AWP:
-					*weapon->GetFallbackPaintKit() = 344; break;
+					*weapon->GetFallbackPaintKit() = 344;
+					break;
 
 				/* AK-47 | Fuel Injector */
 				case WEAPON_AK47:
-					*weapon->GetFallbackPaintKit() = 524; break;
+					*weapon->GetFallbackPaintKit() = 524;
+					break;
 
 				case WEAPON_M4A1:
-					*weapon->GetFallbackPaintKit() = 512; break;
+					*weapon->GetFallbackPaintKit() = 512;
+					break;
 
 				//	548
 				case WEAPON_M4A1_SILENCER:
-					*weapon->GetFallbackPaintKit() = 548; break;
+					*weapon->GetFallbackPaintKit() = 548;
+					break;
 
 				/* Desert Eagle | Conspiracy */
 				case WEAPON_DEAGLE:
-					*weapon->GetFallbackPaintKit() = 277; break;
+					*weapon->GetFallbackPaintKit() = 277;
+					break;
 
 				/* Glock-18 | Fade */
 				case WEAPON_GLOCK:
-					*weapon->GetFallbackPaintKit() = 38; break;
+					*weapon->GetFallbackPaintKit() = 38;
+					break;
 
 				/* USP-S | Stainless */
 				case WEAPON_USP_SILENCER:
-					*weapon->GetFallbackPaintKit() = 332; break;
+					*weapon->GetFallbackPaintKit() = 332;
+					break;
 
 				case WEAPON_FIVESEVEN:
-					*weapon->GetFallbackPaintKit() = 252; break;
+					*weapon->GetFallbackPaintKit() = 252;
+					break;
 
 				//Cardiac
 				case WEAPON_SCAR20:
-					*weapon->GetFallbackPaintKit() = 391; break;
+					*weapon->GetFallbackPaintKit() = 391;
+					break;
 
 				case WEAPON_ELITE:
-					*weapon->GetFallbackPaintKit() = 249; break;
+					*weapon->GetFallbackPaintKit() = 249;
+					break;
 
 				//Detour
 				case WEAPON_SSG08:
-					*weapon->GetFallbackPaintKit() = 319; break;
+					*weapon->GetFallbackPaintKit() = 319;
+					break;
 
 				case WEAPON_TEC9:
-					*weapon->GetFallbackPaintKit() = 179; break;
+					*weapon->GetFallbackPaintKit() = 179;
+					break;
 
 				case WEAPON_KNIFE_T:
 					*weapon->GetItemDefinitionIndex() = WEAPON_KNIFE_KARAMBIT;
-					*weapon->GetFallbackPaintKit() = 417; break;
+					*weapon->GetFallbackPaintKit() = 417;
+					break;
 
 				case WEAPON_KNIFE:
 					*weapon->GetItemDefinitionIndex() = WEAPON_KNIFE_M9_BAYONET;
-					*weapon->GetFallbackPaintKit() = 417; break;
+					*weapon->GetFallbackPaintKit() = 417;
+					break;
 			}
 
 			/* write to weapon name tag */
@@ -181,9 +197,11 @@ void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
 		switch (*active_weapon->GetItemDefinitionIndex())
 		{
 			case WEAPON_KNIFE_KARAMBIT:
-				*viewmodel->GetModelIndex() = modelInfo->GetModelIndex("models/weapons/v_knife_karam.mdl"); break;
+				*viewmodel->GetModelIndex() = modelInfo->GetModelIndex("models/weapons/v_knife_karam.mdl");
+				break;
 			case WEAPON_KNIFE_M9_BAYONET:
-				*viewmodel->GetModelIndex() = modelInfo->GetModelIndex("models/weapons/v_knife_m9_bay.mdl"); break;
+				*viewmodel->GetModelIndex() = modelInfo->GetModelIndex("models/weapons/v_knife_m9_bay.mdl");
+				break;
 		}
 
 		break;
@@ -196,7 +214,6 @@ void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
 int __attribute__((constructor)) aimtux_init()
 {
 	Hooker::HookInterfaces ();
-	
 	Hooker::HookVMethods ();
 	/*--------------------------
 	
