@@ -102,8 +102,11 @@ void DrawESPBox (Vector vecOrigin, Vector vecViewOffset, Color color, int width,
 void ESP::Tick ()
 {
 	CBaseEntity* pLocal = entitylist->GetClientEntity(engine->GetLocalPlayer());
-	if(pLocal)
-	for(int i = 0; i < 64; ++i)
+
+	if (!pLocal)
+		return;
+
+	for (int i = 0; i < 64; ++i)
 	{
 		CBaseEntity* entity = entitylist->GetClientEntity(i);
 		C_BasePlayer* player = reinterpret_cast<C_BasePlayer*>(entity);

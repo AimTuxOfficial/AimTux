@@ -36,7 +36,7 @@ CBaseEntity* GetClosestEnemy ()
 	if (!pLocal)
 		return NULL;
 
-	for(int i = 0; i < 64; ++i)
+	for (int i = 0; i < 64; ++i)
 	{
 		CBaseEntity* entity = entitylist->GetClientEntity(i);
 		C_BasePlayer* player = reinterpret_cast<C_BasePlayer*>(entity);

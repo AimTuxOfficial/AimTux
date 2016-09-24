@@ -1,7 +1,5 @@
 #include <iostream>
 #include <memory.h>
-#include <zconf.h>
-#include <stdio.h>
 
 #include "interfaces.h"
 #include "draw.h"
@@ -53,7 +51,7 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 		return;
 
 	const char* name = panel->GetName(vgui_panel);
-	if(name && name[0] == 'F' && name[5] == 'O' && name[12] == 'P')
+	if (name && name[0] == 'F' && name[5] == 'O' && name[12] == 'P')
 	{
 		DrawHackInfo ();
 		ESP::Tick ();
