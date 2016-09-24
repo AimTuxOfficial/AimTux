@@ -7,13 +7,14 @@
 #include "draw.h"
 #include "hooker.h"
 #include "Weapons.h"
+#include "settings.h"
+#include "aimbot.h"
 
 #define CONV(c) cwConvert(c)
 
 FONT normalFont = 0;
 FONT espFont = 0;
 
-void Aimbot();
 void DrawHackInfo ();
 void DrawESPBox (Vector vecOrigin, Vector vecViewOffset, Color color, int width, int additionalHeight);
 
@@ -38,91 +39,17 @@ static wchar_t* cwConvert(const char* text)
 	return wText;
 }
 
-double hyp;
-
-void CalculateAngle (Vector& src, Vector& dst, QAngle& angles){
-	// Angle deltas
-	double delta[3] = { (src[0]-dst[0]), (src[1]-dst[1]), (src[2]-dst[2]) };
-
-	// Hypotenuse
-	hyp = sqrt(delta[0]*delta[0] + delta[1]*delta[1]);
-
-	//0x3760
-	angles[0] = (float) (atan(delta[2]/hyp) * 57.295779513082f);
-	angles[1] = (float) (atan(delta[1]/delta[0]) * 57.295779513082f);
-	angles[2] = 0.0f;
-
-	if(delta[0] >= 0.0) { angles[1] += 180.0f; }
-
-	//Safeguards
-	if(angles[1] > 180)angles[1] -= 360;
-	if(angles[1] < -180)angles[1] += 360;
-	if(angles[0] > 89)angles[0] = 89;
-	if(angles[0] < -89)angles[0] = -89;
-}
-
-CBaseEntity* GetClosestEnemy ()
-{
-	CBaseEntity* pLocal = entitylist->GetClientEntity(engine->GetLocalPlayer());
-	CBaseEntity* closestEntity = NULL;
-	float dist = 10000000.0f;
-	if(pLocal)
-	for(int i = 0; i < 64; ++i)
-	{
-		CBaseEntity* entity = entitylist->GetClientEntity(i);
-
-		if (!entity)
-			continue;
-
-		if (entity == pLocal)
-			continue;
-		if (*(bool*)((unsigned long long)entity + 0x121)) // Dormant check
-			continue;
-		if (*(int*)((unsigned long long)entity + 0x293) != 0) // Lifestate check
-			continue;
-		if (*(int*)((unsigned long long)entity + 0x134) <= 0) // Health check
-			continue;
-
-		C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
-
-		if (entity->m_iTeamNum == localplayer->m_iTeamNum)
-			continue;
-
-		float e_dist = localplayer->m_vecOrigin.DistToSqr (entity->m_vecOrigin);
-
-		if (e_dist < dist)
-		{
-			closestEntity = entity;
-			dist = e_dist;
-		}
-	}
-
-	return closestEntity;
-}
 
 void hkCreateMove (void* thisptr, int sequence_number, float input_sample_frametime, bool active)
 {
 	client_vmt->GetOriginalMethod<CreateMoveFn>(21)(thisptr, sequence_number, input_sample_frametime, active);
-	// Aimbot();
+	
+	if (Settings::Aimbot::enabled)
+	{
+		Aimbot::Calculate ();
+	}
 }
 
-void Aimbot ()
-{
-	CBaseEntity* entity = GetClosestEnemy ();
-
-	if (entity == NULL)
-		return;
-
-	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
-
-	Vector e_vecOrigin = entity->m_vecOrigin;
-	Vector p_vecOrigin = localplayer->m_vecOrigin;
-
-	QAngle angle;
-	CalculateAngle (p_vecOrigin, e_vecOrigin, angle);
-
-	engine->SetViewAngles (angle);
-}
 
 void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool allow_force)
 {
