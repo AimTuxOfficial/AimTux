@@ -47,7 +47,7 @@ CBaseEntity* GetClosestEnemy ()
 
 		C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
 
-		if (entity->m_iTeamNum == localplayer->m_iTeamNum)
+		if (player->GetTeam() == localplayer->GetTeam())
 			continue;
 
 		float e_dist = localplayer->m_vecOrigin.DistToSqr (entity->m_vecOrigin);

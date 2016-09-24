@@ -215,7 +215,7 @@ int __attribute__((constructor)) aimtux_init()
 {
 	Hooker::HookInterfaces ();
 	Hooker::HookVMethods ();
-	
+
 	client_vmt->HookVM ((void*)hkCreateMove, 21);
 	client_vmt->HookVM ((void*)hkFrameStageNotify, 36);
 	client_vmt->ApplyVMT ();
@@ -225,7 +225,7 @@ int __attribute__((constructor)) aimtux_init()
 
 	NetVarManager::dumpNetvars();
 	Offsets::getOffsets();
-	
+
 	return 0;
 }
 

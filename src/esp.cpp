@@ -106,26 +106,15 @@ void ESP::Tick ()
 	for(int i = 0; i < 64; ++i)
 	{
 		CBaseEntity* entity = entitylist->GetClientEntity(i);
+		C_BasePlayer* player = reinterpret_cast<C_BasePlayer*>(entity);
 
-		if(!entity)
-		{
+		if (!entity || entity == pLocal ||
+				player->GetDormant() || player->GetLifeState() != LIFE_ALIVE || player->GetHealth() <= 0)
 			continue;
-		}
-
-		if(entity == pLocal)
-			continue;
-		if(*(bool*)((unsigned long long)entity + 0x121)) //Dormant check
-			continue;
-		if(*(int*)((unsigned long long)entity + 0x293) != 0) //Lifestate check
-			continue;
-		if(*(int*)((unsigned long long)entity + 0x134) <= 0) //Health check
-			continue;
-
 
 		Color color;
 
 		C_BasePlayer* localPlayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
-
 
 		int playerTeam = localPlayer->m_iTeamNum;
 		int entityTeam = entity->m_iTeamNum;
@@ -142,10 +131,7 @@ void ESP::Tick ()
 		}
 
 		CEngineClient::player_info_t pInfo;
-		engine->GetPlayerInfo(i,&pInfo);
-
-		int width = 14;
-		int additionalHeight = 8;
+		engine->GetPlayerInfo(i, &pInfo);
 		
 		ESP::DrawPlayerBox	(localPlayer, entity);
 		ESP::DrawTracer		(localPlayer, entity);
@@ -157,8 +143,8 @@ void ESP::DrawTracer (C_BasePlayer* localPlayer, CBaseEntity* entity)
 {
 	Color color;
 	
-	int playerTeam = localPlayer->m_iTeamNum;
-	int entityTeam = entity->m_iTeamNum;
+	int playerTeam = localPlayer->GetTeam();
+	int entityTeam = reinterpret_cast<C_BasePlayer*>(entity)->GetTeam();
 	
 	if (playerTeam != entityTeam)
 	{
@@ -175,7 +161,7 @@ void ESP::DrawTracer (C_BasePlayer* localPlayer, CBaseEntity* entity)
 	Vector s_vecEntity_s;
 	if (!WorldToScreen(localPlayer->m_vecOrigin, s_vecLocalPlayer_s) &&
 		!WorldToScreen(entity->m_vecOrigin, s_vecEntity_s) &&
-		localPlayer->m_iHealth > 0)
+		localPlayer->GetHealth() > 0)
 	{
 		Draw::DrawLine (LOC(s_vecLocalPlayer_s.x, s_vecLocalPlayer_s.y), LOC(s_vecEntity_s.x, s_vecEntity_s.y), color);
 	}
@@ -184,9 +170,9 @@ void ESP::DrawTracer (C_BasePlayer* localPlayer, CBaseEntity* entity)
 void ESP::DrawPlayerBox (C_BasePlayer* localPlayer, CBaseEntity* entity)
 {
 	Color color;
-	
-	int playerTeam = localPlayer->m_iTeamNum;
-	int entityTeam = entity->m_iTeamNum;
+
+	int playerTeam = localPlayer->GetTeam();
+	int entityTeam = reinterpret_cast<C_BasePlayer*>(entity)->GetTeam();
 	
 	if (playerTeam != entityTeam)
 	{
@@ -206,18 +192,16 @@ void ESP::DrawPlayerBox (C_BasePlayer* localPlayer, CBaseEntity* entity)
 	Vector vecViewOffset = entity->m_vecViewOffset;
 	
 	Vector s_vecLocalPlayer_s;
-	if(!WorldToScreen(vecOrigin, s_vecLocalPlayer_s))
-	{
+	if (!WorldToScreen(vecOrigin, s_vecLocalPlayer_s))
 		DrawESPBox (vecOrigin, vecViewOffset, color, width, additionalHeight);
-	}
 }
 
 void ESP::DrawPlayerName (C_BasePlayer* localPlayer, CBaseEntity* entity, int entityIndex)
 {
 	Color color;
-	
-	int playerTeam = localPlayer->m_iTeamNum;
-	int entityTeam = entity->m_iTeamNum;
+
+	int playerTeam = localPlayer->GetTeam();
+	int entityTeam = reinterpret_cast<C_BasePlayer*>(entity)->GetTeam();
 	
 	if (playerTeam != entityTeam)
 	{
@@ -236,10 +220,8 @@ void ESP::DrawPlayerName (C_BasePlayer* localPlayer, CBaseEntity* entity, int en
 	Vector vecOrigin = entity->m_vecOrigin;
 	
 	Vector s_vecEntity_s;
-	if(!WorldToScreen(vecOrigin, s_vecEntity_s))
-	{
+	if (!WorldToScreen(vecOrigin, s_vecEntity_s))
 		Draw::DrawString (CONV(entityInformation.name), LOC(s_vecEntity_s.x, s_vecEntity_s.y), color, 33, true);
-	}
 }
 
 
