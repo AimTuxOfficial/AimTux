@@ -140,7 +140,22 @@ public:
 	char m_rgflCoordinateFrame; // 0x518
 	char __buf_0x519[0x9AF]; // 0x519
 	unsigned char m_bEverHadPredictionErrorsForThisCommand; // 0xEC8
-	
+
+	int GetHealth()
+	{
+		return *(int*)((uintptr_t)this + offsets.m_iHealth);
+	}
+
+	int GetTeam()
+	{
+		return *(int*)((uintptr_t)this + offsets.m_iTeamNum);
+	}
+
+	bool GetDormant()
+	{
+		return *(bool*)((uintptr_t)this + offsets.m_bDormant);
+	}
+
 	unsigned char GetLifeState()
 	{
 		return *(unsigned char*)((uintptr_t)this + offsets.m_lifeState);

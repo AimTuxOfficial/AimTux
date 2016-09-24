@@ -35,17 +35,10 @@ CBaseEntity* GetClosestEnemy ()
 	for(int i = 0; i < 64; ++i)
 	{
 		CBaseEntity* entity = entitylist->GetClientEntity(i);
+		C_BasePlayer* player = reinterpret_cast<C_BasePlayer*>(entity);
 
-		if (!entity)
-			continue;
-
-		if (entity == pLocal)
-			continue;
-		if (*(bool*)((unsigned long long)entity + 0x121)) // Dormant check
-			continue;
-		if (*(int*)((unsigned long long)entity + 0x293) != 0) // Lifestate check
-			continue;
-		if (*(int*)((unsigned long long)entity + 0x134) <= 0) // Health check
+		if (!entity || entity == pLocal ||
+				player->GetDormant() || player->GetLifeState() != LIFE_ALIVE || player->GetHealth() <= 0)
 			continue;
 
 		C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
