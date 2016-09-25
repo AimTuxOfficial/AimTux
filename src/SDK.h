@@ -424,12 +424,6 @@ public:
 		return getvfunc<oCmd>(this, 108)(this, buffer);
 	}
 	
-	void SendClientCommand (const char* Command)
-	{
-		typedef void(* oCmd)(void*, const char* cmd);
-		return getvfunc<oCmd>(this, 108)(this, Command);
-	}
-	
 	void GetViewAngles (QAngle& angle) // 18
 	{
 		typedef void(* oGetViewAngles)(void*, QAngle&);
