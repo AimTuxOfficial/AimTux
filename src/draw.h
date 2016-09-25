@@ -1,7 +1,6 @@
 #ifndef __DRAW_H_
 #define __DRAW_H_
 
-#define FONT unsigned long long
 #define LOC(x,y) Vector2D (x,y)
 
 #include "interfaces.h"
@@ -10,6 +9,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <wchar.h>
+#include "fonts.h"
 
 namespace Draw
 {

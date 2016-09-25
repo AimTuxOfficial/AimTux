@@ -12,8 +12,9 @@
 
 #define CONV(c) cwConvert(c)
 
-FONT normalFont = 0;
-FONT espFont = 0;
+FONT title_font = 0;
+FONT normal_font = 0;
+FONT esp_font = 0;
 
 void DrawHackInfo ();
 
@@ -25,6 +26,13 @@ static wchar_t* cwConvert(const char* text)
 	return wText;
 }
 
+
+void SetupFonts ()
+{
+	title_font		= Draw::CreateFont ("Arial", 20, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
+	normal_font		= Draw::CreateFont ("Arial", 17, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
+	esp_font		= Draw::CreateFont ("TeX Gyre Adventor", 17, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
+}
 
 void hkCreateMove (void* thisptr, int sequence_number, float input_sample_frametime, bool active)
 {
@@ -41,12 +49,6 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 {
 	panel_vmt->GetOriginalMethod<PaintTraverseFn>(42)(thisptr, vgui_panel, force_repaint, allow_force);
 	
-	if (normalFont == 0)
-		normalFont = Draw::CreateFont ("Arial", 20, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
-
-	if (espFont == 0)
-		espFont = Draw::CreateFont ("TeX Gyre Adventor", 17, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
-
 	if (strcmp(panel->GetName(vgui_panel), "FocusOverlayPanel"))
 		return;
 
@@ -61,15 +63,16 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 void DrawHackInfo ()
 {
 	int width = 350;
-
+	
 	try {
 		Draw::DrawRect (LOC(15, 15), LOC (width, 190), Color(0, 0, 0, 120));
 		Draw::DrawBox (LOC(15, 15), LOC (width, 190), Color(190, 190, 190, 120));
-		Draw::DrawString (L"AimTux", LOC(width / 2, 15), Color(190, 190, 190), normalFont, true);
+		Draw::DrawString (L"AimTux", LOC(width / 2, 20), Color(190, 190, 190), title_font, true);
+		Draw::DrawString (L"Test normal font", LOC(20, 50), Color(190, 190, 190), normal_font, false);
 	} catch (int exception) {
 		// ignore (?)
 	}
-
+	
 }
 
 /* replacement FrameStageNotify function */
@@ -213,17 +216,21 @@ int __attribute__((constructor)) aimtux_init()
 {
 	Hooker::HookInterfaces ();
 	Hooker::HookVMethods ();
-
+	
+	PRINT ("AimTux was successfully injected.");
+	
 	client_vmt->HookVM ((void*)hkCreateMove, 21);
 	client_vmt->HookVM ((void*)hkFrameStageNotify, 36);
 	client_vmt->ApplyVMT ();
-
+	
 	panel_vmt->HookVM ((void*)hkPaintTraverse, 42);
 	panel_vmt->ApplyVMT ();
-
+	
+	SetupFonts ();
+	
 	NetVarManager::dumpNetvars();
 	Offsets::getOffsets();
-
+	
 	return 0;
 }
 
@@ -231,4 +238,6 @@ void __attribute__((destructor)) aimtux_shutdown()
 {
 	client_vmt->ReleaseVMT ();
 	panel_vmt->ReleaseVMT ();
+	
+	PRINT ("AimTux has been unloaded successfully.");
 }
