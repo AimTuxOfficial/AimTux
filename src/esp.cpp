@@ -110,11 +110,17 @@ void ESP::Tick ()
 	{
 		CBaseEntity* entity = entitylist->GetClientEntity(i);
 		C_BasePlayer* player = reinterpret_cast<C_BasePlayer*>(entity);
-
-		if (!entity || entity == pLocal ||
-				player->GetDormant() || player->GetLifeState() != LIFE_ALIVE || player->GetHealth() <= 0)
+		
+		if
+		(
+			   !entity
+			|| entity == pLocal
+			|| entity->m_bDormant
+			|| entity->GetLifeState() != 0
+			|| entity->GetHealth() <= 0
+		)
 			continue;
-
+		
 		Color color;
 
 		C_BasePlayer* localPlayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
