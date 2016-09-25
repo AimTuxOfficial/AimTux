@@ -1,6 +1,12 @@
 #include "esp.h"
 
+/*---------------
+	Defaults	
+---------------*/
 bool Settings::ESP::enabled = true;
+bool Settings::ESP::Walls::enabled = true;
+bool Settings::ESP::Tracer::enabled = true;
+bool Settings::ESP::Name::enabled = true;
 
 bool WorldToScreen (const Vector &vOrigin, Vector &vScreen)
 {
@@ -120,9 +126,15 @@ void ESP::Tick ()
 		)
 			continue;
 		
-		ESP::DrawPlayerBox	(localPlayer, entity);
-		ESP::DrawTracer		(localPlayer, entity);
-		ESP::DrawPlayerName	(localPlayer, entity, i);
+		
+		if (Settings::ESP::Walls::enabled)
+			ESP::DrawPlayerBox	(localPlayer, entity);
+		
+		if (Settings::ESP::Tracer::enabled)
+			ESP::DrawTracer		(localPlayer, entity);
+		
+		if (Settings::ESP::Name::enabled)
+			ESP::DrawPlayerName	(localPlayer, entity, i);
 	}
 }
 

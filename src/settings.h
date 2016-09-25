@@ -11,6 +11,21 @@ namespace Settings
 	namespace ESP
 	{
 		extern bool enabled;
+		
+		namespace Tracer
+		{
+			extern bool enabled;
+		}
+		
+		namespace Walls
+		{
+			extern bool enabled;
+		}
+		
+		namespace Name
+		{
+			extern bool enabled;
+		}
 	}
 }
 
