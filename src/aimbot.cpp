@@ -29,25 +29,32 @@ void CalculateAngle (Vector& src, Vector& dst, QAngle& angles)
 
 CBaseEntity* GetClosestEnemy ()
 {
-	CBaseEntity* pLocal = entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localPlayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	CBaseEntity* closestEntity = NULL;
 	float dist = 10000000.0f;
 
-	if (!pLocal)
+	if (!localPlayer)
 		return NULL;
 
 	for (int i = 0; i < 64; ++i)
 	{
 		CBaseEntity* entity = entitylist->GetClientEntity(i);
-		C_BasePlayer* player = reinterpret_cast<C_BasePlayer*>(entity);
 
-		if (!entity || entity == pLocal ||
-				player->GetDormant() || player->GetLifeState() != LIFE_ALIVE || player->GetHealth() <= 0)
+		if (!entity || entity == (CBaseEntity*)localPlayer ||
+				entity->GetDormant() || entity->GetLifeState() != LIFE_ALIVE || entity->GetHealth() <= 0)
 			continue;
 
 		C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
 
-		if (player->GetTeam() == localplayer->GetTeam())
+		if
+		(
+			   !entity
+			|| entity == (CBaseEntity*)localPlayer
+			|| entity->m_bDormant
+			|| entity->GetLifeState() != 0
+			|| entity->GetHealth() <= 0
+			|| entity->GetTeam() == localPlayer->GetTeam()
+		)
 			continue;
 
 		float e_dist = localplayer->m_vecOrigin.DistToSqr (entity->m_vecOrigin);
