@@ -101,46 +101,24 @@ void DrawESPBox (Vector vecOrigin, Vector vecViewOffset, Color color, int width,
 
 void ESP::Tick ()
 {
-	CBaseEntity* pLocal = entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localPlayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 
-	if (!pLocal)
+	if (!localPlayer)
 		return;
 
 	for (int i = 0; i < 64; ++i)
 	{
 		CBaseEntity* entity = entitylist->GetClientEntity(i);
-		C_BasePlayer* player = reinterpret_cast<C_BasePlayer*>(entity);
 		
 		if
 		(
 			   !entity
-			|| entity == pLocal
+			|| entity == (CBaseEntity*)localPlayer
 			|| entity->m_bDormant
 			|| entity->GetLifeState() != 0
 			|| entity->GetHealth() <= 0
 		)
 			continue;
-		
-		Color color;
-
-		C_BasePlayer* localPlayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
-
-		int playerTeam = localPlayer->m_iTeamNum;
-		int entityTeam = entity->m_iTeamNum;
-
-		if (playerTeam != entityTeam)
-		{
-			color.r = 200;
-			color.b = 50;
-		}
-		else
-		{
-			color.b = 200;
-			color.g = 50;
-		}
-
-		CEngineClient::player_info_t pInfo;
-		engine->GetPlayerInfo(i, &pInfo);
 		
 		ESP::DrawPlayerBox	(localPlayer, entity);
 		ESP::DrawTracer		(localPlayer, entity);
