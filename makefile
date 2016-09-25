@@ -17,8 +17,5 @@ clean:
 	$(CC) $(CFLAGS) -o "$@" "$<" -ldl
 
 build: $(OBJECTS)
-	rm "libstdc++.a"
-	ln -s `g++ -print-file-name=libstdc++.a`
-	
 	$(CC) $(CXXFLAGS) -static-libgcc -L. -o $(OUT) $(OBJECTS) -ldl
 	rm  ./src/*.o
