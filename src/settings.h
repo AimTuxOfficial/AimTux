@@ -1,6 +1,8 @@
 #ifndef __SETTINGS_H_
 #define __SETTINGS_H_
 
+#include <unordered_map>
+#include "Weapons.h"
 
 enum TracerType
 {
@@ -34,6 +36,11 @@ namespace Settings
 		{
 			extern bool enabled;
 		}
+	}
+
+	namespace SkinChanger
+	{
+		extern std::unordered_map<int, std::tuple<int, int, float, int, const char*, const char *>> getSettings();
 	}
 }
 

@@ -4,7 +4,6 @@
 #include "interfaces.h"
 #include "draw.h"
 #include "hooker.h"
-#include "Weapons.h"
 #include "settings.h"
 #include "aimbot.h"
 #include "esp.h"
@@ -15,6 +14,8 @@
 FONT title_font = 0;
 FONT normal_font = 0;
 FONT esp_font = 0;
+
+std::unordered_map<int, std::tuple<int, int, float, int, const char*, const char *>> skinChangerSettings;
 
 void DrawHackInfo ();
 
@@ -72,12 +73,10 @@ void DrawHackInfo ()
 	} catch (int exception) {
 		// ignore (?)
 	}
-	
 }
 
 /* replacement FrameStageNotify function */
 void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
-
 	/* perform replacements during postdataupdate */
 	while (stage == ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_START) {
 		/* get our player entity */
@@ -92,6 +91,9 @@ void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
 		if (!weapons)
 			break;
 
+		if (skinChangerSettings.empty())
+			skinChangerSettings = Settings::SkinChanger::getSettings();
+
 		for (int i = 0; i < 64; i++)
 		{
 			/* check if the handle is invalid */
@@ -104,81 +106,22 @@ void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
 			if (!weapon)
 				continue;
 
-			switch (*weapon->GetItemDefinitionIndex())
-			{
-				/* AWP | Dragon Lore */
-				case WEAPON_AWP:
-					*weapon->GetFallbackPaintKit() = 344;
-					break;
+			std::tuple<int, int, float, int, const char*, const char *> settings = skinChangerSettings[*weapon->GetItemDefinitionIndex()];
 
-				/* AK-47 | Fuel Injector */
-				case WEAPON_AK47:
-					*weapon->GetFallbackPaintKit() = 524;
-					break;
+			if (std::get<0>(settings) != 0)
+				*weapon->GetFallbackPaintKit() = std::get<0>(settings);
 
-				case WEAPON_M4A1:
-					*weapon->GetFallbackPaintKit() = 512;
-					break;
+			if (std::get<1>(settings) != 0)
+				*weapon->GetItemDefinitionIndex() = std::get<1>(settings);
 
-				//	548
-				case WEAPON_M4A1_SILENCER:
-					*weapon->GetFallbackPaintKit() = 548;
-					break;
+			if (std::get<2>(settings) != 0)
+				*weapon->GetFallbackWear() = std::get<2>(settings);
 
-				/* Desert Eagle | Conspiracy */
-				case WEAPON_DEAGLE:
-					*weapon->GetFallbackPaintKit() = 277;
-					break;
+			if (std::get<3>(settings) != 0)
+				*weapon->GetFallbackStatTrak() = std::get<3>(settings);
 
-				/* Glock-18 | Fade */
-				case WEAPON_GLOCK:
-					*weapon->GetFallbackPaintKit() = 38;
-					break;
-
-				/* USP-S | Stainless */
-				case WEAPON_USP_SILENCER:
-					*weapon->GetFallbackPaintKit() = 332;
-					break;
-
-				case WEAPON_FIVESEVEN:
-					*weapon->GetFallbackPaintKit() = 252;
-					break;
-
-				//Cardiac
-				case WEAPON_SCAR20:
-					*weapon->GetFallbackPaintKit() = 391;
-					break;
-
-				case WEAPON_ELITE:
-					*weapon->GetFallbackPaintKit() = 249;
-					break;
-
-				//Detour
-				case WEAPON_SSG08:
-					*weapon->GetFallbackPaintKit() = 319;
-					break;
-
-				case WEAPON_TEC9:
-					*weapon->GetFallbackPaintKit() = 179;
-					break;
-
-				case WEAPON_KNIFE_T:
-					*weapon->GetItemDefinitionIndex() = WEAPON_KNIFE_KARAMBIT;
-					*weapon->GetFallbackPaintKit() = 417;
-					break;
-
-				case WEAPON_KNIFE:
-					*weapon->GetItemDefinitionIndex() = WEAPON_KNIFE_M9_BAYONET;
-					*weapon->GetFallbackPaintKit() = 417;
-					break;
-			}
-
-			/* write to weapon name tag */
-			snprintf(weapon->GetCustomName(), 32, "%s", "AimTux");
-
-			/* remove all wear */
-			*weapon->GetFallbackWear() = 0.00000000f;
-			*weapon->GetFallbackStatTrak() = 1337;
+			if (std::get<4>(settings) != NULL && strlen(std::get<4>(settings)) > 0)
+				snprintf(weapon->GetCustomName(), 32, "%s", std::get<4>(settings));
 
 			/* force our fallback values to be used */
 			*weapon->GetItemIDHigh() = -1;
@@ -195,15 +138,10 @@ void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
 		if (!active_weapon)
 			break;
 
-		switch (*active_weapon->GetItemDefinitionIndex())
-		{
-			case WEAPON_KNIFE_KARAMBIT:
-				*viewmodel->GetModelIndex() = modelInfo->GetModelIndex("models/weapons/v_knife_karam.mdl");
-				break;
-			case WEAPON_KNIFE_M9_BAYONET:
-				*viewmodel->GetModelIndex() = modelInfo->GetModelIndex("models/weapons/v_knife_m9_bay.mdl");
-				break;
-		}
+		std::tuple<int, int, float, int, const char*, const char *> settings = skinChangerSettings[*active_weapon->GetItemDefinitionIndex()];
+
+		if (std::get<5>(settings) != NULL && strlen(std::get<5>(settings)) > 0)
+			*viewmodel->GetModelIndex() = modelInfo->GetModelIndex(std::get<5>(settings));
 
 		break;
 	}
@@ -225,11 +163,11 @@ int __attribute__((constructor)) aimtux_init()
 	
 	panel_vmt->HookVM ((void*)hkPaintTraverse, 42);
 	panel_vmt->ApplyVMT ();
-	
+
 	SetupFonts ();
 	
-	NetVarManager::dumpNetvars();
-	Offsets::getOffsets();
+	NetVarManager::dumpNetvars ();
+	Offsets::getOffsets ();
 	
 	return 0;
 }
