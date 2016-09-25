@@ -405,6 +405,12 @@ public:
 		char			_pad[0x28];
 	} player_info_t;
 	
+	void GetScreenSize (int& width, int& height) //5
+	{
+		typedef void(* oGetScreenSize)(void*, int&, int&);
+		return getvfunc<oGetScreenSize>(this, 5)(this, width, height);
+	}
+	
 	bool GetPlayerInfo(int iIndex, player_info_t *pInfo)
 	{
 		typedef bool(* oGetPlayerInfo)(void*, int, player_info_t*);
