@@ -156,13 +156,14 @@ void ESP::DrawTracer (C_BasePlayer* localPlayer, CBaseEntity* entity)
 		color.g = 50;
 	}
 	
-	Vector s_vecLocalPlayer_s;
+	int width;
+	int height;
+	engine->GetScreenSize (width, height);
+	
 	Vector s_vecEntity_s;
-	if (!WorldToScreen(localPlayer->m_vecOrigin, s_vecLocalPlayer_s) &&
-		!WorldToScreen(entity->m_vecOrigin, s_vecEntity_s) &&
-		localPlayer->GetHealth() > 0)
+	if (!WorldToScreen(entity->m_vecOrigin, s_vecEntity_s) && localPlayer->GetHealth() > 0)
 	{
-		Draw::DrawLine (LOC(s_vecLocalPlayer_s.x, s_vecLocalPlayer_s.y), LOC(s_vecEntity_s.x, s_vecEntity_s.y), color);
+		Draw::DrawLine (LOC(width / 2, height), LOC(s_vecEntity_s.x, s_vecEntity_s.y), color);
 	}
 }
 
