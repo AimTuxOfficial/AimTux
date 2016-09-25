@@ -1,6 +1,13 @@
 #ifndef __SETTINGS_H_
 #define __SETTINGS_H_
 
+
+enum TracerType
+{
+	BOTTOM,
+	CURSOR
+};
+
 namespace Settings
 {
 	namespace Aimbot
@@ -14,6 +21,7 @@ namespace Settings
 		
 		namespace Tracer
 		{
+			extern TracerType type;
 			extern bool enabled;
 		}
 		

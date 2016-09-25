@@ -3,10 +3,11 @@
 /*---------------
 	Defaults	
 ---------------*/
-bool Settings::ESP::enabled = true;
-bool Settings::ESP::Walls::enabled = true;
-bool Settings::ESP::Tracer::enabled = true;
-bool Settings::ESP::Name::enabled = true;
+bool		Settings::ESP::enabled			= true;
+bool		Settings::ESP::Walls::enabled	= true;
+bool		Settings::ESP::Tracer::enabled	= true;
+bool		Settings::ESP::Name::enabled	= true;
+TracerType	Settings::ESP::Tracer::type		= BOTTOM;
 
 bool WorldToScreen (const Vector &vOrigin, Vector &vScreen)
 {
@@ -160,10 +161,22 @@ void ESP::DrawTracer (C_BasePlayer* localPlayer, CBaseEntity* entity)
 	int height;
 	engine->GetScreenSize (width, height);
 	
+	Vector2D tracerLocation;
+	
+	switch (Settings::ESP::Tracer::type)
+	{
+		case BOTTOM:
+			tracerLocation = LOC(width / 2, height);
+			break;
+		case CURSOR:
+			tracerLocation = LOC(width / 2, height / 2);
+			break;
+	}
+	
 	Vector s_vecEntity_s;
 	if (!WorldToScreen(entity->m_vecOrigin, s_vecEntity_s) && localPlayer->GetHealth() > 0)
 	{
-		Draw::DrawLine (LOC(width / 2, height), LOC(s_vecEntity_s.x, s_vecEntity_s.y), color);
+		Draw::DrawLine (tracerLocation, LOC(s_vecEntity_s.x, s_vecEntity_s.y), color);
 	}
 }
 
