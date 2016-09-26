@@ -47,6 +47,11 @@ namespace Settings
 		{
 			extern bool enabled;
 		}
+		
+		namespace Bones
+		{
+			extern bool enabled;
+		}
 	}
 
 	namespace SkinChanger

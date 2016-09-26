@@ -15,6 +15,7 @@ namespace ESP
 	void DrawTracer (C_BasePlayer* localPlayer, C_BaseEntity* entity);
 	void DrawPlayerBox (C_BasePlayer* localPlayer, C_BaseEntity* entity);
 	void DrawPlayerName (C_BasePlayer* localPlayer, C_BaseEntity* entity, int entityIndex);
+	void DrawBones (C_BaseEntity* entity);
 }
 
 #endif

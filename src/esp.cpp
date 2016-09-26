@@ -7,6 +7,7 @@ bool		Settings::ESP::enabled			= true;
 bool		Settings::ESP::Walls::enabled	= true;
 bool		Settings::ESP::Tracer::enabled	= true;
 bool		Settings::ESP::Name::enabled	= true;
+bool		Settings::ESP::Bones::enabled	= true;
 TracerType	Settings::ESP::Tracer::type		= BOTTOM;
 
 bool WorldToScreen (const Vector &vOrigin, Vector &vScreen)
@@ -106,6 +107,18 @@ void DrawESPBox (Vector vecOrigin, Vector vecViewOffset, Color color, int width,
 	Draw::DrawLine (a, b, color);
 }
 
+Vector GetBone (C_BaseEntity* entity, int boneIndex)
+{
+	matrix3x4_t BoneMatrix[MAXSTUDIOBONES];
+	
+	if (!entity->SetupBones(BoneMatrix, MAXSTUDIOBONES, BONE_USED_BY_HITBOX, 0))
+		return entity->GetVecOrigin();
+	
+	matrix3x4_t hitbox = BoneMatrix[boneIndex];
+	
+	return Vector(hitbox[0][3], hitbox[1][3], hitbox[2][3]);
+}
+
 void ESP::Tick ()
 {
 	C_BasePlayer* localPlayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
@@ -129,6 +142,9 @@ void ESP::Tick ()
 		
 		
 		
+		if (Settings::ESP::Bones::enabled)
+			ESP::DrawBones (entity);
+		
 		if (Settings::ESP::Walls::enabled)
 			ESP::DrawPlayerBox	(localPlayer, entity);
 		
@@ -138,6 +154,49 @@ void ESP::Tick ()
 		if (Settings::ESP::Name::enabled)
 			ESP::DrawPlayerName	(localPlayer, entity, i);
 	}
+}
+
+void DrawBone (int bone_a, int bone_b, C_BaseEntity* entity, Color color)
+{
+	Vector s_vec_bone_a;
+	Vector w_vec_bone_a = GetBone (entity, bone_a);
+	
+	Vector s_vec_bone_b;
+	Vector w_vec_bone_b = GetBone (entity, bone_b);
+	
+	if (!WorldToScreen (w_vec_bone_a, s_vec_bone_a) && !WorldToScreen (w_vec_bone_b, s_vec_bone_b))
+	{
+		Draw::DrawLine (LOC(s_vec_bone_a.x, s_vec_bone_a.y), LOC(s_vec_bone_b.x, s_vec_bone_b.y), color);
+	}
+}
+
+void ESP::DrawBones (C_BaseEntity* entity)
+{
+	Color color (255, 255, 0);
+	
+	// Body
+	DrawBone (6, 5, entity, color);
+	DrawBone (5, 0, entity, color);
+	
+	// left leg
+	DrawBone (0, 64, entity, color);
+	DrawBone (64, 65, entity, color);
+	
+	// right leg
+	DrawBone (0, 70, entity, color);
+	DrawBone (70, 71, entity, color);
+	
+	
+	
+	// left arm
+	DrawBone (5, 8, entity, color);
+	DrawBone (8, 9, entity, color);
+	DrawBone (9, 32, entity, color);
+	
+	// right arm
+	DrawBone (5, 36, entity, color);
+	DrawBone (36, 37, entity, color);
+	DrawBone (37, 60, entity, color);
 }
 
 void ESP::DrawTracer (C_BasePlayer* localPlayer, C_BaseEntity* entity)
@@ -180,6 +239,8 @@ void ESP::DrawTracer (C_BasePlayer* localPlayer, C_BaseEntity* entity)
 		Draw::DrawLine (tracerLocation, LOC(s_vecEntity_s.x, s_vecEntity_s.y), color);
 	}
 }
+
+
 
 void ESP::DrawPlayerBox (C_BasePlayer* localPlayer, C_BaseEntity* entity)
 {
