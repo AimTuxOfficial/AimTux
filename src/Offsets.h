@@ -2,6 +2,7 @@
 #define __OFFSETS_H_
 
 #include <cstdio>
+#include "vector.h"
 
 struct COffsets
 {
@@ -12,7 +13,9 @@ struct COffsets
 	int m_lifeState;
 
 	int m_hMyWeapons;
-
+	
+	int m_viewPunch;
+	
 	int m_flFallbackWear;
 	int m_iEntityQuality;
 	int m_iItemDefinitionIndex;

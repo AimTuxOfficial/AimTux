@@ -11,6 +11,7 @@ void Offsets::getOffsets()
 	offsets.m_iHealth = NetVarManager::getOffset(tables, "DT_BasePlayer", "m_iHealth");
 	offsets.m_iTeamNum = NetVarManager::getOffset(tables, "DT_BasePlayer", "m_iTeamNum");
 	offsets.m_lifeState = NetVarManager::getOffset(tables, "DT_BasePlayer", "m_lifeState");
+	offsets.m_viewPunch = NetVarManager::getOffset(tables, "DT_BasePlayer", "m_aimPunchAngle");
 
 	offsets.m_hMyWeapons = NetVarManager::getOffset(tables, "DT_BaseCombatCharacter", "m_hMyWeapons") / 2;
 

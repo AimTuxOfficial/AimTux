@@ -15,7 +15,18 @@ namespace Settings
 	namespace Aimbot
 	{
 		extern bool enabled;
+		
+		namespace AimLock
+		{
+			extern bool enabled;
+		}
+		
+		namespace RCS
+		{
+			extern bool enabled;
+		}
 	}
+	
 	
 	namespace ESP
 	{

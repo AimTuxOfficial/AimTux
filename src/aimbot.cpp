@@ -1,7 +1,9 @@
 #include "aimbot.h"
 
 // Default aimbot settings
-bool Settings::Aimbot::enabled = false;
+bool Settings::Aimbot::enabled = true;
+bool Settings::Aimbot::AimLock::enabled = true;
+bool Settings::Aimbot::RCS::enabled = true;
 
 double hyp;
 
@@ -69,21 +71,47 @@ CBaseEntity* GetClosestEnemy ()
 	return closestEntity;
 }
 
+static QAngle vecOldPunchAngle = QAngle();
+
+void Aimbot::RCS (QAngle& angle)
+{
+	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
+	
+	QAngle punchangle = localplayer->GetViewPunch () * 1.98f;
+	
+	angle -= (punchangle - vecOldPunchAngle);
+	
+	vecOldPunchAngle = punchangle;
+}
 
 void Aimbot::Calculate ()
 {
-	CBaseEntity* entity = GetClosestEnemy ();
-
-	if (entity == NULL)
-		return;
-
-	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
-
-	Vector e_vecHead = entity->m_vecOrigin + entity->m_vecViewOffset;
-	Vector p_vecHead = localplayer->m_vecOrigin + localplayer->m_vecViewOffset;
-
 	QAngle angle;
-	CalculateAngle (p_vecHead, e_vecHead, angle);
-
+	engine->GetViewAngles (angle);
+	
+	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
+	
+	
+	if (Settings::Aimbot::AimLock::enabled)
+	{
+		CBaseEntity* entity = GetClosestEnemy ();
+		
+		
+		if (entity != NULL)
+		{
+			Vector e_vecHead = entity->m_vecOrigin + entity->m_vecViewOffset;
+			Vector p_vecHead = localplayer->m_vecOrigin + localplayer->m_vecViewOffset;
+			
+			CalculateAngle (p_vecHead, e_vecHead, angle);
+		}
+	}
+	
+	if (Settings::Aimbot::RCS::enabled)
+		RCS (angle);
+	
 	engine->SetViewAngles (angle);
 }
+
+
+
+

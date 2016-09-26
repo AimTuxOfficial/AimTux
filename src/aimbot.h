@@ -8,6 +8,7 @@
 namespace Aimbot
 {
 	void Calculate ();
+	void RCS (QAngle& angle);
 }
 
 #endif

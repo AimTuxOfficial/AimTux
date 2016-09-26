@@ -172,6 +172,11 @@ public:
 	{
 		return *(int*)((uintptr_t)this + offsets.m_hViewModel);
 	}
+	
+	QAngle GetViewPunch ()
+	{
+		return *(QAngle*)((uintptr_t)this + offsets.m_viewPunch);
+	}
 };
 
 
