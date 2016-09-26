@@ -6,7 +6,7 @@
 
 struct COffsets
 {
-	int m_bDormant = 0x112;
+	int m_bDormant;
 	int m_hViewModel;
 	int m_iHealth;
 	int m_iTeamNum;

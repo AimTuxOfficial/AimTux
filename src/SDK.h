@@ -139,7 +139,7 @@ public:
 
 	bool GetDormant()
 	{
-		return *(bool*)((uintptr_t)this + offsets.m_bDormant);
+		return *(bool*)((uintptr_t)this + 0x121);
 	}
 
 	unsigned char GetLifeState()
