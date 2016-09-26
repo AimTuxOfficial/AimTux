@@ -21,9 +21,6 @@
 #define DEBUG_OVERLAY_VERSION "VDebugOverlay004"
 #define VMODELINFO_CLIENT_INTERFACE_VERSION "VModelInfoClient004"
 
-/* Bones */
-#define MAXSTUDIOBONES 128
-#define BONE_USED_BY_HITBOX 0x100
 
 /* generic constants */
 #define LIFE_ALIVE 0

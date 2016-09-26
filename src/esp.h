@@ -6,6 +6,7 @@
 #include "draw.h"
 #include "interfaces.h"
 #include "pstring.h"
+#include "bone.h"
 
 #define CONV(c) cwConvert(c)
 

@@ -107,18 +107,6 @@ void DrawESPBox (Vector vecOrigin, Vector vecViewOffset, Color color, int width,
 	Draw::DrawLine (a, b, color);
 }
 
-Vector GetBone (C_BaseEntity* entity, int boneIndex)
-{
-	matrix3x4_t BoneMatrix[MAXSTUDIOBONES];
-	
-	if (!entity->SetupBones(BoneMatrix, MAXSTUDIOBONES, BONE_USED_BY_HITBOX, 0))
-		return entity->GetVecOrigin();
-	
-	matrix3x4_t hitbox = BoneMatrix[boneIndex];
-	
-	return Vector(hitbox[0][3], hitbox[1][3], hitbox[2][3]);
-}
-
 void ESP::Tick ()
 {
 	C_BasePlayer* localPlayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
