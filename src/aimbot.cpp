@@ -2,7 +2,7 @@
 
 // Default aimbot settings
 bool Settings::Aimbot::enabled = true;
-bool Settings::Aimbot::AimLock::enabled = true;
+bool Settings::Aimbot::AimLock::enabled = false;
 bool Settings::Aimbot::RCS::enabled = true;
 
 double hyp;
@@ -29,10 +29,10 @@ void CalculateAngle (Vector& src, Vector& dst, QAngle& angles)
 	if (angles[0] < -89) angles[0] = -89;
 }
 
-CBaseEntity* GetClosestEnemy ()
+C_BaseEntity* GetClosestEnemy ()
 {
 	C_BasePlayer* localPlayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	CBaseEntity* closestEntity = NULL;
+	C_BaseEntity* closestEntity = NULL;
 	float dist = 10000000.0f;
 
 	if (!localPlayer)
@@ -40,9 +40,9 @@ CBaseEntity* GetClosestEnemy ()
 
 	for (int i = 0; i < 64; ++i)
 	{
-		CBaseEntity* entity = entitylist->GetClientEntity(i);
+		C_BaseEntity* entity = entitylist->GetClientEntity(i);
 
-		if (!entity || entity == (CBaseEntity*)localPlayer ||
+		if (!entity || entity == (C_BaseEntity*)localPlayer ||
 				entity->GetDormant() || entity->GetLifeState() != LIFE_ALIVE || entity->GetHealth() <= 0)
 			continue;
 
@@ -51,15 +51,15 @@ CBaseEntity* GetClosestEnemy ()
 		if
 		(
 			   !entity
-			|| entity == (CBaseEntity*)localPlayer
-			|| entity->m_bDormant
+			|| entity == (C_BaseEntity*)localPlayer
+			|| entity->GetDormant()
 			|| entity->GetLifeState() != 0
 			|| entity->GetHealth() <= 0
 			|| entity->GetTeam() == localPlayer->GetTeam()
 		)
 			continue;
 
-		float e_dist = localplayer->m_vecOrigin.DistToSqr (entity->m_vecOrigin);
+		float e_dist = localplayer->GetVecOrigin().DistToSqr (entity->GetVecOrigin());
 
 		if (e_dist < dist)
 		{
@@ -94,13 +94,13 @@ void Aimbot::Calculate ()
 	
 	if (Settings::Aimbot::AimLock::enabled)
 	{
-		CBaseEntity* entity = GetClosestEnemy ();
+		C_BaseEntity* entity = GetClosestEnemy ();
 		
 		
 		if (entity != NULL)
 		{
-			Vector e_vecHead = entity->m_vecOrigin + entity->m_vecViewOffset;
-			Vector p_vecHead = localplayer->m_vecOrigin + localplayer->m_vecViewOffset;
+			Vector e_vecHead = entity->GetVecOrigin() + localplayer->GetVecViewOffset();
+			Vector p_vecHead = localplayer->GetVecOrigin() + localplayer->GetVecViewOffset();
 			
 			CalculateAngle (p_vecHead, e_vecHead, angle);
 		}

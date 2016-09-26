@@ -16,6 +16,9 @@ struct COffsets
 	
 	int m_viewPunch;
 	
+	int m_vecOrigin;
+	int m_vecViewOffset;
+	
 	int m_flFallbackWear;
 	int m_iEntityQuality;
 	int m_iItemDefinitionIndex;

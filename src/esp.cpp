@@ -115,17 +115,18 @@ void ESP::Tick ()
 
 	for (int i = 0; i < 64; ++i)
 	{
-		CBaseEntity* entity = entitylist->GetClientEntity(i);
+		C_BaseEntity* entity = entitylist->GetClientEntity(i);
 		
 		if
 		(
 			   !entity
-			|| entity == (CBaseEntity*)localPlayer
-			|| entity->m_bDormant
+			|| entity == (C_BaseEntity*)localPlayer
+			|| entity->GetDormant()
 			|| entity->GetLifeState() != 0
 			|| entity->GetHealth() <= 0
 		)
 			continue;
+		
 		
 		
 		if (Settings::ESP::Walls::enabled)
@@ -139,7 +140,7 @@ void ESP::Tick ()
 	}
 }
 
-void ESP::DrawTracer (C_BasePlayer* localPlayer, CBaseEntity* entity)
+void ESP::DrawTracer (C_BasePlayer* localPlayer, C_BaseEntity* entity)
 {
 	Color color;
 	
@@ -174,13 +175,13 @@ void ESP::DrawTracer (C_BasePlayer* localPlayer, CBaseEntity* entity)
 	}
 	
 	Vector s_vecEntity_s;
-	if (!WorldToScreen(entity->m_vecOrigin, s_vecEntity_s) && localPlayer->GetHealth() > 0)
+	if (!WorldToScreen(entity->GetVecOrigin(), s_vecEntity_s) && localPlayer->GetHealth() > 0)
 	{
 		Draw::DrawLine (tracerLocation, LOC(s_vecEntity_s.x, s_vecEntity_s.y), color);
 	}
 }
 
-void ESP::DrawPlayerBox (C_BasePlayer* localPlayer, CBaseEntity* entity)
+void ESP::DrawPlayerBox (C_BasePlayer* localPlayer, C_BaseEntity* entity)
 {
 	Color color;
 
@@ -201,15 +202,15 @@ void ESP::DrawPlayerBox (C_BasePlayer* localPlayer, CBaseEntity* entity)
 	int width = 14;
 	int additionalHeight = 6;
 	
-	Vector vecOrigin = entity->m_vecOrigin;
-	Vector vecViewOffset = entity->m_vecViewOffset;
+	Vector vecOrigin = entity->GetVecOrigin();
+	Vector vecViewOffset = localPlayer->GetVecViewOffset();
 	
 	Vector s_vecLocalPlayer_s;
 	if (!WorldToScreen(vecOrigin, s_vecLocalPlayer_s))
 		DrawESPBox (vecOrigin, vecViewOffset, color, width, additionalHeight);
 }
 
-void ESP::DrawPlayerName (C_BasePlayer* localPlayer, CBaseEntity* entity, int entityIndex)
+void ESP::DrawPlayerName (C_BasePlayer* localPlayer, C_BaseEntity* entity, int entityIndex)
 {
 	Color color;
 
@@ -230,7 +231,7 @@ void ESP::DrawPlayerName (C_BasePlayer* localPlayer, CBaseEntity* entity, int en
 	CEngineClient::player_info_t entityInformation;
 	engine->GetPlayerInfo(entityIndex, &entityInformation);
 	
-	Vector vecOrigin = entity->m_vecOrigin;
+	Vector vecOrigin = entity->GetVecOrigin ();
 	
 	Vector s_vecEntity_s;
 	if (!WorldToScreen(vecOrigin, s_vecEntity_s))
