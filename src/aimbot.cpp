@@ -79,11 +79,11 @@ void Aimbot::Calculate ()
 
 	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
 
-	Vector e_vecOrigin = entity->m_vecOrigin;
-	Vector p_vecOrigin = localplayer->m_vecOrigin;
+	Vector e_vecHead = entity->m_vecOrigin + entity->m_vecViewOffset;
+	Vector p_vecHead = localplayer->m_vecOrigin + localplayer->m_vecViewOffset;
 
 	QAngle angle;
-	CalculateAngle (p_vecOrigin, e_vecOrigin, angle);
+	CalculateAngle (p_vecHead, e_vecHead, angle);
 
 	engine->SetViewAngles (angle);
 }
