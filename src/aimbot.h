@@ -4,6 +4,7 @@
 #include "settings.h"
 #include "SDK.h"
 #include "interfaces.h"
+#include "bone.h"
 
 namespace Aimbot
 {

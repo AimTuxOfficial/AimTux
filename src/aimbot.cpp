@@ -2,7 +2,7 @@
 
 // Default aimbot settings
 bool Settings::Aimbot::enabled = true;
-bool Settings::Aimbot::AimLock::enabled = false;
+bool Settings::Aimbot::AimLock::enabled = true;
 bool Settings::Aimbot::RCS::enabled = true;
 
 double hyp;
@@ -28,6 +28,7 @@ void CalculateAngle (Vector& src, Vector& dst, QAngle& angles)
 	if (angles[0] > 89) angles[0] = 89;
 	if (angles[0] < -89) angles[0] = -89;
 }
+
 
 C_BaseEntity* GetClosestEnemy ()
 {
@@ -99,7 +100,7 @@ void Aimbot::Calculate ()
 		
 		if (entity != NULL)
 		{
-			Vector e_vecHead = entity->GetVecOrigin() + localplayer->GetVecViewOffset();
+			Vector e_vecHead = GetBone (entity, 6);
 			Vector p_vecHead = localplayer->GetVecOrigin() + localplayer->GetVecViewOffset();
 			
 			CalculateAngle (p_vecHead, e_vecHead, angle);
