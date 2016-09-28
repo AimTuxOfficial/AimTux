@@ -59,6 +59,11 @@ namespace Settings
 		extern bool enabled;
 	}
 
+	namespace AutoStrafe
+	{
+		extern bool enabled;
+	}
+
 	namespace SkinChanger
 	{
 		extern std::unordered_map<int, std::tuple<int, int, float, int, const char*, const char *>> getSettings();
