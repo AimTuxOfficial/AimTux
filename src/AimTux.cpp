@@ -59,13 +59,8 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 	if (strcmp(panel->GetName(vgui_panel), "FocusOverlayPanel"))
 		return;
 
-	const char* name = panel->GetName(vgui_panel);
-	if (name && name[0] == 'F' && name[5] == 'O' && name[12] == 'P')
-	{
-		DrawHackInfo ();
-		ESP::Tick ();
-	
-	}
+	DrawHackInfo ();
+	ESP::Tick ();
 }
 
 void DrawHackInfo ()
