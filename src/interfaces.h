@@ -11,8 +11,10 @@ extern CEngineClient*		engine;
 extern IClientEntityList*	entitylist;
 extern CDebugOverlay*		debugOverlay;
 extern IVModelInfo*			modelInfo;
+extern IClientMode*			clientMode;
 
 extern VMT* panel_vmt;
 extern VMT* client_vmt;
+extern VMT* clientMode_vmt;
 
 #endif

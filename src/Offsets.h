@@ -11,7 +11,7 @@ struct COffsets
 	int m_iHealth;
 	int m_iTeamNum;
 	int m_lifeState;
-
+	int m_fFlags;
 	int m_hMyWeapons;
 	
 	int m_viewPunch;

@@ -7,9 +7,11 @@ CEngineClient* engine = nullptr;
 IClientEntityList* entitylist = nullptr;
 CDebugOverlay* debugOverlay = nullptr;
 IVModelInfo* modelInfo = nullptr;
+IClientMode* clientMode = nullptr;
 
 VMT* panel_vmt = nullptr;
 VMT* client_vmt = nullptr;
+VMT* clientMode_vmt = nullptr;
 
 void Hooker::HookInterfaces ()
 {
@@ -27,3 +29,55 @@ void Hooker::HookVMethods ()
 	panel_vmt = new VMT (panel);
 	client_vmt = new VMT (client);
 }
+
+uintptr_t GetClientClientAddress ()
+{
+	uintptr_t client_client = 0;
+	// enumerate through loaded shared libraries
+	dl_iterate_phdr([] (struct dl_phdr_info* info, size_t size, void* data) {
+		// check for 'client_client.so' in name
+		if (strcasestr(info->dlpi_name, "client_client.so")) {
+			// write the address and break out of the loop
+			*reinterpret_cast<uintptr_t*>(data) = info->dlpi_addr + info->dlpi_phdr[0].p_vaddr;
+			return 1;
+		}
+
+		// haven't found it yet, keep going..
+		return 0;
+	}, &client_client);
+	return client_client;
+}
+
+void Hooker::HookIClientMode ()
+{
+	uintptr_t client_client = GetClientClientAddress ();
+	
+	uintptr_t init_address = FindPattern(client_client, 0xFFFFFFFFF, (unsigned char*)CCSMODEMANAGER_INIT_SIGNATURE, CCSMODEMANAGER_INIT_MASK);
+	
+	
+	if (!init_address)
+	{
+		return;
+	}
+	
+	pstring str;
+	str << "init_address: ";
+	str + init_address;
+	
+	PRINT (str.c_str());
+	
+	uint32_t offset = *reinterpret_cast<uint32_t*>(init_address + 3);
+	clientMode = reinterpret_cast<IClientMode*>(init_address + offset + 7);
+	
+	str = "";
+	str << "offset: ";
+	str + offset;
+	
+	PRINT (str.c_str());
+	
+	clientMode_vmt = new VMT (clientMode);
+}
+
+
+
+

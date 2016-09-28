@@ -35,14 +35,51 @@ void SetupFonts ()
 	esp_font		= Draw::CreateFont ("TeX Gyre Adventor", 17, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
 }
 
-void hkCreateMove (void* thisptr, int sequence_number, float input_sample_frametime, bool active)
+void CorrectMovement(QAngle vOldAngles, CUserCmd* pCmd, float fOldForward, float fOldSidemove)
 {
-	client_vmt->GetOriginalMethod<CreateMoveFn>(21)(thisptr, sequence_number, input_sample_frametime, active);
+	//side/forward move correction
+	float deltaView = pCmd->viewangles.y - vOldAngles.y;
+	float f1;
+	float f2;
 	
-	if (Settings::Aimbot::enabled)
+	if (vOldAngles.y < 0.f)
+		f1 = 360.0f + vOldAngles.y;
+	else
+		f1 = vOldAngles.y;
+	
+	if (pCmd->viewangles.y < 0.0f)
+		f2 = 360.0f + pCmd->viewangles.y;
+	else
+		f2 = pCmd->viewangles.y;
+	
+	if (f2 < f1)
+		deltaView = abs(f2 - f1);
+	else
+		deltaView = 360.0f - abs(f1 - f2);
+	deltaView = 360.0f - deltaView;
+	
+	pCmd->forwardmove = cos(DEG2RAD(deltaView)) * fOldForward + cos(DEG2RAD(deltaView + 90.f)) * fOldSidemove;
+	pCmd->sidemove = sin(DEG2RAD(deltaView)) * fOldForward + sin(DEG2RAD(deltaView + 90.f)) * fOldSidemove;
+}
+
+bool hkCreateMove (void* thisptr, float flInputSampleTime, CUserCmd* cmd)
+{
+	clientMode_vmt->GetOriginalMethod<CreateMoveFn>(25)(thisptr, flInputSampleTime, cmd);
+	
+	if (cmd && cmd->command_number)
 	{
-		Aimbot::Calculate ();
+		QAngle oldAngle = cmd->viewangles;
+		float oldForward = cmd->forwardmove;
+		float oldSideMove = cmd->sidemove;
+		
+		cmd->viewangles = QAngle (0, 0, 0);
+		
+		CorrectMovement (oldAngle, cmd, oldForward, oldSideMove);
+		
+		return false;
 	}
+	
+	return true;
 }
 
 
@@ -58,6 +95,7 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 	{
 		DrawHackInfo ();
 		ESP::Tick ();
+	
 	}
 }
 
@@ -157,13 +195,17 @@ int __attribute__((constructor)) aimtux_init()
 	
 	PRINT ("AimTux was successfully injected.");
 	
-	client_vmt->HookVM ((void*)hkCreateMove, 21);
 	client_vmt->HookVM ((void*)hkFrameStageNotify, 36);
 	client_vmt->ApplyVMT ();
 	
 	panel_vmt->HookVM ((void*)hkPaintTraverse, 42);
 	panel_vmt->ApplyVMT ();
-
+	
+	Hooker::HookIClientMode ();
+	
+	clientMode_vmt->HookVM ((void*)hkCreateMove, 25);
+	clientMode_vmt->ApplyVMT ();
+	
 	SetupFonts ();
 	
 	NetVarManager::dumpNetvars ();
@@ -176,6 +218,7 @@ void __attribute__((destructor)) aimtux_shutdown()
 {
 	client_vmt->ReleaseVMT ();
 	panel_vmt->ReleaseVMT ();
+	clientMode_vmt->ReleaseVMT ();
 	
 	PRINT ("AimTux has been unloaded successfully.");
 }

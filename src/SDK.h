@@ -42,11 +42,13 @@ inline Fn getvfunc(const void* inst, size_t index, size_t offset = 0)
 }
 
 
+struct CUserCmd;
+
 /* function prototypes */
 typedef void* (*CreateInterfaceFn)	(const char*, int*);
 typedef void  (*FrameStageNotifyFn) (void*, int);
 typedef void  (*PaintTraverseFn)    (void*, VPANEL, bool, bool);
-typedef void  (*CreateMoveFn)		(void*, int sequence_number, float input_sample_frametime, bool active);
+typedef bool  (*CreateMoveFn)		(void*, float, CUserCmd*);
 
 /* game enumerated types */
 enum ClientFrameStage_t: int {
@@ -63,7 +65,7 @@ enum ClientFrameStage_t: int {
 /* helper functions */
 template <typename interface> interface* GetInterface(const char* filename, const char* version)
 {
-	void* library = dlopen(filename, RTLD_NOW);
+	void* library = dlopen(filename, RTLD_NOLOAD | RTLD_NOW);
 
 	if (!library)
 		return nullptr;
@@ -165,6 +167,11 @@ public:
 	Vector GetVecViewOffset()
 	{
 		return *(Vector*)((uintptr_t)this + offsets.m_vecViewOffset);
+	}
+	
+	int GetFlags ()
+	{
+		return *(int*)((uintptr_t)this + offsets.m_fFlags);
 	}
 };
 
@@ -471,26 +478,28 @@ public:
 	}
 };
 
-class CUserCmd
-{
-public:
-	virtual ~CUserCmd(){};
+struct CUserCmd {
+	virtual ~CUserCmd() {};
 	int command_number;
 	int tick_count;
-	Vector viewangles;
+	QAngle viewangles;
+	QAngle aimdirection;
 	float forwardmove;
-	float sidemove;	
+	float sidemove;
 	float upmove;
 	int buttons;
-	uint8_t impulse;
+	unsigned char impulse;
 	int weaponselect;
 	int weaponsubtype;
 	int random_seed;
 	short mousedx;
 	short mousedy;
 	bool hasbeenpredicted;
+	QAngle headangles;
+	Vector headoffset;
 };
 
+class IClientMode {};
 
 class IClientEntityList {
 	public:
