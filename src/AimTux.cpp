@@ -35,48 +35,13 @@ void SetupFonts ()
 	esp_font		= Draw::CreateFont ("TeX Gyre Adventor", 17, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
 }
 
-void CorrectMovement(QAngle vOldAngles, CUserCmd* pCmd, float fOldForward, float fOldSidemove)
-{
-	//side/forward move correction
-	float deltaView = pCmd->viewangles.y - vOldAngles.y;
-	float f1;
-	float f2;
-	
-	if (vOldAngles.y < 0.f)
-		f1 = 360.0f + vOldAngles.y;
-	else
-		f1 = vOldAngles.y;
-	
-	if (pCmd->viewangles.y < 0.0f)
-		f2 = 360.0f + pCmd->viewangles.y;
-	else
-		f2 = pCmd->viewangles.y;
-	
-	if (f2 < f1)
-		deltaView = abs(f2 - f1);
-	else
-		deltaView = 360.0f - abs(f1 - f2);
-	deltaView = 360.0f - deltaView;
-	
-	pCmd->forwardmove = cos(DEG2RAD(deltaView)) * fOldForward + cos(DEG2RAD(deltaView + 90.f)) * fOldSidemove;
-	pCmd->sidemove = sin(DEG2RAD(deltaView)) * fOldForward + sin(DEG2RAD(deltaView + 90.f)) * fOldSidemove;
-}
-
 bool hkCreateMove (void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 {
 	clientMode_vmt->GetOriginalMethod<CreateMoveFn>(25)(thisptr, flInputSampleTime, cmd);
 	
 	if (cmd && cmd->command_number)
 	{
-		QAngle oldAngle = cmd->viewangles;
-		float oldForward = cmd->forwardmove;
-		float oldSideMove = cmd->sidemove;
-		
-		cmd->viewangles = QAngle (0, 0, 0);
-		
-		CorrectMovement (oldAngle, cmd, oldForward, oldSideMove);
-		
-		return false;
+		return Aimbot::CreateMove (cmd);
 	}
 	
 	return true;

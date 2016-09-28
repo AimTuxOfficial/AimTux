@@ -8,7 +8,7 @@
 
 namespace Aimbot
 {
-	void Calculate ();
+	bool CreateMove (CUserCmd* cmd);
 	void RCS (QAngle& angle);
 }
 
