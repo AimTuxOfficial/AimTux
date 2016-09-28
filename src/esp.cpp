@@ -5,7 +5,7 @@
 ---------------*/
 bool		Settings::ESP::enabled			= true;
 bool		Settings::ESP::Walls::enabled	= true;
-bool		Settings::ESP::Tracer::enabled	= true;
+bool		Settings::ESP::Tracer::enabled	= false;
 bool		Settings::ESP::Name::enabled	= true;
 bool		Settings::ESP::Bones::enabled	= true;
 TracerType	Settings::ESP::Tracer::type		= BOTTOM;
