@@ -53,6 +53,11 @@ namespace Settings
 			extern bool enabled;
 		}
 	}
+	
+	namespace BHop
+	{
+		extern bool enabled;
+	}
 
 	namespace SkinChanger
 	{

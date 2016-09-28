@@ -7,6 +7,7 @@
 #include "settings.h"
 #include "aimbot.h"
 #include "esp.h"
+#include "bhop.h"
 #include "NetVarManager.h"
 
 #define CONV(c) cwConvert(c)
@@ -41,6 +42,7 @@ bool hkCreateMove (void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 	
 	if (cmd && cmd->command_number)
 	{
+		BHop::CreateMove (cmd);
 		return Aimbot::CreateMove (cmd);
 	}
 	
