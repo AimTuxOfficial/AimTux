@@ -1,8 +1,8 @@
 CC = g++
 CXXFLAGS =-fPIC -std=c++14 -g -shared -ldl
 
-SOURCES :=./src/AimTux.cpp ./src/draw.cpp ./src/NetVarManager.cpp ./src/Offsets.cpp ./src/hooker.cpp ./src/aimbot.cpp ./src/settings.cpp ./src/esp.cpp ./src/bhop.cpp
-OBJECTS:= ./src/AimTux.o ./src/draw.o ./src/NetVarManager.o ./src/Offsets.o ./src/hooker.o ./src/aimbot.o ./src/settings.o ./src/esp.o ./src/bhop.o
+SOURCES :=./src/AimTux.cpp ./src/draw.cpp ./src/NetVarManager.cpp ./src/Offsets.cpp ./src/hooker.cpp ./src/aimbot.cpp ./src/settings.cpp ./src/esp.cpp ./src/bhop.cpp ./src/spammer.cpp
+OBJECTS:= ./src/AimTux.o ./src/draw.o ./src/NetVarManager.o ./src/Offsets.o ./src/hooker.o ./src/aimbot.o ./src/settings.o ./src/esp.o ./src/bhop.o ./src/spammer.o
 OUT := aimtux-csgo.so
 
 all: clean build

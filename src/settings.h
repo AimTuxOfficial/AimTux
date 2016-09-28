@@ -54,6 +54,11 @@ namespace Settings
 		}
 	}
 	
+	namespace Spammer
+	{
+		extern bool enabled;
+	}
+	
 	namespace BHop
 	{
 		extern bool enabled;

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <memory.h>
+#include <chrono>
 
 #include "interfaces.h"
 #include "draw.h"
@@ -8,6 +9,7 @@
 #include "aimbot.h"
 #include "esp.h"
 #include "bhop.h"
+#include "spammer.h"
 #include "NetVarManager.h"
 
 #define CONV(c) cwConvert(c)
@@ -36,9 +38,23 @@ void SetupFonts ()
 	esp_font		= Draw::CreateFont ("TeX Gyre Adventor", 17, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
 }
 
+std::vector<std::string> spam_promotion_strings =
+{
+	"AimTux owns me and all",
+	"Tux the penguin's cock feels so gooodd!!",
+	"Your Windows p2c sucks my AimTux dry",
+	"It's free as in FREEDOM!",
+	"Tux only let me out so I could play this game, please be nice!",
+	"Tux nutted but you keep sucken"
+};
+
 bool hkCreateMove (void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 {
 	clientMode_vmt->GetOriginalMethod<CreateMoveFn>(25)(thisptr, flInputSampleTime, cmd);
+	
+	// This code should be moved into a tick hook of some sorts...
+	Spammer::Tick ();
+	
 	
 	if (cmd && cmd->command_number)
 	{
