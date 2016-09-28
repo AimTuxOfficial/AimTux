@@ -10,6 +10,7 @@
 #include "esp.h"
 #include "bhop.h"
 #include "spammer.h"
+#include "autostrafe.h"
 #include "NetVarManager.h"
 
 #define CONV(c) cwConvert(c)
@@ -49,6 +50,7 @@ bool hkCreateMove (void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 	if (cmd && cmd->command_number)
 	{
 		BHop::CreateMove (cmd);
+		AutoStrafe::CreateMove (cmd);
 		return Aimbot::CreateMove (cmd);
 	}
 	
@@ -59,17 +61,12 @@ bool hkCreateMove (void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool allow_force)
 {
 	panel_vmt->GetOriginalMethod<PaintTraverseFn>(42)(thisptr, vgui_panel, force_repaint, allow_force);
-	
+
 	if (strcmp(panel->GetName(vgui_panel), "FocusOverlayPanel"))
 		return;
 
-	const char* name = panel->GetName(vgui_panel);
-	if (name && name[0] == 'F' && name[5] == 'O' && name[12] == 'P')
-	{
-		DrawHackInfo ();
-		ESP::Tick ();
-	
-	}
+	DrawHackInfo ();
+	ESP::Tick ();
 }
 
 void DrawHackInfo ()
