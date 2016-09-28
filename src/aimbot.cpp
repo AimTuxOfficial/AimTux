@@ -129,12 +129,19 @@ bool Aimbot::CreateMove (CUserCmd* cmd)
 	{
 		C_BaseEntity* entity = GetClosestEnemy ();
 		
-		if (entity != NULL)
+		if (entity && cmd->buttons & IN_ATTACK)
 		{
 			Vector e_vecHead = GetBone (entity, 6);
 			Vector p_vecHead = localplayer->GetVecOrigin() + localplayer->GetVecViewOffset();
 			
 			CalculateAngle (p_vecHead, e_vecHead, angle);
+		}
+		else
+		{
+			angle.x = 89;
+			
+			float yang = std::rand() % (360) - 180;
+			angle.y = yang;
 		}
 	}
 	
