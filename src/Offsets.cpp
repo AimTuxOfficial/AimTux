@@ -12,7 +12,8 @@ void Offsets::getOffsets()
 	offsets.m_iTeamNum = NetVarManager::getOffset(tables, "DT_BasePlayer", "m_iTeamNum");
 	offsets.m_lifeState = NetVarManager::getOffset(tables, "DT_BasePlayer", "m_lifeState");
 	offsets.m_bDormant = NetVarManager::getOffset(tables, "DT_BaseEntity", "m_bDormant");
-	offsets.m_viewPunch = NetVarManager::getOffset(tables, "DT_BasePlayer", "m_aimPunchAngle");
+	offsets.m_Local = NetVarManager::getOffset(tables, "DT_BasePlayer", "m_Local");
+	offsets.m_aimPunchAngle = NetVarManager::getOffset(tables, "DT_BasePlayer", "m_aimPunchAngle");
 	offsets.m_fFlags = NetVarManager::getOffset(tables, "DT_BasePlayer", "m_fFlags");
 	
 	offsets.m_vecOrigin = NetVarManager::getOffset(tables, "DT_BaseEntity", "m_vecOrigin");

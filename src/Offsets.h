@@ -14,7 +14,8 @@ struct COffsets
 	int m_fFlags;
 	int m_hMyWeapons;
 	
-	int m_viewPunch;
+	int m_Local;
+	int m_aimPunchAngle;
 	
 	int m_vecOrigin;
 	int m_vecViewOffset;

@@ -184,9 +184,9 @@ public:
 		return (int*)((uintptr_t)this + offsets.m_hMyWeapons);
 	}
 	
-	QAngle GetViewPunch ()
+	QAngle GetAimPunchAngle ()
 	{
-		return *(QAngle*)((uintptr_t)this + offsets.m_viewPunch);
+		return *(QAngle*)((uintptr_t)this + offsets.m_aimPunchAngle);
 	}
 };
 
