@@ -8,6 +8,7 @@ IClientEntityList* entitylist = nullptr;
 CDebugOverlay* debugOverlay = nullptr;
 IVModelInfo* modelInfo = nullptr;
 IClientMode* clientMode = nullptr;
+IEngineTrace* trace = nullptr;
 
 VMT* panel_vmt = nullptr;
 VMT* client_vmt = nullptr;
@@ -22,6 +23,7 @@ void Hooker::HookInterfaces ()
 	panel = GetInterface<IPanel>("./bin/linux64/vgui2_client.so", PANEL_INTERFACE_VERSION);
 	debugOverlay = GetInterface<CDebugOverlay>("./bin/linux64/engine_client.so", DEBUG_OVERLAY_VERSION);
 	modelInfo = GetInterface<IVModelInfo>("./bin/linux64/engine_client.so", VMODELINFO_CLIENT_INTERFACE_VERSION);
+	trace = GetInterface<IEngineTrace>("./bin/linux64/engine_client.so", ENGINETRACE_CLIENT_INTERFACE_VERSION);
 }
 
 void Hooker::HookVMethods ()

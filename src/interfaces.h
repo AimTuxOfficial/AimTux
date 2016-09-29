@@ -12,6 +12,7 @@ extern IClientEntityList*	entitylist;
 extern CDebugOverlay*		debugOverlay;
 extern IVModelInfo*			modelInfo;
 extern IClientMode*			clientMode;
+extern IEngineTrace*		trace;
 
 extern VMT* panel_vmt;
 extern VMT* client_vmt;
