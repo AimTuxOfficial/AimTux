@@ -72,17 +72,10 @@ C_BaseEntity* GetClosestEnemy ()
 	return closestEntity;
 }
 
-static QAngle vecOldPunchAngle = QAngle();
-
 void Aimbot::RCS (QAngle& angle)
 {
 	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
-	
-	QAngle punchangle = localplayer->GetViewPunch () * 1.98f;
-	
-	angle -= (punchangle - vecOldPunchAngle);
-	
-	vecOldPunchAngle = punchangle;
+	angle -= localplayer->GetAimPunchAngle() * 2.f;
 }
 
 
@@ -120,8 +113,7 @@ bool Aimbot::CreateMove (CUserCmd* cmd)
 	float oldForward = cmd->forwardmove;
 	float oldSideMove = cmd->sidemove;
 	
-	QAngle angle;
-	engine->GetViewAngles (angle);
+	QAngle angle = cmd->viewangles;
 	
 	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
 	
@@ -146,7 +138,9 @@ bool Aimbot::CreateMove (CUserCmd* cmd)
 	}
 	
 	if (Settings::Aimbot::RCS::enabled)
+	{
 		RCS (angle);
+	}
 	
 	cmd->viewangles = angle;
 	
