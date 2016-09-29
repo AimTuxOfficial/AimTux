@@ -16,7 +16,12 @@ namespace Settings
 	{
 		extern bool enabled;
 		
-		namespace AimLock
+		namespace SpinBot
+		{
+			extern bool enabled;
+		}
+		
+		namespace AutoAim
 		{
 			extern bool enabled;
 		}
@@ -46,6 +51,7 @@ namespace Settings
 		namespace Name
 		{
 			extern bool enabled;
+			extern bool showHealth;
 		}
 		
 		namespace Bones

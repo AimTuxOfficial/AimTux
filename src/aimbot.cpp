@@ -2,7 +2,8 @@
 
 // Default aimbot settings
 bool Settings::Aimbot::enabled = true;
-bool Settings::Aimbot::AimLock::enabled = true;
+bool Settings::Aimbot::SpinBot::enabled = true;
+bool Settings::Aimbot::AutoAim::enabled = true;
 bool Settings::Aimbot::RCS::enabled = true;
 
 
@@ -127,24 +128,25 @@ bool Aimbot::CreateMove (CUserCmd* cmd)
 	
 	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
 	
-	if (Settings::Aimbot::AimLock::enabled)
+	C_BaseEntity* entity = GetClosestEnemy ();
+	
+	if (entity && cmd->buttons & IN_ATTACK)
 	{
-		C_BaseEntity* entity = GetClosestEnemy ();
-		
-		if (entity && cmd->buttons & IN_ATTACK)
+		if (Settings::Aimbot::AutoAim::enabled)
 		{
 			Vector e_vecHead = GetBone (entity, 6);
 			Vector p_vecHead = localplayer->GetVecOrigin() + localplayer->GetVecViewOffset();
 			
 			CalculateAngle (p_vecHead, e_vecHead, angle);
 		}
-		else
-		{
-			angle.x = 89;
-			
-			float yang = std::rand() % (360) - 180;
-			angle.y = yang;
-		}
+	}
+	else
+	if (Settings::Aimbot::SpinBot::enabled)
+	{
+		angle.x = 89;
+		
+		float yang = std::rand() % (360) - 180;
+		angle.y = yang;
 	}
 	
 	if (Settings::Aimbot::RCS::enabled)
