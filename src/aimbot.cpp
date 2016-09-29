@@ -5,6 +5,16 @@ bool Settings::Aimbot::enabled = true;
 bool Settings::Aimbot::AimLock::enabled = true;
 bool Settings::Aimbot::RCS::enabled = true;
 
+
+void CheckAngles (QAngle& angle)
+{
+	if (angle[0] > 89	) angle[0] = 89;
+	if (angle[0] < -89	) angle[0] = -89;
+	if (angle[1] > 180	) angle[1] -= 360;
+	if (angle[1] < -180	) angle[1] += 360;
+	angle[2] = 0;
+}
+
 double hyp;
 
 void CalculateAngle (Vector& src, Vector& dst, QAngle& angles)
@@ -141,6 +151,10 @@ bool Aimbot::CreateMove (CUserCmd* cmd)
 	{
 		RCS (angle);
 	}
+	
+	
+	// Check the angle to make sure it's invalid
+	CheckAngles (angle);
 	
 	cmd->viewangles = angle;
 	
