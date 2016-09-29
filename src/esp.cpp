@@ -236,7 +236,7 @@ void ESP::DrawPlayerBox (C_BasePlayer* localPlayer, C_BaseEntity* entity)
 
 	int playerTeam = localPlayer->GetTeam();
 	int entityTeam = reinterpret_cast<C_BasePlayer*>(entity)->GetTeam();
-	bool isVisible = IsVisible(localPlayer, entity, 6);
+	bool isVisible = Entity::IsVisible(localPlayer, entity, 6);
 
 	if (playerTeam != entityTeam)
 	{
@@ -289,20 +289,4 @@ void ESP::DrawPlayerName (C_BasePlayer* localPlayer, C_BaseEntity* entity, int e
 	Vector s_vecEntity_s;
 	if (!WorldToScreen(vecOrigin, s_vecEntity_s))
 		Draw::DrawString (CONV(entityInformation.name), LOC(s_vecEntity_s.x, s_vecEntity_s.y), color, 33, true);
-}
-
-
-bool ESP::IsVisible (C_BasePlayer* pLocal, C_BaseEntity* pEntity, int bone)
-{
-	Vector e_vecHead = GetBone (pEntity, bone);
-	Vector p_vecHead = pLocal->GetVecOrigin() + pLocal->GetVecViewOffset();
-
-	Ray_t ray;
-	trace_t tr;
-	ray.Init(p_vecHead, e_vecHead);
-	CTraceFilter traceFilter;
-	traceFilter.pSkip = pLocal;
-	trace->TraceRay(ray, MASK_SHOT, &traceFilter, &tr);
-
-	return tr.m_pEntityHit == pEntity;
 }

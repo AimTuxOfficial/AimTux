@@ -7,6 +7,7 @@
 #include "interfaces.h"
 #include "pstring.h"
 #include "bone.h"
+#include "entity.h"
 
 #define CONV(c) cwConvert(c)
 
@@ -17,7 +18,6 @@ namespace ESP
 	void DrawPlayerBox (C_BasePlayer* localPlayer, C_BaseEntity* entity);
 	void DrawPlayerName (C_BasePlayer* localPlayer, C_BaseEntity* entity, int entityIndex);
 	void DrawBones (C_BaseEntity* entity);
-	bool IsVisible(C_BasePlayer *pLocal, C_BaseEntity *pEntity, int bone);
 }
 
 #endif
