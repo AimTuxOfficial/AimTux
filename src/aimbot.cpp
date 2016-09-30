@@ -183,13 +183,17 @@ bool Aimbot::CreateMove (CUserCmd* cmd)
 			CalculateAngle (p_vecHead, e_vecHead, angle);
 		}
 	}
-	else
-	if (Settings::Aimbot::SpinBot::enabled)
+	else if (Settings::Aimbot::SpinBot::enabled)
 	{
+		static float fYaw = 0.0f;
+
+		fYaw += 40.0f;
+
+		if (fYaw > 180.0f)
+			fYaw -= 360.0f;
+
+		angle.y = fYaw;
 		angle.x = 89;
-		
-		float yang = std::rand() % (360) - 180;
-		angle.y = yang;
 	}
 	
 	if (Settings::Aimbot::RCS::enabled)
