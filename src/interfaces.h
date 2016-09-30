@@ -13,6 +13,7 @@ extern CDebugOverlay*		debugOverlay;
 extern IVModelInfo*			modelInfo;
 extern IClientMode*			clientMode;
 extern IEngineTrace*		trace;
+extern IInputSystem*		input;
 
 extern VMT* panel_vmt;
 extern VMT* client_vmt;
