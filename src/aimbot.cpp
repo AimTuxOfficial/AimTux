@@ -2,12 +2,11 @@
 
 // Default aimbot settings
 bool Settings::Aimbot::enabled = true;
-bool Settings::Aimbot::SpinBot::enabled = true;
 bool Settings::Aimbot::AutoAim::enabled = true;
 bool Settings::Aimbot::RCS::enabled = true;
 
 
-void CheckAngles (QAngle& angle)
+void Aimbot::CheckAngles (QAngle& angle)
 {
 	if (angle[0] > 89	) angle[0] = 89;
 	if (angle[0] < -89	) angle[0] = -89;
@@ -133,7 +132,7 @@ void Aimbot::RCS (QAngle& angle)
 }
 
 
-void CorrectMovement(QAngle vOldAngles, CUserCmd* pCmd, float fOldForward, float fOldSidemove)
+void Aimbot::CorrectMovement (QAngle vOldAngles, CUserCmd* pCmd, float fOldForward, float fOldSidemove)
 {
 	//side/forward move correction
 	float deltaView = pCmd->viewangles.y - vOldAngles.y;
@@ -162,7 +161,6 @@ void CorrectMovement(QAngle vOldAngles, CUserCmd* pCmd, float fOldForward, float
 
 bool Aimbot::CreateMove (CUserCmd* cmd)
 {
-	
 	QAngle oldAngle = cmd->viewangles;
 	float oldForward = cmd->forwardmove;
 	float oldSideMove = cmd->sidemove;
@@ -183,19 +181,7 @@ bool Aimbot::CreateMove (CUserCmd* cmd)
 			CalculateAngle (p_vecHead, e_vecHead, angle);
 		}
 	}
-	else if (Settings::Aimbot::SpinBot::enabled && !(cmd->buttons & IN_USE))
-	{
-		static float fYaw = 0.0f;
 
-		fYaw += 40.0f;
-
-		if (fYaw > 180.0f)
-			fYaw -= 360.0f;
-
-		angle.y = fYaw;
-		angle.x = 89;
-	}
-	
 	if (Settings::Aimbot::RCS::enabled)
 	{
 		RCS (angle);
