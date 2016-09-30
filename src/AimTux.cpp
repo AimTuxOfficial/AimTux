@@ -13,6 +13,7 @@
 #include "autostrafe.h"
 #include "NetVarManager.h"
 #include "antiaim.h"
+#include "triggerbot.h"
 
 #define CONV(c) cwConvert(c)
 
@@ -53,6 +54,7 @@ bool hkCreateMove (void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		BHop::CreateMove (cmd);
 		AutoStrafe::CreateMove (cmd);
 		Aimbot::CreateMove (cmd);
+		Triggerbot::CreateMove (cmd);
 		AntiAim::CreateMove (cmd);
 	}
 	

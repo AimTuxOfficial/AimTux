@@ -5,7 +5,6 @@ bool Settings::Aimbot::enabled = true;
 bool Settings::Aimbot::AutoAim::enabled = true;
 bool Settings::Aimbot::RCS::enabled = true;
 
-
 void Aimbot::CheckAngles (QAngle& angle)
 {
 	if (angle[0] > 89	) angle[0] = 89;
@@ -186,14 +185,13 @@ bool Aimbot::CreateMove (CUserCmd* cmd)
 	{
 		RCS (angle);
 	}
-	
-	
+
 	// Check the angle to make sure it's invalid
-	CheckAngles (angle);
+	Aimbot::CheckAngles (angle);
 	
 	cmd->viewangles = angle;
-	
-	CorrectMovement (oldAngle, cmd, oldForward, oldSideMove);
+
+	Aimbot::CorrectMovement (oldAngle, cmd, oldForward, oldSideMove);
 	
 	return false;
 }

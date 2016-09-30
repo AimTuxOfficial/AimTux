@@ -3,6 +3,7 @@
 
 #include <unordered_map>
 #include "Weapons.h"
+#include "SDK.h"
 
 enum TracerType
 {
@@ -25,6 +26,12 @@ namespace Settings
 		{
 			extern bool enabled;
 		}
+	}
+
+	namespace Triggerbot
+	{
+		extern bool enabled;
+		extern ButtonCode_t key;
 	}
 
 	namespace AntiAim
