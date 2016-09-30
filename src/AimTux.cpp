@@ -48,7 +48,6 @@ bool hkCreateMove (void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 	// This code should be moved into a tick hook of some sorts...
 	Spammer::Tick ();
 	
-	
 	if (cmd && cmd->command_number)
 	{
 		BHop::CreateMove (cmd);

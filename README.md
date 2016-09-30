@@ -10,6 +10,8 @@ Want to chat or play with other AimTux users? Join us on Gitter!
 * *Triggerbot*
 * *AntiAim (Spinbot, Jitter, Sideways, Static)*
 * *AutoShoot*
+* *AutoCrouch*
+* *AutoStop*
 * *RCS*
 * *Box ESP*
 * *Name ESP*

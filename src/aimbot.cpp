@@ -4,6 +4,8 @@
 bool Settings::Aimbot::enabled = true;
 bool Settings::Aimbot::AutoAim::enabled = true;
 bool Settings::Aimbot::RCS::enabled = true;
+bool Settings::Aimbot::AutoCrouch::enabled = true;
+bool Settings::Aimbot::AutoStop::enabled = true;
 
 void Aimbot::CheckAngles (QAngle& angle)
 {
@@ -179,6 +181,17 @@ bool Aimbot::CreateMove (CUserCmd* cmd)
 			
 			CalculateAngle (p_vecHead, e_vecHead, angle);
 		}
+
+		if (Settings::Aimbot::AutoCrouch::enabled)
+			cmd->buttons |= IN_DUCK;
+
+		if (Settings::Aimbot::AutoStop::enabled)
+		{
+			oldForward = 0;
+			oldSideMove = 0;
+			cmd->upmove = 0;
+		}
+
 	}
 
 	if (Settings::Aimbot::RCS::enabled)
