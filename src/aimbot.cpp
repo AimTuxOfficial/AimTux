@@ -4,8 +4,6 @@
 bool Settings::Aimbot::enabled = true;
 bool Settings::Aimbot::AutoAim::enabled = true;
 bool Settings::Aimbot::RCS::enabled = true;
-bool Settings::Aimbot::AutoStop::enabled = true;
-bool Settings::Aimbot::AutoCrouch::enabled = true;
 
 
 void Aimbot::CheckAngles (QAngle& angle)
@@ -161,7 +159,7 @@ void Aimbot::CorrectMovement (QAngle vOldAngles, CUserCmd* pCmd, float fOldForwa
 	pCmd->sidemove = sin(DEG2RAD(deltaView)) * fOldForward + sin(DEG2RAD(deltaView + 90.f)) * fOldSidemove;
 }
 
-bool Aimbot::CreateMove (CUserCmd* cmd, CUserCmd* forwardmove, CUserCmd* sidemove, CUserCmd* upmove)
+bool Aimbot::CreateMove (CUserCmd* cmd)
 {
 	QAngle oldAngle = cmd->viewangles;
 	float oldForward = cmd->forwardmove;
@@ -182,19 +180,6 @@ bool Aimbot::CreateMove (CUserCmd* cmd, CUserCmd* forwardmove, CUserCmd* sidemov
 			
 			CalculateAngle (p_vecHead, e_vecHead, angle);
 		}
-
-		if (Settings::Aimbot::AutoCrouch::enabled)
-		{
-			cmd->buttons &= ~IN_DUCK;
-		}
-
-		if (Settings::Aimbot::AutoStop::enabled)
-		{
-			forwardmove = 0;
-			sidemove = 0;
-			upmove = 0;
-		}
-
 	}
 
 	if (Settings::Aimbot::RCS::enabled)

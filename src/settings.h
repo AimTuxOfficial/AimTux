@@ -25,16 +25,6 @@ namespace Settings
 		{
 			extern bool enabled;
 		}
-
-		namespace AutoStop
-		{
-			extern bool enabled;
-		}
-
-		namespace AutoCrouch
-		{
-			extern bool enabled;
-		}
 	}
 
 	namespace AntiAim
