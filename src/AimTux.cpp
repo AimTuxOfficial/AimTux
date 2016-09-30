@@ -75,14 +75,10 @@ void DrawHackInfo ()
 {
 	int width = 350;
 	
-	try {
-		Draw::DrawRect (LOC(15, 15), LOC (width, 190), Color(0, 0, 0, 120));
-		Draw::DrawBox (LOC(15, 15), LOC (width, 190), Color(190, 190, 190, 120));
-		Draw::DrawString (L"AimTux", LOC(width / 2, 20), Color(190, 190, 190), title_font, true);
-		Draw::DrawString (L"Test normal font", LOC(20, 50), Color(190, 190, 190), normal_font, false);
-	} catch (int exception) {
-		// ignore (?)
-	}
+	Draw::DrawRect (LOC(15, 15), LOC (width, 190), Color(0, 0, 0, 120));
+	Draw::DrawBox (LOC(15, 15), LOC (width, 190), Color(190, 190, 190, 120));
+	Draw::DrawString (L"AimTux", LOC(width / 2, 20), Color(190, 190, 190), title_font, true);
+	Draw::DrawString (L"Test normal font", LOC(20, 50), Color(190, 190, 190), normal_font, false);
 }
 
 /* replacement FrameStageNotify function */
