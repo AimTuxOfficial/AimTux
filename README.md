@@ -7,7 +7,7 @@ Want to chat or play with other AimTux users? Join us on Gitter!
 #### Features:
 
 * *Aimbot*
-* *Spinbot*
+* *AntiAim (Spinbot, Jitter, Sideways)*
 * *AutoShoot*
 * *RCS*
 * *Box ESP*
