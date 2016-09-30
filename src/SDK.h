@@ -189,6 +189,16 @@ public:
 	{
 		return *(QAngle*)((uintptr_t)this + offsets.m_aimPunchAngle);
 	}
+	
+	int GetActiveWeapon ()
+	{
+		return *(int*)((uintptr_t)this + offsets.m_hActiveWeapon);
+	}
+	
+	float GetTickBase ()
+	{
+		return *(float*)((uintptr_t)this + offsets.m_nTickBase);
+	}
 };
 
 
@@ -236,7 +246,24 @@ public:
 	}
 };
 
-class C_BaseCombatWeapon: public C_BaseAttributableItem {};
+class C_BaseCombatWeapon: public C_BaseAttributableItem
+{
+public:
+	unsigned int GetAmmo ()
+	{
+		return *(unsigned int*)((uintptr_t)this + offsets.m_iClip1);
+	}
+	
+	bool IsReloading ()
+	{
+		return *(bool*)((uintptr_t)this + offsets.m_bInReload);
+	}
+	
+	float GetNextPrimaryAttack ()
+	{
+		return *(float*)((uintptr_t)this + offsets.m_flNextPrimaryAttack);
+	}
+};
 
 class C_BaseViewModel: public C_BaseEntity {
 public:

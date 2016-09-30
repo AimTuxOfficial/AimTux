@@ -14,6 +14,8 @@ struct COffsets
 	int m_fFlags;
 	int m_hMyWeapons;
 	
+	int m_nTickBase;
+	
 	int m_Local;
 	int m_aimPunchAngle;
 	
@@ -28,7 +30,12 @@ struct COffsets
 	int m_nFallbackSeed;
 	int m_nFallbackStatTrak;
 	int m_szCustomName;
-
+	
+	int m_iClip1;
+	int m_flNextPrimaryAttack;
+	int m_bInReload;
+	
+	int m_hActiveWeapon;
 	int m_nModelIndex;
 	int m_hWeapon;
 };
