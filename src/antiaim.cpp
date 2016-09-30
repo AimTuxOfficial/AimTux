@@ -5,6 +5,7 @@
  * 1 => spinbot
  * 2 => jitter
  * 3 => sideways
+ * 4 => static
  */
 int Settings::AntiAim::type = 1;
 
@@ -32,14 +33,14 @@ bool AntiAim::CreateMove (CUserCmd* cmd)
 	}
 	else if (Settings::AntiAim::type == 2)
 	{
-		static bool yFlip = false;
+		static bool yFlip;
 		yFlip = !yFlip;
 
 		angle.y = yFlip ? 270.0f : 90.0f;
 	}
 	else if (Settings::AntiAim::type == 3)
 	{
-		static bool yFlip = false;
+		static bool yFlip;
 		yFlip = !yFlip;
 
 		if (yFlip)
@@ -47,6 +48,30 @@ bool AntiAim::CreateMove (CUserCmd* cmd)
 		else
 			angle.y -= 90.0f;
 	}
+	else if (Settings::AntiAim::type == 4)
+	{
+		static bool yFlip;
+		static bool yFlip2;
+		yFlip = !yFlip;
+		yFlip2 = !yFlip2;
+
+		if (yFlip)
+		{
+			if (yFlip2)
+			{
+				angle.y += 90.0f;
+			}
+			else
+			{
+				angle.y -= 90.0f;
+			}
+		}
+		else
+		{
+			angle.y += 180.0f;
+		}
+	}
+
 
 	// Check the angle to make sure it's invalid
 	Aimbot::CheckAngles (angle);
