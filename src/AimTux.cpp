@@ -40,7 +40,7 @@ void SetupFonts ()
 	esp_font		= Draw::CreateFont ("TeX Gyre Adventor", 17, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
 }
 
-bool hkCreateMove (void* thisptr, float flInputSampleTime, CUserCmd* cmd)
+bool hkCreateMove (void* thisptr, float flInputSampleTime, CUserCmd* cmd, CUserCmd* forwardmove, CUserCmd* sidemove, CUserCmd* upmove)
 {
 	clientMode_vmt->GetOriginalMethod<CreateMoveFn>(25)(thisptr, flInputSampleTime, cmd);
 	
@@ -52,7 +52,7 @@ bool hkCreateMove (void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 	{
 		BHop::CreateMove (cmd);
 		AutoStrafe::CreateMove (cmd);
-		Aimbot::CreateMove (cmd);
+		Aimbot::CreateMove (cmd, forwardmove, sidemove, upmove);
 		AntiAim::CreateMove (cmd);
 	}
 	
