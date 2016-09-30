@@ -183,7 +183,7 @@ bool Aimbot::CreateMove (CUserCmd* cmd)
 			CalculateAngle (p_vecHead, e_vecHead, angle);
 		}
 	}
-	else if (Settings::Aimbot::SpinBot::enabled)
+	else if (Settings::Aimbot::SpinBot::enabled && !(cmd->buttons & IN_USE))
 	{
 		static float fYaw = 0.0f;
 
