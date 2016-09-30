@@ -51,4 +51,4 @@ x
 #### Credits:
 Special thanks to [@Aixxe](http://www.github.com/aixxe/) ([aixxe.net](http://www.aixxe.net)) for the skin changer and with the initial project, as well as helping this project with source code (Available on [@Aixxe's](http://www.github.com/aixxe/) github page.)
 
-This project was also initially based upon Snorflakes [BaseHookLinux](http://www.github.com/Snorflake/BaseHookLinux).
+This project was also initially based upon Atex's [Linux Basehook](http://unknowncheats.me/forum/counterstrike-global-offensive/181878-linux-basehook.html).
