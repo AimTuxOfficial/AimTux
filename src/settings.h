@@ -16,11 +16,6 @@ namespace Settings
 	{
 		extern bool enabled;
 		
-		namespace SpinBot
-		{
-			extern bool enabled;
-		}
-		
 		namespace AutoAim
 		{
 			extern bool enabled;
@@ -31,7 +26,11 @@ namespace Settings
 			extern bool enabled;
 		}
 	}
-	
+
+	namespace AntiAim
+	{
+		extern int type;
+	}
 	
 	namespace ESP
 	{

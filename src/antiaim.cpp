@@ -1,6 +1,11 @@
 #include "antiaim.h"
 
-bool Settings::Aimbot::SpinBot::enabled = true;
+/*
+ * 0 => none
+ * 1 => spinbot
+ * 2 => jitter
+ */
+int Settings::AntiAim::type = 2;
 
 bool AntiAim::CreateMove (CUserCmd* cmd)
 {
@@ -13,17 +18,23 @@ bool AntiAim::CreateMove (CUserCmd* cmd)
 	if (cmd->buttons & IN_USE || cmd->buttons & IN_ATTACK)
 		return false;
 
-	if (Settings::Aimbot::SpinBot::enabled)
+	if (Settings::AntiAim::type == 1)
 	{
 		static float fYaw = 0.0f;
-
 		fYaw += 40.0f;
 
 		if (fYaw > 180.0f)
 			fYaw -= 360.0f;
 
-		angle.y = fYaw;
 		angle.x = 89;
+		angle.y = fYaw;
+	}
+	else if (Settings::AntiAim::type == 2)
+	{
+		static bool yFlip = false;
+		yFlip = !yFlip;
+
+		angle.y = yFlip ? 270.0f : 90.0f;
 	}
 
 	// Check the angle to make sure it's invalid
