@@ -83,6 +83,49 @@ C_BaseEntity* GetClosestEnemy ()
 	return closestEntity;
 }
 
+C_BaseEntity* GetClosestVisibleEnemy ()
+{
+	C_BasePlayer* localPlayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BaseEntity* closestEntity = NULL;
+	float dist = 10000000.0f;
+
+	if (!localPlayer)
+		return NULL;
+
+	for (int i = 0; i < 64; ++i)
+	{
+		C_BaseEntity* entity = entitylist->GetClientEntity(i);
+
+		if (!entity || entity == (C_BaseEntity*)localPlayer ||
+				entity->GetDormant() || entity->GetLifeState() != LIFE_ALIVE || entity->GetHealth() <= 0)
+			continue;
+
+		C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
+		
+		if
+		(
+			   !entity
+			|| entity == (C_BaseEntity*)localPlayer
+			|| entity->GetDormant()
+			|| entity->GetLifeState() != 0
+			|| entity->GetHealth() <= 0
+			|| entity->GetTeam() == localPlayer->GetTeam()
+			|| !Entity::IsVisible (localplayer, entity, 6)
+		)
+			continue;
+
+		float e_dist = localplayer->GetVecOrigin().DistToSqr (entity->GetVecOrigin());
+
+		if (e_dist < dist)
+		{
+			closestEntity = entity;
+			dist = e_dist;
+		}
+	}
+
+	return closestEntity;
+}
+
 void Aimbot::RCS (QAngle& angle)
 {
 	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
@@ -128,7 +171,7 @@ bool Aimbot::CreateMove (CUserCmd* cmd)
 	
 	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
 	
-	C_BaseEntity* entity = GetClosestEnemy ();
+	C_BaseEntity* entity = GetClosestVisibleEnemy ();
 	
 	if (entity && cmd->buttons & IN_ATTACK)
 	{
