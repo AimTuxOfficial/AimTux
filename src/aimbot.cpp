@@ -284,11 +284,6 @@ void Aimbot::CreateMove (CUserCmd* cmd)
 			cmd->upmove = 0;
 		}
 	}
-	else
-	{
-		cmd->buttons &= ~IN_ATTACK;
-	}
-
 
 	if (Settings::Aimbot::RCS::enabled)
 	{
