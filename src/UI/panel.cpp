@@ -17,6 +17,10 @@ void Panel::Draw ()
 	{
 		Component* childComponent = childComponents[i];
 		
+		// Update the childs context
+		childComponent->context = this->context + childComponent->position;
+		
+		// Draw the component
 		childComponent->Draw ();
 	}
 }
