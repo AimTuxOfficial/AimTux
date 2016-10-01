@@ -19,3 +19,4 @@ clean:
 build: $(OBJECTS)
 	$(CC) $(CXXFLAGS) -static-libgcc -L. -o $(OUT) $(OBJECTS) -ldl
 	rm  ./src/*.o
+	rm  ./src/UI/*.o
