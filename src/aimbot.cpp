@@ -145,6 +145,9 @@ void Aimbot::CorrectMovement (QAngle vOldAngles, CUserCmd* pCmd, float fOldForwa
 
 void Aimbot::CreateMove (CUserCmd* cmd)
 {
+	if (!Settings::Aimbot::enabled)
+		return;
+
 	QAngle oldAngle = cmd->viewangles;
 	float oldForward = cmd->forwardmove;
 	float oldSideMove = cmd->sidemove;

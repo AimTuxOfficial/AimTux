@@ -5,6 +5,9 @@ AntiAimType Settings::AntiAim::type = JITTER;
 
 void AntiAim::CreateMove (CUserCmd* cmd)
 {
+	if (!Settings::AntiAim::enabled)
+		return;
+
 	QAngle oldAngle = cmd->viewangles;
 	float oldForward = cmd->forwardmove;
 	float oldSideMove = cmd->sidemove;
