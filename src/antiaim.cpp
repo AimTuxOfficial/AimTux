@@ -2,7 +2,7 @@
 
 bool Settings::AntiAim::enabled_Y = true;
 bool Settings::AntiAim::enabled_X = true;
-AntiAimType_Y Settings::AntiAim::type_Y = SPIN;
+AntiAimType_Y Settings::AntiAim::type_Y = SPIN_FAST;
 AntiAimType_X Settings::AntiAim::type_X = STATIC_DOWN;
 
 void AntiAim::CreateMove (CUserCmd* cmd)
@@ -30,9 +30,9 @@ void AntiAim::CreateMove (CUserCmd* cmd)
 
 	if (Settings::AntiAim::enabled_Y)
 	{
-		if (Settings::AntiAim::type_Y == SPIN)
+		if (Settings::AntiAim::type_Y == SPIN_FAST || Settings::AntiAim::type_Y == SPIN_SLOW)
 		{
-			fYaw += 40.0f;
+			fYaw += Settings::AntiAim::type_Y == SPIN_FAST ? 40.0f : 5.0f;
 
 			if (fYaw > 180.0f)
 				fYaw -= 360.0f;

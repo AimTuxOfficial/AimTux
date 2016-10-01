@@ -12,7 +12,8 @@ enum TracerType
 
 enum AntiAimType_Y
 {
-	SPIN,
+	SPIN_FAST,
+	SPIN_SLOW,
 	JITTER,
 	SIDE,
 	BACKWARDS
