@@ -4,6 +4,7 @@
 bool Settings::Aimbot::enabled = true;
 bool Settings::Aimbot::SpinBot::enabled = true;
 bool Settings::Aimbot::AutoAim::enabled = true;
+bool Settings::Aimbot::AutoShoot::enabled = true;
 bool Settings::Aimbot::RCS::enabled = true;
 
 
@@ -173,24 +174,41 @@ bool Aimbot::CreateMove (CUserCmd* cmd)
 	
 	C_BaseEntity* entity = GetClosestVisibleEnemy ();
 	
-	if (entity && cmd->buttons & IN_ATTACK)
+	if (entity)
 	{
-		if (Settings::Aimbot::AutoAim::enabled)
+		if (Settings::Aimbot::AutoAim::enabled &&
+			(Settings::Aimbot::AutoShoot::enabled || cmd->buttons & IN_ATTACK))
 		{
 			Vector e_vecHead = GetBone (entity, 6);
 			Vector p_vecHead = localplayer->GetVecOrigin() + localplayer->GetVecViewOffset();
 			
 			CalculateAngle (p_vecHead, e_vecHead, angle);
 		}
+		
+		if (Settings::Aimbot::AutoShoot::enabled)
+		{
+			
+			C_BaseViewModel* viewmodel = reinterpret_cast<C_BaseViewModel*>(entitylist->GetClientEntity(localplayer->GetViewModel() & 0xFFF));
+			C_BaseCombatWeapon* active_weapon = reinterpret_cast<C_BaseCombatWeapon*>(entitylist->GetClientEntity(viewmodel->GetWeapon() & 0xFFF));
+			
+			if (active_weapon->GetAmmo() > 0)
+			{
+				cmd->buttons |= IN_ATTACK;
+			}
+		}
 	}
 	else
-	if (Settings::Aimbot::SpinBot::enabled)
 	{
-		angle.x = 89;
-		
-		float yang = std::rand() % (360) - 180;
-		angle.y = yang;
+		cmd->buttons &= ~IN_ATTACK;
+		if (Settings::Aimbot::SpinBot::enabled)
+		{
+			angle.x = 89;
+			
+			float yang = std::rand() % (360) - 180;
+			angle.y = yang;
+		}
 	}
+	
 	
 	if (Settings::Aimbot::RCS::enabled)
 	{

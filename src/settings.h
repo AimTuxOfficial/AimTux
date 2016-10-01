@@ -26,6 +26,11 @@ namespace Settings
 			extern bool enabled;
 		}
 		
+		namespace AutoShoot
+		{
+			extern bool enabled;
+		}
+		
 		namespace RCS
 		{
 			extern bool enabled;
