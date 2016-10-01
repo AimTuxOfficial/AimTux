@@ -170,6 +170,45 @@ bool isPistol(C_BaseCombatWeapon* weapon)
 	}
 }
 
+bool isAutomatic(C_BaseCombatWeapon* weapon)
+{
+	switch (*weapon->GetItemDefinitionIndex())
+	{
+		case WEAPON_AK47:
+			return true;
+		case WEAPON_AUG:
+			return true;
+		case WEAPON_FAMAS:
+			return true;
+		case WEAPON_GALILAR:
+			return true;
+		case WEAPON_M249:
+			return true;
+		case WEAPON_M4A1:
+			return true;
+		case WEAPON_M4A1_SILENCER:
+			return true;
+		case WEAPON_MAC10:
+			return true;
+		case WEAPON_P90:
+			return true;
+		case WEAPON_UMP45:
+			return true;
+		case WEAPON_BIZON:
+			return true;
+		case WEAPON_NEGEV:
+			return true;
+		case WEAPON_MP7:
+			return true;
+		case WEAPON_MP9:
+			return true;
+		case WEAPON_SG556:
+			return true;
+		default:
+			return false;
+	}
+}
+
 void Aimbot::CreateMove (CUserCmd* cmd)
 {
 	if (!Settings::Aimbot::enabled)
@@ -203,7 +242,7 @@ void Aimbot::CreateMove (CUserCmd* cmd)
 			
 			if (active_weapon && active_weapon->GetAmmo() > 0)
 			{
-				if (isPistol(active_weapon))
+				if (!isAutomatic(active_weapon))
 				{
 					if (active_weapon->GetNextPrimaryAttack() - (cmd->tick_count / 1000) / 0.0f)
 					{
