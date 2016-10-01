@@ -1,7 +1,7 @@
 #include "antiaim.h"
 
 bool Settings::AntiAim::enabled = true;
-AntiAimType Settings::AntiAim::type = JITTER;
+AntiAimType Settings::AntiAim::type = BACKWARDS;
 
 void AntiAim::CreateMove (CUserCmd* cmd)
 {
@@ -21,9 +21,13 @@ void AntiAim::CreateMove (CUserCmd* cmd)
 	if (localplayer->GetMoveType() == MOVETYPE_LADDER || localplayer->GetMoveType() == MOVETYPE_NOCLIP)
 		return;
 
+	static bool yFlip;
+	static float fYaw = 0.0f;
+
+	yFlip = !yFlip;
+
 	if (Settings::AntiAim::type == SPIN)
 	{
-		static float fYaw = 0.0f;
 		fYaw += 40.0f;
 
 		if (fYaw > 180.0f)
@@ -34,43 +38,18 @@ void AntiAim::CreateMove (CUserCmd* cmd)
 	}
 	else if (Settings::AntiAim::type == JITTER)
 	{
-		static bool yFlip;
-		yFlip = !yFlip;
-
 		angle.y = yFlip ? 270.0f : 90.0f;
 	}
 	else if (Settings::AntiAim::type == SIDE)
 	{
-		static bool yFlip;
-		yFlip = !yFlip;
-
 		if (yFlip)
 			angle.y += 90.0f;
 		else
 			angle.y -= 90.0f;
 	}
-	else if (Settings::AntiAim::type == STATIC)
+	else if (Settings::AntiAim::type == BACKWARDS)
 	{
-		static bool yFlip;
-		static bool yFlip2;
-		yFlip = !yFlip;
-		yFlip2 = !yFlip2;
-
-		if (yFlip)
-		{
-			if (yFlip2)
-			{
-				angle.y += 90.0f;
-			}
-			else
-			{
-				angle.y -= 90.0f;
-			}
-		}
-		else
-		{
-			angle.y += 180.0f;
-		}
+		angle.y -= 180.0f;
 	}
 
 	// Check the angle to make sure it's invalid
