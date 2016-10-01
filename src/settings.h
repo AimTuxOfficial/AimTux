@@ -76,6 +76,7 @@ namespace Settings
 	namespace ESP
 	{
 		extern bool enabled;
+		extern bool visibility_check;
 		
 		namespace Tracer
 		{

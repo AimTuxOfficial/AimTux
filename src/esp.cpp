@@ -4,6 +4,7 @@
 	Defaults	
 ---------------*/
 bool Settings::ESP::enabled	= true;
+bool Settings::ESP::visibility_check = false;
 bool Settings::ESP::Walls::enabled = true;
 bool Settings::ESP::Tracer::enabled = false;
 bool Settings::ESP::Name::enabled = true;
@@ -126,6 +127,9 @@ void ESP::Tick ()
 			|| entity->GetDormant()
 			|| entity->GetLifeState() != 0
 			|| entity->GetHealth() <= 0)
+			continue;
+
+		if (Settings::ESP::visibility_check && !Entity::IsVisible(localPlayer, entity, 6))
 			continue;
 
 		if (Settings::ESP::Bones::enabled)
