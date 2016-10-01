@@ -3,29 +3,6 @@
 bool Settings::Triggerbot::enabled = true;
 ButtonCode_t Settings::Triggerbot::key = ButtonCode_t::KEY_LALT;
 
-void inline Triggerbot::SinCos( float radians, float *sine, float *cosine )
-{
-	register double __cosr, __sinr;
-	__asm ("fsincos" : "=t" (__cosr), "=u" (__sinr) : "0" (radians));
-
-	*sine = __sinr;
-	*cosine = __cosr;
-}
-
-void Triggerbot::AngleVectors (const QAngle &angles, Vector& forward) {
-	Assert(s_bMathlibInitialized);
-	Assert(forward);
-
-	float sp, sy, cp, cy;
-
-	Triggerbot::SinCos(DEG2RAD(angles[YAW]), &sy, &cy);
-	Triggerbot::SinCos(DEG2RAD(angles[PITCH]), &sp, &cp);
-
-	forward.x = cp * cy;
-	forward.y = cp * sy;
-	forward.z = -sp;
-}
-
 void Triggerbot::CreateMove(CUserCmd *cmd)
 {
 	if (!(Settings::Triggerbot::enabled && input->IsButtonDown(Settings::Triggerbot::key)))
@@ -38,7 +15,7 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 
 	engine->GetViewAngles(viewAngles);
 	viewAngles += localplayer->GetAimPunchAngle() * 2.0f;
-	AngleVectors(viewAngles, traceEnd);
+	Math::AngleVectors(viewAngles, traceEnd);
 
 	traceStart = localplayer->GetVecOrigin() + localplayer->GetVecViewOffset();
 	traceEnd = traceStart + (traceEnd * 8192.0f);
@@ -62,6 +39,9 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 		return;
 
 	if (!(tr.hitgroup < 10 && tr.hitgroup > 0))
+		return;
+
+	if (localplayer->GetLifeState() != LIFE_ALIVE)
 		return;
 
 	if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)

@@ -5,11 +5,9 @@
 #include "SDK.h"
 #include "interfaces.h"
 #include "entity.h"
+#include "math.h"
 
 namespace Triggerbot {
-	void inline SinCos(float radians, float *sine, float *cosine);
-	void AngleVectors (const QAngle &angles, Vector& forward);
-
 	void CreateMove (CUserCmd* cmd);
 };
 

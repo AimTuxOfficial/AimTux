@@ -25,6 +25,7 @@ namespace Settings
 	namespace Aimbot
 	{
 		extern bool enabled;
+		extern float fov;
 		
 		namespace AutoAim
 		{

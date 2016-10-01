@@ -2,8 +2,9 @@
 
 // Default aimbot settings
 bool Settings::Aimbot::enabled = true;
+float Settings::Aimbot::fov = 180.0f;
 bool Settings::Aimbot::AutoAim::enabled = true;
-bool Settings::Aimbot::AutoShoot::enabled = false;
+bool Settings::Aimbot::AutoShoot::enabled = true;
 bool Settings::Aimbot::RCS::enabled = true;
 bool Settings::Aimbot::AutoCrouch::enabled = false;
 bool Settings::Aimbot::AutoStop::enabled = false;
@@ -74,7 +75,7 @@ C_BaseEntity* GetClosestEnemy ()
 	return closestEntity;
 }
 
-C_BaseEntity* GetClosestVisibleEnemy ()
+C_BaseEntity* GetClosestVisibleEnemy (CUserCmd* cmd)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	C_BaseEntity* closestEntity = NULL;
@@ -98,7 +99,11 @@ C_BaseEntity* GetClosestVisibleEnemy ()
 
 		float e_dist = localplayer->GetVecOrigin().DistToSqr (entity->GetVecOrigin());
 
-		if (e_dist < dist)
+		Vector e_vecHead = GetBone (entity, 6);
+		Vector p_vecHead = localplayer->GetVecOrigin() + localplayer->GetVecViewOffset();
+		float fov = Math::GetFov(cmd->viewangles, Math::CalcAngle(p_vecHead, e_vecHead));
+
+		if (e_dist < dist && fov <= Settings::Aimbot::fov)
 		{
 			closestEntity = entity;
 			dist = e_dist;
@@ -141,6 +146,105 @@ void Aimbot::CorrectMovement (QAngle vOldAngles, CUserCmd* pCmd, float fOldForwa
 	pCmd->sidemove = sin(DEG2RAD(deltaView)) * fOldForward + sin(DEG2RAD(deltaView + 90.f)) * fOldSidemove;
 }
 
+bool isPistol(C_BaseCombatWeapon* weapon)
+{
+	switch (*weapon->GetItemDefinitionIndex())
+	{
+		case WEAPON_DEAGLE:
+			return true;
+		case WEAPON_ELITE:
+			return true;
+		case WEAPON_FIVESEVEN:
+			return true;
+		case WEAPON_GLOCK:
+			return true;
+		case WEAPON_TEC9:
+			return true;
+		case WEAPON_HKP2000:
+			return true;
+		case WEAPON_USP_SILENCER:
+			return true;
+		case WEAPON_P250:
+			return true;
+		case WEAPON_CZ75A:
+			return true;
+		case WEAPON_REVOLVER:
+			return true;
+		default:
+			return false;
+	}
+}
+
+bool isAutomatic(C_BaseCombatWeapon* weapon)
+{
+	switch (*weapon->GetItemDefinitionIndex())
+	{
+		case WEAPON_AK47:
+			return true;
+		case WEAPON_AUG:
+			return true;
+		case WEAPON_FAMAS:
+			return true;
+		case WEAPON_GALILAR:
+			return true;
+		case WEAPON_M249:
+			return true;
+		case WEAPON_M4A1:
+			return true;
+		case WEAPON_M4A1_SILENCER:
+			return true;
+		case WEAPON_MAC10:
+			return true;
+		case WEAPON_P90:
+			return true;
+		case WEAPON_UMP45:
+			return true;
+		case WEAPON_BIZON:
+			return true;
+		case WEAPON_NEGEV:
+			return true;
+		case WEAPON_MP7:
+			return true;
+		case WEAPON_MP9:
+			return true;
+		case WEAPON_SG556:
+			return true;
+		default:
+			return false;
+	}
+}
+
+bool isKnife(C_BaseCombatWeapon* weapon) {
+	switch (*weapon->GetItemDefinitionIndex()) {
+		case WEAPON_KNIFE:
+			return true;
+		case WEAPON_KNIFE_T:
+			return true;
+		case WEAPON_KNIFE_GUT:
+			return true;
+		case WEAPON_KNIFE_FLIP:
+			return true;
+		case WEAPON_KNIFE_BAYONET:
+			return true;
+		case WEAPON_KNIFE_M9_BAYONET:
+			return true;
+		case WEAPON_KNIFE_KARAMBIT:
+			return true;
+		case WEAPON_KNIFE_TACTICAL:
+			return true;
+		case WEAPON_KNIFE_BUTTERFLY:
+			return true;
+		case WEAPON_KNIFE_SURVIVAL_BOWIE:
+			return true;
+		case WEAPON_KNIFE_FALCHION:
+			return true;
+		case WEAPON_KNIFE_PUSH:
+			return true;
+		default:
+			return false;
+	}
+}
+
 void Aimbot::CreateMove (CUserCmd* cmd)
 {
 	if (!Settings::Aimbot::enabled)
@@ -154,7 +258,7 @@ void Aimbot::CreateMove (CUserCmd* cmd)
 	
 	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
 	
-	C_BaseEntity* entity = GetClosestVisibleEnemy ();
+	C_BaseEntity* entity = GetClosestVisibleEnemy (cmd);
 	
 	if (entity)
 	{
@@ -172,12 +276,35 @@ void Aimbot::CreateMove (CUserCmd* cmd)
 			C_BaseViewModel* viewmodel = reinterpret_cast<C_BaseViewModel*>(entitylist->GetClientEntity(localplayer->GetViewModel() & 0xFFF));
 			C_BaseCombatWeapon* active_weapon = reinterpret_cast<C_BaseCombatWeapon*>(entitylist->GetClientEntity(viewmodel->GetWeapon() & 0xFFF));
 			
-			if (active_weapon && active_weapon->GetAmmo() > 0)
+			if (active_weapon && !isKnife(active_weapon) && active_weapon->GetAmmo() > 0)
 			{
-				if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
-					cmd->buttons |= IN_ATTACK2;
+				if (!isAutomatic(active_weapon))
+				{
+					static bool fire;
+
+					if (fire)
+					{
+						if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
+							cmd->buttons &= ~IN_ATTACK2;
+						else
+							cmd->buttons &= ~IN_ATTACK;
+
+						fire = false;
+					}
+					else
+					{
+						if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
+							cmd->buttons |= IN_ATTACK2;
+						else
+							cmd->buttons |= IN_ATTACK;
+
+						fire = true;
+					}
+				}
 				else
+				{
 					cmd->buttons |= IN_ATTACK;
+				}
 			}
 		}
 		
@@ -193,11 +320,6 @@ void Aimbot::CreateMove (CUserCmd* cmd)
 			cmd->upmove = 0;
 		}
 	}
-	else
-	{
-		cmd->buttons &= ~IN_ATTACK;
-	}
-
 
 	if (Settings::Aimbot::RCS::enabled)
 	{
