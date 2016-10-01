@@ -2,6 +2,7 @@
 
 // Default aimbot settings
 bool Settings::Aimbot::enabled = true;
+float Settings::Aimbot::fov = 180.0f;
 bool Settings::Aimbot::AutoAim::enabled = true;
 bool Settings::Aimbot::AutoShoot::enabled = true;
 bool Settings::Aimbot::RCS::enabled = true;
@@ -74,7 +75,7 @@ C_BaseEntity* GetClosestEnemy ()
 	return closestEntity;
 }
 
-C_BaseEntity* GetClosestVisibleEnemy ()
+C_BaseEntity* GetClosestVisibleEnemy (CUserCmd* cmd)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	C_BaseEntity* closestEntity = NULL;
@@ -98,7 +99,11 @@ C_BaseEntity* GetClosestVisibleEnemy ()
 
 		float e_dist = localplayer->GetVecOrigin().DistToSqr (entity->GetVecOrigin());
 
-		if (e_dist < dist)
+		Vector e_vecHead = GetBone (entity, 6);
+		Vector p_vecHead = localplayer->GetVecOrigin() + localplayer->GetVecViewOffset();
+		float fov = Math::GetFov(cmd->viewangles, Math::CalcAngle(p_vecHead, e_vecHead));
+
+		if (e_dist < dist && fov <= Settings::Aimbot::fov)
 		{
 			closestEntity = entity;
 			dist = e_dist;
@@ -253,7 +258,7 @@ void Aimbot::CreateMove (CUserCmd* cmd)
 	
 	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
 	
-	C_BaseEntity* entity = GetClosestVisibleEnemy ();
+	C_BaseEntity* entity = GetClosestVisibleEnemy (cmd);
 	
 	if (entity)
 	{

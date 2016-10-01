@@ -6,6 +6,7 @@
 #include "interfaces.h"
 #include "bone.h"
 #include "entity.h"
+#include "math.h"
 
 namespace Aimbot
 {
