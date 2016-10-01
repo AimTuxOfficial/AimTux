@@ -38,7 +38,6 @@ Compiling this project is **dependant on whether you're using a debian based sys
 * *Compiling on* **NON** *Debian based systems like Arch, Fedora etc..*
  1. Make sure you're inside of the directory where you downloaded AimTux, now `cd` into the AimTux directory (`cd AimTux`)
  2. Download the required tools to compile AimTux `sudo [YOUR PACKAGE MANAGER HERE] build-essential`
- 3. Generate a `makefile` with `cmake .`
  3. Compile AimTux by entering the command `make`
  4. AimTux should now start compiling, if there are any errors, please report them [here](https://github.com/McSwaggens/AimTux/issues/)
 
