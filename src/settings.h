@@ -10,13 +10,16 @@ enum TracerType
 	CURSOR
 };
 
-
-enum AntiAimType
+enum AntiAimType_Y
 {
 	SPIN,
 	JITTER,
 	SIDE,
-	BACKWARDS,
+	BACKWARDS
+};
+
+enum AntiAimType_X
+{
 	STATIC_UP,
 	STATIC_DOWN
 };
@@ -63,8 +66,10 @@ namespace Settings
 
 	namespace AntiAim
 	{
-		extern bool enabled;
-		extern AntiAimType type;
+		extern bool enabled_Y;
+		extern bool enabled_X;
+		extern AntiAimType_Y type_Y;
+		extern AntiAimType_X type_X;
 	}
 	
 	namespace ESP

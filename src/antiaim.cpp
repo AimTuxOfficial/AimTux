@@ -1,11 +1,13 @@
 #include "antiaim.h"
 
-bool Settings::AntiAim::enabled = true;
-AntiAimType Settings::AntiAim::type = SPIN;
+bool Settings::AntiAim::enabled_Y = true;
+bool Settings::AntiAim::enabled_X = true;
+AntiAimType_Y Settings::AntiAim::type_Y = SPIN;
+AntiAimType_X Settings::AntiAim::type_X = STATIC_DOWN;
 
 void AntiAim::CreateMove (CUserCmd* cmd)
 {
-	if (!Settings::AntiAim::enabled)
+	if (!Settings::AntiAim::enabled_Y && !Settings::AntiAim::enabled_X)
 		return;
 
 	QAngle oldAngle = cmd->viewangles;
@@ -21,39 +23,49 @@ void AntiAim::CreateMove (CUserCmd* cmd)
 	if (localplayer->GetMoveType() == MOVETYPE_LADDER || localplayer->GetMoveType() == MOVETYPE_NOCLIP)
 		return;
 
-	static bool yFlip;
+	static bool bFlip;
 	static float fYaw = 0.0f;
 
-	yFlip = !yFlip;
+	bFlip = !bFlip;
 
-	if (Settings::AntiAim::type == SPIN)
+	if (Settings::AntiAim::enabled_Y)
 	{
-		fYaw += 40.0f;
+		if (Settings::AntiAim::type_Y == SPIN)
+		{
+			fYaw += 40.0f;
 
-		if (fYaw > 180.0f)
-			fYaw -= 360.0f;
+			if (fYaw > 180.0f)
+				fYaw -= 360.0f;
 
-		angle.x = 89;
-		angle.y = fYaw;
+			angle.y = fYaw;
+		}
+		else if (Settings::AntiAim::type_Y == JITTER)
+		{
+			angle.y = bFlip ? 270.0f : 90.0f;
+		}
+		else if (Settings::AntiAim::type_Y == SIDE)
+		{
+			if (bFlip)
+				angle.y += 90.0f;
+			else
+				angle.y -= 90.0f;
+		}
+		else if (Settings::AntiAim::type_Y == BACKWARDS)
+		{
+			angle.y -= 180.0f;
+		}
 	}
-	else if (Settings::AntiAim::type == JITTER)
+
+	if (Settings::AntiAim::enabled_X)
 	{
-		angle.y = yFlip ? 270.0f : 90.0f;
-	}
-	else if (Settings::AntiAim::type == SIDE)
-	{
-		if (yFlip)
-			angle.y += 90.0f;
-		else
-			angle.y -= 90.0f;
-	}
-	else if (Settings::AntiAim::type == BACKWARDS)
-	{
-		angle.y -= 180.0f;
-	}
-	else if (Settings::AntiAim::type == STATIC_UP || Settings::AntiAim::type == STATIC_DOWN)
-	{
-		angle.x = Settings::AntiAim::type == STATIC_UP ? -271.f : 271.f;
+		if (Settings::AntiAim::type_X == STATIC_UP)
+		{
+			angle.x = -271.f;
+		}
+		else if (Settings::AntiAim::type_X == STATIC_DOWN)
+		{
+			angle.x = 271.f;
+		}
 	}
 
 	// Check the angle to make sure it's invalid
