@@ -53,6 +53,6 @@ public:
 	}
 };
 
-extern UI_Container gui;
+extern UI_Container* gui;
 
 #endif

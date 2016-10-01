@@ -15,6 +15,9 @@
 #include "antiaim.h"
 #include "triggerbot.h"
 
+// UI
+#include "UI/ui_container.h"
+
 #define CONV(c) cwConvert(c)
 
 FONT title_font = 0;
@@ -23,7 +26,7 @@ FONT esp_font = 0;
 
 std::unordered_map<int, std::tuple<int, int, float, int, const char*, const char *>> skinChangerSettings;
 
-void DrawHackInfo ();
+UI_Container* gui;
 
 static wchar_t* cwConvert(const char* text)
 {
@@ -67,19 +70,10 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 
 	if (strcmp(panel->GetName(vgui_panel), "FocusOverlayPanel"))
 		return;
-
-	DrawHackInfo ();
-	ESP::Tick ();
-}
-
-void DrawHackInfo ()
-{
-	int width = 350;
 	
-	Draw::DrawRect (LOC(15, 15), LOC (width, 190), Color(0, 0, 0, 120));
-	Draw::DrawBox (LOC(15, 15), LOC (width, 190), Color(190, 190, 190, 120));
-	Draw::DrawString (L"AimTux", LOC(width / 2, 20), Color(190, 190, 190), title_font, true);
-	Draw::DrawString (L"Test normal font", LOC(20, 50), Color(190, 190, 190), normal_font, false);
+	gui->Draw ();
+	
+	ESP::Tick ();
 }
 
 /* replacement FrameStageNotify function */
@@ -179,6 +173,14 @@ int __attribute__((constructor)) aimtux_init()
 	
 	NetVarManager::dumpNetvars ();
 	Offsets::getOffsets ();
+	
+	gui = new UI_Container;
+	
+	// Initialize GUI with a single main window
+	Window* window = new Window ("Main", Vector2D (300, 400), Vector2D (100, 100));
+	window->Show ();
+	
+	gui->AddWindow (window);
 	
 	return 0;
 }
