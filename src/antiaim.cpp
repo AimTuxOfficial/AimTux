@@ -3,8 +3,11 @@
 bool Settings::AntiAim::enabled = true;
 AntiAimType Settings::AntiAim::type = JITTER;
 
-bool AntiAim::CreateMove (CUserCmd* cmd)
+void AntiAim::CreateMove (CUserCmd* cmd)
 {
+	if (!Settings::AntiAim::enabled)
+		return;
+
 	QAngle oldAngle = cmd->viewangles;
 	float oldForward = cmd->forwardmove;
 	float oldSideMove = cmd->sidemove;
@@ -12,7 +15,7 @@ bool AntiAim::CreateMove (CUserCmd* cmd)
 	QAngle angle = cmd->viewangles;
 
 	if (cmd->buttons & IN_USE || cmd->buttons & IN_ATTACK)
-		return false;
+		return;
 
 	if (Settings::AntiAim::type == SPIN)
 	{

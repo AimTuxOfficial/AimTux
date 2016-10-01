@@ -11,7 +11,7 @@
 #include "bhop.h"
 #include "spammer.h"
 #include "autostrafe.h"
-#include "NetVarManager.h"
+#include "netvarmanager.h"
 #include "antiaim.h"
 #include "triggerbot.h"
 

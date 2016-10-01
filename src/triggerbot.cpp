@@ -26,45 +26,46 @@ void Triggerbot::AngleVectors (const QAngle &angles, Vector& forward) {
 	forward.z = -sp;
 }
 
-bool Triggerbot::CreateMove(CUserCmd *cmd)
+void Triggerbot::CreateMove(CUserCmd *cmd)
 {
-	if (Settings::Triggerbot::enabled && input->IsButtonDown(Settings::Triggerbot::key)) {
-		C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
+	if (!(Settings::Triggerbot::enabled && input->IsButtonDown(Settings::Triggerbot::key)))
+		return;
 
-		Vector traceStart, traceEnd;
-		QAngle viewAngles = QAngle(0.0f, 0.0f, 0.0f);
+	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
 
-		engine->GetViewAngles(viewAngles);
-		viewAngles += localplayer->GetAimPunchAngle() * 2.0f;
-		AngleVectors(viewAngles, traceEnd);
+	Vector traceStart, traceEnd;
+	QAngle viewAngles = QAngle(0.0f, 0.0f, 0.0f);
 
-		traceStart = localplayer->GetVecOrigin() + localplayer->GetVecViewOffset();
-		traceEnd = traceStart + (traceEnd * 8192.0f);
+	engine->GetViewAngles(viewAngles);
+	viewAngles += localplayer->GetAimPunchAngle() * 2.0f;
+	AngleVectors(viewAngles, traceEnd);
 
-		Ray_t ray;
-		trace_t tr;
-		ray.Init(traceStart, traceEnd);
-		CTraceFilter traceFilter;
-		traceFilter.pSkip = localplayer;
-		trace->TraceRay(ray, 0x46004003, &traceFilter, &tr);
+	traceStart = localplayer->GetVecOrigin() + localplayer->GetVecViewOffset();
+	traceEnd = traceStart + (traceEnd * 8192.0f);
 
-		C_BaseEntity *entity = reinterpret_cast<C_BaseEntity *>(tr.m_pEntityHit);
-		C_BaseCombatWeapon *active_weapon = reinterpret_cast<C_BaseCombatWeapon *>(localplayer->GetActiveWeapon());
+	Ray_t ray;
+	trace_t tr;
+	ray.Init(traceStart, traceEnd);
+	CTraceFilter traceFilter;
+	traceFilter.pSkip = localplayer;
+	trace->TraceRay(ray, 0x46004003, &traceFilter, &tr);
 
-		if (!entity
-			|| entity == localplayer
-			|| entity->GetDormant()
-			|| entity->GetLifeState() != LIFE_ALIVE
-			|| entity->GetHealth() <= 0
-			|| entity->GetTeam() == localplayer->GetTeam())
-			return false;
+	C_BaseEntity *entity = reinterpret_cast<C_BaseEntity *>(tr.m_pEntityHit);
+	C_BaseCombatWeapon *active_weapon = reinterpret_cast<C_BaseCombatWeapon *>(localplayer->GetActiveWeapon());
 
-		if (!(tr.hitgroup < 10 && tr.hitgroup > 0))
-			return false;
+	if (!entity
+		|| entity == localplayer
+		|| entity->GetDormant()
+		|| entity->GetLifeState() != LIFE_ALIVE
+		|| entity->GetHealth() <= 0
+		|| entity->GetTeam() == localplayer->GetTeam())
+		return;
 
-		if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
-			cmd->buttons |= IN_ATTACK2;
-		else
-			cmd->buttons |= IN_ATTACK;
-	}
+	if (!(tr.hitgroup < 10 && tr.hitgroup > 0))
+		return;
+
+	if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
+		cmd->buttons |= IN_ATTACK2;
+	else
+		cmd->buttons |= IN_ATTACK;
 }

@@ -1,4 +1,4 @@
-#include "NetVarManager.h"
+#include "netvarmanager.h"
 
 std::vector<HLClient::RecvTable *> NetVarManager::getTables()
 {

@@ -8,7 +8,7 @@
 
 namespace AntiAim
 {
-	bool CreateMove (CUserCmd* cmd);
+	void CreateMove (CUserCmd* cmd);
 }
 
 #endif

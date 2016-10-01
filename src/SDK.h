@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
-#include "Offsets.h"
+#include "offsets.h"
 
 /* interface versions */
 #define CLIENT_DLL_INTERFACE_VERSION "VClient017"
