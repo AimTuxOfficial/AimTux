@@ -209,6 +209,37 @@ bool isAutomatic(C_BaseCombatWeapon* weapon)
 	}
 }
 
+bool isKnife(C_BaseCombatWeapon* weapon) {
+	switch (*weapon->GetItemDefinitionIndex()) {
+		case WEAPON_KNIFE:
+			return true;
+		case WEAPON_KNIFE_T:
+			return true;
+		case WEAPON_KNIFE_GUT:
+			return true;
+		case WEAPON_KNIFE_FLIP:
+			return true;
+		case WEAPON_KNIFE_BAYONET:
+			return true;
+		case WEAPON_KNIFE_M9_BAYONET:
+			return true;
+		case WEAPON_KNIFE_KARAMBIT:
+			return true;
+		case WEAPON_KNIFE_TACTICAL:
+			return true;
+		case WEAPON_KNIFE_BUTTERFLY:
+			return true;
+		case WEAPON_KNIFE_SURVIVAL_BOWIE:
+			return true;
+		case WEAPON_KNIFE_FALCHION:
+			return true;
+		case WEAPON_KNIFE_PUSH:
+			return true;
+		default:
+			return false;
+	}
+}
+
 void Aimbot::CreateMove (CUserCmd* cmd)
 {
 	if (!Settings::Aimbot::enabled)
@@ -240,7 +271,7 @@ void Aimbot::CreateMove (CUserCmd* cmd)
 			C_BaseViewModel* viewmodel = reinterpret_cast<C_BaseViewModel*>(entitylist->GetClientEntity(localplayer->GetViewModel() & 0xFFF));
 			C_BaseCombatWeapon* active_weapon = reinterpret_cast<C_BaseCombatWeapon*>(entitylist->GetClientEntity(viewmodel->GetWeapon() & 0xFFF));
 			
-			if (active_weapon && active_weapon->GetAmmo() > 0)
+			if (active_weapon && !isKnife(active_weapon) && active_weapon->GetAmmo() > 0)
 			{
 				if (!isAutomatic(active_weapon))
 				{
