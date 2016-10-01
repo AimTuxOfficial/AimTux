@@ -41,15 +41,8 @@ public:
 	void Toggle ()
 	{
 		visible = !visible;
-		
-		if (visible)
-		{
-			// TODO: Enable mouse
-		}
-		else
-		{
-			// TODO: Disable mouse
-		}
+
+		engine->ExecuteClientCmd(visible ? "cl_mouseenable 0" : "cl_mouseenable 1");
 	}
 };
 
