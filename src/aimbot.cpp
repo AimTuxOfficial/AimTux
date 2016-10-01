@@ -3,7 +3,7 @@
 // Default aimbot settings
 bool Settings::Aimbot::enabled = true;
 bool Settings::Aimbot::AutoAim::enabled = true;
-bool Settings::Aimbot::AutoShoot::enabled = false;
+bool Settings::Aimbot::AutoShoot::enabled = true;
 bool Settings::Aimbot::RCS::enabled = true;
 bool Settings::Aimbot::AutoCrouch::enabled = false;
 bool Settings::Aimbot::AutoStop::enabled = false;
@@ -141,6 +141,35 @@ void Aimbot::CorrectMovement (QAngle vOldAngles, CUserCmd* pCmd, float fOldForwa
 	pCmd->sidemove = sin(DEG2RAD(deltaView)) * fOldForward + sin(DEG2RAD(deltaView + 90.f)) * fOldSidemove;
 }
 
+bool isPistol(C_BaseCombatWeapon* weapon)
+{
+	switch (*weapon->GetItemDefinitionIndex())
+	{
+		case WEAPON_DEAGLE:
+			return true;
+		case WEAPON_ELITE:
+			return true;
+		case WEAPON_FIVESEVEN:
+			return true;
+		case WEAPON_GLOCK:
+			return true;
+		case WEAPON_TEC9:
+			return true;
+		case WEAPON_HKP2000:
+			return true;
+		case WEAPON_USP_SILENCER:
+			return true;
+		case WEAPON_P250:
+			return true;
+		case WEAPON_CZ75A:
+			return true;
+		case WEAPON_REVOLVER:
+			return true;
+		default:
+			return false;
+	}
+}
+
 void Aimbot::CreateMove (CUserCmd* cmd)
 {
 	if (!Settings::Aimbot::enabled)
@@ -174,10 +203,36 @@ void Aimbot::CreateMove (CUserCmd* cmd)
 			
 			if (active_weapon && active_weapon->GetAmmo() > 0)
 			{
-				if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
-					cmd->buttons |= IN_ATTACK2;
+				if (isPistol(active_weapon))
+				{
+					if (active_weapon->GetNextPrimaryAttack() - (cmd->tick_count / 1000) / 0.0f)
+					{
+						static bool fire;
+
+						if (fire)
+						{
+							if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
+								cmd->buttons &= ~IN_ATTACK2;
+							else
+								cmd->buttons &= ~IN_ATTACK;
+
+							fire = false;
+						}
+						else
+						{
+							if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
+								cmd->buttons |= IN_ATTACK2;
+							else
+								cmd->buttons |= IN_ATTACK;
+
+							fire = true;
+						}
+					}
+				}
 				else
+				{
 					cmd->buttons |= IN_ATTACK;
+				}
 			}
 		}
 		
