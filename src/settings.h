@@ -16,7 +16,9 @@ enum AntiAimType
 	SPIN,
 	JITTER,
 	SIDE,
-	BACKWARDS
+	BACKWARDS,
+	STATIC_UP,
+	STATIC_DOWN
 };
 
 namespace Settings

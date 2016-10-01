@@ -1,7 +1,7 @@
 #include "antiaim.h"
 
 bool Settings::AntiAim::enabled = true;
-AntiAimType Settings::AntiAim::type = BACKWARDS;
+AntiAimType Settings::AntiAim::type = SPIN;
 
 void AntiAim::CreateMove (CUserCmd* cmd)
 {
@@ -50,6 +50,10 @@ void AntiAim::CreateMove (CUserCmd* cmd)
 	else if (Settings::AntiAim::type == BACKWARDS)
 	{
 		angle.y -= 180.0f;
+	}
+	else if (Settings::AntiAim::type == STATIC_UP || Settings::AntiAim::type == STATIC_DOWN)
+	{
+		angle.x = Settings::AntiAim::type == STATIC_UP ? -271.f : 271.f;
 	}
 
 	// Check the angle to make sure it's invalid
