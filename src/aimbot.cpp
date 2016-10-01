@@ -244,28 +244,25 @@ void Aimbot::CreateMove (CUserCmd* cmd)
 			{
 				if (!isAutomatic(active_weapon))
 				{
-					if (active_weapon->GetNextPrimaryAttack() - (cmd->tick_count / 1000) / 0.0f)
+					static bool fire;
+
+					if (fire)
 					{
-						static bool fire;
-
-						if (fire)
-						{
-							if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
-								cmd->buttons &= ~IN_ATTACK2;
-							else
-								cmd->buttons &= ~IN_ATTACK;
-
-							fire = false;
-						}
+						if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
+							cmd->buttons &= ~IN_ATTACK2;
 						else
-						{
-							if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
-								cmd->buttons |= IN_ATTACK2;
-							else
-								cmd->buttons |= IN_ATTACK;
+							cmd->buttons &= ~IN_ATTACK;
 
-							fire = true;
-						}
+						fire = false;
+					}
+					else
+					{
+						if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
+							cmd->buttons |= IN_ATTACK2;
+						else
+							cmd->buttons |= IN_ATTACK;
+
+						fire = true;
 					}
 				}
 				else
