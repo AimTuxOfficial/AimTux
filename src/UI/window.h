@@ -7,9 +7,17 @@
 class Window : public Panel
 {
 private:
-	
+	std::string title;
+	Component* titleBar;
+	Panel* mainPanel;
+	bool shown;
 public:
-	virtual void Draw ();
+	Window (std::string title);
+	Window (std::string title, Vector2D size);
+	Window (std::string title, Vector2D size, Vector2D position);
+	void Show ();
+	void Hide ();
+	bool IsShown ();
 };
 
 #endif
