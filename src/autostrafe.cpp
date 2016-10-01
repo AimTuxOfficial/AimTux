@@ -9,8 +9,10 @@ void AutoStrafe::CreateMove(CUserCmd* cmd)
 
 	C_BaseEntity* localplayer = reinterpret_cast<C_BaseEntity*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
 
-	// TODO: Return if localplayer's movetype is equal to MOVETYPE_NOCLIP or MOVETYPE_LADDER
 	if (localplayer->GetFlags() & FL_ONGROUND)
+		return;
+
+	if (localplayer->GetMoveType() == MOVETYPE_LADDER || localplayer->GetMoveType() == MOVETYPE_NOCLIP)
 		return;
 
 	if (cmd->mousedx > 1 || cmd->mousedx < -1)

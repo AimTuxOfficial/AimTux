@@ -63,6 +63,24 @@ enum ClientFrameStage_t: int {
 	FRAME_RENDER_END
 };
 
+enum MoveType_t
+{
+	MOVETYPE_NONE = 0,
+	MOVETYPE_ISOMETRIC,
+	MOVETYPE_WALK,
+	MOVETYPE_STEP,
+	MOVETYPE_FLY,
+	MOVETYPE_FLYGRAVITY,
+	MOVETYPE_VPHYSICS,
+	MOVETYPE_PUSH,
+	MOVETYPE_NOCLIP,
+	MOVETYPE_LADDER,
+	MOVETYPE_OBSERVER,
+	MOVETYPE_CUSTOM,
+	MOVETYPE_LAST = MOVETYPE_CUSTOM,
+	MOVETYPE_MAX_BITS = 4
+};
+
 /* helper functions */
 template <typename interface> interface* GetInterface(const char* filename, const char* version)
 {
@@ -173,6 +191,11 @@ public:
 	int GetFlags ()
 	{
 		return *(int*)((uintptr_t)this + offsets.m_fFlags);
+	}
+
+	MoveType_t GetMoveType ()
+	{
+		return *(MoveType_t*)((uintptr_t)this + 0x290);
 	}
 };
 

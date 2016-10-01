@@ -17,6 +17,10 @@ void AntiAim::CreateMove (CUserCmd* cmd)
 	if (cmd->buttons & IN_USE || cmd->buttons & IN_ATTACK)
 		return;
 
+	C_BaseEntity* localplayer = reinterpret_cast<C_BaseEntity*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
+	if (localplayer->GetMoveType() == MOVETYPE_LADDER || localplayer->GetMoveType() == MOVETYPE_NOCLIP)
+		return;
+
 	if (Settings::AntiAim::type == SPIN)
 	{
 		static float fYaw = 0.0f;
