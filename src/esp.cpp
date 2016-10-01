@@ -3,12 +3,12 @@
 /*---------------
 	Defaults	
 ---------------*/
-bool		Settings::ESP::enabled			= true;
-bool		Settings::ESP::Walls::enabled	= true;
-bool		Settings::ESP::Tracer::enabled	= false;
-bool		Settings::ESP::Name::enabled	= true;
-bool		Settings::ESP::Bones::enabled	= true;
-TracerType	Settings::ESP::Tracer::type		= BOTTOM;
+bool Settings::ESP::enabled	= true;
+bool Settings::ESP::Walls::enabled = true;
+bool Settings::ESP::Tracer::enabled = false;
+bool Settings::ESP::Name::enabled = true;
+bool Settings::ESP::Bones::enabled = true;
+TracerType Settings::ESP::Tracer::type = BOTTOM;
 
 bool WorldToScreen (const Vector &vOrigin, Vector &vScreen)
 {
@@ -109,6 +109,9 @@ void DrawESPBox (Vector vecOrigin, Vector vecViewOffset, Color color, int width,
 
 void ESP::Tick ()
 {
+	if (!Settings::ESP::enabled)
+		return;
+
 	C_BasePlayer* localPlayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 
 	if (!localPlayer)
