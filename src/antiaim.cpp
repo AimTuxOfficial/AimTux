@@ -1,13 +1,7 @@
 #include "antiaim.h"
 
-/*
- * 0 => none
- * 1 => spinbot
- * 2 => jitter
- * 3 => sideways
- * 4 => static
- */
-int Settings::AntiAim::type = 1;
+bool Settings::AntiAim::enabled = true;
+AntiAimType Settings::AntiAim::type = JITTER;
 
 bool AntiAim::CreateMove (CUserCmd* cmd)
 {
@@ -20,7 +14,7 @@ bool AntiAim::CreateMove (CUserCmd* cmd)
 	if (cmd->buttons & IN_USE || cmd->buttons & IN_ATTACK)
 		return false;
 
-	if (Settings::AntiAim::type == 1)
+	if (Settings::AntiAim::type == SPIN)
 	{
 		static float fYaw = 0.0f;
 		fYaw += 40.0f;
@@ -31,14 +25,14 @@ bool AntiAim::CreateMove (CUserCmd* cmd)
 		angle.x = 89;
 		angle.y = fYaw;
 	}
-	else if (Settings::AntiAim::type == 2)
+	else if (Settings::AntiAim::type == JITTER)
 	{
 		static bool yFlip;
 		yFlip = !yFlip;
 
 		angle.y = yFlip ? 270.0f : 90.0f;
 	}
-	else if (Settings::AntiAim::type == 3)
+	else if (Settings::AntiAim::type == SIDE)
 	{
 		static bool yFlip;
 		yFlip = !yFlip;
@@ -48,7 +42,7 @@ bool AntiAim::CreateMove (CUserCmd* cmd)
 		else
 			angle.y -= 90.0f;
 	}
-	else if (Settings::AntiAim::type == 4)
+	else if (Settings::AntiAim::type == STATIC)
 	{
 		static bool yFlip;
 		static bool yFlip2;

@@ -11,6 +11,15 @@ enum TracerType
 	CURSOR
 };
 
+
+enum AntiAimType
+{
+	SPIN,
+	JITTER,
+	SIDE,
+	STATIC
+};
+
 namespace Settings
 {
 	namespace Aimbot
@@ -52,7 +61,8 @@ namespace Settings
 
 	namespace AntiAim
 	{
-		extern int type;
+		extern bool enabled;
+		extern AntiAimType type;
 	}
 	
 	namespace ESP
