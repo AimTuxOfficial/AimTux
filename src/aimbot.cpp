@@ -3,10 +3,10 @@
 // Default aimbot settings
 bool Settings::Aimbot::enabled = true;
 bool Settings::Aimbot::AutoAim::enabled = true;
-bool Settings::Aimbot::AutoShoot::enabled = true;
+bool Settings::Aimbot::AutoShoot::enabled = false;
 bool Settings::Aimbot::RCS::enabled = true;
-bool Settings::Aimbot::AutoCrouch::enabled = true;
-bool Settings::Aimbot::AutoStop::enabled = true;
+bool Settings::Aimbot::AutoCrouch::enabled = false;
+bool Settings::Aimbot::AutoStop::enabled = false;
 
 void Aimbot::CheckAngles (QAngle& angle)
 {
@@ -44,31 +44,25 @@ void CalculateAngle (Vector& src, Vector& dst, QAngle& angles)
 
 C_BaseEntity* GetClosestEnemy ()
 {
-	C_BasePlayer* localPlayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	C_BaseEntity* closestEntity = NULL;
 	float dist = 10000000.0f;
 
-	if (!localPlayer)
+	if (!localplayer)
 		return NULL;
 
 	for (int i = 0; i < 64; ++i)
 	{
 		C_BaseEntity* entity = entitylist->GetClientEntity(i);
 
-		if (!entity || entity == (C_BaseEntity*)localPlayer ||
-				entity->GetDormant() || entity->GetLifeState() != LIFE_ALIVE || entity->GetHealth() <= 0)
-			continue;
-
-		C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
-
 		if
 		(
 			   !entity
-			|| entity == (C_BaseEntity*)localPlayer
+			|| entity == (C_BaseEntity*)localplayer
 			|| entity->GetDormant()
 			|| entity->GetLifeState() != 0
 			|| entity->GetHealth() <= 0
-			|| entity->GetTeam() == localPlayer->GetTeam()
+			|| entity->GetTeam() == localplayer->GetTeam()
 		)
 			continue;
 
@@ -86,31 +80,25 @@ C_BaseEntity* GetClosestEnemy ()
 
 C_BaseEntity* GetClosestVisibleEnemy ()
 {
-	C_BasePlayer* localPlayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	C_BaseEntity* closestEntity = NULL;
 	float dist = 10000000.0f;
 
-	if (!localPlayer)
+	if (!localplayer)
 		return NULL;
 
 	for (int i = 0; i < 64; ++i)
 	{
 		C_BaseEntity* entity = entitylist->GetClientEntity(i);
 
-		if (!entity || entity == (C_BaseEntity*)localPlayer ||
-				entity->GetDormant() || entity->GetLifeState() != LIFE_ALIVE || entity->GetHealth() <= 0)
-			continue;
-
-		C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
-		
 		if
 		(
 			   !entity
-			|| entity == (C_BaseEntity*)localPlayer
+			|| entity == (C_BaseEntity*)localplayer
 			|| entity->GetDormant()
 			|| entity->GetLifeState() != 0
 			|| entity->GetHealth() <= 0
-			|| entity->GetTeam() == localPlayer->GetTeam()
+			|| entity->GetTeam() == localplayer->GetTeam()
 			|| !Entity::IsVisible (localplayer, entity, 6)
 		)
 			continue;
@@ -197,7 +185,9 @@ bool Aimbot::CreateMove (CUserCmd* cmd)
 		}
 		
 		if (Settings::Aimbot::AutoCrouch::enabled)
+		{
 			cmd->buttons |= IN_DUCK;
+		}
 
 		if (Settings::Aimbot::AutoStop::enabled)
 		{
