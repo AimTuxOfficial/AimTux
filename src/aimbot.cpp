@@ -176,7 +176,10 @@ void Aimbot::CreateMove (CUserCmd* cmd)
 			
 			if (active_weapon->GetAmmo() > 0)
 			{
-				cmd->buttons |= IN_ATTACK;
+				if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
+					cmd->buttons |= IN_ATTACK2;
+				else
+					cmd->buttons |= IN_ATTACK;
 			}
 		}
 		
