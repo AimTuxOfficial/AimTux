@@ -12,7 +12,7 @@ namespace Aimbot
 	void CheckAngles (QAngle& angle);
 	void CorrectMovement (QAngle vOldAngles, CUserCmd* pCmd, float fOldForward, float fOldSidemove);
 
-	bool CreateMove (CUserCmd* cmd);
+	void CreateMove (CUserCmd* cmd);
 	void RCS (QAngle& angle);
 }
 

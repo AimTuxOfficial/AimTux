@@ -149,7 +149,7 @@ void Aimbot::CorrectMovement (QAngle vOldAngles, CUserCmd* pCmd, float fOldForwa
 	pCmd->sidemove = sin(DEG2RAD(deltaView)) * fOldForward + sin(DEG2RAD(deltaView + 90.f)) * fOldSidemove;
 }
 
-bool Aimbot::CreateMove (CUserCmd* cmd)
+void Aimbot::CreateMove (CUserCmd* cmd)
 {
 	QAngle oldAngle = cmd->viewangles;
 	float oldForward = cmd->forwardmove;
@@ -213,8 +213,6 @@ bool Aimbot::CreateMove (CUserCmd* cmd)
 	cmd->viewangles = angle;
 
 	Aimbot::CorrectMovement (oldAngle, cmd, oldForward, oldSideMove);
-	
-	return false;
 }
 
 

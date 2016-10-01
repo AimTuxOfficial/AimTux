@@ -26,7 +26,7 @@ void Triggerbot::AngleVectors (const QAngle &angles, Vector& forward) {
 	forward.z = -sp;
 }
 
-bool Triggerbot::CreateMove(CUserCmd *cmd)
+void Triggerbot::CreateMove(CUserCmd *cmd)
 {
 	if (Settings::Triggerbot::enabled && input->IsButtonDown(Settings::Triggerbot::key)) {
 		C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
@@ -57,10 +57,10 @@ bool Triggerbot::CreateMove(CUserCmd *cmd)
 			|| entity->GetLifeState() != LIFE_ALIVE
 			|| entity->GetHealth() <= 0
 			|| entity->GetTeam() == localplayer->GetTeam())
-			return false;
+			return;
 
 		if (!(tr.hitgroup < 10 && tr.hitgroup > 0))
-			return false;
+			return;
 
 		if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
 			cmd->buttons |= IN_ATTACK2;

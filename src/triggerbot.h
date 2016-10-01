@@ -10,7 +10,7 @@ namespace Triggerbot {
 	void inline SinCos(float radians, float *sine, float *cosine);
 	void AngleVectors (const QAngle &angles, Vector& forward);
 
-	bool CreateMove (CUserCmd* cmd);
+	void CreateMove (CUserCmd* cmd);
 };
 
 #endif
