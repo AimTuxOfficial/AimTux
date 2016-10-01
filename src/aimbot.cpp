@@ -197,7 +197,7 @@ bool Aimbot::CreateMove (CUserCmd* cmd)
 		}
 		
 		if (Settings::Aimbot::AutoCrouch::enabled)
-		cmd->buttons |= IN_DUCK;
+			cmd->buttons |= IN_DUCK;
 
 		if (Settings::Aimbot::AutoStop::enabled)
 		{
@@ -209,13 +209,6 @@ bool Aimbot::CreateMove (CUserCmd* cmd)
 	else
 	{
 		cmd->buttons &= ~IN_ATTACK;
-		if (Settings::Aimbot::SpinBot::enabled)
-		{
-			angle.x = 89;
-			
-			float yang = std::rand() % (360) - 180;
-			angle.y = yang;
-		}
 	}
 
 
