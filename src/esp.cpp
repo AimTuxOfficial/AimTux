@@ -118,26 +118,21 @@ void ESP::Tick ()
 	{
 		C_BaseEntity* entity = entitylist->GetClientEntity(i);
 		
-		if
-		(
-			   !entity
+		if (!entity
 			|| entity == (C_BaseEntity*)localPlayer
 			|| entity->GetDormant()
 			|| entity->GetLifeState() != 0
-			|| entity->GetHealth() <= 0
-		)
+			|| entity->GetHealth() <= 0)
 			continue;
-		
-		
-		
+
 		if (Settings::ESP::Bones::enabled)
 			ESP::DrawBones (entity);
 		
 		if (Settings::ESP::Walls::enabled)
-			ESP::DrawPlayerBox	(localPlayer, entity);
+			ESP::DrawPlayerBox (localPlayer, entity);
 		
 		if (Settings::ESP::Tracer::enabled)
-			ESP::DrawTracer		(localPlayer, entity);
+			ESP::DrawTracer	(localPlayer, entity);
 		
 		if (Settings::ESP::Name::enabled)
 			ESP::DrawPlayerName	(localPlayer, entity, i);
@@ -153,9 +148,7 @@ void DrawBone (int bone_a, int bone_b, C_BaseEntity* entity, Color color)
 	Vector w_vec_bone_b = GetBone (entity, bone_b);
 	
 	if (!WorldToScreen (w_vec_bone_a, s_vec_bone_a) && !WorldToScreen (w_vec_bone_b, s_vec_bone_b))
-	{
 		Draw::DrawLine (LOC(s_vec_bone_a.x, s_vec_bone_a.y), LOC(s_vec_bone_b.x, s_vec_bone_b.y), color);
-	}
 }
 
 void ESP::DrawBones (C_BaseEntity* entity)
@@ -223,9 +216,7 @@ void ESP::DrawTracer (C_BasePlayer* localPlayer, C_BaseEntity* entity)
 	
 	Vector s_vecEntity_s;
 	if (!WorldToScreen(entity->GetVecOrigin(), s_vecEntity_s) && localPlayer->GetHealth() > 0)
-	{
 		Draw::DrawLine (tracerLocation, LOC(s_vecEntity_s.x, s_vecEntity_s.y), color);
-	}
 }
 
 

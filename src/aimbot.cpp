@@ -55,15 +55,12 @@ C_BaseEntity* GetClosestEnemy ()
 	{
 		C_BaseEntity* entity = entitylist->GetClientEntity(i);
 
-		if
-		(
-			   !entity
+		if (!entity
 			|| entity == (C_BaseEntity*)localplayer
 			|| entity->GetDormant()
 			|| entity->GetLifeState() != 0
 			|| entity->GetHealth() <= 0
-			|| entity->GetTeam() == localplayer->GetTeam()
-		)
+			|| entity->GetTeam() == localplayer->GetTeam())
 			continue;
 
 		float e_dist = localplayer->GetVecOrigin().DistToSqr (entity->GetVecOrigin());
@@ -91,16 +88,13 @@ C_BaseEntity* GetClosestVisibleEnemy ()
 	{
 		C_BaseEntity* entity = entitylist->GetClientEntity(i);
 
-		if
-		(
-			   !entity
+		if (!entity
 			|| entity == (C_BaseEntity*)localplayer
 			|| entity->GetDormant()
 			|| entity->GetLifeState() != 0
 			|| entity->GetHealth() <= 0
 			|| entity->GetTeam() == localplayer->GetTeam()
-			|| !Entity::IsVisible (localplayer, entity, 6)
-		)
+			|| !Entity::IsVisible (localplayer, entity, 6))
 			continue;
 
 		float e_dist = localplayer->GetVecOrigin().DistToSqr (entity->GetVecOrigin());
@@ -174,7 +168,6 @@ void Aimbot::CreateMove (CUserCmd* cmd)
 		
 		if (Settings::Aimbot::AutoShoot::enabled)
 		{
-			
 			C_BaseViewModel* viewmodel = reinterpret_cast<C_BaseViewModel*>(entitylist->GetClientEntity(localplayer->GetViewModel() & 0xFFF));
 			C_BaseCombatWeapon* active_weapon = reinterpret_cast<C_BaseCombatWeapon*>(entitylist->GetClientEntity(viewmodel->GetWeapon() & 0xFFF));
 			
