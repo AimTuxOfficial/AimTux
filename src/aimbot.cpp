@@ -2,13 +2,13 @@
 
 // Default aimbot settings
 bool Settings::Aimbot::enabled = true;
-bool Settings::Aimbot::SpinBot::enabled = true;
 bool Settings::Aimbot::AutoAim::enabled = true;
 bool Settings::Aimbot::AutoShoot::enabled = true;
 bool Settings::Aimbot::RCS::enabled = true;
+bool Settings::Aimbot::AutoCrouch::enabled = true;
+bool Settings::Aimbot::AutoStop::enabled = true;
 
-
-void CheckAngles (QAngle& angle)
+void Aimbot::CheckAngles (QAngle& angle)
 {
 	if (angle[0] > 89	) angle[0] = 89;
 	if (angle[0] < -89	) angle[0] = -89;
@@ -134,7 +134,7 @@ void Aimbot::RCS (QAngle& angle)
 }
 
 
-void CorrectMovement(QAngle vOldAngles, CUserCmd* pCmd, float fOldForward, float fOldSidemove)
+void Aimbot::CorrectMovement (QAngle vOldAngles, CUserCmd* pCmd, float fOldForward, float fOldSidemove)
 {
 	//side/forward move correction
 	float deltaView = pCmd->viewangles.y - vOldAngles.y;
@@ -163,7 +163,6 @@ void CorrectMovement(QAngle vOldAngles, CUserCmd* pCmd, float fOldForward, float
 
 bool Aimbot::CreateMove (CUserCmd* cmd)
 {
-	
 	QAngle oldAngle = cmd->viewangles;
 	float oldForward = cmd->forwardmove;
 	float oldSideMove = cmd->sidemove;
@@ -196,6 +195,16 @@ bool Aimbot::CreateMove (CUserCmd* cmd)
 				cmd->buttons |= IN_ATTACK;
 			}
 		}
+		
+		if (Settings::Aimbot::AutoCrouch::enabled)
+		cmd->buttons |= IN_DUCK;
+
+		if (Settings::Aimbot::AutoStop::enabled)
+		{
+			oldForward = 0;
+			oldSideMove = 0;
+			cmd->upmove = 0;
+		}
 	}
 	else
 	{
@@ -208,20 +217,19 @@ bool Aimbot::CreateMove (CUserCmd* cmd)
 			angle.y = yang;
 		}
 	}
-	
-	
+
+
 	if (Settings::Aimbot::RCS::enabled)
 	{
 		RCS (angle);
 	}
-	
-	
+
 	// Check the angle to make sure it's invalid
-	CheckAngles (angle);
+	Aimbot::CheckAngles (angle);
 	
 	cmd->viewangles = angle;
-	
-	CorrectMovement (oldAngle, cmd, oldForward, oldSideMove);
+
+	Aimbot::CorrectMovement (oldAngle, cmd, oldForward, oldSideMove);
 	
 	return false;
 }

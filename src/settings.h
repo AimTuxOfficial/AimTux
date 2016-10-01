@@ -3,6 +3,7 @@
 
 #include <unordered_map>
 #include "Weapons.h"
+#include "SDK.h"
 
 enum TracerType
 {
@@ -16,12 +17,12 @@ namespace Settings
 	{
 		extern bool enabled;
 		
-		namespace SpinBot
+		namespace AutoAim
 		{
 			extern bool enabled;
 		}
 		
-		namespace AutoAim
+		namespace RCS
 		{
 			extern bool enabled;
 		}
@@ -31,12 +32,28 @@ namespace Settings
 			extern bool enabled;
 		}
 		
-		namespace RCS
+
+		namespace AutoCrouch
+		{
+			extern bool enabled;
+		}
+
+		namespace AutoStop
 		{
 			extern bool enabled;
 		}
 	}
-	
+
+	namespace Triggerbot
+	{
+		extern bool enabled;
+		extern ButtonCode_t key;
+	}
+
+	namespace AntiAim
+	{
+		extern int type;
+	}
 	
 	namespace ESP
 	{
