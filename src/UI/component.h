@@ -11,7 +11,7 @@ public:
 	Vector2D position;
 	Vector2D size;
 	unsigned int opacity;
-	virtual void Draw ();
+	virtual void Draw () { }
 };
 
 #endif
