@@ -41,7 +41,6 @@ void CalculateAngle (Vector& src, Vector& dst, QAngle& angles)
 	if (angles[0] < -89) angles[0] = -89;
 }
 
-
 C_BaseEntity* GetClosestEnemy ()
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
@@ -115,7 +114,6 @@ void Aimbot::RCS (QAngle& angle)
 	angle -= localplayer->GetAimPunchAngle() * 2.f;
 }
 
-
 void Aimbot::CorrectMovement (QAngle vOldAngles, CUserCmd* pCmd, float fOldForward, float fOldSidemove)
 {
 	//side/forward move correction
@@ -174,7 +172,7 @@ void Aimbot::CreateMove (CUserCmd* cmd)
 			C_BaseViewModel* viewmodel = reinterpret_cast<C_BaseViewModel*>(entitylist->GetClientEntity(localplayer->GetViewModel() & 0xFFF));
 			C_BaseCombatWeapon* active_weapon = reinterpret_cast<C_BaseCombatWeapon*>(entitylist->GetClientEntity(viewmodel->GetWeapon() & 0xFFF));
 			
-			if (active_weapon->GetAmmo() > 0)
+			if (active_weapon && active_weapon->GetAmmo() > 0)
 			{
 				if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
 					cmd->buttons |= IN_ATTACK2;
