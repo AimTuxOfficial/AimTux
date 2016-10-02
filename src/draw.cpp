@@ -18,14 +18,14 @@ FONT Draw::CreateFont (const char* fontName, int size, int flag)
 	return newFont;
 }
 
-int Draw::GetTextWidth (const wchar_t* text, FONT font)
+Vector2D Draw::GetTextSize (const wchar_t* text, FONT font)
 {
 	int wide = 0;
 	int tall = 0;
 	
 	surface->GetTextSize(font, text, wide, tall);
 	
-	return wide;
+	return LOC (wide, tall);
 }
 
 void Draw::DrawString (const wchar_t* text, Vector2D location, Color color, FONT font, bool center)
@@ -34,7 +34,12 @@ void Draw::DrawString (const wchar_t* text, Vector2D location, Color color, FONT
 		return;
 	
 	if (center)
-		location.x -= GetTextWidth(text, font) / 2;
+	{
+		Vector2D textSize = GetTextSize (text, font);
+		
+		location.x -= textSize.x / 2;
+		location.y -= textSize.y / 2;
+	}
 	
 	surface->DrawSetTextColor (color.r, color.g, color.b, color.a);
 	surface->DrawSetTextFont (font);

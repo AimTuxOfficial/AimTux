@@ -13,13 +13,13 @@
 
 namespace Draw
 {
-    FONT    CreateFont      (const char* fontName, int size);
-    FONT    CreateFont      (const char* fontName, int size, int flag);
-    int     GetTextWidth    (const wchar_t* input, FONT font);
-    void    DrawString      (const wchar_t* text, Vector2D location, Color color, FONT font, bool center);
-    void    DrawRect        (Vector2D start, Vector2D end, Color color);
-    void    DrawBox         (Vector2D start, Vector2D end, Color color);
-    void    DrawLine        (Vector2D start, Vector2D end, Color color);
+    FONT        CreateFont      (const char* fontName, int size);
+    FONT        CreateFont      (const char* fontName, int size, int flag);
+    Vector2D    GetTextSize     (const wchar_t* input, FONT font);
+    void        DrawString      (const wchar_t* text, Vector2D location, Color color, FONT font, bool center);
+    void        DrawRect        (Vector2D start, Vector2D end, Color color);
+    void        DrawBox         (Vector2D start, Vector2D end, Color color);
+    void        DrawLine        (Vector2D start, Vector2D end, Color color);
 }
 
 #endif
