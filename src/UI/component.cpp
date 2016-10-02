@@ -12,12 +12,12 @@ void Component::DrawString (std::wstring text, FONT font, Color color, Vector2D 
 
 void Component::DrawRectangle (Vector2D start, Vector2D end, Color color)
 {
-	Draw::DrawRect (context + start, context + end, color);
+	Draw::DrawBox (context + start, context + end, color);
 }
 
 void Component::DrawFilledRectangle (Vector2D start, Vector2D end, Color color)
 {
-	Draw::DrawBox (context + start, context + end, color);
+	Draw::DrawRect (context + start, context + end, color);
 }
 
 void Component::DrawLine (Vector2D start, Vector2D end, Color color)

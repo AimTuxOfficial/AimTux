@@ -29,7 +29,7 @@ protected:
 	
 	
 public:
-	PositionContext context;
+	PositionContext context = LOC (0,0);
 	Vector2D position;
 	Vector2D size;
 	unsigned int opacity;
