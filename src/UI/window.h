@@ -4,11 +4,27 @@
 #include "component.h"
 #include "panel.h"
 
+class TitleBar : public Component
+{
+public:
+	Color backColor = Color (255, 100, 100);
+	
+	TitleBar (Vector2D position)
+	{
+		this->position = position;
+	}
+	
+	void Draw ()
+	{
+		Clear (backColor);
+	}
+};
+
 class Window : public Panel
 {
 private:
 	std::string title;
-	Component* titleBar;
+	TitleBar* titleBar;
 	Panel* mainPanel;
 	bool shown;
 public:
