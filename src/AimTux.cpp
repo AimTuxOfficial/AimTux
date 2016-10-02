@@ -17,21 +17,11 @@
 // UI
 #include "UI/ui_container.h"
 
-#define CONV(c) cwConvert(c)
-
 FONT title_font = 0;
 FONT normal_font = 0;
 FONT esp_font = 0;
 
 UI_Container* gui;
-
-static wchar_t* cwConvert(const char* text)
-{
-	const size_t size = strlen(text) + 1;
-	wchar_t* wText = new wchar_t[size];
-	mbstowcs(wText, text, size);
-	return wText;
-}
 
 void SetupFonts ()
 {
