@@ -1,6 +1,28 @@
 #include "panel.h"
 
 
+Panel::Panel ()
+{
+}
+
+
+Panel::Panel (Vector2D position) : Panel ()
+{
+	this->position = position;
+}
+
+Panel::Panel (Vector2D position, Vector2D size) : Panel (position)
+{
+	this->size = size;
+}
+
+
+Panel::Panel (Vector2D position, Vector2D size, Color backgroundColor) : Panel (position, size)
+{
+	this->backGroundColor = backgroundColor;
+}
+
+
 void Panel::AddComponent (Component* component)
 {
 	childComponents.push_back (component);

@@ -11,6 +11,12 @@ protected:
 	std::vector<Component*> childComponents;
 public:
 	Color backGroundColor;
+	
+	Panel ();
+	Panel (Vector2D position);
+	Panel (Vector2D position, Vector2D size);
+	Panel (Vector2D position, Vector2D size, Color backgroundColor);
+	
 	void AddComponent (Component* component);
 	void RemoveComponent (Component* component);
 	virtual void Draw ();
