@@ -28,7 +28,6 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	trace->TraceRay(ray, 0x46004003, &traceFilter, &tr);
 
 	C_BaseEntity *entity = reinterpret_cast<C_BaseEntity *>(tr.m_pEntityHit);
-	C_BaseCombatWeapon *active_weapon = reinterpret_cast<C_BaseCombatWeapon *>(localplayer->GetActiveWeapon());
 
 	if (!entity
 		|| entity == localplayer
@@ -44,11 +43,5 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	if (localplayer->GetLifeState() != LIFE_ALIVE)
 		return;
 
-	if (!active_weapon)
-		return;
-
-	if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
-		cmd->buttons |= IN_ATTACK2;
-	else
-		cmd->buttons |= IN_ATTACK;
+	cmd->buttons |= IN_ATTACK;
 }
