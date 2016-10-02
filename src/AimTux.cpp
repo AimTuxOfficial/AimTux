@@ -59,6 +59,21 @@ bool hkCreateMove (void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 	return false;
 }
 
+static bool IsButtonPressed(ButtonCode_t code)
+{
+	static long buttonPressedTick = 0;
+
+	long currentTime_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+			std::chrono::system_clock::now().time_since_epoch()).count();
+
+	if (input->IsButtonDown(code) && (currentTime_ms - buttonPressedTick) > 300)
+	{
+		buttonPressedTick = currentTime_ms;
+		return true;
+	}
+
+	return false;
+}
 
 void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool allow_force)
 {
@@ -66,6 +81,10 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 
 	if (strcmp(panel->GetName(vgui_panel), "FocusOverlayPanel"))
 		return;
+
+	if (IsButtonPressed(ButtonCode_t::KEY_INSERT)) {
+		gui->Toggle();
+	}
 	
 	gui->Draw ();
 	

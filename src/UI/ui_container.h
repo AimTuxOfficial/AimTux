@@ -8,7 +8,7 @@ class UI_Container
 {
 private:
 	std::vector<Window*> windows;
-	bool visible;
+	bool visible = false;
 public:
 	
 	void AddWindow (Window* window)
@@ -25,6 +25,9 @@ public:
 	
 	void Draw ()
 	{
+		if (!visible)
+			return;
+
 		// Loop through all windows
 		for (int i = 0; i < windows.size (); i++)
 		{
