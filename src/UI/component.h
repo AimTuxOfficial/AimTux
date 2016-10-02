@@ -29,10 +29,28 @@ protected:
 	
 	
 public:
+	
 	PositionContext context = LOC (0,0);
 	Vector2D position;
 	Vector2D size;
 	unsigned int opacity;
+	
+	Component ()
+	{
+	}
+	
+	
+	Component (Vector2D position)
+	{
+		this->position = position;
+	}
+	
+	Component (Vector2D position, Vector2D size) : Component (position)
+	{
+		this->size = size;
+	}
+	
+	
 	virtual void Draw () { }
 };
 
