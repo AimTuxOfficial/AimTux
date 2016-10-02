@@ -25,6 +25,11 @@ Window::Window (std::string title, Vector2D size, Vector2D position) : Window (t
 }
 
 
+Window::Window (std::string title, Vector2D size, Vector2D position, Color color) : Window (title, size, position)
+{
+	this->backGroundColor = color;
+}
+
 /*----------------------
 	Member functions
 ----------------------*/

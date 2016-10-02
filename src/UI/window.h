@@ -15,6 +15,7 @@ public:
 	Window (std::string title);
 	Window (std::string title, Vector2D size);
 	Window (std::string title, Vector2D size, Vector2D position);
+	Window (std::string title, Vector2D size, Vector2D position, Color backgroundColor);
 	void Show ();
 	void Hide ();
 	bool IsShown ();

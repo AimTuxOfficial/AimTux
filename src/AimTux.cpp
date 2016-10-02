@@ -106,7 +106,7 @@ int __attribute__((constructor)) aimtux_init()
 	gui = new UI_Container;
 	
 	// Initialize GUI with a single main window
-	Window* window = new Window ("Main", Vector2D (300, 400), Vector2D (100, 100));
+	Window* window = new Window ("Main", Vector2D (900, 500), Vector2D (100, 100), Color (0, 0, 0, 120));
 	window->Show ();
 	
 	gui->AddWindow (window);
