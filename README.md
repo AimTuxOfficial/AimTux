@@ -17,8 +17,10 @@ Want to chat or play with other AimTux users? Join us on Gitter!
 * *Box ESP*
 * *Name ESP*
 * *Bone ESP*
+* *Chams*
 * *Tracer*
 * *Bhop*
+* *No Flash*
 * *Skin Changer*
 * *Knife Changer*
 * *Chat Spammer*
