@@ -13,7 +13,7 @@ Window::Window (std::string title)
 	
 	// Add base components like title bar and main panel
 	
-	titleBar = new TitleBar (LOC (0, 0));
+	titleBar = new TitleBar (this, LOC (0, 0));
 	this->AddComponent (titleBar);
 	
 	mainPanel = new Panel (Vector2D (0, titleBarHeight), this->size, Color (255, 255, 255, 50));
