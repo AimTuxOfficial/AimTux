@@ -125,7 +125,7 @@ void ESP::Tick ()
 		if (!entity
 			|| entity == (C_BaseEntity*)localPlayer
 			|| entity->GetDormant()
-			|| entity->GetLifeState() != 0
+			|| entity->GetLifeState() != LIFE_ALIVE
 			|| entity->GetHealth() <= 0)
 			continue;
 

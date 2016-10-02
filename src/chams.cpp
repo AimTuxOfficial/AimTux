@@ -48,7 +48,8 @@ void Chams::DrawModelExecute(void* context, void *state, const ModelRenderInfo_t
 	if (!entity
 		|| entity == (C_BaseEntity*)localPlayer
 		|| entity->GetDormant()
-		|| entity->GetLifeState() != 0)
+		|| entity->GetLifeState() != LIFE_ALIVE
+		|| entity->GetHealth() <= 0)
 		return;
 
 	IMaterial *mat = material->FindMaterial ("aimtux_chams", TEXTURE_GROUP_MODEL);
