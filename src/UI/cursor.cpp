@@ -1,5 +1,7 @@
 #include "cursor.h"
 
+bool isMouseDown = false;
+
 void Cursor::Draw ()
 {
 	int x, y;

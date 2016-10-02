@@ -1,6 +1,8 @@
 #ifndef __COMPONENT_H_
 #define __COMPONENT_H_
 
+#include <functional>
+
 #include "../color.h"
 #include "../pstring.h"
 #include "../vector.h"
@@ -12,6 +14,8 @@ typedef Vector2D PositionContext;
 class Component
 {
 protected:
+	
+	bool isHovered = false;
 	
 /*------------------
 	Draw Methods
@@ -30,6 +34,13 @@ protected:
 	
 	
 public:
+	
+	// Events
+	std::function<void()> onMouseClickStartEvent;
+	std::function<void()> onMouseClickEndEvent;
+	std::function<void()> onMouseEnterEvent;
+	std::function<void()> onMouseLeaveEvent;
+	
 	
 	PositionContext context = LOC (0,0);
 	Vector2D position;
@@ -51,6 +62,38 @@ public:
 		this->size = size;
 	}
 	
+	
+	void OnMouseEnter ()
+	{
+		if (!onMouseEnterEvent)
+		{
+			onMouseEnterEvent ();
+		}
+	}
+	
+	void OnMouseLeave ()
+	{
+		if (!onMouseLeaveEvent)
+		{
+			onMouseLeaveEvent ();
+		}
+	}
+	
+	void OnClicked ()
+	{
+		if (!onMouseClickStartEvent)
+		{
+			onMouseClickStartEvent ();
+		}
+	}
+	
+	void OnClickReleased ()
+	{
+		if (!onMouseClickEndEvent)
+		{
+			onMouseClickEndEvent ();
+		}
+	}
 	
 	virtual void Draw () { }
 };
