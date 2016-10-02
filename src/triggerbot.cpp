@@ -28,7 +28,6 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	trace->TraceRay(ray, 0x46004003, &traceFilter, &tr);
 
 	C_BaseEntity *entity = reinterpret_cast<C_BaseEntity *>(tr.m_pEntityHit);
-	C_BaseCombatWeapon *active_weapon = reinterpret_cast<C_BaseCombatWeapon *>(localplayer->GetActiveWeapon());
 
 	if (!entity
 		|| entity == localplayer
@@ -43,6 +42,13 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 
 	if (localplayer->GetLifeState() != LIFE_ALIVE)
 		return;
+
+	C_BaseViewModel* viewmodel = reinterpret_cast<C_BaseViewModel*>(entitylist->GetClientEntity(localplayer->GetViewModel() & 0xFFF));
+
+	if (!viewmodel)
+		return;
+
+	C_BaseCombatWeapon* active_weapon = reinterpret_cast<C_BaseCombatWeapon*>(entitylist->GetClientEntity(viewmodel->GetWeapon() & 0xFFF));
 
 	if (!active_weapon)
 		return;
