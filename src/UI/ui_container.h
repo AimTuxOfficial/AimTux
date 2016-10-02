@@ -2,12 +2,14 @@
 #define __UI_CONTAINER_H_
 
 #include "window.h"
+#include "cursor.h"
 #include <algorithm> // std::remove
 
 class UI_Container
 {
 private:
 	std::vector<Window*> windows;
+	Cursor cursor = Cursor();
 	bool visible = false;
 public:
 	
@@ -39,6 +41,9 @@ public:
 				window->Draw ();
 			}
 		}
+
+		// Draw cursor
+		cursor.Draw ();
 	}
 	
 	void Toggle ()
