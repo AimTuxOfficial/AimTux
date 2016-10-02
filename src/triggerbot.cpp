@@ -44,6 +44,9 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	if (localplayer->GetLifeState() != LIFE_ALIVE)
 		return;
 
+	if (!active_weapon)
+		return;
+
 	if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
 		cmd->buttons |= IN_ATTACK2;
 	else
