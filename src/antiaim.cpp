@@ -5,9 +5,14 @@ bool Settings::AntiAim::enabled_X = true;
 AntiAimType_Y Settings::AntiAim::type_Y = SPIN_FAST;
 AntiAimType_X Settings::AntiAim::type_X = STATIC_DOWN;
 
+using Aimbot::AimStepInProgress;
+
 void AntiAim::CreateMove (CUserCmd* cmd)
 {
 	if (!Settings::AntiAim::enabled_Y && !Settings::AntiAim::enabled_X)
+		return;
+
+	if (Aimbot::AimStepInProgress)
 		return;
 
 	QAngle oldAngle = cmd->viewangles;

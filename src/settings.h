@@ -36,6 +36,12 @@ namespace Settings
 		{
 			extern bool enabled;
 		}
+
+		namespace AimStep
+		{
+			extern bool enabled;
+			extern float value;
+		}
 		
 		namespace RCS
 		{
@@ -46,7 +52,6 @@ namespace Settings
 		{
 			extern bool enabled;
 		}
-		
 
 		namespace AutoCrouch
 		{

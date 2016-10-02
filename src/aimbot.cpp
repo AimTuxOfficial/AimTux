@@ -4,10 +4,16 @@
 bool Settings::Aimbot::enabled = true;
 float Settings::Aimbot::fov = 180.0f;
 bool Settings::Aimbot::AutoAim::enabled = true;
+bool Settings::Aimbot::AimStep::enabled = true;
+float Settings::Aimbot::AimStep::value = 25.0f;
 bool Settings::Aimbot::AutoShoot::enabled = true;
 bool Settings::Aimbot::RCS::enabled = true;
 bool Settings::Aimbot::AutoCrouch::enabled = false;
 bool Settings::Aimbot::AutoStop::enabled = false;
+
+QAngle AimStepLastAngle;
+
+bool Aimbot::AimStepInProgress = false;
 
 void Aimbot::CheckAngles (QAngle& angle)
 {
@@ -267,11 +273,31 @@ void Aimbot::CreateMove (CUserCmd* cmd)
 		{
 			Vector e_vecHead = GetBone (entity, 6);
 			Vector p_vecHead = localplayer->GetVecOrigin() + localplayer->GetVecViewOffset();
-			
+
+			if (!Aimbot::AimStepInProgress)
+				AimStepLastAngle = cmd->viewangles;
+
 			CalculateAngle (p_vecHead, e_vecHead, angle);
+
+			float fov = Math::GetFov(AimStepLastAngle, Math::CalcAngle(p_vecHead, e_vecHead));
+
+			Aimbot::AimStepInProgress = (Settings::Aimbot::AimStep::enabled && fov > Settings::Aimbot::AimStep::value);
+
+			if (Aimbot::AimStepInProgress)
+			{
+				QAngle AimStepDelta = AimStepLastAngle - angle;
+
+				if (AimStepDelta.y < 0)
+					AimStepLastAngle.y += Settings::Aimbot::AimStep::value;
+				else
+					AimStepLastAngle.y -= Settings::Aimbot::AimStep::value;
+
+				AimStepLastAngle.x = angle.x;
+				angle = AimStepLastAngle;
+			}
 		}
 		
-		if (Settings::Aimbot::AutoShoot::enabled)
+		if (Settings::Aimbot::AutoShoot::enabled && !Aimbot::AimStepInProgress)
 		{
 			C_BaseViewModel* viewmodel = reinterpret_cast<C_BaseViewModel*>(entitylist->GetClientEntity(localplayer->GetViewModel() & 0xFFF));
 			C_BaseCombatWeapon* active_weapon = reinterpret_cast<C_BaseCombatWeapon*>(entitylist->GetClientEntity(viewmodel->GetWeapon() & 0xFFF));

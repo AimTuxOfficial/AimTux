@@ -10,6 +10,7 @@ Want to chat or play with other AimTux users? Join us on Gitter!
 * *Aimbot*
 * *Triggerbot*
 * *AntiAim (Spinbot, Jitter, Sideways, Backwards, Static up / down)*
+* *AimStep*
 * *AutoShoot*
 * *AutoCrouch*
 * *AutoStop*
