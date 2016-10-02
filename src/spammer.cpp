@@ -5,7 +5,7 @@ bool Settings::Spammer::enabled = true;
 /*---- Settings ----*/
 
 /*---- Externs ----*/
-unsigned long long timeStamp = 0;
+long timeStamp = 0;
 
 std::vector<Spammer::SpamCollection> Spammer::collections =
 {
@@ -32,7 +32,7 @@ void Spammer::Tick ()
 	std::srand(std::time(NULL));
 
 	// Grab the current time in milliseconds
-	unsigned long long currentTime_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+	long currentTime_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
 			std::chrono::system_clock::now().time_since_epoch()).count();
 
 	if (currentTime_ms - timeStamp > (1000 + currentSpamCollection->delay))
