@@ -4,18 +4,29 @@
 	Constructors
 ------------------*/
 
+int titleBarHeight = 40;
+
+
 Window::Window (std::string title)
 {
 	this->title = title;
 	
 	// Add base components like title bar and main panel
-	// ...
+	
+	titleBar = new TitleBar (LOC (0, 0));
+	this->AddComponent (titleBar);
+	
+	mainPanel = new Panel (Vector2D (0, titleBarHeight), this->size, Color (255, 255, 255, 50));
+	this->AddComponent (mainPanel);
 }
 
 
 Window::Window (std::string title, Vector2D size) : Window (title)
 {
 	this->size = size;
+	
+	this->mainPanel->size = this->size - LOC (0, titleBarHeight);
+	this->titleBar->size = LOC (size.x, titleBarHeight);
 }
 
 
