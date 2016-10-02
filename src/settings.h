@@ -120,6 +120,11 @@ namespace Settings
 	{
 		extern bool enabled;
 	}
+
+	namespace Noflash
+	{
+		extern bool enabled;
+	}
 }
 
 #endif

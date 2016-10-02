@@ -17,6 +17,7 @@
 // UI
 #include "UI/ui_container.h"
 #include "chams.h"
+#include "noflash.h"
 
 FONT title_font = 0;
 FONT normal_font = 0;
@@ -92,6 +93,7 @@ void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
 void hkDrawModelExecute(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld = NULL)
 {
 	Chams::DrawModelExecute(context, state, pInfo);
+	Noflash::DrawModelExecute(context, state, pInfo);
 
 	return modelRender_vmt->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
 }
