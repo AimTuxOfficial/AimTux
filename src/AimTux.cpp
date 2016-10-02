@@ -16,6 +16,7 @@
 
 // UI
 #include "UI/ui_container.h"
+#include "chams.h"
 
 FONT title_font = 0;
 FONT normal_font = 0;
@@ -88,11 +89,19 @@ void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
 	return client_vmt->GetOriginalMethod<FrameStageNotifyFn>(36)(thisptr, stage);
 }
 
+void hkDrawModelExecute(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld = NULL)
+{
+	Chams::DrawModelExecute(context, state, pInfo);
+
+	return modelRender_vmt->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
+}
+
 /* called when the library is loading */
 int __attribute__((constructor)) aimtux_init()
 {
 	Hooker::HookInterfaces ();
 	Hooker::HookVMethods ();
+	Chams::CreateMaterials ();
 	
 	PRINT ("AimTux was successfully injected.");
 	
@@ -101,6 +110,9 @@ int __attribute__((constructor)) aimtux_init()
 	
 	panel_vmt->HookVM ((void*)hkPaintTraverse, 42);
 	panel_vmt->ApplyVMT ();
+
+	modelRender_vmt->HookVM ((void*)hkDrawModelExecute, 21);
+	modelRender_vmt->ApplyVMT ();
 	
 	Hooker::HookIClientMode ();
 	
@@ -127,6 +139,7 @@ void __attribute__((destructor)) aimtux_shutdown()
 {
 	client_vmt->ReleaseVMT ();
 	panel_vmt->ReleaseVMT ();
+	modelRender_vmt->ReleaseVMT ();
 	clientMode_vmt->ReleaseVMT ();
 	
 	PRINT ("AimTux has been unloaded successfully.");

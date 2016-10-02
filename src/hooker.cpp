@@ -7,12 +7,15 @@ CEngineClient* engine = nullptr;
 IClientEntityList* entitylist = nullptr;
 CDebugOverlay* debugOverlay = nullptr;
 IVModelInfo* modelInfo = nullptr;
+IVModelRender* modelRender = nullptr;
 IClientMode* clientMode = nullptr;
 IEngineTrace* trace = nullptr;
 IInputSystem* input = nullptr;
+IMaterialSystem* material = nullptr;
 
 VMT* panel_vmt = nullptr;
 VMT* client_vmt = nullptr;
+VMT* modelRender_vmt = nullptr;
 VMT* clientMode_vmt = nullptr;
 
 void Hooker::HookInterfaces ()
@@ -24,14 +27,17 @@ void Hooker::HookInterfaces ()
 	panel = GetInterface<IPanel>("./bin/linux64/vgui2_client.so", PANEL_INTERFACE_VERSION);
 	debugOverlay = GetInterface<CDebugOverlay>("./bin/linux64/engine_client.so", DEBUG_OVERLAY_VERSION);
 	modelInfo = GetInterface<IVModelInfo>("./bin/linux64/engine_client.so", VMODELINFO_CLIENT_INTERFACE_VERSION);
+	modelRender = GetInterface<IVModelRender>("./bin/linux64/engine_client.so", VMODELRENDER_CLIENT_INTERFACE_VERSION);
 	trace = GetInterface<IEngineTrace>("./bin/linux64/engine_client.so", ENGINETRACE_CLIENT_INTERFACE_VERSION);
 	input = GetInterface<IInputSystem>("./bin/linux64/inputsystem_client.so", INPUTSYSTEM_CLIENT_INTERFACE_VERSION);
+	material = GetInterface<IMaterialSystem>("./bin/linux64/materialsystem_client.so", MATERIALSYSTEM_CLIENT_INTERFACE_VERSION);
 }
 
 void Hooker::HookVMethods ()
 {
 	panel_vmt = new VMT (panel);
 	client_vmt = new VMT (client);
+	modelRender_vmt = new VMT (modelRender);
 }
 
 uintptr_t GetClientClientAddress ()

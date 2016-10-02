@@ -20,8 +20,10 @@
 #define PANEL_INTERFACE_VERSION "VGUI_Panel009"
 #define DEBUG_OVERLAY_VERSION "VDebugOverlay004"
 #define VMODELINFO_CLIENT_INTERFACE_VERSION "VModelInfoClient004"
+#define VMODELRENDER_CLIENT_INTERFACE_VERSION "VEngineModel016"
 #define ENGINETRACE_CLIENT_INTERFACE_VERSION "EngineTraceClient004"
 #define INPUTSYSTEM_CLIENT_INTERFACE_VERSION "InputSystemVersion001"
+#define MATERIALSYSTEM_CLIENT_INTERFACE_VERSION "VMaterialSystem080"
 
 /* generic constants */
 #define LIFE_ALIVE 0
@@ -44,11 +46,14 @@ inline Fn getvfunc(const void* inst, size_t index, size_t offset = 0)
 
 
 struct CUserCmd;
+struct ModelRenderInfo_t;
+struct matrix3x4_t;
 
 /* function prototypes */
 typedef void* (*CreateInterfaceFn)	(const char*, int*);
 typedef void  (*FrameStageNotifyFn) (void*, int);
 typedef void  (*PaintTraverseFn)    (void*, VPANEL, bool, bool);
+typedef void  (*DrawModelExecuteFn) (void*, void*, void*, const ModelRenderInfo_t&, matrix3x4_t*);
 typedef bool  (*CreateMoveFn)		(void*, float, CUserCmd*);
 
 /* game enumerated types */
@@ -521,11 +526,18 @@ public:
 	
 };
 
+struct model_t;
+
 class IVModelInfo
 {
 public:
 	int GetModelIndex(const char* Filename) {
 		return GetVirtualFunction<int(*)(void*, const char*)>(this, 3)(this, Filename);
+	}
+
+	const char *GetModelName(const model_t *model)
+	{
+		return GetVirtualFunction<const char*(*)(void*, const model_t*)>(this, 4)(this, model);
 	}
 };
 
@@ -929,6 +941,215 @@ public:
 	}
 };
 
+enum PreviewImageRetVal_t
+{
+	MATERIAL_PREVIEW_IMAGE_BAD = 0,
+	MATERIAL_PREVIEW_IMAGE_OK,
+	MATERIAL_NO_PREVIEW_IMAGE,
+};
+
+enum ImageFormat {
+	IMAGE_FORMAT_UNKNOWN = -1,
+	IMAGE_FORMAT_RGBA8888 = 0,
+	IMAGE_FORMAT_ABGR8888,
+	IMAGE_FORMAT_RGB888,
+	IMAGE_FORMAT_BGR888,
+	IMAGE_FORMAT_RGB565,
+	IMAGE_FORMAT_I8,
+	IMAGE_FORMAT_IA88,
+	IMAGE_FORMAT_P8,
+	IMAGE_FORMAT_A8,
+	IMAGE_FORMAT_RGB888_BLUESCREEN,
+	IMAGE_FORMAT_BGR888_BLUESCREEN,
+	IMAGE_FORMAT_ARGB8888,
+	IMAGE_FORMAT_BGRA8888,
+	IMAGE_FORMAT_DXT1,
+	IMAGE_FORMAT_DXT3,
+	IMAGE_FORMAT_DXT5,
+	IMAGE_FORMAT_BGRX8888,
+	IMAGE_FORMAT_BGR565,
+	IMAGE_FORMAT_BGRX5551,
+	IMAGE_FORMAT_BGRA4444,
+	IMAGE_FORMAT_DXT1_ONEBITALPHA,
+	IMAGE_FORMAT_BGRA5551,
+	IMAGE_FORMAT_UV88,
+	IMAGE_FORMAT_UVWQ8888,
+	IMAGE_FORMAT_RGBA16161616F,
+	IMAGE_FORMAT_RGBA16161616,
+	IMAGE_FORMAT_UVLX8888,
+	IMAGE_FORMAT_R32F,            // Single-channel 32-bit floating point
+	IMAGE_FORMAT_RGB323232F,    // NOTE: D3D9 does not have this format
+	IMAGE_FORMAT_RGBA32323232F,
+	IMAGE_FORMAT_RG1616F,
+	IMAGE_FORMAT_RG3232F,
+	IMAGE_FORMAT_RGBX8888,
+
+	IMAGE_FORMAT_NULL,            // Dummy format which takes no video memory
+
+	// Compressed normal map formats
+	IMAGE_FORMAT_ATI2N,            // One-surface ATI2N / DXN format
+	IMAGE_FORMAT_ATI1N,            // Two-surface ATI1N format
+
+	IMAGE_FORMAT_RGBA1010102,    // 10 bit-per component render targets
+	IMAGE_FORMAT_BGRA1010102,
+	IMAGE_FORMAT_R16F,            // 16 bit FP format
+
+	// Depth-stencil texture formats
+	IMAGE_FORMAT_D16,
+	IMAGE_FORMAT_D15S1,
+	IMAGE_FORMAT_D32,
+	IMAGE_FORMAT_D24S8,
+	IMAGE_FORMAT_LINEAR_D24S8,
+	IMAGE_FORMAT_D24X8,
+	IMAGE_FORMAT_D24X4S4,
+	IMAGE_FORMAT_D24FS8,
+	IMAGE_FORMAT_D16_SHADOW,    // Specific formats for shadow mapping
+	IMAGE_FORMAT_D24X8_SHADOW,    // Specific formats for shadow mapping
+
+	// supporting these specific formats as non-tiled for procedural cpu access (360-specific)
+	IMAGE_FORMAT_LINEAR_BGRX8888,
+	IMAGE_FORMAT_LINEAR_RGBA8888,
+	IMAGE_FORMAT_LINEAR_ABGR8888,
+	IMAGE_FORMAT_LINEAR_ARGB8888,
+	IMAGE_FORMAT_LINEAR_BGRA8888,
+	IMAGE_FORMAT_LINEAR_RGB888,
+	IMAGE_FORMAT_LINEAR_BGR888,
+	IMAGE_FORMAT_LINEAR_BGRX5551,
+	IMAGE_FORMAT_LINEAR_I8,
+	IMAGE_FORMAT_LINEAR_RGBA16161616,
+
+	IMAGE_FORMAT_LE_BGRX8888,
+	IMAGE_FORMAT_LE_BGRA8888,
+
+	NUM_IMAGE_FORMATS
+};
+
+enum MaterialVarFlags_t
+{
+	MATERIAL_VAR_DEBUG = ( 1 << 0 ),
+	MATERIAL_VAR_NO_DEBUG_OVERRIDE = ( 1 << 1 ),
+	MATERIAL_VAR_NO_DRAW = ( 1 << 2 ),
+	MATERIAL_VAR_USE_IN_FILLRATE_MODE = ( 1 << 3 ),
+
+	MATERIAL_VAR_VERTEXCOLOR = ( 1 << 4 ),
+	MATERIAL_VAR_VERTEXALPHA = ( 1 << 5 ),
+	MATERIAL_VAR_SELFILLUM = ( 1 << 6 ),
+	MATERIAL_VAR_ADDITIVE = ( 1 << 7 ),
+	MATERIAL_VAR_ALPHATEST = ( 1 << 8 ),
+	//	MATERIAL_VAR_UNUSED					  = (1 << 9),
+	MATERIAL_VAR_ZNEARER = ( 1 << 10 ),
+	MATERIAL_VAR_MODEL = ( 1 << 11 ),
+	MATERIAL_VAR_FLAT = ( 1 << 12 ),
+	MATERIAL_VAR_NOCULL = ( 1 << 13 ),
+	MATERIAL_VAR_NOFOG = ( 1 << 14 ),
+	MATERIAL_VAR_IGNOREZ = ( 1 << 15 ),
+	MATERIAL_VAR_DECAL = ( 1 << 16 ),
+	MATERIAL_VAR_ENVMAPSPHERE = ( 1 << 17 ), // OBSOLETE
+	//	MATERIAL_VAR_UNUSED					  = (1 << 18),
+	MATERIAL_VAR_ENVMAPCAMERASPACE = ( 1 << 19 ), // OBSOLETE
+	MATERIAL_VAR_BASEALPHAENVMAPMASK = ( 1 << 20 ),
+	MATERIAL_VAR_TRANSLUCENT = ( 1 << 21 ),
+	MATERIAL_VAR_NORMALMAPALPHAENVMAPMASK = ( 1 << 22 ),
+	MATERIAL_VAR_NEEDS_SOFTWARE_SKINNING = ( 1 << 23 ), // OBSOLETE
+	MATERIAL_VAR_OPAQUETEXTURE = ( 1 << 24 ),
+	MATERIAL_VAR_ENVMAPMODE = ( 1 << 25 ), // OBSOLETE
+	MATERIAL_VAR_SUPPRESS_DECALS = ( 1 << 26 ),
+	MATERIAL_VAR_HALFLAMBERT = ( 1 << 27 ),
+	MATERIAL_VAR_WIREFRAME = ( 1 << 28 ),
+	MATERIAL_VAR_ALLOWALPHATOCOVERAGE = ( 1 << 29 ),
+	MATERIAL_VAR_ALPHA_MODIFIED_BY_PROXY = ( 1 << 30 ),
+	MATERIAL_VAR_VERTEXFOG = ( 1 << 31 ),
+
+	// NOTE: Only add flags here that either should be read from
+	// .vmts or can be set directly from client code. Other, internal
+	// flags should to into the flag enum in IMaterialInternal.h
+};
+
+enum MaterialPropertyTypes_t
+{
+	MATERIAL_PROPERTY_NEEDS_LIGHTMAP = 0,					// bool
+	MATERIAL_PROPERTY_OPACITY,								// int (enum MaterialPropertyOpacityTypes_t)
+	MATERIAL_PROPERTY_REFLECTIVITY,							// vec3_t
+	MATERIAL_PROPERTY_NEEDS_BUMPED_LIGHTMAPS				// bool
+};
+
+struct model_t {
+	char name[255];
+};
+typedef unsigned short ModelInstanceHandle_t;
+
+struct ModelRenderInfo_t
+{
+	Vector origin;
+	QAngle angles;
+	void *pRenderable;
+	const model_t *pModel;
+	const matrix3x4_t *pModelToWorld;
+	const matrix3x4_t *pLightingOffset;
+	const Vector *pLightingOrigin;
+	int flags;
+	int entity_index;
+	int skin;
+	int body;
+	int hitboxset;
+	ModelInstanceHandle_t instance;
+	ModelRenderInfo_t()
+	{
+		pModelToWorld = NULL;
+		pLightingOffset = NULL;
+		pLightingOrigin = NULL;
+	}
+};
+
+class IMaterialVar;
+typedef uint64_t VertexFormat_t;
+
+class IMaterial {
+public:
+	void AlphaModulate(float alpha)
+	{
+		typedef void (* oAlphaModulate)(void*, float);
+		getvfunc<oAlphaModulate>(this, 27)(this, alpha);
+	}
+
+	void ColorModulate(float r, float g, float b)
+	{
+		typedef void (* oColorModulate)(void*, float, float, float);
+		getvfunc<oColorModulate>(this, 28)(this, r, g, b);
+	}
+
+	void SetMaterialVarFlag(MaterialVarFlags_t flag, bool on)
+	{
+		typedef void (* oSetMaterialVarFlag)(void*, MaterialVarFlags_t, bool);
+		getvfunc<oSetMaterialVarFlag>(this, 29)(this, flag, on);
+	}
+};
+
+class IMaterialSystem {
+public:
+	IMaterial *FindMaterial(char const *pMaterialName, const char *pTextureGroupName, bool complain = true, const char *pComplainPrefix = NULL)
+	{
+		typedef void (* oFindMaterial)(void*, char const*, const char*, bool, const char*);
+		getvfunc<oFindMaterial>(this, 84)(this, pMaterialName, pTextureGroupName, complain, pComplainPrefix);
+	}
+};
+
+class IVModelRender
+{
+public:
+	void ForcedMaterialOverride(IMaterial *mat)
+	{
+		typedef void (* oForcedMaterialOverride)(void*, IMaterial*, int, int);
+		getvfunc<oForcedMaterialOverride>(this, 1)(this, mat, 0, 0);
+	}
+
+	void DrawModelExecute(void* ctx, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld = NULL)
+	{
+		typedef void (* oDrawModelExecute)(void*, void* ctx, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld);
+		getvfunc<oDrawModelExecute>(this, 21)(this, ctx, state, pInfo, pCustomBoneToWorld);
+	}
+};
+
 #define	FL_ONGROUND				(1<<0)	// At rest / on the ground
 #define FL_DUCKING				(1<<1)	// Player flag -- Player is fully crouched
 #define	FL_WATERJUMP			(1<<2)	// player jumping out of water
@@ -1023,5 +1244,36 @@ public:
 #define CONTENTS_HITBOX			0x40000000	// use accurate hitboxes on trace
 
 #define	MASK_SHOT	(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_MONSTER|CONTENTS_WINDOW|CONTENTS_DEBRIS|CONTENTS_HITBOX)
+
+// These are given to FindMaterial to reference the texture groups that show up on the
+#define TEXTURE_GROUP_LIGHTMAP						"Lightmaps"
+#define TEXTURE_GROUP_WORLD							"World textures"
+#define TEXTURE_GROUP_MODEL							"Model textures"
+#define TEXTURE_GROUP_VGUI							"VGUI textures"
+#define TEXTURE_GROUP_PARTICLE						"Particle textures"
+#define TEXTURE_GROUP_DECAL							"Decal textures"
+#define TEXTURE_GROUP_SKYBOX						"SkyBox textures"
+#define TEXTURE_GROUP_CLIENT_EFFECTS				"ClientEffect textures"
+#define TEXTURE_GROUP_OTHER							"Other textures"
+#define TEXTURE_GROUP_PRECACHED						"Precached"				// TODO: assign texture groups to the precached materials
+#define TEXTURE_GROUP_CUBE_MAP						"CubeMap textures"
+#define TEXTURE_GROUP_RENDER_TARGET					"RenderTargets"
+#define TEXTURE_GROUP_UNACCOUNTED					"Unaccounted textures"	// Textures that weren't assigned a texture group.
+//#define TEXTURE_GROUP_STATIC_VERTEX_BUFFER		"Static Vertex"
+#define TEXTURE_GROUP_STATIC_INDEX_BUFFER			"Static Indices"
+#define TEXTURE_GROUP_STATIC_VERTEX_BUFFER_DISP		"Displacement Verts"
+#define TEXTURE_GROUP_STATIC_VERTEX_BUFFER_COLOR	"Lighting Verts"
+#define TEXTURE_GROUP_STATIC_VERTEX_BUFFER_WORLD	"World Verts"
+#define TEXTURE_GROUP_STATIC_VERTEX_BUFFER_MODELS	"Model Verts"
+#define TEXTURE_GROUP_STATIC_VERTEX_BUFFER_OTHER	"Other Verts"
+#define TEXTURE_GROUP_DYNAMIC_INDEX_BUFFER			"Dynamic Indices"
+#define TEXTURE_GROUP_DYNAMIC_VERTEX_BUFFER			"Dynamic Verts"
+#define TEXTURE_GROUP_DEPTH_BUFFER					"DepthBuffer"
+#define TEXTURE_GROUP_VIEW_MODEL					"ViewModel"
+#define TEXTURE_GROUP_PIXEL_SHADERS					"Pixel Shaders"
+#define TEXTURE_GROUP_VERTEX_SHADERS				"Vertex Shaders"
+#define TEXTURE_GROUP_RENDER_TARGET_SURFACE			"RenderTarget Surfaces"
+#define TEXTURE_GROUP_MORPH_TARGETS					"Morph Targets"
+
 
 #endif

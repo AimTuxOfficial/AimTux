@@ -115,6 +115,11 @@ namespace Settings
 	{
 		extern bool enabled;
 	}
+
+	namespace Chams
+	{
+		extern bool enabled;
+	}
 }
 
 #endif
