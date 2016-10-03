@@ -65,7 +65,7 @@ public:
 		this->size = size;
 	}
 	
-	virtual void MouseMove (PositionContext position) { }
+	virtual void MouseTick (PositionContext position) { }
 	virtual void Draw () { }
 };
 

@@ -20,7 +20,7 @@ public:
 	void AddComponent (Component* component);
 	void RemoveComponent (Component* component);
 	
-	virtual void MouseMove (PositionContext position);
+	virtual void MouseTick (PositionContext position);
 	virtual void Draw ();
 };
 

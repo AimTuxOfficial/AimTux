@@ -50,7 +50,7 @@ void Panel::Draw ()
 	}
 }
 
-void Panel::MouseMove (PositionContext mouseContext)
+void Panel::MouseTick (PositionContext mouseContext)
 {
 	for (int i = 0; i < childComponents.size(); i++)
 	{
@@ -92,7 +92,7 @@ void Panel::MouseMove (PositionContext mouseContext)
 				}
 			}
 			
-			childComponent->MouseMove (mouseContext - childComponent->position);
+			childComponent->MouseTick (mouseContext - childComponent->position);
 		}
 		else
 		{

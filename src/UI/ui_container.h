@@ -39,7 +39,7 @@ public:
 					y >= window->position.y && y <= window->position.y + window->size.y
 				)
 			{
-				window->MouseMove (PositionContext(x, y) - window->position);
+				window->MouseTick (PositionContext(x, y) - window->position);
 			}
 		}
 		
