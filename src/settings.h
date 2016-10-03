@@ -25,6 +25,14 @@ enum AntiAimType_X
 	STATIC_DOWN
 };
 
+enum ChamsType
+{
+	CHAMS,
+	CHAMS_IGNOREZ,
+	CHAMS_FLAT,
+	CHAMS_FLAT_IGNOREZ
+};
+
 namespace Settings
 {
 	namespace Aimbot
@@ -124,6 +132,7 @@ namespace Settings
 	namespace Chams
 	{
 		extern bool enabled;
+		extern ChamsType type;
 	}
 
 	namespace Noflash
