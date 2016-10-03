@@ -13,25 +13,8 @@ public:
 	Color backGroundColor;
 	Color foreGroundColor;
 	
-	void Event_OnMouseEnter ()
-	{
-		PRINT ("ON ENTER");
-	}
-	
-	void Event_OnMouseLeave ()
-	{
-		PRINT ("ON LEAVE");
-	}
-	
-	void Event_OnMouseClickStart ()
-	{
-		PRINT ("ON CLICK START");
-	}
-	
-	
 	void Event_OnMouseClickEnd ()
 	{
-		PRINT ("ON CLICK END");
 	}
 	
 	Button (Vector2D position, Vector2D size)
@@ -39,10 +22,6 @@ public:
 		this->position = position;
 		this->size = size;
 		
-		onMouseEnterEvent = MFUNC (&Button::Event_OnMouseEnter, this);
-		onMouseLeaveEvent = MFUNC (&Button::Event_OnMouseLeave, this);
-		
-		onMouseClickStartEvent	= MFUNC (&Button::Event_OnMouseClickStart, this);
 		onMouseClickEndEvent	= MFUNC (&Button::Event_OnMouseClickEnd, this);
 	}
 	

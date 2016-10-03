@@ -53,11 +53,6 @@ public:
 		mouseClickStartPosition = LOC (x, y) - parentWindow->position;
 	}
 	
-	void MouseTick (PositionContext position)
-	{
-	}
-	
-	
 	TitleBar (Window* window, Vector2D position)
 	{
 		this->position = position;
