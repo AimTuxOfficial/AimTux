@@ -64,12 +64,26 @@ void Panel::MouseMove (PositionContext mouseContext)
 				y >= childComponent->position.y && y <= childComponent->position.y + childComponent->size.y
 			)
 		{
-			childComponent->isHovered = true;
+			if (!childComponent->isHovered)
+			{
+				if (childComponent->onMouseEnterEvent != NULL)
+				{
+					childComponent->onMouseEnterEvent();
+				}
+				childComponent->isHovered = true;
+			}
 			childComponent->MouseMove (mouseContext - childComponent->position);
 		}
 		else
 		{
-			childComponent->isHovered = false;
+			if (childComponent->isHovered)
+			{
+				if (childComponent->onMouseLeaveEvent != NULL)
+				{
+					childComponent->onMouseLeaveEvent();
+				}
+				childComponent->isHovered = false;
+			}
 		}
 	}
 }

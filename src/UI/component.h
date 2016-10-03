@@ -2,6 +2,8 @@
 #define __COMPONENT_H_
 
 #include <functional>
+#define MFUNC(a,b) std::bind(a, b)
+
 
 #include "../color.h"
 #include "../pstring.h"
