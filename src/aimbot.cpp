@@ -2,6 +2,7 @@
 
 // Default aimbot settings
 bool Settings::Aimbot::enabled = true;
+bool Settings::Aimbot::silent = true;
 float Settings::Aimbot::fov = 180.0f;
 float Settings::Aimbot::smooth = 0.0f;
 int Settings::Aimbot::bone = BONE_NECK;

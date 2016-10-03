@@ -38,6 +38,7 @@ namespace Settings
 	namespace Aimbot
 	{
 		extern bool enabled;
+		extern bool silent;
 		extern float fov;
 		extern float smooth;
 		extern int bone;
