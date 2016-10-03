@@ -64,39 +64,6 @@ public:
 		this->size = size;
 	}
 	
-	
-	void OnMouseEnter ()
-	{
-		if (!onMouseEnterEvent)
-		{
-			onMouseEnterEvent ();
-		}
-	}
-	
-	void OnMouseLeave ()
-	{
-		if (!onMouseLeaveEvent)
-		{
-			onMouseLeaveEvent ();
-		}
-	}
-	
-	void OnClicked ()
-	{
-		if (!onMouseClickStartEvent)
-		{
-			onMouseClickStartEvent ();
-		}
-	}
-	
-	void OnClickReleased ()
-	{
-		if (!onMouseClickEndEvent)
-		{
-			onMouseClickEndEvent ();
-		}
-	}
-	
 	virtual void MouseMove (PositionContext position) { }
 	virtual void Draw () { }
 };
