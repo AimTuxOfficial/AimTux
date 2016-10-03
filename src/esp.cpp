@@ -234,7 +234,7 @@ void ESP::DrawPlayerBox (C_BasePlayer* localPlayer, C_BaseEntity* entity)
 
 	int playerTeam = localPlayer->GetTeam();
 	int entityTeam = reinterpret_cast<C_BasePlayer*>(entity)->GetTeam();
-	bool isVisible = Entity::IsVisible(localPlayer, entity, 6);
+	bool isVisible = Entity::IsVisible(localPlayer, entity, BONE_HEAD);
 
 	if (playerTeam != entityTeam)
 	{
