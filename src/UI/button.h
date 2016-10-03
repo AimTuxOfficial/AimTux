@@ -15,6 +15,10 @@ public:
 	
 	void Event_OnMouseClickEnd ()
 	{
+		if (OnClickedEvent != NULL)
+		{
+			OnClickedEvent ();
+		}
 	}
 	
 	Button (Vector2D position, Vector2D size)
