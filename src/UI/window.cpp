@@ -14,11 +14,12 @@ Window::Window (std::string title)
 	
 	// Add base components like title bar and main panel
 	
-	titleBar = new TitleBar (this, LOC (0, 0));
-	this->AddComponent (titleBar);
-	
 	mainPanel = new Panel (Vector2D (0, titleBarHeight), this->size, Color (255, 255, 255, 50));
-	this->AddComponent (mainPanel);
+	this->childComponents.push_back (mainPanel);
+	
+	titleBar = new TitleBar (this, LOC (0, 0));
+	this->childComponents.push_back (titleBar);
+	
 	
 	Button* button = new Button (LOC(10, 10), LOC (100, 40));
 	mainPanel->AddComponent (button);

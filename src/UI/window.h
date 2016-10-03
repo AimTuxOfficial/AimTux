@@ -21,6 +21,17 @@ public:
 	void Show ();
 	void Hide ();
 	bool IsShown ();
+	
+	
+	void AddComponent (Component* component)
+	{
+		mainPanel->AddComponent (component);
+	}
+	
+	void RemoveComponent (Component* component)
+	{
+		mainPanel->RemoveComponent (component);
+	}
 };
 
 
