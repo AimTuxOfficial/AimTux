@@ -36,49 +36,49 @@ void DrawESPBox (Vector vecOrigin, Vector vecViewOffset, Color color, int width,
 	//SIDES
 
 	Vector2D a = WorldToScreen (vecOrigin + Vector(width, width, additionalHeight));
-	Vector2D b = WorldToScreen (vecOrigin + vecViewOffset + Vector (width, width, additionalHeight));
+	Vector2D b = WorldToScreen (vecViewOffset + Vector (width, width, additionalHeight));
 
 	Draw::DrawLine (a, b, color);
 
 
 	a = WorldToScreen (vecOrigin + Vector(-width, width, additionalHeight));
-	b = WorldToScreen (vecOrigin + vecViewOffset + Vector (-width, width, additionalHeight));
+	b = WorldToScreen (vecViewOffset + Vector (-width, width, additionalHeight));
 
 	Draw::DrawLine (a, b, color);
 
 
 	a = WorldToScreen (vecOrigin + Vector(-width, -width, additionalHeight));
-	b = WorldToScreen (vecOrigin + vecViewOffset + Vector (-width, -width, additionalHeight));
+	b = WorldToScreen (vecViewOffset + Vector (-width, -width, additionalHeight));
 
 	Draw::DrawLine (a, b, color);
 
 	a = WorldToScreen (vecOrigin + Vector(width, -width, additionalHeight));
-	b = WorldToScreen (vecOrigin + vecViewOffset + Vector (width, -width, additionalHeight));
+	b = WorldToScreen (vecViewOffset + Vector (width, -width, additionalHeight));
 
 	Draw::DrawLine (a, b, color);
 
 
 	//TOP
 
-	a = WorldToScreen (vecOrigin + vecViewOffset + Vector(width, width, additionalHeight));
-	b = WorldToScreen (vecOrigin + vecViewOffset + Vector (width, -width, additionalHeight));
+	a = WorldToScreen (vecViewOffset + Vector(width, width, additionalHeight));
+	b = WorldToScreen (vecViewOffset + Vector (width, -width, additionalHeight));
 
 	Draw::DrawLine (a, b, color);
 
 
-	a = WorldToScreen (vecOrigin + vecViewOffset + Vector(width, width, additionalHeight));
-	b = WorldToScreen (vecOrigin + vecViewOffset + Vector (-width, width, additionalHeight));
+	a = WorldToScreen (vecViewOffset + Vector(width, width, additionalHeight));
+	b = WorldToScreen (vecViewOffset + Vector (-width, width, additionalHeight));
 
 	Draw::DrawLine (a, b, color);
 
-	a = WorldToScreen (vecOrigin + vecViewOffset + Vector(-width, -width, additionalHeight));
-	b = WorldToScreen (vecOrigin + vecViewOffset + Vector (-width, width, additionalHeight));
+	a = WorldToScreen (vecViewOffset + Vector(-width, -width, additionalHeight));
+	b = WorldToScreen (vecViewOffset + Vector (-width, width, additionalHeight));
 
 	Draw::DrawLine (a, b, color);
 
 
-	a = WorldToScreen (vecOrigin + vecViewOffset + Vector(width, -width, additionalHeight));
-	b = WorldToScreen (vecOrigin + vecViewOffset + Vector (-width, -width, additionalHeight));
+	a = WorldToScreen (vecViewOffset + Vector(width, -width, additionalHeight));
+	b = WorldToScreen (vecViewOffset + Vector (-width, -width, additionalHeight));
 
 	Draw::DrawLine (a, b, color);
 
@@ -254,7 +254,9 @@ void ESP::DrawPlayerBox (C_BasePlayer* localPlayer, C_BaseEntity* entity)
 	int additionalHeight = 6;
 	
 	Vector vecOrigin = entity->GetVecOrigin();
-	Vector vecViewOffset = localPlayer->GetVecViewOffset();
+	
+	Vector vecHeadBone = GetBone (entity, 6);
+	Vector vecViewOffset = Vector (vecOrigin.x, vecOrigin.y, vecHeadBone.z);
 	
 	Vector s_vecLocalPlayer_s;
 	if (!WorldToScreen(vecOrigin, s_vecLocalPlayer_s))
