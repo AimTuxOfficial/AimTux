@@ -37,16 +37,42 @@ public:
 
 class TitleBar : public Component
 {
+private:
+	Vector2D mouseClickStartPosition = LOC (0, 0);
 public:
 	Window* parentWindow;
 	
 	Color backColor = Color (255, 100, 100);
 	Color foreColor = Color (255, 255, 255);
 	
+	void OnMouseClickStart ()
+	{
+		int x, y;
+		input->GetCursorPosition(&x, &y);
+		
+		mouseClickStartPosition = LOC (x, y) - parentWindow->position;
+	}
+	
+	void MouseTick (PositionContext position)
+	{
+		if (isMouseDown)
+		{
+			int x, y;
+			input->GetCursorPosition(&x, &y);
+			
+			Vector2D newPos = LOC (x, y) - mouseClickStartPosition;
+			
+			parentWindow->position = newPos;
+		}
+	}
+	
+	
 	TitleBar (Window* window, Vector2D position)
 	{
 		this->position = position;
 		this->parentWindow = window;
+		
+		onMouseClickStartEvent = MFUNC (&TitleBar::OnMouseClickStart, this);
 	}
 	
 	void Draw ()
