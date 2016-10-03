@@ -27,9 +27,19 @@ public:
 	
 	void Draw ()
 	{
+		if (!visible)
+		{
+			return;
+		}
+		
 		for (int i = 0; i < windows.size(); i++)
 		{
 			Window* window = windows[i];
+			
+			if (!window->IsShown ())
+			{
+				continue;
+			}
 			
 			int x, y;
 			input->GetCursorPosition(&x, &y);
@@ -42,9 +52,6 @@ public:
 				window->MouseTick (PositionContext(x, y) - window->position);
 			}
 		}
-		
-		if (!visible)
-			return;
 
 		// Loop through all windows
 		for (int i = 0; i < windows.size (); i++)
