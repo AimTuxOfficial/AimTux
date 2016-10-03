@@ -5,7 +5,7 @@ ChamsType Settings::Chams::type = CHAMS_FLAT_IGNOREZ;
 
 void Chams::CreateMaterials()
 {
-	struct passwd *pw = getpwuid(getuid());
+	char cwd[1024];
 	std::stringstream chams;
 	std::stringstream chamsIgnorez;
 	std::stringstream chamsFlat;
@@ -55,10 +55,12 @@ void Chams::CreateMaterials()
 	chamsFlatIgnorez << "\t\"$halflambert\" \"1\"" << std::endl;
 	chamsFlatIgnorez << "}" << std::endl;
 
-	asprintf(&chamsPath, "%s/%s", pw->pw_dir, ".steam/steam/steamapps/common/Counter-Strike Global Offensive/csgo/materials/aimtux_chams.vmt");
-	asprintf(&chamsIgnorezPath, "%s/%s", pw->pw_dir, ".steam/steam/steamapps/common/Counter-Strike Global Offensive/csgo/materials/aimtux_chamsIgnorez.vmt");
-	asprintf(&chamsFlatPath, "%s/%s", pw->pw_dir, ".steam/steam/steamapps/common/Counter-Strike Global Offensive/csgo/materials/aimtux_chamsFlat.vmt");
-	asprintf(&chamsFlatIgnorezPath, "%s/%s", pw->pw_dir, ".steam/steam/steamapps/common/Counter-Strike Global Offensive/csgo/materials/aimtux_chamsFlatIgnorez.vmt");
+	getcwd(cwd, sizeof(cwd));
+
+	asprintf(&chamsPath, "%s/csgo/materials/aimtux_chams.vmt", cwd);
+	asprintf(&chamsIgnorezPath, "%s/csgo/materials/aimtux_chamsIgnorez.vmt", cwd);
+	asprintf(&chamsFlatPath, "%s/csgo/materials/aimtux_chamsFlat.vmt", cwd);
+	asprintf(&chamsFlatIgnorezPath, "%s/csgo/materials/aimtux_chamsFlatIgnorez.vmt", cwd);
 
 	std::ofstream(chamsPath) << chams.str();
 	std::ofstream(chamsIgnorezPath) << chamsIgnorez.str();
