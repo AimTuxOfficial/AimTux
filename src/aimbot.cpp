@@ -306,7 +306,7 @@ void Aimbot::CreateMove (CUserCmd* cmd)
 				RCS (angle);
 			}
 
-			if (Settings::Aimbot::smooth > 0.0f)
+			if (!Settings::AntiAim::enabled_X && !Settings::AntiAim::enabled_Y && Settings::Aimbot::smooth > 0.0f)
 			{
 				QAngle vDelta(cmd->viewangles - angle);
 
