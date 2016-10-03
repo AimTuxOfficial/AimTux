@@ -3,6 +3,7 @@
 // Default aimbot settings
 bool Settings::Aimbot::enabled = true;
 float Settings::Aimbot::fov = 180.0f;
+int Settings::Aimbot::bone = BONE_HEAD;
 bool Settings::Aimbot::AutoAim::enabled = true;
 bool Settings::Aimbot::AimStep::enabled = true;
 float Settings::Aimbot::AimStep::value = 25.0f;
@@ -64,7 +65,7 @@ C_BaseEntity* GetClosestEnemy ()
 		if (!entity
 			|| entity == (C_BaseEntity*)localplayer
 			|| entity->GetDormant()
-			|| entity->GetLifeState() != 0
+			|| entity->GetLifeState() != LIFE_ALIVE
 			|| entity->GetHealth() <= 0
 			|| entity->GetTeam() == localplayer->GetTeam())
 			continue;
@@ -97,15 +98,15 @@ C_BaseEntity* GetClosestVisibleEnemy (CUserCmd* cmd)
 		if (!entity
 			|| entity == (C_BaseEntity*)localplayer
 			|| entity->GetDormant()
-			|| entity->GetLifeState() != 0
+			|| entity->GetLifeState() != LIFE_ALIVE
 			|| entity->GetHealth() <= 0
 			|| entity->GetTeam() == localplayer->GetTeam()
-			|| !Entity::IsVisible (localplayer, entity, 6))
+			|| !Entity::IsVisible (localplayer, entity, Settings::Aimbot::bone))
 			continue;
 
 		float e_dist = localplayer->GetVecOrigin().DistToSqr (entity->GetVecOrigin());
 
-		Vector e_vecHead = GetBone (entity, 6);
+		Vector e_vecHead = GetBone (entity, Settings::Aimbot::bone);
 		Vector p_vecHead = localplayer->GetVecOrigin() + localplayer->GetVecViewOffset();
 		float fov = Math::GetFov(cmd->viewangles, Math::CalcAngle(p_vecHead, e_vecHead));
 
@@ -271,7 +272,7 @@ void Aimbot::CreateMove (CUserCmd* cmd)
 		if (Settings::Aimbot::AutoAim::enabled &&
 			(Settings::Aimbot::AutoShoot::enabled || cmd->buttons & IN_ATTACK))
 		{
-			Vector e_vecHead = GetBone (entity, 6);
+			Vector e_vecHead = GetBone (entity, Settings::Aimbot::bone);
 			Vector p_vecHead = localplayer->GetVecOrigin() + localplayer->GetVecViewOffset();
 
 			if (!Aimbot::AimStepInProgress)

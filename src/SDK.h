@@ -450,8 +450,6 @@ enum FontFlags: int
 	FONTFLAG_BITMAP = 0x800,
 };
 
-
-
 enum FontDrawType_t
 {
 	// Use the "additive" value from the scheme file
@@ -462,6 +460,17 @@ enum FontDrawType_t
 	FONT_DRAW_ADDITIVE,
  
 	FONT_DRAW_TYPE_COUNT = 2,
+};
+
+enum Bones
+{
+	BONE_PELVIS = 0,
+	BONE_HIP,
+	BONE_LOWER_SPINAL_COLUMN,
+	BONE_MIDDLE_SPINAL_COLUMN,
+	BONE_UPPER_SPINAL_COLUMN,
+	BONE_NECK,
+	BONE_HEAD,
 };
 
 class CEngineClient
