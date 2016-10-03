@@ -15,8 +15,6 @@ class Component
 {
 protected:
 	
-	bool isHovered = false;
-	
 /*------------------
 	Draw Methods
 	
@@ -34,6 +32,8 @@ protected:
 	
 	
 public:
+	
+	bool isHovered = false;
 	
 	// Events
 	std::function<void()> onMouseClickStartEvent;
@@ -95,6 +95,7 @@ public:
 		}
 	}
 	
+	virtual void MouseMove (PositionContext position) { }
 	virtual void Draw () { }
 };
 

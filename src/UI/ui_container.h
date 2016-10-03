@@ -27,6 +27,22 @@ public:
 	
 	void Draw ()
 	{
+		for (int i = 0; i < windows.size(); i++)
+		{
+			Window* window = windows[i];
+			
+			int x, y;
+			input->GetCursorPosition(&x, &y);
+			
+			if	(
+					x >= window->position.x && x <= window->position.x + window->size.x &&
+					y >= window->position.y && y <= window->position.y + window->size.y
+				)
+			{
+				window->MouseMove (PositionContext(x, y) - window->position);
+			}
+		}
+		
 		if (!visible)
 			return;
 
@@ -38,6 +54,7 @@ public:
 			// If the window is shown (visible), draw it
 			if (window->IsShown ())
 			{
+				window->context = window->position;
 				window->Draw ();
 			}
 		}

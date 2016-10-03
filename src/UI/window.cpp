@@ -1,4 +1,5 @@
 #include "window.h"
+#include "button.h"
 
 /*------------------
 	Constructors
@@ -18,6 +19,9 @@ Window::Window (std::string title)
 	
 	mainPanel = new Panel (Vector2D (0, titleBarHeight), this->size, Color (255, 255, 255, 50));
 	this->AddComponent (mainPanel);
+	
+	Button* button = new Button (LOC(10, 10), LOC (100, 40));
+	mainPanel->AddComponent (button);
 }
 
 

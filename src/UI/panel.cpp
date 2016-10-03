@@ -49,3 +49,31 @@ void Panel::Draw ()
 		childComponent->Draw ();
 	}
 }
+
+void Panel::MouseMove (PositionContext mouseContext)
+{
+	for (int i = 0; i < childComponents.size(); i++)
+	{
+		Component* childComponent = childComponents[i];
+		
+		int x = mouseContext.x;
+		int y = mouseContext.y;
+		
+		if	(
+				x >= childComponent->position.x && x <= childComponent->position.x + childComponent->size.x &&
+				y >= childComponent->position.y && y <= childComponent->position.y + childComponent->size.y
+			)
+		{
+			childComponent->isHovered = true;
+			childComponent->MouseMove (mouseContext - childComponent->position);
+		}
+		else
+		{
+			childComponent->isHovered = false;
+		}
+	}
+}
+
+
+
+
