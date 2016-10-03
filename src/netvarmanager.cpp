@@ -121,7 +121,7 @@ std::string NetVarManager::dumpTable(HLClient::RecvTable *table, int depth)
 void NetVarManager::dumpNetvars()
 {
 	std::stringstream ss;
-	std::ofstream file;
+	char cwd[1024];
 
 	for (HLClient::ClientClass *pClass = client->GetAllClasses(); pClass != NULL; pClass = pClass->m_pNext)
 	{
@@ -129,13 +129,10 @@ void NetVarManager::dumpNetvars()
 		ss << NetVarManager::dumpTable(table, 0);
 	}
 
-	struct passwd *pw = getpwuid(getuid());
-	const char *homedir = pw->pw_dir;
+	getcwd(cwd, sizeof(cwd));
 
 	char* netvarsPath;
-	asprintf(&netvarsPath, "%s/%s", homedir, ".steam/steam/steamapps/common/Counter-Strike Global Offensive/netvars.txt");
+	asprintf(&netvarsPath, "%s/netvars.txt", cwd);
 
-	file.open(netvarsPath);
-	file << ss.str();
-	file.close();
+	std::ofstream(netvarsPath) << ss.str();
 }
