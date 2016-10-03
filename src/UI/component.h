@@ -36,6 +36,7 @@ protected:
 public:
 	
 	bool isHovered = false;
+	bool isMouseDown = false;
 	
 	// Events
 	std::function<void()> onMouseClickStartEvent;

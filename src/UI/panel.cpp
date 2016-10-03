@@ -66,23 +66,43 @@ void Panel::MouseMove (PositionContext mouseContext)
 		{
 			if (!childComponent->isHovered)
 			{
+				childComponent->isHovered = true;
 				if (childComponent->onMouseEnterEvent != NULL)
 				{
 					childComponent->onMouseEnterEvent();
 				}
-				childComponent->isHovered = true;
 			}
+			
+			
+			if (!childComponent->isMouseDown && input->IsButtonDown (MOUSE_LEFT))
+			{
+				childComponent->isMouseDown = true;
+				if (childComponent->onMouseClickStartEvent != NULL)
+				{
+					childComponent->onMouseClickStartEvent ();
+				}
+			}
+			
+			if (childComponent->isMouseDown && !input->IsButtonDown (MOUSE_LEFT))
+			{
+				childComponent->isMouseDown = false;
+				if (childComponent->onMouseClickEndEvent != NULL)
+				{
+					childComponent->onMouseClickEndEvent ();
+				}
+			}
+			
 			childComponent->MouseMove (mouseContext - childComponent->position);
 		}
 		else
 		{
 			if (childComponent->isHovered)
 			{
+				childComponent->isHovered = false;
 				if (childComponent->onMouseLeaveEvent != NULL)
 				{
 					childComponent->onMouseLeaveEvent();
 				}
-				childComponent->isHovered = false;
 			}
 		}
 	}
