@@ -93,12 +93,17 @@ void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
 	return client_vmt->GetOriginalMethod<FrameStageNotifyFn>(36)(thisptr, stage);
 }
 
-void hkDrawModelExecute(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld = NULL)
+void hkDrawModelExecute(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld)
 {
-	Chams::DrawModelExecute(context, state, pInfo);
-	Noflash::DrawModelExecute(context, state, pInfo);
+	modelRender_vmt->ReleaseVMT ();
 
-	return modelRender_vmt->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
+	Chams::DrawModelExecute (context, state, pInfo);
+	Noflash::DrawModelExecute (context, state, pInfo);
+
+	modelRender->DrawModelExecute (context, state, pInfo, pCustomBoneToWorld);
+	modelRender->ForcedMaterialOverride (NULL);
+
+	modelRender_vmt->ApplyVMT ();
 }
 
 /* called when the library is loading */
@@ -107,36 +112,36 @@ int __attribute__((constructor)) aimtux_init()
 	Hooker::HookInterfaces ();
 	Hooker::HookVMethods ();
 	Chams::CreateMaterials ();
-	
+
 	PRINT ("AimTux was successfully injected.");
-	
+
 	client_vmt->HookVM ((void*)hkFrameStageNotify, 36);
 	client_vmt->ApplyVMT ();
-	
+
 	panel_vmt->HookVM ((void*)hkPaintTraverse, 42);
 	panel_vmt->ApplyVMT ();
 
 	modelRender_vmt->HookVM ((void*)hkDrawModelExecute, 21);
 	modelRender_vmt->ApplyVMT ();
-	
+
 	Hooker::HookIClientMode ();
-	
+
 	clientMode_vmt->HookVM ((void*)hkCreateMove, 25);
 	clientMode_vmt->ApplyVMT ();
-	
+
 	SetupFonts ();
-	
+
 	NetVarManager::dumpNetvars ();
 	Offsets::getOffsets ();
-	
+
 	gui = new UI_Container;
-	
+
 	// Initialize GUI with a single main window
 	Window* window = new Window ("Main", Vector2D (900, 500), Vector2D (100, 100), Color (0, 0, 0, 120));
 	window->Show ();
-	
+
 	gui->AddWindow (window);
-	
+
 	return 0;
 }
 
