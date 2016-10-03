@@ -22,17 +22,6 @@ Panel::Panel (Vector2D position, Vector2D size, Color backgroundColor) : Panel (
 	this->backGroundColor = backgroundColor;
 }
 
-
-void Panel::AddComponent (Component* component)
-{
-	childComponents.push_back (component);
-}
-
-void Panel::RemoveComponent (Component* component)
-{
-	childComponents.erase (std::remove(childComponents.begin(), childComponents.end(), component));
-}
-
 void Panel::Draw ()
 {
 	this->Clear (backGroundColor);

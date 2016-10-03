@@ -17,8 +17,14 @@ public:
 	Panel (Vector2D position, Vector2D size);
 	Panel (Vector2D position, Vector2D size, Color backgroundColor);
 	
-	void AddComponent (Component* component);
-	void RemoveComponent (Component* component);
+	virtual void AddComponent (Component* component)
+	{
+		childComponents.push_back (component);
+	}
+	virtual void RemoveComponent (Component* component)
+	{
+		childComponents.erase (std::remove(childComponents.begin(), childComponents.end(), component));
+	}
 	
 	virtual void MouseTick (PositionContext position);
 	virtual void Draw ();
