@@ -39,6 +39,7 @@ namespace Settings
 	{
 		extern bool enabled;
 		extern float fov;
+		extern float smooth;
 		extern int bone;
 		
 		namespace AutoAim

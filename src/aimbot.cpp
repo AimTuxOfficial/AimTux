@@ -3,7 +3,8 @@
 // Default aimbot settings
 bool Settings::Aimbot::enabled = true;
 float Settings::Aimbot::fov = 180.0f;
-int Settings::Aimbot::bone = BONE_HEAD;
+float Settings::Aimbot::smooth = 0.0f;
+int Settings::Aimbot::bone = BONE_NECK;
 bool Settings::Aimbot::AutoAim::enabled = true;
 bool Settings::Aimbot::AimStep::enabled = true;
 float Settings::Aimbot::AimStep::value = 25.0f;
@@ -282,7 +283,9 @@ void Aimbot::CreateMove (CUserCmd* cmd)
 
 			float fov = Math::GetFov(AimStepLastAngle, Math::CalcAngle(p_vecHead, e_vecHead));
 
-			Aimbot::AimStepInProgress = (Settings::Aimbot::AimStep::enabled && fov > Settings::Aimbot::AimStep::value);
+			Aimbot::AimStepInProgress = (Settings::Aimbot::AimStep::enabled
+					&& Settings::Aimbot::smooth == 0
+					&& fov > Settings::Aimbot::AimStep::value);
 
 			if (Aimbot::AimStepInProgress)
 			{
@@ -295,6 +298,20 @@ void Aimbot::CreateMove (CUserCmd* cmd)
 
 				AimStepLastAngle.x = angle.x;
 				angle = AimStepLastAngle;
+			}
+
+			if (Settings::Aimbot::RCS::enabled)
+			{
+				RCS (angle);
+			}
+
+			if (Settings::Aimbot::smooth > 0.0f)
+			{
+				QAngle vDelta(cmd->viewangles - angle);
+
+				CheckAngles(vDelta);
+
+				angle = cmd->viewangles - vDelta / Settings::Aimbot::smooth;
 			}
 		}
 		
@@ -346,11 +363,6 @@ void Aimbot::CreateMove (CUserCmd* cmd)
 			oldSideMove = 0;
 			cmd->upmove = 0;
 		}
-	}
-
-	if (Settings::Aimbot::RCS::enabled)
-	{
-		RCS (angle);
 	}
 
 	// Check the angle to make sure it's invalid
