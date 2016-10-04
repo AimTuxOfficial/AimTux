@@ -4,6 +4,10 @@
 	Defaults	
 ---------------*/
 bool Settings::ESP::enabled	= true;
+Color Settings::ESP::ally_color = Color(0, 50, 200);
+Color Settings::ESP::enemy_color = Color(200, 0, 50);
+Color Settings::ESP::enemy_visible_color = Color(200, 200, 50);
+Color Settings::ESP::bones_color = Color(255, 255, 0);
 bool Settings::ESP::visibility_check = false;
 bool Settings::ESP::Walls::enabled = true;
 bool Settings::ESP::Tracer::enabled = false;
@@ -160,7 +164,7 @@ void DrawBone (int bone_a, int bone_b, C_BaseEntity* entity, Color color)
 
 void ESP::DrawBones (C_BaseEntity* entity)
 {
-	Color color (255, 255, 0);
+	Color color = Settings::ESP::bones_color;
 	
 	// Body
 	DrawBone (6, 5, entity, color);
@@ -189,22 +193,10 @@ void ESP::DrawBones (C_BaseEntity* entity)
 
 void ESP::DrawTracer (C_BasePlayer* localPlayer, C_BaseEntity* entity)
 {
-	Color color;
-	
 	int playerTeam = localPlayer->GetTeam();
 	int entityTeam = reinterpret_cast<C_BasePlayer*>(entity)->GetTeam();
-	
-	if (playerTeam != entityTeam)
-	{
-		color.r = 200;
-		color.b = 50;
-	}
-	else
-	{
-		color.b = 200;
-		color.g = 50;
-	}
-	
+	Color color = playerTeam == entityTeam ? Settings::ESP::ally_color : Settings::ESP::enemy_color;
+
 	int width;
 	int height;
 	engine->GetScreenSize (width, height);
@@ -238,16 +230,11 @@ void ESP::DrawPlayerBox (C_BasePlayer* localPlayer, C_BaseEntity* entity)
 
 	if (playerTeam != entityTeam)
 	{
-		color.r = 200;
-		color.b = 50;
-
-		if (isVisible)
-			color.g = 200;
+		color = isVisible ? Settings::ESP::enemy_visible_color : Settings::ESP::enemy_color;
 	}
 	else
 	{
-		color.b = 200;
-		color.g = 50;
+		color = Settings::ESP::ally_color;
 	}
 	
 	int width = 14;
@@ -265,21 +252,9 @@ void ESP::DrawPlayerBox (C_BasePlayer* localPlayer, C_BaseEntity* entity)
 
 void ESP::DrawPlayerName (C_BasePlayer* localPlayer, C_BaseEntity* entity, int entityIndex)
 {
-	Color color;
-
 	int playerTeam = localPlayer->GetTeam();
 	int entityTeam = reinterpret_cast<C_BasePlayer*>(entity)->GetTeam();
-	
-	if (playerTeam != entityTeam)
-	{
-		color.r = 150;
-		color.b = 10;
-	}
-	else
-	{
-		color.b = 200;
-		color.g = 100;
-	}
+	Color color = playerTeam == entityTeam ? Settings::ESP::ally_color : Settings::ESP::enemy_color;
 	
 	CEngineClient::player_info_t entityInformation;
 	engine->GetPlayerInfo(entityIndex, &entityInformation);

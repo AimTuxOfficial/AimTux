@@ -99,7 +99,11 @@ namespace Settings
 	{
 		extern bool enabled;
 		extern bool visibility_check;
-		
+		extern Color ally_color;
+		extern Color enemy_color;
+		extern Color enemy_visible_color;
+		extern Color bones_color;
+
 		namespace Tracer
 		{
 			extern TracerType type;
