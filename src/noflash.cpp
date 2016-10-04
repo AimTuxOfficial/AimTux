@@ -12,5 +12,5 @@ void Noflash::FrameStageNotify(ClientFrameStage_t stage)
 	if (!localPlayer)
 		return;
 
-	localPlayer->SetFlashMaxAlpha(255.0f - Settings::Noflash::value);
+	*localPlayer->GetFlashMaxAlpha() = 255.0f - Settings::Noflash::value;
 }

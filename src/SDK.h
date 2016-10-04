@@ -212,14 +212,9 @@ public:
 		return *(MoveType_t*)((uintptr_t)this + 0x290);
 	}
 
-	float GetFlashMaxAlpha()
+	float* GetFlashMaxAlpha()
 	{
-		return *(float*)((uintptr_t)this + offsets.m_flFlashMaxAlpha);
-	}
-
-	float SetFlashMaxAlpha(float alpha)
-	{
-		*(float*)((uintptr_t)this + offsets.m_flFlashMaxAlpha) = alpha;
+		return (float*)((uintptr_t)this + offsets.m_flFlashMaxAlpha);
 	}
 };
 
