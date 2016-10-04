@@ -83,7 +83,7 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 	
 	gui->Draw ();
 	
-	ESP::Tick ();
+	ESP::PaintTraverse (vgui_panel, force_repaint, allow_force);
 }
 
 /* replacement FrameStageNotify function */

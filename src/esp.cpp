@@ -112,44 +112,6 @@ void DrawESPBox (Vector vecOrigin, Vector vecViewOffset, Color color, int width,
 	Draw::DrawLine (a, b, color);
 }
 
-void ESP::Tick ()
-{
-	if (!Settings::ESP::enabled)
-		return;
-
-	C_BasePlayer* localPlayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-
-	if (!localPlayer)
-		return;
-
-	for (int i = 0; i < 64; ++i)
-	{
-		C_BaseEntity* entity = entitylist->GetClientEntity(i);
-		
-		if (!entity
-			|| entity == (C_BaseEntity*)localPlayer
-			|| entity->GetDormant()
-			|| entity->GetLifeState() != LIFE_ALIVE
-			|| entity->GetHealth() <= 0)
-			continue;
-
-		if (Settings::ESP::visibility_check && !Entity::IsVisible(localPlayer, entity, 6))
-			continue;
-
-		if (Settings::ESP::Bones::enabled)
-			ESP::DrawBones (entity);
-		
-		if (Settings::ESP::Walls::enabled)
-			ESP::DrawPlayerBox (localPlayer, entity);
-		
-		if (Settings::ESP::Tracer::enabled)
-			ESP::DrawTracer	(localPlayer, entity);
-		
-		if (Settings::ESP::Name::enabled)
-			ESP::DrawPlayerName	(localPlayer, entity, i);
-	}
-}
-
 void DrawBone (int bone_a, int bone_b, C_BaseEntity* entity, Color color)
 {
 	Vector s_vec_bone_a;
@@ -218,8 +180,6 @@ void ESP::DrawTracer (C_BasePlayer* localPlayer, C_BaseEntity* entity)
 		Draw::DrawLine (tracerLocation, LOC(s_vecEntity_s.x, s_vecEntity_s.y), color);
 }
 
-
-
 void ESP::DrawPlayerBox (C_BasePlayer* localPlayer, C_BaseEntity* entity)
 {
 	Color color;
@@ -264,4 +224,42 @@ void ESP::DrawPlayerName (C_BasePlayer* localPlayer, C_BaseEntity* entity, int e
 	Vector s_vecEntity_s;
 	if (!WorldToScreen(vecOrigin, s_vecEntity_s))
 		Draw::DrawString (CONV(entityInformation.name), LOC(s_vecEntity_s.x, s_vecEntity_s.y), color, 33, true);
+}
+
+void ESP::PaintTraverse (VPANEL vgui_panel, bool force_repaint, bool allow_force)
+{
+	if (!Settings::ESP::enabled)
+		return;
+
+	C_BasePlayer* localPlayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+
+	if (!localPlayer)
+		return;
+
+	for (int i = 0; i < 64; ++i)
+	{
+		C_BaseEntity* entity = entitylist->GetClientEntity(i);
+
+		if (!entity
+			|| entity == (C_BaseEntity*)localPlayer
+			|| entity->GetDormant()
+			|| entity->GetLifeState() != LIFE_ALIVE
+			|| entity->GetHealth() <= 0)
+			continue;
+
+		if (Settings::ESP::visibility_check && !Entity::IsVisible(localPlayer, entity, 6))
+			continue;
+
+		if (Settings::ESP::Bones::enabled)
+			ESP::DrawBones (entity);
+
+		if (Settings::ESP::Walls::enabled)
+			ESP::DrawPlayerBox (localPlayer, entity);
+
+		if (Settings::ESP::Tracer::enabled)
+			ESP::DrawTracer	(localPlayer, entity);
+
+		if (Settings::ESP::Name::enabled)
+			ESP::DrawPlayerName	(localPlayer, entity, i);
+	}
 }
