@@ -1,10 +1,12 @@
 #ifndef __WINDOW_H_
 #define __WINDOW_H_
 
+class Window;
+class TitleBar;
+
 #include "component.h"
 #include "panel.h"
-
-class TitleBar;
+#include "ui_container.h"
 
 class Window : public Panel
 {
@@ -34,7 +36,6 @@ public:
 	}
 };
 
-
 class TitleBar : public Component
 {
 private:
@@ -45,13 +46,7 @@ public:
 	Color backColor = Color (255, 100, 100);
 	Color foreColor = Color (255, 255, 255);
 	
-	void OnMouseClickStart ()
-	{
-		int x, y;
-		input->GetCursorPosition(&x, &y);
-		
-		mouseClickStartPosition = LOC (x, y) - parentWindow->position;
-	}
+	void OnMouseClickStart ();
 	
 	TitleBar (Window* window, Vector2D position)
 	{
@@ -61,23 +56,7 @@ public:
 		onMouseClickStartEvent = MFUNC (&TitleBar::OnMouseClickStart, this);
 	}
 	
-	void Draw ()
-	{
-		
-		if (isMouseDown)
-		{
-			int x, y;
-			input->GetCursorPosition(&x, &y);
-			
-			Vector2D newPos = LOC (x, y) - mouseClickStartPosition;
-			
-			parentWindow->position = newPos;
-		}
-		
-		
-		Clear (backColor);
-		DrawCenteredString (std::wstring (parentWindow->title.begin(), parentWindow->title.end()), title_font, foreColor, LOC (size.x / 2, size.y / 2));
-	}
+	void Draw ();
 };
 
 #endif

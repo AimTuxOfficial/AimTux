@@ -25,57 +25,15 @@ public:
 		windows.erase (std::remove(windows.begin(), windows.end(), window));
 	}
 	
-	void Draw ()
+	void Focus (Window* window)
 	{
-		if (!visible)
-		{
-			return;
-		}
-		
-		for (int i = 0; i < windows.size(); i++)
-		{
-			Window* window = windows[i];
-			
-			if (!window->IsShown ())
-			{
-				continue;
-			}
-			
-			int x, y;
-			input->GetCursorPosition(&x, &y);
-			
-			if	(
-					x >= window->position.x && x <= window->position.x + window->size.x &&
-					y >= window->position.y && y <= window->position.y + window->size.y
-				)
-			{
-				window->MouseTick (PositionContext(x, y) - window->position);
-			}
-		}
-
-		// Loop through all windows
-		for (int i = 0; i < windows.size (); i++)
-		{
-			Window* window = windows[i];
-			
-			// If the window is shown (visible), draw it
-			if (window->IsShown ())
-			{
-				window->context = window->position;
-				window->Draw ();
-			}
-		}
-
-		// Draw cursor
-		cursor.Draw ();
+		// Push the window to the top of the stack
+		RemoveWindow (window);
+		AddWindow (window);
 	}
 	
-	void Toggle ()
-	{
-		visible = !visible;
-
-		engine->ExecuteClientCmd(visible ? "cl_mouseenable 0" : "cl_mouseenable 1");
-	}
+	void Draw ();
+	void Toggle ();
 };
 
 extern UI_Container* gui;

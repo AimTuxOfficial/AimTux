@@ -71,6 +71,42 @@ bool Window::IsShown ()
 
 
 
+/*--------------
+	TitleBar	
+--------------*/
+
+
+
+void TitleBar::OnMouseClickStart ()
+{
+	int x, y;
+	input->GetCursorPosition(&x, &y);
+	
+	mouseClickStartPosition = LOC (x, y) - parentWindow->position;
+	
+	gui->Focus (parentWindow);
+}
+
+
+void TitleBar::Draw ()
+{
+	if (isMouseDown)
+	{
+		int x, y;
+		input->GetCursorPosition(&x, &y);
+		
+		Vector2D newPos = LOC (x, y) - mouseClickStartPosition;
+		
+		parentWindow->position = newPos;
+	}
+	
+	
+	Clear (backColor);
+	DrawCenteredString (std::wstring (parentWindow->title.begin(), parentWindow->title.end()), title_font, foreColor, LOC (size.x / 2, size.y / 2));
+}
+
+
+
 
 
 
