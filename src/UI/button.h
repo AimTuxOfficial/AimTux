@@ -9,7 +9,7 @@ public:
 	
 	std::function<void()> OnClickedEvent;
 	
-	std::string text;
+	std::wstring text = L"button";
 	Color backGroundColor;
 	Color foreGroundColor;
 	
@@ -21,10 +21,11 @@ public:
 		}
 	}
 	
-	Button (Vector2D position, Vector2D size)
+	Button (std::string text, Vector2D position, Vector2D size)
 	{
 		this->position = position;
 		this->size = size;
+		this->text = std::wstring(text.begin(), text.end ());
 		
 		onMouseClickEndEvent	= MFUNC (&Button::Event_OnMouseClickEnd, this);
 	}
@@ -34,7 +35,7 @@ public:
 		Color color = isHovered ? Color (100, 255, 100) : Color (100, 100, 255);
 		Clear (color);
 		
-		DrawCenteredString (std::wstring (L"test"), normal_font, Color (255, 255, 255), LOC (size.x / 2, size.y / 2));
+		DrawCenteredString (text, normal_font, Color (255, 255, 255), LOC (size.x / 2, size.y / 2));
 	}
 };
 

@@ -21,7 +21,7 @@ Window::Window (std::string title)
 	this->childComponents.push_back (titleBar);
 	
 	
-	Button* button = new Button (LOC(10, 10), LOC (100, 40));
+	Button* button = new Button ("Test button", LOC(10, 10), LOC (130, 40));
 	mainPanel->AddComponent (button);
 }
 
