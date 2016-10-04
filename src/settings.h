@@ -140,7 +140,8 @@ namespace Settings
 
 	namespace Chams
 	{
-		extern bool enabled;
+		extern bool players;
+		extern bool arms;
 		extern ChamsType type;
 	}
 

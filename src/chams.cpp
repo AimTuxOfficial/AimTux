@@ -1,6 +1,7 @@
 #include "chams.h"
 
-bool Settings::Chams::enabled = true;
+bool Settings::Chams::players = true;
+bool Settings::Chams::arms = true;
 ChamsType Settings::Chams::type = CHAMS_FLAT_IGNOREZ;
 
 void Chams::CreateMaterials()
@@ -68,16 +69,9 @@ void Chams::CreateMaterials()
 	std::ofstream(chamsFlatIgnorezPath) << chamsFlatIgnorez.str();
 }
 
-void Chams::DrawModelExecute(void* context, void *state, const ModelRenderInfo_t &pInfo)
+void DrawPlayer(const ModelRenderInfo_t &pInfo)
 {
-	if (!Settings::Chams::enabled)
-		return;
-
-	if (!pInfo.pModel)
-		return;
-
-	std::string modelName = modelInfo->GetModelName(pInfo.pModel);
-	if (modelName.find("models/player") == std::string::npos)
+	if (!Settings::Chams::players)
 		return;
 
 	C_BasePlayer* localPlayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
@@ -120,4 +114,30 @@ void Chams::DrawModelExecute(void* context, void *state, const ModelRenderInfo_t
 		mat->ColorModulate (1.0f, 0.0f, 0.0f);
 
 	modelRender->ForcedMaterialOverride(mat);
+}
+
+void DrawArms(const ModelRenderInfo_t &pInfo)
+{
+	if (!Settings::Chams::arms)
+		return;
+
+	IMaterial *mat = material->FindMaterial ("aimtux_chams", TEXTURE_GROUP_MODEL);
+
+	mat->AlphaModulate (1.0f);
+	mat->ColorModulate (1.0f, 0.65f, 0.0f);
+
+	modelRender->ForcedMaterialOverride(mat);
+}
+
+void Chams::DrawModelExecute(void* context, void *state, const ModelRenderInfo_t &pInfo)
+{
+	if (!pInfo.pModel)
+		return;
+
+	std::string modelName = modelInfo->GetModelName(pInfo.pModel);
+
+	if (modelName.find("models/player") != std::string::npos)
+		DrawPlayer (pInfo);
+	else if (modelName.find("arms") != std::string::npos)
+		DrawArms (pInfo);
 }
