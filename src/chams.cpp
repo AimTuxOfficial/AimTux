@@ -2,6 +2,10 @@
 
 bool Settings::Chams::players = true;
 bool Settings::Chams::arms = true;
+Color Settings::Chams::players_ally_color = Color(0, 50, 200);
+Color Settings::Chams::players_enemy_color = Color(200, 0, 50);
+Color Settings::Chams::players_enemy_visible_color = Color(200, 200, 50);
+Color Settings::Chams::arms_color = Color(255, 165, 0);
 ChamsType Settings::Chams::type = CHAMS_FLAT_IGNOREZ;
 
 void Chams::CreateMaterials()
@@ -107,11 +111,17 @@ void DrawPlayer(const ModelRenderInfo_t &pInfo)
 	mat->AlphaModulate (1.0f);
 
 	if (entity->GetTeam() == localPlayer->GetTeam())
-		mat->ColorModulate (0.0f, 0.3f, 0.8f);
+		mat->ColorModulate (Settings::Chams::players_ally_color.r / 255.0f,
+							Settings::Chams::players_ally_color.g / 255.0f,
+							Settings::Chams::players_ally_color.b / 255.0f);
 	else if (Entity::IsVisible(localPlayer, entity, 6))
-		mat->ColorModulate (1.0f, 0.5f, 0.0f);
+		mat->ColorModulate (Settings::Chams::players_enemy_visible_color.r / 255.0f,
+							Settings::Chams::players_enemy_visible_color.g / 255.0f,
+							Settings::Chams::players_enemy_visible_color.b / 255.0f);
 	else
-		mat->ColorModulate (1.0f, 0.0f, 0.0f);
+		mat->ColorModulate (Settings::Chams::players_enemy_color.r / 255.0f,
+							Settings::Chams::players_enemy_color.g / 255.0f,
+							Settings::Chams::players_enemy_color.b / 255.0f);
 
 	modelRender->ForcedMaterialOverride(mat);
 }
@@ -124,7 +134,9 @@ void DrawArms(const ModelRenderInfo_t &pInfo)
 	IMaterial *mat = material->FindMaterial ("aimtux_chams", TEXTURE_GROUP_MODEL);
 
 	mat->AlphaModulate (1.0f);
-	mat->ColorModulate (1.0f, 0.65f, 0.0f);
+	mat->ColorModulate (Settings::Chams::arms_color.r / 255.0f,
+						Settings::Chams::arms_color.g / 255.0f,
+						Settings::Chams::arms_color.b / 255.0f);
 
 	modelRender->ForcedMaterialOverride(mat);
 }
