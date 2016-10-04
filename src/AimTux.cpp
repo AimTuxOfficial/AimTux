@@ -74,7 +74,12 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 {
 	panel_vmt->GetOriginalMethod<PaintTraverseFn>(42)(thisptr, vgui_panel, force_repaint, allow_force);
 
-	if (strcmp(panel->GetName(vgui_panel), "FocusOverlayPanel"))
+	static unsigned long long int panelID;
+
+	if (!panelID && !strcmp(panel->GetName(vgui_panel), "FocusOverlayPanel"))
+		panelID = vgui_panel;
+
+	if (vgui_panel != panelID)
 		return;
 
 	if (IsButtonPressed(ButtonCode_t::KEY_INSERT)) {
