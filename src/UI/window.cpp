@@ -1,5 +1,9 @@
 #include "window.h"
 #include "button.h"
+#include "../settings.h"
+
+Color Settings::UI::titleBarColor = Color (255, 100, 100);
+Color Settings::UI::bodyColor = Color (20, 20, 20, 190);
 
 /*------------------
 	Constructors
@@ -14,15 +18,11 @@ Window::Window (std::string title)
 	
 	// Add base components like title bar and main panel
 	
-	mainPanel = new Panel (Vector2D (0, titleBarHeight), this->size, Color (255, 255, 255, 50));
+	mainPanel = new Panel (Vector2D (0, titleBarHeight), this->size, Color (20, 20, 20, 190));
 	this->childComponents.push_back (mainPanel);
 	
 	titleBar = new TitleBar (this, LOC (0, 0));
 	this->childComponents.push_back (titleBar);
-	
-	
-	Button* button = new Button ("Test button", LOC(10, 10), LOC (130, 40));
-	mainPanel->AddComponent (button);
 }
 
 
@@ -69,6 +69,13 @@ bool Window::IsShown ()
 }
 
 
+void Window::Draw ()
+{
+	Panel::Draw ();
+	
+	DrawRectangle (LOC (0, 0), size, Settings::UI::titleBarColor);
+}
+
 
 
 /*--------------
@@ -101,7 +108,7 @@ void TitleBar::Draw ()
 	}
 	
 	
-	Clear (backColor);
+	Clear (Settings::UI::titleBarColor);
 	DrawCenteredString (std::wstring (parentWindow->title.begin(), parentWindow->title.end()), title_font, foreColor, LOC (size.x / 2, size.y / 2));
 }
 

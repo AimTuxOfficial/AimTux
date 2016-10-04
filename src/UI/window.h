@@ -34,6 +34,8 @@ public:
 	{
 		mainPanel->RemoveComponent (component);
 	}
+	
+	void Draw ();
 };
 
 class TitleBar : public Component
@@ -43,7 +45,6 @@ private:
 public:
 	Window* parentWindow;
 	
-	Color backColor = Color (255, 100, 100);
 	Color foreColor = Color (255, 255, 255);
 	
 	void OnMouseClickStart ();

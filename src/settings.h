@@ -35,6 +35,12 @@ enum ChamsType
 
 namespace Settings
 {
+	namespace UI
+	{
+		extern Color titleBarColor;
+		extern Color bodyColor;
+	}
+	
 	namespace Aimbot
 	{
 		extern bool enabled;

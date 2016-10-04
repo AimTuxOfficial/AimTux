@@ -10,7 +10,7 @@ class Panel : public Component
 protected:
 	std::vector<Component*> childComponents;
 public:
-	Color backGroundColor;
+	Color backGroundColor = Color (0, 0, 0, 0);
 	
 	Panel ();
 	Panel (Vector2D position);
