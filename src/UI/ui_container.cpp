@@ -1,5 +1,24 @@
 #include "ui_container.h"
 
+bool UI_Container::IsOverlapping (Vector2D position, int index)
+{
+	int x = position.x;
+	int y = position.y;
+	
+	for (int i = windows.size()-1; i != index; i--)
+	{
+		Window* window = windows[i];
+		
+		if (x >= window->position.x && x <= window->position.x + window->size.x &&
+				y >= window->position.y && y <= window->position.y + window->size.y)
+		{
+			return true;
+		}
+	}
+	
+	return false;
+}
+
 void UI_Container::Draw ()
 {
 	if (!visible)
@@ -24,7 +43,10 @@ void UI_Container::Draw ()
 				y >= window->position.y && y <= window->position.y + window->size.y
 			)
 		{
-			window->MouseTick (PositionContext(x, y) - window->position);
+			if (!IsOverlapping(PositionContext(x, y), i))
+			{
+				window->MouseTick (PositionContext(x, y) - window->position);
+			}
 		}
 	}
 

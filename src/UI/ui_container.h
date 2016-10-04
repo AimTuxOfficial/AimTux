@@ -34,6 +34,7 @@ public:
 	
 	void Draw ();
 	void Toggle ();
+	bool IsOverlapping (Vector2D position, int index);
 };
 
 extern UI_Container* gui;
