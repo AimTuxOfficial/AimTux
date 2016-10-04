@@ -26,6 +26,7 @@ public:
 		childComponents.erase (std::remove(childComponents.begin(), childComponents.end(), component));
 	}
 	
+	void DoReleaseTree ();
 	virtual void MouseTick (PositionContext position);
 	virtual void Draw ();
 };

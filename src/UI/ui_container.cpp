@@ -47,6 +47,10 @@ void UI_Container::Draw ()
 			{
 				window->MouseTick (PositionContext(x, y) - window->position);
 			}
+			else
+			{
+				window->DoReleaseTree ();
+			}
 		}
 	}
 

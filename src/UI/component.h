@@ -67,6 +67,7 @@ public:
 	
 	virtual void MouseTick (PositionContext position) { }
 	virtual void Draw () { }
+	virtual void DoReleaseTree () { }
 };
 
 #endif
