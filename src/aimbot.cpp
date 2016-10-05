@@ -155,7 +155,7 @@ void Aimbot::CorrectMovement (QAngle vOldAngles, CUserCmd* pCmd, float fOldForwa
 	pCmd->sidemove = sin(DEG2RAD(deltaView)) * fOldForward + sin(DEG2RAD(deltaView + 90.f)) * fOldSidemove;
 }
 
-bool isPistol(C_BaseCombatWeapon* weapon)
+bool Aimbot::isPistol(C_BaseCombatWeapon* weapon)
 {
 	switch (*weapon->GetItemDefinitionIndex())
 	{
@@ -184,7 +184,7 @@ bool isPistol(C_BaseCombatWeapon* weapon)
 	}
 }
 
-bool isAutomatic(C_BaseCombatWeapon* weapon)
+bool Aimbot::isAutomatic(C_BaseCombatWeapon* weapon)
 {
 	switch (*weapon->GetItemDefinitionIndex())
 	{
@@ -223,7 +223,7 @@ bool isAutomatic(C_BaseCombatWeapon* weapon)
 	}
 }
 
-bool isKnife(C_BaseCombatWeapon* weapon) {
+bool Aimbot::isKnife(C_BaseCombatWeapon* weapon) {
 	switch (*weapon->GetItemDefinitionIndex()) {
 		case WEAPON_KNIFE:
 			return true;

@@ -79,12 +79,10 @@ void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 
 	/* viewmodel replacements */
 	C_BaseViewModel* viewmodel = reinterpret_cast<C_BaseViewModel*>(entitylist->GetClientEntity(localplayer->GetViewModel() & 0xFFF));
-
 	if (!viewmodel)
 		return;
 
 	C_BaseCombatWeapon* active_weapon = reinterpret_cast<C_BaseCombatWeapon*>(entitylist->GetClientEntity(viewmodel->GetWeapon() & 0xFFF));
-
 	if (!active_weapon)
 		return;
 

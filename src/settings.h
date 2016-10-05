@@ -153,11 +153,16 @@ namespace Settings
 	{
 		extern bool enabled;
 	}
-	
+
 	namespace Noflash
 	{
 		extern bool enabled;
 		extern float value;
+	}
+
+	namespace Recoilcrosshair
+	{
+		extern bool enabled;
 	}
 
 	namespace Skinchanger

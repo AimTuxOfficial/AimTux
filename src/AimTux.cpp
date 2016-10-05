@@ -17,6 +17,7 @@
 #include "atgui.h"
 #include "chams.h"
 #include "noflash.h"
+#include "recoilcrosshair.h"
 
 FONT title_font = 0;
 FONT normal_font = 0;
@@ -89,6 +90,7 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 	gui->Draw ();
 	
 	ESP::PaintTraverse (vgui_panel, force_repaint, allow_force);
+	Recoilcrosshair::PaintTraverse (vgui_panel, force_repaint, allow_force);
 }
 
 /* replacement FrameStageNotify function */
