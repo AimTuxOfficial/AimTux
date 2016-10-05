@@ -156,6 +156,7 @@ namespace Settings
 	namespace Noflash
 	{
 		extern bool enabled;
+		extern float value;
 	}
 }
 

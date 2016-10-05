@@ -115,12 +115,21 @@ class IHandleEntity
 public:
 	virtual ~IHandleEntity() {};
 };
-	
+
+struct model_t {
+	char name[255];
+};
+
 class IClientUnknown : public IHandleEntity {};
 class IClientRenderable
 {
 public:
 	virtual ~IClientRenderable() {};
+
+	model_t* GetModel()
+	{
+		return GetVirtualFunction<model_t*(*)(void*)>(this, 8)(this);
+	}
 
 	bool SetupBones(matrix3x4_t* pBoneMatrix, int nMaxBones, int nBoneMask, float flCurTime = 0)
 	{
@@ -201,6 +210,11 @@ public:
 	MoveType_t GetMoveType ()
 	{
 		return *(MoveType_t*)((uintptr_t)this + 0x290);
+	}
+
+	float* GetFlashMaxAlpha()
+	{
+		return (float*)((uintptr_t)this + offsets.m_flFlashMaxAlpha);
 	}
 };
 
@@ -579,6 +593,12 @@ public:
 	{
 		typedef C_BaseEntity* (* oGetClientEntity)(void*, int);
 		return getvfunc<oGetClientEntity>(this, 3)(this, index);
+	}
+
+	int GetHighestEntityIndex ()
+	{
+		typedef int (* oGetHighestEntityIndex)(void*);
+		return getvfunc<oGetHighestEntityIndex>(this, 6)(this);
 	}
 };
 
@@ -1082,9 +1102,6 @@ enum MaterialPropertyTypes_t
 	MATERIAL_PROPERTY_NEEDS_BUMPED_LIGHTMAPS				// bool
 };
 
-struct model_t {
-	char name[255];
-};
 typedef unsigned short ModelInstanceHandle_t;
 
 struct ModelRenderInfo_t

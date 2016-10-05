@@ -21,74 +21,75 @@ std::unordered_map<int, SkinChanger::Skin> SkinChanger::skins = {
 
 void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 {
-	if (stage == ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_START) {
-		/* get our player entity */
-		C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
+	if (stage != ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_START)
+		return;
 
-		if (!localplayer || localplayer->GetLifeState() != LIFE_ALIVE)
-			return;
+	/* get our player entity */
+	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
 
-		/* get a list of weapon we're holding */
-		int* weapons = localplayer->GetWeapons();
+	if (!localplayer || localplayer->GetLifeState() != LIFE_ALIVE)
+		return;
 
-		if (!weapons)
-			return;
+	/* get a list of weapon we're holding */
+	int* weapons = localplayer->GetWeapons();
 
-		for (int i = 0; i < 64; i++)
-		{
-			/* check if the handle is invalid */
-			if (weapons[i] == -1)
-				continue;
+	if (!weapons)
+		return;
 
-			C_BaseAttributableItem* weapon = reinterpret_cast<C_BaseAttributableItem*>(entitylist->GetClientEntity(weapons[i] & 0xFFF));
+	for (int i = 0; i < 64; i++)
+	{
+		/* check if the handle is invalid */
+		if (weapons[i] == -1)
+			continue;
 
-			/* check if the weapon pointer is invalid */
-			if (!weapon)
-				continue;
+		C_BaseAttributableItem* weapon = reinterpret_cast<C_BaseAttributableItem*>(entitylist->GetClientEntity(weapons[i] & 0xFFF));
 
-			auto keyExists = SkinChanger::skins.find(*weapon->GetItemDefinitionIndex());
-			if (keyExists == SkinChanger::skins.end())
-				continue;
+		/* check if the weapon pointer is invalid */
+		if (!weapon)
+			continue;
 
-			SkinChanger::Skin currentSkin = SkinChanger::skins[*weapon->GetItemDefinitionIndex()];
-
-			if (currentSkin.PaintKit != 0)
-				*weapon->GetFallbackPaintKit() = currentSkin.PaintKit;
-
-			if (currentSkin.ItemDefinitionIndex != 0)
-				*weapon->GetItemDefinitionIndex() = currentSkin.ItemDefinitionIndex;
-
-			if (currentSkin.Wear != 0)
-				*weapon->GetFallbackWear() = currentSkin.Wear;
-
-			if (currentSkin.StatTrak != 0)
-				*weapon->GetFallbackStatTrak() = currentSkin.StatTrak;
-
-			if (currentSkin.CustomName != NULL)
-				snprintf(weapon->GetCustomName(), 32, "%s", currentSkin.CustomName);
-
-			/* force our fallback values to be used */
-			*weapon->GetItemIDHigh() = -1;
-		}
-
-		/* viewmodel replacements */
-		C_BaseViewModel* viewmodel = reinterpret_cast<C_BaseViewModel*>(entitylist->GetClientEntity(localplayer->GetViewModel() & 0xFFF));
-
-		if (!viewmodel)
-			return;
-
-		C_BaseCombatWeapon* active_weapon = reinterpret_cast<C_BaseCombatWeapon*>(entitylist->GetClientEntity(viewmodel->GetWeapon() & 0xFFF));
-
-		if (!active_weapon)
-			return;
-
-		auto keyExists = SkinChanger::skins.find(*active_weapon->GetItemDefinitionIndex());
+		auto keyExists = SkinChanger::skins.find(*weapon->GetItemDefinitionIndex());
 		if (keyExists == SkinChanger::skins.end())
-			return;
+			continue;
 
-		SkinChanger::Skin currentSkin = SkinChanger::skins[*active_weapon->GetItemDefinitionIndex()];
+		SkinChanger::Skin currentSkin = SkinChanger::skins[*weapon->GetItemDefinitionIndex()];
 
-		if (currentSkin.Model != NULL)
-			*viewmodel->GetModelIndex() = modelInfo->GetModelIndex(currentSkin.Model);
+		if (currentSkin.PaintKit != 0)
+			*weapon->GetFallbackPaintKit() = currentSkin.PaintKit;
+
+		if (currentSkin.ItemDefinitionIndex != 0)
+			*weapon->GetItemDefinitionIndex() = currentSkin.ItemDefinitionIndex;
+
+		if (currentSkin.Wear != 0)
+			*weapon->GetFallbackWear() = currentSkin.Wear;
+
+		if (currentSkin.StatTrak != 0)
+			*weapon->GetFallbackStatTrak() = currentSkin.StatTrak;
+
+		if (currentSkin.CustomName != NULL)
+			snprintf(weapon->GetCustomName(), 32, "%s", currentSkin.CustomName);
+
+		/* force our fallback values to be used */
+		*weapon->GetItemIDHigh() = -1;
 	}
+
+	/* viewmodel replacements */
+	C_BaseViewModel* viewmodel = reinterpret_cast<C_BaseViewModel*>(entitylist->GetClientEntity(localplayer->GetViewModel() & 0xFFF));
+
+	if (!viewmodel)
+		return;
+
+	C_BaseCombatWeapon* active_weapon = reinterpret_cast<C_BaseCombatWeapon*>(entitylist->GetClientEntity(viewmodel->GetWeapon() & 0xFFF));
+
+	if (!active_weapon)
+		return;
+
+	auto keyExists = SkinChanger::skins.find(*active_weapon->GetItemDefinitionIndex());
+	if (keyExists == SkinChanger::skins.end())
+		return;
+
+	SkinChanger::Skin currentSkin = SkinChanger::skins[*active_weapon->GetItemDefinitionIndex()];
+
+	if (currentSkin.Model != NULL)
+		*viewmodel->GetModelIndex() = modelInfo->GetModelIndex(currentSkin.Model);
 }

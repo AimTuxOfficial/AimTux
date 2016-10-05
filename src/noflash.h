@@ -7,7 +7,7 @@
 
 namespace Noflash
 {
-	void DrawModelExecute(void* context, void *state, const ModelRenderInfo_t &pInfo);
+	void FrameStageNotify(ClientFrameStage_t stage);
 }
 
 #endif
