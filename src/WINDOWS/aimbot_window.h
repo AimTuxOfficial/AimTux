@@ -10,7 +10,7 @@ class AimbotWindow;
 class AimbotWindow : public Window
 {
 private:
-	
+	ToggleSwitch* ts_aimbot_enabled;
 public:
 	AimbotWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor);
 };
