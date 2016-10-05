@@ -35,5 +35,5 @@ void MainWindow::esp_button_clicked ()
 
 void MainWindow::misc_button_clicked ()
 {
-	esp_window->Toggle ();
+	misc_window->Toggle ();
 }
