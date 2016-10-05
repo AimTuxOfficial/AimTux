@@ -13,7 +13,6 @@
 #include "antiaim.h"
 #include "triggerbot.h"
 #include "skinchanger.h"
-#include "util.h"
 
 #include "atgui.h"
 #include "chams.h"
@@ -117,8 +116,6 @@ int __attribute__((constructor)) aimtux_init()
 	Hooker::HookInterfaces ();
 	Hooker::HookVMethods ();
 	Chams::CreateMaterials ();
-	
-	SetupRainbow ();
 
 	PRINT ("AimTux was successfully injected.");
 

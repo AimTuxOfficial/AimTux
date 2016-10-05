@@ -140,14 +140,13 @@ void DrawArms(const ModelRenderInfo_t &pInfo)
 	
 	if (Settings::ESP::Chams::rainbow_arms)
 	{
-		rainbow_index++;
-	
-		if (rainbow_index > rainbow->size())
-		{
-			rainbow_index = 0;
-		}
-		
-		color = (*rainbow)[rainbow_index];
+		static float rainbow;
+		if (rainbow >= 1.f)
+			rainbow = 0.f;
+		else
+			rainbow += 0.001;
+
+		color = Color::FromHSB(rainbow, 1.0f, 1.0f);
 	}
 	
 	mat->AlphaModulate (1.0f);

@@ -9,7 +9,6 @@
 #include "interfaces.h"
 #include "settings.h"
 #include "entity.h"
-#include "util.h"
 
 namespace Chams
 {
