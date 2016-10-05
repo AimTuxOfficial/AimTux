@@ -2,7 +2,7 @@
 #define __OFFSETS_H_
 
 #include <cstdio>
-#include "vector.h"
+#include "SDK/vector.h"
 
 struct COffsets
 {

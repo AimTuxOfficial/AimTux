@@ -7,7 +7,7 @@ struct Color
 	int g;
 	int b;
 	int a;
-	
+
 	Color ()
 	{
 		this->r = 0;
@@ -15,7 +15,7 @@ struct Color
 		this->b = 0;
 		this->a = 255;
 	}
-	
+
 	Color (int r, int g, int b)
 	{
 		this->r = r;
@@ -23,7 +23,7 @@ struct Color
 		this->b = b;
 		this->a = 255;
 	}
-	
+
 	Color (int r, int g, int b, int a)
 	{
 		this->r = r;
@@ -31,7 +31,7 @@ struct Color
 		this->b = b;
 		this->a = a;
 	}
-	
+
 	//TODO: Add operator overloads
 };
 

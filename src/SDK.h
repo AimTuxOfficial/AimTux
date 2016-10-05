@@ -5,10 +5,10 @@
 #include <dlfcn.h>
 #include "offsets.h"
 #include "pstring.h"
-#include "color.h"
 
 #include "SDK/definitions.h"
 #include "SDK/common.h"
+#include "SDK/color.h"
 #include "SDK/IInputSystem.h"
 #include "SDK/IMaterial.h"
 #include "SDK/IMaterialSystem.h"

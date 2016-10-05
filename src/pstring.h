@@ -1,5 +1,6 @@
 #ifndef __PSTRING_H_
 #define __PSTRING_H_
+
 #include <string>
 #include <sstream>
 
