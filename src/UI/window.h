@@ -35,6 +35,11 @@ public:
 		mainPanel->RemoveComponent (component);
 	}
 	
+	void Toggle ()
+	{
+		shown = !shown;
+	}
+	
 	void Draw ();
 };
 

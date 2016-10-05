@@ -7,7 +7,8 @@ void SetupUI ()
 	gui->AddWindow (main_window);
 	
 	// Aimbot window
-	
+	aimbot_window = new AimbotWindow ("Aimbot", Vector2D (700, 600), Vector2D (400, 400), Color (0, 0, 0, 0));
+	gui->AddWindow (aimbot_window);
 	
 	
 	gui->Focus (main_window);
