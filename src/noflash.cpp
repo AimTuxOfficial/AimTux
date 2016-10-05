@@ -5,9 +5,6 @@ float Settings::Noflash::value = 255.0f;
 
 void Noflash::FrameStageNotify(ClientFrameStage_t stage)
 {
-	if (!Settings::Noflash::enabled)
-		return;
-
 	if (stage != ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_START)
 		return;
 
@@ -15,5 +12,8 @@ void Noflash::FrameStageNotify(ClientFrameStage_t stage)
 	if (!localPlayer)
 		return;
 
-	*localPlayer->GetFlashMaxAlpha() = 255.0f - Settings::Noflash::value;
+	if (Settings::Noflash::enabled)
+		*localPlayer->GetFlashMaxAlpha() = 255.0f - Settings::Noflash::value;
+	else
+		*localPlayer->GetFlashMaxAlpha() = 255.0f;
 }
