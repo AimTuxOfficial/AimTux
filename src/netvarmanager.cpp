@@ -1,16 +1,16 @@
 #include "netvarmanager.h"
 
-std::vector<HLClient::RecvTable *> NetVarManager::getTables()
+std::vector<RecvTable *> NetVarManager::getTables()
 {
-	std::vector<HLClient::RecvTable *> tables;
+	std::vector<RecvTable *> tables;
 
-	HLClient::ClientClass *clientClass = client->GetAllClasses();
+	ClientClass *clientClass = client->GetAllClasses();
 	if (!clientClass)
-		return std::vector<HLClient::RecvTable*>();
+		return std::vector<RecvTable*>();
 
 	while (clientClass)
 	{
-		HLClient::RecvTable *recvTable = clientClass->m_pRecvTable;
+		RecvTable *recvTable = clientClass->m_pRecvTable;
 		tables.push_back(recvTable);
 
 		clientClass = clientClass->m_pNext;
@@ -19,14 +19,14 @@ std::vector<HLClient::RecvTable *> NetVarManager::getTables()
 	return tables;
 }
 
-HLClient::RecvTable* NetVarManager::getTable(std::vector<HLClient::RecvTable *> tables, const char *tableName)
+RecvTable* NetVarManager::getTable(std::vector<RecvTable *> tables, const char *tableName)
 {
 	if (tables.empty())
 		return NULL;
 
 	for (int i = 0; i < tables.size(); i++)
 	{
-		HLClient::RecvTable *table = tables[i];
+		RecvTable *table = tables[i];
 
 		if (!table)
 			continue;
@@ -38,7 +38,7 @@ HLClient::RecvTable* NetVarManager::getTable(std::vector<HLClient::RecvTable *> 
 	return NULL;
 }
 
-int NetVarManager::getOffset(std::vector<HLClient::RecvTable *> tables, const char *tableName, const char *propName)
+int NetVarManager::getOffset(std::vector<RecvTable *> tables, const char *tableName, const char *propName)
 {
 	int offset = getProp(tables, tableName, propName);
 
@@ -49,9 +49,9 @@ int NetVarManager::getOffset(std::vector<HLClient::RecvTable *> tables, const ch
 	return offset;
 }
 
-int NetVarManager::getProp(std::vector<HLClient::RecvTable *> tables, const char *tableName, const char *propName, HLClient::RecvProp **prop)
+int NetVarManager::getProp(std::vector<RecvTable *> tables, const char *tableName, const char *propName, RecvProp **prop)
 {
-	HLClient::RecvTable *recvTable = getTable(tables, tableName);
+	RecvTable *recvTable = getTable(tables, tableName);
 	if (!recvTable)
 		return 0;
 
@@ -62,13 +62,13 @@ int NetVarManager::getProp(std::vector<HLClient::RecvTable *> tables, const char
 	return offset;
 }
 
-int NetVarManager::getProp(std::vector<HLClient::RecvTable *> tables, HLClient::RecvTable *recvTable, const char *propName, HLClient::RecvProp **prop)
+int NetVarManager::getProp(std::vector<RecvTable *> tables, RecvTable *recvTable, const char *propName, RecvProp **prop)
 {
 	int extraOffset = 0;
 
 	for (int i = 0; i < recvTable->m_nProps; ++i) {
-		HLClient::RecvProp *recvProp = &recvTable->m_pProps[i];
-		HLClient::RecvTable *child = recvProp->m_pDataTable;
+		RecvProp *recvProp = &recvTable->m_pProps[i];
+		RecvTable *child = recvProp->m_pDataTable;
 
 		if (child && (child->m_nProps > 0))
 		{
@@ -89,7 +89,7 @@ int NetVarManager::getProp(std::vector<HLClient::RecvTable *> tables, HLClient::
 	return extraOffset;
 }
 
-std::string NetVarManager::dumpTable(HLClient::RecvTable *table, int depth)
+std::string NetVarManager::dumpTable(RecvTable *table, int depth)
 {
 	std::string pre("");
 	std::stringstream ss;
@@ -100,7 +100,7 @@ std::string NetVarManager::dumpTable(HLClient::RecvTable *table, int depth)
 	ss << pre << table->m_pNetTableName << "\n";
 
 	for (int i = 0; i < table->m_nProps; i++) {
-		HLClient::RecvProp *prop = &table->m_pProps[i];
+		RecvProp *prop = &table->m_pProps[i];
 		if (!prop)
 			continue;
 
@@ -123,9 +123,9 @@ void NetVarManager::dumpNetvars()
 	std::stringstream ss;
 	char cwd[1024];
 
-	for (HLClient::ClientClass *pClass = client->GetAllClasses(); pClass != NULL; pClass = pClass->m_pNext)
+	for (ClientClass *pClass = client->GetAllClasses(); pClass != NULL; pClass = pClass->m_pNext)
 	{
-		HLClient::RecvTable *table = pClass->m_pRecvTable;
+		RecvTable *table = pClass->m_pRecvTable;
 		ss << NetVarManager::dumpTable(table, 0);
 	}
 

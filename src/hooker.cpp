@@ -1,6 +1,6 @@
 #include "hooker.h"
 
-HLClient* client = nullptr;
+IBaseClientDLL* client = nullptr;
 ISurface* surface = nullptr;
 IVPanel* panel = nullptr;
 IEngineClient* engine = nullptr;
@@ -20,7 +20,7 @@ VMT* clientMode_vmt = nullptr;
 
 void Hooker::HookInterfaces ()
 {
-	client = GetInterface<HLClient>("./csgo/bin/linux64/client_client.so", CLIENT_DLL_INTERFACE_VERSION);
+	client = GetInterface<IBaseClientDLL>("./csgo/bin/linux64/client_client.so", CLIENT_DLL_INTERFACE_VERSION);
 	engine = GetInterface<IEngineClient>("./bin/linux64/engine_client.so", VENGINE_CLIENT_INTERFACE_VERSION);
 	entitylist = GetInterface<IClientEntityList>("./csgo/bin/linux64/client_client.so", VCLIENTENTITYLIST_INTERFACE_VERSION);
 	surface = GetInterface<ISurface>("./bin/linux64/vguimatsurface_client.so", SURFACE_INTERFACE_VERSION);

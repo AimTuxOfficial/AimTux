@@ -16,7 +16,7 @@
 #include "SDK/IClientEntity.h"
 #include "SDK/ISurface.h"
 #include "SDK/IVDebugOverlay.h"
-#include "SDK/HLClient.h"
+#include "SDK/IBaseClientDLL.h"
 #include "SDK/IEngineClient.h"
 #include "SDK/IVPanel.h"
 #include "SDK/IVModelInfo.h"

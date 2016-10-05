@@ -5,7 +5,7 @@ COffsets offsets;
 
 void Offsets::getOffsets()
 {
-	std::vector<HLClient::RecvTable *> tables = NetVarManager::getTables();
+	std::vector<RecvTable *> tables = NetVarManager::getTables();
 
 	offsets.m_hViewModel = NetVarManager::getOffset(tables, "DT_BasePlayer", "m_hViewModel[0]");
 	offsets.m_iHealth = NetVarManager::getOffset(tables, "DT_BasePlayer", "m_iHealth");

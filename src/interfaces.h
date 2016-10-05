@@ -4,7 +4,7 @@
 #include "SDK.h"
 #include "vmt.h"
 
-extern HLClient*			client;
+extern IBaseClientDLL*		client;
 extern ISurface*			surface;
 extern IVPanel*				panel;
 extern IEngineClient*		engine;
