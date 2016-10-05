@@ -13,6 +13,7 @@
 #include "antiaim.h"
 #include "triggerbot.h"
 #include "skinchanger.h"
+#include "util.h"
 
 #include "atgui.h"
 #include "chams.h"
@@ -118,6 +119,8 @@ int __attribute__((constructor)) aimtux_init()
 	Hooker::HookInterfaces ();
 	Hooker::HookVMethods ();
 	Chams::CreateMaterials ();
+	
+	SetupRainbow ();
 
 	PRINT ("AimTux was successfully injected.");
 
@@ -134,7 +137,7 @@ int __attribute__((constructor)) aimtux_init()
 
 	clientMode_vmt->HookVM ((void*)hkCreateMove, 25);
 	clientMode_vmt->ApplyVMT ();
-
+	
 	SetupFonts ();
 
 	NetVarManager::dumpNetvars ();

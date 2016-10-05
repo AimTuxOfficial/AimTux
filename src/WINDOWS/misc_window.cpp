@@ -20,5 +20,8 @@ MiscWindow::MiscWindow (std::string title, Vector2D size, Vector2D position, Col
 	ts_fov = new ToggleSwitch ("fov", LOC (10, ts_noflash->position.y + ts_noflash->size.y + 10), 35, &Settings::FOV::enabled);
 	AddComponent (ts_fov);
 	
+	ts_rainbow_cham_hands = new ToggleSwitch ("rainbow arms", LOC (10, ts_fov->position.y + ts_fov->size.y + 10), 35, &Settings::ESP::Chams::rainbow_arms);
+	AddComponent (ts_rainbow_cham_hands);
+	
 	Hide ();
 }
