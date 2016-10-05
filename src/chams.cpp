@@ -1,7 +1,5 @@
 #include "chams.h"
 
-int rainbow_index = 0;
-
 bool Settings::ESP::Chams::players = true;
 bool Settings::ESP::Chams::arms = true;
 bool Settings::ESP::Chams::rainbow_arms = false;
@@ -10,6 +8,8 @@ Color Settings::ESP::Chams::players_enemy_color = Color(243, 54, 48);
 Color Settings::ESP::Chams::players_enemy_visible_color = Color(243, 107, 40);
 Color Settings::ESP::Chams::arms_color = Color(117, 43, 73);
 ChamsType Settings::ESP::Chams::type = CHAMS_IGNOREZ;
+
+float rainbowHue;
 
 void Chams::CreateMaterials()
 {
@@ -139,15 +139,7 @@ void DrawArms(const ModelRenderInfo_t &pInfo)
 	Color color = Settings::ESP::Chams::arms_color;
 	
 	if (Settings::ESP::Chams::rainbow_arms)
-	{
-		static float rainbow;
-		if (rainbow >= 1.f)
-			rainbow = 0.f;
-		else
-			rainbow += 0.001;
-
-		color = Color::FromHSB(rainbow, 1.0f, 1.0f);
-	}
+		color = Color::FromHSB(rainbowHue, 1.0f, 1.0f);
 	
 	mat->AlphaModulate (1.0f);
 	mat->ColorModulate (color.r / 255.0f,
@@ -168,4 +160,12 @@ void Chams::DrawModelExecute(void* context, void *state, const ModelRenderInfo_t
 		DrawPlayer (pInfo);
 	else if (modelName.find("arms") != std::string::npos)
 		DrawArms (pInfo);
+}
+
+void Chams::CreateMove(CUserCmd* cmd)
+{
+	if (rainbowHue >= 1.f)
+		rainbowHue = 0.f;
+	else
+		rainbowHue += 0.002;
 }

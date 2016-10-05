@@ -14,6 +14,7 @@ namespace Chams
 {
 	void CreateMaterials();
 	void DrawModelExecute(void* context, void *state, const ModelRenderInfo_t &pInfo);
+	void CreateMove(CUserCmd* cmd);
 }
 
 #endif

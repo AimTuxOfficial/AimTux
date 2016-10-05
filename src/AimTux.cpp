@@ -61,6 +61,7 @@ bool hkCreateMove (void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		Aimbot::CreateMove (cmd);
 		Triggerbot::CreateMove (cmd);
 		AntiAim::CreateMove (cmd);
+		Chams::CreateMove (cmd);
 
 		if (!Settings::Aimbot::silent && !Settings::AntiAim::enabled_X && !Settings::AntiAim::enabled_Y)
 			engine->SetViewAngles(cmd->viewangles);
