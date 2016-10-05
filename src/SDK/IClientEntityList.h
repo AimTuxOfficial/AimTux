@@ -9,7 +9,7 @@ public:
 		return getvfunc<oGetClientEntity>(this, 3)(this, index);
 	}
 
-	int GetHighestEntityIndex ()
+	int GetHighestEntityIndex()
 	{
 		typedef int (* oGetHighestEntityIndex)(void*);
 		return getvfunc<oGetHighestEntityIndex>(this, 6)(this);

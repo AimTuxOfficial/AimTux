@@ -15,7 +15,7 @@ public:
 		char _pad[0x28];
 	} player_info_t;
 
-	void GetScreenSize (int& width, int& height) //5
+	void GetScreenSize(int& width, int& height)
 	{
 		typedef void(* oGetScreenSize)(void*, int&, int&);
 		return getvfunc<oGetScreenSize>(this, 5)(this, width, height);
@@ -33,7 +33,7 @@ public:
 		return getvfunc< oGetLocalPlayer >(this, 12)(this);
 	}
 
-	void Print (const char* message)
+	void Print(const char* message)
 	{
 		char buffer[256];
 		sprintf (buffer, "echo %s", message);
@@ -42,13 +42,13 @@ public:
 		return getvfunc<oCmd>(this, 108)(this, buffer);
 	}
 
-	void GetViewAngles (QAngle& angle) // 18
+	void GetViewAngles(QAngle& angle)
 	{
 		typedef void(* oGetViewAngles)(void*, QAngle&);
 		return getvfunc<oGetViewAngles>(this, 18)(this, angle);
 	}
 
-	void SetViewAngles (QAngle& angle) // 19
+	void SetViewAngles(QAngle& angle)
 	{
 		typedef void(* oSetViewAngles)(void*, QAngle&);
 		return getvfunc<oSetViewAngles>(this, 19)(this, angle);
@@ -61,4 +61,4 @@ public:
 	}
 };
 
-#endif //AIMTUX_IENGINECLIENT_H
+#endif

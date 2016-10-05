@@ -136,7 +136,8 @@ enum MaterialPropertyTypes_t
 	MATERIAL_PROPERTY_NEEDS_BUMPED_LIGHTMAPS				// bool
 };
 
-class IMaterial {
+class IMaterial
+{
 public:
 	void AlphaModulate(float alpha)
 	{

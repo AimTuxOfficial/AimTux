@@ -64,7 +64,8 @@ public:
 class C_BaseEntity : public IClientEntity
 {
 public:
-	int* GetModelIndex() {
+	int* GetModelIndex()
+	{
 		return (int*)((uintptr_t)this + offsets.m_nModelIndex);
 	}
 
@@ -108,12 +109,12 @@ public:
 		return *(Vector*)((uintptr_t)this + offsets.m_vecViewOffset);
 	}
 
-	int GetFlags ()
+	int GetFlags()
 	{
 		return *(int*)((uintptr_t)this + offsets.m_fFlags);
 	}
 
-	MoveType_t GetMoveType ()
+	MoveType_t GetMoveType()
 	{
 		return *(MoveType_t*)((uintptr_t)this + 0x290);
 	}
@@ -134,17 +135,17 @@ public:
 		return (int*)((uintptr_t)this + offsets.m_hMyWeapons);
 	}
 
-	QAngle GetAimPunchAngle ()
+	QAngle GetAimPunchAngle()
 	{
 		return *(QAngle*)((uintptr_t)this + offsets.m_aimPunchAngle);
 	}
 
-	int GetActiveWeapon ()
+	int GetActiveWeapon()
 	{
 		return *(int*)((uintptr_t)this + offsets.m_hActiveWeapon);
 	}
 
-	float GetTickBase ()
+	float GetTickBase()
 	{
 		return *(float*)((uintptr_t)this + offsets.m_nTickBase);
 	}
@@ -195,7 +196,7 @@ public:
 	}
 
 
-	bool isPistol ()
+	bool isPistol()
 	{
 		switch (*this->GetItemDefinitionIndex())
 		{
@@ -224,7 +225,7 @@ public:
 		}
 	}
 
-	bool isAutomatic ()
+	bool isAutomatic()
 	{
 		switch (*this->GetItemDefinitionIndex())
 		{
@@ -263,8 +264,10 @@ public:
 		}
 	}
 
-	bool isKnife () {
-		switch (*this->GetItemDefinitionIndex()) {
+	bool isKnife()
+	{
+		switch (*this->GetItemDefinitionIndex())
+		{
 			case WEAPON_KNIFE:
 				return true;
 			case WEAPON_KNIFE_T:
@@ -297,7 +300,8 @@ public:
 
 class C_BaseViewModel: public C_BaseEntity {
 public:
-	int GetWeapon() {
+	int GetWeapon()
+	{
 		return *(int*)((uintptr_t)this + offsets.m_hWeapon);
 	}
 };
@@ -305,17 +309,17 @@ public:
 class C_BaseCombatWeapon: public C_BaseAttributableItem
 {
 public:
-	unsigned int GetAmmo ()
+	unsigned int GetAmmo()
 	{
 		return *(unsigned int*)((uintptr_t)this + offsets.m_iClip1);
 	}
 
-	bool IsReloading ()
+	bool IsReloading()
 	{
 		return *(bool*)((uintptr_t)this + offsets.m_bInReload);
 	}
 
-	float GetNextPrimaryAttack ()
+	float GetNextPrimaryAttack()
 	{
 		return *(float*)((uintptr_t)this + offsets.m_flNextPrimaryAttack);
 	}

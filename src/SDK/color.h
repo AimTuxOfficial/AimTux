@@ -8,7 +8,7 @@ struct Color
 	int b;
 	int a;
 
-	Color ()
+	Color()
 	{
 		this->r = 0;
 		this->g = 0;
@@ -16,7 +16,7 @@ struct Color
 		this->a = 255;
 	}
 
-	Color (int r, int g, int b)
+	Color(int r, int g, int b)
 	{
 		this->r = r;
 		this->g = g;
@@ -24,7 +24,7 @@ struct Color
 		this->a = 255;
 	}
 
-	Color (int r, int g, int b, int a)
+	Color(int r, int g, int b, int a)
 	{
 		this->r = r;
 		this->g = g;

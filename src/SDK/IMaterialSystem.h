@@ -1,7 +1,8 @@
 #ifndef __IMATERIALSYSTEM_H
 #define __IMATERIALSYSTEM_H
 
-class IMaterialSystem {
+class IMaterialSystem
+{
 public:
 	IMaterial *FindMaterial(char const *pMaterialName, const char *pTextureGroupName, bool complain = true, const char *pComplainPrefix = NULL)
 	{

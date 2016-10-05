@@ -11,7 +11,8 @@ class RadianEuler {
 public:
 	inline RadianEuler(void) { }
 
-	inline RadianEuler(float X, float Y, float Z) {
+	inline RadianEuler(float X, float Y, float Z)
+	{
 		x = X;
 		y = Y;
 		z = Z;
@@ -21,7 +22,8 @@ public:
 	inline RadianEuler(QAngle const &angles);    // evil auto type promotion!!!
 
 	// Initialization
-	inline void Init(float ix = 0.0f, float iy = 0.0f, float iz = 0.0f) {
+	inline void Init(float ix = 0.0f, float iy = 0.0f, float iz = 0.0f)
+	{
 		x = ix;
 		y = iy;
 		z = iz;
@@ -34,9 +36,15 @@ public:
 
 	void Invalidate();
 
-	inline float *Base() { return &x; }
+	inline float *Base()
+	{
+		return &x;
+	}
 
-	inline const float *Base() const { return &x; }
+	inline const float *Base() const
+	{
+		return &x;
+	}
 
 	// array access...
 	float operator[](int i) const;
@@ -71,7 +79,8 @@ public:
 
 	bool operator!=(const Quaternion &src) const;
 
-	float *Base() {
+	float *Base()
+	{
 		return (float *) this;
 	}
 
@@ -206,13 +215,15 @@ struct studiohdr_t {
 	int hitboxsetindex;
 
 	// Look up hitbox set by index
-	mstudiohitboxset_t *pHitboxSet(int i) const {
+	mstudiohitboxset_t *pHitboxSet(int i) const
+	{
 		(i >= 0 && i < numhitboxsets);
 		return (mstudiohitboxset_t * )(((unsigned char * ) this ) +hitboxsetindex ) +i;
 	};
 
 	// Calls through to hitbox to determine size of specified set
-	inline mstudiobbox_t *pHitbox(int i, int set) const {
+	inline mstudiobbox_t *pHitbox(int i, int set) const
+	{
 		mstudiohitboxset_t const *s = pHitboxSet(set);
 		if (!s)
 			return NULL;
@@ -221,7 +232,8 @@ struct studiohdr_t {
 	};
 
 	// Calls through to set to get hitbox count for set
-	inline int iHitboxCount(int set) const {
+	inline int iHitboxCount(int set) const
+	{
 		mstudiohitboxset_t const *s = pHitboxSet(set);
 		if (!s)
 			return 0;
@@ -269,8 +281,9 @@ struct studiohdr_t {
 	int numcdtextures;
 	int cdtextureindex;
 
-	inline char *pCdtexture(int i) const {
-		return (((char *) this) + *((int *) (((unsigned char * ) this ) +cdtextureindex ) +i ));
+	inline char *pCdtexture(int i) const
+	{
+		return (((char *) this) + *((int *) (((unsigned char *) this) +cdtextureindex) + i));
 	};
 
 	// replaceable textures tables
@@ -278,8 +291,9 @@ struct studiohdr_t {
 	int numskinfamilies;
 	int skinindex;
 
-	inline short *pSkinref(int i) const {
-		return (short *) (((unsigned char * ) this ) +skinindex ) +i;
+	inline short *pSkinref(int i) const
+	{
+		return (short *) (((unsigned char *) this) +skinindex) +i;
 	};
 	int numbodyparts;
 	int bodypartindex;
@@ -303,14 +317,16 @@ struct studiohdr_t {
 	int localnodeindex;
 	int localnodenameindex;
 
-	inline char *pszLocalNodeName(int iNode) const {
+	inline char *pszLocalNodeName(int iNode) const
+	{
 		(iNode >= 0 && iNode < numlocalnodes);
-		return (((char *) this) + *((int *) (((unsigned char * ) this ) +localnodenameindex ) +iNode ));
+		return (((char *) this) + *((int *) (((unsigned char *) this) + localnodenameindex) + iNode));
 	}
 
-	inline unsigned char *pLocalTransition(int i) const {
+	inline unsigned char *pLocalTransition(int i) const
+	{
 		(i >= 0 && i < (numlocalnodes * numlocalnodes));
-		return (unsigned char * )(((unsigned char * ) this ) +localnodeindex ) +i;
+		return (unsigned char * )(((unsigned char *) this) + localnodeindex) + i;
 	};
 
 	//public:
@@ -387,7 +403,10 @@ struct studiohdr_t {
 	// for demand loaded animation blocks
 	int szanimblocknameindex;
 
-	inline char *const pszAnimBlockName() const { return ((char *) this) + szanimblocknameindex; }
+	inline char *const pszAnimBlockName() const
+	{
+		return ((char *) this) + szanimblocknameindex;
+	}
 
 	int numanimblocks;
 	int animblockindex;
@@ -397,8 +416,9 @@ struct studiohdr_t {
 
 	int bonetablebynameindex;
 
-	inline const unsigned char *GetBoneTableSortedByName() const {
-		return (unsigned char * ) this + bonetablebynameindex;
+	inline const unsigned char *GetBoneTableSortedByName() const
+	{
+		return (unsigned char *) this + bonetablebynameindex;
 	}
 
 	// used by tools only that don't cache, but persist mdl's peer data
@@ -436,7 +456,6 @@ struct studiohdr_t {
 	int unused2[1];
 
 	studiohdr_t() { }
-
 private:
 	// No copy constructors allowed
 	studiohdr_t(const studiohdr_t &vOther);
@@ -447,7 +466,8 @@ private:
 class IVModelInfo
 {
 public:
-	int GetModelIndex(const char* Filename) {
+	int GetModelIndex(const char* Filename)
+	{
 		return GetVirtualFunction<int(*)(void*, const char*)>(this, 3)(this, Filename);
 	}
 
