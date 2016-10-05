@@ -112,45 +112,34 @@ void DrawESPBox (Vector vecOrigin, Vector vecViewOffset, Color color, int width,
 	Draw::DrawLine (a, b, color);
 }
 
-void DrawBone (int bone_a, int bone_b, C_BaseEntity* entity, Color color)
-{
-	Vector s_vec_bone_a;
-	Vector w_vec_bone_a = GetBone (entity, bone_a);
-	
-	Vector s_vec_bone_b;
-	Vector w_vec_bone_b = GetBone (entity, bone_b);
-	
-	if (!WorldToScreen (w_vec_bone_a, s_vec_bone_a) && !WorldToScreen (w_vec_bone_b, s_vec_bone_b))
-		Draw::DrawLine (LOC(s_vec_bone_a.x, s_vec_bone_a.y), LOC(s_vec_bone_b.x, s_vec_bone_b.y), color);
-}
-
 void ESP::DrawBones (C_BaseEntity* entity)
 {
 	Color color = Settings::ESP::bones_color;
-	
-	// Body
-	DrawBone (6, 5, entity, color);
-	DrawBone (5, 0, entity, color);
-	
-	// left leg
-	DrawBone (0, 64, entity, color);
-	DrawBone (64, 65, entity, color);
-	
-	// right leg
-	DrawBone (0, 70, entity, color);
-	DrawBone (70, 71, entity, color);
-	
-	
-	
-	// left arm
-	DrawBone (5, 8, entity, color);
-	DrawBone (8, 9, entity, color);
-	DrawBone (9, 32, entity, color);
-	
-	// right arm
-	DrawBone (5, 36, entity, color);
-	DrawBone (36, 37, entity, color);
-	DrawBone (37, 60, entity, color);
+
+	studiohdr_t* pStudioModel = modelInfo->GetStudioModel(entity->GetModel());
+	if (!pStudioModel)
+		return;
+
+	static matrix3x4_t pBoneToWorldOut[128];
+	if (entity->SetupBones(pBoneToWorldOut, 128, 256, 0))
+	{
+		for (int i = 0; i < pStudioModel->numbones; i++)
+		{
+			mstudiobone_t* pBone = pStudioModel->pBone(i);
+			if(!pBone || !(pBone->flags & 256) || pBone->parent == -1)
+				continue;
+
+			Vector vBonePos1;
+			if (WorldToScreen(Vector(pBoneToWorldOut[i][0][3], pBoneToWorldOut[i][1][3], pBoneToWorldOut[i][2][3]), vBonePos1))
+				continue;
+
+			Vector vBonePos2;
+			if (WorldToScreen(Vector(pBoneToWorldOut[pBone->parent][0][3], pBoneToWorldOut[pBone->parent][1][3], pBoneToWorldOut[pBone->parent][2][3]), vBonePos2))
+				continue;
+
+			Draw::DrawLine(LOC(vBonePos1.x, vBonePos1.y), LOC(vBonePos2.x, vBonePos2.y), color);
+		}
+	}
 }
 
 void ESP::DrawTracer (C_BasePlayer* localPlayer, C_BaseEntity* entity)
