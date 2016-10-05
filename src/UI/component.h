@@ -2,14 +2,13 @@
 #define __COMPONENT_H_
 
 #include <functional>
-#define MFUNC(a,b) std::bind(a, b)
-
-
-#include "../color.h"
+#include "../SDK/color.h"
+#include "../SDK/vector.h"
 #include "../pstring.h"
-#include "../vector.h"
 #include "../draw.h"
 #include "../fonts.h"
+
+#define MFUNC(a,b) std::bind(a, b)
 
 typedef Vector2D PositionContext;
 

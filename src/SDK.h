@@ -2,18 +2,13 @@
 #define __SDK_H_
 
 #include <cstdint>
-#include <string>
-#include "pstring.h"
 #include <dlfcn.h>
-#include "vector.h"
-#include "color.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
 #include "offsets.h"
+#include "pstring.h"
 
 #include "SDK/definitions.h"
 #include "SDK/common.h"
+#include "SDK/color.h"
 #include "SDK/IInputSystem.h"
 #include "SDK/IMaterial.h"
 #include "SDK/IMaterialSystem.h"
