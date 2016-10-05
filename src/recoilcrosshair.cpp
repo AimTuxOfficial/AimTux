@@ -37,11 +37,11 @@ void Recoilcrosshair::PaintTraverse (VPANEL vgui_panel, bool force_repaint, bool
 	int crosshairY = (int) (y + (dy * punchAngle.x));
 
 	// outline horizontal
-	Draw::DrawRect(LOC(crosshairX - 4, crosshairY - 1), LOC(9, 3), Color(0, 0, 0, 170));
+	Draw::DrawRect(LOC(crosshairX - 4, crosshairY - 1), LOC(crosshairX + 5, crosshairY + 2), Color(0, 0, 0, 170));
 	// outline vertical
-	Draw::DrawRect(LOC(crosshairX - 1, crosshairY - 4), LOC(3, 9), Color(0, 0, 0, 170));
+	Draw::DrawRect(LOC(crosshairX - 1, crosshairY - 4), LOC(crosshairX + 2, crosshairY + 5), Color(0, 0, 0, 170));
 	// line horizontal
 	Draw::DrawLine(LOC(crosshairX - 3, crosshairY), LOC(crosshairX + 4, crosshairY), Color(255, 255, 255, 255));
 	// line vertical
-	Draw::DrawLine(LOC(crosshairX, crosshairY + 3), LOC(crosshairX, crosshairY - 3), Color(255, 255, 255, 255));
+	Draw::DrawLine(LOC(crosshairX, crosshairY + 3), LOC(crosshairX, crosshairY - 4), Color(255, 255, 255, 255));
 }
