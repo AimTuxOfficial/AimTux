@@ -11,7 +11,8 @@ Color Settings::ESP::bones_color = Color(255, 255, 255);
 bool Settings::ESP::visibility_check = false;
 bool Settings::ESP::Walls::enabled = true;
 bool Settings::ESP::Tracer::enabled = false;
-bool Settings::ESP::Name::enabled = true;
+bool Settings::ESP::Info::showName = true;
+bool Settings::ESP::Info::showHealth = true;
 bool Settings::ESP::Bones::enabled = true;
 TracerType Settings::ESP::Tracer::type = BOTTOM;
 
@@ -197,7 +198,7 @@ void ESP::DrawPlayerBox (C_BasePlayer* localPlayer, C_BaseEntity* entity)
 		DrawESPBox (vecOrigin, vecViewOffset, color, width, additionalHeight);
 }
 
-void ESP::DrawPlayerName (C_BasePlayer* localPlayer, C_BaseEntity* entity, int entityIndex)
+void ESP::DrawPlayerInfo (C_BasePlayer* localPlayer, C_BaseEntity* entity, int entityIndex)
 {
 	int playerTeam = localPlayer->GetTeam();
 	int entityTeam = reinterpret_cast<C_BasePlayer*>(entity)->GetTeam();
@@ -208,9 +209,25 @@ void ESP::DrawPlayerName (C_BasePlayer* localPlayer, C_BaseEntity* entity, int e
 	
 	Vector vecOrigin = entity->GetVecOrigin ();
 	
+	pstring str;
+	
+	if (Settings::ESP::Info::showName)
+	{
+		str << entityInformation.name;
+		str << " ";
+	}
+	
+	if (Settings::ESP::Info::showHealth)
+	{
+		str + entity->GetHealth ();
+		str << "hp";
+	}
+	
+	std::wstring wstr (str.begin (), str.end ());
+	
 	Vector s_vecEntity_s;
 	if (!WorldToScreen(vecOrigin, s_vecEntity_s))
-		Draw::DrawString (CONV(entityInformation.name), LOC(s_vecEntity_s.x, s_vecEntity_s.y), color, 33, true);
+		Draw::DrawString (wstr.c_str(), LOC(s_vecEntity_s.x, s_vecEntity_s.y), color, 33, true);
 }
 
 void ESP::PaintTraverse (VPANEL vgui_panel, bool force_repaint, bool allow_force)
@@ -245,8 +262,7 @@ void ESP::PaintTraverse (VPANEL vgui_panel, bool force_repaint, bool allow_force
 
 		if (Settings::ESP::Tracer::enabled)
 			ESP::DrawTracer	(localPlayer, entity);
-
-		if (Settings::ESP::Name::enabled)
-			ESP::DrawPlayerName	(localPlayer, entity, i);
+		
+		ESP::DrawPlayerInfo	(localPlayer, entity, i);
 	}
 }

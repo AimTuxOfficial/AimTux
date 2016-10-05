@@ -115,9 +115,9 @@ namespace Settings
 			extern bool enabled;
 		}
 		
-		namespace Name
+		namespace Info
 		{
-			extern bool enabled;
+			extern bool showName;
 			extern bool showHealth;
 		}
 		

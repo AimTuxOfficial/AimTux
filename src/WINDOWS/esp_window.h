@@ -15,6 +15,7 @@ private:
 	ToggleSwitch* ts_walls;
 	ToggleSwitch* ts_tracer;
 	ToggleSwitch* ts_name;
+	ToggleSwitch* ts_health;
 	ToggleSwitch* ts_bones;
 	ToggleSwitch* ts_chams_players;
 	ToggleSwitch* ts_chams_arms;

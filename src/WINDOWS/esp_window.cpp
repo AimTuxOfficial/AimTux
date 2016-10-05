@@ -17,10 +17,13 @@ ESPWindow::ESPWindow (std::string title, Vector2D size, Vector2D position, Color
 	ts_tracer = new ToggleSwitch ("tracer", LOC (10, ts_walls->position.y + ts_walls->size.y + 10), 35, &Settings::ESP::Tracer::enabled);
 	AddComponent (ts_tracer);
 	
-	ts_name = new ToggleSwitch ("show name", LOC (10, ts_tracer->position.y + ts_tracer->size.y + 10), 35, &Settings::ESP::Name::enabled);
+	ts_name = new ToggleSwitch ("show name", LOC (10, ts_tracer->position.y + ts_tracer->size.y + 10), 35, &Settings::ESP::Info::showName);
 	AddComponent (ts_name);
 	
-	ts_bones = new ToggleSwitch ("show bones", LOC (10, ts_name->position.y + ts_name->size.y + 10), 35, &Settings::ESP::Bones::enabled);
+	ts_health = new ToggleSwitch ("show health", LOC (10, ts_name->position.y + ts_name->size.y + 10), 35, &Settings::ESP::Info::showHealth);
+	AddComponent (ts_health);
+	
+	ts_bones = new ToggleSwitch ("show bones", LOC (10, ts_health->position.y + ts_health->size.y + 10), 35, &Settings::ESP::Bones::enabled);
 	AddComponent (ts_bones);
 	
 	ts_chams_players = new ToggleSwitch ("player chams", LOC (10, ts_bones->position.y + ts_bones->size.y + 10), 35, &Settings::ESP::Chams::players);
