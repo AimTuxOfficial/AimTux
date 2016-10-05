@@ -25,6 +25,17 @@ public:
 		this->onMouseClickEndEvent = MFUNC (&ToggleSwitch::Event_OnClickEnd, this);
 	}
 	
+	ToggleSwitch (std::string text, Vector2D position, int height, bool* setting)
+	{
+		this->text = std::wstring(text.begin(), text.end ());
+		Vector2D textSize = Draw::GetTextSize (this->text.c_str(), normal_font);
+		this->size = LOC (height + 20 + (textSize.x) , height);
+		this->position = position;
+		this->setting = setting;
+		
+		this->onMouseClickEndEvent = MFUNC (&ToggleSwitch::Event_OnClickEnd, this);
+	}
+	
 	
 	void Draw ()
 	{
