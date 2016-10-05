@@ -203,7 +203,7 @@ void ESP::DrawPlayerName (C_BasePlayer* localPlayer, C_BaseEntity* entity, int e
 	int entityTeam = reinterpret_cast<C_BasePlayer*>(entity)->GetTeam();
 	Color color = playerTeam == entityTeam ? Settings::ESP::ally_color : Settings::ESP::enemy_color;
 	
-	CEngineClient::player_info_t entityInformation;
+	IEngineClient::player_info_t entityInformation;
 	engine->GetPlayerInfo(entityIndex, &entityInformation);
 	
 	Vector vecOrigin = entity->GetVecOrigin ();

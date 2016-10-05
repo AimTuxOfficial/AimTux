@@ -2,10 +2,10 @@
 
 HLClient* client = nullptr;
 ISurface* surface = nullptr;
-IPanel* panel = nullptr;
-CEngineClient* engine = nullptr;
+IVPanel* panel = nullptr;
+IEngineClient* engine = nullptr;
 IClientEntityList* entitylist = nullptr;
-CDebugOverlay* debugOverlay = nullptr;
+IVDebugOverlay* debugOverlay = nullptr;
 IVModelInfo* modelInfo = nullptr;
 IVModelRender* modelRender = nullptr;
 IClientMode* clientMode = nullptr;
@@ -21,11 +21,11 @@ VMT* clientMode_vmt = nullptr;
 void Hooker::HookInterfaces ()
 {
 	client = GetInterface<HLClient>("./csgo/bin/linux64/client_client.so", CLIENT_DLL_INTERFACE_VERSION);
-	engine = GetInterface<CEngineClient>("./bin/linux64/engine_client.so", VENGINE_CLIENT_INTERFACE_VERSION);
+	engine = GetInterface<IEngineClient>("./bin/linux64/engine_client.so", VENGINE_CLIENT_INTERFACE_VERSION);
 	entitylist = GetInterface<IClientEntityList>("./csgo/bin/linux64/client_client.so", VCLIENTENTITYLIST_INTERFACE_VERSION);
 	surface = GetInterface<ISurface>("./bin/linux64/vguimatsurface_client.so", SURFACE_INTERFACE_VERSION);
-	panel = GetInterface<IPanel>("./bin/linux64/vgui2_client.so", PANEL_INTERFACE_VERSION);
-	debugOverlay = GetInterface<CDebugOverlay>("./bin/linux64/engine_client.so", DEBUG_OVERLAY_VERSION);
+	panel = GetInterface<IVPanel>("./bin/linux64/vgui2_client.so", PANEL_INTERFACE_VERSION);
+	debugOverlay = GetInterface<IVDebugOverlay>("./bin/linux64/engine_client.so", DEBUG_OVERLAY_VERSION);
 	modelInfo = GetInterface<IVModelInfo>("./bin/linux64/engine_client.so", VMODELINFO_CLIENT_INTERFACE_VERSION);
 	modelRender = GetInterface<IVModelRender>("./bin/linux64/engine_client.so", VMODELRENDER_CLIENT_INTERFACE_VERSION);
 	trace = GetInterface<IEngineTrace>("./bin/linux64/engine_client.so", ENGINETRACE_CLIENT_INTERFACE_VERSION);

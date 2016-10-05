@@ -6,10 +6,10 @@
 
 extern HLClient*			client;
 extern ISurface*			surface;
-extern IPanel*				panel;
-extern CEngineClient*		engine;
+extern IVPanel*				panel;
+extern IEngineClient*		engine;
 extern IClientEntityList*	entitylist;
-extern CDebugOverlay*		debugOverlay;
+extern IVDebugOverlay*		debugOverlay;
 extern IVModelInfo*			modelInfo;
 extern IVModelRender*		modelRender;
 extern IClientMode*			clientMode;

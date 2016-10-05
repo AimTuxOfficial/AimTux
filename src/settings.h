@@ -1,7 +1,6 @@
 #ifndef __SETTINGS_H_
 #define __SETTINGS_H_
 
-#include "weapons.h"
 #include "SDK.h"
 
 enum TracerType
