@@ -159,6 +159,12 @@ namespace Settings
 		extern float value;
 	}
 
+	namespace FOV
+	{
+		extern bool enabled;
+		extern int value;
+	}
+
 	namespace Skinchanger
 	{
 		struct Skin

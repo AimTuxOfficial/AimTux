@@ -15,9 +15,10 @@ struct COffsets
 	int m_hMyWeapons;
 	
 	int m_nTickBase;
+	int m_iFOV;
 
 	int m_flFlashMaxAlpha;
-	
+
 	int m_Local;
 	int m_aimPunchAngle;
 	
