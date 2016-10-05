@@ -10,7 +10,7 @@
 
 extern MainWindow* main_window;
 extern AimbotWindow* aimbot_window;
-extern Window* esp_window;
+extern ESPWindow* esp_window;
 extern Window* misc_window;
 
 void SetupUI ();

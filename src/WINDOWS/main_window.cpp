@@ -13,10 +13,17 @@ MainWindow::MainWindow (std::string title, Vector2D size, Vector2D position, Col
 	esp_button = new OutlinedButton ("ESP", LOC (10, 60), LOC (size.x-20, 40));
 	AddComponent (esp_button);
 	
+	esp_button->OnClickedEvent = MFUNC (&MainWindow::esp_button_clicked, this);
+	
 	Show ();
 }
 
 void MainWindow::aimbot_button_clicked ()
 {
 	aimbot_window->Toggle ();
+}
+
+void MainWindow::esp_button_clicked ()
+{
+	esp_window->Toggle ();
 }

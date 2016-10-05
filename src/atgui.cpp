@@ -15,5 +15,9 @@ void SetupUI ()
 	gui->AddWindow (aimbot_window);
 	
 	
+	// ESP window
+	esp_window = new ESPWindow ("ESP - Extrasensory perception", Vector2D (600, 650), Vector2D (10, 10), Color (0, 0, 0, 0));
+	gui->AddWindow (esp_window);
+	
 	gui->Focus (main_window);
 }
