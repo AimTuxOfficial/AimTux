@@ -122,11 +122,6 @@ public:
 	{
 		return (float*)((uintptr_t)this + offsets.m_flFlashMaxAlpha);
 	}
-
-	int* GetFOV()
-	{
-		return (int*)((uintptr_t)this + offsets.m_iFOV);
-	}
 };
 
 
