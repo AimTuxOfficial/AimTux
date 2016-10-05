@@ -18,7 +18,6 @@
 #include "atgui.h"
 #include "chams.h"
 #include "noflash.h"
-#include "fov.h"
 
 FONT title_font = 0;
 FONT normal_font = 0;
@@ -96,7 +95,6 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage) {
 	SkinChanger::FrameStageNotify (stage);
 	Noflash::FrameStageNotify (stage);
-	FOV::FrameStageNotify (stage);
 
 	return client_vmt->GetOriginalMethod<FrameStageNotifyFn>(36)(thisptr, stage);
 }

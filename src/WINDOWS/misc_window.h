@@ -14,7 +14,6 @@ private:
 	ToggleSwitch* ts_autostrafe;
 	ToggleSwitch* ts_spammer;
 	ToggleSwitch* ts_noflash;
-	ToggleSwitch* ts_fov;
 	ToggleSwitch* ts_rainbow_cham_hands;
 public:
 	MiscWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor);

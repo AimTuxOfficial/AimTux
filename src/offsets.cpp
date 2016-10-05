@@ -16,10 +16,9 @@ void Offsets::getOffsets()
 	offsets.m_aimPunchAngle = NetVarManager::getOffset(tables, "DT_BasePlayer", "m_aimPunchAngle");
 	offsets.m_fFlags = NetVarManager::getOffset(tables, "DT_BasePlayer", "m_fFlags");
 	offsets.m_nTickBase = NetVarManager::getOffset(tables, "DT_BasePlayer", "m_nTickBase");
-	offsets.m_iFOV = NetVarManager::getOffset(tables, "DT_BasePlayer", "m_iFOV");
 
 	offsets.m_flFlashMaxAlpha = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_flFlashMaxAlpha");
-
+	
 	offsets.m_vecOrigin = NetVarManager::getOffset(tables, "DT_BaseEntity", "m_vecOrigin");
 	offsets.m_vecViewOffset = NetVarManager::getOffset(tables, "DT_BasePlayer", "m_vecViewOffset[0]");
 	
