@@ -2,11 +2,11 @@
 
 bool Settings::ESP::Chams::players = true;
 bool Settings::ESP::Chams::arms = true;
-Color Settings::ESP::Chams::players_ally_color = Color(0, 50, 200);
-Color Settings::ESP::Chams::players_enemy_color = Color(200, 0, 50);
-Color Settings::ESP::Chams::players_enemy_visible_color = Color(200, 200, 50);
-Color Settings::ESP::Chams::arms_color = Color(255, 165, 0);
-ChamsType Settings::ESP::Chams::type = CHAMS_FLAT_IGNOREZ;
+Color Settings::ESP::Chams::players_ally_color = Color(7, 98, 168);
+Color Settings::ESP::Chams::players_enemy_color = Color(243, 54, 48);
+Color Settings::ESP::Chams::players_enemy_visible_color = Color(243, 107, 40);
+Color Settings::ESP::Chams::arms_color = Color(117, 43, 73);
+ChamsType Settings::ESP::Chams::type = CHAMS_IGNOREZ;
 
 void Chams::CreateMaterials()
 {
