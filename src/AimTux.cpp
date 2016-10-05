@@ -29,7 +29,7 @@ void SetupFonts ()
 {
 	title_font = Draw::CreateFont ("Arial", 20, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
 	normal_font = Draw::CreateFont ("Arial", 17, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
-	esp_font = Draw::CreateFont ("TeX Gyre Adventor", 17, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
+	esp_font = Draw::CreateFont ("UnGraphic, Bold", 20, FONTFLAG_ANTIALIAS | FONTFLAG_OUTLINE);
 }
 
 static bool IsButtonPressed (ButtonCode_t code)

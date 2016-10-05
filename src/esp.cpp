@@ -227,7 +227,7 @@ void ESP::DrawPlayerInfo (C_BasePlayer* localPlayer, C_BaseEntity* entity, int e
 	
 	Vector s_vecEntity_s;
 	if (!WorldToScreen(vecOrigin, s_vecEntity_s))
-		Draw::DrawString (wstr.c_str(), LOC(s_vecEntity_s.x, s_vecEntity_s.y), color, 33, true);
+		Draw::DrawString (wstr.c_str(), LOC(s_vecEntity_s.x, s_vecEntity_s.y), color, esp_font, true);
 }
 
 void ESP::PaintTraverse (VPANEL vgui_panel, bool force_repaint, bool allow_force)
