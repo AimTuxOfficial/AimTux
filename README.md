@@ -22,7 +22,6 @@ Want to chat or play with other AimTux users? Join us on Gitter!
 * *Tracer*
 * *Bhop*
 * *No Flash*
-* *FOV Changer*
 * *Skin Changer*
 * *Knife Changer*
 * *Chat Spammer*
