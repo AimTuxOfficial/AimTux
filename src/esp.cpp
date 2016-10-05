@@ -7,7 +7,7 @@ bool Settings::ESP::enabled	= true;
 Color Settings::ESP::ally_color = Color(0, 50, 200);
 Color Settings::ESP::enemy_color = Color(200, 0, 50);
 Color Settings::ESP::enemy_visible_color = Color(200, 200, 50);
-Color Settings::ESP::bones_color = Color(255, 255, 0);
+Color Settings::ESP::bones_color = Color(255, 255, 255);
 bool Settings::ESP::visibility_check = false;
 bool Settings::ESP::Walls::enabled = true;
 bool Settings::ESP::Tracer::enabled = false;
@@ -114,8 +114,6 @@ void DrawESPBox (Vector vecOrigin, Vector vecViewOffset, Color color, int width,
 
 void ESP::DrawBones (C_BaseEntity* entity)
 {
-	Color color = Settings::ESP::bones_color;
-
 	studiohdr_t* pStudioModel = modelInfo->GetStudioModel(entity->GetModel());
 	if (!pStudioModel)
 		return;
@@ -137,7 +135,7 @@ void ESP::DrawBones (C_BaseEntity* entity)
 			if (WorldToScreen(Vector(pBoneToWorldOut[pBone->parent][0][3], pBoneToWorldOut[pBone->parent][1][3], pBoneToWorldOut[pBone->parent][2][3]), vBonePos2))
 				continue;
 
-			Draw::DrawLine(LOC(vBonePos1.x, vBonePos1.y), LOC(vBonePos2.x, vBonePos2.y), color);
+			Draw::DrawLine(LOC(vBonePos1.x, vBonePos1.y), LOC(vBonePos2.x, vBonePos2.y), Settings::ESP::bones_color);
 		}
 	}
 }
