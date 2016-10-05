@@ -7,7 +7,7 @@ void Cursor::Draw ()
 	int x, y;
 	input->GetCursorPosition(&x, &y);
 
-	Color color = Color(0, 0, 0, 255);
+	Color color = Color(255, 255, 255, 255);
 
 	DrawLine(Vector2D(x, y), Vector2D(x + 20, y + 10), color);
 	DrawLine(Vector2D(x, y), Vector2D(x + 10, y + 20), color);
