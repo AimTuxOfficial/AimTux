@@ -11,12 +11,12 @@ void SetupUI ()
 	gui->AddWindow (main_window);
 	
 	// Aimbot window
-	aimbot_window = new AimbotWindow ("Aimbot", Vector2D (700, 600), Vector2D (400, 400), Color (0, 0, 0, 0));
+	aimbot_window = new AimbotWindow ("Aimbot", Vector2D (700, 600), Vector2D (620, 10), Color (0, 0, 0, 0));
 	gui->AddWindow (aimbot_window);
 	
 	
 	// ESP window
-	esp_window = new ESPWindow ("ESP - Extrasensory perception", Vector2D (600, 650), Vector2D (10, 10), Color (0, 0, 0, 0));
+	esp_window = new ESPWindow ("Visuals", Vector2D (600, 650), Vector2D (10, 10), Color (0, 0, 0, 0));
 	gui->AddWindow (esp_window);
 	
 	gui->Focus (main_window);
