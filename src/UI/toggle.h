@@ -29,7 +29,7 @@ public:
 	{
 		this->text = std::wstring(text.begin(), text.end ());
 		Vector2D textSize = Draw::GetTextSize (this->text.c_str(), normal_font);
-		this->size = LOC (height + 20 + (textSize.x) , height);
+		this->size = LOC (height + 25 + (textSize.x), height);
 		this->position = position;
 		this->setting = setting;
 		
