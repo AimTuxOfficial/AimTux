@@ -2,6 +2,7 @@
 #define __BUTTON_H_
 
 #include "component.h"
+#include "../settings.h"
 
 class Button : public Component
 {
@@ -10,8 +11,6 @@ public:
 	std::function<void()> OnClickedEvent;
 	
 	std::wstring text = L"button";
-	Color backGroundColor;
-	Color foreGroundColor;
 	
 	void Event_OnMouseClickEnd ()
 	{
@@ -32,10 +31,29 @@ public:
 	
 	void Draw ()
 	{
-		Color color = isHovered ? Color (100, 255, 100) : Color (100, 100, 255);
+		Color color = isHovered ? Color (150, 100, 100) : Color (200, 100, 100, 255);
 		Clear (color);
 		
-		DrawCenteredString (text, normal_font, Color (255, 255, 255), LOC (size.x / 2, size.y / 2));
+		DrawCenteredString (text, normal_font, Color (255, 255, 255, 255), LOC (size.x / 2, size.y / 2));
+	}
+};
+
+class OutlinedButton : public Button
+{
+public:
+	OutlinedButton (std::string text, Vector2D position, Vector2D size)
+						: Button (text, position, size) { }
+	
+	void Draw ()
+	{
+		Clear (Color (40, 40, 40, 150));
+		
+		if (isHovered)
+		{
+			DrawRectangle (LOC (0, 0), size, Settings::UI::titleBarColor);
+		}
+		
+		DrawCenteredString (text, normal_font, Color (255, 255, 255, 255), LOC (size.x / 2, size.y / 2));
 	}
 };
 
