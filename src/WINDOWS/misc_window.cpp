@@ -17,5 +17,8 @@ MiscWindow::MiscWindow (std::string title, Vector2D size, Vector2D position, Col
 	ts_noflash = new ToggleSwitch ("no flash", LOC (10, ts_spammer->position.y + ts_spammer->size.y + 10), 35, &Settings::Noflash::enabled);
 	AddComponent (ts_noflash);
 	
+	ts_fov = new ToggleSwitch ("fov", LOC (10, ts_noflash->position.y + ts_noflash->size.y + 10), 35, &Settings::FOV::enabled);
+	AddComponent (ts_fov);
+	
 	Hide ();
 }
