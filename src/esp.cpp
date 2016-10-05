@@ -212,11 +212,11 @@ void ESP::DrawPlayerInfo (C_BasePlayer* localPlayer, C_BaseEntity* entity, int e
 	pstring str;
 	
 	if (Settings::ESP::Info::showName)
-	{
 		str << entityInformation.name;
+
+	if (Settings::ESP::Info::showName && Settings::ESP::Info::showHealth)
 		str << " ";
-	}
-	
+
 	if (Settings::ESP::Info::showHealth)
 	{
 		str + entity->GetHealth ();
