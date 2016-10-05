@@ -1,6 +1,7 @@
 #ifndef __SETTINGS_H_
 #define __SETTINGS_H_
 
+#include <unordered_map>
 #include "SDK.h"
 
 enum TracerType
@@ -156,6 +157,34 @@ namespace Settings
 	{
 		extern bool enabled;
 		extern float value;
+	}
+
+	namespace Skinchanger
+	{
+		struct Skin
+		{
+			int PaintKit;
+			int ItemDefinitionIndex;
+			float Wear;
+			int StatTrak;
+			const char* CustomName;
+			const char* Model;
+
+			Skin (int PaintKit, int ItemDefinitionIndex, float Wear, int StatTrak, const char* CustomName, const char* Model)
+			{
+				this->PaintKit = PaintKit;
+				this->ItemDefinitionIndex = ItemDefinitionIndex;
+				this->Wear = Wear;
+				this->StatTrak = StatTrak;
+				this->CustomName = CustomName;
+				this->Model = Model;
+			}
+
+			Skin() { };
+		};
+
+		extern bool enabled;
+		extern std::unordered_map<int, Skin> skins;
 	}
 }
 

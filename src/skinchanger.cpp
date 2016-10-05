@@ -1,26 +1,30 @@
 #include "skinchanger.h"
 
-std::unordered_map<int, SkinChanger::Skin> SkinChanger::skins = {
-		{ WEAPON_AWP, SkinChanger::Skin(344, 0, 0.00000000f, 1337, "AimTux", NULL) },
-		{ WEAPON_AK47, SkinChanger::Skin(524, 0, 0.00000000f, 1337, "AimTux", NULL) },
-		{ WEAPON_M4A1, SkinChanger::Skin(512, 0, 0.00000000f, 1337, "AimTux", NULL) },
-		{ WEAPON_M4A1_SILENCER, SkinChanger::Skin(548, 0, 0.00000000f, 1337, "AimTux", NULL) },
-		{ WEAPON_DEAGLE, SkinChanger::Skin(277, 0, 0.00000000f, 1337, "AimTux", NULL) },
-		{ WEAPON_GLOCK, SkinChanger::Skin(38, 0, 0.00000000f, 1337, "AimTux", NULL) },
-		{ WEAPON_USP_SILENCER, SkinChanger::Skin(332, 0, 0.00000000f, 1337, "AimTux", NULL) },
-		{ WEAPON_FIVESEVEN, SkinChanger::Skin(252, 0, 0.00000000f, 1337, "AimTux", NULL) },
-		{ WEAPON_SCAR20, SkinChanger::Skin(391, 0, 0.00000000f, 1337, "AimTux", NULL) },
-		{ WEAPON_ELITE, SkinChanger::Skin(249, 0, 0.00000000f, 1337, "AimTux", NULL) },
-		{ WEAPON_SSG08, SkinChanger::Skin(319, 0, 0.00000000f, 1337, "AimTux", NULL) },
-		{ WEAPON_TEC9, SkinChanger::Skin(179, 0, 0.00000000f, 1337, "AimTux", NULL) },
-		{ WEAPON_KNIFE, SkinChanger::Skin(417, WEAPON_KNIFE_M9_BAYONET, 0.00000000f, 1337, "AimTux", NULL) },
-		{ WEAPON_KNIFE_T, SkinChanger::Skin(417, WEAPON_KNIFE_KARAMBIT, 0.00000000f, 1337, "AimTux", NULL) },
-		{ WEAPON_KNIFE_M9_BAYONET, SkinChanger::Skin(417, WEAPON_KNIFE_M9_BAYONET, 0.00000000f, 1337, "AimTux", "models/weapons/v_knife_m9_bay.mdl") },
-		{ WEAPON_KNIFE_KARAMBIT, SkinChanger::Skin(417, WEAPON_KNIFE_KARAMBIT, 0.00000000f, 1337, "AimTux", "models/weapons/v_knife_karam.mdl") }
+bool Settings::Skinchanger::enabled = true;
+std::unordered_map<int, Settings::Skinchanger::Skin> Settings::Skinchanger::skins = {
+		{ WEAPON_AWP, Settings::Skinchanger::Skin(344, 0, 0.00000000f, 1337, "AimTux", NULL) },
+		{ WEAPON_AK47, Settings::Skinchanger::Skin(524, 0, 0.00000000f, 1337, "AimTux", NULL) },
+		{ WEAPON_M4A1, Settings::Skinchanger::Skin(512, 0, 0.00000000f, 1337, "AimTux", NULL) },
+		{ WEAPON_M4A1_SILENCER, Settings::Skinchanger::Skin(548, 0, 0.00000000f, 1337, "AimTux", NULL) },
+		{ WEAPON_DEAGLE, Settings::Skinchanger::Skin(277, 0, 0.00000000f, 1337, "AimTux", NULL) },
+		{ WEAPON_GLOCK, Settings::Skinchanger::Skin(38, 0, 0.00000000f, 1337, "AimTux", NULL) },
+		{ WEAPON_USP_SILENCER, Settings::Skinchanger::Skin(332, 0, 0.00000000f, 1337, "AimTux", NULL) },
+		{ WEAPON_FIVESEVEN, Settings::Skinchanger::Skin(252, 0, 0.00000000f, 1337, "AimTux", NULL) },
+		{ WEAPON_SCAR20, Settings::Skinchanger::Skin(391, 0, 0.00000000f, 1337, "AimTux", NULL) },
+		{ WEAPON_ELITE, Settings::Skinchanger::Skin(249, 0, 0.00000000f, 1337, "AimTux", NULL) },
+		{ WEAPON_SSG08, Settings::Skinchanger::Skin(319, 0, 0.00000000f, 1337, "AimTux", NULL) },
+		{ WEAPON_TEC9, Settings::Skinchanger::Skin(179, 0, 0.00000000f, 1337, "AimTux", NULL) },
+		{ WEAPON_KNIFE, Settings::Skinchanger::Skin(417, WEAPON_KNIFE_M9_BAYONET, 0.00000000f, 1337, "AimTux", NULL) },
+		{ WEAPON_KNIFE_T, Settings::Skinchanger::Skin(417, WEAPON_KNIFE_KARAMBIT, 0.00000000f, 1337, "AimTux", NULL) },
+		{ WEAPON_KNIFE_M9_BAYONET, Settings::Skinchanger::Skin(417, WEAPON_KNIFE_M9_BAYONET, 0.00000000f, 1337, "AimTux", "models/weapons/v_knife_m9_bay.mdl") },
+		{ WEAPON_KNIFE_KARAMBIT, Settings::Skinchanger::Skin(417, WEAPON_KNIFE_KARAMBIT, 0.00000000f, 1337, "AimTux", "models/weapons/v_knife_karam.mdl") }
 };
 
 void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 {
+	if (!Settings::Skinchanger::enabled)
+		return;
+
 	if (stage != ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_START)
 		return;
 
@@ -48,11 +52,11 @@ void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 		if (!weapon)
 			continue;
 
-		auto keyExists = SkinChanger::skins.find(*weapon->GetItemDefinitionIndex());
-		if (keyExists == SkinChanger::skins.end())
+		auto keyExists = Settings::Skinchanger::skins.find(*weapon->GetItemDefinitionIndex());
+		if (keyExists == Settings::Skinchanger::skins.end())
 			continue;
 
-		SkinChanger::Skin currentSkin = SkinChanger::skins[*weapon->GetItemDefinitionIndex()];
+		Settings::Skinchanger::Skin currentSkin = Settings::Skinchanger::skins[*weapon->GetItemDefinitionIndex()];
 
 		if (currentSkin.PaintKit != 0)
 			*weapon->GetFallbackPaintKit() = currentSkin.PaintKit;
@@ -84,11 +88,11 @@ void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 	if (!active_weapon)
 		return;
 
-	auto keyExists = SkinChanger::skins.find(*active_weapon->GetItemDefinitionIndex());
-	if (keyExists == SkinChanger::skins.end())
+	auto keyExists = Settings::Skinchanger::skins.find(*active_weapon->GetItemDefinitionIndex());
+	if (keyExists == Settings::Skinchanger::skins.end())
 		return;
 
-	SkinChanger::Skin currentSkin = SkinChanger::skins[*active_weapon->GetItemDefinitionIndex()];
+	Settings::Skinchanger::Skin currentSkin = Settings::Skinchanger::skins[*active_weapon->GetItemDefinitionIndex()];
 
 	if (currentSkin.Model != NULL)
 		*viewmodel->GetModelIndex() = modelInfo->GetModelIndex(currentSkin.Model);
