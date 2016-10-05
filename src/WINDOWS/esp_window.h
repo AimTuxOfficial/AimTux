@@ -16,6 +16,8 @@ private:
 	ToggleSwitch* ts_tracer;
 	ToggleSwitch* ts_name;
 	ToggleSwitch* ts_bones;
+	ToggleSwitch* ts_chams_players;
+	ToggleSwitch* ts_chams_arms;
 public:
 	ESPWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor);
 };

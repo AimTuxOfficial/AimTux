@@ -23,5 +23,11 @@ ESPWindow::ESPWindow (std::string title, Vector2D size, Vector2D position, Color
 	ts_bones = new ToggleSwitch ("show bones", LOC (10, ts_name->position.y + ts_name->size.y + 10), 35, &Settings::ESP::Bones::enabled);
 	AddComponent (ts_bones);
 	
+	ts_chams_players = new ToggleSwitch ("player chams", LOC (10, ts_bones->position.y + ts_bones->size.y + 10), 35, &Settings::ESP::Chams::players);
+	AddComponent (ts_chams_players);
+	
+	ts_chams_arms = new ToggleSwitch ("cham arms", LOC (10, ts_chams_players->position.y + ts_chams_players->size.y + 10), 35, &Settings::ESP::Chams::arms);
+	AddComponent (ts_chams_arms);
+	
 	Hide ();
 }
