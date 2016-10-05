@@ -2,15 +2,15 @@
 
 // Default aimbot settings
 bool Settings::Aimbot::enabled = true;
-bool Settings::Aimbot::silent = true;
+bool Settings::Aimbot::silent = false;
 float Settings::Aimbot::fov = 180.0f;
 float Settings::Aimbot::smooth = 0.0f;
 int Settings::Aimbot::bone = BONE_NECK;
-bool Settings::Aimbot::AutoAim::enabled = true;
-bool Settings::Aimbot::AimStep::enabled = true;
+bool Settings::Aimbot::AutoAim::enabled = false;
+bool Settings::Aimbot::AimStep::enabled = false;
 float Settings::Aimbot::AimStep::value = 25.0f;
-bool Settings::Aimbot::AutoShoot::enabled = true;
-bool Settings::Aimbot::RCS::enabled = true;
+bool Settings::Aimbot::AutoShoot::enabled = false;
+bool Settings::Aimbot::RCS::enabled = false;
 bool Settings::Aimbot::AutoCrouch::enabled = false;
 bool Settings::Aimbot::AutoStop::enabled = false;
 
