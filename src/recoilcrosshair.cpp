@@ -20,7 +20,7 @@ void Recoilcrosshair::PaintTraverse (VPANEL vgui_panel, bool force_repaint, bool
 	if (!active_weapon)
 		return;
 
-	if (!Aimbot::isAutomatic(active_weapon))
+	if (!active_weapon->isAutomatic())
 		return;
 
 	QAngle punchAngle = localplayer->GetAimPunchAngle();

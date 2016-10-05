@@ -155,105 +155,6 @@ void Aimbot::CorrectMovement (QAngle vOldAngles, CUserCmd* pCmd, float fOldForwa
 	pCmd->sidemove = sin(DEG2RAD(deltaView)) * fOldForward + sin(DEG2RAD(deltaView + 90.f)) * fOldSidemove;
 }
 
-bool Aimbot::isPistol(C_BaseCombatWeapon* weapon)
-{
-	switch (*weapon->GetItemDefinitionIndex())
-	{
-		case WEAPON_DEAGLE:
-			return true;
-		case WEAPON_ELITE:
-			return true;
-		case WEAPON_FIVESEVEN:
-			return true;
-		case WEAPON_GLOCK:
-			return true;
-		case WEAPON_TEC9:
-			return true;
-		case WEAPON_HKP2000:
-			return true;
-		case WEAPON_USP_SILENCER:
-			return true;
-		case WEAPON_P250:
-			return true;
-		case WEAPON_CZ75A:
-			return true;
-		case WEAPON_REVOLVER:
-			return true;
-		default:
-			return false;
-	}
-}
-
-bool Aimbot::isAutomatic(C_BaseCombatWeapon* weapon)
-{
-	switch (*weapon->GetItemDefinitionIndex())
-	{
-		case WEAPON_AK47:
-			return true;
-		case WEAPON_AUG:
-			return true;
-		case WEAPON_FAMAS:
-			return true;
-		case WEAPON_GALILAR:
-			return true;
-		case WEAPON_M249:
-			return true;
-		case WEAPON_M4A1:
-			return true;
-		case WEAPON_M4A1_SILENCER:
-			return true;
-		case WEAPON_MAC10:
-			return true;
-		case WEAPON_P90:
-			return true;
-		case WEAPON_UMP45:
-			return true;
-		case WEAPON_BIZON:
-			return true;
-		case WEAPON_NEGEV:
-			return true;
-		case WEAPON_MP7:
-			return true;
-		case WEAPON_MP9:
-			return true;
-		case WEAPON_SG556:
-			return true;
-		default:
-			return false;
-	}
-}
-
-bool Aimbot::isKnife(C_BaseCombatWeapon* weapon) {
-	switch (*weapon->GetItemDefinitionIndex()) {
-		case WEAPON_KNIFE:
-			return true;
-		case WEAPON_KNIFE_T:
-			return true;
-		case WEAPON_KNIFE_GUT:
-			return true;
-		case WEAPON_KNIFE_FLIP:
-			return true;
-		case WEAPON_KNIFE_BAYONET:
-			return true;
-		case WEAPON_KNIFE_M9_BAYONET:
-			return true;
-		case WEAPON_KNIFE_KARAMBIT:
-			return true;
-		case WEAPON_KNIFE_TACTICAL:
-			return true;
-		case WEAPON_KNIFE_BUTTERFLY:
-			return true;
-		case WEAPON_KNIFE_SURVIVAL_BOWIE:
-			return true;
-		case WEAPON_KNIFE_FALCHION:
-			return true;
-		case WEAPON_KNIFE_PUSH:
-			return true;
-		default:
-			return false;
-	}
-}
-
 void Aimbot::CreateMove (CUserCmd* cmd)
 {
 	if (!Settings::Aimbot::enabled)
@@ -321,9 +222,9 @@ void Aimbot::CreateMove (CUserCmd* cmd)
 			C_BaseViewModel* viewmodel = reinterpret_cast<C_BaseViewModel*>(entitylist->GetClientEntity(localplayer->GetViewModel() & 0xFFF));
 			C_BaseCombatWeapon* active_weapon = reinterpret_cast<C_BaseCombatWeapon*>(entitylist->GetClientEntity(viewmodel->GetWeapon() & 0xFFF));
 			
-			if (active_weapon && !isKnife(active_weapon) && active_weapon->GetAmmo() > 0)
+			if (active_weapon && !active_weapon->isKnife() && active_weapon->GetAmmo() > 0)
 			{
-				if (!isAutomatic(active_weapon))
+				if (!active_weapon->isAutomatic())
 				{
 					static bool fire;
 

@@ -15,10 +15,6 @@ namespace Aimbot
 	void CheckAngles (QAngle& angle);
 	void CorrectMovement (QAngle vOldAngles, CUserCmd* pCmd, float fOldForward, float fOldSidemove);
 
-	bool isPistol(C_BaseCombatWeapon* weapon);
-	bool isAutomatic(C_BaseCombatWeapon* weapon);
-	bool isKnife(C_BaseCombatWeapon* weapon);
-
 	void CreateMove (CUserCmd* cmd);
 	void RCS (QAngle& angle);
 }
