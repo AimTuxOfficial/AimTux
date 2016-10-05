@@ -49,7 +49,8 @@ public:
 		}
 		else
 		{
-			DrawFilledRectangle (LOC (sep, sep), LOC ((size.y / 4) * 3, (size.y / 4) * 3), Settings::UI::titleBarColor);
+			DrawRectangle (LOC (sep, sep), LOC ((size.y / 4) * 3, (size.y / 4) * 3), Settings::UI::titleBarColor);
+			DrawFilledRectangle (LOC (sep + 2, sep + 2), LOC (((size.y / 4) * 3) - 2, ((size.y / 4) * 3) - 2), Settings::UI::titleBarColor);
 		}
 		
 		Vector2D textSize = Draw::GetTextSize (text.c_str(), normal_font);
