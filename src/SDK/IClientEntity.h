@@ -108,6 +108,11 @@ public:
 		return *(Vector*)((uintptr_t)this + offsets.m_vecViewOffset);
 	}
 
+	Vector GetEyePosition()
+	{
+		return this->GetVecOrigin() + this->GetVecViewOffset();
+	}
+
 	int GetFlags()
 	{
 		return *(int*)((uintptr_t)this + offsets.m_fFlags);

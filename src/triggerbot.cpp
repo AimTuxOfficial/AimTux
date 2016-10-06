@@ -17,7 +17,7 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	viewAngles += localplayer->GetAimPunchAngle() * 2.0f;
 	Math::AngleVectors(viewAngles, traceEnd);
 
-	traceStart = localplayer->GetVecOrigin() + localplayer->GetVecViewOffset();
+	traceStart = localplayer->GetEyePosition();
 	traceEnd = traceStart + (traceEnd * 8192.0f);
 
 	Ray_t ray;

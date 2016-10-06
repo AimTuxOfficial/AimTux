@@ -3,7 +3,7 @@
 bool Entity::IsVisible(C_BasePlayer* pLocal, C_BaseEntity* pEntity, int bone)
 {
 	Vector e_vecHead = pEntity->GetBonePosition(bone);
-	Vector p_vecHead = pLocal->GetVecOrigin() + pLocal->GetVecViewOffset();
+	Vector p_vecHead = pLocal->GetEyePosition();
 
 	Ray_t ray;
 	trace_t tr;

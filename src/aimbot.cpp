@@ -125,7 +125,7 @@ C_BaseEntity* GetClosestVisibleEnemy(CUserCmd* cmd)
 		float e_dist = localplayer->GetVecOrigin().DistToSqr(entity->GetVecOrigin());
 
 		Vector e_vecHead = entity->GetBonePosition(Settings::Aimbot::bone);
-		Vector p_vecHead = localplayer->GetVecOrigin() + localplayer->GetVecViewOffset();
+		Vector p_vecHead = localplayer->GetEyePosition();
 		float fov = Math::GetFov(cmd->viewangles, Math::CalcAngle(p_vecHead, e_vecHead));
 
 		if (e_dist < dist && fov <= Settings::Aimbot::fov)
@@ -192,7 +192,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 			(Settings::Aimbot::AutoShoot::enabled || cmd->buttons & IN_ATTACK))
 		{
 			Vector e_vecHead = entity->GetBonePosition(Settings::Aimbot::bone);
-			Vector p_vecHead = localplayer->GetVecOrigin() + localplayer->GetVecViewOffset();
+			Vector p_vecHead = localplayer->GetEyePosition();
 
 			if (!Aimbot::AimStepInProgress)
 				AimStepLastAngle = cmd->viewangles;
