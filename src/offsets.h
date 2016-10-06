@@ -15,6 +15,7 @@ struct COffsets
 	int m_hMyWeapons;
 	
 	int m_nTickBase;
+	int m_iObserverMode;
 	int m_hObserverTarget;
 
 	int m_flFlashMaxAlpha;

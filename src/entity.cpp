@@ -22,7 +22,7 @@ std::list<std::string> Entity::GetObservervators(C_BaseEntity* pEntity)
 	for (int i = 0; i < 64; ++i)
 	{
 		C_BaseEntity *entity = entitylist->GetClientEntity(i);
-		if (!entity)
+		if (!entity || *entity->GetObserverMode() != ObserverMode_t::OBS_MODE_IN_EYE)
 			continue;
 
 		C_BaseEntity *target = entitylist->GetClientEntityFromHandle(entity->GetObserverTarget());

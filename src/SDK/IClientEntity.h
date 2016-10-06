@@ -145,6 +145,11 @@ public:
 		return Vector(hitbox[0][3], hitbox[1][3], hitbox[2][3]);
 	}
 
+	int* GetObserverMode()
+	{
+		return (int*)((uintptr_t)this + offsets.m_iObserverMode);
+	}
+
 	void* GetObserverTarget()
 	{
 		return (void*)((uintptr_t)this + offsets.m_hObserverTarget);
