@@ -242,4 +242,7 @@ enum Bones
 #define TEXTURE_GROUP_RENDER_TARGET_SURFACE			"RenderTarget Surfaces"
 #define TEXTURE_GROUP_MORPH_TARGETS					"Morph Targets"
 
+#define MAXSTUDIOBONES 128
+#define BONE_USED_BY_HITBOX 0x100
+
 #endif

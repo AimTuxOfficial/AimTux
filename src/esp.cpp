@@ -164,7 +164,7 @@ void ESP::DrawPlayerBox(C_BasePlayer* localPlayer, C_BaseEntity* entity)
 	
 	Vector vecOrigin = entity->GetVecOrigin();
 	
-	Vector vecHeadBone = GetBone(entity, 6);
+	Vector vecHeadBone = entity->GetBonePosition(Bones::BONE_HEAD);
 	Vector vecViewOffset = Vector(vecOrigin.x, vecOrigin.y, vecHeadBone.z);
 	
 	Vector s_vecLocalPlayer_s;

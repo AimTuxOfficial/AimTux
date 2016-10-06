@@ -6,7 +6,6 @@
 #include "draw.h"
 #include "interfaces.h"
 #include "pstring.h"
-#include "bone.h"
 #include "entity.h"
 
 namespace ESP
