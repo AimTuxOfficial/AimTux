@@ -5,12 +5,14 @@ Color Settings::ESP::ally_color = Color(0, 50, 200);
 Color Settings::ESP::enemy_color = Color(200, 0, 50);
 Color Settings::ESP::enemy_visible_color = Color(200, 200, 50);
 Color Settings::ESP::bones_color = Color(255, 255, 255);
+Color Settings::ESP::bomb_color = Color(200, 0, 50);
 bool Settings::ESP::visibility_check = false;
 bool Settings::ESP::Walls::enabled = true;
 bool Settings::ESP::Tracer::enabled = false;
 bool Settings::ESP::Info::showName = true;
 bool Settings::ESP::Info::showHealth = true;
 bool Settings::ESP::Bones::enabled = true;
+bool Settings::ESP::Bomb::enabled = true;
 TracerType Settings::ESP::Tracer::type = BOTTOM;
 
 bool WorldToScreen(const Vector &vOrigin, Vector &vScreen)
@@ -204,6 +206,24 @@ void ESP::DrawPlayerInfo(C_BasePlayer* localPlayer, C_BaseEntity* entity, int en
 		Draw::DrawString(wstr.c_str(), LOC(s_vecEntity_s.x, s_vecEntity_s.y), color, esp_font, true);
 }
 
+void ESP::DrawBombBox(C_BaseEntity* entity)
+{
+	Color color = Settings::ESP::bomb_color;
+
+	int width = 7;
+	int additionalHeight = 4;
+
+	Vector vecOrigin = entity->GetVecOrigin();
+	Vector vecViewOffset = Vector(vecOrigin.x, vecOrigin.y, 0);
+
+	Vector s_vecLocalPlayer_s;
+	if (!WorldToScreen(vecOrigin, s_vecLocalPlayer_s))
+	{
+		DrawESPBox(vecOrigin, vecViewOffset, color, width, additionalHeight);
+		Draw::DrawString(L"C4", LOC(s_vecLocalPlayer_s.x, s_vecLocalPlayer_s.y), color, esp_font, true);
+	}
+}
+
 void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 {
 	if (!Settings::ESP::enabled)
@@ -214,29 +234,39 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 	if (!localPlayer)
 		return;
 
-	for (int i = 0; i < 64; ++i)
+	for (int i = 0; i < entitylist->GetHighestEntityIndex(); ++i)
 	{
 		C_BaseEntity* entity = entitylist->GetClientEntity(i);
-
-		if (!entity
-			|| entity == (C_BaseEntity*)localPlayer
-			|| entity->GetDormant()
-			|| entity->GetLifeState() != LIFE_ALIVE
-			|| entity->GetHealth() <= 0)
+		if (!entity)
 			continue;
 
-		if (Settings::ESP::visibility_check && !Entity::IsVisible(localPlayer, entity, 6))
-			continue;
+		ClientClass* client = entity->GetClientClass();
+		if (client->m_ClassID == CCSPlayer)
+		{
+			if (entity == (C_BaseEntity*)localPlayer
+				|| entity->GetDormant()
+				|| entity->GetLifeState() != LIFE_ALIVE
+				|| entity->GetHealth() <= 0)
+				continue;
 
-		if (Settings::ESP::Bones::enabled)
-			ESP::DrawBones(entity);
+			if (Settings::ESP::visibility_check && !Entity::IsVisible(localPlayer, entity, 6))
+				continue;
 
-		if (Settings::ESP::Walls::enabled)
-			ESP::DrawPlayerBox(localPlayer, entity);
+			if (Settings::ESP::Bones::enabled)
+				ESP::DrawBones(entity);
 
-		if (Settings::ESP::Tracer::enabled)
-			ESP::DrawTracer	(localPlayer, entity);
-		
-		ESP::DrawPlayerInfo	(localPlayer, entity, i);
+			if (Settings::ESP::Walls::enabled)
+				ESP::DrawPlayerBox(localPlayer, entity);
+
+			if (Settings::ESP::Tracer::enabled)
+				ESP::DrawTracer	(localPlayer, entity);
+
+			ESP::DrawPlayerInfo	(localPlayer, entity, i);
+		}
+		else if (client->m_ClassID == CPlantedC4)
+		{
+			if (Settings::ESP::Bomb::enabled)
+				ESP::DrawBombBox(entity);
+		}
 	}
 }

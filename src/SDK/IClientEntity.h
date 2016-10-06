@@ -46,6 +46,11 @@ class IClientNetworkable
 {
 public:
 	virtual ~IClientNetworkable() {};
+
+	ClientClass* GetClientClass()
+	{
+		return GetVirtualFunction<ClientClass*(*)(void*)>(this, 2)(this);
+	}
 };
 
 class IClientThinkable

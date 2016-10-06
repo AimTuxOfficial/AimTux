@@ -103,6 +103,7 @@ namespace Settings
 		extern Color enemy_color;
 		extern Color enemy_visible_color;
 		extern Color bones_color;
+		extern Color bomb_color;
 
 		namespace Tracer
 		{
@@ -122,6 +123,11 @@ namespace Settings
 		}
 		
 		namespace Bones
+		{
+			extern bool enabled;
+		}
+
+		namespace Bomb
 		{
 			extern bool enabled;
 		}
