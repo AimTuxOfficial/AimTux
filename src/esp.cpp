@@ -214,7 +214,7 @@ void ESP::DrawBombBox(C_BaseEntity* entity)
 	int additionalHeight = 4;
 
 	Vector vecOrigin = entity->GetVecOrigin();
-	Vector vecViewOffset = Vector(vecOrigin.x, vecOrigin.y, 0);
+	Vector vecViewOffset = Vector(vecOrigin.x, vecOrigin.y, vecOrigin.z - 4);
 
 	Vector s_vecLocalPlayer_s;
 	if (!WorldToScreen(vecOrigin, s_vecLocalPlayer_s))
