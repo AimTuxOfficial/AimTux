@@ -135,16 +135,16 @@ void DrawArms(const ModelRenderInfo_t &pInfo)
 		return;
 
 	IMaterial *mat = material->FindMaterial("aimtux_chams", TEXTURE_GROUP_MODEL);
-	
+
 	Color color = Settings::ESP::Chams::arms_color;
-	
+
 	if (Settings::ESP::Chams::rainbow_arms)
 		color = Color::FromHSB(rainbowHue, 1.0f, 1.0f);
-	
+
 	mat->AlphaModulate(1.0f);
 	mat->ColorModulate(color.r / 255.0f,
-						color.g / 255.0f,
-						color.b / 255.0f);
+					   color.g / 255.0f,
+					   color.b / 255.0f);
 
 	modelRender->ForcedMaterialOverride(mat);
 }

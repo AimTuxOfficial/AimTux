@@ -50,7 +50,8 @@ void CalculateAngle(Vector& src, Vector& dst, QAngle& angles)
 	angles[2] = 0.0f;	// <=== NEVER EVER  EVER EVER EVER CHANGE THIS VALUE
 						//					... unless you teh VAC ban ...
 
-	if (delta[0] >= 0.0) angles[1] += 180.0f;
+	if (delta[0] >= 0.0)
+		angles[1] += 180.0f;
 
 	// Safeguards
 	if (angles[1] > 180)
