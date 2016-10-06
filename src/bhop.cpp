@@ -12,18 +12,26 @@ void BHop::CreateMove(CUserCmd* cmd)
 
     C_BaseEntity* localplayer = reinterpret_cast<C_BaseEntity*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
 
-    if (!bLastJumped && bShouldFake) {
+    if (!bLastJumped && bShouldFake)
+    {
         bShouldFake = false;
         cmd->buttons |= IN_JUMP;
-    } else if (cmd->buttons & IN_JUMP) {
-        if (localplayer->GetFlags() & FL_ONGROUND) {
+    }
+	else if (cmd->buttons & IN_JUMP)
+	{
+        if (localplayer->GetFlags() & FL_ONGROUND)
+		{
             bLastJumped = true;
             bShouldFake = true;
-        } else {
+        }
+		else
+		{
             cmd->buttons &= ~IN_JUMP;
             bLastJumped = false;
         }
-    } else {
+    }
+	else
+	{
         bLastJumped = false;
         bShouldFake = false;
     }

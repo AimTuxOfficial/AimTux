@@ -18,7 +18,7 @@ VMT* client_vmt = nullptr;
 VMT* modelRender_vmt = nullptr;
 VMT* clientMode_vmt = nullptr;
 
-void Hooker::HookInterfaces ()
+void Hooker::HookInterfaces()
 {
 	client = GetInterface<IBaseClientDLL>("./csgo/bin/linux64/client_client.so", CLIENT_DLL_INTERFACE_VERSION);
 	engine = GetInterface<IEngineClient>("./bin/linux64/engine_client.so", VENGINE_CLIENT_INTERFACE_VERSION);
@@ -33,14 +33,14 @@ void Hooker::HookInterfaces ()
 	material = GetInterface<IMaterialSystem>("./bin/linux64/materialsystem_client.so", MATERIALSYSTEM_CLIENT_INTERFACE_VERSION);
 }
 
-void Hooker::HookVMethods ()
+void Hooker::HookVMethods()
 {
-	panel_vmt = new VMT (panel);
-	client_vmt = new VMT (client);
-	modelRender_vmt = new VMT (modelRender);
+	panel_vmt = new VMT(panel);
+	client_vmt = new VMT(client);
+	modelRender_vmt = new VMT(modelRender);
 }
 
-uintptr_t GetClientClientAddress ()
+uintptr_t GetClientClientAddress()
 {
 	uintptr_t client_client = 0;
 	// enumerate through loaded shared libraries
@@ -58,34 +58,31 @@ uintptr_t GetClientClientAddress ()
 	return client_client;
 }
 
-void Hooker::HookIClientMode ()
+void Hooker::HookIClientMode()
 {
-	uintptr_t client_client = GetClientClientAddress ();
-	
-	uintptr_t init_address = FindPattern(client_client, 0xFFFFFFFFF, (unsigned char*)CCSMODEMANAGER_INIT_SIGNATURE, CCSMODEMANAGER_INIT_MASK);
-	
-	
+	uintptr_t client_client = GetClientClientAddress();
+
+	uintptr_t init_address = FindPattern(client_client, 0xFFFFFFFFF, (unsigned char*) CCSMODEMANAGER_INIT_SIGNATURE, CCSMODEMANAGER_INIT_MASK);
+
 	if (!init_address)
-	{
 		return;
-	}
-	
+
 	pstring str;
 	str << "init_address: ";
 	str + init_address;
-	
-	PRINT (str.c_str());
+
+	PRINT(str.c_str());
 	
 	uint32_t offset = *reinterpret_cast<uint32_t*>(init_address + 3);
 	clientMode = reinterpret_cast<IClientMode*>(init_address + offset + 7);
-	
+
 	str = "";
 	str << "offset: ";
 	str + offset;
-	
-	PRINT (str.c_str());
-	
-	clientMode_vmt = new VMT (clientMode);
+
+	PRINT(str.c_str());
+
+	clientMode_vmt = new VMT(clientMode);
 }
 
 

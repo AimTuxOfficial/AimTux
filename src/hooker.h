@@ -11,9 +11,9 @@
 
 namespace Hooker
 {
-	void HookInterfaces ();
-	void HookVMethods ();
-	void HookIClientMode ();
+	void HookInterfaces();
+	void HookVMethods();
+	void HookIClientMode();
 }
 
 #endif

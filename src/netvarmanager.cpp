@@ -41,10 +41,8 @@ RecvTable* NetVarManager::getTable(std::vector<RecvTable *> tables, const char *
 int NetVarManager::getOffset(std::vector<RecvTable *> tables, const char *tableName, const char *propName)
 {
 	int offset = getProp(tables, tableName, propName);
-
-	if (!offset) {
+	if (!offset)
 		return 0;
-	}
 
 	return offset;
 }

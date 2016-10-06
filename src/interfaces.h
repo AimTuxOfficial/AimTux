@@ -4,18 +4,18 @@
 #include "SDK.h"
 #include "vmt.h"
 
-extern IBaseClientDLL*		client;
-extern ISurface*			surface;
-extern IVPanel*				panel;
-extern IEngineClient*		engine;
-extern IClientEntityList*	entitylist;
-extern IVDebugOverlay*		debugOverlay;
-extern IVModelInfo*			modelInfo;
-extern IVModelRender*		modelRender;
-extern IClientMode*			clientMode;
-extern IEngineTrace*		trace;
-extern IInputSystem*		input;
-extern IMaterialSystem*		material;
+extern IBaseClientDLL* client;
+extern ISurface* surface;
+extern IVPanel*	panel;
+extern IEngineClient* engine;
+extern IClientEntityList* entitylist;
+extern IVDebugOverlay* debugOverlay;
+extern IVModelInfo* modelInfo;
+extern IVModelRender* modelRender;
+extern IClientMode* clientMode;
+extern IEngineTrace* trace;
+extern IInputSystem* input;
+extern IMaterialSystem* material;
 
 extern VMT* panel_vmt;
 extern VMT* client_vmt;

@@ -1,9 +1,8 @@
 #include "recoilcrosshair.h"
-#include "aimbot.h"
 
 bool Settings::Recoilcrosshair::enabled = true;
 
-void Recoilcrosshair::PaintTraverse (VPANEL vgui_panel, bool force_repaint, bool allow_force)
+void Recoilcrosshair::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 {
 	if (!Settings::Recoilcrosshair::enabled)
 		return;

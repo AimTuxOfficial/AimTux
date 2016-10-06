@@ -9,7 +9,7 @@ void inline Math::SinCos(float radians, float *sine, float *cosine)
 	*cosine = __cosr;
 }
 
-void Math::AngleVectors (const QAngle &angles, Vector& forward)
+void Math::AngleVectors(const QAngle &angles, Vector& forward)
 {
 	Assert(s_bMathlibInitialized);
 	Assert(forward);
@@ -24,7 +24,7 @@ void Math::AngleVectors (const QAngle &angles, Vector& forward)
 	forward.z = -sp;
 }
 
-float Math::GetFov (const QAngle& viewAngle, const QAngle& aimAngle) {
+float Math::GetFov(const QAngle& viewAngle, const QAngle& aimAngle) {
 	Vector ang, aim;
 
 	Math::AngleVectors(viewAngle, aim);
@@ -44,9 +44,12 @@ void Math::VectorAngles(const Vector& forward, QAngle &angles) {
 		angles[0] = atan2(-forward[2], forward.Length2D()) * -180 / M_PI;
 		angles[1] = atan2(forward[1], forward[0]) * 180 / M_PI;
 
-		if (angles[1] > 90) angles[1] -= 180;
-		else if (angles[1] < 90) angles[1] += 180;
-		else if (angles[1] == 90) angles[1] = 0;
+		if (angles[1] > 90)
+			angles[1] -= 180;
+		else if (angles[1] < 90)
+			angles[1] += 180;
+		else if (angles[1] == 90)
+			angles[1] = 0;
 	}
 
 	angles[2] = 0.0f;

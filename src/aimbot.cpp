@@ -18,21 +18,29 @@ QAngle AimStepLastAngle;
 
 bool Aimbot::AimStepInProgress = false;
 
-void Aimbot::CheckAngles (QAngle& angle)
+void Aimbot::CheckAngles(QAngle& angle)
 {
-	if (angle[0] > 89	) angle[0] = 89;
-	if (angle[0] < -89	) angle[0] = -89;
-	if (angle[1] > 180	) angle[1] -= 360;
-	if (angle[1] < -180	) angle[1] += 360;
+	if (angle[0] > 89)
+		angle[0] = 89;
+
+	if (angle[0] < -89)
+		angle[0] = -89;
+
+	if (angle[1] > 180)
+		angle[1] -= 360;
+
+	if (angle[1] < -180)
+		angle[1] += 360;
+
 	angle[2] = 0;
 }
 
 double hyp;
 
-void CalculateAngle (Vector& src, Vector& dst, QAngle& angles)
+void CalculateAngle(Vector& src, Vector& dst, QAngle& angles)
 {
 	// Angle deltas
-	double delta[3] = { (src[0]-dst[0]), (src[1]-dst[1]), (src[2]-dst[2]) };
+	double delta[3] = { (src[0] - dst[0]), (src[1] - dst[1]), (src[2] - dst[2]) };
 
 	// Hypotenuse
 	hyp = sqrt(delta[0] * delta[0] + delta[1] * delta[1]);
@@ -45,13 +53,20 @@ void CalculateAngle (Vector& src, Vector& dst, QAngle& angles)
 	if (delta[0] >= 0.0) angles[1] += 180.0f;
 
 	// Safeguards
-	if (angles[1] > 180) angles[1] -= 360;
-	if (angles[1] < -180) angles[1] += 360;
-	if (angles[0] > 89) angles[0] = 89;
-	if (angles[0] < -89) angles[0] = -89;
+	if (angles[1] > 180)
+		angles[1] -= 360;
+
+	if (angles[1] < -180)
+		angles[1] += 360;
+
+	if (angles[0] > 89)
+		angles[0] = 89;
+
+	if (angles[0] < -89)
+		angles[0] = -89;
 }
 
-C_BaseEntity* GetClosestEnemy ()
+C_BaseEntity* GetClosestEnemy()
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	C_BaseEntity* closestEntity = NULL;
@@ -72,7 +87,7 @@ C_BaseEntity* GetClosestEnemy ()
 			|| entity->GetTeam() == localplayer->GetTeam())
 			continue;
 
-		float e_dist = localplayer->GetVecOrigin().DistToSqr (entity->GetVecOrigin());
+		float e_dist = localplayer->GetVecOrigin().DistToSqr(entity->GetVecOrigin());
 
 		if (e_dist < dist)
 		{
@@ -84,7 +99,7 @@ C_BaseEntity* GetClosestEnemy ()
 	return closestEntity;
 }
 
-C_BaseEntity* GetClosestVisibleEnemy (CUserCmd* cmd)
+C_BaseEntity* GetClosestVisibleEnemy(CUserCmd* cmd)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	C_BaseEntity* closestEntity = NULL;
@@ -103,12 +118,12 @@ C_BaseEntity* GetClosestVisibleEnemy (CUserCmd* cmd)
 			|| entity->GetLifeState() != LIFE_ALIVE
 			|| entity->GetHealth() <= 0
 			|| entity->GetTeam() == localplayer->GetTeam()
-			|| !Entity::IsVisible (localplayer, entity, Settings::Aimbot::bone))
+			|| !Entity::IsVisible(localplayer, entity, Settings::Aimbot::bone))
 			continue;
 
-		float e_dist = localplayer->GetVecOrigin().DistToSqr (entity->GetVecOrigin());
+		float e_dist = localplayer->GetVecOrigin().DistToSqr(entity->GetVecOrigin());
 
-		Vector e_vecHead = GetBone (entity, Settings::Aimbot::bone);
+		Vector e_vecHead = GetBone(entity, Settings::Aimbot::bone);
 		Vector p_vecHead = localplayer->GetVecOrigin() + localplayer->GetVecViewOffset();
 		float fov = Math::GetFov(cmd->viewangles, Math::CalcAngle(p_vecHead, e_vecHead));
 
@@ -122,13 +137,13 @@ C_BaseEntity* GetClosestVisibleEnemy (CUserCmd* cmd)
 	return closestEntity;
 }
 
-void Aimbot::RCS (QAngle& angle)
+void Aimbot::RCS(QAngle& angle)
 {
 	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
 	angle -= localplayer->GetAimPunchAngle() * 2.f;
 }
 
-void Aimbot::CorrectMovement (QAngle vOldAngles, CUserCmd* pCmd, float fOldForward, float fOldSidemove)
+void Aimbot::CorrectMovement(QAngle vOldAngles, CUserCmd* pCmd, float fOldForward, float fOldSidemove)
 {
 	//side/forward move correction
 	float deltaView = pCmd->viewangles.y - vOldAngles.y;
@@ -155,7 +170,7 @@ void Aimbot::CorrectMovement (QAngle vOldAngles, CUserCmd* pCmd, float fOldForwa
 	pCmd->sidemove = sin(DEG2RAD(deltaView)) * fOldForward + sin(DEG2RAD(deltaView + 90.f)) * fOldSidemove;
 }
 
-void Aimbot::CreateMove (CUserCmd* cmd)
+void Aimbot::CreateMove(CUserCmd* cmd)
 {
 	if (!Settings::Aimbot::enabled)
 		return;
@@ -168,20 +183,20 @@ void Aimbot::CreateMove (CUserCmd* cmd)
 	
 	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
 	
-	C_BaseEntity* entity = GetClosestVisibleEnemy (cmd);
+	C_BaseEntity* entity = GetClosestVisibleEnemy(cmd);
 	
 	if (entity)
 	{
 		if (Settings::Aimbot::AutoAim::enabled &&
 			(Settings::Aimbot::AutoShoot::enabled || cmd->buttons & IN_ATTACK))
 		{
-			Vector e_vecHead = GetBone (entity, Settings::Aimbot::bone);
+			Vector e_vecHead = GetBone(entity, Settings::Aimbot::bone);
 			Vector p_vecHead = localplayer->GetVecOrigin() + localplayer->GetVecViewOffset();
 
 			if (!Aimbot::AimStepInProgress)
 				AimStepLastAngle = cmd->viewangles;
 
-			CalculateAngle (p_vecHead, e_vecHead, angle);
+			CalculateAngle(p_vecHead, e_vecHead, angle);
 
 			float fov = Math::GetFov(AimStepLastAngle, Math::CalcAngle(p_vecHead, e_vecHead));
 
@@ -203,9 +218,7 @@ void Aimbot::CreateMove (CUserCmd* cmd)
 			}
 
 			if (Settings::Aimbot::RCS::enabled)
-			{
-				RCS (angle);
-			}
+				RCS(angle);
 
 			if (!Settings::AntiAim::enabled_X && !Settings::AntiAim::enabled_Y && Settings::Aimbot::smooth > 0.0f)
 			{
@@ -255,9 +268,7 @@ void Aimbot::CreateMove (CUserCmd* cmd)
 		}
 		
 		if (Settings::Aimbot::AutoCrouch::enabled)
-		{
 			cmd->buttons |= IN_DUCK;
-		}
 
 		if (Settings::Aimbot::AutoStop::enabled)
 		{
@@ -268,11 +279,11 @@ void Aimbot::CreateMove (CUserCmd* cmd)
 	}
 
 	// Check the angle to make sure it's invalid
-	Aimbot::CheckAngles (angle);
+	Aimbot::CheckAngles(angle);
 	
 	cmd->viewangles = angle;
 
-	Aimbot::CorrectMovement (oldAngle, cmd, oldForward, oldSideMove);
+	Aimbot::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);
 }
 
 

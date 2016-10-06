@@ -13,6 +13,6 @@ extern AimbotWindow* aimbot_window;
 extern ESPWindow* esp_window;
 extern MiscWindow* misc_window;
 
-void SetupUI ();
+void SetupUI();
 
 #endif

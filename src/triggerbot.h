@@ -8,7 +8,7 @@
 #include "math.h"
 
 namespace Triggerbot {
-	void CreateMove (CUserCmd* cmd);
+	void CreateMove(CUserCmd* cmd);
 };
 
 #endif

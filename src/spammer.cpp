@@ -9,7 +9,7 @@ long timeStamp = 0;
 
 std::vector<Spammer::SpamCollection> Spammer::collections =
 {
-	Spammer::SpamCollection ("AimTux",
+	Spammer::SpamCollection("AimTux",
 		{
 			"AimTux owns me and all",
 			"Your Windows p2c sucks my AimTux dry",
@@ -23,7 +23,7 @@ std::vector<Spammer::SpamCollection> Spammer::collections =
 Spammer::SpamCollection* Spammer::currentSpamCollection = &collections[0]; // Default 0
 /*---- Externs ----*/
 
-void Spammer::Tick ()
+void Spammer::Tick()
 {
 	if (!Settings::Spammer::enabled)
 		return;

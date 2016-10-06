@@ -4,15 +4,17 @@
 #include <string>
 #include <sstream>
 
-class pstring : public std::string {
+class pstring : public std::string
+{
 public:
-    pstring(): std::string(){}
+    pstring(): std::string() {}
 
     template<typename T>
     pstring(const T v): std::string(v) {}
 
     template<typename T>
-    pstring& operator<<(const T s){
+    pstring& operator<<(const T s)
+	{
         *this+=s;
         return *this;
     }

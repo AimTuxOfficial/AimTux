@@ -72,9 +72,9 @@ void AntiAim::CreateMove (CUserCmd* cmd)
 	}
 
 	// Check the angle to make sure it's invalid
-	Aimbot::CheckAngles (angle);
+	Aimbot::CheckAngles(angle);
 
 	cmd->viewangles = angle;
 
-	Aimbot::CorrectMovement (oldAngle, cmd, oldForward, oldSideMove);
+	Aimbot::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);
 }

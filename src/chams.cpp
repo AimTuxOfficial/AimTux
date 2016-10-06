@@ -98,33 +98,33 @@ void DrawPlayer(const ModelRenderInfo_t &pInfo)
 	switch (Settings::ESP::Chams::type)
 	{
 		case CHAMS:
-			mat = material->FindMaterial ("aimtux_chams", TEXTURE_GROUP_MODEL);
+			mat = material->FindMaterial("aimtux_chams", TEXTURE_GROUP_MODEL);
 			break;
 		case CHAMS_IGNOREZ:
-			mat = material->FindMaterial ("aimtux_chamsIgnorez", TEXTURE_GROUP_MODEL);
+			mat = material->FindMaterial("aimtux_chamsIgnorez", TEXTURE_GROUP_MODEL);
 			break;
 		case CHAMS_FLAT:
-			mat = material->FindMaterial ("aimtux_chamsFlat", TEXTURE_GROUP_MODEL);
+			mat = material->FindMaterial("aimtux_chamsFlat", TEXTURE_GROUP_MODEL);
 			break;
 		case CHAMS_FLAT_IGNOREZ:
-			mat = material->FindMaterial ("aimtux_chamsFlatIgnorez", TEXTURE_GROUP_MODEL);
+			mat = material->FindMaterial("aimtux_chamsFlatIgnorez", TEXTURE_GROUP_MODEL);
 			break;
 	}
 
 	mat->AlphaModulate (1.0f);
 
 	if (entity->GetTeam() == localPlayer->GetTeam())
-		mat->ColorModulate (Settings::ESP::Chams::players_ally_color.r / 255.0f,
-							Settings::ESP::Chams::players_ally_color.g / 255.0f,
-							Settings::ESP::Chams::players_ally_color.b / 255.0f);
+		mat->ColorModulate(Settings::ESP::Chams::players_ally_color.r / 255.0f,
+						   Settings::ESP::Chams::players_ally_color.g / 255.0f,
+						   Settings::ESP::Chams::players_ally_color.b / 255.0f);
 	else if (Entity::IsVisible(localPlayer, entity, 6))
-		mat->ColorModulate (Settings::ESP::Chams::players_enemy_visible_color.r / 255.0f,
-							Settings::ESP::Chams::players_enemy_visible_color.g / 255.0f,
-							Settings::ESP::Chams::players_enemy_visible_color.b / 255.0f);
+		mat->ColorModulate(Settings::ESP::Chams::players_enemy_visible_color.r / 255.0f,
+						   Settings::ESP::Chams::players_enemy_visible_color.g / 255.0f,
+						   Settings::ESP::Chams::players_enemy_visible_color.b / 255.0f);
 	else
-		mat->ColorModulate (Settings::ESP::Chams::players_enemy_color.r / 255.0f,
-							Settings::ESP::Chams::players_enemy_color.g / 255.0f,
-							Settings::ESP::Chams::players_enemy_color.b / 255.0f);
+		mat->ColorModulate(Settings::ESP::Chams::players_enemy_color.r / 255.0f,
+						   Settings::ESP::Chams::players_enemy_color.g / 255.0f,
+						   Settings::ESP::Chams::players_enemy_color.b / 255.0f);
 
 	modelRender->ForcedMaterialOverride(mat);
 }
@@ -134,15 +134,15 @@ void DrawArms(const ModelRenderInfo_t &pInfo)
 	if (!Settings::ESP::Chams::arms)
 		return;
 
-	IMaterial *mat = material->FindMaterial ("aimtux_chams", TEXTURE_GROUP_MODEL);
+	IMaterial *mat = material->FindMaterial("aimtux_chams", TEXTURE_GROUP_MODEL);
 	
 	Color color = Settings::ESP::Chams::arms_color;
 	
 	if (Settings::ESP::Chams::rainbow_arms)
 		color = Color::FromHSB(rainbowHue, 1.0f, 1.0f);
 	
-	mat->AlphaModulate (1.0f);
-	mat->ColorModulate (color.r / 255.0f,
+	mat->AlphaModulate(1.0f);
+	mat->ColorModulate(color.r / 255.0f,
 						color.g / 255.0f,
 						color.b / 255.0f);
 
@@ -157,9 +157,9 @@ void Chams::DrawModelExecute(void* context, void *state, const ModelRenderInfo_t
 	std::string modelName = modelInfo->GetModelName(pInfo.pModel);
 
 	if (modelName.find("models/player") != std::string::npos)
-		DrawPlayer (pInfo);
+		DrawPlayer(pInfo);
 	else if (modelName.find("arms") != std::string::npos)
-		DrawArms (pInfo);
+		DrawArms(pInfo);
 }
 
 void Chams::CreateMove(CUserCmd* cmd)

@@ -16,7 +16,7 @@ namespace Spammer
 		std::vector<std::string> messages;	// List of messages to be spammed into the chat
 		unsigned int delay;					// Delay AFTER the required 1000 ms sleep
 
-		SpamCollection (std::string name, std::vector<std::string> messages, unsigned int delay)
+		SpamCollection(std::string name, std::vector<std::string> messages, unsigned int delay)
 		{
 			this->name = name;
 			this->messages = messages;
@@ -27,7 +27,7 @@ namespace Spammer
 	extern std::vector<SpamCollection> collections;
 	extern SpamCollection* currentSpamCollection;
 
-	void Tick ();
+	void Tick();
 }
 
 #endif

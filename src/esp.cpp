@@ -1,8 +1,5 @@
 #include "esp.h"
 
-/*---------------
-	Defaults	
----------------*/
 bool Settings::ESP::enabled	= true;
 Color Settings::ESP::ally_color = Color(0, 50, 200);
 Color Settings::ESP::enemy_color = Color(200, 0, 50);
@@ -16,15 +13,15 @@ bool Settings::ESP::Info::showHealth = true;
 bool Settings::ESP::Bones::enabled = true;
 TracerType Settings::ESP::Tracer::type = BOTTOM;
 
-bool WorldToScreen (const Vector &vOrigin, Vector &vScreen)
+bool WorldToScreen(const Vector &vOrigin, Vector &vScreen)
 {
-	return ( debugOverlay->ScreenPosition( vOrigin, vScreen ));
+	return debugOverlay->ScreenPosition(vOrigin, vScreen);
 }
 
-Vector2D WorldToScreen (const Vector &vOrigin)
+Vector2D WorldToScreen(const Vector &vOrigin)
 {
 	Vector vec;
-	debugOverlay->ScreenPosition( vOrigin, vec );
+	debugOverlay->ScreenPosition(vOrigin, vec);
 	return LOC(vec.x, vec.y);
 }
 
@@ -36,84 +33,61 @@ static wchar_t* cwConvert(const char* text)
 	return wText;
 }
 
-void DrawESPBox (Vector vecOrigin, Vector vecViewOffset, Color color, int width, int additionalHeight)
+void DrawESPBox(Vector vecOrigin, Vector vecViewOffset, Color color, int width, int additionalHeight)
 {
 	//SIDES
+	Vector2D a = WorldToScreen(vecOrigin + Vector(width, width, additionalHeight));
+	Vector2D b = WorldToScreen(vecViewOffset + Vector(width, width, additionalHeight));
+	Draw::DrawLine(a, b, color);
 
-	Vector2D a = WorldToScreen (vecOrigin + Vector(width, width, additionalHeight));
-	Vector2D b = WorldToScreen (vecViewOffset + Vector (width, width, additionalHeight));
+	a = WorldToScreen(vecOrigin + Vector(-width, width, additionalHeight));
+	b = WorldToScreen(vecViewOffset + Vector(-width, width, additionalHeight));
+	Draw::DrawLine(a, b, color);
 
-	Draw::DrawLine (a, b, color);
+	a = WorldToScreen(vecOrigin + Vector(-width, -width, additionalHeight));
+	b = WorldToScreen(vecViewOffset + Vector(-width, -width, additionalHeight));
+	Draw::DrawLine(a, b, color);
 
+	a = WorldToScreen(vecOrigin + Vector(width, -width, additionalHeight));
+	b = WorldToScreen(vecViewOffset + Vector(width, -width, additionalHeight));
+	Draw::DrawLine(a, b, color);
 
-	a = WorldToScreen (vecOrigin + Vector(-width, width, additionalHeight));
-	b = WorldToScreen (vecViewOffset + Vector (-width, width, additionalHeight));
+	// TOP
+	a = WorldToScreen(vecViewOffset + Vector(width, width, additionalHeight));
+	b = WorldToScreen(vecViewOffset + Vector(width, -width, additionalHeight));
+	Draw::DrawLine(a, b, color);
 
-	Draw::DrawLine (a, b, color);
+	a = WorldToScreen(vecViewOffset + Vector(width, width, additionalHeight));
+	b = WorldToScreen(vecViewOffset + Vector(-width, width, additionalHeight));
+	Draw::DrawLine(a, b, color);
 
+	a = WorldToScreen(vecViewOffset + Vector(-width, -width, additionalHeight));
+	b = WorldToScreen(vecViewOffset + Vector(-width, width, additionalHeight));
+	Draw::DrawLine(a, b, color);
 
-	a = WorldToScreen (vecOrigin + Vector(-width, -width, additionalHeight));
-	b = WorldToScreen (vecViewOffset + Vector (-width, -width, additionalHeight));
+	a = WorldToScreen(vecViewOffset + Vector(width, -width, additionalHeight));
+	b = WorldToScreen(vecViewOffset + Vector(-width, -width, additionalHeight));
+	Draw::DrawLine(a, b, color);
 
-	Draw::DrawLine (a, b, color);
+	// BOTTOM
+	a = WorldToScreen(vecOrigin + Vector(width, width, additionalHeight));
+	b = WorldToScreen(vecOrigin + Vector(width, -width, additionalHeight));
+	Draw::DrawLine(a, b, color);
 
-	a = WorldToScreen (vecOrigin + Vector(width, -width, additionalHeight));
-	b = WorldToScreen (vecViewOffset + Vector (width, -width, additionalHeight));
+	a = WorldToScreen(vecOrigin + Vector(width, width, additionalHeight));
+	b = WorldToScreen(vecOrigin + Vector(-width, width, additionalHeight));
+	Draw::DrawLine(a, b, color);
 
-	Draw::DrawLine (a, b, color);
+	a = WorldToScreen(vecOrigin + Vector(-width, -width, additionalHeight));
+	b = WorldToScreen(vecOrigin + Vector(-width, width, additionalHeight));
+	Draw::DrawLine(a, b, color);
 
-
-	//TOP
-
-	a = WorldToScreen (vecViewOffset + Vector(width, width, additionalHeight));
-	b = WorldToScreen (vecViewOffset + Vector (width, -width, additionalHeight));
-
-	Draw::DrawLine (a, b, color);
-
-
-	a = WorldToScreen (vecViewOffset + Vector(width, width, additionalHeight));
-	b = WorldToScreen (vecViewOffset + Vector (-width, width, additionalHeight));
-
-	Draw::DrawLine (a, b, color);
-
-	a = WorldToScreen (vecViewOffset + Vector(-width, -width, additionalHeight));
-	b = WorldToScreen (vecViewOffset + Vector (-width, width, additionalHeight));
-
-	Draw::DrawLine (a, b, color);
-
-
-	a = WorldToScreen (vecViewOffset + Vector(width, -width, additionalHeight));
-	b = WorldToScreen (vecViewOffset + Vector (-width, -width, additionalHeight));
-
-	Draw::DrawLine (a, b, color);
-
-
-	//BOTTOM
-
-	a = WorldToScreen (vecOrigin + Vector(width, width, additionalHeight));
-	b = WorldToScreen (vecOrigin + Vector (width, -width, additionalHeight));
-
-	Draw::DrawLine (a, b, color);
-
-
-	a = WorldToScreen (vecOrigin + Vector(width, width, additionalHeight));
-	b = WorldToScreen (vecOrigin + Vector (-width, width, additionalHeight));
-
-	Draw::DrawLine (a, b, color);
-
-	a = WorldToScreen (vecOrigin + Vector(-width, -width, additionalHeight));
-	b = WorldToScreen (vecOrigin + Vector (-width, width, additionalHeight));
-
-	Draw::DrawLine (a, b, color);
-
-
-	a = WorldToScreen (vecOrigin + Vector(width, -width, additionalHeight));
-	b = WorldToScreen (vecOrigin + Vector (-width, -width, additionalHeight));
-
-	Draw::DrawLine (a, b, color);
+	a = WorldToScreen(vecOrigin + Vector(width, -width, additionalHeight));
+	b = WorldToScreen(vecOrigin + Vector(-width, -width, additionalHeight));
+	Draw::DrawLine(a, b, color);
 }
 
-void ESP::DrawBones (C_BaseEntity* entity)
+void ESP::DrawBones(C_BaseEntity* entity)
 {
 	studiohdr_t* pStudioModel = modelInfo->GetStudioModel(entity->GetModel());
 	if (!pStudioModel)
@@ -125,7 +99,7 @@ void ESP::DrawBones (C_BaseEntity* entity)
 		for (int i = 0; i < pStudioModel->numbones; i++)
 		{
 			mstudiobone_t* pBone = pStudioModel->pBone(i);
-			if(!pBone || !(pBone->flags & 256) || pBone->parent == -1)
+			if (!pBone || !(pBone->flags & 256) || pBone->parent == -1)
 				continue;
 
 			Vector vBonePos1;
@@ -141,7 +115,7 @@ void ESP::DrawBones (C_BaseEntity* entity)
 	}
 }
 
-void ESP::DrawTracer (C_BasePlayer* localPlayer, C_BaseEntity* entity)
+void ESP::DrawTracer(C_BasePlayer* localPlayer, C_BaseEntity* entity)
 {
 	int playerTeam = localPlayer->GetTeam();
 	int entityTeam = reinterpret_cast<C_BasePlayer*>(entity)->GetTeam();
@@ -149,7 +123,7 @@ void ESP::DrawTracer (C_BasePlayer* localPlayer, C_BaseEntity* entity)
 
 	int width;
 	int height;
-	engine->GetScreenSize (width, height);
+	engine->GetScreenSize(width, height);
 	
 	Vector2D tracerLocation;
 	
@@ -165,10 +139,10 @@ void ESP::DrawTracer (C_BasePlayer* localPlayer, C_BaseEntity* entity)
 	
 	Vector s_vecEntity_s;
 	if (!WorldToScreen(entity->GetVecOrigin(), s_vecEntity_s) && localPlayer->GetHealth() > 0)
-		Draw::DrawLine (tracerLocation, LOC(s_vecEntity_s.x, s_vecEntity_s.y), color);
+		Draw::DrawLine(tracerLocation, LOC(s_vecEntity_s.x, s_vecEntity_s.y), color);
 }
 
-void ESP::DrawPlayerBox (C_BasePlayer* localPlayer, C_BaseEntity* entity)
+void ESP::DrawPlayerBox(C_BasePlayer* localPlayer, C_BaseEntity* entity)
 {
 	Color color;
 
@@ -190,15 +164,15 @@ void ESP::DrawPlayerBox (C_BasePlayer* localPlayer, C_BaseEntity* entity)
 	
 	Vector vecOrigin = entity->GetVecOrigin();
 	
-	Vector vecHeadBone = GetBone (entity, 6);
-	Vector vecViewOffset = Vector (vecOrigin.x, vecOrigin.y, vecHeadBone.z);
+	Vector vecHeadBone = GetBone(entity, 6);
+	Vector vecViewOffset = Vector(vecOrigin.x, vecOrigin.y, vecHeadBone.z);
 	
 	Vector s_vecLocalPlayer_s;
 	if (!WorldToScreen(vecOrigin, s_vecLocalPlayer_s))
-		DrawESPBox (vecOrigin, vecViewOffset, color, width, additionalHeight);
+		DrawESPBox(vecOrigin, vecViewOffset, color, width, additionalHeight);
 }
 
-void ESP::DrawPlayerInfo (C_BasePlayer* localPlayer, C_BaseEntity* entity, int entityIndex)
+void ESP::DrawPlayerInfo(C_BasePlayer* localPlayer, C_BaseEntity* entity, int entityIndex)
 {
 	int playerTeam = localPlayer->GetTeam();
 	int entityTeam = reinterpret_cast<C_BasePlayer*>(entity)->GetTeam();
@@ -207,7 +181,7 @@ void ESP::DrawPlayerInfo (C_BasePlayer* localPlayer, C_BaseEntity* entity, int e
 	IEngineClient::player_info_t entityInformation;
 	engine->GetPlayerInfo(entityIndex, &entityInformation);
 	
-	Vector vecOrigin = entity->GetVecOrigin ();
+	Vector vecOrigin = entity->GetVecOrigin();
 	
 	pstring str;
 	
@@ -219,18 +193,18 @@ void ESP::DrawPlayerInfo (C_BasePlayer* localPlayer, C_BaseEntity* entity, int e
 
 	if (Settings::ESP::Info::showHealth)
 	{
-		str + entity->GetHealth ();
+		str + entity->GetHealth();
 		str << "hp";
 	}
 	
-	std::wstring wstr (str.begin (), str.end ());
+	std::wstring wstr(str.begin(), str.end());
 	
 	Vector s_vecEntity_s;
 	if (!WorldToScreen(vecOrigin, s_vecEntity_s))
-		Draw::DrawString (wstr.c_str(), LOC(s_vecEntity_s.x, s_vecEntity_s.y), color, esp_font, true);
+		Draw::DrawString(wstr.c_str(), LOC(s_vecEntity_s.x, s_vecEntity_s.y), color, esp_font, true);
 }
 
-void ESP::PaintTraverse (VPANEL vgui_panel, bool force_repaint, bool allow_force)
+void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 {
 	if (!Settings::ESP::enabled)
 		return;
@@ -255,10 +229,10 @@ void ESP::PaintTraverse (VPANEL vgui_panel, bool force_repaint, bool allow_force
 			continue;
 
 		if (Settings::ESP::Bones::enabled)
-			ESP::DrawBones (entity);
+			ESP::DrawBones(entity);
 
 		if (Settings::ESP::Walls::enabled)
-			ESP::DrawPlayerBox (localPlayer, entity);
+			ESP::DrawPlayerBox(localPlayer, entity);
 
 		if (Settings::ESP::Tracer::enabled)
 			ESP::DrawTracer	(localPlayer, entity);
