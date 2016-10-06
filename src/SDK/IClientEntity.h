@@ -144,6 +144,11 @@ public:
 
 		return Vector(hitbox[0][3], hitbox[1][3], hitbox[2][3]);
 	}
+
+	void* GetObserverTarget()
+	{
+		return (void*)((uintptr_t)this + offsets.m_hObserverTarget);
+	}
 };
 
 /* generic game classes */
