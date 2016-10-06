@@ -171,6 +171,11 @@ namespace Settings
 		extern bool enabled;
 	}
 
+	namespace Airstuck
+	{
+		extern bool enabled;
+	}
+
 	namespace Skinchanger
 	{
 		struct Skin

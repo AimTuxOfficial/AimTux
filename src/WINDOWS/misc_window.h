@@ -15,6 +15,7 @@ private:
 	ToggleSwitch* ts_spammer;
 	ToggleSwitch* ts_noflash;
 	ToggleSwitch* ts_rainbow_cham_hands;
+	ToggleSwitch* ts_airstuck;
 public:
 	MiscWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor);
 };

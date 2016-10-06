@@ -19,5 +19,8 @@ MiscWindow::MiscWindow (std::string title, Vector2D size, Vector2D position, Col
 	
 	ts_rainbow_cham_hands = new ToggleSwitch ("rainbow arms", LOC (10, ts_noflash->position.y + ts_noflash->size.y + 10), 35, &Settings::ESP::Chams::rainbow_arms);
 	AddComponent (ts_rainbow_cham_hands);
+
+	ts_airstuck = new ToggleSwitch ("airstuck", LOC (10, ts_rainbow_cham_hands->position.y + ts_rainbow_cham_hands->size.y + 10), 35, &Settings::Airstuck::enabled);
+	AddComponent (ts_airstuck);
 	Hide ();
 }
