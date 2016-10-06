@@ -1,7 +1,7 @@
 #include "antiaim.h"
 
-bool Settings::AntiAim::enabled_Y = true;
-bool Settings::AntiAim::enabled_X = true;
+bool Settings::AntiAim::enabled_Y = false;
+bool Settings::AntiAim::enabled_X = false;
 AntiAimType_Y Settings::AntiAim::type_Y = SPIN_FAST;
 AntiAimType_X Settings::AntiAim::type_X = STATIC_DOWN;
 
