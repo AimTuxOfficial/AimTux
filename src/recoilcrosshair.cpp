@@ -7,6 +7,9 @@ void Recoilcrosshair::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool 
 	if (!Settings::Recoilcrosshair::enabled)
 		return;
 
+	if (!engine->IsInGame())
+		return;
+
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer || localplayer->GetLifeState() != LIFE_ALIVE)
 		return;

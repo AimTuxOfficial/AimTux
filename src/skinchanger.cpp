@@ -25,6 +25,9 @@ void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 	if (!Settings::Skinchanger::enabled)
 		return;
 
+	if (!engine->IsInGame())
+		return;
+
 	if (stage != ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_START)
 		return;
 

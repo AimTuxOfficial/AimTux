@@ -51,7 +51,7 @@ static bool IsButtonPressed(ButtonCode_t code)
 bool hkCreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 {
 	clientMode_vmt->GetOriginalMethod<CreateMoveFn>(25)(thisptr, flInputSampleTime, cmd);
-	
+
 	// This code should be moved into a tick hook of some sorts...
 	Spammer::Tick();
 	

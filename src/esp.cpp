@@ -229,6 +229,9 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 	if (!Settings::ESP::enabled)
 		return;
 
+	if (!engine->IsInGame())
+		return;
+
 	C_BasePlayer* localPlayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 
 	if (!localPlayer)
