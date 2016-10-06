@@ -25,10 +25,10 @@ std::list<std::string> Entity::GetObservervators(C_BaseEntity* pEntity)
 		if (!entity)
 			continue;
 
-		if (*entity->GetObserverMode() != ObserverMode_t::OBS_MODE_IN_EYE)
+		if (entity->GetLifeState() == LIFE_ALIVE || entity->GetHealth() > 0)
 			continue;
 
-		if (entity->GetLifeState() == LIFE_ALIVE)
+		if (*entity->GetObserverMode() != ObserverMode_t::OBS_MODE_IN_EYE)
 			continue;
 
 		C_BaseEntity *target = entitylist->GetClientEntityFromHandle(entity->GetObserverTarget());
