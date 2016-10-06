@@ -54,6 +54,12 @@ public:
 		return getvfunc<oSetViewAngles>(this, 19)(this, angle);
 	}
 
+	int GetMaxClients()
+	{
+		typedef int(* oGetMaxClients)(void*);
+		return getvfunc< oGetMaxClients>(this, 20)(this);
+	}
+
 	void ExecuteClientCmd(const char* pCmd)
 	{
 		typedef void(* oCmd)(void*, const char*);
