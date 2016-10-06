@@ -345,4 +345,4 @@ public:
 	}
 };
 
-#endif //AIMTUX_ICLIENTENTITY_H
+#endif
