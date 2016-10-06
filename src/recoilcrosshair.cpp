@@ -8,7 +8,7 @@ void Recoilcrosshair::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool 
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer)
+	if (!localplayer || localplayer->GetLifeState() != LIFE_ALIVE)
 		return;
 
 	C_BaseViewModel* viewmodel = reinterpret_cast<C_BaseViewModel*>(entitylist->GetClientEntity(localplayer->GetViewModel() & 0xFFF));
