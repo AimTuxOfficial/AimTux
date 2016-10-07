@@ -15,8 +15,11 @@ public:
     template<typename T>
     pstring& operator<<(const T s)
 	{
-        *this+=s;
-        return *this;
+		std::stringstream stream;
+		stream << *this;
+		stream << s;
+		*this = stream.str();
+		return *this;
     }
 	
 	pstring& operator+(const unsigned int i)
@@ -24,15 +27,6 @@ public:
 		std::stringstream stream;
 		stream << *this;
 		stream << i;
-		*this = stream.str();
-		return *this;
-	}
-	
-	pstring& operator+(const float f)
-	{
-		std::stringstream stream;
-		stream << *this;
-		stream << f;
 		*this = stream.str();
 		return *this;
 	}
