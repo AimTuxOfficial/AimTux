@@ -215,7 +215,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 			float fov = Math::GetFov(AimStepLastAngle, Math::CalcAngle(p_vecHead, e_vecHead));
 
 			Aimbot::AimStepInProgress = (Settings::Aimbot::AimStep::enabled
-					&& !Settings::Aimbot::Smooth::enabled
+					&& Settings::Aimbot::Smooth::enabled
 					&& fov > Settings::Aimbot::AimStep::value);
 
 			if (Aimbot::AimStepInProgress)
@@ -231,7 +231,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 				angle = AimStepLastAngle;
 			}
 
-			if (!Settings::AntiAim::enabled_X && !Settings::AntiAim::enabled_Y && !Settings::Aimbot::Smooth::enabled)
+			if (!Settings::AntiAim::enabled_X && !Settings::AntiAim::enabled_Y && Settings::Aimbot::Smooth::enabled)
 			{
 				QAngle vDelta(cmd->viewangles - angle);
 
