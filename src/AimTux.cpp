@@ -18,8 +18,7 @@
 #include "chams.h"
 #include "noflash.h"
 #include "recoilcrosshair.h"
-
-bool Settings::Airstuck::enabled = false;
+#include "airstuck.h"
 
 FONT title_font = 0;
 FONT normal_font = 0;
@@ -65,10 +64,7 @@ bool hkCreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		Triggerbot::CreateMove(cmd);
 		AntiAim::CreateMove(cmd);
 		Chams::CreateMove(cmd);
-
-		if (Settings::Airstuck::enabled)
-			if (input->IsButtonDown(ButtonCode_t::KEY_F))
-				cmd->tick_count = INT_MAX;
+		Airstuck::CreateMove(cmd);
 
 		if (!Settings::Aimbot::silent && !Settings::AntiAim::enabled_X && !Settings::AntiAim::enabled_Y)
 			engine->SetViewAngles(cmd->viewangles);
