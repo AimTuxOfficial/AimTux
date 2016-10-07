@@ -207,6 +207,7 @@ enum EClassIds: int
 	CEnvScreenOverlay,
 	CEnvTonemapController,
 	CEnvWind,
+	CFEPlayerDecal,
 	CFireCrackerBlast,
 	CFireSmoke,
 	CFireTrail,
