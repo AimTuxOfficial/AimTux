@@ -87,11 +87,11 @@ void hkPaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool 
 
 	if (IsButtonPressed(ButtonCode_t::KEY_INSERT))
 		gui->Toggle();
-	
-	gui->Draw();
-	
+
 	ESP::PaintTraverse(vgui_panel, force_repaint, allow_force);
 	Recoilcrosshair::PaintTraverse(vgui_panel, force_repaint, allow_force);
+
+	gui->Draw();
 }
 
 void hkFrameStageNotify(void* thisptr, ClientFrameStage_t stage)
