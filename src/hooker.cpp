@@ -67,21 +67,9 @@ void Hooker::HookIClientMode()
 	if (!init_address)
 		return;
 
-	pstring str;
-	str << "init_address: ";
-	str + init_address;
-
-	PRINT(str.c_str());
-	
 	uint32_t offset = *reinterpret_cast<uint32_t*>(init_address + 3);
 	clientMode = reinterpret_cast<IClientMode*>(init_address + offset + 7);
-
-	str = "";
-	str << "offset: ";
-	str + offset;
-
-	PRINT(str.c_str());
-
+	
 	clientMode_vmt = new VMT(clientMode);
 }
 
