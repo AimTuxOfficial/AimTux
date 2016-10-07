@@ -17,6 +17,11 @@ AimbotWindow::AimbotWindow (std::string title, Vector2D size, Vector2D position,
 	ts_autoaim = new ToggleSwitch ("auto aim", LOC (10, ts_silent->position.y + ts_silent->size.y + 10), 35, &Settings::Aimbot::AutoAim::enabled);
 	AddComponent (ts_autoaim);
 	
+	
+	sl_fov = new Slider ("fov", LOC (ts_autoaim->position.x + ts_autoaim->size.x + 10, ts_autoaim->position.y), LOC (500, 35), &Settings::Aimbot::fov, 0.0f, 180.0f);
+	AddComponent (sl_fov);
+	
+	
 	ts_aimstep = new ToggleSwitch ("aim step", LOC (10, ts_autoaim->position.y + ts_autoaim->size.y + 10), 35, &Settings::Aimbot::AimStep::enabled);
 	AddComponent (ts_aimstep);
 	
