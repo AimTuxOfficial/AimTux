@@ -268,7 +268,7 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 		}
 		else if (client->m_ClassID == CPlantedC4)
 		{
-			if (Settings::ESP::Bomb::enabled)
+			if (Settings::ESP::Bomb::enabled && entity->IsBombTicking())
 				ESP::DrawBombBox(entity);
 		}
 	}

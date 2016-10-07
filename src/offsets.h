@@ -19,7 +19,9 @@ struct COffsets
 	int m_hObserverTarget;
 
 	int m_flFlashMaxAlpha;
-	
+
+	int m_bBombTicking;
+
 	int m_Local;
 	int m_aimPunchAngle;
 	

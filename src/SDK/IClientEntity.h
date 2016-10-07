@@ -154,6 +154,11 @@ public:
 	{
 		return (void*)((uintptr_t)this + offsets.m_hObserverTarget);
 	}
+
+	bool IsBombTicking()
+	{
+		return (bool)((uintptr_t)this + offsets.m_bBombTicking);
+	}
 };
 
 /* generic game classes */
