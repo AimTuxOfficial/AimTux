@@ -4,8 +4,9 @@
 bool Settings::Aimbot::enabled = true;
 bool Settings::Aimbot::silent = false;
 float Settings::Aimbot::fov = 180.0f;
-float Settings::Aimbot::smooth = 0.0f;
 int Settings::Aimbot::bone = BONE_NECK;
+bool Settings::Aimbot::Smooth::enabled = false;
+float Settings::Aimbot::Smooth::value = 1.0f;
 bool Settings::Aimbot::AutoAim::enabled = false;
 bool Settings::Aimbot::AimStep::enabled = false;
 float Settings::Aimbot::AimStep::value = 25.0f;
@@ -214,7 +215,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 			float fov = Math::GetFov(AimStepLastAngle, Math::CalcAngle(p_vecHead, e_vecHead));
 
 			Aimbot::AimStepInProgress = (Settings::Aimbot::AimStep::enabled
-					&& Settings::Aimbot::smooth == 0
+					&& !Settings::Aimbot::Smooth::enabled
 					&& fov > Settings::Aimbot::AimStep::value);
 
 			if (Aimbot::AimStepInProgress)
@@ -230,13 +231,13 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 				angle = AimStepLastAngle;
 			}
 
-			if (!Settings::AntiAim::enabled_X && !Settings::AntiAim::enabled_Y && Settings::Aimbot::smooth > 0.0f)
+			if (!Settings::AntiAim::enabled_X && !Settings::AntiAim::enabled_Y && !Settings::Aimbot::Smooth::enabled)
 			{
 				QAngle vDelta(cmd->viewangles - angle);
 
 				CheckAngles(vDelta);
 
-				angle = cmd->viewangles - vDelta / Settings::Aimbot::smooth;
+				angle = cmd->viewangles - (vDelta / Settings::Aimbot::Smooth::value);
 			}
 		}
 		

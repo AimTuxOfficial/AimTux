@@ -46,8 +46,13 @@ namespace Settings
 		extern bool enabled;
 		extern bool silent;
 		extern float fov;
-		extern float smooth;
 		extern int bone;
+
+		namespace Smooth
+		{
+			extern bool enabled;
+			extern float value;
+		}
 		
 		namespace AutoAim
 		{
