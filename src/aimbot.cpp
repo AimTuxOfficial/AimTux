@@ -15,6 +15,7 @@ bool Settings::Aimbot::AutoCrouch::enabled = false;
 bool Settings::Aimbot::AutoStop::enabled = false;
 
 QAngle AimStepLastAngle;
+QAngle RCSLastPunch;
 
 bool Aimbot::AimStepInProgress = false;
 
@@ -140,8 +141,21 @@ C_BaseEntity* GetClosestVisibleEnemy(CUserCmd* cmd)
 
 void Aimbot::RCS(QAngle& angle)
 {
-	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
-	angle -= localplayer->GetAimPunchAngle() * 2.f;
+	C_BasePlayer *localplayer = reinterpret_cast<C_BasePlayer *>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
+	QAngle CurrentPunch = localplayer->GetAimPunchAngle();
+
+	if (Settings::Aimbot::silent)
+	{
+		angle -= CurrentPunch * 2.f;
+		return;
+	}
+
+	Vector NewPunch = { CurrentPunch.x - RCSLastPunch.x, CurrentPunch.y - RCSLastPunch.y, 0 };
+
+	angle.x -= NewPunch.x * 2.0f;
+	angle.y -= NewPunch.y * 2.0f;
+
+	RCSLastPunch = CurrentPunch;
 }
 
 void Aimbot::CorrectMovement(QAngle vOldAngles, CUserCmd* pCmd, float fOldForward, float fOldSidemove)
@@ -218,9 +232,6 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 				angle = AimStepLastAngle;
 			}
 
-			if (Settings::Aimbot::RCS::enabled)
-				RCS(angle);
-
 			if (!Settings::AntiAim::enabled_X && !Settings::AntiAim::enabled_Y && Settings::Aimbot::smooth > 0.0f)
 			{
 				QAngle vDelta(cmd->viewangles - angle);
@@ -278,6 +289,9 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 			cmd->upmove = 0;
 		}
 	}
+
+	if (Settings::Aimbot::RCS::enabled && cmd->buttons & IN_ATTACK)
+		Aimbot::RCS(angle);
 
 	// Check the angle to make sure it's invalid
 	Aimbot::CheckAngles(angle);
