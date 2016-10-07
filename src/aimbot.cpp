@@ -215,7 +215,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 			float fov = Math::GetFov(AimStepLastAngle, Math::CalcAngle(p_vecHead, e_vecHead));
 
 			Aimbot::AimStepInProgress = (Settings::Aimbot::AimStep::enabled
-					&& Settings::Aimbot::Smooth::enabled
+					&& !Settings::Aimbot::Smooth::enabled
 					&& fov > Settings::Aimbot::AimStep::value);
 
 			if (Aimbot::AimStepInProgress)
