@@ -22,6 +22,7 @@ Want to chat or play with other AimTux users? Join us on Gitter!
 * *Tracer*
 * *Bhop*
 * *No Flash*
+* *Airstuck*
 * *Recoil Crosshair*
 * *Skin Changer*
 * *Knife Changer*
