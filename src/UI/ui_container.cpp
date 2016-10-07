@@ -19,10 +19,23 @@ bool UI_Container::IsOverlapping (Vector2D position, int index)
 	return false;
 }
 
+void DrawBanner ()
+{
+	int width, height;
+	engine->GetScreenSize (width, height);
+	
+	Draw::DrawString (L"AimTux", LOC (10, 10), Color (215, 215, 215, 190), esp_font, false);
+}
+
 void UI_Container::Draw ()
 {
 	if (!visible)
 	{
+		if (!engine->IsInGame ())
+		{
+			DrawBanner ();
+		}
+		
 		return;
 	}
 	
