@@ -11,5 +11,5 @@ void Airstuck::CreateMove(CUserCmd* cmd)
 		return;
 
 	if (input->IsButtonDown(ButtonCode_t::KEY_F))
-		cmd->tick_count = INT_MAX;
+		cmd->tick_count = 16777216;
 }
