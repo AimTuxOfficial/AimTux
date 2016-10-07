@@ -18,9 +18,13 @@ void SetupUI()
 	esp_window = new ESPWindow("Visuals", Vector2D(600, 650), Vector2D(10, 10), Color(0, 0, 0, 0));
 	gui->AddWindow(esp_window);
 
+	// HVH window
+	hvh_window = new HVHWindow("Hack vs Hack", Vector2D(500, 450), Vector2D(aimbot_window->position.x, aimbot_window->position.y + aimbot_window->size.y + 10), Color(0, 0, 0, 0));
+	gui->AddWindow(hvh_window);
+	
 	// Misc window
-	misc_window = new MiscWindow("Miscellaneous", Vector2D(400, 400), Vector2D(10, 670), Color(0, 0, 0, 0));
+	misc_window = new MiscWindow("Miscellaneous", Vector2D(600, 400), Vector2D(10, 670), Color(0, 0, 0, 0));
 	gui->AddWindow(misc_window);
-
+	
 	gui->Focus(main_window);
 }

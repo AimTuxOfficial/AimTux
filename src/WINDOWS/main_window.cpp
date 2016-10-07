@@ -15,7 +15,12 @@ MainWindow::MainWindow (std::string title, Vector2D size, Vector2D position, Col
 	
 	esp_button->OnClickedEvent = MFUNC (&MainWindow::esp_button_clicked, this);
 	
-	misc_button = new OutlinedButton ("Miscellaneous", LOC (10, esp_button->position.y + esp_button->size.y + 10), LOC (size.x-20, 40));
+	hvh_button = new OutlinedButton ("H V H", LOC (10, esp_button->position.y + esp_button->size.y + 10), LOC (size.x-20, 40));
+	AddComponent (hvh_button);
+	
+	hvh_button->OnClickedEvent = MFUNC (&MainWindow::hvh_button_clicked, this);
+	
+	misc_button = new OutlinedButton ("Miscellaneous", LOC (10, hvh_button->position.y + hvh_button->size.y + 10), LOC (size.x-20, 40));
 	AddComponent (misc_button);
 	
 	misc_button->OnClickedEvent = MFUNC (&MainWindow::misc_button_clicked, this);
@@ -36,4 +41,9 @@ void MainWindow::esp_button_clicked ()
 void MainWindow::misc_button_clicked ()
 {
 	misc_window->Toggle ();
+}
+
+void MainWindow::hvh_button_clicked ()
+{
+	hvh_window->Toggle ();
 }
