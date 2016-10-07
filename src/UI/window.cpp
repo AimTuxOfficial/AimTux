@@ -2,7 +2,7 @@
 #include "button.h"
 #include "../settings.h"
 
-Color Settings::UI::titleBarColor = Color (255, 100, 100);
+Color Settings::UI::mainColor = Color (255, 100, 100);
 Color Settings::UI::bodyColor = Color (20, 20, 20, 190);
 
 /*------------------
@@ -73,7 +73,7 @@ void Window::Draw ()
 {
 	Panel::Draw ();
 	
-	DrawRectangle (LOC (0, 0), size, Settings::UI::titleBarColor);
+	DrawRectangle (LOC (0, 0), size, Settings::UI::mainColor);
 }
 
 
@@ -108,7 +108,7 @@ void TitleBar::Draw ()
 	}
 	
 	
-	Clear (Settings::UI::titleBarColor);
+	Clear (Settings::UI::mainColor);
 	DrawCenteredString (std::wstring (parentWindow->title.begin(), parentWindow->title.end()), title_font, foreColor, LOC (size.x / 2, size.y / 2));
 }
 

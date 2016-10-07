@@ -37,7 +37,7 @@ namespace Settings
 {
 	namespace UI
 	{
-		extern Color titleBarColor;
+		extern Color mainColor;
 		extern Color bodyColor;
 	}
 	
