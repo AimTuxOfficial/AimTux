@@ -150,11 +150,9 @@ void Aimbot::RCS(QAngle& angle)
 		return;
 	}
 
-	Vector NewPunch = { CurrentPunch.x - RCSLastPunch.x, CurrentPunch.y - RCSLastPunch.y, 0 };
+	QAngle NewPunch = { CurrentPunch.x - RCSLastPunch.x, CurrentPunch.y - RCSLastPunch.y, 0 };
 
-	angle.x -= NewPunch.x * 2.0f;
-	angle.y -= NewPunch.y * 2.0f;
-
+	angle -= NewPunch * 2.f;
 	RCSLastPunch = CurrentPunch;
 }
 
