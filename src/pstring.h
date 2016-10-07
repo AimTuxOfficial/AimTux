@@ -27,5 +27,14 @@ public:
 		*this = stream.str();
 		return *this;
 	}
+	
+	pstring& operator+(const float f)
+	{
+		std::stringstream stream;
+		stream << *this;
+		stream << f;
+		*this = stream.str();
+		return *this;
+	}
 };
 #endif
