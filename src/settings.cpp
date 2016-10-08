@@ -95,6 +95,15 @@ void Settings::LoadDefaultsOrSave()
 	settings["Airstuck"]["enabled"] = Settings::Airstuck::enabled;
 
 	settings["Skinchanger"]["enabled"] = Settings::Skinchanger::enabled;
+	for (auto i : Settings::Skinchanger::skins)
+	{
+		settings["Skinchanger"]["skins"][std::to_string(i.first)]["PaintKit"] = i.second.PaintKit;
+		settings["Skinchanger"]["skins"][std::to_string(i.first)]["ItemDefinitionIndex"] = i.second.ItemDefinitionIndex;
+		settings["Skinchanger"]["skins"][std::to_string(i.first)]["Wear"] = i.second.Wear;
+		settings["Skinchanger"]["skins"][std::to_string(i.first)]["StatTrak"] = i.second.StatTrak;
+		settings["Skinchanger"]["skins"][std::to_string(i.first)]["CustomName"] = i.second.CustomName;
+		settings["Skinchanger"]["skins"][std::to_string(i.first)]["Model"] = i.second.Model;
+	}
 
 	std::ofstream(GetSettingsPath()) << styledWriter.write(settings);
 }
@@ -184,6 +193,24 @@ void Settings::LoadSettings()
 		Settings::Recoilcrosshair::enabled = settings["Recoilcrosshair"]["enabled"].asBool();
 
 		Settings::Airstuck::enabled = settings["Airstuck"]["enabled"].asBool();
+
+		Settings::Skinchanger::enabled = false;
+		Settings::Skinchanger::skins.clear();
+
+		for (Json::ValueIterator itr = settings["Skinchanger"]["skins"].begin(); itr != settings["Skinchanger"]["skins"].end(); itr++)
+		{
+			int weaponID = std::stoi(itr.key().asString());
+			Settings::Skinchanger::Skin skin = Settings::Skinchanger::Skin(
+					settings["Skinchanger"]["skins"][itr.key().asString()]["PaintKit"].asInt(),
+					settings["Skinchanger"]["skins"][itr.key().asString()]["ItemDefinitionIndex"].asInt(),
+					settings["Skinchanger"]["skins"][itr.key().asString()]["Wear"].asFloat(),
+					settings["Skinchanger"]["skins"][itr.key().asString()]["StatTrak"].asInt(),
+					settings["Skinchanger"]["skins"][itr.key().asString()]["CustomName"].asString(),
+					settings["Skinchanger"]["skins"][itr.key().asString()]["Model"].asString()
+			);
+
+			Settings::Skinchanger::skins[weaponID] = skin;
+		}
 
 		Settings::Skinchanger::enabled = settings["Skinchanger"]["enabled"].asBool();
 	}

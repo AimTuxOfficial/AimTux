@@ -198,10 +198,10 @@ namespace Settings
 			int ItemDefinitionIndex;
 			float Wear;
 			int StatTrak;
-			const char* CustomName;
-			const char* Model;
+			std::string CustomName;
+			std::string Model;
 
-			Skin (int PaintKit, int ItemDefinitionIndex, float Wear, int StatTrak, const char* CustomName, const char* Model)
+			Skin (int PaintKit, int ItemDefinitionIndex, float Wear, int StatTrak, std::string CustomName, std::string Model)
 			{
 				this->PaintKit = PaintKit;
 				this->ItemDefinitionIndex = ItemDefinitionIndex;
