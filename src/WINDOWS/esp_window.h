@@ -20,6 +20,7 @@ private:
 	ToggleSwitch* ts_chams_players;
 	ToggleSwitch* ts_chams_arms;
 	ToggleSwitch* ts_recoil_crosshair;
+	ToggleSwitch* ts_bomb;
 public:
 	ESPWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor);
 };
