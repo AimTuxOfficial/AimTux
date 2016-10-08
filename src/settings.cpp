@@ -188,7 +188,7 @@ void Settings::LoadSettings()
 		Settings::AutoStrafe::enabled = settings["AutoStrafe"]["enabled"].asBool();
 
 		Settings::Noflash::enabled = settings["Noflash"]["enabled"].asBool();
-		Settings::Noflash::value = settings["Noflash"]["value"].asBool();
+		Settings::Noflash::value = settings["Noflash"]["value"].asFloat();
 
 		Settings::Recoilcrosshair::enabled = settings["Recoilcrosshair"]["enabled"].asBool();
 
