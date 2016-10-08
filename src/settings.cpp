@@ -41,6 +41,21 @@ void Settings::LoadDefaultsOrSave()
 	settings["AntiAim"]["type_X"] = Settings::AntiAim::type_X;
 
 	settings["ESP"]["enabled"] = Settings::ESP::enabled;
+	settings["ESP"]["ally_color"]["r"] = Settings::ESP::ally_color.r;
+	settings["ESP"]["ally_color"]["g"] = Settings::ESP::ally_color.g;
+	settings["ESP"]["ally_color"]["b"] = Settings::ESP::ally_color.b;
+	settings["ESP"]["enemy_color"]["r"] = Settings::ESP::enemy_color.r;
+	settings["ESP"]["enemy_color"]["g"] = Settings::ESP::enemy_color.g;
+	settings["ESP"]["enemy_color"]["b"] = Settings::ESP::enemy_color.b;
+	settings["ESP"]["enemy_visible_color"]["r"] = Settings::ESP::enemy_visible_color.r;
+	settings["ESP"]["enemy_visible_color"]["g"] = Settings::ESP::enemy_visible_color.g;
+	settings["ESP"]["enemy_visible_color"]["b"] = Settings::ESP::enemy_visible_color.b;
+	settings["ESP"]["bones_color"]["r"] = Settings::ESP::bones_color.r;
+	settings["ESP"]["bones_color"]["g"] = Settings::ESP::bones_color.g;
+	settings["ESP"]["bones_color"]["b"] = Settings::ESP::bones_color.b;
+	settings["ESP"]["bomb_color"]["r"] = Settings::ESP::bomb_color.r;
+	settings["ESP"]["bomb_color"]["g"] = Settings::ESP::bomb_color.g;
+	settings["ESP"]["bomb_color"]["b"] = Settings::ESP::bomb_color.b;
 	settings["ESP"]["visibility_check"] = Settings::ESP::visibility_check;
 	settings["ESP"]["Walls"]["enabled"] = Settings::ESP::Walls::enabled;
 	settings["ESP"]["Info"]["showName"] = Settings::ESP::Info::showName;
@@ -52,6 +67,18 @@ void Settings::LoadDefaultsOrSave()
 	settings["ESP"]["Chams"]["players"] = Settings::ESP::Chams::players;
 	settings["ESP"]["Chams"]["arms"] = Settings::ESP::Chams::arms;
 	settings["ESP"]["Chams"]["rainbow_arms"] = Settings::ESP::Chams::rainbow_arms;
+	settings["ESP"]["Chams"]["players_ally_color"]["r"] = Settings::ESP::Chams::players_ally_color.r;
+	settings["ESP"]["Chams"]["players_ally_color"]["g"] = Settings::ESP::Chams::players_ally_color.g;
+	settings["ESP"]["Chams"]["players_ally_color"]["b"] = Settings::ESP::Chams::players_ally_color.b;
+	settings["ESP"]["Chams"]["players_enemy_color"]["r"] = Settings::ESP::Chams::players_enemy_color.r;
+	settings["ESP"]["Chams"]["players_enemy_color"]["g"] = Settings::ESP::Chams::players_enemy_color.g;
+	settings["ESP"]["Chams"]["players_enemy_color"]["b"] = Settings::ESP::Chams::players_enemy_color.b;
+	settings["ESP"]["Chams"]["players_enemy_visible_color"]["r"] = Settings::ESP::Chams::players_enemy_visible_color.r;
+	settings["ESP"]["Chams"]["players_enemy_visible_color"]["g"] = Settings::ESP::Chams::players_enemy_visible_color.g;
+	settings["ESP"]["Chams"]["players_enemy_visible_color"]["b"] = Settings::ESP::Chams::players_enemy_visible_color.b;
+	settings["ESP"]["Chams"]["arms_color"]["r"] = Settings::ESP::Chams::arms_color.r;
+	settings["ESP"]["Chams"]["arms_color"]["g"] = Settings::ESP::Chams::arms_color.g;
+	settings["ESP"]["Chams"]["arms_color"]["b"] = Settings::ESP::Chams::arms_color.b;
 	settings["ESP"]["Chams"]["type"] = Settings::ESP::Chams::type;
 
 	settings["Spammer"]["enabled"] = Settings::Spammer::enabled;
@@ -105,6 +132,21 @@ void Settings::LoadSettings()
 		Settings::AntiAim::type_X = (AntiAimType_X) settings["AntiAim"]["type_Y"].asInt();
 
 		Settings::ESP::enabled = settings["ESP"]["enabled"].asBool();
+		Settings::ESP::ally_color.r = settings["ESP"]["ally_color"]["r"].asInt();
+		Settings::ESP::ally_color.g = settings["ESP"]["ally_color"]["g"].asInt();
+		Settings::ESP::ally_color.b = settings["ESP"]["ally_color"]["b"].asInt();
+		Settings::ESP::enemy_color.r = settings["ESP"]["enemy_color"]["r"].asInt();
+		Settings::ESP::enemy_color.g = settings["ESP"]["enemy_color"]["g"].asInt();
+		Settings::ESP::enemy_color.b = settings["ESP"]["enemy_color"]["b"].asInt();
+		Settings::ESP::enemy_visible_color.r = settings["ESP"]["enemy_visible_color"]["r"].asInt();
+		Settings::ESP::enemy_visible_color.g = settings["ESP"]["enemy_visible_color"]["g"].asInt();
+		Settings::ESP::enemy_visible_color.b = settings["ESP"]["enemy_visible_color"]["b"].asInt();
+		Settings::ESP::bones_color.r = settings["ESP"]["bones_color"]["r"].asInt();
+		Settings::ESP::bones_color.g = settings["ESP"]["bones_color"]["g"].asInt();
+		Settings::ESP::bones_color.b = settings["ESP"]["bones_color"]["b"].asInt();
+		Settings::ESP::bomb_color.r = settings["ESP"]["bomb_color"]["r"].asInt();
+		Settings::ESP::bomb_color.g = settings["ESP"]["bomb_color"]["g"].asInt();
+		Settings::ESP::bomb_color.b = settings["ESP"]["bomb_color"]["b"].asInt();
 		Settings::ESP::visibility_check = settings["ESP"]["visibility_check"].asBool();
 		Settings::ESP::Walls::enabled = settings["ESP"]["Walls"]["enabled"].asBool();
 		Settings::ESP::Info::showName = settings["ESP"]["Info"]["showName"].asBool();
@@ -116,6 +158,18 @@ void Settings::LoadSettings()
 		Settings::ESP::Chams::players = settings["ESP"]["Chams"]["players"].asBool();
 		Settings::ESP::Chams::arms = settings["ESP"]["Chams"]["arms"].asBool();
 		Settings::ESP::Chams::rainbow_arms = settings["ESP"]["Chams"]["rainbow_arms"].asBool();
+		Settings::ESP::Chams::players_ally_color.r = settings["ESP"]["Chams"]["players_ally_color"]["r"].asInt();
+		Settings::ESP::Chams::players_ally_color.g = settings["ESP"]["Chams"]["players_ally_color"]["g"].asInt();
+		Settings::ESP::Chams::players_ally_color.b = settings["ESP"]["Chams"]["players_ally_color"]["b"].asInt();
+		Settings::ESP::Chams::players_enemy_color.r = settings["ESP"]["Chams"]["players_enemy_color"]["r"].asInt();
+		Settings::ESP::Chams::players_enemy_color.g = settings["ESP"]["Chams"]["players_enemy_color"]["g"].asInt();
+		Settings::ESP::Chams::players_enemy_color.b = settings["ESP"]["Chams"]["players_enemy_color"]["b"].asInt();
+		Settings::ESP::Chams::players_enemy_visible_color.r = settings["ESP"]["Chams"]["players_enemy_visible_color"]["r"].asInt();
+		Settings::ESP::Chams::players_enemy_visible_color.g = settings["ESP"]["Chams"]["players_enemy_visible_color"]["g"].asInt();
+		Settings::ESP::Chams::players_enemy_visible_color.b = settings["ESP"]["Chams"]["players_enemy_visible_color"]["b"].asInt();
+		Settings::ESP::Chams::arms_color.r = settings["ESP"]["Chams"]["arms_color"]["r"].asInt();
+		Settings::ESP::Chams::arms_color.g = settings["ESP"]["Chams"]["arms_color"]["g"].asInt();
+		Settings::ESP::Chams::arms_color.b = settings["ESP"]["Chams"]["arms_color"]["b"].asInt();
 		Settings::ESP::Chams::type = (ChamsType) settings["ESP"]["Chams"]["type"].asInt();
 
 		Settings::Spammer::enabled = settings["Spammer"]["enabled"].asBool();
