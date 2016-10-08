@@ -117,8 +117,6 @@ void hkDrawModelExecute(void* thisptr, void* context, void *state, const ModelRe
 /* called when the library is loading */
 int __attribute__((constructor)) aimtux_init()
 {
-	Settings::LoadSettings();
-
 	Hooker::HookInterfaces();
 	Hooker::HookVMethods();
 	Chams::CreateMaterials();

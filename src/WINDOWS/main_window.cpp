@@ -24,7 +24,17 @@ MainWindow::MainWindow (std::string title, Vector2D size, Vector2D position, Col
 	AddComponent (misc_button);
 	
 	misc_button->OnClickedEvent = MFUNC (&MainWindow::misc_button_clicked, this);
-	
+
+	load_button = new OutlinedButton ("Load configuration", LOC (10, misc_button->position.y + misc_button->size.y + 10), LOC (size.x-20, 40));
+	AddComponent (load_button);
+
+	load_button->OnClickedEvent = MFUNC (&MainWindow::load_button_clicked, this);
+
+	save_button = new OutlinedButton ("Save configuration", LOC (10, load_button->position.y + load_button->size.y + 10), LOC (size.x-20, 40));
+	AddComponent (save_button);
+
+	save_button->OnClickedEvent = MFUNC (&MainWindow::save_button_clicked, this);
+
 	Show ();
 }
 
@@ -46,4 +56,14 @@ void MainWindow::misc_button_clicked ()
 void MainWindow::hvh_button_clicked ()
 {
 	hvh_window->Toggle ();
+}
+
+void MainWindow::load_button_clicked ()
+{
+	Settings::LoadSettings();
+}
+
+void MainWindow::save_button_clicked ()
+{
+	Settings::LoadDefaultsOrSave();
 }

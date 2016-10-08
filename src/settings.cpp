@@ -11,7 +11,7 @@ char* GetSettingsPath()
 	return settingsPath;
 }
 
-void Settings::LoadOrSave()
+void Settings::LoadDefaultsOrSave()
 {
 	Json::Value settings;
 	Json::StyledWriter styledWriter;
@@ -66,6 +66,8 @@ void Settings::LoadOrSave()
 	settings["Recoilcrosshair"]["enabled"] = Settings::Recoilcrosshair::enabled;
 
 	settings["Airstuck"]["enabled"] = Settings::Airstuck::enabled;
+
+	settings["Skinchanger"]["enabled"] = Settings::Skinchanger::enabled;
 
 	std::ofstream(GetSettingsPath()) << styledWriter.write(settings);
 }
@@ -128,10 +130,12 @@ void Settings::LoadSettings()
 		Settings::Recoilcrosshair::enabled = settings["Recoilcrosshair"]["enabled"].asBool();
 
 		Settings::Airstuck::enabled = settings["Airstuck"]["enabled"].asBool();
+
+		Settings::Skinchanger::enabled = settings["Skinchanger"]["enabled"].asBool();
 	}
 	else
 	{
-		Settings::LoadOrSave();
+		Settings::LoadDefaultsOrSave();
 		Settings::LoadSettings();
 	}
 }

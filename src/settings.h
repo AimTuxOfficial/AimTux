@@ -218,7 +218,7 @@ namespace Settings
 		extern std::unordered_map<int, Skin> skins;
 	}
 
-	void LoadOrSave();
+	void LoadDefaultsOrSave();
 	void LoadSettings();
 }
 
