@@ -52,8 +52,31 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	if (Settings::Triggerbot::Hitchance::enabled && (1.0f - active_weapon->GetAccuracyPenalty()) * 100.f < Settings::Triggerbot::Hitchance::value)
 		return;
 
-	if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
-		cmd->buttons |= IN_ATTACK2;
+	if (!active_weapon->isAutomatic())
+	{
+		static bool fire;
+
+		if (fire)
+		{
+			if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
+				cmd->buttons &= ~IN_ATTACK2;
+			else
+				cmd->buttons &= ~IN_ATTACK;
+
+			fire = false;
+		}
+		else
+		{
+			if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
+				cmd->buttons |= IN_ATTACK2;
+			else
+				cmd->buttons |= IN_ATTACK;
+
+			fire = true;
+		}
+	}
 	else
+	{
 		cmd->buttons |= IN_ATTACK;
+	}
 }
