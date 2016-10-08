@@ -1,6 +1,8 @@
 #include "triggerbot.h"
 
 bool Settings::Triggerbot::enabled = true;
+bool Settings::Triggerbot::Hitchance::enabled = true;
+float Settings::Triggerbot::Hitchance::value = 60.0f;
 ButtonCode_t Settings::Triggerbot::key = ButtonCode_t::KEY_LALT;
 
 void Triggerbot::CreateMove(CUserCmd *cmd)
@@ -43,18 +45,38 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	if (localplayer->GetLifeState() != LIFE_ALIVE)
 		return;
 
-	C_BaseViewModel* viewmodel = reinterpret_cast<C_BaseViewModel*>(entitylist->GetClientEntity(localplayer->GetViewModel() & 0xFFF));
-
-	if (!viewmodel)
-		return;
-
-	C_BaseCombatWeapon* active_weapon = reinterpret_cast<C_BaseCombatWeapon*>(entitylist->GetClientEntity(viewmodel->GetWeapon() & 0xFFF));
-
+	C_BaseCombatWeapon* active_weapon = reinterpret_cast<C_BaseCombatWeapon*>(entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon()));
 	if (!active_weapon)
 		return;
 
-	if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
-		cmd->buttons |= IN_ATTACK2;
+	if (Settings::Triggerbot::Hitchance::enabled && (1.0f - active_weapon->GetAccuracyPenalty()) * 100.f < Settings::Triggerbot::Hitchance::value)
+		return;
+
+	if (!active_weapon->isAutomatic())
+	{
+		static bool fire;
+
+		if (fire)
+		{
+			if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
+				cmd->buttons &= ~IN_ATTACK2;
+			else
+				cmd->buttons &= ~IN_ATTACK;
+
+			fire = false;
+		}
+		else
+		{
+			if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
+				cmd->buttons |= IN_ATTACK2;
+			else
+				cmd->buttons |= IN_ATTACK;
+
+			fire = true;
+		}
+	}
 	else
+	{
 		cmd->buttons |= IN_ATTACK;
+	}
 }

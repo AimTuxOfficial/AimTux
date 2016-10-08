@@ -90,6 +90,12 @@ namespace Settings
 	{
 		extern bool enabled;
 		extern ButtonCode_t key;
+
+		namespace Hitchance
+		{
+			extern bool enabled;
+			extern float value;
+		}
 	}
 
 	namespace AntiAim

@@ -57,13 +57,13 @@ public:
 	int GetMaxClients()
 	{
 		typedef int(* oGetMaxClients)(void*);
-		return getvfunc< oGetMaxClients>(this, 20)(this);
+		return getvfunc<oGetMaxClients>(this, 20)(this);
 	}
 
 	bool IsInGame()
 	{
 		typedef bool(* oIsInGame)(void*);
-		return getvfunc< oIsInGame>(this, 26)(this);
+		return getvfunc<oIsInGame>(this, 26)(this);
 	}
 
 	void ExecuteClientCmd(const char* pCmd)

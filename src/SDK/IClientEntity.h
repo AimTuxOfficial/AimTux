@@ -98,9 +98,9 @@ public:
 		return (int*)((uintptr_t)this + offsets.m_hMyWeapons);
 	}
 
-	int GetViewModel()
+	void* GetViewModel()
 	{
-		return *(int*)((uintptr_t)this + offsets.m_hViewModel);
+		return (void*)((uintptr_t)this + offsets.m_hViewModel);
 	}
 
 	Vector GetVecOrigin()
@@ -175,9 +175,9 @@ public:
 		return *(QAngle*)((uintptr_t)this + offsets.m_aimPunchAngle);
 	}
 
-	int GetActiveWeapon()
+	void* GetActiveWeapon()
 	{
-		return *(int*)((uintptr_t)this + offsets.m_hActiveWeapon);
+		return (void*)((uintptr_t)this + offsets.m_hActiveWeapon);
 	}
 
 	float GetTickBase()
@@ -229,7 +229,6 @@ public:
 	{
 		return (int*)((uintptr_t)this + offsets.m_nFallbackStatTrak);
 	}
-
 
 	bool isPistol()
 	{
@@ -357,6 +356,11 @@ public:
 	float GetNextPrimaryAttack()
 	{
 		return *(float*)((uintptr_t)this + offsets.m_flNextPrimaryAttack);
+	}
+
+	float GetAccuracyPenalty()
+	{
+		return *(float*)((uintptr_t)this + offsets.m_fAccuracyPenalty);
 	}
 };
 
