@@ -32,5 +32,8 @@ ESPWindow::ESPWindow (std::string title, Vector2D size, Vector2D position, Color
 	ts_chams_arms = new ToggleSwitch ("cham arms", LOC (10, ts_chams_players->position.y + ts_chams_players->size.y + 10), 35, &Settings::ESP::Chams::arms);
 	AddComponent (ts_chams_arms);
 	
+	ts_recoil_crosshair = new ToggleSwitch ("recoil crosshair", LOC (10, ts_chams_arms->position.y + ts_chams_arms->size.y + 10), 35, &Settings::Recoilcrosshair::enabled);
+	AddComponent (ts_recoil_crosshair);
+	
 	Hide ();
 }
