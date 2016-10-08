@@ -243,9 +243,8 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 		
 		if (Settings::Aimbot::AutoShoot::enabled && !Aimbot::AimStepInProgress)
 		{
-			C_BaseViewModel* viewmodel = reinterpret_cast<C_BaseViewModel*>(entitylist->GetClientEntity(localplayer->GetViewModel() & 0xFFF));
-			C_BaseCombatWeapon* active_weapon = reinterpret_cast<C_BaseCombatWeapon*>(entitylist->GetClientEntity(viewmodel->GetWeapon() & 0xFFF));
-			
+			C_BaseCombatWeapon* active_weapon = reinterpret_cast<C_BaseCombatWeapon*>(entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon()));
+
 			if (active_weapon && !active_weapon->isKnife() && active_weapon->GetAmmo() > 0)
 			{
 				if (!active_weapon->isAutomatic())
