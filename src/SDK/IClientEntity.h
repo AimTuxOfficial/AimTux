@@ -230,7 +230,6 @@ public:
 		return (int*)((uintptr_t)this + offsets.m_nFallbackStatTrak);
 	}
 
-
 	bool isPistol()
 	{
 		switch (*this->GetItemDefinitionIndex())
@@ -357,6 +356,11 @@ public:
 	float GetNextPrimaryAttack()
 	{
 		return *(float*)((uintptr_t)this + offsets.m_flNextPrimaryAttack);
+	}
+
+	float GetAccuracyPenalty()
+	{
+		return *(float*)((uintptr_t)this + offsets.m_fAccuracyPenalty);
 	}
 };
 
