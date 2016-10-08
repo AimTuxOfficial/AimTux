@@ -8,11 +8,11 @@ Color Settings::ESP::bones_color = Color(255, 255, 255);
 Color Settings::ESP::bomb_color = Color(200, 0, 50);
 bool Settings::ESP::visibility_check = false;
 bool Settings::ESP::Walls::enabled = true;
-bool Settings::ESP::Tracer::enabled = false;
 bool Settings::ESP::Info::showName = true;
 bool Settings::ESP::Info::showHealth = true;
 bool Settings::ESP::Bones::enabled = true;
 bool Settings::ESP::Bomb::enabled = true;
+bool Settings::ESP::Tracer::enabled = false;
 TracerType Settings::ESP::Tracer::type = BOTTOM;
 
 bool WorldToScreen(const Vector &vOrigin, Vector &vScreen)

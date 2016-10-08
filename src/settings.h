@@ -2,6 +2,9 @@
 #define __SETTINGS_H_
 
 #include <unordered_map>
+#include <zconf.h>
+#include <fstream>
+#include "json/json.h"
 #include "SDK.h"
 
 enum TracerType
@@ -214,6 +217,9 @@ namespace Settings
 		extern bool enabled;
 		extern std::unordered_map<int, Skin> skins;
 	}
+
+	void LoadOrSave();
+	void LoadSettings();
 }
 
 #endif
