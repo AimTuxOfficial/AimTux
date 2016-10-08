@@ -3,7 +3,7 @@ CXXFLAGS =-fPIC -std=c++14 -g -shared -ldl
 
 SOURCES = $(shell find src/ -type f -name '*.cpp')
 OBJECTS = $(patsubst src/%.cpp, src/%.o, $(SOURCES))
-OUT := aimtux-csgo.so
+OUT := libAimTux.so
 
 all: clean build
 
