@@ -16,6 +16,7 @@ namespace Aimbot
 
 	void CreateMove(CUserCmd* cmd);
 	void RCS(QAngle& angle);
+	void Smooth(QAngle& angle, CUserCmd* cmd);
 }
 
 #endif
