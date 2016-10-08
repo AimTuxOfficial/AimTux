@@ -93,6 +93,7 @@ void Settings::LoadDefaultsOrSave()
 	settings["Recoilcrosshair"]["enabled"] = Settings::Recoilcrosshair::enabled;
 
 	settings["Airstuck"]["enabled"] = Settings::Airstuck::enabled;
+	settings["Airstuck"]["key"] = Settings::Airstuck::key;
 
 	settings["Skinchanger"]["enabled"] = Settings::Skinchanger::enabled;
 	for (auto i : Settings::Skinchanger::skins)
@@ -193,6 +194,7 @@ void Settings::LoadSettings()
 		Settings::Recoilcrosshair::enabled = settings["Recoilcrosshair"]["enabled"].asBool();
 
 		Settings::Airstuck::enabled = settings["Airstuck"]["enabled"].asBool();
+		Settings::Airstuck::key = (ButtonCode_t) settings["Airstuck"]["key"].asInt();
 
 		Settings::Skinchanger::enabled = false;
 		Settings::Skinchanger::skins.clear();

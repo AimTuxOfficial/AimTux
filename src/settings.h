@@ -188,6 +188,7 @@ namespace Settings
 	namespace Airstuck
 	{
 		extern bool enabled;
+		extern ButtonCode_t key;
 	}
 
 	namespace Skinchanger
