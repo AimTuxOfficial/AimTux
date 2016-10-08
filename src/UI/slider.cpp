@@ -4,7 +4,7 @@ void Slider::MouseTick (PositionContext context)
 {
 	if (isMouseDown)
 	{
-		*value = (((float)context.x) / size.x) * MAX;
+		*value = ((((float)context.x) / size.x) * (MAX-MIN)) + MIN;
 	}
 }
 
@@ -19,7 +19,7 @@ void Slider::Draw ()
 	int dongleWidth = 10;
 	
 	// donglePosition_px is calculated here and NOT in MouseTick becasue we want the position to be calculated live & when created (0 by default)
-	int donglePosition_px = (((float)*value) / MAX) * size.x;
+	int donglePosition_px = (((float)*value-MIN) / (MAX-MIN)) * size.x;
 	
 	DrawFilledRectangle (LOC (donglePosition_px - (dongleWidth / 2), 5), LOC (donglePosition_px + dongleWidth / 2, size.y-5), Settings::UI::mainColor);
 	
