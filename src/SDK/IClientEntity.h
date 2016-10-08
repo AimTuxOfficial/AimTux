@@ -184,6 +184,11 @@ public:
 	{
 		return *(float*)((uintptr_t)this + offsets.m_nTickBase);
 	}
+
+	int GetShotsFired()
+	{
+		return *(int*)((uintptr_t)this + 0xABB0);
+	}
 };
 
 

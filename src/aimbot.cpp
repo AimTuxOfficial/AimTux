@@ -151,10 +151,17 @@ void Aimbot::RCS(QAngle& angle)
 		return;
 	}
 
-	QAngle NewPunch = { CurrentPunch.x - RCSLastPunch.x, CurrentPunch.y - RCSLastPunch.y, 0 };
+	if (localplayer->GetShotsFired() > 1)
+	{
+		QAngle NewPunch = {CurrentPunch.x - RCSLastPunch.x, CurrentPunch.y - RCSLastPunch.y, 0};
 
-	angle -= NewPunch * 2.f;
-	RCSLastPunch = CurrentPunch;
+		angle -= NewPunch * 2.f;
+		RCSLastPunch = CurrentPunch;
+	}
+	else
+	{
+		RCSLastPunch = { 0, 0, 0 };
+	}
 }
 
 void Aimbot::CorrectMovement(QAngle vOldAngles, CUserCmd* pCmd, float fOldForward, float fOldSidemove)
