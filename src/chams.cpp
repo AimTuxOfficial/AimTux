@@ -138,11 +138,9 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 	}
 	
 	modelRender->ForcedMaterialOverride(hidden_material);
-	hidden_material->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, true);
 	modelRender_vmt->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
 
 	modelRender->ForcedMaterialOverride(visible_material);
-	visible_material->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, false);
 	modelRender_vmt->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
 }
 
