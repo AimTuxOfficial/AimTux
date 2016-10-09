@@ -1,4 +1,4 @@
 sudo ./uload
-male clean
+make clean
 make -j 12
 sudo ./load
