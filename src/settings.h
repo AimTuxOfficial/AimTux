@@ -38,7 +38,8 @@ enum ChamsType
 
 enum WallBoxType
 {
-	FLAT_2D, BOX_3D
+	FLAT_2D,
+	BOX_3D
 };
 
 namespace Settings
@@ -48,7 +49,7 @@ namespace Settings
 		extern Color mainColor;
 		extern Color bodyColor;
 	}
-	
+
 	namespace Aimbot
 	{
 		extern bool enabled;
@@ -62,7 +63,7 @@ namespace Settings
 			extern float value;
 			extern float max;
 		}
-		
+
 		namespace AutoAim
 		{
 			extern bool enabled;
@@ -73,12 +74,12 @@ namespace Settings
 			extern bool enabled;
 			extern float value;
 		}
-		
+
 		namespace RCS
 		{
 			extern bool enabled;
 		}
-		
+
 		namespace AutoShoot
 		{
 			extern bool enabled;
@@ -114,7 +115,7 @@ namespace Settings
 		extern AntiAimType_Y type_Y;
 		extern AntiAimType_X type_X;
 	}
-	
+
 	namespace ESP
 	{
 		extern bool enabled;
@@ -130,19 +131,19 @@ namespace Settings
 			extern TracerType type;
 			extern bool enabled;
 		}
-		
+
 		namespace Walls
 		{
 			extern bool enabled;
 			extern WallBoxType type;
 		}
-		
+
 		namespace Info
 		{
 			extern bool showName;
 			extern bool showHealth;
 		}
-		
+
 		namespace Bones
 		{
 			extern bool enabled;
@@ -152,7 +153,7 @@ namespace Settings
 		{
 			extern bool enabled;
 		}
-		
+
 		namespace Chams
 		{
 			extern bool players;
@@ -165,12 +166,12 @@ namespace Settings
 			extern ChamsType type;
 		}
 	}
-	
+
 	namespace Spammer
 	{
 		extern bool enabled;
 	}
-	
+
 	namespace BHop
 	{
 		extern bool enabled;

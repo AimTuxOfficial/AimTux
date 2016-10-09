@@ -169,7 +169,7 @@ public:
 	{
 		return (bool)((uintptr_t)this + offsets.m_bBombTicking);
 	}
-	
+
 	ICollideable* GetCollideable ()
 	{
 		return (ICollideable*)((uintptr_t)this + offsets.m_Collision);

@@ -69,10 +69,10 @@ void Draw::DrawLine(Vector2D start, Vector2D end, Color color)
 void Draw::DrawOutlinedBox (float x, float y, float w, float h, Color color )
 {
 	surface->DrawSetColor(color.r, color.g, color.b, color.a);
-	surface->DrawOutlinedRect(x - w, y, x + w, y + h );
-	
+	surface->DrawOutlinedRect((int) (x - w), (int) y, (int) (x + w), (int) (y + h));
+
 	int div = 3;
-	surface->DrawSetColor(color.r/div, color.g/div, color.b/div, 255);
-	surface->DrawOutlinedRect(x - w - 1, y - 1, x + w + 1, y + h + 1);
-	surface->DrawOutlinedRect(x - w + 1, y + 1, x + w - 1, y + h - 1);
+	surface->DrawSetColor(color.r / div, color.g / div, color.b / div, 255);
+	surface->DrawOutlinedRect((int) (x - w - 1), (int) (y - 1), (int) (x + w + 1), (int) (y + h + 1));
+	surface->DrawOutlinedRect((int) (x - w + 1), (int) (y + 1), (int) (x + w - 1), (int) (y + h - 1));
 }

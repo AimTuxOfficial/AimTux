@@ -127,9 +127,9 @@ void ESP::DrawTracer(C_BasePlayer* localPlayer, C_BaseEntity* entity)
 	int width;
 	int height;
 	engine->GetScreenSize(width, height);
-	
+
 	Vector2D tracerLocation;
-	
+
 	switch (Settings::ESP::Tracer::type)
 	{
 		case BOTTOM:
@@ -139,7 +139,7 @@ void ESP::DrawTracer(C_BasePlayer* localPlayer, C_BaseEntity* entity)
 			tracerLocation = LOC(width / 2, height / 2);
 			break;
 	}
-	
+
 	Vector s_vecEntity_s;
 	if (!WorldToScreen(entity->GetVecOrigin(), s_vecEntity_s) && localPlayer->GetHealth() > 0)
 		Draw::DrawLine(tracerLocation, LOC(s_vecEntity_s.x, s_vecEntity_s.y), color);
@@ -161,37 +161,37 @@ void ESP::DrawPlayerBox(C_BasePlayer* localPlayer, C_BaseEntity* entity)
 	{
 		color = Settings::ESP::ally_color;
 	}
-	
+
 	if (Settings::ESP::Walls::type == FLAT_2D)
 	{
 		Vector max = entity->GetCollideable()->OBBMaxs();
-	
+
 		Vector pos, pos3D;
 		Vector top, top3D;
-		
+
 		pos3D = entity->GetVecOrigin();
 		top3D = pos3D + Vector(0, 0, max.z);
-		
+
 		if(WorldToScreen(pos3D, pos) || WorldToScreen(top3D, top))
 		{
 			return;
 		}
-		
+
 		float height = (pos.y - top.y);
 		float width = height / 4.f;
-		
+
 		Draw::DrawOutlinedBox (top.x, top.y, width, height, color);
 	}
 	else if (Settings::ESP::Walls::type == BOX_3D)
 	{
 		int width = 14;
 		int additionalHeight = 6;
-		
+
 		Vector vecOrigin = entity->GetVecOrigin();
-		
+
 		Vector vecHeadBone = entity->GetBonePosition(Bones::BONE_HEAD);
 		Vector vecViewOffset = Vector(vecOrigin.x, vecOrigin.y, vecHeadBone.z);
-		
+
 		Vector s_vecLocalPlayer_s;
 		if (!WorldToScreen(vecOrigin, s_vecLocalPlayer_s))
 			DrawESPBox(vecOrigin, vecViewOffset, color, width, additionalHeight);
@@ -203,14 +203,14 @@ void ESP::DrawPlayerInfo(C_BasePlayer* localPlayer, C_BaseEntity* entity, int en
 	int playerTeam = localPlayer->GetTeam();
 	int entityTeam = reinterpret_cast<C_BasePlayer*>(entity)->GetTeam();
 	Color color = playerTeam == entityTeam ? Settings::ESP::ally_color : Settings::ESP::enemy_color;
-	
+
 	IEngineClient::player_info_t entityInformation;
 	engine->GetPlayerInfo(entityIndex, &entityInformation);
-	
+
 	Vector vecOrigin = entity->GetVecOrigin();
-	
+
 	pstring str;
-	
+
 	if (Settings::ESP::Info::showName)
 		str << entityInformation.name;
 
@@ -222,9 +222,9 @@ void ESP::DrawPlayerInfo(C_BasePlayer* localPlayer, C_BaseEntity* entity, int en
 		str + entity->GetHealth();
 		str << "hp";
 	}
-	
+
 	std::wstring wstr(str.begin(), str.end());
-	
+
 	Vector s_vecEntity_s;
 	if (!WorldToScreen(vecOrigin, s_vecEntity_s))
 		Draw::DrawString(wstr.c_str(), LOC(s_vecEntity_s.x, s_vecEntity_s.y), color, esp_font, true);
@@ -275,7 +275,7 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 				|| entity->GetLifeState() != LIFE_ALIVE
 				|| entity->GetHealth() <= 0)
 				continue;
-			
+
 			if (Settings::ESP::visibility_check && !Entity::IsVisible(localPlayer, entity, 6))
 				continue;
 
