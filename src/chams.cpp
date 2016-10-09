@@ -4,8 +4,9 @@ bool Settings::ESP::Chams::players = true;
 bool Settings::ESP::Chams::arms = true;
 bool Settings::ESP::Chams::rainbow_arms = false;
 Color Settings::ESP::Chams::players_ally_color = Color(7, 98, 168);
-Color Settings::ESP::Chams::players_enemy_color = Color(243, 54, 48);
-Color Settings::ESP::Chams::players_enemy_visible_color = Color(243, 107, 40);
+Color Settings::ESP::Chams::players_ally_visible_color = Color(40, 52, 138);
+Color Settings::ESP::Chams::players_enemy_color = Color(243, 24, 28);
+Color Settings::ESP::Chams::players_enemy_visible_color = Color(243, 159, 20);
 Color Settings::ESP::Chams::arms_color = Color(117, 43, 73);
 ChamsType Settings::ESP::Chams::type = CHAMS_IGNOREZ;
 
@@ -99,21 +100,30 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 	visible_material->AlphaModulate (1.0f);
 	hidden_material->AlphaModulate (1.0f);
 	
-	hidden_material->ColorModulate (1.0f, 0.0f, 0.1f);
-	visible_material->ColorModulate (1.0f, 0.5f, 0.0f);
-	
-	// if (entity->GetTeam() == localPlayer->GetTeam())
-	// 	mat->ColorModulate(Settings::ESP::Chams::players_ally_color.r / 255.0f,
-	// 					   Settings::ESP::Chams::players_ally_color.g / 255.0f,
-	// 					   Settings::ESP::Chams::players_ally_color.b / 255.0f);
-	// else if (Entity::IsVisible(localPlayer, entity, 6))
-	// 	mat->ColorModulate(Settings::ESP::Chams::players_enemy_visible_color.r / 255.0f,
-	// 					   Settings::ESP::Chams::players_enemy_visible_color.g / 255.0f,
-	// 					   Settings::ESP::Chams::players_enemy_visible_color.b / 255.0f);
-	// else
-	// 	mat->ColorModulate(Settings::ESP::Chams::players_enemy_color.r / 255.0f,
-	// 					   Settings::ESP::Chams::players_enemy_color.g / 255.0f,
-	// 					   Settings::ESP::Chams::players_enemy_color.b / 255.0f);
+	if (entity->GetTeam() == localPlayer->GetTeam())
+	{
+		visible_material->ColorModulate(
+							Settings::ESP::Chams::players_ally_visible_color.r / 255.0f,
+							Settings::ESP::Chams::players_ally_visible_color.g / 255.0f,
+							Settings::ESP::Chams::players_ally_visible_color.b / 255.0f);
+		
+		hidden_material->ColorModulate(
+							Settings::ESP::Chams::players_ally_color.r / 255.0f,
+							Settings::ESP::Chams::players_ally_color.g / 255.0f,
+							Settings::ESP::Chams::players_ally_color.b / 255.0f);
+	}
+	else
+	{
+		visible_material->ColorModulate(
+							Settings::ESP::Chams::players_enemy_visible_color.r / 255.0f,
+							Settings::ESP::Chams::players_enemy_visible_color.g / 255.0f,
+							Settings::ESP::Chams::players_enemy_visible_color.b / 255.0f);
+		
+		hidden_material->ColorModulate(
+							Settings::ESP::Chams::players_enemy_color.r / 255.0f,
+							Settings::ESP::Chams::players_enemy_color.g / 255.0f,
+							Settings::ESP::Chams::players_enemy_color.b / 255.0f);
+	}
 	
 	modelRender->ForcedMaterialOverride(hidden_material);
 	hidden_material->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, true);

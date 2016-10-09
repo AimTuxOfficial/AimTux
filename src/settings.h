@@ -183,6 +183,7 @@ namespace Settings
 			extern bool arms;
 			extern bool rainbow_arms;
 			extern Color players_ally_color;
+			extern Color players_ally_visible_color;
 			extern Color players_enemy_color;
 			extern Color players_enemy_visible_color;
 			extern Color arms_color;
