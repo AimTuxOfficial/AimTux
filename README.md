@@ -1,6 +1,8 @@
 AimTux
 ===================
 
+![banner](http://i.imgur.com/oPpNx24.png)
+
 [![Join the chat at https://www.gitter.im/AimTuxOfficial/lobby](https://img.shields.io/gitter/room/TechnologyAdvice/Stardust.svg?style=flat-square)](https://www.gitter.im/AimTuxOfficial/lobby)
 
 Want to chat or play with other AimTux users? Join us on Gitter!
