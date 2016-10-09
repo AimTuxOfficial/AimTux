@@ -1,17 +1,17 @@
 #include "settings.h"
 
-char* GetSettingsPath()
+char* GetSettingsPath(const char* filename)
 {
 	char* settingsPath;
 	char cwd[1024];
 
 	getcwd(cwd, sizeof(cwd));
-	asprintf(&settingsPath, "%s/aimtux_settings.json", cwd);
+	asprintf(&settingsPath, "%s/%s.json", cwd, filename);
 
 	return settingsPath;
 }
 
-void Settings::LoadDefaultsOrSave()
+void Settings::LoadDefaultsOrSave(const char* filename)
 {
 	Json::Value settings;
 	Json::StyledWriter styledWriter;
@@ -106,15 +106,15 @@ void Settings::LoadDefaultsOrSave()
 		settings["Skinchanger"]["skins"][std::to_string(i.first)]["Model"] = i.second.Model;
 	}
 
-	std::ofstream(GetSettingsPath()) << styledWriter.write(settings);
+	std::ofstream(GetSettingsPath(filename)) << styledWriter.write(settings);
 }
 
-void Settings::LoadSettings()
+void Settings::LoadSettings(const char* filename)
 {
-	if (std::ifstream(GetSettingsPath()).good())
+	if (std::ifstream(GetSettingsPath(filename)).good())
 	{
 		Json::Value settings;
-		std::ifstream config_doc(GetSettingsPath(), std::ifstream::binary);
+		std::ifstream config_doc(GetSettingsPath(filename), std::ifstream::binary);
 		config_doc >> settings;
 
 		Settings::Aimbot::enabled = settings["Aimbot"]["enabled"].asBool();
@@ -218,7 +218,7 @@ void Settings::LoadSettings()
 	}
 	else
 	{
-		Settings::LoadDefaultsOrSave();
-		Settings::LoadSettings();
+		Settings::LoadDefaultsOrSave(filename);
+		Settings::LoadSettings(filename);
 	}
 }
