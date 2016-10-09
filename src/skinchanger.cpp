@@ -32,7 +32,8 @@ void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 		return;
 
 	/* get our player entity */
-	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
+	int localplayer_index = engine->GetLocalPlayer();
+	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(localplayer_index));
 
 	if (!localplayer || localplayer->GetLifeState() != LIFE_ALIVE)
 		return;
@@ -71,7 +72,16 @@ void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 			*weapon->GetFallbackWear() = currentSkin.Wear;
 
 		if (currentSkin.StatTrak != -1)
+		{
 			*weapon->GetFallbackStatTrak() = currentSkin.StatTrak;
+
+			IEngineClient::player_info_t localplayer_info;
+
+			if (engine->GetPlayerInfo(localplayer_index, &localplayer_info))
+			{
+				*weapon->GetAccountID() = localplayer_info.xuidlow;
+			}
+		}
 
 		if (currentSkin.CustomName != "")
 			snprintf(weapon->GetCustomName(), 32, "%s", currentSkin.CustomName.c_str());

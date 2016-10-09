@@ -250,6 +250,11 @@ public:
 		return (int*)((uintptr_t)this + offsets.m_nFallbackStatTrak);
 	}
 
+	int* GetAccountID()
+	{
+		return (int*)((uintptr_t)this + offsets.m_iAccountID);
+	}
+
 	bool isPistol()
 	{
 		switch (*this->GetItemDefinitionIndex())

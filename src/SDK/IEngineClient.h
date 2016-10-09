@@ -5,14 +5,23 @@ class IEngineClient
 {
 public:
 	typedef struct player_info_s {
-		unsigned long long unknown;
-		unsigned long long unknown1;
+		int64_t __pad0;
+		union {
+			int64_t xuid;
+			struct {
+				int xuidlow;
+				int xuidhigh;
+			};
+		};
 		char name[128];
-		int userID;
-		char guid[33];
-		int32_t friendsID;
-		char friendsName[128];
-		char _pad[0x28];
+		int userid;
+		char guid[128];
+		unsigned int friendsid;
+		char friendsname[128];
+		bool fakeplayer;
+		bool ishltv;
+		unsigned int customfiles[4];
+		unsigned char filesdownloaded;
 	} player_info_t;
 
 	void GetScreenSize(int& width, int& height)
