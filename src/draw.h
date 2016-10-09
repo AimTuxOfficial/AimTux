@@ -20,6 +20,7 @@ namespace Draw
     void DrawRect(Vector2D start, Vector2D end, Color color);
     void DrawBox(Vector2D start, Vector2D end, Color color);
     void DrawLine(Vector2D start, Vector2D end, Color color);
+    void DrawOutlinedBox(float x, float y, float w, float h, Color color);
 }
 
 #endif

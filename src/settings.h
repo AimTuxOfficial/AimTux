@@ -36,6 +36,11 @@ enum ChamsType
 	CHAMS_FLAT_IGNOREZ
 };
 
+enum WallBoxType
+{
+	FLAT_2D, BOX_3D
+};
+
 namespace Settings
 {
 	namespace UI
@@ -129,6 +134,7 @@ namespace Settings
 		namespace Walls
 		{
 			extern bool enabled;
+			extern WallBoxType type;
 		}
 		
 		namespace Info

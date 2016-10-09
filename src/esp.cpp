@@ -8,6 +8,7 @@ Color Settings::ESP::bones_color = Color(255, 255, 255);
 Color Settings::ESP::bomb_color = Color(200, 0, 50);
 bool Settings::ESP::visibility_check = false;
 bool Settings::ESP::Walls::enabled = true;
+WallBoxType Settings::ESP::Walls::type = FLAT_2D;
 bool Settings::ESP::Info::showName = true;
 bool Settings::ESP::Info::showHealth = true;
 bool Settings::ESP::Bones::enabled = true;
@@ -161,17 +162,40 @@ void ESP::DrawPlayerBox(C_BasePlayer* localPlayer, C_BaseEntity* entity)
 		color = Settings::ESP::ally_color;
 	}
 	
-	int width = 14;
-	int additionalHeight = 6;
+	if (Settings::ESP::Walls::type == FLAT_2D)
+	{
+		Vector max = entity->GetCollideable()->OBBMaxs();
 	
-	Vector vecOrigin = entity->GetVecOrigin();
-	
-	Vector vecHeadBone = entity->GetBonePosition(Bones::BONE_HEAD);
-	Vector vecViewOffset = Vector(vecOrigin.x, vecOrigin.y, vecHeadBone.z);
-	
-	Vector s_vecLocalPlayer_s;
-	if (!WorldToScreen(vecOrigin, s_vecLocalPlayer_s))
-		DrawESPBox(vecOrigin, vecViewOffset, color, width, additionalHeight);
+		Vector pos, pos3D;
+		Vector top, top3D;
+		
+		pos3D = entity->GetVecOrigin();
+		top3D = pos3D + Vector(0, 0, max.z);
+		
+		if(WorldToScreen(pos3D, pos) || WorldToScreen(top3D, top))
+		{
+			return;
+		}
+		
+		float height = (pos.y - top.y);
+		float width = height / 4.f;
+		
+		Draw::DrawOutlinedBox (top.x, top.y, width, height, color);
+	}
+	else if (Settings::ESP::Walls::type == BOX_3D)
+	{
+		int width = 14;
+		int additionalHeight = 6;
+		
+		Vector vecOrigin = entity->GetVecOrigin();
+		
+		Vector vecHeadBone = entity->GetBonePosition(Bones::BONE_HEAD);
+		Vector vecViewOffset = Vector(vecOrigin.x, vecOrigin.y, vecHeadBone.z);
+		
+		Vector s_vecLocalPlayer_s;
+		if (!WorldToScreen(vecOrigin, s_vecLocalPlayer_s))
+			DrawESPBox(vecOrigin, vecViewOffset, color, width, additionalHeight);
+	}
 }
 
 void ESP::DrawPlayerInfo(C_BasePlayer* localPlayer, C_BaseEntity* entity, int entityIndex)
@@ -251,7 +275,7 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 				|| entity->GetLifeState() != LIFE_ALIVE
 				|| entity->GetHealth() <= 0)
 				continue;
-
+			
 			if (Settings::ESP::visibility_check && !Entity::IsVisible(localPlayer, entity, 6))
 				continue;
 

@@ -1,6 +1,8 @@
 #ifndef __ICLIENTENTITY_H
 #define __ICLIENTENTITY_H
 
+#include "vector.h"
+
 enum MoveType_t
 {
 	MOVETYPE_NONE = 0,
@@ -17,6 +19,14 @@ enum MoveType_t
 	MOVETYPE_CUSTOM,
 	MOVETYPE_LAST = MOVETYPE_CUSTOM,
 	MOVETYPE_MAX_BITS = 4
+};
+
+class ICollideable
+{
+public:
+	virtual void pad0( );
+	virtual const Vector& OBBMins( ) const;
+	virtual const Vector& OBBMaxs( ) const;
 };
 
 class IHandleEntity
@@ -158,6 +168,11 @@ public:
 	bool IsBombTicking()
 	{
 		return (bool)((uintptr_t)this + offsets.m_bBombTicking);
+	}
+	
+	ICollideable* GetCollideable ()
+	{
+		return (ICollideable*)((uintptr_t)this + offsets.m_Collision);
 	}
 };
 
