@@ -128,7 +128,7 @@ int __attribute__((constructor)) aimtux_init()
 	Hooker::HookVMethods();
 	Chams::CreateMaterials();
 
-	cvar->ConsoleColorPrintf(ColorRGBA(100, 255, 0), "AimTux was successfully injected.\n");
+	cvar->ConsoleColorPrintf(ColorRGBA(150, 255, 150), "AimTux was successfully injected.\n");
 
 	client_vmt->HookVM((void*)hkFrameStageNotify, 36);
 	client_vmt->ApplyVMT();
@@ -165,5 +165,5 @@ void __attribute__((destructor)) aimtux_shutdown()
 	modelRender_vmt->ReleaseVMT();
 	clientMode_vmt->ReleaseVMT();
 
-	engine->Print("AimTux has been unloaded successfully.");
+	cvar->ConsoleColorPrintf(ColorRGBA(255, 150, 150), "AimTux has been unloaded successfully.\n");
 }
