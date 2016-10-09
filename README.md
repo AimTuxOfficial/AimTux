@@ -37,7 +37,7 @@ Compiling this project is **dependant on whether you're using a debian based sys
 1. Make sure you're inside of the *AimTux* directory
 2. Create a static link for `libstdc++` with the command `ln -s $(g++ -print-file-name=libstdc++.a)`
 3. Download the required tools to compile AimTux
-	* **Debian-based** `apt-get install build-essential`
+    * **Debian-based** `apt-get install build-essential`
     * **Fedora:** `dnf install @development-tools`
     * **Arch Linux:** `pacman -S base-devel gdb` 
 4. Compile AimTux by entering the command `make`
