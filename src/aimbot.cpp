@@ -179,12 +179,12 @@ void Aimbot::Smooth(QAngle& angle, CUserCmd* cmd)
 	if (cmd->viewangles.y < 0)
 		view_yaw = 360.f + cmd->viewangles.y;
 
-	float yaw = std::min((float)abs(target_yaw - view_yaw), 360.f - abs(target_yaw - view_yaw));
+	float yaw = std::min((float) abs(target_yaw - view_yaw), 360.f - abs(target_yaw - view_yaw));
 
 	if (cmd->viewangles.y > 90.f && angle.y < -90.f)
 	{
-		angle.x = cmd->viewangles.x + delta.x / smooth_factor * (Settings::Aimbot::Smooth::max-Settings::Aimbot::Smooth::value);
-		angle.y = cmd->viewangles.y + yaw / smooth_factor * (Settings::Aimbot::Smooth::max-Settings::Aimbot::Smooth::value);
+		angle.x = cmd->viewangles.x + delta.x / smooth_factor * (Settings::Aimbot::Smooth::max - Settings::Aimbot::Smooth::value);
+		angle.y = cmd->viewangles.y + yaw / smooth_factor * (Settings::Aimbot::Smooth::max - Settings::Aimbot::Smooth::value);
 
 		if (angle.y > 180.f)
 			angle.y = -360.f + angle.y;
@@ -194,8 +194,8 @@ void Aimbot::Smooth(QAngle& angle, CUserCmd* cmd)
 
 	if (cmd->viewangles.y < -90.f && angle.y > 90.f)
 	{
-		angle.x = cmd->viewangles.x + delta.x / smooth_factor * (Settings::Aimbot::Smooth::max-Settings::Aimbot::Smooth::value);
-		angle.y = cmd->viewangles.y - yaw / smooth_factor * (Settings::Aimbot::Smooth::max-Settings::Aimbot::Smooth::value);
+		angle.x = cmd->viewangles.x + delta.x / smooth_factor * (Settings::Aimbot::Smooth::max - Settings::Aimbot::Smooth::value);
+		angle.y = cmd->viewangles.y - yaw / smooth_factor * (Settings::Aimbot::Smooth::max - Settings::Aimbot::Smooth::value);
 
 		if (angle.y < -180.f)
 			angle.y = 360.f + angle.y;
@@ -203,13 +203,13 @@ void Aimbot::Smooth(QAngle& angle, CUserCmd* cmd)
 		return;
 	}
 
-	angle = cmd->viewangles + delta / smooth_factor * (Settings::Aimbot::Smooth::max-Settings::Aimbot::Smooth::value);
+	angle = cmd->viewangles + delta / smooth_factor * (Settings::Aimbot::Smooth::max - Settings::Aimbot::Smooth::value);
 }
 
 void Aimbot::CorrectMovement(QAngle vOldAngles, CUserCmd* pCmd, float fOldForward, float fOldSidemove)
 {
 	//side/forward move correction
-	float deltaView = pCmd->viewangles.y - vOldAngles.y;
+	float deltaView;
 	float f1;
 	float f2;
 	
@@ -227,6 +227,7 @@ void Aimbot::CorrectMovement(QAngle vOldAngles, CUserCmd* pCmd, float fOldForwar
 		deltaView = abs(f2 - f1);
 	else
 		deltaView = 360.0f - abs(f1 - f2);
+
 	deltaView = 360.0f - deltaView;
 	
 	pCmd->forwardmove = cos(DEG2RAD(deltaView)) * fOldForward + cos(DEG2RAD(deltaView + 90.f)) * fOldSidemove;
