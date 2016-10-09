@@ -33,15 +33,6 @@ public:
 		return getvfunc< oGetLocalPlayer >(this, 12)(this);
 	}
 
-	void Print(const char* message)
-	{
-		char buffer[256];
-		sprintf (buffer, "echo %s", message);
-
-		typedef void(* oCmd)(void*, const char* cmd);
-		return getvfunc<oCmd>(this, 108)(this, buffer);
-	}
-
 	void GetViewAngles(QAngle& angle)
 	{
 		typedef void(* oGetViewAngles)(void*, QAngle&);
@@ -70,6 +61,14 @@ public:
 	{
 		typedef void(* oCmd)(void*, const char*);
 		return getvfunc<oCmd>(this, 108)(this, pCmd);
+	}
+
+	void Print(const char* message)
+	{
+		char buffer[256];
+		sprintf (buffer, "echo %s", message);
+
+		ExecuteClientCmd(buffer);
 	}
 };
 
