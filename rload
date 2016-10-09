@@ -1,0 +1,4 @@
+sudo ./uload
+male clean
+make -j 12
+sudo ./load
