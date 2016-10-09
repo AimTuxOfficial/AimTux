@@ -33,9 +33,7 @@ enum AntiAimType_X
 enum ChamsType
 {
 	CHAMS,
-	CHAMS_IGNOREZ,
-	CHAMS_FLAT,
-	CHAMS_FLAT_IGNOREZ
+	CHAMS_FLAT
 };
 
 enum WallBoxType
