@@ -4,9 +4,10 @@
 bool Settings::Aimbot::enabled = true;
 bool Settings::Aimbot::silent = false;
 float Settings::Aimbot::fov = 180.0f;
-int Settings::Aimbot::bone = BONE_NECK;
+int Settings::Aimbot::bone = BONE_HEAD;
 bool Settings::Aimbot::Smooth::enabled = false;
 float Settings::Aimbot::Smooth::value = 1.0f;
+float Settings::Aimbot::Smooth::max = 15.0f;
 bool Settings::Aimbot::AutoAim::enabled = false;
 bool Settings::Aimbot::AimStep::enabled = false;
 float Settings::Aimbot::AimStep::value = 25.0f;
@@ -170,7 +171,7 @@ void Aimbot::Smooth(QAngle& angle, CUserCmd* cmd)
 
 	float target_yaw = angle.y;
 	float view_yaw = cmd->viewangles.y;
-	float smooth_factor = 100.f;
+	float smooth_factor = 50.f;
 
 	if (angle.y < 0)
 		target_yaw = 360.f + angle.y;
@@ -178,12 +179,12 @@ void Aimbot::Smooth(QAngle& angle, CUserCmd* cmd)
 	if (cmd->viewangles.y < 0)
 		view_yaw = 360.f + cmd->viewangles.y;
 
-	float yaw = std::min(abs(target_yaw - view_yaw), 360.f - abs(target_yaw - view_yaw));
+	float yaw = std::min((float)abs(target_yaw - view_yaw), 360.f - abs(target_yaw - view_yaw));
 
 	if (cmd->viewangles.y > 90.f && angle.y < -90.f)
 	{
-		angle.x = cmd->viewangles.x + delta.x / smooth_factor * Settings::Aimbot::Smooth::value;
-		angle.y = cmd->viewangles.y + yaw / smooth_factor * Settings::Aimbot::Smooth::value;
+		angle.x = cmd->viewangles.x + delta.x / smooth_factor * (Settings::Aimbot::Smooth::max-Settings::Aimbot::Smooth::value);
+		angle.y = cmd->viewangles.y + yaw / smooth_factor * (Settings::Aimbot::Smooth::max-Settings::Aimbot::Smooth::value);
 
 		if (angle.y > 180.f)
 			angle.y = -360.f + angle.y;
@@ -193,8 +194,8 @@ void Aimbot::Smooth(QAngle& angle, CUserCmd* cmd)
 
 	if (cmd->viewangles.y < -90.f && angle.y > 90.f)
 	{
-		angle.x = cmd->viewangles.x + delta.x / smooth_factor * Settings::Aimbot::Smooth::value;
-		angle.y = cmd->viewangles.y - yaw / smooth_factor * Settings::Aimbot::Smooth::value;
+		angle.x = cmd->viewangles.x + delta.x / smooth_factor * (Settings::Aimbot::Smooth::max-Settings::Aimbot::Smooth::value);
+		angle.y = cmd->viewangles.y - yaw / smooth_factor * (Settings::Aimbot::Smooth::max-Settings::Aimbot::Smooth::value);
 
 		if (angle.y < -180.f)
 			angle.y = 360.f + angle.y;
@@ -202,7 +203,7 @@ void Aimbot::Smooth(QAngle& angle, CUserCmd* cmd)
 		return;
 	}
 
-	angle = cmd->viewangles + delta / smooth_factor * Settings::Aimbot::Smooth::value;
+	angle = cmd->viewangles + delta / smooth_factor * (Settings::Aimbot::Smooth::max-Settings::Aimbot::Smooth::value);
 }
 
 void Aimbot::CorrectMovement(QAngle vOldAngles, CUserCmd* pCmd, float fOldForward, float fOldSidemove)

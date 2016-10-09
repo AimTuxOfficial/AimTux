@@ -24,7 +24,7 @@ AimbotWindow::AimbotWindow (std::string title, Vector2D size, Vector2D position,
 	ts_smooth_enable = new ToggleSwitch ("smooth", LOC (10, ts_autoaim->position.y + ts_autoaim->size.y + 10), 35, &Settings::Aimbot::Smooth::enabled);
 	AddComponent (ts_smooth_enable);
 	
-	sl_smooth_value = new Slider ("smooth", LOC (ts_smooth_enable->position.x + ts_smooth_enable->size.x + 10, ts_smooth_enable->position.y), LOC (size.x - ts_smooth_enable->size.x - 30, 35), &Settings::Aimbot::Smooth::value, 1.0f, 10.0f);
+	sl_smooth_value = new Slider ("smooth", LOC (ts_smooth_enable->position.x + ts_smooth_enable->size.x + 10, ts_smooth_enable->position.y), LOC (size.x - ts_smooth_enable->size.x - 30, 35), &Settings::Aimbot::Smooth::value, 0.10f, Settings::Aimbot::Smooth::max);
 	AddComponent (sl_smooth_value);
 	
 	

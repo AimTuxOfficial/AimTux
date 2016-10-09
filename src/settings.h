@@ -55,6 +55,7 @@ namespace Settings
 		{
 			extern bool enabled;
 			extern float value;
+			extern float max;
 		}
 		
 		namespace AutoAim
