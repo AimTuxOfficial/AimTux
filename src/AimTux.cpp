@@ -106,7 +106,7 @@ void hkDrawModelExecute(void* thisptr, void* context, void *state, const ModelRe
 {
 	modelRender_vmt->ReleaseVMT();
 
-	Chams::DrawModelExecute(context, state, pInfo);
+	Chams::DrawModelExecute(thisptr, context, state, pInfo, pCustomBoneToWorld);
 
 	modelRender->DrawModelExecute(context, state, pInfo, pCustomBoneToWorld);
 	modelRender->ForcedMaterialOverride(NULL);

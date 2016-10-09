@@ -76,7 +76,7 @@ void Chams::CreateMaterials()
 	std::ofstream(chamsFlatIgnorezPath) << chamsFlatIgnorez.str();
 }
 
-void DrawPlayer(const ModelRenderInfo_t &pInfo)
+void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld)
 {
 	if (!Settings::ESP::Chams::players)
 		return;
@@ -93,40 +93,36 @@ void DrawPlayer(const ModelRenderInfo_t &pInfo)
 		|| entity->GetHealth() <= 0)
 		return;
 
-	IMaterial *mat;
+	IMaterial* visible_material = material->FindMaterial("aimtux_chams", TEXTURE_GROUP_MODEL);
+	IMaterial* hidden_material = material->FindMaterial("aimtux_chamsIgnorez", TEXTURE_GROUP_MODEL);
 
-	switch (Settings::ESP::Chams::type)
-	{
-		case CHAMS:
-			mat = material->FindMaterial("aimtux_chams", TEXTURE_GROUP_MODEL);
-			break;
-		case CHAMS_IGNOREZ:
-			mat = material->FindMaterial("aimtux_chamsIgnorez", TEXTURE_GROUP_MODEL);
-			break;
-		case CHAMS_FLAT:
-			mat = material->FindMaterial("aimtux_chamsFlat", TEXTURE_GROUP_MODEL);
-			break;
-		case CHAMS_FLAT_IGNOREZ:
-			mat = material->FindMaterial("aimtux_chamsFlatIgnorez", TEXTURE_GROUP_MODEL);
-			break;
-	}
-
-	mat->AlphaModulate (1.0f);
-
-	if (entity->GetTeam() == localPlayer->GetTeam())
-		mat->ColorModulate(Settings::ESP::Chams::players_ally_color.r / 255.0f,
-						   Settings::ESP::Chams::players_ally_color.g / 255.0f,
-						   Settings::ESP::Chams::players_ally_color.b / 255.0f);
-	else if (Entity::IsVisible(localPlayer, entity, 6))
-		mat->ColorModulate(Settings::ESP::Chams::players_enemy_visible_color.r / 255.0f,
-						   Settings::ESP::Chams::players_enemy_visible_color.g / 255.0f,
-						   Settings::ESP::Chams::players_enemy_visible_color.b / 255.0f);
-	else
-		mat->ColorModulate(Settings::ESP::Chams::players_enemy_color.r / 255.0f,
-						   Settings::ESP::Chams::players_enemy_color.g / 255.0f,
-						   Settings::ESP::Chams::players_enemy_color.b / 255.0f);
-
-	modelRender->ForcedMaterialOverride(mat);
+	visible_material->AlphaModulate (1.0f);
+	hidden_material->AlphaModulate (1.0f);
+	
+	hidden_material->ColorModulate (1.0f, 0.0f, 0.1f);
+	visible_material->ColorModulate (1.0f, 0.5f, 0.0f);
+	
+	// if (entity->GetTeam() == localPlayer->GetTeam())
+	// 	mat->ColorModulate(Settings::ESP::Chams::players_ally_color.r / 255.0f,
+	// 					   Settings::ESP::Chams::players_ally_color.g / 255.0f,
+	// 					   Settings::ESP::Chams::players_ally_color.b / 255.0f);
+	// else if (Entity::IsVisible(localPlayer, entity, 6))
+	// 	mat->ColorModulate(Settings::ESP::Chams::players_enemy_visible_color.r / 255.0f,
+	// 					   Settings::ESP::Chams::players_enemy_visible_color.g / 255.0f,
+	// 					   Settings::ESP::Chams::players_enemy_visible_color.b / 255.0f);
+	// else
+	// 	mat->ColorModulate(Settings::ESP::Chams::players_enemy_color.r / 255.0f,
+	// 					   Settings::ESP::Chams::players_enemy_color.g / 255.0f,
+	// 					   Settings::ESP::Chams::players_enemy_color.b / 255.0f);
+	
+	modelRender->ForcedMaterialOverride(hidden_material);
+	hidden_material->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, true);
+	modelRender_vmt->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
+	
+	
+	modelRender->ForcedMaterialOverride(visible_material);
+	visible_material->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, false);
+	modelRender_vmt->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
 }
 
 void DrawArms(const ModelRenderInfo_t &pInfo)
@@ -149,7 +145,7 @@ void DrawArms(const ModelRenderInfo_t &pInfo)
 	modelRender->ForcedMaterialOverride(mat);
 }
 
-void Chams::DrawModelExecute(void* context, void *state, const ModelRenderInfo_t &pInfo)
+void Chams::DrawModelExecute(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld)
 {
 	if (!pInfo.pModel)
 		return;
@@ -157,7 +153,7 @@ void Chams::DrawModelExecute(void* context, void *state, const ModelRenderInfo_t
 	std::string modelName = modelInfo->GetModelName(pInfo.pModel);
 
 	if (modelName.find("models/player") != std::string::npos)
-		DrawPlayer(pInfo);
+		DrawPlayer(thisptr, context, state, pInfo, pCustomBoneToWorld);
 	else if (modelName.find("arms") != std::string::npos)
 		DrawArms(pInfo);
 }
