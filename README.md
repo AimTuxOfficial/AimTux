@@ -36,16 +36,19 @@ Compiling this project is **dependant on whether you're using a debian based sys
 
 ### Compiling on Debian based systems like Ubuntu or LinuxMint
 1. Make sure you're inside of the *AimTux* directory
-2. Create a static link for `libstdc++` with the command `ln -s 'g++ -print-file-name=libstdc++.a'`
+2. Create a static link for `libstdc++` with the command `ln -s $(g++ -print-file-name=libstdc++.a)`
 3. Download the required tools to compile AimTux `sudo apt-get install build-essential`
 4. Compile AimTux by entering the command `make`
 5. AimTux should now start compiling, if there are any errors, please report them [here](https://github.com/McSwaggens/AimTux/issues/)
 
 ### Compiling on *NON* Debian based systems like Arch, Fedora etc..
 1. Make sure you're inside of the *AimTux* directory
-2. Download the required tools to compile AimTux `sudo [YOUR PACKAGE MANAGER HERE] build-essential`
-3. Compile AimTux by entering the command `make`
-4. AimTux should now start compiling, if there are any errors, please report them [here](https://github.com/McSwaggens/AimTux/issues/)
+2. Create a static link for `libstdc++` with the command `ln -s $(g++ -print-file-name=libstdc++.a)`
+3. Download the required tools to compile AimTux
+    * **Fedora:** `dnf install @development-tools`
+    * **Arch Linux:** `pacman -S base-devel gdb` 
+4. Compile AimTux by entering the command `make`
+5. AimTux should now start compiling, if there are any errors, please report them [here](https://github.com/McSwaggens/AimTux/issues/)
 
 
 ## Injecting
@@ -78,6 +81,6 @@ you can check the *csgo* console for a message saying `AimTux has been unloaded 
 If you would like to unload, compile and load the hack back into the game again (mostly for development) you can use the `./rload` command.
 
 #### Credits:
-Special thanks to [@Aixxe](http://www.github.com/aixxe/) ([aixxe.net](http://www.aixxe.net)) for the skin changer and with the initial project, as well as helping this project with source code (Available on [@Aixxe's](http://www.github.com/aixxe/) github page.)
+Special thanks to [@aixxe](http://www.github.com/aixxe/) ([aixxe.net](http://www.aixxe.net)) for the skin changer and with the initial project, as well as helping this project with source code (Available on [@aixxe's](http://www.github.com/aixxe/) github page.)
 
 This project was also initially based upon Atex's [Linux Basehook](http://unknowncheats.me/forum/counterstrike-global-offensive/181878-linux-basehook.html).
