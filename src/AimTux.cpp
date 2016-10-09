@@ -121,7 +121,7 @@ int __attribute__((constructor)) aimtux_init()
 	Hooker::HookVMethods();
 	Chams::CreateMaterials();
 
-	PRINT("AimTux was successfully injected.");
+	engine->Print("AimTux was successfully injected.");
 
 	client_vmt->HookVM((void*)hkFrameStageNotify, 36);
 	client_vmt->ApplyVMT();
@@ -157,6 +157,6 @@ void __attribute__((destructor)) aimtux_shutdown()
 	panel_vmt->ReleaseVMT();
 	modelRender_vmt->ReleaseVMT();
 	clientMode_vmt->ReleaseVMT();
-	
-	PRINT("AimTux has been unloaded successfully.");
+
+	engine->Print("AimTux has been unloaded successfully.");
 }

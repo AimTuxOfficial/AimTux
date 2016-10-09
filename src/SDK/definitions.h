@@ -17,7 +17,6 @@
 /* generic constants */
 #define LIFE_ALIVE 0
 #define VPANEL unsigned long long
-#define PRINT(c) engine->Print(c)
 
 struct ModelRenderInfo_t;
 struct CUserCmd;
