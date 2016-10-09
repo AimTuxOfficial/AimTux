@@ -220,8 +220,8 @@ namespace Settings
 		extern std::unordered_map<int, Skin> skins;
 	}
 
-	void LoadDefaultsOrSave();
-	void LoadSettings();
+	void LoadDefaultsOrSave(const char* filename);
+	void LoadSettings(const char* filename);
 }
 
 #endif
