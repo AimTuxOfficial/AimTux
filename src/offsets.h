@@ -36,6 +36,7 @@ struct COffsets
 	int m_nFallbackPaintKit;
 	int m_nFallbackSeed;
 	int m_nFallbackStatTrak;
+	int m_iAccountID;
 	int m_szCustomName;
 
 	int m_iClip1;
