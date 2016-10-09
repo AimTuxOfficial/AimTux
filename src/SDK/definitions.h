@@ -13,6 +13,7 @@
 #define ENGINETRACE_CLIENT_INTERFACE_VERSION "EngineTraceClient004"
 #define INPUTSYSTEM_CLIENT_INTERFACE_VERSION "InputSystemVersion001"
 #define MATERIALSYSTEM_CLIENT_INTERFACE_VERSION "VMaterialSystem080"
+#define CVAR_INTERFACE_VERSION "VEngineCvar007"
 
 /* generic constants */
 #define LIFE_ALIVE 0

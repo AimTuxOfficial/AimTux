@@ -23,5 +23,6 @@
 #include "SDK/IEngineTrace.h"
 #include "SDK/IClientEntityList.h"
 #include "SDK/IClientMode.h"
+#include "SDK/ICvar.h"
 
 #endif

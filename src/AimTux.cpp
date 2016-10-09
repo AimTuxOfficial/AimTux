@@ -128,7 +128,7 @@ int __attribute__((constructor)) aimtux_init()
 	Hooker::HookVMethods();
 	Chams::CreateMaterials();
 
-	engine->Print("AimTux was successfully injected.");
+	cvar->ConsoleColorPrintf(ColorRGBA(100, 255, 0), "AimTux was successfully injected.\n");
 
 	client_vmt->HookVM((void*)hkFrameStageNotify, 36);
 	client_vmt->ApplyVMT();
