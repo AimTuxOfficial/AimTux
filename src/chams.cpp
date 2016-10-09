@@ -8,7 +8,7 @@ Color Settings::ESP::Chams::players_ally_visible_color = Color(40, 52, 138);
 Color Settings::ESP::Chams::players_enemy_color = Color(243, 24, 28);
 Color Settings::ESP::Chams::players_enemy_visible_color = Color(243, 159, 20);
 Color Settings::ESP::Chams::arms_color = Color(117, 43, 73);
-ChamsType Settings::ESP::Chams::type = CHAMS_IGNOREZ;
+ChamsType Settings::ESP::Chams::type = CHAMS;
 
 float rainbowHue;
 
@@ -94,8 +94,20 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 		|| entity->GetHealth() <= 0)
 		return;
 
-	IMaterial* visible_material = material->FindMaterial("aimtux_chams", TEXTURE_GROUP_MODEL);
-	IMaterial* hidden_material = material->FindMaterial("aimtux_chamsIgnorez", TEXTURE_GROUP_MODEL);
+	IMaterial *visible_material;
+	IMaterial *hidden_material;
+
+	switch (Settings::ESP::Chams::type)
+	{
+		case CHAMS:
+			visible_material = material->FindMaterial("aimtux_chams", TEXTURE_GROUP_MODEL);
+			hidden_material = material->FindMaterial("aimtux_chamsIgnorez", TEXTURE_GROUP_MODEL);
+			break;
+		case CHAMS_FLAT:
+			visible_material = material->FindMaterial("aimtux_chamsFlat", TEXTURE_GROUP_MODEL);
+			hidden_material = material->FindMaterial("aimtux_chamsFlatIgnorez", TEXTURE_GROUP_MODEL);
+			break;
+	}
 
 	visible_material->AlphaModulate (1.0f);
 	hidden_material->AlphaModulate (1.0f);
@@ -128,8 +140,7 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 	modelRender->ForcedMaterialOverride(hidden_material);
 	hidden_material->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, true);
 	modelRender_vmt->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
-	
-	
+
 	modelRender->ForcedMaterialOverride(visible_material);
 	visible_material->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, false);
 	modelRender_vmt->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
