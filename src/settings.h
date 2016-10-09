@@ -6,6 +6,8 @@
 #include <fstream>
 #include "json/json.h"
 #include "SDK.h"
+#include "fonts.h"
+#include "draw.h"
 
 enum TracerType
 {
@@ -48,6 +50,27 @@ namespace Settings
 	{
 		extern Color mainColor;
 		extern Color bodyColor;
+
+		namespace Fonts
+		{
+			namespace Title
+			{
+				extern char family[64];
+				extern int size;
+			}
+
+			namespace Normal
+			{
+				extern char family[64];
+				extern int size;
+			}
+
+			namespace ESP
+			{
+				extern char family[64];
+				extern int size;
+			}
+		}
 	}
 
 	namespace Aimbot

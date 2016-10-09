@@ -16,6 +16,14 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	Json::Value settings;
 	Json::StyledWriter styledWriter;
 
+	printf("1: %s\n", Settings::UI::Fonts::Title::family);
+	settings["UI"]["Fonts"]["Title"]["family"] = Settings::UI::Fonts::Title::family;
+	settings["UI"]["Fonts"]["Title"]["size"] = Settings::UI::Fonts::Title::size;
+	settings["UI"]["Fonts"]["Normal"]["family"] = Settings::UI::Fonts::Normal::family;
+	settings["UI"]["Fonts"]["Normal"]["size"] = Settings::UI::Fonts::Normal::size;
+	settings["UI"]["Fonts"]["ESP"]["family"] = Settings::UI::Fonts::ESP::family;
+	settings["UI"]["Fonts"]["ESP"]["size"] = Settings::UI::Fonts::ESP::size;
+
 	settings["Aimbot"]["enabled"] = Settings::Aimbot::enabled;
 	settings["Aimbot"]["silent"] = Settings::Aimbot::silent;
 	settings["Aimbot"]["fov"] = Settings::Aimbot::fov;
@@ -117,6 +125,19 @@ void Settings::LoadSettings(const char* filename)
 		Json::Value settings;
 		std::ifstream config_doc(GetSettingsPath(filename), std::ifstream::binary);
 		config_doc >> settings;
+		strcpy(Settings::UI::Fonts::Title::family, settings["UI"]["Fonts"]["Title"]["family"].asCString());
+		Settings::UI::Fonts::Title::size = settings["UI"]["Fonts"]["Title"]["size"].asInt();
+		strcpy(Settings::UI::Fonts::Normal::family, settings["UI"]["Fonts"]["Normal"]["family"].asCString());
+		Settings::UI::Fonts::Normal::size = settings["UI"]["Fonts"]["Normal"]["size"].asInt();
+		strcpy(Settings::UI::Fonts::ESP::family, settings["UI"]["Fonts"]["ESP"]["family"].asCString());
+		Settings::UI::Fonts::ESP::size = settings["UI"]["Fonts"]["ESP"]["size"].asInt();
+
+		printf("2: %s\n", Settings::UI::Fonts::Title::family);
+		printf("3: %s\n", settings["UI"]["Fonts"]["Title"]["family"].asCString());
+
+		title_font = Draw::CreateFont(Settings::UI::Fonts::Title::family, Settings::UI::Fonts::Title::size, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
+		normal_font = Draw::CreateFont(Settings::UI::Fonts::Normal::family, Settings::UI::Fonts::Normal::size, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
+		esp_font = Draw::CreateFont(Settings::UI::Fonts::ESP::family, Settings::UI::Fonts::ESP::size, FONTFLAG_ANTIALIAS | FONTFLAG_OUTLINE);
 
 		Settings::Aimbot::enabled = settings["Aimbot"]["enabled"].asBool();
 		Settings::Aimbot::silent = settings["Aimbot"]["silent"].asBool();
