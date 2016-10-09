@@ -209,7 +209,7 @@ void Aimbot::Smooth(QAngle& angle, CUserCmd* cmd)
 void Aimbot::CorrectMovement(QAngle vOldAngles, CUserCmd* pCmd, float fOldForward, float fOldSidemove)
 {
 	//side/forward move correction
-	float deltaView = pCmd->viewangles.y - vOldAngles.y;
+	float deltaView;
 	float f1;
 	float f2;
 	
@@ -227,6 +227,7 @@ void Aimbot::CorrectMovement(QAngle vOldAngles, CUserCmd* pCmd, float fOldForwar
 		deltaView = abs(f2 - f1);
 	else
 		deltaView = 360.0f - abs(f1 - f2);
+
 	deltaView = 360.0f - deltaView;
 	
 	pCmd->forwardmove = cos(DEG2RAD(deltaView)) * fOldForward + cos(DEG2RAD(deltaView + 90.f)) * fOldSidemove;
