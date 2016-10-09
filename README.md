@@ -47,14 +47,34 @@ Compiling this project is **dependant on whether you're using a debian based sys
  4. AimTux should now start compiling, if there are any errors, please report them [here](https://github.com/McSwaggens/AimTux/issues/)
 
 
-#### Injecting:
+## Injecting
+First of all, make sure you're in the directory where *AimTux* was built,
 
-x
-x
-x
-x
+Type the command `./load`, you might be prompted to enter your password (injection required root)
 
+You should see a lot of text being printed out, most of which is not important,
 
+if you see something like`$1 = (void *) 0x3690fa00` (yours well be different) that means that the injection was successfull.
+However,
+if you see this: `$1 = (void *) 0x0`, the `.so` file either couldn't be found or something has gone wrong.
+
+AimTux should now be injected into the game, to confirm, you should see something like this in the top left hand corner of your screen.
+
+![this](http://i.imgur.com/I2NSAia.png)
+
+The above message will only be shown if you're in the main menu, aditionally, you can check the *csgo* console for a message saying `AimTux was successfully injected.`.
+
+## Un-injecting
+
+Once again, make sure you're inside of the AimTux directory, and type `./uload`.
+
+*AimTux* should now be unloaded from the game,
+
+you can check the *csgo* console for a message saying `AimTux has been unloaded successfully.` to confirm.
+
+## Reloading
+
+Of you would like to unload, compile and load the hack back into the game again (mostly for development) you can use the `./rload` command.
 
 #### Credits:
 Special thanks to [@Aixxe](http://www.github.com/aixxe/) ([aixxe.net](http://www.aixxe.net)) for the skin changer and with the initial project, as well as helping this project with source code (Available on [@Aixxe's](http://www.github.com/aixxe/) github page.)
