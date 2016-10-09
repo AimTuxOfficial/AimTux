@@ -58,6 +58,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["ESP"]["bomb_color"]["b"] = Settings::ESP::bomb_color.b;
 	settings["ESP"]["visibility_check"] = Settings::ESP::visibility_check;
 	settings["ESP"]["Walls"]["enabled"] = Settings::ESP::Walls::enabled;
+	settings["ESP"]["Walls"]["type"] = Settings::ESP::Walls::type;
 	settings["ESP"]["Info"]["showName"] = Settings::ESP::Info::showName;
 	settings["ESP"]["Info"]["showHealth"] = Settings::ESP::Info::showHealth;
 	settings["ESP"]["Bones"]["enabled"] = Settings::ESP::Bones::enabled;
@@ -159,6 +160,7 @@ void Settings::LoadSettings(const char* filename)
 		Settings::ESP::bomb_color.b = settings["ESP"]["bomb_color"]["b"].asInt();
 		Settings::ESP::visibility_check = settings["ESP"]["visibility_check"].asBool();
 		Settings::ESP::Walls::enabled = settings["ESP"]["Walls"]["enabled"].asBool();
+		Settings::ESP::Walls::type = (WallBoxType) settings["ESP"]["Walls"]["type"].asInt();
 		Settings::ESP::Info::showName = settings["ESP"]["Info"]["showName"].asBool();
 		Settings::ESP::Info::showHealth = settings["ESP"]["Info"]["showHealth"].asBool();
 		Settings::ESP::Bones::enabled = settings["ESP"]["Bones"]["enabled"].asBool();
