@@ -50,7 +50,7 @@ Compiling this project is **dependant on whether you're using a debian based sys
 ## Injecting
 First of all, make sure you're in the directory where *AimTux* was built,
 
-Type the command `./load`, you might be prompted to enter your password (injection required root)
+Type the command `./load`, you might be prompted to enter your password (injection requires root)
 
 You should see a lot of text being printed out, most of which is not important,
 
@@ -74,7 +74,7 @@ you can check the *csgo* console for a message saying `AimTux has been unloaded 
 
 ## Reloading
 
-Of you would like to unload, compile and load the hack back into the game again (mostly for development) you can use the `./rload` command.
+If you would like to unload, compile and load the hack back into the game again (mostly for development) you can use the `./rload` command.
 
 #### Credits:
 Special thanks to [@Aixxe](http://www.github.com/aixxe/) ([aixxe.net](http://www.aixxe.net)) for the skin changer and with the initial project, as well as helping this project with source code (Available on [@Aixxe's](http://www.github.com/aixxe/) github page.)
