@@ -34,22 +34,14 @@ Want to chat or play with other AimTux users? Join us on Gitter!
 ## Compiling:
 Compiling this project is **dependant on whether you're using a debian based system** or not, this is due to the `libstdc++` library, if you'd like to fix this, be my guest but for now there is a default `makefile` and a `cmake` file.
 
-### Compiling on Debian based systems like Ubuntu or LinuxMint
-1. Make sure you're inside of the *AimTux* directory
-2. Create a static link for `libstdc++` with the command `ln -s $(g++ -print-file-name=libstdc++.a)`
-3. Download the required tools to compile AimTux `sudo apt-get install build-essential`
-4. Compile AimTux by entering the command `make`
-5. AimTux should now start compiling, if there are any errors, please report them [here](https://github.com/McSwaggens/AimTux/issues/)
-
-### Compiling on *NON* Debian based systems like Arch, Fedora etc..
 1. Make sure you're inside of the *AimTux* directory
 2. Create a static link for `libstdc++` with the command `ln -s $(g++ -print-file-name=libstdc++.a)`
 3. Download the required tools to compile AimTux
+	* **Debian-based** `apt-get install build-essential`
     * **Fedora:** `dnf install @development-tools`
     * **Arch Linux:** `pacman -S base-devel gdb` 
 4. Compile AimTux by entering the command `make`
 5. AimTux should now start compiling, if there are any errors, please report them [here](https://github.com/McSwaggens/AimTux/issues/)
-
 
 ## Injecting
 First of all, make sure you're in the directory where *AimTux* was built,
