@@ -1,6 +1,7 @@
 #include "chams.h"
 
 bool Settings::ESP::Chams::players = true;
+bool Settings::ESP::Chams::visibility_check = false;
 bool Settings::ESP::Chams::arms = true;
 bool Settings::ESP::Chams::rainbow_arms = false;
 Color Settings::ESP::Chams::players_ally_color = Color(7, 98, 168);
@@ -136,9 +137,12 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 							Settings::ESP::Chams::players_enemy_color.g / 255.0f,
 							Settings::ESP::Chams::players_enemy_color.b / 255.0f);
 	}
-	
-	modelRender->ForcedMaterialOverride(hidden_material);
-	modelRender_vmt->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
+
+	if (!Settings::ESP::Chams::visibility_check)
+	{
+		modelRender->ForcedMaterialOverride(hidden_material);
+		modelRender_vmt->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
+	}
 
 	modelRender->ForcedMaterialOverride(visible_material);
 	modelRender_vmt->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);

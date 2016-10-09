@@ -178,6 +178,7 @@ namespace Settings
 		namespace Chams
 		{
 			extern bool players;
+			extern bool visibility_check;
 			extern bool arms;
 			extern bool rainbow_arms;
 			extern Color players_ally_color;

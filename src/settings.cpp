@@ -73,6 +73,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["ESP"]["Tracer"]["enabled"] = Settings::ESP::Tracer::enabled;
 	settings["ESP"]["Tracer"]["type"] = Settings::ESP::Tracer::type;
 	settings["ESP"]["Chams"]["players"] = Settings::ESP::Chams::players;
+	settings["ESP"]["Chams"]["visibility_check"] = Settings::ESP::Chams::visibility_check;
 	settings["ESP"]["Chams"]["arms"] = Settings::ESP::Chams::arms;
 	settings["ESP"]["Chams"]["rainbow_arms"] = Settings::ESP::Chams::rainbow_arms;
 	settings["ESP"]["Chams"]["players_ally_color"]["r"] = Settings::ESP::Chams::players_ally_color.r;
@@ -186,6 +187,7 @@ void Settings::LoadSettings(const char* filename)
 		Settings::ESP::Tracer::enabled = settings["ESP"]["Tracer"]["enabled"].asBool();
 		Settings::ESP::Tracer::type = (TracerType) settings["ESP"]["Tracer"]["type"].asInt();
 		Settings::ESP::Chams::players = settings["ESP"]["Chams"]["players"].asBool();
+		Settings::ESP::Chams::visibility_check = settings["ESP"]["Chams"]["visibility_check"].asBool();
 		Settings::ESP::Chams::arms = settings["ESP"]["Chams"]["arms"].asBool();
 		Settings::ESP::Chams::rainbow_arms = settings["ESP"]["Chams"]["rainbow_arms"].asBool();
 		Settings::ESP::Chams::players_ally_color.r = settings["ESP"]["Chams"]["players_ally_color"]["r"].asInt();
