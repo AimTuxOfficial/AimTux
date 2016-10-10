@@ -22,6 +22,7 @@ struct COffsets
 	int m_Collision;
 
 	int m_bBombTicking;
+	int m_flC4Blow;
 
 	int m_Local;
 	int m_aimPunchAngle;

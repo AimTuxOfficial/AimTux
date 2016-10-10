@@ -240,15 +240,23 @@ void ESP::DrawBombBox(C_BaseEntity* entity)
 
 	int width = 7;
 	int additionalHeight = 4;
+	float bombTime = entity->GetBombTime() - globalvars->curtime;
 
 	Vector vecOrigin = entity->GetVecOrigin();
 	Vector vecViewOffset = Vector(vecOrigin.x, vecOrigin.y, vecOrigin.z - 4);
+
+	pstring str = "C4";
+
+	if (bombTime > 0)
+		str << " (" << bombTime << ")";
+
+	std::wstring wstr(str.begin(), str.end());
 
 	Vector s_vecLocalPlayer_s;
 	if (!WorldToScreen(vecOrigin, s_vecLocalPlayer_s))
 	{
 		DrawESPBox(vecOrigin, vecViewOffset, color, width, additionalHeight);
-		Draw::DrawString(L"C4", LOC(s_vecLocalPlayer_s.x, s_vecLocalPlayer_s.y), color, esp_font, true);
+		Draw::DrawString(wstr.c_str(), LOC(s_vecLocalPlayer_s.x, s_vecLocalPlayer_s.y), Color(255, 255, 255, 255), esp_font, true);
 	}
 }
 

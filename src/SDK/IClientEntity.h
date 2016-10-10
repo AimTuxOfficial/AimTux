@@ -170,6 +170,11 @@ public:
 		return (bool)((uintptr_t)this + offsets.m_bBombTicking);
 	}
 
+	float GetBombTime()
+	{
+		return *(float*)((uintptr_t)this + offsets.m_flC4Blow);
+	}
+
 	ICollideable* GetCollideable ()
 	{
 		return (ICollideable*)((uintptr_t)this + offsets.m_Collision);
