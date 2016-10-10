@@ -240,8 +240,15 @@ void ESP::DrawPlayerInfo(C_BasePlayer* localPlayer, C_BaseEntity* entity, int en
 	float height = (pos.y - top.y);
 	float width = height / 4.f;
 	
-	Draw::DrawString (whealth.c_str(), LOC (top.x, top.y+height+(size_health.y/2)), color, esp_font, true);
-	Draw::DrawString (wname.c_str(), LOC (top.x, top.y-(size_name.y/2)), color, esp_font, true);
+	if (Settings::ESP::Info::showHealth)
+	{
+		Draw::DrawString (whealth.c_str(), LOC (top.x, top.y+height+(size_health.y/2)), color, esp_font, true);
+	}
+	
+	if (Settings::ESP::Info::showName)
+	{
+		Draw::DrawString (wname.c_str(), LOC (top.x, top.y-(size_name.y/2)), color, esp_font, true);
+	}
 }
 
 void ESP::DrawBombBox(C_BaseEntity* entity)
