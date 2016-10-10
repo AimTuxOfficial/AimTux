@@ -208,28 +208,40 @@ void ESP::DrawPlayerInfo(C_BasePlayer* localPlayer, C_BaseEntity* entity, int en
 	engine->GetPlayerInfo(entityIndex, &entityInformation);
 
 	Vector vecOrigin = entity->GetVecOrigin();
+	
+	// Name string
+	pstring name;
+	name << entityInformation.name;
+	
+	// Health string
+	pstring health;
+	health + entity->GetHealth();
+	health << "hp";
 
-	pstring str;
-
-	if (Settings::ESP::Info::showName)
-		str << entityInformation.name;
-
-	if (Settings::ESP::Info::showName && Settings::ESP::Info::showHealth)
-		str << " ";
-
-	if (Settings::ESP::Info::showHealth)
+	std::wstring wname(name.begin(), name.end());
+	std::wstring whealth(health.begin(), health.end());
+	
+	Vector2D size_name = Draw::GetTextSize (wname.c_str(), esp_font);
+	Vector2D size_health = Draw::GetTextSize (whealth.c_str(), esp_font);
+	
+	Vector max = entity->GetCollideable()->OBBMaxs();
+	
+	Vector pos, pos3D;
+	Vector top, top3D;
+	
+	pos3D = entity->GetVecOrigin();
+	top3D = pos3D + Vector(0, 0, max.z);
+	
+	if(WorldToScreen(pos3D, pos) || WorldToScreen(top3D, top))
 	{
-		str + entity->GetHealth();
-		str << "hp";
+		return;
 	}
-
-	std::wstring wstr(str.begin(), str.end());
 	
-	Vector2D size = Draw::GetTextSize (wstr.c_str(), esp_font);
+	float height = (pos.y - top.y);
+	float width = height / 4.f;
 	
-	Vector s_vecEntity_s;
-	if (!WorldToScreen(vecOrigin, s_vecEntity_s))
-		Draw::DrawString(wstr.c_str(), LOC(s_vecEntity_s.x, s_vecEntity_s.y+(size.y/2)), color, esp_font, true);
+	Draw::DrawString (whealth.c_str(), LOC (top.x, top.y+height+(size_health.y/2)), color, esp_font, true);
+	Draw::DrawString (wname.c_str(), LOC (top.x, top.y-(size_name.y/2)), color, esp_font, true);
 }
 
 void ESP::DrawBombBox(C_BaseEntity* entity)
