@@ -112,14 +112,14 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 
 	visible_material->AlphaModulate (1.0f);
 	hidden_material->AlphaModulate (1.0f);
-	
+
 	if (entity->GetTeam() == localPlayer->GetTeam())
 	{
 		visible_material->ColorModulate(
 							Settings::ESP::Chams::players_ally_visible_color.r / 255.0f,
 							Settings::ESP::Chams::players_ally_visible_color.g / 255.0f,
 							Settings::ESP::Chams::players_ally_visible_color.b / 255.0f);
-		
+
 		hidden_material->ColorModulate(
 							Settings::ESP::Chams::players_ally_color.r / 255.0f,
 							Settings::ESP::Chams::players_ally_color.g / 255.0f,
@@ -131,7 +131,7 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 							Settings::ESP::Chams::players_enemy_visible_color.r / 255.0f,
 							Settings::ESP::Chams::players_enemy_visible_color.g / 255.0f,
 							Settings::ESP::Chams::players_enemy_visible_color.b / 255.0f);
-		
+
 		hidden_material->ColorModulate(
 							Settings::ESP::Chams::players_enemy_color.r / 255.0f,
 							Settings::ESP::Chams::players_enemy_color.g / 255.0f,

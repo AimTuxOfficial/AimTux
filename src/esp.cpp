@@ -154,13 +154,9 @@ void ESP::DrawPlayerBox(C_BasePlayer* localPlayer, C_BaseEntity* entity)
 	bool isVisible = Entity::IsVisible(localPlayer, entity, BONE_HEAD);
 
 	if (playerTeam != entityTeam)
-	{
 		color = isVisible ? Settings::ESP::enemy_visible_color : Settings::ESP::enemy_color;
-	}
 	else
-	{
 		color = Settings::ESP::ally_color;
-	}
 
 	if (Settings::ESP::Walls::type == FLAT_2D)
 	{
@@ -172,15 +168,13 @@ void ESP::DrawPlayerBox(C_BasePlayer* localPlayer, C_BaseEntity* entity)
 		pos3D = entity->GetVecOrigin();
 		top3D = pos3D + Vector(0, 0, max.z);
 
-		if(WorldToScreen(pos3D, pos) || WorldToScreen(top3D, top))
-		{
+		if (WorldToScreen(pos3D, pos) || WorldToScreen(top3D, top))
 			return;
-		}
 
 		float height = (pos.y - top.y);
 		float width = height / 4.f;
 
-		Draw::DrawOutlinedBox (top.x, top.y, width, height, color);
+		Draw::DrawOutlinedBox(top.x, top.y, width, height, color);
 	}
 	else if (Settings::ESP::Walls::type == BOX_3D)
 	{
@@ -200,19 +194,15 @@ void ESP::DrawPlayerBox(C_BasePlayer* localPlayer, C_BaseEntity* entity)
 
 void ESP::DrawPlayerInfo(C_BasePlayer* localPlayer, C_BaseEntity* entity, int entityIndex)
 {
-	int playerTeam = localPlayer->GetTeam();
-	int entityTeam = reinterpret_cast<C_BasePlayer*>(entity)->GetTeam();
-	Color color = Color (225, 225, 225, 255);
+	Color color = Color(225, 225, 225, 255);
 
 	IEngineClient::player_info_t entityInformation;
 	engine->GetPlayerInfo(entityIndex, &entityInformation);
 
-	Vector vecOrigin = entity->GetVecOrigin();
-	
 	// Name string
 	pstring name;
 	name << entityInformation.name;
-	
+
 	// Health string
 	pstring health;
 	health + entity->GetHealth();
@@ -220,35 +210,28 @@ void ESP::DrawPlayerInfo(C_BasePlayer* localPlayer, C_BaseEntity* entity, int en
 
 	std::wstring wname(name.begin(), name.end());
 	std::wstring whealth(health.begin(), health.end());
-	
-	Vector2D size_name = Draw::GetTextSize (wname.c_str(), esp_font);
-	Vector2D size_health = Draw::GetTextSize (whealth.c_str(), esp_font);
-	
+
+	Vector2D size_name = Draw::GetTextSize(wname.c_str(), esp_font);
+	Vector2D size_health = Draw::GetTextSize(whealth.c_str(), esp_font);
+
 	Vector max = entity->GetCollideable()->OBBMaxs();
-	
+
 	Vector pos, pos3D;
 	Vector top, top3D;
-	
+
 	pos3D = entity->GetVecOrigin();
 	top3D = pos3D + Vector(0, 0, max.z);
-	
-	if(WorldToScreen(pos3D, pos) || WorldToScreen(top3D, top))
-	{
+
+	if (WorldToScreen(pos3D, pos) || WorldToScreen(top3D, top))
 		return;
-	}
-	
+
 	float height = (pos.y - top.y);
-	float width = height / 4.f;
-	
+
 	if (Settings::ESP::Info::showHealth)
-	{
-		Draw::DrawString (whealth.c_str(), LOC (top.x, top.y+height+(size_health.y/2)), color, esp_font, true);
-	}
-	
+		Draw::DrawString(whealth.c_str(), LOC (top.x, top.y + height + (size_health.y / 2)), color, esp_font, true);
+
 	if (Settings::ESP::Info::showName)
-	{
-		Draw::DrawString (wname.c_str(), LOC (top.x, top.y-(size_name.y/2)), color, esp_font, true);
-	}
+		Draw::DrawString(wname.c_str(), LOC (top.x, top.y - (size_name.y / 2)), color, esp_font, true);
 }
 
 void ESP::DrawBombBox(C_BaseEntity* entity)
@@ -308,7 +291,7 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 
 			if (Settings::ESP::Tracer::enabled)
 				ESP::DrawTracer(localPlayer, entity);
-			
+
 			if (Settings::ESP::Info::showHealth || Settings::ESP::Info::showName)
 				ESP::DrawPlayerInfo(localPlayer, entity, i);
 		}
