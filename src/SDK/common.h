@@ -37,4 +37,9 @@ template <typename Fn> inline Fn GetVirtualFunction(void* baseclass, size_t inde
 	return (Fn)((uintptr_t**)*(uintptr_t***)baseclass)[index];
 }
 
+inline uintptr_t GetAbsoluteAddress(uintptr_t instruction_ptr, int offset, int size)
+{
+	return instruction_ptr + *reinterpret_cast<uint32_t*>(instruction_ptr + offset) + size;
+};
+
 #endif

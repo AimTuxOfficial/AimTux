@@ -9,6 +9,7 @@
 #include "definitions.h"
 #include "common.h"
 #include "color.h"
+#include "CGlobalVars.h"
 #include "IBaseClientDLL.h"
 #include "IInputSystem.h"
 #include "IMaterial.h"
