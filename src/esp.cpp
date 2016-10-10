@@ -237,6 +237,7 @@ void ESP::DrawPlayerInfo(C_BasePlayer* localPlayer, C_BaseEntity* entity, int en
 void ESP::DrawBombBox(C_BaseEntity* entity)
 {
 	Color color = Settings::ESP::bomb_color;
+	Color colorText = entity->GetBombDefuser() != -1 ? Color(0, 50, 200) : Color(255, 255, 255);
 
 	int width = 7;
 	int additionalHeight = 4;
@@ -256,7 +257,7 @@ void ESP::DrawBombBox(C_BaseEntity* entity)
 	if (!WorldToScreen(vecOrigin, s_vecLocalPlayer_s))
 	{
 		DrawESPBox(vecOrigin, vecViewOffset, color, width, additionalHeight);
-		Draw::DrawString(wstr.c_str(), LOC(s_vecLocalPlayer_s.x, s_vecLocalPlayer_s.y), Color(255, 255, 255, 255), esp_font, true);
+		Draw::DrawString(wstr.c_str(), LOC(s_vecLocalPlayer_s.x, s_vecLocalPlayer_s.y), colorText, esp_font, true);
 	}
 }
 

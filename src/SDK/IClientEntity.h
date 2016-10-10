@@ -175,6 +175,11 @@ public:
 		return *(float*)((uintptr_t)this + offsets.m_flC4Blow);
 	}
 
+	int GetBombDefuser()
+	{
+		return *(int*)((uintptr_t)this + offsets.m_hBombDefuser);
+	}
+
 	ICollideable* GetCollideable ()
 	{
 		return (ICollideable*)((uintptr_t)this + offsets.m_Collision);
