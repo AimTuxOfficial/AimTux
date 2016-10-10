@@ -202,7 +202,7 @@ void ESP::DrawPlayerInfo(C_BasePlayer* localPlayer, C_BaseEntity* entity, int en
 {
 	int playerTeam = localPlayer->GetTeam();
 	int entityTeam = reinterpret_cast<C_BasePlayer*>(entity)->GetTeam();
-	Color color = playerTeam == entityTeam ? Settings::ESP::ally_color : Settings::ESP::enemy_color;
+	Color color = Color (225, 225, 225, 255);
 
 	IEngineClient::player_info_t entityInformation;
 	engine->GetPlayerInfo(entityIndex, &entityInformation);
@@ -224,10 +224,12 @@ void ESP::DrawPlayerInfo(C_BasePlayer* localPlayer, C_BaseEntity* entity, int en
 	}
 
 	std::wstring wstr(str.begin(), str.end());
-
+	
+	Vector2D size = Draw::GetTextSize (wstr.c_str(), esp_font);
+	
 	Vector s_vecEntity_s;
 	if (!WorldToScreen(vecOrigin, s_vecEntity_s))
-		Draw::DrawString(wstr.c_str(), LOC(s_vecEntity_s.x, s_vecEntity_s.y), color, esp_font, true);
+		Draw::DrawString(wstr.c_str(), LOC(s_vecEntity_s.x, s_vecEntity_s.y+(size.y/2)), color, esp_font, true);
 }
 
 void ESP::DrawBombBox(C_BaseEntity* entity)
