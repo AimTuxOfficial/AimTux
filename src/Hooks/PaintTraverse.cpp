@@ -33,22 +33,5 @@ void Hooks::PaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, 
 	ESP::PaintTraverse(vgui_panel, force_repaint, allow_force);
 	Recoilcrosshair::PaintTraverse(vgui_panel, force_repaint, allow_force);
 
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	std::list<std::string> observators = Entity::GetObservervators(localplayer);
-	int index = 1;
-
-	if (engine->IsInGame() && observators.size() > 1)
-	{
-		Draw::DrawString(L"Spectators:", LOC(10, 500), Color(255, 255, 255), normal_font, false);
-
-		for (std::string name : observators)
-		{
-			std::wstring wstr(name.begin(), name.end());
-
-			Draw::DrawString(wstr.c_str(), LOC(10, 500 + 20 * index), Color(255, 255, 255), normal_font, false);
-			index++;
-		}
-	}
-
 	gui->Draw();
 }
