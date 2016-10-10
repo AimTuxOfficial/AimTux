@@ -1,5 +1,5 @@
-#ifndef _CGLOBALVARS_H_
-#define _CGLOBALVARS_H_
+#ifndef __CGLOBALVARS_H_
+#define __CGLOBALVARS_H_
 
 class CGlobalVars {
 public:
