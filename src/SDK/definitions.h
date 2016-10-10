@@ -18,6 +18,7 @@
 /* generic constants */
 #define LIFE_ALIVE 0
 #define VPANEL unsigned long long
+typedef unsigned long long FONT;
 
 struct ModelRenderInfo_t;
 struct CUserCmd;

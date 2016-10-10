@@ -4,11 +4,15 @@
 #include <cstdint>
 #include <cstddef>
 #include <cstring>
-
-typedef unsigned long long FONT;
+#include "settings.h"
 
 extern FONT title_font;
 extern FONT normal_font;
 extern FONT esp_font;
+
+namespace Fonts
+{
+	void SetupFonts();
+}
 
 #endif
