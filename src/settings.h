@@ -5,7 +5,7 @@
 #include <zconf.h>
 #include <fstream>
 #include "json/json.h"
-#include "SDK.h"
+#include "SDK/SDK.h"
 #include "fonts.h"
 #include "draw.h"
 

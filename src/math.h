@@ -1,7 +1,7 @@
 #ifndef __MATH_H
 #define __MATH_H
 
-#include "SDK.h"
+#include "SDK/SDK.h"
 
 namespace Math {
 	void inline SinCos(float radians, float *sine, float *cosine);

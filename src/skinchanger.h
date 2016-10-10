@@ -1,7 +1,7 @@
 #ifndef __SKINCHANGER_H
 #define __SKINCHANGER_H
 
-#include "SDK.h"
+#include "SDK/SDK.h"
 #include "interfaces.h"
 #include "settings.h"
 

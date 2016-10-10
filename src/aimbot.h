@@ -2,7 +2,7 @@
 #define __AIMBOT_H_
 
 #include "settings.h"
-#include "SDK.h"
+#include "SDK/SDK.h"
 #include "interfaces.h"
 #include "entity.h"
 #include "math.h"

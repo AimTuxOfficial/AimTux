@@ -12,7 +12,7 @@
 #include <zconf.h>
 #include <fstream>
 
-#include "SDK.h"
+#include "SDK/SDK.h"
 #include "interfaces.h"
 
 namespace NetVarManager {

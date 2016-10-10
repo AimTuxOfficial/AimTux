@@ -5,7 +5,7 @@
 #include <fstream>
 #include <zconf.h>
 #include <pwd.h>
-#include "SDK.h"
+#include "SDK/SDK.h"
 #include "interfaces.h"
 #include "settings.h"
 #include "entity.h"

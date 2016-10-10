@@ -2,7 +2,7 @@
 #define __ENTITY_H
 
 #include <list>
-#include "SDK.h"
+#include "SDK/SDK.h"
 #include "interfaces.h"
 
 namespace Entity

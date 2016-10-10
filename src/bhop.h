@@ -1,7 +1,7 @@
 #ifndef __BHOP_H_
 #define __BHOP_H_
 
-#include "SDK.h"
+#include "SDK/SDK.h"
 #include "interfaces.h"
 #include "settings.h"
 

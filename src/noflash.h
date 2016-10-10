@@ -1,7 +1,7 @@
 #ifndef __NOFLASH_H
 #define __NOFLASH_H
 
-#include "SDK.h"
+#include "SDK/SDK.h"
 #include "interfaces.h"
 #include "settings.h"
 

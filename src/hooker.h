@@ -6,7 +6,7 @@
 
 #include <link.h>
 #include "patternfinder.h"
-#include "SDK.h"
+#include "SDK/SDK.h"
 #include "vmt.h"
 
 namespace Hooker

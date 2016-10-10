@@ -1,7 +1,7 @@
 #ifndef __INTERFACES_H_
 #define __INTERFACES_H_
 
-#include "SDK.h"
+#include "SDK/SDK.h"
 #include "vmt.h"
 
 extern IBaseClientDLL* client;
