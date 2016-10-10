@@ -13,6 +13,7 @@ IEngineTrace* trace = nullptr;
 IInputSystem* input = nullptr;
 IMaterialSystem* material = nullptr;
 ICvar* cvar = nullptr;
+CGlobalVars* globalvars = nullptr;
 
 VMT* panel_vmt = nullptr;
 VMT* client_vmt = nullptr;
@@ -75,6 +76,11 @@ void Hooker::HookIClientMode()
 	clientMode_vmt = new VMT(clientMode);
 }
 
+void Hooker::HookGlobalVars()
+{
+	uintptr_t hudupdate = reinterpret_cast<uintptr_t>(getvtable(client)[11]);
+	globalvars = *reinterpret_cast<CGlobalVars**>(GetAbsoluteAddress(hudupdate + 13, 3, 7));
+}
 
 
 

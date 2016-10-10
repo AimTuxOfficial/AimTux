@@ -17,6 +17,7 @@ extern IEngineTrace* trace;
 extern IInputSystem* input;
 extern IMaterialSystem* material;
 extern ICvar* cvar;
+extern CGlobalVars* globalvars;
 
 extern VMT* panel_vmt;
 extern VMT* client_vmt;
