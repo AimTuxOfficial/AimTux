@@ -30,6 +30,7 @@ void Hooks::PaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, 
 	if (IsButtonPressed(ButtonCode_t::KEY_INSERT))
 		gui->Toggle();
 
+	Dlights::PaintTraverse(vgui_panel, force_repaint, allow_force);
 	ESP::PaintTraverse(vgui_panel, force_repaint, allow_force);
 	Recoilcrosshair::PaintTraverse(vgui_panel, force_repaint, allow_force);
 

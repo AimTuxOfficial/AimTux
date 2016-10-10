@@ -90,6 +90,15 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["ESP"]["Chams"]["arms_color"]["b"] = Settings::ESP::Chams::arms_color.b;
 	settings["ESP"]["Chams"]["type"] = Settings::ESP::Chams::type;
 
+	settings["Dlights"]["enabled"] = Settings::Dlights::enabled;
+	settings["Dlights"]["radius"] = Settings::Dlights::radius;
+	settings["Dlights"]["ally_color"]["r"] = Settings::Dlights::ally_color.r;
+	settings["Dlights"]["ally_color"]["g"] = Settings::Dlights::ally_color.g;
+	settings["Dlights"]["ally_color"]["b"] = Settings::Dlights::ally_color.b;
+	settings["Dlights"]["enemy_color"]["r"] = Settings::Dlights::enemy_color.r;
+	settings["Dlights"]["enemy_color"]["g"] = Settings::Dlights::enemy_color.g;
+	settings["Dlights"]["enemy_color"]["b"] = Settings::Dlights::enemy_color.b;
+
 	settings["Spammer"]["enabled"] = Settings::Spammer::enabled;
 
 	settings["BHop"]["enabled"] = Settings::BHop::enabled;
@@ -203,6 +212,15 @@ void Settings::LoadSettings(const char* filename)
 		Settings::ESP::Chams::arms_color.g = settings["ESP"]["Chams"]["arms_color"]["g"].asInt();
 		Settings::ESP::Chams::arms_color.b = settings["ESP"]["Chams"]["arms_color"]["b"].asInt();
 		Settings::ESP::Chams::type = (ChamsType) settings["ESP"]["Chams"]["type"].asInt();
+
+		Settings::Dlights::enabled = settings["Dlights"]["enabled"].asBool();
+		Settings::Dlights::radius = settings["Dlights"]["radius"].asFloat();
+		Settings::Dlights::ally_color.r = settings["Dlights"]["ally_color"]["r"].asInt();
+		Settings::Dlights::ally_color.g = settings["Dlights"]["ally_color"]["g"].asInt();
+		Settings::Dlights::ally_color.b = settings["Dlights"]["ally_color"]["b"].asInt();
+		Settings::Dlights::enemy_color.r = settings["Dlights"]["enemy_color"]["r"].asInt();
+		Settings::Dlights::enemy_color.g = settings["Dlights"]["enemy_color"]["g"].asInt();
+		Settings::Dlights::enemy_color.b = settings["Dlights"]["enemy_color"]["b"].asInt();
 
 		Settings::Spammer::enabled = settings["Spammer"]["enabled"].asBool();
 

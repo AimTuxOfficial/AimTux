@@ -14,6 +14,7 @@ IInputSystem* input = nullptr;
 IMaterialSystem* material = nullptr;
 ICvar* cvar = nullptr;
 CGlobalVars* globalvars = nullptr;
+CEffects* effects = nullptr;
 
 VMT* panel_vmt = nullptr;
 VMT* client_vmt = nullptr;
@@ -33,7 +34,8 @@ void Hooker::HookInterfaces()
 	trace = GetInterface<IEngineTrace>("./bin/linux64/engine_client.so", ENGINETRACE_CLIENT_INTERFACE_VERSION);
 	input = GetInterface<IInputSystem>("./bin/linux64/inputsystem_client.so", INPUTSYSTEM_CLIENT_INTERFACE_VERSION);
 	material = GetInterface<IMaterialSystem>("./bin/linux64/materialsystem_client.so", MATERIALSYSTEM_CLIENT_INTERFACE_VERSION);
-	cvar = GetInterface<ICvar>("./bin/linux64/libvstdlib_client.so", CVAR_INTERFACE_VERSION);
+	cvar = GetInterface<ICvar>("./bin/linux64/libvstdlib_client.so", ENGINECVAR_INTERFACE_VERSION);
+	effects = GetInterface<CEffects>("./bin/linux64/engine_client.so", ENGINEEFFECTS_INTERFACE_VERSION);
 }
 
 void Hooker::HookVMethods()

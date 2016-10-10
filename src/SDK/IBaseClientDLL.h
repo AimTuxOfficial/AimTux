@@ -47,8 +47,8 @@ class IBaseClientDLL
 public:
 	ClientClass* GetAllClasses()
 	{
-		typedef ClientClass*(* OriginalFn)(void*);
-		getvfunc<OriginalFn>(this, 8)(this);
+		typedef ClientClass*(* oGetAllClasses)(void*);
+		getvfunc<oGetAllClasses>(this, 8)(this);
 	}
 };
 

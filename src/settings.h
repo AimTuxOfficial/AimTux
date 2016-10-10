@@ -190,6 +190,14 @@ namespace Settings
 		}
 	}
 
+	namespace Dlights
+	{
+		extern bool enabled;
+		extern float radius;
+		extern Color ally_color;
+		extern Color enemy_color;
+	}
+
 	namespace Spammer
 	{
 		extern bool enabled;

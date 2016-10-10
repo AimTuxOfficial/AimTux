@@ -13,6 +13,7 @@
 #include "../autostrafe.h"
 #include "../bhop.h"
 #include "../chams.h"
+#include "../dlights.h"
 #include "../esp.h"
 #include "../noflash.h"
 #include "../recoilcrosshair.h"
