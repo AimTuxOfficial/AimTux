@@ -308,8 +308,9 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 
 			if (Settings::ESP::Tracer::enabled)
 				ESP::DrawTracer(localPlayer, entity);
-
-			ESP::DrawPlayerInfo(localPlayer, entity, i);
+			
+			if (Settings::ESP::Info::showHealth || Settings::ESP::Info::showName)
+				ESP::DrawPlayerInfo(localPlayer, entity, i);
 		}
 		else if (client->m_ClassID == CPlantedC4)
 		{
