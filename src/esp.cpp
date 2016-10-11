@@ -235,12 +235,17 @@ void ESP::DrawPlayerInfo(C_BasePlayer* localPlayer, C_BaseEntity* entity, int en
 		Draw::DrawString(wname.c_str(), LOC (top.x, top.y - (size_name.y / 2)), color, esp_font, true);
 }
 
-void ESP::DrawFOVCrosshair ()
+void ESP::DrawFOVCrosshair()
 {
-	int width, height;
-	engine->GetScreenSize (width, height);
+	C_BasePlayer* localPlayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 
-	Draw::DrawCircle(LOC(width / 2, height / 2), 20, Settings::Aimbot::fov / 90 * width / 2, Color (255, 100, 100, 255));
+	if (localPlayer->GetLifeState() != LIFE_ALIVE || localPlayer->GetDormant() || localPlayer->GetHealth() == 0)
+		return;
+
+	int width, height;
+	engine->GetScreenSize(width, height);
+
+	Draw::DrawCircle(LOC(width / 2, height / 2), 20, Settings::Aimbot::fov / 90 * width / 2, Color(255, 100, 100, 255));
 }
 
 void ESP::DrawBombBox(C_BaseEntity* entity)
