@@ -7,12 +7,26 @@
 class ToggleSwitch : public Component
 {
 public:
+	bool clickStarted = false;
 	bool* setting;
 	std::wstring text = L"toggle switch";
 	
+	void Event_OnClickStart ()
+	{
+		clickStarted = true;
+	}
+	
 	void Event_OnClickEnd ()
 	{
-		*setting = !*setting;
+		if (clickStarted)
+		{
+			*setting = !*setting;
+		}
+	}
+	
+	void Event_OnMouseLeave ()
+	{
+		clickStarted = false;
 	}
 	
 	ToggleSwitch (std::string text, Vector2D position, Vector2D size, bool* setting)
@@ -22,7 +36,9 @@ public:
 		this->text = std::wstring(text.begin(), text.end ());
 		this->setting = setting;
 		
-		this->onMouseClickEndEvent = MFUNC (&ToggleSwitch::Event_OnClickEnd, this);
+		this->onMouseClickEndEvent		= MFUNC (&ToggleSwitch::Event_OnClickEnd, this);
+		this->onMouseClickStartEvent	= MFUNC (&ToggleSwitch::Event_OnClickStart, this);
+		this->onMouseLeaveEvent			= MFUNC (&ToggleSwitch::Event_OnMouseLeave, this);
 	}
 	
 	ToggleSwitch (std::string text, Vector2D position, int height, bool* setting)
@@ -33,7 +49,9 @@ public:
 		this->position = position;
 		this->setting = setting;
 		
-		this->onMouseClickEndEvent = MFUNC (&ToggleSwitch::Event_OnClickEnd, this);
+		this->onMouseClickEndEvent		= MFUNC (&ToggleSwitch::Event_OnClickEnd, this);
+		this->onMouseClickStartEvent	= MFUNC (&ToggleSwitch::Event_OnClickStart, this);
+		this->onMouseLeaveEvent			= MFUNC (&ToggleSwitch::Event_OnMouseLeave, this);
 	}
 	
 	
