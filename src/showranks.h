@@ -1,11 +1,11 @@
-#ifndef __SHOWRANK_H_
-#define __SHOWRANK_H_
+#ifndef __SHOWRANKS_H_
+#define __SHOWRANKS_H_
 
 #include "SDK/SDK.h"
 #include "interfaces.h"
 #include "settings.h"
 
-namespace ShowRank
+namespace ShowRanks
 {
 	void CreateMove(CUserCmd* cmd);
 }
