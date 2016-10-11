@@ -54,7 +54,7 @@ void Draw::DrawCircle (Vector2D position, float radius, float size, Color color)
 	for(float a = 0; a < ( M_PI*2.0 ); a += step)
 	{
 		Vector2D start (radius * cos(a) + position.x, radius * sin(a) + position.y);
-		Vector2D end ( radius * cos(a + step) + position.x, radius * sin(a + step) + position.y)
+		Vector2D end ( radius * cos(a + step) + position.x, radius * sin(a + step) + position.y);
 		DrawLine(start, end, color);
 	}
 }
