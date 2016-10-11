@@ -14,6 +14,7 @@ bool Settings::ESP::Info::showHealth = true;
 bool Settings::ESP::Bones::enabled = true;
 bool Settings::ESP::Bomb::enabled = true;
 bool Settings::ESP::Tracer::enabled = false;
+bool Settings::ESP::FOVCrosshair::enabled = true;
 TracerType Settings::ESP::Tracer::type = BOTTOM;
 
 bool WorldToScreen(const Vector &vOrigin, Vector &vScreen)
@@ -234,6 +235,14 @@ void ESP::DrawPlayerInfo(C_BasePlayer* localPlayer, C_BaseEntity* entity, int en
 		Draw::DrawString(wname.c_str(), LOC (top.x, top.y - (size_name.y / 2)), color, esp_font, true);
 }
 
+void ESP::DrawFOVCrosshair ()
+{
+	int width, height;
+	engine->GetScreenSize (width, height);
+	
+	Draw::DrawCircle (LOC(width / 2, height / 2), 20, Settings::Aimbot::fov / 90 * width / 2, Color (255, 100, 100, 255));
+}
+
 void ESP::DrawBombBox(C_BaseEntity* entity)
 {
 	Color color = Settings::ESP::bomb_color;
@@ -273,7 +282,7 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 
 	if (!localPlayer)
 		return;
-
+	
 	for (int i = 0; i < entitylist->GetHighestEntityIndex(); ++i)
 	{
 		C_BaseEntity* entity = entitylist->GetClientEntity(i);
@@ -310,4 +319,7 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 				ESP::DrawBombBox(entity);
 		}
 	}
+	
+	if (Settings::ESP::FOVCrosshair::enabled)
+		ESP::DrawFOVCrosshair ();
 }
