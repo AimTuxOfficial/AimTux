@@ -205,9 +205,9 @@ public:
 		return (void*)((uintptr_t)this + offsets.m_hActiveWeapon);
 	}
 
-	float GetTickBase()
+	unsigned int GetTickBase()
 	{
-		return *(float*)((uintptr_t)this + offsets.m_nTickBase);
+		return *(unsigned int*)((uintptr_t)this + offsets.m_nTickBase);
 	}
 
 	int GetShotsFired()
