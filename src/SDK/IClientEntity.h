@@ -365,6 +365,27 @@ public:
 				return false;
 		}
 	}
+	
+	bool isGrenade()
+	{
+		switch (*this->GetItemDefinitionIndex())
+		{
+			case WEAPON_SMOKEGRENADE:
+				return true;
+			case WEAPON_HEGRENADE:
+				return true;
+			case WEAPON_INCGRENADE:
+				return true;
+			case WEAPON_FLASHBANG:
+				return true;
+			case WEAPON_MOLOTOV:
+				return true;
+			case WEAPON_DECOY:
+				return true;
+			default:
+				return false;
+		}
+	}
 };
 
 class C_BaseViewModel: public C_BaseEntity {
