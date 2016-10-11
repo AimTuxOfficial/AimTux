@@ -255,7 +255,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	if (entity)
 	{
 		if (Settings::Aimbot::AutoAim::enabled &&
-			(Settings::Aimbot::AutoShoot::enabled || cmd->buttons & IN_ATTACK))
+			(Settings::Aimbot::AutoShoot::enabled || cmd->buttons & IN_ATTACK || cmd->buttons & IN_ALT1))
 		{
 			Vector e_vecHead = entity->GetBonePosition(Settings::Aimbot::bone);
 			Vector p_vecHead = localplayer->GetEyePosition();
