@@ -1,5 +1,7 @@
 #include "ui_container.h"
 
+bool lastIsMouseDown = false;
+
 bool UI_Container::IsOverlapping (Vector2D position, int index)
 {
 	int x = position.x;
@@ -56,6 +58,23 @@ void UI_Container::Draw ()
 				y >= window->position.y && y <= window->position.y + window->size.y
 			)
 		{
+			// Process Click events
+			if (input->IsButtonDown (MOUSE_LEFT))
+			{
+				if (!lastIsMouseDown)
+				{
+					window->OnMouseClickStart (PositionContext(x, y) - window->position);
+				}
+			}
+			else
+			{
+				if (lastIsMouseDown)
+				{
+					window->OnMouseClickEnd (PositionContext(x, y) - window->position);
+				}
+			}
+			
+			// Process mouse movement events
 			if (!IsOverlapping(PositionContext(x, y), i))
 			{
 				window->MouseTick (PositionContext(x, y) - window->position);
@@ -79,7 +98,9 @@ void UI_Container::Draw ()
 			window->Draw ();
 		}
 	}
-
+	
+	lastIsMouseDown = input->IsButtonDown (MOUSE_LEFT);
+	
 	// Draw cursor
 	cursor.Draw ();
 }

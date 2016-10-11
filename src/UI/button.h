@@ -12,12 +12,25 @@ public:
 	
 	std::wstring text = L"button";
 	
+	bool clickStarted = false;
+	
 	void Event_OnMouseClickEnd ()
 	{
-		if (OnClickedEvent != NULL)
+		if (OnClickedEvent != NULL && clickStarted)
 		{
 			OnClickedEvent ();
+			clickStarted = false;
 		}
+	}
+	
+	void Event_OnMouseClickStart ()
+	{
+		clickStarted = true;
+	}
+	
+	void Event_OnMouseLeave ()
+	{
+		clickStarted = false;
 	}
 	
 	Button (std::string text, Vector2D position, Vector2D size)
@@ -27,6 +40,8 @@ public:
 		this->text = std::wstring(text.begin(), text.end ());
 		
 		onMouseClickEndEvent	= MFUNC (&Button::Event_OnMouseClickEnd, this);
+		onMouseClickStartEvent	= MFUNC (&Button::Event_OnMouseClickStart, this);
+		onMouseLeaveEvent		= MFUNC (&Button::Event_OnMouseLeave, this);
 	}
 	
 	void Draw ()

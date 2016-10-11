@@ -57,6 +57,50 @@ void Panel::DoReleaseTree ()
 	}
 }
 
+void Panel::OnMouseClickStart (PositionContext mouseContext)
+{
+	for (int i = 0; i < childComponents.size(); i++)
+	{
+		Component* childComponent = childComponents[i];
+		
+		int x = mouseContext.x;
+		int y = mouseContext.y;
+		
+		if	(x >= childComponent->position.x && x <= childComponent->position.x + childComponent->size.x &&
+				y >= childComponent->position.y && y <= childComponent->position.y + childComponent->size.y)
+		{
+			childComponent->OnMouseClickStart (mouseContext - childComponent->position);
+			
+			if (childComponent->onMouseClickStartEvent != NULL)
+			{
+				childComponent->onMouseClickStartEvent ();
+			}
+		}
+	}
+}
+
+void Panel::OnMouseClickEnd (PositionContext mouseContext)
+{
+	for (int i = 0; i < childComponents.size(); i++)
+	{
+		Component* childComponent = childComponents[i];
+		
+		int x = mouseContext.x;
+		int y = mouseContext.y;
+		
+		if	(x >= childComponent->position.x && x <= childComponent->position.x + childComponent->size.x &&
+				y >= childComponent->position.y && y <= childComponent->position.y + childComponent->size.y)
+		{
+			childComponent->OnMouseClickEnd (mouseContext - childComponent->position);
+			
+			if (childComponent->onMouseClickEndEvent != NULL)
+			{
+				childComponent->onMouseClickEndEvent ();
+			}
+		}
+	}
+}
+
 void Panel::MouseTick (PositionContext mouseContext)
 {
 	for (int i = 0; i < childComponents.size(); i++)
@@ -77,25 +121,6 @@ void Panel::MouseTick (PositionContext mouseContext)
 				if (childComponent->onMouseEnterEvent != NULL)
 				{
 					childComponent->onMouseEnterEvent();
-				}
-			}
-			
-			
-			if (!childComponent->isMouseDown && input->IsButtonDown (MOUSE_LEFT))
-			{
-				childComponent->isMouseDown = true;
-				if (childComponent->onMouseClickStartEvent != NULL)
-				{
-					childComponent->onMouseClickStartEvent ();
-				}
-			}
-			
-			if (childComponent->isMouseDown && !input->IsButtonDown (MOUSE_LEFT))
-			{
-				childComponent->isMouseDown = false;
-				if (childComponent->onMouseClickEndEvent != NULL)
-				{
-					childComponent->onMouseClickEndEvent ();
 				}
 			}
 			

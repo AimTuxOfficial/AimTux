@@ -64,6 +64,8 @@ public:
 		this->size = size;
 	}
 	
+	virtual void OnMouseClickStart (PositionContext mouseContext) { }
+	virtual void OnMouseClickEnd (PositionContext mouseContext) { }
 	virtual void MouseTick (PositionContext position) { }
 	virtual void Draw () { }
 	virtual void DoReleaseTree () { }

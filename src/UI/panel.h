@@ -27,6 +27,8 @@ public:
 	}
 	
 	void DoReleaseTree ();
+	virtual void OnMouseClickStart (PositionContext position);
+	virtual void OnMouseClickEnd (PositionContext position);
 	virtual void MouseTick (PositionContext position);
 	virtual void Draw ();
 };
