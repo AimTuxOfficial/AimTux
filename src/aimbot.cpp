@@ -294,32 +294,23 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 
 			if (active_weapon && !active_weapon->isKnife() && active_weapon->GetAmmo() > 0)
 			{
-				if (!active_weapon->isAutomatic())
+				float nextPrimaryAttack = active_weapon->GetNextPrimaryAttack ();
+				
+				float tick = localplayer->GetTickBase() * globalvars->interval_per_tick;
+				
+				if (nextPrimaryAttack > tick)
 				{
-					static bool fire;
-
-					if (fire)
-					{
-						if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
-							cmd->buttons &= ~IN_ATTACK2;
-						else
-							cmd->buttons &= ~IN_ATTACK;
-
-						fire = false;
-					}
+					if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
+						cmd->buttons &= ~IN_ATTACK2;
 					else
-					{
-						if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
-							cmd->buttons |= IN_ATTACK2;
-						else
-							cmd->buttons |= IN_ATTACK;
-
-						fire = true;
-					}
+						cmd->buttons &= ~IN_ATTACK;
 				}
 				else
 				{
-					cmd->buttons |= IN_ATTACK;
+					if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
+						cmd->buttons |= IN_ATTACK2;
+					else
+						cmd->buttons |= IN_ATTACK;
 				}
 			}
 		}
