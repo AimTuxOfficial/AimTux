@@ -31,17 +31,16 @@ Want to chat or play with other AimTux users? Join us on Gitter!
 
 ===================
 
-## Compiling:
-Compiling this project is **dependant on whether you're using a debian based system** or not, this is due to the `libstdc++` library, if you'd like to fix this, be my guest but for now there is a default `makefile` and a `cmake` file.
+## Compiling
 
 1. Make sure you're inside of the *AimTux* directory
-2. Create a static link for `libstdc++` with the command `ln -s $(g++ -print-file-name=libstdc++.a)`
-3. Download the required tools to compile AimTux
+2. Download the required tools to compile AimTux
     * **Debian-based** `apt-get install build-essential`
     * **Fedora:** `dnf install @development-tools`
     * **Arch Linux:** `pacman -S base-devel gdb` 
-4. Compile AimTux by entering the command `make`
-5. AimTux should now start compiling, if there are any errors, please report them [here](https://github.com/McSwaggens/AimTux/issues/)
+3. Generate a *makefile* with the command `cmake .`
+4. Compile AimTux by entering `make`
+4. AimTux should now start compiling, if there are any errors, please report them [here](https://github.com/McSwaggens/AimTux/issues/)
 
 ## Injecting
 First of all, make sure you're in the directory where *AimTux* was built,
@@ -72,7 +71,7 @@ you can check the *csgo* console for a message saying `AimTux has been unloaded 
 
 If you would like to unload, compile and load the hack back into the game again (mostly for development) you can use the `./rload` command.
 
-#### Credits:
+#### Credits
 Special thanks to [@aixxe](http://www.github.com/aixxe/) ([aixxe.net](http://www.aixxe.net)) for the skin changer and with the initial project, as well as helping this project with source code (Available on [@aixxe's](http://www.github.com/aixxe/) github page.)
 
 This project was also initially based upon Atex's [Linux Basehook](http://unknowncheats.me/forum/counterstrike-global-offensive/181878-linux-basehook.html).
