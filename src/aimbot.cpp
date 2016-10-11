@@ -212,24 +212,24 @@ void Aimbot::CorrectMovement(QAngle vOldAngles, CUserCmd* pCmd, float fOldForwar
 	float deltaView;
 	float f1;
 	float f2;
-	
+
 	if (vOldAngles.y < 0.f)
 		f1 = 360.0f + vOldAngles.y;
 	else
 		f1 = vOldAngles.y;
-	
+
 	if (pCmd->viewangles.y < 0.0f)
 		f2 = 360.0f + pCmd->viewangles.y;
 	else
 		f2 = pCmd->viewangles.y;
-	
+
 	if (f2 < f1)
 		deltaView = abs(f2 - f1);
 	else
 		deltaView = 360.0f - abs(f1 - f2);
 
 	deltaView = 360.0f - deltaView;
-	
+
 	pCmd->forwardmove = cos(DEG2RAD(deltaView)) * fOldForward + cos(DEG2RAD(deltaView + 90.f)) * fOldSidemove;
 	pCmd->sidemove = sin(DEG2RAD(deltaView)) * fOldForward + sin(DEG2RAD(deltaView + 90.f)) * fOldSidemove;
 }
@@ -242,16 +242,16 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	QAngle oldAngle = cmd->viewangles;
 	float oldForward = cmd->forwardmove;
 	float oldSideMove = cmd->sidemove;
-	
+
 	QAngle angle = cmd->viewangles;
-	
+
 	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
 
 	if (localplayer->GetDormant() || localplayer->GetLifeState() != LIFE_ALIVE || localplayer->GetHealth() == 0)
 		return;
-	
+
 	C_BaseEntity* entity = GetClosestVisibleEnemy(cmd);
-	
+
 	if (entity)
 	{
 		if (Settings::Aimbot::AutoAim::enabled &&
@@ -287,17 +287,16 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 			if (!Settings::AntiAim::enabled_X && !Settings::AntiAim::enabled_Y && Settings::Aimbot::Smooth::enabled)
 				Aimbot::Smooth(angle, cmd);
 		}
-		
+
 		if (Settings::Aimbot::AutoShoot::enabled && !Aimbot::AimStepInProgress)
 		{
 			C_BaseCombatWeapon* active_weapon = reinterpret_cast<C_BaseCombatWeapon*>(entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon()));
 
 			if (active_weapon && !active_weapon->isKnife() && active_weapon->GetAmmo() > 0)
 			{
-				float nextPrimaryAttack = active_weapon->GetNextPrimaryAttack ();
-				
+				float nextPrimaryAttack = active_weapon->GetNextPrimaryAttack();
 				float tick = localplayer->GetTickBase() * globalvars->interval_per_tick;
-				
+
 				if (nextPrimaryAttack > tick)
 				{
 					if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
@@ -314,7 +313,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 				}
 			}
 		}
-		
+
 		if (Settings::Aimbot::AutoCrouch::enabled)
 			cmd->buttons |= IN_DUCK;
 
@@ -331,7 +330,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 
 	// Check the angle to make sure it's invalid
 	Aimbot::CheckAngles(angle);
-	
+
 	cmd->viewangles = angle;
 
 	Aimbot::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);

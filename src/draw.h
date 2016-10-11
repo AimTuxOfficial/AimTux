@@ -21,7 +21,7 @@ namespace Draw
     void DrawBox(Vector2D start, Vector2D end, Color color);
     void DrawLine(Vector2D start, Vector2D end, Color color);
     void DrawOutlinedBox(float x, float y, float w, float h, Color color);
-    void DrawCircle (Vector2D position, float radius, float size, Color color);
+    void DrawCircle(Vector2D position, float radius, float size, Color color);
 }
 
 #endif
