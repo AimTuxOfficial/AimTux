@@ -19,8 +19,11 @@ MiscWindow::MiscWindow (std::string title, Vector2D size, Vector2D position, Col
 
 	ts_airstuck = new ToggleSwitch ("airstuck", LOC (10, ts_rainbow_cham_hands->position.y + ts_rainbow_cham_hands->size.y + 10), 35, &Settings::Airstuck::enabled);
 	AddComponent (ts_airstuck);
+
+	ts_showranks = new ToggleSwitch ("show ranks", LOC (10, ts_airstuck->position.y + ts_airstuck->size.y + 10), 35, &Settings::ShowRanks::enabled);
+	AddComponent (ts_showranks);
 	
-	ts_noflash_enabled = new ToggleSwitch ("no flash", LOC (10, ts_airstuck->position.y + ts_airstuck->size.y + 10), 35, &Settings::Noflash::enabled);
+	ts_noflash_enabled = new ToggleSwitch ("no flash", LOC (10, ts_showranks->position.y + ts_showranks->size.y + 10), 35, &Settings::Noflash::enabled);
 	AddComponent (ts_noflash_enabled);
 	
 	sl_noflash_value = new Slider ("flash", LOC (ts_noflash_enabled->position.x + ts_noflash_enabled->size.x + 10, ts_noflash_enabled->position.y), LOC (size.x - ts_noflash_enabled->size.x - 30, 35), &Settings::Noflash::value, 0.0f, 255.0f);

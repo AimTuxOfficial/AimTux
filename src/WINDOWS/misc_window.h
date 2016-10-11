@@ -15,6 +15,7 @@ private:
 	ToggleSwitch* ts_spammer;
 	ToggleSwitch* ts_rainbow_cham_hands;
 	ToggleSwitch* ts_airstuck;
+	ToggleSwitch* ts_showranks;
 	ToggleSwitch* ts_noflash_enabled;
 	Slider* sl_noflash_value;
 public:

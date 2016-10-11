@@ -21,6 +21,8 @@ VMT* client_vmt = nullptr;
 VMT* modelRender_vmt = nullptr;
 VMT* clientMode_vmt = nullptr;
 
+MsgFunc_ServerRankRevealAllFn MsgFunc_ServerRankRevealAll;
+
 void Hooker::HookInterfaces()
 {
 	client = GetInterface<IBaseClientDLL>("./csgo/bin/linux64/client_client.so", CLIENT_DLL_INTERFACE_VERSION);
@@ -84,5 +86,12 @@ void Hooker::HookGlobalVars()
 	globalvars = *reinterpret_cast<CGlobalVars**>(GetAbsoluteAddress(hudupdate + 13, 3, 7));
 }
 
+void Hooker::HookRankReveal()
+{
+	uintptr_t client_client = GetClientClientAddress();
 
+	uintptr_t func_address = FindPattern(client_client, 0xFFFFFFFFF, (unsigned char*) MSGFUNC_SERVERRANKREVEALALL_SIGNATURE, MSGFUNC_SERVERRANKREVEALALL_MASK);
+
+	MsgFunc_ServerRankRevealAll = reinterpret_cast<MsgFunc_ServerRankRevealAllFn>(func_address);
+}
 

@@ -263,6 +263,10 @@ namespace Settings
 		extern std::unordered_map<int, Skin> skins;
 	}
 
+	namespace ShowRanks {
+		extern bool enabled;
+	}
+
 	void LoadDefaultsOrSave(const char* filename);
 	void LoadSettings(const char* filename);
 }
