@@ -239,8 +239,8 @@ void ESP::DrawFOVCrosshair ()
 {
 	int width, height;
 	engine->GetScreenSize (width, height);
-	
-	Draw::DrawCircle (LOC(width / 2, height / 2), 20, Settings::Aimbot::fov / 90 * width / 2, Color (255, 100, 100, 255));
+
+	Draw::DrawCircle(LOC(width / 2, height / 2), 20, Settings::Aimbot::fov / 90 * width / 2, Color (255, 100, 100, 255));
 }
 
 void ESP::DrawBombBox(C_BaseEntity* entity)
@@ -282,7 +282,7 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 
 	if (!localPlayer)
 		return;
-	
+
 	for (int i = 0; i < entitylist->GetHighestEntityIndex(); ++i)
 	{
 		C_BaseEntity* entity = entitylist->GetClientEntity(i);
@@ -319,7 +319,7 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 				ESP::DrawBombBox(entity);
 		}
 	}
-	
+
 	if (Settings::ESP::FOVCrosshair::enabled)
-		ESP::DrawFOVCrosshair ();
+		ESP::DrawFOVCrosshair();
 }

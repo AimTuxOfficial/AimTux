@@ -72,6 +72,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["ESP"]["Bomb"]["enabled"] = Settings::ESP::Bomb::enabled;
 	settings["ESP"]["Tracer"]["enabled"] = Settings::ESP::Tracer::enabled;
 	settings["ESP"]["Tracer"]["type"] = Settings::ESP::Tracer::type;
+	settings["ESP"]["FOVCrosshair"]["enabled"] = Settings::ESP::FOVCrosshair::enabled;
 	settings["ESP"]["Chams"]["players"] = Settings::ESP::Chams::players;
 	settings["ESP"]["Chams"]["visibility_check"] = Settings::ESP::Chams::visibility_check;
 	settings["ESP"]["Chams"]["arms"] = Settings::ESP::Chams::arms;
@@ -195,6 +196,7 @@ void Settings::LoadSettings(const char* filename)
 		Settings::ESP::Bomb::enabled = settings["ESP"]["Bomb"]["enabled"].asBool();
 		Settings::ESP::Tracer::enabled = settings["ESP"]["Tracer"]["enabled"].asBool();
 		Settings::ESP::Tracer::type = (TracerType) settings["ESP"]["Tracer"]["type"].asInt();
+		Settings::ESP::FOVCrosshair::enabled = settings["ESP"]["FOVCrosshair"]["enabled"].asBool();
 		Settings::ESP::Chams::players = settings["ESP"]["Chams"]["players"].asBool();
 		Settings::ESP::Chams::visibility_check = settings["ESP"]["Chams"]["visibility_check"].asBool();
 		Settings::ESP::Chams::arms = settings["ESP"]["Chams"]["arms"].asBool();

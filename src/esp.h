@@ -16,7 +16,7 @@ namespace ESP
 	void DrawBombBox(C_BaseEntity* entity);
 	void DrawBones(C_BaseEntity* entity);
 	void PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force);
-	void DrawFOVCrosshair ();
+	void DrawFOVCrosshair();
 }
 
 #endif

@@ -48,10 +48,11 @@ void Draw::DrawString(const wchar_t* text, Vector2D location, Color color, FONT 
 	surface->DrawPrintText(text, wcslen(text));
 }
 
-void Draw::DrawCircle (Vector2D position, float points, float radius, Color color)
+void Draw::DrawCircle(Vector2D position, float points, float radius, Color color)
 {
 	float step = M_PI * 2.0 / points;
-	for(float a = 0; a < ( M_PI * 2.0 ); a += step)
+
+	for (float a = 0; a < ( M_PI * 2.0 ); a += step)
 	{
 		Vector2D start (radius * cos(a) + position.x, radius * sin(a) + position.y);
 		Vector2D end ( radius * cos(a + step) + position.x, radius * sin(a + step) + position.y);

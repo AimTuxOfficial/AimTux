@@ -174,12 +174,12 @@ namespace Settings
 		{
 			extern bool enabled;
 		}
-		
+
 		namespace FOVCrosshair
 		{
 			extern bool enabled;
 		}
-		
+
 		namespace Chams
 		{
 			extern bool players;

@@ -14,6 +14,7 @@ int __attribute__((constructor)) aimtux_init()
 {
 	Hooker::HookInterfaces();
 	Hooker::HookVMethods();
+	Hooker::HookIClientMode();
 	Hooker::HookGlobalVars();
 	Chams::CreateMaterials();
 
@@ -27,8 +28,6 @@ int __attribute__((constructor)) aimtux_init()
 
 	modelRender_vmt->HookVM((void*) Hooks::DrawModelExecute, 21);
 	modelRender_vmt->ApplyVMT();
-
-	Hooker::HookIClientMode();
 
 	clientMode_vmt->HookVM((void*) Hooks::CreateMove, 25);
 	clientMode_vmt->ApplyVMT();
