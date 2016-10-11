@@ -52,18 +52,18 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	if (Settings::Triggerbot::Hitchance::enabled && (1.0f - active_weapon->GetAccuracyPenalty()) * 100.f < Settings::Triggerbot::Hitchance::value)
 		return;
 
-	if (!active_weapon->isAutomatic())
+	if (active_weapon && !active_weapon->isKnife() && active_weapon->GetAmmo() > 0)
 	{
-		static bool fire;
-
-		if (fire)
+		float nextPrimaryAttack = active_weapon->GetNextPrimaryAttack ();
+		
+		float tick = localplayer->GetTickBase() * globalvars->interval_per_tick;
+		
+		if (nextPrimaryAttack > tick)
 		{
 			if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
 				cmd->buttons &= ~IN_ATTACK2;
 			else
 				cmd->buttons &= ~IN_ATTACK;
-
-			fire = false;
 		}
 		else
 		{
@@ -71,12 +71,6 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 				cmd->buttons |= IN_ATTACK2;
 			else
 				cmd->buttons |= IN_ATTACK;
-
-			fire = true;
 		}
-	}
-	else
-	{
-		cmd->buttons |= IN_ATTACK;
 	}
 }
