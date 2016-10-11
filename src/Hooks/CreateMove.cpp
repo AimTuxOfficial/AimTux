@@ -16,6 +16,7 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		AntiAim::CreateMove(cmd);
 		Chams::CreateMove(cmd);
 		Airstuck::CreateMove(cmd);
+		ShowRank::CreateMove(cmd);
 
 		if (!Settings::Aimbot::silent && !Settings::AntiAim::enabled_X && !Settings::AntiAim::enabled_Y)
 			engine->SetViewAngles(cmd->viewangles);
