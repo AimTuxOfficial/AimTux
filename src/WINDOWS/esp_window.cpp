@@ -35,7 +35,10 @@ ESPWindow::ESPWindow (std::string title, Vector2D size, Vector2D position, Color
 	ts_recoil_crosshair = new ToggleSwitch ("recoil crosshair", LOC (10, ts_chams_arms->position.y + ts_chams_arms->size.y + 10), 35, &Settings::Recoilcrosshair::enabled);
 	AddComponent (ts_recoil_crosshair);
 	
-	ts_bomb = new ToggleSwitch ("bomb esp", LOC (10, ts_recoil_crosshair->position.y + ts_recoil_crosshair->size.y + 10), 35, &Settings::ESP::Bomb::enabled);
+	ts_fov_crosshair = new ToggleSwitch ("fov crosshair", LOC (10, ts_recoil_crosshair->position.y + ts_recoil_crosshair->size.y + 10), 35, &Settings::ESP::FOVCrosshair::enabled);
+	AddComponent (ts_fov_crosshair);
+	
+	ts_bomb = new ToggleSwitch ("bomb esp", LOC (10, ts_fov_crosshair->position.y + ts_fov_crosshair->size.y + 10), 35, &Settings::ESP::Bomb::enabled);
 	AddComponent (ts_bomb);
 	
 	Hide ();
