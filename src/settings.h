@@ -263,7 +263,8 @@ namespace Settings
 		extern std::unordered_map<int, Skin> skins;
 	}
 
-	namespace ShowRanks {
+	namespace ShowRanks
+	{
 		extern bool enabled;
 	}
 
