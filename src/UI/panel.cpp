@@ -135,6 +135,7 @@ void Panel::MouseTick (PositionContext mouseContext)
 			if (childComponent->isHovered)
 			{
 				childComponent->isHovered = false;
+				childComponent->isMouseDown = false;
 				if (childComponent->onMouseLeaveEvent != NULL)
 				{
 					childComponent->onMouseLeaveEvent();

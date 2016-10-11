@@ -97,16 +97,14 @@ void TitleBar::OnMouseClickStart ()
 
 void TitleBar::Draw ()
 {
-	if (isMouseDown)
+	int x, y;
+	input->GetCursorPosition(&x, &y);
+	if (input->IsButtonDown (MOUSE_LEFT))
 	{
-		int x, y;
-		input->GetCursorPosition(&x, &y);
-		
 		Vector2D newPos = LOC (x, y) - mouseClickStartPosition;
 		
 		parentWindow->position = newPos;
 	}
-	
 	
 	Clear (Settings::UI::mainColor);
 	DrawCenteredString (std::wstring (parentWindow->title.begin(), parentWindow->title.end()), title_font, foreColor, LOC (size.x / 2, size.y / 2));
