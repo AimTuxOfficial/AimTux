@@ -42,17 +42,7 @@ public:
 	}
 	
 	ToggleSwitch (std::string text, Vector2D position, int height, bool* setting)
-	{
-		this->text = std::wstring(text.begin(), text.end ());
-		Vector2D textSize = Draw::GetTextSize (this->text.c_str(), normal_font);
-		this->size = LOC (height + 25 + (textSize.x), height);
-		this->position = position;
-		this->setting = setting;
-		
-		this->onMouseClickEndEvent		= MFUNC (&ToggleSwitch::Event_OnClickEnd, this);
-		this->onMouseClickStartEvent	= MFUNC (&ToggleSwitch::Event_OnClickStart, this);
-		this->onMouseLeaveEvent			= MFUNC (&ToggleSwitch::Event_OnMouseLeave, this);
-	}
+		: ToggleSwitch (text, position, LOC (height + 25 + Draw::GetTextSize (std::wstring(text.begin(), text.end()).c_str(), normal_font).x, height), setting) { }
 	
 	
 	void Draw ()
