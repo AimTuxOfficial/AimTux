@@ -71,6 +71,8 @@ void Panel::OnMouseClickStart (PositionContext mouseContext)
 		{
 			childComponent->OnMouseClickStart (mouseContext - childComponent->position);
 			
+			childComponent->isMouseDown = true;
+			
 			if (childComponent->onMouseClickStartEvent != NULL)
 			{
 				childComponent->onMouseClickStartEvent ();
@@ -92,6 +94,8 @@ void Panel::OnMouseClickEnd (PositionContext mouseContext)
 				y >= childComponent->position.y && y <= childComponent->position.y + childComponent->size.y)
 		{
 			childComponent->OnMouseClickEnd (mouseContext - childComponent->position);
+			
+			childComponent->isMouseDown = false;
 			
 			if (childComponent->onMouseClickEndEvent != NULL)
 			{
