@@ -18,11 +18,13 @@ void AntiAim::CreateMove (CUserCmd* cmd)
 	float oldSideMove = cmd->sidemove;
 
 	QAngle angle = cmd->viewangles;
-
-	if (cmd->buttons & IN_USE || cmd->buttons & IN_ATTACK)
+	
+	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
+	C_BaseCombatWeapon* active_weapon = reinterpret_cast<C_BaseCombatWeapon*>(entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon()));
+	
+	if (cmd->buttons & IN_USE || cmd->buttons & IN_ATTACK || active_weapon->isGrenade())
 		return;
 
-	C_BaseEntity* localplayer = reinterpret_cast<C_BaseEntity*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
 	if (localplayer->GetMoveType() == MOVETYPE_LADDER || localplayer->GetMoveType() == MOVETYPE_NOCLIP)
 		return;
 
