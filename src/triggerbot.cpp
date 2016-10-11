@@ -7,7 +7,7 @@ ButtonCode_t Settings::Triggerbot::key = ButtonCode_t::KEY_LALT;
 
 void Triggerbot::CreateMove(CUserCmd *cmd)
 {
-	if (!(Settings::Triggerbot::enabled && input->IsButtonDown(Settings::Triggerbot::key) || cmd->buttons & IN_ALT1))
+	if (!(Settings::Triggerbot::enabled && input->IsButtonDown(Settings::Triggerbot::key)))
 		return;
 
 	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
