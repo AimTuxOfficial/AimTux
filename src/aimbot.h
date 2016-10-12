@@ -11,11 +11,10 @@ namespace Aimbot
 {
 	extern bool AimStepInProgress;
 
-	void CorrectMovement(QAngle vOldAngles, CUserCmd* pCmd, float fOldForward, float fOldSidemove);
-
-	void CreateMove(CUserCmd* cmd);
 	void RCS(QAngle& angle);
 	void Smooth(QAngle& angle, CUserCmd* cmd);
+
+	void CreateMove(CUserCmd* cmd);
 }
 
 #endif

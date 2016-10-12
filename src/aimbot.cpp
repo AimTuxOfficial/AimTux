@@ -16,11 +16,10 @@ bool Settings::Aimbot::RCS::enabled = false;
 bool Settings::Aimbot::AutoCrouch::enabled = false;
 bool Settings::Aimbot::AutoStop::enabled = false;
 
+bool Aimbot::AimStepInProgress = false;
+
 QAngle AimStepLastAngle;
 QAngle RCSLastPunch;
-
-bool Aimbot::AimStepInProgress = false;
-double hyp;
 
 void CalculateAngle(Vector& src, Vector& dst, QAngle& angles)
 {
@@ -28,28 +27,15 @@ void CalculateAngle(Vector& src, Vector& dst, QAngle& angles)
 	double delta[3] = { (src[0] - dst[0]), (src[1] - dst[1]), (src[2] - dst[2]) };
 
 	// Hypotenuse
-	hyp = sqrt(delta[0] * delta[0] + delta[1] * delta[1]);
+	double hyp = sqrt(delta[0] * delta[0] + delta[1] * delta[1]);
 
-	angles[0] = (float) (atan(delta[2]/hyp) * 57.295779513082f);
-	angles[1] = (float) (atan(delta[1]/delta[0]) * 57.295779513082f);
-	angles[2] = 0.0f;	// <=== NEVER EVER  EVER EVER EVER CHANGE THIS VALUE
-						//					... unless you teh VAC ban ...
+	angles[0] = (float) (atan(delta[2] / hyp) * 57.295779513082f);
+	angles[1] = (float) (atan(delta[1] / delta[0]) * 57.295779513082f);
 
 	if (delta[0] >= 0.0)
 		angles[1] += 180.0f;
 
-	// Safeguards
-	if (angles[1] > 180)
-		angles[1] -= 360;
-
-	if (angles[1] < -180)
-		angles[1] += 360;
-
-	if (angles[0] > 89)
-		angles[0] = 89;
-
-	if (angles[0] < -89)
-		angles[0] = -89;
+	Math::NormalizeAngles(angles);
 }
 
 C_BaseEntity* GetClosestEnemy()
@@ -188,34 +174,6 @@ void Aimbot::Smooth(QAngle& angle, CUserCmd* cmd)
 	angle = cmd->viewangles + delta / smooth_factor * (Settings::Aimbot::Smooth::max - Settings::Aimbot::Smooth::value);
 }
 
-void Aimbot::CorrectMovement(QAngle vOldAngles, CUserCmd* pCmd, float fOldForward, float fOldSidemove)
-{
-	//side/forward move correction
-	float deltaView;
-	float f1;
-	float f2;
-
-	if (vOldAngles.y < 0.f)
-		f1 = 360.0f + vOldAngles.y;
-	else
-		f1 = vOldAngles.y;
-
-	if (pCmd->viewangles.y < 0.0f)
-		f2 = 360.0f + pCmd->viewangles.y;
-	else
-		f2 = pCmd->viewangles.y;
-
-	if (f2 < f1)
-		deltaView = abs(f2 - f1);
-	else
-		deltaView = 360.0f - abs(f1 - f2);
-
-	deltaView = 360.0f - deltaView;
-
-	pCmd->forwardmove = cos(DEG2RAD(deltaView)) * fOldForward + cos(DEG2RAD(deltaView + 90.f)) * fOldSidemove;
-	pCmd->sidemove = sin(DEG2RAD(deltaView)) * fOldForward + sin(DEG2RAD(deltaView + 90.f)) * fOldSidemove;
-}
-
 void Aimbot::CreateMove(CUserCmd* cmd)
 {
 	if (!Settings::Aimbot::enabled)
@@ -314,7 +272,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 
 	cmd->viewangles = angle;
 
-	Aimbot::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);
+	Math::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);
 }
 
 

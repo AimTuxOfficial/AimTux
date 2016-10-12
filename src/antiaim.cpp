@@ -77,5 +77,5 @@ void AntiAim::CreateMove (CUserCmd* cmd)
 
 	cmd->viewangles = angle;
 
-	Aimbot::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);
+	Math::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);
 }
