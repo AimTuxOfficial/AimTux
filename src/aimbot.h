@@ -11,7 +11,7 @@ namespace Aimbot
 {
 	extern bool AimStepInProgress;
 
-	void RCS(QAngle& angle);
+	void RCS(QAngle& angle, bool hasTarget);
 	void Smooth(QAngle& angle, CUserCmd* cmd);
 
 	void CreateMove(CUserCmd* cmd);
