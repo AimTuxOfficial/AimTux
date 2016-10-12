@@ -11,7 +11,6 @@ namespace Aimbot
 {
 	extern bool AimStepInProgress;
 
-	void CheckAngles(QAngle& angle);
 	void CorrectMovement(QAngle vOldAngles, CUserCmd* pCmd, float fOldForward, float fOldSidemove);
 
 	void CreateMove(CUserCmd* cmd);

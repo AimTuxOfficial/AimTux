@@ -20,24 +20,6 @@ QAngle AimStepLastAngle;
 QAngle RCSLastPunch;
 
 bool Aimbot::AimStepInProgress = false;
-
-void Aimbot::CheckAngles(QAngle& angle)
-{
-	if (angle[0] > 89)
-		angle[0] = 89;
-
-	if (angle[0] < -89)
-		angle[0] = -89;
-
-	if (angle[1] > 180)
-		angle[1] -= 360;
-
-	if (angle[1] < -180)
-		angle[1] += 360;
-
-	angle[2] = 0;
-}
-
 double hyp;
 
 void CalculateAngle(Vector& src, Vector& dst, QAngle& angles)
@@ -328,8 +310,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	if (Settings::Aimbot::RCS::enabled && cmd->buttons & IN_ATTACK)
 		Aimbot::RCS(angle);
 
-	// Check the angle to make sure it's invalid
-	Aimbot::CheckAngles(angle);
+	Math::NormalizeAngles(angle);
 
 	cmd->viewangles = angle;
 

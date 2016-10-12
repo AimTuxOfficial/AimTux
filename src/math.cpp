@@ -24,7 +24,25 @@ void Math::AngleVectors(const QAngle &angles, Vector& forward)
 	forward.z = -sp;
 }
 
-float Math::GetFov(const QAngle& viewAngle, const QAngle& aimAngle) {
+void Math::NormalizeAngles(QAngle& viewAngle)
+{
+	if (viewAngle[0] > 89)
+		viewAngle[0] = 89;
+
+	if (viewAngle[0] < -89)
+		viewAngle[0] = -89;
+
+	if (viewAngle[1] > 180)
+		viewAngle[1] -= 360;
+
+	if (viewAngle[1] < -180)
+		viewAngle[1] += 360;
+
+	viewAngle[2] = 0;
+}
+
+float Math::GetFov(const QAngle& viewAngle, const QAngle& aimAngle)
+{
 	Vector ang, aim;
 
 	Math::AngleVectors(viewAngle, aim);
@@ -33,7 +51,8 @@ float Math::GetFov(const QAngle& viewAngle, const QAngle& aimAngle) {
 	return RAD2DEG(acos(aim.Dot(ang) / aim.LengthSqr()));
 }
 
-void Math::VectorAngles(const Vector& forward, QAngle &angles) {
+void Math::VectorAngles(const Vector& forward, QAngle &angles)
+{
 	if (forward[1] == 0.0f && forward[0] == 0.0f)
 	{
 		angles[0] = (forward[2] > 0.0f) ? 270.0f : 90.0f; // Pitch (up/down)
