@@ -38,7 +38,7 @@ void CalculateAngle(Vector& src, Vector& dst, QAngle& angles)
 	Math::NormalizeAngles(angles);
 }
 
-C_BaseEntity* GetClosestEnemy()
+C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	C_BaseEntity* closestEntity = NULL;
@@ -59,38 +59,7 @@ C_BaseEntity* GetClosestEnemy()
 			|| entity->GetTeam() == localplayer->GetTeam())
 			continue;
 
-		float e_dist = localplayer->GetVecOrigin().DistToSqr(entity->GetVecOrigin());
-
-		if (e_dist < dist)
-		{
-			closestEntity = entity;
-			dist = e_dist;
-		}
-	}
-
-	return closestEntity;
-}
-
-C_BaseEntity* GetClosestVisibleEnemy(CUserCmd* cmd)
-{
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	C_BaseEntity* closestEntity = NULL;
-	float dist = 10000000.0f;
-
-	if (!localplayer)
-		return NULL;
-
-	for (int i = 0; i < 64; ++i)
-	{
-		C_BaseEntity* entity = entitylist->GetClientEntity(i);
-
-		if (!entity
-			|| entity == (C_BaseEntity*)localplayer
-			|| entity->GetDormant()
-			|| entity->GetLifeState() != LIFE_ALIVE
-			|| entity->GetHealth() <= 0
-			|| entity->GetTeam() == localplayer->GetTeam()
-			|| !Entity::IsVisible(localplayer, entity, Settings::Aimbot::bone))
+		if (visible && !Entity::IsVisible(localplayer, entity, Settings::Aimbot::bone))
 			continue;
 
 		float e_dist = localplayer->GetVecOrigin().DistToSqr(entity->GetVecOrigin());
@@ -190,7 +159,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	if (localplayer->GetDormant() || localplayer->GetLifeState() != LIFE_ALIVE || localplayer->GetHealth() == 0)
 		return;
 
-	C_BaseEntity* entity = GetClosestVisibleEnemy(cmd);
+	C_BaseEntity* entity = GetClosestEnemy(cmd, true);
 
 	if (entity)
 	{
