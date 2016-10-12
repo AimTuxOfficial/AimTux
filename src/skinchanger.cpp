@@ -2,22 +2,22 @@
 
 bool Settings::Skinchanger::enabled = true;
 std::unordered_map<int, Settings::Skinchanger::Skin> Settings::Skinchanger::skins = {
-		{ WEAPON_AWP, Settings::Skinchanger::Skin(344, -1, 0.00000000f, 1337, "AimTux", "") },
-		{ WEAPON_AK47, Settings::Skinchanger::Skin(524, -1, 0.00000000f, 1337, "AimTux", "") },
-		{ WEAPON_M4A1, Settings::Skinchanger::Skin(512, -1, 0.00000000f, 1337, "AimTux", "") },
-		{ WEAPON_M4A1_SILENCER, Settings::Skinchanger::Skin(548, -1, 0.00000000f, 1337, "AimTux", "") },
-		{ WEAPON_DEAGLE, Settings::Skinchanger::Skin(277, -1, 0.00000000f, 1337, "AimTux", "") },
-		{ WEAPON_GLOCK, Settings::Skinchanger::Skin(38, -1, 0.00000000f, 1337, "AimTux", "") },
-		{ WEAPON_USP_SILENCER, Settings::Skinchanger::Skin(332, -1, 0.00000000f, 1337, "AimTux", "") },
-		{ WEAPON_FIVESEVEN, Settings::Skinchanger::Skin(252, -1, 0.00000000f, 1337, "AimTux", "") },
-		{ WEAPON_SCAR20, Settings::Skinchanger::Skin(391, -1, 0.00000000f, 1337, "AimTux", "") },
-		{ WEAPON_ELITE, Settings::Skinchanger::Skin(249, -1, 0.00000000f, 1337, "AimTux", "") },
-		{ WEAPON_SSG08, Settings::Skinchanger::Skin(319, -1, 0.00000000f, 1337, "AimTux", "") },
-		{ WEAPON_TEC9, Settings::Skinchanger::Skin(179, -1, 0.00000000f, 1337, "AimTux", "") },
-		{ WEAPON_KNIFE, Settings::Skinchanger::Skin(417, WEAPON_KNIFE_M9_BAYONET, 0.00000000f, 1337, "AimTux", "") },
-		{ WEAPON_KNIFE_T, Settings::Skinchanger::Skin(417, WEAPON_KNIFE_KARAMBIT, 0.00000000f, 1337, "AimTux", "") },
-		{ WEAPON_KNIFE_M9_BAYONET, Settings::Skinchanger::Skin(417, WEAPON_KNIFE_M9_BAYONET, 0.00000000f, 1337, "AimTux", "models/weapons/v_knife_m9_bay.mdl") },
-		{ WEAPON_KNIFE_KARAMBIT, Settings::Skinchanger::Skin(417, WEAPON_KNIFE_KARAMBIT, 0.00000000f, 1337, "AimTux", "models/weapons/v_knife_karam.mdl") }
+		{ WEAPON_AWP, Settings::Skinchanger::Skin(344, -1, 0.0005f, 1337, "AimTux", "") },
+		{ WEAPON_AK47, Settings::Skinchanger::Skin(524, -1, 0.0005f, 1337, "AimTux", "") },
+		{ WEAPON_M4A1, Settings::Skinchanger::Skin(512, -1, 0.0005f, 1337, "AimTux", "") },
+		{ WEAPON_M4A1_SILENCER, Settings::Skinchanger::Skin(548, -1, 0.0005f, 1337, "AimTux", "") },
+		{ WEAPON_DEAGLE, Settings::Skinchanger::Skin(277, -1, 0.0005f, 1337, "AimTux", "") },
+		{ WEAPON_GLOCK, Settings::Skinchanger::Skin(38, -1, 0.0005f, 1337, "AimTux", "") },
+		{ WEAPON_USP_SILENCER, Settings::Skinchanger::Skin(332, -1, 0.0005f, 1337, "AimTux", "") },
+		{ WEAPON_FIVESEVEN, Settings::Skinchanger::Skin(252, -1, 0.0005f, 1337, "AimTux", "") },
+		{ WEAPON_SCAR20, Settings::Skinchanger::Skin(391, -1, 0.0005f, 1337, "AimTux", "") },
+		{ WEAPON_ELITE, Settings::Skinchanger::Skin(249, -1, 0.0005f, 1337, "AimTux", "") },
+		{ WEAPON_SSG08, Settings::Skinchanger::Skin(319, -1, 0.0005f, 1337, "AimTux", "") },
+		{ WEAPON_TEC9, Settings::Skinchanger::Skin(179, -1, 0.0005f, 1337, "AimTux", "") },
+		{ WEAPON_KNIFE, Settings::Skinchanger::Skin(417, WEAPON_KNIFE_M9_BAYONET, 0.0005f, 1337, "AimTux", "") },
+		{ WEAPON_KNIFE_T, Settings::Skinchanger::Skin(417, WEAPON_KNIFE_KARAMBIT, 0.0005f, 1337, "AimTux", "") },
+		{ WEAPON_KNIFE_M9_BAYONET, Settings::Skinchanger::Skin(417, WEAPON_KNIFE_M9_BAYONET, 0.0005f, 1337, "AimTux", "models/weapons/v_knife_m9_bay.mdl") },
+		{ WEAPON_KNIFE_KARAMBIT, Settings::Skinchanger::Skin(417, WEAPON_KNIFE_KARAMBIT, 0.0005f, 1337, "AimTux", "models/weapons/v_knife_karam.mdl") }
 };
 
 void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
