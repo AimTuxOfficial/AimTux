@@ -30,6 +30,7 @@ typedef void (*FrameStageNotifyFn) (void*, int);
 typedef void (*PaintTraverseFn) (void*, VPANEL, bool, bool);
 typedef void (*DrawModelExecuteFn) (void*, void*, void*, const ModelRenderInfo_t&, matrix3x4_t*);
 typedef bool (*CreateMoveFn) (void*, float, CUserCmd*);
+typedef bool (*MsgFunc_ServerRankRevealAllFn) (float*);
 
 enum class FontFeature: int
 {

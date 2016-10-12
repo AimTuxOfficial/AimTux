@@ -20,6 +20,7 @@
 #include "../skinchanger.h"
 #include "../spammer.h"
 #include "../triggerbot.h"
+#include "../showranks.h"
 
 namespace Hooks
 {

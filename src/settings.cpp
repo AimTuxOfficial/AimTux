@@ -125,6 +125,8 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 		settings["Skinchanger"]["skins"][std::to_string(i.first)]["Model"] = i.second.Model;
 	}
 
+	settings["ShowRanks"]["enabled"] = Settings::ShowRanks::enabled;
+
 	std::ofstream(GetSettingsPath(filename)) << styledWriter.write(settings);
 }
 
@@ -257,6 +259,8 @@ void Settings::LoadSettings(const char* filename)
 		}
 
 		Settings::Skinchanger::enabled = settings["Skinchanger"]["enabled"].asBool();
+
+		Settings::ShowRanks::enabled = settings["ShowRanks"]["enabled"].asBool();
 	}
 	else
 	{
