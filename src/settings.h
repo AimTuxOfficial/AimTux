@@ -175,6 +175,11 @@ namespace Settings
 			extern bool enabled;
 		}
 
+		namespace Weapons
+		{
+			extern bool enabled;
+		}
+
 		namespace FOVCrosshair
 		{
 			extern bool enabled;

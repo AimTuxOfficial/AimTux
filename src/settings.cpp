@@ -70,6 +70,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["ESP"]["Info"]["showHealth"] = Settings::ESP::Info::showHealth;
 	settings["ESP"]["Bones"]["enabled"] = Settings::ESP::Bones::enabled;
 	settings["ESP"]["Bomb"]["enabled"] = Settings::ESP::Bomb::enabled;
+	settings["ESP"]["Weapons"]["enabled"] = Settings::ESP::Weapons::enabled;
 	settings["ESP"]["Tracer"]["enabled"] = Settings::ESP::Tracer::enabled;
 	settings["ESP"]["Tracer"]["type"] = Settings::ESP::Tracer::type;
 	settings["ESP"]["FOVCrosshair"]["enabled"] = Settings::ESP::FOVCrosshair::enabled;
@@ -196,6 +197,7 @@ void Settings::LoadSettings(const char* filename)
 		Settings::ESP::Info::showHealth = settings["ESP"]["Info"]["showHealth"].asBool();
 		Settings::ESP::Bones::enabled = settings["ESP"]["Bones"]["enabled"].asBool();
 		Settings::ESP::Bomb::enabled = settings["ESP"]["Bomb"]["enabled"].asBool();
+		Settings::ESP::Weapons::enabled = settings["ESP"]["Weapons"]["enabled"].asBool();
 		Settings::ESP::Tracer::enabled = settings["ESP"]["Tracer"]["enabled"].asBool();
 		Settings::ESP::Tracer::type = (TracerType) settings["ESP"]["Tracer"]["type"].asInt();
 		Settings::ESP::FOVCrosshair::enabled = settings["ESP"]["FOVCrosshair"]["enabled"].asBool();

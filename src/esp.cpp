@@ -13,6 +13,7 @@ bool Settings::ESP::Info::showName = true;
 bool Settings::ESP::Info::showHealth = true;
 bool Settings::ESP::Bones::enabled = true;
 bool Settings::ESP::Bomb::enabled = true;
+bool Settings::ESP::Weapons::enabled = true;
 bool Settings::ESP::Tracer::enabled = false;
 bool Settings::ESP::FOVCrosshair::enabled = true;
 TracerType Settings::ESP::Tracer::type = BOTTOM;
@@ -275,6 +276,25 @@ void ESP::DrawBombBox(C_BasePlantedC4* entity)
 	}
 }
 
+void ESP::DrawWeaponText(C_BaseEntity* entity, ClientClass* client)
+{
+	std::string modelName = std::string(client->m_pNetworkName);
+	if (strstr(modelName.c_str(), "Weapon"))
+		modelName = modelName.substr(7, modelName.length() - 7);
+	else
+		modelName = modelName.substr(1, modelName.length() - 1);
+
+	std::wstring wstr(modelName.begin(), modelName.end());
+
+	Vector vecOrigin = entity->GetVecOrigin();
+	if (vecOrigin == Vector(0, 0, 0))
+		return;
+
+	Vector s_vecLocalPlayer_s;
+	if (!WorldToScreen(vecOrigin, s_vecLocalPlayer_s))
+		Draw::DrawString(wstr.c_str(), LOC(s_vecLocalPlayer_s.x, s_vecLocalPlayer_s.y), Color(255, 255, 255, 255), esp_font, true);
+}
+
 void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 {
 	if (!Settings::ESP::enabled)
@@ -324,6 +344,12 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 
 			if (Settings::ESP::Bomb::enabled && bomb->IsBombTicking())
 				ESP::DrawBombBox(bomb);
+		}
+		else if (client->m_ClassID != CBaseWeaponWorldModel &&
+				(strstr(client->m_pNetworkName, "Weapon") || client->m_ClassID == CDEagle || client->m_ClassID == CAK47))
+		{
+			if (Settings::ESP::Weapons::enabled)
+				ESP::DrawWeaponText(entity, client);
 		}
 	}
 
