@@ -116,7 +116,7 @@ void Aimbot::Smooth(QAngle& angle, CUserCmd* cmd)
 	if (cmd->viewangles.y < 0)
 		view_yaw = 360.f + cmd->viewangles.y;
 
-	float yaw = std::min(abs(target_yaw - view_yaw), 360.f - abs(target_yaw - view_yaw));
+	float yaw = std::min((float)abs(target_yaw - view_yaw), 360.f - abs(target_yaw - view_yaw));
 
 	if (cmd->viewangles.y > 90.f && angle.y < -90.f)
 	{
