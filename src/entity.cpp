@@ -28,7 +28,7 @@ std::list<std::string> Entity::GetObservervators(C_BaseEntity* pEntity)
 		if (!entity)
 			continue;
 
-		if (entity->GetLifeState() == LIFE_ALIVE || entity->GetHealth() > 0)
+		if (entity->GetLifeState() == LIFE_ALIVE || entity->GetDormant() || entity->GetHealth() > 0)
 			continue;
 
 		if (*entity->GetObserverMode() != ObserverMode_t::OBS_MODE_IN_EYE)
