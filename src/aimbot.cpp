@@ -86,6 +86,7 @@ void Aimbot::RCS(QAngle& angle, bool hasTarget)
 	if (Settings::Aimbot::silent || hasTarget)
 	{
 		angle -= CurrentPunch * 2.f;
+		RCSLastPunch = CurrentPunch;
 		return;
 	}
 
