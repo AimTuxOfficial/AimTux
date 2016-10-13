@@ -8,7 +8,7 @@ void Airstuck::CreateMove(CUserCmd* cmd)
 	if (!Settings::Airstuck::enabled)
 		return;
 
-	if (cmd->buttons & IN_ATTACK)
+	if (cmd->buttons & IN_ATTACK || cmd->buttons & IN_ATTACK2)
 		return;
 
 	if (input->IsButtonDown(Settings::Airstuck::key))
