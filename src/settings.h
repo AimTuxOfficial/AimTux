@@ -9,13 +9,13 @@
 #include "fonts.h"
 #include "draw.h"
 
-enum TracerType
+enum TracerType : unsigned int
 {
 	BOTTOM,
 	CURSOR
 };
 
-enum AntiAimType_Y
+enum AntiAimType_Y : unsigned int
 {
 	SPIN_FAST,
 	SPIN_SLOW,
@@ -24,19 +24,19 @@ enum AntiAimType_Y
 	BACKWARDS
 };
 
-enum AntiAimType_X
+enum AntiAimType_X : unsigned int
 {
 	STATIC_UP,
 	STATIC_DOWN
 };
 
-enum ChamsType
+enum ChamsType : unsigned int
 {
 	CHAMS,
 	CHAMS_FLAT
 };
 
-enum WallBoxType
+enum WallBoxType : unsigned int
 {
 	FLAT_2D,
 	BOX_3D
