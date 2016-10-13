@@ -19,7 +19,7 @@ std::list<std::string> Entity::GetObservervators(C_BaseEntity* pEntity)
 {
 	std::list<std::string> list;
 
-	if (pEntity->GetLifeState() == LIFE_ALIVE || pEntity->GetHealth() > 0)
+	if (pEntity->GetLifeState() != LIFE_ALIVE || pEntity->GetHealth() == 0)
 		return list;
 
 	for (int i = 0; i < engine->GetMaxClients(); ++i)
