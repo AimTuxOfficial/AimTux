@@ -248,7 +248,7 @@ void ESP::DrawFOVCrosshair()
 	Draw::DrawCircle(LOC(width / 2, height / 2), 20, Settings::Aimbot::fov / 90 * width / 2, Color(255, 100, 100, 255));
 }
 
-void ESP::DrawBombBox(C_BaseEntity* entity)
+void ESP::DrawBombBox(C_BasePlantedC4* entity)
 {
 	Color color = Settings::ESP::bomb_color;
 	Color colorText = entity->GetBombDefuser() != -1 ? Color(0, 50, 200) : Color(255, 255, 255);
@@ -320,8 +320,10 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 		}
 		else if (client->m_ClassID == CPlantedC4)
 		{
-			if (Settings::ESP::Bomb::enabled && entity->IsBombTicking())
-				ESP::DrawBombBox(entity);
+			C_BasePlantedC4* bomb = (C_BasePlantedC4*) entitylist->GetClientEntity(i);
+
+			if (Settings::ESP::Bomb::enabled && bomb->IsBombTicking())
+				ESP::DrawBombBox(bomb);
 		}
 	}
 

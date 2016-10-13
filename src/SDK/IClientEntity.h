@@ -165,21 +165,6 @@ public:
 		return (void*)((uintptr_t)this + offsets.m_hObserverTarget);
 	}
 
-	bool IsBombTicking()
-	{
-		return (bool)((uintptr_t)this + offsets.m_bBombTicking);
-	}
-
-	float GetBombTime()
-	{
-		return *(float*)((uintptr_t)this + offsets.m_flC4Blow);
-	}
-
-	int GetBombDefuser()
-	{
-		return *(int*)((uintptr_t)this + offsets.m_hBombDefuser);
-	}
-
 	ICollideable* GetCollideable ()
 	{
 		return (ICollideable*)((uintptr_t)this + offsets.m_Collision);
@@ -216,6 +201,24 @@ public:
 	}
 };
 
+class C_BasePlantedC4 : public C_BaseEntity
+{
+public:
+	bool IsBombTicking()
+	{
+		return (bool)((uintptr_t)this + offsets.m_bBombTicking);
+	}
+
+	float GetBombTime()
+	{
+		return *(float*)((uintptr_t)this + offsets.m_flC4Blow);
+	}
+
+	int GetBombDefuser()
+	{
+		return *(int*)((uintptr_t)this + offsets.m_hBombDefuser);
+	}
+};
 
 class C_BaseAttributableItem : public C_BaseEntity
 {
