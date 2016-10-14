@@ -28,6 +28,14 @@ Vector2D Draw::GetTextSize(const wchar_t* text, FONT font)
 	return LOC(wide, tall);
 }
 
+Vector2D Draw::GetTextSize(const char* text, FONT font)
+{
+	std::string str = std::string(text);
+	std::wstring wstr = std::wstring(str.begin(), str.end());
+
+	return Draw::GetTextSize(wstr.c_str(), font);
+}
+
 void Draw::DrawString(const wchar_t* text, Vector2D location, Color color, FONT font, bool center)
 {
 	if (!text)
@@ -46,6 +54,17 @@ void Draw::DrawString(const wchar_t* text, Vector2D location, Color color, FONT 
 	surface->DrawSetTextPos((int) location.x, (int) location.y);
 
 	surface->DrawPrintText(text, wcslen(text));
+}
+
+void Draw::DrawString(const char* text, Vector2D location, Color color, FONT font, bool center)
+{
+	if (!text)
+		return;
+
+	std::string str = std::string(text);
+	std::wstring wstr = std::wstring(str.begin(), str.end());
+
+	Draw::DrawString(wstr.c_str(), location, color, font, center);
 }
 
 void Draw::DrawCircle(Vector2D position, float points, float radius, Color color)
