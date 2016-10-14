@@ -148,23 +148,18 @@ void SkinChanger::FireEventClientSide(IGameEvent* event)
 	if (!engine->IsInGame())
 		return;
 
-	while (event)
-	{
-		if (strcmp(event->GetName(), "player_death") != 0)
-			break;
+	if (!event || strcmp(event->GetName(), "player_death") != 0)
+		return;
 
-		if (!event->GetInt("attacker") || engine->GetPlayerForUserID(event->GetInt("attacker")) != engine->GetLocalPlayer())
-			break;
+	if (!event->GetInt("attacker") || engine->GetPlayerForUserID(event->GetInt("attacker")) != engine->GetLocalPlayer())
+		return;
 
-		const char* weapon = event->GetString("weapon");
-		if (!strcmp(weapon, "knife_default_ct")) {
-			const char* name = KnifeToName(WEAPON_KNIFE);
-			event->SetString("weapon", name ? name : "knife_default_ct");
-		} else if (!strcmp(weapon, "knife_t")) {
-			const char* name = KnifeToName(WEAPON_KNIFE_T);
-			event->SetString("weapon", name ? name : "knife_t");
-		}
-
-		break;
+	const char* weapon = event->GetString("weapon");
+	if (!strcmp(weapon, "knife_default_ct")) {
+		const char* name = KnifeToName(WEAPON_KNIFE);
+		event->SetString("weapon", name ?: weapon);
+	} else if (!strcmp(weapon, "knife_t")) {
+		const char* name = KnifeToName(WEAPON_KNIFE_T);
+		event->SetString("weapon", name ?: weapon);
 	}
 }
