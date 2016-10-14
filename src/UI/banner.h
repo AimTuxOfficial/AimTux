@@ -24,8 +24,6 @@ public:
 	
 	void Draw ()
 	{
-		Clear (Color (160, 160, 160, 1));
-		
 		DrawLine (LOC (0, size.y / 2), LOC ((size.x / 2) - (text_size.x / 2) - BANNER_TEXT_GAP, size.y / 2), Color (255, 255, 255, 120));
 		DrawLine (LOC ((size.x / 2) + (text_size.x / 2) + BANNER_TEXT_GAP, size.y / 2), LOC (size.x, size.y / 2), Color (255, 255, 255, 170));
 		
