@@ -55,6 +55,7 @@ void __attribute__((destructor)) aimtux_shutdown()
 	panel_vmt->ReleaseVMT();
 	modelRender_vmt->ReleaseVMT();
 	clientMode_vmt->ReleaseVMT();
+	gameEvents_vmt->ReleaseVMT();
 
 	cvar->ConsoleColorPrintf(ColorRGBA(255, 150, 150), "AimTux has been unloaded successfully.\n");
 }
