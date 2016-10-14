@@ -26,6 +26,7 @@ private:
 	ToggleSwitch* ts_fov_crosshair;
 	Banner*	ba_other;
 	ToggleSwitch* ts_bomb;
+	ToggleSwitch* ts_weapons;
 public:
 	ESPWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor);
 };

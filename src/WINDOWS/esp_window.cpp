@@ -52,6 +52,9 @@ ESPWindow::ESPWindow (std::string title, Vector2D size, Vector2D position, Color
 	
 	ts_bomb = new ToggleSwitch ("bomb esp", LOC (10, ba_other->position.y + ba_other->size.y + 10), 35, &Settings::ESP::Bomb::enabled);
 	AddComponent (ts_bomb);
+
+	ts_weapons = new ToggleSwitch ("weapons esp", LOC (ts_bomb->position.x + ts_bomb->size.x + 10, ts_bomb->position.y), 35, &Settings::ESP::Weapons::enabled);
+	AddComponent (ts_weapons);
 	
 	Hide ();
 }
