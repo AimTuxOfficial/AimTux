@@ -77,6 +77,7 @@ namespace Settings
 		extern bool silent;
 		extern float fov;
 		extern int bone;
+		extern ButtonCode_t aimkey;
 
 		namespace Smooth
 		{

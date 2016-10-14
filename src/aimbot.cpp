@@ -5,6 +5,7 @@ bool Settings::Aimbot::enabled = true;
 bool Settings::Aimbot::silent = false;
 float Settings::Aimbot::fov = 180.0f;
 int Settings::Aimbot::bone = BONE_HEAD;
+ButtonCode_t Settings::Aimbot::aimkey = ButtonCode_t::MOUSE_MIDDLE;
 bool Settings::Aimbot::Smooth::enabled = false;
 float Settings::Aimbot::Smooth::value = 1.0f;
 float Settings::Aimbot::Smooth::max = 15.0f;
@@ -165,7 +166,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	if (entity)
 	{
 		if (Settings::Aimbot::AutoAim::enabled &&
-			(Settings::Aimbot::AutoShoot::enabled || cmd->buttons & IN_ATTACK))
+			(Settings::Aimbot::AutoShoot::enabled || cmd->buttons & IN_ATTACK || input->IsButtonDown(Settings::Aimbot::aimkey)))
 		{
 			Vector e_vecHead = entity->GetBonePosition(Settings::Aimbot::bone);
 			Vector p_vecHead = localplayer->GetEyePosition();
