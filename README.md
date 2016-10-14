@@ -78,6 +78,12 @@ If you would like to unload, compile and load the hack back into the game again 
 
 Once injected, press the *insert* key, you should see a window in the top right hand corner of your screen, open any of the windows and have fun!
 
+## Screenshots
+
+![menu](http://i.imgur.com/Wn8MfMA.jpg)
+![esp_chams](http://i.imgur.com/qZqhixp.jpg)
+![fov crosshair](http://i.imgur.com/LoKzzLQ.jpg)
+
 ## Credits
 Special thanks to [@aixxe](http://www.github.com/aixxe/) ([aixxe.net](http://www.aixxe.net)) for the skin changer and with the initial project, as well as helping this project with source code (Available on [@aixxe's](http://www.github.com/aixxe/) github page.)
 
