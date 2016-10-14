@@ -10,7 +10,7 @@ public:
 	
 	std::function<void()> OnClickedEvent;
 	
-	std::wstring text = L"button";
+	std::string text = "button";
 	
 	bool clickStarted = false;
 	
@@ -37,7 +37,7 @@ public:
 	{
 		this->position = position;
 		this->size = size;
-		this->text = std::wstring(text.begin(), text.end ());
+		this->text = text;
 		
 		onMouseClickEndEvent	= MFUNC (&Button::Event_OnMouseClickEnd, this);
 		onMouseClickStartEvent	= MFUNC (&Button::Event_OnMouseClickStart, this);

@@ -12,12 +12,12 @@ public:
 	
 	std::function<void()> OnClickedEvent;
 	Vector2D text_size;
-	std::wstring text = L"button";
+	std::string text = "button";
 	
 	Banner (std::string text, Vector2D position, int width)
 	{
 		this->position = position;
-		this->text = std::wstring(text.begin(), text.end ());
+		this->text = text;
 		text_size = Draw::GetTextSize (this->text.c_str(), normal_font);
 		this->size = LOC (width, text_size.y);
 	}

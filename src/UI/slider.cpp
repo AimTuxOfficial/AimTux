@@ -26,5 +26,5 @@ void Slider::Draw ()
 	pstring _text;
 	_text << text << " " << (ROUNDF (*value, 100));
 	
-	DrawCenteredString (std::wstring(_text.begin(), _text.end()), normal_font, Color (255, 255, 255, 255), LOC (size.x / 2, size.y / 2));
+	DrawCenteredString (text, normal_font, Color (255, 255, 255, 255), LOC (size.x / 2, size.y / 2));
 }

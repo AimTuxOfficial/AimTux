@@ -210,11 +210,8 @@ void ESP::DrawPlayerInfo(C_BasePlayer* localPlayer, C_BaseEntity* entity, int en
 	health + entity->GetHealth();
 	health << "hp";
 
-	std::wstring wname(name.begin(), name.end());
-	std::wstring whealth(health.begin(), health.end());
-
-	Vector2D size_name = Draw::GetTextSize(wname.c_str(), esp_font);
-	Vector2D size_health = Draw::GetTextSize(whealth.c_str(), esp_font);
+	Vector2D size_name = Draw::GetTextSize(name.c_str(), esp_font);
+	Vector2D size_health = Draw::GetTextSize(health.c_str(), esp_font);
 
 	Vector max = entity->GetCollideable()->OBBMaxs();
 
@@ -230,10 +227,10 @@ void ESP::DrawPlayerInfo(C_BasePlayer* localPlayer, C_BaseEntity* entity, int en
 	float height = (pos.y - top.y);
 
 	if (Settings::ESP::Info::showHealth)
-		Draw::DrawString(whealth.c_str(), LOC (top.x, top.y + height + (size_health.y / 2)), color, esp_font, true);
+		Draw::DrawString(health.c_str(), LOC (top.x, top.y + height + (size_health.y / 2)), color, esp_font, true);
 
 	if (Settings::ESP::Info::showName)
-		Draw::DrawString(wname.c_str(), LOC (top.x, top.y - (size_name.y / 2)), color, esp_font, true);
+		Draw::DrawString(name.c_str(), LOC (top.x, top.y - (size_name.y / 2)), color, esp_font, true);
 }
 
 void ESP::DrawFOVCrosshair()
@@ -266,13 +263,11 @@ void ESP::DrawBombBox(C_BasePlantedC4* entity)
 	if (bombTime > 0)
 		str << " (" << bombTime << ")";
 
-	std::wstring wstr(str.begin(), str.end());
-
 	Vector s_vecLocalPlayer_s;
 	if (!WorldToScreen(vecOrigin, s_vecLocalPlayer_s))
 	{
 		DrawESPBox(vecOrigin, vecViewOffset, color, width, additionalHeight);
-		Draw::DrawString(wstr.c_str(), LOC(s_vecLocalPlayer_s.x, s_vecLocalPlayer_s.y), colorText, esp_font, true);
+		Draw::DrawString(str.c_str(), LOC(s_vecLocalPlayer_s.x, s_vecLocalPlayer_s.y), colorText, esp_font, true);
 	}
 }
 
@@ -284,15 +279,13 @@ void ESP::DrawWeaponText(C_BaseEntity* entity, ClientClass* client)
 	else
 		modelName = modelName.substr(1, modelName.length() - 1);
 
-	std::wstring wstr(modelName.begin(), modelName.end());
-
 	Vector vecOrigin = entity->GetVecOrigin();
 	if (vecOrigin == Vector(0, 0, 0))
 		return;
 
 	Vector s_vecLocalPlayer_s;
 	if (!WorldToScreen(vecOrigin, s_vecLocalPlayer_s))
-		Draw::DrawString(wstr.c_str(), LOC(s_vecLocalPlayer_s.x, s_vecLocalPlayer_s.y), Color(255, 255, 255, 255), esp_font, true);
+		Draw::DrawString(modelName.c_str(), LOC(s_vecLocalPlayer_s.x, s_vecLocalPlayer_s.y), Color(255, 255, 255, 255), esp_font, true);
 }
 
 void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)

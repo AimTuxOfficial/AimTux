@@ -5,12 +5,12 @@ void Component::Clear (Color color)
 	this->DrawFilledRectangle (Vector2D (0, 0), this->size, color);
 }
 
-void Component::DrawString (std::wstring text, FONT font, Color color, Vector2D position)
+void Component::DrawString (std::string text, FONT font, Color color, Vector2D position)
 {
 	Draw::DrawString (text.c_str(), context + position, color, font, false);
 }
 
-void Component::DrawCenteredString (std::wstring text, FONT font, Color color, Vector2D position)
+void Component::DrawCenteredString (std::string text, FONT font, Color color, Vector2D position)
 {
 	Draw::DrawString (text.c_str(), context + position, color, font, true);
 }

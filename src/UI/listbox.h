@@ -57,14 +57,14 @@ template<typename E>
 class ListBox : public Panel
 {
 public:
-	std::wstring text = L"listbox";
+	std::string text = "listbox";
 	std::vector<LB_Element> elements;
 	E* setting;
 	
 	ListBox<E> (std::string text, Vector2D position, int width, E* setting, std::vector<LB_Element> elements)
 	{
 		this->position = position;
-		this->text = std::wstring(text.begin(), text.end());
+		this->text = text;
 		this->elements = elements;
 		this->setting = setting;
 		

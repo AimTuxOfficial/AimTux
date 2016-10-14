@@ -26,7 +26,7 @@ void DrawBanner ()
 	int width, height;
 	engine->GetScreenSize (width, height);
 	
-	Draw::DrawString (L"AimTux", LOC (10, 10), Color (215, 215, 215, 190), esp_font, false);
+	Draw::DrawString ("AimTux", LOC (10, 10), Color (215, 215, 215, 190), esp_font, false);
 }
 
 void UI_Container::Draw ()

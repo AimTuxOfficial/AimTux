@@ -10,7 +10,7 @@ class ToggleSwitch : public Component
 public:
 	bool clickStarted = false;
 	bool* setting;
-	std::wstring text = L"toggle switch";
+	std::string text = "toggle switch";
 	
 	void Event_OnClickStart ()
 	{
@@ -34,7 +34,7 @@ public:
 	{
 		this->position = position;
 		this->size = size;
-		this->text = std::wstring(text.begin(), text.end ());
+		this->text = text;
 		this->setting = setting;
 		
 		this->onMouseClickEndEvent		= MFUNC (&ToggleSwitch::Event_OnClickEnd, this);
@@ -43,7 +43,7 @@ public:
 	}
 	
 	ToggleSwitch (std::string text, Vector2D position, int height, bool* setting)
-		: ToggleSwitch (text, position, LOC (height + 25 + Draw::GetTextSize (std::wstring(text.begin(), text.end()).c_str(), normal_font).x, height), setting) { }
+		: ToggleSwitch (text, position, LOC (height + 25 + Draw::GetTextSize (text.c_str(), normal_font).x, height), setting) { }
 	
 	
 	void Draw ()

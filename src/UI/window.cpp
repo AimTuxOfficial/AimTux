@@ -116,7 +116,7 @@ void TitleBar::Draw ()
 	
 	
 	Clear (Settings::UI::mainColor);
-	DrawCenteredString (std::wstring (parentWindow->title.begin(), parentWindow->title.end()), title_font, foreColor, LOC (size.x / 2, size.y / 2));
+	DrawCenteredString (parentWindow->title.c_str(), title_font, foreColor, LOC (size.x / 2, size.y / 2));
 }
 
 

@@ -25,8 +25,8 @@ protected:
 ------------------*/
 	
 	void Clear (Color color);
-	void DrawString (std::wstring text, FONT font, Color color, Vector2D position);
-	void DrawCenteredString (std::wstring text, FONT font, Color color, Vector2D position);
+	void DrawString (std::string text, FONT font, Color color, Vector2D position);
+	void DrawCenteredString (std::string text, FONT font, Color color, Vector2D position);
 	void DrawRectangle (Vector2D start, Vector2D end, Color color);
 	void DrawFilledRectangle (Vector2D start, Vector2D end, Color color);
 	void DrawLine (Vector2D start, Vector2D end, Color color);
