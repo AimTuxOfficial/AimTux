@@ -13,8 +13,8 @@ class Window : public Panel
 private:
 	TitleBar* titleBar;
 	Panel* mainPanel;
-	bool shown;
 public:
+	bool shown;
 	std::string title;
 	Window (std::string title);
 	Window (std::string title, Vector2D size);
