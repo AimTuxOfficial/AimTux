@@ -22,6 +22,7 @@ Want to chat or play with other AimTux users? Join us on Gitter!
 * *Bomb ESP*
 * *Bomb Timer*
 * *FOV ESP*
+* *Weapons ESP*
 * *Chams*
 * *Tracer*
 * *Bhop*
