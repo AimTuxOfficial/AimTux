@@ -19,10 +19,12 @@ extern IMaterialSystem* material;
 extern ICvar* cvar;
 extern CGlobalVars* globalvars;
 extern CEffects* effects;
+extern IGameEventManager2* gameevents;
 
 extern VMT* panel_vmt;
 extern VMT* client_vmt;
 extern VMT* modelRender_vmt;
 extern VMT* clientMode_vmt;
+extern VMT* gameEvents_vmt;
 
 #endif

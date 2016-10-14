@@ -15,6 +15,7 @@
 #define MATERIALSYSTEM_CLIENT_INTERFACE_VERSION "VMaterialSystem080"
 #define ENGINECVAR_INTERFACE_VERSION "VEngineCvar007"
 #define ENGINEEFFECTS_INTERFACE_VERSION "VEngineEffects001"
+#define GAMEEVENTSMANAGER2_INTERFACE_VERSION "GAMEEVENTSMANAGER002"
 
 /* generic constants */
 #define LIFE_ALIVE 0
@@ -23,6 +24,7 @@ typedef unsigned long long FONT;
 
 struct ModelRenderInfo_t;
 struct CUserCmd;
+class IGameEvent;
 
 /* function prototypes */
 typedef void* (*CreateInterfaceFn) (const char*, int*);
@@ -30,6 +32,7 @@ typedef void (*FrameStageNotifyFn) (void*, int);
 typedef void (*PaintTraverseFn) (void*, VPANEL, bool, bool);
 typedef void (*DrawModelExecuteFn) (void*, void*, void*, const ModelRenderInfo_t&, matrix3x4_t*);
 typedef bool (*CreateMoveFn) (void*, float, CUserCmd*);
+typedef bool (*FireEventClientSideFn) (void*, IGameEvent*);
 typedef bool (*MsgFunc_ServerRankRevealAllFn) (float*);
 
 enum class FontFeature: int

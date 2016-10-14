@@ -29,6 +29,7 @@ namespace Hooks
 	void FrameStageNotify(void* thisptr, ClientFrameStage_t stage);
 	void DrawModelExecute(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld);
 	bool CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd);
+	bool FireEventClientSide(void* thisptr, IGameEvent* event);
 }
 
 #endif
