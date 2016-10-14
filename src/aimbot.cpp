@@ -236,7 +236,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	}
 
 	if (Settings::Aimbot::RCS::enabled && cmd->buttons & IN_ATTACK)
-		Aimbot::RCS(angle, entity != NULL);
+		Aimbot::RCS(angle, Settings::Aimbot::AutoAim::enabled && entity != NULL);
 
 	Math::NormalizeAngles(angle);
 
