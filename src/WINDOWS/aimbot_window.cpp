@@ -20,14 +20,14 @@ AimbotWindow::AimbotWindow (std::string title, Vector2D size, Vector2D position,
 	ts_autoaim = new ToggleSwitch ("auto aim", BELOW (ts_rcs), 35, &Settings::Aimbot::AutoAim::enabled);
 	AddComponent (ts_autoaim);
 
-	sl_fov = new Slider ("fov", STACK (ts_autoaim), LOC (size.x - ts_autoaim->size.x - 30, 35), &Settings::Aimbot::fov, 0.0f, 180.0f);
+	sl_fov = new Slider ("", STACK (ts_autoaim), LOC (size.x - ts_autoaim->size.x - 30, 35), &Settings::Aimbot::fov, 0.0f, 180.0f);
 	AddComponent (sl_fov);
 	
 	
 	ts_smooth_enable = new ToggleSwitch ("smooth", BELOW (ts_autoaim), 35, &Settings::Aimbot::Smooth::enabled);
 	AddComponent (ts_smooth_enable);
 	
-	sl_smooth_value = new Slider ("smooth", STACK (ts_smooth_enable), LOC (size.x - ts_smooth_enable->size.x - 30, 35), &Settings::Aimbot::Smooth::value, 0.10f, Settings::Aimbot::Smooth::max);
+	sl_smooth_value = new Slider ("", STACK (ts_smooth_enable), LOC (size.x - ts_smooth_enable->size.x - 30, 35), &Settings::Aimbot::Smooth::value, 0.10f, Settings::Aimbot::Smooth::max);
 	AddComponent (sl_smooth_value);
 	
 	

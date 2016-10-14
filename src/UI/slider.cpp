@@ -24,7 +24,11 @@ void Slider::Draw ()
 	DrawFilledRectangle (LOC (donglePosition_px - (dongleWidth / 2), 5), LOC (donglePosition_px + dongleWidth / 2, size.y-5), Settings::UI::mainColor);
 	
 	pstring _text;
-	_text << text << " " << (ROUNDF (*value, 100));
+
+	if (text.length() > 0)
+		_text << text << " ";
+
+	_text << (ROUNDF (*value, 100));
 	
 	DrawCenteredString (_text, normal_font, Color (255, 255, 255, 255), LOC (size.x / 2, size.y / 2));
 }
