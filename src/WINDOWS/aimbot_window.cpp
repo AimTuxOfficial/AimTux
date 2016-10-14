@@ -8,13 +8,16 @@ AimbotWindow::AimbotWindow (std::string title, Vector2D size, Vector2D position,
 	ts_aimbot_enabled = new ToggleSwitch ("aimbot", LOC (10, 10), 35, &Settings::Aimbot::enabled);
 	AddComponent (ts_aimbot_enabled);
 	
-	ts_rcs = new ToggleSwitch ("recoil control", LOC (10, ts_aimbot_enabled->position.y + ts_aimbot_enabled->size.y + 10), 35, &Settings::Aimbot::RCS::enabled);
-	AddComponent (ts_rcs);
-	
-	ts_silent = new ToggleSwitch ("silent aim", LOC (10, ts_rcs->position.y + ts_rcs->size.y + 10), 35, &Settings::Aimbot::silent);
+	ts_silent = new ToggleSwitch ("silent aim", LOC (10, ts_aimbot_enabled->position.y + ts_aimbot_enabled->size.y + 10), 35, &Settings::Aimbot::silent);
 	AddComponent (ts_silent);
 	
-	ts_autoaim = new ToggleSwitch ("auto aim", LOC (10, ts_silent->position.y + ts_silent->size.y + 10), 35, &Settings::Aimbot::AutoAim::enabled);
+	ba_aim = new Banner ("Aim", LOC (10, ts_silent->position.y + ts_silent->size.y + 10), size.x - 20);
+	AddComponent (ba_aim);
+	
+	ts_rcs = new ToggleSwitch ("recoil control", LOC (10, ba_aim->position.y + ba_aim->size.y + 10), 35, &Settings::Aimbot::RCS::enabled);
+	AddComponent (ts_rcs);
+	
+	ts_autoaim = new ToggleSwitch ("auto aim", LOC (10, ts_rcs->position.y + ts_rcs->size.y + 10), 35, &Settings::Aimbot::AutoAim::enabled);
 	AddComponent (ts_autoaim);
 
 	sl_fov = new Slider ("fov", LOC (ts_autoaim->position.x + ts_autoaim->size.x + 10, ts_autoaim->position.y), LOC (size.x - ts_autoaim->size.x - 30, 35), &Settings::Aimbot::fov, 0.0f, 180.0f);
@@ -34,7 +37,10 @@ AimbotWindow::AimbotWindow (std::string title, Vector2D size, Vector2D position,
 	ts_autoshoot = new ToggleSwitch ("auto shoot", LOC (10, ts_aimstep->position.y + ts_aimstep->size.y + 10), 35, &Settings::Aimbot::AutoShoot::enabled);
 	AddComponent (ts_autoshoot);
 	
-	ts_autocrouch = new ToggleSwitch ("auto crouch", LOC (10, ts_autoshoot->position.y + ts_autoshoot->size.y + 10), 35, &Settings::Aimbot::AutoCrouch::enabled);
+	ba_movement = new Banner ("Movement", LOC (10, ts_autoshoot->position.y + ts_autoshoot->size.y + 10), size.x - 20);
+	AddComponent (ba_movement);
+	
+	ts_autocrouch = new ToggleSwitch ("auto crouch", LOC (10, ba_movement->position.y + ba_movement->size.y + 10), 35, &Settings::Aimbot::AutoCrouch::enabled);
 	AddComponent (ts_autocrouch);
 	
 	ts_autostop = new ToggleSwitch ("auto stop", LOC (10, ts_autocrouch->position.y + ts_autocrouch->size.y + 10), 35, &Settings::Aimbot::AutoStop::enabled);
