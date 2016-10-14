@@ -10,10 +10,10 @@ class HVHWindow;
 class HVHWindow : public Window
 {
 private:
-	ListBox<AntiAimType_X>* lb_spin_x;
-	ToggleSwitch* ts_spin_x;
-	ListBox<AntiAimType_Y>* lb_spin_y;
-	ToggleSwitch* ts_spin_y;
+	ListBox<AntiAimType_X>* lb_antiaim_x;
+	ToggleSwitch* ts_antiaim_x;
+	ListBox<AntiAimType_Y>* lb_antiaim_y;
+	ToggleSwitch* ts_antiaim_y;
 public:
 	HVHWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor);
 };
