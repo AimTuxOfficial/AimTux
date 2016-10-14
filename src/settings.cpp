@@ -35,6 +35,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["Aimbot"]["AimStep"]["value"] = Settings::Aimbot::AimStep::value;
 	settings["Aimbot"]["RCS"]["enabled"] = Settings::Aimbot::RCS::enabled;
 	settings["Aimbot"]["AutoShoot"]["enabled"] = Settings::Aimbot::AutoShoot::enabled;
+	settings["Aimbot"]["AutoShoot"]["autoscope"] = Settings::Aimbot::AutoShoot::autoscope;
 	settings["Aimbot"]["AutoCrouch"]["enabled"] = Settings::Aimbot::AutoCrouch::enabled;
 	settings["Aimbot"]["AutoStop"]["enabled"] = Settings::Aimbot::AutoStop::enabled;
 
@@ -164,6 +165,7 @@ void Settings::LoadSettings(const char* filename)
 		Settings::Aimbot::AimStep::value = settings["Aimbot"]["AimStep"]["value"].asFloat();
 		Settings::Aimbot::RCS::enabled = settings["Aimbot"]["RCS"]["enabled"].asBool();
 		Settings::Aimbot::AutoShoot::enabled = settings["Aimbot"]["AutoShoot"]["enabled"].asBool();
+		Settings::Aimbot::AutoShoot::autoscope = settings["Aimbot"]["AutoShoot"]["autoscope"].asBool();
 		Settings::Aimbot::AutoCrouch::enabled = settings["Aimbot"]["AutoCrouch"]["enabled"].asBool();
 		Settings::Aimbot::AutoStop::enabled = settings["Aimbot"]["AutoStop"]["enabled"].asBool();
 

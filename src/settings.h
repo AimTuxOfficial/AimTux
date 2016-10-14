@@ -105,6 +105,7 @@ namespace Settings
 		namespace AutoShoot
 		{
 			extern bool enabled;
+			extern bool autoscope;
 		}
 
 		namespace AutoCrouch

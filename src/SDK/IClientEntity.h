@@ -143,6 +143,11 @@ public:
 		return (float*)((uintptr_t)this + offsets.m_flFlashMaxAlpha);
 	}
 
+	bool IsScoped()
+	{
+		return *(bool*)((uintptr_t)this + offsets.m_bIsScoped);
+	}
+
 	inline Vector GetBonePosition(int boneIndex)
 	{
 		matrix3x4_t BoneMatrix[MAXSTUDIOBONES];
@@ -345,6 +350,22 @@ public:
 			case WEAPON_FLASHBANG:
 			case WEAPON_MOLOTOV:
 			case WEAPON_DECOY:
+				return true;
+			default:
+				return false;
+		}
+	}
+
+	bool CanScope()
+	{
+		switch (*this->GetItemDefinitionIndex())
+		{
+			case WEAPON_AUG:
+			case WEAPON_AWP:
+			case WEAPON_G3SG1:
+			case WEAPON_SCAR20:
+			case WEAPON_SG556:
+			case WEAPON_SSG08:
 				return true;
 			default:
 				return false;

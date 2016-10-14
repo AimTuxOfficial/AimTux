@@ -13,6 +13,7 @@ bool Settings::Aimbot::AutoAim::enabled = false;
 bool Settings::Aimbot::AimStep::enabled = false;
 float Settings::Aimbot::AimStep::value = 25.0f;
 bool Settings::Aimbot::AutoShoot::enabled = false;
+bool Settings::Aimbot::AutoShoot::autoscope = false;
 bool Settings::Aimbot::RCS::enabled = false;
 bool Settings::Aimbot::AutoCrouch::enabled = false;
 bool Settings::Aimbot::AutoStop::enabled = false;
@@ -217,7 +218,9 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 				}
 				else
 				{
-					if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
+					if (Settings::Aimbot::AutoShoot::autoscope && active_weapon->CanScope() && !localplayer->IsScoped())
+						cmd->buttons |= IN_ATTACK2;
+					else if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
 						cmd->buttons |= IN_ATTACK2;
 					else
 						cmd->buttons |= IN_ATTACK;
