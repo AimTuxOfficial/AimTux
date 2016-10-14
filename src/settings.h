@@ -273,6 +273,11 @@ namespace Settings
 		extern bool enabled;
 	}
 
+	namespace ShowSpectators
+	{
+		extern bool enabled;
+	}
+
 	void LoadDefaultsOrSave(const char* filename);
 	void LoadSettings(const char* filename);
 }

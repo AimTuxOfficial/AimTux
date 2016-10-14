@@ -21,6 +21,7 @@
 #include "../spammer.h"
 #include "../triggerbot.h"
 #include "../showranks.h"
+#include "../showspectators.h"
 
 namespace Hooks
 {
