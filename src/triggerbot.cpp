@@ -3,7 +3,7 @@
 bool Settings::Triggerbot::enabled = true;
 bool Settings::Triggerbot::Hitchance::enabled = true;
 float Settings::Triggerbot::Hitchance::value = 60.0f;
-ButtonCode_t Settings::Triggerbot::key = ButtonCode_t::KEY_;
+ButtonCode_t Settings::Triggerbot::key = ButtonCode_t::KEY_LALT;
 
 void Triggerbot::CreateMove(CUserCmd *cmd)
 {
