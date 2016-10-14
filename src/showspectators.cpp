@@ -6,9 +6,6 @@ std::list<std::string> GetObservervators(C_BaseEntity* pEntity)
 {
 	std::list<std::string> list;
 
-	if (pEntity->GetLifeState() != LIFE_ALIVE || pEntity->GetHealth() == 0)
-		return list;
-
 	for (int i = 0; i < engine->GetMaxClients(); ++i)
 	{
 		C_BaseEntity *entity = entitylist->GetClientEntity(i);
@@ -43,8 +40,10 @@ void ShowSpectators::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool a
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	std::list<std::string> observators = GetObservervators(localplayer);
+	if (localplayer->GetLifeState() != LIFE_ALIVE || localplayer->GetHealth() == 0)
+		return;
 
+	std::list<std::string> observators = GetObservervators(localplayer);
 	if (observators.size() == 0)
 		return;
 
