@@ -21,6 +21,7 @@ private:
 	Banner*	ba_chams;
 	ToggleSwitch* ts_chams_players;
 	ToggleSwitch* ts_chams_arms;
+	ToggleSwitch* ts_rainbow_chams_hands;
 	Banner*	ba_crosshair;
 	ToggleSwitch* ts_recoil_crosshair;
 	ToggleSwitch* ts_fov_crosshair;

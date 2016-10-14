@@ -37,6 +37,9 @@ ESPWindow::ESPWindow (std::string title, Vector2D size, Vector2D position, Color
 	
 	ts_chams_arms = new ToggleSwitch ("arms", LOC (ts_chams_players->position.x + ts_chams_players->size.x + 10, ts_chams_players->position.y), 35, &Settings::ESP::Chams::arms);
 	AddComponent (ts_chams_arms);
+
+	ts_rainbow_chams_hands = new ToggleSwitch ("rainbow arms", LOC (ts_chams_arms->position.x + ts_chams_arms->size.x + 10, ts_chams_arms->position.y), 35, &Settings::ESP::Chams::rainbow_arms);
+	AddComponent (ts_rainbow_chams_hands);
 	
 	ba_crosshair = new Banner ("Crosshair", LOC (10, ts_chams_arms->position.y + ts_chams_arms->size.y + 10), size.x - 20);
 	AddComponent (ba_crosshair);
