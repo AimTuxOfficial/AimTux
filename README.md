@@ -38,7 +38,7 @@ Want to chat or play with other AimTux users? Join us on Gitter!
 
 1. Make sure you're inside of the *AimTux* directory
 2. Download the required tools to compile AimTux
-    * **Debian-based** `apt-get install build-essential`
+    * **Debian-based** `apt-get install build-essential zlib1g-dev`
     * **Fedora:** `dnf install @development-tools`
     * **Arch Linux:** `pacman -S base-devel gdb` 
 3. Generate a *makefile* with the command `cmake .`
