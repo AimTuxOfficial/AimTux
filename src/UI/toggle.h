@@ -2,6 +2,7 @@
 #define __TOGGLE_H_
 
 #include "component.h"
+#include "button.h"
 #include "../settings.h"
 
 class ToggleSwitch : public Component
@@ -64,6 +65,40 @@ public:
 		Vector2D textSize = Draw::GetTextSize (text.c_str(), normal_font);
 		
 		DrawString (text, normal_font, Color (255, 255, 255, 200), LOC (size.x-textSize.x-(sep*2), (size.y/2)-(textSize.y/2)));
+	}
+};
+
+class ToggleButton : public Button
+{
+public:
+	bool* setting;
+	
+	void OnClicked ()
+	{
+		*setting = !*setting;
+	}
+	
+	ToggleButton (std::string text, Vector2D position, Vector2D size, bool* setting)
+						: Button (text, position, size)
+	{
+		this->setting = setting;
+		this->OnClickedEvent = MFUNC (&ToggleButton::OnClicked, this);
+	}
+	
+	void Draw ()
+	{
+		Clear (Color (40, 40, 40, 150));
+		
+		if (*setting)
+		{
+			DrawRectangle (LOC (0, 0), size, Settings::UI::mainColor);
+		}
+		else if (isHovered)
+		{
+			DrawRectangle (LOC (0, 0), size, Color (200, 200, 200, 20));
+		}
+		
+		DrawCenteredString (text, normal_font, Color (255, 255, 255, 255), LOC (size.x / 2, size.y / 2));
 	}
 };
 
