@@ -8,42 +8,42 @@ AimbotWindow::AimbotWindow (std::string title, Vector2D size, Vector2D position,
 	ts_aimbot_enabled = new ToggleSwitch ("aimbot", LOC (10, 10), 35, &Settings::Aimbot::enabled);
 	AddComponent (ts_aimbot_enabled);
 	
-	ts_silent = new ToggleSwitch ("silent aim", LOC (10, ts_aimbot_enabled->position.y + ts_aimbot_enabled->size.y + 10), 35, &Settings::Aimbot::silent);
+	ts_silent = new ToggleSwitch ("silent aim", BELOW (ts_aimbot_enabled), 35, &Settings::Aimbot::silent);
 	AddComponent (ts_silent);
 	
-	ba_aim = new Banner ("Aim", LOC (10, ts_silent->position.y + ts_silent->size.y + 10), size.x - 20);
+	ba_aim = new Banner ("Aim", BELOW (ts_silent), size.x - 20);
 	AddComponent (ba_aim);
 	
-	ts_rcs = new ToggleSwitch ("recoil control", LOC (10, ba_aim->position.y + ba_aim->size.y + 10), 35, &Settings::Aimbot::RCS::enabled);
+	ts_rcs = new ToggleSwitch ("recoil control", BELOW (ba_aim), 35, &Settings::Aimbot::RCS::enabled);
 	AddComponent (ts_rcs);
 	
-	ts_autoaim = new ToggleSwitch ("auto aim", LOC (10, ts_rcs->position.y + ts_rcs->size.y + 10), 35, &Settings::Aimbot::AutoAim::enabled);
+	ts_autoaim = new ToggleSwitch ("auto aim", BELOW (ts_rcs), 35, &Settings::Aimbot::AutoAim::enabled);
 	AddComponent (ts_autoaim);
 
-	sl_fov = new Slider ("fov", LOC (ts_autoaim->position.x + ts_autoaim->size.x + 10, ts_autoaim->position.y), LOC (size.x - ts_autoaim->size.x - 30, 35), &Settings::Aimbot::fov, 0.0f, 180.0f);
+	sl_fov = new Slider ("fov", STACK (ts_autoaim), LOC (size.x - ts_autoaim->size.x - 30, 35), &Settings::Aimbot::fov, 0.0f, 180.0f);
 	AddComponent (sl_fov);
 	
 	
-	ts_smooth_enable = new ToggleSwitch ("smooth", LOC (10, ts_autoaim->position.y + ts_autoaim->size.y + 10), 35, &Settings::Aimbot::Smooth::enabled);
+	ts_smooth_enable = new ToggleSwitch ("smooth", BELOW (ts_autoaim), 35, &Settings::Aimbot::Smooth::enabled);
 	AddComponent (ts_smooth_enable);
 	
-	sl_smooth_value = new Slider ("smooth", LOC (ts_smooth_enable->position.x + ts_smooth_enable->size.x + 10, ts_smooth_enable->position.y), LOC (size.x - ts_smooth_enable->size.x - 30, 35), &Settings::Aimbot::Smooth::value, 0.10f, Settings::Aimbot::Smooth::max);
+	sl_smooth_value = new Slider ("smooth", STACK (ts_smooth_enable), LOC (size.x - ts_smooth_enable->size.x - 30, 35), &Settings::Aimbot::Smooth::value, 0.10f, Settings::Aimbot::Smooth::max);
 	AddComponent (sl_smooth_value);
 	
 	
-	ts_aimstep = new ToggleSwitch ("aim step", LOC (10, ts_smooth_enable->position.y + ts_smooth_enable->size.y + 10), 35, &Settings::Aimbot::AimStep::enabled);
+	ts_aimstep = new ToggleSwitch ("aim step", BELOW (ts_smooth_enable), 35, &Settings::Aimbot::AimStep::enabled);
 	AddComponent (ts_aimstep);
 	
-	ts_autoshoot = new ToggleSwitch ("auto shoot", LOC (10, ts_aimstep->position.y + ts_aimstep->size.y + 10), 35, &Settings::Aimbot::AutoShoot::enabled);
+	ts_autoshoot = new ToggleSwitch ("auto shoot", BELOW (ts_aimstep), 35, &Settings::Aimbot::AutoShoot::enabled);
 	AddComponent (ts_autoshoot);
 	
-	ba_movement = new Banner ("Movement", LOC (10, ts_autoshoot->position.y + ts_autoshoot->size.y + 10), size.x - 20);
+	ba_movement = new Banner ("Movement", BELOW (ts_autoshoot), size.x - 20);
 	AddComponent (ba_movement);
 	
-	ts_autocrouch = new ToggleSwitch ("auto crouch", LOC (10, ba_movement->position.y + ba_movement->size.y + 10), 35, &Settings::Aimbot::AutoCrouch::enabled);
+	ts_autocrouch = new ToggleSwitch ("auto crouch", BELOW (ba_movement), 35, &Settings::Aimbot::AutoCrouch::enabled);
 	AddComponent (ts_autocrouch);
 	
-	ts_autostop = new ToggleSwitch ("auto stop", LOC (10, ts_autocrouch->position.y + ts_autocrouch->size.y + 10), 35, &Settings::Aimbot::AutoStop::enabled);
+	ts_autostop = new ToggleSwitch ("auto stop", BELOW (ts_autocrouch), 35, &Settings::Aimbot::AutoStop::enabled);
 	AddComponent (ts_autostop);
 	
 	Hide ();
