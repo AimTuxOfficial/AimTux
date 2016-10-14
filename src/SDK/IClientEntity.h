@@ -273,23 +273,14 @@ public:
 		switch (*this->GetItemDefinitionIndex())
 		{
 			case WEAPON_DEAGLE:
-				return true;
 			case WEAPON_ELITE:
-				return true;
 			case WEAPON_FIVESEVEN:
-				return true;
 			case WEAPON_GLOCK:
-				return true;
 			case WEAPON_TEC9:
-				return true;
 			case WEAPON_HKP2000:
-				return true;
 			case WEAPON_USP_SILENCER:
-				return true;
 			case WEAPON_P250:
-				return true;
 			case WEAPON_CZ75A:
-				return true;
 			case WEAPON_REVOLVER:
 				return true;
 			default:
@@ -302,33 +293,19 @@ public:
 		switch (*this->GetItemDefinitionIndex())
 		{
 			case WEAPON_AK47:
-				return true;
 			case WEAPON_AUG:
-				return true;
 			case WEAPON_FAMAS:
-				return true;
 			case WEAPON_GALILAR:
-				return true;
 			case WEAPON_M249:
-				return true;
 			case WEAPON_M4A1:
-				return true;
 			case WEAPON_M4A1_SILENCER:
-				return true;
 			case WEAPON_MAC10:
-				return true;
 			case WEAPON_P90:
-				return true;
 			case WEAPON_UMP45:
-				return true;
 			case WEAPON_BIZON:
-				return true;
 			case WEAPON_NEGEV:
-				return true;
 			case WEAPON_MP7:
-				return true;
 			case WEAPON_MP9:
-				return true;
 			case WEAPON_SG556:
 				return true;
 			default:
@@ -341,27 +318,16 @@ public:
 		switch (*this->GetItemDefinitionIndex())
 		{
 			case WEAPON_KNIFE:
-				return true;
 			case WEAPON_KNIFE_T:
-				return true;
 			case WEAPON_KNIFE_GUT:
-				return true;
 			case WEAPON_KNIFE_FLIP:
-				return true;
 			case WEAPON_KNIFE_BAYONET:
-				return true;
 			case WEAPON_KNIFE_M9_BAYONET:
-				return true;
 			case WEAPON_KNIFE_KARAMBIT:
-				return true;
 			case WEAPON_KNIFE_TACTICAL:
-				return true;
 			case WEAPON_KNIFE_BUTTERFLY:
-				return true;
 			case WEAPON_KNIFE_SURVIVAL_BOWIE:
-				return true;
 			case WEAPON_KNIFE_FALCHION:
-				return true;
 			case WEAPON_KNIFE_PUSH:
 				return true;
 			default:
@@ -374,15 +340,10 @@ public:
 		switch (*this->GetItemDefinitionIndex())
 		{
 			case WEAPON_SMOKEGRENADE:
-				return true;
 			case WEAPON_HEGRENADE:
-				return true;
 			case WEAPON_INCGRENADE:
-				return true;
 			case WEAPON_FLASHBANG:
-				return true;
 			case WEAPON_MOLOTOV:
-				return true;
 			case WEAPON_DECOY:
 				return true;
 			default:
