@@ -5,3 +5,4 @@
 #include "toggle.h"
 #include "slider.h"
 #include "listbox.h"
+#include "banner.h"
