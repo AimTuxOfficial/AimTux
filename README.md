@@ -19,6 +19,8 @@ Want to chat or play with other AimTux users? Join us on Gitter!
 * *Box ESP*
 * *Name ESP*
 * *Bone ESP*
+* *Bomb ESP*
+* *Bomb Timer*
 * *FOV ESP*
 * *Chams*
 * *Tracer*
@@ -72,7 +74,11 @@ you can check the *csgo* console for a message saying `AimTux has been unloaded 
 
 If you would like to unload, compile and load the hack back into the game again (mostly for development) you can use the `./rload` command.
 
-#### Credits
+## Usage
+
+Once injected, press the *insert* key, you should see a window in the top right hand corner of your screen, open any of the windows and have fun!
+
+## Credits
 Special thanks to [@aixxe](http://www.github.com/aixxe/) ([aixxe.net](http://www.aixxe.net)) for the skin changer and with the initial project, as well as helping this project with source code (Available on [@aixxe's](http://www.github.com/aixxe/) github page.)
 
 This project was also initially based upon Atex's [Linux Basehook](http://unknowncheats.me/forum/counterstrike-global-offensive/181878-linux-basehook.html).
