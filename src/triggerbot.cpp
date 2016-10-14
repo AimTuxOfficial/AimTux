@@ -3,11 +3,11 @@
 bool Settings::Triggerbot::enabled = true;
 bool Settings::Triggerbot::Hitchance::enabled = true;
 float Settings::Triggerbot::Hitchance::value = 60.0f;
-ButtonCode_t Settings::Triggerbot::key = ButtonCode_t::KEY_LALT;
+ButtonCode_t Settings::Triggerbot::key = ButtonCode_t::KEY_;
 
 void Triggerbot::CreateMove(CUserCmd *cmd)
 {
-	if (!(Settings::Triggerbot::enabled && input->IsButtonDown(Settings::Triggerbot::key)))
+	if (!(Settings::Triggerbot::enabled && cmd->buttons & IN_ALT2))
 		return;
 
 	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
