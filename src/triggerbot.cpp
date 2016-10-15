@@ -1,6 +1,7 @@
 #include "triggerbot.h"
 
 bool Settings::Triggerbot::enabled = true;
+bool Settings::Triggerbot::Filter::friendly = false;
 bool Settings::Triggerbot::Filter::head = true;
 bool Settings::Triggerbot::Filter::chest = true;
 bool Settings::Triggerbot::Filter::stomach = true;
@@ -40,11 +41,15 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 		|| entity == localplayer
 		|| entity->GetDormant()
 		|| entity->GetLifeState() != LIFE_ALIVE
-		|| entity->GetHealth() <= 0
-		|| entity->GetTeam() == localplayer->GetTeam())
+		|| entity->GetHealth() <= 0)
 		return;
 
-	if (tr.hitgroup == HitGroups::HITGROUP_HEAD && !Settings::Triggerbot::Filter::head)
+	if (localplayer->GetLifeState() != LIFE_ALIVE)
+		return;
+
+	if (entity->GetTeam() == localplayer->GetTeam() && !Settings::Triggerbot::Filter::friendly)
+		return;
+	else if (tr.hitgroup == HitGroups::HITGROUP_HEAD && !Settings::Triggerbot::Filter::head)
 		return;
 	else if (tr.hitgroup == HitGroups::HITGROUP_CHEST && !Settings::Triggerbot::Filter::chest)
 		return;
@@ -53,9 +58,6 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	else if ((tr.hitgroup == HitGroups::HITGROUP_LEFTARM || tr.hitgroup == HitGroups::HITGROUP_RIGHTARM) && !Settings::Triggerbot::Filter::arms)
 		return;
 	else if ((tr.hitgroup == HitGroups::HITGROUP_LEFTLEG || tr.hitgroup == HitGroups::HITGROUP_RIGHTLEG) && !Settings::Triggerbot::Filter::legs)
-		return;
-
-	if (localplayer->GetLifeState() != LIFE_ALIVE)
 		return;
 
 	C_BaseCombatWeapon* active_weapon = reinterpret_cast<C_BaseCombatWeapon*>(entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon()));

@@ -126,6 +126,7 @@ namespace Settings
 
 		namespace Filter
 		{
+			extern bool friendly;
 			extern bool head;
 			extern bool chest;
 			extern bool stomach;

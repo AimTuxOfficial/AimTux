@@ -91,6 +91,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 
 	settings["Triggerbot"]["enabled"] = Settings::Triggerbot::enabled;
 	settings["Triggerbot"]["key"] = Settings::Triggerbot::key;
+	settings["Triggerbot"]["Filter"]["friendly"] = Settings::Triggerbot::Filter::friendly;
 	settings["Triggerbot"]["Filter"]["head"] = Settings::Triggerbot::Filter::head;
 	settings["Triggerbot"]["Filter"]["chest"] = Settings::Triggerbot::Filter::chest;
 	settings["Triggerbot"]["Filter"]["stomach"] = Settings::Triggerbot::Filter::stomach;
@@ -228,6 +229,7 @@ void Settings::LoadSettings(const char* filename)
 
 		GetBool(settings["Triggerbot"]["enabled"], Settings::Triggerbot::enabled);
 		GetInt(settings["Triggerbot"]["key"], Settings::Triggerbot::key);
+		GetBool(settings["Triggerbot"]["Filter"]["friendly"], Settings::Triggerbot::Filter::friendly);
 		GetBool(settings["Triggerbot"]["Filter"]["head"], Settings::Triggerbot::Filter::head);
 		GetBool(settings["Triggerbot"]["Filter"]["chest"], Settings::Triggerbot::Filter::chest);
 		GetBool(settings["Triggerbot"]["Filter"]["stomach"], Settings::Triggerbot::Filter::stomach);
