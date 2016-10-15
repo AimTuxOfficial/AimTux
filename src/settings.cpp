@@ -27,7 +27,6 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["Aimbot"]["silent"] = Settings::Aimbot::silent;
 	settings["Aimbot"]["fov"] = Settings::Aimbot::fov;
 	settings["Aimbot"]["bone"] = Settings::Aimbot::bone;
-	settings["Aimbot"]["aimkey"] = Settings::Aimbot::aimkey;
 	settings["Aimbot"]["Smooth"]["enabled"] = Settings::Aimbot::Smooth::enabled;
 	settings["Aimbot"]["Smooth"]["value"] = Settings::Aimbot::Smooth::value;
 	settings["Aimbot"]["AutoAim"]["enabled"] = Settings::Aimbot::AutoAim::enabled;
@@ -159,7 +158,6 @@ void Settings::LoadSettings(const char* filename)
 		Settings::Aimbot::silent = settings["Aimbot"]["silent"].asBool();
 		Settings::Aimbot::fov = settings["Aimbot"]["fov"].asFloat();
 		Settings::Aimbot::bone = settings["Aimbot"]["bone"].asInt();
-		Settings::Aimbot::aimkey = (ButtonCode_t) settings["Aimbot"]["aimkey"].asInt();
 		Settings::Aimbot::Smooth::enabled = settings["Aimbot"]["Smooth"]["enabled"].asBool();
 		Settings::Aimbot::Smooth::value = settings["Aimbot"]["Smooth"]["value"].asFloat();
 		Settings::Aimbot::AutoAim::enabled = settings["Aimbot"]["AutoAim"]["enabled"].asBool();
