@@ -1,7 +1,8 @@
 #include "spammer.h"
 
 /*---- Settings ----*/
-bool Settings::Spammer::enabled = false;
+bool Settings::Spammer::NormalSpammer::enabled = false;
+bool Settings::Spammer::KillSpammer::enabled = false;
 /*---- Settings ----*/
 
 /*---- Externs ----*/
