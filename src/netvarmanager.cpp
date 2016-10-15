@@ -110,7 +110,7 @@ std::string NetVarManager::dumpTable(RecvTable *table, int depth)
 		ss << pre << "\t" << varName << " [0x" << prop->m_Offset << "]\n";
 
 		if (prop->m_pDataTable)
-			dumpTable(prop->m_pDataTable, depth + 1);
+			ss << dumpTable(prop->m_pDataTable, depth + 1);
 	}
 
 	return ss.str();

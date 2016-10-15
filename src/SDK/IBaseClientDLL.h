@@ -22,10 +22,10 @@ struct RecvProp
 	bool m_bInsideArray;
 	const void *m_pExtraData;
 	RecvProp *m_pArrayProp;
-	void* m_ArrayLengthProxy;
-	void* m_ProxyFn;
-	void* m_DataTableProxyFn;
-	RecvTable  *m_pDataTable;
+	void *m_ArrayLengthProxy;
+	void *m_ProxyFn;
+	void *m_DataTableProxyFn;
+	RecvTable *m_pDataTable;
 	int m_Offset;
 	int m_ElementStride;
 	int m_nElements;
