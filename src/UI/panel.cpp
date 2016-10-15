@@ -39,24 +39,6 @@ void Panel::Draw ()
 	}
 }
 
-void Panel::DoReleaseTree ()
-{
-	this->isHovered = false;
-	for (int i = 0; i < childComponents.size(); i++)
-	{
-		Component* childComponent = childComponents[i];
-		
-		childComponent->isHovered = false;
-		
-		if (childComponent->onMouseLeaveEvent != NULL)
-		{
-			childComponent->onMouseLeaveEvent ();
-		}
-		
-		childComponent->DoReleaseTree ();
-	}
-}
-
 void Panel::OnMouseClickStart (PositionContext mouseContext)
 {
 	for (int i = 0; i < childComponents.size(); i++)
