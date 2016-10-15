@@ -65,8 +65,8 @@ void Spammer::FireEventClientSide(IGameEvent* event)
 	if (std::strcmp(event->GetName(), "player_death") != 0)
 		return;
 
-	int attacker_id = event->GetInt("attacker");
-	int deadPlayer_id = event->GetInt("userid");
+	int attacker_id = engine->GetPlayerForUserID(event->GetInt("attacker"));
+	int deadPlayer_id = engine->GetPlayerForUserID(event->GetInt("userid"));
 
 	// Make sure both IDs are valid
 	if (!attacker_id || !deadPlayer_id)
@@ -76,6 +76,10 @@ void Spammer::FireEventClientSide(IGameEvent* event)
 	if (attacker_id == deadPlayer_id)
 		return;
 
+	// Make sure we're the one who killed someone...
+	if (attacker_id != engine->GetLocalPlayer())
+		return;
+
 	// Get the attackers information
 	IEngineClient::player_info_t attacker_info;
 	engine->GetPlayerInfo(attacker_id, &attacker_info);
@@ -83,10 +87,6 @@ void Spammer::FireEventClientSide(IGameEvent* event)
 	// Get the dead players information
 	IEngineClient::player_info_t deadPlayer_info;
 	engine->GetPlayerInfo(deadPlayer_id, &deadPlayer_info);
-
-	// Make sure we're the one who killed someone...
-	if (engine->GetPlayerForUserID(attacker_id) != engine->GetLocalPlayer())
-		return;
 
 	// Construct a command with our message
 	pstring str;
