@@ -14,10 +14,10 @@ MiscWindow::MiscWindow (std::string title, Vector2D size, Vector2D position, Col
 	ts_spammer = new ToggleSwitch ("chat spammer", BELOW (ts_autostrafe), 35, &Settings::Spammer::NormalSpammer::enabled);
 	AddComponent (ts_spammer);
 	
-	ts_spammer_kill = new ToggleSwitch ("kill spammer", BELOW (ts_spammer), 35, &Settings::Spammer::KillSpammer::enabled);
+	ts_spammer_kill = new ToggleSwitch ("kill spammer", STACK (ts_spammer), 35, &Settings::Spammer::KillSpammer::enabled);
 	AddComponent (ts_spammer_kill);
 
-	ts_airstuck = new ToggleSwitch ("airstuck", BELOW (ts_spammer_kill), 35, &Settings::Airstuck::enabled);
+	ts_airstuck = new ToggleSwitch ("airstuck", BELOW (ts_spammer), 35, &Settings::Airstuck::enabled);
 	AddComponent (ts_airstuck);
 
 	ts_showranks = new ToggleSwitch ("show ranks", BELOW (ts_airstuck), 35, &Settings::ShowRanks::enabled);
