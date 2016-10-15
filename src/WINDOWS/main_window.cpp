@@ -7,8 +7,11 @@ MainWindow::MainWindow (std::string title, Vector2D size, Vector2D position, Col
 {
 	aimbot_button = new ToggleButton ("AimBot", LOC (10, 10), LOC (size.x - 20, 40), &aimbot_window->shown);
 	AddComponent (aimbot_button);
+
+	triggerbot_button = new ToggleButton ("TriggerBot", BELOW (aimbot_button), LOC (size.x - 20, 40), &triggerbot_window->shown);
+	AddComponent (triggerbot_button);
 	
-	esp_button = new ToggleButton ("Visuals", BELOW (aimbot_button), LOC (size.x - 20, 40), &esp_window->shown);
+	esp_button = new ToggleButton ("Visuals", BELOW (triggerbot_button), LOC (size.x - 20, 40), &esp_window->shown);
 	AddComponent (esp_button);
 	
 	hvh_button = new ToggleButton ("H V H", BELOW (esp_button), LOC (size.x - 20, 40), &hvh_window->shown);

@@ -1,0 +1,36 @@
+#include "aimbot_window.h"
+
+TriggerbotWindow* triggerbot_window = nullptr;
+
+TriggerbotWindow::TriggerbotWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor)
+	: Window::Window (title, size, position, backgroundColor)
+{
+	ts_triggerbot_enabled = new ToggleSwitch ("triggerbot", LOC (10, 10), 33, &Settings::Triggerbot::enabled);
+	AddComponent (ts_triggerbot_enabled);
+
+	ts_hitchance = new ToggleSwitch ("hitchance", BELOW (ts_triggerbot_enabled), 33, &Settings::Triggerbot::Hitchance::enabled);
+	AddComponent (ts_hitchance);
+
+	sl_hitchance = new Slider ("", STACK (ts_hitchance), LOC (size.x - ts_hitchance->size.x - 30, 33), &Settings::Triggerbot::Hitchance::value, 0.0f, 100.0f);
+	AddComponent (sl_hitchance);
+
+	ba_filter = new Banner ("Filter", BELOW (ts_hitchance), size.x - 20);
+	AddComponent (ba_filter);
+
+	ts_friendly = new ToggleSwitch ("friendly", BELOW (ba_filter), 33, &Settings::Triggerbot::Filter::friendly);
+	AddComponent (ts_friendly);
+
+	ts_head = new ToggleSwitch ("head", BELOW (ts_friendly), 33, &Settings::Triggerbot::Filter::head);
+	AddComponent (ts_head);
+
+	ts_chest = new ToggleSwitch ("chest", BELOW (ts_head), 33, &Settings::Triggerbot::Filter::chest);
+	AddComponent (ts_chest);
+
+	ts_arms = new ToggleSwitch ("arms", BELOW (ts_chest), 33, &Settings::Triggerbot::Filter::arms);
+	AddComponent (ts_arms);
+
+	ts_legs = new ToggleSwitch ("legs", BELOW (ts_arms), 33, &Settings::Triggerbot::Filter::legs);
+	AddComponent (ts_legs);
+
+	Hide ();
+}
