@@ -416,6 +416,19 @@ enum Bones: int
 	BONE_HEAD,
 };
 
+enum HitGroups: int
+{
+	HITGROUP_GENERIC = 0,
+	HITGROUP_HEAD,
+	HITGROUP_CHEST,
+	HITGROUP_STOMACH,
+	HITGROUP_LEFTARM,
+	HITGROUP_RIGHTARM,
+	HITGROUP_LEFTLEG,
+	HITGROUP_RIGHTLEG,
+	HITGROUP_GEAR
+};
+
 #define	FL_ONGROUND				(1<<0)	// At rest / on the ground
 #define FL_DUCKING				(1<<1)	// Player flag -- Player is fully crouched
 #define	FL_WATERJUMP			(1<<2)	// player jumping out of water

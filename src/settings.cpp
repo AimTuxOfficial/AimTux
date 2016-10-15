@@ -41,6 +41,11 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 
 	settings["Triggerbot"]["enabled"] = Settings::Triggerbot::enabled;
 	settings["Triggerbot"]["key"] = Settings::Triggerbot::key;
+	settings["Triggerbot"]["Filter"]["head"] = Settings::Triggerbot::Filter::head;
+	settings["Triggerbot"]["Filter"]["chest"] = Settings::Triggerbot::Filter::chest;
+	settings["Triggerbot"]["Filter"]["stomach"] = Settings::Triggerbot::Filter::stomach;
+	settings["Triggerbot"]["Filter"]["arms"] = Settings::Triggerbot::Filter::arms;
+	settings["Triggerbot"]["Filter"]["legs"] = Settings::Triggerbot::Filter::legs;
 	settings["Triggerbot"]["Hitchance"]["enabled"] = Settings::Triggerbot::Hitchance::enabled;
 	settings["Triggerbot"]["Hitchance"]["value"] = Settings::Triggerbot::Hitchance::value;
 
@@ -172,6 +177,11 @@ void Settings::LoadSettings(const char* filename)
 
 		Settings::Triggerbot::enabled = settings["Triggerbot"]["enabled"].asBool();
 		Settings::Triggerbot::key = (ButtonCode_t) settings["Triggerbot"]["key"].asInt();
+		Settings::Triggerbot::Filter::head = settings["Triggerbot"]["Filter"]["head"].asBool();
+		Settings::Triggerbot::Filter::chest = settings["Triggerbot"]["Filter"]["chest"].asBool();
+		Settings::Triggerbot::Filter::stomach = settings["Triggerbot"]["Filter"]["stomach"].asBool();
+		Settings::Triggerbot::Filter::arms = settings["Triggerbot"]["Filter"]["arms"].asBool();
+		Settings::Triggerbot::Filter::legs = settings["Triggerbot"]["Filter"]["legs"].asBool();
 		Settings::Triggerbot::Hitchance::enabled = settings["Triggerbot"]["Hitchance"]["enabled"].asBool();
 		Settings::Triggerbot::Hitchance::value = settings["Triggerbot"]["Hitchance"]["value"].asFloat();
 

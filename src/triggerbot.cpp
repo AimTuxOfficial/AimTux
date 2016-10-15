@@ -1,6 +1,11 @@
 #include "triggerbot.h"
 
 bool Settings::Triggerbot::enabled = true;
+bool Settings::Triggerbot::Filter::head = true;
+bool Settings::Triggerbot::Filter::chest = true;
+bool Settings::Triggerbot::Filter::stomach = true;
+bool Settings::Triggerbot::Filter::arms = true;
+bool Settings::Triggerbot::Filter::legs = true;
 bool Settings::Triggerbot::Hitchance::enabled = true;
 float Settings::Triggerbot::Hitchance::value = 60.0f;
 ButtonCode_t Settings::Triggerbot::key = ButtonCode_t::KEY_LALT;
@@ -39,7 +44,15 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 		|| entity->GetTeam() == localplayer->GetTeam())
 		return;
 
-	if (!(tr.hitgroup < 10 && tr.hitgroup > 0))
+	if (tr.hitgroup == HitGroups::HITGROUP_HEAD && !Settings::Triggerbot::Filter::head)
+		return;
+	else if (tr.hitgroup == HitGroups::HITGROUP_CHEST && !Settings::Triggerbot::Filter::chest)
+		return;
+	else if (tr.hitgroup == HitGroups::HITGROUP_STOMACH && !Settings::Triggerbot::Filter::stomach)
+		return;
+	else if ((tr.hitgroup == HitGroups::HITGROUP_LEFTARM || tr.hitgroup == HitGroups::HITGROUP_RIGHTARM) && !Settings::Triggerbot::Filter::arms)
+		return;
+	else if ((tr.hitgroup == HitGroups::HITGROUP_LEFTLEG || tr.hitgroup == HitGroups::HITGROUP_RIGHTLEG) && !Settings::Triggerbot::Filter::legs)
 		return;
 
 	if (localplayer->GetLifeState() != LIFE_ALIVE)

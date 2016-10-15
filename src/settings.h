@@ -124,6 +124,15 @@ namespace Settings
 		extern bool enabled;
 		extern ButtonCode_t key;
 
+		namespace Filter
+		{
+			extern bool head;
+			extern bool chest;
+			extern bool stomach;
+			extern bool arms;
+			extern bool legs;
+		}
+
 		namespace Hitchance
 		{
 			extern bool enabled;
