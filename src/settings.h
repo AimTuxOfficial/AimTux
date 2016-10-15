@@ -134,6 +134,12 @@ namespace Settings
 			extern bool legs;
 		}
 
+		namespace Delay
+		{
+			extern bool enabled;
+			extern float value;
+		}
+
 		namespace Hitchance
 		{
 			extern bool enabled;

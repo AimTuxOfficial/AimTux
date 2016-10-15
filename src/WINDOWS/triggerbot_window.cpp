@@ -8,7 +8,13 @@ TriggerbotWindow::TriggerbotWindow (std::string title, Vector2D size, Vector2D p
 	ts_triggerbot_enabled = new ToggleSwitch ("triggerbot", LOC (10, 10), 33, &Settings::Triggerbot::enabled);
 	AddComponent (ts_triggerbot_enabled);
 
-	ts_hitchance = new ToggleSwitch ("hitchance", BELOW (ts_triggerbot_enabled), 33, &Settings::Triggerbot::Hitchance::enabled);
+	ts_delay = new ToggleSwitch ("delay", BELOW (ts_triggerbot_enabled), 33, &Settings::Triggerbot::Delay::enabled);
+	AddComponent (ts_delay);
+
+	sl_delay = new Slider ("", STACK (ts_delay), LOC (size.x - ts_delay->size.x - 30, 33), &Settings::Triggerbot::Delay::value, 0.0f, 1000.0f);
+	AddComponent (sl_delay);
+
+	ts_hitchance = new ToggleSwitch ("hitchance", BELOW (ts_delay), 33, &Settings::Triggerbot::Hitchance::enabled);
 	AddComponent (ts_hitchance);
 
 	sl_hitchance = new Slider ("", STACK (ts_hitchance), LOC (size.x - ts_hitchance->size.x - 30, 33), &Settings::Triggerbot::Hitchance::value, 0.0f, 100.0f);

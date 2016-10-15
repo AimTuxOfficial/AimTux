@@ -11,6 +11,8 @@ class TriggerbotWindow : public Window
 {
 private:
 	ToggleSwitch* ts_triggerbot_enabled;
+	ToggleSwitch* ts_delay;
+	Slider*	sl_delay;
 	ToggleSwitch* ts_hitchance;
 	Slider*	sl_hitchance;
 	Banner* ba_filter;

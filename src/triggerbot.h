@@ -1,6 +1,7 @@
 #ifndef __TRIGGERBOT_H
 #define __TRIGGERBOT_H
 
+#include <chrono>
 #include "settings.h"
 #include "SDK/SDK.h"
 #include "interfaces.h"
