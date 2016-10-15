@@ -11,10 +11,13 @@ MiscWindow::MiscWindow (std::string title, Vector2D size, Vector2D position, Col
 	ts_autostrafe = new ToggleSwitch ("auto strafe", LOC (10, ts_bhop->position.y + ts_bhop->size.y + 10), 35, &Settings::AutoStrafe::enabled);
 	AddComponent (ts_autostrafe);
 	
-	ts_spammer = new ToggleSwitch ("spammer", LOC (10, ts_autostrafe->position.y + ts_autostrafe->size.y + 10), 35, &Settings::Spammer::NormalSpammer::enabled);
+	ts_spammer = new ToggleSwitch ("chat spammer", LOC (10, ts_autostrafe->position.y + ts_autostrafe->size.y + 10), 35, &Settings::Spammer::NormalSpammer::enabled);
 	AddComponent (ts_spammer);
+	
+	ts_spammer_kill = new ToggleSwitch ("kill spammer", LOC (10, ts_spammer->position.y + ts_spammer->size.y + 10), 35, &Settings::Spammer::KillSpammer::enabled);
+	AddComponent (ts_spammer_kill);
 
-	ts_airstuck = new ToggleSwitch ("airstuck", LOC (10, ts_spammer->position.y + ts_spammer->size.y + 10), 35, &Settings::Airstuck::enabled);
+	ts_airstuck = new ToggleSwitch ("airstuck", LOC (10, ts_spammer_kill->position.y + ts_spammer_kill->size.y + 10), 35, &Settings::Airstuck::enabled);
 	AddComponent (ts_airstuck);
 
 	ts_showranks = new ToggleSwitch ("show ranks", LOC (10, ts_airstuck->position.y + ts_airstuck->size.y + 10), 35, &Settings::ShowRanks::enabled);
