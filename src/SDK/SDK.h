@@ -26,5 +26,6 @@
 #include "IClientEntityList.h"
 #include "IClientMode.h"
 #include "ICvar.h"
+#include "IGameEvent.h"
 
 #endif

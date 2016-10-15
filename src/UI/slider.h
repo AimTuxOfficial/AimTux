@@ -9,6 +9,9 @@
 
 class Slider : public Component
 {
+protected:
+	Color text_color = Color (255, 255, 255, 255);
+	Color background_color = Color (160, 160, 160, 80);
 private:
 	float* value;
 	const float MIN;

@@ -27,7 +27,8 @@ namespace Spammer
 	extern std::vector<SpamCollection> collections;
 	extern SpamCollection* currentSpamCollection;
 
-	void Tick();
+	void CreateMove(CUserCmd* cmd);
+	void FireEventClientSide(IGameEvent* event);
 }
 
 #endif

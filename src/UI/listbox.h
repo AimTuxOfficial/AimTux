@@ -23,6 +23,10 @@ struct LB_Element
 template<typename T>
 class LB_Button : public Button
 {
+protected:
+	Color text_color = Color (255, 255, 255, 255);
+	Color background_color = Color (160, 160, 160, 7);
+	Color background_color_hovered = Color (160, 160, 160, 12);
 public:
 	LB_Element* element;
 	T* setting;
@@ -42,20 +46,22 @@ public:
 	
 	void Draw ()
 	{
-		Clear (Color (160, 160, 160, isHovered ? 5 : 2));
+		Clear (isHovered ? background_color_hovered : background_color);
 		
 		if (*static_cast<unsigned int*>((void*)setting) == element->value)
 		{
 			DrawRectangle (LOC (0, 0), size, Settings::UI::mainColor);
 		}
 		
-		DrawCenteredString (text, normal_font, Color (255, 255, 255, 255), LOC (size.x / 2, size.y / 2));
+		DrawCenteredString (text, normal_font, text_color, LOC (size.x / 2, size.y / 2));
 	}
 };
 
 template<typename E>
 class ListBox : public Panel
 {
+protected:
+	Color background_color = Color (160, 160, 160, 4);
 public:
 	std::string text = "listbox";
 	std::vector<LB_Element> elements;
@@ -81,7 +87,7 @@ public:
 	
 	void Draw ()
 	{
-		Clear (Color (160, 160, 160, 4));
+		Clear (background_color);
 		
 		DrawRectangle (LOC (0, 0), this->size, Settings::UI::mainColor);
 		

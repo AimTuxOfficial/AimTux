@@ -33,6 +33,9 @@ int __attribute__((constructor)) aimtux_init()
 	clientMode_vmt->HookVM((void*) Hooks::CreateMove, 25);
 	clientMode_vmt->ApplyVMT();
 
+	gameEvents_vmt->HookVM((void*) Hooks::FireEventClientSide, 10);
+	gameEvents_vmt->ApplyVMT();
+
 	NetVarManager::dumpNetvars();
 	Offsets::getOffsets();
 
@@ -52,6 +55,7 @@ void __attribute__((destructor)) aimtux_shutdown()
 	panel_vmt->ReleaseVMT();
 	modelRender_vmt->ReleaseVMT();
 	clientMode_vmt->ReleaseVMT();
+	gameEvents_vmt->ReleaseVMT();
 
 	cvar->ConsoleColorPrintf(ColorRGBA(255, 150, 150), "AimTux has been unloaded successfully.\n");
 }

@@ -19,13 +19,16 @@ std::list<std::string> GetObservervators(C_BaseEntity* pEntity)
 			continue;
 
 		C_BaseEntity *target = entitylist->GetClientEntityFromHandle(entity->GetObserverTarget());
-		if (pEntity == target)
-		{
-			IEngineClient::player_info_t entityInformation;
-			engine->GetPlayerInfo(i, &entityInformation);
+		if (pEntity != target)
+			continue;
 
-			list.push_back(entityInformation.name);
-		}
+		IEngineClient::player_info_t entityInformation;
+		engine->GetPlayerInfo(i, &entityInformation);
+
+		if (strcmp(entityInformation.guid, "BOT") == 0)
+			continue;
+
+		list.push_back(entityInformation.name);
 	}
 
 	return list;

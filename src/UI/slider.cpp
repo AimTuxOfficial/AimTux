@@ -14,7 +14,7 @@ void Slider::Draw ()
 	int gliderHeight = size.y / 5;
 	int gliderYLoc = (size.y / 2) - (gliderHeight / 2);
 	
-	DrawFilledRectangle (LOC(0, gliderYLoc), LOC(size.x, gliderYLoc + gliderHeight), Color (160, 160, 160, 80));
+	DrawFilledRectangle (LOC(0, gliderYLoc), LOC(size.x, gliderYLoc + gliderHeight), background_color);
 	
 	int dongleWidth = 10;
 	
@@ -30,5 +30,5 @@ void Slider::Draw ()
 
 	_text << (ROUNDF (*value, 100));
 	
-	DrawCenteredString (_text, normal_font, Color (255, 255, 255, 255), LOC (size.x / 2, size.y / 2));
+	DrawCenteredString (_text, normal_font, text_color, LOC (size.x / 2, size.y / 2));
 }

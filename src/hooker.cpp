@@ -15,11 +15,13 @@ IMaterialSystem* material = nullptr;
 ICvar* cvar = nullptr;
 CGlobalVars* globalvars = nullptr;
 CEffects* effects = nullptr;
+IGameEventManager2* gameevents = nullptr;
 
 VMT* panel_vmt = nullptr;
 VMT* client_vmt = nullptr;
 VMT* modelRender_vmt = nullptr;
 VMT* clientMode_vmt = nullptr;
+VMT* gameEvents_vmt = nullptr;
 
 MsgFunc_ServerRankRevealAllFn MsgFunc_ServerRankRevealAll;
 
@@ -38,6 +40,7 @@ void Hooker::HookInterfaces()
 	material = GetInterface<IMaterialSystem>("./bin/linux64/materialsystem_client.so", MATERIALSYSTEM_CLIENT_INTERFACE_VERSION);
 	cvar = GetInterface<ICvar>("./bin/linux64/libvstdlib_client.so", ENGINECVAR_INTERFACE_VERSION);
 	effects = GetInterface<CEffects>("./bin/linux64/engine_client.so", ENGINEEFFECTS_INTERFACE_VERSION);
+	gameevents = GetInterface<IGameEventManager2>("./bin/linux64/engine_client.so", GAMEEVENTSMANAGER2_INTERFACE_VERSION);
 }
 
 void Hooker::HookVMethods()
@@ -45,6 +48,7 @@ void Hooker::HookVMethods()
 	panel_vmt = new VMT(panel);
 	client_vmt = new VMT(client);
 	modelRender_vmt = new VMT(modelRender);
+	gameEvents_vmt = new VMT(gameevents);
 }
 
 uintptr_t GetClientClientAddress()

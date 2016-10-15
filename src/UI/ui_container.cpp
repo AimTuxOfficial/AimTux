@@ -41,6 +41,11 @@ void UI_Container::Draw ()
 		return;
 	}
 	
+	int width, height;
+	engine->GetScreenSize (width, height);
+	
+	Draw::DrawRect (LOC(0, 0), LOC (width, height), Color (0, 0, 0, 20));
+	
 	for (int i = windows.size ()-1; i >= 0; i--)
 	{
 		Window* window = windows[i];

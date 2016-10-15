@@ -36,6 +36,12 @@ public:
 		return getvfunc<oGetPlayerInfo>(this, 8)(this, iIndex, pInfo);
 	}
 
+	bool GetPlayerForUserID(int UserID)
+	{
+		typedef bool(* oGetPlayerForUserID)(void*, int);
+		return getvfunc<oGetPlayerForUserID>(this, 9)(this, UserID);
+	}
+
 	int GetLocalPlayer(void)
 	{
 		typedef int(* oGetLocalPlayer)(void*);

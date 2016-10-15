@@ -105,6 +105,7 @@ namespace Settings
 		namespace AutoShoot
 		{
 			extern bool enabled;
+			extern bool autoscope;
 		}
 
 		namespace AutoCrouch
@@ -211,7 +212,15 @@ namespace Settings
 
 	namespace Spammer
 	{
-		extern bool enabled;
+		namespace KillSpammer
+		{
+			extern bool enabled;
+		}
+		
+		namespace NormalSpammer
+		{
+			extern bool enabled;
+		}
 	}
 
 	namespace BHop

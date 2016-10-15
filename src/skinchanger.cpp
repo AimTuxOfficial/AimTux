@@ -20,6 +20,37 @@ std::unordered_map<int, Settings::Skinchanger::Skin> Settings::Skinchanger::skin
 		{ WEAPON_KNIFE_KARAMBIT, Settings::Skinchanger::Skin(417, WEAPON_KNIFE_KARAMBIT, 0.0005f, 1337, "AimTux", "models/weapons/v_knife_karam.mdl") }
 };
 
+const char* KnifeToName(int id)
+{
+	Settings::Skinchanger::Skin skin = Settings::Skinchanger::skins[id];
+
+	switch (skin.ItemDefinitionIndex)
+	{
+		case WEAPON_KNIFE_BAYONET:
+			return "bayonet";
+		case WEAPON_KNIFE_FLIP:
+			return "knife_flip";
+		case WEAPON_KNIFE_GUT:
+			return "knife_gut";
+		case WEAPON_KNIFE_KARAMBIT:
+			return "knife_karambit";
+		case WEAPON_KNIFE_M9_BAYONET:
+			return "knife_m9_bayonet";
+		case WEAPON_KNIFE_TACTICAL:
+			return "knife_tactical";
+		case WEAPON_KNIFE_FALCHION:
+			return "knife_falchion";
+		case WEAPON_KNIFE_SURVIVAL_BOWIE:
+			return "knife_survival_bowie";
+		case WEAPON_KNIFE_BUTTERFLY:
+			return "knife_butterfly";
+		case WEAPON_KNIFE_PUSH:
+			return "knife_push";
+		default:
+			return NULL;
+	}
+}
+
 void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 {
 	if (!Settings::Skinchanger::enabled)
@@ -107,4 +138,28 @@ void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 
 	if (currentSkin.Model != "")
 		*viewmodel->GetModelIndex() = modelInfo->GetModelIndex(currentSkin.Model.c_str());
+}
+
+void SkinChanger::FireEventClientSide(IGameEvent* event)
+{
+	if (!Settings::Skinchanger::enabled)
+		return;
+
+	if (!engine->IsInGame())
+		return;
+
+	if (!event || strcmp(event->GetName(), "player_death") != 0)
+		return;
+
+	if (!event->GetInt("attacker") || engine->GetPlayerForUserID(event->GetInt("attacker")) != engine->GetLocalPlayer())
+		return;
+
+	const char* weapon = event->GetString("weapon");
+	if (!strcmp(weapon, "knife_default_ct")) {
+		const char* name = KnifeToName(WEAPON_KNIFE);
+		event->SetString("weapon", name ?: weapon);
+	} else if (!strcmp(weapon, "knife_t")) {
+		const char* name = KnifeToName(WEAPON_KNIFE_T);
+		event->SetString("weapon", name ?: weapon);
+	}
 }

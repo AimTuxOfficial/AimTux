@@ -27,6 +27,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["Aimbot"]["silent"] = Settings::Aimbot::silent;
 	settings["Aimbot"]["fov"] = Settings::Aimbot::fov;
 	settings["Aimbot"]["bone"] = Settings::Aimbot::bone;
+	settings["Aimbot"]["aimkey"] = Settings::Aimbot::aimkey;
 	settings["Aimbot"]["Smooth"]["enabled"] = Settings::Aimbot::Smooth::enabled;
 	settings["Aimbot"]["Smooth"]["value"] = Settings::Aimbot::Smooth::value;
 	settings["Aimbot"]["AutoAim"]["enabled"] = Settings::Aimbot::AutoAim::enabled;
@@ -34,6 +35,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["Aimbot"]["AimStep"]["value"] = Settings::Aimbot::AimStep::value;
 	settings["Aimbot"]["RCS"]["enabled"] = Settings::Aimbot::RCS::enabled;
 	settings["Aimbot"]["AutoShoot"]["enabled"] = Settings::Aimbot::AutoShoot::enabled;
+	settings["Aimbot"]["AutoShoot"]["autoscope"] = Settings::Aimbot::AutoShoot::autoscope;
 	settings["Aimbot"]["AutoCrouch"]["enabled"] = Settings::Aimbot::AutoCrouch::enabled;
 	settings["Aimbot"]["AutoStop"]["enabled"] = Settings::Aimbot::AutoStop::enabled;
     settings["Aimbot"]["visibility_check"] == Settings::Aimbot::visibility_check;
@@ -102,7 +104,8 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["Dlights"]["enemy_color"]["g"] = Settings::Dlights::enemy_color.g;
 	settings["Dlights"]["enemy_color"]["b"] = Settings::Dlights::enemy_color.b;
 
-	settings["Spammer"]["enabled"] = Settings::Spammer::enabled;
+	settings["Spammer"]["NormalSpammer"]["enabled"] = Settings::Spammer::NormalSpammer::enabled;
+	settings["Spammer"]["KillSpammer"]["enabled"] = Settings::Spammer::KillSpammer::enabled;
 
 	settings["BHop"]["enabled"] = Settings::BHop::enabled;
 
@@ -156,6 +159,7 @@ void Settings::LoadSettings(const char* filename)
 		Settings::Aimbot::silent = settings["Aimbot"]["silent"].asBool();
 		Settings::Aimbot::fov = settings["Aimbot"]["fov"].asFloat();
 		Settings::Aimbot::bone = settings["Aimbot"]["bone"].asInt();
+		Settings::Aimbot::aimkey = (ButtonCode_t) settings["Aimbot"]["aimkey"].asInt();
 		Settings::Aimbot::Smooth::enabled = settings["Aimbot"]["Smooth"]["enabled"].asBool();
 		Settings::Aimbot::Smooth::value = settings["Aimbot"]["Smooth"]["value"].asFloat();
 		Settings::Aimbot::AutoAim::enabled = settings["Aimbot"]["AutoAim"]["enabled"].asBool();
@@ -163,6 +167,7 @@ void Settings::LoadSettings(const char* filename)
 		Settings::Aimbot::AimStep::value = settings["Aimbot"]["AimStep"]["value"].asFloat();
 		Settings::Aimbot::RCS::enabled = settings["Aimbot"]["RCS"]["enabled"].asBool();
 		Settings::Aimbot::AutoShoot::enabled = settings["Aimbot"]["AutoShoot"]["enabled"].asBool();
+		Settings::Aimbot::AutoShoot::autoscope = settings["Aimbot"]["AutoShoot"]["autoscope"].asBool();
 		Settings::Aimbot::AutoCrouch::enabled = settings["Aimbot"]["AutoCrouch"]["enabled"].asBool();
 		Settings::Aimbot::AutoStop::enabled = settings["Aimbot"]["AutoStop"]["enabled"].asBool();
         Settings::Aimbot::visibility_check = settings["Aimbot"]["visibility_check"].asBool();
@@ -231,7 +236,8 @@ void Settings::LoadSettings(const char* filename)
 		Settings::Dlights::enemy_color.g = settings["Dlights"]["enemy_color"]["g"].asInt();
 		Settings::Dlights::enemy_color.b = settings["Dlights"]["enemy_color"]["b"].asInt();
 
-		Settings::Spammer::enabled = settings["Spammer"]["enabled"].asBool();
+		Settings::Spammer::KillSpammer::enabled = settings["Spammer"]["KillSpammer"]["enabled"].asBool();
+		Settings::Spammer::NormalSpammer::enabled = settings["Spammer"]["NormalSpammer"]["enabled"].asBool();
 
 		Settings::BHop::enabled = settings["BHop"]["enabled"].asBool();
 

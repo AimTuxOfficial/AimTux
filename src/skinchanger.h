@@ -7,6 +7,7 @@
 
 namespace SkinChanger {
 	void FrameStageNotify(ClientFrameStage_t stage);
+	void FireEventClientSide(IGameEvent* event);
 };
 
 #endif

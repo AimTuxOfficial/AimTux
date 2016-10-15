@@ -13,6 +13,7 @@ private:
 	ToggleSwitch* ts_bhop;
 	ToggleSwitch* ts_autostrafe;
 	ToggleSwitch* ts_spammer;
+	ToggleSwitch* ts_spammer_kill;
 	ToggleSwitch* ts_airstuck;
 	ToggleSwitch* ts_showranks;
 	ToggleSwitch* ts_showspectators;
