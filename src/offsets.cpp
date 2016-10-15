@@ -19,6 +19,8 @@ void Offsets::getOffsets()
 	offsets.m_iObserverMode = NetVarManager::getOffset(tables, "DT_BasePlayer", "m_iObserverMode");
 	offsets.m_hObserverTarget = NetVarManager::getOffset(tables, "DT_BasePlayer", "m_hObserverTarget");
 	offsets.m_Collision = NetVarManager::getOffset(tables, "DT_BaseEntity", "m_Collision");
+	offsets.m_nRenderMode = NetVarManager::getOffset(tables, "DT_BaseEntity", "m_nRenderMode");
+	offsets.m_MoveType = offsets.m_nRenderMode + 1;
 
 	offsets.m_flFlashMaxAlpha = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_flFlashMaxAlpha");
 	offsets.m_bIsScoped = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_bIsScoped");

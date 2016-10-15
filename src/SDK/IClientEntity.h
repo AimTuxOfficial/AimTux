@@ -135,7 +135,7 @@ public:
 
 	MoveType_t GetMoveType()
 	{
-		return *(MoveType_t*)((uintptr_t)this + 0x290);
+		return *(MoveType_t*)((uintptr_t)this + offsets.m_MoveType);
 	}
 
 	float* GetFlashMaxAlpha()
