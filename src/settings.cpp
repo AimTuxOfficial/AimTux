@@ -103,7 +103,8 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["Dlights"]["enemy_color"]["g"] = Settings::Dlights::enemy_color.g;
 	settings["Dlights"]["enemy_color"]["b"] = Settings::Dlights::enemy_color.b;
 
-	settings["Spammer"]["enabled"] = Settings::Spammer::enabled;
+	settings["Spammer"]["NormalSpammer"]["enabled"] = Settings::Spammer::NormalSpammer::enabled;
+	settings["Spammer"]["KillSpammer"]["enabled"] = Settings::Spammer::KillSpammer::enabled;
 
 	settings["BHop"]["enabled"] = Settings::BHop::enabled;
 
@@ -233,7 +234,8 @@ void Settings::LoadSettings(const char* filename)
 		Settings::Dlights::enemy_color.g = settings["Dlights"]["enemy_color"]["g"].asInt();
 		Settings::Dlights::enemy_color.b = settings["Dlights"]["enemy_color"]["b"].asInt();
 
-		Settings::Spammer::enabled = settings["Spammer"]["enabled"].asBool();
+		Settings::Spammer::KillSpammer::enabled = settings["Spammer"]["KillSpammer"]["enabled"].asBool();
+		Settings::Spammer::NormalSpammer::enabled = settings["Spammer"]["NormalSpammer"]["enabled"].asBool();
 
 		Settings::BHop::enabled = settings["BHop"]["enabled"].asBool();
 
