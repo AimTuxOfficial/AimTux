@@ -74,9 +74,9 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 		float nextPrimaryAttack = active_weapon->GetNextPrimaryAttack();
 		float tick = localplayer->GetTickBase() * globalvars->interval_per_tick;
 
-		static long timeStamp;
 		long currentTime_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
 				std::chrono::system_clock::now().time_since_epoch()).count();
+		static long timeStamp = currentTime_ms;
 
 		if (nextPrimaryAttack > tick)
 		{
