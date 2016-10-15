@@ -53,6 +53,14 @@ void GetFloat(Json::Value &config, float &setting)
 	setting = config.asFloat();
 }
 
+template <typename Type>
+void GetColor(Json::Value &config, Type &setting)
+{
+	GetInt(config["r"], setting.r);
+	GetInt(config["g"], setting.g);
+	GetInt(config["b"], setting.b);
+}
+
 void Settings::LoadDefaultsOrSave(const char* filename)
 {
 	Json::Value settings;
@@ -97,6 +105,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["AntiAim"]["type_X"] = Settings::AntiAim::type_X;
 
 	settings["ESP"]["enabled"] = Settings::ESP::enabled;
+
 	settings["ESP"]["ally_color"]["r"] = Settings::ESP::ally_color.r;
 	settings["ESP"]["ally_color"]["g"] = Settings::ESP::ally_color.g;
 	settings["ESP"]["ally_color"]["b"] = Settings::ESP::ally_color.b;
@@ -233,21 +242,11 @@ void Settings::LoadSettings(const char* filename)
 		GetInt(settings["AntiAim"]["type_X"], Settings::AntiAim::type_X);
 
 		GetBool(settings["ESP"]["enabled"], Settings::ESP::enabled);
-		GetInt(settings["ESP"]["ally_color"]["r"], Settings::ESP::ally_color.r);
-		GetInt(settings["ESP"]["ally_color"]["g"], Settings::ESP::ally_color.g);
-		GetInt(settings["ESP"]["ally_color"]["b"], Settings::ESP::ally_color.b);
-		GetInt(settings["ESP"]["enemy_color"]["r"], Settings::ESP::enemy_color.r);
-		GetInt(settings["ESP"]["enemy_color"]["g"], Settings::ESP::enemy_color.g);
-		GetInt(settings["ESP"]["enemy_color"]["b"], Settings::ESP::enemy_color.b);
-		GetInt(settings["ESP"]["enemy_visible_color"]["r"], Settings::ESP::enemy_visible_color.r);
-		GetInt(settings["ESP"]["enemy_visible_color"]["g"], Settings::ESP::enemy_visible_color.g);
-		GetInt(settings["ESP"]["enemy_visible_color"]["b"], Settings::ESP::enemy_visible_color.b);
-		GetInt(settings["ESP"]["bones_color"]["r"], Settings::ESP::bones_color.r);
-		GetInt(settings["ESP"]["bones_color"]["g"], Settings::ESP::bones_color.g);
-		GetInt(settings["ESP"]["bones_color"]["b"], Settings::ESP::bones_color.b);
-		GetInt(settings["ESP"]["bomb_color"]["r"], Settings::ESP::bomb_color.r);
-		GetInt(settings["ESP"]["bomb_color"]["g"], Settings::ESP::bomb_color.g);
-		GetInt(settings["ESP"]["bomb_color"]["b"], Settings::ESP::bomb_color.b);
+		GetColor(settings["ESP"]["ally_color"], Settings::ESP::ally_color);
+		GetColor(settings["ESP"]["enemy_color"], Settings::ESP::enemy_color);
+		GetColor(settings["ESP"]["enemy_visible_color"], Settings::ESP::enemy_visible_color);
+		GetColor(settings["ESP"]["bones_color"], Settings::ESP::bones_color);
+		GetColor(settings["ESP"]["bomb_color"], Settings::ESP::bomb_color);
 		GetBool(settings["ESP"]["visibility_check"], Settings::ESP::visibility_check);
 		GetBool(settings["ESP"]["Walls"]["enabled"], Settings::ESP::Walls::enabled);
 		GetInt(settings["ESP"]["Walls"]["type"], Settings::ESP::Walls::type);
@@ -263,28 +262,16 @@ void Settings::LoadSettings(const char* filename)
 		GetBool(settings["ESP"]["Chams"]["visibility_check"], Settings::ESP::Chams::visibility_check);
 		GetBool(settings["ESP"]["Chams"]["arms"], Settings::ESP::Chams::arms);
 		GetBool(settings["ESP"]["Chams"]["rainbow_arms"], Settings::ESP::Chams::rainbow_arms);
-		GetInt(settings["ESP"]["Chams"]["players_ally_color"]["r"], Settings::ESP::Chams::players_ally_color.r);
-		GetInt(settings["ESP"]["Chams"]["players_ally_color"]["g"], Settings::ESP::Chams::players_ally_color.g);
-		GetInt(settings["ESP"]["Chams"]["players_ally_color"]["b"], Settings::ESP::Chams::players_ally_color.b);
-		GetInt(settings["ESP"]["Chams"]["players_enemy_color"]["r"], Settings::ESP::Chams::players_enemy_color.r);
-		GetInt(settings["ESP"]["Chams"]["players_enemy_color"]["g"], Settings::ESP::Chams::players_enemy_color.g);
-		GetInt(settings["ESP"]["Chams"]["players_enemy_color"]["b"], Settings::ESP::Chams::players_enemy_color.b);
-		GetInt(settings["ESP"]["Chams"]["players_enemy_visible_color"]["r"], Settings::ESP::Chams::players_enemy_visible_color.r);
-		GetInt(settings["ESP"]["Chams"]["players_enemy_visible_color"]["g"], Settings::ESP::Chams::players_enemy_visible_color.g);
-		GetInt(settings["ESP"]["Chams"]["players_enemy_visible_color"]["b"], Settings::ESP::Chams::players_enemy_visible_color.b);
-		GetInt(settings["ESP"]["Chams"]["arms_color"]["r"], Settings::ESP::Chams::arms_color.r);
-		GetInt(settings["ESP"]["Chams"]["arms_color"]["g"], Settings::ESP::Chams::arms_color.g);
-		GetInt(settings["ESP"]["Chams"]["arms_color"]["b"], Settings::ESP::Chams::arms_color.b);
+		GetColor(settings["ESP"]["Chams"]["players_ally_color"], Settings::ESP::Chams::players_ally_color);
+		GetColor(settings["ESP"]["Chams"]["players_enemy_color"], Settings::ESP::Chams::players_enemy_color);
+		GetColor(settings["ESP"]["Chams"]["players_enemy_visible_color"], Settings::ESP::Chams::players_enemy_visible_color);
+		GetColor(settings["ESP"]["Chams"]["arms_color"], Settings::ESP::Chams::arms_color);
 		GetInt(settings["ESP"]["Chams"]["type"], Settings::ESP::Chams::type);
 
 		GetBool(settings["Dlights"]["enabled"], Settings::Dlights::enabled);
 		GetFloat(settings["Dlights"]["radius"], Settings::Dlights::radius);
-		GetInt(settings["Dlights"]["ally_color"]["r"], Settings::Dlights::ally_color.r);
-		GetInt(settings["Dlights"]["ally_color"]["g"], Settings::Dlights::ally_color.g);
-		GetInt(settings["Dlights"]["ally_color"]["b"], Settings::Dlights::ally_color.b);
-		GetInt(settings["Dlights"]["enemy_color"]["r"], Settings::Dlights::enemy_color.r);
-		GetInt(settings["Dlights"]["enemy_color"]["g"], Settings::Dlights::enemy_color.g);
-		GetInt(settings["Dlights"]["enemy_color"]["b"], Settings::Dlights::enemy_color.b);
+		GetColor(settings["Dlights"]["ally_color"], Settings::Dlights::ally_color);
+		GetColor(settings["Dlights"]["enemy_color"], Settings::Dlights::enemy_color);
 
 		GetBool(settings["Spammer"]["KillSpammer"]["enabled"], Settings::Spammer::KillSpammer::enabled);
 		GetBool(settings["Spammer"]["NormalSpammer"]["enabled"], Settings::Spammer::NormalSpammer::enabled);
