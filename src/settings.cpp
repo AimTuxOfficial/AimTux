@@ -165,7 +165,7 @@ void Settings::LoadSettings(const char* filename)
 		Settings::Aimbot::AutoShoot::enabled = settings["Aimbot"]["AutoShoot"]["enabled"].asBool();
 		Settings::Aimbot::AutoCrouch::enabled = settings["Aimbot"]["AutoCrouch"]["enabled"].asBool();
 		Settings::Aimbot::AutoStop::enabled = settings["Aimbot"]["AutoStop"]["enabled"].asBool();
-        Settings::Aimbot::visibility_check = settings["Aimbot"]["visibility_check"]["enabled"].asBool();
+        Settings::Aimbot::visibility_check = settings["Aimbot"]["visibility_check"].asBool();
 
 		Settings::Triggerbot::enabled = settings["Triggerbot"]["enabled"].asBool();
 		Settings::Triggerbot::key = (ButtonCode_t) settings["Triggerbot"]["key"].asInt();
