@@ -15,6 +15,7 @@ bool Settings::Aimbot::AutoShoot::enabled = false;
 bool Settings::Aimbot::RCS::enabled = false;
 bool Settings::Aimbot::AutoCrouch::enabled = false;
 bool Settings::Aimbot::AutoStop::enabled = false;
+bool Settings::Aimbot::visibility_check = false;
 
 bool Aimbot::AimStepInProgress = false;
 
@@ -160,7 +161,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	if (localplayer->GetDormant() || localplayer->GetLifeState() != LIFE_ALIVE || localplayer->GetHealth() == 0)
 		return;
 
-	C_BaseEntity* entity = GetClosestEnemy(cmd, true);
+	C_BaseEntity* entity = GetClosestEnemy(cmd, Settings::Aimbot::visibility_check);
 
 	if (entity)
 	{

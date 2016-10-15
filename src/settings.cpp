@@ -36,7 +36,8 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["Aimbot"]["AutoShoot"]["enabled"] = Settings::Aimbot::AutoShoot::enabled;
 	settings["Aimbot"]["AutoCrouch"]["enabled"] = Settings::Aimbot::AutoCrouch::enabled;
 	settings["Aimbot"]["AutoStop"]["enabled"] = Settings::Aimbot::AutoStop::enabled;
-
+    settings["Aimbot"]["visibility_check"] == Settings::Aimbot::visibility_check;
+    
 	settings["Triggerbot"]["enabled"] = Settings::Triggerbot::enabled;
 	settings["Triggerbot"]["key"] = Settings::Triggerbot::key;
 	settings["Triggerbot"]["Hitchance"]["enabled"] = Settings::Triggerbot::Hitchance::enabled;
@@ -164,6 +165,7 @@ void Settings::LoadSettings(const char* filename)
 		Settings::Aimbot::AutoShoot::enabled = settings["Aimbot"]["AutoShoot"]["enabled"].asBool();
 		Settings::Aimbot::AutoCrouch::enabled = settings["Aimbot"]["AutoCrouch"]["enabled"].asBool();
 		Settings::Aimbot::AutoStop::enabled = settings["Aimbot"]["AutoStop"]["enabled"].asBool();
+        Settings::Aimbot::visibility_check = settings["Aimbot"]["visibility_check"]["enabled"].asBool();
 
 		Settings::Triggerbot::enabled = settings["Triggerbot"]["enabled"].asBool();
 		Settings::Triggerbot::key = (ButtonCode_t) settings["Triggerbot"]["key"].asInt();
