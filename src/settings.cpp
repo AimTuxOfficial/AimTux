@@ -205,7 +205,7 @@ void Settings::LoadSettings(const char* filename)
 		GetBool(settings["Aimbot"]["silent"], Settings::Aimbot::silent);
 		GetFloat(settings["Aimbot"]["fov"], Settings::Aimbot::fov);
 		GetInt(settings["Aimbot"]["bone"], Settings::Aimbot::bone);
-		GetInt<ButtonCode_t>(settings["Aimbot"]["aimkey"], Settings::Aimbot::aimkey);
+		GetInt(settings["Aimbot"]["aimkey"], Settings::Aimbot::aimkey);
 		GetBool(settings["Aimbot"]["Smooth"]["enabled"], Settings::Aimbot::Smooth::enabled);
 		GetFloat(settings["Aimbot"]["Smooth"]["value"], Settings::Aimbot::Smooth::value);
 		GetBool(settings["Aimbot"]["AutoAim"]["enabled"], Settings::Aimbot::AutoAim::enabled);
@@ -218,7 +218,7 @@ void Settings::LoadSettings(const char* filename)
 		GetBool(settings["Aimbot"]["AutoStop"]["enabled"], Settings::Aimbot::AutoStop::enabled);
 
 		GetBool(settings["Triggerbot"]["enabled"], Settings::Triggerbot::enabled);
-		GetInt<ButtonCode_t>(settings["Triggerbot"]["key"], Settings::Triggerbot::key);
+		GetInt(settings["Triggerbot"]["key"], Settings::Triggerbot::key);
 		GetBool(settings["Triggerbot"]["Filter"]["head"], Settings::Triggerbot::Filter::head);
 		GetBool(settings["Triggerbot"]["Filter"]["chest"], Settings::Triggerbot::Filter::chest);
 		GetBool(settings["Triggerbot"]["Filter"]["stomach"], Settings::Triggerbot::Filter::stomach);
@@ -229,8 +229,8 @@ void Settings::LoadSettings(const char* filename)
 
 		GetBool(settings["AntiAim"]["enabled_Y"], Settings::AntiAim::enabled_Y);
 		GetBool(settings["AntiAim"]["enabled_X"], Settings::AntiAim::enabled_X);
-		GetInt<AntiAimType_Y>(settings["AntiAim"]["type_Y"], Settings::AntiAim::type_Y);
-		GetInt<AntiAimType_X>(settings["AntiAim"]["type_X"], Settings::AntiAim::type_X);
+		GetInt(settings["AntiAim"]["type_Y"], Settings::AntiAim::type_Y);
+		GetInt(settings["AntiAim"]["type_X"], Settings::AntiAim::type_X);
 
 		GetBool(settings["ESP"]["enabled"], Settings::ESP::enabled);
 		GetInt(settings["ESP"]["ally_color"]["r"], Settings::ESP::ally_color.r);
@@ -250,14 +250,14 @@ void Settings::LoadSettings(const char* filename)
 		GetInt(settings["ESP"]["bomb_color"]["b"], Settings::ESP::bomb_color.b);
 		GetBool(settings["ESP"]["visibility_check"], Settings::ESP::visibility_check);
 		GetBool(settings["ESP"]["Walls"]["enabled"], Settings::ESP::Walls::enabled);
-		GetInt<WallBoxType>(settings["ESP"]["Walls"]["type"], Settings::ESP::Walls::type);
+		GetInt(settings["ESP"]["Walls"]["type"], Settings::ESP::Walls::type);
 		GetBool(settings["ESP"]["Info"]["showName"], Settings::ESP::Info::showName);
 		GetBool(settings["ESP"]["Info"]["showHealth"], Settings::ESP::Info::showHealth);
 		GetBool(settings["ESP"]["Bones"]["enabled"], Settings::ESP::Bones::enabled);
 		GetBool(settings["ESP"]["Bomb"]["enabled"], Settings::ESP::Bomb::enabled);
 		GetBool(settings["ESP"]["Weapons"]["enabled"], Settings::ESP::Weapons::enabled);
 		GetBool(settings["ESP"]["Tracer"]["enabled"], Settings::ESP::Tracer::enabled);
-		GetInt<TracerType>(settings["ESP"]["Tracer"]["type"], Settings::ESP::Tracer::type);
+		GetInt(settings["ESP"]["Tracer"]["type"], Settings::ESP::Tracer::type);
 		GetBool(settings["ESP"]["FOVCrosshair"]["enabled"], Settings::ESP::FOVCrosshair::enabled);
 		GetBool(settings["ESP"]["Chams"]["players"], Settings::ESP::Chams::players);
 		GetBool(settings["ESP"]["Chams"]["visibility_check"], Settings::ESP::Chams::visibility_check);
@@ -275,7 +275,7 @@ void Settings::LoadSettings(const char* filename)
 		GetInt(settings["ESP"]["Chams"]["arms_color"]["r"], Settings::ESP::Chams::arms_color.r);
 		GetInt(settings["ESP"]["Chams"]["arms_color"]["g"], Settings::ESP::Chams::arms_color.g);
 		GetInt(settings["ESP"]["Chams"]["arms_color"]["b"], Settings::ESP::Chams::arms_color.b);
-		GetInt<ChamsType>(settings["ESP"]["Chams"]["type"], Settings::ESP::Chams::type);
+		GetInt(settings["ESP"]["Chams"]["type"], Settings::ESP::Chams::type);
 
 		GetBool(settings["Dlights"]["enabled"], Settings::Dlights::enabled);
 		GetFloat(settings["Dlights"]["radius"], Settings::Dlights::radius);
@@ -299,7 +299,7 @@ void Settings::LoadSettings(const char* filename)
 		GetBool(settings["Recoilcrosshair"]["enabled"], Settings::Recoilcrosshair::enabled);
 
 		GetBool(settings["Airstuck"]["enabled"], Settings::Airstuck::enabled);
-		GetInt<ButtonCode_t>(settings["Airstuck"]["key"], Settings::Airstuck::key);
+		GetInt(settings["Airstuck"]["key"], Settings::Airstuck::key);
 
 		Settings::Skinchanger::enabled = false;
 		Settings::Skinchanger::skins.clear();
