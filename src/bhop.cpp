@@ -4,35 +4,41 @@ bool Settings::BHop::enabled = true;
 
 void BHop::CreateMove(CUserCmd* cmd)
 {
-    if (!Settings::BHop::enabled)
-        return;
+	if (!Settings::BHop::enabled)
+		return;
 
-    static bool bLastJumped = false;
-    static bool bShouldFake = false;
+	static bool bLastJumped = false;
+	static bool bShouldFake = false;
 
-    C_BaseEntity* localplayer = reinterpret_cast<C_BaseEntity*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
+	C_BaseEntity* localplayer = reinterpret_cast<C_BaseEntity*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
 
-    if (!bLastJumped && bShouldFake)
-    {
-        bShouldFake = false;
-        cmd->buttons |= IN_JUMP;
-    }
+	if (!localplayer)
+		return;
+
+	if (localplayer->GetMoveType() == MOVETYPE_LADDER || localplayer->GetMoveType() == MOVETYPE_NOCLIP)
+		return;
+
+	if (!bLastJumped && bShouldFake)
+	{
+		bShouldFake = false;
+		cmd->buttons |= IN_JUMP;
+	}
 	else if (cmd->buttons & IN_JUMP)
 	{
-        if (localplayer->GetFlags() & FL_ONGROUND)
+		if (localplayer->GetFlags() & FL_ONGROUND)
 		{
-            bLastJumped = true;
-            bShouldFake = true;
-        }
+			bLastJumped = true;
+			bShouldFake = true;
+		}
 		else
 		{
-            cmd->buttons &= ~IN_JUMP;
-            bLastJumped = false;
-        }
-    }
+			cmd->buttons &= ~IN_JUMP;
+			bLastJumped = false;
+		}
+	}
 	else
 	{
-        bLastJumped = false;
-        bShouldFake = false;
-    }
+		bLastJumped = false;
+		bShouldFake = false;
+	}
 }
