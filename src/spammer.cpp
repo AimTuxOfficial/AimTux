@@ -85,7 +85,7 @@ void Spammer::FireEventClientSide(IGameEvent* event)
 
 	// Construct a command with our message
 	pstring str;
-	str << "say " << deadPlayer_info.name << " just got OWNED by AimTux!";
+	str << "say \"" << deadPlayer_info.name << " just got OWNED by AimTux!\"";
 
 	// Execute our constructed command
 	engine->ExecuteClientCmd(str.c_str());
