@@ -335,7 +335,7 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 		{
 			C_BasePlantedC4* bomb = (C_BasePlantedC4*) entitylist->GetClientEntity(i);
 
-			if (Settings::ESP::Bomb::enabled && bomb->IsBombTicking())
+			if (Settings::ESP::Bomb::enabled && bomb->IsBombTicking() && !bomb->IsBombDefused())
 				ESP::DrawBombBox(bomb);
 		}
 		else if (client->m_ClassID != CBaseWeaponWorldModel &&

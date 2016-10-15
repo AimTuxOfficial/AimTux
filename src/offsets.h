@@ -22,6 +22,7 @@ struct COffsets
 	int m_bIsScoped;
 	int m_Collision;
 
+	int m_bBombDefused;
 	int m_hBombDefuser;
 	int m_bBombTicking;
 	int m_flC4Blow;

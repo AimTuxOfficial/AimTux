@@ -219,6 +219,11 @@ public:
 		return *(float*)((uintptr_t)this + offsets.m_flC4Blow);
 	}
 
+	bool IsBombDefused()
+	{
+		return *(bool*)((uintptr_t)this + offsets.m_bBombDefused);
+	}
+
 	int GetBombDefuser()
 	{
 		return *(int*)((uintptr_t)this + offsets.m_hBombDefuser);
