@@ -202,7 +202,7 @@ public:
 
 	int GetShotsFired()
 	{
-		return *(int*)((uintptr_t)this + 0xABB0);
+		return *(int*)((uintptr_t)this + offsets.m_iShotsFired);
 	}
 };
 

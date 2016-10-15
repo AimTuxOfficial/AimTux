@@ -24,6 +24,7 @@ void Offsets::getOffsets()
 
 	offsets.m_flFlashMaxAlpha = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_flFlashMaxAlpha");
 	offsets.m_bIsScoped = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_bIsScoped");
+	offsets.m_iShotsFired = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_iShotsFired");
 
 	offsets.m_bBombDefused = NetVarManager::getOffset(tables, "DT_PlantedC4", "m_bBombDefused");
 	offsets.m_hBombDefuser = NetVarManager::getOffset(tables, "DT_PlantedC4", "m_hBombDefuser");
