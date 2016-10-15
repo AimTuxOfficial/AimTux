@@ -19,12 +19,13 @@ void GetBool(Json::Value &config, bool &setting)
 	setting = config.asBool();
 }
 
-void GetCString(Json::Value &config, const char* &setting)
+template <typename Type>
+void GetCString(Json::Value &config, Type &setting)
 {
 	if (config.isNull())
 		return;
 
-	setting = config.asCString();
+	strcpy(setting, config.asCString());
 }
 
 void GetString(Json::Value &config, std::string &setting)
@@ -189,16 +190,11 @@ void Settings::LoadSettings(const char* filename)
 		std::ifstream config_doc(GetSettingsPath(filename), std::ifstream::binary);
 		config_doc >> settings;
 
-		if (!settings["UI"]["Fonts"]["Title"]["family"].isNull())
-			strcpy(Settings::UI::Fonts::Title::family, settings["UI"]["Fonts"]["Title"]["family"].asCString());
+		GetCString(settings["UI"]["Fonts"]["Title"]["family"], Settings::UI::Fonts::Title::family);
 		GetInt(settings["UI"]["Fonts"]["Title"]["size"], Settings::UI::Fonts::Title::size);
-
-		if (!settings["UI"]["Fonts"]["Normal"]["family"].isNull())
-			strcpy(Settings::UI::Fonts::Normal::family, settings["UI"]["Fonts"]["Normal"]["family"].asCString());
+		GetCString(settings["UI"]["Fonts"]["Normal"]["family"], Settings::UI::Fonts::Normal::family);
 		GetInt(settings["UI"]["Fonts"]["Normal"]["size"], Settings::UI::Fonts::Normal::size);
-
-		if (!settings["UI"]["Fonts"]["ESP"]["family"].isNull())
-			strcpy(Settings::UI::Fonts::ESP::family, settings["UI"]["Fonts"]["ESP"]["family"].asCString());
+		GetCString(settings["UI"]["Fonts"]["ESP"]["family"], Settings::UI::Fonts::ESP::family);
 		GetInt(settings["UI"]["Fonts"]["ESP"]["size"], Settings::UI::Fonts::ESP::size);
 
 		title_font = Draw::CreateFont(Settings::UI::Fonts::Title::family, Settings::UI::Fonts::Title::size, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
