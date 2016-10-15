@@ -24,12 +24,10 @@ std::vector<Spammer::SpamCollection> Spammer::collections =
 Spammer::SpamCollection* Spammer::currentSpamCollection = &collections[0]; // Default 0
 /*---- Externs ----*/
 
-void Spammer::Tick()
+void Spammer::CreateMove(CUserCmd* cmd)
 {
 	if (!Settings::Spammer::NormalSpammer::enabled)
-	{
 		return;
-	}
 
 	// Give the random number generator a new seed based of the current time
 	std::srand(std::time(NULL));
@@ -38,22 +36,21 @@ void Spammer::Tick()
 	long currentTime_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
 			std::chrono::system_clock::now().time_since_epoch()).count();
 
-	if (currentTime_ms - timeStamp > (1000 + currentSpamCollection->delay))
-	{
-		// Grab a random message string
-		std::string message = currentSpamCollection->messages[std::rand() % currentSpamCollection->messages.size()];
+	if (currentTime_ms - timeStamp < (1000 + currentSpamCollection->delay))
+		return;
 
-		// Construct a command with our message
-		pstring str;
-		str << "say ";
-		str << message;
+	// Grab a random message string
+	std::string message = currentSpamCollection->messages[std::rand() % currentSpamCollection->messages.size()];
 
-		// Execute our constructed command
-		engine->ExecuteClientCmd(str.c_str());
+	// Construct a command with our message
+	pstring str;
+	str << "say " << message;
 
-		// Update the time stamp
-		timeStamp = currentTime_ms;
-	}
+	// Execute our constructed command
+	engine->ExecuteClientCmd(str.c_str());
+
+	// Update the time stamp
+	timeStamp = currentTime_ms;
 }
 
 
@@ -101,8 +98,6 @@ void Spammer::FireEventClientSide(IGameEvent* event)
 	// Construct a command with our message
 	pstring str;
 	str << "say " << deadPlayer_info.name << " just got OWNED by AimTux!";
-
-	engine->Print(str.c_str());
 
 	// Execute our constructed command
 	engine->ExecuteClientCmd(str.c_str());
