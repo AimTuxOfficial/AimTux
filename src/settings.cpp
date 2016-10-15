@@ -11,6 +11,47 @@ char* GetSettingsPath(const char* filename)
 	return settingsPath;
 }
 
+void GetBool(Json::Value &config, bool &setting)
+{
+	if (config.isNull())
+		return;
+
+	setting = config.asBool();
+}
+
+void GetCString(Json::Value &config, const char* &setting)
+{
+	if (config.isNull())
+		return;
+
+	setting = config.asCString();
+}
+
+void GetString(Json::Value &config, std::string &setting)
+{
+	if (config.isNull())
+		return;
+
+	setting = config.asString();
+}
+
+template <typename Type>
+void GetInt(Json::Value &config, Type &setting)
+{
+	if (config.isNull())
+		return;
+
+	setting = (Type) config.asInt();
+}
+
+void GetFloat(Json::Value &config, float &setting)
+{
+	if (config.isNull())
+		return;
+
+	setting = config.asFloat();
+}
+
 void Settings::LoadDefaultsOrSave(const char* filename)
 {
 	Json::Value settings;
@@ -148,116 +189,121 @@ void Settings::LoadSettings(const char* filename)
 		std::ifstream config_doc(GetSettingsPath(filename), std::ifstream::binary);
 		config_doc >> settings;
 
-		strcpy(Settings::UI::Fonts::Title::family, settings["UI"]["Fonts"]["Title"]["family"].asCString());
-		Settings::UI::Fonts::Title::size = settings["UI"]["Fonts"]["Title"]["size"].asInt();
-		strcpy(Settings::UI::Fonts::Normal::family, settings["UI"]["Fonts"]["Normal"]["family"].asCString());
-		Settings::UI::Fonts::Normal::size = settings["UI"]["Fonts"]["Normal"]["size"].asInt();
-		strcpy(Settings::UI::Fonts::ESP::family, settings["UI"]["Fonts"]["ESP"]["family"].asCString());
-		Settings::UI::Fonts::ESP::size = settings["UI"]["Fonts"]["ESP"]["size"].asInt();
+		if (!settings["UI"]["Fonts"]["Title"]["family"].isNull())
+			strcpy(Settings::UI::Fonts::Title::family, settings["UI"]["Fonts"]["Title"]["family"].asCString());
+		GetInt(settings["UI"]["Fonts"]["Title"]["size"], Settings::UI::Fonts::Title::size);
+
+		if (!settings["UI"]["Fonts"]["Normal"]["family"].isNull())
+			strcpy(Settings::UI::Fonts::Normal::family, settings["UI"]["Fonts"]["Normal"]["family"].asCString());
+		GetInt(settings["UI"]["Fonts"]["Normal"]["size"], Settings::UI::Fonts::Normal::size);
+
+		if (!settings["UI"]["Fonts"]["ESP"]["family"].isNull())
+			strcpy(Settings::UI::Fonts::ESP::family, settings["UI"]["Fonts"]["ESP"]["family"].asCString());
+		GetInt(settings["UI"]["Fonts"]["ESP"]["size"], Settings::UI::Fonts::ESP::size);
 
 		title_font = Draw::CreateFont(Settings::UI::Fonts::Title::family, Settings::UI::Fonts::Title::size, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
 		normal_font = Draw::CreateFont(Settings::UI::Fonts::Normal::family, Settings::UI::Fonts::Normal::size, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
 		esp_font = Draw::CreateFont(Settings::UI::Fonts::ESP::family, Settings::UI::Fonts::ESP::size, FONTFLAG_ANTIALIAS | FONTFLAG_OUTLINE);
 
-		Settings::Aimbot::enabled = settings["Aimbot"]["enabled"].asBool();
-		Settings::Aimbot::silent = settings["Aimbot"]["silent"].asBool();
-		Settings::Aimbot::fov = settings["Aimbot"]["fov"].asFloat();
-		Settings::Aimbot::bone = settings["Aimbot"]["bone"].asInt();
-		Settings::Aimbot::aimkey = (ButtonCode_t) settings["Aimbot"]["aimkey"].asInt();
-		Settings::Aimbot::Smooth::enabled = settings["Aimbot"]["Smooth"]["enabled"].asBool();
-		Settings::Aimbot::Smooth::value = settings["Aimbot"]["Smooth"]["value"].asFloat();
-		Settings::Aimbot::AutoAim::enabled = settings["Aimbot"]["AutoAim"]["enabled"].asBool();
-		Settings::Aimbot::AimStep::enabled = settings["Aimbot"]["AimStep"]["enabled"].asBool();
-		Settings::Aimbot::AimStep::value = settings["Aimbot"]["AimStep"]["value"].asFloat();
-		Settings::Aimbot::RCS::enabled = settings["Aimbot"]["RCS"]["enabled"].asBool();
-		Settings::Aimbot::AutoShoot::enabled = settings["Aimbot"]["AutoShoot"]["enabled"].asBool();
-		Settings::Aimbot::AutoShoot::autoscope = settings["Aimbot"]["AutoShoot"]["autoscope"].asBool();
-		Settings::Aimbot::AutoCrouch::enabled = settings["Aimbot"]["AutoCrouch"]["enabled"].asBool();
-		Settings::Aimbot::AutoStop::enabled = settings["Aimbot"]["AutoStop"]["enabled"].asBool();
+		GetBool(settings["Aimbot"]["enabled"], Settings::Aimbot::enabled);
+		GetBool(settings["Aimbot"]["silent"], Settings::Aimbot::silent);
+		GetFloat(settings["Aimbot"]["fov"], Settings::Aimbot::fov);
+		GetInt(settings["Aimbot"]["bone"], Settings::Aimbot::bone);
+		GetInt<ButtonCode_t>(settings["Aimbot"]["aimkey"], Settings::Aimbot::aimkey);
+		GetBool(settings["Aimbot"]["Smooth"]["enabled"], Settings::Aimbot::Smooth::enabled);
+		GetFloat(settings["Aimbot"]["Smooth"]["value"], Settings::Aimbot::Smooth::value);
+		GetBool(settings["Aimbot"]["AutoAim"]["enabled"], Settings::Aimbot::AutoAim::enabled);
+		GetBool(settings["Aimbot"]["AimStep"]["enabled"], Settings::Aimbot::AimStep::enabled);
+		GetFloat(settings["Aimbot"]["AimStep"]["value"], Settings::Aimbot::AimStep::value);
+		GetBool(settings["Aimbot"]["RCS"]["enabled"], Settings::Aimbot::RCS::enabled);
+		GetBool(settings["Aimbot"]["AutoShoot"]["enabled"], Settings::Aimbot::AutoShoot::enabled);
+		GetBool(settings["Aimbot"]["AutoShoot"]["autoscope"], Settings::Aimbot::AutoShoot::autoscope);
+		GetBool(settings["Aimbot"]["AutoCrouch"]["enabled"], Settings::Aimbot::AutoCrouch::enabled);
+		GetBool(settings["Aimbot"]["AutoStop"]["enabled"], Settings::Aimbot::AutoStop::enabled);
 
-		Settings::Triggerbot::enabled = settings["Triggerbot"]["enabled"].asBool();
-		Settings::Triggerbot::key = (ButtonCode_t) settings["Triggerbot"]["key"].asInt();
-		Settings::Triggerbot::Filter::head = settings["Triggerbot"]["Filter"]["head"].asBool();
-		Settings::Triggerbot::Filter::chest = settings["Triggerbot"]["Filter"]["chest"].asBool();
-		Settings::Triggerbot::Filter::stomach = settings["Triggerbot"]["Filter"]["stomach"].asBool();
-		Settings::Triggerbot::Filter::arms = settings["Triggerbot"]["Filter"]["arms"].asBool();
-		Settings::Triggerbot::Filter::legs = settings["Triggerbot"]["Filter"]["legs"].asBool();
-		Settings::Triggerbot::Hitchance::enabled = settings["Triggerbot"]["Hitchance"]["enabled"].asBool();
-		Settings::Triggerbot::Hitchance::value = settings["Triggerbot"]["Hitchance"]["value"].asFloat();
+		GetBool(settings["Triggerbot"]["enabled"], Settings::Triggerbot::enabled);
+		GetInt<ButtonCode_t>(settings["Triggerbot"]["key"], Settings::Triggerbot::key);
+		GetBool(settings["Triggerbot"]["Filter"]["head"], Settings::Triggerbot::Filter::head);
+		GetBool(settings["Triggerbot"]["Filter"]["chest"], Settings::Triggerbot::Filter::chest);
+		GetBool(settings["Triggerbot"]["Filter"]["stomach"], Settings::Triggerbot::Filter::stomach);
+		GetBool(settings["Triggerbot"]["Filter"]["arms"], Settings::Triggerbot::Filter::arms);
+		GetBool(settings["Triggerbot"]["Filter"]["legs"], Settings::Triggerbot::Filter::legs);
+		GetBool(settings["Triggerbot"]["Hitchance"]["enabled"], Settings::Triggerbot::Hitchance::enabled);
+		GetFloat(settings["Triggerbot"]["Hitchance"]["value"], Settings::Triggerbot::Hitchance::value);
 
-		Settings::AntiAim::enabled_Y = settings["AntiAim"]["enabled_Y"].asBool();
-		Settings::AntiAim::enabled_X = settings["AntiAim"]["enabled_X"].asBool();
-		Settings::AntiAim::type_Y = (AntiAimType_Y) settings["AntiAim"]["type_Y"].asInt();
-		Settings::AntiAim::type_X = (AntiAimType_X) settings["AntiAim"]["type_Y"].asInt();
+		GetBool(settings["AntiAim"]["enabled_Y"], Settings::AntiAim::enabled_Y);
+		GetBool(settings["AntiAim"]["enabled_X"], Settings::AntiAim::enabled_X);
+		GetInt<AntiAimType_Y>(settings["AntiAim"]["type_Y"], Settings::AntiAim::type_Y);
+		GetInt<AntiAimType_X>(settings["AntiAim"]["type_X"], Settings::AntiAim::type_X);
 
-		Settings::ESP::enabled = settings["ESP"]["enabled"].asBool();
-		Settings::ESP::ally_color.r = settings["ESP"]["ally_color"]["r"].asInt();
-		Settings::ESP::ally_color.g = settings["ESP"]["ally_color"]["g"].asInt();
-		Settings::ESP::ally_color.b = settings["ESP"]["ally_color"]["b"].asInt();
-		Settings::ESP::enemy_color.r = settings["ESP"]["enemy_color"]["r"].asInt();
-		Settings::ESP::enemy_color.g = settings["ESP"]["enemy_color"]["g"].asInt();
-		Settings::ESP::enemy_color.b = settings["ESP"]["enemy_color"]["b"].asInt();
-		Settings::ESP::enemy_visible_color.r = settings["ESP"]["enemy_visible_color"]["r"].asInt();
-		Settings::ESP::enemy_visible_color.g = settings["ESP"]["enemy_visible_color"]["g"].asInt();
-		Settings::ESP::enemy_visible_color.b = settings["ESP"]["enemy_visible_color"]["b"].asInt();
-		Settings::ESP::bones_color.r = settings["ESP"]["bones_color"]["r"].asInt();
-		Settings::ESP::bones_color.g = settings["ESP"]["bones_color"]["g"].asInt();
-		Settings::ESP::bones_color.b = settings["ESP"]["bones_color"]["b"].asInt();
-		Settings::ESP::bomb_color.r = settings["ESP"]["bomb_color"]["r"].asInt();
-		Settings::ESP::bomb_color.g = settings["ESP"]["bomb_color"]["g"].asInt();
-		Settings::ESP::bomb_color.b = settings["ESP"]["bomb_color"]["b"].asInt();
-		Settings::ESP::visibility_check = settings["ESP"]["visibility_check"].asBool();
-		Settings::ESP::Walls::enabled = settings["ESP"]["Walls"]["enabled"].asBool();
-		Settings::ESP::Walls::type = (WallBoxType) settings["ESP"]["Walls"]["type"].asInt();
-		Settings::ESP::Info::showName = settings["ESP"]["Info"]["showName"].asBool();
-		Settings::ESP::Info::showHealth = settings["ESP"]["Info"]["showHealth"].asBool();
-		Settings::ESP::Bones::enabled = settings["ESP"]["Bones"]["enabled"].asBool();
-		Settings::ESP::Bomb::enabled = settings["ESP"]["Bomb"]["enabled"].asBool();
-		Settings::ESP::Weapons::enabled = settings["ESP"]["Weapons"]["enabled"].asBool();
-		Settings::ESP::Tracer::enabled = settings["ESP"]["Tracer"]["enabled"].asBool();
-		Settings::ESP::Tracer::type = (TracerType) settings["ESP"]["Tracer"]["type"].asInt();
-		Settings::ESP::FOVCrosshair::enabled = settings["ESP"]["FOVCrosshair"]["enabled"].asBool();
-		Settings::ESP::Chams::players = settings["ESP"]["Chams"]["players"].asBool();
-		Settings::ESP::Chams::visibility_check = settings["ESP"]["Chams"]["visibility_check"].asBool();
-		Settings::ESP::Chams::arms = settings["ESP"]["Chams"]["arms"].asBool();
-		Settings::ESP::Chams::rainbow_arms = settings["ESP"]["Chams"]["rainbow_arms"].asBool();
-		Settings::ESP::Chams::players_ally_color.r = settings["ESP"]["Chams"]["players_ally_color"]["r"].asInt();
-		Settings::ESP::Chams::players_ally_color.g = settings["ESP"]["Chams"]["players_ally_color"]["g"].asInt();
-		Settings::ESP::Chams::players_ally_color.b = settings["ESP"]["Chams"]["players_ally_color"]["b"].asInt();
-		Settings::ESP::Chams::players_enemy_color.r = settings["ESP"]["Chams"]["players_enemy_color"]["r"].asInt();
-		Settings::ESP::Chams::players_enemy_color.g = settings["ESP"]["Chams"]["players_enemy_color"]["g"].asInt();
-		Settings::ESP::Chams::players_enemy_color.b = settings["ESP"]["Chams"]["players_enemy_color"]["b"].asInt();
-		Settings::ESP::Chams::players_enemy_visible_color.r = settings["ESP"]["Chams"]["players_enemy_visible_color"]["r"].asInt();
-		Settings::ESP::Chams::players_enemy_visible_color.g = settings["ESP"]["Chams"]["players_enemy_visible_color"]["g"].asInt();
-		Settings::ESP::Chams::players_enemy_visible_color.b = settings["ESP"]["Chams"]["players_enemy_visible_color"]["b"].asInt();
-		Settings::ESP::Chams::arms_color.r = settings["ESP"]["Chams"]["arms_color"]["r"].asInt();
-		Settings::ESP::Chams::arms_color.g = settings["ESP"]["Chams"]["arms_color"]["g"].asInt();
-		Settings::ESP::Chams::arms_color.b = settings["ESP"]["Chams"]["arms_color"]["b"].asInt();
-		Settings::ESP::Chams::type = (ChamsType) settings["ESP"]["Chams"]["type"].asInt();
+		GetBool(settings["ESP"]["enabled"], Settings::ESP::enabled);
+		GetInt(settings["ESP"]["ally_color"]["r"], Settings::ESP::ally_color.r);
+		GetInt(settings["ESP"]["ally_color"]["g"], Settings::ESP::ally_color.g);
+		GetInt(settings["ESP"]["ally_color"]["b"], Settings::ESP::ally_color.b);
+		GetInt(settings["ESP"]["enemy_color"]["r"], Settings::ESP::enemy_color.r);
+		GetInt(settings["ESP"]["enemy_color"]["g"], Settings::ESP::enemy_color.g);
+		GetInt(settings["ESP"]["enemy_color"]["b"], Settings::ESP::enemy_color.b);
+		GetInt(settings["ESP"]["enemy_visible_color"]["r"], Settings::ESP::enemy_visible_color.r);
+		GetInt(settings["ESP"]["enemy_visible_color"]["g"], Settings::ESP::enemy_visible_color.g);
+		GetInt(settings["ESP"]["enemy_visible_color"]["b"], Settings::ESP::enemy_visible_color.b);
+		GetInt(settings["ESP"]["bones_color"]["r"], Settings::ESP::bones_color.r);
+		GetInt(settings["ESP"]["bones_color"]["g"], Settings::ESP::bones_color.g);
+		GetInt(settings["ESP"]["bones_color"]["b"], Settings::ESP::bones_color.b);
+		GetInt(settings["ESP"]["bomb_color"]["r"], Settings::ESP::bomb_color.r);
+		GetInt(settings["ESP"]["bomb_color"]["g"], Settings::ESP::bomb_color.g);
+		GetInt(settings["ESP"]["bomb_color"]["b"], Settings::ESP::bomb_color.b);
+		GetBool(settings["ESP"]["visibility_check"], Settings::ESP::visibility_check);
+		GetBool(settings["ESP"]["Walls"]["enabled"], Settings::ESP::Walls::enabled);
+		GetInt<WallBoxType>(settings["ESP"]["Walls"]["type"], Settings::ESP::Walls::type);
+		GetBool(settings["ESP"]["Info"]["showName"], Settings::ESP::Info::showName);
+		GetBool(settings["ESP"]["Info"]["showHealth"], Settings::ESP::Info::showHealth);
+		GetBool(settings["ESP"]["Bones"]["enabled"], Settings::ESP::Bones::enabled);
+		GetBool(settings["ESP"]["Bomb"]["enabled"], Settings::ESP::Bomb::enabled);
+		GetBool(settings["ESP"]["Weapons"]["enabled"], Settings::ESP::Weapons::enabled);
+		GetBool(settings["ESP"]["Tracer"]["enabled"], Settings::ESP::Tracer::enabled);
+		GetInt<TracerType>(settings["ESP"]["Tracer"]["type"], Settings::ESP::Tracer::type);
+		GetBool(settings["ESP"]["FOVCrosshair"]["enabled"], Settings::ESP::FOVCrosshair::enabled);
+		GetBool(settings["ESP"]["Chams"]["players"], Settings::ESP::Chams::players);
+		GetBool(settings["ESP"]["Chams"]["visibility_check"], Settings::ESP::Chams::visibility_check);
+		GetBool(settings["ESP"]["Chams"]["arms"], Settings::ESP::Chams::arms);
+		GetBool(settings["ESP"]["Chams"]["rainbow_arms"], Settings::ESP::Chams::rainbow_arms);
+		GetInt(settings["ESP"]["Chams"]["players_ally_color"]["r"], Settings::ESP::Chams::players_ally_color.r);
+		GetInt(settings["ESP"]["Chams"]["players_ally_color"]["g"], Settings::ESP::Chams::players_ally_color.g);
+		GetInt(settings["ESP"]["Chams"]["players_ally_color"]["b"], Settings::ESP::Chams::players_ally_color.b);
+		GetInt(settings["ESP"]["Chams"]["players_enemy_color"]["r"], Settings::ESP::Chams::players_enemy_color.r);
+		GetInt(settings["ESP"]["Chams"]["players_enemy_color"]["g"], Settings::ESP::Chams::players_enemy_color.g);
+		GetInt(settings["ESP"]["Chams"]["players_enemy_color"]["b"], Settings::ESP::Chams::players_enemy_color.b);
+		GetInt(settings["ESP"]["Chams"]["players_enemy_visible_color"]["r"], Settings::ESP::Chams::players_enemy_visible_color.r);
+		GetInt(settings["ESP"]["Chams"]["players_enemy_visible_color"]["g"], Settings::ESP::Chams::players_enemy_visible_color.g);
+		GetInt(settings["ESP"]["Chams"]["players_enemy_visible_color"]["b"], Settings::ESP::Chams::players_enemy_visible_color.b);
+		GetInt(settings["ESP"]["Chams"]["arms_color"]["r"], Settings::ESP::Chams::arms_color.r);
+		GetInt(settings["ESP"]["Chams"]["arms_color"]["g"], Settings::ESP::Chams::arms_color.g);
+		GetInt(settings["ESP"]["Chams"]["arms_color"]["b"], Settings::ESP::Chams::arms_color.b);
+		GetInt<ChamsType>(settings["ESP"]["Chams"]["type"], Settings::ESP::Chams::type);
 
-		Settings::Dlights::enabled = settings["Dlights"]["enabled"].asBool();
-		Settings::Dlights::radius = settings["Dlights"]["radius"].asFloat();
-		Settings::Dlights::ally_color.r = settings["Dlights"]["ally_color"]["r"].asInt();
-		Settings::Dlights::ally_color.g = settings["Dlights"]["ally_color"]["g"].asInt();
-		Settings::Dlights::ally_color.b = settings["Dlights"]["ally_color"]["b"].asInt();
-		Settings::Dlights::enemy_color.r = settings["Dlights"]["enemy_color"]["r"].asInt();
-		Settings::Dlights::enemy_color.g = settings["Dlights"]["enemy_color"]["g"].asInt();
-		Settings::Dlights::enemy_color.b = settings["Dlights"]["enemy_color"]["b"].asInt();
+		GetBool(settings["Dlights"]["enabled"], Settings::Dlights::enabled);
+		GetFloat(settings["Dlights"]["radius"], Settings::Dlights::radius);
+		GetInt(settings["Dlights"]["ally_color"]["r"], Settings::Dlights::ally_color.r);
+		GetInt(settings["Dlights"]["ally_color"]["g"], Settings::Dlights::ally_color.g);
+		GetInt(settings["Dlights"]["ally_color"]["b"], Settings::Dlights::ally_color.b);
+		GetInt(settings["Dlights"]["enemy_color"]["r"], Settings::Dlights::enemy_color.r);
+		GetInt(settings["Dlights"]["enemy_color"]["g"], Settings::Dlights::enemy_color.g);
+		GetInt(settings["Dlights"]["enemy_color"]["b"], Settings::Dlights::enemy_color.b);
 
-		Settings::Spammer::KillSpammer::enabled = settings["Spammer"]["KillSpammer"]["enabled"].asBool();
-		Settings::Spammer::NormalSpammer::enabled = settings["Spammer"]["NormalSpammer"]["enabled"].asBool();
+		GetBool(settings["Spammer"]["KillSpammer"]["enabled"], Settings::Spammer::KillSpammer::enabled);
+		GetBool(settings["Spammer"]["NormalSpammer"]["enabled"], Settings::Spammer::NormalSpammer::enabled);
 
-		Settings::BHop::enabled = settings["BHop"]["enabled"].asBool();
+		GetBool(settings["BHop"]["enabled"], Settings::BHop::enabled);
 
-		Settings::AutoStrafe::enabled = settings["AutoStrafe"]["enabled"].asBool();
+		GetBool(settings["AutoStrafe"]["enabled"], Settings::AutoStrafe::enabled);
 
-		Settings::Noflash::enabled = settings["Noflash"]["enabled"].asBool();
-		Settings::Noflash::value = settings["Noflash"]["value"].asFloat();
+		GetBool(settings["Noflash"]["enabled"], Settings::Noflash::enabled);
+		GetFloat(settings["Noflash"]["value"], Settings::Noflash::value);
 
-		Settings::Recoilcrosshair::enabled = settings["Recoilcrosshair"]["enabled"].asBool();
+		GetBool(settings["Recoilcrosshair"]["enabled"], Settings::Recoilcrosshair::enabled);
 
-		Settings::Airstuck::enabled = settings["Airstuck"]["enabled"].asBool();
-		Settings::Airstuck::key = (ButtonCode_t) settings["Airstuck"]["key"].asInt();
+		GetBool(settings["Airstuck"]["enabled"], Settings::Airstuck::enabled);
+		GetInt<ButtonCode_t>(settings["Airstuck"]["key"], Settings::Airstuck::key);
 
 		Settings::Skinchanger::enabled = false;
 		Settings::Skinchanger::skins.clear();
@@ -277,10 +323,10 @@ void Settings::LoadSettings(const char* filename)
 			Settings::Skinchanger::skins[weaponID] = skin;
 		}
 
-		Settings::Skinchanger::enabled = settings["Skinchanger"]["enabled"].asBool();
+		GetBool(settings["Skinchanger"]["enabled"], Settings::Skinchanger::enabled);
 
-		Settings::ShowRanks::enabled = settings["ShowRanks"]["enabled"].asBool();
-		Settings::ShowSpectators::enabled = settings["ShowSpectators"]["enabled"].asBool();
+		GetBool(settings["ShowRanks"]["enabled"], Settings::ShowRanks::enabled);
+		GetBool(settings["ShowSpectators"]["enabled"], Settings::ShowSpectators::enabled);
 	}
 	else
 	{
