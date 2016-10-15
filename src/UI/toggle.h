@@ -7,6 +7,10 @@
 
 class ToggleSwitch : public Component
 {
+protected:
+	Color text_color = Color (255, 255, 255, 200);
+	Color background_color = Color (160, 160, 160, 5);
+	Color background_color_hovered = Color (160, 160, 160, 10);
 public:
 	bool clickStarted = false;
 	bool* setting;
@@ -48,7 +52,7 @@ public:
 	
 	void Draw ()
 	{
-		Clear (Color (160, 160, 160, (isHovered ? 10 : 5)));
+		Clear (isHovered ? background_color_hovered : background_color);
 		
 		int sep = size.y / 4;
 		
@@ -64,12 +68,16 @@ public:
 		
 		Vector2D textSize = Draw::GetTextSize (text.c_str(), normal_font);
 		
-		DrawString (text, normal_font, Color (255, 255, 255, 200), LOC (size.x-textSize.x-(sep*2), (size.y/2)-(textSize.y/2)));
+		DrawString (text, normal_font, text_color, LOC (size.x-textSize.x-(sep*2), (size.y/2)-(textSize.y/2)));
 	}
 };
 
 class ToggleButton : public Button
 {
+protected:
+	Color text_color = Color (255, 255, 255, 255);
+	Color hovered_outline_color = Color (200, 200, 200, 20);
+	Color background_color = Color (40, 40, 40, 150);
 public:
 	bool* setting;
 	
@@ -87,7 +95,7 @@ public:
 	
 	void Draw ()
 	{
-		Clear (Color (40, 40, 40, 150));
+		Clear (background_color);
 		
 		if (*setting)
 		{
@@ -95,10 +103,10 @@ public:
 		}
 		else if (isHovered)
 		{
-			DrawRectangle (LOC (0, 0), size, Color (200, 200, 200, 20));
+			DrawRectangle (LOC (0, 0), size, hovered_outline_color);
 		}
 		
-		DrawCenteredString (text, normal_font, Color (255, 255, 255, 255), LOC (size.x / 2, size.y / 2));
+		DrawCenteredString (text, normal_font, text_color, LOC (size.x / 2, size.y / 2));
 	}
 };
 
