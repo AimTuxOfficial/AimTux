@@ -88,21 +88,11 @@ void Spammer::FireEventClientSide(IGameEvent* event)
 	if (engine->GetPlayerForUserID(attacker_id) != engine->GetLocalPlayer())
 		return;
 
-	// Grab the current time in milliseconds
-	long currentTime_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-			std::chrono::system_clock::now().time_since_epoch()).count();
-
-	if (currentTime_ms - timeStamp < 1000)
-		return;
-
 	// Construct a command with our message
 	pstring str;
 	str << "say " << deadPlayer_info.name << " just got OWNED by AimTux!";
 
 	// Execute our constructed command
 	engine->ExecuteClientCmd(str.c_str());
-
-	// Update the time stamp
-	timeStamp = currentTime_ms;
 }
 
