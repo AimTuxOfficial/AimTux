@@ -59,7 +59,7 @@ enum FontFlags: int
 	FONTFLAG_BITMAP = 0x800,
 };
 
-enum FontDrawType_t
+enum FontDrawType_t: int
 {
 	// Use the "additive" value from the scheme file
 	FONT_DRAW_DEFAULT = 0,
