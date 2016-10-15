@@ -28,7 +28,7 @@ namespace Spammer
 	extern SpamCollection* currentSpamCollection;
 
 	void Tick();
-	bool FireEventClientSide (IGameEvent* event);
+	void FireEventClientSide(IGameEvent* event);
 }
 
 #endif
