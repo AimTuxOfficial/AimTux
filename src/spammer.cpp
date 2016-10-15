@@ -1,12 +1,7 @@
 #include "spammer.h"
 
-/*---- Settings ----*/
 bool Settings::Spammer::NormalSpammer::enabled = false;
 bool Settings::Spammer::KillSpammer::enabled = false;
-/*---- Settings ----*/
-
-/*---- Externs ----*/
-long timeStamp = 0;
 
 std::vector<Spammer::SpamCollection> Spammer::collections =
 {
@@ -21,8 +16,7 @@ std::vector<Spammer::SpamCollection> Spammer::collections =
 		}, 0)
 };
 
-Spammer::SpamCollection* Spammer::currentSpamCollection = &collections[0]; // Default 0
-/*---- Externs ----*/
+Spammer::SpamCollection* Spammer::currentSpamCollection = &collections[0];
 
 void Spammer::CreateMove(CUserCmd* cmd)
 {
@@ -35,6 +29,7 @@ void Spammer::CreateMove(CUserCmd* cmd)
 	// Grab the current time in milliseconds
 	long currentTime_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
 			std::chrono::system_clock::now().time_since_epoch()).count();
+	static long timeStamp = currentTime_ms;
 
 	if (currentTime_ms - timeStamp < (1000 + currentSpamCollection->delay))
 		return;
