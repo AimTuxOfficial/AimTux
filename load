@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #Credit: Aixxe @ aixxe.net
 if grep -q $(realpath ./libAimTux.so) /proc/$(pidof csgo_linux64)/maps; then
   exit
