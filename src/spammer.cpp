@@ -2,6 +2,7 @@
 
 bool Settings::Spammer::NormalSpammer::enabled = false;
 bool Settings::Spammer::KillSpammer::enabled = false;
+std::vector<IEngineClient::player_info_t> Spammer::killedPlayerQueue = std::vector<IEngineClient::player_info_t>();
 
 std::vector<Spammer::SpamCollection> Spammer::collections =
 {
@@ -20,30 +21,53 @@ Spammer::SpamCollection* Spammer::currentSpamCollection = &collections[0];
 
 void Spammer::CreateMove(CUserCmd* cmd)
 {
-	if (!Settings::Spammer::NormalSpammer::enabled)
-		return;
-
-	// Give the random number generator a new seed based of the current time
-	std::srand(std::time(NULL));
-
 	// Grab the current time in milliseconds
 	long currentTime_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
 			std::chrono::system_clock::now().time_since_epoch()).count();
 	static long timeStamp = currentTime_ms;
 
-	if (currentTime_ms - timeStamp < (1000 + currentSpamCollection->delay))
+	if (currentTime_ms - timeStamp < (850 + currentSpamCollection->delay))
 		return;
+	
+	// Kill spammer
+	if (Settings::Spammer::KillSpammer::enabled && Spammer::killedPlayerQueue.size() > 0)
+	{
+		IEngineClient::player_info_t player_info = Spammer::killedPlayerQueue[0];
+		
+		// Prepare dead player's nickname without ';' & '"' characters
+		// as they might cause user to execute a command.
+		std::string dead_player_name = std::string(player_info.name);
+		dead_player_name.erase(std::remove(dead_player_name.begin(), dead_player_name.end(), ';'), dead_player_name.end());
+		dead_player_name.erase(std::remove(dead_player_name.begin(), dead_player_name.end(), '"'), dead_player_name.end());
 
-	// Grab a random message string
-	std::string message = currentSpamCollection->messages[std::rand() % currentSpamCollection->messages.size()];
+		// Construct a command with our message
+		pstring str;
+		str << "say \"" << dead_player_name << " just got OWNED by AimTux!!\"";
 
-	// Construct a command with our message
-	pstring str;
-	str << "say " << message;
+		// Execute our constructed command
+		engine->ExecuteClientCmd(str.c_str());
+		
+		// Remove the first element from the vector
+		Spammer::killedPlayerQueue.erase (Spammer::killedPlayerQueue.begin(), Spammer::killedPlayerQueue.begin()+1);
+	}
+	else
+	// Normal Spammer
+	if (Settings::Spammer::NormalSpammer::enabled)
+	{
+		// Give the random number generator a new seed based of the current time
+		std::srand(std::time(NULL));
+		
+		// Grab a random message string
+		std::string message = currentSpamCollection->messages[std::rand() % currentSpamCollection->messages.size()];
 
-	// Execute our constructed command
-	engine->ExecuteClientCmd(str.c_str());
+		// Construct a command with our message
+		pstring str;
+		str << "say " << message;
 
+		// Execute our constructed command
+		engine->ExecuteClientCmd(str.c_str());
+	}
+	
 	// Update the time stamp
 	timeStamp = currentTime_ms;
 }
@@ -82,18 +106,7 @@ void Spammer::FireEventClientSide(IGameEvent* event)
 	// Get the dead players information
 	IEngineClient::player_info_t deadPlayer_info;
 	engine->GetPlayerInfo(deadPlayer_id, &deadPlayer_info);
-
-	// Prepare dead player's nickname without ';' & '"' characters
-	// as they might cause user to execute a command.
-	std::string dead_player_name = std::string(deadPlayer_info.name);
-	dead_player_name.erase(std::remove(dead_player_name.begin(), dead_player_name.end(), ';'), dead_player_name.end());
-	dead_player_name.erase(std::remove(dead_player_name.begin(), dead_player_name.end(), '"'), dead_player_name.end());
-
-	// Construct a command with our message
-	pstring str;
-	str << "say \"" << dead_player_name << " just got OWNED by AimTux!\"";
-
-	// Execute our constructed command
-	engine->ExecuteClientCmd(str.c_str());
+	
+	Spammer::killedPlayerQueue.push_back (deadPlayer_info);
 }
 
