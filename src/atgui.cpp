@@ -22,9 +22,9 @@ void SetupUI()
 	gui->AddWindow(triggerbot_window);
 	
 	// Misc window
-	misc_window = new MiscWindow("Miscellaneous", Vector2D(580, 400), Vector2D(10, 670), Color(0, 0, 0, 0));
+	misc_window = new MiscWindow("Miscellaneous", Vector2D(575, 400), Vector2D(10, 670), Color(0, 0, 0, 0));
 	gui->AddWindow(misc_window);
-	
+
 	// Main window
 	main_window = new MainWindow("AimTux", Vector2D(270, 400), Vector2D(100, 100), Color(0, 0, 0, 0));
 	main_window->position = Vector2D(x - main_window->size.x - 10, 10);
