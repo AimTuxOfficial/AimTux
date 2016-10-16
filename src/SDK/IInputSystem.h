@@ -300,6 +300,12 @@ public:
 		typedef void (* oButtonCodeToVirtualKey)(void*, ButtonCode_t);
 		getvfunc<oButtonCodeToVirtualKey>(this, 45)(this, code);
 	}
+	
+	const char* ButtonCodeToString (ButtonCode_t code)
+	{
+		typedef void (* oButtonCodeToString)(void*, ButtonCode_t);
+		getvfunc<oButtonCodeToString>(this, 40)(this, code);
+	}
 };
 
 #endif
