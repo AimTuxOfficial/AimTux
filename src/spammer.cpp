@@ -83,9 +83,15 @@ void Spammer::FireEventClientSide(IGameEvent* event)
 	IEngineClient::player_info_t deadPlayer_info;
 	engine->GetPlayerInfo(deadPlayer_id, &deadPlayer_info);
 
+	// Prepare dead player's nickname without ';' & '"' characters
+	// as they might cause user to execute a command.
+	std::string dead_player_name = std::string(deadPlayer_info.name);
+	dead_player_name.erase(std::remove(dead_player_name.begin(), dead_player_name.end(), ';'), dead_player_name.end());
+	dead_player_name.erase(std::remove(dead_player_name.begin(), dead_player_name.end(), '"'), dead_player_name.end());
+
 	// Construct a command with our message
 	pstring str;
-	str << "say \"" << deadPlayer_info.name << " just got OWNED by AimTux!\"";
+	str << "say \"" << dead_player_name << " just got OWNED by AimTux!\"";
 
 	// Execute our constructed command
 	engine->ExecuteClientCmd(str.c_str());

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <chrono>
 #include <vector>
+#include <algorithm>
 #include "interfaces.h"
 #include "settings.h"
 #include "pstring.h"
