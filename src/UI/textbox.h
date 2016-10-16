@@ -3,6 +3,7 @@
 
 #include "component.h"
 #include "../settings.h"
+#include "../util.h"
 #include <algorithm>
 
 class TextBox : public Component
@@ -85,7 +86,7 @@ public:
 		
 		return _isKeyPressed;
 	}
-	
+
 	void Input ()
 	{
 		if (!isHovered)
@@ -110,7 +111,7 @@ public:
 			
 			if (shift)
 			{
-				character = std::toupper (character);
+				character = Util::GetUpperValueOf(key);
 			}
 			
 			text += character;
