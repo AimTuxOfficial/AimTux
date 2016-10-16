@@ -405,7 +405,7 @@ enum EClassIds: int
 	SporeTrail
 };
 
-enum Bones: int
+enum Bones: unsigned int
 {
 	BONE_PELVIS = 0,
 	BONE_HIP,

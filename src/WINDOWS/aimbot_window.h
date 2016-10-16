@@ -15,6 +15,7 @@ private:
 	Banner* ba_aim;
 	ToggleSwitch* ts_autoaim;
 	Slider*	sl_fov;
+	StackedListBox<Bones>* lb_aimbone;
 	ToggleSwitch* ts_smooth_enable;
 	Slider* sl_smooth_value;
 	ToggleSwitch* ts_rcs;

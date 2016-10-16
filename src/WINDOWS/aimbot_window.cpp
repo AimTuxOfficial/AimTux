@@ -23,8 +23,20 @@ AimbotWindow::AimbotWindow (std::string title, Vector2D size, Vector2D position,
 	sl_fov = new Slider ("FOV", STACK (ts_autoaim), LOC (size.x - ts_autoaim->size.x - 30, 33), &Settings::Aimbot::fov, 0.0f, 180.0f);
 	AddComponent (sl_fov);
 	
+	lb_aimbone = new StackedListBox<Bones>("aimbone", BELOW (ts_autoaim), size.x - 20, 3, (Bones*)&Settings::Aimbot::bone, std::vector<LB_Element>
+		{
+			LB_Element ("HEAD", BONE_HEAD),
+			LB_Element ("NECK", BONE_NECK),
+			LB_Element ("UPPER SPINE", BONE_UPPER_SPINAL_COLUMN),
+			LB_Element ("MIDDLE SPINE", BONE_MIDDLE_SPINAL_COLUMN),
+			LB_Element ("LOWER SPINE", BONE_LOWER_SPINAL_COLUMN),
+			LB_Element ("HIP", BONE_HIP),
+			LB_Element ("PELVIS", BONE_PELVIS)
+		}
+	);
+	AddComponent (lb_aimbone);
 	
-	ts_smooth_enable = new ToggleSwitch ("smooth", BELOW (ts_autoaim), 33, &Settings::Aimbot::Smooth::enabled);
+	ts_smooth_enable = new ToggleSwitch ("smooth", BELOW (lb_aimbone), 33, &Settings::Aimbot::Smooth::enabled);
 	AddComponent (ts_smooth_enable);
 	
 	sl_smooth_value = new Slider ("", STACK (ts_smooth_enable), LOC (size.x - ts_smooth_enable->size.x - 30, 33), &Settings::Aimbot::Smooth::value, 0.10f, Settings::Aimbot::Smooth::max);
@@ -43,7 +55,7 @@ AimbotWindow::AimbotWindow (std::string title, Vector2D size, Vector2D position,
 	ts_autocrouch = new ToggleSwitch ("auto crouch", BELOW (ba_movement), 33, &Settings::Aimbot::AutoCrouch::enabled);
 	AddComponent (ts_autocrouch);
 	
-	ts_autostop = new ToggleSwitch ("auto stop", BELOW (ts_autocrouch), 33, &Settings::Aimbot::AutoStop::enabled);
+	ts_autostop = new ToggleSwitch ("auto stop", STACK (ts_autocrouch), 33, &Settings::Aimbot::AutoStop::enabled);
 	AddComponent (ts_autostop);
 	
 	Hide ();

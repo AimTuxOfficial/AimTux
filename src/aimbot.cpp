@@ -4,7 +4,7 @@
 bool Settings::Aimbot::enabled = true;
 bool Settings::Aimbot::silent = false;
 float Settings::Aimbot::fov = 180.0f;
-int Settings::Aimbot::bone = BONE_HEAD;
+unsigned int Settings::Aimbot::bone = BONE_HEAD;
 ButtonCode_t Settings::Aimbot::aimkey = ButtonCode_t::MOUSE_MIDDLE;
 bool Settings::Aimbot::Smooth::enabled = false;
 float Settings::Aimbot::Smooth::value = 1.0f;
