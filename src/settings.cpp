@@ -96,6 +96,8 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["Triggerbot"]["Filter"]["stomach"] = Settings::Triggerbot::Filter::stomach;
 	settings["Triggerbot"]["Filter"]["arms"] = Settings::Triggerbot::Filter::arms;
 	settings["Triggerbot"]["Filter"]["legs"] = Settings::Triggerbot::Filter::legs;
+	settings["Triggerbot"]["Delay"]["enabled"] = Settings::Triggerbot::Delay::enabled;
+	settings["Triggerbot"]["Delay"]["value"] = Settings::Triggerbot::Delay::value;
 	settings["Triggerbot"]["Hitchance"]["enabled"] = Settings::Triggerbot::Hitchance::enabled;
 	settings["Triggerbot"]["Hitchance"]["value"] = Settings::Triggerbot::Hitchance::value;
 
@@ -234,6 +236,8 @@ void Settings::LoadSettings(const char* filename)
 		GetBool(settings["Triggerbot"]["Filter"]["stomach"], Settings::Triggerbot::Filter::stomach);
 		GetBool(settings["Triggerbot"]["Filter"]["arms"], Settings::Triggerbot::Filter::arms);
 		GetBool(settings["Triggerbot"]["Filter"]["legs"], Settings::Triggerbot::Filter::legs);
+		GetBool(settings["Triggerbot"]["Delay"]["enabled"], Settings::Triggerbot::Delay::enabled);
+		GetFloat(settings["Triggerbot"]["Delay"]["value"], Settings::Triggerbot::Delay::value);
 		GetBool(settings["Triggerbot"]["Hitchance"]["enabled"], Settings::Triggerbot::Hitchance::enabled);
 		GetFloat(settings["Triggerbot"]["Hitchance"]["value"], Settings::Triggerbot::Hitchance::value);
 
