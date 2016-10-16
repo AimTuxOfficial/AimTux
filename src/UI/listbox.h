@@ -95,4 +95,61 @@ public:
 	}
 };
 
+template<typename E>
+class StackedListBox : public Panel
+{
+protected:
+	Color background_color = Color (160, 160, 160, 4);
+public:
+	std::string text = "listbox";
+	std::vector<LB_Element> elements;
+	E* setting;
+	
+	StackedListBox<E> (std::string text, Vector2D position, int width, int elements_x, E* setting, std::vector<LB_Element> elements)
+	{
+		this->position = position;
+		this->text = text;
+		this->elements = elements;
+		this->setting = setting;
+		
+		int elementWidth = ((width - (10 + (elements_x * 10))) / elements_x);
+		
+		int x = 0, y = 0;
+		for (int i = 0; i < elements.size(); i++)
+		{
+			if (x == elements_x)
+			{
+				y++;
+				x = 0;
+			}
+			
+			LB_Element* element = &this->elements[i];
+			
+			LB_Button<E>* new_button = new LB_Button<E> (
+				
+				element->name,
+				LOC ((x * elementWidth) + (10 + (x * 10)), (y * LB_ELEMENT_HEIGHT) + (10 + (y * 10))),
+				LOC (elementWidth - 20, LB_ELEMENT_HEIGHT),
+				this->setting,
+				element
+				
+				);
+			AddComponent (new_button);
+			
+			x++;
+		}
+		
+		this->size = Vector2D (width, ((y+1) * LB_ELEMENT_HEIGHT) + (10 + ((y+1) * LB_ELEMENT_SEPARATOR_WIDTH)));
+	}
+	
+	void Draw ()
+	{
+		Clear (background_color);
+		
+		DrawRectangle (LOC (0, 0), this->size, Settings::UI::mainColor);
+		
+		Panel::Draw ();
+	}
+};
+
 #endif
