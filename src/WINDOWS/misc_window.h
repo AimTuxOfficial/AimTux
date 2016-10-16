@@ -26,6 +26,4 @@ public:
 	void SetClanTag ();
 };
 
-extern SendClanTagFn SendClanTag;
-
 #endif

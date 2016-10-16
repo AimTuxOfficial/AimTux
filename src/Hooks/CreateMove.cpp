@@ -14,6 +14,7 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		Chams::CreateMove(cmd);
 		Airstuck::CreateMove(cmd);
 		ShowRanks::CreateMove(cmd);
+		ClanTagChanger::CreateMove(cmd);
 		Spammer::CreateMove(cmd);
 
 		if (!Settings::Aimbot::silent && !Settings::AntiAim::enabled_X && !Settings::AntiAim::enabled_Y)

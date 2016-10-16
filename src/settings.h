@@ -304,6 +304,11 @@ namespace Settings
 		extern bool enabled;
 	}
 
+	namespace ClanTagChanger
+	{
+		extern char* value;
+	}
+
 	void LoadDefaultsOrSave(const char* filename);
 	void LoadSettings(const char* filename);
 }

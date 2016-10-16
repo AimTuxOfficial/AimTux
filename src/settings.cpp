@@ -188,7 +188,10 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	}
 
 	settings["ShowRanks"]["enabled"] = Settings::ShowRanks::enabled;
+
 	settings["ShowSpectators"]["enabled"] = Settings::ShowSpectators::enabled;
+
+	settings["ClanTagChanger"]["value"] = Settings::ClanTagChanger::value;
 
 	std::ofstream(GetSettingsPath(filename)) << styledWriter.write(settings);
 }
@@ -314,6 +317,7 @@ void Settings::LoadSettings(const char* filename)
 		GetBool(settings["Skinchanger"]["enabled"], Settings::Skinchanger::enabled);
 
 		GetBool(settings["ShowRanks"]["enabled"], Settings::ShowRanks::enabled);
+
 		GetBool(settings["ShowSpectators"]["enabled"], Settings::ShowSpectators::enabled);
 	}
 	else
