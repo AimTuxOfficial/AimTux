@@ -307,6 +307,8 @@ namespace Settings
 	namespace ClanTagChanger
 	{
 		extern char* value;
+		extern bool animation;
+		extern int animation_speed;
 	}
 
 	void LoadDefaultsOrSave(const char* filename);
