@@ -44,5 +44,7 @@ MiscWindow::MiscWindow (std::string title, Vector2D size, Vector2D position, Col
 
 void MiscWindow::SetClanTag ()
 {
-	SendClanTag(tb_clantag->text.c_str(), "");
+	std::string text = Util::ReplaceString(tb_clantag->text, "\\n", "\n");
+
+	SendClanTag(text.c_str(), "");
 }

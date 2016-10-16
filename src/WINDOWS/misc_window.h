@@ -5,7 +5,7 @@ class MiscWindow;
 
 #include "../UI/stdui.h"
 #include "../atgui.h"
-
+#include "../util.h"
 
 class MiscWindow : public Window
 {

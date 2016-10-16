@@ -101,7 +101,7 @@ public:
 		{
 			ButtonCode_t key = (ButtonCode_t)pressedKeys[i];
 			
-			if (std::find(lastPressedKeys.begin(), lastPressedKeys.end(), key) != lastPressedKeys.end() || key > KEY_Z)
+			if (std::find(lastPressedKeys.begin(), lastPressedKeys.end(), key) != lastPressedKeys.end() || key > KEY_EQUAL)
 			{
 				continue;
 			}
