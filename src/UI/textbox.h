@@ -107,7 +107,7 @@ public:
 				continue;
 			}
 			
-			char character = input->ButtonCodeToString(key)[0];
+			char character = Util::GetButtonString(key);
 			
 			if (shift)
 			{

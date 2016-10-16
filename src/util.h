@@ -7,6 +7,7 @@
 
 namespace Util {
 	std::string ReplaceString(std::string subject, const std::string& search, const std::string& replace);
+	char GetButtonString(ButtonCode_t key);
 	char GetUpperValueOf(ButtonCode_t key);
 }
 
