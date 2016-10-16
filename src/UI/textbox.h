@@ -95,7 +95,7 @@ public:
 		
 		std::vector<ButtonCode_t> pressedKeys;
 		bool isKeyPressed = GetPressedKeys (pressedKeys);
-		bool shift = input->IsButtonDown (KEY_LSHIFT);
+		bool shift = input->IsButtonDown (KEY_LSHIFT) || input->IsButtonDown (KEY_RSHIFT);
 		
 		for (int i = 0; i < pressedKeys.size(); i++)
 		{
