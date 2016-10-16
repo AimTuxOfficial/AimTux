@@ -17,6 +17,7 @@ int __attribute__((constructor)) aimtux_init()
 	Hooker::HookIClientMode();
 	Hooker::HookGlobalVars();
 	Hooker::HookRankReveal();
+	Hooker::HookSendClanTag();
 	Chams::CreateMaterials();
 
 	cvar->ConsoleColorPrintf(ColorRGBA(150, 255, 150), "AimTux was successfully injected.\n");

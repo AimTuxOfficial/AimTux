@@ -38,10 +38,11 @@ MiscWindow::MiscWindow (std::string title, Vector2D size, Vector2D position, Col
 	ob_clantag_set = new OutlinedButton ("set clan tag", STACK (tb_clantag), LOC (110, 30));
 	AddComponent (ob_clantag_set);
 	ob_clantag_set->OnClickedEvent = MFUNC (&MiscWindow::SetClanTag, this);
-	
+
 	Hide ();
 }
 
 void MiscWindow::SetClanTag ()
 {
+	SendClanTag(tb_clantag->text.c_str(), "");
 }

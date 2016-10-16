@@ -34,6 +34,7 @@ typedef void (*DrawModelExecuteFn) (void*, void*, void*, const ModelRenderInfo_t
 typedef bool (*CreateMoveFn) (void*, float, CUserCmd*);
 typedef bool (*FireEventClientSideFn) (void*, IGameEvent*);
 typedef bool (*MsgFunc_ServerRankRevealAllFn) (float*);
+typedef void (*SendClanTagFn) (const char*, const char*);
 
 enum class FontFeature: int
 {

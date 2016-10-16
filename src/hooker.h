@@ -7,6 +7,9 @@
 #define MSGFUNC_SERVERRANKREVEALALL_SIGNATURE "\x55\x48\x89\xE5\x53\x48\x89\xFB\x48\x83\xEC\x08\xE8\x00\x00\x00\x00\x48\x8D\x00\x00\x00\x00\x00\x48\x8B\x10\x48\x89\xC7\xFF\x52\x28"
 #define MSGFUNC_SERVERRANKREVEALALL_MASK "xxxxxxxxxxxxx????xx?????xxxxxxxxx"
 
+#define SENDCLANTAG_SIGNATURE "\x55\x48\x89\xE5\x48\x89\x5D\xE8\x4C\x89\x65\xF0\x49\x89\xFC\xBF\x48\x00\x00\x00\x4C\x89\x6D\xF8\x48\x83\xEC\x20\x49"
+#define SENDCLANTAG_MASK "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
 #include <link.h>
 #include "patternfinder.h"
 #include "SDK/SDK.h"
@@ -19,6 +22,7 @@ namespace Hooker
 	void HookIClientMode();
 	void HookGlobalVars();
 	void HookRankReveal();
+	void HookSendClanTag();
 }
 
 #endif

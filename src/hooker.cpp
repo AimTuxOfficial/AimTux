@@ -24,6 +24,7 @@ VMT* clientMode_vmt = nullptr;
 VMT* gameEvents_vmt = nullptr;
 
 MsgFunc_ServerRankRevealAllFn MsgFunc_ServerRankRevealAll;
+SendClanTagFn SendClanTag;
 
 void Hooker::HookInterfaces()
 {
@@ -69,6 +70,24 @@ uintptr_t GetClientClientAddress()
 	return client_client;
 }
 
+uintptr_t GetEngineClientAddress()
+{
+	uintptr_t engine_client = 0;
+	// enumerate through loaded shared libraries
+	dl_iterate_phdr([] (struct dl_phdr_info* info, size_t size, void* data) {
+		// check for 'engine_client.so' in name
+		if (strcasestr(info->dlpi_name, "engine_client.so")) {
+			// write the address and break out of the loop
+			*reinterpret_cast<uintptr_t*>(data) = info->dlpi_addr + info->dlpi_phdr[0].p_vaddr;
+			return 1;
+		}
+
+		// haven't found it yet, keep going..
+		return 0;
+	}, &engine_client);
+	return engine_client;
+}
+
 void Hooker::HookIClientMode()
 {
 	uintptr_t client_client = GetClientClientAddress();
@@ -99,3 +118,11 @@ void Hooker::HookRankReveal()
 	MsgFunc_ServerRankRevealAll = reinterpret_cast<MsgFunc_ServerRankRevealAllFn>(func_address);
 }
 
+void Hooker::HookSendClanTag()
+{
+	uintptr_t engine_client = GetEngineClientAddress();
+
+	uintptr_t func_address = FindPattern(engine_client, 0xFFFFFFFFF, (unsigned char*) SENDCLANTAG_SIGNATURE, SENDCLANTAG_MASK);
+
+	SendClanTag = reinterpret_cast<SendClanTagFn>(func_address);
+}
