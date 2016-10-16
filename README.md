@@ -24,6 +24,7 @@ Want to chat or play with other AimTux users? Join us on Gitter!
 * *FOV ESP*
 * *Weapons ESP*
 * *Chams*
+* *Rank Viewer*
 * *Tracer*
 * *Bhop*
 * *No Flash*
