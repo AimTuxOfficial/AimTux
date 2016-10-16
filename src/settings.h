@@ -53,19 +53,19 @@ namespace Settings
 		{
 			namespace Title
 			{
-				extern char family[64];
+				extern char* family;
 				extern int size;
 			}
 
 			namespace Normal
 			{
-				extern char family[64];
+				extern char* family;
 				extern int size;
 			}
 
 			namespace ESP
 			{
-				extern char family[64];
+				extern char* family;
 				extern int size;
 			}
 		}

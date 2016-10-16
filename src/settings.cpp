@@ -19,13 +19,12 @@ void GetBool(Json::Value &config, bool &setting)
 	setting = config.asBool();
 }
 
-template <typename Type>
-void GetCString(Json::Value &config, Type &setting)
+void GetCString(Json::Value &config, char* &setting)
 {
 	if (config.isNull())
 		return;
 
-	strcpy(setting, config.asCString());
+	setting = strdup(config.asCString());
 }
 
 void GetString(Json::Value &config, std::string &setting)
