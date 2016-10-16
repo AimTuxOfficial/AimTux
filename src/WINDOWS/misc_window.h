@@ -19,8 +19,11 @@ private:
 	ToggleSwitch* ts_showspectators;
 	ToggleSwitch* ts_noflash_enabled;
 	Slider* sl_noflash_value;
+	TextBox* tb_clantag;
+	OutlinedButton* ob_clantag_set;
 public:
 	MiscWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor);
+	void SetClanTag ();
 };
 
 #endif

@@ -32,5 +32,16 @@ MiscWindow::MiscWindow (std::string title, Vector2D size, Vector2D position, Col
 	sl_noflash_value = new Slider ("", STACK (ts_noflash_enabled), LOC (size.x - ts_noflash_enabled->size.x - 30, 33), &Settings::Noflash::value, 0.0f, 255.0f);
 	AddComponent (sl_noflash_value);
 	
+	tb_clantag = new TextBox ("clantag", "", BELOW (ts_noflash_enabled), LOC (300, 30));
+	AddComponent (tb_clantag);
+	
+	ob_clantag_set = new OutlinedButton ("set clan tag", STACK (tb_clantag), LOC (110, 30));
+	AddComponent (ob_clantag_set);
+	ob_clantag_set->OnClickedEvent = MFUNC (&MiscWindow::SetClanTag, this);
+	
 	Hide ();
+}
+
+void MiscWindow::SetClanTag ()
+{
 }
