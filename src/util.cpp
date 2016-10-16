@@ -99,6 +99,6 @@ char Util::GetUpperValueOf(ButtonCode_t key)
 		case KEY_EQUAL:
 			return '+';
 		default:
-			return (char) std::toupper(input->ButtonCodeToString(key)[0]);
+			return Util::GetButtonString(key);
 	}
 }
