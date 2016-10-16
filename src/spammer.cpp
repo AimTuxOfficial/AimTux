@@ -28,12 +28,12 @@ void Spammer::CreateMove(CUserCmd* cmd)
 
 	if (currentTime_ms - timeStamp < (850 + currentSpamCollection->delay))
 		return;
-	
+
 	// Kill spammer
 	if (Settings::Spammer::KillSpammer::enabled && Spammer::killedPlayerQueue.size() > 0)
 	{
 		IEngineClient::player_info_t player_info = Spammer::killedPlayerQueue[0];
-		
+
 		// Prepare dead player's nickname without ';' & '"' characters
 		// as they might cause user to execute a command.
 		std::string dead_player_name = std::string(player_info.name);
@@ -46,17 +46,15 @@ void Spammer::CreateMove(CUserCmd* cmd)
 
 		// Execute our constructed command
 		engine->ExecuteClientCmd(str.c_str());
-		
+
 		// Remove the first element from the vector
-		Spammer::killedPlayerQueue.erase (Spammer::killedPlayerQueue.begin(), Spammer::killedPlayerQueue.begin()+1);
+		Spammer::killedPlayerQueue.erase(Spammer::killedPlayerQueue.begin(), Spammer::killedPlayerQueue.begin() + 1);
 	}
-	else
-	// Normal Spammer
-	if (Settings::Spammer::NormalSpammer::enabled)
+	else if (Settings::Spammer::NormalSpammer::enabled)
 	{
 		// Give the random number generator a new seed based of the current time
 		std::srand(std::time(NULL));
-		
+
 		// Grab a random message string
 		std::string message = currentSpamCollection->messages[std::rand() % currentSpamCollection->messages.size()];
 
@@ -67,7 +65,7 @@ void Spammer::CreateMove(CUserCmd* cmd)
 		// Execute our constructed command
 		engine->ExecuteClientCmd(str.c_str());
 	}
-	
+
 	// Update the time stamp
 	timeStamp = currentTime_ms;
 }
@@ -106,7 +104,7 @@ void Spammer::FireEventClientSide(IGameEvent* event)
 	// Get the dead players information
 	IEngineClient::player_info_t deadPlayer_info;
 	engine->GetPlayerInfo(deadPlayer_id, &deadPlayer_info);
-	
-	Spammer::killedPlayerQueue.push_back (deadPlayer_info);
+
+	Spammer::killedPlayerQueue.push_back(deadPlayer_info);
 }
 
