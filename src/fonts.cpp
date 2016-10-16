@@ -4,11 +4,11 @@ FONT title_font = 0;
 FONT normal_font = 0;
 FONT esp_font = 0;
 
-char Settings::UI::Fonts::Title::family[] = "Arial";
+char* Settings::UI::Fonts::Title::family = (char *) "Arial";
 int Settings::UI::Fonts::Title::size = 20;
-char Settings::UI::Fonts::Normal::family[] = "Arial";
+char* Settings::UI::Fonts::Normal::family = (char *) "Arial";
 int Settings::UI::Fonts::Normal::size = 17;
-char Settings::UI::Fonts::ESP::family[] = "Andale Mono";
+char* Settings::UI::Fonts::ESP::family = (char *) "Andale Mono";
 int Settings::UI::Fonts::ESP::size = 20;
 
 void Fonts::SetupFonts()
