@@ -32,6 +32,7 @@ Want to chat or play with other AimTux users? Join us on Gitter!
 * *Recoil Crosshair*
 * *Skin Changer*
 * *Knife Changer*
+* *Clan Tag Changer*
 * *Chat Spammer*
 * *Kill Spammer*
 
