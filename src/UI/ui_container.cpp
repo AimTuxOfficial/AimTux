@@ -129,8 +129,10 @@ void UI_Container::Toggle ()
 	engine->ExecuteClientCmd(visible ? "cl_mouseenable 0" : "cl_mouseenable 1");
 }
 
-
-
+bool UI_Container::isVisible ()
+{
+	return visible;
+}
 
 
 
