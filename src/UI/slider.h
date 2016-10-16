@@ -30,6 +30,7 @@ public:
 	
 	void MouseTick (PositionContext context);
 	void Draw ();
+	void Input ();
 };
 
 #endif

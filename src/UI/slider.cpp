@@ -32,3 +32,18 @@ void Slider::Draw ()
 	
 	DrawCenteredString (_text, normal_font, text_color, LOC (size.x / 2, size.y / 2));
 }
+
+void Slider::Input ()
+{
+	if (isHovered)
+	{
+		if (input->IsButtonDown (KEY_LEFT))
+		{
+			*value = MIN;
+		}
+		else if (input->IsButtonDown (KEY_RIGHT))
+		{
+			*value = MAX;
+		}
+	}
+}
