@@ -66,6 +66,7 @@ public:
 	
 	virtual void OnMouseClickStart (PositionContext mouseContext) { }
 	virtual void OnMouseClickEnd (PositionContext mouseContext) { }
+	virtual void Input () { }
 	virtual void MouseTick (PositionContext position) { }
 	virtual void Draw () { }
 	virtual void DoReleaseTree () { }

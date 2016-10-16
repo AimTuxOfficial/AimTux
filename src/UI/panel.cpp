@@ -87,6 +87,15 @@ void Panel::OnMouseClickEnd (PositionContext mouseContext)
 	}
 }
 
+void Panel::Input ()
+{
+	for (int i = 0; i < childComponents.size(); i++)
+	{
+		Component* childComponent = childComponents[i];
+		childComponent->Input ();
+	}
+}
+
 void Panel::MouseTick (PositionContext mouseContext)
 {
 	for (int i = 0; i < childComponents.size(); i++)

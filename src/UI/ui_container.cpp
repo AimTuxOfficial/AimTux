@@ -90,6 +90,18 @@ void UI_Container::Draw ()
 			}
 		}
 	}
+	
+	for (int i = 0; i < windows.size (); i++)
+	{
+		Window* window = windows[i];
+		
+		if (!window->IsShown ())
+		{
+			continue;
+		}
+		
+		window->Input ();
+	}
 
 	// Loop through all windows
 	for (int i = 0; i < windows.size (); i++)

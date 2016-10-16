@@ -28,6 +28,7 @@ public:
 	
 	virtual void OnMouseClickStart (PositionContext position);
 	virtual void OnMouseClickEnd (PositionContext position);
+	virtual void Input ();
 	virtual void MouseTick (PositionContext position);
 	virtual void Draw ();
 };
