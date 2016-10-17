@@ -71,6 +71,19 @@ void AntiAim::CreateMove (CUserCmd* cmd)
 		{
 			angle.x = 271.f;
 		}
+		else if (Settings::AntiAim::type_X == JITTER_UP_DOWN_FAST || Settings::AntiAim::type_X == JITTER_UP_DOWN_SLOW)
+		{
+			fPitch += Settings::AntiAim::type_X == JITTER_UP_DOWN_FAST ? 40.0f : 5.0f;
+
+			if (fPitch > 80.0f)
+				fPitch -= 160.0f;
+
+			angle.x = fPitch;
+		}
+		else if (Settings::AntiAim::type_X == ZERO)
+		{
+			angle.x = 0.f;
+		}
 	}
 
 	Math::NormalizeAngles(angle);

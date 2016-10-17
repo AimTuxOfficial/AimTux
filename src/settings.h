@@ -28,6 +28,9 @@ enum AntiAimType_X : unsigned int
 {
 	STATIC_UP,
 	STATIC_DOWN
+	JITTER_UP_DOWN_SLOW,
+	JITTER_UP_DOWN_FAST,
+	ZERO
 };
 
 enum ChamsType : unsigned int
