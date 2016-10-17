@@ -21,7 +21,7 @@ Window::Window (std::string title)
 	mainPanel = new Panel (Vector2D (0, titleBarHeight), this->size, Color (20, 20, 20, 190));
 	this->childComponents.push_back (mainPanel);
 	
-	titleBar = new TitleBar (this, LOC (0, 0));
+	titleBar = new TitleBar (this, Vector2D (0, 0));
 	this->childComponents.push_back (titleBar);
 }
 
@@ -30,8 +30,8 @@ Window::Window (std::string title, Vector2D size) : Window (title)
 {
 	this->size = size;
 	
-	this->mainPanel->size = this->size - LOC (0, titleBarHeight);
-	this->titleBar->size = LOC (size.x, titleBarHeight);
+	this->mainPanel->size = this->size - Vector2D (0, titleBarHeight);
+	this->titleBar->size = Vector2D (size.x, titleBarHeight);
 }
 
 
@@ -73,7 +73,7 @@ void Window::Draw ()
 {
 	Panel::Draw ();
 	
-	DrawRectangle (LOC (0, 0), size, Settings::UI::mainColor);
+	DrawRectangle (Vector2D (0, 0), size, Settings::UI::mainColor);
 }
 
 
@@ -92,7 +92,7 @@ void TitleBar::OnMouseClickStart (PositionContext mouseContext)
 	int x, y;
 	input->GetCursorPosition(&x, &y);
 	
-	mouseClickStartPosition = LOC (x, y) - parentWindow->position;
+	mouseClickStartPosition = Vector2D (x, y) - parentWindow->position;
 	
 	gui->Focus (parentWindow);
 }
@@ -108,7 +108,7 @@ void TitleBar::Draw ()
 	input->GetCursorPosition(&x, &y);
 	if (input->IsButtonDown (MOUSE_LEFT) && _isDown)
 	{
-		Vector2D newPos = LOC (x, y) - mouseClickStartPosition;
+		Vector2D newPos = Vector2D (x, y) - mouseClickStartPosition;
 		
 		parentWindow->position = newPos;
 	}
@@ -116,7 +116,7 @@ void TitleBar::Draw ()
 	
 	
 	Clear (Settings::UI::mainColor);
-	DrawCenteredString (parentWindow->title.c_str(), title_font, foreColor, LOC (size.x / 2, size.y / 2));
+	DrawCenteredString (parentWindow->title.c_str(), title_font, foreColor, Vector2D (size.x / 2, size.y / 2));
 }
 
 

@@ -33,7 +33,7 @@ Vector2D WorldToScreen(const Vector &vOrigin)
 {
 	Vector vec;
 	debugOverlay->ScreenPosition(vOrigin, vec);
-	return LOC(vec.x, vec.y);
+	return Vector2D(vec.x, vec.y);
 }
 
 static wchar_t* cwConvert(const char* text)
@@ -121,7 +121,7 @@ void ESP::DrawBones(C_BaseEntity* entity)
 			if (WorldToScreen(Vector(pBoneToWorldOut[pBone->parent][0][3], pBoneToWorldOut[pBone->parent][1][3], pBoneToWorldOut[pBone->parent][2][3]), vBonePos2))
 				continue;
 
-			Draw::DrawLine(LOC(vBonePos1.x, vBonePos1.y), LOC(vBonePos2.x, vBonePos2.y), Settings::ESP::bones_color);
+			Draw::DrawLine(Vector2D(vBonePos1.x, vBonePos1.y), Vector2D(vBonePos2.x, vBonePos2.y), Settings::ESP::bones_color);
 		}
 	}
 }
@@ -141,16 +141,16 @@ void ESP::DrawTracer(C_BasePlayer* localPlayer, C_BaseEntity* entity)
 	switch (Settings::ESP::Tracer::type)
 	{
 		case BOTTOM:
-			tracerLocation = LOC(width / 2, height);
+			tracerLocation = Vector2D(width / 2, height);
 			break;
 		case CURSOR:
-			tracerLocation = LOC(width / 2, height / 2);
+			tracerLocation = Vector2D(width / 2, height / 2);
 			break;
 	}
 
 	Vector s_vecEntity_s;
 	if (!WorldToScreen(entity->GetVecOrigin(), s_vecEntity_s) && localPlayer->GetHealth() > 0)
-		Draw::DrawLine(tracerLocation, LOC(s_vecEntity_s.x, s_vecEntity_s.y), color);
+		Draw::DrawLine(tracerLocation, Vector2D(s_vecEntity_s.x, s_vecEntity_s.y), color);
 }
 
 void ESP::DrawPlayerBox(C_BasePlayer* localPlayer, C_BaseEntity* entity)
@@ -233,10 +233,10 @@ void ESP::DrawPlayerInfo(C_BasePlayer* localPlayer, C_BaseEntity* entity, int en
 	float height = (pos.y - top.y);
 
 	if (Settings::ESP::Info::showHealth)
-		Draw::DrawCenteredString(health.c_str(), LOC (top.x, top.y + height + (size_health.y / 2)), color, esp_font);
+		Draw::DrawCenteredString(health.c_str(), Vector2D (top.x, top.y + height + (size_health.y / 2)), color, esp_font);
 
 	if (Settings::ESP::Info::showName)
-		Draw::DrawCenteredString(name.c_str(), LOC (top.x, top.y - (size_name.y / 2)), color, esp_font);
+		Draw::DrawCenteredString(name.c_str(), Vector2D (top.x, top.y - (size_name.y / 2)), color, esp_font);
 }
 
 void ESP::DrawFOVCrosshair()
@@ -249,7 +249,7 @@ void ESP::DrawFOVCrosshair()
 	int width, height;
 	engine->GetScreenSize(width, height);
 
-	Draw::DrawCircle(LOC(width / 2, height / 2), 20, Settings::Aimbot::fov / 90 * width / 2, Color(255, 100, 100, 255));
+	Draw::DrawCircle(Vector2D(width / 2, height / 2), 20, Settings::Aimbot::fov / 90 * width / 2, Color(255, 100, 100, 255));
 }
 
 void ESP::DrawBombBox(C_BasePlantedC4* entity)
@@ -273,7 +273,7 @@ void ESP::DrawBombBox(C_BasePlantedC4* entity)
 	if (!WorldToScreen(vecOrigin, s_vecLocalPlayer_s))
 	{
 		DrawESPBox(vecOrigin, vecViewOffset, color, width, additionalHeight);
-		Draw::DrawCenteredString(str.c_str(), LOC(s_vecLocalPlayer_s.x, s_vecLocalPlayer_s.y), colorText, esp_font);
+		Draw::DrawCenteredString(str.c_str(), Vector2D(s_vecLocalPlayer_s.x, s_vecLocalPlayer_s.y), colorText, esp_font);
 	}
 }
 
@@ -291,7 +291,7 @@ void ESP::DrawWeaponText(C_BaseEntity* entity, ClientClass* client)
 
 	Vector s_vecLocalPlayer_s;
 	if (!WorldToScreen(vecOrigin, s_vecLocalPlayer_s))
-		Draw::DrawCenteredString(modelName.c_str(), LOC(s_vecLocalPlayer_s.x, s_vecLocalPlayer_s.y), Color(255, 255, 255, 255), esp_font);
+		Draw::DrawCenteredString(modelName.c_str(), Vector2D(s_vecLocalPlayer_s.x, s_vecLocalPlayer_s.y), Color(255, 255, 255, 255), esp_font);
 }
 
 void ESP::DrawGlow()

@@ -42,7 +42,7 @@ public:
 		
 		if (isHovered)
 		{
-			DrawRectangle (LOC (0, 0), size, Settings::UI::mainColor);
+			DrawRectangle (Vector2D (0, 0), size, Settings::UI::mainColor);
 		}
 		
 		
@@ -52,7 +52,7 @@ public:
 		
 		int sectioned_text_size = strlen(sectioned_text);
 		
-		DrawString (sectioned_text, mono_font, text_color, LOC (10, (size.y / 2) - (font_size.y / 2)));
+		DrawString (sectioned_text, mono_font, text_color, Vector2D (10, (size.y / 2) - (font_size.y / 2)));
 		
 		int current_tick = globalvars->tickcount;
 		
@@ -65,7 +65,7 @@ public:
 		// Draw caret
 		if (s_showCaret && isHovered)
 		{
-			DrawFilledRectangle (LOC (12 + (sectioned_text_size * font_size.x), (size.y / 4)), LOC (14 + (sectioned_text_size * font_size.x), (size.y / 4) * 3), text_color);
+			DrawFilledRectangle (Vector2D (12 + (sectioned_text_size * font_size.x), (size.y / 4)), Vector2D (14 + (sectioned_text_size * font_size.x), (size.y / 4) * 3), text_color);
 		}
 	}
 	

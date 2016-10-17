@@ -54,11 +54,11 @@ void ShowSpectators::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool a
 	pstring text;
 	text << "Spectators (" << observators.size() << "):";
 
-	Draw::DrawString(text.c_str(), LOC(10, 400), Color(255, 255, 255), normal_font);
+	Draw::DrawString(text.c_str(), Vector2D(10, 400), Color(255, 255, 255), normal_font);
 
 	for (std::string name : observators)
 	{
-		Draw::DrawString(name.c_str(), LOC(10, 400 + 20 * index), Color(255, 255, 255), normal_font);
+		Draw::DrawString(name.c_str(), Vector2D(10, 400 + 20 * index), Color(255, 255, 255), normal_font);
 		index++;
 	}
 }

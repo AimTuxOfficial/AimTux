@@ -44,7 +44,7 @@ public:
 	std::function<void()> onMouseLeaveEvent;
 	
 	
-	PositionContext context = LOC (0,0);
+	PositionContext context = Vector2D (0,0);
 	Vector2D position;
 	Vector2D size;
 	unsigned int opacity;

@@ -5,13 +5,13 @@ TriggerbotWindow* triggerbot_window = nullptr;
 TriggerbotWindow::TriggerbotWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor)
 	: Window::Window (title, size, position, backgroundColor)
 {
-	ts_triggerbot_enabled = new ToggleSwitch ("triggerbot", LOC (10, 10), 33, &Settings::Triggerbot::enabled);
+	ts_triggerbot_enabled = new ToggleSwitch ("triggerbot", Vector2D (10, 10), 33, &Settings::Triggerbot::enabled);
 	AddComponent (ts_triggerbot_enabled);
 
 	ts_delay = new ToggleSwitch ("delay", BELOW (ts_triggerbot_enabled), 33, &Settings::Triggerbot::Delay::enabled);
 	AddComponent (ts_delay);
 
-	sl_delay = new Slider ("", STACK (ts_delay), LOC (size.x - ts_delay->size.x - 30, 33), &Settings::Triggerbot::Delay::value, 0.0f, 1000.0f);
+	sl_delay = new Slider ("", STACK (ts_delay), Vector2D (size.x - ts_delay->size.x - 30, 33), &Settings::Triggerbot::Delay::value, 0.0f, 1000.0f);
 	AddComponent (sl_delay);
 
 	ba_filter = new Banner ("Filter", BELOW (ts_delay), size.x - 20);

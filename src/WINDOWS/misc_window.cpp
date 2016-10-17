@@ -5,7 +5,7 @@ MiscWindow* misc_window = nullptr;
 MiscWindow::MiscWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor)
 	: Window::Window (title, size, position, backgroundColor)
 {
-	ts_bhop = new ToggleSwitch ("bhop", LOC (10, 10), 33, &Settings::BHop::enabled);
+	ts_bhop = new ToggleSwitch ("bhop", Vector2D (10, 10), 33, &Settings::BHop::enabled);
 	AddComponent (ts_bhop);
 	
 	ts_autostrafe = new ToggleSwitch ("auto strafe", BELOW (ts_bhop), 33, &Settings::AutoStrafe::enabled);
@@ -29,13 +29,13 @@ MiscWindow::MiscWindow (std::string title, Vector2D size, Vector2D position, Col
 	ts_noflash_enabled = new ToggleSwitch ("no flash", BELOW (ts_showranks), 33, &Settings::Noflash::enabled);
 	AddComponent (ts_noflash_enabled);
 	
-	sl_noflash_value = new Slider ("", STACK (ts_noflash_enabled), LOC (size.x - ts_noflash_enabled->size.x - 30, 33), &Settings::Noflash::value, 0.0f, 255.0f);
+	sl_noflash_value = new Slider ("", STACK (ts_noflash_enabled), Vector2D (size.x - ts_noflash_enabled->size.x - 30, 33), &Settings::Noflash::value, 0.0f, 255.0f);
 	AddComponent (sl_noflash_value);
 	
-	tb_clantag = new TextBox ("clantag", Settings::ClanTagChanger::value, BELOW (ts_noflash_enabled), LOC (270, 30));
+	tb_clantag = new TextBox ("clantag", Settings::ClanTagChanger::value, BELOW (ts_noflash_enabled), Vector2D (270, 30));
 	AddComponent (tb_clantag);
 	
-	ob_clantag_set = new OutlinedButton ("set clan tag", STACK (tb_clantag), LOC (110, 30));
+	ob_clantag_set = new OutlinedButton ("set clan tag", STACK (tb_clantag), Vector2D (110, 30));
 	AddComponent (ob_clantag_set);
 	ob_clantag_set->OnClickedEvent = MFUNC (&MiscWindow::SetClanTag, this);
 	

@@ -5,7 +5,7 @@ ESPWindow* esp_window = nullptr;
 ESPWindow::ESPWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor)
 	: Window::Window (title, size, position, backgroundColor)
 {
-	ts_esp_enabled = new ToggleSwitch ("esp", LOC (10, 10), 33, &Settings::ESP::enabled);
+	ts_esp_enabled = new ToggleSwitch ("esp", Vector2D (10, 10), 33, &Settings::ESP::enabled);
 	AddComponent (ts_esp_enabled);
 	
 	ba_player_info = new Banner ("Player Visuals", BELOW (ts_esp_enabled), size.x - 20);

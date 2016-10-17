@@ -49,7 +49,7 @@ public:
 		Color color = isHovered ? Color (150, 100, 100) : Color (200, 100, 100, 255);
 		Clear (color);
 		
-		DrawCenteredString (text, normal_font, Color (255, 255, 255, 255), LOC (size.x / 2, size.y / 2));
+		DrawCenteredString (text, normal_font, Color (255, 255, 255, 255), Vector2D (size.x / 2, size.y / 2));
 	}
 };
 
@@ -65,10 +65,10 @@ public:
 		
 		if (isHovered)
 		{
-			DrawRectangle (LOC (0, 0), size, Settings::UI::mainColor);
+			DrawRectangle (Vector2D (0, 0), size, Settings::UI::mainColor);
 		}
 		
-		DrawCenteredString (text, normal_font, Color (255, 255, 255, 255), LOC (size.x / 2, size.y / 2));
+		DrawCenteredString (text, normal_font, Color (255, 255, 255, 255), Vector2D (size.x / 2, size.y / 2));
 	}
 };
 
