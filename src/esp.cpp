@@ -10,7 +10,6 @@ bool Settings::ESP::Glow::enabled = true;
 Color Settings::ESP::Glow::ally_color = Color(0, 50, 200, 0);
 Color Settings::ESP::Glow::enemy_color = Color(200, 0, 50, 0);
 Color Settings::ESP::Glow::enemy_visible_color = Color(200, 200, 50, 0);
-Color Settings::ESP::Glow::bomb_color = Color(200, 0, 50, 200);
 Color Settings::ESP::Glow::weapon_color = Color(200, 0, 50, 200);
 bool Settings::ESP::visibility_check = false;
 bool Settings::ESP::Walls::enabled = true;
@@ -330,13 +329,6 @@ void ESP::DrawGlow()
 			{
 				color = Settings::ESP::Glow::ally_color;
 			}
-		}
-		else if (client->m_ClassID == CPlantedC4)
-		{
-			C_BasePlantedC4* bomb = (C_BasePlantedC4*) glow_object->m_pEntity;
-
-			if (bomb->IsBombTicking() && !bomb->IsBombDefused())
-				color = Settings::ESP::Glow::bomb_color;
 		}
 		else if (client->m_ClassID != CBaseWeaponWorldModel &&
 			(strstr(client->m_pNetworkName, "Weapon") || client->m_ClassID == CDEagle || client->m_ClassID == CAK47))

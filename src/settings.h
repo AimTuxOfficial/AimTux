@@ -165,7 +165,6 @@ namespace Settings
 			extern Color ally_color;
 			extern Color enemy_color;
 			extern Color enemy_visible_color;
-			extern Color bomb_color;
 			extern Color weapon_color;
 		}
 
