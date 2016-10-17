@@ -43,12 +43,14 @@ public:
 
 	model_t* GetModel()
 	{
-		return GetVirtualFunction<model_t*(*)(void*)>(this, 8)(this);
+		typedef model_t* (* oGetModel)(void*);
+		getvfunc<oGetModel>(this, 8)(this);
 	}
 
 	bool SetupBones(matrix3x4_t* pBoneMatrix, int nMaxBones, int nBoneMask, float flCurTime = 0)
 	{
-		return GetVirtualFunction<bool(*)(void*, matrix3x4_t*, int, int, float)>(this, 13)(this, pBoneMatrix, nMaxBones, nBoneMask, flCurTime);
+		typedef bool (* oSetupBones)(void*, matrix3x4_t*, int, int, float);
+		getvfunc<oSetupBones>(this, 13)(this, pBoneMatrix, nMaxBones, nBoneMask, flCurTime);
 	}
 };
 
@@ -59,7 +61,8 @@ public:
 
 	ClientClass* GetClientClass()
 	{
-		return GetVirtualFunction<ClientClass*(*)(void*)>(this, 2)(this);
+		typedef int (* oGetClientClass)(void*);
+		getvfunc<oGetClientClass>(this, 2)(this);
 	}
 };
 

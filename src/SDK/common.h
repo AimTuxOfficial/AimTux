@@ -32,11 +32,6 @@ template <typename interface> interface* GetInterface(const char* filename, cons
 	return reinterpret_cast<interface*>(factory(version, nullptr));
 }
 
-template <typename Fn> inline Fn GetVirtualFunction(void* baseclass, size_t index)
-{
-	return (Fn)((uintptr_t**)*(uintptr_t***)baseclass)[index];
-}
-
 inline uintptr_t GetAbsoluteAddress(uintptr_t instruction_ptr, int offset, int size)
 {
 	return instruction_ptr + *reinterpret_cast<uint32_t*>(instruction_ptr + offset) + size;

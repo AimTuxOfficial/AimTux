@@ -468,12 +468,14 @@ class IVModelInfo
 public:
 	int GetModelIndex(const char* Filename)
 	{
-		return GetVirtualFunction<int(*)(void*, const char*)>(this, 3)(this, Filename);
+		typedef int (* oGetModelIndex)(void*, const char*);
+		getvfunc<oGetModelIndex>(this, 3)(this, Filename);
 	}
 
-	const char *GetModelName(const model_t *model)
+	const char* GetModelName(const model_t *model)
 	{
-		return GetVirtualFunction<const char*(*)(void*, const model_t*)>(this, 4)(this, model);
+		typedef const char* (* oGetModelName)(void*, const model_t*);
+		getvfunc<oGetModelName>(this, 4)(this, model);
 	}
 
 	studiohdr_t* GetStudioModel(const model_t* model)
