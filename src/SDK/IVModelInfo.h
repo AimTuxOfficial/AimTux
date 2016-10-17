@@ -479,7 +479,7 @@ public:
 	studiohdr_t* GetStudioModel(const model_t* model)
 	{
 		typedef studiohdr_t* (* oGetStudioModel)(void*, const model_t*);
-		return getvfunc<oGetStudioModel>(this, 31)(this, model);
+		getvfunc<oGetStudioModel>(this, 31)(this, model);
 	}
 };
 
