@@ -1,6 +1,27 @@
 #ifndef __ISURFACE_H
 #define __ISURFACE_H
 
+struct Vertex_t {
+	Vector2D m_Position;
+	Vector2D m_TexCoord;
+
+	Vertex_t() {}
+
+	Vertex_t(const Vector2D &pos, const Vector2D &coord = Vector2D(0, 0))
+	{
+		m_Position = pos;
+		m_TexCoord = coord;
+	}
+
+	void Init(const Vector2D &pos, const Vector2D &coord = Vector2D(0, 0))
+	{
+		m_Position = pos;
+		m_TexCoord = coord;
+	}
+};
+
+typedef Vertex_t FontVertex_t;
+
 class ISurface
 {
 public:
@@ -28,6 +49,12 @@ public:
 		getvfunc<oDrawLine>(this, 19)(this, x0, y0, x1, y1);
 	}
 
+	void DrawPolyLine(int *x, int *y, int count)
+	{
+		typedef void(* oDrawPolyLine)(void*, int*, int*, int);
+		getvfunc<oDrawPolyLine>(this, 20)(this, x, y, count);
+	}
+
 	void DrawSetTextFont(unsigned long long font)
 	{
 		typedef void(* oDrawSetTextFont)(void*, unsigned long long);
@@ -49,13 +76,31 @@ public:
 	void DrawPrintText(const wchar_t *text, int textLen)
 	{
 		typedef void(* oDrawPrintText)(void*, const wchar_t *, int, int);
-		return getvfunc<oDrawPrintText>(this, 28)(this, text, textLen, 0);
+		getvfunc<oDrawPrintText>(this, 28)(this, text, textLen, 0);
+	}
+
+	void DrawSetTextureRGBA(int textureID, unsigned char const* colors, int w, int h)
+	{
+		typedef void(* oDrawSetTextureRGBA)(void*, int, unsigned char const*, int, int);
+		getvfunc<oDrawSetTextureRGBA>(this, 37)(this, textureID, colors, w, h);
+	}
+
+	void DrawSetTexture(int textureID)
+	{
+		typedef void(* oDrawSetTexture)(void*, int);
+		getvfunc<oDrawSetTexture>(this, 38)(this, textureID);
+	}
+
+	int CreateNewTextureID(bool procedural)
+	{
+		typedef void(* oCreateNewTextureID)(void*, bool);
+		getvfunc<oCreateNewTextureID>(this, 43)(this, procedural);
 	}
 
 	unsigned long long CreateFont()
 	{
 		typedef unsigned long long(* oCreateFont)(void*);
-		return getvfunc<oCreateFont>(this, 71)(this);
+		getvfunc<oCreateFont>(this, 71)(this);
 	}
 
 	void SetFontGlyphSet(unsigned long long &font, const char *FontName, int tall, int weight, int blur, int scanlines, int flags)
@@ -68,6 +113,12 @@ public:
 	{
 		typedef void(* oGetTextSize)(void*, unsigned long long font, const wchar_t *text, int &wide, int &tall);
 		getvfunc<oGetTextSize>(this, 79)(this, font, text, wide, tall);
+	}
+
+	void DrawTexturedPolygon(int vtxCount, FontVertex_t *vtx, bool bClipVertices = true)
+	{
+		typedef void(* oDrawTexturedPolygon)(void*, int, FontVertex_t*, bool);
+		getvfunc<oDrawTexturedPolygon>(this, 106)(this, vtxCount, vtx, bClipVertices);
 	}
 };
 

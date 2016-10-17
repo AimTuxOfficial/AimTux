@@ -107,3 +107,51 @@ void Draw::DrawOutlinedBox(float x, float y, float w, float h, Color color )
 	surface->DrawOutlinedRect((int) (x - w - 1), (int) (y - 1), (int) (x + w + 1), (int) (y + h + 1));
 	surface->DrawOutlinedRect((int) (x - w + 1), (int) (y + 1), (int) (x + w - 1), (int) (y + h - 1));
 }
+
+void Draw::DrawPolygon(int count, Vertex_t* Vertexs, Color color)
+{
+	static int Texture = surface->CreateNewTextureID(true);
+	unsigned char buffer[4] = { 255, 255, 255, 255 };
+
+	surface->DrawSetTextureRGBA(Texture, buffer, 1, 1);
+	surface->DrawSetColor(color.r, color.g, color.b, color.a);
+	surface->DrawSetTexture(Texture);
+
+	surface->DrawTexturedPolygon(count, Vertexs);
+}
+
+void Draw::DrawPolygonOutline(int count, Vertex_t* Vertexs, Color color, Color colorLine)
+{
+	static int x[128];
+	static int y[128];
+
+	Draw::DrawPolygon(count, Vertexs, color);
+
+	for (int i = 0; i < count; i++)
+	{
+		x[i] = Vertexs[i].m_Position.x;
+		y[i] = Vertexs[i].m_Position.y;
+	}
+
+	Draw::DrawPolyLine(x, y, count, colorLine);
+}
+
+void Draw::DrawPolyLine(int *x, int *y, int count, Color color)
+{
+	surface->DrawSetColor(color.r, color.g, color.b, color.a);
+	surface->DrawPolyLine(x, y, count);
+}
+
+void Draw::DrawPolyLine(int count, Vertex_t* Vertexs, Color colorLine)
+{
+	static int x[128];
+	static int y[128];
+
+	for (int i = 0; i < count; i++)
+	{
+		x[i] = Vertexs[i].m_Position.x;
+		y[i] = Vertexs[i].m_Position.y;
+	}
+
+	Draw::DrawPolyLine(x, y, count, colorLine);
+}

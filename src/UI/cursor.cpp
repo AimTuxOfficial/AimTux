@@ -7,17 +7,10 @@ void Cursor::Draw ()
 	int x, y;
 	input->GetCursorPosition(&x, &y);
 
-	Color white = Color(255, 255, 255, 255);
-	Color black = Color(0, 0, 0, 255);
+	static Vertex_t MouseVt[3];
+	MouseVt[0].Init(Vector2D(x, y));
+	MouseVt[1].Init(Vector2D(x + 24, y + 12));
+	MouseVt[2].Init(Vector2D(x + 12, y + 24));
 
-	for (int i = 10; i < 20; i++)
-	{
-		DrawLine(Vector2D(x, y), Vector2D(x + i, y + 10), white);
-		DrawLine(Vector2D(x, y), Vector2D(x + 10, y + i), white);
-	}
-
-	DrawLine(Vector2D(x, y), Vector2D(x + 20, y + 10), black);
-	DrawLine(Vector2D(x, y), Vector2D(x + 10, y + 20), black);
-	DrawLine(Vector2D(x + 10, y + 20), Vector2D(x + 10, y + 10), black);
-	DrawLine(Vector2D(x + 10, y + 10), Vector2D(x + 20, y + 10), black);
+	Draw::DrawPolygonOutline(3, MouseVt, Color(255, 255, 255), Color(0, 0, 0));
 }
