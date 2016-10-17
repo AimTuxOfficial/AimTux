@@ -16,6 +16,7 @@ int __attribute__((constructor)) aimtux_init()
 	Hooker::HookVMethods();
 	Hooker::HookIClientMode();
 	Hooker::HookGlobalVars();
+	Hooker::HookGlowManager();
 	Hooker::HookRankReveal();
 	Hooker::HookSendClanTag();
 	Chams::CreateMaterials();

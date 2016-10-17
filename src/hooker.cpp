@@ -23,6 +23,7 @@ VMT* modelRender_vmt = nullptr;
 VMT* clientMode_vmt = nullptr;
 VMT* gameEvents_vmt = nullptr;
 
+GlowObjectManagerFn GlowObjectManager;
 MsgFunc_ServerRankRevealAllFn MsgFunc_ServerRankRevealAll;
 SendClanTagFn SendClanTag;
 
@@ -109,10 +110,17 @@ void Hooker::HookGlobalVars()
 	globalvars = *reinterpret_cast<CGlobalVars**>(GetAbsoluteAddress(hudupdate + 13, 3, 7));
 }
 
+void Hooker::HookGlowManager()
+{
+	uintptr_t client_client = GetClientClientAddress();
+	uintptr_t instruction_addr = FindPattern(client_client, 0xFFFFFFFFF, (unsigned char*)GLOWOBJECT_SIGNATURE, GLOWOBJECT_MASK);
+
+	GlowObjectManager = reinterpret_cast<GlowObjectManagerFn>(GetAbsoluteAddress(instruction_addr, 1, 5));
+}
+
 void Hooker::HookRankReveal()
 {
 	uintptr_t client_client = GetClientClientAddress();
-
 	uintptr_t func_address = FindPattern(client_client, 0xFFFFFFFFF, (unsigned char*) MSGFUNC_SERVERRANKREVEALALL_SIGNATURE, MSGFUNC_SERVERRANKREVEALALL_MASK);
 
 	MsgFunc_ServerRankRevealAll = reinterpret_cast<MsgFunc_ServerRankRevealAllFn>(func_address);

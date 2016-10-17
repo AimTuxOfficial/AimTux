@@ -159,6 +159,16 @@ namespace Settings
 		extern Color bones_color;
 		extern Color bomb_color;
 
+		namespace Glow
+		{
+			extern bool enabled;
+			extern Color ally_color;
+			extern Color enemy_color;
+			extern Color enemy_visible_color;
+			extern Color bomb_color;
+			extern Color weapon_color;
+		}
+
 		namespace Tracer
 		{
 			extern TracerType type;

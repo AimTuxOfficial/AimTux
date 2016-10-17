@@ -58,6 +58,7 @@ void GetColor(Json::Value &config, Type &setting)
 	GetInt(config["r"], setting.r);
 	GetInt(config["g"], setting.g);
 	GetInt(config["b"], setting.b);
+	GetInt(config["a"], setting.a);
 }
 
 void Settings::LoadDefaultsOrSave(const char* filename)
@@ -122,6 +123,29 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["ESP"]["bomb_color"]["g"] = Settings::ESP::bomb_color.g;
 	settings["ESP"]["bomb_color"]["b"] = Settings::ESP::bomb_color.b;
 	settings["ESP"]["visibility_check"] = Settings::ESP::visibility_check;
+	settings["ESP"]["Glow"]["enabled"] = Settings::ESP::Glow::enabled;
+	settings["ESP"]["Glow"]["ally_color"]["r"] = Settings::ESP::Glow::ally_color.r;
+	settings["ESP"]["Glow"]["ally_color"]["g"] = Settings::ESP::Glow::ally_color.g;
+	settings["ESP"]["Glow"]["ally_color"]["b"] = Settings::ESP::Glow::ally_color.b;
+	settings["ESP"]["Glow"]["ally_color"]["a"] = Settings::ESP::Glow::ally_color.a;
+	settings["ESP"]["Glow"]["enemy_color"]["r"] = Settings::ESP::Glow::enemy_color.r;
+	settings["ESP"]["Glow"]["enemy_color"]["g"] = Settings::ESP::Glow::enemy_color.g;
+	settings["ESP"]["Glow"]["enemy_color"]["b"] = Settings::ESP::Glow::enemy_color.b;
+	settings["ESP"]["Glow"]["enemy_color"]["a"] = Settings::ESP::Glow::enemy_color.a;
+	settings["ESP"]["Glow"]["enemy_visible_color"]["r"] = Settings::ESP::Glow::enemy_visible_color.r;
+	settings["ESP"]["Glow"]["enemy_visible_color"]["g"] = Settings::ESP::Glow::enemy_visible_color.g;
+	settings["ESP"]["Glow"]["enemy_visible_color"]["b"] = Settings::ESP::Glow::enemy_visible_color.b;
+	settings["ESP"]["Glow"]["enemy_visible_color"]["a"] = Settings::ESP::Glow::enemy_visible_color.a;
+	settings["ESP"]["Glow"]["bomb_color"]["r"] = Settings::ESP::Glow::bomb_color.r;
+	settings["ESP"]["Glow"]["bomb_color"]["g"] = Settings::ESP::Glow::bomb_color.g;
+	settings["ESP"]["Glow"]["bomb_color"]["b"] = Settings::ESP::Glow::bomb_color.b;
+	settings["ESP"]["Glow"]["bomb_color"]["a"] = Settings::ESP::Glow::bomb_color.a;
+	settings["ESP"]["Glow"]["weapon_color"]["r"] = Settings::ESP::Glow::weapon_color.r;
+	settings["ESP"]["Glow"]["weapon_color"]["g"] = Settings::ESP::Glow::weapon_color.g;
+	settings["ESP"]["Glow"]["weapon_color"]["b"] = Settings::ESP::Glow::weapon_color.b;
+	settings["ESP"]["Glow"]["weapon_color"]["a"] = Settings::ESP::Glow::weapon_color.a;
+	settings["ESP"]["Tracer"]["enabled"] = Settings::ESP::Tracer::enabled;
+	settings["ESP"]["Tracer"]["type"] = Settings::ESP::Tracer::type;
 	settings["ESP"]["Walls"]["enabled"] = Settings::ESP::Walls::enabled;
 	settings["ESP"]["Walls"]["type"] = Settings::ESP::Walls::type;
 	settings["ESP"]["Info"]["showName"] = Settings::ESP::Info::showName;
@@ -129,8 +153,6 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["ESP"]["Bones"]["enabled"] = Settings::ESP::Bones::enabled;
 	settings["ESP"]["Bomb"]["enabled"] = Settings::ESP::Bomb::enabled;
 	settings["ESP"]["Weapons"]["enabled"] = Settings::ESP::Weapons::enabled;
-	settings["ESP"]["Tracer"]["enabled"] = Settings::ESP::Tracer::enabled;
-	settings["ESP"]["Tracer"]["type"] = Settings::ESP::Tracer::type;
 	settings["ESP"]["FOVCrosshair"]["enabled"] = Settings::ESP::FOVCrosshair::enabled;
 	settings["ESP"]["Chams"]["players"] = Settings::ESP::Chams::players;
 	settings["ESP"]["Chams"]["visibility_check"] = Settings::ESP::Chams::visibility_check;
@@ -253,6 +275,14 @@ void Settings::LoadSettings(const char* filename)
 		GetColor(settings["ESP"]["bones_color"], Settings::ESP::bones_color);
 		GetColor(settings["ESP"]["bomb_color"], Settings::ESP::bomb_color);
 		GetBool(settings["ESP"]["visibility_check"], Settings::ESP::visibility_check);
+		GetBool(settings["ESP"]["Glow"]["enabled"], Settings::ESP::Glow::enabled);
+		GetColor(settings["ESP"]["Glow"]["ally_color"], Settings::ESP::Glow::ally_color);
+		GetColor(settings["ESP"]["Glow"]["enemy_color"], Settings::ESP::Glow::enemy_color);
+		GetColor(settings["ESP"]["Glow"]["enemy_visible_color"], Settings::ESP::Glow::enemy_visible_color);
+		GetColor(settings["ESP"]["Glow"]["bomb_color"], Settings::ESP::Glow::bomb_color);
+		GetColor(settings["ESP"]["Glow"]["weapon_color"], Settings::ESP::Glow::weapon_color);
+		GetBool(settings["ESP"]["Tracer"]["enabled"], Settings::ESP::Tracer::enabled);
+		GetInt(settings["ESP"]["Tracer"]["type"], Settings::ESP::Tracer::type);
 		GetBool(settings["ESP"]["Walls"]["enabled"], Settings::ESP::Walls::enabled);
 		GetInt(settings["ESP"]["Walls"]["type"], Settings::ESP::Walls::type);
 		GetBool(settings["ESP"]["Info"]["showName"], Settings::ESP::Info::showName);
@@ -260,8 +290,6 @@ void Settings::LoadSettings(const char* filename)
 		GetBool(settings["ESP"]["Bones"]["enabled"], Settings::ESP::Bones::enabled);
 		GetBool(settings["ESP"]["Bomb"]["enabled"], Settings::ESP::Bomb::enabled);
 		GetBool(settings["ESP"]["Weapons"]["enabled"], Settings::ESP::Weapons::enabled);
-		GetBool(settings["ESP"]["Tracer"]["enabled"], Settings::ESP::Tracer::enabled);
-		GetInt(settings["ESP"]["Tracer"]["type"], Settings::ESP::Tracer::type);
 		GetBool(settings["ESP"]["FOVCrosshair"]["enabled"], Settings::ESP::FOVCrosshair::enabled);
 		GetBool(settings["ESP"]["Chams"]["players"], Settings::ESP::Chams::players);
 		GetBool(settings["ESP"]["Chams"]["visibility_check"], Settings::ESP::Chams::visibility_check);

@@ -25,6 +25,7 @@ typedef unsigned long long FONT;
 struct ModelRenderInfo_t;
 struct CUserCmd;
 class IGameEvent;
+struct CGlowObjectManager;
 
 /* function prototypes */
 typedef void* (*CreateInterfaceFn) (const char*, int*);
@@ -34,6 +35,7 @@ typedef void (*DrawModelExecuteFn) (void*, void*, void*, const ModelRenderInfo_t
 typedef bool (*CreateMoveFn) (void*, float, CUserCmd*);
 typedef bool (*FireEventClientSideFn) (void*, IGameEvent*);
 typedef int (*IN_KeyEventFn) (void*, int, int, const char*);
+typedef CGlowObjectManager* (*GlowObjectManagerFn) (void);
 typedef bool (*MsgFunc_ServerRankRevealAllFn) (float*);
 typedef void (*SendClanTagFn) (const char*, const char*);
 

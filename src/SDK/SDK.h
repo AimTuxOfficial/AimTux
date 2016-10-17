@@ -27,5 +27,6 @@
 #include "IClientMode.h"
 #include "ICvar.h"
 #include "IGameEvent.h"
+#include "CGlowObjectManager.h"
 
 #endif

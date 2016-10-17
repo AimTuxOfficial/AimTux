@@ -6,6 +6,12 @@ Color Settings::ESP::enemy_color = Color(200, 0, 50);
 Color Settings::ESP::enemy_visible_color = Color(200, 200, 50);
 Color Settings::ESP::bones_color = Color(255, 255, 255);
 Color Settings::ESP::bomb_color = Color(200, 0, 50);
+bool Settings::ESP::Glow::enabled = true;
+Color Settings::ESP::Glow::ally_color = Color(0, 50, 200, 0);
+Color Settings::ESP::Glow::enemy_color = Color(200, 0, 50, 0);
+Color Settings::ESP::Glow::enemy_visible_color = Color(200, 200, 50, 0);
+Color Settings::ESP::Glow::bomb_color = Color(200, 0, 50, 200);
+Color Settings::ESP::Glow::weapon_color = Color(200, 0, 50, 200);
 bool Settings::ESP::visibility_check = false;
 bool Settings::ESP::Walls::enabled = true;
 WallBoxType Settings::ESP::Walls::type = FLAT_2D;
@@ -288,6 +294,66 @@ void ESP::DrawWeaponText(C_BaseEntity* entity, ClientClass* client)
 		Draw::DrawString(modelName.c_str(), LOC(s_vecLocalPlayer_s.x, s_vecLocalPlayer_s.y), Color(255, 255, 255, 255), esp_font, true);
 }
 
+void ESP::DrawGlow()
+{
+	static CGlowObjectManager* glow_object_mgr = GlowObjectManager();
+
+	C_BasePlayer* localPlayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	if (!localPlayer)
+		return;
+
+	for (int i = 0; i < glow_object_mgr->max_size; i++) {
+		auto glow_object = &glow_object_mgr->m_GlowObjectDefinitions[i];
+
+		if (!glow_object || glow_object->m_nNextFreeSlot != ENTRY_IN_USE || !glow_object->m_pEntity)
+			continue;
+
+		Color color;
+		ClientClass* client = glow_object->m_pEntity->GetClientClass();
+
+		if (client->m_ClassID == CCSPlayer)
+		{
+			if (glow_object->m_pEntity == (C_BaseEntity*)localPlayer
+				|| glow_object->m_pEntity->GetDormant()
+				|| glow_object->m_pEntity->GetLifeState() != LIFE_ALIVE
+				|| glow_object->m_pEntity->GetHealth() <= 0)
+				continue;
+
+			if (glow_object->m_pEntity->GetTeam() != localPlayer->GetTeam())
+			{
+				if (Entity::IsVisible(localPlayer, glow_object->m_pEntity, 6))
+					color = Settings::ESP::Glow::enemy_visible_color;
+				else
+					color = Settings::ESP::Glow::enemy_color;
+			}
+			else
+			{
+				color = Settings::ESP::Glow::ally_color;
+			}
+		}
+		else if (client->m_ClassID == CPlantedC4)
+		{
+			C_BasePlantedC4* bomb = (C_BasePlantedC4*) glow_object->m_pEntity;
+
+			if (bomb->IsBombTicking() && !bomb->IsBombDefused())
+				color = Settings::ESP::Glow::bomb_color;
+		}
+		else if (client->m_ClassID != CBaseWeaponWorldModel &&
+			(strstr(client->m_pNetworkName, "Weapon") || client->m_ClassID == CDEagle || client->m_ClassID == CAK47))
+		{
+				color = Settings::ESP::Glow::weapon_color;
+		}
+
+		glow_object->m_flGlowColor[0] = color.r / 255.0f;
+		glow_object->m_flGlowColor[1] = color.g / 255.0f;
+		glow_object->m_flGlowColor[2] = color.b / 255.0f;
+		glow_object->m_flGlowAlpha = color.a / 255.0f;
+		glow_object->m_flBloomAmount = 1.0f;
+		glow_object->m_bRenderWhenOccluded = true;
+		glow_object->m_bRenderWhenUnoccluded = false;
+	}
+}
+
 void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 {
 	if (!Settings::ESP::enabled)
@@ -348,4 +414,7 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 
 	if (Settings::ESP::FOVCrosshair::enabled)
 		ESP::DrawFOVCrosshair();
+
+	if (Settings::ESP::Glow::enabled)
+		ESP::DrawGlow();
 }
