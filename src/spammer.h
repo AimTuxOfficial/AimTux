@@ -8,6 +8,7 @@
 #include "interfaces.h"
 #include "settings.h"
 #include "pstring.h"
+#include "util.h"
 
 namespace Spammer
 {

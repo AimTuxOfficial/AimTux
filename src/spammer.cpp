@@ -2,6 +2,7 @@
 
 bool Settings::Spammer::NormalSpammer::enabled = false;
 bool Settings::Spammer::KillSpammer::enabled = false;
+char* Settings::Spammer::KillSpammer::message = (char*) "$nick just got OWNED by AimTux!!";
 std::vector<IEngineClient::player_info_t> Spammer::killedPlayerQueue = std::vector<IEngineClient::player_info_t>();
 
 std::vector<Spammer::SpamCollection> Spammer::collections =
@@ -42,7 +43,7 @@ void Spammer::CreateMove(CUserCmd* cmd)
 
 		// Construct a command with our message
 		pstring str;
-		str << "say \"" << dead_player_name << " just got OWNED by AimTux!!\"";
+		str << "say \"" << Util::ReplaceString(Settings::Spammer::KillSpammer::message, "$nick", dead_player_name) << "\"";
 
 		// Execute our constructed command
 		engine->ExecuteClientCmd(str.c_str());

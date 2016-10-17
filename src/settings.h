@@ -225,6 +225,7 @@ namespace Settings
 		namespace KillSpammer
 		{
 			extern bool enabled;
+			extern char* message;
 		}
 		
 		namespace NormalSpammer

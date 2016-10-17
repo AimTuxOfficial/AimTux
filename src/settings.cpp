@@ -161,6 +161,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 
 	settings["Spammer"]["NormalSpammer"]["enabled"] = Settings::Spammer::NormalSpammer::enabled;
 	settings["Spammer"]["KillSpammer"]["enabled"] = Settings::Spammer::KillSpammer::enabled;
+	settings["Spammer"]["KillSpammer"]["message"] = Settings::Spammer::KillSpammer::message;
 
 	settings["BHop"]["enabled"] = Settings::BHop::enabled;
 
@@ -278,6 +279,7 @@ void Settings::LoadSettings(const char* filename)
 		GetColor(settings["Dlights"]["enemy_color"], Settings::Dlights::enemy_color);
 
 		GetBool(settings["Spammer"]["KillSpammer"]["enabled"], Settings::Spammer::KillSpammer::enabled);
+		GetCString(settings["Spammer"]["KillSpammer"]["message"], Settings::Spammer::KillSpammer::message);
 		GetBool(settings["Spammer"]["NormalSpammer"]["enabled"], Settings::Spammer::NormalSpammer::enabled);
 
 		GetBool(settings["BHop"]["enabled"], Settings::BHop::enabled);
