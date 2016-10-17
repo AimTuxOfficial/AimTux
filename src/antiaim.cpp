@@ -30,6 +30,7 @@ void AntiAim::CreateMove (CUserCmd* cmd)
 
 	static bool bFlip;
 	static float fYaw = 0.0f;
+	static float fPitch = 0.0f;
 
 	bFlip = !bFlip;
 
