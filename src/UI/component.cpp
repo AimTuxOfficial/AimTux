@@ -7,12 +7,12 @@ void Component::Clear (Color color)
 
 void Component::DrawString (std::string text, FONT font, Color color, Vector2D position)
 {
-	Draw::DrawString (text.c_str(), context + position, color, font, false);
+	Draw::DrawString (text.c_str(), context + position, color, font);
 }
 
 void Component::DrawCenteredString (std::string text, FONT font, Color color, Vector2D position)
 {
-	Draw::DrawString (text.c_str(), context + position, color, font, true);
+	Draw::DrawCenteredString (text.c_str(), context + position, color, font);
 }
 
 void Component::DrawRectangle (Vector2D start, Vector2D end, Color color)

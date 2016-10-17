@@ -233,10 +233,10 @@ void ESP::DrawPlayerInfo(C_BasePlayer* localPlayer, C_BaseEntity* entity, int en
 	float height = (pos.y - top.y);
 
 	if (Settings::ESP::Info::showHealth)
-		Draw::DrawString(health.c_str(), LOC (top.x, top.y + height + (size_health.y / 2)), color, esp_font, true);
+		Draw::DrawCenteredString(health.c_str(), LOC (top.x, top.y + height + (size_health.y / 2)), color, esp_font);
 
 	if (Settings::ESP::Info::showName)
-		Draw::DrawString(name.c_str(), LOC (top.x, top.y - (size_name.y / 2)), color, esp_font, true);
+		Draw::DrawCenteredString(name.c_str(), LOC (top.x, top.y - (size_name.y / 2)), color, esp_font);
 }
 
 void ESP::DrawFOVCrosshair()
@@ -273,7 +273,7 @@ void ESP::DrawBombBox(C_BasePlantedC4* entity)
 	if (!WorldToScreen(vecOrigin, s_vecLocalPlayer_s))
 	{
 		DrawESPBox(vecOrigin, vecViewOffset, color, width, additionalHeight);
-		Draw::DrawString(str.c_str(), LOC(s_vecLocalPlayer_s.x, s_vecLocalPlayer_s.y), colorText, esp_font, true);
+		Draw::DrawCenteredString(str.c_str(), LOC(s_vecLocalPlayer_s.x, s_vecLocalPlayer_s.y), colorText, esp_font);
 	}
 }
 
@@ -291,7 +291,7 @@ void ESP::DrawWeaponText(C_BaseEntity* entity, ClientClass* client)
 
 	Vector s_vecLocalPlayer_s;
 	if (!WorldToScreen(vecOrigin, s_vecLocalPlayer_s))
-		Draw::DrawString(modelName.c_str(), LOC(s_vecLocalPlayer_s.x, s_vecLocalPlayer_s.y), Color(255, 255, 255, 255), esp_font, true);
+		Draw::DrawCenteredString(modelName.c_str(), LOC(s_vecLocalPlayer_s.x, s_vecLocalPlayer_s.y), Color(255, 255, 255, 255), esp_font);
 }
 
 void ESP::DrawGlow()

@@ -18,53 +18,51 @@ FONT Draw::CreateFont(const char* fontName, int size, int flag)
 	return newFont;
 }
 
+Vector2D Draw::GetTextSize(std::string text, FONT font)
+{
+	int x = 0;
+	int y = 0;
+	
+	surface->GetTextSize(font, std::wstring (text.begin(), text.end()).c_str(), x, y);
+
+	return LOC(x, y);
+}
+
 Vector2D Draw::GetTextSize(const wchar_t* text, FONT font)
 {
-	int wide = 0;
-	int tall = 0;
+	int x = 0;
+	int y = 0;
+	
+	surface->GetTextSize(font, text, x, y);
 
-	surface->GetTextSize(font, text, wide, tall);
-
-	return LOC(wide, tall);
+	return LOC(x, y);
 }
 
-Vector2D Draw::GetTextSize(const char* text, FONT font)
+void Draw::DrawString(std::string text, Vector2D location, Color color, FONT font)
 {
-	std::string str = std::string(text);
-	std::wstring wstr = std::wstring(str.begin(), str.end());
+	std::wstring wtext = std::wstring(text.begin(), text.end());
+	
+	surface->DrawSetTextColor(color.r, color.g, color.b, color.a);
+	surface->DrawSetTextFont(font);
+	surface->DrawSetTextPos((int) location.x, (int) location.y);
 
-	return Draw::GetTextSize(wstr.c_str(), font);
+	surface->DrawPrintText(wtext.c_str(), wtext.length());
 }
 
-void Draw::DrawString(const wchar_t* text, Vector2D location, Color color, FONT font, bool center)
+void Draw::DrawCenteredString(std::string text, Vector2D location, Color color, FONT font)
 {
-	if (!text)
-		return;
+	std::wstring wtext = std::wstring(text.begin(), text.end());
+	
+	Vector2D textSize = GetTextSize(wtext.c_str(), font);
 
-	if (center)
-	{
-		Vector2D textSize = GetTextSize(text, font);
-
-		location.x -= textSize.x / 2;
-		location.y -= textSize.y / 2;
-	}
+	location.x -= textSize.x / 2;
+	location.y -= textSize.y / 2;
 
 	surface->DrawSetTextColor(color.r, color.g, color.b, color.a);
 	surface->DrawSetTextFont(font);
 	surface->DrawSetTextPos((int) location.x, (int) location.y);
 
-	surface->DrawPrintText(text, wcslen(text));
-}
-
-void Draw::DrawString(const char* text, Vector2D location, Color color, FONT font, bool center)
-{
-	if (!text)
-		return;
-
-	std::string str = std::string(text);
-	std::wstring wstr = std::wstring(str.begin(), str.end());
-
-	Draw::DrawString(wstr.c_str(), location, color, font, center);
+	surface->DrawPrintText(wtext.c_str(), wtext.length());
 }
 
 void Draw::DrawCircle(Vector2D position, float points, float radius, Color color)
