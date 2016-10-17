@@ -61,6 +61,15 @@ void GetColor(Json::Value &config, Type &setting)
 	GetInt(config["a"], setting.a);
 }
 
+void LoadColor(Json::Value &config, Color color)
+{
+	config["r"] = color.r;
+	config["g"] = color.g;
+	config["b"] = color.b;
+	config["a"] = color.a;
+}
+
+
 void Settings::LoadDefaultsOrSave(const char* filename)
 {
 	Json::Value settings;
@@ -107,43 +116,18 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 
 	settings["ESP"]["enabled"] = Settings::ESP::enabled;
 
-	settings["ESP"]["ally_color"]["r"] = Settings::ESP::ally_color.r;
-	settings["ESP"]["ally_color"]["g"] = Settings::ESP::ally_color.g;
-	settings["ESP"]["ally_color"]["b"] = Settings::ESP::ally_color.b;
-	settings["ESP"]["enemy_color"]["r"] = Settings::ESP::enemy_color.r;
-	settings["ESP"]["enemy_color"]["g"] = Settings::ESP::enemy_color.g;
-	settings["ESP"]["enemy_color"]["b"] = Settings::ESP::enemy_color.b;
-	settings["ESP"]["enemy_visible_color"]["r"] = Settings::ESP::enemy_visible_color.r;
-	settings["ESP"]["enemy_visible_color"]["g"] = Settings::ESP::enemy_visible_color.g;
-	settings["ESP"]["enemy_visible_color"]["b"] = Settings::ESP::enemy_visible_color.b;
-	settings["ESP"]["bones_color"]["r"] = Settings::ESP::bones_color.r;
-	settings["ESP"]["bones_color"]["g"] = Settings::ESP::bones_color.g;
-	settings["ESP"]["bones_color"]["b"] = Settings::ESP::bones_color.b;
-	settings["ESP"]["bomb_color"]["r"] = Settings::ESP::bomb_color.r;
-	settings["ESP"]["bomb_color"]["g"] = Settings::ESP::bomb_color.g;
-	settings["ESP"]["bomb_color"]["b"] = Settings::ESP::bomb_color.b;
+	LoadColor(settings["ESP"]["ally_color"], Settings::ESP::ally_color);
+	LoadColor(settings["ESP"]["enemy_color"], Settings::ESP::enemy_color);
+	LoadColor(settings["ESP"]["enemy_visible_color"], Settings::ESP::enemy_visible_color);
+	LoadColor(settings["ESP"]["bones_color"], Settings::ESP::bones_color);
+	LoadColor(settings["ESP"]["bomb_color"], Settings::ESP::bomb_color);
 	settings["ESP"]["visibility_check"] = Settings::ESP::visibility_check;
 	settings["ESP"]["Glow"]["enabled"] = Settings::ESP::Glow::enabled;
-	settings["ESP"]["Glow"]["ally_color"]["r"] = Settings::ESP::Glow::ally_color.r;
-	settings["ESP"]["Glow"]["ally_color"]["g"] = Settings::ESP::Glow::ally_color.g;
-	settings["ESP"]["Glow"]["ally_color"]["b"] = Settings::ESP::Glow::ally_color.b;
-	settings["ESP"]["Glow"]["ally_color"]["a"] = Settings::ESP::Glow::ally_color.a;
-	settings["ESP"]["Glow"]["enemy_color"]["r"] = Settings::ESP::Glow::enemy_color.r;
-	settings["ESP"]["Glow"]["enemy_color"]["g"] = Settings::ESP::Glow::enemy_color.g;
-	settings["ESP"]["Glow"]["enemy_color"]["b"] = Settings::ESP::Glow::enemy_color.b;
-	settings["ESP"]["Glow"]["enemy_color"]["a"] = Settings::ESP::Glow::enemy_color.a;
-	settings["ESP"]["Glow"]["enemy_visible_color"]["r"] = Settings::ESP::Glow::enemy_visible_color.r;
-	settings["ESP"]["Glow"]["enemy_visible_color"]["g"] = Settings::ESP::Glow::enemy_visible_color.g;
-	settings["ESP"]["Glow"]["enemy_visible_color"]["b"] = Settings::ESP::Glow::enemy_visible_color.b;
-	settings["ESP"]["Glow"]["enemy_visible_color"]["a"] = Settings::ESP::Glow::enemy_visible_color.a;
-	settings["ESP"]["Glow"]["bomb_color"]["r"] = Settings::ESP::Glow::bomb_color.r;
-	settings["ESP"]["Glow"]["bomb_color"]["g"] = Settings::ESP::Glow::bomb_color.g;
-	settings["ESP"]["Glow"]["bomb_color"]["b"] = Settings::ESP::Glow::bomb_color.b;
-	settings["ESP"]["Glow"]["bomb_color"]["a"] = Settings::ESP::Glow::bomb_color.a;
-	settings["ESP"]["Glow"]["weapon_color"]["r"] = Settings::ESP::Glow::weapon_color.r;
-	settings["ESP"]["Glow"]["weapon_color"]["g"] = Settings::ESP::Glow::weapon_color.g;
-	settings["ESP"]["Glow"]["weapon_color"]["b"] = Settings::ESP::Glow::weapon_color.b;
-	settings["ESP"]["Glow"]["weapon_color"]["a"] = Settings::ESP::Glow::weapon_color.a;
+	LoadColor(settings["ESP"]["Glow"]["ally_color"], Settings::ESP::Glow::ally_color);
+	LoadColor(settings["ESP"]["Glow"]["enemy_color"], Settings::ESP::Glow::enemy_color);
+	LoadColor(settings["ESP"]["Glow"]["enemy_visible_color"], Settings::ESP::Glow::enemy_visible_color);
+	LoadColor(settings["ESP"]["Glow"]["bomb_color"], Settings::ESP::Glow::bomb_color);
+	LoadColor(settings["ESP"]["Glow"]["weapon_color"], Settings::ESP::Glow::weapon_color);
 	settings["ESP"]["Tracer"]["enabled"] = Settings::ESP::Tracer::enabled;
 	settings["ESP"]["Tracer"]["type"] = Settings::ESP::Tracer::type;
 	settings["ESP"]["Walls"]["enabled"] = Settings::ESP::Walls::enabled;
@@ -158,28 +142,16 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["ESP"]["Chams"]["visibility_check"] = Settings::ESP::Chams::visibility_check;
 	settings["ESP"]["Chams"]["arms"] = Settings::ESP::Chams::arms;
 	settings["ESP"]["Chams"]["rainbow_arms"] = Settings::ESP::Chams::rainbow_arms;
-	settings["ESP"]["Chams"]["players_ally_color"]["r"] = Settings::ESP::Chams::players_ally_color.r;
-	settings["ESP"]["Chams"]["players_ally_color"]["g"] = Settings::ESP::Chams::players_ally_color.g;
-	settings["ESP"]["Chams"]["players_ally_color"]["b"] = Settings::ESP::Chams::players_ally_color.b;
-	settings["ESP"]["Chams"]["players_enemy_color"]["r"] = Settings::ESP::Chams::players_enemy_color.r;
-	settings["ESP"]["Chams"]["players_enemy_color"]["g"] = Settings::ESP::Chams::players_enemy_color.g;
-	settings["ESP"]["Chams"]["players_enemy_color"]["b"] = Settings::ESP::Chams::players_enemy_color.b;
-	settings["ESP"]["Chams"]["players_enemy_visible_color"]["r"] = Settings::ESP::Chams::players_enemy_visible_color.r;
-	settings["ESP"]["Chams"]["players_enemy_visible_color"]["g"] = Settings::ESP::Chams::players_enemy_visible_color.g;
-	settings["ESP"]["Chams"]["players_enemy_visible_color"]["b"] = Settings::ESP::Chams::players_enemy_visible_color.b;
-	settings["ESP"]["Chams"]["arms_color"]["r"] = Settings::ESP::Chams::arms_color.r;
-	settings["ESP"]["Chams"]["arms_color"]["g"] = Settings::ESP::Chams::arms_color.g;
-	settings["ESP"]["Chams"]["arms_color"]["b"] = Settings::ESP::Chams::arms_color.b;
+	LoadColor(settings["ESP"]["Chams"]["players_ally_color"], Settings::ESP::Chams::players_ally_color);
+	LoadColor(settings["ESP"]["Chams"]["players_enemy_color"], Settings::ESP::Chams::players_enemy_color);
+	LoadColor(settings["ESP"]["Chams"]["players_enemy_visible_color"], Settings::ESP::Chams::players_enemy_visible_color);
+	LoadColor(settings["ESP"]["Chams"]["arms_color"], Settings::ESP::Chams::arms_color);
 	settings["ESP"]["Chams"]["type"] = Settings::ESP::Chams::type;
 
 	settings["Dlights"]["enabled"] = Settings::Dlights::enabled;
 	settings["Dlights"]["radius"] = Settings::Dlights::radius;
-	settings["Dlights"]["ally_color"]["r"] = Settings::Dlights::ally_color.r;
-	settings["Dlights"]["ally_color"]["g"] = Settings::Dlights::ally_color.g;
-	settings["Dlights"]["ally_color"]["b"] = Settings::Dlights::ally_color.b;
-	settings["Dlights"]["enemy_color"]["r"] = Settings::Dlights::enemy_color.r;
-	settings["Dlights"]["enemy_color"]["g"] = Settings::Dlights::enemy_color.g;
-	settings["Dlights"]["enemy_color"]["b"] = Settings::Dlights::enemy_color.b;
+	LoadColor(settings["Dlights"]["ally_color"], Settings::Dlights::ally_color);
+	LoadColor(settings["Dlights"]["enemy_color"], Settings::Dlights::enemy_color);
 
 	settings["Spammer"]["NormalSpammer"]["enabled"] = Settings::Spammer::NormalSpammer::enabled;
 	settings["Spammer"]["KillSpammer"]["enabled"] = Settings::Spammer::KillSpammer::enabled;
