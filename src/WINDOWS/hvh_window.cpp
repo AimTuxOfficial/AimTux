@@ -12,7 +12,10 @@ HVHWindow::HVHWindow (std::string title, Vector2D size, Vector2D position, Color
 	lb_antiaim_x = new ListBox<AntiAimType_X> ("anti aim type", LOC (10, ts_antiaim_x->position.y + ts_antiaim_x->size.y + 10), 170, &Settings::AntiAim::type_X, std::vector<LB_Element>
 		{
 			LB_Element ("UP", STATIC_UP),
-			LB_Element ("DOWN", STATIC_DOWN)
+			LB_Element ("DOWN", STATIC_DOWN),
+			LB_Element ("JITTER SLOW", JITTER_UP_DOWN_SLOW),
+			LB_Element ("JITTER FAST", JITTER_UP_DOWN_FAST),
+			LB_Element ("ZERO", ZERO)
 		}
 	);
 	AddComponent (lb_antiaim_x);
