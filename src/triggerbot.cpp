@@ -16,6 +16,11 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	if (!(Settings::Triggerbot::enabled && input->IsButtonDown(Settings::Triggerbot::key)))
 		return;
 
+	long currentTime_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+			std::chrono::system_clock::now().time_since_epoch()).count();
+	static long timeStamp = currentTime_ms;
+	long oldTimeStamp;
+
 	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
 
 	Vector traceStart, traceEnd;
@@ -36,6 +41,9 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	trace->TraceRay(ray, 0x46004003, &traceFilter, &tr);
 
 	C_BaseEntity *entity = reinterpret_cast<C_BaseEntity *>(tr.m_pEntityHit);
+
+	oldTimeStamp = timeStamp;
+	timeStamp = currentTime_ms;
 
 	if (!entity
 		|| entity == localplayer
@@ -64,14 +72,12 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	if (!active_weapon)
 		return;
 
+	timeStamp = oldTimeStamp;
+
 	if (!active_weapon->isKnife() && active_weapon->GetAmmo() > 0)
 	{
 		float nextPrimaryAttack = active_weapon->GetNextPrimaryAttack();
 		float tick = localplayer->GetTickBase() * globalvars->interval_per_tick;
-
-		long currentTime_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-				std::chrono::system_clock::now().time_since_epoch()).count();
-		static long timeStamp = currentTime_ms;
 
 		if (nextPrimaryAttack > tick)
 		{
