@@ -49,6 +49,9 @@ AimbotWindow::AimbotWindow (std::string title, Vector2D size, Vector2D position,
 	ts_autoshoot = new ToggleSwitch ("auto shoot", BELOW (ts_aimstep), 33, &Settings::Aimbot::AutoShoot::enabled);
 	AddComponent (ts_autoshoot);
 	
+    ts_friendly = new ToggleSwitch ("friendly", STACK (ts_aimstep), 33, &Settings::Aimbot::friendly);
+    AddComponent (ts_friendly);
+
 	ba_movement = new Banner ("Movement", BELOW (ts_autoshoot), size.x - 20);
 	AddComponent (ba_movement);
 	
@@ -57,6 +60,7 @@ AimbotWindow::AimbotWindow (std::string title, Vector2D size, Vector2D position,
 	
 	ts_autostop = new ToggleSwitch ("auto stop", STACK (ts_autocrouch), 33, &Settings::Aimbot::AutoStop::enabled);
 	AddComponent (ts_autostop);
+
 	
 	Hide ();
 }
