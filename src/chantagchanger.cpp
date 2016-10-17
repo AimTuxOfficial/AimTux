@@ -1,14 +1,25 @@
 #include "chantagchanger.h"
 
 char* Settings::ClanTagChanger::value = (char *) "";
-bool Settings::ClanTagChanger::animation = false;
+bool Settings::ClanTagChanger::animation = true;
 int Settings::ClanTagChanger::animation_speed = 500;
-
-const char* animationKeyframes[] = {
-		"A", "Ai", "Aim", "AimT", "AimTu", "AimTux"
+std::vector<ClanTagChanger::Animation> ClanTagChanger::animations =
+{
+	Animation ("NOVAC",
+		std::vector<ClanTagChanger::Frame>
+		{
+			Frame ("NO____", 700),
+			Frame ("VAC___", 700),
+			Frame ("ON_____", 850),
+			Frame ("LINUX", 1700),
+			Frame ("______", 600),
+			Frame ("AimTux", 3000),
+			Frame ("______", 700),
+				
+		}, ANIM_LOOP
+	)
 };
-long animationKeyframesSize = sizeof(animationKeyframes) / sizeof(animationKeyframes[0]);
-int lastKeyframe = 0;
+ClanTagChanger::Animation* ClanTagChanger::animation = &ClanTagChanger::animations[0];
 
 void ClanTagChanger::CreateMove(CUserCmd* cmd)
 {
@@ -22,17 +33,14 @@ void ClanTagChanger::CreateMove(CUserCmd* cmd)
 			std::chrono::system_clock::now().time_since_epoch()).count();
 	static long timeStamp = currentTime_ms;
 
-	if (currentTime_ms - timeStamp > Settings::ClanTagChanger::animation_speed)
+	if (currentTime_ms - timeStamp > ClanTagChanger::animation->GetCurrentFrame().time)
 	{
 		timeStamp = currentTime_ms;
-		lastKeyframe++;
-
-		if (lastKeyframe == animationKeyframesSize)
-			lastKeyframe = 0;
+		ClanTagChanger::animation->NextFrame();
 	}
 
 	if (Settings::ClanTagChanger::animation)
-		SendClanTag(animationKeyframes[lastKeyframe], "");
+		SendClanTag(ClanTagChanger::animation->GetCurrentFrame().text.c_str(), "");
 	else
 		SendClanTag(Settings::ClanTagChanger::value, "");
 }
