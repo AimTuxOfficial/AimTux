@@ -14,13 +14,7 @@ TriggerbotWindow::TriggerbotWindow (std::string title, Vector2D size, Vector2D p
 	sl_delay = new Slider ("", STACK (ts_delay), LOC (size.x - ts_delay->size.x - 30, 33), &Settings::Triggerbot::Delay::value, 0.0f, 1000.0f);
 	AddComponent (sl_delay);
 
-	ts_hitchance = new ToggleSwitch ("hitchance", BELOW (ts_delay), 33, &Settings::Triggerbot::Hitchance::enabled);
-	AddComponent (ts_hitchance);
-
-	sl_hitchance = new Slider ("", STACK (ts_hitchance), LOC (size.x - ts_hitchance->size.x - 30, 33), &Settings::Triggerbot::Hitchance::value, 0.0f, 100.0f);
-	AddComponent (sl_hitchance);
-
-	ba_filter = new Banner ("Filter", BELOW (ts_hitchance), size.x - 20);
+	ba_filter = new Banner ("Filter", BELOW (ts_delay), size.x - 20);
 	AddComponent (ba_filter);
 
 	ts_friendly = new ToggleSwitch ("friendly", BELOW (ba_filter), 33, &Settings::Triggerbot::Filter::friendly);

@@ -9,8 +9,6 @@ bool Settings::Triggerbot::Filter::arms = true;
 bool Settings::Triggerbot::Filter::legs = true;
 bool Settings::Triggerbot::Delay::enabled = false;
 float Settings::Triggerbot::Delay::value = 250.0f;
-bool Settings::Triggerbot::Hitchance::enabled = true;
-float Settings::Triggerbot::Hitchance::value = 60.0f;
 ButtonCode_t Settings::Triggerbot::key = ButtonCode_t::KEY_LALT;
 
 void Triggerbot::CreateMove(CUserCmd *cmd)
@@ -64,9 +62,6 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 
 	C_BaseCombatWeapon* active_weapon = reinterpret_cast<C_BaseCombatWeapon*>(entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon()));
 	if (!active_weapon)
-		return;
-
-	if (Settings::Triggerbot::Hitchance::enabled && (1.0f - active_weapon->GetAccuracyPenalty()) * 100.f < Settings::Triggerbot::Hitchance::value)
 		return;
 
 	if (!active_weapon->isKnife() && active_weapon->GetAmmo() > 0)

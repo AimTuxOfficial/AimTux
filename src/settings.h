@@ -139,12 +139,6 @@ namespace Settings
 			extern bool enabled;
 			extern float value;
 		}
-
-		namespace Hitchance
-		{
-			extern bool enabled;
-			extern float value;
-		}
 	}
 
 	namespace AntiAim

@@ -98,8 +98,6 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["Triggerbot"]["Filter"]["legs"] = Settings::Triggerbot::Filter::legs;
 	settings["Triggerbot"]["Delay"]["enabled"] = Settings::Triggerbot::Delay::enabled;
 	settings["Triggerbot"]["Delay"]["value"] = Settings::Triggerbot::Delay::value;
-	settings["Triggerbot"]["Hitchance"]["enabled"] = Settings::Triggerbot::Hitchance::enabled;
-	settings["Triggerbot"]["Hitchance"]["value"] = Settings::Triggerbot::Hitchance::value;
 
 	settings["AntiAim"]["enabled_Y"] = Settings::AntiAim::enabled_Y;
 	settings["AntiAim"]["enabled_X"] = Settings::AntiAim::enabled_X;
@@ -241,8 +239,6 @@ void Settings::LoadSettings(const char* filename)
 		GetBool(settings["Triggerbot"]["Filter"]["legs"], Settings::Triggerbot::Filter::legs);
 		GetBool(settings["Triggerbot"]["Delay"]["enabled"], Settings::Triggerbot::Delay::enabled);
 		GetFloat(settings["Triggerbot"]["Delay"]["value"], Settings::Triggerbot::Delay::value);
-		GetBool(settings["Triggerbot"]["Hitchance"]["enabled"], Settings::Triggerbot::Hitchance::enabled);
-		GetFloat(settings["Triggerbot"]["Hitchance"]["value"], Settings::Triggerbot::Hitchance::value);
 
 		GetBool(settings["AntiAim"]["enabled_Y"], Settings::AntiAim::enabled_Y);
 		GetBool(settings["AntiAim"]["enabled_X"], Settings::AntiAim::enabled_X);
