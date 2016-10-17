@@ -12,7 +12,7 @@ namespace ClanTagChanger
 	{
 		unsigned int time;
 		std::string text;
-		
+
 		Frame (std::string text, unsigned int time)
 		{
 			this->text = text;
@@ -32,30 +32,29 @@ namespace ClanTagChanger
 		unsigned int currentFrame;
 		std::vector<Frame> frames;
 		AnimationLoopType loopType;
-		
-		Animation (std::string name, std::vector<Frame> frames, AnimationLoopType loopType)
+
+		Animation(std::string name, std::vector<Frame> frames, AnimationLoopType loopType)
 		{
 			currentFrame = 0;
 			this->name = name;
 			this->frames = frames;
 			this->loopType = loopType;
 		}
-		
-		Frame GetCurrentFrame ()
+
+		Frame GetCurrentFrame()
 		{
 			return frames[currentFrame];
 		}
-		
-		void NextFrame ()
+
+		void NextFrame()
 		{
 			currentFrame++;
+
 			if (currentFrame >= frames.size())
-			{
 				currentFrame = 0;
-			}
 		}
 	};
-	
+
 	extern std::vector<Animation> animations;
 	extern Animation* animation;
 	void CreateMove(CUserCmd* cmd);

@@ -14,7 +14,6 @@ std::vector<ClanTagChanger::Animation> ClanTagChanger::animations =
 			Frame ("______", 600),
 			Frame ("AimTux", 3000),
 			Frame ("______", 700),
-				
 		}, ANIM_LOOP
 	)
 };
