@@ -1,8 +1,7 @@
 #include "chantagchanger.h"
 
-char* Settings::ClanTagChanger::value = (char *) "";
-bool Settings::ClanTagChanger::animation = true;
-int Settings::ClanTagChanger::animation_speed = 500;
+char* Settings::ClanTagChanger::value = (char*) "";
+bool Settings::ClanTagChanger::animation = false;
 std::vector<ClanTagChanger::Animation> ClanTagChanger::animations =
 {
 	Animation ("NOVAC",
