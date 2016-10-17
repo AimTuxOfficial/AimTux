@@ -3,6 +3,7 @@
 // Default aimbot settings
 bool Settings::Aimbot::enabled = true;
 bool Settings::Aimbot::silent = false;
+bool Settings::Aimbot::friendly = false;
 float Settings::Aimbot::fov = 180.0f;
 unsigned int Settings::Aimbot::bone = BONE_HEAD;
 ButtonCode_t Settings::Aimbot::aimkey = ButtonCode_t::MOUSE_MIDDLE;
@@ -57,8 +58,10 @@ C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible)
 			|| entity == (C_BaseEntity*)localplayer
 			|| entity->GetDormant()
 			|| entity->GetLifeState() != LIFE_ALIVE
-			|| entity->GetHealth() <= 0
-			|| entity->GetTeam() == localplayer->GetTeam())
+			|| entity->GetHealth() <= 0)
+			continue;
+
+		if (!Settings::Aimbot::friendly && entity->GetTeam() == localplayer->GetTeam())
 			continue;
 
 		if (visible && !Entity::IsVisible(localplayer, entity, Settings::Aimbot::bone))

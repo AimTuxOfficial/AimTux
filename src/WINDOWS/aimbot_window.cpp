@@ -10,8 +10,11 @@ AimbotWindow::AimbotWindow (std::string title, Vector2D size, Vector2D position,
 	
 	ts_silent = new ToggleSwitch ("silent aim", BELOW (ts_aimbot_enabled), 33, &Settings::Aimbot::silent);
 	AddComponent (ts_silent);
+
+	ts_friendly = new ToggleSwitch ("friendly", BELOW (ts_silent), 33, &Settings::Aimbot::friendly);
+	AddComponent (ts_friendly);
 	
-	ba_aim = new Banner ("Aim", BELOW (ts_silent), size.x - 20);
+	ba_aim = new Banner ("Aim", BELOW (ts_friendly), size.x - 20);
 	AddComponent (ba_aim);
 	
 	ts_rcs = new ToggleSwitch ("recoil control", BELOW (ba_aim), 33, &Settings::Aimbot::RCS::enabled);

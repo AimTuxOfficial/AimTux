@@ -12,6 +12,7 @@ class AimbotWindow : public Window
 private:
 	ToggleSwitch* ts_aimbot_enabled;
 	ToggleSwitch* ts_silent;
+	ToggleSwitch* ts_friendly;
 	Banner* ba_aim;
 	ToggleSwitch* ts_autoaim;
 	Slider*	sl_fov;
