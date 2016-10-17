@@ -21,6 +21,7 @@ private:
 	Slider* sl_noflash_value;
 	TextBox* tb_clantag;
 	OutlinedButton* ob_clantag_set;
+	ToggleSwitch* ts_clantag_animation;
 public:
 	MiscWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor);
 	void SetClanTag ();
