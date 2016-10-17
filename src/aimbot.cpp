@@ -17,6 +17,7 @@ bool Settings::Aimbot::AutoShoot::autoscope = false;
 bool Settings::Aimbot::RCS::enabled = false;
 bool Settings::Aimbot::AutoCrouch::enabled = false;
 bool Settings::Aimbot::AutoStop::enabled = false;
+bool Settings::Aimbot::friendly = false;
 
 bool Aimbot::AimStepInProgress = false;
 
@@ -58,7 +59,7 @@ C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible)
 			|| entity->GetDormant()
 			|| entity->GetLifeState() != LIFE_ALIVE
 			|| entity->GetHealth() <= 0
-			|| entity->GetTeam() == localplayer->GetTeam())
+			|| (!Settings::Aimbot::friendly && entity->GetTeam() == localplayer->GetTeam()))
 			continue;
 
 		if (visible && !Entity::IsVisible(localplayer, entity, Settings::Aimbot::bone))

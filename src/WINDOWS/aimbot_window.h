@@ -24,6 +24,7 @@ private:
 	Banner* ba_movement;
 	ToggleSwitch* ts_autocrouch;
 	ToggleSwitch* ts_autostop;
+    ToggleSwitch* ts_friendly;
 public:
 	AimbotWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor);
 };

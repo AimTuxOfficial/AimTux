@@ -97,6 +97,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["Aimbot"]["AutoShoot"]["autoscope"] = Settings::Aimbot::AutoShoot::autoscope;
 	settings["Aimbot"]["AutoCrouch"]["enabled"] = Settings::Aimbot::AutoCrouch::enabled;
 	settings["Aimbot"]["AutoStop"]["enabled"] = Settings::Aimbot::AutoStop::enabled;
+    settings["Aimbot"]["Friendly"] = Settings::Aimbot::friendly;
 
 	settings["Triggerbot"]["enabled"] = Settings::Triggerbot::enabled;
 	settings["Triggerbot"]["key"] = Settings::Triggerbot::key;
@@ -222,6 +223,7 @@ void Settings::LoadSettings(const char* filename)
 		GetBool(settings["Aimbot"]["AutoShoot"]["autoscope"], Settings::Aimbot::AutoShoot::autoscope);
 		GetBool(settings["Aimbot"]["AutoCrouch"]["enabled"], Settings::Aimbot::AutoCrouch::enabled);
 		GetBool(settings["Aimbot"]["AutoStop"]["enabled"], Settings::Aimbot::AutoStop::enabled);
+		GetBool(settings["Aimbot"]["Friendly"], Settings::Aimbot::friendly);
 
 		GetBool(settings["Triggerbot"]["enabled"], Settings::Triggerbot::enabled);
 		GetInt(settings["Triggerbot"]["key"], Settings::Triggerbot::key);
