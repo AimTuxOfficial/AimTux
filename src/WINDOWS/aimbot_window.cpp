@@ -5,7 +5,7 @@ AimbotWindow* aimbot_window = nullptr;
 AimbotWindow::AimbotWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor)
 	: Window::Window (title, size, position, backgroundColor)
 {
-	ts_aimbot_enabled = new ToggleSwitch ("aimbot", Vector2D (10, 10), 33, &Settings::Aimbot::enabled);
+	ts_aimbot_enabled = new ToggleSwitch ("aimbot", LOC (10, 10), 33, &Settings::Aimbot::enabled);
 	AddComponent (ts_aimbot_enabled);
 	
 	ts_silent = new ToggleSwitch ("silent aim", BELOW (ts_aimbot_enabled), 33, &Settings::Aimbot::silent);
@@ -23,7 +23,7 @@ AimbotWindow::AimbotWindow (std::string title, Vector2D size, Vector2D position,
 	ts_autoaim = new ToggleSwitch ("auto aim", BELOW (ts_rcs), 33, &Settings::Aimbot::AutoAim::enabled);
 	AddComponent (ts_autoaim);
 
-	sl_fov = new Slider ("FOV", STACK (ts_autoaim), Vector2D (size.x - ts_autoaim->size.x - 30, 33), &Settings::Aimbot::fov, 0.0f, 180.0f);
+	sl_fov = new Slider ("FOV", STACK (ts_autoaim), LOC (size.x - ts_autoaim->size.x - 30, 33), &Settings::Aimbot::fov, 0.0f, 180.0f);
 	AddComponent (sl_fov);
 	
 	lb_aimbone = new StackedListBox<Bones>("aimbone", BELOW (ts_autoaim), size.x - 20, 3, (Bones*)&Settings::Aimbot::bone, std::vector<LB_Element>
@@ -42,7 +42,7 @@ AimbotWindow::AimbotWindow (std::string title, Vector2D size, Vector2D position,
 	ts_smooth_enable = new ToggleSwitch ("smooth", BELOW (lb_aimbone), 33, &Settings::Aimbot::Smooth::enabled);
 	AddComponent (ts_smooth_enable);
 	
-	sl_smooth_value = new Slider ("", STACK (ts_smooth_enable), Vector2D (size.x - ts_smooth_enable->size.x - 30, 33), &Settings::Aimbot::Smooth::value, 0.10f, Settings::Aimbot::Smooth::max);
+	sl_smooth_value = new Slider ("", STACK (ts_smooth_enable), LOC (size.x - ts_smooth_enable->size.x - 30, 33), &Settings::Aimbot::Smooth::value, 0.10f, Settings::Aimbot::Smooth::max);
 	AddComponent (sl_smooth_value);
 	
 	

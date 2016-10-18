@@ -26,7 +26,7 @@ void DrawBanner ()
 	int width, height;
 	engine->GetScreenSize (width, height);
 	
-	Draw::DrawString ("AimTux", Vector2D (10, 10), Color (215, 215, 215, 190), esp_font);
+	Draw::DrawString ("AimTux", LOC (10, 10), Color (215, 215, 215, 190), esp_font);
 }
 
 void UI_Container::Draw ()
@@ -44,7 +44,7 @@ void UI_Container::Draw ()
 	int width, height;
 	engine->GetScreenSize (width, height);
 	
-	Draw::DrawRect (Vector2D(0, 0), Vector2D (width, height), Color (0, 0, 0, 20));
+	Draw::DrawRect (LOC(0, 0), LOC (width, height), Color (0, 0, 0, 20));
 	
 	for (int i = windows.size ()-1; i >= 0; i--)
 	{

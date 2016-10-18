@@ -1,6 +1,8 @@
 #ifndef __DRAW_H_
 #define __DRAW_H_
 
+#define LOC(x,y) Vector2D(x,y)
+
 #include "interfaces.h"
 
 #include <stdio.h>

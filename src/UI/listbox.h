@@ -50,10 +50,10 @@ public:
 		
 		if (*static_cast<unsigned int*>((void*)setting) == element->value)
 		{
-			DrawRectangle (Vector2D (0, 0), size, Settings::UI::mainColor);
+			DrawRectangle (LOC (0, 0), size, Settings::UI::mainColor);
 		}
 		
-		DrawCenteredString (text, normal_font, text_color, Vector2D (size.x / 2, size.y / 2));
+		DrawCenteredString (text, normal_font, text_color, LOC (size.x / 2, size.y / 2));
 	}
 };
 
@@ -78,7 +78,7 @@ public:
 		{
 			LB_Element* element = &this->elements[i];
 			
-			LB_Button<E>* new_button = new LB_Button<E> (element->name, Vector2D (10, 10 + (i * LB_ELEMENT_HEIGHT) + (i * LB_ELEMENT_SEPARATOR_WIDTH)), Vector2D (width - 20, LB_ELEMENT_HEIGHT), this->setting, element);
+			LB_Button<E>* new_button = new LB_Button<E> (element->name, LOC (10, 10 + (i * LB_ELEMENT_HEIGHT) + (i * LB_ELEMENT_SEPARATOR_WIDTH)), LOC (width - 20, LB_ELEMENT_HEIGHT), this->setting, element);
 			AddComponent (new_button);
 		}
 		
@@ -89,7 +89,7 @@ public:
 	{
 		Clear (background_color);
 		
-		DrawRectangle (Vector2D (0, 0), this->size, Settings::UI::mainColor);
+		DrawRectangle (LOC (0, 0), this->size, Settings::UI::mainColor);
 		
 		Panel::Draw ();
 	}
@@ -128,8 +128,8 @@ public:
 			LB_Button<E>* new_button = new LB_Button<E> (
 				
 				element->name,
-				Vector2D ((x * elementWidth) + (10 + (x * 10)), (y * LB_ELEMENT_HEIGHT) + (10 + (y * 10))),
-				Vector2D (elementWidth - 20, LB_ELEMENT_HEIGHT),
+				LOC ((x * elementWidth) + (10 + (x * 10)), (y * LB_ELEMENT_HEIGHT) + (10 + (y * 10))),
+				LOC (elementWidth - 20, LB_ELEMENT_HEIGHT),
 				this->setting,
 				element
 				
@@ -146,7 +146,7 @@ public:
 	{
 		Clear (background_color);
 		
-		DrawRectangle (Vector2D (0, 0), this->size, Settings::UI::mainColor);
+		DrawRectangle (LOC (0, 0), this->size, Settings::UI::mainColor);
 		
 		Panel::Draw ();
 	}

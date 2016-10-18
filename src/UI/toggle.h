@@ -47,7 +47,7 @@ public:
 	}
 	
 	ToggleSwitch (std::string text, Vector2D position, int height, bool* setting)
-		: ToggleSwitch (text, position, Vector2D (height + 25 + Draw::GetTextSize (text.c_str(), normal_font).x, height), setting) { }
+		: ToggleSwitch (text, position, LOC (height + 25 + Draw::GetTextSize (text.c_str(), normal_font).x, height), setting) { }
 	
 	
 	void Draw ()
@@ -58,17 +58,17 @@ public:
 		
 		if (!*setting)
 		{
-			DrawRectangle (Vector2D (sep, sep), Vector2D ((size.y / 4) * 3, (size.y / 4) * 3), Settings::UI::mainColor);
+			DrawRectangle (LOC (sep, sep), LOC ((size.y / 4) * 3, (size.y / 4) * 3), Settings::UI::mainColor);
 		}
 		else
 		{
-			DrawRectangle (Vector2D (sep, sep), Vector2D ((size.y / 4) * 3, (size.y / 4) * 3), Settings::UI::mainColor);
-			DrawFilledRectangle (Vector2D (sep + 2, sep + 2), Vector2D (((size.y / 4) * 3) - 2, ((size.y / 4) * 3) - 2), Settings::UI::mainColor);
+			DrawRectangle (LOC (sep, sep), LOC ((size.y / 4) * 3, (size.y / 4) * 3), Settings::UI::mainColor);
+			DrawFilledRectangle (LOC (sep + 2, sep + 2), LOC (((size.y / 4) * 3) - 2, ((size.y / 4) * 3) - 2), Settings::UI::mainColor);
 		}
 		
 		Vector2D textSize = Draw::GetTextSize (text.c_str(), normal_font);
 		
-		DrawString (text, normal_font, text_color, Vector2D (size.x-textSize.x-(sep*2), (size.y/2)-(textSize.y/2)));
+		DrawString (text, normal_font, text_color, LOC (size.x-textSize.x-(sep*2), (size.y/2)-(textSize.y/2)));
 	}
 };
 
@@ -99,14 +99,14 @@ public:
 		
 		if (*setting)
 		{
-			DrawRectangle (Vector2D (0, 0), size, Settings::UI::mainColor);
+			DrawRectangle (LOC (0, 0), size, Settings::UI::mainColor);
 		}
 		else if (isHovered)
 		{
-			DrawRectangle (Vector2D (0, 0), size, hovered_outline_color);
+			DrawRectangle (LOC (0, 0), size, hovered_outline_color);
 		}
 		
-		DrawCenteredString (text, normal_font, text_color, Vector2D (size.x / 2, size.y / 2));
+		DrawCenteredString (text, normal_font, text_color, LOC (size.x / 2, size.y / 2));
 	}
 };
 

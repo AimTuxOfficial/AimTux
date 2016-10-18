@@ -46,7 +46,7 @@ public:
 class TitleBar : public Component
 {
 private:
-	Vector2D mouseClickStartPosition = Vector2D (0, 0);
+	Vector2D mouseClickStartPosition = LOC (0, 0);
 public:
 	
 	bool _isDown = false;

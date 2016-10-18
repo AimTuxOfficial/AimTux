@@ -8,5 +8,5 @@
 #include "banner.h"
 #include "textbox.h"
 
-#define BELOW(c) Vector2D (10, c->position.y + c->size.y + 10)
-#define STACK(c) Vector2D (c->position.x + c->size.x + 10, c->position.y)
+#define BELOW(c) LOC (10, c->position.y + c->size.y + 10)
+#define STACK(c) LOC (c->position.x + c->size.x + 10, c->position.y)

@@ -25,7 +25,7 @@ Vector2D Draw::GetTextSize(std::string text, FONT font)
 	
 	surface->GetTextSize(font, std::wstring (text.begin(), text.end()).c_str(), x, y);
 
-	return Vector2D(x, y);
+	return LOC(x, y);
 }
 
 Vector2D Draw::GetTextSize(const wchar_t* text, FONT font)
@@ -35,7 +35,7 @@ Vector2D Draw::GetTextSize(const wchar_t* text, FONT font)
 	
 	surface->GetTextSize(font, text, x, y);
 
-	return Vector2D(x, y);
+	return LOC(x, y);
 }
 
 void Draw::DrawString(std::string text, Vector2D location, Color color, FONT font)

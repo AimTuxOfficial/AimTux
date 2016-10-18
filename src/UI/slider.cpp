@@ -14,14 +14,14 @@ void Slider::Draw ()
 	int gliderHeight = size.y / 5;
 	int gliderYLoc = (size.y / 2) - (gliderHeight / 2);
 	
-	DrawFilledRectangle (Vector2D(0, gliderYLoc), Vector2D(size.x, gliderYLoc + gliderHeight), background_color);
+	DrawFilledRectangle (LOC(0, gliderYLoc), LOC(size.x, gliderYLoc + gliderHeight), background_color);
 	
 	int dongleWidth = 10;
 	
 	// donglePosition_px is calculated here and NOT in MouseTick becasue we want the position to be calculated live & when created (0 by default)
 	int donglePosition_px = (((float)*value-MIN) / (MAX-MIN)) * size.x;
 	
-	DrawFilledRectangle (Vector2D (donglePosition_px - (dongleWidth / 2), 5), Vector2D (donglePosition_px + dongleWidth / 2, size.y-5), Settings::UI::mainColor);
+	DrawFilledRectangle (LOC (donglePosition_px - (dongleWidth / 2), 5), LOC (donglePosition_px + dongleWidth / 2, size.y-5), Settings::UI::mainColor);
 	
 	pstring _text;
 
@@ -30,7 +30,7 @@ void Slider::Draw ()
 
 	_text << (ROUNDF (*value, 100));
 	
-	DrawCenteredString (_text, normal_font, text_color, Vector2D (size.x / 2, size.y / 2));
+	DrawCenteredString (_text, normal_font, text_color, LOC (size.x / 2, size.y / 2));
 }
 
 void Slider::Input ()
