@@ -377,6 +377,10 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 			if (Settings::ESP::visibility_check && !Entity::IsVisible(localPlayer, entity, 6))
 				continue;
 
+			if ((localPlayer->GetLifeState() != LIFE_ALIVE || localPlayer->GetHealth() == 0)
+				&& entitylist->GetClientEntityFromHandle(localPlayer->GetObserverTarget()) == entity)
+				continue;
+
 			if (Settings::ESP::Bones::enabled)
 				ESP::DrawBones(entity);
 
