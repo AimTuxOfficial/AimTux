@@ -16,6 +16,8 @@ ICvar* cvar = nullptr;
 CGlobalVars* globalvars = nullptr;
 CEffects* effects = nullptr;
 IGameEventManager2* gameevents = nullptr;
+IPhysicsSurfaceProps* physics = nullptr;
+
 
 VMT* panel_vmt = nullptr;
 VMT* client_vmt = nullptr;
@@ -43,6 +45,7 @@ void Hooker::HookInterfaces()
 	cvar = GetInterface<ICvar>("./bin/linux64/libvstdlib_client.so", ENGINECVAR_INTERFACE_VERSION);
 	effects = GetInterface<CEffects>("./bin/linux64/engine_client.so", ENGINEEFFECTS_INTERFACE_VERSION);
 	gameevents = GetInterface<IGameEventManager2>("./bin/linux64/engine_client.so", GAMEEVENTSMANAGER2_INTERFACE_VERSION);
+	physics = GetInterface<IPhysicsSurfaceProps>("./bin/linux64/vphysics_client.so", PHYSICS_CLIENT_INTERFACE_VERSION);
 }
 
 void Hooker::HookVMethods()

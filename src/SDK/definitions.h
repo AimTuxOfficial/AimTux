@@ -16,6 +16,7 @@
 #define ENGINECVAR_INTERFACE_VERSION "VEngineCvar007"
 #define ENGINEEFFECTS_INTERFACE_VERSION "VEngineEffects001"
 #define GAMEEVENTSMANAGER2_INTERFACE_VERSION "GAMEEVENTSMANAGER002"
+#define PHYSICS_CLIENT_INTERFACE_VERSION "VPhysicsSurfaceProps001"
 
 /* generic constants */
 #define LIFE_ALIVE 0
@@ -38,6 +39,52 @@ typedef int (*IN_KeyEventFn) (void*, int, int, const char*);
 typedef CGlowObjectManager* (*GlowObjectManagerFn) (void);
 typedef bool (*MsgFunc_ServerRankRevealAllFn) (float*);
 typedef void (*SendClanTagFn) (const char*, const char*);
+
+
+// class WeaponInfo_t
+// {
+// public:
+// 	char* GetName ()
+// 	{
+// 	}
+// 	
+// 	float GetArmorRatio ()
+// 	{
+// 	}
+// 	
+// 	float GetPenetration ()
+// 	{
+// 	}
+// 	
+// 	int GetDamage ()
+// 	{
+// 	}
+// 	
+// 	float GetRange ()
+// 	{
+// 	}
+// 	
+// 	float GetRangeModifier ()
+// 	{
+// 	}
+// };
+
+class WeaponInfo_t
+{
+public:
+	char pad_0x0000[ 99 ];	//0x0000
+	char m_name[ 80 ];			//0x00
+	char pad_0x07B0[ 0x6FD ];	//0x0000
+	float m_flArmorRatio;		//0x07B0 
+	float unkwn1;				//0x07B4 
+	float unkwn2;				//0x07B8 
+	int unkwn3;				//0x07BC 
+	int unkwn4;				//0x07C0 
+	float m_flPenetration;		//0x07C4 
+	int m_iDamage;			//0x07C8 
+	float m_flRange;			//0x07CC 
+	float m_flRangeModifier;	//0x07D0 
+};
 
 enum class FontFeature: int
 {
@@ -534,5 +581,80 @@ enum HitGroups: int
 
 #define MAXSTUDIOBONES 128
 #define BONE_USED_BY_HITBOX 0x100
+
+#define	MASK_SHOT	(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_MONSTER|CONTENTS_WINDOW|CONTENTS_DEBRIS|CONTENTS_HITBOX)
+
+// NOTE: These are stored in a short in the engine now.  Don't use more than 16 bits
+#define	SURF_LIGHT		0x0001		// value will hold the light strength
+#define	SURF_SKY2D		0x0002		// don't draw, indicates we should skylight + draw 2d sky but not draw the 3D skybox
+#define	SURF_SKY		0x0004		// don't draw, but add to skybox
+#define	SURF_WARP		0x0008		// turbulent water warp
+#define	SURF_TRANS		0x0010
+#define SURF_NOPORTAL	0x0020	// the surface can not have a portal placed on it
+#define	SURF_TRIGGER	0x0040	// FIXME: This is an xbox hack to work around elimination of trigger surfaces, which breaks occluders
+#define	SURF_NODRAW		0x0080	// don't bother referencing the texture
+
+#define	SURF_HINT		0x0100	// make a primary bsp splitter
+
+#define	SURF_SKIP		0x0200	// completely ignore, allowing non-closed brushes
+#define SURF_NOLIGHT	0x0400	// Don't calculate light
+#define SURF_BUMPLIGHT	0x0800	// calculate three lightmaps for the surface for bumpmapping
+#define SURF_NOSHADOWS	0x1000	// Don't receive shadows
+#define SURF_NODECALS	0x2000	// Don't receive decals
+#define SURF_NOPAINT	SURF_NODECALS	// the surface can not have paint placed on it
+#define SURF_NOCHOP		0x4000	// Don't subdivide patches on this surface 
+#define SURF_HITBOX		0x8000	// surface is part of a hitbox
+
+#define	MASK_ALL					(0xFFFFFFFF)
+// everything that is normally solid
+#define	MASK_SOLID					(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_WINDOW|CONTENTS_MONSTER|CONTENTS_GRATE)
+// everything that blocks player movement
+#define	MASK_PLAYERSOLID			(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_PLAYERCLIP|CONTENTS_WINDOW|CONTENTS_MONSTER|CONTENTS_GRATE)
+// blocks npc movement
+#define	MASK_NPCSOLID				(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_MONSTERCLIP|CONTENTS_WINDOW|CONTENTS_MONSTER|CONTENTS_GRATE)
+// blocks fluid movement
+#define	MASK_NPCFLUID				(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_MONSTERCLIP|CONTENTS_WINDOW|CONTENTS_MONSTER)
+// water physics in these contents
+#define	MASK_WATER					(CONTENTS_WATER|CONTENTS_MOVEABLE|CONTENTS_SLIME)
+// everything that blocks lighting
+#define	MASK_OPAQUE					(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_OPAQUE)
+// everything that blocks lighting, but with monsters added.
+#define MASK_OPAQUE_AND_NPCS		(MASK_OPAQUE|CONTENTS_MONSTER)
+// everything that blocks line of sight for AI
+#define MASK_BLOCKLOS				(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_BLOCKLOS)
+// everything that blocks line of sight for AI plus NPCs
+#define MASK_BLOCKLOS_AND_NPCS		(MASK_BLOCKLOS|CONTENTS_MONSTER)
+// everything that blocks line of sight for players
+#define	MASK_VISIBLE					(MASK_OPAQUE|CONTENTS_IGNORE_NODRAW_OPAQUE)
+// everything that blocks line of sight for players, but with monsters added.
+#define MASK_VISIBLE_AND_NPCS		(MASK_OPAQUE_AND_NPCS|CONTENTS_IGNORE_NODRAW_OPAQUE)
+// bullets see these as solid
+#define	MASK_SHOT					(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_MONSTER|CONTENTS_WINDOW|CONTENTS_DEBRIS|CONTENTS_HITBOX)
+// bullets see these as solid, except monsters (world+brush only)
+#define MASK_SHOT_BRUSHONLY			(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_WINDOW|CONTENTS_DEBRIS)
+// non-raycasted weapons see this as solid (includes grates)
+#define MASK_SHOT_HULL				(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_MONSTER|CONTENTS_WINDOW|CONTENTS_DEBRIS|CONTENTS_GRATE)
+// hits solids (not grates) and passes through everything else
+#define MASK_SHOT_PORTAL			(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_WINDOW|CONTENTS_MONSTER)
+// everything normally solid, except monsters (world+brush only)
+#define MASK_SOLID_BRUSHONLY		(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_WINDOW|CONTENTS_GRATE)
+// everything normally solid for player movement, except monsters (world+brush only)
+#define MASK_PLAYERSOLID_BRUSHONLY	(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_WINDOW|CONTENTS_PLAYERCLIP|CONTENTS_GRATE)
+// everything normally solid for npc movement, except monsters (world+brush only)
+#define MASK_NPCSOLID_BRUSHONLY		(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_WINDOW|CONTENTS_MONSTERCLIP|CONTENTS_GRATE)
+// just the world, used for route rebuilding
+#define MASK_NPCWORLDSTATIC			(CONTENTS_SOLID|CONTENTS_WINDOW|CONTENTS_MONSTERCLIP|CONTENTS_GRATE)
+// just the world, used for route rebuilding
+#define MASK_NPCWORLDSTATIC_FLUID	(CONTENTS_SOLID|CONTENTS_WINDOW|CONTENTS_MONSTERCLIP)
+// These are things that can split areaportals
+#define MASK_SPLITAREAPORTAL		(CONTENTS_WATER|CONTENTS_SLIME)
+
+// UNDONE: This is untested, any moving water
+#define MASK_CURRENT				(CONTENTS_CURRENT_0|CONTENTS_CURRENT_90|CONTENTS_CURRENT_180|CONTENTS_CURRENT_270|CONTENTS_CURRENT_UP|CONTENTS_CURRENT_DOWN)
+
+// everything that blocks corpse movement
+// UNDONE: Not used yet / may be deleted
+#define	MASK_DEADSOLID				(CONTENTS_SOLID|CONTENTS_PLAYERCLIP|CONTENTS_WINDOW|CONTENTS_GRATE)
+
 
 #endif

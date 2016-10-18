@@ -20,6 +20,7 @@ extern ICvar* cvar;
 extern CGlobalVars* globalvars;
 extern CEffects* effects;
 extern IGameEventManager2* gameevents;
+extern IPhysicsSurfaceProps* physics;
 
 extern VMT* panel_vmt;
 extern VMT* client_vmt;

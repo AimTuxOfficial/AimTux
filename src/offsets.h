@@ -13,6 +13,9 @@ struct COffsets
 	int m_lifeState;
 	int m_fFlags;
 	int m_hMyWeapons;
+	int m_ArmorValue;
+	int m_bHasHelmet;
+	
 	
 	int m_nTickBase;
 	int m_iObserverMode;
