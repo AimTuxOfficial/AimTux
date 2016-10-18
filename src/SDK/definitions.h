@@ -40,50 +40,20 @@ typedef CGlowObjectManager* (*GlowObjectManagerFn) (void);
 typedef bool (*MsgFunc_ServerRankRevealAllFn) (float*);
 typedef void (*SendClanTagFn) (const char*, const char*);
 
-
-// class WeaponInfo_t
-// {
-// public:
-// 	char* GetName ()
-// 	{
-// 	}
-// 	
-// 	float GetArmorRatio ()
-// 	{
-// 	}
-// 	
-// 	float GetPenetration ()
-// 	{
-// 	}
-// 	
-// 	int GetDamage ()
-// 	{
-// 	}
-// 	
-// 	float GetRange ()
-// 	{
-// 	}
-// 	
-// 	float GetRangeModifier ()
-// 	{
-// 	}
-// };
-
-class WeaponInfo_t
-{
+class WeaponInfo_t {
 public:
-	char pad_0x0000[ 99 ];	//0x0000
-	char m_name[ 80 ];			//0x00
-	char pad_0x07B0[ 0x6FD ];	//0x0000
-	float m_flArmorRatio;		//0x07B0 
-	float unkwn1;				//0x07B4 
-	float unkwn2;				//0x07B8 
-	int unkwn3;				//0x07BC 
-	int unkwn4;				//0x07C0 
-	float m_flPenetration;		//0x07C4 
-	int m_iDamage;			//0x07C8 
-	float m_flRange;			//0x07CC 
-	float m_flRangeModifier;	//0x07D0 
+	char pad_0x0000[99];		//0x0000
+	char m_name[80];			//0x00
+	char pad_0x07B0[0x6FD];		//0x0000
+	float m_flArmorRatio;		//0x07B0
+	float unkwn1;				//0x07B4
+	float unkwn2;				//0x07B8
+	int unkwn3;					//0x07BC
+	int unkwn4;					//0x07C0
+	float m_flPenetration;		//0x07C4
+	int m_iDamage;				//0x07C8
+	float m_flRange;			//0x07CC
+	float m_flRangeModifier;	//0x07D0
 };
 
 enum class FontFeature: int

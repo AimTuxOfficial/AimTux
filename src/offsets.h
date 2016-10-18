@@ -16,7 +16,6 @@ struct COffsets
 	int m_ArmorValue;
 	int m_bHasHelmet;
 	
-	
 	int m_nTickBase;
 	int m_iObserverMode;
 	int m_hObserverTarget;

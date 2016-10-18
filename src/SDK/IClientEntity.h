@@ -90,13 +90,13 @@ public:
 	{
 		return *(int*)((uintptr_t)this + offsets.m_iHealth);
 	}
-	
-	int GetArmor ()
+
+	int GetArmor()
 	{
 		return *(int*)((uintptr_t)this + offsets.m_ArmorValue);
 	}
-	
-	int HasHelmet ()
+
+	int HasHelmet()
 	{
 		return *(int*)((uintptr_t)this + offsets.m_bHasHelmet);
 	}
@@ -421,8 +421,8 @@ public:
 	{
 		return *(float*)((uintptr_t)this + offsets.m_fAccuracyPenalty);
 	}
-	
-	WeaponInfo_t* GetWeaponData ()
+
+	WeaponInfo_t* GetWeaponData()
 	{
 		typedef WeaponInfo_t* (* oGetWeaponData)(void*);
 		getvfunc<oGetWeaponData>(this, 456)(this);
