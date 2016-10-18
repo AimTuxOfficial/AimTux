@@ -84,7 +84,7 @@ bool Autowall::TraceToExit(Vector &end, trace_t *enter_trace, Vector start, Vect
 			continue;
 		}
 
-		if (!(exit_trace->fraction < 1.0 || exit_trace->allsolid || exit_trace->startsolid ) || exit_trace->startsolid)
+		if (!(exit_trace->fraction < 1.0 || exit_trace->allsolid || exit_trace->startsolid) || exit_trace->startsolid)
 		{
 			if (exit_trace->m_pEntityHit)
 			{
@@ -111,12 +111,12 @@ bool Autowall::TraceToExit(Vector &end, trace_t *enter_trace, Vector start, Vect
 
 bool Autowall::HandleBulletPenetration(WeaponInfo_t *wpn_data, FireBulletData &data)
 {
-	surfacedata_t *enter_surface_data = physics->GetSurfaceData( data.enter_trace.surface.surfaceProps );
+	surfacedata_t *enter_surface_data = physics->GetSurfaceData(data.enter_trace.surface.surfaceProps);
 	int enter_material = enter_surface_data->game.material;
-	float enter_surf_penetration_mod = *( float* )( (void*)enter_surface_data + 76 );
+	float enter_surf_penetration_mod = *(float*)((void*)enter_surface_data + 76);
 
 	data.trace_length += data.enter_trace.fraction * data.trace_length_remaining;
-	data.current_damage *= pow( ( wpn_data->m_flRangeModifier ), ( data.trace_length * 0.002 ) );
+	data.current_damage *= pow((wpn_data->m_flRangeModifier), (data.trace_length * 0.002));
 
 	if ((data.trace_length > 3000.f) || (enter_surf_penetration_mod < 0.1f))
 		data.penetrate_count = 0;
@@ -129,10 +129,10 @@ bool Autowall::HandleBulletPenetration(WeaponInfo_t *wpn_data, FireBulletData &d
 	if (!TraceToExit(dummy, &data.enter_trace, data.enter_trace.endpos, data.direction, &trace_exit))
 		return false;
 
-	surfacedata_t *exit_surface_data = physics->GetSurfaceData( trace_exit.surface.surfaceProps );
+	surfacedata_t *exit_surface_data = physics->GetSurfaceData(trace_exit.surface.surfaceProps);
 	int exit_material = exit_surface_data->game.material;
 
-	float exit_surf_penetration_mod = *( float* )( (void*)exit_surface_data + 76 );
+	float exit_surf_penetration_mod = *(float*)((void*)exit_surface_data + 76);
 	float final_damage_modifier = 0.16f;
 	float combined_penetration_modifier = 0.0f;
 
@@ -189,7 +189,7 @@ void TraceLine(Vector vecAbsStart, Vector vecAbsEnd, unsigned int mask, C_BaseEn
 	trace->TraceRay(ray, mask, &filter, ptr);
 }
 
-bool Autowall::SimulateFireBullet( C_BaseCombatWeapon* pWeapon, FireBulletData &data )
+bool Autowall::SimulateFireBullet(C_BaseCombatWeapon* pWeapon, FireBulletData &data)
 {
 	data.penetrate_count = 4;
 	data.trace_length = 0.0f;
@@ -202,7 +202,7 @@ bool Autowall::SimulateFireBullet( C_BaseCombatWeapon* pWeapon, FireBulletData &
 
 	data.current_damage = (float) weaponData->m_iDamage;
 
-	while ((data.penetrate_count > 0 ) && (data.current_damage >= 1.0f))
+	while ((data.penetrate_count > 0) && (data.current_damage >= 1.0f))
 	{
 		data.trace_length_remaining = weaponData->m_flRange - data.trace_length;
 
