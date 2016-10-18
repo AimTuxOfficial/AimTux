@@ -99,16 +99,11 @@ char Util::GetUpperValueOf(ButtonCode_t key)
 		case KEY_EQUAL:
 			return '+';
 		default:
-            {
-                char _buttonChar = Util::GetButtonString(key); // not really a string lol
-                if (_buttonChar >= 'a' && _buttonChar <= 'z')
-                {
-                    return _buttonChar - 32;
-                }
-                else 
-                {
-                    return _buttonChar;
-                }
-            }
+			char buttonChar = Util::GetButtonString(key);
+
+			if (buttonChar >= 'a' && buttonChar <= 'z')
+				buttonChar -= 32;
+
+			return buttonChar;
 	}
 }
