@@ -161,8 +161,11 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	QAngle angle = cmd->viewangles;
 
 	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
-
 	if (localplayer->GetDormant() || localplayer->GetLifeState() != LIFE_ALIVE || localplayer->GetHealth() == 0)
+		return;
+
+	C_BaseCombatWeapon* active_weapon = reinterpret_cast<C_BaseCombatWeapon*>(entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon()));
+	if (active_weapon->isGrenade() || active_weapon->isKnife())
 		return;
 
 	C_BaseEntity* entity = GetClosestEnemy(cmd, true);
@@ -205,9 +208,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 
 		if (Settings::Aimbot::AutoShoot::enabled && !Aimbot::AimStepInProgress)
 		{
-			C_BaseCombatWeapon* active_weapon = reinterpret_cast<C_BaseCombatWeapon*>(entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon()));
-
-			if (active_weapon && !active_weapon->isKnife() && active_weapon->GetAmmo() > 0)
+			if (!active_weapon->isKnife() && active_weapon->GetAmmo() > 0)
 			{
 				float nextPrimaryAttack = active_weapon->GetNextPrimaryAttack();
 				float tick = localplayer->GetTickBase() * globalvars->interval_per_tick;
