@@ -30,6 +30,7 @@ void AntiAim::CreateMove (CUserCmd* cmd)
 
 	static bool bFlip;
 	static float fYaw = 0.0f;
+	static float fPitch = 0.0f;
 
 	bFlip = !bFlip;
 
@@ -70,6 +71,19 @@ void AntiAim::CreateMove (CUserCmd* cmd)
 		else if (Settings::AntiAim::type_X == STATIC_DOWN)
 		{
 			angle.x = 271.f;
+		}
+		else if (Settings::AntiAim::type_X == JITTER_UP_DOWN_FAST || Settings::AntiAim::type_X == JITTER_UP_DOWN_SLOW)
+		{
+			fPitch += Settings::AntiAim::type_X == JITTER_UP_DOWN_FAST ? 40.0f : 5.0f;
+
+			if (fPitch > 80.0f)
+				fPitch -= 160.0f;
+
+			angle.x = fPitch;
+		}
+		else if (Settings::AntiAim::type_X == ZERO)
+		{
+			angle.x = 0.f;
 		}
 	}
 
