@@ -24,18 +24,21 @@ Panel::Panel (Vector2D position, Vector2D size, Color backgroundColor) : Panel (
 
 void Panel::Draw ()
 {
-	this->Clear (backGroundColor);
-	
-	
-	for (int i = 0; i < childComponents.size(); i++)
+	if (shown)
 	{
-		Component* childComponent = childComponents[i];
+		this->Clear (backGroundColor);
 		
-		// Update the childs context
-		childComponent->context = this->context + childComponent->position;
 		
-		// Draw the component
-		childComponent->Draw ();
+		for (int i = 0; i < childComponents.size(); i++)
+		{
+			Component* childComponent = childComponents[i];
+			
+			// Update the childs context
+			childComponent->context = this->context + childComponent->position;
+			
+			// Draw the component
+			childComponent->Draw ();
+		}
 	}
 }
 
@@ -135,7 +138,3 @@ void Panel::MouseTick (PositionContext mouseContext)
 		}
 	}
 }
-
-
-
-
