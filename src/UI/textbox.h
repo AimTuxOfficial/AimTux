@@ -6,29 +6,30 @@
 #include "../util.h"
 #include <algorithm>
 
-class StrPTextBox : public Component
+class TextBox : public Component
 {
 protected:
-	Color text_color = Color (255, 255, 255, 200);
+	Color text_color       = Color (255, 255, 255, 200);
 	Color background_color = Color (160, 160, 160, 5);
-private:
-	std::vector<ButtonCode_t> lastPressedKeys;
-	Vector2D font_size;
-	
 	bool s_showCaret = false;
 	int s_caret_stamp;
+	Vector2D font_size;
+
+private:
+	std::vector<ButtonCode_t> lastPressedKeys;
+	
 public:
 	
-    std::string* text;
+    std::string* strp;
 	std::string shadow_text = "textbox";
 	
-	StrPTextBox (std::string shadow_text, std::string* textref, Vector2D position, Vector2D size)
+	TextBox (std::string shadow, std::string* textref, Vector2D position, Vector2D size)
+        : shadow_text(shadow)
+        , strp(textref)
 	{
-		this->position = position;
-		this->size = size;
-		this->shadow_text = shadow_text;
-		this->text = textref;
-		
+        this->size = size;
+        this->position = position;
+
 		// Get the width if the monospaced font
 		font_size = Draw::GetTextSize ("j", mono_font);
 		
@@ -48,7 +49,7 @@ public:
 		
 		int text_max_fit = (size.x-20) / font_size.x;
 		
-		const char* sectioned_text = (text->size() > text_max_fit ? &text->c_str()[text->size() - text_max_fit] : text->c_str());
+		const char* sectioned_text = (strp->size() > text_max_fit ? &strp->c_str()[strp->size() - text_max_fit] : strp->c_str());
 		
 		int sectioned_text_size = strlen(sectioned_text);
 		
@@ -114,40 +115,38 @@ public:
 				character = Util::GetUpperValueOf(key);
 			}
 			
-			text->operator+=(character);
+			strp->operator+=(character);
 		}
 		
-		if (text->size() > 0 &&
+		if (strp->size() > 0 &&
 			std::find(pressedKeys.begin(), pressedKeys.end(), KEY_BACKSPACE) != pressedKeys.end() &&
 			std::find(lastPressedKeys.begin(), lastPressedKeys.end(), KEY_BACKSPACE) == lastPressedKeys.end()
 			)
 		{
-			text->pop_back ();
+			strp->pop_back ();
 		}
 		
-		if (text->size() > 0 &&
+		if (strp->size() > 0 &&
 			std::find(pressedKeys.begin(), pressedKeys.end(), KEY_SPACE) != pressedKeys.end() &&
 			std::find(lastPressedKeys.begin(), lastPressedKeys.end(), KEY_SPACE) == lastPressedKeys.end()
 			)
 		{
-			text->operator+=(" ");
+			strp->operator+=(" ");
 		}
 		
 		lastPressedKeys = pressedKeys;
 	}
 };
 
-class TextBox : public StrPTextBox 
+class ValueTextBox : public TextBox 
 {
-protected: 
+public:
     pstring text;
 
-public:
-
-    TextBox(std::string shadow, std::string val, Vector2D pos, Vector2D size)
-        : StrPTextBox(shadow, &text, pos, size)
+    ValueTextBox(std::string shadow, std::string val, Vector2D pos, Vector2D size)
+        : text(val)
+        , TextBox(shadow, &text, pos, size)
     {
-        text = pstring(val);
     }
 };
 #endif
