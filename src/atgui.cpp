@@ -30,7 +30,7 @@ void SetupUI()
 	gui->AddWindow(main_window);
 
 	// Menu window
-	menu_window = new MenuWindow("AimTux", LOC(270, 440), LOC(100, 100), Color(0, 0, 0, 0));
+	menu_window = new MenuWindow("AimTux", LOC(270, 450), LOC(100, 100), Color(0, 0, 0, 0));
 	menu_window->position = LOC(x - menu_window->size.x - 10, 10);
 	gui->AddWindow(menu_window);
 	
