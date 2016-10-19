@@ -26,9 +26,9 @@ void SetupUI()
 	gui->AddWindow(misc_window);
 
 	// Main window
-	main_window = new MainWindow("AimTux", LOC(270, 400), LOC(100, 100), Color(0, 0, 0, 0));
-	main_window->position = LOC(x - main_window->size.x - 10, 10);
-	gui->AddWindow(main_window);
+	menu_window = new MenuWindow("AimTux", LOC(270, 440), LOC(100, 100), Color(0, 0, 0, 0));
+	menu_window->position = LOC(x - menu_window->size.x - 10, 10);
+	gui->AddWindow(menu_window);
 	
-	gui->Focus(main_window);
+	gui->Focus(menu_window);
 }
