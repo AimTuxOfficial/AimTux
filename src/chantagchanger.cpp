@@ -1,7 +1,10 @@
 #include "chantagchanger.h"
+#include "util.h"
 
 std::string Settings::ClanTagChanger::value = "";
 bool Settings::ClanTagChanger::animation = false;
+bool Settings::ClanTagChanger::enable = false; // TODO find a way to go back to the "official" clan tag for the player?
+
 std::vector<ClanTagChanger::Animation> ClanTagChanger::animations =
 {
 	Animation ("NOVAC",
@@ -21,7 +24,8 @@ ClanTagChanger::Animation* ClanTagChanger::animation = &ClanTagChanger::animatio
 
 void ClanTagChanger::CreateMove(CUserCmd* cmd)
 {
-	if (!engine->IsInGame())
+
+	if (!engine->IsInGame() || !Settings::ClanTagChanger::enable)
 		return;
 
 	if (Settings::ClanTagChanger::value.size() == 0 && !Settings::ClanTagChanger::animation)
@@ -39,6 +43,10 @@ void ClanTagChanger::CreateMove(CUserCmd* cmd)
 
 	if (Settings::ClanTagChanger::animation)
 		SendClanTag(ClanTagChanger::animation->GetCurrentFrame().text.c_str(), "");
-	else
-		SendClanTag(Settings::ClanTagChanger::value.c_str(), "");
+	else 
+    {
+        std::string ctWithEscapesProcessed = std::string(Settings::ClanTagChanger::value); 
+        Util::StdReplaceStr(ctWithEscapesProcessed, "\\n", "\n"); // compute time impact? also, referential so i assume RAII builtin cleans it up...
+		SendClanTag(ctWithEscapesProcessed.c_str(), "");
+    }
 }
