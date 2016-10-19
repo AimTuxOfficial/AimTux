@@ -18,7 +18,7 @@ namespace Autowall
 
 	float GetDamage(const Vector& vecPoint);
 	bool SimulateFireBullet(C_BaseCombatWeapon* pWeapon, FireBulletData &data);
-	bool HandleBulletPenetration(WeaponInfo_t* wpn_data, FireBulletData &data);
+	bool HandleBulletPenetration(WeaponInfo_t wpn_data, FireBulletData &data);
 	bool TraceToExit(Vector &end, trace_t *enter_trace, Vector start, Vector dir, trace_t *exit_trace);
 	bool DidHitNonWorldEntity(C_BaseEntity* entity);
 	void ScaleDamage(int hitgroup, C_BaseEntity* enemy, float weapon_armor_ratio, float &current_damage);
