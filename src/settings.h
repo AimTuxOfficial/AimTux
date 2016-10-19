@@ -311,8 +311,9 @@ namespace Settings
 
 	namespace ClanTagChanger
 	{
-		extern char* value;
+		extern std::string value;
 		extern bool animation;
+        extern bool enable;
 	}
 
 	void LoadDefaultsOrSave(const char* filename);

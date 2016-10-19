@@ -107,3 +107,22 @@ char Util::GetUpperValueOf(ButtonCode_t key)
 			return buttonChar;
 	}
 }
+
+void Util::StdReplaceStr(std::string& replaceIn, const std::string& replace, const std::string& replaceWith)
+{
+    size_t const span = replace.size();
+    size_t const step = replaceWith.size(); 
+    size_t index = 0;
+    while (true)
+    {
+        index = replaceIn.find(replace, index);
+        
+        if (index == std::string::npos)
+        {
+            break;
+        }
+
+        replaceIn.replace(index, span, replaceWith);
+        index += step;
+    }
+}

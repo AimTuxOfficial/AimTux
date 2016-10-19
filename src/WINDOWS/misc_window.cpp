@@ -31,22 +31,18 @@ MiscWindow::MiscWindow (std::string title, Vector2D size, Vector2D position, Col
 	
 	sl_noflash_value = new Slider ("", STACK (ts_noflash_enabled), LOC (size.x - ts_noflash_enabled->size.x - 30, 33), &Settings::Noflash::value, 0.0f, 255.0f);
 	AddComponent (sl_noflash_value);
-	
-	tb_clantag = new TextBox ("clantag", Settings::ClanTagChanger::value, BELOW (ts_noflash_enabled), LOC (270, 30));
+
+    // clantag
+
+	ts_clantag_enable = new ToggleSwitch ("custom clantag", BELOW (ts_noflash_enabled), LOC (155, 30), &Settings::ClanTagChanger::enable);
+	AddComponent (ts_clantag_enable);
+
+	tb_clantag = new StrPTextBox ("clantag", &Settings::ClanTagChanger::value, STACK (ts_clantag_enable), LOC (270, 30));
 	AddComponent (tb_clantag);
 	
-	ob_clantag_set = new OutlinedButton ("set clan tag", STACK (tb_clantag), LOC (110, 30));
-	AddComponent (ob_clantag_set);
-	ob_clantag_set->OnClickedEvent = MFUNC (&MiscWindow::SetClanTag, this);
 	
 	ts_clantag_animation = new ToggleSwitch ("clantag animation", BELOW (tb_clantag), 33, &Settings::ClanTagChanger::animation);
 	AddComponent (ts_clantag_animation);
 	
 	Hide ();
-}
-
-void MiscWindow::SetClanTag ()
-{
-	std::string text = Util::ReplaceString(tb_clantag->text, "\\n", "\n");
-	Settings::ClanTagChanger::value = strdup(text.c_str());
 }

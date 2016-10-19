@@ -6,6 +6,7 @@ class MiscWindow;
 #include "../UI/stdui.h"
 #include "../atgui.h"
 #include "../util.h"
+#include "../UI/strptextbox.h"
 
 class MiscWindow : public Window
 {
@@ -19,8 +20,8 @@ private:
 	ToggleSwitch* ts_showspectators;
 	ToggleSwitch* ts_noflash_enabled;
 	Slider* sl_noflash_value;
-	TextBox* tb_clantag;
-	OutlinedButton* ob_clantag_set;
+	ToggleSwitch* ts_clantag_enable;
+	StrPTextBox* tb_clantag;
 	ToggleSwitch* ts_clantag_animation;
 public:
 	MiscWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor);
