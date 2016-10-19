@@ -7,7 +7,7 @@
 
 namespace Entity
 {
-	bool IsVisible(C_BasePlayer *pLocal, C_BaseEntity *pEntity, int bone);
+	bool IsVisible(C_BaseEntity *pEntity, int bone);
 }
 
 #endif

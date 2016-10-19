@@ -64,7 +64,7 @@ C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible)
 		if (!Settings::Aimbot::friendly && entity->GetTeam() == localplayer->GetTeam())
 			continue;
 
-		if (visible && !Entity::IsVisible(localplayer, entity, Settings::Aimbot::bone))
+		if (visible && !Entity::IsVisible(entity, Settings::Aimbot::bone))
 			continue;
 
 		float e_dist = localplayer->GetVecOrigin().DistToSqr(entity->GetVecOrigin());

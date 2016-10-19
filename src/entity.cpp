@@ -1,15 +1,16 @@
 #include "entity.h"
 
-bool Entity::IsVisible(C_BasePlayer* pLocal, C_BaseEntity* pEntity, int bone)
+bool Entity::IsVisible(C_BaseEntity* pEntity, int bone)
 {
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	Vector e_vecHead = pEntity->GetBonePosition(bone);
-	Vector p_vecHead = pLocal->GetEyePosition();
+	Vector p_vecHead = localplayer->GetEyePosition();
 
 	Ray_t ray;
 	trace_t tr;
 	ray.Init(p_vecHead, e_vecHead);
 	CTraceFilter traceFilter;
-	traceFilter.pSkip = pLocal;
+	traceFilter.pSkip = localplayer;
 	trace->TraceRay(ray, MASK_SHOT, &traceFilter, &tr);
 
 	return tr.m_pEntityHit == pEntity;

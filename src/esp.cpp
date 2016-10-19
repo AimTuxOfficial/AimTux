@@ -158,7 +158,7 @@ void ESP::DrawPlayerBox(C_BasePlayer* localPlayer, C_BaseEntity* entity)
 
 	int playerTeam = localPlayer->GetTeam();
 	int entityTeam = reinterpret_cast<C_BasePlayer*>(entity)->GetTeam();
-	bool isVisible = Entity::IsVisible(localPlayer, entity, BONE_HEAD);
+	bool isVisible = Entity::IsVisible(entity, BONE_HEAD);
 
 	if (playerTeam != entityTeam)
 		color = isVisible ? Settings::ESP::enemy_visible_color : Settings::ESP::enemy_color;
@@ -320,7 +320,7 @@ void ESP::DrawGlow()
 
 			if (glow_object->m_pEntity->GetTeam() != localPlayer->GetTeam())
 			{
-				if (Entity::IsVisible(localPlayer, glow_object->m_pEntity, 6))
+				if (Entity::IsVisible(glow_object->m_pEntity, 6))
 					color = Settings::ESP::Glow::enemy_visible_color;
 				else
 					color = Settings::ESP::Glow::enemy_color;
@@ -374,7 +374,7 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 				|| entity->GetHealth() <= 0)
 				continue;
 
-			if (Settings::ESP::visibility_check && !Entity::IsVisible(localPlayer, entity, 6))
+			if (Settings::ESP::visibility_check && !Entity::IsVisible(entity, 6))
 				continue;
 
 			if ((localPlayer->GetLifeState() != LIFE_ALIVE || localPlayer->GetHealth() == 0)
