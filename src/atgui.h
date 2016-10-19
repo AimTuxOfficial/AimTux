@@ -9,7 +9,9 @@
 #include "WINDOWS/esp_window.h"
 #include "WINDOWS/hvh_window.h"
 #include "WINDOWS/misc_window.h"
+#include "WINDOWS/main_window.h"
 
+extern MainWindow* main_window;
 extern MenuWindow* menu_window;
 extern AimbotWindow* aimbot_window;
 extern TriggerbotWindow* triggerbot_window;
