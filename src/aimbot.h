@@ -1,5 +1,4 @@
-#ifndef __AIMBOT_H_
-#define __AIMBOT_H_
+#pragma once
 
 #include "settings.h"
 #include "SDK/SDK.h"
@@ -16,5 +15,3 @@ namespace Aimbot
 
 	void CreateMove(CUserCmd* cmd);
 }
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef __PSTRING_H_
-#define __PSTRING_H_
+#pragma once
 
 #include <string>
 #include <sstream>
@@ -31,4 +30,3 @@ public:
 		return *this;
 	}
 };
-#endif

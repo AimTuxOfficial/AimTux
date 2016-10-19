@@ -1,5 +1,4 @@
-#ifndef __SHOWRANKS_H_
-#define __SHOWRANKS_H_
+#pragma once
 
 #include "SDK/SDK.h"
 #include "interfaces.h"
@@ -11,5 +10,3 @@ namespace ShowRanks
 }
 
 extern MsgFunc_ServerRankRevealAllFn MsgFunc_ServerRankRevealAll;
-
-#endif

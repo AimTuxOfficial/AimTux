@@ -1,5 +1,4 @@
-#ifndef __AIRSTUCK_H
-#define __AIRSTUCK_H
+#pragma once
 
 #include <climits>
 #include "settings.h"
@@ -10,5 +9,3 @@ namespace Airstuck
 {
 	void CreateMove(CUserCmd* cmd);
 }
-
-#endif

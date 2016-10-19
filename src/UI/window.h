@@ -1,5 +1,4 @@
-#ifndef __WINDOW_H_
-#define __WINDOW_H_
+#pragma once
 
 class Window;
 class TitleBar;
@@ -63,5 +62,3 @@ public:
 	
 	void Draw ();
 };
-
-#endif

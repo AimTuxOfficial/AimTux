@@ -1,5 +1,4 @@
-#ifndef __BUTTON_H_
-#define __BUTTON_H_
+#pragma once
 
 #include "component.h"
 #include "../settings.h"
@@ -71,7 +70,3 @@ public:
 		DrawCenteredString (text, normal_font, Color (255, 255, 255, 255), LOC (size.x / 2, size.y / 2));
 	}
 };
-
-
-
-#endif

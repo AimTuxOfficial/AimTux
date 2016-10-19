@@ -1,5 +1,4 @@
-#ifndef __ANTIAIM_H
-#define __ANTIAIM_H
+#pragma once
 
 #include "settings.h"
 #include "SDK/SDK.h"
@@ -10,5 +9,3 @@ namespace AntiAim
 {
 	void CreateMove(CUserCmd* cmd);
 }
-
-#endif

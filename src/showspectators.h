@@ -1,5 +1,4 @@
-#ifndef __SHOWSPECTATORS_H
-#define __SHOWSPECTATORS_H
+#pragma once
 
 #include "settings.h"
 #include "SDK/SDK.h"
@@ -10,5 +9,3 @@ namespace ShowSpectators
 {
 	void PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force);
 }
-
-#endif

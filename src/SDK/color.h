@@ -1,5 +1,4 @@
-#ifndef __COLOR_H_
-#define __COLOR_H_
+#pragma once
 
 struct Color
 {
@@ -92,5 +91,3 @@ struct Color
 
 	//TODO: Add operator overloads
 };
-
-#endif

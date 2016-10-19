@@ -1,5 +1,4 @@
-#ifndef __DEFINITIONS_H
-#define __DEFINITIONS_H
+#pragma once
 
 /* interface versions */
 #define CLIENT_DLL_INTERFACE_VERSION "VClient017"
@@ -625,6 +624,3 @@ enum HitGroups: int
 // everything that blocks corpse movement
 // UNDONE: Not used yet / may be deleted
 #define	MASK_DEADSOLID				(CONTENTS_SOLID|CONTENTS_PLAYERCLIP|CONTENTS_WINDOW|CONTENTS_GRATE)
-
-
-#endif

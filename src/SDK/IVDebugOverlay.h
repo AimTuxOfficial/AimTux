@@ -1,5 +1,4 @@
-#ifndef __IVDEBUGOVERLAY_H
-#define __IVDEBUGOVERLAY_H
+#pragma once
 
 class IVDebugOverlay
 {
@@ -10,5 +9,3 @@ public:
 		getvfunc<oScreenPosition>(this, 11)(this, vIn, vOut);
 	}
 };
-
-#endif

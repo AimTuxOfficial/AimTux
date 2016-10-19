@@ -1,5 +1,4 @@
-#ifndef __INTERFACES_H_
-#define __INTERFACES_H_
+#pragma once
 
 #include "SDK/SDK.h"
 #include "vmt.h"
@@ -27,5 +26,3 @@ extern VMT* client_vmt;
 extern VMT* modelRender_vmt;
 extern VMT* clientMode_vmt;
 extern VMT* gameEvents_vmt;
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef __CHANTAGCHANGER_H
-#define __CHANTAGCHANGER_H
+#pragma once
 
 #include <chrono>
 #include "settings.h"
@@ -61,5 +60,3 @@ namespace ClanTagChanger
 }
 
 extern SendClanTagFn SendClanTag;
-
-#endif

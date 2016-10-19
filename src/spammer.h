@@ -1,5 +1,4 @@
-#ifndef __SPAMMER_H_
-#define __SPAMMER_H_
+#pragma once
 
 #include <iostream>
 #include <chrono>
@@ -33,5 +32,3 @@ namespace Spammer
 	void CreateMove(CUserCmd* cmd);
 	void FireEventClientSide(IGameEvent* event);
 }
-
-#endif

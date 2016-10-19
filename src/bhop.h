@@ -1,5 +1,4 @@
-#ifndef __BHOP_H_
-#define __BHOP_H_
+#pragma once
 
 #include "SDK/SDK.h"
 #include "interfaces.h"
@@ -9,6 +8,3 @@ namespace BHop
 {
 	void CreateMove(CUserCmd* cmd);
 }
-
-
-#endif

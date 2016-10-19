@@ -1,5 +1,4 @@
-#ifndef __ICLIENTENTITYLIST_H
-#define __ICLIENTENTITYLIST_H
+#pragma once
 
 class IClientEntityList {
 public:
@@ -21,5 +20,3 @@ public:
 		getvfunc<oGetHighestEntityIndex>(this, 6)(this);
 	}
 };
-
-#endif

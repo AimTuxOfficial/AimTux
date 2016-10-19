@@ -1,5 +1,4 @@
-#ifndef __AUTOWALL_H_
-#define __AUTOWALL_H_
+#pragma once
 
 #include "SDK/SDK.h"
 #include "interfaces.h"
@@ -25,5 +24,3 @@ namespace Autowall
 	void ScaleDamage(int hitgroup, C_BaseEntity* enemy, float weapon_armor_ratio, float &current_damage);
 	float GetHitgroupDamageMultiplier(int iHitGroup);
 }
-
-#endif

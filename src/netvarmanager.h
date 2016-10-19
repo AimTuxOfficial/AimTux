@@ -1,5 +1,4 @@
-#ifndef __NETVARMANAGER_H_
-#define __NETVARMANAGER_H_
+#pragma once
 
 #include <vector>
 #include <string>
@@ -24,5 +23,3 @@ namespace NetVarManager {
 	std::string dumpTable(RecvTable *table, int depth);
 	void dumpNetvars();
 }
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef __IGAMEEVENT_H
-#define __IGAMEEVENT_H
+#pragma once
 
 class IGameEventManager2 { };
 
@@ -26,5 +25,3 @@ public:
 		getvfunc<oGetString>(this, 17)(this, Key, Value);
 	}
 };
-
-#endif

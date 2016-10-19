@@ -1,5 +1,4 @@
-#ifndef __TRIGGERBOT_H
-#define __TRIGGERBOT_H
+#pragma once
 
 #include <chrono>
 #include "settings.h"
@@ -11,5 +10,3 @@
 namespace Triggerbot {
 	void CreateMove(CUserCmd* cmd);
 };
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef __CGLOWOBJECTMANAGER_H
-#define __CGLOWOBJECTMANAGER_H
+#pragma once
 
 struct GlowObjectDefinition_t {
 	C_BaseEntity* m_pEntity;
@@ -31,6 +30,3 @@ struct CGlowObjectManager {
 // Special values for GlowObjectDefinition_t::m_nNextFreeSlot
 #define END_OF_FREE_LIST -1
 #define ENTRY_IN_USE -2
-
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef __ICVAR_H
-#define __ICVAR_H
+#pragma once
 
 // Not really ideal but there's already a Color struct used by the GUI.
 struct ColorRGBA
@@ -30,5 +29,3 @@ public:
 		getvfunc<oConsoleDPrintf>(this, 27)(this, szMsgFormat, Parameters...);
 	}
 };
-
-#endif

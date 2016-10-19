@@ -1,5 +1,4 @@
-#ifndef __TABSELECTOR_H_
-#define __TABSELECTOR_H_
+#pragma once
 
 #include "component.h"
 #include "button.h"
@@ -40,7 +39,3 @@ public:
 	void OnClicked ();
 	void Draw ();
 };
-
-
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef __MISC_WINDOW_H_
-#define __MISC_WINDOW_H_
+#pragma once
 
 class MiscWindow;
 
@@ -26,5 +25,3 @@ public:
 	MiscWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor);
 	void SetClanTag ();
 };
-
-#endif

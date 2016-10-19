@@ -1,5 +1,4 @@
-#ifndef __COMPONENT_H_
-#define __COMPONENT_H_
+#pragma once
 
 #include <functional>
 #include "../SDK/color.h"
@@ -86,5 +85,3 @@ public:
 	virtual void Draw () { }
 	virtual void DoReleaseTree () { }
 };
-
-#endif

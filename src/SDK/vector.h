@@ -1,6 +1,3 @@
-#ifndef __VECTOR_H_
-#define __VECTOR_H_
-
 #pragma GCC diagnostic ignored "-Wunused-value"
 #pragma GCC diagnostic ignored "-Wreturn-type"
 
@@ -1150,7 +1147,6 @@ inline Vector2D operator*(float fl, const Vector2D& v)
 {
 	return v * fl;
 }
-#endif
 
 class QAngleByValue;
 class QAngle

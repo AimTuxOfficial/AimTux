@@ -1,5 +1,4 @@
-#ifndef __DRAW_H_
-#define __DRAW_H_
+#pragma once
 
 #define LOC(x,y) Vector2D(x,y)
 
@@ -29,5 +28,3 @@ namespace Draw
 	void DrawPolyLine(int* x, int* y, int count, Color color);
 	void DrawPolyLine(int count, Vertex_t* Vertexs, Color colorLine);
 }
-
-#endif

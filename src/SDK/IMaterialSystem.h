@@ -1,5 +1,4 @@
-#ifndef __IMATERIALSYSTEM_H
-#define __IMATERIALSYSTEM_H
+#pragma once
 
 class IMaterialSystem
 {
@@ -10,5 +9,3 @@ public:
 		getvfunc<oFindMaterial>(this, 84)(this, pMaterialName, pTextureGroupName, complain, pComplainPrefix);
 	}
 };
-
-#endif

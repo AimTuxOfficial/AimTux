@@ -1,5 +1,4 @@
-#ifndef __IVMODELRENDER_H
-#define __IVMODELRENDER_H
+#pragma once
 
 typedef unsigned short ModelInstanceHandle_t;
 
@@ -45,5 +44,3 @@ public:
 		getvfunc<oDrawModelExecute>(this, 21)(this, ctx, state, pInfo, pCustomBoneToWorld);
 	}
 };
-
-#endif

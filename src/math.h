@@ -1,5 +1,4 @@
-#ifndef __MATH_H
-#define __MATH_H
+#pragma once
 
 #include "SDK/SDK.h"
 
@@ -12,5 +11,3 @@ namespace Math {
 	void VectorAngles(const Vector &forward, QAngle &angles);
 	QAngle CalcAngle(Vector src, Vector dst);
 }
-
-#endif

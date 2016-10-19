@@ -1,5 +1,4 @@
-#ifndef __ENTITY_H
-#define __ENTITY_H
+#pragma once
 
 #include <list>
 #include "SDK/SDK.h"
@@ -9,5 +8,3 @@ namespace Entity
 {
 	bool IsVisible(C_BaseEntity *pEntity, int bone);
 }
-
-#endif

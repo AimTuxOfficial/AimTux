@@ -1,5 +1,4 @@
-#ifndef __UTIL_H
-#define __UTIL_H
+#pragma once
 
 #include <string>
 #include "SDK/SDK.h"
@@ -11,5 +10,3 @@ namespace Util {
 	std::string ReplaceString(std::string subject, const std::string& search, const std::string& replace);
 	void StdReplaceStr(std::string&, const std::string&, const std::string&);
 }
-
-#endif

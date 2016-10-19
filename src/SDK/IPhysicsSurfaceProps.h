@@ -1,5 +1,4 @@
-#ifndef __IPHYSICS_SURFACE_PROPS_H_
-#define __IPHYSICS_SURFACE_PROPS_H_
+#pragma once
 
 struct surfacephysicsparams_t
 {
@@ -100,5 +99,3 @@ public:
 	// NOTE: Same as GetPhysicsProperties, but maybe more convenient
 	virtual void GetPhysicsParameters(int surfaceDataIndex, surfacephysicsparams_t *pParamsOut) const = 0;
 };
-
-#endif

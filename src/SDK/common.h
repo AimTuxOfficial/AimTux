@@ -1,5 +1,4 @@
-#ifndef __COMMON_H
-#define __COMMON_H
+#pragma once
 
 inline void**& getvtable(void* inst, size_t offset = 0)
 {
@@ -36,5 +35,3 @@ inline uintptr_t GetAbsoluteAddress(uintptr_t instruction_ptr, int offset, int s
 {
 	return instruction_ptr + *reinterpret_cast<uint32_t*>(instruction_ptr + offset) + size;
 };
-
-#endif

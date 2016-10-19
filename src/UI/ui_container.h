@@ -1,5 +1,4 @@
-#ifndef __UI_CONTAINER_H_
-#define __UI_CONTAINER_H_
+#pragma once
 
 #include "window.h"
 #include "cursor.h"
@@ -39,5 +38,3 @@ public:
 };
 
 extern UI_Container* gui;
-
-#endif

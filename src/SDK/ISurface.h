@@ -1,5 +1,4 @@
-#ifndef __ISURFACE_H
-#define __ISURFACE_H
+#pragma once
 
 struct Vertex_t {
 	Vector2D m_Position;
@@ -121,5 +120,3 @@ public:
 		getvfunc<oDrawTexturedPolygon>(this, 106)(this, vtxCount, vtx, bClipVertices);
 	}
 };
-
-#endif

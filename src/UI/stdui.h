@@ -1,3 +1,5 @@
+#pragma once
+
 #include "window.h"
 #include "button.h"
 #include "radiobutton.h"

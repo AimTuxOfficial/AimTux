@@ -1,5 +1,4 @@
-#ifndef __IENGINECLIENT_H
-#define __IENGINECLIENT_H
+#pragma once
 
 class IEngineClient
 {
@@ -86,5 +85,3 @@ public:
 		ExecuteClientCmd(buffer);
 	}
 };
-
-#endif

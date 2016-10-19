@@ -1,5 +1,4 @@
-#ifndef __AUTOSTRAFE_H_
-#define __AUTOSTRAFE_H_
+#pragma once
 
 #include "SDK/SDK.h"
 #include "interfaces.h"
@@ -9,5 +8,3 @@ namespace AutoStrafe
 {
     void CreateMove(CUserCmd* cmd);
 }
-
-#endif

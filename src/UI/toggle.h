@@ -1,5 +1,4 @@
-#ifndef __TOGGLE_H_
-#define __TOGGLE_H_
+#pragma once
 
 #include "component.h"
 #include "button.h"
@@ -109,6 +108,3 @@ public:
 		DrawCenteredString (text, normal_font, text_color, LOC (size.x / 2, size.y / 2));
 	}
 };
-
-
-#endif

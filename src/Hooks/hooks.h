@@ -1,5 +1,4 @@
-#ifndef __HOOKS_H
-#define __HOOKS_H
+#pragma once
 
 #include "../SDK/SDK.h"
 
@@ -33,5 +32,3 @@ namespace Hooks
 	bool FireEventClientSide(void* thisptr, IGameEvent* event);
 	int IN_KeyEvent(void* thisptr, int eventcode, int keynum, const char* currentbinding);
 }
-
-#endif

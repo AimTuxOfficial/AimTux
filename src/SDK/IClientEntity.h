@@ -1,5 +1,4 @@
-#ifndef __ICLIENTENTITY_H
-#define __ICLIENTENTITY_H
+#pragma once
 
 #include "vector.h"
 
@@ -428,5 +427,3 @@ public:
 		getvfunc<oGetWeaponData>(this, 456)(this);
 	}
 };
-
-#endif

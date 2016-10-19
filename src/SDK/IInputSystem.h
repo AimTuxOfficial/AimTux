@@ -1,5 +1,4 @@
-#ifndef __IINPUTSYSTEM_H
-#define __IINPUTSYSTEM_H
+#pragma once
 
 #define MAX_SPLITSCREEN_CLIENT_BITS 2
 // this should == MAX_JOYSTICKS in InputEnums.h
@@ -307,5 +306,3 @@ public:
 		getvfunc<oGetCursorPosition>(this, 56)(this, m_pX, m_pY);
 	}
 };
-
-#endif

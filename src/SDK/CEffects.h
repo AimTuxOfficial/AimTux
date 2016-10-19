@@ -1,5 +1,4 @@
-#ifndef __DLIGHT_H
-#define __DLIGHT_H
+#pragma once
 
 enum
 {
@@ -76,5 +75,3 @@ public:
 		getvfunc<oGetElightByKey>(this, 8)(this, key);
 	}
 };
-
-#endif

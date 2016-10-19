@@ -1,5 +1,4 @@
-#ifndef __STRPTEXTBOX_H_
-#define __STRPTEXTBOX_H_
+#pragma once
 
 #include "component.h"
 #include "../settings.h"
@@ -149,4 +148,3 @@ public:
 	{
 	}
 };
-#endif

@@ -1,5 +1,4 @@
-#ifndef __ATGUI_H_
-#define __ATGUI_H_
+#pragma once
 
 #include "UI/stdui.h"
 
@@ -20,5 +19,3 @@ extern HVHWindow* hvh_window;
 extern MiscWindow* misc_window;
 
 void SetupUI();
-
-#endif

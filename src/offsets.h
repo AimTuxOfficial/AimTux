@@ -1,5 +1,4 @@
-#ifndef __OFFSETS_H_
-#define __OFFSETS_H_
+#pragma once
 
 #include <cstdio>
 #include "SDK/vector.h"
@@ -64,5 +63,3 @@ namespace Offsets
 }
 
 extern COffsets offsets;
-
-#endif

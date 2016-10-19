@@ -1,5 +1,4 @@
-#ifndef __MENU_WINDOW_H_
-#define __MENU_WINDOW_H_
+#pragma once
 
 class MenuWindow;
 
@@ -29,5 +28,3 @@ private:
 public:
 	MenuWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor);
 };
-
-#endif

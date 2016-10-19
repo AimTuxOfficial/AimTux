@@ -1,5 +1,4 @@
-#ifndef __IVMODELINFO_H
-#define __IVMODELINFO_H
+#pragma once
 
 class Quaternion;
 struct mstudioanimdesc_t;
@@ -484,5 +483,3 @@ public:
 		getvfunc<oGetStudioModel>(this, 31)(this, model);
 	}
 };
-
-#endif

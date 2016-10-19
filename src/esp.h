@@ -1,5 +1,4 @@
-#ifndef __ESP_H_
-#define __ESP_H_
+#pragma once
 
 #include "settings.h"
 #include "SDK/SDK.h"
@@ -22,5 +21,3 @@ namespace ESP
 }
 
 extern GlowObjectManagerFn GlowObjectManager;
-
-#endif

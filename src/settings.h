@@ -1,5 +1,4 @@
-#ifndef __SETTINGS_H_
-#define __SETTINGS_H_
+#pragma once
 
 #include <unordered_map>
 #include <zconf.h>
@@ -319,5 +318,3 @@ namespace Settings
 	void LoadDefaultsOrSave(const char* filename);
 	void LoadSettings(const char* filename);
 }
-
-#endif

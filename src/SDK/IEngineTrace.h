@@ -1,5 +1,4 @@
-#ifndef __IENGINETRACE_H
-#define __IENGINETRACE_H
+#pragma once
 
 enum TraceType_t
 {
@@ -121,5 +120,3 @@ public:
 		getvfunc<oGetPointContents>(this, 1)(this, vecAbsPosition, contentsMask, ppEntity);
 	}
 };
-
-#endif

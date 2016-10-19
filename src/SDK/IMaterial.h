@@ -1,5 +1,4 @@
-#ifndef __IMATERIAL_H
-#define __IMATERIAL_H
+#pragma once
 
 class IMaterialVar;
 typedef uint64_t VertexFormat_t;
@@ -157,5 +156,3 @@ public:
 		getvfunc<oSetMaterialVarFlag>(this, 29)(this, flag, on);
 	}
 };
-
-#endif

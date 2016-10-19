@@ -1,5 +1,4 @@
-#ifndef __ESP_WINDOW_H_
-#define __ESP_WINDOW_H_
+#pragma once
 
 class ESPWindow;
 
@@ -32,5 +31,3 @@ private:
 public:
 	ESPWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor);
 };
-
-#endif

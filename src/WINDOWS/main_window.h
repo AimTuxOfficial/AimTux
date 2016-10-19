@@ -1,5 +1,4 @@
-#ifndef __MAIN_WINDOW_H_
-#define __MAIN_WINDOW_H_
+#pragma once
 
 class MainWindow;
 
@@ -21,5 +20,3 @@ private:
 public:
 	MainWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor);
 };
-
-#endif

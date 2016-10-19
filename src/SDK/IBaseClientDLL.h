@@ -1,5 +1,4 @@
-#ifndef __IBASECLIENTDLL_H
-#define __IBASECLIENTDLL_H
+#pragma once
 
 struct RecvProp;
 
@@ -51,5 +50,3 @@ public:
 		getvfunc<oGetAllClasses>(this, 8)(this);
 	}
 };
-
-#endif

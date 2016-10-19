@@ -1,5 +1,4 @@
-#ifndef __DLIGHTS_H
-#define __DLIGHTS_H
+#pragma once
 
 #include "settings.h"
 #include "SDK/SDK.h"
@@ -9,5 +8,3 @@ namespace Dlights
 {
 	void PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force);
 }
-
-#endif

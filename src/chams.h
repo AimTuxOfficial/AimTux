@@ -1,5 +1,4 @@
-#ifndef __CHAMS_H
-#define __CHAMS_H
+#pragma once
 
 #include <sstream>
 #include <fstream>
@@ -16,5 +15,3 @@ namespace Chams
 	void DrawModelExecute(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld);
 	void CreateMove(CUserCmd* cmd);
 }
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef __LISTBOX_H_
-#define __LISTBOX_H_
+#pragma once
 
 #include "panel.h"
 #include "button.h"
@@ -151,5 +150,3 @@ public:
 		Panel::Draw ();
 	}
 };
-
-#endif

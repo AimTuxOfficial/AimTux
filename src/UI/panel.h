@@ -1,5 +1,4 @@
-#ifndef __PANEL_H_
-#define __PANEL_H_
+#pragma once
 
 #include "component.h"
 #include <vector>
@@ -32,5 +31,3 @@ public:
 	virtual void MouseTick (PositionContext position);
 	virtual void Draw ();
 };
-
-#endif

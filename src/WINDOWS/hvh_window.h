@@ -1,5 +1,4 @@
-#ifndef __HVH_WINDOW_H_
-#define __HVH_WINDOW_H_
+#pragma once
 
 class HVHWindow;
 
@@ -17,5 +16,3 @@ private:
 public:
 	HVHWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor);
 };
-
-#endif

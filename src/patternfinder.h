@@ -1,5 +1,4 @@
-#ifndef __PATTERNFINDER_H_
-#define __PATTERNFINDER_H_
+#pragma once
 
 #include <cstdint>
 
@@ -21,5 +20,3 @@ inline uintptr_t FindPattern(uintptr_t dwAddress, uintptr_t dwLen, unsigned char
 
 	return 0;
 }
-
-#endif

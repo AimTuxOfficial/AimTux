@@ -1,5 +1,4 @@
-#ifndef __SDK_H_
-#define __SDK_H_
+#pragma once
 
 #include <cstdint>
 #include <dlfcn.h>
@@ -29,5 +28,3 @@
 #include "IGameEvent.h"
 #include "CGlowObjectManager.h"
 #include "IPhysicsSurfaceProps.h"
-
-#endif

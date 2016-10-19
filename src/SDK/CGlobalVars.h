@@ -1,5 +1,4 @@
-#ifndef __CGLOBALVARS_H_
-#define __CGLOBALVARS_H_
+#pragma once
 
 class CGlobalVars {
 public:
@@ -22,5 +21,3 @@ private:
 	int nTimestampNetworkingBase;
 	int nTimestampRandomizeWindow;
 };
-
-#endif

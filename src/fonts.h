@@ -1,5 +1,4 @@
-#ifndef __FONT_H_
-#define __FONT_H_
+#pragma once
 
 #include <cstdint>
 #include <cstddef>
@@ -15,5 +14,3 @@ namespace Fonts
 {
 	void SetupFonts();
 }
-
-#endif

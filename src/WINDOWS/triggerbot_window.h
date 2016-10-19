@@ -1,5 +1,4 @@
-#ifndef __TRIGGERBOT_WINDOW_H_
-#define __TRIGGERBOT_WINDOW_H_
+#pragma once
 
 class TriggerbotWindow;
 
@@ -24,5 +23,3 @@ private:
 public:
 	TriggerbotWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor);
 };
-
-#endif

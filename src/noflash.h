@@ -1,5 +1,4 @@
-#ifndef __NOFLASH_H
-#define __NOFLASH_H
+#pragma once
 
 #include "SDK/SDK.h"
 #include "interfaces.h"
@@ -9,5 +8,3 @@ namespace Noflash
 {
 	void FrameStageNotify(ClientFrameStage_t stage);
 }
-
-#endif

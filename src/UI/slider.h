@@ -1,5 +1,4 @@
-#ifndef __SLIDER_H_
-#define __SLIDER_H_
+#pragma once
 
 #include "component.h"
 #include "../settings.h"
@@ -32,5 +31,3 @@ public:
 	void Draw ();
 	void Input ();
 };
-
-#endif

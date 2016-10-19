@@ -1,5 +1,4 @@
-#ifndef __IVPANEL_H
-#define __IVPANEL_H
+#pragma once
 
 class IVPanel
 {
@@ -10,5 +9,3 @@ public:
 		getvfunc<oGetName>(this, 37)(this, vguiPanel);
 	}
 };
-
-#endif
