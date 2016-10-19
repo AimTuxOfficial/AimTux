@@ -91,6 +91,12 @@ namespace Settings
 			extern bool enabled;
 		}
 
+		namespace AutoWall
+		{
+			extern bool enabled;
+			extern float value;
+		}
+
 		namespace AimStep
 		{
 			extern bool enabled;

@@ -92,6 +92,8 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["Aimbot"]["Smooth"]["enabled"] = Settings::Aimbot::Smooth::enabled;
 	settings["Aimbot"]["Smooth"]["value"] = Settings::Aimbot::Smooth::value;
 	settings["Aimbot"]["AutoAim"]["enabled"] = Settings::Aimbot::AutoAim::enabled;
+	settings["Aimbot"]["AutoWall"]["enabled"] = Settings::Aimbot::AutoWall::enabled;
+	settings["Aimbot"]["AutoWall"]["value"] = Settings::Aimbot::AutoWall::value;
 	settings["Aimbot"]["AimStep"]["enabled"] = Settings::Aimbot::AimStep::enabled;
 	settings["Aimbot"]["AimStep"]["value"] = Settings::Aimbot::AimStep::value;
 	settings["Aimbot"]["RCS"]["enabled"] = Settings::Aimbot::RCS::enabled;
@@ -219,6 +221,8 @@ void Settings::LoadSettings(const char* filename)
 		GetBool(settings["Aimbot"]["Smooth"]["enabled"], Settings::Aimbot::Smooth::enabled);
 		GetFloat(settings["Aimbot"]["Smooth"]["value"], Settings::Aimbot::Smooth::value);
 		GetBool(settings["Aimbot"]["AutoAim"]["enabled"], Settings::Aimbot::AutoAim::enabled);
+		GetBool(settings["Aimbot"]["AutoWall"]["enabled"], Settings::Aimbot::AutoWall::enabled);
+		GetFloat(settings["Aimbot"]["AutoWall"]["value"], Settings::Aimbot::AutoWall::value);
 		GetBool(settings["Aimbot"]["AimStep"]["enabled"], Settings::Aimbot::AimStep::enabled);
 		GetFloat(settings["Aimbot"]["AimStep"]["value"], Settings::Aimbot::AimStep::value);
 		GetBool(settings["Aimbot"]["RCS"]["enabled"], Settings::Aimbot::RCS::enabled);

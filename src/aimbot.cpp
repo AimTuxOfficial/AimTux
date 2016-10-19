@@ -12,6 +12,8 @@ bool Settings::Aimbot::Smooth::enabled = false;
 float Settings::Aimbot::Smooth::value = 1.0f;
 float Settings::Aimbot::Smooth::max = 15.0f;
 bool Settings::Aimbot::AutoAim::enabled = false;
+bool Settings::Aimbot::AutoWall::enabled = false;
+float Settings::Aimbot::AutoWall::value = 10.0f;
 bool Settings::Aimbot::AimStep::enabled = false;
 float Settings::Aimbot::AimStep::value = 25.0f;
 bool Settings::Aimbot::AutoShoot::enabled = false;
@@ -70,12 +72,8 @@ C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible)
 		Vector p_vecHead = localplayer->GetEyePosition();
 		float fov = Math::GetFov(cmd->viewangles, Math::CalcAngle(p_vecHead, e_vecHead));
 
-		/** autowall
-		if (Autowall::GetDamage(e_vecHead) < 15)
-			continue;
-		**/
-
-		if (visible && !Entity::IsVisible(entity, Settings::Aimbot::bone))
+		if ((Settings::Aimbot::AutoWall::enabled && Autowall::GetDamage(e_vecHead) < Settings::Aimbot::AutoWall::value)
+				|| (visible && !Entity::IsVisible(entity, Settings::Aimbot::bone)))
 			continue;
 
 		if (e_dist < dist && fov <= Settings::Aimbot::fov)
