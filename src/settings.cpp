@@ -1,4 +1,5 @@
 #include "settings.h"
+#include "interfaces.h"
 
 char* GetSettingsPath(const char* filename)
 {
@@ -27,12 +28,12 @@ void GetCString(Json::Value &config, char* &setting)
 	setting = strdup(config.asCString());
 }
 
-void GetString(Json::Value &config, std::string &setting)
+void GetString(Json::Value &config, std::string* /* references are for pussies */ setting)
 {
 	if (config.isNull())
 		return;
 
-	setting = config.asString();
+	*setting = config.asString();
 }
 
 template <typename Type>
@@ -317,6 +318,7 @@ void Settings::LoadSettings(const char* filename)
 		GetBool(settings["ShowRanks"]["enabled"], Settings::ShowRanks::enabled);
 
 		GetBool(settings["ShowSpectators"]["enabled"], Settings::ShowSpectators::enabled);
+        GetString(settings["ClanTagChanger"]["value"], &Settings::ClanTagChanger::value);
 	}
 	else
 	{

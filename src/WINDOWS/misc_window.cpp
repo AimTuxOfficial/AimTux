@@ -32,7 +32,7 @@ MiscWindow::MiscWindow (std::string title, Vector2D size, Vector2D position, Col
 	sl_noflash_value = new Slider ("", STACK (ts_noflash_enabled), LOC (size.x - ts_noflash_enabled->size.x - 30, 33), &Settings::Noflash::value, 0.0f, 255.0f);
 	AddComponent (sl_noflash_value);
 	
-	tb_clantag = new TextBox ("clantag", Settings::ClanTagChanger::value, BELOW (ts_noflash_enabled), LOC (270, 30));
+	tb_clantag = new TextBox ("clantag", &Settings::ClanTagChanger::value, BELOW (ts_noflash_enabled), LOC (270, 30));
 	AddComponent (tb_clantag);
 	
 	ob_clantag_set = new OutlinedButton ("set clan tag", STACK (tb_clantag), LOC (110, 30));
@@ -47,6 +47,6 @@ MiscWindow::MiscWindow (std::string title, Vector2D size, Vector2D position, Col
 
 void MiscWindow::SetClanTag ()
 {
-	std::string text = Util::ReplaceString(tb_clantag->text, "\\n", "\n");
-	Settings::ClanTagChanger::value = strdup(text.c_str());
+    // Side-effecting (referential)
+    Util::StdReplaceStr(Settings::ClanTagChanger::value, "\\n", "\n");
 }

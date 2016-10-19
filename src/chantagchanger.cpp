@@ -1,6 +1,6 @@
 #include "chantagchanger.h"
 
-char* Settings::ClanTagChanger::value = (char*) "";
+std::string Settings::ClanTagChanger::value = "";
 bool Settings::ClanTagChanger::animation = false;
 std::vector<ClanTagChanger::Animation> ClanTagChanger::animations =
 {
@@ -24,7 +24,7 @@ void ClanTagChanger::CreateMove(CUserCmd* cmd)
 	if (!engine->IsInGame())
 		return;
 
-	if (strlen(Settings::ClanTagChanger::value) == 0 && !Settings::ClanTagChanger::animation)
+	if (Settings::ClanTagChanger::value.size() == 0 && !Settings::ClanTagChanger::animation)
 		return;
 
 	long currentTime_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -40,5 +40,5 @@ void ClanTagChanger::CreateMove(CUserCmd* cmd)
 	if (Settings::ClanTagChanger::animation)
 		SendClanTag(ClanTagChanger::animation->GetCurrentFrame().text.c_str(), "");
 	else
-		SendClanTag(Settings::ClanTagChanger::value, "");
+		SendClanTag(Settings::ClanTagChanger::value.c_str(), "");
 }
