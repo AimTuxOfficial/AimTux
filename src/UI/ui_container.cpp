@@ -1,5 +1,8 @@
 #include "ui_container.h"
 
+Color Settings::UI::mainColor = Color (255, 100, 100);
+Color Settings::UI::bodyColor = Color (20, 20, 20, 190);
+
 bool lastIsMouseDown = false;
 
 bool UI_Container::IsOverlapping (Vector2D position, int index)

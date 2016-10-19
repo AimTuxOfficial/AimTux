@@ -2,8 +2,6 @@
 #include "button.h"
 #include "../settings.h"
 
-Color Settings::UI::mainColor = Color (255, 100, 100);
-Color Settings::UI::bodyColor = Color (20, 20, 20, 190);
 
 
 /*------------------
