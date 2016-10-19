@@ -9,8 +9,15 @@ class MainWindow;
 class MainWindow : public Window
 {
 private:
-	ToggleSwitch* ts_bhop;
-	ToggleSwitch* ts_autostrafe;
+	Panel* currentTab;
+//Components
+	TabSelector* tabSelector;
+//Panels
+	Panel* pl_visuals;
+	Panel* pl_aimbot;
+	Panel* pl_triggerbot;
+	Panel* pl_hvh;
+	Panel* pl_misc;
 public:
 	MainWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor);
 };

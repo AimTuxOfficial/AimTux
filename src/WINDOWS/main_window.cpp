@@ -5,11 +5,27 @@ MainWindow* main_window = nullptr;
 MainWindow::MainWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor)
 	: Window::Window (title, size, position, backgroundColor, false)
 {
-	ts_bhop = new ToggleSwitch ("bhop", LOC (10, 10), 33, &Settings::BHop::enabled);
-	AddComponent (ts_bhop);
 	
-	ts_autostrafe = new ToggleSwitch ("auto strafe", BELOW (ts_bhop), 33, &Settings::AutoStrafe::enabled);
-	AddComponent (ts_autostrafe);
+	int tab_height = 60;
+	pl_aimbot = new Panel (LOC (0, tab_height), LOC (size.x, size.y - tab_height));
+	pl_triggerbot = new Panel (LOC (0, tab_height), LOC (size.x, size.y - tab_height));
+	pl_visuals = new Panel (LOC (0, tab_height), LOC (size.x, size.y - tab_height));
+	pl_hvh = new Panel (LOC (0, tab_height), LOC (size.x, size.y - tab_height));
+	pl_misc = new Panel (LOC (0, tab_height), LOC (size.x, size.y - tab_height));
+	
+	std::vector<TabElement> tabs
+	(
+		{
+			TabElement ("Aimbot", pl_aimbot),
+			TabElement ("Triggerbot", pl_triggerbot),
+			TabElement ("Visuals", pl_visuals),
+			TabElement ("HVH", pl_hvh),
+			TabElement ("Misc", pl_misc)
+		}
+	);
+	
+	tabSelector = new TabSelector (LOC (0, 0), LOC (size.x, tab_height), tabs);
+	AddComponent (tabSelector);
 	
 	Hide ();
 }
