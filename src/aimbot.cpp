@@ -1,4 +1,5 @@
 #include "aimbot.h"
+#include "autowall.h"
 
 // Default aimbot settings
 bool Settings::Aimbot::enabled = true;
@@ -64,14 +65,18 @@ C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible)
 		if (!Settings::Aimbot::friendly && entity->GetTeam() == localplayer->GetTeam())
 			continue;
 
-		if (visible && !Entity::IsVisible(entity, Settings::Aimbot::bone))
-			continue;
-
 		float e_dist = localplayer->GetVecOrigin().DistToSqr(entity->GetVecOrigin());
-
 		Vector e_vecHead = entity->GetBonePosition(Settings::Aimbot::bone);
 		Vector p_vecHead = localplayer->GetEyePosition();
 		float fov = Math::GetFov(cmd->viewangles, Math::CalcAngle(p_vecHead, e_vecHead));
+
+		/** autowall
+		if (Autowall::GetDamage(e_vecHead) < 15)
+			continue;
+		**/
+
+		if (visible && !Entity::IsVisible(entity, Settings::Aimbot::bone))
+			continue;
 
 		if (e_dist < dist && fov <= Settings::Aimbot::fov)
 		{

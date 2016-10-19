@@ -1,4 +1,5 @@
 #include "autowall.h"
+#include "math.h"
 
 // Shameless copypasta
 
@@ -116,7 +117,7 @@ bool Autowall::HandleBulletPenetration(WeaponInfo_t *wpn_data, FireBulletData &d
 	float enter_surf_penetration_mod = *(float*)((void*)enter_surface_data + 76);
 
 	data.trace_length += data.enter_trace.fraction * data.trace_length_remaining;
-	data.current_damage *= pow((wpn_data->m_flRangeModifier), (data.trace_length * 0.002));
+	data.current_damage *= pow((/*wpn_data->m_flRangeModifier*/ 0.98), (data.trace_length * 0.002));
 
 	if ((data.trace_length > 3000.f) || (enter_surf_penetration_mod < 0.1f))
 		data.penetrate_count = 0;
@@ -155,7 +156,7 @@ bool Autowall::HandleBulletPenetration(WeaponInfo_t *wpn_data, FireBulletData &d
 	}
 
 	float v34 = fmaxf(0.f, 1.0f / combined_penetration_modifier);
-	float v35 = (data.current_damage * final_damage_modifier) + v34 * 3.0f * fmaxf(0.0f, (3.0f / wpn_data->m_flPenetration) * 1.25f);
+	float v35 = (data.current_damage * final_damage_modifier) + v34 * 3.0f * fmaxf(0.0f, (3.0f / /*wpn_data->m_flPenetration*/ 2.5) * 1.25f);
 	float thickness = (trace_exit.endpos - data.enter_trace.endpos).Length();
 
 	thickness *= thickness;
@@ -195,16 +196,16 @@ bool Autowall::SimulateFireBullet(C_BaseCombatWeapon* pWeapon, FireBulletData &d
 	data.trace_length = 0.0f;
 	
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	WeaponInfo_t* weaponData = ((C_BaseCombatWeapon*)localplayer->GetActiveWeapon())->GetWeaponData();
+	/*WeaponInfo_t* weaponData = ((C_BaseCombatWeapon*)localplayer->GetActiveWeapon())->GetWeaponData();
 
 	if (weaponData == NULL)
-		return false;
+		return false;*/
 
-	data.current_damage = (float) weaponData->m_iDamage;
+	data.current_damage = (float) /*weaponData->m_iDamage*/ 80;
 
 	while ((data.penetrate_count > 0) && (data.current_damage >= 1.0f))
 	{
-		data.trace_length_remaining = weaponData->m_flRange - data.trace_length;
+		data.trace_length_remaining = /*weaponData->m_flRange*/ 8192 - data.trace_length;
 
 		Vector end = data.src + data.direction * data.trace_length_remaining;
 
@@ -224,15 +225,39 @@ bool Autowall::SimulateFireBullet(C_BaseCombatWeapon* pWeapon, FireBulletData &d
 		if ((data.enter_trace.hitgroup <= 7) && (data.enter_trace.hitgroup > 0))
 		{
 			data.trace_length += data.enter_trace.fraction * data.trace_length_remaining;
-			data.current_damage *= pow(weaponData->m_flRangeModifier, data.trace_length * 0.002);
-			ScaleDamage(data.enter_trace.hitgroup, data.enter_trace.m_pEntityHit, weaponData->m_flArmorRatio, data.current_damage);
+			data.current_damage *= pow(/*weaponData->m_flRangeModifier*/ 0.98, data.trace_length * 0.002);
+			ScaleDamage(data.enter_trace.hitgroup, data.enter_trace.m_pEntityHit, /*weaponData->m_flArmorRatio*/ 1.65, data.current_damage);
 
 			return true;
 		}
 
-		if (!HandleBulletPenetration(weaponData, data))
+		if (!HandleBulletPenetration(NULL, data))
 			break;
 	}
 
 	return false;
+}
+
+float Autowall::GetDamage(const Vector& point)
+{
+	float damage = 0.f;
+	Vector dst = point;
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	FireBulletData data;
+	data.src = localplayer->GetEyePosition();
+	data.filter.pSkip = localplayer;
+
+	QAngle angles = Math::CalcAngle(data.src, dst);
+	Math::AngleVectors(angles, data.direction);
+
+	data.direction.NormalizeInPlace();
+
+	C_BaseCombatWeapon* active_weapon = reinterpret_cast<C_BaseCombatWeapon*>(entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon()));
+	if (!active_weapon)
+		return -1.0f;
+
+	if (SimulateFireBullet(active_weapon, data))
+		damage = data.current_damage;
+
+	return damage;
 }
