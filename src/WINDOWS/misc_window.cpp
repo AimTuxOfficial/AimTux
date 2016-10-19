@@ -26,18 +26,18 @@ MiscWindow::MiscWindow (std::string title, Vector2D size, Vector2D position, Col
 	ts_showspectators = new ToggleSwitch ("show spectators", STACK (ts_showranks), 33, &Settings::ShowSpectators::enabled);
 	AddComponent (ts_showspectators);
 
-	ts_noflash_enabled = new ToggleSwitch ("no flash", BELOW (ts_showranks), 33, &Settings::Noflash::enabled);
-	AddComponent (ts_noflash_enabled);
+	ts_noflash = new ToggleSwitch ("no flash", BELOW (ts_showranks), 33, &Settings::Noflash::enabled);
+	AddComponent (ts_noflash);
 	
-	sl_noflash_value = new Slider ("", STACK (ts_noflash_enabled), LOC (size.x - ts_noflash_enabled->size.x - 30, 33), &Settings::Noflash::value, 0.0f, 255.0f);
+	sl_noflash_value = new Slider ("", STACK (ts_noflash), LOC (size.x - ts_noflash->size.x - 30, 33), &Settings::Noflash::value, 0.0f, 255.0f);
 	AddComponent (sl_noflash_value);
 
     // clantag
 
-	ts_clantag_enable = new ToggleSwitch ("custom clantag", BELOW (ts_noflash_enabled), LOC (155, 30), &Settings::ClanTagChanger::enable);
-	AddComponent (ts_clantag_enable);
+	ts_clantag = new ToggleSwitch ("custom clantag", BELOW (ts_noflash), LOC (155, 30), &Settings::ClanTagChanger::enabled);
+	AddComponent (ts_clantag);
 
-	tb_clantag = new TextBox ("clantag", &Settings::ClanTagChanger::value, STACK (ts_clantag_enable), LOC (270, 30));
+	tb_clantag = new TextBox ("clantag", &Settings::ClanTagChanger::value, STACK (ts_clantag), LOC (270, 30));
 	AddComponent (tb_clantag);
 	
 	
