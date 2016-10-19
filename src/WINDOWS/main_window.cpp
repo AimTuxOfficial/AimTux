@@ -3,7 +3,7 @@
 MainWindow* main_window = nullptr;
 
 MainWindow::MainWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor)
-	: Window::Window (title, size, position, backgroundColor)
+	: Window::Window (title, size, position, backgroundColor, false)
 {
 	aimbot_button = new ToggleButton ("AimBot", LOC (10, 10), LOC (size.x - 20, 40), &aimbot_window->shown);
 	AddComponent (aimbot_button);

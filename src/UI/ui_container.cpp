@@ -133,7 +133,3 @@ bool UI_Container::isVisible ()
 {
 	return visible;
 }
-
-
-
-

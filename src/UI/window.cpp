@@ -5,6 +5,7 @@
 Color Settings::UI::mainColor = Color (255, 100, 100);
 Color Settings::UI::bodyColor = Color (20, 20, 20, 190);
 
+
 /*------------------
 	Constructors
 ------------------*/
@@ -41,10 +42,13 @@ Window::Window (std::string title, Vector2D size, Vector2D position) : Window (t
 }
 
 
-Window::Window (std::string title, Vector2D size, Vector2D position, Color color) : Window (title, size, position)
+Window::Window (std::string title, Vector2D size, Vector2D position, Color color, bool draggable) : Window (title, size, position)
 {
+	this->draggable = draggable;
 	this->backGroundColor = color;
 }
+
+
 
 /*----------------------
 	Member functions
@@ -82,19 +86,19 @@ void Window::Draw ()
 	TitleBar	
 --------------*/
 
-
-
 void TitleBar::OnMouseClickStart (PositionContext mouseContext)
 {
-	
-	_isDown = true;
-	
-	int x, y;
-	input->GetCursorPosition(&x, &y);
-	
-	mouseClickStartPosition = LOC (x, y) - parentWindow->position;
-	
-	gui->Focus (parentWindow);
+	if (parentWindow->draggable)
+	{
+		_isDown = true;
+		
+		int x, y;
+		input->GetCursorPosition(&x, &y);
+		
+		mouseClickStartPosition = LOC (x, y) - parentWindow->position;
+		
+		gui->Focus (parentWindow);
+	}
 }
 
 void TitleBar::OnMouseClickEnd (PositionContext mouseContext)
@@ -104,24 +108,18 @@ void TitleBar::OnMouseClickEnd (PositionContext mouseContext)
 
 void TitleBar::Draw ()
 {
-	int x, y;
-	input->GetCursorPosition(&x, &y);
-	if (input->IsButtonDown (MOUSE_LEFT) && _isDown)
+	if (parentWindow->draggable)
 	{
-		Vector2D newPos = LOC (x, y) - mouseClickStartPosition;
-		
-		parentWindow->position = newPos;
+		int x, y;
+		input->GetCursorPosition(&x, &y);
+		if (input->IsButtonDown (MOUSE_LEFT) && _isDown)
+		{
+			Vector2D newPos = LOC (x, y) - mouseClickStartPosition;
+			
+			parentWindow->position = newPos;
+		}
 	}
-	
-	
 	
 	Clear (Settings::UI::mainColor);
 	DrawCenteredString (parentWindow->title.c_str(), title_font, foreColor, LOC (size.x / 2, size.y / 2));
 }
-
-
-
-
-
-
-
