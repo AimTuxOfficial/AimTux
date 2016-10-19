@@ -14,16 +14,12 @@ private:
 	TitleBar* titleBar;
 	Panel* mainPanel;
 public:
-	bool shown;
 	bool draggable = true;
 	std::string title;
 	Window (std::string title);
 	Window (std::string title, Vector2D size);
 	Window (std::string title, Vector2D size, Vector2D position);
 	Window (std::string title, Vector2D size, Vector2D position, Color backgroundColor, bool draggable = true);
-	void Show ();
-	void Hide ();
-	bool IsShown ();
 	
 	
 	void AddComponent (Component* component)

@@ -53,24 +53,6 @@ Window::Window (std::string title, Vector2D size, Vector2D position, Color color
 ----------------------*/
 
 
-void Window::Show ()
-{
-	shown = true;
-}
-
-
-void Window::Hide ()
-{
-	shown = false;
-}
-
-
-bool Window::IsShown ()
-{
-	return this->shown;
-}
-
-
 void Window::Draw ()
 {
 	Panel::Draw ();

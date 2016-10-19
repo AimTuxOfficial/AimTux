@@ -33,7 +33,7 @@ protected:
 	
 	
 public:
-	
+	bool shown = true;
 	bool isHovered = false;
 	bool isMouseDown = false;
 	
@@ -62,6 +62,21 @@ public:
 	Component (Vector2D position, Vector2D size) : Component (position)
 	{
 		this->size = size;
+	}
+	
+	bool IsShown ()
+	{
+		return shown;
+	}
+	
+	void Show ()
+	{
+		shown = true;
+	}
+	
+	void Hide ()
+	{
+		shown = false;
 	}
 	
 	virtual void OnMouseClickStart (PositionContext mouseContext) { }
