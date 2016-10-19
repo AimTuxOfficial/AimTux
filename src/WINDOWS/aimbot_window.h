@@ -22,6 +22,8 @@ private:
 	ToggleSwitch* ts_aimstep;
 	ToggleSwitch* ts_autoshoot;
 	Banner* ba_movement;
+	ToggleSwitch* ts_autowall;
+	Slider* sl_autowall_value;
 	ToggleSwitch* ts_autocrouch;
 	ToggleSwitch* ts_autostop;
 public:

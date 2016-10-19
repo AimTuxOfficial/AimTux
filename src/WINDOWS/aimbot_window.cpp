@@ -51,6 +51,12 @@ AimbotWindow::AimbotWindow (std::string title, Vector2D size, Vector2D position,
 	
 	ts_autoshoot = new ToggleSwitch ("auto shoot", BELOW (ts_aimstep), 33, &Settings::Aimbot::AutoShoot::enabled);
 	AddComponent (ts_autoshoot);
+
+	ts_autowall = new ToggleSwitch ("autowall", BELOW (ts_autoshoot), 33, &Settings::Aimbot::AutoWall::enabled);
+	AddComponent (ts_autowall);
+
+	sl_autowall_value = new Slider ("", STACK (ts_autowall), LOC (size.x - ts_autowall->size.x - 30, 33), &Settings::Aimbot::AutoWall::value, 0.10f, 100.0f);
+	AddComponent (sl_autowall_value);
 	
 	ba_movement = new Banner ("Movement", BELOW (ts_autoshoot), size.x - 20);
 	AddComponent (ba_movement);
