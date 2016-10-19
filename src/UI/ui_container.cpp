@@ -14,7 +14,7 @@ bool UI_Container::IsOverlapping (Vector2D position, int index)
 	{
 		Window* window = windows[i];
 		
-		if (x >= window->position.x && x <= window->position.x + window->size.x &&
+		if (window->shown && x >= window->position.x && x <= window->position.x + window->size.x &&
 				y >= window->position.y && y <= window->position.y + window->size.y)
 		{
 			return true;
