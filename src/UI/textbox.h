@@ -9,7 +9,7 @@
 class TextBox : public Component
 {
 protected:
-	Color text_color       = Color (255, 255, 255, 200);
+	Color text_color	   = Color (255, 255, 255, 200);
 	Color background_color = Color (160, 160, 160, 5);
 	bool s_showCaret = false;
 	int s_caret_stamp;
@@ -20,15 +20,15 @@ private:
 	
 public:
 	
-    std::string* strp;
+	std::string* strp;
 	std::string shadow_text = "textbox";
 	
 	TextBox (std::string shadow, std::string* textref, Vector2D position, Vector2D size)
-        : shadow_text(shadow)
-        , strp(textref)
+		: shadow_text(shadow)
+		, strp(textref)
 	{
-        this->size = size;
-        this->position = position;
+		this->size = size;
+		this->position = position;
 
 		// Get the width if the monospaced font
 		font_size = Draw::GetTextSize ("j", mono_font);
@@ -138,15 +138,15 @@ public:
 	}
 };
 
-class ValueTextBox : public TextBox 
+class ValueTextBox : public TextBox
 {
 public:
-    pstring text;
+	pstring text;
 
-    ValueTextBox(std::string shadow, std::string val, Vector2D pos, Vector2D size)
-        : text(val)
-        , TextBox(shadow, &text, pos, size)
-    {
-    }
+	ValueTextBox(std::string shadow, std::string val, Vector2D pos, Vector2D size)
+		: text(val)
+		, TextBox(shadow, &text, pos, size)
+	{
+	}
 };
 #endif

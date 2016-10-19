@@ -313,7 +313,7 @@ namespace Settings
 	{
 		extern std::string value;
 		extern bool animation;
-        extern bool enable;
+		extern bool enabled;
 	}
 
 	void LoadDefaultsOrSave(const char* filename);

@@ -1,18 +1,5 @@
 #include "util.h"
 
-std::string Util::ReplaceString(std::string subject, const std::string& search, const std::string& replace)
-{
-	size_t pos = 0;
-
-	while ((pos = subject.find(search, pos)) != std::string::npos)
-	{
-		subject.replace(pos, search.length(), replace);
-		pos += replace.length();
-	}
-
-	return subject;
-}
-
 char Util::GetButtonString(ButtonCode_t key)
 {
 	switch (key)
@@ -108,19 +95,31 @@ char Util::GetUpperValueOf(ButtonCode_t key)
 	}
 }
 
+std::string Util::ReplaceString(std::string subject, const std::string& search, const std::string& replace)
+{
+	size_t pos = 0;
+
+	while ((pos = subject.find(search, pos)) != std::string::npos)
+	{
+		subject.replace(pos, search.length(), replace);
+		pos += replace.length();
+	}
+
+	return subject;
+}
+
 void Util::StdReplaceStr(std::string& replaceIn, const std::string& replace, const std::string& replaceWith)
 {
     size_t const span = replace.size();
     size_t const step = replaceWith.size(); 
     size_t index = 0;
-    while (true)
+
+    while(true)
     {
         index = replaceIn.find(replace, index);
-        
+
         if (index == std::string::npos)
-        {
             break;
-        }
 
         replaceIn.replace(index, span, replaceWith);
         index += step;
