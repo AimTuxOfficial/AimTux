@@ -50,6 +50,8 @@ C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible)
 	C_BaseEntity* closestEntity = NULL;
 	float dist = 10000000.0f;
 
+	visible = visible && !Settings::Aimbot::AutoWall::enabled;
+
 	if (!localplayer)
 		return NULL;
 
@@ -72,9 +74,11 @@ C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible)
 		Vector p_vecHead = localplayer->GetEyePosition();
 		float fov = Math::GetFov(cmd->viewangles, Math::CalcAngle(p_vecHead, e_vecHead));
 
-		if ((Settings::Aimbot::AutoWall::enabled && Autowall::GetDamage(e_vecHead) < Settings::Aimbot::AutoWall::value)
-				|| (visible && !Entity::IsVisible(entity, Settings::Aimbot::bone)))
-			continue;
+		if (Settings::Aimbot::AutoWall::enabled && Autowall::GetDamage(e_vecHead) < Settings::Aimbot::AutoWall::value)
+				continue;
+
+		if (visible && !Entity::IsVisible(entity, Settings::Aimbot::bone))
+				continue;
 
 		if (e_dist < dist && fov <= Settings::Aimbot::fov)
 		{
