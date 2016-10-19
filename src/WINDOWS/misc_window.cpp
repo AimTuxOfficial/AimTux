@@ -37,7 +37,7 @@ MiscWindow::MiscWindow (std::string title, Vector2D size, Vector2D position, Col
 	ts_clantag_enable = new ToggleSwitch ("custom clantag", BELOW (ts_noflash_enabled), LOC (155, 30), &Settings::ClanTagChanger::enable);
 	AddComponent (ts_clantag_enable);
 
-	tb_clantag = new TextBox ("clantag", &Settings::ClanTagChanger::value, STACK (ts_clantag_enable), LOC (270, 30));
+	tb_clantag = new StrPTextBox ("clantag", &Settings::ClanTagChanger::value, STACK (ts_clantag_enable), LOC (270, 30));
 	AddComponent (tb_clantag);
 	
 	
