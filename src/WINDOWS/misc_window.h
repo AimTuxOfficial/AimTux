@@ -6,7 +6,6 @@ class MiscWindow;
 #include "../UI/stdui.h"
 #include "../atgui.h"
 #include "../util.h"
-#include "../UI/strptextbox.h"
 
 class MiscWindow : public Window
 {
