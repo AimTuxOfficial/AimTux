@@ -28,8 +28,9 @@ void TabSelector::UpdateTabColors (int id)
 {
 	for (int i = 0; i < tabs.size(); i++)
 	{
-		int n = abs(i - id) + 1;
+		float n = abs(i - id) + 1;
 		Tab* tab = tabs[i];
+		if (n > 1) n -= (0.75f * (n-1));
 		tab->backgroundColor = Color (255 / n, 100 / n, 100 / n);
 	}
 }
