@@ -3,61 +3,72 @@
 AimbotPanel::AimbotPanel (Vector2D position, Vector2D size)
 	: Panel::Panel (position, size)
 {
-	ts_aimbot_enabled = new ToggleSwitch ("aimbot", LOC (10, 10), 33, &Settings::Aimbot::enabled);
+	ts_aimbot_enabled = new ToggleSwitch ("enabled", LOC (10, 10), 33, &Settings::Aimbot::enabled);
 	AddComponent (ts_aimbot_enabled);
 	
-	ts_silent = new ToggleSwitch ("silent aim", BELOW (ts_aimbot_enabled), 33, &Settings::Aimbot::silent);
-	AddComponent (ts_silent);
-
-	ts_friendly = new ToggleSwitch ("friendly", BELOW (ts_silent), 33, &Settings::Aimbot::friendly);
-	AddComponent (ts_friendly);
-	
-	ba_aim = new Banner ("Aim", BELOW (ts_friendly), size.x - 20);
+	ba_aim = new Banner ("Aim", BELOW (ts_aimbot_enabled), (size.x - 20) / 2 - 5);
 	AddComponent (ba_aim);
+
+	ts_silent = new ToggleSwitch ("silent aim", BELOW (ba_aim), 33, &Settings::Aimbot::silent);
+	AddComponent (ts_silent);
 	
-	ts_rcs = new ToggleSwitch ("recoil control", BELOW (ba_aim), 33, &Settings::Aimbot::RCS::enabled);
+	ts_rcs = new ToggleSwitch ("recoil control", BELOW (ts_silent), 33, &Settings::Aimbot::RCS::enabled);
 	AddComponent (ts_rcs);
 	
 	ts_autoaim = new ToggleSwitch ("auto aim", BELOW (ts_rcs), 33, &Settings::Aimbot::AutoAim::enabled);
 	AddComponent (ts_autoaim);
 
-	sl_fov = new Slider ("FOV", STACK (ts_autoaim), LOC (size.x - ts_autoaim->size.x - 30, 33), &Settings::Aimbot::fov, 0.0f, 180.0f);
+	sl_fov = new Slider ("FOV", STACK (ts_autoaim), LOC ((size.x / 2) - ts_autoaim->size.x - 30, 33), &Settings::Aimbot::fov, 0.0f, 180.0f);
 	AddComponent (sl_fov);
+
+	ts_smooth = new ToggleSwitch ("smooth", BELOW (ts_autoaim), 33, &Settings::Aimbot::Smooth::enabled);
+	AddComponent (ts_smooth);
 	
-	lb_aimbone = new StackedListBox<Bones>("aimbone", BELOW (ts_autoaim), size.x - 20, 3, (Bones*)&Settings::Aimbot::bone, std::vector<LB_Element>
-		{
-			LB_Element ("HEAD", BONE_HEAD),
-			LB_Element ("NECK", BONE_NECK),
-			LB_Element ("UPPER SPINE", BONE_UPPER_SPINAL_COLUMN),
-			LB_Element ("MIDDLE SPINE", BONE_MIDDLE_SPINAL_COLUMN),
-			LB_Element ("LOWER SPINE", BONE_LOWER_SPINAL_COLUMN),
-			LB_Element ("HIP", BONE_HIP),
-			LB_Element ("PELVIS", BONE_PELVIS)
-		}
-	);
-	AddComponent (lb_aimbone);
+	sl_smooth = new Slider ("", STACK (ts_smooth), LOC ((size.x / 2) - ts_smooth->size.x - 30, 33), &Settings::Aimbot::Smooth::value, 0.10f, Settings::Aimbot::Smooth::max);
+	AddComponent (sl_smooth);
 	
-	ts_smooth_enable = new ToggleSwitch ("smooth", BELOW (lb_aimbone), 33, &Settings::Aimbot::Smooth::enabled);
-	AddComponent (ts_smooth_enable);
-	
-	sl_smooth_value = new Slider ("", STACK (ts_smooth_enable), LOC (size.x - ts_smooth_enable->size.x - 30, 33), &Settings::Aimbot::Smooth::value, 0.10f, Settings::Aimbot::Smooth::max);
-	AddComponent (sl_smooth_value);
-	
-	
-	ts_aimstep = new ToggleSwitch ("aim step", BELOW (ts_smooth_enable), 33, &Settings::Aimbot::AimStep::enabled);
+	ts_aimstep = new ToggleSwitch ("aim step", BELOW (ts_smooth), 33, &Settings::Aimbot::AimStep::enabled);
 	AddComponent (ts_aimstep);
-	
-	ts_autoshoot = new ToggleSwitch ("auto shoot", BELOW (ts_aimstep), 33, &Settings::Aimbot::AutoShoot::enabled);
+
+	sl_aimstep = new Slider ("", STACK (ts_aimstep), LOC ((size.x / 2) - ts_aimstep->size.x - 30, 33), &Settings::Aimbot::AimStep::value, 0.0f, 180.0f);
+	AddComponent (sl_aimstep);
+
+	ts_autowall = new ToggleSwitch ("auto wall", BELOW (ts_aimstep), 33, &Settings::Aimbot::AutoWall::enabled);
+	AddComponent (ts_autowall);
+
+	sl_autowall = new Slider ("min damage", STACK (ts_autowall), LOC ((size.x / 2) - ts_autowall->size.x - 30, 33), &Settings::Aimbot::AutoWall::value, 0.0f, 100.0f);
+	AddComponent (sl_autowall);
+
+	ts_autoshoot = new ToggleSwitch ("auto shoot", BELOW (ts_autowall), 33, &Settings::Aimbot::AutoShoot::enabled);
 	AddComponent (ts_autoshoot);
 	
-	ba_movement = new Banner ("Movement", BELOW (ts_autoshoot), size.x - 20);
+	ba_movement = new Banner ("Movement", BELOW (ts_autoshoot), (size.x - 20) / 2 - 5);
 	AddComponent (ba_movement);
 	
 	ts_autocrouch = new ToggleSwitch ("auto crouch", BELOW (ba_movement), 33, &Settings::Aimbot::AutoCrouch::enabled);
 	AddComponent (ts_autocrouch);
-	
-	ts_autostop = new ToggleSwitch ("auto stop", STACK (ts_autocrouch), 33, &Settings::Aimbot::AutoStop::enabled);
+
+	ts_autostop = new ToggleSwitch ("auto stop", BELOW (ts_autocrouch), 33, &Settings::Aimbot::AutoStop::enabled);
 	AddComponent (ts_autostop);
+
+	ba_target = new Banner ("Target", LOC((size.x / 2) + 5, ba_aim->position.y), ((size.x - 20) / 2) - 5);
+	AddComponent (ba_target);
+
+	ts_friendly = new ToggleSwitch ("friendly", BELOW (ba_target), 33, &Settings::Aimbot::friendly);
+	AddComponent (ts_friendly);
+
+	lb_aimbone = new StackedListBox<Bones>("aimbone", BELOW (ts_friendly), ((size.x - 20) / 2) - 5, 3, (Bones*)&Settings::Aimbot::bone, std::vector<LB_Element>
+			{
+					LB_Element ("HEAD", BONE_HEAD),
+					LB_Element ("NECK", BONE_NECK),
+					LB_Element ("UPPER SPINE", BONE_UPPER_SPINAL_COLUMN),
+					LB_Element ("MIDDLE SPINE", BONE_MIDDLE_SPINAL_COLUMN),
+					LB_Element ("LOWER SPINE", BONE_LOWER_SPINAL_COLUMN),
+					LB_Element ("HIP", BONE_HIP),
+					LB_Element ("PELVIS", BONE_PELVIS)
+			}
+	);
+	AddComponent (lb_aimbone);
 	
 	Hide ();
 }
