@@ -6,7 +6,7 @@ void SetupUI()
 	engine->GetScreenSize(x, y);
 	
 	// Main window
-	main_window = new MainWindow("AimTux [NEW UI IN DEVELOPMENT]", LOC(1900, 1060), LOC(10, 10), Color(0, 0, 0, 0));
+	main_window = new MainWindow("AimTux [NEW UI IN DEVELOPMENT]", LOC(1280-20, 720-20), LOC(10, 10), Color(0, 0, 0, 0));
 	gui->AddWindow(main_window);
 
 	// Menu window
