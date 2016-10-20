@@ -76,6 +76,7 @@ namespace Settings
 		extern bool silent;
 		extern bool friendly;
 		extern float fov;
+		extern float errorMargin;
 		extern unsigned int bone;
 		extern ButtonCode_t aimkey;
 

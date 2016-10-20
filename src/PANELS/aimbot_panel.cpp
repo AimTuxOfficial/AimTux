@@ -39,7 +39,10 @@ AimbotPanel::AimbotPanel (Vector2D position, Vector2D size)
 	sl_autowall = new Slider ("min damage", STACK (ts_autowall), LOC ((size.x / 2) - ts_autowall->size.x - 30, 33), &Settings::Aimbot::AutoWall::value, 0.0f, 100.0f);
 	AddComponent (sl_autowall);
 
-	ts_autoshoot = new ToggleSwitch ("auto shoot", BELOW (ts_autowall), 33, &Settings::Aimbot::AutoShoot::enabled);
+	sl_error = new Slider("error margin", BELOW(ts_autowall), LOC((size.x / 2) - 20, 33), &Settings::Aimbot::errorMargin, 0.0f, 2.0f);
+	AddComponent (sl_error);
+
+	ts_autoshoot = new ToggleSwitch ("auto shoot", BELOW (sl_error), 33, &Settings::Aimbot::AutoShoot::enabled);
 	AddComponent (ts_autoshoot);
 	
 	ba_movement = new Banner ("Movement", BELOW (ts_autoshoot), (size.x - 20) / 2 - 5);
@@ -72,3 +75,4 @@ AimbotPanel::AimbotPanel (Vector2D position, Vector2D size)
 	
 	Hide ();
 }
+
