@@ -156,6 +156,39 @@ void Aimbot::Smooth(QAngle& angle, CUserCmd* cmd)
 	angle = cmd->viewangles + delta / smooth_factor * (Settings::Aimbot::Smooth::max - Settings::Aimbot::Smooth::value);
 }
 
+void Aimbot::AutoShoot(C_BaseEntity* entity, C_BaseCombatWeapon* active_weapon, CUserCmd* cmd)
+{
+	if (!Settings::Aimbot::AutoShoot::enabled)
+		return;
+
+	if (Aimbot::AimStepInProgress)
+		return;
+
+	if (!entity || !active_weapon || active_weapon->isKnife() || active_weapon->GetAmmo() == 0)
+		return;
+
+	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
+	float nextPrimaryAttack = active_weapon->GetNextPrimaryAttack();
+	float tick = localplayer->GetTickBase() * globalvars->interval_per_tick;
+
+	if (nextPrimaryAttack > tick)
+	{
+		if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
+			cmd->buttons &= ~IN_ATTACK2;
+		else
+			cmd->buttons &= ~IN_ATTACK;
+	}
+	else
+	{
+		if (Settings::Aimbot::AutoShoot::autoscope && active_weapon->CanScope() && !localplayer->IsScoped())
+			cmd->buttons |= IN_ATTACK2;
+		else if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
+			cmd->buttons |= IN_ATTACK2;
+		else
+			cmd->buttons |= IN_ATTACK;
+	}
+}
+
 void Aimbot::CreateMove(CUserCmd* cmd)
 {
 	if (!Settings::Aimbot::enabled)
@@ -216,32 +249,6 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 				Aimbot::Smooth(angle, cmd);
 		}
 
-		if (Settings::Aimbot::AutoShoot::enabled && !Aimbot::AimStepInProgress)
-		{
-			if (!active_weapon->isKnife() && active_weapon->GetAmmo() > 0)
-			{
-				float nextPrimaryAttack = active_weapon->GetNextPrimaryAttack();
-				float tick = localplayer->GetTickBase() * globalvars->interval_per_tick;
-
-				if (nextPrimaryAttack > tick)
-				{
-					if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
-						cmd->buttons &= ~IN_ATTACK2;
-					else
-						cmd->buttons &= ~IN_ATTACK;
-				}
-				else
-				{
-					if (Settings::Aimbot::AutoShoot::autoscope && active_weapon->CanScope() && !localplayer->IsScoped())
-						cmd->buttons |= IN_ATTACK2;
-					else if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
-						cmd->buttons |= IN_ATTACK2;
-					else
-						cmd->buttons |= IN_ATTACK;
-				}
-			}
-		}
-
 		if (Settings::Aimbot::AutoCrouch::enabled)
 			cmd->buttons |= IN_DUCK;
 
@@ -257,8 +264,9 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 		Aimbot::RCS(angle, Settings::Aimbot::AutoAim::enabled && entity != NULL);
 
 	Math::NormalizeAngles(angle);
-
 	cmd->viewangles = angle;
+
+	Aimbot::AutoShoot(entity, active_weapon, cmd);
 
 	Math::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);
 }
