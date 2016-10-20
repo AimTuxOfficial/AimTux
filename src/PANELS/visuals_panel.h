@@ -20,15 +20,17 @@ private:
 	Banner*	ba_crosshair;
 	ToggleSwitch* ts_recoil_crosshair;
 	ToggleSwitch* ts_fov_crosshair;
-	Banner*	ba_other;
-	ToggleSwitch* ts_bomb;
-	ToggleSwitch* ts_weapons;
 	Banner*	ba_chams;
 	ToggleSwitch* ts_chams_players;
 	ToggleSwitch* ts_chams_arms;
 	ToggleSwitch* ts_rainbow_chams_hands;
 	ToggleSwitch* ts_visibility_check_chams;
 	StackedListBox<ChamsType>* lb_chamstype;
+	Banner*	ba_other;
+	ToggleSwitch* ts_bomb;
+	ToggleSwitch* ts_weapons;
+	ToggleSwitch* ts_dlights;
+	Slider* sl_dlights;
 public:
 	VisualsPanel (Vector2D position, Vector2D size);
 };
