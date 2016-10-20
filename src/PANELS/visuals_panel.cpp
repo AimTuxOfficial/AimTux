@@ -36,15 +36,6 @@ VisualsPanel::VisualsPanel (Vector2D position, Vector2D size)
 	ts_fov_crosshair = new ToggleSwitch ("fov crosshair", BELOW (ts_recoil_crosshair), 33, &Settings::ESP::FOVCrosshair::enabled);
 	AddComponent (ts_fov_crosshair);
 
-	ba_other = new Banner ("Other", BELOW (ts_fov_crosshair), (size.x - 20) / 2 - 5);
-	AddComponent (ba_other);
-
-	ts_bomb = new ToggleSwitch ("bomb esp", BELOW (ba_other), 33, &Settings::ESP::Bomb::enabled);
-	AddComponent (ts_bomb);
-
-	ts_weapons = new ToggleSwitch ("weapons esp", BELOW (ts_bomb), 33, &Settings::ESP::Weapons::enabled);
-	AddComponent (ts_weapons);
-
 	ba_chams = new Banner ("Chams", LOC((size.x / 2) + 5, ba_esp->position.y), ((size.x - 20) / 2) - 5);
 	AddComponent (ba_chams);
 
@@ -67,6 +58,21 @@ VisualsPanel::VisualsPanel (Vector2D position, Vector2D size)
 			}
 	);
 	AddComponent (lb_chamstype);
+
+	ba_other = new Banner ("Other", BELOW (lb_chamstype), ((size.x - 20) / 2) - 5);
+	AddComponent (ba_other);
+
+	ts_bomb = new ToggleSwitch ("bomb esp", BELOW (ba_other), 33, &Settings::ESP::Bomb::enabled);
+	AddComponent (ts_bomb);
+
+	ts_weapons = new ToggleSwitch ("weapons esp", BELOW (ts_bomb), 33, &Settings::ESP::Weapons::enabled);
+	AddComponent (ts_weapons);
+
+	ts_dlights = new ToggleSwitch ("dlights", BELOW (ts_weapons), 33, &Settings::Dlights::enabled);
+	AddComponent (ts_dlights);
+
+	sl_dlights = new Slider ("radius", STACK (ts_dlights), LOC ((size.x / 2) - ts_dlights->size.x - 30, 33), &Settings::Dlights::radius, 0.0f, 1000.0f);
+	AddComponent (sl_dlights);
 	
 	Hide ();
 }
