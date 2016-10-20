@@ -21,7 +21,7 @@ void Dlights::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_fo
 	if (!localPlayer)
 		return;
 
-	for (int i = 0; i < engine->GetMaxClients(); ++i)
+	for (int i = 1; i < engine->GetMaxClients(); ++i)
 	{
 		C_BaseEntity *entity = entitylist->GetClientEntity(i);
 		if (!entity)

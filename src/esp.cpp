@@ -359,7 +359,7 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 	if (!localPlayer)
 		return;
 
-	for (int i = 0; i < entitylist->GetHighestEntityIndex(); ++i)
+	for (int i = 1; i < entitylist->GetHighestEntityIndex(); ++i)
 	{
 		C_BaseEntity* entity = entitylist->GetClientEntity(i);
 		if (!entity)

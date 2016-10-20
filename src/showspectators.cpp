@@ -6,7 +6,7 @@ std::list<std::string> GetObservervators(C_BaseEntity* pEntity)
 {
 	std::list<std::string> list;
 
-	for (int i = 0; i < engine->GetMaxClients(); ++i)
+	for (int i = 1; i < engine->GetMaxClients(); ++i)
 	{
 		C_BaseEntity *entity = entitylist->GetClientEntity(i);
 		if (!entity)
