@@ -39,7 +39,7 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	AddComponent (tb_clantag);
 	
 	
-	ts_clantag_animation = new ToggleSwitch ("clantag animation", BELOW (tb_clantag), 33, &Settings::ClanTagChanger::animation);
+	ts_clantag_animation = new ToggleSwitch ("clantag animation", BELOW (ts_clantag), 33, &Settings::ClanTagChanger::animation);
 	AddComponent (ts_clantag_animation);
 	
 	Hide ();

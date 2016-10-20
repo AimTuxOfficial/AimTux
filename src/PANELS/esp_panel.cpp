@@ -42,7 +42,7 @@ ESPPanel::ESPPanel (Vector2D position, Vector2D size)
 	ts_visibility_check_chams = new ToggleSwitch ("visibility check", STACK (ts_rainbow_chams_hands), 33, &Settings::ESP::Chams::visibility_check);
 	AddComponent (ts_visibility_check_chams);
 	
-	ba_crosshair = new Banner ("Crosshair", BELOW (ts_visibility_check_chams), size.x - 20);
+	ba_crosshair = new Banner ("Crosshair", BELOW (ts_chams_players), size.x - 20);
 	AddComponent (ba_crosshair);
 	
 	ts_recoil_crosshair = new ToggleSwitch ("recoil crosshair", BELOW (ba_crosshair), 33, &Settings::Recoilcrosshair::enabled);
@@ -51,7 +51,7 @@ ESPPanel::ESPPanel (Vector2D position, Vector2D size)
 	ts_fov_crosshair = new ToggleSwitch ("fov crosshair", STACK (ts_recoil_crosshair), 33, &Settings::ESP::FOVCrosshair::enabled);
 	AddComponent (ts_fov_crosshair);
 	
-	ba_other = new Banner ("Other", BELOW (ts_fov_crosshair), size.x - 20);
+	ba_other = new Banner ("Other", BELOW (ts_recoil_crosshair), size.x - 20);
 	AddComponent (ba_other);
 	
 	ts_bomb = new ToggleSwitch ("bomb esp", BELOW (ba_other), 33, &Settings::ESP::Bomb::enabled);
