@@ -122,8 +122,52 @@ void Aimbot::RCS(QAngle& angle, C_BaseEntity* entity, CUserCmd* cmd)
 	}
 }
 
-void Aimbot::Smooth(QAngle& angle, CUserCmd* cmd)
+void Aimbot::AimStep(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
 {
+	if (!Settings::Aimbot::AimStep::enabled)
+		return;
+
+	if (Settings::Aimbot::Smooth::enabled)
+		return;
+
+	if (!Aimbot::AimStepInProgress)
+		AimStepLastAngle = cmd->viewangles;
+
+	if (!entity)
+		return;
+
+	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
+	Vector e_vecHead = entity->GetBonePosition(Settings::Aimbot::bone);
+	Vector p_vecHead = localplayer->GetEyePosition();
+	float fov = Math::GetFov(AimStepLastAngle, Math::CalcAngle(p_vecHead, e_vecHead));
+
+	Aimbot::AimStepInProgress = fov > Settings::Aimbot::AimStep::value;
+
+	if (!Aimbot::AimStepInProgress)
+		return;
+
+	QAngle AimStepDelta = AimStepLastAngle - angle;
+
+	if (AimStepDelta.y < 0)
+		AimStepLastAngle.y += Settings::Aimbot::AimStep::value;
+	else
+		AimStepLastAngle.y -= Settings::Aimbot::AimStep::value;
+
+	AimStepLastAngle.x = angle.x;
+	angle = AimStepLastAngle;
+}
+
+void Aimbot::Smooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
+{
+	if (!Settings::Aimbot::Smooth::enabled)
+		return;
+
+	if (Settings::AntiAim::enabled_X || Settings::AntiAim::enabled_Y)
+		return;
+
+	if (!entity)
+		return;
+
 	QAngle delta = angle - cmd->viewangles;
 
 	float target_yaw = angle.y;
@@ -252,35 +296,12 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 			Vector e_vecHead = entity->GetBonePosition(Settings::Aimbot::bone);
 			Vector p_vecHead = localplayer->GetEyePosition();
 
-			if (!Aimbot::AimStepInProgress)
-				AimStepLastAngle = cmd->viewangles;
-
 			CalculateAngle(p_vecHead, e_vecHead, angle);
-
-			float fov = Math::GetFov(AimStepLastAngle, Math::CalcAngle(p_vecHead, e_vecHead));
-
-			Aimbot::AimStepInProgress = (Settings::Aimbot::AimStep::enabled
-					&& !Settings::Aimbot::Smooth::enabled
-					&& fov > Settings::Aimbot::AimStep::value);
-
-			if (Aimbot::AimStepInProgress)
-			{
-				QAngle AimStepDelta = AimStepLastAngle - angle;
-
-				if (AimStepDelta.y < 0)
-					AimStepLastAngle.y += Settings::Aimbot::AimStep::value;
-				else
-					AimStepLastAngle.y -= Settings::Aimbot::AimStep::value;
-
-				AimStepLastAngle.x = angle.x;
-				angle = AimStepLastAngle;
-			}
-
-			if (!Settings::AntiAim::enabled_X && !Settings::AntiAim::enabled_Y && Settings::Aimbot::Smooth::enabled)
-				Aimbot::Smooth(angle, cmd);
 		}
 	}
 
+	Aimbot::AimStep(entity, angle, cmd);
+	Aimbot::Smooth(entity, angle, cmd);
 	Aimbot::AutoCrouch(entity, cmd);
 	Aimbot::AutoStop(entity, oldForward, oldSideMove, cmd);
 	Aimbot::AutoShoot(entity, active_weapon, cmd);
