@@ -63,7 +63,8 @@ C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible)
 			|| entity == (C_BaseEntity*)localplayer
 			|| entity->GetDormant()
 			|| entity->GetLifeState() != LIFE_ALIVE
-			|| entity->GetHealth() <= 0)
+			|| entity->GetHealth() <= 0
+			|| entity->GetImmune())
 			continue;
 
 		if (!Settings::Aimbot::friendly && entity->GetTeam() == localplayer->GetTeam())

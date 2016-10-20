@@ -21,6 +21,7 @@ struct COffsets
 
 	int m_flFlashMaxAlpha;
 	int m_bIsScoped;
+	int m_bGunGameImmunity;
 	int m_iShotsFired;
 	int m_Collision;
 	int m_nRenderMode;

@@ -160,6 +160,11 @@ public:
 		return *(bool*)((uintptr_t)this + offsets.m_bIsScoped);
 	}
 
+	bool GetImmune()
+	{
+		return *(bool*)((uintptr_t)this + offsets.m_bGunGameImmunity);
+	}
+
 	inline Vector GetBonePosition(int boneIndex)
 	{
 		matrix3x4_t BoneMatrix[MAXSTUDIOBONES];
