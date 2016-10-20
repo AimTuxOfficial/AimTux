@@ -1,12 +1,12 @@
 #pragma once
 
-class HVHWindow;
+class HVHPanel;
 
 #include "../UI/stdui.h"
 #include "../atgui.h"
 
 
-class HVHWindow : public Window
+class HVHPanel : public Panel
 {
 private:
 	ListBox<AntiAimType_X>* lb_antiaim_x;
@@ -14,5 +14,5 @@ private:
 	ListBox<AntiAimType_Y>* lb_antiaim_y;
 	ToggleSwitch* ts_antiaim_y;
 public:
-	HVHWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor);
+	HVHPanel (Vector2D position, Vector2D size);
 };

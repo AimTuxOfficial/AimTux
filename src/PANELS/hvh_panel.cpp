@@ -1,9 +1,7 @@
-#include "hvh_window.h"
+#include "hvh_panel.h"
 
-HVHWindow* hvh_window = nullptr;
-
-HVHWindow::HVHWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor)
-	: Window::Window (title, size, position, backgroundColor)
+HVHPanel::HVHPanel (Vector2D position, Vector2D size)
+	: Panel::Panel (position, size)
 {
 	ts_antiaim_x = new ToggleSwitch ("x axis", LOC (10, 10), 33, &Settings::AntiAim::enabled_X);
 	AddComponent (ts_antiaim_x);

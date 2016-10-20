@@ -111,7 +111,7 @@ public:
 		this->elements = elements;
 		this->setting = setting;
 		
-		int elementWidth = ((width - (10 + (elements_x * 10))) / elements_x);
+		int elementWidth = (width / elements_x);
 		
 		int x = 0, y = 0;
 		for (int i = 0; i < elements.size(); i++)
@@ -127,7 +127,7 @@ public:
 			LB_Button<E>* new_button = new LB_Button<E> (
 				
 				element->name,
-				LOC ((x * elementWidth) + (10 + (x * 10)), (y * LB_ELEMENT_HEIGHT) + (10 + (y * 10))),
+				LOC (10 + (x * elementWidth), (y * LB_ELEMENT_HEIGHT) + (10 + (y * 10))),
 				LOC (elementWidth - 20, LB_ELEMENT_HEIGHT),
 				this->setting,
 				element
