@@ -13,6 +13,13 @@ MainWindow::MainWindow (std::string title, Vector2D size, Vector2D position, Col
 	pl_hvh = new Panel (LOC (0, tab_height), LOC (size.x, size.y - tab_height));
 	pl_misc = new Panel (LOC (0, tab_height), LOC (size.x, size.y - tab_height));
 	
+	
+	AddComponent (pl_aimbot);
+	AddComponent (pl_triggerbot);
+	AddComponent (pl_visuals);
+	AddComponent (pl_hvh);
+	AddComponent (pl_misc);
+	
 	std::vector<TabElement> tabs
 	(
 		{
