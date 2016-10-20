@@ -9,10 +9,6 @@ class MenuWindow;
 class MenuWindow : public Window
 {
 private:
-	ToggleButton* esp_button;
-	ToggleButton* hvh_button;
-	ToggleButton* misc_button;
-	ToggleButton* newui_button;
 	Button* load1_button;
 	Button* load2_button;
 	Button* save1_button;

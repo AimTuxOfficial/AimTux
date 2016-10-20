@@ -3,12 +3,9 @@
 MenuWindow* menu_window = nullptr;
 
 MenuWindow::MenuWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor)
-	: Window::Window (title, size, position, backgroundColor, false)
+	: Window::Window (title, size, position, backgroundColor, true)
 {
-	newui_button = new ToggleButton ("New UI", LOC (0, 0), LOC (size.x - 20, 40), &main_window->shown);
-	AddComponent (newui_button);
-	
-	load1_button = new OutlinedButton ("Load #1", BELOW (newui_button), LOC ((size.x - 20) / 2 - 5, 40));
+	load1_button = new OutlinedButton ("Load #1", LOC (10, 10), LOC ((size.x - 20) / 2 - 5, 40));
 	AddComponent (load1_button);
 
 	load1_button->OnClickedEvent = MFUNC (&MenuWindow::load1_button_clicked, this);
@@ -28,7 +25,7 @@ MenuWindow::MenuWindow (std::string title, Vector2D size, Vector2D position, Col
 
 	save2_button->OnClickedEvent = MFUNC (&MenuWindow::save2_button_clicked, this);
 
-	Hide ();
+	Show ();
 }
 
 void MenuWindow::load1_button_clicked ()
