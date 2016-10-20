@@ -112,7 +112,7 @@ bool Autowall::HandleBulletPenetration(WeaponInfo_t wpn_data, FireBulletData &da
 {
 	surfacedata_t *enter_surface_data = physics->GetSurfaceData(data.enter_trace.surface.surfaceProps);
 	int enter_material = enter_surface_data->game.material;
-	float enter_surf_penetration_mod = *(float*)((void*)enter_surface_data + 76);
+	float enter_surf_penetration_mod = *(float*)((uint8_t*)enter_surface_data + 76);
 
 	data.trace_length += data.enter_trace.fraction * data.trace_length_remaining;
 	data.current_damage *= pow((wpn_data.m_flRangeModifier), (data.trace_length * 0.002));
@@ -131,7 +131,7 @@ bool Autowall::HandleBulletPenetration(WeaponInfo_t wpn_data, FireBulletData &da
 	surfacedata_t *exit_surface_data = physics->GetSurfaceData(trace_exit.surface.surfaceProps);
 	int exit_material = exit_surface_data->game.material;
 
-	float exit_surf_penetration_mod = *(float*)((void*)exit_surface_data + 76);
+	float exit_surf_penetration_mod = *(float*)((uint8_t*)exit_surface_data + 76);
 	float final_damage_modifier = 0.16f;
 	float combined_penetration_modifier = 0.0f;
 
