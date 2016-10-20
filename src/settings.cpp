@@ -189,6 +189,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 
 	settings["ClanTagChanger"]["value"] = Settings::ClanTagChanger::value;
 	settings["ClanTagChanger"]["enabled"] = Settings::ClanTagChanger::enabled;
+	settings["ClanTagChanger"]["animation"] = Settings::ClanTagChanger::animation;
 
 	std::ofstream(GetSettingsPath(filename)) << styledWriter.write(settings);
 }
@@ -326,6 +327,7 @@ void Settings::LoadSettings(const char* filename)
 
 		GetString(settings["ClanTagChanger"]["value"], &Settings::ClanTagChanger::value);
 		GetBool(settings["ClanTagChanger"]["enabled"], Settings::ClanTagChanger::enabled);
+		GetBool(settings["ClanTagChanger"]["animation"], Settings::ClanTagChanger::animation);
 	}
 	else
 	{
