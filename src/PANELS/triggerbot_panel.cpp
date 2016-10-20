@@ -3,16 +3,19 @@
 TriggerbotPanel::TriggerbotPanel (Vector2D position, Vector2D size)
 	: Panel::Panel (position, size)
 {
-	ts_triggerbot_enabled = new ToggleSwitch ("triggerbot", LOC (10, 10), 33, &Settings::Triggerbot::enabled);
+	ts_triggerbot_enabled = new ToggleSwitch ("enabled", LOC (10, 10), 33, &Settings::Triggerbot::enabled);
 	AddComponent (ts_triggerbot_enabled);
 
-	ts_delay = new ToggleSwitch ("delay", BELOW (ts_triggerbot_enabled), 33, &Settings::Triggerbot::Delay::enabled);
+	ba_delay = new Banner ("Delay", BELOW (ts_triggerbot_enabled), (size.x - 20) / 2 - 5);
+	AddComponent (ba_delay);
+
+	ts_delay = new ToggleSwitch ("delay", BELOW (ba_delay), 33, &Settings::Triggerbot::Delay::enabled);
 	AddComponent (ts_delay);
 
-	sl_delay = new Slider ("", STACK (ts_delay), LOC (size.x - ts_delay->size.x - 30, 33), &Settings::Triggerbot::Delay::value, 0.0f, 1000.0f);
+	sl_delay = new Slider ("", STACK (ts_delay), LOC ((size.x / 2) - ts_delay->size.x - 30, 33), &Settings::Triggerbot::Delay::value, 0.0f, 1000.0f);
 	AddComponent (sl_delay);
 
-	ba_filter = new Banner ("Filter", BELOW (ts_delay), size.x - 20);
+	ba_filter = new Banner ("Filter", BELOW (ts_delay), (size.x - 20) / 2 - 5);
 	AddComponent (ba_filter);
 
 	ts_friendly = new ToggleSwitch ("friendly", BELOW (ba_filter), 33, &Settings::Triggerbot::Filter::friendly);
