@@ -3,7 +3,7 @@
 MainWindow* main_window = nullptr;
 
 MainWindow::MainWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor)
-	: Window::Window (title, size, position, backgroundColor, false)
+	: Window::Window (title, size, position, backgroundColor, true)
 {
 	
 	int tab_height = 46;
