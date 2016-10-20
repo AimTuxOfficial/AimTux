@@ -9,7 +9,6 @@ class MenuWindow;
 class MenuWindow : public Window
 {
 private:
-	ToggleButton* aimbot_button;
 	ToggleButton* triggerbot_button;
 	ToggleButton* esp_button;
 	ToggleButton* hvh_button;

@@ -1,12 +1,12 @@
 #pragma once
 
-class AimbotWindow;
+class AimbotPanel;
 
 #include "../UI/stdui.h"
 #include "../atgui.h"
 
 
-class AimbotWindow : public Window
+class AimbotPanel : public Panel
 {
 private:
 	ToggleSwitch* ts_aimbot_enabled;
@@ -25,5 +25,5 @@ private:
 	ToggleSwitch* ts_autocrouch;
 	ToggleSwitch* ts_autostop;
 public:
-	AimbotWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor);
+	AimbotPanel (Vector2D position, Vector2D size);
 };

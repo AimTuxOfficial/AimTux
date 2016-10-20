@@ -13,7 +13,7 @@ private:
 	TabSelector* tabSelector;
 //Panels
 	Panel* pl_visuals;
-	Panel* pl_aimbot;
+	AimbotPanel* pl_aimbot;
 	Panel* pl_triggerbot;
 	Panel* pl_hvh;
 	Panel* pl_misc;

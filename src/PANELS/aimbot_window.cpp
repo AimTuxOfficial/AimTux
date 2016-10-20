@@ -1,9 +1,9 @@
 #include "aimbot_window.h"
 
-AimbotWindow* aimbot_window = nullptr;
+AimbotPanel* aimbot_panel = nullptr;
 
-AimbotWindow::AimbotWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor)
-	: Window::Window (title, size, position, backgroundColor)
+AimbotPanel::AimbotPanel (Vector2D position, Vector2D size)
+	: Panel::Panel (position, size)
 {
 	ts_aimbot_enabled = new ToggleSwitch ("aimbot", LOC (10, 10), 33, &Settings::Aimbot::enabled);
 	AddComponent (ts_aimbot_enabled);

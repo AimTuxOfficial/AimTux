@@ -4,17 +4,13 @@ void SetupUI()
 {
 	int x, y;
 	engine->GetScreenSize(x, y);
-
-	// Aimbot window
-	aimbot_window = new AimbotWindow("Aimbot", LOC(670, 640), LOC(595, 10), Color(0, 0, 0, 0));
-	gui->AddWindow(aimbot_window);
-
+	
 	// ESP window
 	esp_window = new ESPWindow("Visuals", LOC(575, 640), LOC(10, 10), Color(0, 0, 0, 0));
 	gui->AddWindow(esp_window);
 
 	// HVH window
-	hvh_window = new HVHWindow("Hack vs Hack", LOC(370, 410), LOC(aimbot_window->position.x, aimbot_window->position.y + aimbot_window->size.y + 10), Color(0, 0, 0, 0));
+	hvh_window = new HVHWindow("Hack vs Hack", LOC(370, 410), LOC(10, 10), Color(0, 0, 0, 0));
 	gui->AddWindow(hvh_window);
 
 	// Triggerbot window

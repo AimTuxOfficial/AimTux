@@ -5,10 +5,8 @@ MenuWindow* menu_window = nullptr;
 MenuWindow::MenuWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor)
 	: Window::Window (title, size, position, backgroundColor, false)
 {
-	aimbot_button = new ToggleButton ("AimBot", LOC (10, 10), LOC (size.x - 20, 40), &aimbot_window->shown);
-	AddComponent (aimbot_button);
 
-	triggerbot_button = new ToggleButton ("TriggerBot", BELOW (aimbot_button), LOC (size.x - 20, 40), &triggerbot_window->shown);
+	triggerbot_button = new ToggleButton ("TriggerBot", LOC(10, 10), LOC (size.x - 20, 40), &triggerbot_window->shown);
 	AddComponent (triggerbot_button);
 	
 	esp_button = new ToggleButton ("Visuals", BELOW (triggerbot_button), LOC (size.x - 20, 40), &esp_window->shown);

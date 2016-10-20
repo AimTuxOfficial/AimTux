@@ -7,7 +7,8 @@ MainWindow::MainWindow (std::string title, Vector2D size, Vector2D position, Col
 {
 	
 	int tab_height = 60;
-	pl_aimbot = new Panel (LOC (0, tab_height), LOC (size.x, size.y - tab_height));
+	
+	pl_aimbot = new AimbotPanel (LOC (0, tab_height), LOC (size.x, size.y - tab_height));
 	pl_triggerbot = new Panel (LOC (0, tab_height), LOC (size.x, size.y - tab_height));
 	pl_visuals = new Panel (LOC (0, tab_height), LOC (size.x, size.y - tab_height));
 	pl_hvh = new Panel (LOC (0, tab_height), LOC (size.x, size.y - tab_height));
