@@ -276,22 +276,17 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	QAngle angle = cmd->viewangles;
 
 	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
-	if (localplayer->GetDormant() || localplayer->GetLifeState() != LIFE_ALIVE || localplayer->GetHealth() == 0)
+	if (localplayer->GetLifeState() != LIFE_ALIVE || localplayer->GetHealth() == 0)
 		return;
 
 	C_BaseCombatWeapon* active_weapon = reinterpret_cast<C_BaseCombatWeapon*>(entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon()));
-	if (!active_weapon)
-		return;
-
-	if (active_weapon->isGrenade() || active_weapon->isKnife())
+	if (!active_weapon || active_weapon->isGrenade() || active_weapon->isKnife())
 		return;
 
 	C_BaseEntity* entity = GetClosestEnemy(cmd, true);
-
-	if (entity)
+	if (entity && Settings::Aimbot::AutoAim::enabled)
 	{
-		if (Settings::Aimbot::AutoAim::enabled &&
-			(Settings::Aimbot::AutoShoot::enabled || cmd->buttons & IN_ATTACK || input->IsButtonDown(Settings::Aimbot::aimkey)))
+		if (Settings::Aimbot::AutoShoot::enabled || cmd->buttons & IN_ATTACK || input->IsButtonDown(Settings::Aimbot::aimkey))
 		{
 			Vector e_vecHead = entity->GetBonePosition(Settings::Aimbot::bone);
 			Vector p_vecHead = localplayer->GetEyePosition();
