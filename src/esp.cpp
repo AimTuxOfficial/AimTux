@@ -6,21 +6,21 @@ Color Settings::ESP::enemy_color = Color(200, 0, 50);
 Color Settings::ESP::enemy_visible_color = Color(200, 200, 50);
 Color Settings::ESP::bones_color = Color(255, 255, 255);
 Color Settings::ESP::bomb_color = Color(200, 0, 50);
-bool Settings::ESP::Glow::enabled = true;
+bool Settings::ESP::Glow::enabled = false;
 Color Settings::ESP::Glow::ally_color = Color(0, 50, 200, 0);
 Color Settings::ESP::Glow::enemy_color = Color(200, 0, 50, 0);
 Color Settings::ESP::Glow::enemy_visible_color = Color(200, 200, 50, 0);
 Color Settings::ESP::Glow::weapon_color = Color(200, 0, 50, 200);
 bool Settings::ESP::visibility_check = false;
-bool Settings::ESP::Walls::enabled = true;
+bool Settings::ESP::Walls::enabled = false;
 WallBoxType Settings::ESP::Walls::type = FLAT_2D;
 bool Settings::ESP::Info::showName = true;
-bool Settings::ESP::Info::showHealth = true;
-bool Settings::ESP::Bones::enabled = true;
+bool Settings::ESP::Info::showHealth = false;
+bool Settings::ESP::Bones::enabled = false;
 bool Settings::ESP::Bomb::enabled = true;
-bool Settings::ESP::Weapons::enabled = true;
+bool Settings::ESP::Weapons::enabled = false;
 bool Settings::ESP::Tracer::enabled = false;
-bool Settings::ESP::FOVCrosshair::enabled = true;
+bool Settings::ESP::FOVCrosshair::enabled = false;
 TracerType Settings::ESP::Tracer::type = BOTTOM;
 
 bool WorldToScreen(const Vector &vOrigin, Vector &vScreen)

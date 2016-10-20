@@ -1,8 +1,8 @@
 #include "chams.h"
 
-bool Settings::ESP::Chams::players = true;
+bool Settings::ESP::Chams::players = false;
 bool Settings::ESP::Chams::visibility_check = false;
-bool Settings::ESP::Chams::arms = true;
+bool Settings::ESP::Chams::arms = false;
 bool Settings::ESP::Chams::rainbow_arms = false;
 Color Settings::ESP::Chams::players_ally_color = Color(7, 98, 168);
 Color Settings::ESP::Chams::players_ally_visible_color = Color(40, 52, 138);
