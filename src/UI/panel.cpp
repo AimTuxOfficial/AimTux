@@ -51,7 +51,7 @@ void Panel::OnMouseClickStart (PositionContext mouseContext)
 		int x = mouseContext.x;
 		int y = mouseContext.y;
 		
-		if	(x >= childComponent->position.x && x <= childComponent->position.x + childComponent->size.x &&
+		if	(shown && x >= childComponent->position.x && x <= childComponent->position.x + childComponent->size.x &&
 				y >= childComponent->position.y && y <= childComponent->position.y + childComponent->size.y)
 		{
 			childComponent->OnMouseClickStart (mouseContext - childComponent->position);
@@ -75,7 +75,7 @@ void Panel::OnMouseClickEnd (PositionContext mouseContext)
 		int x = mouseContext.x;
 		int y = mouseContext.y;
 		
-		if	(x >= childComponent->position.x && x <= childComponent->position.x + childComponent->size.x &&
+		if	(shown && x >= childComponent->position.x && x <= childComponent->position.x + childComponent->size.x &&
 				y >= childComponent->position.y && y <= childComponent->position.y + childComponent->size.y)
 		{
 			childComponent->OnMouseClickEnd (mouseContext - childComponent->position);
@@ -109,7 +109,7 @@ void Panel::MouseTick (PositionContext mouseContext)
 		int y = mouseContext.y;
 		
 		if	(
-				x >= childComponent->position.x && x <= childComponent->position.x + childComponent->size.x &&
+				shown && x >= childComponent->position.x && x <= childComponent->position.x + childComponent->size.x &&
 				y >= childComponent->position.y && y <= childComponent->position.y + childComponent->size.y
 			)
 		{
