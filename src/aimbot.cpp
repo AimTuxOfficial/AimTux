@@ -163,6 +163,30 @@ void Aimbot::Smooth(QAngle& angle, CUserCmd* cmd)
 	angle = cmd->viewangles + delta / smooth_factor * (Settings::Aimbot::Smooth::max - Settings::Aimbot::Smooth::value);
 }
 
+void Aimbot::AutoCrouch(C_BaseEntity* entity, CUserCmd* cmd)
+{
+	if (!Settings::Aimbot::AutoCrouch::enabled)
+		return;
+
+	if (!entity)
+		return;
+
+	cmd->buttons |= IN_DUCK;
+}
+
+void Aimbot::AutoStop(C_BaseEntity* entity, float& forward, float& sideMove, CUserCmd* cmd)
+{
+	if (!Settings::Aimbot::AutoStop::enabled)
+		return;
+
+	if (!entity)
+		return;
+
+	forward = 0;
+	sideMove = 0;
+	cmd->upmove = 0;
+}
+
 void Aimbot::AutoShoot(C_BaseEntity* entity, C_BaseCombatWeapon* active_weapon, CUserCmd* cmd)
 {
 	if (!Settings::Aimbot::AutoShoot::enabled)
@@ -255,24 +279,15 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 			if (!Settings::AntiAim::enabled_X && !Settings::AntiAim::enabled_Y && Settings::Aimbot::Smooth::enabled)
 				Aimbot::Smooth(angle, cmd);
 		}
-
-		if (Settings::Aimbot::AutoCrouch::enabled)
-			cmd->buttons |= IN_DUCK;
-
-		if (Settings::Aimbot::AutoStop::enabled)
-		{
-			oldForward = 0;
-			oldSideMove = 0;
-			cmd->upmove = 0;
-		}
 	}
 
+	Aimbot::AutoCrouch(entity, cmd);
+	Aimbot::AutoStop(entity, oldForward, oldSideMove, cmd);
 	Aimbot::AutoShoot(entity, active_weapon, cmd);
 	Aimbot::RCS(angle, entity, cmd);
+
 	Math::NormalizeAngles(angle);
-
 	cmd->viewangles = angle;
-
 	Math::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);
 }
 
