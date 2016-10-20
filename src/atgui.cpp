@@ -6,7 +6,7 @@ void SetupUI()
 	engine->GetScreenSize(x, y);
 
 	// Aimbot window
-	aimbot_window = new AimbotWindow("Aimbot", LOC(670, 640), LOC(595, 10), Color(0, 0, 0, 0));
+	aimbot_window = new AimbotWindow("Aimbot", LOC(670, 690), LOC(595, 10), Color(0, 0, 0, 0));
 	gui->AddWindow(aimbot_window);
 
 	// ESP window

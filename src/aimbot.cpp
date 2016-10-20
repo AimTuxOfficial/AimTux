@@ -6,6 +6,7 @@ bool Settings::Aimbot::enabled = true;
 bool Settings::Aimbot::silent = false;
 bool Settings::Aimbot::friendly = false;
 float Settings::Aimbot::fov = 180.0f;
+float Settings::Aimbot::errorMargin = 0.0F;
 unsigned int Settings::Aimbot::bone = BONE_HEAD;
 ButtonCode_t Settings::Aimbot::aimkey = ButtonCode_t::MOUSE_MIDDLE;
 bool Settings::Aimbot::Smooth::enabled = false;
@@ -21,11 +22,19 @@ bool Settings::Aimbot::AutoShoot::autoscope = false;
 bool Settings::Aimbot::RCS::enabled = false;
 bool Settings::Aimbot::AutoCrouch::enabled = false;
 bool Settings::Aimbot::AutoStop::enabled = false;
-
 bool Aimbot::AimStepInProgress = false;
 
 QAngle AimStepLastAngle;
 QAngle RCSLastPunch;
+
+static void ApplyErrorToAngle(QAngle* angles, float margin)
+{
+    QAngle error;
+    error.Random(-1.0F, 1.0F);
+    error *= margin;
+
+    angles->operator+=(error);
+}
 
 void CalculateAngle(Vector& src, Vector& dst, QAngle& angles)
 {
@@ -189,6 +198,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 				AimStepLastAngle = cmd->viewangles;
 
 			CalculateAngle(p_vecHead, e_vecHead, angle);
+            ApplyErrorToAngle(&angle, Settings::Aimbot::errorMargin);
 
 			float fov = Math::GetFov(AimStepLastAngle, Math::CalcAngle(p_vecHead, e_vecHead));
 

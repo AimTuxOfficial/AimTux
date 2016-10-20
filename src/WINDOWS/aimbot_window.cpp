@@ -25,8 +25,11 @@ AimbotWindow::AimbotWindow (std::string title, Vector2D size, Vector2D position,
 
 	sl_fov = new Slider ("FOV", STACK (ts_autoaim), LOC (size.x - ts_autoaim->size.x - 30, 33), &Settings::Aimbot::fov, 0.0f, 180.0f);
 	AddComponent (sl_fov);
+
+	sl_error = new Slider ("Error Margin", BELOW (ts_autoaim), LOC (size.x - 20, 33), &Settings::Aimbot::errorMargin, 0.0f, 2.0f);
+    AddComponent (sl_error);
 	
-	lb_aimbone = new StackedListBox<Bones>("aimbone", BELOW (ts_autoaim), size.x - 20, 3, (Bones*)&Settings::Aimbot::bone, std::vector<LB_Element>
+	lb_aimbone = new StackedListBox<Bones>("aimbone", BELOW (sl_error), size.x - 20, 3, (Bones*)&Settings::Aimbot::bone, std::vector<LB_Element>
 		{
 			LB_Element ("HEAD", BONE_HEAD),
 			LB_Element ("NECK", BONE_NECK),
