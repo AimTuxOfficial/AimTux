@@ -35,5 +35,5 @@ MainWindow::MainWindow (std::string title, Vector2D size, Vector2D position, Col
 	tabSelector = new TabSelector (LOC (0, 0), LOC (size.x, tab_height), tabs);
 	AddComponent (tabSelector);
 	
-	Hide ();
+	Show ();
 }

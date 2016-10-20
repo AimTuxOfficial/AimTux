@@ -38,7 +38,7 @@ MenuWindow::MenuWindow (std::string title, Vector2D size, Vector2D position, Col
 
 	save2_button->OnClickedEvent = MFUNC (&MenuWindow::save2_button_clicked, this);
 
-	Show ();
+	Hide ();
 }
 
 void MenuWindow::load1_button_clicked ()
