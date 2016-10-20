@@ -32,10 +32,10 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 
     // clantag
 
-	ts_clantag = new ToggleSwitch ("custom clantag", BELOW (ts_noflash), LOC (155, 30), &Settings::ClanTagChanger::enabled);
+	ts_clantag = new ToggleSwitch ("custom clantag", BELOW (ts_noflash), 33, &Settings::ClanTagChanger::enabled);
 	AddComponent (ts_clantag);
 
-	tb_clantag = new TextBox ("clantag", &Settings::ClanTagChanger::value, STACK (ts_clantag), LOC (270, 30));
+	tb_clantag = new TextBox ("clantag", &Settings::ClanTagChanger::value, STACK (ts_clantag), LOC (270, 33));
 	AddComponent (tb_clantag);
 	
 	
