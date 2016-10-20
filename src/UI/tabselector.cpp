@@ -31,13 +31,18 @@ Tab::Tab (Vector2D position, Vector2D size, Panel** targetPanel, TabElement info
 
 void Tab::Draw ()
 {
+	Color color = Settings::UI::mainColor;
+	color.r *= 0.75;
+	color.g *= 0.75;
+	color.b *= 0.75;
+
 	if (info.panel->shown)
 	{
-		Clear (Settings::UI::mainColor);
+		Clear (color);
 	}
 	else
 	{
-		DrawRectangle (LOC (0, 0), size, Settings::UI::mainColor);
+		DrawRectangle (LOC (0, 0), size, color);
 	}
 	
 	DrawCenteredString (text, normal_font, Color (255, 255, 255, 255), LOC (size.x / 2, size.y / 2));
