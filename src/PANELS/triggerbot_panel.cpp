@@ -1,9 +1,7 @@
-#include "aimbot_panel.h"
+#include "triggerbot_panel.h"
 
-TriggerbotWindow* triggerbot_window = nullptr;
-
-TriggerbotWindow::TriggerbotWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor)
-	: Window::Window (title, size, position, backgroundColor)
+TriggerbotPanel::TriggerbotPanel (Vector2D position, Vector2D size)
+	: Panel::Panel (position, size)
 {
 	ts_triggerbot_enabled = new ToggleSwitch ("triggerbot", LOC (10, 10), 33, &Settings::Triggerbot::enabled);
 	AddComponent (ts_triggerbot_enabled);

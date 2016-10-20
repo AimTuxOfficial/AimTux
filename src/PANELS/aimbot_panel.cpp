@@ -1,7 +1,5 @@
 #include "aimbot_panel.h"
 
-AimbotPanel* aimbot_panel = nullptr;
-
 AimbotPanel::AimbotPanel (Vector2D position, Vector2D size)
 	: Panel::Panel (position, size)
 {

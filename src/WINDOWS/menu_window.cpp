@@ -6,10 +6,7 @@ MenuWindow::MenuWindow (std::string title, Vector2D size, Vector2D position, Col
 	: Window::Window (title, size, position, backgroundColor, false)
 {
 
-	triggerbot_button = new ToggleButton ("TriggerBot", LOC(10, 10), LOC (size.x - 20, 40), &triggerbot_window->shown);
-	AddComponent (triggerbot_button);
-	
-	esp_button = new ToggleButton ("Visuals", BELOW (triggerbot_button), LOC (size.x - 20, 40), &esp_window->shown);
+	esp_button = new ToggleButton ("Visuals", LOC (10, 10), LOC (size.x - 20, 40), &esp_window->shown);
 	AddComponent (esp_button);
 	
 	hvh_button = new ToggleButton ("H V H", BELOW (esp_button), LOC (size.x - 20, 40), &hvh_window->shown);

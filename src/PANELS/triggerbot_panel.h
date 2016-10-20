@@ -1,12 +1,12 @@
 #pragma once
 
-class TriggerbotWindow;
+class TriggerbotPanel;
 
 #include "../UI/stdui.h"
 #include "../atgui.h"
 
 
-class TriggerbotWindow : public Window
+class TriggerbotPanel : public Panel
 {
 private:
 	ToggleSwitch* ts_triggerbot_enabled;
@@ -21,5 +21,5 @@ private:
 	ToggleSwitch* ts_arms;
 	ToggleSwitch* ts_legs;
 public:
-	TriggerbotWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor);
+	TriggerbotPanel (Vector2D position, Vector2D size);
 };

@@ -13,10 +13,6 @@ void SetupUI()
 	hvh_window = new HVHWindow("Hack vs Hack", LOC(370, 410), LOC(10, 10), Color(0, 0, 0, 0));
 	gui->AddWindow(hvh_window);
 
-	// Triggerbot window
-	triggerbot_window = new TriggerbotWindow("Triggerbot", LOC(290, 410), LOC(hvh_window->position.x + hvh_window->size.x + 10, hvh_window->position.y), Color(0, 0, 0, 0));
-	gui->AddWindow(triggerbot_window);
-	
 	// Misc window
 	misc_window = new MiscWindow("Miscellaneous", LOC(575, 410), LOC(10, 660), Color(0, 0, 0, 0));
 	gui->AddWindow(misc_window);
