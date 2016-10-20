@@ -7,6 +7,9 @@ Color Settings::Dlights::enemy_color = Color(200, 0, 50);
 
 void Dlights::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 {
+	if (!Settings::ESP::enabled)
+		return;
+
 	if (!Settings::Dlights::enabled)
 		return;
 
