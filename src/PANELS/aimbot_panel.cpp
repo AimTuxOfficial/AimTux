@@ -40,7 +40,7 @@ AimbotPanel::AimbotPanel (Vector2D position, Vector2D size)
 	AddComponent (sl_autowall);
 
 	sl_error = new Slider ("Error Margin", BELOW (sl_autowall), LOC (size.x - 20, 33), &Settings::Aimbot::errorMargin, 0.0f, 2.0f);
-	AddComponent (sl_error)
+	AddComponent (sl_error);
 
 	ts_autoshoot = new ToggleSwitch ("auto shoot", BELOW (sl_error), 33, &Settings::Aimbot::AutoShoot::enabled);
 	AddComponent (ts_autoshoot);
