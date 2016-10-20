@@ -3,7 +3,7 @@
 #include "UI/stdui.h"
 
 #include "WINDOWS/menu_window.h"
-#include "PANELS/aimbot_window.h"
+#include "PANELS/aimbot_panel.h"
 #include "PANELS/triggerbot_window.h"
 #include "PANELS/esp_window.h"
 #include "PANELS/hvh_window.h"

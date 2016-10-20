@@ -1,4 +1,4 @@
-#include "aimbot_window.h"
+#include "aimbot_panel.h"
 
 AimbotPanel* aimbot_panel = nullptr;
 
