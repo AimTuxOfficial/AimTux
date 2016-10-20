@@ -90,10 +90,17 @@ C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible)
 	return closestEntity;
 }
 
-void Aimbot::RCS(QAngle& angle, bool hasTarget)
+void Aimbot::RCS(QAngle& angle, C_BaseEntity* entity, CUserCmd* cmd)
 {
+	if (!Settings::Aimbot::RCS::enabled)
+		return;
+
+	if (!(cmd->buttons & IN_ATTACK))
+		return;
+
 	C_BasePlayer *localplayer = reinterpret_cast<C_BasePlayer *>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
 	QAngle CurrentPunch = localplayer->GetAimPunchAngle();
+	bool hasTarget = Settings::Aimbot::AutoAim::enabled && entity != NULL;
 
 	if (Settings::Aimbot::silent || hasTarget)
 	{
@@ -260,14 +267,12 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 		}
 	}
 
-	if (Settings::Aimbot::RCS::enabled && cmd->buttons & IN_ATTACK)
-		Aimbot::RCS(angle, Settings::Aimbot::AutoAim::enabled && entity != NULL);
-
+	Aimbot::RCS(angle, entity, cmd);
 	Math::NormalizeAngles(angle);
+
 	cmd->viewangles = angle;
 
 	Aimbot::AutoShoot(entity, active_weapon, cmd);
-
 	Math::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);
 }
 

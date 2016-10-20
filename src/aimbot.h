@@ -10,7 +10,7 @@ namespace Aimbot
 {
 	extern bool AimStepInProgress;
 
-	void RCS(QAngle& angle, bool hasTarget);
+	void RCS(QAngle& angle, C_BaseEntity* entity, CUserCmd* cmd);
 	void Smooth(QAngle& angle, CUserCmd* cmd);
 	void AutoShoot(C_BaseEntity* entity, C_BaseCombatWeapon* active_weapon, CUserCmd* cmd);
 
