@@ -1,12 +1,12 @@
 #pragma once
 
-class MiscWindow;
+class MiscPanel;
 
 #include "../UI/stdui.h"
 #include "../atgui.h"
 #include "../util.h"
 
-class MiscWindow : public Window
+class MiscPanel : public Panel
 {
 private:
 	ToggleSwitch* ts_bhop;
@@ -22,6 +22,6 @@ private:
 	TextBox* tb_clantag;
 	ToggleSwitch* ts_clantag_animation;
 public:
-	MiscWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor);
+	MiscPanel (Vector2D position, Vector2D size);
 	void SetClanTag ();
 };

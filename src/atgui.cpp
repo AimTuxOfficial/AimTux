@@ -5,10 +5,6 @@ void SetupUI()
 	int x, y;
 	engine->GetScreenSize(x, y);
 	
-	// Misc window
-	misc_window = new MiscWindow("Miscellaneous", LOC(575, 410), LOC(10, 660), Color(0, 0, 0, 0));
-	gui->AddWindow(misc_window);
-
 	// Main window
 	main_window = new MainWindow("AimTux [NEW UI IN DEVELOPMENT]", LOC(1900, 1060), LOC(10, 10), Color(0, 0, 0, 0));
 	gui->AddWindow(main_window);

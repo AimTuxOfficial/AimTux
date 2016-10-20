@@ -1,9 +1,7 @@
-#include "misc_window.h"
+#include "misc_panel.h"
 
-MiscWindow* misc_window = nullptr;
-
-MiscWindow::MiscWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor)
-	: Window::Window (title, size, position, backgroundColor)
+MiscPanel::MiscPanel (Vector2D position, Vector2D size)
+	: Panel::Panel (position, size)
 {
 	ts_bhop = new ToggleSwitch ("bhop", LOC (10, 10), 33, &Settings::BHop::enabled);
 	AddComponent (ts_bhop);

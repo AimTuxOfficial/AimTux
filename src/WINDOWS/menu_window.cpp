@@ -5,10 +5,7 @@ MenuWindow* menu_window = nullptr;
 MenuWindow::MenuWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor)
 	: Window::Window (title, size, position, backgroundColor, false)
 {
-	misc_button = new ToggleButton ("Miscellaneous", LOC (0, 0), LOC (size.x - 20, 40), &misc_window->shown);
-	AddComponent (misc_button);
-	
-	newui_button = new ToggleButton ("New UI", BELOW (misc_button), LOC (size.x - 20, 40), &main_window->shown);
+	newui_button = new ToggleButton ("New UI", LOC (0, 0), LOC (size.x - 20, 40), &main_window->shown);
 	AddComponent (newui_button);
 	
 	load1_button = new OutlinedButton ("Load #1", BELOW (newui_button), LOC ((size.x - 20) / 2 - 5, 40));
