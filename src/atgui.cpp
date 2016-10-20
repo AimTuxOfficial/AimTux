@@ -5,10 +5,6 @@ void SetupUI()
 	int x, y;
 	engine->GetScreenSize(x, y);
 	
-	// HVH window
-	hvh_window = new HVHWindow("Hack vs Hack", LOC(370, 410), LOC(10, 10), Color(0, 0, 0, 0));
-	gui->AddWindow(hvh_window);
-
 	// Misc window
 	misc_window = new MiscWindow("Miscellaneous", LOC(575, 410), LOC(10, 660), Color(0, 0, 0, 0));
 	gui->AddWindow(misc_window);

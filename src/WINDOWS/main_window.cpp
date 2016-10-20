@@ -11,7 +11,7 @@ MainWindow::MainWindow (std::string title, Vector2D size, Vector2D position, Col
 	pl_aimbot = new AimbotPanel (LOC (0, tab_height), LOC (size.x, size.y - tab_height));
 	pl_triggerbot = new TriggerbotPanel (LOC (0, tab_height), LOC (size.x, size.y - tab_height));
 	pl_visuals = new ESPPanel (LOC (0, tab_height), LOC (size.x, size.y - tab_height));
-	pl_hvh = new Panel (LOC (0, tab_height), LOC (size.x, size.y - tab_height));
+	pl_hvh = new HVHPanel (LOC (0, tab_height), LOC (size.x, size.y - tab_height));
 	pl_misc = new Panel (LOC (0, tab_height), LOC (size.x, size.y - tab_height));
 	
 	
