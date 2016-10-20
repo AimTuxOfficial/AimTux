@@ -115,7 +115,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 
 	settings["AntiAim"]["enabled_Y"] = Settings::AntiAim::enabled_Y;
 	settings["AntiAim"]["enabled_X"] = Settings::AntiAim::enabled_X;
-	settings["AntiAim"]["type_Y"] = Settings::AntiAim::type_X;
+	settings["AntiAim"]["type_Y"] = Settings::AntiAim::type_Y;
 	settings["AntiAim"]["type_X"] = Settings::AntiAim::type_X;
 
 	settings["ESP"]["enabled"] = Settings::ESP::enabled;
