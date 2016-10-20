@@ -14,7 +14,8 @@ private:
 	ToggleSwitch* ts_silent;
 	ToggleSwitch* ts_rcs;
 	ToggleSwitch* ts_autoaim;
-	Slider*	sl_fov;
+	Slider* sl_fov;
+	Slider* sl_error;
 	ToggleSwitch* ts_smooth;
 	Slider* sl_smooth;
 	ToggleSwitch* ts_aimstep;
