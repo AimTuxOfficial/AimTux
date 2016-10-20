@@ -5,10 +5,6 @@ void SetupUI()
 	int x, y;
 	engine->GetScreenSize(x, y);
 	
-	// ESP window
-	esp_window = new ESPWindow("Visuals", LOC(575, 640), LOC(10, 10), Color(0, 0, 0, 0));
-	gui->AddWindow(esp_window);
-
 	// HVH window
 	hvh_window = new HVHWindow("Hack vs Hack", LOC(370, 410), LOC(10, 10), Color(0, 0, 0, 0));
 	gui->AddWindow(hvh_window);

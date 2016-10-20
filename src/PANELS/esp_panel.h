@@ -1,12 +1,12 @@
 #pragma once
 
-class ESPWindow;
+class ESPPanel;
 
 #include "../UI/stdui.h"
 #include "../atgui.h"
 
 
-class ESPWindow : public Window
+class ESPPanel : public Panel
 {
 private:
 	ToggleSwitch* ts_esp_enabled;
@@ -29,5 +29,5 @@ private:
 	ToggleSwitch* ts_bomb;
 	ToggleSwitch* ts_weapons;
 public:
-	ESPWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor);
+	ESPPanel (Vector2D position, Vector2D size);
 };
