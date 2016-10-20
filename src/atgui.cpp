@@ -11,7 +11,7 @@ void SetupUI()
 
 	// Menu window
 	menu_window = new MenuWindow("Configs", LOC(270, 160), LOC(100, 100), Color(0, 0, 0, 0));
-	menu_window->position = LOC(1280-20, 720-20) - LOC(270, 160);
+	menu_window->position = LOC(x - 10 - 270, y - 10 - 160);
 	gui->AddWindow(menu_window);
 	
 	gui->Focus(menu_window);
