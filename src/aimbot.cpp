@@ -172,6 +172,9 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 		return;
 
 	C_BaseCombatWeapon* active_weapon = reinterpret_cast<C_BaseCombatWeapon*>(entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon()));
+	if (!active_weapon)
+		return;
+
 	if (active_weapon->isGrenade() || active_weapon->isKnife())
 		return;
 
