@@ -3,10 +3,16 @@
 bool Entity::IsVisible(C_BaseEntity* pEntity, int bone)
 {
 	C_BaseEntity* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	if ((localplayer->GetLifeState() != LIFE_ALIVE || localplayer->GetHealth() == 0)
-		&& *localplayer->GetObserverMode() == ObserverMode_t::OBS_MODE_IN_EYE && localplayer->GetObserverTarget())
+	if (!localplayer)
+		return true;
+
+	if (localplayer->GetLifeState() != LIFE_ALIVE || localplayer->GetHealth() == 0)
 	{
-		localplayer = entitylist->GetClientEntityFromHandle(localplayer->GetObserverTarget());
+		if (*localplayer->GetObserverMode() == ObserverMode_t::OBS_MODE_IN_EYE && localplayer->GetObserverTarget())
+			localplayer = entitylist->GetClientEntityFromHandle(localplayer->GetObserverTarget());
+
+		if (!localplayer)
+			return true;
 	}
 
 	Vector e_vecHead = pEntity->GetBonePosition(bone);
