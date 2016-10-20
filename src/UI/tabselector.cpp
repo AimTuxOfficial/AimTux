@@ -14,16 +14,37 @@ TabSelector::TabSelector (Vector2D position, Vector2D size, std::vector<TabEleme
 		
 		element.panel->shown = false;
 		
-		Tab* new_tab = new Tab (LOC ((i * tab_width), 0), LOC (tab_width, size.y), &this->currentPanel, element);
+		Tab* new_tab = new Tab (LOC ((i * tab_width), 0), LOC (tab_width, size.y), &this->currentPanel, element, this);
+		this->tabs.push_back (new_tab);
 		AddComponent (new_tab);
 	}
+	
+	UpdateTabColors (0);
+	
 	this->currentPanel->shown = true;
 }
 
+void TabSelector::UpdateTabColors (int id)
+{
+	for (int i = 0; i < tabs.size(); i++)
+	{
+		int n = abs(i - id) + 1;
+		Tab* tab = tabs[i];
+		tab->backgroundColor = Color (255 / n, 100 / n, 100 / n);
+	}
+}
 
-Tab::Tab (Vector2D position, Vector2D size, Panel** targetPanel, TabElement info)
+
+Tab::Tab (Vector2D position, Vector2D size, Panel** targetPanel, TabElement info, TabSelector* parent)
 	: Button (info.name, position, size)
 {
+	this->parent = parent;
+	
+	backgroundColor = Settings::UI::mainColor;
+	
+	static int id = -1;
+	id++;
+	this->id = id;
 	this->info = info;
 	this->targetPanel = targetPanel;
 	this->OnClickedEvent = MFUNC (&Tab::OnClicked, this);
@@ -31,19 +52,7 @@ Tab::Tab (Vector2D position, Vector2D size, Panel** targetPanel, TabElement info
 
 void Tab::Draw ()
 {
-	Color color = Settings::UI::mainColor;
-	color.r *= 0.75;
-	color.g *= 0.75;
-	color.b *= 0.75;
-
-	if (info.panel->shown)
-	{
-		Clear (color);
-	}
-	else
-	{
-		DrawRectangle (LOC (0, 0), size, color);
-	}
+	Clear (backgroundColor);
 	
 	DrawCenteredString (text, normal_font, Color (255, 255, 255, 255), LOC (size.x / 2, size.y / 2));
 }
@@ -53,4 +62,6 @@ void Tab::OnClicked ()
 	(*this->targetPanel)->shown = false;
 	(*this->targetPanel) = this->info.panel;
 	(*this->targetPanel)->shown = true;
+	
+	parent->UpdateTabColors (id);
 }
