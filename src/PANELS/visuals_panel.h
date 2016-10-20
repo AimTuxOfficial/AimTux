@@ -29,6 +29,7 @@ private:
 	Banner*	ba_other;
 	ToggleSwitch* ts_bomb;
 	ToggleSwitch* ts_weapons;
+	ToggleSwitch* ts_glow;
 	ToggleSwitch* ts_dlights;
 	Slider* sl_dlights;
 public:

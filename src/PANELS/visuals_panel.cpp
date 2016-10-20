@@ -68,7 +68,10 @@ VisualsPanel::VisualsPanel (Vector2D position, Vector2D size)
 	ts_weapons = new ToggleSwitch ("weapons esp", BELOW (ts_bomb), 33, &Settings::ESP::Weapons::enabled);
 	AddComponent (ts_weapons);
 
-	ts_dlights = new ToggleSwitch ("dlights", BELOW (ts_weapons), 33, &Settings::Dlights::enabled);
+	ts_glow = new ToggleSwitch ("glow", BELOW (ts_weapons), 33, &Settings::ESP::Glow::enabled);
+	AddComponent (ts_glow);
+
+	ts_dlights = new ToggleSwitch ("dlights", BELOW (ts_glow), 33, &Settings::Dlights::enabled);
 	AddComponent (ts_dlights);
 
 	sl_dlights = new Slider ("radius", STACK (ts_dlights), LOC ((size.x / 2) - ts_dlights->size.x - 30, 33), &Settings::Dlights::radius, 0.0f, 1000.0f);
