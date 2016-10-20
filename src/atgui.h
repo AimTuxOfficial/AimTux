@@ -5,7 +5,7 @@
 #include "WINDOWS/menu_window.h"
 #include "PANELS/aimbot_panel.h"
 #include "PANELS/triggerbot_panel.h"
-#include "PANELS/esp_panel.h"
+#include "PANELS/visuals_panel.h"
 #include "PANELS/hvh_panel.h"
 #include "PANELS/misc_panel.h"
 #include "WINDOWS/main_window.h"

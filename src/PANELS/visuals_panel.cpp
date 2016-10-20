@@ -1,6 +1,6 @@
-#include "esp_panel.h"
+#include "visuals_panel.h"
 
-ESPPanel::ESPPanel (Vector2D position, Vector2D size)
+VisualsPanel::VisualsPanel (Vector2D position, Vector2D size)
 	: Panel::Panel (position, size)
 {
 	ts_esp_enabled = new ToggleSwitch ("enabled", LOC (10, 10), 33, &Settings::ESP::enabled);

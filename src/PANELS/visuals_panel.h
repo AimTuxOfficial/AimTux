@@ -1,12 +1,12 @@
 #pragma once
 
-class ESPPanel;
+class VisualsPanel;
 
 #include "../UI/stdui.h"
 #include "../atgui.h"
 
 
-class ESPPanel : public Panel
+class VisualsPanel : public Panel
 {
 private:
 	ToggleSwitch* ts_esp_enabled;
@@ -30,5 +30,5 @@ private:
 	ToggleSwitch* ts_visibility_check_chams;
 	StackedListBox<ChamsType>* lb_chamstype;
 public:
-	ESPPanel (Vector2D position, Vector2D size);
+	VisualsPanel (Vector2D position, Vector2D size);
 };
