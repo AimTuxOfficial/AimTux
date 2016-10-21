@@ -63,7 +63,7 @@ C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible)
 	if (!localplayer)
 		return NULL;
 
-	for (int i = 0; i < 64; ++i)
+	for (int i = 1; i < engine->GetMaxClients(); ++i)
 	{
 		C_BaseEntity* entity = entitylist->GetClientEntity(i);
 
