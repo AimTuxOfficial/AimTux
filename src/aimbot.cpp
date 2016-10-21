@@ -160,42 +160,40 @@ void Aimbot::Smooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
 		return;
 
 	QAngle delta = angle - cmd->viewangles;
+	Math::NormalizeAngles(delta);
 
-	float target_yaw = angle.y;
-	float view_yaw = cmd->viewangles.y;
-	float smooth_factor = 50.f;
+	float factorx = 1.0f - Settings::Aimbot::Smooth::value / Settings::Aimbot::Smooth::max;
+	float factory = 1.0f - Settings::Aimbot::Smooth::value / Settings::Aimbot::Smooth::max;
 
-	if (angle.y < 0)
-		target_yaw = 360.f + angle.y;
-
-	if (cmd->viewangles.y < 0)
-		view_yaw = 360.f + cmd->viewangles.y;
-
-	float yaw = std::min((float)abs(target_yaw - view_yaw), 360.f - abs(target_yaw - view_yaw));
-
-	if (cmd->viewangles.y > 90.f && angle.y < -90.f)
+	if (delta.x < 0.0f)
 	{
-		angle.x = cmd->viewangles.x + delta.x / smooth_factor * (Settings::Aimbot::Smooth::max - Settings::Aimbot::Smooth::value);
-		angle.y = cmd->viewangles.y + yaw / smooth_factor * (Settings::Aimbot::Smooth::max - Settings::Aimbot::Smooth::value);
+		if (factorx > fabs(delta.x))
+			factorx = fabs(delta.x);
 
-		if (angle.y > 180.f)
-			angle.y = -360.f + angle.y;
+		angle.x = cmd->viewangles.x - factorx;
+	}
+	else
+	{
+		if (factorx > delta.x)
+			factorx = delta.x;
 
-		return;
+		angle.x = cmd->viewangles.x + factorx;
 	}
 
-	if (cmd->viewangles.y < -90.f && angle.y > 90.f)
+	if (delta.y < 0.0f)
 	{
-		angle.x = cmd->viewangles.x + delta.x / smooth_factor * (Settings::Aimbot::Smooth::max - Settings::Aimbot::Smooth::value);
-		angle.y = cmd->viewangles.y - yaw / smooth_factor * (Settings::Aimbot::Smooth::max - Settings::Aimbot::Smooth::value);
+		if (factory > fabs(delta.y))
+			factory = fabs(delta.y);
 
-		if (angle.y < -180.f)
-			angle.y = 360.f + angle.y;
-
-		return;
+		angle.y = cmd->viewangles.y - factory;
 	}
+	else
+	{
+		if (factory > delta.y)
+			factory = delta.y;
 
-	angle = cmd->viewangles + delta / smooth_factor * (Settings::Aimbot::Smooth::max - Settings::Aimbot::Smooth::value);
+		angle.y = cmd->viewangles.y + factory;
+	}
 }
 
 void Aimbot::AutoCrouch(C_BaseEntity* entity, CUserCmd* cmd)
