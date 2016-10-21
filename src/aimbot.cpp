@@ -289,8 +289,8 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	Aimbot::AutoCrouch(entity, cmd);
 	Aimbot::AutoStop(entity, oldForward, oldSideMove, cmd);
 	Aimbot::AutoShoot(entity, active_weapon, cmd);
-	Aimbot::RCS(angle, entity, cmd);
 	Aimbot::Smooth(entity, angle, cmd);
+	Aimbot::RCS(angle, entity, cmd);
 
 	Math::NormalizeAngles(angle);
 	cmd->viewangles = angle;
