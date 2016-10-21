@@ -51,7 +51,7 @@ C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible)
 		C_BaseEntity* entity = entitylist->GetClientEntity(i);
 
 		if (!entity
-			|| entity == (C_BaseEntity*)localplayer
+			|| entity == localplayer
 			|| entity->GetDormant()
 			|| entity->GetLifeState() != LIFE_ALIVE
 			|| entity->GetHealth() <= 0
@@ -86,10 +86,10 @@ void Aimbot::RCS(QAngle& angle, C_BaseEntity* entity, CUserCmd* cmd)
 	if (!Settings::Aimbot::RCS::enabled)
 		return;
 
-	if (!(cmd->buttons & IN_ATTACK))
+	if (!cmd->buttons & IN_ATTACK)
 		return;
 
-	C_BasePlayer *localplayer = reinterpret_cast<C_BasePlayer *>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	QAngle CurrentPunch = localplayer->GetAimPunchAngle();
 	bool hasTarget = Settings::Aimbot::AutoAim::enabled && entity != NULL;
 
@@ -127,7 +127,7 @@ void Aimbot::AimStep(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
 	if (!entity)
 		return;
 
-	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	Vector e_vecHead = entity->GetBonePosition(Settings::Aimbot::bone);
 	Vector p_vecHead = localplayer->GetEyePosition();
 	float fov = Math::GetFov(AimStepLastAngle, Math::CalcAngle(p_vecHead, e_vecHead));
@@ -231,7 +231,7 @@ void Aimbot::AutoShoot(C_BaseEntity* entity, C_BaseCombatWeapon* active_weapon, 
 	if (!entity || !active_weapon || active_weapon->isKnife() || active_weapon->GetAmmo() == 0)
 		return;
 
-	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	float nextPrimaryAttack = active_weapon->GetNextPrimaryAttack();
 	float tick = localplayer->GetTickBase() * globalvars->interval_per_tick;
 
@@ -264,7 +264,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 
 	QAngle angle = cmd->viewangles;
 
-	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (localplayer->GetLifeState() != LIFE_ALIVE || localplayer->GetHealth() == 0)
 		return;
 
