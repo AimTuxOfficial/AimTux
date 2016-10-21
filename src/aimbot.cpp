@@ -83,10 +83,10 @@ C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible)
 		float fov = Math::GetFov(cmd->viewangles, Math::CalcAngle(p_vecHead, e_vecHead));
 
 		if (Settings::Aimbot::AutoWall::enabled && Autowall::GetDamage(e_vecHead) < Settings::Aimbot::AutoWall::value)
-				continue;
+			continue;
 
 		if (visible && !Entity::IsVisible(entity, Settings::Aimbot::bone))
-				continue;
+			continue;
 
 		if (fov < best_fov && fov <= Settings::Aimbot::fov)
 		{
