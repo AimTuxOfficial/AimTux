@@ -18,6 +18,7 @@ struct COffsets
 	int m_nTickBase;
 	int m_iObserverMode;
 	int m_hObserverTarget;
+	int m_szLastPlaceName;
 
 	int m_flFlashMaxAlpha;
 	int m_bIsScoped;

@@ -243,6 +243,11 @@ namespace Settings
 			extern bool enabled;
 			extern char* message;
 		}
+
+		namespace PositionSpammer
+		{
+			extern bool enabled;
+		}
 		
 		namespace NormalSpammer
 		{

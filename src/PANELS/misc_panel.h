@@ -14,8 +14,9 @@ private:
 	ToggleSwitch* ts_autostrafe;
 	ToggleSwitch* ts_airstuck;
 	Banner* ba_spammer;
-	ToggleSwitch* ts_spammer;
-	ToggleSwitch* ts_spammer_kill;
+	ToggleSwitch* ts_position_spammer;
+	ToggleSwitch* ts_kill_spammer;
+	ToggleSwitch* ts_normal_spammer;
 	Banner* ba_other;
 	ToggleSwitch* ts_noflash;
 	Slider* sl_noflash_value;

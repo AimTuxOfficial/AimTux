@@ -157,9 +157,10 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	LoadColor(settings["Dlights"]["ally_color"], Settings::Dlights::ally_color);
 	LoadColor(settings["Dlights"]["enemy_color"], Settings::Dlights::enemy_color);
 
-	settings["Spammer"]["NormalSpammer"]["enabled"] = Settings::Spammer::NormalSpammer::enabled;
+	settings["Spammer"]["PositionSpammer"]["enabled"] = Settings::Spammer::PositionSpammer::enabled;
 	settings["Spammer"]["KillSpammer"]["enabled"] = Settings::Spammer::KillSpammer::enabled;
 	settings["Spammer"]["KillSpammer"]["message"] = Settings::Spammer::KillSpammer::message;
+	settings["Spammer"]["NormalSpammer"]["enabled"] = Settings::Spammer::NormalSpammer::enabled;
 
 	settings["BHop"]["enabled"] = Settings::BHop::enabled;
 
@@ -287,6 +288,7 @@ void Settings::LoadSettings(const char* filename)
 		GetColor(settings["Dlights"]["ally_color"], Settings::Dlights::ally_color);
 		GetColor(settings["Dlights"]["enemy_color"], Settings::Dlights::enemy_color);
 
+		GetBool(settings["Spammer"]["PositionSpammer"]["enabled"], Settings::Spammer::PositionSpammer::enabled);
 		GetBool(settings["Spammer"]["KillSpammer"]["enabled"], Settings::Spammer::KillSpammer::enabled);
 		GetCString(settings["Spammer"]["KillSpammer"]["message"], Settings::Spammer::KillSpammer::message);
 		GetBool(settings["Spammer"]["NormalSpammer"]["enabled"], Settings::Spammer::NormalSpammer::enabled);

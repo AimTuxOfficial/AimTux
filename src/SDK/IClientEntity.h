@@ -187,9 +187,14 @@ public:
 		return (void*)((uintptr_t)this + offsets.m_hObserverTarget);
 	}
 
-	ICollideable* GetCollideable ()
+	ICollideable* GetCollideable()
 	{
 		return (ICollideable*)((uintptr_t)this + offsets.m_Collision);
+	}
+
+	char* GetLastPlaceName()
+	{
+		return (char*)((uintptr_t)this + offsets.m_szLastPlaceName);
 	}
 };
 
