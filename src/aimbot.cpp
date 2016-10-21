@@ -30,33 +30,16 @@ QAngle RCSLastPunch;
 static void ApplyErrorToAngle(QAngle* angles, float margin)
 {
 	QAngle error;
-	error.Random(-1.0F, 1.0F);
+	error.Random(-1.0f, 1.0f);
 	error *= margin;
 	angles->operator+=(error);
-}
-
-void CalculateAngle(Vector& src, Vector& dst, QAngle& angles)
-{
-	// Angle deltas
-	double delta[3] = { (src[0] - dst[0]), (src[1] - dst[1]), (src[2] - dst[2]) };
-
-	// Hypotenuse
-	double hyp = sqrt(delta[0] * delta[0] + delta[1] * delta[1]);
-
-	angles[0] = (float) (atan(delta[2] / hyp) * 57.295779513082f);
-	angles[1] = (float) (atan(delta[1] / delta[0]) * 57.295779513082f);
-
-	if (delta[0] >= 0.0)
-		angles[1] += 180.0f;
-
-	Math::NormalizeAngles(angles);
 }
 
 C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	C_BaseEntity* closestEntity = NULL;
-	float best_fov = 181.0f;
+	float best_fov = Settings::Aimbot::fov;
 
 	visible = visible && !Settings::Aimbot::AutoWall::enabled;
 
@@ -88,7 +71,7 @@ C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible)
 		if (visible && !Entity::IsVisible(entity, Settings::Aimbot::bone))
 			continue;
 
-		if (fov < best_fov && fov <= Settings::Aimbot::fov)
+		if (fov < best_fov)
 		{
 			closestEntity = entity;
 			best_fov = fov;
@@ -299,7 +282,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 			Vector e_vecHead = entity->GetBonePosition(Settings::Aimbot::bone);
 			Vector p_vecHead = localplayer->GetEyePosition();
 
-			CalculateAngle(p_vecHead, e_vecHead, angle);
+			angle = Math::CalcAngle(p_vecHead, e_vecHead);
 			ApplyErrorToAngle(&angle, Settings::Aimbot::errorMargin);
 		}
 	}

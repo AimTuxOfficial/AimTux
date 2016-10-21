@@ -97,6 +97,7 @@ public:
 			y > -tolerance && y < tolerance &&
 			z > -tolerance && z < tolerance);
 	}
+	Vector	Normalize();
 	float	NormalizeInPlace();
 	inline float	DistToSqr(const Vector &vOther) const;
 	float	Dot(const Vector& vOther) const;
@@ -301,6 +302,25 @@ float Vector::DistToSqr(const Vector &vOther) const
 	delta.z = z - vOther.z;
 
 	return delta.LengthSqr();
+}
+//===============================================
+inline Vector Vector::Normalize()
+{
+	Vector vector;
+	float length = this->Length();
+
+	if (length != 0)
+	{
+		vector.x = x / length;
+		vector.y = y / length;
+		vector.z = z / length;
+	}
+	else
+	{
+		vector.x = vector.y = 0.0f; vector.z = 1.0f;
+	}
+
+	return vector;
 }
 //===============================================
 inline float Vector::NormalizeInPlace()
@@ -568,6 +588,8 @@ public:
 		return (x > -tolerance && x < tolerance &&
 			y > -tolerance && y < tolerance);
 	}
+
+	float	Normalize();
 
 	// Normalize in place and return the old length.
 	float	NormalizeInPlace();

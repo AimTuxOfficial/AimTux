@@ -109,7 +109,7 @@ QAngle Math::CalcAngle(Vector src, Vector dst)
 
 	Math::VectorAngles(delta, angles);
 
-	VectorNormalize(delta);
+	delta.Normalize();
 
 	return angles;
 }
