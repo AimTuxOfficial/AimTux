@@ -5,6 +5,6 @@ namespace NameChanger
 {
 	extern int changes;
 
-	void CreateMove();
+	void CreateMove(CUserCmd* cmd);
 	void SetName(const char* name);
 };

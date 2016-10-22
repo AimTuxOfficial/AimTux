@@ -16,7 +16,7 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		ShowRanks::CreateMove(cmd);
 		ClanTagChanger::CreateMove(cmd);
 		Spammer::CreateMove(cmd);
-		NameChanger::CreateMove (); // Move somewhere else?
+		NameChanger::CreateMove(cmd);
 		
 		if (!Settings::Aimbot::silent && !Settings::AntiAim::enabled_X && !Settings::AntiAim::enabled_Y)
 			engine->SetViewAngles(cmd->viewangles);
