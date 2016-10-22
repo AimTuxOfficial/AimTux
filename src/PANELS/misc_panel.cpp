@@ -55,11 +55,11 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	AddComponent (vtb_nickname);
 
 	ob_nickname = new OutlinedButton ("set nickname", STACK (vtb_nickname), LOC (120, 33));
-	ob_nickname->OnClickedEvent = MFUNC (&MiscPanel::SetNickname, this);
+	ob_nickname->OnClickedEvent = MFUNC (&MiscPanel::ob_nickname_clicked, this);
 	AddComponent (ob_nickname);
 
 	ob_noname = new OutlinedButton ("no name", BELOW (vtb_nickname), LOC (120, 33));
-	ob_noname->OnClickedEvent = MFUNC (&MiscPanel::bn_noname_clicked, this);
+	ob_noname->OnClickedEvent = MFUNC (&MiscPanel::ob_noname_clicked, this);
 	AddComponent (ob_noname);
 	
 	ba_colors = new Banner ("Colors", BELOW (ob_noname), (size.x - 20) / 2 - 5);
@@ -80,8 +80,17 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	Hide ();
 }
 
-void MiscPanel::bn_noname_clicked ()
+void MiscPanel::ob_nickname_clicked ()
 {
+	std::string name = std::string(vtb_nickname->text);
+	Util::StdReplaceStr(name, "\\n", "\n");
+
+	NameChanger::SetName(name.c_str());
+}
+
+void MiscPanel::ob_noname_clicked ()
+{
+	NameChanger::changes = -1;
 	Settings::NameChanger::enabled = true;
 	Settings::NameChanger::last_blank = true;
 }
@@ -100,12 +109,4 @@ void MiscPanel::bn_ui_color_clicked ()
 	{
 		wn_pop_color->Destroy ();
 	}
-}
-
-void MiscPanel::SetNickname ()
-{
-	std::string name = std::string(vtb_nickname->text);
-	Util::StdReplaceStr(name, "\\n", "\n");
-
-	NameChanger::SetName(name.c_str());
 }

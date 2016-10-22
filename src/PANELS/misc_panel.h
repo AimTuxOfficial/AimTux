@@ -34,10 +34,10 @@ private:
 	OutlinedButton* bn_2_color;
 	OutlinedButton* bn_3_color;
 
-	void SetNickname ();
 public:
 	MiscPanel (Vector2D position, Vector2D size);
 	
 	void bn_ui_color_clicked ();
-	void bn_noname_clicked ();
+	void ob_nickname_clicked ();
+	void ob_noname_clicked ();
 };

@@ -3,6 +3,8 @@
 
 namespace NameChanger
 {
+	extern int changes;
+
 	void CreateMove();
 	void SetName(const char* name);
 };

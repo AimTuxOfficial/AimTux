@@ -3,6 +3,7 @@
 bool Settings::NameChanger::enabled = false;
 bool Settings::NameChanger::last_blank = false;
 
+int NameChanger::changes = -1;
 const char* atom[] = { "Aim", "Tux", "Owns", "Me", "And All" };
 
 void NameChanger::CreateMove ()
@@ -12,21 +13,19 @@ void NameChanger::CreateMove ()
 
 	if (!engine->IsInGame())
 		return;
-	
-	static int changes = -1;
-	
+
 	if (changes > 4)
 	{
 		Settings::NameChanger::enabled = false;
 		return;
 	}
-	
+
 	changes++;
 	
 	if (changes == 4 && Settings::NameChanger::last_blank)
-		SetName ((char*)"\n");
+		SetName("\n");
 	else if (changes < 4)
-		SetName (atom[changes]);
+		SetName(atom[changes]);
 }
 
 void NameChanger::SetName(const char* name)
