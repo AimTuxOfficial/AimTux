@@ -40,8 +40,8 @@ class Tab : public Button
 	Panel** targetPanel;
 	TabSelector* parent;
 public:
+	float colorDiv;
 	TabElement info;
-	Color backgroundColor;
 	int id = 0;
 	Tab (Vector2D position, Vector2D size, Panel** targetPanel, TabElement info, TabSelector* parent);
 	

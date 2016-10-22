@@ -31,7 +31,8 @@ void TabSelector::UpdateTabColors (int id)
 		float n = abs(i - id) + 1;
 		Tab* tab = tabs[i];
 		if (n > 1) n -= (0.75f * (n-1));
-		tab->backgroundColor = Color (255 / n, 100 / n, 100 / n);
+		
+		tab->colorDiv = n;
 	}
 }
 
@@ -40,8 +41,6 @@ Tab::Tab (Vector2D position, Vector2D size, Panel** targetPanel, TabElement info
 	: Button (info.name, position, size)
 {
 	this->parent = parent;
-	
-	backgroundColor = Settings::UI::mainColor;
 	
 	static int id = -1;
 	id++;
@@ -53,7 +52,7 @@ Tab::Tab (Vector2D position, Vector2D size, Panel** targetPanel, TabElement info
 
 void Tab::Draw ()
 {
-	Clear (backgroundColor);
+	Clear (Settings::UI::mainColor / colorDiv);
 	
 	DrawCenteredString (text, normal_font, Color (255, 255, 255, 255), LOC (size.x / 2, size.y / 2));
 }
