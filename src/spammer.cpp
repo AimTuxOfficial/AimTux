@@ -1,10 +1,11 @@
 #include "spammer.h"
 
-bool Settings::Spammer::NormalSpammer::enabled = false;
+bool Settings::Spammer::PositionSpammer::enabled = false;
 bool Settings::Spammer::KillSpammer::enabled = false;
 char* Settings::Spammer::KillSpammer::message = (char*) "$nick just got OWNED by AimTux!!";
-std::vector<IEngineClient::player_info_t> Spammer::killedPlayerQueue = std::vector<IEngineClient::player_info_t>();
+bool Settings::Spammer::NormalSpammer::enabled = false;
 
+std::vector<IEngineClient::player_info_t> Spammer::killedPlayerQueue = std::vector<IEngineClient::player_info_t>();
 std::vector<Spammer::SpamCollection> Spammer::collections =
 {
 	Spammer::SpamCollection("AimTux",
@@ -50,6 +51,48 @@ void Spammer::CreateMove(CUserCmd* cmd)
 
 		// Remove the first element from the vector
 		Spammer::killedPlayerQueue.erase(Spammer::killedPlayerQueue.begin(), Spammer::killedPlayerQueue.begin() + 1);
+	}
+	else if (Settings::Spammer::PositionSpammer::enabled)
+	{
+		C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+		static int lastId = 1;
+
+		for (int i = lastId; i < engine->GetMaxClients(); i++)
+		{
+			C_BaseEntity *entity = entitylist->GetClientEntity(i);
+
+			lastId++;
+			if (lastId == engine->GetMaxClients())
+				lastId = 1;
+
+			if (!entity
+				|| entity->GetDormant()
+				|| entity->GetLifeState() != LIFE_ALIVE
+				|| entity->GetHealth() <= 0
+				|| entity->GetTeam() == localplayer->GetTeam())
+				continue;
+
+			IEngineClient::player_info_t entityInformation;
+			engine->GetPlayerInfo(i, &entityInformation);
+
+			// Prepare player's nickname without ';' & '"' characters
+			// as they might cause user to execute a command.
+			std::string player_name = std::string(entityInformation.name);
+			player_name.erase(std::remove(player_name.begin(), player_name.end(), ';'), player_name.end());
+			player_name.erase(std::remove(player_name.begin(), player_name.end(), '"'), player_name.end());
+
+			// Construct a command with our message
+			pstring str;
+			str << "say \"";
+			str << player_name << " | ";
+			str << entity->GetHealth() << "HP | ";
+			str << entity->GetLastPlaceName() << "\"";
+
+			// Execute our constructed command
+			engine->ExecuteClientCmd(str.c_str());
+
+			break;
+		}
 	}
 	else if (Settings::Spammer::NormalSpammer::enabled)
 	{

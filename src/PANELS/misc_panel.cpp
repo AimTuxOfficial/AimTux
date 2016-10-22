@@ -17,14 +17,17 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 
 	ba_spammer = new Banner ("Spammer", BELOW (ts_airstuck), (size.x - 20) / 2 - 5);
 	AddComponent (ba_spammer);
-	
-	ts_spammer = new ToggleSwitch ("chat spammer", BELOW (ba_spammer), 33, &Settings::Spammer::NormalSpammer::enabled);
-	AddComponent (ts_spammer);
-	
-	ts_spammer_kill = new ToggleSwitch ("kill spammer", BELOW (ts_spammer), 33, &Settings::Spammer::KillSpammer::enabled);
-	AddComponent (ts_spammer_kill);
 
-	ba_other = new Banner ("Other", BELOW (ts_spammer_kill), (size.x - 20) / 2 - 5);
+	ts_position_spammer = new ToggleSwitch ("position spammer", BELOW (ba_spammer), 33, &Settings::Spammer::PositionSpammer::enabled);
+	AddComponent (ts_position_spammer);
+
+	ts_kill_spammer = new ToggleSwitch ("kill spammer", BELOW (ts_position_spammer), 33, &Settings::Spammer::KillSpammer::enabled);
+	AddComponent (ts_kill_spammer);
+
+	ts_normal_spammer = new ToggleSwitch ("chat spammer", BELOW (ts_kill_spammer), 33, &Settings::Spammer::NormalSpammer::enabled);
+	AddComponent (ts_normal_spammer);
+
+	ba_other = new Banner ("Other", BELOW (ts_normal_spammer), (size.x - 20) / 2 - 5);
 	AddComponent (ba_other);
 
 	ts_noflash = new ToggleSwitch ("no flash", BELOW (ba_other), 33, &Settings::Noflash::enabled);
@@ -44,7 +47,6 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 
 	tb_clantag = new TextBox ("clantag", &Settings::ClanTagChanger::value, STACK (ts_clantag), LOC (270, 33));
 	AddComponent (tb_clantag);
-	
 	
 	ts_clantag_animation = new ToggleSwitch ("clantag animation", BELOW (ts_clantag), 33, &Settings::ClanTagChanger::animation);
 	AddComponent (ts_clantag_animation);
