@@ -21,7 +21,7 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	static long timeStamp = currentTime_ms;
 	long oldTimeStamp;
 
-	C_BasePlayer* localplayer = reinterpret_cast<C_BasePlayer*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 
 	Vector traceStart, traceEnd;
 	QAngle viewAngles = QAngle(0.0f, 0.0f, 0.0f);
@@ -40,7 +40,7 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	traceFilter.pSkip = localplayer;
 	trace->TraceRay(ray, 0x46004003, &traceFilter, &tr);
 
-	C_BaseEntity *entity = reinterpret_cast<C_BaseEntity *>(tr.m_pEntityHit);
+	C_BaseEntity *entity = tr.m_pEntityHit;
 
 	oldTimeStamp = timeStamp;
 	timeStamp = currentTime_ms;
@@ -52,7 +52,7 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 		|| entity->GetHealth() <= 0)
 		return;
 
-	if (localplayer->GetLifeState() != LIFE_ALIVE)
+	if (localplayer->GetLifeState() != LIFE_ALIVE || localplayer->GetHealth() == 0)
 		return;
 
 	if (entity->GetTeam() == localplayer->GetTeam() && !Settings::Triggerbot::Filter::friendly)
@@ -68,7 +68,7 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	else if ((tr.hitgroup == HitGroups::HITGROUP_LEFTLEG || tr.hitgroup == HitGroups::HITGROUP_RIGHTLEG) && !Settings::Triggerbot::Filter::legs)
 		return;
 
-	C_BaseCombatWeapon* active_weapon = reinterpret_cast<C_BaseCombatWeapon*>(entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon()));
+	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
 	if (!active_weapon)
 		return;
 

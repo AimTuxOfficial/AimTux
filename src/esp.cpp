@@ -125,10 +125,11 @@ void ESP::DrawBones(C_BaseEntity* entity)
 	}
 }
 
-void ESP::DrawTracer(C_BasePlayer* localPlayer, C_BaseEntity* entity)
+void ESP::DrawTracer(C_BaseEntity* entity)
 {
-	int playerTeam = localPlayer->GetTeam();
-	int entityTeam = reinterpret_cast<C_BasePlayer*>(entity)->GetTeam();
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	int playerTeam = localplayer->GetTeam();
+	int entityTeam = entity->GetTeam();
 	Color color = playerTeam == entityTeam ? Settings::ESP::ally_color : Settings::ESP::enemy_color;
 
 	int width;
@@ -148,17 +149,18 @@ void ESP::DrawTracer(C_BasePlayer* localPlayer, C_BaseEntity* entity)
 	}
 
 	Vector s_vecEntity_s;
-	if (!WorldToScreen(entity->GetVecOrigin(), s_vecEntity_s) && localPlayer->GetHealth() > 0)
+	if (!WorldToScreen(entity->GetVecOrigin(), s_vecEntity_s) && localplayer->GetHealth() > 0)
 		Draw::DrawLine(tracerLocation, LOC(s_vecEntity_s.x, s_vecEntity_s.y), color);
 }
 
-void ESP::DrawPlayerBox(C_BasePlayer* localPlayer, C_BaseEntity* entity)
+void ESP::DrawPlayerBox(C_BaseEntity* entity)
 {
-	Color color;
-
-	int playerTeam = localPlayer->GetTeam();
-	int entityTeam = reinterpret_cast<C_BasePlayer*>(entity)->GetTeam();
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	int playerTeam = localplayer->GetTeam();
+	int entityTeam = entity->GetTeam();
 	bool isVisible = Entity::IsVisible(entity, BONE_HEAD);
+
+	Color color;
 
 	if (playerTeam != entityTeam)
 		color = isVisible ? Settings::ESP::enemy_visible_color : Settings::ESP::enemy_color;
@@ -193,13 +195,13 @@ void ESP::DrawPlayerBox(C_BasePlayer* localPlayer, C_BaseEntity* entity)
 		Vector vecHeadBone = entity->GetBonePosition(Bones::BONE_HEAD);
 		Vector vecViewOffset = Vector(vecOrigin.x, vecOrigin.y, vecHeadBone.z);
 
-		Vector s_vecLocalPlayer_s;
-		if (!WorldToScreen(vecOrigin, s_vecLocalPlayer_s))
+		Vector s_veclocalplayer_s;
+		if (!WorldToScreen(vecOrigin, s_veclocalplayer_s))
 			DrawESPBox(vecOrigin, vecViewOffset, color, width, additionalHeight);
 	}
 }
 
-void ESP::DrawPlayerInfo(C_BasePlayer* localPlayer, C_BaseEntity* entity, int entityIndex)
+void ESP::DrawPlayerInfo(C_BaseEntity* entity, int entityIndex)
 {
 	Color color = Color(225, 225, 225, 255);
 
@@ -240,9 +242,9 @@ void ESP::DrawPlayerInfo(C_BasePlayer* localPlayer, C_BaseEntity* entity, int en
 
 void ESP::DrawFOVCrosshair()
 {
-	C_BasePlayer* localPlayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 
-	if (localPlayer->GetLifeState() != LIFE_ALIVE || localPlayer->GetDormant() || localPlayer->GetHealth() == 0)
+	if (localplayer->GetLifeState() != LIFE_ALIVE || localplayer->GetDormant() || localplayer->GetHealth() == 0)
 		return;
 
 	int width, height;
@@ -268,11 +270,11 @@ void ESP::DrawBombBox(C_BasePlantedC4* entity)
 	if (bombTime > 0)
 		str << " (" << bombTime << ")";
 
-	Vector s_vecLocalPlayer_s;
-	if (!WorldToScreen(vecOrigin, s_vecLocalPlayer_s))
+	Vector s_veclocalplayer_s;
+	if (!WorldToScreen(vecOrigin, s_veclocalplayer_s))
 	{
 		DrawESPBox(vecOrigin, vecViewOffset, color, width, additionalHeight);
-		Draw::DrawCenteredString(str.c_str(), LOC(s_vecLocalPlayer_s.x, s_vecLocalPlayer_s.y), colorText, esp_font);
+		Draw::DrawCenteredString(str.c_str(), LOC(s_veclocalplayer_s.x, s_veclocalplayer_s.y), colorText, esp_font);
 	}
 }
 
@@ -288,17 +290,17 @@ void ESP::DrawWeaponText(C_BaseEntity* entity, ClientClass* client)
 	if (vecOrigin == Vector(0, 0, 0))
 		return;
 
-	Vector s_vecLocalPlayer_s;
-	if (!WorldToScreen(vecOrigin, s_vecLocalPlayer_s))
-		Draw::DrawCenteredString(modelName.c_str(), LOC(s_vecLocalPlayer_s.x, s_vecLocalPlayer_s.y), Color(255, 255, 255, 255), esp_font);
+	Vector s_veclocalplayer_s;
+	if (!WorldToScreen(vecOrigin, s_veclocalplayer_s))
+		Draw::DrawCenteredString(modelName.c_str(), LOC(s_veclocalplayer_s.x, s_veclocalplayer_s.y), Color(255, 255, 255, 255), esp_font);
 }
 
 void ESP::DrawGlow()
 {
 	static CGlowObjectManager* glow_object_mgr = GlowObjectManager();
 
-	C_BasePlayer* localPlayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	if (!localPlayer)
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer)
 		return;
 
 	for (int i = 0; i < glow_object_mgr->max_size; i++) {
@@ -312,13 +314,13 @@ void ESP::DrawGlow()
 
 		if (client->m_ClassID == CCSPlayer)
 		{
-			if (glow_object->m_pEntity == (C_BaseEntity*)localPlayer
+			if (glow_object->m_pEntity == (C_BaseEntity*)localplayer
 				|| glow_object->m_pEntity->GetDormant()
 				|| glow_object->m_pEntity->GetLifeState() != LIFE_ALIVE
 				|| glow_object->m_pEntity->GetHealth() <= 0)
 				continue;
 
-			if (glow_object->m_pEntity->GetTeam() != localPlayer->GetTeam())
+			if (glow_object->m_pEntity->GetTeam() != localplayer->GetTeam())
 			{
 				if (Entity::IsVisible(glow_object->m_pEntity, BONE_HEAD))
 					color = Settings::ESP::Glow::enemy_visible_color;
@@ -354,9 +356,8 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 	if (!engine->IsInGame())
 		return;
 
-	C_BasePlayer* localPlayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-
-	if (!localPlayer)
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer)
 		return;
 
 	for (int i = 1; i < entitylist->GetHighestEntityIndex(); ++i)
@@ -368,7 +369,7 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 		ClientClass* client = entity->GetClientClass();
 		if (client->m_ClassID == CCSPlayer)
 		{
-			if (entity == (C_BaseEntity*)localPlayer
+			if (entity == (C_BaseEntity*)localplayer
 				|| entity->GetDormant()
 				|| entity->GetLifeState() != LIFE_ALIVE
 				|| entity->GetHealth() <= 0)
@@ -377,21 +378,21 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 			if (Settings::ESP::visibility_check && !Entity::IsVisible(entity, BONE_HEAD))
 				continue;
 
-			if ((localPlayer->GetLifeState() != LIFE_ALIVE || localPlayer->GetHealth() == 0)
-				&& entitylist->GetClientEntityFromHandle(localPlayer->GetObserverTarget()) == entity)
+			if ((localplayer->GetLifeState() != LIFE_ALIVE || localplayer->GetHealth() == 0)
+				&& entitylist->GetClientEntityFromHandle(localplayer->GetObserverTarget()) == entity)
 				continue;
 
 			if (Settings::ESP::Bones::enabled)
 				ESP::DrawBones(entity);
 
 			if (Settings::ESP::Walls::enabled)
-				ESP::DrawPlayerBox(localPlayer, entity);
+				ESP::DrawPlayerBox(entity);
 
 			if (Settings::ESP::Tracer::enabled)
-				ESP::DrawTracer(localPlayer, entity);
+				ESP::DrawTracer(entity);
 
 			if (Settings::ESP::Info::showHealth || Settings::ESP::Info::showName)
-				ESP::DrawPlayerInfo(localPlayer, entity, i);
+				ESP::DrawPlayerInfo(entity, i);
 		}
 		else if (client->m_ClassID == CPlantedC4)
 		{

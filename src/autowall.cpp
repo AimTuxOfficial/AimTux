@@ -246,7 +246,7 @@ float Autowall::GetDamage(const Vector& point)
 
 	data.direction.NormalizeInPlace();
 
-	C_BaseCombatWeapon* active_weapon = reinterpret_cast<C_BaseCombatWeapon*>(entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon()));
+	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
 	if (!active_weapon)
 		return -1.0f;
 
