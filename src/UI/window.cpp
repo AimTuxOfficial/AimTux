@@ -46,6 +46,10 @@ Window::Window (std::string title, Vector2D size, Vector2D position, Color color
 	this->backGroundColor = color;
 }
 
+void Window::Destroy ()
+{
+	gui->RemoveWindow (this);
+}
 
 
 /*----------------------

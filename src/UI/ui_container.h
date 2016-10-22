@@ -10,6 +10,7 @@ private:
 	std::vector<Window*> windows;
 	Cursor cursor = Cursor();
 	bool visible = false;
+	std::vector<Window*> window_remove_stack;
 public:
 	
 	void AddWindow (Window* window)
@@ -21,14 +22,15 @@ public:
 	void RemoveWindow (Window* window)
 	{
 		// Remove the window from the vector
-		windows.erase (std::remove(windows.begin(), windows.end(), window));
+		//window_remove_stack.push_back (window);
+		window_remove_stack.push_back (window);
 	}
 	
 	void Focus (Window* window)
 	{
 		// Push the window to the top of the stack
-		RemoveWindow (window);
-		AddWindow (window);
+		windows.erase (std::remove(windows.begin(), windows.end(), window));
+		windows.push_back (window);
 	}
 	
 	void Draw ();

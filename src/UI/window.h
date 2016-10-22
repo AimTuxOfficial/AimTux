@@ -36,6 +36,8 @@ public:
 		shown = !shown;
 	}
 	
+	void Destroy ();
+	
 	void Draw ();
 };
 

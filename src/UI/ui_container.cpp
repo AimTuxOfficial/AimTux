@@ -89,6 +89,13 @@ void UI_Container::Draw ()
 		}
 	}
 	
+	
+	for (std::vector<Window*>::iterator it = window_remove_stack.begin(); it != window_remove_stack.end (); it++)
+	{
+		windows.erase (std::remove(windows.begin(), windows.end(), *it));
+	}
+	window_remove_stack.clear ();
+	
 	for (int i = 0; i < windows.size (); i++)
 	{
 		Window* window = windows[i];
