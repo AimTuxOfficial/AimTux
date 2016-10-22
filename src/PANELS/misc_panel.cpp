@@ -27,7 +27,7 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	ts_normal_spammer = new ToggleSwitch ("chat spammer", BELOW (ts_kill_spammer), 33, &Settings::Spammer::NormalSpammer::enabled);
 	AddComponent (ts_normal_spammer);
 
-	ba_other = new Banner ("Other", BELOW (ts_normal_spammer), (size.x - 20) / 2 - 5);
+	ba_other = new Banner ("Other", STACK (ba_movement), (size.x - 20) / 2 - 5);
 	AddComponent (ba_other);
 
 	ts_noflash = new ToggleSwitch ("no flash", BELOW (ba_other), 33, &Settings::Noflash::enabled);
