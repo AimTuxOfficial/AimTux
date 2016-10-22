@@ -76,6 +76,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	Json::Value settings;
 	Json::StyledWriter styledWriter;
 
+	LoadColor(settings["UI"]["mainColor"], Settings::UI::mainColor);
 	settings["UI"]["Fonts"]["Title"]["family"] = Settings::UI::Fonts::Title::family;
 	settings["UI"]["Fonts"]["Title"]["size"] = Settings::UI::Fonts::Title::size;
 	settings["UI"]["Fonts"]["Normal"]["family"] = Settings::UI::Fonts::Normal::family;
@@ -204,6 +205,7 @@ void Settings::LoadSettings(const char* filename)
 		std::ifstream config_doc(GetSettingsPath(filename), std::ifstream::binary);
 		config_doc >> settings;
 
+		GetColor(settings["UI"]["mainColor"], Settings::UI::mainColor);
 		GetCString(settings["UI"]["Fonts"]["Title"]["family"], Settings::UI::Fonts::Title::family);
 		GetInt(settings["UI"]["Fonts"]["Title"]["size"], Settings::UI::Fonts::Title::size);
 		GetCString(settings["UI"]["Fonts"]["Normal"]["family"], Settings::UI::Fonts::Normal::family);
