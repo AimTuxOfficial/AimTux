@@ -48,6 +48,7 @@ Window::Window (std::string title, Vector2D size, Vector2D position, Color color
 
 void Window::Destroy ()
 {
+	this->Hide ();
 	gui->RemoveWindow (this);
 }
 
