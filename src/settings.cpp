@@ -162,6 +162,9 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["Spammer"]["KillSpammer"]["enabled"] = Settings::Spammer::KillSpammer::enabled;
 	settings["Spammer"]["KillSpammer"]["message"] = Settings::Spammer::KillSpammer::message;
 	settings["Spammer"]["NormalSpammer"]["enabled"] = Settings::Spammer::NormalSpammer::enabled;
+	
+	settings["NameChanger"]["enabled"] = Settings::NameChanger::enabled;
+	settings["NameChanger"]["last_blank"] = Settings::NameChanger::last_blank;
 
 	settings["BHop"]["enabled"] = Settings::BHop::enabled;
 
@@ -294,6 +297,9 @@ void Settings::LoadSettings(const char* filename)
 		GetBool(settings["Spammer"]["KillSpammer"]["enabled"], Settings::Spammer::KillSpammer::enabled);
 		GetCString(settings["Spammer"]["KillSpammer"]["message"], Settings::Spammer::KillSpammer::message);
 		GetBool(settings["Spammer"]["NormalSpammer"]["enabled"], Settings::Spammer::NormalSpammer::enabled);
+		
+		GetBool(settings["NameChanger"]["enabled"], Settings::NameChanger::enabled);
+		GetBool(settings["NameChanger"]["last_blank"], Settings::NameChanger::last_blank);
 
 		GetBool(settings["BHop"]["enabled"], Settings::BHop::enabled);
 
