@@ -17,12 +17,6 @@ struct ColorRGBA
 class ConVar
 {
 public:
-	char* GetString()
-	{
-		typedef void (* oGetString)(void*);
-		getvfunc<oGetString>(this, 16)(this);
-	}
-	
 	void SetValue(const char* value)
 	{
 		typedef void (* oSetValue)(void*, const char*);
