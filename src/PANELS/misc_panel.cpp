@@ -51,5 +51,37 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	ts_clantag_animation = new ToggleSwitch ("clantag animation", BELOW (ts_clantag), 33, &Settings::ClanTagChanger::animation);
 	AddComponent (ts_clantag_animation);
 	
+	ba_colors = new Banner ("Colors", BELOW (ts_clantag_animation), (size.x - 20) / 2 - 5);
+	AddComponent (ba_colors); 
+	
+	int x_wide = ba_colors->size.x / 4;
+	
+	bn_ui_color = new OutlinedButton ("Main UI", BELOW (ba_colors), LOC (x_wide, 33));
+	bn_ui_color->OnClickedEvent = MFUNC (&MiscPanel::bn_ui_color_clicked, this);
+	AddComponent (bn_ui_color);
+	
+	
+	bn_2_color = new OutlinedButton ("X", STACK (bn_ui_color), LOC (x_wide - 10, 33));
+	AddComponent (bn_2_color);
+	
+	bn_3_color = new OutlinedButton ("XX", STACK (bn_2_color), LOC (x_wide - 20, 33));
+	AddComponent (bn_3_color);
+	
 	Hide ();
+}
+
+void MiscPanel::bn_ui_color_clicked ()
+{
+	static PopupColorWindow* wn_pop_color = new PopupColorWindow ("UI Main Color", LOC(420, 400), LOC(100,100), Color(0, 0, 0, 0), &Settings::UI::mainColor);
+	
+	
+	if (!wn_pop_color->IsShown())
+	{
+		gui->AddWindow (wn_pop_color);
+		wn_pop_color->Show ();
+	}
+	else
+	{
+		wn_pop_color->Destroy ();
+	}
 }

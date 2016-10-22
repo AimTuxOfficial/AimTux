@@ -25,6 +25,13 @@ private:
 	ToggleSwitch* ts_clantag;
 	TextBox* tb_clantag;
 	ToggleSwitch* ts_clantag_animation;
+	Banner* ba_colors;
+	OutlinedButton* bn_ui_color;
+	OutlinedButton* bn_2_color;
+	OutlinedButton* bn_3_color;
+	
 public:
 	MiscPanel (Vector2D position, Vector2D size);
+	
+	void bn_ui_color_clicked ();
 };
