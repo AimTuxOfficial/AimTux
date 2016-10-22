@@ -326,6 +326,12 @@ namespace Settings
 		extern bool animation;
 		extern bool enabled;
 	}
+	
+	namespace NameChanger
+	{
+		extern bool last_blank;
+		extern bool enabled;
+	}
 
 	void LoadDefaultsOrSave(const char* filename);
 	void LoadSettings(const char* filename);

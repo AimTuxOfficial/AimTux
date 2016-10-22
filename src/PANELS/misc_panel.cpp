@@ -51,7 +51,12 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	ts_clantag_animation = new ToggleSwitch ("clantag animation", BELOW (ts_clantag), 33, &Settings::ClanTagChanger::animation);
 	AddComponent (ts_clantag_animation);
 	
-	ba_colors = new Banner ("Colors", BELOW (ts_clantag_animation), (size.x - 20) / 2 - 5);
+	bn_noname = new OutlinedButton ("no name", BELOW (ts_clantag_animation), LOC (120, 33));
+	bn_noname->OnClickedEvent = MFUNC (&MiscPanel::bn_noname_clicked, this);
+	AddComponent (bn_noname);
+	
+	
+	ba_colors = new Banner ("Colors", BELOW (bn_noname), (size.x - 20) / 2 - 5);
 	AddComponent (ba_colors); 
 	
 	int x_wide = ba_colors->size.x / 4;
@@ -68,6 +73,12 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	AddComponent (bn_3_color);
 	
 	Hide ();
+}
+
+void MiscPanel::bn_noname_clicked ()
+{
+	Settings::NameChanger::enabled = true;
+	Settings::NameChanger::last_blank = true;
 }
 
 void MiscPanel::bn_ui_color_clicked ()

@@ -22,6 +22,7 @@
 #include "../triggerbot.h"
 #include "../showranks.h"
 #include "../showspectators.h"
+#include "../namechanger.h"
 
 namespace Hooks
 {
