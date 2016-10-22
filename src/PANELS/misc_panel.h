@@ -5,6 +5,7 @@ class MiscPanel;
 #include "../UI/stdui.h"
 #include "../atgui.h"
 #include "../util.h"
+#include "../namechanger.h"
 
 class MiscPanel : public Panel
 {
@@ -22,15 +23,18 @@ private:
 	Slider* sl_noflash_value;
 	ToggleSwitch* ts_showranks;
 	ToggleSwitch* ts_showspectators;
+	OutlinedButton* ob_nickname;
+	ValueTextBox* vtb_nickname;
+	OutlinedButton* ob_noname;
 	ToggleSwitch* ts_clantag;
 	TextBox* tb_clantag;
 	ToggleSwitch* ts_clantag_animation;
-	Button* bn_noname;
 	Banner* ba_colors;
 	OutlinedButton* bn_ui_color;
 	OutlinedButton* bn_2_color;
 	OutlinedButton* bn_3_color;
-	
+
+	void SetNickname ();
 public:
 	MiscPanel (Vector2D position, Vector2D size);
 	
