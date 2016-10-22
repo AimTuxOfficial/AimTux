@@ -42,7 +42,14 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	ts_showspectators = new ToggleSwitch ("show spectators", BELOW (ts_showranks), 33, &Settings::ShowSpectators::enabled);
 	AddComponent (ts_showspectators);
 
-	ts_clantag = new ToggleSwitch ("custom clantag", BELOW (ts_showspectators), 33, &Settings::ClanTagChanger::enabled);
+	vtb_nickname = new ValueTextBox ("nickname", "", BELOW (ts_showspectators), LOC (270, 33));
+	AddComponent (vtb_nickname);
+
+	ob_nickname = new OutlinedButton ("set nickname", STACK (vtb_nickname), LOC (120, 33));
+	ob_nickname->OnClickedEvent = MFUNC (&MiscPanel::SetNickname, this);
+	AddComponent (ob_nickname);
+
+	ts_clantag = new ToggleSwitch ("custom clantag", BELOW (vtb_nickname), 33, &Settings::ClanTagChanger::enabled);
 	AddComponent (ts_clantag);
 
 	tb_clantag = new TextBox ("clantag", &Settings::ClanTagChanger::value, STACK (ts_clantag), LOC (270, 33));
@@ -64,8 +71,7 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	bn_ui_color = new OutlinedButton ("Main UI", BELOW (ba_colors), LOC (x_wide, 33));
 	bn_ui_color->OnClickedEvent = MFUNC (&MiscPanel::bn_ui_color_clicked, this);
 	AddComponent (bn_ui_color);
-	
-	
+
 	bn_2_color = new OutlinedButton ("X", STACK (bn_ui_color), LOC (x_wide - 10, 33));
 	AddComponent (bn_2_color);
 	
@@ -95,4 +101,14 @@ void MiscPanel::bn_ui_color_clicked ()
 	{
 		wn_pop_color->Destroy ();
 	}
+}
+
+void MiscPanel::SetNickname ()
+{
+	std::string newName = std::string(vtb_nickname->text);
+	Util::StdReplaceStr(newName, "\\n", "\n");
+
+	ConVar* name = cvar->FindVar("name");
+	*(int*)((uintptr_t)&name->fnChangeCallback + 0x15) = 0;
+	name->SetValue(newName.c_str());
 }

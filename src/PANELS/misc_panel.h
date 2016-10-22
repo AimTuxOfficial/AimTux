@@ -22,6 +22,8 @@ private:
 	Slider* sl_noflash_value;
 	ToggleSwitch* ts_showranks;
 	ToggleSwitch* ts_showspectators;
+	OutlinedButton* ob_nickname;
+	ValueTextBox* vtb_nickname;
 	ToggleSwitch* ts_clantag;
 	TextBox* tb_clantag;
 	ToggleSwitch* ts_clantag_animation;
@@ -30,7 +32,8 @@ private:
 	OutlinedButton* bn_ui_color;
 	OutlinedButton* bn_2_color;
 	OutlinedButton* bn_3_color;
-	
+
+	void SetNickname();
 public:
 	MiscPanel (Vector2D position, Vector2D size);
 	
