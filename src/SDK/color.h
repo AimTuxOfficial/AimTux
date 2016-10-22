@@ -30,6 +30,24 @@ struct Color
 		this->b = b;
 		this->a = a;
 	}
+	
+	Color operator / (float div)
+	{
+		Color color = *this;
+		color.r = color.r / div;
+		color.g = color.g / div;
+		color.b = color.b / div;
+		return color;
+	}
+	
+	Color& operator /= (float div)
+	{
+		Color& color = *this;
+		color.r /= div;
+		color.g /= div;
+		color.b /= div;
+		return color;
+	}
 
 	static Color FromHSB(float hue, float saturation, float brightness)
 	{
