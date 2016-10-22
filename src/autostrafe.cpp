@@ -7,7 +7,7 @@ void AutoStrafe::CreateMove(CUserCmd* cmd)
 	if (!Settings::AutoStrafe::enabled)
 		return;
 
-	C_BaseEntity* localplayer = reinterpret_cast<C_BaseEntity*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 
 	if (localplayer->GetFlags() & FL_ONGROUND)
 		return;

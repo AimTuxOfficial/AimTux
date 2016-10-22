@@ -11,12 +11,12 @@ void Noflash::FrameStageNotify(ClientFrameStage_t stage)
 	if (stage != ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_START)
 		return;
 
-	C_BasePlayer* localPlayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	if (!localPlayer)
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer)
 		return;
 
 	if (Settings::Noflash::enabled)
-		*localPlayer->GetFlashMaxAlpha() = 255.0f - Settings::Noflash::value;
+		*localplayer->GetFlashMaxAlpha() = 255.0f - Settings::Noflash::value;
 	else
-		*localPlayer->GetFlashMaxAlpha() = 255.0f;
+		*localplayer->GetFlashMaxAlpha() = 255.0f;
 }

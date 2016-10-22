@@ -10,7 +10,7 @@ void BHop::CreateMove(CUserCmd* cmd)
 	static bool bLastJumped = false;
 	static bool bShouldFake = false;
 
-	C_BaseEntity* localplayer = reinterpret_cast<C_BaseEntity*>(entitylist->GetClientEntity(engine->GetLocalPlayer()));
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 
 	if (!localplayer)
 		return;

@@ -89,7 +89,7 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 
 	C_BaseEntity* entity = entitylist->GetClientEntity(pInfo.entity_index);
 	if (!entity
-		|| entity == (C_BaseEntity*)localPlayer
+		|| entity == localPlayer
 		|| entity->GetDormant()
 		|| entity->GetLifeState() != LIFE_ALIVE
 		|| entity->GetHealth() <= 0)

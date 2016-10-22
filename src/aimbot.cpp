@@ -268,7 +268,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	if (localplayer->GetLifeState() != LIFE_ALIVE || localplayer->GetHealth() == 0)
 		return;
 
-	C_BaseCombatWeapon* active_weapon = reinterpret_cast<C_BaseCombatWeapon*>(entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon()));
+	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
 	if (!active_weapon || active_weapon->isGrenade() || active_weapon->isKnife())
 		return;
 
