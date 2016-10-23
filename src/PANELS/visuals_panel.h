@@ -15,7 +15,7 @@ private:
 	ToggleSwitch* ts_tracer;
 	ToggleSwitch* ts_name;
 	ToggleSwitch* ts_health;
-	ToggleSwitch* ts_bones;
+	ToggleSwitch* ts_Bone;
 	ToggleSwitch* ts_visibility_check;
 	Banner*	ba_crosshair;
 	ToggleSwitch* ts_recoil_crosshair;

@@ -417,7 +417,7 @@ enum EClassIds: int
 	SporeTrail
 };
 
-enum Bones: unsigned int
+enum Bone: unsigned int
 {
 	BONE_PELVIS = 0,
 	BONE_HIP,
@@ -540,7 +540,7 @@ enum HitGroups: int
 #define TEXTURE_GROUP_RENDER_TARGET_SURFACE			"RenderTarget Surfaces"
 #define TEXTURE_GROUP_MORPH_TARGETS					"Morph Targets"
 
-#define MAXSTUDIOBONES 128
+#define MAXSTUDIOBone 128
 #define BONE_USED_BY_HITBOX 0x100
 
 #define	MASK_SHOT	(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_MONSTER|CONTENTS_WINDOW|CONTENTS_DEBRIS|CONTENTS_HITBOX)

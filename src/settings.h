@@ -97,7 +97,7 @@ namespace Settings
 		{
 			extern bool enabled;
 			extern float value;
-			extern std::vector<Bones> bones;
+			extern std::vector<Bone> Bone;
 		}
 
 		namespace AimStep
@@ -165,7 +165,7 @@ namespace Settings
 		extern Color ally_color;
 		extern Color enemy_color;
 		extern Color enemy_visible_color;
-		extern Color bones_color;
+		extern Color Bone_color;
 		extern Color bomb_color;
 
 		namespace Glow
@@ -195,7 +195,7 @@ namespace Settings
 			extern bool showHealth;
 		}
 
-		namespace Bones
+		namespace Bone
 		{
 			extern bool enabled;
 		}

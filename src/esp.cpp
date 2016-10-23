@@ -4,7 +4,7 @@ bool Settings::ESP::enabled	= true;
 Color Settings::ESP::ally_color = Color(0, 50, 200);
 Color Settings::ESP::enemy_color = Color(200, 0, 50);
 Color Settings::ESP::enemy_visible_color = Color(200, 200, 50);
-Color Settings::ESP::bones_color = Color(255, 255, 255);
+Color Settings::ESP::Bone_color = Color(255, 255, 255);
 Color Settings::ESP::bomb_color = Color(200, 0, 50);
 bool Settings::ESP::Glow::enabled = false;
 Color Settings::ESP::Glow::ally_color = Color(0, 50, 200, 0);
@@ -16,7 +16,7 @@ bool Settings::ESP::Walls::enabled = false;
 WallBoxType Settings::ESP::Walls::type = FLAT_2D;
 bool Settings::ESP::Info::showName = true;
 bool Settings::ESP::Info::showHealth = false;
-bool Settings::ESP::Bones::enabled = false;
+bool Settings::ESP::Bone::enabled = false;
 bool Settings::ESP::Bomb::enabled = true;
 bool Settings::ESP::Weapons::enabled = false;
 bool Settings::ESP::Tracer::enabled = false;
@@ -97,16 +97,16 @@ void DrawESPBox(Vector vecOrigin, Vector vecViewOffset, Color color, int width, 
 	Draw::DrawLine(a, b, color);
 }
 
-void ESP::DrawBones(C_BaseEntity* entity)
+void ESP::DrawBone(C_BaseEntity* entity)
 {
 	studiohdr_t* pStudioModel = modelInfo->GetStudioModel(entity->GetModel());
 	if (!pStudioModel)
 		return;
 
 	static matrix3x4_t pBoneToWorldOut[128];
-	if (entity->SetupBones(pBoneToWorldOut, 128, 256, 0))
+	if (entity->SetupBone(pBoneToWorldOut, 128, 256, 0))
 	{
-		for (int i = 0; i < pStudioModel->numbones; i++)
+		for (int i = 0; i < pStudioModel->numBone; i++)
 		{
 			mstudiobone_t* pBone = pStudioModel->pBone(i);
 			if (!pBone || !(pBone->flags & 256) || pBone->parent == -1)
@@ -120,7 +120,7 @@ void ESP::DrawBones(C_BaseEntity* entity)
 			if (WorldToScreen(Vector(pBoneToWorldOut[pBone->parent][0][3], pBoneToWorldOut[pBone->parent][1][3], pBoneToWorldOut[pBone->parent][2][3]), vBonePos2))
 				continue;
 
-			Draw::DrawLine(LOC(vBonePos1.x, vBonePos1.y), LOC(vBonePos2.x, vBonePos2.y), Settings::ESP::bones_color);
+			Draw::DrawLine(LOC(vBonePos1.x, vBonePos1.y), LOC(vBonePos2.x, vBonePos2.y), Settings::ESP::Bone_color);
 		}
 	}
 }
@@ -192,7 +192,7 @@ void ESP::DrawPlayerBox(C_BaseEntity* entity)
 
 		Vector vecOrigin = entity->GetVecOrigin();
 
-		Vector vecHeadBone = entity->GetBonePosition(Bones::BONE_HEAD);
+		Vector vecHeadBone = entity->GetBonePosition(Bone::BONE_HEAD);
 		Vector vecViewOffset = Vector(vecOrigin.x, vecOrigin.y, vecHeadBone.z);
 
 		Vector s_veclocalplayer_s;
@@ -382,8 +382,8 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 				&& entitylist->GetClientEntityFromHandle(localplayer->GetObserverTarget()) == entity)
 				continue;
 
-			if (Settings::ESP::Bones::enabled)
-				ESP::DrawBones(entity);
+			if (Settings::ESP::Bone::enabled)
+				ESP::DrawBone(entity);
 
 			if (Settings::ESP::Walls::enabled)
 				ESP::DrawPlayerBox(entity);

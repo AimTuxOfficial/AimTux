@@ -13,7 +13,7 @@ private:
 	ToggleSwitch* ts_antiaim_x;
 	ListBox<AntiAimType_Y>* lb_antiaim_y;
 	ToggleSwitch* ts_antiaim_y;
-	MS_ListBox<Bones>* lb_bone_select_multi;
+	MS_ListBox<Bone>* lb_bone_select_multi;
 public:
 	HVHPanel (Vector2D position, Vector2D size);
 };

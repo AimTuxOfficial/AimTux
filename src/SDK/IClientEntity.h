@@ -46,10 +46,10 @@ public:
 		getvfunc<oGetModel>(this, 8)(this);
 	}
 
-	bool SetupBones(matrix3x4_t* pBoneMatrix, int nMaxBones, int nBoneMask, float flCurTime = 0)
+	bool SetupBone(matrix3x4_t* pBoneMatrix, int nMaxBone, int nBoneMask, float flCurTime = 0)
 	{
-		typedef bool (* oSetupBones)(void*, matrix3x4_t*, int, int, float);
-		getvfunc<oSetupBones>(this, 13)(this, pBoneMatrix, nMaxBones, nBoneMask, flCurTime);
+		typedef bool (* oSetupBone)(void*, matrix3x4_t*, int, int, float);
+		getvfunc<oSetupBone>(this, 13)(this, pBoneMatrix, nMaxBone, nBoneMask, flCurTime);
 	}
 };
 
@@ -167,9 +167,9 @@ public:
 
 	inline Vector GetBonePosition(int boneIndex)
 	{
-		matrix3x4_t BoneMatrix[MAXSTUDIOBONES];
+		matrix3x4_t BoneMatrix[MAXSTUDIOBone];
 
-		if (!this->SetupBones(BoneMatrix, MAXSTUDIOBONES, BONE_USED_BY_HITBOX, 0))
+		if (!this->SetupBone(BoneMatrix, MAXSTUDIOBone, BONE_USED_BY_HITBOX, 0))
 			return this->GetVecOrigin();
 
 		matrix3x4_t hitbox = BoneMatrix[boneIndex];
