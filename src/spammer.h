@@ -29,6 +29,6 @@ namespace Spammer
 	extern SpamCollection* currentSpamCollection;
 	extern std::vector<IEngineClient::player_info_t> killedPlayerQueue;
 
-	void Run();
+	void CreateMove(CUserCmd* cmd);
 	void FireEventClientSide(IGameEvent* event);
 }

@@ -22,7 +22,7 @@ std::vector<ClanTagChanger::Animation> ClanTagChanger::animations =
 };
 ClanTagChanger::Animation* ClanTagChanger::animation = &ClanTagChanger::animations[0];
 
-void ClanTagChanger::Run()
+void ClanTagChanger::CreateMove(CUserCmd* cmd)
 {
 	if (!Settings::ClanTagChanger::enabled)
 		return;
