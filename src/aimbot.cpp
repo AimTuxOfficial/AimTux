@@ -42,9 +42,9 @@ void GetBestBone (C_BaseEntity* entity, float& best_damage, Bone& best_bone)
 	for (std::vector<Bone>::iterator it = Settings::Aimbot::AutoWall::bones.begin(); it != Settings::Aimbot::AutoWall::bones.end(); it++)
 	{
 		Bone bone = *it;
-		Vector vec_bone = entity->GetBonePosition (bone);
+		Vector vec_bone = entity->GetBonePosition(bone);
 		
-		float damage = Autowall::GetDamage (vec_bone);
+		float damage = Autowall::GetDamage(vec_bone);
 		
 		if (damage > best_damage)
 		{
@@ -92,7 +92,7 @@ C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible, Bone& best_bone)
 		{
 			float damage = 0.0f;
 			Bone bone;
-			GetBestBone (entity, damage, bone);
+			GetBestBone(entity, damage, bone);
 			
 			if (damage >= best_damage && damage >= Settings::Aimbot::AutoWall::value)
 			{
