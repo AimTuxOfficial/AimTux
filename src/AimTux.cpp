@@ -52,8 +52,8 @@ int __attribute__((constructor)) aimtux_init()
 
 void __attribute__((destructor)) aimtux_shutdown()
 {
-	engine->ExecuteClientCmd("cl_mouseenable 1");
-	
+	cvar->FindVar("cl_mouseenable")->SetValue(1);
+
 	client_vmt->ReleaseVMT();
 	panel_vmt->ReleaseVMT();
 	modelRender_vmt->ReleaseVMT();

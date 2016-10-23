@@ -23,6 +23,24 @@ public:
 		getvfunc<oSetValue>(this, 17)(this, value);
 	}
 
+	void SetValue(float value)
+	{
+		typedef void (* oSetValue)(void*, float);
+		getvfunc<oSetValue>(this, 18)(this, value);
+	}
+
+	void SetValue(int value)
+	{
+		typedef void (* oSetValue)(void*, int);
+		getvfunc<oSetValue>(this, 19)(this, value);
+	}
+
+	void SetValue(Color value)
+	{
+		typedef void (* oSetValue)(void*, Color);
+		getvfunc<oSetValue>(this, 20)(this, value);
+	}
+
 	char pad_0x0000[0x4]; //0x0000
 	ConVar* pNext; //0x0004
 	int32_t bRegistered; //0x0008

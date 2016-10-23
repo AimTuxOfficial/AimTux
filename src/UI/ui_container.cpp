@@ -131,7 +131,7 @@ void UI_Container::Toggle ()
 {
 	visible = !visible;
 
-	engine->ExecuteClientCmd(visible ? "cl_mouseenable 0" : "cl_mouseenable 1");
+	cvar->FindVar("cl_mouseenable")->SetValue (!visible);
 }
 
 bool UI_Container::isVisible ()
