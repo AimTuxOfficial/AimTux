@@ -24,7 +24,14 @@ float Autowall::GetHitgroupDamageMultiplier(int iHitGroup)
 void Autowall::ScaleDamage(int hitgroup, C_BaseEntity* enemy, float weapon_armor_ratio, float &current_damage)
 {
 	current_damage *= Autowall::GetHitgroupDamageMultiplier(hitgroup);
-
+	
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	if (enemy->GetTeam() == localplayer->GetTeam())
+	{
+		current_damage = 0;
+		return;
+	}
+	
 	int armor = enemy->GetArmor();
 	int helmet = enemy->HasHelmet();
 
@@ -246,7 +253,7 @@ float Autowall::GetDamage(const Vector& point)
 
 	data.direction.NormalizeInPlace();
 
-	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+	C_BaseCombatWeapon* active_weapon = reinterpret_cast<C_BaseCombatWeapon*>(entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon()));
 	if (!active_weapon)
 		return -1.0f;
 
