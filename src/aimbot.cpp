@@ -63,8 +63,6 @@ C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible, Bone& best_bone)
 	float best_fov = Settings::Aimbot::fov;
 	float best_damage = 0;
 
-	visible = visible && !Settings::Aimbot::AutoWall::enabled;
-
 	if (!localplayer)
 		return NULL;
 
@@ -86,9 +84,11 @@ C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible, Bone& best_bone)
 		Vector e_vecHead = entity->GetBonePosition(Settings::Aimbot::bone);
 		Vector p_vecHead = localplayer->GetEyePosition();
 		float fov = Math::GetFov(cmd->viewangles, Math::CalcAngle(p_vecHead, e_vecHead));
-		
-		
-		if (Settings::Aimbot::AutoWall::enabled)
+
+		if (visible && !Entity::IsVisible(entity, Settings::Aimbot::bone) && !Settings::Aimbot::AutoWall::enabled)
+			continue;
+
+		if (!Entity::IsVisible(entity, Settings::Aimbot::bone) && Settings::Aimbot::AutoWall::enabled)
 		{
 			float damage = 0.0f;
 			Bone bone;
@@ -103,10 +103,6 @@ C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible, Bone& best_bone)
 			
 			continue;
 		}
-		
-
-		if (visible && !Entity::IsVisible(entity, Settings::Aimbot::bone))
-			continue;
 
 		if (fov < best_fov)
 		{
