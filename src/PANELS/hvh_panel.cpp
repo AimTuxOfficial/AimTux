@@ -36,10 +36,7 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 		{
 			LB_Element ("HEAD", BONE_HEAD),
 			LB_Element ("NECK", BONE_NECK),
-			LB_Element ("UPPER SPINE", BONE_UPPER_SPINAL_COLUMN),
 			LB_Element ("MIDDLE SPINE", BONE_MIDDLE_SPINAL_COLUMN),
-			LB_Element ("LOWER SPINE", BONE_LOWER_SPINAL_COLUMN),
-			LB_Element ("HIP", BONE_HIP),
 			LB_Element ("PELVIS", BONE_PELVIS)
 		}
 	);
