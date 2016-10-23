@@ -15,6 +15,7 @@ Want to chat or play with other AimTux users? Join us on Gitter!
 * *AutoShoot*
 * *AutoCrouch*
 * *AutoStop*
+* *AutoWall*
 * *RCS*
 * *Box ESP*
 * *Name ESP*
@@ -35,6 +36,7 @@ Want to chat or play with other AimTux users? Join us on Gitter!
 * *Clan Tag Changer*
 * *Chat Spammer*
 * *Kill Spammer*
+* *Name Changer*
 
 ===================
 
