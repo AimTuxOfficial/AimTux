@@ -7,7 +7,7 @@ int NameChanger::changes = -1;
 const char* atom[] = { "Aim", "Tux", "Owns", "Me", "And All" };
 int atomSize = sizeof(atom) / sizeof(atom[0]);
 
-void NameChanger::CreateMove(CUserCmd* cmd)
+void NameChanger::Run()
 {
 	if (!Settings::NameChanger::enabled)
 		return;

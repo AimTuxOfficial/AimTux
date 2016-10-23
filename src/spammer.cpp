@@ -21,8 +21,16 @@ std::vector<Spammer::SpamCollection> Spammer::collections =
 
 Spammer::SpamCollection* Spammer::currentSpamCollection = &collections[0];
 
-void Spammer::CreateMove(CUserCmd* cmd)
+void Spammer::Run()
 {
+	if (!Settings::Spammer::PositionSpammer::enabled
+		&& !Settings::Spammer::KillSpammer::enabled
+		&& !Settings::Spammer::NormalSpammer::enabled)
+		return;
+
+	if (!engine->IsInGame())
+		return;
+
 	// Grab the current time in milliseconds
 	long currentTime_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
 			std::chrono::system_clock::now().time_since_epoch()).count();

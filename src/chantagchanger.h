@@ -56,7 +56,7 @@ namespace ClanTagChanger
 
 	extern std::vector<Animation> animations;
 	extern Animation* animation;
-	void CreateMove(CUserCmd* cmd);
+	void Run();
 }
 
 extern SendClanTagFn SendClanTag;
