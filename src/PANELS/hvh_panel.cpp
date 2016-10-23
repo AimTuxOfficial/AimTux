@@ -31,5 +31,19 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 	ts_antiaim_y = new ToggleSwitch ("y axis", LOC (lb_antiaim_x->position.x + lb_antiaim_x->size.x + 10, lb_antiaim_y->position.y - 45), 33, &Settings::AntiAim::enabled_Y);
 	AddComponent (ts_antiaim_y);
 	
+	
+	lb_bone_select_multi = new MS_ListBox<Bones> ("Autowall bones", LOC (lb_antiaim_y->position.x + lb_antiaim_y->size.x + 10, lb_antiaim_y->position.y), 170, &Settings::Aimbot::AutoWall::bones, std::vector<LB_Element>
+		{
+			LB_Element ("HEAD", BONE_HEAD),
+			LB_Element ("NECK", BONE_NECK),
+			LB_Element ("UPPER SPINE", BONE_UPPER_SPINAL_COLUMN),
+			LB_Element ("MIDDLE SPINE", BONE_MIDDLE_SPINAL_COLUMN),
+			LB_Element ("LOWER SPINE", BONE_LOWER_SPINAL_COLUMN),
+			LB_Element ("HIP", BONE_HIP),
+			LB_Element ("PELVIS", BONE_PELVIS)
+		}
+	);
+	AddComponent (lb_bone_select_multi);
+	
 	Hide ();
 }
