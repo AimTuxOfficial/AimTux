@@ -198,11 +198,11 @@ struct studiohdr_t {
 	Vector view_bbmax;
 
 	int flags;
-	int numBone;            // Bone
+	int numbones;            // bones
 	int boneindex;
 	inline mstudiobone_t *pBone(int i) const
 	{
-		Assert(i >= 0 && i < numBone);
+		Assert(i >= 0 && i < numbones);
 		return (mstudiobone_t *)(((unsigned char * ) this) + boneindex ) + i;
 	};
 

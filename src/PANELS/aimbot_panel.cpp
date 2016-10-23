@@ -60,7 +60,7 @@ AimbotPanel::AimbotPanel (Vector2D position, Vector2D size)
 	ts_friendly = new ToggleSwitch ("friendly", BELOW (ba_target), 33, &Settings::Aimbot::friendly);
 	AddComponent (ts_friendly);
 
-	lb_aimbone = new StackedListBox<Bone>("aimbone", BELOW (ts_friendly), ((size.x - 20) / 2) - 5, 3, (Bone*)&Settings::Aimbot::bone, std::vector<LB_Element>
+	lb_aimbone = new StackedListBox<Bones>("aimbone", BELOW (ts_friendly), ((size.x - 20) / 2) - 5, 3, (Bones*)&Settings::Aimbot::bone, std::vector<LB_Element>
 			{
 					LB_Element ("HEAD", BONE_HEAD),
 					LB_Element ("NECK", BONE_NECK),
@@ -75,3 +75,4 @@ AimbotPanel::AimbotPanel (Vector2D position, Vector2D size)
 	
 	Hide ();
 }
+

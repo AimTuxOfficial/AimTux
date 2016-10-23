@@ -21,10 +21,10 @@ VisualsPanel::VisualsPanel (Vector2D position, Vector2D size)
 	ts_health = new ToggleSwitch ("show health", BELOW (ts_name), 33, &Settings::ESP::Info::showHealth);
 	AddComponent (ts_health);
 	
-	ts_Bone = new ToggleSwitch ("show Bone", BELOW (ts_health), 33, &Settings::ESP::Bone::enabled);
-	AddComponent (ts_Bone);
+	ts_bones = new ToggleSwitch ("show bones", BELOW (ts_health), 33, &Settings::ESP::Bones::enabled);
+	AddComponent (ts_bones);
 	
-	ts_visibility_check = new ToggleSwitch ("visibility check", BELOW (ts_Bone), 33, &Settings::ESP::visibility_check);
+	ts_visibility_check = new ToggleSwitch ("visibility check", BELOW (ts_bones), 33, &Settings::ESP::visibility_check);
 	AddComponent (ts_visibility_check);
 
 	ba_crosshair = new Banner ("Crosshair", BELOW (ts_visibility_check), (size.x - 20) / 2 - 5);

@@ -125,7 +125,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	LoadColor(settings["ESP"]["ally_color"], Settings::ESP::ally_color);
 	LoadColor(settings["ESP"]["enemy_color"], Settings::ESP::enemy_color);
 	LoadColor(settings["ESP"]["enemy_visible_color"], Settings::ESP::enemy_visible_color);
-	LoadColor(settings["ESP"]["Bone_color"], Settings::ESP::Bone_color);
+	LoadColor(settings["ESP"]["bones_color"], Settings::ESP::bones_color);
 	LoadColor(settings["ESP"]["bomb_color"], Settings::ESP::bomb_color);
 	settings["ESP"]["visibility_check"] = Settings::ESP::visibility_check;
 	settings["ESP"]["Glow"]["enabled"] = Settings::ESP::Glow::enabled;
@@ -139,7 +139,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["ESP"]["Walls"]["type"] = Settings::ESP::Walls::type;
 	settings["ESP"]["Info"]["showName"] = Settings::ESP::Info::showName;
 	settings["ESP"]["Info"]["showHealth"] = Settings::ESP::Info::showHealth;
-	settings["ESP"]["Bone"]["enabled"] = Settings::ESP::Bone::enabled;
+	settings["ESP"]["Bones"]["enabled"] = Settings::ESP::Bones::enabled;
 	settings["ESP"]["Bomb"]["enabled"] = Settings::ESP::Bomb::enabled;
 	settings["ESP"]["Weapons"]["enabled"] = Settings::ESP::Weapons::enabled;
 	settings["ESP"]["FOVCrosshair"]["enabled"] = Settings::ESP::FOVCrosshair::enabled;
@@ -260,7 +260,7 @@ void Settings::LoadSettings(const char* filename)
 		GetColor(settings["ESP"]["ally_color"], Settings::ESP::ally_color);
 		GetColor(settings["ESP"]["enemy_color"], Settings::ESP::enemy_color);
 		GetColor(settings["ESP"]["enemy_visible_color"], Settings::ESP::enemy_visible_color);
-		GetColor(settings["ESP"]["Bone_color"], Settings::ESP::Bone_color);
+		GetColor(settings["ESP"]["bones_color"], Settings::ESP::bones_color);
 		GetColor(settings["ESP"]["bomb_color"], Settings::ESP::bomb_color);
 		GetBool(settings["ESP"]["visibility_check"], Settings::ESP::visibility_check);
 		GetBool(settings["ESP"]["Glow"]["enabled"], Settings::ESP::Glow::enabled);
@@ -274,7 +274,7 @@ void Settings::LoadSettings(const char* filename)
 		GetInt(settings["ESP"]["Walls"]["type"], Settings::ESP::Walls::type);
 		GetBool(settings["ESP"]["Info"]["showName"], Settings::ESP::Info::showName);
 		GetBool(settings["ESP"]["Info"]["showHealth"], Settings::ESP::Info::showHealth);
-		GetBool(settings["ESP"]["Bone"]["enabled"], Settings::ESP::Bone::enabled);
+		GetBool(settings["ESP"]["Bones"]["enabled"], Settings::ESP::Bones::enabled);
 		GetBool(settings["ESP"]["Bomb"]["enabled"], Settings::ESP::Bomb::enabled);
 		GetBool(settings["ESP"]["Weapons"]["enabled"], Settings::ESP::Weapons::enabled);
 		GetBool(settings["ESP"]["FOVCrosshair"]["enabled"], Settings::ESP::FOVCrosshair::enabled);

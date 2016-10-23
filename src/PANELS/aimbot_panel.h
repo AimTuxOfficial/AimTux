@@ -28,7 +28,7 @@ private:
 	ToggleSwitch* ts_autostop;
 	Banner* ba_target;
 	ToggleSwitch* ts_friendly;
-	StackedListBox<Bone>* lb_aimbone;
+	StackedListBox<Bones>* lb_aimbone;
 public:
 	AimbotPanel (Vector2D position, Vector2D size);
 };

@@ -176,11 +176,11 @@ public:
 	{
 		if (!IsSelected())
 		{
-			setting->push_back (static_cast<Bone>(element->value));
+			setting->push_back (static_cast<Bones>(element->value));
 		}
 		else
 		{
-			setting->erase (std::remove(setting->begin(), setting->end(), static_cast<Bone>(element->value)));
+			setting->erase (std::remove(setting->begin(), setting->end(), static_cast<Bones>(element->value)));
 		}
 	}
 	
