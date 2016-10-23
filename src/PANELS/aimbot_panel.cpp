@@ -44,6 +44,9 @@ AimbotPanel::AimbotPanel (Vector2D position, Vector2D size)
 
 	ts_autoshoot = new ToggleSwitch ("auto shoot", BELOW (sl_error), 33, &Settings::Aimbot::AutoShoot::enabled);
 	AddComponent (ts_autoshoot);
+
+	ts_autoscope = new ToggleSwitch ("auto scope", STACK (ts_autoshoot), 33, &Settings::Aimbot::AutoShoot::autoscope);
+	AddComponent (ts_autoscope);
 	
 	ba_movement = new Banner ("Movement", BELOW (ts_autoshoot), (size.x - 20) / 2 - 5);
 	AddComponent (ba_movement);

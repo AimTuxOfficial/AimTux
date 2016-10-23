@@ -23,6 +23,7 @@ private:
 	Slider* sl_autowall;
 	Slider* sl_error;
 	ToggleSwitch* ts_autoshoot;
+	ToggleSwitch* ts_autoscope;
 	Banner* ba_movement;
 	ToggleSwitch* ts_autocrouch;
 	ToggleSwitch* ts_autostop;
