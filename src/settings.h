@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <zconf.h>
 #include <fstream>
+#include <vector>
 #include "json/json.h"
 #include "SDK/SDK.h"
 #include "fonts.h"
@@ -96,6 +97,7 @@ namespace Settings
 		{
 			extern bool enabled;
 			extern float value;
+			extern std::vector<Bones> bones;
 		}
 
 		namespace AimStep

@@ -15,6 +15,7 @@ float Settings::Aimbot::Smooth::max = 15.0f;
 bool Settings::Aimbot::AutoAim::enabled = false;
 bool Settings::Aimbot::AutoWall::enabled = false;
 float Settings::Aimbot::AutoWall::value = 10.0f;
+std::vector<Bones> Settings::Aimbot::AutoWall::bones;
 bool Settings::Aimbot::AimStep::enabled = false;
 float Settings::Aimbot::AimStep::value = 25.0f;
 bool Settings::Aimbot::AutoShoot::enabled = false;
@@ -296,6 +297,3 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	cmd->viewangles = angle;
 	Math::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);
 }
-
-
-
