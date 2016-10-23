@@ -15,7 +15,7 @@ float Settings::Aimbot::Smooth::max = 15.0f;
 bool Settings::Aimbot::AutoAim::enabled = false;
 bool Settings::Aimbot::AutoWall::enabled = false;
 float Settings::Aimbot::AutoWall::value = 10.0f;
-std::vector<Bones> Settings::Aimbot::AutoWall::bones = { BONE_HEAD };
+std::vector<Bone> Settings::Aimbot::AutoWall::bones = { BONE_HEAD };
 bool Settings::Aimbot::AimStep::enabled = false;
 float Settings::Aimbot::AimStep::value = 25.0f;
 bool Settings::Aimbot::AutoShoot::enabled = false;
@@ -36,13 +36,12 @@ static void ApplyErrorToAngle(QAngle* angles, float margin)
 	angles->operator+=(error);
 }
 
-void GetBestBone (C_BaseEntity* entity, float& best_damage, Bones& best_bone)
+void GetBestBone (C_BaseEntity* entity, float& best_damage, Bone& best_bone)
 {
 	best_bone = BONE_HEAD;
-	for (std::vector<Bones>::iterator it = Settings::Aimbot::AutoWall::bones.begin(); it != Settings::Aimbot::AutoWall::bones.end(); it++)
+	for (std::vector<Bone>::iterator it = Settings::Aimbot::AutoWall::bones.begin(); it != Settings::Aimbot::AutoWall::bones.end(); it++)
 	{
-		
-		Bones bone = *it;
+		Bone bone = *it;
 		Vector vec_bone = entity->GetBonePosition (bone);
 		
 		float damage = Autowall::GetDamage (vec_bone);
@@ -55,9 +54,9 @@ void GetBestBone (C_BaseEntity* entity, float& best_damage, Bones& best_bone)
 	}
 }
 
-C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible, Bones& best_bone)
+C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible, Bone& best_bone)
 {
-	best_bone = static_cast<Bones>(Settings::Aimbot::bone);
+	best_bone = static_cast<Bone>(Settings::Aimbot::bone);
 	
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	C_BaseEntity* closestEntity = NULL;
@@ -92,7 +91,7 @@ C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible, Bones& best_bone)
 		if (Settings::Aimbot::AutoWall::enabled)
 		{
 			float damage = 0.0f;
-			Bones bone;
+			Bone bone;
 			GetBestBone (entity, damage, bone);
 			
 			if (damage >= best_damage && damage >= Settings::Aimbot::AutoWall::value)
@@ -310,7 +309,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	if (!active_weapon || active_weapon->isGrenade() || active_weapon->isKnife())
 		return;
 
-	Bones aw_bone;
+	Bone aw_bone;
 	C_BaseEntity* entity = GetClosestEnemy(cmd, true, aw_bone);
 	if (entity && Settings::Aimbot::AutoAim::enabled)
 	{
