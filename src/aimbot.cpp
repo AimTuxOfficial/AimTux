@@ -15,7 +15,7 @@ float Settings::Aimbot::Smooth::max = 15.0f;
 bool Settings::Aimbot::AutoAim::enabled = false;
 bool Settings::Aimbot::AutoWall::enabled = false;
 float Settings::Aimbot::AutoWall::value = 10.0f;
-std::vector<Bone> Settings::Aimbot::AutoWall::Bone = { BONE_HEAD };
+std::vector<Bone> Settings::Aimbot::AutoWall::bones = { BONE_HEAD };
 bool Settings::Aimbot::AimStep::enabled = false;
 float Settings::Aimbot::AimStep::value = 25.0f;
 bool Settings::Aimbot::AutoShoot::enabled = false;
@@ -39,7 +39,7 @@ static void ApplyErrorToAngle(QAngle* angles, float margin)
 void GetBestBone (C_BaseEntity* entity, float& best_damage, Bone& best_bone)
 {
 	best_bone = BONE_HEAD;
-	for (std::vector<Bone>::iterator it = Settings::Aimbot::AutoWall::Bone.begin(); it != Settings::Aimbot::AutoWall::Bone.end(); it++)
+	for (std::vector<Bone>::iterator it = Settings::Aimbot::AutoWall::bones.begin(); it != Settings::Aimbot::AutoWall::bones.end(); it++)
 	{
 		
 		Bone bone = *it;

@@ -97,7 +97,7 @@ namespace Settings
 		{
 			extern bool enabled;
 			extern float value;
-			extern std::vector<Bone> Bone;
+			extern std::vector<Bone> bones;
 		}
 
 		namespace AimStep
