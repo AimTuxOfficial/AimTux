@@ -150,3 +150,95 @@ public:
 		Panel::Draw ();
 	}
 };
+
+//// MULTI SELECT
+
+
+
+template<typename T>
+class MS_LB_Button : public Button
+{
+protected:
+	Color text_color = Color (255, 255, 255, 255);
+	Color background_color = Color (160, 160, 160, 7);
+	Color background_color_hovered = Color (160, 160, 160, 12);
+public:
+	LB_Element* element;
+	std::vector<T>* setting;
+	
+	
+	bool IsSelected ()
+	{
+		return std::find(setting->begin(), setting->end(), element->value) != setting->end();
+	}
+	
+	void OnClicked ()
+	{
+		if (!IsSelected())
+		{
+			setting->push_back (static_cast<Bones>(element->value));
+		}
+		else
+		{
+			setting->erase (std::remove(setting->begin(), setting->end(), static_cast<Bones>(element->value)));
+		}
+	}
+	
+	MS_LB_Button (std::string text, Vector2D position, Vector2D size, std::vector<T>* setting, LB_Element* element)
+		: Button (text, position, size)
+	{
+		this->element = element;
+		this->setting = setting;
+		this->OnClickedEvent = MFUNC (&MS_LB_Button::OnClicked, this);
+	}
+	
+	void Draw ()
+	{
+		Clear (isHovered ? background_color_hovered : background_color);
+		
+		if (IsSelected())
+		{
+			DrawRectangle (LOC (0, 0), size, Settings::UI::mainColor);
+		}
+		
+		DrawCenteredString (text, normal_font, text_color, LOC (size.x / 2, size.y / 2));
+	}
+};
+
+template<typename E>
+class MS_ListBox : public Panel
+{
+protected:
+	Color background_color = Color (160, 160, 160, 4);
+public:
+	std::string text = "multi-select listbox";
+	std::vector<LB_Element> elements;
+	std::vector<E>* setting;
+	
+	MS_ListBox<E> (std::string text, Vector2D position, int width, std::vector<E>* setting, std::vector<LB_Element> elements)
+	{
+		this->position = position;
+		this->text = text;
+		this->elements = elements;
+		this->setting = setting;
+		
+		for (int i = 0; i < elements.size(); i++)
+		{
+			LB_Element* element = &this->elements[i];
+			
+			MS_LB_Button<E>* new_button = new MS_LB_Button<E> (element->name, LOC (10, 10 + (i * LB_ELEMENT_HEIGHT) + (i * LB_ELEMENT_SEPARATOR_WIDTH)), LOC (width - 20, LB_ELEMENT_HEIGHT), this->setting, element);
+			AddComponent (new_button);
+		}
+		
+		this->size = Vector2D (width, (elements.size() * LB_ELEMENT_HEIGHT) + (10 + (elements.size() * LB_ELEMENT_SEPARATOR_WIDTH)));
+	}
+	
+	void Draw ()
+	{
+		Clear (background_color);
+		
+		DrawRectangle (LOC (0, 0), this->size, Settings::UI::mainColor);
+		
+		Panel::Draw ();
+	}
+};
