@@ -8,8 +8,9 @@
 class TextBox : public Component
 {
 protected:
-	Color text_color	   = Color (255, 255, 255, 200);
-	Color background_color = Color (160, 160, 160, 5);
+	Color text_color			= Color (255, 255, 255, 200);
+	Color shadowtext_color		= Color (150, 150, 150, 200);
+	Color background_color 		= Color (160, 160, 160, 5);
 	bool s_showCaret = false;
 	int s_caret_stamp;
 	Vector2D font_size;
@@ -48,11 +49,23 @@ public:
 		
 		int text_max_fit = (size.x-20) / font_size.x;
 		
-		const char* sectioned_text = (strp->size() > text_max_fit ? &strp->c_str()[strp->size() - text_max_fit] : strp->c_str());
+		int sectioned_text_size = 0;
 		
-		int sectioned_text_size = strlen(sectioned_text);
-		
-		DrawString (sectioned_text, mono_font, text_color, LOC (10, (size.y / 2) - (font_size.y / 2)));
+		if (strp->size() > 0)
+		{
+			const char* sectioned_text = (strp->size() > text_max_fit ? &strp->c_str()[strp->size() - text_max_fit] : strp->c_str());
+			
+			sectioned_text_size = strlen(sectioned_text);
+			
+			DrawString (sectioned_text, mono_font, text_color, LOC (10, (size.y / 2) - (font_size.y / 2)));
+			
+		}
+		else
+		{
+			const char* sectioned_text = (shadow_text.size() > text_max_fit ? &shadow_text.c_str()[shadow_text.size() - text_max_fit] : shadow_text.c_str());
+			
+			DrawString (sectioned_text, mono_font, shadowtext_color, LOC (10, (size.y / 2) - (font_size.y / 2)));
+		}
 		
 		int current_tick = globalvars->tickcount;
 		
