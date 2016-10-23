@@ -36,11 +36,33 @@ static void ApplyErrorToAngle(QAngle* angles, float margin)
 	angles->operator+=(error);
 }
 
-C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible)
+void GetBestBone (C_BaseEntity* entity, float& best_damage, Bones& best_bone)
 {
+	best_bone = BONE_HEAD;
+	for (std::vector<Bones>::iterator it = Settings::Aimbot::AutoWall::bones.begin(); it != Settings::Aimbot::AutoWall::bones.end(); it++)
+	{
+		
+		Bones bone = *it;
+		Vector vec_bone = entity->GetBonePosition (bone);
+		
+		float damage = Autowall::GetDamage (vec_bone);
+		
+		if (damage > best_damage)
+		{
+			best_damage = damage;
+			best_bone = bone;
+		}
+	}
+}
+
+C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible, Bones& best_bone)
+{
+	best_bone = static_cast<Bones>(Settings::Aimbot::bone);
+	
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	C_BaseEntity* closestEntity = NULL;
 	float best_fov = Settings::Aimbot::fov;
+	float best_damage = 0;
 
 	visible = visible && !Settings::Aimbot::AutoWall::enabled;
 
@@ -65,9 +87,24 @@ C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible)
 		Vector e_vecHead = entity->GetBonePosition(Settings::Aimbot::bone);
 		Vector p_vecHead = localplayer->GetEyePosition();
 		float fov = Math::GetFov(cmd->viewangles, Math::CalcAngle(p_vecHead, e_vecHead));
-
-		if (Settings::Aimbot::AutoWall::enabled && Autowall::GetDamage(e_vecHead) < Settings::Aimbot::AutoWall::value)
+		
+		
+		if (Settings::Aimbot::AutoWall::enabled)
+		{
+			float damage = 0.0f;
+			Bones bone;
+			GetBestBone (entity, damage, bone);
+			
+			if (damage >= best_damage && damage >= Settings::Aimbot::AutoWall::value)
+			{
+				best_damage = damage;
+				best_bone = bone;
+				closestEntity = entity;
+			}
+			
 			continue;
+		}
+		
 
 		if (visible && !Entity::IsVisible(entity, Settings::Aimbot::bone))
 			continue;
@@ -273,12 +310,13 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	if (!active_weapon || active_weapon->isGrenade() || active_weapon->isKnife())
 		return;
 
-	C_BaseEntity* entity = GetClosestEnemy(cmd, true);
+	Bones aw_bone;
+	C_BaseEntity* entity = GetClosestEnemy(cmd, true, aw_bone);
 	if (entity && Settings::Aimbot::AutoAim::enabled)
 	{
 		if (Settings::Aimbot::AutoShoot::enabled || cmd->buttons & IN_ATTACK || input->IsButtonDown(Settings::Aimbot::aimkey))
 		{
-			Vector e_vecHead = entity->GetBonePosition(Settings::Aimbot::bone);
+			Vector e_vecHead = entity->GetBonePosition(aw_bone);
 			Vector p_vecHead = localplayer->GetEyePosition();
 
 			angle = Math::CalcAngle(p_vecHead, e_vecHead);
