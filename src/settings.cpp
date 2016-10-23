@@ -237,7 +237,7 @@ void Settings::LoadSettings(const char* filename)
 		GetFloat(settings["Aimbot"]["AutoWall"]["value"], Settings::Aimbot::AutoWall::value);
 		Settings::Aimbot::AutoWall::bones.clear();
 		for (Json::ValueIterator itr = settings["Aimbot"]["AutoWall"]["bones"].begin(); itr != settings["Aimbot"]["AutoWall"]["bones"].end(); itr++)
-			Settings::Aimbot::AutoWall::bones.push_back((Bone) itr.key().asInt());
+			Settings::Aimbot::AutoWall::bones.push_back((Bone) settings["Aimbot"]["AutoWall"]["bones"][itr.index()].asInt());
 		GetBool(settings["Aimbot"]["AimStep"]["enabled"], Settings::Aimbot::AimStep::enabled);
 		GetFloat(settings["Aimbot"]["AimStep"]["value"], Settings::Aimbot::AimStep::value);
 		GetBool(settings["Aimbot"]["RCS"]["enabled"], Settings::Aimbot::RCS::enabled);
