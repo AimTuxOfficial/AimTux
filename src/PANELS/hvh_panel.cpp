@@ -32,7 +32,7 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 	AddComponent (ts_antiaim_y);
 	
 	
-	lb_bone_select_multi = new MS_ListBox<Bone> ("Autowall Bone", LOC (lb_antiaim_y->position.x + lb_antiaim_y->size.x + 10, lb_antiaim_y->position.y), 170, &Settings::Aimbot::AutoWall::bones, std::vector<LB_Element>
+	lb_bone_select_multi = new MS_ListBox<Bone> ("Autowall Bone", LOC (lb_antiaim_y->position.x + lb_antiaim_y->size.x + 10, lb_antiaim_y->position.y), 170, &Settings::Aimbot::AutoWall::Bone, std::vector<LB_Element>
 		{
 			LB_Element ("HEAD", BONE_HEAD),
 			LB_Element ("NECK", BONE_NECK),
