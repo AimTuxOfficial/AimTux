@@ -25,55 +25,55 @@ public:
 
 	void GetScreenSize(int& width, int& height)
 	{
-		typedef void(* oGetScreenSize)(void*, int&, int&);
+		typedef void (* oGetScreenSize)(void*, int&, int&);
 		getvfunc<oGetScreenSize>(this, 5)(this, width, height);
 	}
 
 	bool GetPlayerInfo(int iIndex, player_info_t *pInfo)
 	{
-		typedef bool(* oGetPlayerInfo)(void*, int, player_info_t*);
+		typedef bool (* oGetPlayerInfo)(void*, int, player_info_t*);
 		getvfunc<oGetPlayerInfo>(this, 8)(this, iIndex, pInfo);
 	}
 
 	bool GetPlayerForUserID(int UserID)
 	{
-		typedef bool(* oGetPlayerForUserID)(void*, int);
+		typedef bool (* oGetPlayerForUserID)(void*, int);
 		getvfunc<oGetPlayerForUserID>(this, 9)(this, UserID);
 	}
 
 	int GetLocalPlayer(void)
 	{
-		typedef int(* oGetLocalPlayer)(void*);
-		getvfunc< oGetLocalPlayer >(this, 12)(this);
+		typedef int (* oGetLocalPlayer)(void*);
+		getvfunc<oGetLocalPlayer>(this, 12)(this);
 	}
 
 	void GetViewAngles(QAngle& angle)
 	{
-		typedef void(* oGetViewAngles)(void*, QAngle&);
+		typedef void (* oGetViewAngles)(void*, QAngle&);
 		getvfunc<oGetViewAngles>(this, 18)(this, angle);
 	}
 
 	void SetViewAngles(QAngle& angle)
 	{
-		typedef void(* oSetViewAngles)(void*, QAngle&);
+		typedef void (* oSetViewAngles)(void*, QAngle&);
 		getvfunc<oSetViewAngles>(this, 19)(this, angle);
 	}
 
 	int GetMaxClients()
 	{
-		typedef int(* oGetMaxClients)(void*);
+		typedef int (* oGetMaxClients)(void*);
 		getvfunc<oGetMaxClients>(this, 20)(this);
 	}
 
 	bool IsInGame()
 	{
-		typedef bool(* oIsInGame)(void*);
+		typedef bool (* oIsInGame)(void*);
 		getvfunc<oIsInGame>(this, 26)(this);
 	}
 
 	void ExecuteClientCmd(const char* pCmd)
 	{
-		typedef void(* oCmd)(void*, const char*);
+		typedef void (* oCmd)(void*, const char*);
 		getvfunc<oCmd>(this, 108)(this, pCmd);
 	}
 
