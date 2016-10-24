@@ -88,7 +88,7 @@ C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible, Bone& best_bone)
 		if (visible && !Entity::IsVisible(entity, Settings::Aimbot::bone) && !Settings::Aimbot::AutoWall::enabled)
 			continue;
 
-		if (!Entity::IsVisible(entity, Settings::Aimbot::bone) && Settings::Aimbot::AutoWall::enabled)
+		if (Settings::Aimbot::AutoWall::enabled)
 		{
 			float damage = 0.0f;
 			Bone bone;
