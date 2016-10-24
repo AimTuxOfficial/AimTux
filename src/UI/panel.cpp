@@ -29,7 +29,7 @@ void Panel::Draw ()
 		this->Clear (backGroundColor);
 		
 		
-		for (int i = 0; i < childComponents.size(); i++)
+		for (size_t i = 0; i < childComponents.size(); i++)
 		{
 			Component* childComponent = childComponents[i];
 			
@@ -44,7 +44,7 @@ void Panel::Draw ()
 
 void Panel::OnMouseClickStart (PositionContext mouseContext)
 {
-	for (int i = 0; i < childComponents.size(); i++)
+	for (size_t i = 0; i < childComponents.size(); i++)
 	{
 		Component* childComponent = childComponents[i];
 		
@@ -68,7 +68,7 @@ void Panel::OnMouseClickStart (PositionContext mouseContext)
 
 void Panel::OnMouseClickEnd (PositionContext mouseContext)
 {
-	for (int i = 0; i < childComponents.size(); i++)
+	for (size_t i = 0; i < childComponents.size(); i++)
 	{
 		Component* childComponent = childComponents[i];
 		
@@ -92,7 +92,7 @@ void Panel::OnMouseClickEnd (PositionContext mouseContext)
 
 void Panel::Input ()
 {
-	for (int i = 0; i < childComponents.size(); i++)
+	for (size_t i = 0; i < childComponents.size(); i++)
 	{
 		Component* childComponent = childComponents[i];
 		childComponent->Input ();
@@ -101,7 +101,7 @@ void Panel::Input ()
 
 void Panel::MouseTick (PositionContext mouseContext)
 {
-	for (int i = 0; i < childComponents.size(); i++)
+	for (size_t i = 0; i < childComponents.size(); i++)
 	{
 		Component* childComponent = childComponents[i];
 		

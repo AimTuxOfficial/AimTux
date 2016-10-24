@@ -20,8 +20,8 @@ private:
 	
 public:
 	
-	std::string* strp;
 	std::string shadow_text = "textbox";
+	std::string* strp;
 	
 	TextBox (std::string shadow, std::string* textref, Vector2D position, Vector2D size)
 		: shadow_text(shadow)
@@ -47,7 +47,7 @@ public:
 		}
 		
 		
-		int text_max_fit = (size.x-20) / font_size.x;
+		size_t text_max_fit = (size.x-20) / font_size.x;
 		
 		int sectioned_text_size = 0;
 		
@@ -108,10 +108,9 @@ public:
 		}
 		
 		std::vector<ButtonCode_t> pressedKeys;
-		bool isKeyPressed = GetPressedKeys (pressedKeys);
 		bool shift = input->IsButtonDown (KEY_LSHIFT) || input->IsButtonDown (KEY_RSHIFT);
 		
-		for (int i = 0; i < pressedKeys.size(); i++)
+		for (size_t i = 0; i < pressedKeys.size(); i++)
 		{
 			ButtonCode_t key = (ButtonCode_t)pressedKeys[i];
 			
@@ -156,8 +155,8 @@ public:
 	pstring text;
 
 	ValueTextBox(std::string shadow, std::string val, Vector2D pos, Vector2D size)
-		: text(val)
-		, TextBox(shadow, &text, pos, size)
+		: TextBox(shadow, &text, pos, size)
+		, text(val)
 	{
 	}
 };

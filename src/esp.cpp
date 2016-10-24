@@ -35,14 +35,6 @@ Vector2D WorldToScreen(const Vector &vOrigin)
 	return LOC(vec.x, vec.y);
 }
 
-static wchar_t* cwConvert(const char* text)
-{
-	const size_t size = strlen(text) + 1;
-	wchar_t* wText = new wchar_t[size];
-	mbstowcs(wText, text, size);
-	return wText;
-}
-
 void DrawESPBox(Vector vecOrigin, Vector vecViewOffset, Color color, int width, int additionalHeight)
 {
 	//SIDES
