@@ -12,6 +12,7 @@ private:
 	ToggleSwitch* ts_esp_enabled;
 	Banner*	ba_esp;
 	ToggleSwitch* ts_walls;
+	StackedListBox<WallBoxType>* lb_wallstype;
 	ToggleSwitch* ts_tracer;
 	ToggleSwitch* ts_name;
 	ToggleSwitch* ts_health;
