@@ -73,7 +73,7 @@ public:
 		this->elements = elements;
 		this->setting = setting;
 		
-		for (size_t i = 0; i < elements.size(); i++)
+		for (int i = 0; i < elements.size(); i++)
 		{
 			LB_Element* element = &this->elements[i];
 			
@@ -114,7 +114,7 @@ public:
 		int elementWidth = (width / elements_x);
 		
 		int x = 0, y = 0;
-		for (size_t i = 0; i < elements.size(); i++)
+		for (int i = 0; i < elements.size(); i++)
 		{
 			if (x == elements_x)
 			{
@@ -222,7 +222,7 @@ public:
 		this->elements = elements;
 		this->setting = setting;
 		
-		for (size_t i = 0; i < elements.size(); i++)
+		for (int i = 0; i < elements.size(); i++)
 		{
 			LB_Element* element = &this->elements[i];
 			

@@ -10,7 +10,7 @@ bool UI_Container::IsOverlapping (Vector2D position, int index)
 	int x = position.x;
 	int y = position.y;
 	
-	for (size_t i = windows.size()-1; (int)i != index; i--)
+	for (int i = windows.size()-1; i != index; i--)
 	{
 		Window* window = windows[i];
 		
@@ -44,7 +44,7 @@ void UI_Container::Draw ()
 		return;
 	}
 	
-	for (size_t i = windows.size ()-1; i >= 0; i--)
+	for (int i = windows.size ()-1; i >= 0; i--)
 	{
 		Window* window = windows[i];
 		
@@ -96,7 +96,7 @@ void UI_Container::Draw ()
 	}
 	window_remove_stack.clear ();
 	
-	for (size_t i = 0; i < windows.size (); i++)
+	for (int i = 0; i < windows.size (); i++)
 	{
 		Window* window = windows[i];
 		
@@ -109,7 +109,7 @@ void UI_Container::Draw ()
 	}
 
 	// Loop through all windows
-	for (size_t i = 0; i < windows.size (); i++)
+	for (int i = 0; i < windows.size (); i++)
 	{
 		Window* window = windows[i];
 		

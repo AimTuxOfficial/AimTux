@@ -8,7 +8,7 @@ TabSelector::TabSelector (Vector2D position, Vector2D size, std::vector<TabEleme
 	this->currentPanel = tabs[0].panel;
 	
 	int tab_width = size.x / tabs.size();
-	for (size_t i = 0; i < tabs.size(); i++)
+	for (int i = 0; i < tabs.size(); i++)
 	{
 		TabElement element = tabs[i];
 		
@@ -26,7 +26,7 @@ TabSelector::TabSelector (Vector2D position, Vector2D size, std::vector<TabEleme
 
 void TabSelector::UpdateTabColors (int id)
 {
-	for (size_t i = 0; i < tabs.size(); i++)
+	for (int i = 0; i < tabs.size(); i++)
 	{
 		float n = abs(i - id) + 1;
 		Tab* tab = tabs[i];
