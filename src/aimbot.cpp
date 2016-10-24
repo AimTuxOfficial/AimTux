@@ -28,7 +28,7 @@ bool Aimbot::AimStepInProgress = false;
 QAngle AimStepLastAngle;
 QAngle RCSLastPunch;
 
-std::unordered_map<Hitbox, std::vector<const char*>> hitboxes = {
+std::unordered_map<int, std::vector<const char*>> hitboxes = {
 		{ HITBOX_HEAD, { "head_0" } },
 		{ HITBOX_NECK, { "neck_0" } },
 		{ HITBOX_PELVIS, { "pelvis" } },
