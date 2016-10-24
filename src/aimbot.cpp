@@ -134,7 +134,7 @@ void Aimbot::RCS(QAngle& angle, C_BaseEntity* entity, CUserCmd* cmd)
 	if (!Settings::Aimbot::RCS::enabled)
 		return;
 
-	if (!cmd->buttons & IN_ATTACK)
+	if (!(cmd->buttons & IN_ATTACK))
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
