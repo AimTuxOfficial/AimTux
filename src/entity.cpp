@@ -27,3 +27,26 @@ bool Entity::IsVisible(C_BaseEntity* pEntity, int bone)
 
 	return tr.m_pEntityHit == pEntity;
 }
+
+int Entity::GetBoneByName(C_BaseEntity *pEntity, const char* boneName)
+{
+	studiohdr_t* pStudioModel = modelInfo->GetStudioModel(pEntity->GetModel());
+	if (!pStudioModel)
+		return -1;
+
+	matrix3x4_t pBoneToWorldOut[128];
+	if (!pEntity->SetupBones(pBoneToWorldOut, 128, 256, 0))
+		return -1;
+
+	for (int i = 0; i < pStudioModel->numbones; i++)
+	{
+		mstudiobone_t *pBone = pStudioModel->pBone(i);
+		if (!pBone)
+			continue;
+
+		if (pBone->pszName() && !strcmp(pBone->pszName(), boneName))
+			return i;
+	}
+
+	return -1;
+}

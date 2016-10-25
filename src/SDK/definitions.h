@@ -431,6 +431,16 @@ enum Bone: unsigned int
 	BONE_HEAD,
 };
 
+enum Hitbox: unsigned int
+{
+	HITBOX_HEAD = 0,
+	HITBOX_NECK,
+	HITBOX_PELVIS,
+	HITBOX_SPINE,
+	HITBOX_LEGS,
+	HITBOX_ARMS,
+};
+
 enum HitGroups: int
 {
 	HITGROUP_GENERIC = 0,

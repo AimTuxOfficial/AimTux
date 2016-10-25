@@ -11,8 +11,16 @@ VisualsPanel::VisualsPanel (Vector2D position, Vector2D size)
 	
 	ts_walls = new ToggleSwitch ("walls", BELOW (ba_esp), 33, &Settings::ESP::Walls::enabled);
 	AddComponent (ts_walls);
+
+	lb_wallstype = new StackedListBox<WallBoxType>("walls type", BELOW (ts_walls), ((size.x - 20) / 2) - 5, 3, &Settings::ESP::Walls::type, std::vector<LB_Element>
+			{
+					LB_Element ("2D", FLAT_2D),
+					LB_Element ("3D", BOX_3D),
+			}
+	);
+	AddComponent (lb_wallstype);
 	
-	ts_tracer = new ToggleSwitch ("tracer", BELOW (ts_walls), 33, &Settings::ESP::Tracer::enabled);
+	ts_tracer = new ToggleSwitch ("tracer", BELOW (lb_wallstype), 33, &Settings::ESP::Tracer::enabled);
 	AddComponent (ts_tracer);
 	
 	ts_name = new ToggleSwitch ("show name", BELOW (ts_tracer), 33, &Settings::ESP::Info::showName);
@@ -51,7 +59,7 @@ VisualsPanel::VisualsPanel (Vector2D position, Vector2D size)
 	ts_visibility_check_chams = new ToggleSwitch ("visibility check", BELOW (ts_rainbow_chams_hands), 33, &Settings::ESP::Chams::visibility_check);
 	AddComponent (ts_visibility_check_chams);
 
-	lb_chamstype = new StackedListBox<ChamsType>("aimbone", BELOW (ts_visibility_check_chams), ((size.x - 20) / 2) - 5, 3, &Settings::ESP::Chams::type, std::vector<LB_Element>
+	lb_chamstype = new StackedListBox<ChamsType>("chams type", BELOW (ts_visibility_check_chams), ((size.x - 20) / 2) - 5, 3, &Settings::ESP::Chams::type, std::vector<LB_Element>
 			{
 					LB_Element ("NORMAL", CHAMS),
 					LB_Element ("FLAT", CHAMS_FLAT),
