@@ -197,7 +197,7 @@ public:
 		return (char*)((uintptr_t)this + offsets.m_szLastPlaceName);
 	}
 	
-	Vector GetVelocity ()
+	Vector GetVelocity()
 	{
 		return *(Vector*)((uintptr_t)this + offsets.m_vecVelocity);
 	}
