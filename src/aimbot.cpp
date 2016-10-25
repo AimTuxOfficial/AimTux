@@ -166,6 +166,9 @@ void Aimbot::AimStep(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
 	if (!Settings::Aimbot::AimStep::enabled)
 		return;
 
+	if (!Settings::Aimbot::AutoAim::enabled)
+		return;
+
 	if (Settings::Aimbot::Smooth::enabled)
 		return;
 
