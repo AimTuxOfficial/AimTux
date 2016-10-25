@@ -53,13 +53,19 @@ VisualsPanel::VisualsPanel (Vector2D position, Vector2D size)
 	ts_chams_arms = new ToggleSwitch ("arms", BELOW (ts_chams_players), 33, &Settings::ESP::Chams::arms);
 	AddComponent (ts_chams_arms);
 
-	ts_rainbow_chams_hands = new ToggleSwitch ("rainbow arms", BELOW (ts_chams_arms), 33, &Settings::ESP::Chams::rainbow_arms);
-	AddComponent (ts_rainbow_chams_hands);
+	ts_chams_rainbow_arms = new ToggleSwitch ("rainbow arms", STACK (ts_chams_arms), 33, &Settings::ESP::Chams::rainbow_arms);
+	AddComponent (ts_chams_rainbow_arms);
 
-	ts_visibility_check_chams = new ToggleSwitch ("visibility check", BELOW (ts_rainbow_chams_hands), 33, &Settings::ESP::Chams::visibility_check);
-	AddComponent (ts_visibility_check_chams);
+	ts_chams_wireframe_arms = new ToggleSwitch ("wireframe arms", BELOW (ts_chams_arms), 33, &Settings::ESP::Chams::wireframe_arms);
+	AddComponent (ts_chams_wireframe_arms);
 
-	lb_chamstype = new StackedListBox<ChamsType>("chams type", BELOW (ts_visibility_check_chams), ((size.x - 20) / 2) - 5, 3, &Settings::ESP::Chams::type, std::vector<LB_Element>
+	ts_chams_no_arms = new ToggleSwitch ("no arms", BELOW (ts_chams_wireframe_arms), 33, &Settings::ESP::Chams::no_arms);
+	AddComponent (ts_chams_no_arms);
+
+	ts_chams_visibility_check = new ToggleSwitch ("visibility check", BELOW (ts_chams_no_arms), 33, &Settings::ESP::Chams::visibility_check);
+	AddComponent (ts_chams_visibility_check);
+
+	lb_chamstype = new StackedListBox<ChamsType>("chams type", BELOW (ts_chams_visibility_check), ((size.x - 20) / 2) - 5, 3, &Settings::ESP::Chams::type, std::vector<LB_Element>
 			{
 					LB_Element ("NORMAL", CHAMS),
 					LB_Element ("FLAT", CHAMS_FLAT),

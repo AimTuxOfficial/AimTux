@@ -222,6 +222,8 @@ namespace Settings
 			extern bool visibility_check;
 			extern bool arms;
 			extern bool rainbow_arms;
+			extern bool wireframe_arms;
+			extern bool no_arms;
 			extern Color players_ally_color;
 			extern Color players_ally_visible_color;
 			extern Color players_enemy_color;

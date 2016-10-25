@@ -150,6 +150,8 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["ESP"]["Chams"]["visibility_check"] = Settings::ESP::Chams::visibility_check;
 	settings["ESP"]["Chams"]["arms"] = Settings::ESP::Chams::arms;
 	settings["ESP"]["Chams"]["rainbow_arms"] = Settings::ESP::Chams::rainbow_arms;
+	settings["ESP"]["Chams"]["wireframe_arms"] = Settings::ESP::Chams::wireframe_arms;
+	settings["ESP"]["Chams"]["no_arms"] = Settings::ESP::Chams::no_arms;
 	LoadColor(settings["ESP"]["Chams"]["players_ally_color"], Settings::ESP::Chams::players_ally_color);
 	LoadColor(settings["ESP"]["Chams"]["players_enemy_color"], Settings::ESP::Chams::players_enemy_color);
 	LoadColor(settings["ESP"]["Chams"]["players_enemy_visible_color"], Settings::ESP::Chams::players_enemy_visible_color);
@@ -288,6 +290,8 @@ void Settings::LoadSettings(const char* filename)
 		GetBool(settings["ESP"]["Chams"]["visibility_check"], Settings::ESP::Chams::visibility_check);
 		GetBool(settings["ESP"]["Chams"]["arms"], Settings::ESP::Chams::arms);
 		GetBool(settings["ESP"]["Chams"]["rainbow_arms"], Settings::ESP::Chams::rainbow_arms);
+		GetBool(settings["ESP"]["Chams"]["wireframe_arms"], Settings::ESP::Chams::wireframe_arms);
+		GetBool(settings["ESP"]["Chams"]["no_arms"], Settings::ESP::Chams::no_arms);
 		GetColor(settings["ESP"]["Chams"]["players_ally_color"], Settings::ESP::Chams::players_ally_color);
 		GetColor(settings["ESP"]["Chams"]["players_enemy_color"], Settings::ESP::Chams::players_enemy_color);
 		GetColor(settings["ESP"]["Chams"]["players_enemy_visible_color"], Settings::ESP::Chams::players_enemy_visible_color);

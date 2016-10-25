@@ -4,6 +4,8 @@ bool Settings::ESP::Chams::players = false;
 bool Settings::ESP::Chams::visibility_check = false;
 bool Settings::ESP::Chams::arms = false;
 bool Settings::ESP::Chams::rainbow_arms = false;
+bool Settings::ESP::Chams::wireframe_arms = false;
+bool Settings::ESP::Chams::no_arms = false;
 Color Settings::ESP::Chams::players_ally_color = Color(7, 98, 168);
 Color Settings::ESP::Chams::players_ally_visible_color = Color(40, 52, 138);
 Color Settings::ESP::Chams::players_enemy_color = Color(243, 24, 28);
@@ -150,20 +152,27 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 
 void DrawArms(const ModelRenderInfo_t &pInfo)
 {
-	if (!Settings::ESP::Chams::arms)
+	if (!Settings::ESP::Chams::arms && !Settings::ESP::Chams::wireframe_arms && !Settings::ESP::Chams::no_arms)
 		return;
 
-	IMaterial *mat = material->FindMaterial("aimtux_chams", TEXTURE_GROUP_MODEL);
+	std::string modelName = modelInfo->GetModelName(pInfo.pModel);
+	IMaterial *mat = material->FindMaterial(Settings::ESP::Chams::arms ? "aimtux_chams" : modelName.c_str(), TEXTURE_GROUP_MODEL);
 
 	Color color = Settings::ESP::Chams::arms_color;
 
-	if (Settings::ESP::Chams::rainbow_arms)
-		color = Color::FromHSB(rainbowHue, 1.0f, 1.0f);
+	if (Settings::ESP::Chams::arms)
+	{
+		if (Settings::ESP::Chams::rainbow_arms)
+			color = Color::FromHSB(rainbowHue, 1.0f, 1.0f);
 
-	mat->AlphaModulate(1.0f);
-	mat->ColorModulate(color.r / 255.0f,
-					   color.g / 255.0f,
-					   color.b / 255.0f);
+		mat->AlphaModulate(1.0f);
+		mat->ColorModulate(color.r / 255.0f,
+						   color.g / 255.0f,
+						   color.b / 255.0f);
+	}
+
+	mat->SetMaterialVarFlag(MATERIAL_VAR_NO_DRAW, Settings::ESP::Chams::no_arms);
+	mat->SetMaterialVarFlag(MATERIAL_VAR_WIREFRAME, Settings::ESP::Chams::wireframe_arms);
 
 	modelRender->ForcedMaterialOverride(mat);
 }
