@@ -17,6 +17,9 @@
 #define GAMEEVENTSMANAGER2_INTERFACE_VERSION "GAMEEVENTSMANAGER002"
 #define PHYSICS_CLIENT_INTERFACE_VERSION "VPhysicsSurfaceProps001"
 
+// Uncomment this at your own risk.
+//#define ENABLE_EXPEREMENTAL_SETTINGS
+
 /* generic constants */
 #define LIFE_ALIVE 0
 #define VPANEL unsigned long long
