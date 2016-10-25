@@ -61,7 +61,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 		}
 		else if (Settings::AntiAim::type_Y == LISP)
 		{
-			if (!(cmd->buttons & IN_FORWARD && cmd->buttons & IN_BACK && cmd->buttons & IN_LEFT && cmd->buttons & IN_RIGHT && cmd->buttons & IN_JUMP))
+			if (!(cmd->buttons & IN_FORWARD && cmd->buttons & IN_BACK && cmd->buttons & IN_MOVELEFT && cmd->buttons & IN_MOVERIGHT && cmd->buttons & IN_JUMP))
 			{
 				if (bFlip)
 					angle.y += 323210000;
