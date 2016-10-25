@@ -23,7 +23,8 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 			LB_Element ("FAST SPIN", SPIN_FAST),
 			LB_Element ("JITTER", JITTER),
 			LB_Element ("SIDE", SIDE),
-			LB_Element ("BACKWARDS", BACKWARDS)
+			LB_Element ("BACKWARDS", BACKWARDS),
+			LB_Element ("LISP", LISP)
 		}
 	);
 	AddComponent (lb_antiaim_y);

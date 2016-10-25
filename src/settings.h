@@ -21,7 +21,8 @@ enum AntiAimType_Y : unsigned int
 	SPIN_SLOW,
 	JITTER,
 	SIDE,
-	BACKWARDS
+	BACKWARDS,
+	LISP
 };
 
 enum AntiAimType_X : unsigned int

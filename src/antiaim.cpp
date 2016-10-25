@@ -5,6 +5,9 @@ bool Settings::AntiAim::enabled_X = false;
 AntiAimType_Y Settings::AntiAim::type_Y = SPIN_FAST;
 AntiAimType_X Settings::AntiAim::type_X = STATIC_DOWN;
 
+
+bool lisp_switch = false;
+
 void AntiAim::CreateMove (CUserCmd* cmd)
 {
 	if (!Settings::AntiAim::enabled_Y && !Settings::AntiAim::enabled_X)
@@ -59,6 +62,24 @@ void AntiAim::CreateMove (CUserCmd* cmd)
 		{
 			angle.y -= 180.0f;
 		}
+		else if (Settings::AntiAim::type_Y == LISP)
+		{
+			//if (abs(localplayer->GetVelocity().x) < 90 && abs(localplayer->GetVelocity().y) < 90)
+			
+			if (!input->IsButtonDown (KEY_W) && !input->IsButtonDown (KEY_A) && !input->IsButtonDown (KEY_S) && !input->IsButtonDown (KEY_D) && !input->IsButtonDown (KEY_SPACE))
+			{
+				if (lisp_switch)
+				{
+					angle.y += 323210000;
+				}
+				else
+				{
+					angle.y -= 323210000;
+				}
+				
+			}
+			lisp_switch = !lisp_switch;
+		}
 	}
 
 	if (Settings::AntiAim::enabled_X)
@@ -72,9 +93,9 @@ void AntiAim::CreateMove (CUserCmd* cmd)
 			angle.x = 271.f;
 		}
 	}
-
+	
 	Math::NormalizeAngles(angle);
-
+	
 	cmd->viewangles = angle;
 
 	Math::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);
