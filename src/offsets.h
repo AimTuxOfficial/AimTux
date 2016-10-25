@@ -14,6 +14,7 @@ struct COffsets
 	int m_hMyWeapons;
 	int m_ArmorValue;
 	int m_bHasHelmet;
+	int m_vecVelocity;
 	
 	int m_nTickBase;
 	int m_iObserverMode;
