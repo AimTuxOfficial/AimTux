@@ -18,7 +18,7 @@
 #define PHYSICS_CLIENT_INTERFACE_VERSION "VPhysicsSurfaceProps001"
 
 // Uncomment this at your own risk.
-//#define ENABLE_EXPEREMENTAL_SETTINGS
+//#define ENABLE_EXPERIMENTAL_SETTINGS
 
 /* generic constants */
 #define LIFE_ALIVE 0

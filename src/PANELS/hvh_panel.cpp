@@ -24,7 +24,7 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 			LB_Element ("JITTER", JITTER),
 			LB_Element ("SIDE", SIDE),
 			LB_Element ("BACKWARDS", BACKWARDS),
-			#ifdef ENABLE_EXPEREMENTAL_SETTINGS
+			#ifdef ENABLE_EXPERIMENTAL_SETTINGS
 			LB_Element ("LISP", LISP)
 			#endif
 		}
