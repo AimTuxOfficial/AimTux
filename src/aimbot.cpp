@@ -9,6 +9,7 @@ float Settings::Aimbot::fov = 180.0f;
 float Settings::Aimbot::errorMargin = 0.0F;
 unsigned int Settings::Aimbot::bone = BONE_HEAD;
 ButtonCode_t Settings::Aimbot::aimkey = ButtonCode_t::MOUSE_MIDDLE;
+bool Settings::Aimbot::aimkey_only = false;
 bool Settings::Aimbot::Smooth::enabled = false;
 float Settings::Aimbot::Smooth::value = 1.0f;
 float Settings::Aimbot::Smooth::max = 15.0f;
@@ -25,6 +26,7 @@ bool Settings::Aimbot::AutoCrouch::enabled = false;
 bool Settings::Aimbot::AutoStop::enabled = false;
 bool Aimbot::AimStepInProgress = false;
 
+bool shouldAim;
 QAngle AimStepLastAngle;
 QAngle RCSLastPunch;
 
@@ -139,7 +141,7 @@ void Aimbot::RCS(QAngle& angle, C_BaseEntity* entity, CUserCmd* cmd)
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	QAngle CurrentPunch = localplayer->GetAimPunchAngle();
-	bool hasTarget = Settings::Aimbot::AutoAim::enabled && entity != NULL;
+	bool hasTarget = Settings::Aimbot::AutoAim::enabled && entity != NULL && shouldAim;
 
 	if (Settings::Aimbot::silent || hasTarget)
 	{
@@ -170,6 +172,9 @@ void Aimbot::AimStep(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
 		return;
 
 	if (Settings::Aimbot::Smooth::enabled)
+		return;
+
+	if (!shouldAim)
 		return;
 
 	if (!Aimbot::AimStepInProgress)
@@ -315,6 +320,8 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 
 	QAngle angle = cmd->viewangles;
 
+	shouldAim = Settings::Aimbot::AutoShoot::enabled;
+
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (localplayer->GetLifeState() != LIFE_ALIVE || localplayer->GetHealth() == 0)
 		return;
@@ -327,7 +334,13 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	C_BaseEntity* entity = GetClosestEnemy(cmd, true, aw_bone);
 	if (entity && Settings::Aimbot::AutoAim::enabled)
 	{
-		if (Settings::Aimbot::AutoShoot::enabled || cmd->buttons & IN_ATTACK || input->IsButtonDown(Settings::Aimbot::aimkey))
+		if (cmd->buttons & IN_ATTACK && !Settings::Aimbot::aimkey_only)
+			shouldAim = true;
+
+		if (!(cmd->buttons & IN_ATTACK) && input->IsButtonDown(Settings::Aimbot::aimkey))
+			shouldAim = true;
+
+		if (shouldAim)
 		{
 			Vector e_vecHead = entity->GetBonePosition(aw_bone);
 			Vector p_vecHead = localplayer->GetEyePosition();

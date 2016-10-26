@@ -91,6 +91,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["Aimbot"]["errorMargin"] = Settings::Aimbot::errorMargin;
 	settings["Aimbot"]["bone"] = Settings::Aimbot::bone;
 	settings["Aimbot"]["aimkey"] = Settings::Aimbot::aimkey;
+	settings["Aimbot"]["aimkey_only"] = Settings::Aimbot::aimkey_only;
 	settings["Aimbot"]["Smooth"]["enabled"] = Settings::Aimbot::Smooth::enabled;
 	settings["Aimbot"]["Smooth"]["value"] = Settings::Aimbot::Smooth::value;
 	settings["Aimbot"]["AutoAim"]["enabled"] = Settings::Aimbot::AutoAim::enabled;
@@ -241,6 +242,7 @@ void Settings::LoadSettings(const char* filename)
 	GetFloat(settings["Aimbot"]["errorMargin"], Settings::Aimbot::errorMargin);
 	GetInt(settings["Aimbot"]["bone"], Settings::Aimbot::bone);
 	GetInt(settings["Aimbot"]["aimkey"], Settings::Aimbot::aimkey);
+	GetBool(settings["Aimbot"]["aimkey_only"], Settings::Aimbot::aimkey_only);
 	GetBool(settings["Aimbot"]["Smooth"]["enabled"], Settings::Aimbot::Smooth::enabled);
 	GetFloat(settings["Aimbot"]["Smooth"]["value"], Settings::Aimbot::Smooth::value);
 	GetBool(settings["Aimbot"]["AutoAim"]["enabled"], Settings::Aimbot::AutoAim::enabled);

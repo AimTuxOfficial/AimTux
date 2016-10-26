@@ -81,6 +81,7 @@ namespace Settings
 		extern float errorMargin;
 		extern unsigned int bone;
 		extern ButtonCode_t aimkey;
+		extern bool aimkey_only;
 
 		namespace Smooth
 		{
