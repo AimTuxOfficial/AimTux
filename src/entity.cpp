@@ -44,7 +44,7 @@ int Entity::GetBoneByName(C_BaseEntity *pEntity, const char* boneName)
 		if (!pBone)
 			continue;
 
-		if (pBone->pszName() && !strcmp(pBone->pszName(), boneName))
+		if (pBone->pszName() && strcmp(pBone->pszName(), boneName) == 0)
 			return i;
 	}
 

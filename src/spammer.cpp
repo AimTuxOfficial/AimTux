@@ -123,7 +123,7 @@ void Spammer::FireEventClientSide(IGameEvent* event)
 	if (!engine->IsInGame())
 		return;
 
-	if (std::strcmp(event->GetName(), "player_death") != 0)
+	if (strcmp(event->GetName(), "player_death") != 0)
 		return;
 
 	int attacker_id = engine->GetPlayerForUserID(event->GetInt("attacker"));

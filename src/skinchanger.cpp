@@ -151,10 +151,10 @@ void SkinChanger::FireEventClientSide(IGameEvent* event)
 		return;
 
 	const char* weapon = event->GetString("weapon");
-	if (!strcmp(weapon, "knife_default_ct")) {
+	if (strcmp(weapon, "knife_default_ct") == 0) {
 		const char* name = KnifeToName(WEAPON_KNIFE);
 		event->SetString("weapon", name ?: weapon);
-	} else if (!strcmp(weapon, "knife_t")) {
+	} else if (strcmp(weapon, "knife_t") == 0) {
 		const char* name = KnifeToName(WEAPON_KNIFE_T);
 		event->SetString("weapon", name ?: weapon);
 	}
