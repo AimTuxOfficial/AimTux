@@ -215,7 +215,6 @@ void Settings::LoadSettings(const char* filename)
 	if (!std::ifstream(GetSettingsPath(filename)).good())
 	{
 		Settings::LoadDefaultsOrSave(filename);
-		Settings::LoadSettings(filename);
 		return;
 	}
 
