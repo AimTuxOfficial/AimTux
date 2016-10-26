@@ -279,7 +279,7 @@ void Aimbot::AutoShoot(C_BaseEntity* entity, C_BaseCombatWeapon* active_weapon, 
 	if (Aimbot::AimStepInProgress)
 		return;
 
-	if (!entity || !active_weapon || active_weapon->isKnife() || active_weapon->GetAmmo() == 0)
+	if (!entity || !active_weapon || active_weapon->IsKnife() || active_weapon->GetAmmo() == 0)
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
@@ -320,7 +320,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 		return;
 
 	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
-	if (!active_weapon || active_weapon->isGrenade() || active_weapon->isKnife())
+	if (!active_weapon || active_weapon->IsGrenade() || active_weapon->IsKnife())
 		return;
 
 	Bone aw_bone;

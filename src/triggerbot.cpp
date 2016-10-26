@@ -74,7 +74,7 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 
 	timeStamp = oldTimeStamp;
 
-	if (!active_weapon->isKnife() && active_weapon->GetAmmo() > 0)
+	if (!active_weapon->IsKnife() && active_weapon->GetAmmo() > 0)
 	{
 		float nextPrimaryAttack = active_weapon->GetNextPrimaryAttack();
 		float tick = localplayer->GetTickBase() * globalvars->interval_per_tick;

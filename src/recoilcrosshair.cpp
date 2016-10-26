@@ -15,7 +15,7 @@ void Recoilcrosshair::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool 
 		return;
 
 	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
-	if (!active_weapon || !active_weapon->isAutomatic())
+	if (!active_weapon || !active_weapon->IsAutomatic())
 		return;
 
 	QAngle punchAngle = localplayer->GetAimPunchAngle();

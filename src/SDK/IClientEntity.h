@@ -305,7 +305,7 @@ public:
 		return (int*)((uintptr_t)this + offsets.m_iAccountID);
 	}
 
-	bool isPistol()
+	bool IsPistol()
 	{
 		switch (*this->GetItemDefinitionIndex())
 		{
@@ -325,7 +325,7 @@ public:
 		}
 	}
 
-	bool isAutomatic()
+	bool IsAutomatic()
 	{
 		switch (*this->GetItemDefinitionIndex())
 		{
@@ -350,7 +350,7 @@ public:
 		}
 	}
 
-	bool isKnife()
+	bool IsKnife()
 	{
 		switch (*this->GetItemDefinitionIndex())
 		{
@@ -372,7 +372,7 @@ public:
 		}
 	}
 	
-	bool isGrenade()
+	bool IsGrenade()
 	{
 		switch (*this->GetItemDefinitionIndex())
 		{
