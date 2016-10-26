@@ -13,6 +13,7 @@ UI_Container* gui;
 int __attribute__((constructor)) aimtux_init()
 {
 	Hooker::HookInterfaces();
+	Hooker::HookViewRender();
 	Hooker::HookVMethods();
 	Hooker::HookIClientMode();
 	Hooker::HookGlobalVars();
@@ -38,6 +39,9 @@ int __attribute__((constructor)) aimtux_init()
 
 	gameEvents_vmt->HookVM((void*) Hooks::FireEventClientSide, 10);
 	gameEvents_vmt->ApplyVMT();
+	
+	viewRender_vmt->HookVM((void*) Hooks::RenderView, 6);
+	viewRender_vmt->ApplyVMT();
 
 	NetVarManager::dumpNetvars();
 	Offsets::getOffsets();

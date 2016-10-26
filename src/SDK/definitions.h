@@ -29,6 +29,7 @@ struct ModelRenderInfo_t;
 struct CUserCmd;
 class IGameEvent;
 struct CGlowObjectManager;
+struct CViewSetup;
 
 /* function prototypes */
 typedef void* (*CreateInterfaceFn) (const char*, int*);
@@ -41,6 +42,7 @@ typedef int (*IN_KeyEventFn) (void*, int, int, const char*);
 typedef CGlowObjectManager* (*GlowObjectManagerFn) (void);
 typedef bool (*MsgFunc_ServerRankRevealAllFn) (float*);
 typedef void (*SendClanTagFn) (const char*, const char*);
+typedef void (*RenderViewFn) (void*, CViewSetup&, CViewSetup&, unsigned int, int);
 
 struct WeaponInfo_t {
 	float m_flWeaponArmorRatio;

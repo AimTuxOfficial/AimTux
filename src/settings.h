@@ -276,6 +276,14 @@ namespace Settings
 		extern float value;
 	}
 
+	namespace FOVChanger
+	{
+		extern bool enabled;
+		extern bool viewmodel_enabled;
+		extern float value;
+		extern float viewmodel_value;
+	}
+
 	namespace Recoilcrosshair
 	{
 		extern bool enabled;

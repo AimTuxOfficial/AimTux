@@ -36,7 +36,19 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	sl_noflash_value = new Slider ("", STACK (ts_noflash), LOC ((size.x / 2) - ts_noflash->size.x - 30, 33), &Settings::Noflash::value, 0.0f, 255.0f);
 	AddComponent (sl_noflash_value);
 
-	ts_showranks = new ToggleSwitch ("show ranks", BELOW (ts_noflash), 33, &Settings::ShowRanks::enabled);
+	ts_fov = new ToggleSwitch ("view fov", BELOW (ts_noflash), 33, &Settings::FOVChanger::enabled);
+	AddComponent (ts_fov);
+
+	sl_fov_value = new Slider ("", STACK (ts_fov), LOC ((size.x / 2) - ts_fov->size.x - 30, 33), &Settings::FOVChanger::value, 0.0f, 180.0f);
+	AddComponent (sl_fov_value);
+
+	ts_fov_viewmodel = new ToggleSwitch ("viewmodel fov", BELOW (ts_fov), 33, &Settings::FOVChanger::viewmodel_enabled);
+	AddComponent (ts_fov_viewmodel);
+
+	sl_fov_viewmodel_value = new Slider ("", STACK (ts_fov_viewmodel), LOC ((size.x / 2) - ts_fov_viewmodel->size.x - 30, 33), &Settings::FOVChanger::viewmodel_value, 0.0f, 360.0f);
+	AddComponent (sl_fov_viewmodel_value);
+
+	ts_showranks = new ToggleSwitch ("show ranks", BELOW (sl_fov_viewmodel_value), 33, &Settings::ShowRanks::enabled);
 	AddComponent (ts_showranks);
 
 	ts_showspectators = new ToggleSwitch ("show spectators", BELOW (ts_showranks), 33, &Settings::ShowSpectators::enabled);
