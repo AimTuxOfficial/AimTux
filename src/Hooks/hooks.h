@@ -23,6 +23,7 @@
 #include "../showranks.h"
 #include "../showspectators.h"
 #include "../namechanger.h"
+#include "../fovchanger.h"
 
 namespace Hooks
 {
@@ -32,4 +33,5 @@ namespace Hooks
 	bool CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd);
 	bool FireEventClientSide(void* thisptr, IGameEvent* event);
 	int IN_KeyEvent(void* thisptr, int eventcode, int keynum, const char* currentbinding);
+	void RenderView(void* thisptr, CViewSetup& setup, CViewSetup& hudViewSetup, unsigned int nClearFlags, int whatToDraw);
 }

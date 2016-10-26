@@ -21,6 +21,10 @@ private:
 	Banner* ba_other;
 	ToggleSwitch* ts_noflash;
 	Slider* sl_noflash_value;
+	ToggleSwitch* ts_fov;
+	Slider* sl_fov_value;
+	ToggleSwitch* ts_fov_viewmodel;
+	Slider* sl_fov_viewmodel_value;
 	ToggleSwitch* ts_showranks;
 	ToggleSwitch* ts_showspectators;
 	OutlinedButton* ob_nickname;

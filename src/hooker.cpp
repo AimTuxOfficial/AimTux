@@ -17,6 +17,7 @@ CGlobalVars* globalvars = nullptr;
 CEffects* effects = nullptr;
 IGameEventManager2* gameevents = nullptr;
 IPhysicsSurfaceProps* physics = nullptr;
+CViewRender* viewrender = nullptr;
 
 
 VMT* panel_vmt = nullptr;
@@ -24,6 +25,7 @@ VMT* client_vmt = nullptr;
 VMT* modelRender_vmt = nullptr;
 VMT* clientMode_vmt = nullptr;
 VMT* gameEvents_vmt = nullptr;
+VMT* viewRender_vmt = nullptr;
 
 GlowObjectManagerFn GlowObjectManager;
 MsgFunc_ServerRankRevealAllFn MsgFunc_ServerRankRevealAll;
@@ -54,6 +56,7 @@ void Hooker::HookVMethods()
 	client_vmt = new VMT(client);
 	modelRender_vmt = new VMT(modelRender);
 	gameEvents_vmt = new VMT(gameevents);
+	viewRender_vmt = new VMT(viewrender);
 }
 
 uintptr_t GetClientClientAddress()
@@ -132,8 +135,15 @@ void Hooker::HookRankReveal()
 void Hooker::HookSendClanTag()
 {
 	uintptr_t engine_client = GetEngineClientAddress();
-
 	uintptr_t func_address = FindPattern(engine_client, 0xFFFFFFFFF, (unsigned char*) SENDCLANTAG_SIGNATURE, SENDCLANTAG_MASK);
 
 	SendClanTag = reinterpret_cast<SendClanTagFn>(func_address);
+}
+
+void Hooker::HookViewRender()
+{
+	uintptr_t client_client = GetClientClientAddress();
+	uintptr_t func_address = FindPattern(client_client, 0xFFFFFFFFF, (unsigned char*) VIEWRENDER_SIGNATURE, VIEWRENDER_MASK);
+
+	viewrender = reinterpret_cast<CViewRender*>(GetAbsoluteAddress(func_address + 14, 3, 7));
 }

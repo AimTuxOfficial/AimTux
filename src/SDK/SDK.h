@@ -28,3 +28,4 @@
 #include "IGameEvent.h"
 #include "CGlowObjectManager.h"
 #include "IPhysicsSurfaceProps.h"
+#include "CViewRender.h"

@@ -12,6 +12,9 @@
 #define SENDCLANTAG_SIGNATURE "\x55\x48\x89\xE5\x48\x89\x5D\xE8\x4C\x89\x65\xF0\x49\x89\xFC\xBF\x48\x00\x00\x00\x4C\x89\x6D\xF8\x48\x83\xEC\x20\x49"
 #define SENDCLANTAG_MASK "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
+#define VIEWRENDER_SIGNATURE "\xB8\xFF\xFF\x7F\x7F\x31\xD2\x55\x89\x05\x00\x00\x00\x00\x48\x8D\x3D\x00\x00\x00\x00"
+#define VIEWRENDER_MASK "xxxxxxxxxx????xxx????"
+
 #include <link.h>
 #include "patternfinder.h"
 #include "SDK/SDK.h"
@@ -26,4 +29,5 @@ namespace Hooker
 	void HookGlowManager();
 	void HookRankReveal();
 	void HookSendClanTag();
+	void HookViewRender();
 }

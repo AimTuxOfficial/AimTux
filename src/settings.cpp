@@ -202,6 +202,11 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["ClanTagChanger"]["enabled"] = Settings::ClanTagChanger::enabled;
 	settings["ClanTagChanger"]["animation"] = Settings::ClanTagChanger::animation;
 
+	settings["FOVChanger"]["enabled"] = Settings::FOVChanger::enabled;
+	settings["FOVChanger"]["value"] = Settings::FOVChanger::value;
+	settings["FOVChanger"]["viewmodel_enabled"] = Settings::FOVChanger::viewmodel_enabled;
+	settings["FOVChanger"]["viewmodel_value"] = Settings::FOVChanger::viewmodel_value;
+
 	std::ofstream(GetSettingsPath(filename)) << styledWriter.write(settings);
 }
 
@@ -350,6 +355,11 @@ void Settings::LoadSettings(const char* filename)
 		GetString(settings["ClanTagChanger"]["value"], &Settings::ClanTagChanger::value);
 		GetBool(settings["ClanTagChanger"]["enabled"], Settings::ClanTagChanger::enabled);
 		GetBool(settings["ClanTagChanger"]["animation"], Settings::ClanTagChanger::animation);
+
+		GetBool(settings["FOVChanger"]["enabled"], Settings::FOVChanger::enabled);
+		GetFloat(settings["FOVChanger"]["value"], Settings::FOVChanger::value);
+		GetBool(settings["FOVChanger"]["viewmodel_enabled"], Settings::FOVChanger::viewmodel_enabled);
+		GetFloat(settings["FOVChanger"]["viewmodel_value"], Settings::FOVChanger::viewmodel_value);
 	}
 	else
 	{
