@@ -8,7 +8,7 @@ float Settings::FOVChanger::viewmodel_value = 90.f;
 
 void FOVChanger::RenderView(CViewSetup & setup, CViewSetup & hudViewSetup, unsigned int nClearFlags, int whatToDraw)
 {
-	if (!Settings::FOVChanger::enabled)
+	if (!Settings::FOVChanger::enabled && !Settings::FOVChanger::viewmodel_enabled)
 			return;
 
 	if (!engine->IsInGame())
@@ -18,8 +18,9 @@ void FOVChanger::RenderView(CViewSetup & setup, CViewSetup & hudViewSetup, unsig
 	if (!localplayer)
 		return;
 
-	if (!localplayer->IsScoped())
+	if (Settings::FOVChanger::value && !localplayer->IsScoped())
 		setup.fov = Settings::FOVChanger::value;
 
-	setup.fovViewmodel = Settings::FOVChanger::viewmodel_value;
+	if (Settings::FOVChanger::viewmodel_enabled)
+		setup.fovViewmodel = Settings::FOVChanger::viewmodel_value;
 }
