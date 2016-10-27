@@ -59,47 +59,31 @@ void Hooker::HookVMethods()
 	viewRender_vmt = new VMT(viewrender);
 }
 
-uintptr_t GetClientClientAddress()
-{
-	uintptr_t client_client = 0;
-	// enumerate through loaded shared libraries
-	dl_iterate_phdr([] (struct dl_phdr_info* info, size_t size, void* data) {
-		// check for 'client_client.so' in name
-		if (strcasestr(info->dlpi_name, "client_client.so")) {
-			// write the address and break out of the loop
-			*reinterpret_cast<uintptr_t*>(data) = info->dlpi_addr + info->dlpi_phdr[0].p_vaddr;
-			return 1;
-		}
+std::unordered_map<const char*, uintptr_t> GetProcessLibraries() {
+	std::unordered_map<const char*, uintptr_t> modules;
 
-		// haven't found it yet, keep going..
+	dl_iterate_phdr([](struct dl_phdr_info* info, size_t size, void* data) {
+		reinterpret_cast<std::unordered_map<const char*, uintptr_t>*>(data)->insert({ info->dlpi_name, reinterpret_cast<uintptr_t>(info->dlpi_addr + info->dlpi_phdr[0].p_vaddr) });
 		return 0;
-	}, &client_client);
-	return client_client;
+	}, &modules);
+
+	return modules;
 }
 
-uintptr_t GetEngineClientAddress()
+uintptr_t GetLibraryAddress(const char* moduleName)
 {
-	uintptr_t engine_client = 0;
-	// enumerate through loaded shared libraries
-	dl_iterate_phdr([] (struct dl_phdr_info* info, size_t size, void* data) {
-		// check for 'engine_client.so' in name
-		if (strcasestr(info->dlpi_name, "engine_client.so")) {
-			// write the address and break out of the loop
-			*reinterpret_cast<uintptr_t*>(data) = info->dlpi_addr + info->dlpi_phdr[0].p_vaddr;
-			return 1;
-		}
+	std::unordered_map<const char*, uintptr_t> modules = GetProcessLibraries();
 
-		// haven't found it yet, keep going..
-		return 0;
-	}, &engine_client);
-	return engine_client;
+	for (auto module : modules)
+		if (strcasestr(module.first, moduleName))
+			return module.second;
+
+	return 0;
 }
 
 void Hooker::HookIClientMode()
 {
-	uintptr_t client_client = GetClientClientAddress();
-
-	uintptr_t init_address = FindPattern(client_client, 0xFFFFFFFFF, (unsigned char*) CCSMODEMANAGER_INIT_SIGNATURE, CCSMODEMANAGER_INIT_MASK);
+	uintptr_t init_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) CCSMODEMANAGER_INIT_SIGNATURE, CCSMODEMANAGER_INIT_MASK);
 
 	if (!init_address)
 		return;
@@ -118,32 +102,28 @@ void Hooker::HookGlobalVars()
 
 void Hooker::HookGlowManager()
 {
-	uintptr_t client_client = GetClientClientAddress();
-	uintptr_t instruction_addr = FindPattern(client_client, 0xFFFFFFFFF, (unsigned char*)GLOWOBJECT_SIGNATURE, GLOWOBJECT_MASK);
+	uintptr_t instruction_addr = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) GLOWOBJECT_SIGNATURE, GLOWOBJECT_MASK);
 
 	GlowObjectManager = reinterpret_cast<GlowObjectManagerFn>(GetAbsoluteAddress(instruction_addr, 1, 5));
 }
 
 void Hooker::HookRankReveal()
 {
-	uintptr_t client_client = GetClientClientAddress();
-	uintptr_t func_address = FindPattern(client_client, 0xFFFFFFFFF, (unsigned char*) MSGFUNC_SERVERRANKREVEALALL_SIGNATURE, MSGFUNC_SERVERRANKREVEALALL_MASK);
+	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) MSGFUNC_SERVERRANKREVEALALL_SIGNATURE, MSGFUNC_SERVERRANKREVEALALL_MASK);
 
 	MsgFunc_ServerRankRevealAll = reinterpret_cast<MsgFunc_ServerRankRevealAllFn>(func_address);
 }
 
 void Hooker::HookSendClanTag()
 {
-	uintptr_t engine_client = GetEngineClientAddress();
-	uintptr_t func_address = FindPattern(engine_client, 0xFFFFFFFFF, (unsigned char*) SENDCLANTAG_SIGNATURE, SENDCLANTAG_MASK);
+	uintptr_t func_address = FindPattern(GetLibraryAddress("engine_client.so"), 0xFFFFFFFFF, (unsigned char*) SENDCLANTAG_SIGNATURE, SENDCLANTAG_MASK);
 
 	SendClanTag = reinterpret_cast<SendClanTagFn>(func_address);
 }
 
 void Hooker::HookViewRender()
 {
-	uintptr_t client_client = GetClientClientAddress();
-	uintptr_t func_address = FindPattern(client_client, 0xFFFFFFFFF, (unsigned char*) VIEWRENDER_SIGNATURE, VIEWRENDER_MASK);
+	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) VIEWRENDER_SIGNATURE, VIEWRENDER_MASK);
 
 	viewrender = reinterpret_cast<CViewRender*>(GetAbsoluteAddress(func_address + 14, 3, 7));
 }
