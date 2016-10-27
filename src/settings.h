@@ -22,7 +22,9 @@ enum AntiAimType_Y : unsigned int
 	JITTER,
 	SIDE,
 	BACKWARDS,
+#ifdef UNTRUSTED_SETTINGS
 	LISP
+#endif
 };
 
 enum AntiAimType_X : unsigned int

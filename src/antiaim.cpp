@@ -59,6 +59,8 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 		{
 			angle.y -= 180.0f;
 		}
+// UNTRUSTED FEATURES
+#ifdef UNTRUSTED_SETTINGS
 		else if (Settings::AntiAim::type_Y == LISP)
 		{
 			if (!(cmd->buttons & IN_FORWARD && cmd->buttons & IN_BACK && cmd->buttons & IN_MOVELEFT && cmd->buttons & IN_MOVERIGHT && cmd->buttons & IN_JUMP))
@@ -70,6 +72,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 				
 			}
 		}
+#endif
 	}
 
 	if (Settings::AntiAim::enabled_X)
