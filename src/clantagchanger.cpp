@@ -1,4 +1,4 @@
-#include "chantagchanger.h"
+#include "clantagchanger.h"
 #include "util.h"
 
 std::string Settings::ClanTagChanger::value = "";

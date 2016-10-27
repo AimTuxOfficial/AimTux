@@ -12,7 +12,7 @@
 #include "../autostrafe.h"
 #include "../bhop.h"
 #include "../chams.h"
-#include "../chantagchanger.h"
+#include "../clantagchanger.h"
 #include "../dlights.h"
 #include "../esp.h"
 #include "../noflash.h"
