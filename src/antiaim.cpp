@@ -59,7 +59,6 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 		{
 			angle.y -= 180.0f;
 		}
-// UNTRUSTED FEATURES
 #ifdef UNTRUSTED_SETTINGS
 		else if (Settings::AntiAim::type_Y == LISP)
 		{

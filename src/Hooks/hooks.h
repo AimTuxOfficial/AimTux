@@ -15,15 +15,16 @@
 #include "../clantagchanger.h"
 #include "../dlights.h"
 #include "../esp.h"
+#include "../fovchanger.h"
+#include "../namechanger.h"
 #include "../noflash.h"
 #include "../recoilcrosshair.h"
-#include "../skinchanger.h"
-#include "../spammer.h"
-#include "../triggerbot.h"
 #include "../showranks.h"
 #include "../showspectators.h"
-#include "../namechanger.h"
-#include "../fovchanger.h"
+#include "../skinchanger.h"
+#include "../spammer.h"
+#include "../teleport.h"
+#include "../triggerbot.h"
 
 namespace Hooks
 {
