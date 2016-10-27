@@ -370,9 +370,11 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	Aimbot::AutoShoot(entity, active_weapon, cmd);
 	Aimbot::RCS(angle, entity, cmd);
 	Aimbot::Smooth(entity, angle, cmd);
-	
+
+	/* FIX IT
 	if (!Settings::Aimbot::silent && !Settings::Aimbot::RCS::enabled)
-		Aimbot::ShootCheck (localplayer, active_weapon, cmd);
+		Aimbot::ShootCheck(localplayer, active_weapon, cmd);
+	*/
 
 	Math::NormalizeAngles(angle);
 	cmd->viewangles = angle;
