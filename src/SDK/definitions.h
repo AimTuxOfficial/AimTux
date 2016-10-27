@@ -18,7 +18,10 @@
 #define PHYSICS_CLIENT_INTERFACE_VERSION "VPhysicsSurfaceProps001"
 
 // Uncomment this at your own risk.
-//#define ENABLE_EXPERIMENTAL_SETTINGS
+//#define UNTRUSTED_SETTINGS
+
+// Uncomment to enable buggy/experimental settings.
+//#define EXPERIMENTAL_SETTINGS
 
 /* generic constants */
 #define LIFE_ALIVE 0
