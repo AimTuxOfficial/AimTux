@@ -16,6 +16,7 @@ namespace Aimbot
 	void AutoCrouch(C_BaseEntity* entity, CUserCmd* cmd);
 	void AutoStop(C_BaseEntity* entity, float& forward, float& sideMove, CUserCmd* cmd);
 	void AutoShoot(C_BaseEntity* entity, C_BaseCombatWeapon* active_weapon, CUserCmd* cmd);
-
+	void ShootCheck(C_BasePlayer* localplayer, C_BaseCombatWeapon* active_weapon, CUserCmd* cmd);
+	
 	void CreateMove(CUserCmd* cmd);
 }

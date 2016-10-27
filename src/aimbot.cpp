@@ -309,6 +309,20 @@ void Aimbot::AutoShoot(C_BaseEntity* entity, C_BaseCombatWeapon* active_weapon, 
 	}
 }
 
+void Aimbot::ShootCheck(C_BasePlayer* localplayer, C_BaseCombatWeapon* active_weapon, CUserCmd* cmd)
+{
+	float nextPrimaryAttack = active_weapon->GetNextPrimaryAttack();
+	float tick = localplayer->GetTickBase() * globalvars->interval_per_tick;
+	
+	if (!(cmd->buttons & IN_ATTACK))
+		return;
+	
+	if (nextPrimaryAttack >= tick)
+		return;
+	
+	cmd->buttons &= ~IN_ATTACK;
+}
+
 void Aimbot::CreateMove(CUserCmd* cmd)
 {
 	if (!Settings::Aimbot::enabled)
@@ -356,6 +370,9 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	Aimbot::AutoShoot(entity, active_weapon, cmd);
 	Aimbot::RCS(angle, entity, cmd);
 	Aimbot::Smooth(entity, angle, cmd);
+	
+	if (!Settings::Aimbot::silent && !Settings::Aimbot::RCS::enabled)
+		Aimbot::ShootCheck (localplayer, active_weapon, cmd);
 
 	Math::NormalizeAngles(angle);
 	cmd->viewangles = angle;
