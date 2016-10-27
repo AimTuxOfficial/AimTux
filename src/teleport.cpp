@@ -15,6 +15,6 @@ void Teleport::CreateMove(CUserCmd *cmd)
 	if (!input->IsButtonDown(Settings::Teleport::key))
 		return;
 
-	cmd->viewangles.y = 1e+37;
+	cmd->viewangles = QAngle(0, 1e+37, 0);
 #endif
 }
