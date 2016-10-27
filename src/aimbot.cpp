@@ -141,9 +141,10 @@ void Aimbot::RCS(QAngle& angle, C_BaseEntity* entity, CUserCmd* cmd)
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	QAngle CurrentPunch = localplayer->GetAimPunchAngle();
+	bool isSilent = Settings::Aimbot::silent || Settings::AntiAim::enabled_X || Settings::AntiAim::enabled_Y;
 	bool hasTarget = Settings::Aimbot::AutoAim::enabled && entity != NULL && shouldAim;
 
-	if (Settings::Aimbot::silent || hasTarget)
+	if (isSilent || hasTarget)
 	{
 		angle -= CurrentPunch * 2.f;
 		RCSLastPunch = CurrentPunch;
@@ -313,11 +314,14 @@ void Aimbot::ShootCheck(C_BasePlayer* localplayer, C_BaseCombatWeapon* active_we
 {
 	float nextPrimaryAttack = active_weapon->GetNextPrimaryAttack();
 	float tick = localplayer->GetTickBase() * globalvars->interval_per_tick;
-	
+
+	if (!Settings::AntiAim::enabled_X && !Settings::AntiAim::enabled_Y)
+		return;
+
 	if (!(cmd->buttons & IN_ATTACK))
 		return;
 	
-	if (nextPrimaryAttack >= tick)
+	if (nextPrimaryAttack < tick)
 		return;
 	
 	cmd->buttons &= ~IN_ATTACK;
@@ -370,11 +374,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	Aimbot::AutoShoot(entity, active_weapon, cmd);
 	Aimbot::RCS(angle, entity, cmd);
 	Aimbot::Smooth(entity, angle, cmd);
-
-	/* FIX IT
-	if (!Settings::Aimbot::silent && !Settings::Aimbot::RCS::enabled)
-		Aimbot::ShootCheck(localplayer, active_weapon, cmd);
-	*/
+	Aimbot::ShootCheck(localplayer, active_weapon, cmd);
 
 	Math::NormalizeAngles(angle);
 	cmd->viewangles = angle;
