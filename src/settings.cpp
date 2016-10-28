@@ -94,6 +94,8 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["Aimbot"]["aimkey_only"] = Settings::Aimbot::aimkey_only;
 	settings["Aimbot"]["Smooth"]["enabled"] = Settings::Aimbot::Smooth::enabled;
 	settings["Aimbot"]["Smooth"]["value"] = Settings::Aimbot::Smooth::value;
+	settings["Aimbot"]["Smooth"]["Salting"]["enabled"] = Settings::Aimbot::Smooth::Salting::enabled;
+	settings["Aimbot"]["Smooth"]["Salting"]["percentage"] = Settings::Aimbot::Smooth::Salting::percentage;
 	settings["Aimbot"]["AutoAim"]["enabled"] = Settings::Aimbot::AutoAim::enabled;
 	settings["Aimbot"]["AutoWall"]["enabled"] = Settings::Aimbot::AutoWall::enabled;
 	settings["Aimbot"]["AutoWall"]["value"] = Settings::Aimbot::AutoWall::value;
@@ -245,6 +247,8 @@ void Settings::LoadSettings(const char* filename)
 	GetBool(settings["Aimbot"]["aimkey_only"], Settings::Aimbot::aimkey_only);
 	GetBool(settings["Aimbot"]["Smooth"]["enabled"], Settings::Aimbot::Smooth::enabled);
 	GetFloat(settings["Aimbot"]["Smooth"]["value"], Settings::Aimbot::Smooth::value);
+	GetBool(settings["Aimbot"]["Smooth"]["Salting"]["enabled"], Settings::Aimbot::Smooth::Salting::enabled);
+	GetFloat(settings["Aimbot"]["Smooth"]["Salting"]["percentage"], Settings::Aimbot::Smooth::Salting::percentage);
 	GetBool(settings["Aimbot"]["AutoAim"]["enabled"], Settings::Aimbot::AutoAim::enabled);
 	GetBool(settings["Aimbot"]["AutoWall"]["enabled"], Settings::Aimbot::AutoWall::enabled);
 	GetFloat(settings["Aimbot"]["AutoWall"]["value"], Settings::Aimbot::AutoWall::value);
