@@ -584,6 +584,7 @@ public:
 				weaponInfo.m_flRangeModifier = 0.81;
 				break;
 			case WEAPON_HKP2000:
+			case WEAPON_USP_SILENCER:
 				weaponInfo.m_flWeaponArmorRatio = 1.01;
 				weaponInfo.m_flPenetration = 1;
 				weaponInfo.m_iDamage = 35;
