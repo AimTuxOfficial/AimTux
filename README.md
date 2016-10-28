@@ -89,8 +89,9 @@ Once injected, press the *insert* key, you should see a window in the top right 
 
 ## Screenshots
 
-![menu](http://i.imgur.com/Wn8MfMA.jpg)
+![menu](http://i.imgur.com/sRSjvhP.jpg)
 ![esp_chams](http://i.imgur.com/qZqhixp.jpg)
+![chams](https://i.imgur.com/XYUWhHz.jpg)
 ![fov crosshair](http://i.imgur.com/LoKzzLQ.jpg)
 
 ## Credits

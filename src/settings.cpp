@@ -170,9 +170,6 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["Spammer"]["KillSpammer"]["enabled"] = Settings::Spammer::KillSpammer::enabled;
 	settings["Spammer"]["KillSpammer"]["message"] = Settings::Spammer::KillSpammer::message;
 	settings["Spammer"]["NormalSpammer"]["enabled"] = Settings::Spammer::NormalSpammer::enabled;
-	
-	settings["NameChanger"]["enabled"] = Settings::NameChanger::enabled;
-	settings["NameChanger"]["last_blank"] = Settings::NameChanger::last_blank;
 
 	settings["BHop"]["enabled"] = Settings::BHop::enabled;
 
@@ -182,6 +179,11 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["Noflash"]["value"] = Settings::Noflash::value;
 
 	settings["Recoilcrosshair"]["enabled"] = Settings::Recoilcrosshair::enabled;
+
+	settings["FOVChanger"]["enabled"] = Settings::FOVChanger::enabled;
+	settings["FOVChanger"]["value"] = Settings::FOVChanger::value;
+	settings["FOVChanger"]["viewmodel_enabled"] = Settings::FOVChanger::viewmodel_enabled;
+	settings["FOVChanger"]["viewmodel_value"] = Settings::FOVChanger::viewmodel_value;
 
 	settings["Airstuck"]["enabled"] = Settings::Airstuck::enabled;
 	settings["Airstuck"]["key"] = Settings::Airstuck::key;
@@ -205,10 +207,11 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["ClanTagChanger"]["enabled"] = Settings::ClanTagChanger::enabled;
 	settings["ClanTagChanger"]["animation"] = Settings::ClanTagChanger::animation;
 
-	settings["FOVChanger"]["enabled"] = Settings::FOVChanger::enabled;
-	settings["FOVChanger"]["value"] = Settings::FOVChanger::value;
-	settings["FOVChanger"]["viewmodel_enabled"] = Settings::FOVChanger::viewmodel_enabled;
-	settings["FOVChanger"]["viewmodel_value"] = Settings::FOVChanger::viewmodel_value;
+	settings["NameChanger"]["enabled"] = Settings::NameChanger::enabled;
+	settings["NameChanger"]["last_blank"] = Settings::NameChanger::last_blank;
+
+	settings["Teleport"]["enabled"] = Settings::Teleport::enabled;
+	settings["Teleport"]["key"] = Settings::Teleport::key;
 
 	std::ofstream(GetSettingsPath(filename)) << styledWriter.write(settings);
 }
@@ -323,9 +326,6 @@ void Settings::LoadSettings(const char* filename)
 	GetCString(settings["Spammer"]["KillSpammer"]["message"], Settings::Spammer::KillSpammer::message);
 	GetBool(settings["Spammer"]["NormalSpammer"]["enabled"], Settings::Spammer::NormalSpammer::enabled);
 
-	GetBool(settings["NameChanger"]["enabled"], Settings::NameChanger::enabled);
-	GetBool(settings["NameChanger"]["last_blank"], Settings::NameChanger::last_blank);
-
 	GetBool(settings["BHop"]["enabled"], Settings::BHop::enabled);
 
 	GetBool(settings["AutoStrafe"]["enabled"], Settings::AutoStrafe::enabled);
@@ -334,6 +334,11 @@ void Settings::LoadSettings(const char* filename)
 	GetFloat(settings["Noflash"]["value"], Settings::Noflash::value);
 
 	GetBool(settings["Recoilcrosshair"]["enabled"], Settings::Recoilcrosshair::enabled);
+
+	GetBool(settings["FOVChanger"]["enabled"], Settings::FOVChanger::enabled);
+	GetFloat(settings["FOVChanger"]["value"], Settings::FOVChanger::value);
+	GetBool(settings["FOVChanger"]["viewmodel_enabled"], Settings::FOVChanger::viewmodel_enabled);
+	GetFloat(settings["FOVChanger"]["viewmodel_value"], Settings::FOVChanger::viewmodel_value);
 
 	GetBool(settings["Airstuck"]["enabled"], Settings::Airstuck::enabled);
 	GetInt(settings["Airstuck"]["key"], Settings::Airstuck::key);
@@ -366,8 +371,9 @@ void Settings::LoadSettings(const char* filename)
 	GetBool(settings["ClanTagChanger"]["enabled"], Settings::ClanTagChanger::enabled);
 	GetBool(settings["ClanTagChanger"]["animation"], Settings::ClanTagChanger::animation);
 
-	GetBool(settings["FOVChanger"]["enabled"], Settings::FOVChanger::enabled);
-	GetFloat(settings["FOVChanger"]["value"], Settings::FOVChanger::value);
-	GetBool(settings["FOVChanger"]["viewmodel_enabled"], Settings::FOVChanger::viewmodel_enabled);
-	GetFloat(settings["FOVChanger"]["viewmodel_value"], Settings::FOVChanger::viewmodel_value);
+	GetBool(settings["NameChanger"]["enabled"], Settings::NameChanger::enabled);
+	GetBool(settings["NameChanger"]["last_blank"], Settings::NameChanger::last_blank);
+
+	GetBool(settings["Teleport"]["enabled"], Settings::Teleport::enabled);
+	GetInt(settings["Teleport"]["key"], Settings::Teleport::key);
 }

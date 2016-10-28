@@ -351,8 +351,14 @@ namespace Settings
 	
 	namespace NameChanger
 	{
-		extern bool last_blank;
 		extern bool enabled;
+		extern bool last_blank;
+	}
+
+	namespace Teleport
+	{
+		extern bool enabled;
+		extern ButtonCode_t key;
 	}
 
 	void LoadDefaultsOrSave(const char* filename);

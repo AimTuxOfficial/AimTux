@@ -54,7 +54,14 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	ts_showspectators = new ToggleSwitch ("show spectators", BELOW (ts_showranks), 33, &Settings::ShowSpectators::enabled);
 	AddComponent (ts_showspectators);
 
+#ifdef UNTRUSTED_SETTINGS
+	ts_teleport = new ToggleSwitch ("teleport", BELOW (ts_showspectators), 33, &Settings::Teleport::enabled);
+	AddComponent (ts_teleport);
+
+	ts_clantag = new ToggleSwitch ("custom clantag", BELOW (ts_teleport), 33, &Settings::ClanTagChanger::enabled);
+#else
 	ts_clantag = new ToggleSwitch ("custom clantag", BELOW (ts_showspectators), 33, &Settings::ClanTagChanger::enabled);
+#endif
 	AddComponent (ts_clantag);
 
 	tb_clantag = new TextBox ("clantag", &Settings::ClanTagChanger::value, STACK (ts_clantag), LOC (270, 33));

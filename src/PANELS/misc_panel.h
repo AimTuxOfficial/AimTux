@@ -27,6 +27,7 @@ private:
 	Slider* sl_fov_viewmodel_value;
 	ToggleSwitch* ts_showranks;
 	ToggleSwitch* ts_showspectators;
+	ToggleSwitch* ts_teleport;
 	OutlinedButton* ob_nickname;
 	ValueTextBox* vtb_nickname;
 	OutlinedButton* ob_noname;
