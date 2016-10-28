@@ -63,7 +63,7 @@ AimbotPanel::AimbotPanel (Vector2D position, Vector2D size)
 	ts_autocrouch = new ToggleSwitch ("auto crouch", BELOW (ba_movement), 33, &Settings::Aimbot::AutoCrouch::enabled);
 	AddComponent (ts_autocrouch);
 
-	ts_autostop = new ToggleSwitch ("auto stop", BELOW (ts_autocrouch), 33, &Settings::Aimbot::AutoStop::enabled);
+	ts_autostop = new ToggleSwitch ("auto stop", STACK (ts_autocrouch), 33, &Settings::Aimbot::AutoStop::enabled);
 	AddComponent (ts_autostop);
 
 	ba_target = new Banner ("Target", LOC((size.x / 2) + 5, ba_aim->position.y), ((size.x - 20) / 2) - 5);
