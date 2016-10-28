@@ -90,6 +90,12 @@ namespace Settings
 			extern bool enabled;
 			extern float value;
 			extern float max;
+			
+			namespace Salting
+			{
+				extern bool enabled;
+				extern float percentage;
+			}
 		}
 
 		namespace AutoAim

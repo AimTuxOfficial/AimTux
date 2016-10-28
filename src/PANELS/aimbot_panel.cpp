@@ -20,14 +20,20 @@ AimbotPanel::AimbotPanel (Vector2D position, Vector2D size)
 
 	sl_fov = new Slider ("FOV", STACK (ts_autoaim), LOC ((size.x / 2) - ts_autoaim->size.x - 30, 33), &Settings::Aimbot::fov, 0.0f, 180.0f);
 	AddComponent (sl_fov);
-
+	
 	ts_smooth = new ToggleSwitch ("smooth", BELOW (ts_autoaim), 33, &Settings::Aimbot::Smooth::enabled);
 	AddComponent (ts_smooth);
 	
 	sl_smooth = new Slider ("", STACK (ts_smooth), LOC ((size.x / 2) - ts_smooth->size.x - 30, 33), &Settings::Aimbot::Smooth::value, 0.10f, Settings::Aimbot::Smooth::max);
 	AddComponent (sl_smooth);
 	
-	ts_aimstep = new ToggleSwitch ("aim step", BELOW (ts_smooth), 33, &Settings::Aimbot::AimStep::enabled);
+	ts_salting = new ToggleSwitch ("Smooth Salting", BELOW (ts_smooth), 33, &Settings::Aimbot::Smooth::Salting::enabled);
+	AddComponent (ts_salting);
+	
+	sl_salting = new Slider ("Salt Percentage", STACK (ts_salting), LOC ((size.x / 2) - ts_salting->size.x - 30, 33), &Settings::Aimbot::Smooth::Salting::percentage, 0.0f, 100.0f);
+	AddComponent (sl_salting);
+	
+	ts_aimstep = new ToggleSwitch ("aim step", BELOW (ts_salting), 33, &Settings::Aimbot::AimStep::enabled);
 	AddComponent (ts_aimstep);
 
 	sl_aimstep = new Slider ("", STACK (ts_aimstep), LOC ((size.x / 2) - ts_aimstep->size.x - 30, 33), &Settings::Aimbot::AimStep::value, 0.0f, 180.0f);

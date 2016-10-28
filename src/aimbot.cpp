@@ -24,6 +24,8 @@ bool Settings::Aimbot::AutoShoot::autoscope = false;
 bool Settings::Aimbot::RCS::enabled = false;
 bool Settings::Aimbot::AutoCrouch::enabled = false;
 bool Settings::Aimbot::AutoStop::enabled = false;
+bool Settings::Aimbot::Smooth::Salting::enabled = true;
+float Settings::Aimbot::Smooth::Salting::percentage = 90.0f;
 bool Aimbot::AimStepInProgress = false;
 
 bool shouldAim;
@@ -205,6 +207,11 @@ void Aimbot::AimStep(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
 	angle = AimStepLastAngle;
 }
 
+float RandomNumber(float Min, float Max)
+{
+	return ((float(rand()) / float(RAND_MAX)) * (Max - Min)) + Min;
+}
+
 void Aimbot::Smooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
 {
 	if (!Settings::Aimbot::Smooth::enabled)
@@ -218,9 +225,19 @@ void Aimbot::Smooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
 
 	QAngle delta = angle - cmd->viewangles;
 	Math::NormalizeAngles(delta);
-
-	float factorx = 1.0f - Settings::Aimbot::Smooth::value / Settings::Aimbot::Smooth::max;
-	float factory = 1.0f - Settings::Aimbot::Smooth::value / Settings::Aimbot::Smooth::max;
+	
+	float smooth = Settings::Aimbot::Smooth::value / Settings::Aimbot::Smooth::max;
+	
+	if (Settings::Aimbot::Smooth::Salting::enabled)
+	{
+		float max_remove = Settings::Aimbot::Smooth::value - (((100 - Settings::Aimbot::Smooth::Salting::percentage) / 100) * Settings::Aimbot::Smooth::value);
+		float remove = RandomNumber (0.0f, max_remove);
+		
+		smooth -= remove;
+	}
+	
+	float factorx = 1.0f - smooth;
+	float factory = 1.0f - smooth;
 
 	if (delta.x < 0.0f)
 	{
