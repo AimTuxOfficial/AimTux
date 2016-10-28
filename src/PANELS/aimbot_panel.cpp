@@ -27,10 +27,10 @@ AimbotPanel::AimbotPanel (Vector2D position, Vector2D size)
 	sl_smooth = new Slider ("", STACK (ts_smooth), LOC ((size.x / 2) - ts_smooth->size.x - 30, 33), &Settings::Aimbot::Smooth::value, 0.10f, Settings::Aimbot::Smooth::max);
 	AddComponent (sl_smooth);
 	
-	ts_salting = new ToggleSwitch ("Smooth Salting", BELOW (ts_smooth), 33, &Settings::Aimbot::Smooth::Salting::enabled);
+	ts_salting = new ToggleSwitch ("smooth salting", BELOW (ts_smooth), 33, &Settings::Aimbot::Smooth::Salting::enabled);
 	AddComponent (ts_salting);
 	
-	sl_salting = new Slider ("Salt Percentage", STACK (ts_salting), LOC ((size.x / 2) - ts_salting->size.x - 30, 33), &Settings::Aimbot::Smooth::Salting::percentage, 0.0f, 100.0f);
+	sl_salting = new Slider ("salt percentage", STACK (ts_salting), LOC ((size.x / 2) - ts_salting->size.x - 30, 33), &Settings::Aimbot::Smooth::Salting::percentage, 0.0f, 100.0f);
 	AddComponent (sl_salting);
 	
 	ts_aimstep = new ToggleSwitch ("aim step", BELOW (ts_salting), 33, &Settings::Aimbot::AimStep::enabled);
