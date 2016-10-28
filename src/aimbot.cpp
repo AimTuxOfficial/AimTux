@@ -24,8 +24,8 @@ bool Settings::Aimbot::AutoShoot::autoscope = false;
 bool Settings::Aimbot::RCS::enabled = false;
 bool Settings::Aimbot::AutoCrouch::enabled = false;
 bool Settings::Aimbot::AutoStop::enabled = false;
-bool Settings::Aimbot::Smooth::Salting::enabled = true;
-float Settings::Aimbot::Smooth::Salting::percentage = 90.0f;
+bool Settings::Aimbot::Smooth::Salting::enabled = false;
+float Settings::Aimbot::Smooth::Salting::percentage = 0.0f;
 bool Aimbot::AimStepInProgress = false;
 
 bool shouldAim;
