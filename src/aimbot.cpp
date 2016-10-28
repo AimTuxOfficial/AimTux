@@ -19,6 +19,7 @@ float Settings::Aimbot::AutoWall::value = 10.0f;
 std::vector<Hitbox> Settings::Aimbot::AutoWall::bones = { HITBOX_HEAD };
 bool Settings::Aimbot::AimStep::enabled = false;
 float Settings::Aimbot::AimStep::value = 25.0f;
+bool Settings::Aimbot::AutoPistol::enabled = false;
 bool Settings::Aimbot::AutoShoot::enabled = false;
 bool Settings::Aimbot::AutoShoot::autoscope = false;
 bool Settings::Aimbot::RCS::enabled = false;
@@ -294,6 +295,27 @@ void Aimbot::AutoStop(C_BaseEntity* entity, float& forward, float& sideMove, CUs
 	cmd->upmove = 0;
 }
 
+void Aimbot::AutoPistol(C_BaseCombatWeapon* active_weapon, CUserCmd* cmd)
+{
+	if (!Settings::Aimbot::AutoPistol::enabled)
+		return;
+
+	if (!active_weapon || !active_weapon->IsPistol())
+		return;
+
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	float nextPrimaryAttack = active_weapon->GetNextPrimaryAttack();
+	float tick = localplayer->GetTickBase() * globalvars->interval_per_tick;
+
+	if (nextPrimaryAttack < tick)
+		return;
+
+	if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
+		cmd->buttons &= ~IN_ATTACK2;
+	else
+		cmd->buttons &= ~IN_ATTACK;
+}
+
 void Aimbot::AutoShoot(C_BaseEntity* entity, C_BaseCombatWeapon* active_weapon, CUserCmd* cmd)
 {
 	if (!Settings::Aimbot::AutoShoot::enabled)
@@ -392,6 +414,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	Aimbot::AimStep(entity, angle, cmd);
 	Aimbot::AutoCrouch(entity, cmd);
 	Aimbot::AutoStop(entity, oldForward, oldSideMove, cmd);
+	Aimbot::AutoPistol(active_weapon, cmd);
 	Aimbot::AutoShoot(entity, active_weapon, cmd);
 	Aimbot::RCS(angle, entity, cmd);
 	Aimbot::Smooth(entity, angle, cmd);

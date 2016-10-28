@@ -24,6 +24,7 @@ private:
 	ToggleSwitch* ts_autowall;
 	Slider* sl_autowall;
 	Slider* sl_error;
+	ToggleSwitch* ts_autopistol;
 	ToggleSwitch* ts_autoshoot;
 	ToggleSwitch* ts_autoscope;
 	Banner* ba_movement;

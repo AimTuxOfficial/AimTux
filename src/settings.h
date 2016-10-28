@@ -121,6 +121,11 @@ namespace Settings
 			extern bool enabled;
 		}
 
+		namespace AutoPistol
+		{
+			extern bool enabled;
+		}
+
 		namespace AutoShoot
 		{
 			extern bool enabled;
