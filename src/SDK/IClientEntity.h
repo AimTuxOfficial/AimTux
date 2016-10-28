@@ -507,6 +507,7 @@ public:
 				weaponInfo.m_flRangeModifier = 0.85;
 				break;
 			case WEAPON_DEAGLE:
+			case WEAPON_REVOLVER:
 				weaponInfo.m_flWeaponArmorRatio = 1.864;
 				weaponInfo.m_flPenetration = 2;
 				weaponInfo.m_iDamage = 63;
@@ -697,6 +698,7 @@ public:
 				weaponInfo.m_flRangeModifier = 0.99;
 				break;
 			case WEAPON_P250:
+			case WEAPON_CZ75A:
 				weaponInfo.m_flWeaponArmorRatio = 1.553;
 				weaponInfo.m_flPenetration = 1;
 				weaponInfo.m_iDamage = 35;

@@ -17,7 +17,9 @@ def parseFile(filename):
     }
     sharedWeapons = {
         "WEAPON_M4A1": [ "WEAPON_M4A1_SILENCER" ],
-        "WEAPON_HKP2000": [ "WEAPON_USP_SILENCER" ]
+        "WEAPON_HKP2000": [ "WEAPON_USP_SILENCER" ],
+        "WEAPON_DEAGLE": [ "WEAPON_REVOLVER" ],
+        "WEAPON_P250": [ "WEAPON_CZ75A" ]
     }
 
     weapon = filename[15:-4].upper()
