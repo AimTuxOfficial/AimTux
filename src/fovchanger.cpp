@@ -14,9 +14,18 @@ void FOVChanger::RenderView(CViewSetup & setup, CViewSetup & hudViewSetup, unsig
 	if (!engine->IsInGame())
 		return;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BaseEntity* localplayer = entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return;
+
+	if (localplayer->GetLifeState() != LIFE_ALIVE || localplayer->GetHealth() == 0)
+	{
+		if (*localplayer->GetObserverMode() == ObserverMode_t::OBS_MODE_IN_EYE && localplayer->GetObserverTarget())
+			localplayer = entitylist->GetClientEntityFromHandle(localplayer->GetObserverTarget());
+
+		if (!localplayer)
+			return;
+	}
 
 	if (Settings::FOVChanger::value && !localplayer->IsScoped())
 		setup.fov = Settings::FOVChanger::value;

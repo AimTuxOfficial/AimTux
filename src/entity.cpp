@@ -2,7 +2,7 @@
 
 bool Entity::IsVisible(C_BaseEntity* pEntity, int bone)
 {
-	C_BaseEntity* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BaseEntity* localplayer = entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return true;
 
