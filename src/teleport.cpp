@@ -12,6 +12,9 @@ void Teleport::CreateMove(CUserCmd *cmd)
 	if (!engine->IsInGame())
 		return;
 
+	if (cvar->FindVar("cl_mouseenable")->GetInt() == 0)
+		return;
+
 	if (!input->IsButtonDown(Settings::Teleport::key))
 		return;
 

@@ -41,7 +41,7 @@ public:
 		getvfunc<oGetPlayerForUserID>(this, 9)(this, UserID);
 	}
 
-	int GetLocalPlayer(void)
+	int GetLocalPlayer()
 	{
 		typedef int (* oGetLocalPlayer)(void*);
 		getvfunc<oGetLocalPlayer>(this, 12)(this);
