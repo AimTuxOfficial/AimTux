@@ -299,6 +299,11 @@ namespace Settings
 		extern float viewmodel_value;
 	}
 
+	namespace Radar
+	{
+		extern bool enabled;
+	}
+
 	namespace Recoilcrosshair
 	{
 		extern bool enabled;

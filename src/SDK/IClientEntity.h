@@ -192,6 +192,11 @@ public:
 		return (ICollideable*)((uintptr_t)this + offsets.m_Collision);
 	}
 
+	bool* GetSpotted()
+	{
+		return (bool*)((uintptr_t)this + offsets.m_bSpotted);
+	}
+
 	char* GetLastPlaceName()
 	{
 		return (char*)((uintptr_t)this + offsets.m_szLastPlaceName);

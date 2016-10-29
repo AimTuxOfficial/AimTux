@@ -27,6 +27,7 @@ void Offsets::getOffsets()
 	offsets.m_iTeamNum = NetVarManager::getOffset(tables, "DT_BaseEntity", "m_iTeamNum");
 	offsets.m_MoveType = offsets.m_nRenderMode + 1;
 	offsets.m_Collision = NetVarManager::getOffset(tables, "DT_BaseEntity", "m_Collision");
+	offsets.m_bSpotted = NetVarManager::getOffset(tables, "DT_BaseEntity", "m_bSpotted");
 
 	// DT_BaseCombatCharacter
 	offsets.m_hActiveWeapon = NetVarManager::getOffset(tables, "DT_BaseCombatCharacter", "m_hActiveWeapon");

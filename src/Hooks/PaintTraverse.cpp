@@ -13,6 +13,7 @@ void Hooks::PaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, 
 
 	Dlights::PaintTraverse(vgui_panel, force_repaint, allow_force);
 	ESP::PaintTraverse(vgui_panel, force_repaint, allow_force);
+	Radar::PaintTraverse(vgui_panel, force_repaint, allow_force);
 	Recoilcrosshair::PaintTraverse(vgui_panel, force_repaint, allow_force);
 	ShowSpectators::PaintTraverse(vgui_panel, force_repaint, allow_force);
 

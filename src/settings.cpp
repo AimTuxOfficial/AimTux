@@ -179,6 +179,8 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["Noflash"]["enabled"] = Settings::Noflash::enabled;
 	settings["Noflash"]["value"] = Settings::Noflash::value;
 
+	settings["Radar"]["enabled"] = Settings::Radar::enabled;
+
 	settings["Recoilcrosshair"]["enabled"] = Settings::Recoilcrosshair::enabled;
 
 	settings["FOVChanger"]["enabled"] = Settings::FOVChanger::enabled;
@@ -334,6 +336,8 @@ void Settings::LoadSettings(const char* filename)
 
 	GetBool(settings["Noflash"]["enabled"], Settings::Noflash::enabled);
 	GetFloat(settings["Noflash"]["value"], Settings::Noflash::value);
+
+	GetBool(settings["Radar"]["enabled"], Settings::Radar::enabled);
 
 	GetBool(settings["Recoilcrosshair"]["enabled"], Settings::Recoilcrosshair::enabled);
 

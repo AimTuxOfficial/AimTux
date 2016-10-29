@@ -25,6 +25,7 @@ struct COffsets
 	int m_iTeamNum;
 	int m_MoveType;
 	int m_Collision;
+	int m_bSpotted;
 
 	// DT_BaseCombatCharacter
 	int m_hActiveWeapon;

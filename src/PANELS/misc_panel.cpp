@@ -48,7 +48,10 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	sl_fov_viewmodel_value = new Slider ("", STACK (ts_fov_viewmodel), LOC ((size.x / 2) - ts_fov_viewmodel->size.x - 30, 33), &Settings::FOVChanger::viewmodel_value, 0.0f, 360.0f);
 	AddComponent (sl_fov_viewmodel_value);
 
-	ts_showranks = new ToggleSwitch ("show ranks", BELOW (ts_fov_viewmodel), 33, &Settings::ShowRanks::enabled);
+	ts_radar = new ToggleSwitch ("radar", BELOW (ts_fov_viewmodel), 33, &Settings::Radar::enabled);
+	AddComponent (ts_radar);
+
+	ts_showranks = new ToggleSwitch ("show ranks", BELOW (ts_radar), 33, &Settings::ShowRanks::enabled);
 	AddComponent (ts_showranks);
 
 	ts_showspectators = new ToggleSwitch ("show spectators", BELOW (ts_showranks), 33, &Settings::ShowSpectators::enabled);

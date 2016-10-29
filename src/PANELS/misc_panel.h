@@ -25,6 +25,7 @@ private:
 	Slider* sl_fov_value;
 	ToggleSwitch* ts_fov_viewmodel;
 	Slider* sl_fov_viewmodel_value;
+	ToggleSwitch* ts_radar;
 	ToggleSwitch* ts_showranks;
 	ToggleSwitch* ts_showspectators;
 	ToggleSwitch* ts_teleport;
