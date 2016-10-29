@@ -1,7 +1,7 @@
 #pragma once
 
 /* interface versions */
-#define CLIENT_DLL_INTERFACE_VERSION "VClient017"
+#define CLIENT_DLL_INTERFACE_VERSION "VClient018"
 #define VENGINE_CLIENT_INTERFACE_VERSION "VEngineClient014"
 #define VCLIENTENTITYLIST_INTERFACE_VERSION	"VClientEntityList003"
 #define SURFACE_INTERFACE_VERSION "VGUI_Surface031"
