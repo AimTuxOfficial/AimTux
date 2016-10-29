@@ -16,8 +16,8 @@ std::unordered_map<int, Settings::Skinchanger::Skin> Settings::Skinchanger::skin
 		{ WEAPON_TEC9, Settings::Skinchanger::Skin(179, -1, 0.0005f, 1337, "AimTux", "") },
 		{ WEAPON_KNIFE, Settings::Skinchanger::Skin(417, WEAPON_KNIFE_M9_BAYONET, 0.0005f, 1337, "AimTux", "") },
 		{ WEAPON_KNIFE_T, Settings::Skinchanger::Skin(417, WEAPON_KNIFE_KARAMBIT, 0.0005f, 1337, "AimTux", "") },
-		{ WEAPON_KNIFE_M9_BAYONET, Settings::Skinchanger::Skin(417, WEAPON_KNIFE_M9_BAYONET, 0.0005f, 1337, "AimTux", "models/weapons/v_knife_m9_bay.mdl") },
-		{ WEAPON_KNIFE_KARAMBIT, Settings::Skinchanger::Skin(417, WEAPON_KNIFE_KARAMBIT, 0.0005f, 1337, "AimTux", "models/weapons/v_knife_karam.mdl") }
+		{ WEAPON_KNIFE_M9_BAYONET, Settings::Skinchanger::Skin(417, -1, -1, -1, "", "models/weapons/v_knife_m9_bay.mdl") },
+		{ WEAPON_KNIFE_KARAMBIT, Settings::Skinchanger::Skin(417, -1, -1, -1, "", "models/weapons/v_knife_karam.mdl") }
 };
 
 const char* KnifeToName(int id)
