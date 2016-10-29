@@ -16,16 +16,16 @@ std::unordered_map<int, Settings::Skinchanger::Skin> Settings::Skinchanger::skin
 		{ WEAPON_TEC9, Settings::Skinchanger::Skin(179, -1, 0.0005f, 1337, "AimTux", "") },
 		{ WEAPON_KNIFE, Settings::Skinchanger::Skin(417, WEAPON_KNIFE_M9_BAYONET, 0.0005f, 1337, "AimTux", "") },
 		{ WEAPON_KNIFE_T, Settings::Skinchanger::Skin(417, WEAPON_KNIFE_KARAMBIT, 0.0005f, 1337, "AimTux", "") },
-		{ WEAPON_KNIFE_GUT, Settings::Skinchanger::Skin(417, -1, -1, -1, "", "models/weapons/v_knife_gut.mdl") },
-		{ WEAPON_KNIFE_FLIP, Settings::Skinchanger::Skin(417, -1, -1, -1, "", "models/weapons/v_knife_flip.mdl") },
-		{ WEAPON_KNIFE_BAYONET, Settings::Skinchanger::Skin(417, -1, -1, -1, "", "models/weapons/v_knife_bayonet.mdl") },
-		{ WEAPON_KNIFE_M9_BAYONET, Settings::Skinchanger::Skin(417, -1, -1, -1, "", "models/weapons/v_knife_m9_bay.mdl") },
-		{ WEAPON_KNIFE_KARAMBIT, Settings::Skinchanger::Skin(417, -1, -1, -1, "", "models/weapons/v_knife_karam.mdl") },
-		{ WEAPON_KNIFE_TACTICAL, Settings::Skinchanger::Skin(417, -1, -1, -1, "", "models/weapons/v_knife_tactical.mdl") },
-		{ WEAPON_KNIFE_BUTTERFLY, Settings::Skinchanger::Skin(417, -1, -1, -1, "", "models/weapons/v_knife_butterfly.mdl") },
-		{ WEAPON_KNIFE_SURVIVAL_BOWIE, Settings::Skinchanger::Skin(417, -1, -1, -1, "", "models/weapons/v_knife_survival_bowie.mdl") },
-		{ WEAPON_KNIFE_FALCHION, Settings::Skinchanger::Skin(417, -1, -1, -1, "", "models/weapons/v_knife_falchion_advanced.mdl") },
-		{ WEAPON_KNIFE_PUSH, Settings::Skinchanger::Skin(417, -1, -1, -1, "", "models/weapons/v_knife_push.mdl") }
+		{ WEAPON_KNIFE_GUT, Settings::Skinchanger::Skin(-1, -1, -1, -1, "", "models/weapons/v_knife_gut.mdl") },
+		{ WEAPON_KNIFE_FLIP, Settings::Skinchanger::Skin(-1, -1, -1, -1, "", "models/weapons/v_knife_flip.mdl") },
+		{ WEAPON_KNIFE_BAYONET, Settings::Skinchanger::Skin(-1, -1, -1, -1, "", "models/weapons/v_knife_bayonet.mdl") },
+		{ WEAPON_KNIFE_M9_BAYONET, Settings::Skinchanger::Skin(-1, -1, -1, -1, "", "models/weapons/v_knife_m9_bay.mdl") },
+		{ WEAPON_KNIFE_KARAMBIT, Settings::Skinchanger::Skin(-1, -1, -1, -1, "", "models/weapons/v_knife_karam.mdl") },
+		{ WEAPON_KNIFE_TACTICAL, Settings::Skinchanger::Skin(-1, -1, -1, -1, "", "models/weapons/v_knife_tactical.mdl") },
+		{ WEAPON_KNIFE_BUTTERFLY, Settings::Skinchanger::Skin(-1, -1, -1, -1, "", "models/weapons/v_knife_butterfly.mdl") },
+		{ WEAPON_KNIFE_SURVIVAL_BOWIE, Settings::Skinchanger::Skin(-1, -1, -1, -1, "", "models/weapons/v_knife_survival_bowie.mdl") },
+		{ WEAPON_KNIFE_FALCHION, Settings::Skinchanger::Skin(-1, -1, -1, -1, "", "models/weapons/v_knife_falchion_advanced.mdl") },
+		{ WEAPON_KNIFE_PUSH, Settings::Skinchanger::Skin(-1, -1, -1, -1, "", "models/weapons/v_knife_push.mdl") }
 };
 
 const char* KnifeToName(int id)
