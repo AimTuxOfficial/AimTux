@@ -32,7 +32,7 @@ public:
 		memcpy(vmt, original_vmt, sizeof(uintptr_t) * method_count);
 	}
 
-	// Hook virtal method
+	// Hook virtual method
 	void HookVM(void* method, size_t methodIndex)
 	{
 		vmt[methodIndex] = reinterpret_cast<uintptr_t>(method);
