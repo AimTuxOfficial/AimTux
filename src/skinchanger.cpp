@@ -28,6 +28,8 @@ std::unordered_map<int, Settings::Skinchanger::Skin> Settings::Skinchanger::skin
 		{ WEAPON_KNIFE_PUSH, Settings::Skinchanger::Skin(-1, -1, -1, -1, "", "models/weapons/v_knife_push.mdl") }
 };
 
+bool SkinChanger::ForceFullUpdate = true;
+
 const char* KnifeToName(int id)
 {
 	Settings::Skinchanger::Skin skin = Settings::Skinchanger::skins[id];
@@ -142,6 +144,16 @@ void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 
 	if (currentSkin.Model != "")
 		*viewmodel->GetModelIndex() = modelInfo->GetModelIndex(currentSkin.Model.c_str());
+
+#ifdef EXPERIMENTAL_SETTINGS
+	if (SkinChanger::ForceFullUpdate)
+	{
+		cvar->FindVar("cl_fullupdate")->nFlags &= ~FCVAR_CHEAT;
+		engine->ExecuteClientCmd("cl_fullupdate");
+
+		SkinChanger::ForceFullUpdate = false;
+	}
+#endif
 }
 
 void SkinChanger::FireEventClientSide(IGameEvent* event)

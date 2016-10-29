@@ -363,6 +363,8 @@ void Settings::LoadSettings(const char* filename)
 		Settings::Skinchanger::skins[weaponID] = skin;
 	}
 
+	SkinChanger::ForceFullUpdate = true;
+
 	GetBool(settings["Skinchanger"]["enabled"], Settings::Skinchanger::enabled);
 
 	GetBool(settings["ShowRanks"]["enabled"], Settings::ShowRanks::enabled);

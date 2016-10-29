@@ -71,10 +71,10 @@ public:
 		getvfunc<oIsInGame>(this, 26)(this);
 	}
 
-	void ExecuteClientCmd(const char* pCmd)
+	void ExecuteClientCmd(const char* szCmdString)
 	{
 		typedef void (* oCmd)(void*, const char*);
-		getvfunc<oCmd>(this, 108)(this, pCmd);
+		getvfunc<oCmd>(this, 108)(this, szCmdString);
 	}
 
 	void Print(const char* message)

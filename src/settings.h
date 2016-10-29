@@ -8,6 +8,7 @@
 #include "SDK/SDK.h"
 #include "fonts.h"
 #include "draw.h"
+#include "skinchanger.h"
 
 enum TracerType : unsigned int
 {
