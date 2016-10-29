@@ -73,8 +73,14 @@ public:
 
 	void ExecuteClientCmd(const char* szCmdString)
 	{
-		typedef void (* oCmd)(void*, const char*);
-		getvfunc<oCmd>(this, 108)(this, szCmdString);
+		typedef void (* oExecuteClientCmd)(void*, const char*);
+		getvfunc<oExecuteClientCmd>(this, 108)(this, szCmdString);
+	}
+
+	void ClientCmd_Unrestricted(const char* szCmdString)
+	{
+		typedef void (* oClientCmd_Unrestricted)(void*, const char*);
+		getvfunc<oClientCmd_Unrestricted>(this, 113)(this, szCmdString);
 	}
 
 	void Print(const char* message)
