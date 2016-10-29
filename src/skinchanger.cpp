@@ -145,7 +145,6 @@ void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 	if (currentSkin.Model != "")
 		*viewmodel->GetModelIndex() = modelInfo->GetModelIndex(currentSkin.Model.c_str());
 
-#ifdef EXPERIMENTAL_SETTINGS
 	if (SkinChanger::ForceFullUpdate)
 	{
 		cvar->FindVar("cl_fullupdate")->nFlags &= ~FCVAR_CHEAT;
@@ -153,7 +152,6 @@ void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 
 		SkinChanger::ForceFullUpdate = false;
 	}
-#endif
 }
 
 void SkinChanger::FireEventClientSide(IGameEvent* event)
