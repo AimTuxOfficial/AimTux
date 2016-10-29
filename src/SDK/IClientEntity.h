@@ -421,11 +421,6 @@ public:
 		return *(unsigned int*)((uintptr_t)this + offsets.m_iClip1);
 	}
 
-	bool IsReloading()
-	{
-		return *(bool*)((uintptr_t)this + offsets.m_bInReload);
-	}
-
 	float GetNextPrimaryAttack()
 	{
 		return *(float*)((uintptr_t)this + offsets.m_flNextPrimaryAttack);

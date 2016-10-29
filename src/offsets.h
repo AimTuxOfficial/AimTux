@@ -5,59 +5,66 @@
 
 struct COffsets
 {
-	int m_bDormant;
-	int m_hViewModel;
-	int m_iHealth;
-	int m_iTeamNum;
-	int m_lifeState;
-	int m_fFlags;
-	int m_hMyWeapons;
-	int m_ArmorValue;
-	int m_bHasHelmet;
-	int m_vecVelocity;
-	
-	int m_nTickBase;
-	int m_iObserverMode;
-	int m_hObserverTarget;
-	int m_szLastPlaceName;
-
-	int m_flFlashMaxAlpha;
-	int m_bIsScoped;
-	int m_bGunGameImmunity;
-	int m_iShotsFired;
-	int m_Collision;
-	int m_nRenderMode;
-	int m_MoveType;
-
-	int m_bBombDefused;
-	int m_hBombDefuser;
-	int m_bBombTicking;
-	int m_flC4Blow;
-
+	// DT_BasePlayer
 	int m_Local;
 	int m_aimPunchAngle;
-	
-	int m_vecOrigin;
 	int m_vecViewOffset;
-	
-	int m_flFallbackWear;
-	int m_iEntityQuality;
+	int m_nTickBase;
+	int m_vecVelocity;
+	int m_iHealth;
+	int m_lifeState;
+	int m_fFlags;
+	int m_iObserverMode;
+	int m_hObserverTarget;
+	int m_hViewModel;
+	int m_szLastPlaceName;
+
+	// DT_BaseEntity
+	int m_vecOrigin;
+	int m_nRenderMode;
+	int m_iTeamNum;
+	int m_MoveType;
+	int m_Collision;
+
+	// DT_BaseCombatCharacter
+	int m_hActiveWeapon;
+	int m_hMyWeapons;
+
+	// DT_PlantedC4
+	int m_bBombTicking;
+	int m_flC4Blow;
+	int m_bBombDefused;
+	int m_hBombDefuser;
+
+	// DT_CSPlayer
+	int m_iShotsFired;
+	int m_ArmorValue;
+	int m_bIsScoped;
+	int m_bGunGameImmunity;
+	int m_bHasHelmet;
+	int m_flFlashMaxAlpha;
+
+	// DT_BaseAttributableItem
 	int m_iItemDefinitionIndex;
 	int m_iItemIDHigh;
+	int m_iAccountID;
+	int m_iEntityQuality;
+	int m_szCustomName;
 	int m_nFallbackPaintKit;
 	int m_nFallbackSeed;
+	int m_flFallbackWear;
 	int m_nFallbackStatTrak;
-	int m_iAccountID;
-	int m_szCustomName;
 
-	int m_iClip1;
-	int m_flNextPrimaryAttack;
-	int m_fAccuracyPenalty;
-	int m_bInReload;
-
-	int m_hActiveWeapon;
+	// DT_BaseViewModel
 	int m_nModelIndex;
 	int m_hWeapon;
+
+	// DT_WeaponCSBase
+	int m_fAccuracyPenalty;
+
+	// DT_BaseCombatWeapon
+	int m_flNextPrimaryAttack;
+	int m_iClip1;
 };
 
 namespace Offsets
