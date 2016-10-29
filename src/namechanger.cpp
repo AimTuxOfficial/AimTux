@@ -26,9 +26,7 @@ void NameChanger::CreateMove(CUserCmd* cmd)
 	static long timeStamp = currentTime_ms;
 	
 	if (currentTime_ms - timeStamp < 100)
-	{
 		return;
-	}
 	
 	timeStamp = currentTime_ms;
 	
