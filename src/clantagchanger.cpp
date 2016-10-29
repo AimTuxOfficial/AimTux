@@ -18,7 +18,29 @@ std::vector<ClanTagChanger::Animation> ClanTagChanger::animations =
 			Frame ("AimTux", 3000),
 			Frame ("______", 700),
 		}, ANIM_LOOP
-	)
+	),
+	
+	Animation ("USPINME",
+		std::vector<ClanTagChanger::Frame>
+		{
+			Frame ("You", 700),
+			Frame ("spin", 700),
+			Frame ("me", 700),
+			Frame ("right", 700),
+			Frame ("round,", 700),
+			Frame ("baby", 700),
+			Frame ("right", 700),
+			Frame ("round", 700),
+			Frame ("like", 700),
+			Frame ("a", 700),
+			Frame ("record", 700),
+			Frame ("baby", 700),
+			Frame ("right", 700),
+			Frame ("round", 700),
+			Frame ("_round", 700),
+			Frame ("__round", 800),
+		}, ANIM_LOOP
+	)	
 };
 ClanTagChanger::Animation* ClanTagChanger::animation = &ClanTagChanger::animations[0];
 
