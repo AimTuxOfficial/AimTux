@@ -43,6 +43,8 @@ Want to chat or play with other AimTux users? Join us on Gitter!
 
 ## Compiling
 
+**Note:** _Do NOT download or compile as the root user_
+
 1. Make sure you're inside of the *AimTux* directory
 2. Download the required tools to compile AimTux
     * **Debian-based** `apt-get install cmake g++ gdb zlib1g-dev`
