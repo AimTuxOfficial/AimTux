@@ -24,6 +24,7 @@ enum AntiAimType_Y : unsigned int
 	SIDE,
 	BACKWARDS,
     FAKE4,
+    EMOTION,
 #ifdef UNTRUSTED_SETTINGS
 	LISP
 #endif
@@ -32,7 +33,10 @@ enum AntiAimType_Y : unsigned int
 enum AntiAimType_X : unsigned int
 {
 	STATIC_UP,
-	STATIC_DOWN
+	STATIC_DOWN,
+#ifdef UNTRUSTED_SETTINGS
+    LISP_DOWN
+#endif
 };
 
 enum ChamsType : unsigned int

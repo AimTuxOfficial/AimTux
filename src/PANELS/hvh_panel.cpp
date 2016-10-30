@@ -10,7 +10,8 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 	lb_antiaim_x = new ListBox<AntiAimType_X> ("anti aim type", LOC (10, ts_antiaim_x->position.y + ts_antiaim_x->size.y + 10), 170, &Settings::AntiAim::type_X, std::vector<LB_Element>
 		{
 			LB_Element ("UP", STATIC_UP),
-			LB_Element ("DOWN", STATIC_DOWN)
+			LB_Element ("DOWN", STATIC_DOWN),
+            LB_Element ("LISP DOWN", LISP_DOWN)
 		}
 	);
 	AddComponent (lb_antiaim_x);
@@ -25,6 +26,7 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 			LB_Element ("SIDE", SIDE),
 			LB_Element ("BACKWARDS", BACKWARDS),
             LB_Element ("FAKE4", FAKE4),
+            LB_Element ("EMOTION", EMOTION),
 			#ifdef UNTRUSTED_SETTINGS
 			LB_Element ("LISP", LISP)
 			#endif
