@@ -33,21 +33,21 @@ SendClanTagFn SendClanTag;
 
 void Hooker::HookInterfaces()
 {
-	client = GetInterface<IBaseClientDLL>("./csgo/bin/linux64/client_client.so", CLIENT_DLL_INTERFACE_VERSION);
-	engine = GetInterface<IEngineClient>("./bin/linux64/engine_client.so", VENGINE_CLIENT_INTERFACE_VERSION);
-	entitylist = GetInterface<IClientEntityList>("./csgo/bin/linux64/client_client.so", VCLIENTENTITYLIST_INTERFACE_VERSION);
-	surface = GetInterface<ISurface>("./bin/linux64/vguimatsurface_client.so", SURFACE_INTERFACE_VERSION);
-	panel = GetInterface<IVPanel>("./bin/linux64/vgui2_client.so", PANEL_INTERFACE_VERSION);
-	debugOverlay = GetInterface<IVDebugOverlay>("./bin/linux64/engine_client.so", DEBUG_OVERLAY_VERSION);
-	modelInfo = GetInterface<IVModelInfo>("./bin/linux64/engine_client.so", VMODELINFO_CLIENT_INTERFACE_VERSION);
-	modelRender = GetInterface<IVModelRender>("./bin/linux64/engine_client.so", VMODELRENDER_CLIENT_INTERFACE_VERSION);
-	trace = GetInterface<IEngineTrace>("./bin/linux64/engine_client.so", ENGINETRACE_CLIENT_INTERFACE_VERSION);
-	input = GetInterface<IInputSystem>("./bin/linux64/inputsystem_client.so", INPUTSYSTEM_CLIENT_INTERFACE_VERSION);
-	material = GetInterface<IMaterialSystem>("./bin/linux64/materialsystem_client.so", MATERIALSYSTEM_CLIENT_INTERFACE_VERSION);
-	cvar = GetInterface<ICvar>("./bin/linux64/libvstdlib_client.so", ENGINECVAR_INTERFACE_VERSION);
-	effects = GetInterface<CEffects>("./bin/linux64/engine_client.so", ENGINEEFFECTS_INTERFACE_VERSION);
-	gameevents = GetInterface<IGameEventManager2>("./bin/linux64/engine_client.so", GAMEEVENTSMANAGER2_INTERFACE_VERSION);
-	physics = GetInterface<IPhysicsSurfaceProps>("./bin/linux64/vphysics_client.so", PHYSICS_CLIENT_INTERFACE_VERSION);
+	client = BruteforceInterface<IBaseClientDLL>("./csgo/bin/linux64/client_client.so", "VClient");
+	engine = BruteforceInterface<IEngineClient>("./bin/linux64/engine_client.so", "VEngineClient");
+	entitylist = BruteforceInterface<IClientEntityList>("./csgo/bin/linux64/client_client.so", "VClientEntityList");
+	surface = BruteforceInterface<ISurface>("./bin/linux64/vguimatsurface_client.so", "VGUI_Surface");
+	panel = BruteforceInterface<IVPanel>("./bin/linux64/vgui2_client.so", "VGUI_Panel");
+	debugOverlay = BruteforceInterface<IVDebugOverlay>("./bin/linux64/engine_client.so", "VDebugOverlay");
+	modelInfo = BruteforceInterface<IVModelInfo>("./bin/linux64/engine_client.so", "VModelInfoClient");
+	modelRender = BruteforceInterface<IVModelRender>("./bin/linux64/engine_client.so", "VEngineModel");
+	trace = BruteforceInterface<IEngineTrace>("./bin/linux64/engine_client.so", "EngineTraceClient");
+	input = BruteforceInterface<IInputSystem>("./bin/linux64/inputsystem_client.so", "InputSystemVersion");
+	material = BruteforceInterface<IMaterialSystem>("./bin/linux64/materialsystem_client.so", "VMaterialSystem");
+	cvar = BruteforceInterface<ICvar>("./bin/linux64/libvstdlib_client.so", "VEngineCvar");
+	effects = BruteforceInterface<CEffects>("./bin/linux64/engine_client.so", "VEngineEffects");
+	gameevents = BruteforceInterface<IGameEventManager2>("./bin/linux64/engine_client.so", "GAMEEVENTSMANAGER");
+	physics = BruteforceInterface<IPhysicsSurfaceProps>("./bin/linux64/vphysics_client.so", "VPhysicsSurfaceProps");
 }
 
 void Hooker::HookVMethods()
