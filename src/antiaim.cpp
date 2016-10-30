@@ -58,6 +58,13 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 		else if (Settings::AntiAim::type_Y == BACKWARDS)
 		{
 			angle.y -= 180.0f;
+            //Credits to Kenty for code + Capuno for being a dank meme
+		}else if(Settings::AntiAim::type_Y == FAKE4) {
+			if(bFlip) {
+				angle.y += 140.0f;
+			}else{
+				angle.y -= 40.0f;
+			}
 		}
 #ifdef UNTRUSTED_SETTINGS
 		else if (Settings::AntiAim::type_Y == LISP)
