@@ -82,27 +82,27 @@ class C_BaseEntity : public IClientEntity
 public:
 	int* GetModelIndex()
 	{
-		return (int*)((uintptr_t)this + offsets.m_nModelIndex);
+		return (int*)((uintptr_t)this + offsets.DT_BaseViewModel.m_nModelIndex);
 	}
 
 	int GetHealth()
 	{
-		return *(int*)((uintptr_t)this + offsets.m_iHealth);
+		return *(int*)((uintptr_t)this + offsets.DT_BasePlayer.m_iHealth);
 	}
 
 	int GetArmor()
 	{
-		return *(int*)((uintptr_t)this + offsets.m_ArmorValue);
+		return *(int*)((uintptr_t)this + offsets.DT_CSPlayer.m_ArmorValue);
 	}
 
 	int HasHelmet()
 	{
-		return *(int*)((uintptr_t)this + offsets.m_bHasHelmet);
+		return *(int*)((uintptr_t)this + offsets.DT_CSPlayer.m_bHasHelmet);
 	}
 	
 	int GetTeam()
 	{
-		return *(int*)((uintptr_t)this + offsets.m_iTeamNum);
+		return *(int*)((uintptr_t)this + offsets.DT_BaseEntity.m_iTeamNum);
 	}
 
 	bool GetDormant()
@@ -112,27 +112,27 @@ public:
 
 	unsigned char GetLifeState()
 	{
-		return *(unsigned char*)((uintptr_t)this + offsets.m_lifeState);
+		return *(unsigned char*)((uintptr_t)this + offsets.DT_BasePlayer.m_lifeState);
 	}
 
 	int* GetWeapons()
 	{
-		return (int*)((uintptr_t)this + offsets.m_hMyWeapons);
+		return (int*)((uintptr_t)this + offsets.DT_BaseCombatCharacter.m_hMyWeapons);
 	}
 
 	void* GetViewModel()
 	{
-		return (void*)((uintptr_t)this + offsets.m_hViewModel);
+		return (void*)((uintptr_t)this + offsets.DT_BasePlayer.m_hViewModel);
 	}
 
 	Vector GetVecOrigin()
 	{
-		return *(Vector*)((uintptr_t)this + offsets.m_vecOrigin);
+		return *(Vector*)((uintptr_t)this + offsets.DT_BaseEntity.m_vecOrigin);
 	}
 
 	Vector GetVecViewOffset()
 	{
-		return *(Vector*)((uintptr_t)this + offsets.m_vecViewOffset);
+		return *(Vector*)((uintptr_t)this + offsets.DT_BasePlayer.m_vecViewOffset);
 	}
 
 	Vector GetEyePosition()
@@ -142,27 +142,27 @@ public:
 
 	int GetFlags()
 	{
-		return *(int*)((uintptr_t)this + offsets.m_fFlags);
+		return *(int*)((uintptr_t)this + offsets.DT_BasePlayer.m_fFlags);
 	}
 
 	MoveType_t GetMoveType()
 	{
-		return *(MoveType_t*)((uintptr_t)this + offsets.m_MoveType);
+		return *(MoveType_t*)((uintptr_t)this + offsets.DT_BaseEntity.m_MoveType);
 	}
 
 	float* GetFlashMaxAlpha()
 	{
-		return (float*)((uintptr_t)this + offsets.m_flFlashMaxAlpha);
+		return (float*)((uintptr_t)this + offsets.DT_CSPlayer.m_flFlashMaxAlpha);
 	}
 
 	bool IsScoped()
 	{
-		return *(bool*)((uintptr_t)this + offsets.m_bIsScoped);
+		return *(bool*)((uintptr_t)this + offsets.DT_CSPlayer.m_bIsScoped);
 	}
 
 	bool GetImmune()
 	{
-		return *(bool*)((uintptr_t)this + offsets.m_bGunGameImmunity);
+		return *(bool*)((uintptr_t)this + offsets.DT_CSPlayer.m_bGunGameImmunity);
 	}
 
 	inline Vector GetBonePosition(int boneIndex)
@@ -179,32 +179,32 @@ public:
 
 	int* GetObserverMode()
 	{
-		return (int*)((uintptr_t)this + offsets.m_iObserverMode);
+		return (int*)((uintptr_t)this + offsets.DT_BasePlayer.m_iObserverMode);
 	}
 
 	void* GetObserverTarget()
 	{
-		return (void*)((uintptr_t)this + offsets.m_hObserverTarget);
+		return (void*)((uintptr_t)this + offsets.DT_BasePlayer.m_hObserverTarget);
 	}
 
 	ICollideable* GetCollideable()
 	{
-		return (ICollideable*)((uintptr_t)this + offsets.m_Collision);
+		return (ICollideable*)((uintptr_t)this + offsets.DT_BaseEntity.m_Collision);
 	}
 
 	bool* GetSpotted()
 	{
-		return (bool*)((uintptr_t)this + offsets.m_bSpotted);
+		return (bool*)((uintptr_t)this + offsets.DT_BaseEntity.m_bSpotted);
 	}
 
 	char* GetLastPlaceName()
 	{
-		return (char*)((uintptr_t)this + offsets.m_szLastPlaceName);
+		return (char*)((uintptr_t)this + offsets.DT_BasePlayer.m_szLastPlaceName);
 	}
 	
 	Vector GetVelocity()
 	{
-		return *(Vector*)((uintptr_t)this + offsets.m_vecVelocity);
+		return *(Vector*)((uintptr_t)this + offsets.DT_BasePlayer.m_vecVelocity);
 	}
 };
 
@@ -214,27 +214,27 @@ class C_BasePlayer : public C_BaseEntity
 public:
 	int* GetWeapons()
 	{
-		return (int*)((uintptr_t)this + offsets.m_hMyWeapons);
+		return (int*)((uintptr_t)this + offsets.DT_BaseCombatCharacter.m_hMyWeapons);
 	}
 
 	QAngle GetAimPunchAngle()
 	{
-		return *(QAngle*)((uintptr_t)this + offsets.m_aimPunchAngle);
+		return *(QAngle*)((uintptr_t)this + offsets.DT_BasePlayer.m_aimPunchAngle);
 	}
 
 	void* GetActiveWeapon()
 	{
-		return (void*)((uintptr_t)this + offsets.m_hActiveWeapon);
+		return (void*)((uintptr_t)this + offsets.DT_BaseCombatCharacter.m_hActiveWeapon);
 	}
 
 	unsigned int GetTickBase()
 	{
-		return *(unsigned int*)((uintptr_t)this + offsets.m_nTickBase);
+		return *(unsigned int*)((uintptr_t)this + offsets.DT_BasePlayer.m_nTickBase);
 	}
 
 	int GetShotsFired()
 	{
-		return *(int*)((uintptr_t)this + offsets.m_iShotsFired);
+		return *(int*)((uintptr_t)this + offsets.DT_CSPlayer.m_iShotsFired);
 	}
 };
 
@@ -243,22 +243,22 @@ class C_BasePlantedC4 : public C_BaseEntity
 public:
 	bool IsBombTicking()
 	{
-		return (bool)((uintptr_t)this + offsets.m_bBombTicking);
+		return (bool)((uintptr_t)this + offsets.DT_PlantedC4.m_bBombTicking);
 	}
 
 	float GetBombTime()
 	{
-		return *(float*)((uintptr_t)this + offsets.m_flC4Blow);
+		return *(float*)((uintptr_t)this + offsets.DT_PlantedC4.m_flC4Blow);
 	}
 
 	bool IsBombDefused()
 	{
-		return *(bool*)((uintptr_t)this + offsets.m_bBombDefused);
+		return *(bool*)((uintptr_t)this + offsets.DT_PlantedC4.m_bBombDefused);
 	}
 
 	int GetBombDefuser()
 	{
-		return *(int*)((uintptr_t)this + offsets.m_hBombDefuser);
+		return *(int*)((uintptr_t)this + offsets.DT_PlantedC4.m_hBombDefuser);
 	}
 };
 
@@ -267,47 +267,47 @@ class C_BaseAttributableItem : public C_BaseEntity
 public:
 	int* GetItemDefinitionIndex()
 	{
-		return (int*)((uintptr_t)this + offsets.m_iItemDefinitionIndex);
+		return (int*)((uintptr_t)this + offsets.DT_BaseAttributableItem.m_iItemDefinitionIndex);
 	}
 
 	int* GetItemIDHigh()
 	{
-		return (int*)((uintptr_t)this + offsets.m_iItemIDHigh);
+		return (int*)((uintptr_t)this + offsets.DT_BaseAttributableItem.m_iItemIDHigh);
 	}
 
 	int* GetEntityQuality()
 	{
-		return (int*)((uintptr_t)this + offsets.m_iEntityQuality);
+		return (int*)((uintptr_t)this + offsets.DT_BaseAttributableItem.m_iEntityQuality);
 	}
 
 	char* GetCustomName()
 	{
-		return (char*)((uintptr_t)this + offsets.m_szCustomName);
+		return (char*)((uintptr_t)this + offsets.DT_BaseAttributableItem.m_szCustomName);
 	}
 
 	int* GetFallbackPaintKit()
 	{
-		return (int*)((uintptr_t)this + offsets.m_nFallbackPaintKit);
+		return (int*)((uintptr_t)this + offsets.DT_BaseAttributableItem.m_nFallbackPaintKit);
 	}
 
 	int* GetFallbackSeed()
 	{
-		return (int*)((uintptr_t)this + offsets.m_nFallbackSeed);
+		return (int*)((uintptr_t)this + offsets.DT_BaseAttributableItem.m_nFallbackSeed);
 	}
 
 	float* GetFallbackWear()
 	{
-		return (float*)((uintptr_t)this + offsets.m_flFallbackWear);
+		return (float*)((uintptr_t)this + offsets.DT_BaseAttributableItem.m_flFallbackWear);
 	}
 
 	int* GetFallbackStatTrak()
 	{
-		return (int*)((uintptr_t)this + offsets.m_nFallbackStatTrak);
+		return (int*)((uintptr_t)this + offsets.DT_BaseAttributableItem.m_nFallbackStatTrak);
 	}
 
 	int* GetAccountID()
 	{
-		return (int*)((uintptr_t)this + offsets.m_iAccountID);
+		return (int*)((uintptr_t)this + offsets.DT_BaseAttributableItem.m_iAccountID);
 	}
 
 	bool IsPistol()
@@ -414,7 +414,7 @@ class C_BaseViewModel: public C_BaseEntity {
 public:
 	int GetWeapon()
 	{
-		return *(int*)((uintptr_t)this + offsets.m_hWeapon);
+		return *(int*)((uintptr_t)this + offsets.DT_BaseViewModel.m_hWeapon);
 	}
 };
 
@@ -423,17 +423,17 @@ class C_BaseCombatWeapon: public C_BaseAttributableItem
 public:
 	unsigned int GetAmmo()
 	{
-		return *(unsigned int*)((uintptr_t)this + offsets.m_iClip1);
+		return *(unsigned int*)((uintptr_t)this + offsets.DT_BaseCombatWeapon.m_iClip1);
 	}
 
 	float GetNextPrimaryAttack()
 	{
-		return *(float*)((uintptr_t)this + offsets.m_flNextPrimaryAttack);
+		return *(float*)((uintptr_t)this + offsets.DT_BaseCombatWeapon.m_flNextPrimaryAttack);
 	}
 
 	float GetAccuracyPenalty()
 	{
-		return *(float*)((uintptr_t)this + offsets.m_fAccuracyPenalty);
+		return *(float*)((uintptr_t)this + offsets.DT_WeaponCSBase.m_fAccuracyPenalty);
 	}
 
 	WeaponInfo_t GetWeaponData()
