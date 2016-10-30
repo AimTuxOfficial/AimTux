@@ -13,6 +13,7 @@ private:
 	Banner* ba_aim;
 	ToggleSwitch* ts_silent;
 	ToggleSwitch* ts_rcs;
+	Slider* sl_rcs;
 	ToggleSwitch* ts_autoaim;
 	Slider* sl_fov;
 	ToggleSwitch* ts_salting;

@@ -119,6 +119,7 @@ namespace Settings
 		namespace RCS
 		{
 			extern bool enabled;
+			extern float value;
 		}
 
 		namespace AutoPistol

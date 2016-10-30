@@ -105,6 +105,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["Aimbot"]["AimStep"]["enabled"] = Settings::Aimbot::AimStep::enabled;
 	settings["Aimbot"]["AimStep"]["value"] = Settings::Aimbot::AimStep::value;
 	settings["Aimbot"]["RCS"]["enabled"] = Settings::Aimbot::RCS::enabled;
+	settings["Aimbot"]["RCS"]["value"] = Settings::Aimbot::RCS::value;
 	settings["Aimbot"]["AutoPistol"]["enabled"] = Settings::Aimbot::AutoPistol::enabled;
 	settings["Aimbot"]["AutoShoot"]["enabled"] = Settings::Aimbot::AutoShoot::enabled;
 	settings["Aimbot"]["AutoShoot"]["autoscope"] = Settings::Aimbot::AutoShoot::autoscope;
@@ -264,6 +265,7 @@ void Settings::LoadSettings(const char* filename)
 	GetBool(settings["Aimbot"]["AimStep"]["enabled"], Settings::Aimbot::AimStep::enabled);
 	GetFloat(settings["Aimbot"]["AimStep"]["value"], Settings::Aimbot::AimStep::value);
 	GetBool(settings["Aimbot"]["RCS"]["enabled"], Settings::Aimbot::RCS::enabled);
+	GetFloat(settings["Aimbot"]["RCS"]["value"], Settings::Aimbot::RCS::value);
 	GetBool(settings["Aimbot"]["AutoPistol"]["enabled"], Settings::Aimbot::AutoPistol::enabled);
 	GetBool(settings["Aimbot"]["AutoShoot"]["enabled"], Settings::Aimbot::AutoShoot::enabled);
 	GetBool(settings["Aimbot"]["AutoShoot"]["autoscope"], Settings::Aimbot::AutoShoot::autoscope);

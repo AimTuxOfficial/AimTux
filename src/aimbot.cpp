@@ -23,6 +23,7 @@ bool Settings::Aimbot::AutoPistol::enabled = false;
 bool Settings::Aimbot::AutoShoot::enabled = false;
 bool Settings::Aimbot::AutoShoot::autoscope = false;
 bool Settings::Aimbot::RCS::enabled = false;
+float Settings::Aimbot::RCS::value = 2.0f;
 bool Settings::Aimbot::AutoCrouch::enabled = false;
 bool Settings::Aimbot::AutoStop::enabled = false;
 bool Settings::Aimbot::Smooth::Salting::enabled = false;
@@ -149,7 +150,7 @@ void Aimbot::RCS(QAngle& angle, C_BaseEntity* entity, CUserCmd* cmd)
 
 	if (isSilent || hasTarget)
 	{
-		angle -= CurrentPunch * 2.f;
+		angle -= CurrentPunch * Settings::Aimbot::RCS::value;
 		RCSLastPunch = CurrentPunch;
 		return;
 	}
@@ -158,7 +159,7 @@ void Aimbot::RCS(QAngle& angle, C_BaseEntity* entity, CUserCmd* cmd)
 	{
 		QAngle NewPunch = {CurrentPunch.x - RCSLastPunch.x, CurrentPunch.y - RCSLastPunch.y, 0};
 
-		angle -= NewPunch * 2.f;
+		angle -= NewPunch * Settings::Aimbot::RCS::value;
 		RCSLastPunch = CurrentPunch;
 	}
 	else

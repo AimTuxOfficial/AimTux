@@ -14,7 +14,10 @@ AimbotPanel::AimbotPanel (Vector2D position, Vector2D size)
 	
 	ts_rcs = new ToggleSwitch ("recoil control", BELOW (ts_silent), 33, &Settings::Aimbot::RCS::enabled);
 	AddComponent (ts_rcs);
-	
+
+	sl_rcs = new Slider ("", STACK (ts_rcs), LOC ((size.x / 2) - ts_rcs->size.x - 30, 33), &Settings::Aimbot::RCS::value, 0.0f, 2.0f);
+	AddComponent (sl_rcs);
+
 	ts_autoaim = new ToggleSwitch ("auto aim", BELOW (ts_rcs), 33, &Settings::Aimbot::AutoAim::enabled);
 	AddComponent (ts_autoaim);
 
