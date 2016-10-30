@@ -25,9 +25,9 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 			LB_Element ("SIDE", SIDE),
 			LB_Element ("BACKWARDS", BACKWARDS),
 			LB_Element ("FAKE4", FAKE4),
-			#ifdef UNTRUSTED_SETTINGS
+#ifdef UNTRUSTED_SETTINGS
 			LB_Element ("LISP", LISP)
-			#endif
+#endif
 		}
 	);
 	AddComponent (lb_antiaim_y);
