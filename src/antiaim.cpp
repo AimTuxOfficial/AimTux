@@ -59,6 +59,13 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 		{
 			angle.y -= 180.0f;
 		}
+		else if (Settings::AntiAim::type_Y == FAKE4)
+		{
+			if (bFlip)
+				angle.y += 140.0f;
+			else
+				angle.y -= 40.0f;
+		}
 #ifdef UNTRUSTED_SETTINGS
 		else if (Settings::AntiAim::type_Y == LISP)
 		{
