@@ -24,9 +24,7 @@ enum AntiAimType_Y : unsigned int
 	SIDE,
 	BACKWARDS,
 	FAKE4,
-#ifdef UNTRUSTED_SETTINGS
 	LISP
-#endif
 };
 
 enum AntiAimType_X : unsigned int
