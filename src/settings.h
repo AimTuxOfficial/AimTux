@@ -23,6 +23,7 @@ enum AntiAimType_Y : unsigned int
 	JITTER,
 	SIDE,
 	BACKWARDS,
+    FAKE4,
 #ifdef UNTRUSTED_SETTINGS
 	LISP
 #endif
