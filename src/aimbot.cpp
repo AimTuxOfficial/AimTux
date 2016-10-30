@@ -225,6 +225,8 @@ void Aimbot::Smooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
 		return;
 
 	QAngle delta = angle - cmd->viewangles;
+    	cmd->mousedx = (angle.y - delta.y) / cvar->FindVar("m_yaw")->GetFloat();
+    	cmd->mousedy = -(angle.x - delta.x) / cvar->FindVar("m_pitch")->GetFloat();
 	Math::NormalizeAngles(delta);
 	
 	float smooth = Settings::Aimbot::Smooth::value / Settings::Aimbot::Smooth::max;
