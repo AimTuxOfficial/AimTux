@@ -89,10 +89,6 @@ void AntiAim::CreateMove(CUserCmd* cmd)
             angle.x = 271.f;
         else if (Settings::AntiAim::type_X == EMOTION)
             angle.x = 89.f;
-#ifdef UNTRUSTED_SETTINGS
-        else if (Settings::AntiAim::type_X == LISP_DOWN)
-            angle.x = 1800089;
-#endif
     }
 
     Math::NormalizeAngles(angle);

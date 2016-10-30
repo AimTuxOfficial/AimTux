@@ -34,9 +34,6 @@ enum AntiAimType_X : unsigned int
 {
 	STATIC_UP,
 	STATIC_DOWN,
-#ifdef UNTRUSTED_SETTINGS
-    LISP_DOWN
-#endif
 };
 
 enum ChamsType : unsigned int
