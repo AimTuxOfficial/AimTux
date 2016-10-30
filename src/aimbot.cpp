@@ -420,14 +420,6 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	Aimbot::Smooth(entity, angle, cmd);
 	Aimbot::ShootCheck(active_weapon, cmd);
 
-	if (angle != cmd->viewangles)
-	{
-		QAngle delta = angle - cmd->viewangles;
-
-		cmd->mousedx = (angle.y - delta.y) / cvar->FindVar("m_yaw")->GetFloat();
-		cmd->mousedy = -(angle.x - delta.x) / cvar->FindVar("m_pitch")->GetFloat();
-	}
-
 	Math::NormalizeAngles(angle);
 	cmd->viewangles = angle;
 	Math::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);
