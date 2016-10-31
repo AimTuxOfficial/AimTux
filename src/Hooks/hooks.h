@@ -15,6 +15,7 @@
 #include "../clantagchanger.h"
 #include "../dlights.h"
 #include "../esp.h"
+#include "../fakelag.h"
 #include "../fovchanger.h"
 #include "../namechanger.h"
 #include "../noflash.h"

@@ -51,7 +51,10 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	ts_radar = new ToggleSwitch ("radar", BELOW (ts_fov_viewmodel), 33, &Settings::Radar::enabled);
 	AddComponent (ts_radar);
 
-	ts_showranks = new ToggleSwitch ("show ranks", BELOW (ts_radar), 33, &Settings::ShowRanks::enabled);
+	ts_fakelag = new ToggleSwitch ("fake lag", BELOW (ts_radar), 33, &Settings::FakeLag::enabled);
+	AddComponent (ts_fakelag);
+
+	ts_showranks = new ToggleSwitch ("show ranks", BELOW (ts_fakelag), 33, &Settings::ShowRanks::enabled);
 	AddComponent (ts_showranks);
 
 	ts_showspectators = new ToggleSwitch ("show spectators", BELOW (ts_showranks), 33, &Settings::ShowSpectators::enabled);

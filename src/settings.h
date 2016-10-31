@@ -372,6 +372,11 @@ namespace Settings
 		extern ButtonCode_t key;
 	}
 
+	namespace FakeLag
+	{
+		extern bool enabled;
+	}
+
 	void LoadDefaultsOrSave(const char* filename);
 	void LoadSettings(const char* filename);
 }
