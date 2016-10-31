@@ -217,6 +217,8 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["Teleport"]["enabled"] = Settings::Teleport::enabled;
 	settings["Teleport"]["key"] = Settings::Teleport::key;
 
+	settings["FakeLag"]["enabled"] = Settings::FakeLag::enabled;
+
 	std::ofstream(GetSettingsPath(filename)) << styledWriter.write(settings);
 }
 
@@ -386,4 +388,6 @@ void Settings::LoadSettings(const char* filename)
 
 	GetBool(settings["Teleport"]["enabled"], Settings::Teleport::enabled);
 	GetInt(settings["Teleport"]["key"], Settings::Teleport::key);
+
+	GetBool(settings["FakeLag"]["enabled"], Settings::FakeLag::enabled);
 }
