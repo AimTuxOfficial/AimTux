@@ -53,8 +53,8 @@ void GetFloat(Json::Value &config, float &setting)
 	setting = config.asFloat();
 }
 
-template <typename Type>
-void GetColor(Json::Value &config, Type &setting)
+template <typename T>
+void GetColor(Json::Value &config, T &setting)
 {
 	GetInt(config["r"], setting.r);
 	GetInt(config["g"], setting.g);

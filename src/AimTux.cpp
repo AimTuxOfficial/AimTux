@@ -66,7 +66,7 @@ void __attribute__((destructor)) aimtux_shutdown()
 	gameEvents_vmt->ReleaseVMT();
 	viewRender_vmt->ReleaseVMT();
 
-	Hooker::UnhookSendPacket();
+	*bSendPacket = true;
 
 	cvar->ConsoleColorPrintf(ColorRGBA(255, 150, 150), "AimTux has been unloaded successfully.\n");
 }

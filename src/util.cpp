@@ -125,3 +125,11 @@ void Util::StdReplaceStr(std::string& replaceIn, const std::string& replace, con
         index += step;
     }
 }
+
+void Util::ProtectAddr(void* addr, int prot)
+{
+	long pagesize = sysconf(_SC_PAGESIZE);
+	void* address = (void *)((long)(uintptr_t)addr & ~(pagesize - 1));
+
+	mprotect(address, sizeof(address), prot);
+}

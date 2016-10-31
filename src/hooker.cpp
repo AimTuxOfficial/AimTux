@@ -32,6 +32,28 @@ GlowObjectManagerFn GlowObjectManager;
 MsgFunc_ServerRankRevealAllFn MsgFunc_ServerRankRevealAll;
 SendClanTagFn SendClanTag;
 
+std::unordered_map<const char*, uintptr_t> GetProcessLibraries() {
+	std::unordered_map<const char*, uintptr_t> modules;
+
+	dl_iterate_phdr([](struct dl_phdr_info* info, size_t size, void* data) {
+		reinterpret_cast<std::unordered_map<const char*, uintptr_t>*>(data)->insert({ info->dlpi_name, reinterpret_cast<uintptr_t>(info->dlpi_addr + info->dlpi_phdr[0].p_vaddr) });
+		return 0;
+	}, &modules);
+
+	return modules;
+}
+
+uintptr_t GetLibraryAddress(const char* moduleName)
+{
+	std::unordered_map<const char*, uintptr_t> modules = GetProcessLibraries();
+
+	for (auto module : modules)
+		if (strcasestr(module.first, moduleName))
+			return module.second;
+
+	return 0;
+}
+
 void Hooker::HookInterfaces()
 {
 	client = BruteforceInterface<IBaseClientDLL>("./csgo/bin/linux64/client_client.so", "VClient");
@@ -58,28 +80,6 @@ void Hooker::HookVMethods()
 	modelRender_vmt = new VMT(modelRender);
 	gameEvents_vmt = new VMT(gameevents);
 	viewRender_vmt = new VMT(viewrender);
-}
-
-std::unordered_map<const char*, uintptr_t> GetProcessLibraries() {
-	std::unordered_map<const char*, uintptr_t> modules;
-
-	dl_iterate_phdr([](struct dl_phdr_info* info, size_t size, void* data) {
-		reinterpret_cast<std::unordered_map<const char*, uintptr_t>*>(data)->insert({ info->dlpi_name, reinterpret_cast<uintptr_t>(info->dlpi_addr + info->dlpi_phdr[0].p_vaddr) });
-		return 0;
-	}, &modules);
-
-	return modules;
-}
-
-uintptr_t GetLibraryAddress(const char* moduleName)
-{
-	std::unordered_map<const char*, uintptr_t> modules = GetProcessLibraries();
-
-	for (auto module : modules)
-		if (strcasestr(module.first, moduleName))
-			return module.second;
-
-	return 0;
 }
 
 void Hooker::HookIClientMode()
@@ -134,22 +134,6 @@ void Hooker::HookSendPacket()
 	uintptr_t bool_address = FindPattern(GetLibraryAddress("engine_client.so"), 0xFFFFFFFFF, (unsigned char*) BSENDPACKET_SIGNATURE, BSENDPACKET_MASK);
 	bool_address = GetAbsoluteAddress(bool_address, 2, 1);
 
-	long pagesize = sysconf(_SC_PAGESIZE);
-	void* address = (void *)((long)bool_address & ~(pagesize - 1));
-	mprotect(address, sizeof(bSendPacket), PROT_READ | PROT_WRITE | PROT_EXEC);
-
 	bSendPacket = reinterpret_cast<bool*>(bool_address);
-}
-
-void Hooker::UnhookSendPacket()
-{
-	*bSendPacket = true;
-	bSendPacket = nullptr;
-
-	uintptr_t bool_address = FindPattern(GetLibraryAddress("engine_client.so"), 0xFFFFFFFFF, (unsigned char*) BSENDPACKET_SIGNATURE, BSENDPACKET_MASK);
-	bool_address = GetAbsoluteAddress(bool_address, 2, 1);
-
-	long pagesize = sysconf(_SC_PAGESIZE);
-	void* address = (void *)((long)bool_address & ~(pagesize - 1));
-	mprotect(address, sizeof(bSendPacket), PROT_NONE);
+	Util::ProtectAddr(bSendPacket, PROT_READ | PROT_WRITE | PROT_EXEC);
 }

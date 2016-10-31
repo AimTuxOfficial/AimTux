@@ -20,11 +20,11 @@
 
 #include <unordered_map>
 #include <sys/mman.h>
-#include <zconf.h>
 #include <link.h>
 #include "patternfinder.h"
 #include "SDK/SDK.h"
 #include "vmt.h"
+#include "util.h"
 
 namespace Hooker
 {
