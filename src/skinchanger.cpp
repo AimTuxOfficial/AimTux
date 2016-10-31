@@ -79,19 +79,12 @@ void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 
 	/* get a list of weapon we're holding */
 	int* weapons = localplayer->GetWeapons();
-
 	if (!weapons)
 		return;
 
-	for (int i = 0; i < 64; i++)
+	for (int i = 0; weapons[i]; i++)
 	{
-		/* check if the handle is invalid */
-		if (weapons[i] == -1)
-			continue;
-
 		C_BaseAttributableItem* weapon = (C_BaseAttributableItem*)entitylist->GetClientEntity(weapons[i] & 0xFFF);
-
-		/* check if the weapon pointer is invalid */
 		if (!weapon)
 			continue;
 
@@ -115,7 +108,6 @@ void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 			*weapon->GetFallbackStatTrak() = currentSkin.StatTrak;
 
 			IEngineClient::player_info_t localplayer_info;
-
 			if (engine->GetPlayerInfo(engine->GetLocalPlayer(), &localplayer_info))
 				*weapon->GetAccountID() = localplayer_info.xuidlow;
 		}
@@ -127,12 +119,11 @@ void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 		*weapon->GetItemIDHigh() = -1;
 	}
 
-	/* viewmodel replacements */
 	C_BaseViewModel* viewmodel = (C_BaseViewModel*)entitylist->GetClientEntityFromHandle(localplayer->GetViewModel());
 	if (!viewmodel)
 		return;
 
-	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(viewmodel->GetWeapon());
 	if (!active_weapon)
 		return;
 
@@ -141,7 +132,6 @@ void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 		return;
 
 	Settings::Skinchanger::Skin currentSkin = Settings::Skinchanger::skins[*active_weapon->GetItemDefinitionIndex()];
-
 	if (currentSkin.Model != "")
 		*viewmodel->GetModelIndex() = modelInfo->GetModelIndex(currentSkin.Model.c_str());
 
