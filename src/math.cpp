@@ -24,21 +24,34 @@ void Math::AngleVectors(const QAngle &angles, Vector& forward)
 	forward.z = -sp;
 }
 
-void Math::NormalizeAngles(QAngle& viewAngle)
+void Math::NormalizeAngles(QAngle& angle)
 {
-	if (viewAngle[0] > 89)
-		viewAngle[0] = 89;
+	while (angle.x > 89.0f)
+		angle.x -= 180.f;
 
-	if (viewAngle[0] < -89)
-		viewAngle[0] = -89;
+	while (angle.x < -89.0f)
+		angle.x += 180.f;
 
-	if (viewAngle[1] > 180)
-		viewAngle[1] -= 360;
+	while (angle.y > 180.f)
+		angle.y -= 360.f;
 
-	if (viewAngle[1] < -180)
-		viewAngle[1] += 360;
+	while (angle.y < -180.f)
+		angle.y += 360.f;
+}
 
-	viewAngle[2] = 0;
+void Math::ClampAngles(QAngle& angle)
+{
+	if (angle.y > 180.0f)
+		angle.y = 180.0f;
+	else if (angle.y < -180.0f)
+		angle.y = -180.0f;
+
+	if (angle.x > 89.0f)
+		angle.x = 89.0f;
+	else if (angle.x < -89.0f)
+		angle.x = -89.0f;
+
+	angle.z = 0;
 }
 
 void Math::CorrectMovement(QAngle vOldAngles, CUserCmd* pCmd, float fOldForward, float fOldSidemove)

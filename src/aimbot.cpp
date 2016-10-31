@@ -422,6 +422,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	Aimbot::ShootCheck(active_weapon, cmd);
 
 	Math::NormalizeAngles(angle);
+	Math::ClampAngles(angle);
 	cmd->viewangles = angle;
 	Math::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);
 }

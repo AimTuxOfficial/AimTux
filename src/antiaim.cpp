@@ -90,6 +90,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 	}
 
 	Math::NormalizeAngles(angle);
+	Math::ClampAngles(angle);
 
 	cmd->viewangles = angle;
 
