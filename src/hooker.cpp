@@ -19,13 +19,14 @@ IGameEventManager2* gameevents = nullptr;
 IPhysicsSurfaceProps* physics = nullptr;
 CViewRender* viewrender = nullptr;
 
-
 VMT* panel_vmt = nullptr;
 VMT* client_vmt = nullptr;
 VMT* modelRender_vmt = nullptr;
 VMT* clientMode_vmt = nullptr;
 VMT* gameEvents_vmt = nullptr;
 VMT* viewRender_vmt = nullptr;
+
+bool* bSendPacket = nullptr;
 
 GlowObjectManagerFn GlowObjectManager;
 MsgFunc_ServerRankRevealAllFn MsgFunc_ServerRankRevealAll;
@@ -126,4 +127,29 @@ void Hooker::HookViewRender()
 	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) VIEWRENDER_SIGNATURE, VIEWRENDER_MASK);
 
 	viewrender = reinterpret_cast<CViewRender*>(GetAbsoluteAddress(func_address + 14, 3, 7));
+}
+
+void Hooker::HookSendPacket()
+{
+	uintptr_t bool_address = FindPattern(GetLibraryAddress("engine_client.so"), 0xFFFFFFFFF, (unsigned char*) BSENDPACKET_SIGNATURE, BSENDPACKET_MASK);
+	bool_address = GetAbsoluteAddress(bool_address, 2, 1);
+
+	long pagesize = sysconf(_SC_PAGESIZE);
+	void* address = (void *)((long)bool_address & ~(pagesize - 1));
+	mprotect(address, sizeof(bSendPacket), PROT_READ | PROT_WRITE | PROT_EXEC);
+
+	bSendPacket = reinterpret_cast<bool*>(bool_address);
+}
+
+void Hooker::UnhookSendPacket()
+{
+	*bSendPacket = true;
+	bSendPacket = nullptr;
+
+	uintptr_t bool_address = FindPattern(GetLibraryAddress("engine_client.so"), 0xFFFFFFFFF, (unsigned char*) BSENDPACKET_SIGNATURE, BSENDPACKET_MASK);
+	bool_address = GetAbsoluteAddress(bool_address, 2, 1);
+
+	long pagesize = sysconf(_SC_PAGESIZE);
+	void* address = (void *)((long)bool_address & ~(pagesize - 1));
+	mprotect(address, sizeof(bSendPacket), PROT_NONE);
 }

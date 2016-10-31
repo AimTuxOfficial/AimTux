@@ -20,6 +20,7 @@ int __attribute__((constructor)) aimtux_init()
 	Hooker::HookGlowManager();
 	Hooker::HookRankReveal();
 	Hooker::HookSendClanTag();
+	Hooker::HookSendPacket();
 	Chams::CreateMaterials();
 
 	cvar->ConsoleColorPrintf(ColorRGBA(150, 255, 150), "AimTux was successfully injected.\n");
@@ -64,6 +65,8 @@ void __attribute__((destructor)) aimtux_shutdown()
 	clientMode_vmt->ReleaseVMT();
 	gameEvents_vmt->ReleaseVMT();
 	viewRender_vmt->ReleaseVMT();
+
+	Hooker::UnhookSendPacket();
 
 	cvar->ConsoleColorPrintf(ColorRGBA(255, 150, 150), "AimTux has been unloaded successfully.\n");
 }

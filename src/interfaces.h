@@ -27,3 +27,5 @@ extern VMT* modelRender_vmt;
 extern VMT* clientMode_vmt;
 extern VMT* gameEvents_vmt;
 extern VMT* viewRender_vmt;
+
+extern bool* bSendPacket;
