@@ -26,9 +26,7 @@ VMT* clientMode_vmt = nullptr;
 VMT* gameEvents_vmt = nullptr;
 VMT* viewRender_vmt = nullptr;
 
-#ifdef EXPERIMENTAL_SETTINGS
 bool* bSendPacket = nullptr;
-#endif
 
 GlowObjectManagerFn GlowObjectManager;
 MsgFunc_ServerRankRevealAllFn MsgFunc_ServerRankRevealAll;
@@ -133,11 +131,9 @@ void Hooker::HookViewRender()
 
 void Hooker::HookSendPacket()
 {
-#ifdef EXPERIMENTAL_SETTINGS
 	uintptr_t bool_address = FindPattern(GetLibraryAddress("engine_client.so"), 0xFFFFFFFFF, (unsigned char*) BSENDPACKET_SIGNATURE, BSENDPACKET_MASK);
 	bool_address = GetAbsoluteAddress(bool_address, 2, 1);
 
 	bSendPacket = reinterpret_cast<bool*>(bool_address);
 	Util::ProtectAddr(bSendPacket, PROT_READ | PROT_WRITE | PROT_EXEC);
-#endif
 }
