@@ -7,6 +7,7 @@ int ticksMax = 16;
 
 void FakeLag::CreateMove(CUserCmd* cmd)
 {
+#ifdef EXPERIMENTAL_SETTINGS
 	if (!Settings::FakeLag::enabled)
 		return;
 
@@ -34,4 +35,5 @@ void FakeLag::CreateMove(CUserCmd* cmd)
 	}
 
 	ticks++;
+#endif
 }

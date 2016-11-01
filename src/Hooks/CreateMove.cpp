@@ -6,7 +6,9 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 
 	if (cmd && cmd->command_number)
 	{
+#ifdef EXPERIMENTAL_SETTINGS
 		*bSendPacket = true;
+#endif
 
 		BHop::CreateMove(cmd);
 		AutoStrafe::CreateMove(cmd);
@@ -20,7 +22,10 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		Spammer::CreateMove(cmd);
 		NameChanger::CreateMove(cmd);
 		Teleport::CreateMove(cmd);
+
+#ifdef EXPERIMENTAL_SETTINGS
 		FakeLag::CreateMove(cmd);
+#endif
 
 		if (!Settings::Aimbot::silent && !Settings::AntiAim::enabled_X && !Settings::AntiAim::enabled_Y)
 			engine->SetViewAngles(cmd->viewangles);
