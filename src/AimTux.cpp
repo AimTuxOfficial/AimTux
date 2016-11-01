@@ -20,10 +20,7 @@ int __attribute__((constructor)) aimtux_init()
 	Hooker::HookGlowManager();
 	Hooker::HookRankReveal();
 	Hooker::HookSendClanTag();
-
-#ifdef EXPERIMENTAL_SETTINGS
 	Hooker::HookSendPacket();
-#endif
 
 	Chams::CreateMaterials();
 

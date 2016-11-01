@@ -28,4 +28,6 @@ extern VMT* clientMode_vmt;
 extern VMT* gameEvents_vmt;
 extern VMT* viewRender_vmt;
 
+#ifdef EXPERIMENTAL_SETTINGS
 extern bool* bSendPacket;
+#endif
