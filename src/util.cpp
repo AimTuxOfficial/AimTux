@@ -133,3 +133,14 @@ void Util::ProtectAddr(void* addr, int prot)
 
 	mprotect(address, sizeof(address), prot);
 }
+
+bool Util::ReadSendPacket()
+{
+	return *reinterpret_cast<bool*>(bSendPacketAddress);
+}
+
+void Util::WriteSendPacket(bool value)
+{
+	Util::ProtectAddr(reinterpret_cast<bool*>(bSendPacketAddress), PROT_READ | PROT_WRITE | PROT_EXEC);
+	*reinterpret_cast<bool*>(bSendPacketAddress) = value;
+}

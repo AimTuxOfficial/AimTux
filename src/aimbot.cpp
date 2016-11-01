@@ -229,7 +229,7 @@ void Aimbot::Smooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
 	Math::NormalizeAngles(delta);
 	
 	float smooth = Settings::Aimbot::Smooth::value / Settings::Aimbot::Smooth::max;
-	
+
 	if (Settings::Aimbot::Smooth::Salting::enabled)
 	{
 		float max_remove = Settings::Aimbot::Smooth::value - (((100 - Settings::Aimbot::Smooth::Salting::percentage) / 100) * Settings::Aimbot::Smooth::value);

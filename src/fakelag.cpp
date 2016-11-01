@@ -21,18 +21,18 @@ void FakeLag::CreateMove(CUserCmd* cmd)
 
 	if (cmd->buttons & IN_ATTACK)
 	{
-		*bSendPacket = true;
+		Util::WriteSendPacket(true);
 		return;
 	}
 
 	if (ticks >= ticksMax)
 	{
-		*bSendPacket = true;
+		Util::WriteSendPacket(true);
 		ticks = 0;
 	}
 	else
 	{
-		*bSendPacket = ticks < 16 - (int)Settings::FakeLag::value;
+		Util::WriteSendPacket(ticks < 16 - (int)Settings::FakeLag::value);
 	}
 
 	ticks++;
