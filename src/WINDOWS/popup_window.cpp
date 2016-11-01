@@ -18,19 +18,22 @@ void PopupWindow::bn_cancel_clicked ()
 
 
 
+// PopupColorWindow //
+
+
 PopupColorWindow::PopupColorWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor, Color* color)
 	: PopupWindow::PopupWindow (title, size, position, backgroundColor)
 {
 	this->color = color;
-	this->old_color = *this->color;
 	
-	sl_r = new Slider_INT ("r", LOC (10, 10), LOC(size.x - 20, 33), &this->color->r, 0.0f, 255.0f);
+	
+	sl_r = new Slider_INT ("r", LOC (10, 10), LOC(size.x - 20, 33), &this->color->r, 0, 255);
 	AddComponent (sl_r);
 	
-	sl_g = new Slider_INT ("g", BELOW (sl_r), LOC(size.x - 20, 33), &this->color->g, 0.0f, 255.0f);
+	sl_g = new Slider_INT ("g", BELOW (sl_r), LOC(size.x - 20, 33), &this->color->g, 0, 255);
 	AddComponent (sl_g);
 	
-	sl_b = new Slider_INT ("b", BELOW (sl_g), LOC(size.x - 20, 33), &this->color->b, 0.0f, 255.0f);
+	sl_b = new Slider_INT ("b", BELOW (sl_g), LOC(size.x - 20, 33), &this->color->b, 0, 255);
 	AddComponent (sl_b);
 	
 	
