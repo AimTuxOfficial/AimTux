@@ -125,7 +125,7 @@ void MiscPanel::ob_noname_clicked ()
 
 void MiscPanel::bn_ui_color_clicked ()
 {
-	static PopupColorWindow* wn_pop_color = new PopupColorWindow ("UI Main Color", LOC(420, 400), LOC(100,100), Color(0, 0, 0, 0), &Settings::UI::mainColor);
+	static PopupColorWindow* wn_pop_color = new PopupColorWindow ("UI Main Color", LOC(420, 270), LOC(100,100), Color(0, 0, 0, 0), &Settings::UI::mainColor);
 	
 	
 	if (!wn_pop_color->IsShown())
