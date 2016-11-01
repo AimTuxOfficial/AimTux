@@ -84,9 +84,9 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 	if (Settings::AntiAim::enabled_X)
 	{
 		if (Settings::AntiAim::type_X == STATIC_UP)
-			angle.x = -271.f;
+			angle.x = -89.f;
 		else if (Settings::AntiAim::type_X == STATIC_DOWN)
-			angle.x = 271.f;
+			angle.x = 89.f;
 	}
 
 	Math::NormalizeAngles(angle);
