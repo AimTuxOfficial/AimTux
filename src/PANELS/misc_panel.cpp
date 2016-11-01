@@ -15,7 +15,14 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	ts_airstuck = new ToggleSwitch ("airstuck", BELOW (ts_autostrafe), 33, &Settings::Airstuck::enabled);
 	AddComponent (ts_airstuck);
 
+#ifdef UNTRUSTED_SETTINGS
+	ts_teleport = new ToggleSwitch ("teleport", BELOW (ts_airstuck), 33, &Settings::Teleport::enabled);
+	AddComponent (ts_teleport);
+
+	ba_spammer = new Banner ("Spammer", BELOW (ts_teleport), (size.x - 20) / 2 - 5);
+#else
 	ba_spammer = new Banner ("Spammer", BELOW (ts_airstuck), (size.x - 20) / 2 - 5);
+#endif
 	AddComponent (ba_spammer);
 
 	ts_position_spammer = new ToggleSwitch ("position spammer", BELOW (ba_spammer), 33, &Settings::Spammer::PositionSpammer::enabled);
@@ -63,14 +70,7 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	ts_showspectators = new ToggleSwitch ("show spectators", BELOW (ts_showranks), 33, &Settings::ShowSpectators::enabled);
 	AddComponent (ts_showspectators);
 
-#ifdef UNTRUSTED_SETTINGS
-	ts_teleport = new ToggleSwitch ("teleport", BELOW (ts_showspectators), 33, &Settings::Teleport::enabled);
-	AddComponent (ts_teleport);
-
-	ts_clantag = new ToggleSwitch ("custom clantag", BELOW (ts_teleport), 33, &Settings::ClanTagChanger::enabled);
-#else
 	ts_clantag = new ToggleSwitch ("custom clantag", BELOW (ts_showspectators), 33, &Settings::ClanTagChanger::enabled);
-#endif
 	AddComponent (ts_clantag);
 
 	tb_clantag = new TextBox ("clantag", &Settings::ClanTagChanger::value, STACK (ts_clantag), LOC (270, 33));

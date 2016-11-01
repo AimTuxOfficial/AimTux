@@ -14,6 +14,7 @@ private:
 	ToggleSwitch* ts_bhop;
 	ToggleSwitch* ts_autostrafe;
 	ToggleSwitch* ts_airstuck;
+	ToggleSwitch* ts_teleport;
 	Banner* ba_spammer;
 	ToggleSwitch* ts_position_spammer;
 	ToggleSwitch* ts_kill_spammer;
@@ -30,7 +31,6 @@ private:
 	Slider* sl_fakelag;
 	ToggleSwitch* ts_showranks;
 	ToggleSwitch* ts_showspectators;
-	ToggleSwitch* ts_teleport;
 	OutlinedButton* ob_nickname;
 	ValueTextBox* vtb_nickname;
 	OutlinedButton* ob_noname;
