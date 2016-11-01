@@ -24,6 +24,16 @@ PopupColorWindow::PopupColorWindow (std::string title, Vector2D size, Vector2D p
 	this->color = color;
 	this->old_color = *this->color;
 	
+	sl_r = new Slider_INT ("r", LOC (10, 10), LOC(size.x - 20, 33), &this->color->r, 0.0f, 255.0f);
+	AddComponent (sl_r);
+	
+	sl_g = new Slider_INT ("g", BELOW (sl_r), LOC(size.x - 20, 33), &this->color->g, 0.0f, 255.0f);
+	AddComponent (sl_g);
+	
+	sl_b = new Slider_INT ("b", BELOW (sl_g), LOC(size.x - 20, 33), &this->color->b, 0.0f, 255.0f);
+	AddComponent (sl_b);
+	
+	
 	bn_save = new OutlinedButton ("Save", STACK (bn_cancel), LOC ((size.x / 2) - (20), 35));
 	bn_cancel->OnClickedEvent = MFUNC (&PopupColorWindow::bn_cancel_revert_clicked, this);
 	bn_save->OnClickedEvent = MFUNC (&PopupColorWindow::bn_save_clicked, this);
@@ -39,4 +49,9 @@ void PopupColorWindow::bn_cancel_revert_clicked ()
 void PopupColorWindow::bn_save_clicked ()
 {
 	this->Destroy ();
+}
+
+void PopupColorWindow::OnShown ()
+{
+	this->old_color = Settings::UI::mainColor;
 }

@@ -21,8 +21,14 @@ protected:
 	Color old_color;
 	Color* color;
 	Button* bn_save;
+	
+	Slider_INT* sl_r;
+	Slider_INT* sl_g;
+	Slider_INT* sl_b;
+	
 public:
 	PopupColorWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor, Color* color);
 	void bn_cancel_revert_clicked ();
 	void bn_save_clicked ();
+	void OnShown ();
 };

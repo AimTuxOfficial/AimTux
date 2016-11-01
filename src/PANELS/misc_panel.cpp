@@ -135,6 +135,7 @@ void MiscPanel::bn_ui_color_clicked ()
 	if (!wn_pop_color->IsShown())
 	{
 		gui->AddWindow (wn_pop_color);
+		wn_pop_color->OnShown ();
 		wn_pop_color->Show ();
 	}
 	else
