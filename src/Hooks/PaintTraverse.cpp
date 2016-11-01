@@ -18,4 +18,9 @@ void Hooks::PaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, 
 	ShowSpectators::PaintTraverse(vgui_panel, force_repaint, allow_force);
 
 	gui->Draw();
+
+#ifdef EXPERIMENTAL_SETTINGS
+	if (!engine->IsInGame())
+		*bSendPacket = true;
+#endif
 }
