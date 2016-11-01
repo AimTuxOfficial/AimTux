@@ -31,3 +31,29 @@ public:
 	void Draw ();
 	void Input ();
 };
+
+class Slider_INT : public Component
+{
+protected:
+	Color text_color = Color (255, 255, 255, 255);
+	Color background_color = Color (160, 160, 160, 80);
+private:
+	int* value;
+	const int MIN;
+	const int MAX;
+public:
+	std::string text = "slider";
+	
+	Slider_INT (std::string text, Vector2D position, Vector2D size, int* value, int MIN, int MAX)
+			: MIN (MIN), MAX (MAX)
+	{
+		this->position = position;
+		this->size = size;
+		this->text = text;
+		this->value = value;
+	}
+	
+	void MouseTick (PositionContext context);
+	void Draw ();
+	void Input ();
+};
