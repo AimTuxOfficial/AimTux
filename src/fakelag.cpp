@@ -25,7 +25,7 @@ void FakeLag::CreateMove(CUserCmd* cmd)
 		return;
 	}
 
-	if (ticks == ticksMax)
+	if (ticks >= ticksMax)
 	{
 		*bSendPacket = true;
 		ticks = 0;
