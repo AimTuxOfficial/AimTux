@@ -13,6 +13,10 @@ void FakeLag::CreateMove(CUserCmd* cmd)
 	if (!engine->IsInGame())
 		return;
 
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	if (localplayer->GetLifeState() != LIFE_ALIVE || localplayer->GetHealth() == 0)
+		return;
+
 	if (cmd->buttons & IN_ATTACK)
 	{
 		*bSendPacket = true;
