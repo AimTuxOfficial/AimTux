@@ -54,7 +54,10 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 #ifdef EXPERIMENTAL_SETTINGS
 	ts_fakelag = new ToggleSwitch ("fake lag", BELOW (ts_radar), 33, &Settings::FakeLag::enabled);
 	AddComponent (ts_fakelag);
-
+	
+	sl_fakelag = new Slider ("", STACK (ts_fakelag), LOC ((size.x / 2) - ts_fakelag->size.x - 30, 33), &Settings::FakeLag::value, 0.0f, 16.0f);
+	AddComponent (sl_fakelag);
+	
 	ts_showranks = new ToggleSwitch ("show ranks", BELOW (ts_fakelag), 33, &Settings::ShowRanks::enabled);
 #else
 	ts_showranks = new ToggleSwitch ("show ranks", BELOW (ts_radar), 33, &Settings::ShowRanks::enabled);
