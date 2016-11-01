@@ -412,9 +412,9 @@ public:
 
 class C_BaseViewModel: public C_BaseEntity {
 public:
-	void* GetWeapon()
+	int GetWeapon()
 	{
-		return (void*)((uintptr_t)this + offsets.DT_BaseViewModel.m_hWeapon);
+		return *(int*)((uintptr_t)this + offsets.DT_BaseViewModel.m_hWeapon);
 	}
 };
 
