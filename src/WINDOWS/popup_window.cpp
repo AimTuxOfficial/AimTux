@@ -56,5 +56,5 @@ void PopupColorWindow::bn_save_clicked ()
 
 void PopupColorWindow::OnShown ()
 {
-	this->old_color = Settings::UI::mainColor;
+	this->old_color = *color;
 }
