@@ -68,7 +68,7 @@ void __attribute__((destructor)) aimtux_shutdown()
 	viewRender_vmt->ReleaseVMT();
 
 #ifdef EXPERIMENTAL_SETTINGS
-	Util::WriteSendPacket(true);
+	*bSendPacket = true;
 #endif
 
 	cvar->ConsoleColorPrintf(ColorRGBA(255, 150, 150), "AimTux has been unloaded successfully.\n");

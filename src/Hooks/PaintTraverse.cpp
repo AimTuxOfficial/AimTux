@@ -21,6 +21,6 @@ void Hooks::PaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, 
 
 #ifdef EXPERIMENTAL_SETTINGS
 	if (!engine->IsInGame())
-		Util::WriteSendPacket(true);
+		*bSendPacket = true;
 #endif
 }

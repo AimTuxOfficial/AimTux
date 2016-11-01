@@ -7,7 +7,7 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 	if (cmd && cmd->command_number)
 	{
 #ifdef EXPERIMENTAL_SETTINGS
-		Util::WriteSendPacket(true);
+		*bSendPacket = true;
 #endif
 
 		BHop::CreateMove(cmd);

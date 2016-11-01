@@ -29,5 +29,5 @@ extern VMT* gameEvents_vmt;
 extern VMT* viewRender_vmt;
 
 #ifdef EXPERIMENTAL_SETTINGS
-extern uintptr_t bSendPacketAddress;
+extern bool* bSendPacket;
 #endif
