@@ -35,6 +35,9 @@ PopupColorWindow::PopupColorWindow (std::string title, Vector2D size, Vector2D p
 	
 	sl_b = new Slider_INT ("b", BELOW (sl_g), LOC(size.x - 20, 33), &this->color->b, 0, 255);
 	AddComponent (sl_b);
+
+	sl_a = new Slider_INT ("a", BELOW (sl_b), LOC(size.x - 20, 33), &this->color->a, 0, 255);
+	AddComponent (sl_a);
 	
 	
 	bn_save = new OutlinedButton ("Save", STACK (bn_cancel), LOC ((size.x / 2) - (20), 35));

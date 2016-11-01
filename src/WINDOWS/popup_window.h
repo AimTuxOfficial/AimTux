@@ -25,7 +25,8 @@ protected:
 	Slider_INT* sl_r;
 	Slider_INT* sl_g;
 	Slider_INT* sl_b;
-	
+	Slider_INT* sl_a;
+
 public:
 	PopupColorWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor, Color* color);
 	void bn_cancel_revert_clicked ();
