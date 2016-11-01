@@ -136,17 +136,11 @@ void Util::ProtectAddr(void* addr, int prot)
 
 bool Util::ReadSendPacket()
 {
-#ifdef EXPERIMENTAL_SETTINGS
 	return *reinterpret_cast<bool*>(bSendPacketAddress);
-#else
-	return true;
-#endif
 }
 
 void Util::WriteSendPacket(bool value)
 {
-#ifdef EXPERIMENTAL_SETTINGS
 	Util::ProtectAddr(reinterpret_cast<bool*>(bSendPacketAddress), PROT_READ | PROT_WRITE | PROT_EXEC);
 	*reinterpret_cast<bool*>(bSendPacketAddress) = value;
-#endif
 }
