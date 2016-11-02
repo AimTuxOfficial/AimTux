@@ -45,6 +45,9 @@ int __attribute__((constructor)) aimtux_init()
 	viewRender_vmt->HookVM((void*) Hooks::RenderView, 6);
 	viewRender_vmt->ApplyVMT();
 
+	inputInternal_vmt->HookVM((void*) Hooks::SetKeyCodeState, 92);
+	inputInternal_vmt->ApplyVMT();
+
 	NetVarManager::dumpNetvars();
 	Offsets::getOffsets();
 
@@ -66,6 +69,7 @@ void __attribute__((destructor)) aimtux_shutdown()
 	clientMode_vmt->ReleaseVMT();
 	gameEvents_vmt->ReleaseVMT();
 	viewRender_vmt->ReleaseVMT();
+	inputInternal_vmt->ReleaseVMT();
 
 	*bSendPacket = true;
 

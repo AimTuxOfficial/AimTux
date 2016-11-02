@@ -11,6 +11,7 @@ IVModelRender* modelRender = nullptr;
 IClientMode* clientMode = nullptr;
 IEngineTrace* trace = nullptr;
 IInputSystem* input = nullptr;
+IInputInternal* inputInternal = nullptr;
 IMaterialSystem* material = nullptr;
 ICvar* cvar = nullptr;
 CGlobalVars* globalvars = nullptr;
@@ -25,6 +26,7 @@ VMT* modelRender_vmt = nullptr;
 VMT* clientMode_vmt = nullptr;
 VMT* gameEvents_vmt = nullptr;
 VMT* viewRender_vmt = nullptr;
+VMT* inputInternal_vmt = nullptr;
 
 bool* bSendPacket = nullptr;
 
@@ -66,6 +68,7 @@ void Hooker::HookInterfaces()
 	modelRender = BruteforceInterface<IVModelRender>("./bin/linux64/engine_client.so", "VEngineModel");
 	trace = BruteforceInterface<IEngineTrace>("./bin/linux64/engine_client.so", "EngineTraceClient");
 	input = BruteforceInterface<IInputSystem>("./bin/linux64/inputsystem_client.so", "InputSystemVersion");
+	inputInternal = BruteforceInterface<IInputInternal>("./bin/linux64/vgui2_client.so", "VGUI_InputInternal");
 	material = BruteforceInterface<IMaterialSystem>("./bin/linux64/materialsystem_client.so", "VMaterialSystem");
 	cvar = BruteforceInterface<ICvar>("./bin/linux64/libvstdlib_client.so", "VEngineCvar");
 	effects = BruteforceInterface<CEffects>("./bin/linux64/engine_client.so", "VEngineEffects");
@@ -80,6 +83,7 @@ void Hooker::HookVMethods()
 	modelRender_vmt = new VMT(modelRender);
 	gameEvents_vmt = new VMT(gameevents);
 	viewRender_vmt = new VMT(viewrender);
+	inputInternal_vmt = new VMT(inputInternal);
 }
 
 void Hooker::HookIClientMode()

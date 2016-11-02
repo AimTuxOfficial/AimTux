@@ -14,6 +14,7 @@ extern IVModelRender* modelRender;
 extern IClientMode* clientMode;
 extern IEngineTrace* trace;
 extern IInputSystem* input;
+extern IInputInternal* inputInternal;
 extern IMaterialSystem* material;
 extern ICvar* cvar;
 extern CGlobalVars* globalvars;
@@ -27,5 +28,6 @@ extern VMT* modelRender_vmt;
 extern VMT* clientMode_vmt;
 extern VMT* gameEvents_vmt;
 extern VMT* viewRender_vmt;
+extern VMT* inputInternal_vmt;
 
 extern bool* bSendPacket;

@@ -306,3 +306,5 @@ public:
 		getvfunc<oGetCursorPosition>(this, 56)(this, m_pX, m_pY);
 	}
 };
+
+class IInputInternal;
