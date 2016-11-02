@@ -7,20 +7,9 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 	ba_antiaim = new Banner ("Antiaim", LOC (10, 10), (size.x - 20) / 2 - 5);
 	AddComponent (ba_antiaim);
 	
-	ts_antiaim_x = new ToggleSwitch ("x axis", BELOW (ba_antiaim), 33, &Settings::AntiAim::enabled_X);
-	AddComponent (ts_antiaim_x);
 	
 	
-	lb_antiaim_x = new ListBox<AntiAimType_X> ("anti aim type", BELOW (ts_antiaim_x), 170, &Settings::AntiAim::type_X, std::vector<LB_Element>
-		{
-			LB_Element ("UP", STATIC_UP),
-			LB_Element ("DOWN", STATIC_DOWN)
-		}
-	);
-	AddComponent (lb_antiaim_x);
-	
-	
-	ts_antiaim_y = new ToggleSwitch ("y axis", BELOW (lb_antiaim_x), 33, &Settings::AntiAim::enabled_Y);
+	ts_antiaim_y = new ToggleSwitch ("y axis", BELOW (ba_antiaim), 33, &Settings::AntiAim::enabled_Y);
 	AddComponent (ts_antiaim_y);
 	
 	lb_antiaim_y = new ListBox<AntiAimType_Y> ("anti aim type", BELOW (ts_antiaim_y), 170, &Settings::AntiAim::type_Y, std::vector<LB_Element>
@@ -37,6 +26,22 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 		}
 	);
 	AddComponent (lb_antiaim_y);
+	
+	
+	
+	
+	ts_antiaim_x = new ToggleSwitch ("x axis", LOC (lb_antiaim_y->position.x + lb_antiaim_y->size.x + 10, lb_antiaim_y->position.y - 45), 33, &Settings::AntiAim::enabled_X);
+	AddComponent (ts_antiaim_x);
+	
+	
+	lb_antiaim_x = new ListBox<AntiAimType_X> ("anti aim type", BELOW (ts_antiaim_x), 170, &Settings::AntiAim::type_X, std::vector<LB_Element>
+		{
+			LB_Element ("UP", STATIC_UP),
+			LB_Element ("DOWN", STATIC_DOWN)
+		}
+	);
+	AddComponent (lb_antiaim_x);
+	
 	
 	
 	
