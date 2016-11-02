@@ -27,7 +27,7 @@ void FOVChanger::RenderView(CViewSetup & setup, CViewSetup & hudViewSetup, unsig
 			return;
 	}
 
-	if (Settings::FOVChanger::value && !localplayer->IsScoped())
+	if (Settings::FOVChanger::enabled && !localplayer->IsScoped())
 		setup.fov = Settings::FOVChanger::value;
 
 	if (Settings::FOVChanger::viewmodel_enabled)
