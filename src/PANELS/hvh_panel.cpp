@@ -4,7 +4,7 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 	: Panel::Panel (position, size)
 {
 	
-	ba_antiaim = new Banner ("AntiAim", LOC (10, 10), (size.x - 20) / 2 - 5);
+	ba_antiaim = new Banner ("Antiaim", LOC (10, 10), (size.x - 20) / 2 - 5);
 	AddComponent (ba_antiaim);
 	
 	ts_antiaim_x = new ToggleSwitch ("x axis", BELOW (ba_antiaim), 33, &Settings::AntiAim::enabled_X);
@@ -40,7 +40,7 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 	
 	
 	
-	ba_autowall = new Banner ("AutoWall", STACK (ba_antiaim), (size.x - 20) / 2 - 5);
+	ba_autowall = new Banner ("Autowall", STACK (ba_antiaim), (size.x - 20) / 2 - 5);
 	AddComponent (ba_autowall);
 	
 	ts_autowall = new ToggleSwitch ("auto wall", BELOW (ba_autowall), 33, &Settings::Aimbot::AutoWall::enabled);
