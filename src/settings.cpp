@@ -70,7 +70,6 @@ void LoadColor(Json::Value &config, Color color)
 	config["a"] = color.a;
 }
 
-
 void Settings::LoadDefaultsOrSave(const char* filename)
 {
 	Json::Value settings;
