@@ -22,8 +22,6 @@ private:
 	Slider* sl_smooth;
 	ToggleSwitch* ts_aimstep;
 	Slider* sl_aimstep;
-	ToggleSwitch* ts_autowall;
-	Slider* sl_autowall;
 	Slider* sl_error;
 	ToggleSwitch* ts_autopistol;
 	ToggleSwitch* ts_autoshoot;

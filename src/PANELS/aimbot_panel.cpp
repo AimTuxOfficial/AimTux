@@ -42,13 +42,7 @@ AimbotPanel::AimbotPanel (Vector2D position, Vector2D size)
 	sl_aimstep = new Slider ("", STACK (ts_aimstep), LOC ((size.x / 2) - ts_aimstep->size.x - 30, 33), &Settings::Aimbot::AimStep::value, 0.0f, 180.0f);
 	AddComponent (sl_aimstep);
 
-	ts_autowall = new ToggleSwitch ("auto wall", BELOW (ts_aimstep), 33, &Settings::Aimbot::AutoWall::enabled);
-	AddComponent (ts_autowall);
-
-	sl_autowall = new Slider ("min damage", STACK (ts_autowall), LOC ((size.x / 2) - ts_autowall->size.x - 30, 33), &Settings::Aimbot::AutoWall::value, 0.0f, 100.0f);
-	AddComponent (sl_autowall);
-
-	sl_error = new Slider("error margin", BELOW(ts_autowall), LOC((size.x / 2) - 20, 33), &Settings::Aimbot::errorMargin, 0.0f, 2.0f);
+	sl_error = new Slider("error margin", BELOW(ts_aimstep), LOC((size.x / 2) - 20, 33), &Settings::Aimbot::errorMargin, 0.0f, 2.0f);
 	AddComponent (sl_error);
 
 	ts_autopistol = new ToggleSwitch ("auto pistol", BELOW (sl_error), 33, &Settings::Aimbot::AutoPistol::enabled);

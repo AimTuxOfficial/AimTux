@@ -18,6 +18,8 @@ private:
 	
 	
 	Banner* ba_autowall;
+	ToggleSwitch* ts_autowall;
+	Slider* sl_autowall;
 	MS_ListBox<Hitbox>* lb_bone_select_multi;
 public:
 	HVHPanel (Vector2D position, Vector2D size);
