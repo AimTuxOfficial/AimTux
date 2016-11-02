@@ -11,24 +11,13 @@
 #define VPANEL unsigned long long
 typedef unsigned long long FONT;
 
-struct ModelRenderInfo_t;
-struct CUserCmd;
-class IGameEvent;
 struct CGlowObjectManager;
-struct CViewSetup;
 
 /* function prototypes */
 typedef void* (*CreateInterfaceFn) (const char*, int*);
-typedef void (*FrameStageNotifyFn) (void*, int);
-typedef void (*PaintTraverseFn) (void*, VPANEL, bool, bool);
-typedef void (*DrawModelExecuteFn) (void*, void*, void*, const ModelRenderInfo_t&, matrix3x4_t*);
-typedef bool (*CreateMoveFn) (void*, float, CUserCmd*);
-typedef bool (*FireEventClientSideFn) (void*, IGameEvent*);
-typedef int (*IN_KeyEventFn) (void*, int, int, const char*);
 typedef CGlowObjectManager* (*GlowObjectManagerFn) (void);
 typedef bool (*MsgFunc_ServerRankRevealAllFn) (float*);
 typedef void (*SendClanTagFn) (const char*, const char*);
-typedef void (*RenderViewFn) (void*, CViewSetup&, CViewSetup&, unsigned int, int);
 
 struct WeaponInfo_t {
 	float m_flWeaponArmorRatio;

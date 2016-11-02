@@ -5,6 +5,7 @@
 #include <zconf.h>
 #include <pwd.h>
 #include "SDK/SDK.h"
+#include "Hooks/hooks.h"
 #include "interfaces.h"
 #include "settings.h"
 #include "entity.h"
