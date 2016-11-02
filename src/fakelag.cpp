@@ -1,7 +1,7 @@
 #include "fakelag.h"
 
 bool Settings::FakeLag::enabled = false;
-float Settings::FakeLag::value = 5;
+int Settings::FakeLag::value = 5;
 
 static int ticks = 0;
 int ticksMax = 16;
@@ -31,7 +31,7 @@ void FakeLag::CreateMove(CUserCmd* cmd)
 	}
 	else
 	{
-		*bSendPacket = ticks < 16 - (int)Settings::FakeLag::value;
+		*bSendPacket = ticks < 16 - Settings::FakeLag::value;
 	}
 
 	ticks++;

@@ -375,7 +375,7 @@ namespace Settings
 	namespace FakeLag
 	{
 		extern bool enabled;
-		extern float value;
+		extern int value;
 	}
 
 	void LoadDefaultsOrSave(const char* filename);

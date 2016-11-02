@@ -28,7 +28,7 @@ private:
 	Slider* sl_fov_viewmodel_value;
 	ToggleSwitch* ts_radar;
 	ToggleSwitch* ts_fakelag;
-	Slider* sl_fakelag;
+	Slider_INT* sl_fakelag;
 	ToggleSwitch* ts_showranks;
 	ToggleSwitch* ts_showspectators;
 	OutlinedButton* ob_nickname;
