@@ -3,7 +3,11 @@
 HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 	: Panel::Panel (position, size)
 {
-	ts_antiaim_x = new ToggleSwitch ("x axis", LOC (10, 10), 33, &Settings::AntiAim::enabled_X);
+	
+	ba_antiaim = new Banner ("AntiAim", LOC (10, 10), (size.x - 20) / 2 - 5);
+	AddComponent (ba_antiaim);
+	
+	ts_antiaim_x = new ToggleSwitch ("x axis", BELOW (ba_antiaim), 33, &Settings::AntiAim::enabled_X);
 	AddComponent (ts_antiaim_x);
 	
 	
@@ -34,8 +38,11 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 	);
 	AddComponent (lb_antiaim_y);
 	
+	
+	ba_autowall = new Banner ("AutoWall", STACK (ba_antiaim), (size.x - 20) / 2 - 5);
+	AddComponent (ba_autowall);
 
-	lb_bone_select_multi = new MS_ListBox<Hitbox> ("Autowall bones", STACK (lb_antiaim_x) - BELOW (ts_antiaim_x) + LOC (10, 10), 170, &Settings::Aimbot::AutoWall::bones, std::vector<LB_Element>
+	lb_bone_select_multi = new MS_ListBox<Hitbox> ("Autowall bones", BELOW (ba_autowall), 170, &Settings::Aimbot::AutoWall::bones, std::vector<LB_Element>
 		{
 			LB_Element ("HEAD", HITBOX_HEAD),
 			LB_Element ("NECK", HITBOX_NECK),
