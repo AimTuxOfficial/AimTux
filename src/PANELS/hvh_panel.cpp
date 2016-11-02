@@ -3,12 +3,9 @@
 HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 	: Panel::Panel (position, size)
 {
-	
 	ba_antiaim = new Banner ("Antiaim", LOC (10, 10), (size.x - 20) / 2 - 5);
 	AddComponent (ba_antiaim);
-	
-	
-	
+
 	ts_antiaim_y = new ToggleSwitch ("y axis", BELOW (ba_antiaim), 33, &Settings::AntiAim::enabled_Y);
 	AddComponent (ts_antiaim_y);
 	
@@ -26,24 +23,18 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 		}
 	);
 	AddComponent (lb_antiaim_y);
-	
-	
-	
-	
+
 	ts_antiaim_x = new ToggleSwitch ("x axis", LOC (lb_antiaim_y->position.x + lb_antiaim_y->size.x + 10, lb_antiaim_y->position.y - 45), 33, &Settings::AntiAim::enabled_X);
 	AddComponent (ts_antiaim_x);
-	
-	
+
 	lb_antiaim_x = new ListBox<AntiAimType_X> ("anti aim type", BELOW (ts_antiaim_x), 170, &Settings::AntiAim::type_X, std::vector<LB_Element>
 		{
 			LB_Element ("UP", STATIC_UP),
-			LB_Element ("DOWN", STATIC_DOWN)
+			LB_Element ("DOWN", STATIC_DOWN),
+			LB_Element ("FAKE UP", FAKE_UP)
 		}
 	);
 	AddComponent (lb_antiaim_x);
-	
-	
-	
 	
 	ba_autowall = new Banner ("Autowall", STACK (ba_antiaim), (size.x - 20) / 2 - 5);
 	AddComponent (ba_autowall);

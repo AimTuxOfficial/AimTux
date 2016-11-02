@@ -78,9 +78,20 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 	if (Settings::AntiAim::enabled_X)
 	{
 		if (Settings::AntiAim::type_X == STATIC_UP)
-			angle.x = -89.f;
+		{
+			angle.x = -89.0f;
+		}
 		else if (Settings::AntiAim::type_X == STATIC_DOWN)
-			angle.x = 89.f;
+		{
+			angle.x = 89.0f;
+		}
+#ifdef UNTRUSTED_SETTINGS
+		else if (Settings::AntiAim::type_X == FAKE_UP)
+		{
+			angle.x = bFlip ? -271.0f : 271.0f;
+			CreateMove::SendPacket = !bFlip;
+		}
+#endif
 	}
 
 	Math::NormalizeAngles(angle);
