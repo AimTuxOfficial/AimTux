@@ -32,7 +32,7 @@ VMT* viewRender_vmt = nullptr;
 VMT* inputInternal_vmt = nullptr;
 
 bool* bSendPacket = nullptr;
-uint32_t* nPredictionRandomSeed = nullptr;
+int* nPredictionRandomSeed = nullptr;
 
 GlowObjectManagerFn GlowObjectManager;
 MsgFunc_ServerRankRevealAllFn MsgFunc_ServerRankRevealAll;
@@ -153,6 +153,6 @@ void Hooker::HookPrediction()
 	uintptr_t seed_instruction_addr = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) PREDICTION_RANDOM_SEED_SIGNATURE, PREDICTION_RANDOM_SEED_MASK);
 	uintptr_t helper_instruction_addr = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) CLIENT_MOVEHELPER_SIGNATURE, CLIENT_MOVEHELPER_MASK);
 
-	nPredictionRandomSeed = *reinterpret_cast<uint32_t**>(GetAbsoluteAddress(seed_instruction_addr, 3, 7));
+	nPredictionRandomSeed = *reinterpret_cast<int**>(GetAbsoluteAddress(seed_instruction_addr, 3, 7));
 	movehelper = *reinterpret_cast<IMoveHelper**>(GetAbsoluteAddress(helper_instruction_addr + 1, 3, 7));
 }

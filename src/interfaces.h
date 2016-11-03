@@ -33,5 +33,5 @@ extern VMT* gameEvents_vmt;
 extern VMT* viewRender_vmt;
 extern VMT* inputInternal_vmt;
 
-extern uint32_t* nPredictionRandomSeed;
+extern int* nPredictionRandomSeed;
 extern bool* bSendPacket;

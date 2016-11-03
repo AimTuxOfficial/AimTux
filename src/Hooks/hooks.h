@@ -19,6 +19,7 @@
 #include "../fovchanger.h"
 #include "../namechanger.h"
 #include "../noflash.h"
+#include "../predictionsystem.h"
 #include "../radar.h"
 #include "../recoilcrosshair.h"
 #include "../showranks.h"

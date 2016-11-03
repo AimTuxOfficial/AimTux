@@ -8,6 +8,7 @@
 #include "definitions.h"
 #include "common.h"
 #include "color.h"
+#include "checksum_md5.h"
 #include "CEffects.h"
 #include "CGlobalVars.h"
 #include "IBaseClientDLL.h"
