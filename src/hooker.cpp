@@ -19,6 +19,9 @@ CEffects* effects = nullptr;
 IGameEventManager2* gameevents = nullptr;
 IPhysicsSurfaceProps* physics = nullptr;
 CViewRender* viewrender = nullptr;
+IPrediction* prediction = nullptr;
+IGameMovement* gamemovement = nullptr;
+IMoveHelper* movehelper = nullptr;
 
 VMT* panel_vmt = nullptr;
 VMT* client_vmt = nullptr;
@@ -29,6 +32,7 @@ VMT* viewRender_vmt = nullptr;
 VMT* inputInternal_vmt = nullptr;
 
 bool* bSendPacket = nullptr;
+uint32_t* nPredictionRandomSeed = nullptr;
 
 GlowObjectManagerFn GlowObjectManager;
 MsgFunc_ServerRankRevealAllFn MsgFunc_ServerRankRevealAll;
@@ -74,6 +78,8 @@ void Hooker::HookInterfaces()
 	effects = BruteforceInterface<CEffects>("./bin/linux64/engine_client.so", "VEngineEffects");
 	gameevents = BruteforceInterface<IGameEventManager2>("./bin/linux64/engine_client.so", "GAMEEVENTSMANAGER");
 	physics = BruteforceInterface<IPhysicsSurfaceProps>("./bin/linux64/vphysics_client.so", "VPhysicsSurfaceProps");
+	prediction = BruteforceInterface<IPrediction>("./csgo/bin/linux64/client_client.so", "VClientPrediction");
+	gamemovement = BruteforceInterface<IGameMovement>("./csgo/bin/linux64/client_client.so", "GameMovement");
 }
 
 void Hooker::HookVMethods()
@@ -140,4 +146,13 @@ void Hooker::HookSendPacket()
 
 	bSendPacket = reinterpret_cast<bool*>(bool_address);
 	Util::ProtectAddr(bSendPacket, PROT_READ | PROT_WRITE | PROT_EXEC);
+}
+
+void Hooker::HookPrediction()
+{
+	uintptr_t seed_instruction_addr = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) PREDICTION_RANDOM_SEED_SIGNATURE, PREDICTION_RANDOM_SEED_MASK);
+	uintptr_t helper_instruction_addr = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) CLIENT_MOVEHELPER_SIGNATURE, CLIENT_MOVEHELPER_MASK);
+
+	nPredictionRandomSeed = *reinterpret_cast<uint32_t**>(GetAbsoluteAddress(seed_instruction_addr, 3, 7));
+	movehelper = *reinterpret_cast<IMoveHelper**>(GetAbsoluteAddress(helper_instruction_addr + 1, 3, 7));
 }

@@ -21,6 +21,7 @@ int __attribute__((constructor)) aimtux_init()
 	Hooker::HookRankReveal();
 	Hooker::HookSendClanTag();
 	Hooker::HookSendPacket();
+	Hooker::HookPrediction();
 
 	Chams::CreateMaterials();
 
