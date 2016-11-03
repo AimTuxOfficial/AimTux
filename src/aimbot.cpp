@@ -322,7 +322,7 @@ void Aimbot::AutoShoot(C_BaseEntity* entity, C_BaseCombatWeapon* active_weapon, 
 	if (!Settings::Aimbot::AutoShoot::enabled)
 		return;
 
-	if (Aimbot::AimStepInProgress)
+	if (Settings::Aimbot::AimStep::enabled && Aimbot::AimStepInProgress)
 		return;
 
 	if (!entity || !active_weapon || active_weapon->IsKnife() || active_weapon->GetAmmo() == 0)
