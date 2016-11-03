@@ -29,3 +29,5 @@
 #include "CGlowObjectManager.h"
 #include "IPhysicsSurfaceProps.h"
 #include "CViewRender.h"
+#include "IGameMovement.h"
+#include "IPrediction.h"

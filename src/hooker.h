@@ -18,6 +18,12 @@
 #define BSENDPACKET_SIGNATURE "\x41\xBD\x01\x00\x00\x00\xE9\x2A\xFE"
 #define BSENDPACKET_MASK "xxx???xxx"
 
+#define PREDICTION_RANDOM_SEED_SIGNATURE "\x48\x8B\x05\x00\x00\x00\x00\xF3\x0F\x11\x45\xDC\xF3"
+#define PREDICTION_RANDOM_SEED_MASK "xxx????xxxxxx"
+
+#define CLIENT_MOVEHELPER_SIGNATURE "\x00\x48\x89\x3D\x00\x00\x00\x00\xC3"
+#define CLIENT_MOVEHELPER_MASK "xxxx????x"
+
 #include <unordered_map>
 #include <sys/mman.h>
 #include <link.h>
@@ -37,5 +43,6 @@ namespace Hooker
 	void HookSendClanTag();
 	void HookViewRender();
 	void HookSendPacket();
+	void HookPrediction();
 	void UnhookSendPacket();
 }

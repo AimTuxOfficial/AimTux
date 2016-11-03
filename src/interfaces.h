@@ -21,6 +21,9 @@ extern CGlobalVars* globalvars;
 extern CEffects* effects;
 extern IGameEventManager2* gameevents;
 extern IPhysicsSurfaceProps* physics;
+extern IPrediction* prediction;
+extern IGameMovement* gamemovement;
+extern IMoveHelper* movehelper;
 
 extern VMT* panel_vmt;
 extern VMT* client_vmt;
@@ -30,4 +33,5 @@ extern VMT* gameEvents_vmt;
 extern VMT* viewRender_vmt;
 extern VMT* inputInternal_vmt;
 
+extern uint32_t* nPredictionRandomSeed;
 extern bool* bSendPacket;
