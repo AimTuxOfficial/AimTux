@@ -67,15 +67,17 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 				angle.y -= 40.0f;
 		}
 #ifdef UNTRUSTED_SETTINGS
-		else if (Settings::AntiAim::type_Y == LISP)
+		else if (Settings::AntiAim::type_Y == BACKWARDS_FAKE)
 		{
-			if (!(cmd->buttons & IN_FORWARD && cmd->buttons & IN_BACK && cmd->buttons & IN_MOVELEFT && cmd->buttons & IN_MOVERIGHT && cmd->buttons & IN_JUMP))
+			
+			if (bFlip)
 			{
-				if (bFlip)
-					angle.y += 323210000;
-				else
-					angle.y -= 323210000;
-				
+				angle.y -= 180.0f;
+				*bSendPacket = true;
+			}
+			else
+			{
+				*bSendPacket = false;
 			}
 		}
 #endif
