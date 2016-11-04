@@ -31,7 +31,8 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 		{
 			LB_Element ("UP", STATIC_UP),
 			LB_Element ("DOWN", STATIC_DOWN),
-			LB_Element ("FAKE UP", FAKE_UP)
+			LB_Element ("FAKE UP", FAKE_UP),
+			LB_Element ("FAKE DOWN", FAKE_DOWN),
 		}
 	);
 	AddComponent (lb_antiaim_x);
