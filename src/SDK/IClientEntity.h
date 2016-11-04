@@ -436,6 +436,11 @@ public:
 		return *(float*)((uintptr_t)this + offsets.DT_BaseCombatWeapon.m_flNextPrimaryAttack);
 	}
 
+	bool GetInReload()
+	{
+		return *(bool*)((uintptr_t)this + offsets.DT_BaseCombatWeapon.m_bInReload);
+	}
+
 	float GetAccuracyPenalty()
 	{
 		return *(float*)((uintptr_t)this + offsets.DT_WeaponCSBase.m_fAccuracyPenalty);

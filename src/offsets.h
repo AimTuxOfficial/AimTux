@@ -84,6 +84,7 @@ struct COffsets
 	{
 		int m_flNextPrimaryAttack;
 		int m_iClip1;
+		int m_bInReload;
 	} DT_BaseCombatWeapon;
 };
 
