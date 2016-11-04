@@ -18,7 +18,7 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 			LB_Element ("BACKWARDS", BACKWARDS),
 			LB_Element ("FAKE4", FAKE4),
 #ifdef UNTRUSTED_SETTINGS
-			LB_Element ("Fake Backwards", BACKWARDS_FAKE)
+			LB_Element ("FAKE BACKWARDS", BACKWARDS_FAKE)
 #endif
 		}
 	);
