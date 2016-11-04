@@ -365,6 +365,9 @@ void Aimbot::ShootCheck(C_BaseCombatWeapon* active_weapon, CUserCmd* cmd)
 	if (nextPrimaryAttack < tick)
 		return;
 
+	if (*active_weapon->GetItemDefinitionIndex() == WEAPON_C4)
+		return;
+
 	if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
 		cmd->buttons &= ~IN_ATTACK2;
 	else
