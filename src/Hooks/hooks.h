@@ -25,3 +25,8 @@ namespace Hooks
 	void RenderView(void* thisptr, CViewSetup& setup, CViewSetup& hudViewSetup, unsigned int nClearFlags, int whatToDraw);
 	void SetKeyCodeState(void* thisptr, ButtonCode_t code, bool bPressed);
 }
+
+namespace CreateMove
+{
+	extern bool SendPacket;
+}
