@@ -360,9 +360,13 @@ namespace Settings
 		extern bool enabled;
 	}
 	
-	namespace NoVis
+	namespace View
 	{
-		extern bool enabled;
+		
+		namespace NoPunch
+		{
+			extern bool enabled;
+		}
 	}
 	
 	namespace NameChanger

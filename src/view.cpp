@@ -1,12 +1,12 @@
-#include "novis.h"
+#include "view.h"
 
-bool Settings::NoVis::enabled = false;
+bool Settings::View::NoPunch::enabled = false;
 
 QAngle old_punch_angle;
 
-void NoVis::FrameStageNotify(ClientFrameStage_t stage)
+void View::FrameStageNotify(ClientFrameStage_t stage)
 {
-	if (!Settings::NoVis::enabled)
+	if (!Settings::View::NoPunch::enabled)
 		return;
 	
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
@@ -22,9 +22,9 @@ void NoVis::FrameStageNotify(ClientFrameStage_t stage)
 	
 }
 
-void NoVis::PostFrameStageNotify(ClientFrameStage_t stage)
+void View::PostFrameStageNotify(ClientFrameStage_t stage)
 {
-	if (!Settings::NoVis::enabled)
+	if (!Settings::View::NoPunch::enabled)
 		return;
 	
 	

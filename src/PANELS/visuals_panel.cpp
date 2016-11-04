@@ -91,8 +91,8 @@ VisualsPanel::VisualsPanel (Vector2D position, Vector2D size)
 	sl_dlights = new Slider ("radius", STACK (ts_dlights), LOC ((size.x / 2) - ts_dlights->size.x - 30, 33), &Settings::Dlights::radius, 0.0f, 1000.0f);
 	AddComponent (sl_dlights);
 	
-	ts_novis_recoil = new ToggleSwitch ("no visual recoil", BELOW (ts_dlights), 33, &Settings::NoVis::enabled);
-	AddComponent (ts_novis_recoil);
+	ts_view_norecoil = new ToggleSwitch ("no visual recoil", BELOW (ts_dlights), 33, &Settings::View::NoPunch::enabled);
+	AddComponent (ts_view_norecoil);
 	
 	Hide ();
 }
