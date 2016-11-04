@@ -20,5 +20,8 @@ void Hooks::PaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, 
 	gui->Draw();
 
 	if (!engine->IsInGame())
-		*bSendPacket = true;
+	{
+		CreateMove::SendPacket = true;
+		*bSendPacket = CreateMove::SendPacket;
+	}
 }
