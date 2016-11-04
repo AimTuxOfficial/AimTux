@@ -360,6 +360,11 @@ namespace Settings
 		extern bool enabled;
 	}
 	
+	namespace NoVis
+	{
+		extern bool enabled;
+	}
+	
 	namespace NameChanger
 	{
 		extern bool enabled;
