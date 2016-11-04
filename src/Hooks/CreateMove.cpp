@@ -9,6 +9,7 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 	if (cmd && cmd->command_number)
 	{
 		*bSendPacket = CreateMove::SendPacket;
+		CreateMove::SendPacket = true;
 
 		BHop::CreateMove(cmd);
 		AutoStrafe::CreateMove(cmd);
