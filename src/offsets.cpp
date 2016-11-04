@@ -9,6 +9,7 @@ void Offsets::getOffsets()
 
 	offsets.DT_BasePlayer.m_Local = NetVarManager::getOffset(tables, "DT_BasePlayer", "m_Local");
 	offsets.DT_BasePlayer.m_aimPunchAngle = NetVarManager::getOffset(tables, "DT_BasePlayer", "m_aimPunchAngle");
+	offsets.DT_BasePlayer.m_viewPunchAngle = NetVarManager::getOffset(tables, "DT_BasePlayer", "m_viewPunchAngle");
 	offsets.DT_BasePlayer.m_vecViewOffset = NetVarManager::getOffset(tables, "DT_BasePlayer", "m_vecViewOffset[0]");
 	offsets.DT_BasePlayer.m_nTickBase = NetVarManager::getOffset(tables, "DT_BasePlayer", "m_nTickBase");
 	offsets.DT_BasePlayer.m_vecVelocity = NetVarManager::getOffset(tables, "DT_BasePlayer", "m_vecVelocity[0]");

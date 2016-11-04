@@ -9,6 +9,7 @@ struct COffsets
 	{
 		int m_Local;
 		int m_aimPunchAngle;
+		int m_viewPunchAngle;
 		int m_vecViewOffset;
 		int m_nTickBase;
 		int m_vecVelocity;
