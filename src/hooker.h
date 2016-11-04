@@ -24,6 +24,9 @@
 #define CLIENT_MOVEHELPER_SIGNATURE "\x00\x48\x89\x3D\x00\x00\x00\x00\xC3"
 #define CLIENT_MOVEHELPER_MASK "xxxx????x"
 
+#define CLIENT_MOVEDATA_SIGNATURE "\x48\x8B\x0D\x00\x00\x00\x00\x4C\x89\xF2"
+#define CLIENT_MOVEDATA_MASK "xxx????xxx"
+
 #include <unordered_map>
 #include <sys/mman.h>
 #include <link.h>
