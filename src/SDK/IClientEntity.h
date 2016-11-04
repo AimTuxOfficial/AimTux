@@ -120,6 +120,11 @@ public:
 		return (int*)((uintptr_t)this + offsets.DT_BaseCombatCharacter.m_hMyWeapons);
 	}
 
+	void* GetActiveWeapon()
+	{
+		return (void*)((uintptr_t)this + offsets.DT_BaseCombatCharacter.m_hActiveWeapon);
+	}
+
 	void* GetViewModel()
 	{
 		return (void*)((uintptr_t)this + offsets.DT_BasePlayer.m_hViewModel);
@@ -225,11 +230,6 @@ public:
 	QAngle* GetViewPunchAngle()
 	{
 		return (QAngle*)((uintptr_t)this + offsets.DT_BasePlayer.m_viewPunchAngle);
-	}
-
-	void* GetActiveWeapon()
-	{
-		return (void*)((uintptr_t)this + offsets.DT_BaseCombatCharacter.m_hActiveWeapon);
 	}
 
 	unsigned int GetTickBase()

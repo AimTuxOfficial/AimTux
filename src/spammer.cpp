@@ -75,6 +75,13 @@ void Spammer::CreateMove(CUserCmd* cmd)
 			IEngineClient::player_info_t entityInformation;
 			engine->GetPlayerInfo(i, &entityInformation);
 
+			C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(entity->GetActiveWeapon());
+			std::string modelName = std::string(active_weapon->GetClientClass()->m_pNetworkName);
+			if (strstr(modelName.c_str(), "Weapon"))
+				modelName = modelName.substr(7, modelName.length() - 7);
+			else
+				modelName = modelName.substr(1, modelName.length() - 1);
+
 			// Prepare player's nickname without ';' & '"' characters
 			// as they might cause user to execute a command.
 			std::string player_name = std::string(entityInformation.name);
@@ -85,6 +92,7 @@ void Spammer::CreateMove(CUserCmd* cmd)
 			pstring str;
 			str << "say \"";
 			str << player_name << " | ";
+			str << modelName << " | ";
 			str << entity->GetHealth() << "HP | ";
 			str << entity->GetLastPlaceName() << "\"";
 
