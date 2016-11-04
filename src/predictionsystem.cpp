@@ -5,7 +5,6 @@ float m_flOldFrametime;
 
 void PredictionSystem::StartPrediction(CUserCmd* cmd)
 {
-#ifdef EXPERIMENTAL_SETTINGS
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 
 	*nPredictionRandomSeed = MD5_PseudoRandom(cmd->command_number) & 0x7FFFFFFF;
@@ -18,18 +17,14 @@ void PredictionSystem::StartPrediction(CUserCmd* cmd)
 
 	gamemovement->StartTrackPredictionErrors(localplayer);
 
-	CMoveData m_MoveData;
-	memset(&m_MoveData, 0, sizeof(m_MoveData));
 	movehelper->SetHost(localplayer);
-	prediction->SetupMove(localplayer, cmd, movehelper, &m_MoveData);
-	gamemovement->ProcessMovement(localplayer, &m_MoveData);
-	prediction->FinishMove(localplayer, cmd, &m_MoveData);
-#endif
+	prediction->SetupMove(localplayer, cmd, movehelper, g_MoveData);
+	gamemovement->ProcessMovement(localplayer, g_MoveData);
+	prediction->FinishMove(localplayer, cmd, g_MoveData);
 }
 
 void PredictionSystem::EndPrediction()
 {
-#ifdef EXPERIMENTAL_SETTINGS
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 
 	gamemovement->FinishTrackPredictionErrors(localplayer);
@@ -39,5 +34,4 @@ void PredictionSystem::EndPrediction()
 
 	globalvars->curtime = m_flOldCurtime;
 	globalvars->frametime = m_flOldFrametime;
-#endif
 }

@@ -35,3 +35,4 @@ extern VMT* inputInternal_vmt;
 
 extern int* nPredictionRandomSeed;
 extern bool* bSendPacket;
+extern CMoveData* g_MoveData;
