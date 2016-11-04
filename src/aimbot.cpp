@@ -162,7 +162,7 @@ void Aimbot::RCS(QAngle& angle, C_BaseEntity* entity, CUserCmd* cmd)
 		angle -= NewPunch * Settings::Aimbot::RCS::value;
 		RCSLastPunch = CurrentPunch;
 	}
-	else
+	else if (entity)
 	{
 		RCSLastPunch = { 0, 0, 0 };
 	}
