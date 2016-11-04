@@ -4,7 +4,8 @@ bool Settings::View::NoPunch::enabled = false;
 
 QAngle old_punch_angle;
 
-void View::FrameStageNotify(ClientFrameStage_t stage)
+
+void View::NoPunch::FrameStageNotify (ClientFrameStage_t stage)
 {
 	if (!Settings::View::NoPunch::enabled)
 		return;
@@ -19,10 +20,9 @@ void View::FrameStageNotify(ClientFrameStage_t stage)
 		old_punch_angle = *punch_angle;
 		*punch_angle = QAngle (0, 0, 0);
 	}
-	
 }
 
-void View::PostFrameStageNotify(ClientFrameStage_t stage)
+void View::NoPunch::PostFrameStageNotify(ClientFrameStage_t stage)
 {
 	if (!Settings::View::NoPunch::enabled)
 		return;
@@ -36,4 +36,15 @@ void View::PostFrameStageNotify(ClientFrameStage_t stage)
 	{
 		*punch_angle = old_punch_angle;
 	}
+}
+
+
+void View::FrameStageNotify(ClientFrameStage_t stage)
+{
+	View::NoPunch::FrameStageNotify (stage);
+}
+
+void View::PostFrameStageNotify(ClientFrameStage_t stage)
+{
+	View::NoPunch::PostFrameStageNotify (stage);
 }
