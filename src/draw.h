@@ -12,7 +12,6 @@
 
 namespace Draw
 {
-	FONT CreateFont(const char* fontName, int size);
 	FONT CreateFont(const char* fontName, int size, int flag);
 	Vector2D GetTextSize(const wchar_t* input, FONT font);
 	Vector2D GetTextSize(std::string text, FONT font);

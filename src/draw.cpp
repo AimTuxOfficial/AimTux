@@ -1,15 +1,6 @@
 #include "draw.h"
 
-FONT Draw::CreateFont(const char* fontName, int size)
-{
-	FONT newFont = surface->CreateFont();
-
-	surface->SetFontGlyphSet(newFont, fontName, size, 0, 0, 0, 0x80);
-
-	return newFont;
-}
-
-FONT Draw::CreateFont(const char* fontName, int size, int flag)
+FONT Draw::CreateFont(const char* fontName, int size, int flag = FONTFLAG_DROPSHADOW)
 {
 	FONT newFont = surface->CreateFont();
 
