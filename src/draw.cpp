@@ -46,7 +46,7 @@ void Draw::DrawString(std::string text, Vector2D location, Color color, FONT fon
 	surface->DrawSetTextFont(font);
 	surface->DrawSetTextPos((int) location.x, (int) location.y);
 
-	surface->DrawPrintText(wtext.c_str(), wtext.length());
+	surface->DrawPrintText(wtext.c_str(), wcslen(wtext));
 }
 
 void Draw::DrawCenteredString(std::string text, Vector2D location, Color color, FONT font)
@@ -62,7 +62,7 @@ void Draw::DrawCenteredString(std::string text, Vector2D location, Color color, 
 	surface->DrawSetTextFont(font);
 	surface->DrawSetTextPos((int) location.x, (int) location.y);
 
-	surface->DrawPrintText(wtext.c_str(), wtext.length());
+	surface->DrawPrintText(wtext.c_str(), wcslen(wtext));
 }
 
 void Draw::DrawCircle(Vector2D position, float points, float radius, Color color)
@@ -71,8 +71,8 @@ void Draw::DrawCircle(Vector2D position, float points, float radius, Color color
 
 	for (float a = 0; a < ( M_PI * 2.0 ); a += step)
 	{
-		Vector2D start (radius * cos(a) + position.x, radius * sin(a) + position.y);
-		Vector2D end ( radius * cos(a + step) + position.x, radius * sin(a + step) + position.y);
+		Vector2D start(radius * cos(a) + position.x, radius * sin(a) + position.y);
+		Vector2D end(radius * cos(a + step) + position.x, radius * sin(a + step) + position.y);
 		DrawLine(start, end, color);
 	}
 }
