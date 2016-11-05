@@ -46,7 +46,7 @@ void Draw::DrawString(std::string text, Vector2D location, Color color, FONT fon
 	surface->DrawSetTextFont(font);
 	surface->DrawSetTextPos((int) location.x, (int) location.y);
 
-	surface->DrawPrintText(wtext.c_str(), wcslen(wtext));
+	surface->DrawPrintText(wtext.c_str(), wcslen(wtext.c_str()));
 }
 
 void Draw::DrawCenteredString(std::string text, Vector2D location, Color color, FONT font)
@@ -62,7 +62,7 @@ void Draw::DrawCenteredString(std::string text, Vector2D location, Color color, 
 	surface->DrawSetTextFont(font);
 	surface->DrawSetTextPos((int) location.x, (int) location.y);
 
-	surface->DrawPrintText(wtext.c_str(), wcslen(wtext));
+	surface->DrawPrintText(wtext.c_str(), wcslen(wtext.c_str()));
 }
 
 void Draw::DrawCircle(Vector2D position, float points, float radius, Color color)
