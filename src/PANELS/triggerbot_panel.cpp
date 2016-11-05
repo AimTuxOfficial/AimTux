@@ -12,7 +12,7 @@ TriggerbotPanel::TriggerbotPanel (Vector2D position, Vector2D size)
 	ts_delay = new ToggleSwitch ("delay", BELOW (ba_delay), 33, &Settings::Triggerbot::Delay::enabled);
 	AddComponent (ts_delay);
 
-	sl_delay = new Slider ("", STACK (ts_delay), LOC ((size.x / 2) - ts_delay->size.x - 30, 33), &Settings::Triggerbot::Delay::value, 0.0f, 1000.0f);
+	sl_delay = new Slider_INT ("", STACK (ts_delay), LOC ((size.x / 2) - ts_delay->size.x - 30, 33), &Settings::Triggerbot::Delay::value, 0.0f, 1000.0f);
 	AddComponent (sl_delay);
 
 	ba_filter = new Banner ("Filter", BELOW (ts_delay), (size.x - 20) / 2 - 5);

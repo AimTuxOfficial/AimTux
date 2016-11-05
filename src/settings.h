@@ -164,7 +164,7 @@ namespace Settings
 		namespace Delay
 		{
 			extern bool enabled;
-			extern float value;
+			extern int value;
 		}
 	}
 

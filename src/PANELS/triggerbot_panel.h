@@ -12,7 +12,7 @@ private:
 	ToggleSwitch* ts_triggerbot_enabled;
 	Banner* ba_delay;
 	ToggleSwitch* ts_delay;
-	Slider*	sl_delay;
+	Slider_INT* sl_delay;
 	Banner* ba_filter;
 	ToggleSwitch* ts_friendly;
 	ToggleSwitch* ts_head;

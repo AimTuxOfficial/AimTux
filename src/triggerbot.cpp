@@ -8,7 +8,7 @@ bool Settings::Triggerbot::Filter::stomach = true;
 bool Settings::Triggerbot::Filter::arms = true;
 bool Settings::Triggerbot::Filter::legs = true;
 bool Settings::Triggerbot::Delay::enabled = false;
-float Settings::Triggerbot::Delay::value = 250.0f;
+int Settings::Triggerbot::Delay::value = 250;
 ButtonCode_t Settings::Triggerbot::key = ButtonCode_t::KEY_LALT;
 
 void Triggerbot::CreateMove(CUserCmd *cmd)

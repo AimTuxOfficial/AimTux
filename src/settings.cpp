@@ -283,7 +283,7 @@ void Settings::LoadSettings(const char* filename)
 	GetBool(settings["Triggerbot"]["Filter"]["arms"], &Settings::Triggerbot::Filter::arms);
 	GetBool(settings["Triggerbot"]["Filter"]["legs"], &Settings::Triggerbot::Filter::legs);
 	GetBool(settings["Triggerbot"]["Delay"]["enabled"], &Settings::Triggerbot::Delay::enabled);
-	GetFloat(settings["Triggerbot"]["Delay"]["value"], &Settings::Triggerbot::Delay::value);
+	GetInt(settings["Triggerbot"]["Delay"]["value"], &Settings::Triggerbot::Delay::value);
 
 	GetBool(settings["AntiAim"]["enabled_Y"], &Settings::AntiAim::enabled_Y);
 	GetBool(settings["AntiAim"]["enabled_X"], &Settings::AntiAim::enabled_X);
