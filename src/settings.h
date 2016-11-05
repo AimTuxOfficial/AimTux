@@ -108,7 +108,7 @@ namespace Settings
 		namespace AutoWall
 		{
 			extern bool enabled;
-			extern float value;
+			extern int value;
 			extern std::vector<Hitbox> bones;
 		}
 
