@@ -7,6 +7,9 @@ void BHop::CreateMove(CUserCmd* cmd)
 	if (!Settings::BHop::enabled)
 		return;
 
+	if (!engine->IsInGame())
+		return;
+
 	static bool bLastJumped = false;
 	static bool bShouldFake = false;
 
