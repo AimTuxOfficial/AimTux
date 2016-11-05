@@ -323,14 +323,16 @@ namespace Settings
 		{
 			int PaintKit;
 			int ItemDefinitionIndex;
+			int Seed;
 			float Wear;
 			int StatTrak;
 			std::string CustomName;
 			std::string Model;
 
-			Skin (int PaintKit, int ItemDefinitionIndex, float Wear, int StatTrak, std::string CustomName, std::string Model)
+			Skin (int PaintKit, int ItemDefinitionIndex, int Seed, float Wear, int StatTrak, std::string CustomName, std::string Model)
 			{
 				this->PaintKit = PaintKit;
+				this->Seed = Seed;
 				this->ItemDefinitionIndex = ItemDefinitionIndex;
 				this->Wear = Wear;
 				this->StatTrak = StatTrak;

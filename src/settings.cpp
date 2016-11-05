@@ -196,6 +196,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	{
 		settings["Skinchanger"]["skins"][std::to_string(i.first)]["PaintKit"] = i.second.PaintKit;
 		settings["Skinchanger"]["skins"][std::to_string(i.first)]["ItemDefinitionIndex"] = i.second.ItemDefinitionIndex;
+		settings["Skinchanger"]["skins"][std::to_string(i.first)]["Seed"] = i.second.Seed;
 		settings["Skinchanger"]["skins"][std::to_string(i.first)]["Wear"] = i.second.Wear;
 		settings["Skinchanger"]["skins"][std::to_string(i.first)]["StatTrak"] = i.second.StatTrak;
 		settings["Skinchanger"]["skins"][std::to_string(i.first)]["CustomName"] = i.second.CustomName;
@@ -361,6 +362,7 @@ void Settings::LoadSettings(const char* filename)
 		Settings::Skinchanger::Skin skin = Settings::Skinchanger::Skin(
 				settings["Skinchanger"]["skins"][itr.key().asString()]["PaintKit"].asInt(),
 				settings["Skinchanger"]["skins"][itr.key().asString()]["ItemDefinitionIndex"].asInt(),
+				settings["Skinchanger"]["skins"][itr.key().asString()]["Seed"].asInt(),
 				settings["Skinchanger"]["skins"][itr.key().asString()]["Wear"].asFloat(),
 				settings["Skinchanger"]["skins"][itr.key().asString()]["StatTrak"].asInt(),
 				settings["Skinchanger"]["skins"][itr.key().asString()]["CustomName"].asString(),
