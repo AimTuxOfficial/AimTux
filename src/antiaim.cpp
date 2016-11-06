@@ -65,6 +65,8 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 				angle.y += 140.0f;
 			else
 				angle.y -= 40.0f;
+
+			CreateMove::SendPacket = bFlip;
 		}
 		else if (Settings::AntiAim::type_Y == BACKWARDS_FAKE)
 		{
