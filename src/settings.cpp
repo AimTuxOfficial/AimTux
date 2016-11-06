@@ -260,7 +260,7 @@ void Settings::LoadSettings(const char* filename)
 	GetFloat(settings["Aimbot"]["Smooth"]["Salting"]["percentage"], &Settings::Aimbot::Smooth::Salting::percentage);
 	GetBool(settings["Aimbot"]["AutoAim"]["enabled"], &Settings::Aimbot::AutoAim::enabled);
 	GetBool(settings["Aimbot"]["AutoWall"]["enabled"], &Settings::Aimbot::AutoWall::enabled);
-	GetInt(settings["Aimbot"]["AutoWall"]["value"], &Settings::Aimbot::AutoWall::value);
+	GetFloat(settings["Aimbot"]["AutoWall"]["value"], &Settings::Aimbot::AutoWall::value);
 	Settings::Aimbot::AutoWall::bones.clear();
 	for (Json::ValueIterator itr = settings["Aimbot"]["AutoWall"]["bones"].begin(); itr != settings["Aimbot"]["AutoWall"]["bones"].end(); itr++)
 		Settings::Aimbot::AutoWall::bones.push_back((Hitbox) settings["Aimbot"]["AutoWall"]["bones"][itr.index()].asInt());

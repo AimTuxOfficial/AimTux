@@ -41,7 +41,7 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 	ts_autowall = new ToggleSwitch ("auto wall", BELOW (ba_autowall), 33, &Settings::Aimbot::AutoWall::enabled);
 	AddComponent (ts_autowall);
 
-	sl_autowall = new Slider_INT ("min damage", BELOW (ts_autowall), LOC (ba_autowall->size.x, 33), &Settings::Aimbot::AutoWall::value, 0.0f, 100.0f);
+	sl_autowall = new Slider ("min damage", BELOW (ts_autowall), LOC (ba_autowall->size.x, 33), &Settings::Aimbot::AutoWall::value, 0.0f, 100.0f);
 	AddComponent (sl_autowall);
 
 	lb_bone_select_multi = new MS_ListBox<Hitbox> ("Autowall bones", BELOW (sl_autowall), 170, &Settings::Aimbot::AutoWall::bones, std::vector<LB_Element>
