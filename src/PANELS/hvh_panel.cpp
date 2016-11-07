@@ -32,8 +32,10 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 		{
 			LB_Element ("UP", STATIC_UP),
 			LB_Element ("DOWN", STATIC_DOWN),
+#ifdef UNTRUSTED_SETTINGS
 			LB_Element ("FAKE UP", STATIC_UP_FAKE),
 			LB_Element ("FAKE DOWN", STATIC_DOWN_FAKE),
+#endif
 		}
 	);
 	AddComponent (lb_antiaim_x);
