@@ -34,8 +34,11 @@ VisualsPanel::VisualsPanel (Vector2D position, Vector2D size)
 	
 	ts_visibility_check = new ToggleSwitch ("visibility check", BELOW (ts_bones), 33, &Settings::ESP::visibility_check);
 	AddComponent (ts_visibility_check);
+    
+    ts_esp_friendly = new ToggleSwitch ("friendly", BELOW (ts_visibility_check), 33, &Settings::ESP::friendly);
+	AddComponent (ts_esp_friendly);
 
-	ba_crosshair = new Banner ("Crosshair", BELOW (ts_visibility_check), (size.x - 20) / 2 - 5);
+	ba_crosshair = new Banner ("Crosshair", BELOW (ts_esp_friendly), (size.x - 20) / 2 - 5);
 	AddComponent (ba_crosshair);
 	
 	ts_recoil_crosshair = new ToggleSwitch ("recoil crosshair", BELOW (ba_crosshair), 33, &Settings::Recoilcrosshair::enabled);

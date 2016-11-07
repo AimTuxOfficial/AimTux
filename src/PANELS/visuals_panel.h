@@ -18,6 +18,7 @@ private:
 	ToggleSwitch* ts_health;
 	ToggleSwitch* ts_bones;
 	ToggleSwitch* ts_visibility_check;
+    ToggleSwitch* ts_esp_friendly;
 	Banner*	ba_crosshair;
 	ToggleSwitch* ts_recoil_crosshair;
 	ToggleSwitch* ts_fov_crosshair;
