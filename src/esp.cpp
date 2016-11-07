@@ -6,6 +6,7 @@ Color Settings::ESP::enemy_color = Color(200, 0, 50);
 Color Settings::ESP::enemy_visible_color = Color(200, 200, 50);
 Color Settings::ESP::bones_color = Color(255, 255, 255);
 Color Settings::ESP::bomb_color = Color(200, 0, 50);
+bool Settings::ESP::friendly = true;
 bool Settings::ESP::Glow::enabled = false;
 Color Settings::ESP::Glow::ally_color = Color(0, 50, 200, 0);
 Color Settings::ESP::Glow::enemy_color = Color(200, 0, 50, 0);
@@ -164,7 +165,7 @@ void ESP::DrawPlayerBox(C_BaseEntity* entity)
 
 	if (playerTeam != entityTeam)
 		color = isVisible ? Settings::ESP::enemy_visible_color : Settings::ESP::enemy_color;
-	else
+	else 
 		color = Settings::ESP::ally_color;
 
 	if (Settings::ESP::Walls::type == FLAT_2D)
@@ -350,19 +351,22 @@ void ESP::DrawGlow()
 
 void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 {
-	if (!Settings::ESP::enabled)
+    
+    if (!Settings::ESP::enabled)
 		return;
 
 	if (!engine->IsInGame())
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer)
+	
+    if (!localplayer)
 		return;
 
 	for (int i = 1; i < entitylist->GetHighestEntityIndex(); ++i)
 	{
 		C_BaseEntity* entity = entitylist->GetClientEntity(i);
+        
 		if (!entity)
 			continue;
 
@@ -376,6 +380,9 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 				continue;
 
 			if (Settings::ESP::visibility_check && !Entity::IsVisible(entity, BONE_HEAD))
+				continue;
+            
+			if (!Settings::ESP::friendly && localplayer->GetTeam() == entity->GetTeam())
 				continue;
 
 			if ((localplayer->GetLifeState() != LIFE_ALIVE || localplayer->GetHealth() == 0)

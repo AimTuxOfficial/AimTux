@@ -128,13 +128,14 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["AntiAim"]["type_X"] = Settings::AntiAim::type_X;
 
 	settings["ESP"]["enabled"] = Settings::ESP::enabled;
-
+    
 	LoadColor(settings["ESP"]["ally_color"], Settings::ESP::ally_color);
 	LoadColor(settings["ESP"]["enemy_color"], Settings::ESP::enemy_color);
 	LoadColor(settings["ESP"]["enemy_visible_color"], Settings::ESP::enemy_visible_color);
 	LoadColor(settings["ESP"]["bones_color"], Settings::ESP::bones_color);
 	LoadColor(settings["ESP"]["bomb_color"], Settings::ESP::bomb_color);
 	settings["ESP"]["visibility_check"] = Settings::ESP::visibility_check;
+	settings["ESP"]["friendly"] = Settings::ESP::friendly;
 	settings["ESP"]["Glow"]["enabled"] = Settings::ESP::Glow::enabled;
 	LoadColor(settings["ESP"]["Glow"]["ally_color"], Settings::ESP::Glow::ally_color);
 	LoadColor(settings["ESP"]["Glow"]["enemy_color"], Settings::ESP::Glow::enemy_color);
@@ -313,6 +314,7 @@ void Settings::LoadSettings(const char* filename)
 	GetBool(settings["ESP"]["Weapons"]["enabled"], &Settings::ESP::Weapons::enabled);
 	GetBool(settings["ESP"]["FOVCrosshair"]["enabled"], &Settings::ESP::FOVCrosshair::enabled);
 	GetBool(settings["ESP"]["Chams"]["players"], &Settings::ESP::Chams::players);
+    GetBool(settings["ESP"]["Chams"]["friendly"], &Settings::ESP::Chams::friendly);
 	GetBool(settings["ESP"]["Chams"]["visibility_check"], &Settings::ESP::Chams::visibility_check);
 	GetBool(settings["ESP"]["Chams"]["arms"], &Settings::ESP::Chams::arms);
 	GetBool(settings["ESP"]["Chams"]["rainbow_arms"], &Settings::ESP::Chams::rainbow_arms);
