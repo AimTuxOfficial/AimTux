@@ -95,7 +95,7 @@ namespace Settings
 			extern bool enabled;
 			extern float value;
 			extern float max;
-			
+
 			namespace Salting
 			{
 				extern bool enabled;
@@ -183,6 +183,7 @@ namespace Settings
 	{
 		extern bool enabled;
 		extern bool visibility_check;
+		extern bool friendly;
 		extern Color ally_color;
 		extern Color enemy_color;
 		extern Color enemy_visible_color;
@@ -214,6 +215,9 @@ namespace Settings
 		{
 			extern bool showName;
 			extern bool showHealth;
+			extern Color ally_color;
+			extern Color enemy_visible_color;
+			extern Color enemy_color;
 		}
 
 		namespace Bones
@@ -273,7 +277,7 @@ namespace Settings
 		{
 			extern bool enabled;
 		}
-		
+
 		namespace NormalSpammer
 		{
 			extern bool enabled;
@@ -366,16 +370,16 @@ namespace Settings
 		extern bool animation;
 		extern bool enabled;
 	}
-	
+
 	namespace View
 	{
-		
+
 		namespace NoPunch
 		{
 			extern bool enabled;
 		}
 	}
-	
+
 	namespace NameChanger
 	{
 		extern bool enabled;

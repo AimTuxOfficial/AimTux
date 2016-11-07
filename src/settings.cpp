@@ -135,6 +135,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	LoadColor(settings["ESP"]["bones_color"], Settings::ESP::bones_color);
 	LoadColor(settings["ESP"]["bomb_color"], Settings::ESP::bomb_color);
 	settings["ESP"]["visibility_check"] = Settings::ESP::visibility_check;
+	settings["ESP"]["friendly"] = Settings::ESP::friendly;
 	settings["ESP"]["Glow"]["enabled"] = Settings::ESP::Glow::enabled;
 	LoadColor(settings["ESP"]["Glow"]["ally_color"], Settings::ESP::Glow::ally_color);
 	LoadColor(settings["ESP"]["Glow"]["enemy_color"], Settings::ESP::Glow::enemy_color);
@@ -146,6 +147,9 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["ESP"]["Walls"]["type"] = Settings::ESP::Walls::type;
 	settings["ESP"]["Info"]["showName"] = Settings::ESP::Info::showName;
 	settings["ESP"]["Info"]["showHealth"] = Settings::ESP::Info::showHealth;
+	LoadColor(settings["ESP"]["Info"]["ally_color"], Settings::ESP::Info::ally_color);
+	LoadColor(settings["ESP"]["Info"]["enemy_color"], Settings::ESP::Info::enemy_color);
+	LoadColor(settings["ESP"]["Info"]["enemy_visible_color"], Settings::ESP::Info::enemy_visible_color);
 	settings["ESP"]["Bones"]["enabled"] = Settings::ESP::Bones::enabled;
 	settings["ESP"]["Bomb"]["enabled"] = Settings::ESP::Bomb::enabled;
 	settings["ESP"]["Weapons"]["enabled"] = Settings::ESP::Weapons::enabled;
@@ -297,6 +301,7 @@ void Settings::LoadSettings(const char* filename)
 	GetColor(settings["ESP"]["bones_color"], &Settings::ESP::bones_color);
 	GetColor(settings["ESP"]["bomb_color"], &Settings::ESP::bomb_color);
 	GetBool(settings["ESP"]["visibility_check"], &Settings::ESP::visibility_check);
+	GetBool(settings["ESP"]["friendly"], &Settings::ESP::friendly);
 	GetBool(settings["ESP"]["Glow"]["enabled"], &Settings::ESP::Glow::enabled);
 	GetColor(settings["ESP"]["Glow"]["ally_color"], &Settings::ESP::Glow::ally_color);
 	GetColor(settings["ESP"]["Glow"]["enemy_color"], &Settings::ESP::Glow::enemy_color);
@@ -308,6 +313,9 @@ void Settings::LoadSettings(const char* filename)
 	GetInt(settings["ESP"]["Walls"]["type"], &Settings::ESP::Walls::type);
 	GetBool(settings["ESP"]["Info"]["showName"], &Settings::ESP::Info::showName);
 	GetBool(settings["ESP"]["Info"]["showHealth"], &Settings::ESP::Info::showHealth);
+	GetColor(settings["ESP"]["Info"]["ally_color"], &Settings::ESP::Info::ally_color);
+	GetColor(settings["ESP"]["Info"]["enemy_color"], &Settings::ESP::Info::enemy_color);
+	GetColor(settings["ESP"]["Info"]["enemy_visible_color"], &Settings::ESP::Info::enemy_visible_color);
 	GetBool(settings["ESP"]["Bones"]["enabled"], &Settings::ESP::Bones::enabled);
 	GetBool(settings["ESP"]["Bomb"]["enabled"], &Settings::ESP::Bomb::enabled);
 	GetBool(settings["ESP"]["Weapons"]["enabled"], &Settings::ESP::Weapons::enabled);
