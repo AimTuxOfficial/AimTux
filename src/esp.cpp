@@ -207,14 +207,11 @@ void ESP::DrawPlayerBox(C_BaseEntity* entity)
 
 void ESP::DrawPlayerInfo(C_BaseEntity* entity, int entityIndex)
 {
-
 	bool isVisible = Entity::IsVisible(entity, BONE_HEAD);
-
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-
 	Color color;
 
-	if(localplayer->GetTeam() != entity->GetTeam())
+	if (localplayer->GetTeam() != entity->GetTeam())
 		color = isVisible ? Settings::ESP::Info::enemy_visible_color : Settings::ESP::Info::enemy_color;
 	else
 		color = Settings::ESP::Info::ally_color;
