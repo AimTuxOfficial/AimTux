@@ -25,9 +25,6 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		Teleport::CreateMove(cmd);
 		FakeLag::CreateMove(cmd);
 		PredictionSystem::EndPrediction();
-
-		if (!Settings::Aimbot::silent && !Settings::AntiAim::enabled_X && !Settings::AntiAim::enabled_Y)
-			engine->SetViewAngles(cmd->viewangles);
 	}
 
 	return false;
