@@ -380,10 +380,10 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 				continue;
 
 			if (Settings::ESP::visibility_check && !Entity::IsVisible(entity, BONE_HEAD))
-                continue;
+				continue;
             
-            if (!Settings::ESP::friendly && localplayer->GetTeam() == entity->GetTeam())
-                continue;
+			if (!Settings::ESP::friendly && localplayer->GetTeam() == entity->GetTeam())
+				continue;
 
 			if ((localplayer->GetLifeState() != LIFE_ALIVE || localplayer->GetHealth() == 0)
 				&& entitylist->GetClientEntityFromHandle(localplayer->GetObserverTarget()) == entity)
