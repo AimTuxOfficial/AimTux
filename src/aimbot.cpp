@@ -359,6 +359,9 @@ void Aimbot::ShootCheck(C_BaseCombatWeapon* active_weapon, CUserCmd* cmd)
 	if (!Settings::AntiAim::enabled_X && !Settings::AntiAim::enabled_Y)
 		return;
 
+	if (!Settings::Aimbot::silent)
+		return;
+
 	if (!(cmd->buttons & IN_ATTACK))
 		return;
 	
