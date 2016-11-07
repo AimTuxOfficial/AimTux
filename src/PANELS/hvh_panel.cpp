@@ -18,7 +18,9 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 			LB_Element ("BACKWARDS", BACKWARDS),
 			LB_Element ("FAKE4", FAKE4),
 			LB_Element ("FAKE BACKWARDS", BACKWARDS_FAKE),
-			LB_Element ("FAKE SIDE FLIP", SIDE_FLIP_FAKE)
+			LB_Element ("FAKE SIDE FLIP", SIDE_FLIP_FAKE),
+			LB_Element ("FAKE SIDE L", SIDE_FAKE_LEFT),
+			LB_Element ("FAKE SIDE R", SIDE_FAKE_RIGHT)
 		}
 	);
 	AddComponent (lb_antiaim_y);
