@@ -135,7 +135,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	LoadColor(settings["ESP"]["bones_color"], Settings::ESP::bones_color);
 	LoadColor(settings["ESP"]["bomb_color"], Settings::ESP::bomb_color);
 	settings["ESP"]["visibility_check"] = Settings::ESP::visibility_check;
-    settings["ESP"]["friendly"] = Settings::ESP::friendly;
+	settings["ESP"]["friendly"] = Settings::ESP::friendly;
 	settings["ESP"]["Glow"]["enabled"] = Settings::ESP::Glow::enabled;
 	LoadColor(settings["ESP"]["Glow"]["ally_color"], Settings::ESP::Glow::ally_color);
 	LoadColor(settings["ESP"]["Glow"]["enemy_color"], Settings::ESP::Glow::enemy_color);
