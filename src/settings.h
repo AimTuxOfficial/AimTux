@@ -25,9 +25,9 @@ enum AntiAimType_Y : unsigned int
 	BACKWARDS,
 	FAKE4,
 	BACKWARDS_FAKE,
-	SIDE_FLIP_FAKE,
+    SIDE_FLIP_FAKE,
 	SIDE_FAKE_LEFT,
-	SIDE_FAKE_RIGHT
+    SIDE_FAKE_RIGHT
 };
 
 enum AntiAimType_X : unsigned int
@@ -183,6 +183,7 @@ namespace Settings
 	{
 		extern bool enabled;
 		extern bool visibility_check;
+        extern bool friendly;
 		extern Color ally_color;
 		extern Color enemy_color;
 		extern Color enemy_visible_color;
@@ -244,6 +245,7 @@ namespace Settings
 			extern bool rainbow_arms;
 			extern bool wireframe_arms;
 			extern bool no_arms;
+            extern bool friendly;
 			extern Color players_ally_color;
 			extern Color players_ally_visible_color;
 			extern Color players_enemy_color;
