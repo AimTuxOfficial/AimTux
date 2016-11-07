@@ -5,10 +5,10 @@ VisualsPanel::VisualsPanel (Vector2D position, Vector2D size)
 {
 	ts_esp_enabled = new ToggleSwitch ("enabled", LOC (10, 10), 33, &Settings::ESP::enabled);
 	AddComponent (ts_esp_enabled);
-	
+
 	ba_esp = new Banner ("ESP", BELOW (ts_esp_enabled), (size.x - 20) / 2 - 5);
 	AddComponent (ba_esp);
-	
+
 	ts_walls = new ToggleSwitch ("walls", BELOW (ba_esp), 33, &Settings::ESP::Walls::enabled);
 	AddComponent (ts_walls);
 
@@ -19,28 +19,31 @@ VisualsPanel::VisualsPanel (Vector2D position, Vector2D size)
 			}
 	);
 	AddComponent (lb_wallstype);
-	
+
 	ts_tracer = new ToggleSwitch ("tracer", BELOW (lb_wallstype), 33, &Settings::ESP::Tracer::enabled);
 	AddComponent (ts_tracer);
-	
+
 	ts_name = new ToggleSwitch ("show name", BELOW (ts_tracer), 33, &Settings::ESP::Info::showName);
 	AddComponent (ts_name);
-	
+
 	ts_health = new ToggleSwitch ("show health", BELOW (ts_name), 33, &Settings::ESP::Info::showHealth);
 	AddComponent (ts_health);
-	
+
 	ts_bones = new ToggleSwitch ("show bones", BELOW (ts_health), 33, &Settings::ESP::Bones::enabled);
 	AddComponent (ts_bones);
-	
+
 	ts_visibility_check = new ToggleSwitch ("visibility check", BELOW (ts_bones), 33, &Settings::ESP::visibility_check);
 	AddComponent (ts_visibility_check);
 
-	ba_crosshair = new Banner ("Crosshair", BELOW (ts_visibility_check), (size.x - 20) / 2 - 5);
+	ts_friendly = new ToggleSwitch ("friendly", BELOW (ts_visibility_check), 33, &Settings::ESP::friendly);
+	AddComponent (ts_friendly);
+
+	ba_crosshair = new Banner ("Crosshair", BELOW (ts_friendly), (size.x - 20) / 2 - 5);
 	AddComponent (ba_crosshair);
-	
+
 	ts_recoil_crosshair = new ToggleSwitch ("recoil crosshair", BELOW (ba_crosshair), 33, &Settings::Recoilcrosshair::enabled);
 	AddComponent (ts_recoil_crosshair);
-	
+
 	ts_fov_crosshair = new ToggleSwitch ("fov crosshair", BELOW (ts_recoil_crosshair), 33, &Settings::ESP::FOVCrosshair::enabled);
 	AddComponent (ts_fov_crosshair);
 
@@ -90,9 +93,9 @@ VisualsPanel::VisualsPanel (Vector2D position, Vector2D size)
 
 	sl_dlights = new Slider ("radius", STACK (ts_dlights), LOC ((size.x / 2) - ts_dlights->size.x - 30, 33), &Settings::Dlights::radius, 0.0f, 1000.0f);
 	AddComponent (sl_dlights);
-	
+
 	ts_view_norecoil = new ToggleSwitch ("no view punch", BELOW (ts_dlights), 33, &Settings::View::NoPunch::enabled);
 	AddComponent (ts_view_norecoil);
-	
+
 	Hide ();
 }

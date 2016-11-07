@@ -7,6 +7,7 @@ Color Settings::ESP::enemy_visible_color = Color(200, 200, 50);
 Color Settings::ESP::bones_color = Color(255, 255, 255);
 Color Settings::ESP::bomb_color = Color(200, 0, 50);
 bool Settings::ESP::Glow::enabled = false;
+bool Settings::ESP::friendly = true;
 Color Settings::ESP::Glow::ally_color = Color(0, 50, 200, 0);
 Color Settings::ESP::Glow::enemy_color = Color(200, 0, 50, 0);
 Color Settings::ESP::Glow::enemy_visible_color = Color(200, 200, 50, 0);
@@ -16,6 +17,9 @@ bool Settings::ESP::Walls::enabled = false;
 WallBoxType Settings::ESP::Walls::type = FLAT_2D;
 bool Settings::ESP::Info::showName = true;
 bool Settings::ESP::Info::showHealth = false;
+Color Settings::ESP::Info::ally_color = Color(0, 50, 200);
+Color Settings::ESP::Info::enemy_color = Color(200, 0, 50);
+Color Settings::ESP::Info::enemy_visible_color = Color(200, 200, 50);
 bool Settings::ESP::Bones::enabled = false;
 bool Settings::ESP::Bomb::enabled = true;
 bool Settings::ESP::Weapons::enabled = false;
@@ -203,7 +207,14 @@ void ESP::DrawPlayerBox(C_BaseEntity* entity)
 
 void ESP::DrawPlayerInfo(C_BaseEntity* entity, int entityIndex)
 {
-	Color color = Color(225, 225, 225, 255);
+	bool isVisible = Entity::IsVisible(entity, BONE_HEAD);
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	Color color;
+
+	if (localplayer->GetTeam() != entity->GetTeam())
+		color = isVisible ? Settings::ESP::Info::enemy_visible_color : Settings::ESP::Info::enemy_color;
+	else
+		color = Settings::ESP::Info::ally_color;
 
 	IEngineClient::player_info_t entityInformation;
 	engine->GetPlayerInfo(entityIndex, &entityInformation);
@@ -376,6 +387,9 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 				continue;
 
 			if (Settings::ESP::visibility_check && !Entity::IsVisible(entity, BONE_HEAD))
+				continue;
+
+			if (!Settings::ESP::friendly && localplayer->GetTeam() == entity->GetTeam())
 				continue;
 
 			if ((localplayer->GetLifeState() != LIFE_ALIVE || localplayer->GetHealth() == 0)
