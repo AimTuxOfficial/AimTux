@@ -151,21 +151,15 @@ void Aimbot::RCS(QAngle& angle, C_BaseEntity* entity, CUserCmd* cmd)
 	if (isSilent || hasTarget)
 	{
 		angle -= CurrentPunch * Settings::Aimbot::RCS::value;
-		RCSLastPunch = CurrentPunch;
-		return;
 	}
-
-	if (localplayer->GetShotsFired() > 1)
+	else if (localplayer->GetShotsFired() > 1)
 	{
-		QAngle NewPunch = {CurrentPunch.x - RCSLastPunch.x, CurrentPunch.y - RCSLastPunch.y, 0};
+		QAngle NewPunch = { CurrentPunch.x - RCSLastPunch.x, CurrentPunch.y - RCSLastPunch.y, 0 };
 
 		angle -= NewPunch * Settings::Aimbot::RCS::value;
-		RCSLastPunch = CurrentPunch;
 	}
-	else
-	{
-		RCSLastPunch = { 0, 0, 0 };
-	}
+
+	RCSLastPunch = CurrentPunch;
 }
 
 void Aimbot::AimStep(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
