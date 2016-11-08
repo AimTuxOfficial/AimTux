@@ -1,9 +1,4 @@
-#include <string>
-#include <map>
-#include <algorithm>
-
 #include "util_input.h"
-#include "SDK/SDK.h"
 
 namespace Util {
 	namespace Input {
@@ -165,27 +160,18 @@ namespace Util {
 					});
 
 			if (iterator == ButtonCodeNames.end())
-			{
 				return "BUTTON_CODE_INVALID";
-			}
-			else 
-			{
-				return iterator->first;
-			}
+
+			return iterator->first;
 		}
 
 		const enum ButtonCode_t GetButtonCode(const std::string buttonName)
 		{
 			auto result = ButtonCodeNames.find(buttonName);
-
 			if (result != ButtonCodeNames.end())
-			{
 				return result->second;
-			}
-			else
-			{
-				return ButtonCode_t::BUTTON_CODE_INVALID;
-			}
+
+			return ButtonCode_t::BUTTON_CODE_INVALID;
 		}
 
 	}

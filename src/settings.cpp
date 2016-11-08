@@ -54,14 +54,10 @@ void GetButtonCode(Json::Value &config, enum ButtonCode_t* setting)
 
 	// XXX Compatibility shim for old configs using numeric Button Codes
 	enum ButtonCode_t ord;
-	if (config.isString()) // new way of doing things 
-	{
+	if (config.isString()) // new way of doing things
 		ord = Util::Input::GetButtonCode(config.asString());
-	}
 	else // old -- get rid of this at some point, waste of time
-	{
 		ord = (enum ButtonCode_t) config.asInt(); // something something enum width
-	}
 
 	*setting = ord;
 }
