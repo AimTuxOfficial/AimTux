@@ -1,5 +1,7 @@
 #include "settings.h"
 #include "interfaces.h"
+#include "SDK/SDK.h"
+#include "util_input.h"
 
 char* GetSettingsPath(const char* filename)
 {
@@ -45,6 +47,25 @@ void GetInt(Json::Value &config, Type* setting)
 	*setting = (Type) config.asInt();
 }
 
+void GetButtonCode(Json::Value &config, enum ButtonCode_t* setting)
+{
+	if (config.isNull())
+		return;
+
+	// XXX Compatibility shim for old configs using numeric Button Codes
+	enum ButtonCode_t ord;
+	if (config.isString()) // new way of doing things 
+	{
+		ord = Util::Input::GetButtonCode(config.asString());
+	}
+	else // old -- get rid of this at some point, waste of time
+	{
+		ord = (enum ButtonCode_t) config.asInt(); // something something enum width
+	}
+
+	*setting = ord;
+}
+
 void GetFloat(Json::Value &config, float* setting)
 {
 	if (config.isNull())
@@ -72,6 +93,8 @@ void LoadColor(Json::Value &config, Color color)
 
 void Settings::LoadDefaultsOrSave(const char* filename)
 {
+	using Util::Input::GetButtonName;
+
 	Json::Value settings;
 	Json::StyledWriter styledWriter;
 
@@ -89,7 +112,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["Aimbot"]["fov"] = Settings::Aimbot::fov;
 	settings["Aimbot"]["errorMargin"] = Settings::Aimbot::errorMargin;
 	settings["Aimbot"]["bone"] = Settings::Aimbot::bone;
-	settings["Aimbot"]["aimkey"] = Settings::Aimbot::aimkey;
+	settings["Aimbot"]["aimkey"] = GetButtonName(Settings::Aimbot::aimkey);
 	settings["Aimbot"]["aimkey_only"] = Settings::Aimbot::aimkey_only;
 	settings["Aimbot"]["Smooth"]["enabled"] = Settings::Aimbot::Smooth::enabled;
 	settings["Aimbot"]["Smooth"]["value"] = Settings::Aimbot::Smooth::value;
@@ -112,7 +135,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["Aimbot"]["AutoStop"]["enabled"] = Settings::Aimbot::AutoStop::enabled;
 
 	settings["Triggerbot"]["enabled"] = Settings::Triggerbot::enabled;
-	settings["Triggerbot"]["key"] = Settings::Triggerbot::key;
+	settings["Triggerbot"]["key"] = GetButtonName(Settings::Triggerbot::key);
 	settings["Triggerbot"]["Filter"]["friendly"] = Settings::Triggerbot::Filter::friendly;
 	settings["Triggerbot"]["Filter"]["head"] = Settings::Triggerbot::Filter::head;
 	settings["Triggerbot"]["Filter"]["chest"] = Settings::Triggerbot::Filter::chest;
@@ -193,7 +216,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["FOVChanger"]["viewmodel_value"] = Settings::FOVChanger::viewmodel_value;
 
 	settings["Airstuck"]["enabled"] = Settings::Airstuck::enabled;
-	settings["Airstuck"]["key"] = Settings::Airstuck::key;
+	settings["Airstuck"]["key"] = GetButtonName(Settings::Airstuck::key);
 
 	settings["Skinchanger"]["enabled"] = Settings::Skinchanger::enabled;
 	for (auto i : Settings::Skinchanger::skins)
@@ -219,7 +242,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["NameChanger"]["last_blank"] = Settings::NameChanger::last_blank;
 
 	settings["Teleport"]["enabled"] = Settings::Teleport::enabled;
-	settings["Teleport"]["key"] = Settings::Teleport::key;
+	settings["Teleport"]["key"] = GetButtonName(Settings::Teleport::key);
 
 	settings["FakeLag"]["enabled"] = Settings::FakeLag::enabled;
 
@@ -256,7 +279,7 @@ void Settings::LoadSettings(const char* filename)
 	GetFloat(settings["Aimbot"]["fov"], &Settings::Aimbot::fov);
 	GetFloat(settings["Aimbot"]["errorMargin"], &Settings::Aimbot::errorMargin);
 	GetInt(settings["Aimbot"]["bone"], &Settings::Aimbot::bone);
-	GetInt(settings["Aimbot"]["aimkey"], &Settings::Aimbot::aimkey);
+	GetButtonCode(settings["Aimbot"]["aimkey"], &Settings::Aimbot::aimkey);
 	GetBool(settings["Aimbot"]["aimkey_only"], &Settings::Aimbot::aimkey_only);
 	GetBool(settings["Aimbot"]["Smooth"]["enabled"], &Settings::Aimbot::Smooth::enabled);
 	GetFloat(settings["Aimbot"]["Smooth"]["value"], &Settings::Aimbot::Smooth::value);
@@ -279,7 +302,7 @@ void Settings::LoadSettings(const char* filename)
 	GetBool(settings["Aimbot"]["AutoStop"]["enabled"], &Settings::Aimbot::AutoStop::enabled);
 
 	GetBool(settings["Triggerbot"]["enabled"], &Settings::Triggerbot::enabled);
-	GetInt(settings["Triggerbot"]["key"], &Settings::Triggerbot::key);
+	GetButtonCode(settings["Triggerbot"]["key"], &Settings::Triggerbot::key);
 	GetBool(settings["Triggerbot"]["Filter"]["friendly"], &Settings::Triggerbot::Filter::friendly);
 	GetBool(settings["Triggerbot"]["Filter"]["head"], &Settings::Triggerbot::Filter::head);
 	GetBool(settings["Triggerbot"]["Filter"]["chest"], &Settings::Triggerbot::Filter::chest);
@@ -359,7 +382,7 @@ void Settings::LoadSettings(const char* filename)
 	GetFloat(settings["FOVChanger"]["viewmodel_value"], &Settings::FOVChanger::viewmodel_value);
 
 	GetBool(settings["Airstuck"]["enabled"], &Settings::Airstuck::enabled);
-	GetInt(settings["Airstuck"]["key"], &Settings::Airstuck::key);
+	GetButtonCode(settings["Airstuck"]["key"], &Settings::Airstuck::key);
 
 	Settings::Skinchanger::enabled = false;
 	Settings::Skinchanger::skins.clear();
@@ -396,7 +419,7 @@ void Settings::LoadSettings(const char* filename)
 	GetBool(settings["NameChanger"]["last_blank"], &Settings::NameChanger::last_blank);
 
 	GetBool(settings["Teleport"]["enabled"], &Settings::Teleport::enabled);
-	GetInt(settings["Teleport"]["key"], &Settings::Teleport::key);
+	GetButtonCode(settings["Teleport"]["key"], &Settings::Teleport::key);
 
 	GetBool(settings["FakeLag"]["enabled"], &Settings::FakeLag::enabled);
 }
