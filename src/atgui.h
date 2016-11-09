@@ -8,6 +8,7 @@
 #include "PANELS/visuals_panel.h"
 #include "PANELS/hvh_panel.h"
 #include "PANELS/misc_panel.h"
+#include "PANELS/skinchange_panel.h"
 #include "WINDOWS/main_window.h"
 #include "WINDOWS/popup_window.h"
 

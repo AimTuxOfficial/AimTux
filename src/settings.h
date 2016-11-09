@@ -51,6 +51,20 @@ enum WallBoxType : unsigned int
 	BOX_3D
 };
 
+enum KnifeType : int
+{
+	BAYONET = 500,
+	FLIP = 505,
+	GUT = 506,
+	KARAMBIT = 507,
+	M9_BAYONET = 508,
+	TACTICAL = 509,
+	FALCHION = 512,
+	SURVIVAL_BOWIE = 514,
+	BUTTERFLY = 515,
+	PUSH = 516
+};
+
 namespace Settings
 {
 	namespace UI
@@ -353,6 +367,11 @@ namespace Settings
 
 		extern bool enabled;
 		extern std::unordered_map<int, Skin> skins;
+
+		namespace Knife
+		{
+			extern KnifeType type;
+		}
 	}
 
 	namespace ShowRanks
