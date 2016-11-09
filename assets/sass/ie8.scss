@@ -1,0 +1,210 @@
+@import 'libs/vars';
+@import 'libs/functions';
+@import 'libs/mixins';
+@import 'libs/skel';
+
+	$color-border: mix(_palette(bg), _palette(fg-bold), 70);
+	$color-border-bg: mix(_palette(bg), _palette(fg-bold), 90);
+
+/* Basic */
+
+	body {
+		color: _palette(fg-bold);
+	}
+
+	body, html, #page-wrapper {
+		height: 100%;
+	}
+
+	blockquote {
+		border-left: solid 4px $color-border;
+	}
+
+	code {
+		background: $color-border-bg;
+	}
+
+	hr {
+		border-bottom: solid 1px $color-border;
+	}
+
+/* Icon */
+
+	.icon {
+		&.major {
+			-ms-behavior: url('assets/js/ie/PIE.htc');
+		}
+	}
+
+/* Image */
+
+	.image {
+		position: relative;
+		-ms-behavior: url('assets/js/ie/PIE.htc');
+
+		&:before {
+			display: none;
+		}
+
+		img {
+			position: relative;
+			-ms-behavior: url('assets/js/ie/PIE.htc');
+		}
+	}
+
+/* Form */
+
+	input[type="text"],
+	input[type="password"],
+	input[type="email"],
+	select,
+	textarea {
+		position: relative;
+		-ms-behavior: url('assets/js/ie/PIE.htc');
+
+		&:focus {
+			-ms-behavior: url('assets/js/ie/PIE.htc');
+		}
+	}
+
+	input[type="text"],
+	input[type="password"],
+	input[type="email"] {
+		line-height: _size(element-height);
+	}
+
+	input[type="checkbox"],
+	input[type="radio"] {
+		font-size: 3em;
+		& + label {
+			&:before {
+				display: none;
+			}
+		}
+	}
+
+/* Table */
+
+	table {
+		tbody {
+			tr {
+				border: solid 1px $color-border;
+			}
+		}
+
+		thead {
+			border-bottom: solid 1px $color-border;
+		}
+
+		tfoot {
+			border-top: solid 1px $color-border;
+		}
+
+		&.alt {
+			tbody {
+				tr {
+					td {
+						border: solid 1px $color-border;
+					}
+				}
+			}
+		}
+	}
+
+/* Button */
+
+	input[type="submit"],
+	input[type="reset"],
+	input[type="button"],
+	.button {
+		border: solid 1px _palette(fg-bold) !important;
+
+		&.special {
+			border: 0 !important;
+		}
+	}
+
+/* Goto Next */
+
+	.goto-next {
+		display: none;
+	}
+
+/* Spotlight */
+
+	.spotlight {
+		height: 100%;
+
+		.content {
+			background: _palette(accent2);
+		}
+	}
+
+/* Wrapper */
+
+	.wrapper {
+		&.style2 {
+			input[type="text"],
+			input[type="password"],
+			input[type="email"],
+			select,
+			textarea {
+				&:focus {
+					border-color: _palette(fg-bold);
+				}
+			}
+
+			input[type="submit"],
+			input[type="reset"],
+			input[type="button"],
+			.button {
+				&.special {
+					&:hover, &:active {
+						color: _palette(accent1) !important;
+					}
+				}
+			}
+		}
+	}
+
+/* Dropotron */
+
+	.dropotron {
+		background: _palette(accent2);
+		box-shadow: none !important;
+		-ms-behavior: url('assets/js/ie/PIE.htc');
+
+		> li {
+			a, span {
+				color: _palette(fg-bold) !important;
+			}
+		}
+
+		&.level-0 {
+			margin-top: 0;
+
+			&:before {
+				display: none;
+			}
+		}
+	}
+
+/* Header */
+
+	#header {
+		background: _palette(accent2);
+	}
+
+/* Banner */
+
+	#banner {
+		height: 100%;
+
+		&:before {
+			height: 100%;
+		}
+
+		&:after {
+			background-image: url('images/ie/banner-overlay.png');
+		}
+	}

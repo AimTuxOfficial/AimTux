@@ -1,0 +1,50 @@
+@import 'libs/vars';
+@import 'libs/functions';
+@import 'libs/mixins';
+@import 'libs/skel';
+
+/* Loader */
+
+	body.landing {
+		&:before, &:after {
+			display: none !important;
+		}
+	}
+
+/* Icon */
+
+	.icon {
+		&.alt {
+			color: inherit !important;
+		}
+
+		&.major {
+			&.alt {
+				&:before {
+					color: _palette(fg-bold) !important;
+				}
+			}
+		}
+	}
+
+/* Banner */
+
+	#banner {
+		&:after {
+			background-color: _palette(bg-transparent);
+		}
+	}
+
+/* Footer */
+
+	#footer {
+		.icons {
+			.icon {
+				&.alt {
+					&:before {
+						color: _palette(fg-bold) !important;
+					}
+				}
+			}
+		}
+	}
