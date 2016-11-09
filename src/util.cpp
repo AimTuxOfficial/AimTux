@@ -133,4 +133,3 @@ void Util::ProtectAddr(void* addr, int prot)
 
 	mprotect(address, sizeof(address), prot);
 }
-

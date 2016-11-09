@@ -1,5 +1,4 @@
 #include "util_input.h"
-#include "util.h"
 
 namespace Util {
 	namespace Input {
@@ -153,14 +152,26 @@ namespace Util {
 			{"KEY_XSTICK2_UP",				b::KEY_XSTICK2_UP}
 		};  // ButtonCodeNames
 
-		std::string GetButtonName(const enum ButtonCode_t buttonCode)
+		const std::string GetButtonName(const enum ButtonCode_t buttonCode)
 		{
-			return Util::MapReverseSearchOrDefault<std::string, enum ButtonCode_t>(&ButtonCodeNames, buttonCode, "BUTTON_CODE_INVALID");
+			auto iterator = std::find_if(ButtonCodeNames.begin(), ButtonCodeNames.end(), 
+					[buttonCode](const std::pair<std::string, enum ButtonCode_t>& pair) {
+						return pair.second == buttonCode;
+					});
+
+			if (iterator == ButtonCodeNames.end())
+				return "BUTTON_CODE_INVALID";
+
+			return iterator->first;
 		}
 
-		enum ButtonCode_t GetButtonCode(const std::string buttonName)
+		const enum ButtonCode_t GetButtonCode(const std::string buttonName)
 		{
-			return Util::MapSearchOrDefault<std::string, enum ButtonCode_t>(&ButtonCodeNames, buttonName, ButtonCode_t::BUTTON_CODE_INVALID);
+			auto result = ButtonCodeNames.find(buttonName);
+			if (result != ButtonCodeNames.end())
+				return result->second;
+
+			return ButtonCode_t::BUTTON_CODE_INVALID;
 		}
 
 	}
