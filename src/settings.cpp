@@ -2,6 +2,7 @@
 #include "interfaces.h"
 #include "SDK/SDK.h"
 #include "util_input.h"
+#include "util_items.h"
 
 char* GetSettingsPath(const char* filename)
 {
@@ -47,19 +48,24 @@ void GetInt(Json::Value &config, Type* setting)
 	*setting = (Type) config.asInt();
 }
 
-void GetButtonCode(Json::Value &config, enum ButtonCode_t* setting)
+template <typename Ord, Ord (*lookupFunction)(std::string)>
+void GetOrdinal(Json::Value& config, Ord* setting)
 {
 	if (config.isNull())
 		return;
 
-	// XXX Compatibility shim for old configs using numeric Button Codes
-	enum ButtonCode_t ord;
-	if (config.isString()) // new way of doing things
-		ord = Util::Input::GetButtonCode(config.asString());
-	else // old -- get rid of this at some point, waste of time
-		ord = (enum ButtonCode_t) config.asInt(); // something something enum width
+	Ord value;
+	if (config.isString())
+		value = lookupFunction(config.asString());
+	else 
+		value = (Ord) config.asInt();
 
-	*setting = ord;
+	*setting = value;
+}
+
+void GetButtonCode(Json::Value &config, enum ButtonCode_t* setting)
+{
+	GetOrdinal<enum ButtonCode_t, Util::Input::GetButtonCode>(config, setting);
 }
 
 void GetFloat(Json::Value &config, float* setting)
@@ -217,13 +223,18 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["Skinchanger"]["enabled"] = Settings::Skinchanger::enabled;
 	for (auto i : Settings::Skinchanger::skins)
 	{
-		settings["Skinchanger"]["skins"][std::to_string(i.first)]["PaintKit"] = i.second.PaintKit;
-		settings["Skinchanger"]["skins"][std::to_string(i.first)]["ItemDefinitionIndex"] = i.second.ItemDefinitionIndex;
-		settings["Skinchanger"]["skins"][std::to_string(i.first)]["Seed"] = i.second.Seed;
-		settings["Skinchanger"]["skins"][std::to_string(i.first)]["Wear"] = i.second.Wear;
-		settings["Skinchanger"]["skins"][std::to_string(i.first)]["StatTrak"] = i.second.StatTrak;
-		settings["Skinchanger"]["skins"][std::to_string(i.first)]["CustomName"] = i.second.CustomName;
-		settings["Skinchanger"]["skins"][std::to_string(i.first)]["Model"] = i.second.Model;
+		// TODO this is kind of a hack and i'm too tired to find a better way to do this
+		// yes i tried defining a variable, skinSetting, and giving it the same value but woooooo operator overloading
+		// in C++ and weird shit 
+		#define skinSetting settings["Skinchanger"]["skins"][Util::Items::GetItemName((enum ItemDefinitionIndex) i.first)]
+		skinSetting["PaintKit"] = i.second.PaintKit;
+		skinSetting["ItemDefinitionIndex"] = Util::Items::GetItemName((enum ItemDefinitionIndex) i.second.ItemDefinitionIndex);
+		skinSetting["Seed"] = i.second.Seed;
+		skinSetting["Wear"] = i.second.Wear;
+		skinSetting["StatTrak"] = i.second.StatTrak;
+		skinSetting["CustomName"] = i.second.CustomName;
+		skinSetting["Model"] = i.second.Model;
+		#undef skinSetting
 	}
 
 	settings["ShowRanks"]["enabled"] = Settings::ShowRanks::enabled;
@@ -385,15 +396,32 @@ void Settings::LoadSettings(const char* filename)
 
 	for (Json::ValueIterator itr = settings["Skinchanger"]["skins"].begin(); itr != settings["Skinchanger"]["skins"].end(); itr++)
 	{
-		int weaponID = std::stoi(itr.key().asString());
+		std::string skinDataKey = itr.key().asString();
+		auto skinSetting = settings["Skinchanger"]["skins"][skinDataKey];
+
+		// XXX Using exception handling to deal with this is stupid, but I don't care to find a better solution
+		// XXX We can't use GetOrdinal() since the key type is a string...
+		int weaponID;
+		try 
+		{
+			weaponID 	= std::stoi(skinDataKey);
+		}
+		catch(std::invalid_argument) // Not a number 
+		{
+			weaponID	= Util::Items::GetItemIndex(skinDataKey);
+		}
+
+		enum ItemDefinitionIndex defIndex;
+		GetOrdinal<enum ItemDefinitionIndex, Util::Items::GetItemIndex>(skinSetting["ItemDefinitionIndex"], &defIndex);
+
 		Settings::Skinchanger::Skin skin = Settings::Skinchanger::Skin(
-				settings["Skinchanger"]["skins"][itr.key().asString()]["PaintKit"].asInt(),
-				settings["Skinchanger"]["skins"][itr.key().asString()]["ItemDefinitionIndex"].asInt(),
-				settings["Skinchanger"]["skins"][itr.key().asString()]["Seed"].asInt(),
-				settings["Skinchanger"]["skins"][itr.key().asString()]["Wear"].asFloat(),
-				settings["Skinchanger"]["skins"][itr.key().asString()]["StatTrak"].asInt(),
-				settings["Skinchanger"]["skins"][itr.key().asString()]["CustomName"].asString(),
-				settings["Skinchanger"]["skins"][itr.key().asString()]["Model"].asString()
+				skinSetting["PaintKit"].asInt(),
+				defIndex,
+				skinSetting["Seed"].asInt(),
+				skinSetting["Wear"].asFloat(),
+				skinSetting["StatTrak"].asInt(),
+				skinSetting["CustomName"].asString(),
+				skinSetting["Model"].asString()
 		);
 
 		Settings::Skinchanger::skins[weaponID] = skin;
