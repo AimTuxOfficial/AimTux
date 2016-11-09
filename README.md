@@ -1,4 +1,4 @@
-![banner](http://aimtux.net/gh-banner.png)
+![banner](https://raw.githubusercontent.com/McSwaggens/AimTux.net/master/AimTux%20Banner.png)
 
 ===================
 
