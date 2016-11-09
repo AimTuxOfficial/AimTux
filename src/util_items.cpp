@@ -4,6 +4,7 @@
 namespace Util {
 	namespace Items {
 		const enum ItemDefinitionIndex _invalid_item = (enum ItemDefinitionIndex) -1;
+
 		using i = enum ItemDefinitionIndex;
 		const std::map<std::string, enum ItemDefinitionIndex> ItemNames = {
 			{"ITEM_INVALID",				  _invalid_item}, // Convention (see config file)
