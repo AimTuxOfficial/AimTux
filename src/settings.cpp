@@ -220,9 +220,9 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	for (auto i : Settings::Skinchanger::skins)
 	{
 		// TODO this is kind of a hack and i'm too tired to find a better way to do this
-		//		yes i tried defining a variable, skinSetting, and giving it the same value but woooooo operator overloading
-		//		in C++ and weird shit 
-#		define skinSetting settings["Skinchanger"]["skins"][Util::Items::GetItemName((enum ItemDefinitionIndex) i.first)]
+		// yes i tried defining a variable, skinSetting, and giving it the same value but woooooo operator overloading
+		// in C++ and weird shit
+		#define skinSetting settings["Skinchanger"]["skins"][Util::Items::GetItemName((enum ItemDefinitionIndex) i.first)]
 		skinSetting["PaintKit"] = i.second.PaintKit;
 		skinSetting["ItemDefinitionIndex"] = Util::Items::GetItemName((enum ItemDefinitionIndex) i.second.ItemDefinitionIndex);
 		skinSetting["Seed"] = i.second.Seed;
@@ -230,7 +230,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 		skinSetting["StatTrak"] = i.second.StatTrak;
 		skinSetting["CustomName"] = i.second.CustomName;
 		skinSetting["Model"] = i.second.Model;
-#		undef skinSetting
+		#undef skinSetting
 	}
 
 	settings["ShowRanks"]["enabled"] = Settings::ShowRanks::enabled;
@@ -398,13 +398,13 @@ void Settings::LoadSettings(const char* filename)
 		// XXX Using exception handling to deal with this is stupid, but I don't care to find a better solution
 		// XXX We can't use GetOrdinal() since the key type is a string...
 		int weaponID;
-		try 
+		try
 		{
-			weaponID 	= std::stoi(skinDataKey);
+			weaponID = std::stoi(skinDataKey);
 		}
-		catch(std::invalid_argument) // Not a number 
+		catch (std::invalid_argument) // Not a number
 		{
-			weaponID	= Util::Items::GetItemIndex(skinDataKey);
+			weaponID = Util::Items::GetItemIndex(skinDataKey);
 		}
 
 		enum ItemDefinitionIndex defIndex;
