@@ -215,6 +215,9 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["Airstuck"]["key"] = GetButtonName(Settings::Airstuck::key);
 
 	settings["Skinchanger"]["enabled"] = Settings::Skinchanger::enabled;
+
+	settings["Skinchanger"]["Knife"]["type"] = Settings::Skinchanger::Knife::type;
+
 	for (auto i : Settings::Skinchanger::skins)
 	{
 		settings["Skinchanger"]["skins"][std::to_string(i.first)]["PaintKit"] = i.second.PaintKit;
@@ -382,6 +385,8 @@ void Settings::LoadSettings(const char* filename)
 
 	Settings::Skinchanger::enabled = false;
 	Settings::Skinchanger::skins.clear();
+
+	GetInt(settings["Skinchanger"]["Knife"]["type"], &Settings::Skinchanger::Knife::type);
 
 	for (Json::ValueIterator itr = settings["Skinchanger"]["skins"].begin(); itr != settings["Skinchanger"]["skins"].end(); itr++)
 	{

@@ -1,5 +1,7 @@
 #include "skinchanger.h"
 
+KnifeType Settings::Skinchanger::Knife::type = BAYONET;
+
 bool Settings::Skinchanger::enabled = true;
 std::unordered_map<int, Settings::Skinchanger::Skin> Settings::Skinchanger::skins = {
 		{ WEAPON_AWP, Settings::Skinchanger::Skin(344, -1, 0, 0.0005f, 1337, "AimTux", "") },
@@ -105,7 +107,7 @@ void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 			*weapon->GetFallbackPaintKit() = currentSkin.PaintKit;
 
 		if (currentSkin.ItemDefinitionIndex != -1)
-			*weapon->GetItemDefinitionIndex() = currentSkin.ItemDefinitionIndex;
+			*weapon->GetItemDefinitionIndex() = Settings::Skinchanger::Knife::type;
 
 		if (currentSkin.Seed != -1)
 			*weapon->GetFallbackSeed() = currentSkin.Seed;
