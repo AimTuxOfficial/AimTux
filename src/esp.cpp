@@ -254,8 +254,7 @@ void ESP::DrawPlayerInfo(C_BaseEntity* entity, int entityIndex)
 void ESP::DrawFOVCrosshair()
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-
-	if (localplayer->GetLifeState() != LIFE_ALIVE || localplayer->GetDormant() || localplayer->GetHealth() == 0)
+	if (!localplayer->GetAlive())
 		return;
 
 	int width, height;
@@ -327,8 +326,7 @@ void ESP::DrawGlow()
 		{
 			if (glow_object->m_pEntity == (C_BaseEntity*)localplayer
 				|| glow_object->m_pEntity->GetDormant()
-				|| glow_object->m_pEntity->GetLifeState() != LIFE_ALIVE
-				|| glow_object->m_pEntity->GetHealth() <= 0)
+				|| !glow_object->m_pEntity->GetAlive())
 				continue;
 
 			if (glow_object->m_pEntity->GetTeam() != localplayer->GetTeam())
@@ -382,8 +380,7 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 		{
 			if (entity == (C_BaseEntity*)localplayer
 				|| entity->GetDormant()
-				|| entity->GetLifeState() != LIFE_ALIVE
-				|| entity->GetHealth() <= 0)
+				|| !entity->GetAlive())
 				continue;
 
 			if (Settings::ESP::visibility_check && !Entity::IsVisible(entity, BONE_HEAD))
@@ -392,8 +389,7 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 			if (!Settings::ESP::friendly && localplayer->GetTeam() == entity->GetTeam())
 				continue;
 
-			if ((localplayer->GetLifeState() != LIFE_ALIVE || localplayer->GetHealth() == 0)
-				&& entitylist->GetClientEntityFromHandle(localplayer->GetObserverTarget()) == entity)
+			if (!localplayer->GetAlive() && entitylist->GetClientEntityFromHandle(localplayer->GetObserverTarget()) == entity)
 				continue;
 
 			if (Settings::ESP::Bones::enabled)

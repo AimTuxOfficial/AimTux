@@ -74,7 +74,7 @@ void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 
 	/* get our player entity */
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer || localplayer->GetLifeState() != LIFE_ALIVE)
+	if (!localplayer || !localplayer->GetAlive())
 		return;
 
 	/* get a list of weapon we're holding */

@@ -93,8 +93,7 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 	if (!entity
 		|| entity == localPlayer
 		|| entity->GetDormant()
-		|| entity->GetLifeState() != LIFE_ALIVE
-		|| entity->GetHealth() <= 0)
+		|| !entity->GetAlive())
 		return;
 
 	IMaterial *visible_material;

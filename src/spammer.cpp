@@ -67,8 +67,7 @@ void Spammer::CreateMove(CUserCmd* cmd)
 
 			if (!entity
 				|| entity->GetDormant()
-				|| entity->GetLifeState() != LIFE_ALIVE
-				|| entity->GetHealth() <= 0
+				|| !entity->GetAlive()
 				|| entity->GetTeam() == localplayer->GetTeam())
 				continue;
 

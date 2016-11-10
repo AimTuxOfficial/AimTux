@@ -18,7 +18,7 @@ void FOVChanger::RenderView(CViewSetup & setup, CViewSetup & hudViewSetup, unsig
 	if (!localplayer)
 		return;
 
-	if (localplayer->GetLifeState() != LIFE_ALIVE || localplayer->GetHealth() == 0)
+	if (!localplayer->GetAlive())
 	{
 		if (*localplayer->GetObserverMode() == ObserverMode_t::OBS_MODE_IN_EYE && localplayer->GetObserverTarget())
 			localplayer = entitylist->GetClientEntityFromHandle(localplayer->GetObserverTarget());

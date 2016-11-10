@@ -94,8 +94,7 @@ C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible, Bone& best_bone)
 		if (!entity
 			|| entity == localplayer
 			|| entity->GetDormant()
-			|| entity->GetLifeState() != LIFE_ALIVE
-			|| entity->GetHealth() <= 0
+			|| !entity->GetAlive()
 			|| entity->GetImmune())
 			continue;
 
@@ -385,7 +384,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	shouldAim = Settings::Aimbot::AutoShoot::enabled;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	if (localplayer->GetLifeState() != LIFE_ALIVE || localplayer->GetHealth() == 0)
+	if (!localplayer->GetAlive())
 		return;
 
 	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());

@@ -115,6 +115,11 @@ public:
 		return *(unsigned char*)((uintptr_t)this + offsets.DT_BasePlayer.m_lifeState);
 	}
 
+	bool GetAlive()
+	{
+		return this->GetHealth() > 0 && this->GetLifeState() == LIFE_ALIVE;
+	}
+
 	int* GetWeapons()
 	{
 		return (int*)((uintptr_t)this + offsets.DT_BaseCombatCharacter.m_hMyWeapons);

@@ -12,7 +12,7 @@ std::list<std::string> GetObservervators(C_BaseEntity* pEntity)
 		if (!entity)
 			continue;
 
-		if (entity->GetLifeState() == LIFE_ALIVE || entity->GetDormant() || entity->GetHealth() > 0)
+		if (entity->GetDormant() || !entity->GetAlive())
 			continue;
 
 		if (*entity->GetObserverMode() != ObserverMode_t::OBS_MODE_IN_EYE)
@@ -43,7 +43,7 @@ void ShowSpectators::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool a
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	if (localplayer->GetLifeState() != LIFE_ALIVE || localplayer->GetHealth() == 0)
+	if (!localplayer->GetAlive())
 		return;
 
 	std::list<std::string> observators = GetObservervators(localplayer);
