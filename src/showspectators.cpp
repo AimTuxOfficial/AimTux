@@ -43,7 +43,7 @@ void ShowSpectators::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool a
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer->GetAlive())
+	if (!localplayer || !localplayer->GetAlive())
 		return;
 
 	std::list<std::string> observators = GetObservervators(localplayer);

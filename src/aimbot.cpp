@@ -384,7 +384,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	shouldAim = Settings::Aimbot::AutoShoot::enabled;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer->GetAlive())
+	if (!localplayer || !localplayer->GetAlive())
 		return;
 
 	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
