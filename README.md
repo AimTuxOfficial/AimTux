@@ -69,7 +69,7 @@ AimTux should now be injected into the game, to confirm, you should see somethin
 
 ![this](http://i.imgur.com/I2NSAia.png)
 
-The above message will only be shown if you're in the main menu, aditionally, you can check the *csgo* console for a message saying `AimTux was successfully injected.`.
+The above message will only be shown if you're in the main menu, additionally, you can check the *csgo* console for a message saying `AimTux was successfully injected.`.
 
 ## Un-injecting
 
