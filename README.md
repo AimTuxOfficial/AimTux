@@ -61,7 +61,7 @@ Type the command `./load`, you might be prompted to enter your password (injecti
 
 You should see a lot of text being printed out, most of which is not important,
 
-if you see something like`$1 = (void *) 0x3690fa00` (yours well be different) that means that the injection was successfull.
+if you see something like`$1 = (void *) 0x3690fa00` (yours will be different) that means that the injection was successfull.
 However,
 if you see this: `$1 = (void *) 0x0`, the `.so` file either couldn't be found or something has gone wrong.
 
