@@ -28,7 +28,7 @@ std::unordered_map<int, Settings::Skinchanger::Skin> Settings::Skinchanger::skin
 		{ WEAPON_KNIFE_PUSH, Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_push.mdl") }
 };
 
-bool SkinChanger::ForceFullUpdate = false;
+bool SkinChanger::ForceFullUpdate = true;
 
 const char* KnifeToName(int id)
 {
