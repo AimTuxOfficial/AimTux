@@ -12,7 +12,7 @@ std::list<std::string> GetObservervators(C_BaseEntity* pEntity)
 		if (!entity)
 			continue;
 
-		if (entity->GetDormant() || !entity->GetAlive())
+		if (entity->GetDormant() || entity->GetAlive())
 			continue;
 
 		if (*entity->GetObserverMode() != ObserverMode_t::OBS_MODE_IN_EYE)
