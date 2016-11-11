@@ -19,8 +19,11 @@ private:
 	KeyBind* kb_teleport_key;
 	Banner* ba_spammer;
 	ToggleSwitch* ts_position_spammer;
+	ToggleSwitch* ts_position_spammer_say_team;
 	ToggleSwitch* ts_kill_spammer;
+	ToggleSwitch* ts_kill_spammer_say_team;
 	ToggleSwitch* ts_normal_spammer;
+	ToggleSwitch* ts_normal_spammer_say_team;
 	Banner* ba_other;
 	ToggleSwitch* ts_noflash;
 	Slider* sl_noflash_value;

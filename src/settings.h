@@ -272,17 +272,20 @@ namespace Settings
 		namespace KillSpammer
 		{
 			extern bool enabled;
+			extern bool say_team;
 			extern char* message;
 		}
 
 		namespace PositionSpammer
 		{
 			extern bool enabled;
+			extern bool say_team;
 		}
 
 		namespace NormalSpammer
 		{
 			extern bool enabled;
+			extern bool say_team;
 		}
 	}
 

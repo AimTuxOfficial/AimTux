@@ -1,9 +1,12 @@
 #include "spammer.h"
 
 bool Settings::Spammer::PositionSpammer::enabled = false;
+bool Settings::Spammer::PositionSpammer::say_team = false;
 bool Settings::Spammer::KillSpammer::enabled = false;
+bool Settings::Spammer::KillSpammer::say_team = false;
 char* Settings::Spammer::KillSpammer::message = (char*) "$nick just got OWNED by AimTux!!";
 bool Settings::Spammer::NormalSpammer::enabled = false;
+bool Settings::Spammer::NormalSpammer::say_team = false;
 
 std::vector<IEngineClient::player_info_t> Spammer::killedPlayerQueue = std::vector<IEngineClient::player_info_t>();
 std::vector<Spammer::SpamCollection> Spammer::collections =
@@ -44,7 +47,8 @@ void Spammer::CreateMove(CUserCmd* cmd)
 
 		// Construct a command with our message
 		pstring str;
-		str << "say \"" << Util::ReplaceString(Settings::Spammer::KillSpammer::message, "$nick", dead_player_name) << "\"";
+		str << (Settings::Spammer::KillSpammer::say_team ? "say_team" : "say");
+		str << " \"" << Util::ReplaceString(Settings::Spammer::KillSpammer::message, "$nick", dead_player_name) << "\"";
 
 		// Execute our constructed command
 		engine->ExecuteClientCmd(str.c_str());
@@ -89,7 +93,7 @@ void Spammer::CreateMove(CUserCmd* cmd)
 
 			// Construct a command with our message
 			pstring str;
-			str << "say \"";
+			str << (Settings::Spammer::PositionSpammer::say_team ? "say_team" : "say") << " \"";
 			str << player_name << " | ";
 			str << modelName << " | ";
 			str << entity->GetHealth() << "HP | ";
@@ -111,7 +115,8 @@ void Spammer::CreateMove(CUserCmd* cmd)
 
 		// Construct a command with our message
 		pstring str;
-		str << "say " << message;
+		str << (Settings::Spammer::NormalSpammer::say_team ? "say_team" : "say") << " ";
+		str << message;
 
 		// Execute our constructed command
 		engine->ExecuteClientCmd(str.c_str());

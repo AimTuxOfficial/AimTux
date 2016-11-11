@@ -34,11 +34,20 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	ts_position_spammer = new ToggleSwitch ("position spammer", BELOW (ba_spammer), 33, &Settings::Spammer::PositionSpammer::enabled);
 	AddComponent (ts_position_spammer);
 
+	ts_position_spammer_say_team = new ToggleSwitch ("say_team", STACK (ts_position_spammer), 33, &Settings::Spammer::PositionSpammer::say_team);
+	AddComponent (ts_position_spammer_say_team);
+
 	ts_kill_spammer = new ToggleSwitch ("kill spammer", BELOW (ts_position_spammer), 33, &Settings::Spammer::KillSpammer::enabled);
 	AddComponent (ts_kill_spammer);
 
+	ts_kill_spammer_say_team = new ToggleSwitch ("say_team", STACK (ts_kill_spammer), 33, &Settings::Spammer::KillSpammer::say_team);
+	AddComponent (ts_kill_spammer_say_team);
+
 	ts_normal_spammer = new ToggleSwitch ("chat spammer", BELOW (ts_kill_spammer), 33, &Settings::Spammer::NormalSpammer::enabled);
 	AddComponent (ts_normal_spammer);
+
+	ts_normal_spammer_say_team = new ToggleSwitch ("say_team", STACK (ts_normal_spammer), 33, &Settings::Spammer::NormalSpammer::say_team);
+	AddComponent (ts_normal_spammer_say_team);
 
 	ba_other = new Banner ("Other", STACK (ba_movement), (size.x - 20) / 2 - 5);
 	AddComponent (ba_other);
