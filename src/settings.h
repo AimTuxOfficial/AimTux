@@ -354,6 +354,11 @@ namespace Settings
 
 		extern bool enabled;
 		extern std::unordered_map<int, Skin> skins;
+
+		namespace Knife
+		{
+			extern ItemDefinitionIndex type;
+		}
 	}
 
 	namespace ShowRanks

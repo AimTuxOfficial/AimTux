@@ -17,6 +17,7 @@ private:
 	Panel* pl_triggerbot;
 	Panel* pl_hvh;
 	Panel* pl_misc;
+	Panel* pl_skin;
 public:
 	MainWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor);
 };
