@@ -14,7 +14,9 @@ private:
 	ToggleSwitch* ts_bhop;
 	ToggleSwitch* ts_autostrafe;
 	ToggleSwitch* ts_airstuck;
+	KeyBind* kb_airstuck_key;
 	ToggleSwitch* ts_teleport;
+	KeyBind* kb_teleport_key;
 	Banner* ba_spammer;
 	ToggleSwitch* ts_position_spammer;
 	ToggleSwitch* ts_kill_spammer;

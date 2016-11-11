@@ -15,9 +15,15 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	ts_airstuck = new ToggleSwitch ("airstuck", BELOW (ts_autostrafe), 33, &Settings::Airstuck::enabled);
 	AddComponent (ts_airstuck);
 
+	kb_airstuck_key =  new KeyBind ("", STACK (ts_airstuck), LOC (180, 33),  &Settings::Airstuck::key);
+	AddComponent(kb_airstuck_key);
+
 #ifdef UNTRUSTED_SETTINGS
 	ts_teleport = new ToggleSwitch ("teleport", BELOW (ts_airstuck), 33, &Settings::Teleport::enabled);
 	AddComponent (ts_teleport);
+
+	kb_teleport_key =  new KeyBind ("", STACK (ts_teleport), LOC (180, 33),  &Settings::Teleport::key);
+	AddComponent(kb_teleport_key);
 
 	ba_spammer = new Banner ("Spammer", BELOW (ts_teleport), (size.x - 20) / 2 - 5);
 #else

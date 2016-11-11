@@ -11,6 +11,8 @@ class AimbotPanel : public Panel
 private:
 	ToggleSwitch* ts_aimbot_enabled;
 	Banner* ba_aim;
+	KeyBind* kb_aimkey;
+	ToggleSwitch* ts_aimkey_only;
 	ToggleSwitch* ts_silent;
 	ToggleSwitch* ts_rcs;
 	Slider* sl_rcs;

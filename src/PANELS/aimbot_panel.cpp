@@ -9,7 +9,13 @@ AimbotPanel::AimbotPanel (Vector2D position, Vector2D size)
 	ba_aim = new Banner ("Aim", BELOW (ts_aimbot_enabled), (size.x - 20) / 2 - 5);
 	AddComponent (ba_aim);
 
-	ts_silent = new ToggleSwitch ("silent aim", BELOW (ba_aim), 33, &Settings::Aimbot::silent);
+	kb_aimkey =  new KeyBind ("aim key", BELOW (ba_aim), LOC (180, 33),  &Settings::Aimbot::aimkey);
+	AddComponent(kb_aimkey);
+
+	ts_aimkey_only = new ToggleSwitch ("aimkey only", STACK (kb_aimkey), 33, &Settings::Aimbot::aimkey_only);
+	AddComponent (ts_aimkey_only);
+
+	ts_silent = new ToggleSwitch ("silent aim", BELOW (kb_aimkey), 33, &Settings::Aimbot::silent);
 	AddComponent (ts_silent);
 	
 	ts_rcs = new ToggleSwitch ("recoil control", BELOW (ts_silent), 33, &Settings::Aimbot::RCS::enabled);
