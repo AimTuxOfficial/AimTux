@@ -10,6 +10,7 @@ class TriggerbotPanel : public Panel
 {
 private:
 	ToggleSwitch* ts_triggerbot_enabled;
+	KeyBind* kb_trigger_key;
 	Banner* ba_delay;
 	ToggleSwitch* ts_delay;
 	Slider_INT* sl_delay;
