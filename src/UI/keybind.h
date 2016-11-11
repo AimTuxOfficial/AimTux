@@ -33,16 +33,18 @@ public:
 
 	void Draw ()
 	{
-		int offset = this->text.length() == 0 ? 0 : 15;
+		pstring label = text;
+		if (label.length() > 0)
+			label << ": ";
+		label << input->ButtonCodeToString(*key);
 
 		if (isHovered)
 		{
-			DrawRectangle (LOC (Draw::GetTextSize(text,mono_font).x + offset, 0), size, Settings::UI::mainColor);
+			DrawRectangle (LOC (0, 0), size, Settings::UI::mainColor);
 		}
 
-		DrawFilledRectangle (LOC(Draw::GetTextSize(text,mono_font).x + offset, 0), size, background_color);
-		DrawString (text, mono_font, text_color, LOC(10, (size.y / 2) - (font_size.y / 2)));
-		DrawString (input->ButtonCodeToString(*key), mono_font, text_color, LOC (Draw::GetTextSize(text,mono_font).x + 10 + offset, (size.y / 2) - (font_size.y / 2)));
+		DrawFilledRectangle (LOC(0, 0), size, background_color);
+		DrawString (label, mono_font, text_color, LOC (10, (size.y / 2) - (font_size.y / 2)));
 	}
 
 	bool GetPressedKeys (std::vector<ButtonCode_t>& pressedKeys)

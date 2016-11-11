@@ -6,7 +6,7 @@ TriggerbotPanel::TriggerbotPanel (Vector2D position, Vector2D size)
 	ts_triggerbot_enabled = new ToggleSwitch ("enabled", LOC (10, 10), 33, &Settings::Triggerbot::enabled);
 	AddComponent (ts_triggerbot_enabled);
 
-	kb_triggerbot_key =  new KeyBind ("key", BELOW (ts_triggerbot_enabled), LOC (180, 33),  &Settings::Triggerbot::key);
+	kb_triggerbot_key =  new KeyBind ("key", BELOW (ts_triggerbot_enabled), LOC (220, 33),  &Settings::Triggerbot::key);
 	AddComponent(kb_triggerbot_key);
 
 	ba_delay = new Banner ("Delay", BELOW (kb_triggerbot_key), (size.x - 20) / 2 - 5);

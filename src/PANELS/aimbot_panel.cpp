@@ -9,7 +9,7 @@ AimbotPanel::AimbotPanel (Vector2D position, Vector2D size)
 	ba_aim = new Banner ("Aim", BELOW (ts_aimbot_enabled), (size.x - 20) / 2 - 5);
 	AddComponent (ba_aim);
 
-	kb_aimkey =  new KeyBind ("aim key", BELOW (ba_aim), LOC (180, 33),  &Settings::Aimbot::aimkey);
+	kb_aimkey =  new KeyBind ("aim key", BELOW (ba_aim), LOC (220, 33),  &Settings::Aimbot::aimkey);
 	AddComponent(kb_aimkey);
 
 	ts_aimkey_only = new ToggleSwitch ("aimkey only", STACK (kb_aimkey), 33, &Settings::Aimbot::aimkey_only);
