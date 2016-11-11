@@ -1,4 +1,3 @@
-#include "util_input.h"
 #include "util.h"
 
 namespace Util {

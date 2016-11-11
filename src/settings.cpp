@@ -61,7 +61,7 @@ void GetOrdinal(Json::Value& config, Ord* setting)
 
 void GetButtonCode(Json::Value &config, enum ButtonCode_t* setting)
 {
-	GetOrdinal<enum ButtonCode_t, Util::Input::GetButtonCode>(config, setting);
+	GetOrdinal<enum ButtonCode_t, Util::GetButtonCode>(config, setting);
 }
 
 void GetFloat(Json::Value &config, float* setting)
@@ -91,8 +91,6 @@ void LoadColor(Json::Value &config, Color color)
 
 void Settings::LoadDefaultsOrSave(const char* filename)
 {
-	using Util::Input::GetButtonName;
-
 	Json::Value settings;
 	Json::StyledWriter styledWriter;
 
@@ -110,7 +108,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["Aimbot"]["fov"] = Settings::Aimbot::fov;
 	settings["Aimbot"]["errorMargin"] = Settings::Aimbot::errorMargin;
 	settings["Aimbot"]["bone"] = Settings::Aimbot::bone;
-	settings["Aimbot"]["aimkey"] = GetButtonName(Settings::Aimbot::aimkey);
+	settings["Aimbot"]["aimkey"] = Util::GetButtonName(Settings::Aimbot::aimkey);
 	settings["Aimbot"]["aimkey_only"] = Settings::Aimbot::aimkey_only;
 	settings["Aimbot"]["Smooth"]["enabled"] = Settings::Aimbot::Smooth::enabled;
 	settings["Aimbot"]["Smooth"]["value"] = Settings::Aimbot::Smooth::value;
@@ -133,7 +131,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["Aimbot"]["AutoStop"]["enabled"] = Settings::Aimbot::AutoStop::enabled;
 
 	settings["Triggerbot"]["enabled"] = Settings::Triggerbot::enabled;
-	settings["Triggerbot"]["key"] = GetButtonName(Settings::Triggerbot::key);
+	settings["Triggerbot"]["key"] = Util::GetButtonName(Settings::Triggerbot::key);
 	settings["Triggerbot"]["Filter"]["friendly"] = Settings::Triggerbot::Filter::friendly;
 	settings["Triggerbot"]["Filter"]["head"] = Settings::Triggerbot::Filter::head;
 	settings["Triggerbot"]["Filter"]["chest"] = Settings::Triggerbot::Filter::chest;
@@ -214,7 +212,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["FOVChanger"]["viewmodel_value"] = Settings::FOVChanger::viewmodel_value;
 
 	settings["Airstuck"]["enabled"] = Settings::Airstuck::enabled;
-	settings["Airstuck"]["key"] = GetButtonName(Settings::Airstuck::key);
+	settings["Airstuck"]["key"] = Util::GetButtonName(Settings::Airstuck::key);
 
 	settings["Skinchanger"]["enabled"] = Settings::Skinchanger::enabled;
 	for (auto i : Settings::Skinchanger::skins)
@@ -245,7 +243,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["NameChanger"]["last_blank"] = Settings::NameChanger::last_blank;
 
 	settings["Teleport"]["enabled"] = Settings::Teleport::enabled;
-	settings["Teleport"]["key"] = GetButtonName(Settings::Teleport::key);
+	settings["Teleport"]["key"] = Util::GetButtonName(Settings::Teleport::key);
 
 	settings["FakeLag"]["enabled"] = Settings::FakeLag::enabled;
 

@@ -9,7 +9,7 @@
 #include "fonts.h"
 #include "draw.h"
 #include "skinchanger.h"
-#include "util_input.h"
+#include "util.h"
 #include "util_items.h"
 
 enum TracerType : unsigned int
