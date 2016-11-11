@@ -14,5 +14,9 @@ void SetupUI()
 	menu_window->position = LOC(x - 10 - 270, y - 10 - 150);
 	gui->AddWindow(menu_window);
 
-	gui->Focus(menu_window);
+	skinchange_window = new SkinChangeWindow("Skin Changer", LOC(750, 250), LOC(100, 100), Color(0, 0, 0, 0));
+	skinchange_window->position = LOC(10, 10);
+	gui->AddWindow(skinchange_window);
+
+	gui->Focus(main_window);
 }

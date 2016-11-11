@@ -1,4 +1,4 @@
-#include "skinchanger_panel.h"
+#include "knifechanger_panel.h"
 
 ItemDefinitionIndex Settings::Skinchanger::Knife::type = WEAPON_KNIFE_BAYONET;
 

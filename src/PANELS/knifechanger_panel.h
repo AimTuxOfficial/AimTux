@@ -5,7 +5,6 @@ class SkinChangerPanel;
 #include "../UI/stdui.h"
 #include "../atgui.h"
 #include "../settings.h"
-#include "../Hooks/hooks.h"
 #include "../util_items.h"
 
 class SkinChangerPanel : public Panel
