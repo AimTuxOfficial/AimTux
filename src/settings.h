@@ -109,6 +109,12 @@ struct CSettings
 				char *family;
 				int size;
 			} ESP;
+
+			struct
+			{
+				char *family;
+				int size;
+			} Mono;
 		} Fonts;
 	} UI;
 

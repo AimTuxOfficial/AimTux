@@ -100,6 +100,8 @@ void Settings::LoadDefaults()
 	cSettings.UI.Fonts.Normal.size = 17;
 	cSettings.UI.Fonts.ESP.family = (char *) "Andale Mono";
 	cSettings.UI.Fonts.ESP.size = 20;
+	cSettings.UI.Fonts.Mono.family = (char *) "DejaVu Sans Mono";
+	cSettings.UI.Fonts.Mono.size = 17;
 
 	cSettings.Aimbot.enabled = true;
 	cSettings.Aimbot.silent = false;
@@ -272,6 +274,8 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["UI"]["Fonts"]["Normal"]["size"] = cSettings.UI.Fonts.Normal.size;
 	settings["UI"]["Fonts"]["ESP"]["family"] = cSettings.UI.Fonts.ESP.family;
 	settings["UI"]["Fonts"]["ESP"]["size"] = cSettings.UI.Fonts.ESP.size;
+	settings["UI"]["Fonts"]["Mono"]["family"] = cSettings.UI.Fonts.Mono.family;
+	settings["UI"]["Fonts"]["Mono"]["size"] = cSettings.UI.Fonts.Mono.size;
 
 	settings["Aimbot"]["enabled"] = cSettings.Aimbot.enabled;
 	settings["Aimbot"]["silent"] = cSettings.Aimbot.silent;
@@ -444,6 +448,8 @@ void Settings::LoadSettings(const char* filename)
 	GetInt(settings["UI"]["Fonts"]["Normal"]["size"], &cSettings.UI.Fonts.Normal.size);
 	GetCString(settings["UI"]["Fonts"]["ESP"]["family"], &cSettings.UI.Fonts.ESP.family);
 	GetInt(settings["UI"]["Fonts"]["ESP"]["size"], &cSettings.UI.Fonts.ESP.size);
+	GetCString(settings["UI"]["Fonts"]["Mono"]["family"], &cSettings.UI.Fonts.Mono.family);
+	GetInt(settings["UI"]["Fonts"]["Mono"]["size"], &cSettings.UI.Fonts.Mono.size);
 
 	Fonts::SetupFonts();
 
