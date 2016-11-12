@@ -86,6 +86,12 @@ namespace Settings
 				extern char* family;
 				extern int size;
 			}
+
+			namespace Mono
+			{
+				extern char* family;
+				extern int size;
+			}
 		}
 	}
 
