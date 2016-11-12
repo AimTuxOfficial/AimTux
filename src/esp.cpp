@@ -242,7 +242,7 @@ void ESP::DrawPlayerInfo(C_BaseEntity* entity, int entityIndex)
 		bottomText << entity->GetHealth() << "hp";
 
 	if (Settings::ESP::Info::showWeapon && active_weapon)
-		bottomText << (Settings::ESP::Info::showHealth ? " | " : "") << modelName;
+		bottomText << (bottomText.length() > 0 ? " | " : "") << modelName;
 
 	Vector2D size_top = Draw::GetTextSize(topText.c_str(), esp_font);
 	Vector2D size_bottom = Draw::GetTextSize(bottomText.c_str(), esp_font);
