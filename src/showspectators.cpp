@@ -1,7 +1,5 @@
 #include "showspectators.h"
 
-bool Settings::ShowSpectators::enabled = true;
-
 std::list<std::string> GetObservervators(C_BaseEntity* pEntity)
 {
 	std::list<std::string> list;
@@ -36,7 +34,7 @@ std::list<std::string> GetObservervators(C_BaseEntity* pEntity)
 
 void ShowSpectators::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 {
-	if (!Settings::ShowSpectators::enabled)
+	if (!cSettings.ShowSpectators.enabled)
 		return;
 
 	if (!engine->IsInGame())

@@ -62,7 +62,7 @@ void Window::Draw ()
 {
 	Panel::Draw ();
 
-	DrawRectangle (LOC (0, 0), size, Settings::UI::mainColor);
+	DrawRectangle (LOC (0, 0), size, cSettings.UI.mainColor);
 }
 
 
@@ -105,6 +105,6 @@ void TitleBar::Draw ()
 		}
 	}
 
-	Clear (Settings::UI::mainColor);
+	Clear (cSettings.UI.mainColor);
 	DrawCenteredString (parentWindow->title.c_str(), title_font, foreColor, LOC (size.x / 2, size.y / 2));
 }

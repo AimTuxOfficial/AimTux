@@ -49,7 +49,7 @@ public:
 		
 		if (*static_cast<unsigned int*>((void*)setting) == element->value)
 		{
-			DrawRectangle (LOC (0, 0), size, Settings::UI::mainColor);
+			DrawRectangle (LOC (0, 0), size, cSettings.UI.mainColor);
 		}
 		
 		DrawCenteredString (text, normal_font, text_color, LOC (size.x / 2, size.y / 2));
@@ -88,7 +88,7 @@ public:
 	{
 		Clear (background_color);
 		
-		DrawRectangle (LOC (0, 0), this->size, Settings::UI::mainColor);
+		DrawRectangle (LOC (0, 0), this->size, cSettings.UI.mainColor);
 		
 		Panel::Draw ();
 	}
@@ -145,7 +145,7 @@ public:
 	{
 		Clear (background_color);
 		
-		DrawRectangle (LOC (0, 0), this->size, Settings::UI::mainColor);
+		DrawRectangle (LOC (0, 0), this->size, cSettings.UI.mainColor);
 		
 		Panel::Draw ();
 	}
@@ -198,7 +198,7 @@ public:
 		
 		if (IsSelected())
 		{
-			DrawRectangle (LOC (0, 0), size, Settings::UI::mainColor);
+			DrawRectangle (LOC (0, 0), size, cSettings.UI.mainColor);
 		}
 		
 		DrawCenteredString (text, normal_font, text_color, LOC (size.x / 2, size.y / 2));
@@ -237,7 +237,7 @@ public:
 	{
 		Clear (background_color);
 		
-		DrawRectangle (LOC (0, 0), this->size, Settings::UI::mainColor);
+		DrawRectangle (LOC (0, 0), this->size, cSettings.UI.mainColor);
 		
 		Panel::Draw ();
 	}

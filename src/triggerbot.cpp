@@ -1,25 +1,14 @@
 #include "triggerbot.h"
 
-bool Settings::Triggerbot::enabled = true;
-bool Settings::Triggerbot::Filter::friendly = false;
-bool Settings::Triggerbot::Filter::head = true;
-bool Settings::Triggerbot::Filter::chest = true;
-bool Settings::Triggerbot::Filter::stomach = true;
-bool Settings::Triggerbot::Filter::arms = true;
-bool Settings::Triggerbot::Filter::legs = true;
-bool Settings::Triggerbot::Delay::enabled = false;
-int Settings::Triggerbot::Delay::value = 250;
-ButtonCode_t Settings::Triggerbot::key = ButtonCode_t::KEY_LALT;
-
 void Triggerbot::CreateMove(CUserCmd *cmd)
 {
-	if (!Settings::Triggerbot::enabled)
+	if (!cSettings.Triggerbot.enabled)
 		return;
 
 	if (!engine->IsInGame())
 		return;
 
-	if (!input->IsButtonDown(Settings::Triggerbot::key))
+	if (!input->IsButtonDown(cSettings.Triggerbot.key))
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
@@ -63,17 +52,17 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 		|| !entity->GetAlive())
 		return;
 
-	if (entity->GetTeam() == localplayer->GetTeam() && !Settings::Triggerbot::Filter::friendly)
+	if (entity->GetTeam() == localplayer->GetTeam() && !cSettings.Triggerbot.Filter.friendly)
 		return;
-	else if (tr.hitgroup == HitGroups::HITGROUP_HEAD && !Settings::Triggerbot::Filter::head)
+	else if (tr.hitgroup == HitGroups::HITGROUP_HEAD && !cSettings.Triggerbot.Filter.head)
 		return;
-	else if (tr.hitgroup == HitGroups::HITGROUP_CHEST && !Settings::Triggerbot::Filter::chest)
+	else if (tr.hitgroup == HitGroups::HITGROUP_CHEST && !cSettings.Triggerbot.Filter.chest)
 		return;
-	else if (tr.hitgroup == HitGroups::HITGROUP_STOMACH && !Settings::Triggerbot::Filter::stomach)
+	else if (tr.hitgroup == HitGroups::HITGROUP_STOMACH && !cSettings.Triggerbot.Filter.stomach)
 		return;
-	else if ((tr.hitgroup == HitGroups::HITGROUP_LEFTARM || tr.hitgroup == HitGroups::HITGROUP_RIGHTARM) && !Settings::Triggerbot::Filter::arms)
+	else if ((tr.hitgroup == HitGroups::HITGROUP_LEFTARM || tr.hitgroup == HitGroups::HITGROUP_RIGHTARM) && !cSettings.Triggerbot.Filter.arms)
 		return;
-	else if ((tr.hitgroup == HitGroups::HITGROUP_LEFTLEG || tr.hitgroup == HitGroups::HITGROUP_RIGHTLEG) && !Settings::Triggerbot::Filter::legs)
+	else if ((tr.hitgroup == HitGroups::HITGROUP_LEFTLEG || tr.hitgroup == HitGroups::HITGROUP_RIGHTLEG) && !cSettings.Triggerbot.Filter.legs)
 		return;
 
 	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
@@ -97,7 +86,7 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	}
 	else
 	{
-		if (Settings::Triggerbot::Delay::enabled && currentTime_ms - timeStamp < Settings::Triggerbot::Delay::value)
+		if (cSettings.Triggerbot.Delay.enabled && currentTime_ms - timeStamp < cSettings.Triggerbot.Delay.value)
 			return;
 
 		if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)

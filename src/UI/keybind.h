@@ -53,7 +53,7 @@ public:
 
 		if (isHovered)
 		{
-			DrawRectangle (LOC (0, 0), size, Settings::UI::mainColor);
+			DrawRectangle (LOC (0, 0), size, cSettings.UI.mainColor);
 		}
 
 		DrawFilledRectangle (LOC(0, 0), size, background_color);

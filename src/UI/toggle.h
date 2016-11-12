@@ -57,12 +57,12 @@ public:
 
 		if (!*setting)
 		{
-			DrawRectangle (LOC(size.x - 25, 5), LOC(size.x - 5, 25), Settings::UI::mainColor);
+			DrawRectangle (LOC(size.x - 25, 5), LOC(size.x - 5, 25), cSettings.UI.mainColor);
 		}
 		else
 		{
-			DrawRectangle (LOC(size.x - 25, 5), LOC(size.x - 5, 25), Settings::UI::mainColor);
-			DrawFilledRectangle (LOC((size.x - 25) + 2, 5 + 2), LOC((size.x - 5) -2, 25 - 2), Settings::UI::mainColor);
+			DrawRectangle (LOC(size.x - 25, 5), LOC(size.x - 5, 25), cSettings.UI.mainColor);
+			DrawFilledRectangle (LOC((size.x - 25) + 2, 5 + 2), LOC((size.x - 5) -2, 25 - 2), cSettings.UI.mainColor);
 		}
 
 		Vector2D textSize = Draw::GetTextSize (text.c_str(), normal_font);
@@ -98,7 +98,7 @@ public:
 
 		if (*setting)
 		{
-			DrawRectangle (LOC (0, 0), size, Settings::UI::mainColor);
+			DrawRectangle (LOC (0, 0), size, cSettings.UI.mainColor);
 		}
 		else if (isHovered)
 		{

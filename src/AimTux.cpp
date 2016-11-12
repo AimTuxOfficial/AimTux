@@ -12,6 +12,8 @@ UI_Container* gui;
 /* called when the library is loading */
 int __attribute__((constructor)) aimtux_init()
 {
+	Settings::LoadDefaults();
+
 	Hooker::HookInterfaces();
 	Hooker::HookViewRender();
 	Hooker::HookVMethods();
