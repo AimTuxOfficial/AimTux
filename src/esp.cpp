@@ -209,10 +209,17 @@ void ESP::DrawPlayerBox(C_BaseEntity* entity)
 
 void ESP::DrawPlayerInfo(C_BaseEntity* entity, int entityIndex)
 {
-	bool isVisible = Entity::IsVisible(entity, BONE_HEAD);
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer)
+		return;
+
 	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(entity->GetActiveWeapon());
-	Color color;
+	if (!active_weapon)
+		return;
+
+	bool isVisible = Entity::IsVisible(entity, BONE_HEAD);
+	Color color = color = Color(255, 255, 255, 255);
+
 	if (Settings::ESP::Info::colorCode)
 	{
 		if (localplayer->GetTeam() != entity->GetTeam())
@@ -220,8 +227,6 @@ void ESP::DrawPlayerInfo(C_BaseEntity* entity, int entityIndex)
 		else
 			color = Settings::ESP::Info::ally_color;
 	}
-	else
-		color = Color (255, 255, 255, 255);
 
 	IEngineClient::player_info_t entityInformation;
 	engine->GetPlayerInfo(entityIndex, &entityInformation);
@@ -241,7 +246,7 @@ void ESP::DrawPlayerInfo(C_BaseEntity* entity, int entityIndex)
 	if (Settings::ESP::Info::showHealth)
 		bottomText << entity->GetHealth() << "hp";
 
-	if (Settings::ESP::Info::showWeapon && active_weapon)
+	if (Settings::ESP::Info::showWeapon)
 		bottomText << (bottomText.length() > 0 ? " | " : "") << modelName;
 
 	Vector2D size_top = Draw::GetTextSize(topText.c_str(), esp_font);
