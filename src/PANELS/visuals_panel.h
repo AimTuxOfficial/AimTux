@@ -16,6 +16,7 @@ private:
 	ToggleSwitch* ts_tracer;
 	ToggleSwitch* ts_name;
 	ToggleSwitch* ts_health;
+	ToggleSwitch* ts_weapon;
 	ToggleSwitch* ts_color_code;
 	ToggleSwitch* ts_bones;
 	ToggleSwitch* ts_visibility_check;

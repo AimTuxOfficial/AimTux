@@ -1,4 +1,5 @@
 #include "esp.h"
+#include "settings.h"
 
 bool Settings::ESP::enabled	= true;
 Color Settings::ESP::ally_color = Color(0, 50, 200);
@@ -210,6 +211,7 @@ void ESP::DrawPlayerInfo(C_BaseEntity* entity, int entityIndex)
 {
 	bool isVisible = Entity::IsVisible(entity, BONE_HEAD);
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(entity->GetActiveWeapon());
 	Color color;
 	if (Settings::ESP::Info::colorCode)
 	{
@@ -224,17 +226,26 @@ void ESP::DrawPlayerInfo(C_BaseEntity* entity, int entityIndex)
 	IEngineClient::player_info_t entityInformation;
 	engine->GetPlayerInfo(entityIndex, &entityInformation);
 
-	// Name string
-	pstring name;
-	name << entityInformation.name;
+	std::string modelName = std::string(active_weapon->GetClientClass()->m_pNetworkName);
+	if (strstr(modelName.c_str(), "Weapon"))
+		modelName = modelName.substr(7, modelName.length() - 7);
+	else
+		modelName = modelName.substr(1, modelName.length() - 1);
 
-	// Health string
-	pstring health;
-	health + entity->GetHealth();
-	health << "hp";
+	pstring topText;
+	pstring bottomText;
 
-	Vector2D size_name = Draw::GetTextSize(name.c_str(), esp_font);
-	Vector2D size_health = Draw::GetTextSize(health.c_str(), esp_font);
+	if (Settings::ESP::Info::showName)
+		topText << entityInformation.name;
+
+	if (Settings::ESP::Info::showHealth)
+		bottomText << entity->GetHealth() << "hp";
+
+	if (Settings::ESP::Info::showWeapon && active_weapon)
+		bottomText << (Settings::ESP::Info::showHealth ? " | " : "") << modelName;
+
+	Vector2D size_top = Draw::GetTextSize(topText.c_str(), esp_font);
+	Vector2D size_bottom = Draw::GetTextSize(bottomText.c_str(), esp_font);
 
 	Vector max = entity->GetCollideable()->OBBMaxs();
 
@@ -249,11 +260,8 @@ void ESP::DrawPlayerInfo(C_BaseEntity* entity, int entityIndex)
 
 	float height = (pos.y - top.y);
 
-	if (Settings::ESP::Info::showHealth)
-		Draw::DrawCenteredString(health.c_str(), LOC (top.x, top.y + height + (size_health.y / 2)), color, esp_font);
-
-	if (Settings::ESP::Info::showName)
-		Draw::DrawCenteredString(name.c_str(), LOC (top.x, top.y - (size_name.y / 2)), color, esp_font);
+	Draw::DrawCenteredString(topText.c_str(), LOC (top.x, top.y - (size_top.y / 2)), color, esp_font);
+	Draw::DrawCenteredString(bottomText.c_str(), LOC (top.x, top.y + height + (size_bottom.y / 2)), color, esp_font);
 }
 
 void ESP::DrawFOVCrosshair()
@@ -406,7 +414,7 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 			if (Settings::ESP::Tracer::enabled)
 				ESP::DrawTracer(entity);
 
-			if (Settings::ESP::Info::showHealth || Settings::ESP::Info::showName)
+			if (Settings::ESP::Info::showName || Settings::ESP::Info::showHealth || Settings::ESP::Info::showWeapon)
 				ESP::DrawPlayerInfo(entity, i);
 		}
 		else if (client->m_ClassID == CPlantedC4)

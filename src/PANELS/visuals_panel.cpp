@@ -35,6 +35,9 @@ VisualsPanel::VisualsPanel (Vector2D position, Vector2D size)
 	ts_bones = new ToggleSwitch ("Show Bones", BELOW (ts_color_code), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::Bones::enabled);
 	AddComponent (ts_bones);
 
+	ts_weapon = new ToggleSwitch ("Show Weapon", BELOW (ts_health), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::Info::showWeapon);
+	AddComponent (ts_weapon);
+
 	ts_friendly = new ToggleSwitch ("Show Friendly", BELOW (ts_bones), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::friendly);
 	AddComponent (ts_friendly);
 
