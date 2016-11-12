@@ -388,7 +388,6 @@ namespace Settings
 
 	namespace View
 	{
-
 		namespace NoPunch
 		{
 			extern bool enabled;

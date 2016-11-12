@@ -237,6 +237,8 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["ClanTagChanger"]["enabled"] = Settings::ClanTagChanger::enabled;
 	settings["ClanTagChanger"]["animation"] = Settings::ClanTagChanger::animation;
 
+	settings["View"]["NoPunch"]["enabled"] = Settings::View::NoPunch::enabled;
+
 	settings["NameChanger"]["enabled"] = Settings::NameChanger::enabled;
 	settings["NameChanger"]["last_blank"] = Settings::NameChanger::last_blank;
 
@@ -428,6 +430,8 @@ void Settings::LoadSettings(const char* filename)
 	GetString(settings["ClanTagChanger"]["value"], &Settings::ClanTagChanger::value);
 	GetBool(settings["ClanTagChanger"]["enabled"], &Settings::ClanTagChanger::enabled);
 	GetBool(settings["ClanTagChanger"]["animation"], &Settings::ClanTagChanger::animation);
+
+	GetBool(settings["View"]["NoPunch"]["enabled"], &Settings::View::NoPunch::enabled);
 
 	GetBool(settings["NameChanger"]["enabled"], &Settings::NameChanger::enabled);
 	GetBool(settings["NameChanger"]["last_blank"], &Settings::NameChanger::last_blank);
