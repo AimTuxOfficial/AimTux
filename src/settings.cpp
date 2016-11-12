@@ -53,7 +53,7 @@ void GetOrdinal(Json::Value& config, Ord* setting)
 	Ord value;
 	if (config.isString())
 		value = lookupFunction(config.asString());
-	else 
+	else
 		value = (Ord) config.asInt();
 
 	*setting = value;
@@ -229,6 +229,12 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 		skinSetting["CustomName"] = i.second.CustomName;
 		skinSetting["Model"] = i.second.Model;
 		#undef skinSetting
+
+		if (Util::Items::GetItemName((enum ItemDefinitionIndex) i.first) == "WEAPON_KNIFE")
+		{
+			Settings::Skinchanger::Knife::type = (enum ItemDefinitionIndex)i.second.ItemDefinitionIndex;
+		}
+
 	}
 
 	settings["ShowRanks"]["enabled"] = Settings::ShowRanks::enabled;
@@ -419,6 +425,9 @@ void Settings::LoadSettings(const char* filename)
 		);
 
 		Settings::Skinchanger::skins[weaponID] = skin;
+
+		if(weaponID == WEAPON_KNIFE)
+			Settings::Skinchanger::Knife::type = defIndex;
 	}
 
 	SkinChanger::ForceFullUpdate = true;

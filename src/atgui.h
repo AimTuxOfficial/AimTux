@@ -8,10 +8,13 @@
 #include "PANELS/visuals_panel.h"
 #include "PANELS/hvh_panel.h"
 #include "PANELS/misc_panel.h"
+#include "PANELS/knifechanger_panel.h"
 #include "WINDOWS/main_window.h"
 #include "WINDOWS/popup_window.h"
+#include "WINDOWS/skinchange_window.h"
 
 extern MainWindow* main_window;
 extern MenuWindow* menu_window;
+extern SkinChangeWindow* skinchange_window;
 
 void SetupUI();
