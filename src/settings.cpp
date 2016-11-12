@@ -93,7 +93,7 @@ void LoadColor(Json::Value &config, Color color)
 
 void Settings::LoadDefaults()
 {
-	cSettings.UI.mainColor = Color (230, 75, 100);
+	cSettings.UI.mainColor = Color(230, 75, 100);
 	cSettings.UI.Fonts.Title.family = (char *) "Arial";
 	cSettings.UI.Fonts.Title.size = 20;
 	cSettings.UI.Fonts.Normal.family = (char *) "Arial";
