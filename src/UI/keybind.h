@@ -20,12 +20,25 @@ private:
 public:
 	ButtonCode_t* key;
 	std::string text = "key bind";
+	bool chooseStarted = false;
+	bool mClicked = false;
+
+	void Event_OnClickEnd ()
+	{
+		// don't handle click if it was left mouse button choose
+		if(!mClicked)
+			chooseStarted = true;
+		else
+			mClicked = 0;
+	}
+
 
 	KeyBind (std::string label_text, Vector2D position, Vector2D size, ButtonCode_t* key) : text(label_text)
 	{
 		this->key = key;
 		this->size = size;
 		this->position = position;
+		this->onMouseClickEndEvent	= MFUNC (&KeyBind::Event_OnClickEnd, this);
 
 		// Get the width if the monospaced font
 		font_size = Draw::GetTextSize ("j", mono_font);
@@ -36,7 +49,10 @@ public:
 		pstring label = text;
 		if (label.length() > 0)
 			label << ": ";
-		label << input->ButtonCodeToString(*key);
+		if(chooseStarted)
+			label << "< key >";
+		else
+			label << input->ButtonCodeToString(*key);
 
 		if (isHovered)
 		{
@@ -67,7 +83,7 @@ public:
 
 	void Input ()
 	{
-		if (!isHovered)
+		if (!chooseStarted)
 		{
 			return;
 		}
@@ -77,7 +93,7 @@ public:
 
 		for (int i = 0; i < pressedKeys.size(); i++)
 		{
-			*this->key= (ButtonCode_t)pressedKeys[i];
+			*this->key = (ButtonCode_t)pressedKeys[i];
 
 			if (std::find(lastPressedKeys.begin(), lastPressedKeys.end(), *this->key) != lastPressedKeys.end())
 			{
@@ -85,7 +101,10 @@ public:
 			}
 
 		}
-
+		if(isKeyPressed) {
+			chooseStarted = false;
+			if(*this->key == MOUSE_LEFT) mClicked=true;
+		}
 		lastPressedKeys = pressedKeys;
 	}
 };
