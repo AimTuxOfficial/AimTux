@@ -445,9 +445,7 @@ void Settings::LoadSettings(const char* filename)
 	GetCString(settings["UI"]["Fonts"]["ESP"]["family"], &cSettings.UI.Fonts.ESP.family);
 	GetInt(settings["UI"]["Fonts"]["ESP"]["size"], &cSettings.UI.Fonts.ESP.size);
 
-	title_font = Draw::CreateFont(cSettings.UI.Fonts.Title.family, cSettings.UI.Fonts.Title.size, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
-	normal_font = Draw::CreateFont(cSettings.UI.Fonts.Normal.family, cSettings.UI.Fonts.Normal.size, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
-	esp_font = Draw::CreateFont(cSettings.UI.Fonts.ESP.family, cSettings.UI.Fonts.ESP.size, FONTFLAG_ANTIALIAS | FONTFLAG_OUTLINE);
+	Fonts::SetupFonts();
 
 	GetBool(settings["Aimbot"]["enabled"], &cSettings.Aimbot.enabled);
 	GetBool(settings["Aimbot"]["silent"], &cSettings.Aimbot.silent);
