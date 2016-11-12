@@ -522,7 +522,7 @@ void Settings::LoadSettings(const char* filename)
 	GetBool(settings["ESP"]["Chams"]["Arms"]["enabled"], &cSettings.ESP.Chams.Arms.enabled);
 	GetInt(settings["ESP"]["Chams"]["Arms"]["type"], &cSettings.ESP.Chams.Arms.type);
 	GetColor(settings["ESP"]["Chams"]["players_ally_color"], &cSettings.ESP.Chams.players_ally_color);
-	GetColor(settings["ESP"]["Chams"]["players_ally_visible_color"], cSettings.ESP.Chams.players_ally_visible_color);
+	GetColor(settings["ESP"]["Chams"]["players_ally_visible_color"], &cSettings.ESP.Chams.players_ally_visible_color);
 	GetColor(settings["ESP"]["Chams"]["players_enemy_color"], &cSettings.ESP.Chams.players_enemy_color);
 	GetColor(settings["ESP"]["Chams"]["players_enemy_visible_color"], &cSettings.ESP.Chams.players_enemy_visible_color);
 	GetColor(settings["ESP"]["Chams"]["Arms"]["color"], &cSettings.ESP.Chams.Arms.color);
