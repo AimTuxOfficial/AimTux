@@ -60,359 +60,363 @@ enum ArmsType : unsigned int
 	DEFAULT
 };
 
+struct Skin
+{
+	int PaintKit;
+	int ItemDefinitionIndex;
+	int Seed;
+	float Wear;
+	int StatTrak;
+	std::string CustomName;
+	std::string Model;
+
+	Skin (int PaintKit, int ItemDefinitionIndex, int Seed, float Wear, int StatTrak, std::string CustomName, std::string Model)
+	{
+		this->PaintKit = PaintKit;
+		this->Seed = Seed;
+		this->ItemDefinitionIndex = ItemDefinitionIndex;
+		this->Wear = Wear;
+		this->StatTrak = StatTrak;
+		this->CustomName = CustomName;
+		this->Model = Model;
+	}
+
+	Skin() { };
+};
+
+struct CSettings
+{
+	struct
+	{
+		Color mainColor = Color(230, 75, 100);
+		Color bodyColor = Color(25, 25, 35, 200);
+
+		struct
+		{
+			struct
+			{
+				char *family;
+				int size;
+			} Title;
+
+			struct
+			{
+				char *family;
+				int size;
+			} Normal;
+
+			struct
+			{
+				char *family;
+				int size;
+			} ESP;
+		} Fonts;
+	} UI;
+
+	struct
+	{
+		bool enabled;
+		bool silent;
+		bool friendly;
+		float fov;
+		float errorMargin;
+		unsigned int bone;
+		ButtonCode_t aimkey;
+		bool aimkey_only;
+
+		struct
+		{
+			bool enabled;
+			float value;
+			float max;
+
+			struct
+			{
+				bool enabled;
+				float percentage;
+			} Salting;
+		} Smooth;
+
+		struct
+		{
+			bool enabled;
+		} AutoAim;
+
+		struct
+		{
+			bool enabled;
+			float value;
+			std::vector<Hitbox> bones;
+		} AutoWall;
+
+		struct
+		{
+			bool enabled;
+			float value;
+		} AimStep;
+
+		struct
+		{
+			bool enabled;
+			float value;
+		} RCS;
+
+		struct
+		{
+			bool enabled;
+		} AutoPistol;
+
+		struct
+		{
+			bool enabled;
+			bool autoscope;
+		} AutoShoot;
+
+		struct
+		{
+			bool enabled;
+		} AutoCrouch;
+
+		struct
+		{
+			bool enabled;
+		} AutoStop;
+	} Aimbot;
+
+	struct
+	{
+		bool enabled;
+		ButtonCode_t key;
+
+		struct
+		{
+			bool friendly;
+			bool head;
+			bool chest;
+			bool stomach;
+			bool arms;
+			bool legs;
+		} Filter;
+
+		struct
+		{
+			bool enabled;
+			int value;
+		} Delay;
+	} Triggerbot;
+
+	struct
+	{
+		bool enabled_Y;
+		bool enabled_X;
+		AntiAimType_Y type_Y;
+		AntiAimType_X type_X;
+	} AntiAim;
+
+	struct
+	{
+		bool enabled;
+		bool visibility_check;
+		bool friendly;
+		Color ally_color;
+		Color enemy_color;
+		Color enemy_visible_color;
+		Color bones_color;
+		Color bomb_color;
+
+		struct
+		{
+			bool enabled;
+			Color ally_color;
+			Color enemy_color;
+			Color enemy_visible_color;
+			Color weapon_color;
+		} Glow;
+
+		struct
+		{
+			TracerType type;
+			bool enabled;
+		} Tracer;
+
+		struct
+		{
+			bool enabled;
+			WallBoxType type;
+		} Walls;
+
+		struct
+		{
+			bool showName;
+			bool showHealth;
+			Color ally_color;
+			Color enemy_visible_color;
+			Color enemy_color;
+		} Info;
+
+		struct
+		{
+			bool enabled;
+		} Bones;
+
+		struct
+		{
+			bool enabled;
+		} Bomb;
+
+		struct
+		{
+			bool enabled;
+		} Weapons;
+
+		struct
+		{
+			bool enabled;
+		} FOVCrosshair;
+
+		struct
+		{
+			bool players;
+			bool visibility_check;
+			Color players_ally_color;
+			Color players_ally_visible_color;
+			Color players_enemy_color;
+			Color players_enemy_visible_color;
+			ChamsType type;
+
+			struct
+			{
+				bool enabled;
+				Color color;
+				ArmsType type;
+			} Arms;
+		} Chams;
+	} ESP;
+
+	struct
+	{
+		bool enabled;
+		float radius;
+		Color ally_color;
+		Color enemy_color;
+	} Dlights;
+
+	struct
+	{
+		struct
+		{
+			bool enabled;
+			bool say_team;
+			char* message;
+		} KillSpammer;
+
+		struct
+		{
+			bool enabled;
+			bool say_team;
+		} PositionSpammer;
+
+		struct
+		{
+			bool enabled;
+			bool say_team;
+		} NormalSpammer;
+	} Spammer;
+
+	struct
+	{
+		bool enabled;
+	} BHop;
+
+	struct
+	{
+		bool enabled;
+	} AutoStrafe;
+
+	struct
+	{
+		bool enabled;
+		float value;
+	} Noflash;
+
+	struct
+	{
+		bool enabled;
+		bool viewmodel_enabled;
+		float value;
+		float viewmodel_value;
+	} FOVChanger;
+
+	struct
+	{
+		bool enabled;
+	} Radar;
+
+	struct
+	{
+		bool enabled;
+	} Recoilcrosshair;
+
+	struct
+	{
+		bool enabled;
+		ButtonCode_t key;
+	} Airstuck;
+
+	struct {
+		bool enabled;
+		std::unordered_map<int, Skin> skins;
+	} Skinchanger;
+
+	struct
+	{
+		bool enabled;
+	} ShowRanks;
+
+	struct
+	{
+		bool enabled;
+	} ShowSpectators;
+
+	struct
+	{
+		std::string value;
+		bool animation;
+		bool enabled;
+	} ClanTagChanger;
+
+	struct
+	{
+		struct
+		{
+			bool enabled;
+		} NoPunch;
+	} View;
+
+	struct
+	{
+		bool enabled;
+		bool last_blank;
+	} NameChanger;
+
+	struct
+	{
+		bool enabled;
+		ButtonCode_t key;
+	} Teleport;
+
+	struct
+	{
+		bool enabled;
+		int value;
+	} FakeLag;
+};
+
 namespace Settings
 {
-	namespace UI
-	{
-		extern Color mainColor;
-		extern Color bodyColor;
-
-		namespace Fonts
-		{
-			namespace Title
-			{
-				extern char* family;
-				extern int size;
-			}
-
-			namespace Normal
-			{
-				extern char* family;
-				extern int size;
-			}
-
-			namespace ESP
-			{
-				extern char* family;
-				extern int size;
-			}
-		}
-	}
-
-	namespace Aimbot
-	{
-		extern bool enabled;
-		extern bool silent;
-		extern bool friendly;
-		extern float fov;
-		extern float errorMargin;
-		extern unsigned int bone;
-		extern ButtonCode_t aimkey;
-		extern bool aimkey_only;
-
-		namespace Smooth
-		{
-			extern bool enabled;
-			extern float value;
-			extern float max;
-
-			namespace Salting
-			{
-				extern bool enabled;
-				extern float percentage;
-			}
-		}
-
-		namespace AutoAim
-		{
-			extern bool enabled;
-		}
-
-		namespace AutoWall
-		{
-			extern bool enabled;
-			extern float value;
-			extern std::vector<Hitbox> bones;
-		}
-
-		namespace AimStep
-		{
-			extern bool enabled;
-			extern float value;
-		}
-
-		namespace RCS
-		{
-			extern bool enabled;
-			extern float value;
-		}
-
-		namespace AutoPistol
-		{
-			extern bool enabled;
-		}
-
-		namespace AutoShoot
-		{
-			extern bool enabled;
-			extern bool autoscope;
-		}
-
-		namespace AutoCrouch
-		{
-			extern bool enabled;
-		}
-
-		namespace AutoStop
-		{
-			extern bool enabled;
-		}
-	}
-
-	namespace Triggerbot
-	{
-		extern bool enabled;
-		extern ButtonCode_t key;
-
-		namespace Filter
-		{
-			extern bool friendly;
-			extern bool head;
-			extern bool chest;
-			extern bool stomach;
-			extern bool arms;
-			extern bool legs;
-		}
-
-		namespace Delay
-		{
-			extern bool enabled;
-			extern int value;
-		}
-	}
-
-	namespace AntiAim
-	{
-		extern bool enabled_Y;
-		extern bool enabled_X;
-		extern AntiAimType_Y type_Y;
-		extern AntiAimType_X type_X;
-	}
-
-	namespace ESP
-	{
-		extern bool enabled;
-		extern bool visibility_check;
-		extern bool friendly;
-		extern Color ally_color;
-		extern Color enemy_color;
-		extern Color enemy_visible_color;
-		extern Color bones_color;
-		extern Color bomb_color;
-
-		namespace Glow
-		{
-			extern bool enabled;
-			extern Color ally_color;
-			extern Color enemy_color;
-			extern Color enemy_visible_color;
-			extern Color weapon_color;
-		}
-
-		namespace Tracer
-		{
-			extern TracerType type;
-			extern bool enabled;
-		}
-
-		namespace Walls
-		{
-			extern bool enabled;
-			extern WallBoxType type;
-		}
-
-		namespace Info
-		{
-			extern bool showName;
-			extern bool showHealth;
-			extern Color ally_color;
-			extern Color enemy_visible_color;
-			extern Color enemy_color;
-		}
-
-		namespace Bones
-		{
-			extern bool enabled;
-		}
-
-		namespace Bomb
-		{
-			extern bool enabled;
-		}
-
-		namespace Weapons
-		{
-			extern bool enabled;
-		}
-
-		namespace FOVCrosshair
-		{
-			extern bool enabled;
-		}
-
-		namespace Chams
-		{
-			extern bool players;
-			extern bool visibility_check;
-			extern Color players_ally_color;
-			extern Color players_ally_visible_color;
-			extern Color players_enemy_color;
-			extern Color players_enemy_visible_color;
-			extern ChamsType type;
-
-			namespace Arms
-			{
-				extern bool enabled;
-				extern Color color;
-				extern ArmsType type;
-			}
-		}
-	}
-
-	namespace Dlights
-	{
-		extern bool enabled;
-		extern float radius;
-		extern Color ally_color;
-		extern Color enemy_color;
-	}
-
-	namespace Spammer
-	{
-		namespace KillSpammer
-		{
-			extern bool enabled;
-			extern bool say_team;
-			extern char* message;
-		}
-
-		namespace PositionSpammer
-		{
-			extern bool enabled;
-			extern bool say_team;
-		}
-
-		namespace NormalSpammer
-		{
-			extern bool enabled;
-			extern bool say_team;
-		}
-	}
-
-	namespace BHop
-	{
-		extern bool enabled;
-	}
-
-	namespace AutoStrafe
-	{
-		extern bool enabled;
-	}
-
-	namespace Noflash
-	{
-		extern bool enabled;
-		extern float value;
-	}
-
-	namespace FOVChanger
-	{
-		extern bool enabled;
-		extern bool viewmodel_enabled;
-		extern float value;
-		extern float viewmodel_value;
-	}
-
-	namespace Radar
-	{
-		extern bool enabled;
-	}
-
-	namespace Recoilcrosshair
-	{
-		extern bool enabled;
-	}
-
-	namespace Airstuck
-	{
-		extern bool enabled;
-		extern ButtonCode_t key;
-	}
-
-	namespace Skinchanger
-	{
-		struct Skin
-		{
-			int PaintKit;
-			int ItemDefinitionIndex;
-			int Seed;
-			float Wear;
-			int StatTrak;
-			std::string CustomName;
-			std::string Model;
-
-			Skin (int PaintKit, int ItemDefinitionIndex, int Seed, float Wear, int StatTrak, std::string CustomName, std::string Model)
-			{
-				this->PaintKit = PaintKit;
-				this->Seed = Seed;
-				this->ItemDefinitionIndex = ItemDefinitionIndex;
-				this->Wear = Wear;
-				this->StatTrak = StatTrak;
-				this->CustomName = CustomName;
-				this->Model = Model;
-			}
-
-			Skin() { };
-		};
-
-		extern bool enabled;
-		extern std::unordered_map<int, Skin> skins;
-	}
-
-	namespace ShowRanks
-	{
-		extern bool enabled;
-	}
-
-	namespace ShowSpectators
-	{
-		extern bool enabled;
-	}
-
-	namespace ClanTagChanger
-	{
-		extern std::string value;
-		extern bool animation;
-		extern bool enabled;
-	}
-
-	namespace View
-	{
-
-		namespace NoPunch
-		{
-			extern bool enabled;
-		}
-	}
-
-	namespace NameChanger
-	{
-		extern bool enabled;
-		extern bool last_blank;
-	}
-
-	namespace Teleport
-	{
-		extern bool enabled;
-		extern ButtonCode_t key;
-	}
-
-	namespace FakeLag
-	{
-		extern bool enabled;
-		extern int value;
-	}
-
+	void LoadDefaults();
 	void LoadDefaultsOrSave(const char* filename);
 	void LoadSettings(const char* filename);
 }
+
+extern CSettings cSettings;

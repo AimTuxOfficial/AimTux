@@ -431,29 +431,29 @@ enum HitGroups: int
 	HITGROUP_GEAR
 };
 
-#define	FL_ONGROUND				(1<<0)	// At rest / on the ground
+#define FL_ONGROUND				(1<<0)	// At rest / on the ground
 #define FL_DUCKING				(1<<1)	// Player flag -- Player is fully crouched
-#define	FL_WATERJUMP			(1<<2)	// player jumping out of water
+#define FL_WATERJUMP			(1<<2)	// player jumping out of water
 #define FL_ONTRAIN				(1<<3)	// Player is _controlling_ a train, so movement commands should be ignored on client during prediction.
 #define FL_INRAIN				(1<<4)	// Indicates the entity is standing in rain
 #define FL_FROZEN				(1<<5)	// Player is frozen for 3rd person camera
 #define FL_ATCONTROLS			(1<<6)	// Player can't move, but keeps key inputs for controlling another entity
-#define	FL_CLIENT				(1<<7)	// Is a player
+#define FL_CLIENT				(1<<7)	// Is a player
 #define FL_FAKECLIENT			(1<<8)	// Fake client, simulated server side; don't send network messages to them
 // NON-PLAYER SPECIFIC (i.e., not used by GameMovement or the client .dll ) -- Can still be applied to players, though
-#define	FL_INWATER				(1<<9)	// In water
+#define FL_INWATER				(1<<9)	// In water
 
-#define	CONTENTS_EMPTY			0		// No contents
+#define CONTENTS_EMPTY			0		// No contents
 
-#define	CONTENTS_SOLID			0x1		// an eye is never valid in a solid
-#define	CONTENTS_WINDOW			0x2		// translucent, but not watery (glass)
-#define	CONTENTS_AUX			0x4
-#define	CONTENTS_GRATE			0x8		// alpha-tested "grate" textures.  Bullets/sight pass through, but solids don't
-#define	CONTENTS_SLIME			0x10
-#define	CONTENTS_WATER			0x20
-#define	CONTENTS_BLOCKLOS		0x40	// block AI line of sight
+#define CONTENTS_SOLID			0x1		// an eye is never valid in a solid
+#define CONTENTS_WINDOW			0x2		// translucent, but not watery (glass)
+#define CONTENTS_AUX			0x4
+#define CONTENTS_GRATE			0x8		// alpha-tested "grate" textures.  Bullets/sight pass through, but solids don't
+#define CONTENTS_SLIME			0x10
+#define CONTENTS_WATER			0x20
+#define CONTENTS_BLOCKLOS		0x40	// block AI line of sight
 #define CONTENTS_OPAQUE			0x80	// things that cannot be seen through (may be non-solid though)
-#define	LAST_VISIBLE_CONTENTS	CONTENTS_OPAQUE
+#define LAST_VISIBLE_CONTENTS	CONTENTS_OPAQUE
 
 #define ALL_VISIBLE_CONTENTS (LAST_VISIBLE_CONTENTS | (LAST_VISIBLE_CONTENTS-1))
 
@@ -476,29 +476,29 @@ enum HitGroups: int
 #define CONTENTS_MOVEABLE		0x4000
 
 // remaining contents are non-visible, and don't eat brushes
-#define	CONTENTS_AREAPORTAL		0x8000
+#define CONTENTS_AREAPORTAL		0x8000
 
-#define	CONTENTS_PLAYERCLIP		0x10000
-#define	CONTENTS_MONSTERCLIP	0x20000
+#define CONTENTS_PLAYERCLIP		0x10000
+#define CONTENTS_MONSTERCLIP	0x20000
 
 // currents can be added to any other contents, and may be mixed
-#define	CONTENTS_CURRENT_0		0x40000
-#define	CONTENTS_CURRENT_90		0x80000
-#define	CONTENTS_CURRENT_180	0x100000
-#define	CONTENTS_CURRENT_270	0x200000
-#define	CONTENTS_CURRENT_UP		0x400000
-#define	CONTENTS_CURRENT_DOWN	0x800000
+#define CONTENTS_CURRENT_0		0x40000
+#define CONTENTS_CURRENT_90		0x80000
+#define CONTENTS_CURRENT_180	0x100000
+#define CONTENTS_CURRENT_270	0x200000
+#define CONTENTS_CURRENT_UP		0x400000
+#define CONTENTS_CURRENT_DOWN	0x800000
 
-#define	CONTENTS_ORIGIN			0x1000000	// removed before bsping an entity
+#define CONTENTS_ORIGIN			0x1000000	// removed before bsping an entity
 
-#define	CONTENTS_MONSTER		0x2000000	// should never be on a brush, only in game
-#define	CONTENTS_DEBRIS			0x4000000
-#define	CONTENTS_DETAIL			0x8000000	// brushes to be added after vis leafs
-#define	CONTENTS_TRANSLUCENT	0x10000000	// auto set if any surface has trans
-#define	CONTENTS_LADDER			0x20000000
+#define CONTENTS_MONSTER		0x2000000	// should never be on a brush, only in game
+#define CONTENTS_DEBRIS			0x4000000
+#define CONTENTS_DETAIL			0x8000000	// brushes to be added after vis leafs
+#define CONTENTS_TRANSLUCENT	0x10000000	// auto set if any surface has trans
+#define CONTENTS_LADDER			0x20000000
 #define CONTENTS_HITBOX			0x40000000	// use accurate hitboxes on trace
 
-#define	MASK_SHOT	(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_MONSTER|CONTENTS_WINDOW|CONTENTS_DEBRIS|CONTENTS_HITBOX)
+#define MASK_SHOT	(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_MONSTER|CONTENTS_WINDOW|CONTENTS_DEBRIS|CONTENTS_HITBOX)
 
 // These are given to FindMaterial to reference the texture groups that show up on the
 #define TEXTURE_GROUP_LIGHTMAP						"Lightmaps"
@@ -533,21 +533,21 @@ enum HitGroups: int
 #define MAXSTUDIOBONES 128
 #define BONE_USED_BY_HITBOX 0x100
 
-#define	MASK_SHOT	(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_MONSTER|CONTENTS_WINDOW|CONTENTS_DEBRIS|CONTENTS_HITBOX)
+#define MASK_SHOT	(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_MONSTER|CONTENTS_WINDOW|CONTENTS_DEBRIS|CONTENTS_HITBOX)
 
 // NOTE: These are stored in a short in the engine now.  Don't use more than 16 bits
-#define	SURF_LIGHT		0x0001		// value will hold the light strength
-#define	SURF_SKY2D		0x0002		// don't draw, indicates we should skylight + draw 2d sky but not draw the 3D skybox
-#define	SURF_SKY		0x0004		// don't draw, but add to skybox
-#define	SURF_WARP		0x0008		// turbulent water warp
-#define	SURF_TRANS		0x0010
+#define SURF_LIGHT		0x0001		// value will hold the light strength
+#define SURF_SKY2D		0x0002		// don't draw, indicates we should skylight + draw 2d sky but not draw the 3D skybox
+#define SURF_SKY		0x0004		// don't draw, but add to skybox
+#define SURF_WARP		0x0008		// turbulent water warp
+#define SURF_TRANS		0x0010
 #define SURF_NOPORTAL	0x0020	// the surface can not have a portal placed on it
-#define	SURF_TRIGGER	0x0040	// FIXME: This is an xbox hack to work around elimination of trigger surfaces, which breaks occluders
-#define	SURF_NODRAW		0x0080	// don't bother referencing the texture
+#define SURF_TRIGGER	0x0040	// FIXME: This is an xbox hack to work around elimination of trigger surfaces, which breaks occluders
+#define SURF_NODRAW		0x0080	// don't bother referencing the texture
 
-#define	SURF_HINT		0x0100	// make a primary bsp splitter
+#define SURF_HINT		0x0100	// make a primary bsp splitter
 
-#define	SURF_SKIP		0x0200	// completely ignore, allowing non-closed brushes
+#define SURF_SKIP		0x0200	// completely ignore, allowing non-closed brushes
 #define SURF_NOLIGHT	0x0400	// Don't calculate light
 #define SURF_BUMPLIGHT	0x0800	// calculate three lightmaps for the surface for bumpmapping
 #define SURF_NOSHADOWS	0x1000	// Don't receive shadows
@@ -556,19 +556,19 @@ enum HitGroups: int
 #define SURF_NOCHOP		0x4000	// Don't subdivide patches on this surface 
 #define SURF_HITBOX		0x8000	// surface is part of a hitbox
 
-#define	MASK_ALL					(0xFFFFFFFF)
+#define MASK_ALL					(0xFFFFFFFF)
 // everything that is normally solid
-#define	MASK_SOLID					(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_WINDOW|CONTENTS_MONSTER|CONTENTS_GRATE)
+#define MASK_SOLID					(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_WINDOW|CONTENTS_MONSTER|CONTENTS_GRATE)
 // everything that blocks player movement
-#define	MASK_PLAYERSOLID			(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_PLAYERCLIP|CONTENTS_WINDOW|CONTENTS_MONSTER|CONTENTS_GRATE)
+#define MASK_PLAYERSOLID			(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_PLAYERCLIP|CONTENTS_WINDOW|CONTENTS_MONSTER|CONTENTS_GRATE)
 // blocks npc movement
-#define	MASK_NPCSOLID				(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_MONSTERCLIP|CONTENTS_WINDOW|CONTENTS_MONSTER|CONTENTS_GRATE)
+#define MASK_NPCSOLID				(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_MONSTERCLIP|CONTENTS_WINDOW|CONTENTS_MONSTER|CONTENTS_GRATE)
 // blocks fluid movement
-#define	MASK_NPCFLUID				(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_MONSTERCLIP|CONTENTS_WINDOW|CONTENTS_MONSTER)
+#define MASK_NPCFLUID				(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_MONSTERCLIP|CONTENTS_WINDOW|CONTENTS_MONSTER)
 // water physics in these contents
-#define	MASK_WATER					(CONTENTS_WATER|CONTENTS_MOVEABLE|CONTENTS_SLIME)
+#define MASK_WATER					(CONTENTS_WATER|CONTENTS_MOVEABLE|CONTENTS_SLIME)
 // everything that blocks lighting
-#define	MASK_OPAQUE					(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_OPAQUE)
+#define MASK_OPAQUE					(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_OPAQUE)
 // everything that blocks lighting, but with monsters added.
 #define MASK_OPAQUE_AND_NPCS		(MASK_OPAQUE|CONTENTS_MONSTER)
 // everything that blocks line of sight for AI
@@ -576,11 +576,11 @@ enum HitGroups: int
 // everything that blocks line of sight for AI plus NPCs
 #define MASK_BLOCKLOS_AND_NPCS		(MASK_BLOCKLOS|CONTENTS_MONSTER)
 // everything that blocks line of sight for players
-#define	MASK_VISIBLE					(MASK_OPAQUE|CONTENTS_IGNORE_NODRAW_OPAQUE)
+#define MASK_VISIBLE					(MASK_OPAQUE|CONTENTS_IGNORE_NODRAW_OPAQUE)
 // everything that blocks line of sight for players, but with monsters added.
 #define MASK_VISIBLE_AND_NPCS		(MASK_OPAQUE_AND_NPCS|CONTENTS_IGNORE_NODRAW_OPAQUE)
 // bullets see these as solid
-#define	MASK_SHOT					(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_MONSTER|CONTENTS_WINDOW|CONTENTS_DEBRIS|CONTENTS_HITBOX)
+#define MASK_SHOT					(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_MONSTER|CONTENTS_WINDOW|CONTENTS_DEBRIS|CONTENTS_HITBOX)
 // bullets see these as solid, except monsters (world+brush only)
 #define MASK_SHOT_BRUSHONLY			(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_WINDOW|CONTENTS_DEBRIS)
 // non-raycasted weapons see this as solid (includes grates)
@@ -605,4 +605,33 @@ enum HitGroups: int
 
 // everything that blocks corpse movement
 // UNDONE: Not used yet / may be deleted
-#define	MASK_DEADSOLID				(CONTENTS_SOLID|CONTENTS_PLAYERCLIP|CONTENTS_WINDOW|CONTENTS_GRATE)
+#define MASK_DEADSOLID				(CONTENTS_SOLID|CONTENTS_PLAYERCLIP|CONTENTS_WINDOW|CONTENTS_GRATE)
+
+#define SEQUENCE_DEFAULT_DRAW						0
+#define SEQUENCE_DEFAULT_IDLE1						1
+#define SEQUENCE_DEFAULT_IDLE2						2
+#define SEQUENCE_DEFAULT_LIGHT_MISS1				3
+#define SEQUENCE_DEFAULT_LIGHT_MISS2				4
+#define SEQUENCE_DEFAULT_HEAVY_MISS1				9
+#define SEQUENCE_DEFAULT_HEAVY_HIT1					10
+#define SEQUENCE_DEFAULT_HEAVY_BACKSTAB				11
+#define SEQUENCE_DEFAULT_LOOKAT01					12
+
+#define SEQUENCE_BUTTERFLY_DRAW						0
+#define SEQUENCE_BUTTERFLY_DRAW2					1
+#define SEQUENCE_BUTTERFLY_LOOKAT01					13
+#define SEQUENCE_BUTTERFLY_LOOKAT03					15
+
+#define SEQUENCE_FALCHION_IDLE1						1
+#define SEQUENCE_FALCHION_HEAVY_MISS1				8
+#define SEQUENCE_FALCHION_HEAVY_MISS1_NOFLIP		9
+#define SEQUENCE_FALCHION_LOOKAT01					12
+#define SEQUENCE_FALCHION_LOOKAT02					13
+
+#define SEQUENCE_DAGGERS_IDLE1						1
+#define SEQUENCE_DAGGERS_LIGHT_MISS1 				2
+#define SEQUENCE_DAGGERS_LIGHT_MISS5 				6
+#define SEQUENCE_DAGGERS_HEAVY_MISS2 				11
+#define SEQUENCE_DAGGERS_HEAVY_MISS1 				12
+
+#define SEQUENCE_BOWIE_IDLE1 						1

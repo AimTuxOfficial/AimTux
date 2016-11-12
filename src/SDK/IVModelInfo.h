@@ -465,6 +465,12 @@ private:
 class IVModelInfo
 {
 public:
+	model_t* GetModel(int index)
+	{
+		typedef model_t* (* oGetModel)(void*, int);
+		getvfunc<oGetModel>(this, 2)(this, index);
+	}
+
 	int GetModelIndex(const char* Filename)
 	{
 		typedef int (* oGetModelIndex)(void*, const char*);

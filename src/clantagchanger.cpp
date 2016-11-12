@@ -1,9 +1,4 @@
 #include "clantagchanger.h"
-#include "util.h"
-
-std::string Settings::ClanTagChanger::value = "";
-bool Settings::ClanTagChanger::animation = false;
-bool Settings::ClanTagChanger::enabled = false; // TODO find a way to go back to the "official" clan tag for the player?
 
 std::vector<ClanTagChanger::Animation> ClanTagChanger::animations =
 {
@@ -46,13 +41,13 @@ ClanTagChanger::Animation* ClanTagChanger::animation = &ClanTagChanger::animatio
 
 void ClanTagChanger::CreateMove(CUserCmd* cmd)
 {
-	if (!Settings::ClanTagChanger::enabled)
+	if (!cSettings.ClanTagChanger.enabled)
 		return;
 
 	if (!engine->IsInGame())
 		return;
 
-	if (Settings::ClanTagChanger::value.size() == 0 && !Settings::ClanTagChanger::animation)
+	if (cSettings.ClanTagChanger.value.size() == 0 && !cSettings.ClanTagChanger.animation)
 		return;
 
 	long currentTime_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -65,13 +60,13 @@ void ClanTagChanger::CreateMove(CUserCmd* cmd)
 		ClanTagChanger::animation->NextFrame();
 	}
 
-	if (Settings::ClanTagChanger::animation)
+	if (cSettings.ClanTagChanger.animation)
 	{
 		SendClanTag(ClanTagChanger::animation->GetCurrentFrame().text.c_str(), "");
 	}
 	else 
 	{
-		std::string ctWithEscapesProcessed = std::string(Settings::ClanTagChanger::value);
+		std::string ctWithEscapesProcessed = std::string(cSettings.ClanTagChanger.value);
 		Util::StdReplaceStr(ctWithEscapesProcessed, "\\n", "\n"); // compute time impact? also, referential so i assume RAII builtin cleans it up...
 		SendClanTag(ctWithEscapesProcessed.c_str(), "");
 	}

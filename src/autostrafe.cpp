@@ -1,10 +1,8 @@
 #include "autostrafe.h"
 
-bool Settings::AutoStrafe::enabled = true;
-
 void AutoStrafe::CreateMove(CUserCmd* cmd)
 {
-	if (!Settings::AutoStrafe::enabled)
+	if (!cSettings.AutoStrafe.enabled)
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
