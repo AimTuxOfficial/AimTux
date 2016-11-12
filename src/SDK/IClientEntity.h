@@ -75,6 +75,11 @@ class IClientEntity : public IClientUnknown, public IClientRenderable, public IC
 {
 public:
 	virtual ~IClientEntity() {};
+
+	int GetIndex()
+	{
+		return *(int*)((uintptr_t)this + 0x94);
+	}
 };
 
 class C_BaseEntity : public IClientEntity
@@ -425,6 +430,11 @@ public:
 	int GetWeapon()
 	{
 		return *(int*)((uintptr_t)this + offsets.DT_BaseViewModel.m_hWeapon);
+	}
+
+	int GetOwner()
+	{
+		return *(int*)((uintptr_t)this + offsets.DT_BaseViewModel.m_hOwner);
 	}
 };
 

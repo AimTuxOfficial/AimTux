@@ -38,6 +38,7 @@ CMoveData* g_MoveData = nullptr;
 GlowObjectManagerFn GlowObjectManager;
 MsgFunc_ServerRankRevealAllFn MsgFunc_ServerRankRevealAll;
 SendClanTagFn SendClanTag;
+RecvVarProxyFn fnSequenceProxyFn;
 
 std::unordered_map<const char*, uintptr_t> GetProcessLibraries() {
 	std::unordered_map<const char*, uintptr_t> modules;

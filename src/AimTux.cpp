@@ -49,6 +49,8 @@ int __attribute__((constructor)) aimtux_init()
 	inputInternal_vmt->HookVM((void*) Hooks::SetKeyCodeState, 92);
 	inputInternal_vmt->ApplyVMT();
 
+	SkinChanger::HookCBaseViewModel();
+
 	NetVarManager::dumpNetvars();
 	Offsets::getOffsets();
 
@@ -71,6 +73,8 @@ void __attribute__((destructor)) aimtux_shutdown()
 	gameEvents_vmt->ReleaseVMT();
 	viewRender_vmt->ReleaseVMT();
 	inputInternal_vmt->ReleaseVMT();
+
+	SkinChanger::UnhookCBaseViewModel();
 
 	*bSendPacket = true;
 

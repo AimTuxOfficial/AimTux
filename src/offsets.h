@@ -73,6 +73,7 @@ struct COffsets
 	{
 		int m_nModelIndex;
 		int m_hWeapon;
+		int m_hOwner;
 	} DT_BaseViewModel;
 
 	struct
