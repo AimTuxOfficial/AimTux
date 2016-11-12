@@ -264,8 +264,6 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	Json::Value settings;
 	Json::StyledWriter styledWriter;
 
-	Settings::LoadDefaults();
-
 	LoadColor(settings["UI"]["mainColor"], cSettings.UI.mainColor);
 	settings["UI"]["Fonts"]["Title"]["family"] = cSettings.UI.Fonts.Title.family;
 	settings["UI"]["Fonts"]["Title"]["size"] = cSettings.UI.Fonts.Title.size;
@@ -425,6 +423,8 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 
 void Settings::LoadSettings(const char* filename)
 {
+	Settings::LoadDefaults();
+
 	if (!std::ifstream(GetSettingsPath(filename)).good())
 	{
 		Settings::LoadDefaultsOrSave(filename);
