@@ -248,6 +248,7 @@ struct CSettings
 		{
 			bool showName;
 			bool showHealth;
+			bool showWeapon;
 			Color ally_color = Color(0, 50, 200);
 			Color enemy_color = Color(200, 0, 50);
 			Color enemy_visible_color = Color(200, 200, 50);
