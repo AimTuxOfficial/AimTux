@@ -3,22 +3,14 @@
 HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 	: Panel::Panel (position, size)
 {
-<<<<<<< HEAD
-	ba_antiaim = new Banner ("Anti Aim", LOC (10, 10), (size.x - 20) / 2 - 5);
-=======
-	ba_antiaim = new Banner ("Antiaim", LOC (10, 10), (size.x - 20) / 2 - (5) - 60);
->>>>>>> master
+	ba_antiaim = new Banner ("Anti Aim", LOC (10, 10), (size.x - 20) / 2 - (5) - 60);
+
 	AddComponent (ba_antiaim);
 
 	ts_antiaim_y = new ToggleSwitch ("Y Axis", BELOW (ba_antiaim), LOC((size.x - 20) / 6.75, 30), &Settings::AntiAim::enabled_Y);
 	AddComponent (ts_antiaim_y);
-<<<<<<< HEAD
 
 	lb_antiaim_y = new ListBox<AntiAimType_Y> ("anti aim type", BELOW (ts_antiaim_y), (size.x - 20) / 6.75, &Settings::AntiAim::type_Y, std::vector<LB_Element>
-=======
-	
-	lb_antiaim_y = new ListBox<AntiAimType_Y> ("anti aim type", BELOW (ts_antiaim_y), 200, &Settings::AntiAim::type_Y, std::vector<LB_Element>
->>>>>>> master
 		{
 			LB_Element ("SLOW SPIN", SPIN_SLOW),
 			LB_Element ("FAST SPIN", SPIN_FAST),
@@ -37,11 +29,7 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 	ts_antiaim_x = new ToggleSwitch ("X Axis", STACK(ts_antiaim_y), LOC((size.x - 20) / 6.75, 30), &Settings::AntiAim::enabled_X);
 	AddComponent (ts_antiaim_x);
 
-<<<<<<< HEAD
 	lb_antiaim_x = new ListBox<AntiAimType_X> ("anti aim type", BELOW (ts_antiaim_x), (size.x - 20) / 6.75, &Settings::AntiAim::type_X, std::vector<LB_Element>
-=======
-	lb_antiaim_x = new ListBox<AntiAimType_X> ("anti aim type", BELOW (ts_antiaim_x), 200, &Settings::AntiAim::type_X, std::vector<LB_Element>
->>>>>>> master
 		{
 			LB_Element ("UP", STATIC_UP),
 			LB_Element ("DOWN", STATIC_DOWN),
@@ -52,9 +40,8 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 		}
 	);
 	AddComponent (lb_antiaim_x);
-<<<<<<< HEAD
 
-	ba_movement = new Banner ("Movement", BELOW (lb_antiaim_y), (size.x - 20) / 2 - 5);
+	ba_movement = new Banner ("Movement", BELOW (lb_antiaim_y), (size.x - 20) / 2 - (5) - 60);
 	AddComponent (ba_movement);
 
 	ts_autocrouch = new ToggleSwitch ("Auto Crouch", BELOW (ba_movement), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoCrouch::enabled);
@@ -63,11 +50,8 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 	ts_autostop = new ToggleSwitch ("Auto Stop", STACK (ts_autocrouch), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoStop::enabled);
 	AddComponent (ts_autostop);
 
-	ba_autowall = new Banner ("Auto Wall", STACK (ba_antiaim), (size.x - 20) / 2 - 5);
-=======
-	
-	ba_autowall = new Banner ("Autowall", STACK (ba_antiaim), (size.x - 20) / 2 - (5) + 60);
->>>>>>> master
+	ba_autowall = new Banner ("Auto Wall", STACK (ba_antiaim), (size.x - 20) / 2 - (5) + 60);
+
 	AddComponent (ba_autowall);
 
 	ts_autowall = new ToggleSwitch ("Enabled", BELOW (ba_autowall), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoWall::enabled);
