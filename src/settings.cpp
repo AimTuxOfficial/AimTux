@@ -350,6 +350,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["ESP"]["Chams"]["Arms"]["enabled"] = cSettings.ESP.Chams.Arms.enabled;
 	settings["ESP"]["Chams"]["Arms"]["type"] = cSettings.ESP.Chams.Arms.type;
 	LoadColor(settings["ESP"]["Chams"]["players_ally_color"], cSettings.ESP.Chams.players_ally_color);
+	LoadColor(settings["ESP"]["Chams"]["players_ally_visible_color"], cSettings.ESP.Chams.players_ally_visible_color);
 	LoadColor(settings["ESP"]["Chams"]["players_enemy_color"], cSettings.ESP.Chams.players_enemy_color);
 	LoadColor(settings["ESP"]["Chams"]["players_enemy_visible_color"], cSettings.ESP.Chams.players_enemy_visible_color);
 	LoadColor(settings["ESP"]["Chams"]["Arms"]["color"], cSettings.ESP.Chams.Arms.color);
