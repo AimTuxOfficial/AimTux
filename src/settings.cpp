@@ -53,7 +53,7 @@ void GetOrdinal(Json::Value& config, Ord* setting)
 	Ord value;
 	if (config.isString())
 		value = lookupFunction(config.asString());
-	else 
+	else
 		value = (Ord) config.asInt();
 
 	*setting = value;
@@ -175,14 +175,12 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["ESP"]["FOVCrosshair"]["enabled"] = Settings::ESP::FOVCrosshair::enabled;
 	settings["ESP"]["Chams"]["players"] = Settings::ESP::Chams::players;
 	settings["ESP"]["Chams"]["visibility_check"] = Settings::ESP::Chams::visibility_check;
-	settings["ESP"]["Chams"]["arms"] = Settings::ESP::Chams::arms;
-	settings["ESP"]["Chams"]["rainbow_arms"] = Settings::ESP::Chams::rainbow_arms;
-	settings["ESP"]["Chams"]["wireframe_arms"] = Settings::ESP::Chams::wireframe_arms;
-	settings["ESP"]["Chams"]["no_arms"] = Settings::ESP::Chams::no_arms;
+	settings["ESP"]["Chams"]["Arms"]["enabled"] = Settings::ESP::Chams::Arms::enabled;
+	settings["ESP"]["Chams"]["Arms"]["type"] = Settings::ESP::Chams::Arms::type;
 	LoadColor(settings["ESP"]["Chams"]["players_ally_color"], Settings::ESP::Chams::players_ally_color);
 	LoadColor(settings["ESP"]["Chams"]["players_enemy_color"], Settings::ESP::Chams::players_enemy_color);
 	LoadColor(settings["ESP"]["Chams"]["players_enemy_visible_color"], Settings::ESP::Chams::players_enemy_visible_color);
-	LoadColor(settings["ESP"]["Chams"]["arms_color"], Settings::ESP::Chams::arms_color);
+	LoadColor(settings["ESP"]["Chams"]["Arms"]["color"], Settings::ESP::Chams::Arms::color);
 	settings["ESP"]["Chams"]["type"] = Settings::ESP::Chams::type;
 
 	settings["Dlights"]["enabled"] = Settings::Dlights::enabled;
@@ -241,9 +239,6 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 
 	settings["NameChanger"]["enabled"] = Settings::NameChanger::enabled;
 	settings["NameChanger"]["last_blank"] = Settings::NameChanger::last_blank;
-
-	settings["Teleport"]["enabled"] = Settings::Teleport::enabled;
-	settings["Teleport"]["key"] = Util::GetButtonName(Settings::Teleport::key);
 
 	settings["FakeLag"]["enabled"] = Settings::FakeLag::enabled;
 
@@ -346,14 +341,12 @@ void Settings::LoadSettings(const char* filename)
 	GetBool(settings["ESP"]["FOVCrosshair"]["enabled"], &Settings::ESP::FOVCrosshair::enabled);
 	GetBool(settings["ESP"]["Chams"]["players"], &Settings::ESP::Chams::players);
 	GetBool(settings["ESP"]["Chams"]["visibility_check"], &Settings::ESP::Chams::visibility_check);
-	GetBool(settings["ESP"]["Chams"]["arms"], &Settings::ESP::Chams::arms);
-	GetBool(settings["ESP"]["Chams"]["rainbow_arms"], &Settings::ESP::Chams::rainbow_arms);
-	GetBool(settings["ESP"]["Chams"]["wireframe_arms"], &Settings::ESP::Chams::wireframe_arms);
-	GetBool(settings["ESP"]["Chams"]["no_arms"], &Settings::ESP::Chams::no_arms);
+	GetBool(settings["ESP"]["Chams"]["Arms"]["enabled"], &Settings::ESP::Chams::Arms::enabled);
+	GetInt(settings["ESP"]["Chams"]["Arms"]["type"], &Settings::ESP::Chams::Arms::type);
 	GetColor(settings["ESP"]["Chams"]["players_ally_color"], &Settings::ESP::Chams::players_ally_color);
 	GetColor(settings["ESP"]["Chams"]["players_enemy_color"], &Settings::ESP::Chams::players_enemy_color);
 	GetColor(settings["ESP"]["Chams"]["players_enemy_visible_color"], &Settings::ESP::Chams::players_enemy_visible_color);
-	GetColor(settings["ESP"]["Chams"]["arms_color"], &Settings::ESP::Chams::arms_color);
+	GetColor(settings["ESP"]["Chams"]["Arms"]["color"], &Settings::ESP::Chams::Arms::color);
 	GetInt(settings["ESP"]["Chams"]["type"], &Settings::ESP::Chams::type);
 
 	GetBool(settings["Dlights"]["enabled"], &Settings::Dlights::enabled);

@@ -6,23 +6,23 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	ba_movement = new Banner ("Movement", LOC (10, 10), (size.x - 20) / 2 - 5);
 	AddComponent (ba_movement);
 
-	ts_bhop = new ToggleSwitch ("bhop", BELOW (ba_movement), 33, &Settings::BHop::enabled);
+	ts_bhop = new ToggleSwitch ("Bunny Hop", BELOW (ba_movement), LOC((size.x - 20) / 6.75, 30), &Settings::BHop::enabled);
 	AddComponent (ts_bhop);
-	
-	ts_autostrafe = new ToggleSwitch ("auto strafe", BELOW (ts_bhop), 33, &Settings::AutoStrafe::enabled);
+
+	ts_autostrafe = new ToggleSwitch ("Auto Strafe", STACK (ts_bhop), LOC((size.x - 20) / 6.75, 30), &Settings::AutoStrafe::enabled);
 	AddComponent (ts_autostrafe);
 
-	ts_airstuck = new ToggleSwitch ("airstuck", BELOW (ts_autostrafe), 33, &Settings::Airstuck::enabled);
+	ts_airstuck = new ToggleSwitch ("Air Stuck", BELOW (ts_bhop), LOC((size.x - 20) / 6.75, 30), &Settings::Airstuck::enabled);
 	AddComponent (ts_airstuck);
 
-	kb_airstuck_key =  new KeyBind ("", STACK (ts_airstuck), LOC (220, 33),  &Settings::Airstuck::key);
+	kb_airstuck_key =  new KeyBind ("", STACK (ts_airstuck), LOC((size.x - 20) / 6.75, 30),  &Settings::Airstuck::key);
 	AddComponent(kb_airstuck_key);
 
 #ifdef UNTRUSTED_SETTINGS
-	ts_teleport = new ToggleSwitch ("teleport", BELOW (ts_airstuck), 33, &Settings::Teleport::enabled);
+	ts_teleport = new ToggleSwitch ("Teleport", BELOW (ts_airstuck), LOC((size.x - 20) / 6.75, 30), &Settings::Teleport::enabled);
 	AddComponent (ts_teleport);
 
-	kb_teleport_key =  new KeyBind ("", STACK (ts_teleport), LOC (220, 33),  &Settings::Teleport::key);
+	kb_teleport_key =  new KeyBind ("", STACK (ts_teleport), LOC((size.x - 20) / 6.75, 30),  &Settings::Teleport::key);
 	AddComponent(kb_teleport_key);
 
 	ba_spammer = new Banner ("Spammer", BELOW (ts_teleport), (size.x - 20) / 2 - 5);
@@ -31,95 +31,95 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 #endif
 	AddComponent (ba_spammer);
 
-	ts_position_spammer = new ToggleSwitch ("position spammer", BELOW (ba_spammer), 33, &Settings::Spammer::PositionSpammer::enabled);
+	ts_position_spammer = new ToggleSwitch ("Position Spammer", BELOW (ba_spammer), LOC((size.x - 20) / 6.75, 30), &Settings::Spammer::PositionSpammer::enabled);
 	AddComponent (ts_position_spammer);
 
-	ts_position_spammer_say_team = new ToggleSwitch ("say_team", STACK (ts_position_spammer), 33, &Settings::Spammer::PositionSpammer::say_team);
+	ts_position_spammer_say_team = new ToggleSwitch ("Team Chat", STACK (ts_position_spammer), LOC((size.x - 20) / 6.75, 30), &Settings::Spammer::PositionSpammer::say_team);
 	AddComponent (ts_position_spammer_say_team);
 
-	ts_kill_spammer = new ToggleSwitch ("kill spammer", BELOW (ts_position_spammer), 33, &Settings::Spammer::KillSpammer::enabled);
+	ts_kill_spammer = new ToggleSwitch ("Kill Spammer", BELOW (ts_position_spammer), LOC((size.x - 20) / 6.75, 30), &Settings::Spammer::KillSpammer::enabled);
 	AddComponent (ts_kill_spammer);
 
-	ts_kill_spammer_say_team = new ToggleSwitch ("say_team", STACK (ts_kill_spammer), 33, &Settings::Spammer::KillSpammer::say_team);
+	ts_kill_spammer_say_team = new ToggleSwitch ("Team Chat", STACK (ts_kill_spammer), LOC((size.x - 20) / 6.75, 30), &Settings::Spammer::KillSpammer::say_team);
 	AddComponent (ts_kill_spammer_say_team);
 
-	ts_normal_spammer = new ToggleSwitch ("chat spammer", BELOW (ts_kill_spammer), 33, &Settings::Spammer::NormalSpammer::enabled);
+	ts_normal_spammer = new ToggleSwitch ("Chat Spammer", BELOW (ts_kill_spammer), LOC((size.x - 20) / 6.75, 30), &Settings::Spammer::NormalSpammer::enabled);
 	AddComponent (ts_normal_spammer);
 
-	ts_normal_spammer_say_team = new ToggleSwitch ("say_team", STACK (ts_normal_spammer), 33, &Settings::Spammer::NormalSpammer::say_team);
+	ts_normal_spammer_say_team = new ToggleSwitch ("Team Chat", STACK (ts_normal_spammer), LOC((size.x - 20) / 6.75, 30), &Settings::Spammer::NormalSpammer::say_team);
 	AddComponent (ts_normal_spammer_say_team);
 
 	ba_other = new Banner ("Other", STACK (ba_movement), (size.x - 20) / 2 - 5);
 	AddComponent (ba_other);
 
-	ts_noflash = new ToggleSwitch ("no flash", BELOW (ba_other), 33, &Settings::Noflash::enabled);
+	ts_noflash = new ToggleSwitch ("No Flash", BELOW (ba_other), LOC((size.x - 20) / 6.75, 30), &Settings::Noflash::enabled);
 	AddComponent (ts_noflash);
 
-	sl_noflash_value = new Slider ("", STACK (ts_noflash), LOC ((size.x / 2) - ts_noflash->size.x - 30, 33), &Settings::Noflash::value, 0.0f, 255.0f);
+	sl_noflash_value = new Slider ("", STACK (ts_noflash), LOC ((size.x / 2) - ts_noflash->size.x - 30, 30), &Settings::Noflash::value, 0.0f, 255.0f);
 	AddComponent (sl_noflash_value);
 
-	ts_fov = new ToggleSwitch ("view fov", BELOW (ts_noflash), 33, &Settings::FOVChanger::enabled);
+	ts_fov = new ToggleSwitch ("View FOV", BELOW (ts_noflash), LOC((size.x - 20) / 6.75, 30), &Settings::FOVChanger::enabled);
 	AddComponent (ts_fov);
 
-	sl_fov_value = new Slider ("", STACK (ts_fov), LOC ((size.x / 2) - ts_fov->size.x - 30, 33), &Settings::FOVChanger::value, 0.0f, 180.0f);
+	sl_fov_value = new Slider ("", STACK (ts_fov), LOC ((size.x / 2) - ts_fov->size.x - 30, 30), &Settings::FOVChanger::value, 0.0f, 180.0f);
 	AddComponent (sl_fov_value);
 
-	ts_fov_viewmodel = new ToggleSwitch ("viewmodel fov", BELOW (ts_fov), 33, &Settings::FOVChanger::viewmodel_enabled);
+	ts_fov_viewmodel = new ToggleSwitch ("Viewmodel FOV", BELOW (ts_fov), LOC((size.x - 20) / 6.75, 30), &Settings::FOVChanger::viewmodel_enabled);
 	AddComponent (ts_fov_viewmodel);
 
-	sl_fov_viewmodel_value = new Slider ("", STACK (ts_fov_viewmodel), LOC ((size.x / 2) - ts_fov_viewmodel->size.x - 30, 33), &Settings::FOVChanger::viewmodel_value, 0.0f, 360.0f);
+	sl_fov_viewmodel_value = new Slider ("", STACK (ts_fov_viewmodel), LOC ((size.x / 2) - ts_fov_viewmodel->size.x - 30, 30), &Settings::FOVChanger::viewmodel_value, 0.0f, 360.0f);
 	AddComponent (sl_fov_viewmodel_value);
 
-	ts_radar = new ToggleSwitch ("radar", BELOW (ts_fov_viewmodel), 33, &Settings::Radar::enabled);
-	AddComponent (ts_radar);
-
-	ts_fakelag = new ToggleSwitch ("fake lag", BELOW (ts_radar), 33, &Settings::FakeLag::enabled);
+	ts_fakelag = new ToggleSwitch ("Fake Lag", BELOW (ts_fov_viewmodel), LOC((size.x - 20) / 6.75, 30), &Settings::FakeLag::enabled);
 	AddComponent (ts_fakelag);
-	
+
 	sl_fakelag = new Slider_INT ("", STACK (ts_fakelag), LOC ((size.x / 2) - ts_fakelag->size.x - 30, 33), &Settings::FakeLag::value, 0, 16);
 	AddComponent (sl_fakelag);
-	
-	ts_showranks = new ToggleSwitch ("show ranks", BELOW (ts_fakelag), 33, &Settings::ShowRanks::enabled);
+
+	ts_radar = new ToggleSwitch ("Radar", BELOW (ts_fakelag), LOC((size.x - 20) / 6.75, 30), &Settings::Radar::enabled);
+	AddComponent (ts_radar);
+
+	ts_showranks = new ToggleSwitch ("Show Ranks", BELOW (ts_radar), LOC((size.x - 20) / 6.75, 30), &Settings::ShowRanks::enabled);
 	AddComponent (ts_showranks);
 
-	ts_showspectators = new ToggleSwitch ("show spectators", BELOW (ts_showranks), 33, &Settings::ShowSpectators::enabled);
+	ts_showspectators = new ToggleSwitch ("Show Spectators", STACK (ts_showranks), LOC((size.x - 20) / 6.75, 30), &Settings::ShowSpectators::enabled);
 	AddComponent (ts_showspectators);
 
-	ts_clantag = new ToggleSwitch ("custom clantag", BELOW (ts_showspectators), 33, &Settings::ClanTagChanger::enabled);
+	ts_clantag = new ToggleSwitch ("Custom Clantag", BELOW (ts_showranks), LOC((size.x - 20) / 6.75, 30), &Settings::ClanTagChanger::enabled);
 	AddComponent (ts_clantag);
 
-	tb_clantag = new TextBox ("clantag", &Settings::ClanTagChanger::value, STACK (ts_clantag), LOC (270, 33));
+	tb_clantag = new TextBox ("Clantag", &Settings::ClanTagChanger::value, STACK (ts_clantag), LOC((size.x - 20) / 6.75, 30));
 	AddComponent (tb_clantag);
-	
-	ts_clantag_animation = new ToggleSwitch ("clantag animation", BELOW (ts_clantag), 33, &Settings::ClanTagChanger::animation);
+
+	ts_clantag_animation = new ToggleSwitch ("Clantag Animation", BELOW (ts_clantag), LOC((size.x - 20) / 6.75, 30), &Settings::ClanTagChanger::animation);
 	AddComponent (ts_clantag_animation);
 
-	vtb_nickname = new ValueTextBox ("nickname", "", BELOW (ts_clantag_animation), LOC (270, 33));
+	vtb_nickname = new ValueTextBox ("Nickname", "", BELOW (ts_clantag_animation), LOC((size.x - 20) / 6.75, 30));
 	AddComponent (vtb_nickname);
 
-	ob_nickname = new OutlinedButton ("set nickname", STACK (vtb_nickname), LOC (120, 33));
+	ob_nickname = new OutlinedButton ("Set Nickname", STACK (vtb_nickname), LOC((size.x - 20) / 6.75, 30));
 	ob_nickname->OnClickedEvent = MFUNC (&MiscPanel::ob_nickname_clicked, this);
 	AddComponent (ob_nickname);
 
-	ob_noname = new OutlinedButton ("no name", BELOW (vtb_nickname), LOC (120, 33));
+	ob_noname = new OutlinedButton ("No Name", BELOW (vtb_nickname), LOC((size.x - 20) / 6.75, 30));
 	ob_noname->OnClickedEvent = MFUNC (&MiscPanel::ob_noname_clicked, this);
 	AddComponent (ob_noname);
-	
+
 	ba_colors = new Banner ("Colors", BELOW (ob_noname), (size.x - 20) / 2 - 5);
-	AddComponent (ba_colors); 
-	
+	AddComponent (ba_colors);
+
 	int x_wide = ba_colors->size.x / 4;
-	
-	bn_ui_color = new OutlinedButton ("Main UI", BELOW (ba_colors), LOC (x_wide, 33));
+
+	bn_ui_color = new OutlinedButton ("Main UI", BELOW (ba_colors), LOC((size.x - 20) / 6.75, 30));
 	bn_ui_color->OnClickedEvent = MFUNC (&MiscPanel::bn_ui_color_clicked, this);
 	AddComponent (bn_ui_color);
-	
-	bn_2_color = new OutlinedButton ("X", STACK (bn_ui_color), LOC (x_wide - 10, 33));
+
+	bn_2_color = new OutlinedButton ("X", STACK (bn_ui_color), LOC((size.x - 20) / 6.75, 30));
 	AddComponent (bn_2_color);
-	
-	bn_3_color = new OutlinedButton ("XX", STACK (bn_2_color), LOC (x_wide - 20, 33));
+
+	bn_3_color = new OutlinedButton ("XX", STACK (bn_2_color), LOC((size.x - 20) / 6.75, 30));
 	AddComponent (bn_3_color);
-	
+
 	Hide ();
 }
 
@@ -141,8 +141,8 @@ void MiscPanel::ob_noname_clicked ()
 void MiscPanel::bn_ui_color_clicked ()
 {
 	static PopupColorWindow* wn_pop_color = new PopupColorWindow ("UI Main Color", LOC(420, 270), LOC(100,100), Color(0, 0, 0, 0), &Settings::UI::mainColor);
-	
-	
+
+
 	if (!wn_pop_color->IsShown())
 	{
 		gui->AddWindow (wn_pop_color);
