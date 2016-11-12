@@ -28,9 +28,6 @@ private:
 	ToggleSwitch* ts_autopistol;
 	ToggleSwitch* ts_autoshoot;
 	ToggleSwitch* ts_autoscope;
-	Banner* ba_movement;
-	ToggleSwitch* ts_autocrouch;
-	ToggleSwitch* ts_autostop;
 	Banner* ba_target;
 	ToggleSwitch* ts_friendly;
 	StackedListBox<Bone>* lb_aimbone;

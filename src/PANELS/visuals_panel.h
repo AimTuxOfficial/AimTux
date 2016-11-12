@@ -25,9 +25,7 @@ private:
 	Banner*	ba_chams;
 	ToggleSwitch* ts_chams_players;
 	ToggleSwitch* ts_chams_arms;
-	ToggleSwitch* ts_chams_rainbow_arms;
-	ToggleSwitch* ts_chams_wireframe_arms;
-	ToggleSwitch* ts_chams_no_arms;
+	StackedListBox<ArmsType>* lb_armstype;
 	ToggleSwitch* ts_chams_visibility_check;
 	StackedListBox<ChamsType>* lb_chamstype;
 	Banner*	ba_other;

@@ -52,6 +52,14 @@ enum WallBoxType : unsigned int
 	BOX_3D
 };
 
+enum ArmsType : unsigned int
+{
+	RAINBOW,
+	WIREFRAME,
+	NONE,
+	DEFAULT
+};
+
 namespace Settings
 {
 	namespace UI
@@ -246,16 +254,18 @@ namespace Settings
 		{
 			extern bool players;
 			extern bool visibility_check;
-			extern bool arms;
-			extern bool rainbow_arms;
-			extern bool wireframe_arms;
-			extern bool no_arms;
 			extern Color players_ally_color;
 			extern Color players_ally_visible_color;
 			extern Color players_enemy_color;
 			extern Color players_enemy_visible_color;
-			extern Color arms_color;
 			extern ChamsType type;
+
+			namespace Arms
+			{
+				extern bool enabled;
+				extern Color color;
+				extern ArmsType type;
+			}
 		}
 	}
 

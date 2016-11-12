@@ -9,14 +9,17 @@ class HVHPanel;
 class HVHPanel : public Panel
 {
 private:
-	
+
 	Banner* ba_antiaim;
 	ListBox<AntiAimType_X>* lb_antiaim_x;
 	ToggleSwitch* ts_antiaim_x;
 	ListBox<AntiAimType_Y>* lb_antiaim_y;
 	ToggleSwitch* ts_antiaim_y;
-	
-	
+	Banner* ba_movement;
+	ToggleSwitch* ts_autocrouch;
+	ToggleSwitch* ts_autostop;
+
+
 	Banner* ba_autowall;
 	ToggleSwitch* ts_autowall;
 	Slider* sl_autowall;
