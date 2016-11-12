@@ -29,7 +29,7 @@ public:
 		if(!mClicked)
 			chooseStarted = true;
 		else
-			mClicked = 0;
+			mClicked = false;
 	}
 
 
