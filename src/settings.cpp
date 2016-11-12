@@ -240,6 +240,9 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["NameChanger"]["enabled"] = Settings::NameChanger::enabled;
 	settings["NameChanger"]["last_blank"] = Settings::NameChanger::last_blank;
 
+	settings["Teleport"]["enabled"] = Settings::Teleport::enabled;
+	settings["Teleport"]["key"] = Settings::Teleport::key;
+
 	settings["FakeLag"]["enabled"] = Settings::FakeLag::enabled;
 
 	std::ofstream(GetSettingsPath(filename)) << styledWriter.write(settings);
