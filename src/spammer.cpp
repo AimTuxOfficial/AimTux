@@ -64,14 +64,13 @@ void Spammer::CreateMove(CUserCmd* cmd)
 		for (int i = lastId; i < engine->GetMaxClients(); i++)
 		{
 			C_BaseEntity *entity = entitylist->GetClientEntity(i);
-			if (!entity)
-				continue;
 
 			lastId++;
 			if (lastId == engine->GetMaxClients())
 				lastId = 1;
 
-			if (entity->GetDormant()
+			if (!entity
+				|| entity->GetDormant()
 				|| !entity->GetAlive()
 				|| entity->GetTeam() == localplayer->GetTeam())
 				continue;
@@ -80,9 +79,6 @@ void Spammer::CreateMove(CUserCmd* cmd)
 			engine->GetPlayerInfo(i, &entityInformation);
 
 			C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(entity->GetActiveWeapon());
-			if (!active_weapon)
-				continue;
-
 			std::string modelName = std::string(active_weapon->GetClientClass()->m_pNetworkName);
 			if (strstr(modelName.c_str(), "Weapon"))
 				modelName = modelName.substr(7, modelName.length() - 7);
