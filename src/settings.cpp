@@ -166,6 +166,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["ESP"]["Walls"]["type"] = Settings::ESP::Walls::type;
 	settings["ESP"]["Info"]["showName"] = Settings::ESP::Info::showName;
 	settings["ESP"]["Info"]["showHealth"] = Settings::ESP::Info::showHealth;
+	settings["ESP"]["Info"]["colorCode"] = Settings::ESP::Info::colorCode;
 	LoadColor(settings["ESP"]["Info"]["ally_color"], Settings::ESP::Info::ally_color);
 	LoadColor(settings["ESP"]["Info"]["enemy_color"], Settings::ESP::Info::enemy_color);
 	LoadColor(settings["ESP"]["Info"]["enemy_visible_color"], Settings::ESP::Info::enemy_visible_color);
@@ -337,6 +338,7 @@ void Settings::LoadSettings(const char* filename)
 	GetInt(settings["ESP"]["Walls"]["type"], &Settings::ESP::Walls::type);
 	GetBool(settings["ESP"]["Info"]["showName"], &Settings::ESP::Info::showName);
 	GetBool(settings["ESP"]["Info"]["showHealth"], &Settings::ESP::Info::showHealth);
+	GetBool(settings["ESP"]["Info"]["colorCode"], &Settings::ESP::Info::colorCode);
 	GetColor(settings["ESP"]["Info"]["ally_color"], &Settings::ESP::Info::ally_color);
 	GetColor(settings["ESP"]["Info"]["enemy_color"], &Settings::ESP::Info::enemy_color);
 	GetColor(settings["ESP"]["Info"]["enemy_visible_color"], &Settings::ESP::Info::enemy_visible_color);

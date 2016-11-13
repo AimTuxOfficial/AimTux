@@ -225,6 +225,7 @@ namespace Settings
 		{
 			extern bool showName;
 			extern bool showHealth;
+			extern bool colorCode;
 			extern Color ally_color;
 			extern Color enemy_visible_color;
 			extern Color enemy_color;
