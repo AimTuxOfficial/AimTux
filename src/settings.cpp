@@ -276,7 +276,9 @@ void Settings::LoadSettings(const char* filename)
 	GetCString(settings["UI"]["Fonts"]["Mono"]["family"], &Settings::UI::Fonts::Mono::family);
 	GetInt(settings["UI"]["Fonts"]["Mono"]["size"], &Settings::UI::Fonts::Mono::size);
 
-	Fonts::SetupFonts();
+	title_font = Draw::CreateFont(Settings::UI::Fonts::Title::family, Settings::UI::Fonts::Title::size, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
+	normal_font = Draw::CreateFont(Settings::UI::Fonts::Normal::family, Settings::UI::Fonts::Normal::size, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
+	esp_font = Draw::CreateFont(Settings::UI::Fonts::ESP::family, Settings::UI::Fonts::ESP::size, FONTFLAG_ANTIALIAS | FONTFLAG_OUTLINE);
 
 	GetBool(settings["Aimbot"]["enabled"], &Settings::Aimbot::enabled);
 	GetBool(settings["Aimbot"]["silent"], &Settings::Aimbot::silent);

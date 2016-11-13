@@ -18,6 +18,6 @@ void Fonts::SetupFonts()
 {
 	title_font = Draw::CreateFont(Settings::UI::Fonts::Title::family, Settings::UI::Fonts::Title::size, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
 	normal_font = Draw::CreateFont(Settings::UI::Fonts::Normal::family, Settings::UI::Fonts::Normal::size, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
-	esp_font = Draw::CreateFont(Settings::UI::Fonts::ESP::family, Settings::UI::Fonts::ESP::size, FONTFLAG_ANTIALIAS);
+	esp_font = Draw::CreateFont(Settings::UI::Fonts::ESP::family, Settings::UI::Fonts::ESP::size, FONTFLAG_OUTLINE | FONTFLAG_ANTIALIAS);
 	mono_font = Draw::CreateFont(Settings::UI::Fonts::Mono::family, Settings::UI::Fonts::Mono::size, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
 }
