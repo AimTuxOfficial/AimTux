@@ -66,18 +66,18 @@ AimbotPanel::AimbotPanel (Vector2D position, Vector2D size)
 	ts_friendly = new ToggleSwitch ("Friendly", BELOW (ba_target), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::friendly);
 	AddComponent (ts_friendly);
 
-	lb_aimbone = new StackedListBox<Bone>("AimBone", BELOW (ts_friendly), ((size.x - 20) / 2) - 5, 3, (Bone*)&Settings::Aimbot::bone, std::vector<LB_Element>
+	cb_aimbone = new ComboBox<Bone>("AimBone", BELOW (ts_friendly), (size.x - 20) / 6.75, (Bone*)&Settings::Aimbot::bone, std::vector<CB_Element>
 			{
-					LB_Element ("HEAD", BONE_HEAD),
-					LB_Element ("NECK", BONE_NECK),
-					LB_Element ("UPPER SPINE", BONE_UPPER_SPINAL_COLUMN),
-					LB_Element ("MIDDLE SPINE", BONE_MIDDLE_SPINAL_COLUMN),
-					LB_Element ("LOWER SPINE", BONE_LOWER_SPINAL_COLUMN),
-					LB_Element ("HIP", BONE_HIP),
-					LB_Element ("PELVIS", BONE_PELVIS)
-			}
+					CB_Element ("HEAD", BONE_HEAD),
+					CB_Element ("NECK", BONE_NECK),
+					CB_Element ("UPPER SPINE", BONE_UPPER_SPINAL_COLUMN),
+					CB_Element ("MIDDLE SPINE", BONE_MIDDLE_SPINAL_COLUMN),
+					CB_Element ("LOWER SPINE", BONE_LOWER_SPINAL_COLUMN),
+					CB_Element ("HIP", BONE_HIP),
+					CB_Element ("PELVIS", BONE_PELVIS)
+			}, false
 	);
-	AddComponent (lb_aimbone);
+	AddComponent (cb_aimbone);
 
 	Hide ();
 }

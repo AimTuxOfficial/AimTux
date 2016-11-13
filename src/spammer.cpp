@@ -163,4 +163,3 @@ void Spammer::FireEventClientSide(IGameEvent* event)
 
 	Spammer::killedPlayerQueue.push_back(deadPlayer_info);
 }
-

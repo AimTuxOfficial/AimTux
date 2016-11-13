@@ -60,6 +60,15 @@ enum ArmsType : unsigned int
 	DEFAULT
 };
 
+enum TriggerbotFilter : unsigned int
+{
+	HEAD,
+	CHEST,
+	STOMACH,
+	ARMS,
+	LEGS,
+};
+
 namespace Settings
 {
 	namespace UI
@@ -181,6 +190,7 @@ namespace Settings
 			extern bool chest;
 			extern bool stomach;
 			extern bool arms;
+			extern std::vector<TriggerbotFilter> filter;
 			extern bool legs;
 		}
 
