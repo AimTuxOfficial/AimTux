@@ -89,7 +89,6 @@ struct CSettings
 	struct
 	{
 		Color mainColor = Color(230, 75, 100);
-		Color bodyColor = Color(25, 25, 35, 200);
 
 		struct
 		{
@@ -110,6 +109,12 @@ struct CSettings
 				char *family;
 				int size;
 			} ESP;
+
+			struct
+			{
+				char *family;
+				int size;
+			} Mono;
 		} Fonts;
 	} UI;
 
@@ -218,19 +223,19 @@ struct CSettings
 		bool enabled;
 		bool visibility_check;
 		bool friendly;
-		Color ally_color;
-		Color enemy_color;
-		Color enemy_visible_color;
-		Color bones_color;
-		Color bomb_color;
+		Color ally_color = Color(0, 50, 200);
+		Color enemy_color = Color(200, 0, 50);
+		Color enemy_visible_color = Color(200, 200, 50);
+		Color bones_color = Color(255, 255, 255);
+		Color bomb_color = Color(200, 0, 50);
 
 		struct
 		{
 			bool enabled;
-			Color ally_color;
-			Color enemy_color;
-			Color enemy_visible_color;
-			Color weapon_color;
+			Color ally_color = Color(0, 50, 200, 0);
+			Color enemy_color = Color(200, 0, 50, 0);
+			Color enemy_visible_color = Color(200, 200, 50, 0);
+			Color weapon_color = Color(200, 0, 50, 200);
 		} Glow;
 
 		struct
@@ -249,9 +254,10 @@ struct CSettings
 		{
 			bool showName;
 			bool showHealth;
-			Color ally_color;
-			Color enemy_visible_color;
-			Color enemy_color;
+			bool showWeapon;
+			Color ally_color = Color(0, 50, 200);
+			Color enemy_color = Color(200, 0, 50);
+			Color enemy_visible_color = Color(200, 200, 50);
 		} Info;
 
 		struct
@@ -278,16 +284,16 @@ struct CSettings
 		{
 			bool players;
 			bool visibility_check;
-			Color players_ally_color;
-			Color players_ally_visible_color;
-			Color players_enemy_color;
-			Color players_enemy_visible_color;
+			Color players_ally_color = Color(7, 98, 168);
+			Color players_ally_visible_color = Color(40, 52, 138);
+			Color players_enemy_color = Color(243, 24, 28);
+			Color players_enemy_visible_color = Color(243, 159, 20);
 			ChamsType type;
 
 			struct
 			{
 				bool enabled;
-				Color color;
+				Color color = Color(117, 43, 73);
 				ArmsType type;
 			} Arms;
 		} Chams;
@@ -297,8 +303,8 @@ struct CSettings
 	{
 		bool enabled;
 		float radius;
-		Color ally_color;
-		Color enemy_color;
+		Color ally_color = Color(0, 50, 200);
+		Color enemy_color = Color(200, 0, 50);
 	} Dlights;
 
 	struct

@@ -93,13 +93,15 @@ void LoadColor(Json::Value &config, Color color)
 
 void Settings::LoadDefaults()
 {
-	cSettings.UI.mainColor = Color (230, 75, 100);
+	cSettings.UI.mainColor = Color(230, 75, 100);
 	cSettings.UI.Fonts.Title.family = (char *) "Arial";
 	cSettings.UI.Fonts.Title.size = 20;
 	cSettings.UI.Fonts.Normal.family = (char *) "Arial";
 	cSettings.UI.Fonts.Normal.size = 17;
 	cSettings.UI.Fonts.ESP.family = (char *) "Andale Mono";
 	cSettings.UI.Fonts.ESP.size = 20;
+	cSettings.UI.Fonts.Mono.family = (char *) "DejaVu Sans Mono";
+	cSettings.UI.Fonts.Mono.size = 17;
 
 	cSettings.Aimbot.enabled = true;
 	cSettings.Aimbot.silent = false;
@@ -161,6 +163,7 @@ void Settings::LoadDefaults()
 	cSettings.ESP.Walls.type = WallBoxType::FLAT_2D;
 	cSettings.ESP.Info.showName = true;
 	cSettings.ESP.Info.showHealth = false;
+	cSettings.ESP.Info.showWeapon = false;
 	cSettings.ESP.Info.ally_color = Color(0, 50, 200);
 	cSettings.ESP.Info.enemy_color = Color(200, 0, 50);
 	cSettings.ESP.Info.enemy_visible_color = Color(200, 200, 50);
@@ -271,6 +274,8 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["UI"]["Fonts"]["Normal"]["size"] = cSettings.UI.Fonts.Normal.size;
 	settings["UI"]["Fonts"]["ESP"]["family"] = cSettings.UI.Fonts.ESP.family;
 	settings["UI"]["Fonts"]["ESP"]["size"] = cSettings.UI.Fonts.ESP.size;
+	settings["UI"]["Fonts"]["Mono"]["family"] = cSettings.UI.Fonts.Mono.family;
+	settings["UI"]["Fonts"]["Mono"]["size"] = cSettings.UI.Fonts.Mono.size;
 
 	settings["Aimbot"]["enabled"] = cSettings.Aimbot.enabled;
 	settings["Aimbot"]["silent"] = cSettings.Aimbot.silent;
@@ -336,6 +341,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["ESP"]["Walls"]["type"] = cSettings.ESP.Walls.type;
 	settings["ESP"]["Info"]["showName"] = cSettings.ESP.Info.showName;
 	settings["ESP"]["Info"]["showHealth"] = cSettings.ESP.Info.showHealth;
+	settings["ESP"]["Info"]["showWeapon"] = cSettings.ESP.Info.showWeapon;
 	LoadColor(settings["ESP"]["Info"]["ally_color"], cSettings.ESP.Info.ally_color);
 	LoadColor(settings["ESP"]["Info"]["enemy_color"], cSettings.ESP.Info.enemy_color);
 	LoadColor(settings["ESP"]["Info"]["enemy_visible_color"], cSettings.ESP.Info.enemy_visible_color);
@@ -442,10 +448,10 @@ void Settings::LoadSettings(const char* filename)
 	GetInt(settings["UI"]["Fonts"]["Normal"]["size"], &cSettings.UI.Fonts.Normal.size);
 	GetCString(settings["UI"]["Fonts"]["ESP"]["family"], &cSettings.UI.Fonts.ESP.family);
 	GetInt(settings["UI"]["Fonts"]["ESP"]["size"], &cSettings.UI.Fonts.ESP.size);
+	GetCString(settings["UI"]["Fonts"]["Mono"]["family"], &cSettings.UI.Fonts.Mono.family);
+	GetInt(settings["UI"]["Fonts"]["Mono"]["size"], &cSettings.UI.Fonts.Mono.size);
 
-	title_font = Draw::CreateFont(cSettings.UI.Fonts.Title.family, cSettings.UI.Fonts.Title.size, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
-	normal_font = Draw::CreateFont(cSettings.UI.Fonts.Normal.family, cSettings.UI.Fonts.Normal.size, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
-	esp_font = Draw::CreateFont(cSettings.UI.Fonts.ESP.family, cSettings.UI.Fonts.ESP.size, FONTFLAG_ANTIALIAS | FONTFLAG_OUTLINE);
+	Fonts::SetupFonts();
 
 	GetBool(settings["Aimbot"]["enabled"], &cSettings.Aimbot.enabled);
 	GetBool(settings["Aimbot"]["silent"], &cSettings.Aimbot.silent);
@@ -510,6 +516,7 @@ void Settings::LoadSettings(const char* filename)
 	GetInt(settings["ESP"]["Walls"]["type"], &cSettings.ESP.Walls.type);
 	GetBool(settings["ESP"]["Info"]["showName"], &cSettings.ESP.Info.showName);
 	GetBool(settings["ESP"]["Info"]["showHealth"], &cSettings.ESP.Info.showHealth);
+	GetBool(settings["ESP"]["Info"]["showWeapon"], &cSettings.ESP.Info.showWeapon);
 	GetColor(settings["ESP"]["Info"]["ally_color"], &cSettings.ESP.Info.ally_color);
 	GetColor(settings["ESP"]["Info"]["enemy_color"], &cSettings.ESP.Info.enemy_color);
 	GetColor(settings["ESP"]["Info"]["enemy_visible_color"], &cSettings.ESP.Info.enemy_visible_color);

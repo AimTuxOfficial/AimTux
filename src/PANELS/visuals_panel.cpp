@@ -29,7 +29,10 @@ VisualsPanel::VisualsPanel (Vector2D position, Vector2D size)
 	ts_health = new ToggleSwitch ("Show Health", BELOW (ts_name), LOC((size.x - 20) / 6.75, 30), &cSettings.ESP.Info.showHealth);
 	AddComponent (ts_health);
 
-	ts_bones = new ToggleSwitch ("Show Bones", BELOW (ts_health), LOC((size.x - 20) / 6.75, 30), &cSettings.ESP.Bones.enabled);
+	ts_weapon = new ToggleSwitch ("Show Weapon", BELOW (ts_health), LOC((size.x - 20) / 6.75, 30), &cSettings.ESP.Info.showWeapon);
+	AddComponent (ts_weapon);
+
+	ts_bones = new ToggleSwitch ("Show Bones", BELOW (ts_weapon), LOC((size.x - 20) / 6.75, 30), &cSettings.ESP.Bones.enabled);
 	AddComponent (ts_bones);
 
 	ts_friendly = new ToggleSwitch ("Show Friendly", BELOW (ts_bones), LOC((size.x - 20) / 6.75, 30), &cSettings.ESP.friendly);
