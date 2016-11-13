@@ -26,7 +26,7 @@ void Autowall::ScaleDamage(int hitgroup, C_BaseEntity* enemy, float weapon_armor
 	current_damage *= Autowall::GetHitgroupDamageMultiplier(hitgroup);
 	
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	if (!Settings::Aimbot::friendly && enemy->GetTeam() == localplayer->GetTeam())
+	if (!cSettings.Aimbot.friendly && enemy->GetTeam() == localplayer->GetTeam())
 	{
 		current_damage = 0;
 		return;

@@ -1,10 +1,8 @@
 #include "bhop.h"
 
-bool Settings::BHop::enabled = true;
-
 void BHop::CreateMove(CUserCmd* cmd)
 {
-	if (!Settings::BHop::enabled)
+	if (!cSettings.BHop.enabled)
 		return;
 
 	if (!engine->IsInGame())

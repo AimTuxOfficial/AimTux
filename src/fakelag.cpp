@@ -1,14 +1,11 @@
 #include "fakelag.h"
 
-bool Settings::FakeLag::enabled = false;
-int Settings::FakeLag::value = 5;
-
 static int ticks = 0;
 int ticksMax = 16;
 
 void FakeLag::CreateMove(CUserCmd* cmd)
 {
-	if (!Settings::FakeLag::enabled)
+	if (!cSettings.FakeLag.enabled)
 		return;
 
 	if (!engine->IsInGame())
@@ -31,7 +28,7 @@ void FakeLag::CreateMove(CUserCmd* cmd)
 	}
 	else
 	{
-		CreateMove::SendPacket = ticks < 16 - Settings::FakeLag::value;
+		CreateMove::SendPacket = ticks < 16 - cSettings.FakeLag.value;
 	}
 
 	ticks++;

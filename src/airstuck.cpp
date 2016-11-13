@@ -1,16 +1,13 @@
 #include "airstuck.h"
 
-bool Settings::Airstuck::enabled = false;
-ButtonCode_t Settings::Airstuck::key = ButtonCode_t::KEY_F;
-
 void Airstuck::CreateMove(CUserCmd* cmd)
 {
-	if (!Settings::Airstuck::enabled)
+	if (!cSettings.Airstuck.enabled)
 		return;
 
 	if (cmd->buttons & IN_ATTACK || cmd->buttons & IN_ATTACK2)
 		return;
 
-	if (input->IsButtonDown(Settings::Airstuck::key))
+	if (input->IsButtonDown(cSettings.Airstuck.key))
 		cmd->tick_count = 16777216;
 }

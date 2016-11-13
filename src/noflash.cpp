@@ -1,8 +1,4 @@
 #include "noflash.h"
-
-bool Settings::Noflash::enabled = true;
-float Settings::Noflash::value = 160.0f;
-
 void Noflash::FrameStageNotify(ClientFrameStage_t stage)
 {
 	if (!engine->IsInGame())
@@ -15,8 +11,8 @@ void Noflash::FrameStageNotify(ClientFrameStage_t stage)
 	if (!localplayer)
 		return;
 
-	if (Settings::Noflash::enabled)
-		*localplayer->GetFlashMaxAlpha() = 255.0f - Settings::Noflash::value;
+	if (cSettings.Noflash.enabled)
+		*localplayer->GetFlashMaxAlpha() = 255.0f - cSettings.Noflash.value;
 	else
 		*localplayer->GetFlashMaxAlpha() = 255.0f;
 }

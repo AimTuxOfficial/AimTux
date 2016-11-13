@@ -1,14 +1,8 @@
 #include "fovchanger.h"
 
-bool Settings::FOVChanger::enabled = false;
-float Settings::FOVChanger::value = 100.f;
-
-bool Settings::FOVChanger::viewmodel_enabled = false;
-float Settings::FOVChanger::viewmodel_value = 90.f;
-
 void FOVChanger::RenderView(CViewSetup & setup, CViewSetup & hudViewSetup, unsigned int nClearFlags, int whatToDraw)
 {
-	if (!Settings::FOVChanger::enabled && !Settings::FOVChanger::viewmodel_enabled)
+	if (!cSettings.FOVChanger.enabled && !cSettings.FOVChanger.viewmodel_enabled)
 			return;
 
 	if (!engine->IsInGame())
@@ -27,9 +21,9 @@ void FOVChanger::RenderView(CViewSetup & setup, CViewSetup & hudViewSetup, unsig
 			return;
 	}
 
-	if (Settings::FOVChanger::enabled && !localplayer->IsScoped())
-		setup.fov = Settings::FOVChanger::value;
+	if (cSettings.FOVChanger.enabled && !localplayer->IsScoped())
+		setup.fov = cSettings.FOVChanger.value;
 
-	if (Settings::FOVChanger::viewmodel_enabled)
-		setup.fovViewmodel = Settings::FOVChanger::viewmodel_value;
+	if (cSettings.FOVChanger.viewmodel_enabled)
+		setup.fovViewmodel = cSettings.FOVChanger.viewmodel_value;
 }
