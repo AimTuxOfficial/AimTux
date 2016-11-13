@@ -81,6 +81,7 @@ protected:
 	Color text_color = Color (255, 255, 255, 200);
 	Color background_color = Color (40, 40, 40, 230);
 	Color background_color_hovered = Color (160, 160, 160, 10);
+	Color background_color_closed = Color (160, 160, 160, 5);
 public:
 	bool clickStarted = false;
 	std::string text = "ComboBox";
@@ -170,10 +171,11 @@ public:
 		}
 		else
 		{
+
 			DrawRectangle(LOC(0, 0), LOC(size.x, 30), Settings::UI::mainColor);
 		}
 
-		DrawFilledRectangle (LOC(0, 0), LOC(size.x, 30), background_color_hovered);
+		DrawFilledRectangle (LOC(0, 0), LOC(size.x, 30), isHovered ? background_color_hovered : background_color_closed);
 
 		DrawCenteredString (text, normal_font, text_color, LOC (size.x / 2, 16));
 	}
