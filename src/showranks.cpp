@@ -1,10 +1,8 @@
 #include "showranks.h"
 
-bool Settings::ShowRanks::enabled = true;
-
 void ShowRanks::CreateMove(CUserCmd* cmd)
 {
-	if (!Settings::ShowRanks::enabled)
+	if (!cSettings.ShowRanks.enabled)
 		return;
 
 	if (!engine->IsInGame())

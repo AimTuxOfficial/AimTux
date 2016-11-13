@@ -1,16 +1,11 @@
 #include "dlights.h"
 
-bool Settings::Dlights::enabled = false;
-float Settings::Dlights::radius = 500.0f;
-Color Settings::Dlights::ally_color = Color(0, 50, 200);
-Color Settings::Dlights::enemy_color = Color(200, 0, 50);
-
 void Dlights::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 {
-	if (!Settings::ESP::enabled)
+	if (!cSettings.ESP.enabled)
 		return;
 
-	if (!Settings::Dlights::enabled)
+	if (!cSettings.Dlights.enabled)
 		return;
 
 	if (!engine->IsInGame())
@@ -31,18 +26,18 @@ void Dlights::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_fo
 
 		if (entity->GetTeam() == localPlayer->GetTeam())
 		{
-			dLight->color.r = Settings::Dlights::ally_color.r;
-			dLight->color.g = Settings::Dlights::ally_color.g;
-			dLight->color.b = Settings::Dlights::ally_color.b;
+			dLight->color.r = cSettings.Dlights.ally_color.r;
+			dLight->color.g = cSettings.Dlights.ally_color.g;
+			dLight->color.b = cSettings.Dlights.ally_color.b;
 		}
 		else
 		{
-			dLight->color.r = Settings::Dlights::enemy_color.r;
-			dLight->color.g = Settings::Dlights::enemy_color.g;
-			dLight->color.b = Settings::Dlights::enemy_color.b;
+			dLight->color.r = cSettings.Dlights.enemy_color.r;
+			dLight->color.g = cSettings.Dlights.enemy_color.g;
+			dLight->color.b = cSettings.Dlights.enemy_color.b;
 		}
 
-		dLight->radius = Settings::Dlights::radius;
+		dLight->radius = cSettings.Dlights.radius;
 		dLight->key = i;
 		dLight->m_Direction = entity->GetVecOrigin();
 		dLight->origin = entity->GetVecOrigin();

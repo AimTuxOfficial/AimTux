@@ -1,10 +1,8 @@
 #include "radar.h"
 
-bool Settings::Radar::enabled = false;
-
 void Radar::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 {
-	if (!Settings::Radar::enabled)
+	if (!cSettings.Radar.enabled)
 		return;
 
 	if (!engine->IsInGame())

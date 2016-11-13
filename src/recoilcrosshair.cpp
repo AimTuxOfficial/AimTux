@@ -1,10 +1,8 @@
 #include "recoilcrosshair.h"
 
-bool Settings::Recoilcrosshair::enabled = true;
-
 void Recoilcrosshair::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 {
-	if (!Settings::Recoilcrosshair::enabled)
+	if (!cSettings.Recoilcrosshair.enabled)
 		return;
 
 	if (!engine->IsInGame())

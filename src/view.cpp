@@ -1,12 +1,10 @@
 #include "view.h"
 
-bool Settings::View::NoPunch::enabled = false;
-
 QAngle old_punch_angle;
 
 void View::NoPunch::FrameStageNotify(ClientFrameStage_t stage)
 {
-	if (!Settings::View::NoPunch::enabled)
+	if (!cSettings.View.NoPunch.enabled)
 		return;
 
 	if (!engine->IsInGame())
@@ -29,7 +27,7 @@ void View::NoPunch::FrameStageNotify(ClientFrameStage_t stage)
 
 void View::NoPunch::PostFrameStageNotify(ClientFrameStage_t stage)
 {
-	if (!Settings::View::NoPunch::enabled)
+	if (!cSettings.View.NoPunch.enabled)
 		return;
 
 	if (!engine->IsInGame())

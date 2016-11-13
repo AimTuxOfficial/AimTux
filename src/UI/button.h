@@ -64,7 +64,7 @@ public:
 		
 		if (isHovered)
 		{
-			DrawRectangle (LOC (0, 0), size, Settings::UI::mainColor);
+			DrawRectangle (LOC (0, 0), size, cSettings.UI.mainColor);
 		}
 		
 		DrawCenteredString (text, normal_font, Color (255, 255, 255, 255), LOC (size.x / 2, size.y / 2));

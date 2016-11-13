@@ -21,7 +21,7 @@ void Slider::Draw ()
 	// donglePosition_px is calculated here and NOT in MouseTick becasue we want the position to be calculated live & when created (0 by default)
 	int donglePosition_px = (((float)*value-MIN) / (MAX-MIN)) * size.x;
 	
-	DrawFilledRectangle (LOC (donglePosition_px - (dongleWidth / 2), 5), LOC (donglePosition_px + dongleWidth / 2, size.y-5), Settings::UI::mainColor);
+	DrawFilledRectangle (LOC (donglePosition_px - (dongleWidth / 2), 5), LOC (donglePosition_px + dongleWidth / 2, size.y-5), cSettings.UI.mainColor);
 	
 	pstring _text;
 
@@ -77,7 +77,7 @@ void Slider_INT::Draw ()
 	// donglePosition_px is calculated here and NOT in MouseTick becasue we want the position to be calculated live & when created (0 by default)
 	int donglePosition_px = (((float)*value-MIN) / (MAX-MIN)) * size.x;
 	
-	DrawFilledRectangle (LOC (donglePosition_px - (dongleWidth / 2), 5), LOC (donglePosition_px + dongleWidth / 2, size.y-5), Settings::UI::mainColor);
+	DrawFilledRectangle (LOC (donglePosition_px - (dongleWidth / 2), 5), LOC (donglePosition_px + dongleWidth / 2, size.y-5), cSettings.UI.mainColor);
 	
 	pstring _text;
 
