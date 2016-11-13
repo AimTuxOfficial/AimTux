@@ -1,12 +1,12 @@
 #pragma once
 
-class MenuWindow;
+class ConfigWindow;
 
 #include "../UI/stdui.h"
 #include "../atgui.h"
 
 
-class MenuWindow : public Window
+class ConfigWindow : public Window
 {
 private:
 	Button* load1_button;
@@ -20,5 +20,5 @@ private:
 	void save2_button_clicked ();
 
 public:
-	MenuWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor);
+	ConfigWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor);
 };
