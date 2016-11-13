@@ -28,8 +28,11 @@ VisualsPanel::VisualsPanel (Vector2D position, Vector2D size)
 
 	ts_health = new ToggleSwitch ("Show Health", BELOW (ts_name), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::Info::showHealth);
 	AddComponent (ts_health);
-
-	ts_bones = new ToggleSwitch ("Show Bones", BELOW (ts_health), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::Bones::enabled);
+	
+	ts_color_code = new ToggleSwitch ("Color Code", BELOW (ts_health), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::Info::colorCode);
+	AddComponent (ts_color_code);
+	
+	ts_bones = new ToggleSwitch ("Show Bones", BELOW (ts_color_code), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::Bones::enabled);
 	AddComponent (ts_bones);
 
 	ts_friendly = new ToggleSwitch ("Show Friendly", BELOW (ts_bones), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::friendly);
