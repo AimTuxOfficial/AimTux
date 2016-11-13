@@ -15,7 +15,7 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	ts_airstuck = new ToggleSwitch ("Air Stuck", BELOW (ts_bhop), LOC((size.x - 20) / 6.75, 30), &cSettings.Airstuck.enabled);
 	AddComponent (ts_airstuck);
 
-	kb_airstuck_key =  new KeyBind ("", STACK (ts_airstuck), LOC((size.x - 20) / 6.75, 30),  &cSettings.Airstuck.key);
+	kb_airstuck_key =  new KeyBind ("Airstuck key", STACK (ts_airstuck), LOC((size.x - 20) / 6.75, 30),  &cSettings.Airstuck.key);
 	AddComponent(kb_airstuck_key);
 
 #ifdef UNTRUSTED_SETTINGS
