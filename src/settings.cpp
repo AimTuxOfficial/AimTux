@@ -97,12 +97,16 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	LoadColor(settings["UI"]["mainColor"], Settings::UI::mainColor);
 	settings["UI"]["Fonts"]["Title"]["family"] = Settings::UI::Fonts::Title::family;
 	settings["UI"]["Fonts"]["Title"]["size"] = Settings::UI::Fonts::Title::size;
+	settings["UI"]["Fonts"]["Title"]["flags"] = Settings::UI::Fonts::Title::flags;
 	settings["UI"]["Fonts"]["Normal"]["family"] = Settings::UI::Fonts::Normal::family;
 	settings["UI"]["Fonts"]["Normal"]["size"] = Settings::UI::Fonts::Normal::size;
+	settings["UI"]["Fonts"]["Normal"]["flags"] = Settings::UI::Fonts::Normal::flags;
 	settings["UI"]["Fonts"]["ESP"]["family"] = Settings::UI::Fonts::ESP::family;
 	settings["UI"]["Fonts"]["ESP"]["size"] = Settings::UI::Fonts::ESP::size;
+	settings["UI"]["Fonts"]["ESP"]["flags"] = Settings::UI::Fonts::ESP::flags;
 	settings["UI"]["Fonts"]["Mono"]["family"] = Settings::UI::Fonts::Mono::family;
 	settings["UI"]["Fonts"]["Mono"]["size"] = Settings::UI::Fonts::Mono::size;
+	settings["UI"]["Fonts"]["Mono"]["flags"] = Settings::UI::Fonts::Mono::flags;
 
 	settings["Aimbot"]["enabled"] = Settings::Aimbot::enabled;
 	settings["Aimbot"]["silent"] = Settings::Aimbot::silent;
@@ -269,12 +273,16 @@ void Settings::LoadSettings(const char* filename)
 	GetColor(settings["UI"]["mainColor"], &Settings::UI::mainColor);
 	GetCString(settings["UI"]["Fonts"]["Title"]["family"], &Settings::UI::Fonts::Title::family);
 	GetInt(settings["UI"]["Fonts"]["Title"]["size"], &Settings::UI::Fonts::Title::size);
+	GetInt(settings["UI"]["Fonts"]["Title"]["flags"], &Settings::UI::Fonts::Title::flags);
 	GetCString(settings["UI"]["Fonts"]["Normal"]["family"], &Settings::UI::Fonts::Normal::family);
 	GetInt(settings["UI"]["Fonts"]["Normal"]["size"], &Settings::UI::Fonts::Normal::size);
+	GetInt(settings["UI"]["Fonts"]["Normal"]["flags"], &Settings::UI::Fonts::Normal::flags);
 	GetCString(settings["UI"]["Fonts"]["ESP"]["family"], &Settings::UI::Fonts::ESP::family);
 	GetInt(settings["UI"]["Fonts"]["ESP"]["size"], &Settings::UI::Fonts::ESP::size);
+	GetInt(settings["UI"]["Fonts"]["ESP"]["flags"], &Settings::UI::Fonts::ESP::flags);
 	GetCString(settings["UI"]["Fonts"]["Mono"]["family"], &Settings::UI::Fonts::Mono::family);
 	GetInt(settings["UI"]["Fonts"]["Mono"]["size"], &Settings::UI::Fonts::Mono::size);
+	GetInt(settings["UI"]["Fonts"]["Mono"]["flags"], &Settings::UI::Fonts::Mono::flags);
 
 	Fonts::SetupFonts();
 

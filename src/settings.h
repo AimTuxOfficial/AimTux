@@ -73,24 +73,28 @@ namespace Settings
 			{
 				extern char* family;
 				extern int size;
+				extern int flags;
 			}
 
 			namespace Normal
 			{
 				extern char* family;
 				extern int size;
+				extern int flags;
 			}
 
 			namespace ESP
 			{
 				extern char* family;
 				extern int size;
+				extern int flags;
 			}
 
 			namespace Mono
 			{
 				extern char* family;
 				extern int size;
+				extern int flags;
 			}
 		}
 	}
