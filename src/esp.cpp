@@ -18,6 +18,7 @@ bool Settings::ESP::Walls::enabled = false;
 WallBoxType Settings::ESP::Walls::type = FLAT_2D;
 bool Settings::ESP::Info::showName = true;
 bool Settings::ESP::Info::showHealth = false;
+bool Settings::ESP::Info::showWeapon = false;
 bool Settings::ESP::Info::colorCode = false;
 Color Settings::ESP::Info::ally_color = Color(0, 50, 200);
 Color Settings::ESP::Info::enemy_color = Color(200, 0, 50);
