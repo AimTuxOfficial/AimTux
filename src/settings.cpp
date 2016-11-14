@@ -160,6 +160,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	LoadColor(settings["ESP"]["bones_color"], Settings::ESP::bones_color);
 	LoadColor(settings["ESP"]["bomb_color"], Settings::ESP::bomb_color);
 	settings["ESP"]["visibility_check"] = Settings::ESP::visibility_check;
+	settings["ESP"]["show_scope_border"] = Settings::ESP::show_scope_border;
 	settings["ESP"]["friendly"] = Settings::ESP::friendly;
 	settings["ESP"]["Glow"]["enabled"] = Settings::ESP::Glow::enabled;
 	LoadColor(settings["ESP"]["Glow"]["ally_color"], Settings::ESP::Glow::ally_color);
@@ -337,6 +338,7 @@ void Settings::LoadSettings(const char* filename)
 	GetColor(settings["ESP"]["bones_color"], &Settings::ESP::bones_color);
 	GetColor(settings["ESP"]["bomb_color"], &Settings::ESP::bomb_color);
 	GetBool(settings["ESP"]["visibility_check"], &Settings::ESP::visibility_check);
+	GetBool(settings["ESP"]["show_scope_border"], &Settings::ESP::show_scope_border);
 	GetBool(settings["ESP"]["friendly"], &Settings::ESP::friendly);
 	GetBool(settings["ESP"]["Glow"]["enabled"], &Settings::ESP::Glow::enabled);
 	GetColor(settings["ESP"]["Glow"]["ally_color"], &Settings::ESP::Glow::ally_color);
