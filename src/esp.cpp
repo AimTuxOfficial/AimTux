@@ -369,12 +369,11 @@ void ESP::DrawGlow()
 	}
 }
 
-bool ESP::PrePaintTraverse (VPANEL vgui_panel, bool force_repaint, bool allow_force)
+bool ESP::PrePaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 {
-	if (strcmp("HudZoom", panel->GetName(vgui_panel)))
-	{
+	if (strcmp("HudZoom", panel->GetName(vgui_panel)) == 0)
 		return Settings::ESP::show_scope_border;
-	}
+
 	return true;
 }
 

@@ -2,17 +2,11 @@
 
 void Hooks::PaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool allow_force)
 {
-	
 	static unsigned long long int panelID;
-	
-	bool should_call_original = true;
-	should_call_original = ESP::PrePaintTraverse (vgui_panel, force_repaint, allow_force);
-	
-	if (should_call_original)
-	{
+
+	if (ESP::PrePaintTraverse(vgui_panel, force_repaint, allow_force))
 		panel_vmt->GetOriginalMethod<PaintTraverseFn>(42)(thisptr, vgui_panel, force_repaint, allow_force);
-	}
-	
+
 	if (!panelID && strcmp(panel->GetName(vgui_panel), "FocusOverlayPanel") == 0)
 		panelID = vgui_panel;
 
