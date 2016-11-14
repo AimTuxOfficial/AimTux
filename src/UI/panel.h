@@ -8,6 +8,8 @@ class Panel : public Component
 {
 protected:
 	std::vector<Component*> childComponents;
+private:
+	void PushTop (Component* component);
 public:
 	Color backGroundColor = Color (0, 0, 0, 0);
 	

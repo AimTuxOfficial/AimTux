@@ -10,38 +10,38 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 	ts_antiaim_y = new ToggleSwitch ("Y Axis", BELOW (ba_antiaim), LOC((size.x - 20) / 6.75, 30), &Settings::AntiAim::enabled_Y);
 	AddComponent (ts_antiaim_y);
 
-	lb_antiaim_y = new ListBox<AntiAimType_Y> ("anti aim type", BELOW (ts_antiaim_y), (size.x - 20) / 6.75, &Settings::AntiAim::type_Y, std::vector<LB_Element>
+	cb_antiaim_y = new ComboBox<AntiAimType_Y> ("anti aim type", BELOW (ts_antiaim_y), (size.x - 20) / 6.75, &Settings::AntiAim::type_Y, std::vector<CB_Element>
 		{
-			LB_Element ("SLOW SPIN", SPIN_SLOW),
-			LB_Element ("FAST SPIN", SPIN_FAST),
-			LB_Element ("JITTER", JITTER),
-			LB_Element ("SIDE", SIDE),
-			LB_Element ("BACKWARDS", BACKWARDS),
-			LB_Element ("FAKE4", FAKE4),
-			LB_Element ("FAKE BACKWARDS", BACKWARDS_FAKE),
-			LB_Element ("FAKE SIDE FLIP", SIDE_FLIP_FAKE),
-			LB_Element ("FAKE SIDE L", SIDE_FAKE_LEFT),
-			LB_Element ("FAKE SIDE R", SIDE_FAKE_RIGHT)
-		}
+			CB_Element ("SLOW SPIN", SPIN_SLOW),
+			CB_Element ("FAST SPIN", SPIN_FAST),
+			CB_Element ("JITTER", JITTER),
+			CB_Element ("SIDE", SIDE),
+			CB_Element ("BACKWARDS", BACKWARDS),
+			CB_Element ("FAKE4", FAKE4),
+			CB_Element ("FAKE BACKWARDS", BACKWARDS_FAKE),
+			CB_Element ("FAKE SIDE FLIP", SIDE_FLIP_FAKE),
+			CB_Element ("FAKE SIDE L", SIDE_FAKE_LEFT),
+			CB_Element ("FAKE SIDE R", SIDE_FAKE_RIGHT)
+		}, false
 	);
-	AddComponent (lb_antiaim_y);
+
 
 	ts_antiaim_x = new ToggleSwitch ("X Axis", STACK(ts_antiaim_y), LOC((size.x - 20) / 6.75, 30), &Settings::AntiAim::enabled_X);
 	AddComponent (ts_antiaim_x);
 
-	lb_antiaim_x = new ListBox<AntiAimType_X> ("anti aim type", BELOW (ts_antiaim_x), (size.x - 20) / 6.75, &Settings::AntiAim::type_X, std::vector<LB_Element>
+	cb_antiaim_x = new ComboBox<AntiAimType_X> ("anti aim type", BELOW (ts_antiaim_x), (size.x - 20) / 6.75, &Settings::AntiAim::type_X, std::vector<CB_Element>
 		{
-			LB_Element ("UP", STATIC_UP),
-			LB_Element ("DOWN", STATIC_DOWN),
+			CB_Element ("UP", STATIC_UP),
+			CB_Element ("DOWN", STATIC_DOWN),
 #ifdef UNTRUSTED_SETTINGS
-			LB_Element ("FAKE UP", STATIC_UP_FAKE),
-			LB_Element ("FAKE DOWN", STATIC_DOWN_FAKE),
+			CB_Element ("FAKE UP", STATIC_UP_FAKE),
+			CB_Element ("FAKE DOWN", STATIC_DOWN_FAKE),
 #endif
-		}
+		}, false
 	);
-	AddComponent (lb_antiaim_x);
 
-	ba_movement = new Banner ("Movement", BELOW (lb_antiaim_y), (size.x - 20) / 2 - (5) - 60);
+
+	ba_movement = new Banner ("Movement", BELOW (cb_antiaim_y), (size.x - 20) / 2 - (5) - 60);
 	AddComponent (ba_movement);
 
 	ts_autocrouch = new ToggleSwitch ("Auto Crouch", BELOW (ba_movement), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoCrouch::enabled);
@@ -71,6 +71,10 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 		}
 	);
 	AddComponent (lb_bone_select_multi);
+
+	AddComponent (cb_antiaim_y);
+
+	AddComponent (cb_antiaim_x);
 
 	Hide ();
 }
