@@ -52,9 +52,7 @@ VisualsPanel::VisualsPanel (Vector2D position, Vector2D size)
 			}, false
 	);
 
-	AddComponent (cb_armstype);
-	AddComponent (cb_chamstype);
-	AddComponent(cb_wallstype);
+
 #ifdef EXPERIMENTAL_SETTINGS
 	AddComponent (ts_show_scope_border);
 #endif
@@ -67,8 +65,6 @@ VisualsPanel::VisualsPanel (Vector2D position, Vector2D size)
 	AddComponent (ba_other);
 	AddComponent (ba_other);
 	AddComponent (ts_chams_visibility_check);
-	AddComponent (ts_chams_arms);
-	AddComponent (ts_chams_players);
 	AddComponent (ba_chams);
 	AddComponent (ts_fov_crosshair);
 	AddComponent (ts_recoil_crosshair);
@@ -81,10 +77,14 @@ VisualsPanel::VisualsPanel (Vector2D position, Vector2D size)
 	AddComponent (ts_health);
 	AddComponent (ts_name);
 	AddComponent (ts_tracer);
-	AddComponent (ts_walls);
 	AddComponent (ba_esp);
 	AddComponent (ts_esp_enabled);
-
+	AddComponent (cb_armstype);
+	AddComponent (cb_chamstype);
+	AddComponent(cb_wallstype);
+	AddComponent (ts_walls);
+	AddComponent (ts_chams_arms);
+	AddComponent (ts_chams_players);
 
 	Hide ();
 }
