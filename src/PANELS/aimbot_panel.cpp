@@ -36,22 +36,22 @@ AimbotPanel::AimbotPanel (Vector2D position, Vector2D size)
 			}, false
 	);
 
+	AddComponent (sl_error);
+	AddComponent (sl_aimstep);
+	AddComponent (sl_salting);
+	AddComponent (sl_smooth);
+	AddComponent (sl_fov);
+	AddComponent (sl_rcs);
 	AddComponent (cb_aimbone);
 	AddComponent (ts_friendly);
 	AddComponent (ba_target);
 	AddComponent (ts_autoscope);
 	AddComponent (ts_autoshoot);
 	AddComponent (ts_autopistol);
-	AddComponent (sl_error);
-	AddComponent (sl_aimstep);
 	AddComponent (ts_aimstep);
-	AddComponent (sl_salting);
 	AddComponent (ts_salting);
-	AddComponent (sl_smooth);
 	AddComponent (ts_smooth);
-	AddComponent (sl_fov);
 	AddComponent (ts_autoaim);
-	AddComponent (sl_rcs);
 	AddComponent (ts_rcs);
 	AddComponent (ts_silent);
 	AddComponent (ts_silent);
