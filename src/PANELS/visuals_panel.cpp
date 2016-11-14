@@ -66,7 +66,7 @@ VisualsPanel::VisualsPanel (Vector2D position, Vector2D size)
 	ts_weapons = new ToggleSwitch ("Weapon Names", BELOW (ts_bomb), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::Weapons::enabled);
 	AddComponent (ts_weapons);
 
-	ts_glow = new ToggleSwitch ("Weapon Glow", BELOW (ts_weapons), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::Glow::enabled);
+	ts_glow = new ToggleSwitch ("Glow", BELOW (ts_weapons), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::Glow::enabled);
 	AddComponent (ts_glow);
 
 	ts_dlights = new ToggleSwitch ("Dlights", BELOW (ts_glow), LOC((size.x - 20) / 6.75, 30), &Settings::Dlights::enabled);
