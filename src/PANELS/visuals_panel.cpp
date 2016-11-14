@@ -103,6 +103,9 @@ VisualsPanel::VisualsPanel (Vector2D position, Vector2D size)
 
 	ts_view_norecoil = new ToggleSwitch ("No View Punch", BELOW (ts_dlights), LOC((size.x - 20) / 6.75, 30), &Settings::View::NoPunch::enabled);
 	AddComponent (ts_view_norecoil);
-
+	
+	ts_show_scope_border = new ToggleSwitch ("Show Scope Border", BELOW (ts_view_norecoil), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::show_scope_border);
+	AddComponent (ts_show_scope_border);
+	
 	Hide ();
 }

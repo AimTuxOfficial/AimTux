@@ -17,6 +17,7 @@ namespace ESP
 	void DrawBones(C_BaseEntity* entity);
 	void DrawFOVCrosshair();
 	void DrawGlow();
+	bool PrePaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force);
 	void PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force);
 }
 

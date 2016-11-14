@@ -200,6 +200,7 @@ namespace Settings
 		extern bool enabled;
 		extern bool visibility_check;
 		extern bool friendly;
+		extern bool show_scope_border;
 		extern Color ally_color;
 		extern Color enemy_color;
 		extern Color enemy_visible_color;

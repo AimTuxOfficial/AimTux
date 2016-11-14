@@ -7,6 +7,7 @@ Color Settings::ESP::enemy_color = Color(200, 0, 50);
 Color Settings::ESP::enemy_visible_color = Color(200, 200, 50);
 Color Settings::ESP::bones_color = Color(255, 255, 255);
 Color Settings::ESP::bomb_color = Color(200, 0, 50);
+bool Settings::ESP::show_scope_border = true;
 bool Settings::ESP::Glow::enabled = false;
 bool Settings::ESP::friendly = true;
 Color Settings::ESP::Glow::ally_color = Color(0, 50, 200, 0);
@@ -374,6 +375,15 @@ void ESP::DrawGlow()
 		glow_object->m_bRenderWhenOccluded = true;
 		glow_object->m_bRenderWhenUnoccluded = false;
 	}
+}
+
+bool ESP::PrePaintTraverse (VPANEL vgui_panel, bool force_repaint, bool allow_force)
+{
+	if (strcmp("HudZoom", panel->GetName(vgui_panel)))
+	{
+		return Settings::ESP::show_scope_border;
+	}
+	return true;
 }
 
 void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)

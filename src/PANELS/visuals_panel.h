@@ -37,6 +37,7 @@ private:
 	ToggleSwitch* ts_dlights;
 	Slider* sl_dlights;
 	ToggleSwitch* ts_view_norecoil;
+	ToggleSwitch* ts_show_scope_border;
 public:
 	VisualsPanel (Vector2D position, Vector2D size);
 };
