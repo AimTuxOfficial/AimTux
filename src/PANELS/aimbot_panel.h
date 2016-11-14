@@ -30,7 +30,7 @@ private:
 	ToggleSwitch* ts_autoscope;
 	Banner* ba_target;
 	ToggleSwitch* ts_friendly;
-	StackedListBox<Bone>* lb_aimbone;
+	ComboBox<Bone>* cb_aimbone;
 public:
 	AimbotPanel (Vector2D position, Vector2D size);
 };
