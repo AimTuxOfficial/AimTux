@@ -175,7 +175,7 @@ public:
 			DrawRectangle(LOC(0, 0), LOC(size.x, 30), Settings::UI::mainColor);
 		}
 
-		DrawFilledRectangle (LOC(0, 0), LOC(size.x, 30), isHovered ? background_color_hovered : background_color_closed);
+		DrawFilledRectangle (LOC(0, 0), LOC(size.x, 30), open ? background_color_hovered : isHovered ? background_color_hovered : background_color_closed);
 
 		DrawCenteredString (text, normal_font, text_color, LOC (size.x / 2, 16));
 	}
