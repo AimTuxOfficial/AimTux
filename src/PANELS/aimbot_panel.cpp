@@ -14,12 +14,12 @@ AimbotPanel::AimbotPanel (Vector2D position, Vector2D size)
 	sl_fov = new Slider ("FOV", STACK (ts_autoaim), LOC ((size.x / 2) - ts_autoaim->size.x - 30, 30), &Settings::Aimbot::fov, 0.0f, 180.0f);
 	ts_smooth = new ToggleSwitchTip ("Smooth", BELOW (ts_autoaim), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::Smooth::enabled, "Smoothing reduces the aimbot \"snap\". 0 for full snap. 10 for full smoothing");
 	sl_smooth = new Slider ("", STACK (ts_smooth), LOC ((size.x / 2) - ts_smooth->size.x - 30, 30), &Settings::Aimbot::Smooth::value, 0.10f, Settings::Aimbot::Smooth::max);
-	ts_salting = new ToggleSwitchTip ("Smooth Salting", BELOW (ts_smooth), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::Smooth::Salting::enabled, "Not sure what this does");
+	ts_salting = new ToggleSwitchTip ("Smooth Salting", BELOW (ts_smooth), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::Smooth::Salting::enabled, "Breaks the smoothing into smaller steps, high smooth + low salt is slightly stuttery");
 	sl_salting = new Slider ("Salt Percentage", STACK (ts_salting), LOC ((size.x / 2) - ts_salting->size.x - 30, 30), &Settings::Aimbot::Smooth::Salting::percentage, 0.0f, 100.0f);
 	ts_aimstep = new ToggleSwitchTip ("Aim Step", BELOW (ts_salting), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AimStep::enabled, "Cuts the aimbot in to smaller steps. Use in casual");
 	sl_aimstep = new Slider ("", STACK (ts_aimstep), LOC ((size.x / 2) - ts_aimstep->size.x - 30, 30), &Settings::Aimbot::AimStep::value, 0.0f, 180.0f);
 	sl_error = new Slider("Error Margin", BELOW(ts_aimstep), LOC((size.x / 2) - 20, 30), &Settings::Aimbot::errorMargin, 0.0f, 2.0f);
-	ts_autopistol = new ToggleSwitchTip ("Auto Pistol", BELOW (sl_error), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoPistol::enabled, "Auto switch to pistol when out of ammo");
+	ts_autopistol = new ToggleSwitchTip ("Auto Pistol", BELOW (sl_error), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoPistol::enabled, "Auto shoot the pistol when holding fire");
 	ts_autoshoot = new ToggleSwitchTip ("Auto Shoot", BELOW (ts_autopistol), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoShoot::enabled, "Auto shoot an enemy when locking to them");
 	ts_autoscope = new ToggleSwitchTip ("Auto Scope", STACK (ts_autoshoot), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoShoot::autoscope, "Auto scope onto an enemy when locking to them");
 	ba_target = new Banner ("Target", LOC((size.x / 2) + 5, ba_aim->position.y), ((size.x - 20) / 2) - 5);
