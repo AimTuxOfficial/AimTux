@@ -108,3 +108,48 @@ public:
 		DrawCenteredString (text, normal_font, text_color, LOC (size.x / 2, size.y / 2));
 	}
 };
+
+class ToggleSwitchTip : public ToggleSwitch
+{
+protected:
+	Color tt_color = Color(40, 40, 40, 200);
+public:
+	std::string toolTipText;
+	Vector2D toolTipTextSize;
+	int x, y;
+
+	ToggleSwitchTip (std::string text, Vector2D position, Vector2D size, bool* setting, std::string toolTipText)
+		: ToggleSwitch (text, position, size, setting)
+	{
+		this->toolTipText = toolTipText;
+	}
+
+	void Draw ()
+	{
+		Clear (isHovered ? background_color_hovered : background_color);
+
+		int sep = size.y / 4;
+
+		if (!*setting)
+		{
+			DrawRectangle (LOC(size.x - 25, 5), LOC(size.x - 5, 25), Settings::UI::mainColor);
+		}
+		else
+		{
+			DrawRectangle (LOC(size.x - 25, 5), LOC(size.x - 5, 25), Settings::UI::mainColor);
+			DrawFilledRectangle (LOC((size.x - 25) + 2, 5 + 2), LOC((size.x - 5) -2, 25 - 2), Settings::UI::mainColor);
+		}
+
+		if(isHovered){
+			input->GetCursorPosition(&x, &y);
+			toolTipTextSize = Draw::GetTextSize (toolTipText.c_str(), normal_font);
+			Draw::DrawRect (LOC(x + 16, y + 16), LOC(x + (toolTipTextSize.x + 16 + 2), y + 35), tt_color);
+			Draw::DrawString(toolTipText, LOC(x + 17, y + 17), text_color, normal_font);
+		}
+
+		Vector2D textSize = Draw::GetTextSize (text.c_str(), normal_font);
+
+		DrawString (text, normal_font, text_color, LOC ((sep*2) - 10, (size.y/2)-(textSize.y/2)));
+
+	}
+};
