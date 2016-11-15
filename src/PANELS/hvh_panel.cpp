@@ -31,10 +31,10 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 		}, false
 	);
 	ba_movement = new Banner ("Movement", BELOW (cb_antiaim_y), (size.x - 20) / 2 - (5) - 60);
-	ts_autocrouch = new ToggleSwitchTip ("Auto Crouch", BELOW (ba_movement), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoCrouch::enabled, "Auto crouch when an enemy is visible");
-	ts_autostop = new ToggleSwitchTip ("Auto Stop", STACK (ts_autocrouch), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoStop::enabled, "Auto stop when an enemy is visible");
+	ts_autocrouch = new ToggleSwitchTip ("Auto Crouch", BELOW (ba_movement), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoCrouch::enabled, "Auto crouch when an enemy is targetable");
+	ts_autostop = new ToggleSwitchTip ("Auto Stop", STACK (ts_autocrouch), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoStop::enabled, "Auto stop when an enemy is targetable");
 	ba_autowall = new Banner ("Auto Wall", STACK (ba_antiaim), (size.x - 20) / 2 - (5) + 60);
-	ts_autowall = new ToggleSwitchTip ("Enabled", BELOW (ba_autowall), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoWall::enabled, "Auto shoot an enemy through a wall");
+	ts_autowall = new ToggleSwitchTip ("Enabled", BELOW (ba_autowall), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoWall::enabled, "Automatically shoots an enemy when possible");
 	sl_autowall = new Slider ("min damage", BELOW (ts_autowall), LOC (ba_autowall->size.x, 30), &Settings::Aimbot::AutoWall::value, 0.0f, 100.0f);
 	lb_bone_select_multi = new MS_ListBox<Hitbox> ("Autowall bones", BELOW (sl_autowall), (size.x - 20) / 6.75, &Settings::Aimbot::AutoWall::bones, std::vector<LB_Element>
 		{
