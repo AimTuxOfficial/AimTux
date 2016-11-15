@@ -6,10 +6,10 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	ba_movement = new Banner ("Movement", LOC (10, 10), (size.x - 20) / 2 - 5);
 	ts_bhop = new ToggleSwitchTip ("Bunny Hop", BELOW (ba_movement), LOC((size.x - 20) / 6.75, 30), &Settings::BHop::enabled, "Enables or disables auto bunny hopping");
 	ts_autostrafe = new ToggleSwitchTip ("Auto Strafe", STACK (ts_bhop), LOC((size.x - 20) / 6.75, 30), &Settings::AutoStrafe::enabled, "Auto strafe when bunny hopping");
-	ts_airstuck = new ToggleSwitchTip ("Air Stuck", BELOW (ts_bhop), LOC((size.x - 20) / 6.75, 30), &Settings::Airstuck::enabled, "Sticks you in the air when activated, for use to spawn in enemy base");
+	ts_airstuck = new ToggleSwitchTip ("Air Stuck", BELOW (ts_bhop), LOC((size.x - 20) / 6.75, 30), &Settings::Airstuck::enabled, "Freezes you in place. Can be used to teleport");
 	kb_airstuck_key =  new KeyBind ("", STACK (ts_airstuck), LOC((size.x - 20) / 6.75, 30),  &Settings::Airstuck::key);
 #ifdef UNTRUSTED_SETTINGS
-	ts_teleport = new ToggleSwitchTip ("Teleport", BELOW (ts_airstuck), LOC((size.x - 20) / 6.75, 30), &Settings::Teleport::enabled, "Teleport. DONT USE ON VOLVO SERVERS");
+	ts_teleport = new ToggleSwitchTip ("Teleport", BELOW (ts_airstuck), LOC((size.x - 20) / 6.75, 30), &Settings::Teleport::enabled, "Teleport. DONT USE ON VALVE SERVERS (Casual/Deathmatch/Matchmaking");
 	kb_teleport_key =  new KeyBind ("", STACK (ts_teleport), LOC((size.x - 20) / 6.75, 30),  &Settings::Teleport::key);
 	ba_spammer = new Banner ("Spammer", BELOW (ts_teleport), (size.x - 20) / 2 - 5);
 #else
@@ -22,20 +22,20 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	ts_normal_spammer = new ToggleSwitchTip ("Chat Spammer", BELOW (ts_kill_spammer), LOC((size.x - 20) / 6.75, 30), &Settings::Spammer::NormalSpammer::enabled, "Spams random messages into chat");
 	ts_normal_spammer_say_team = new ToggleSwitchTip ("Team Chat", STACK (ts_normal_spammer), LOC((size.x - 20) / 6.75, 30), &Settings::Spammer::NormalSpammer::say_team, "Spams random messages into team chat");
 	ba_other = new Banner ("Other", STACK (ba_movement), (size.x - 20) / 2 - 5);
-	ts_noflash = new ToggleSwitchTip ("No Flash", BELOW (ba_other), LOC((size.x - 20) / 6.75, 30), &Settings::Noflash::enabled, "Whether flashes effect you or not");
+	ts_noflash = new ToggleSwitchTip ("No Flash", BELOW (ba_other), LOC((size.x - 20) / 6.75, 30), &Settings::Noflash::enabled, "No flash + Flash slider. 0 = No flash");
 	sl_noflash_value = new Slider ("", STACK (ts_noflash), LOC ((size.x / 2) - ts_noflash->size.x - 30, 30), &Settings::Noflash::value, 0.0f, 255.0f);
-	ts_fov = new ToggleSwitchTip ("View FOV", BELOW (ts_noflash), LOC((size.x - 20) / 6.75, 30), &Settings::FOVChanger::enabled, "Changes fov to beyond or below normal levels");
+	ts_fov = new ToggleSwitchTip ("View FOV", BELOW (ts_noflash), LOC((size.x - 20) / 6.75, 30), &Settings::FOVChanger::enabled, "Player field of view");
 	sl_fov_value = new Slider ("", STACK (ts_fov), LOC ((size.x / 2) - ts_fov->size.x - 30, 30), &Settings::FOVChanger::value, 0.0f, 180.0f);
-	ts_fov_viewmodel = new ToggleSwitchTip ("Viewmodel FOV", BELOW (ts_fov), LOC((size.x - 20) / 6.75, 30), &Settings::FOVChanger::viewmodel_enabled, "Changes viewmodel fov to beyond or below normal levels");
+	ts_fov_viewmodel = new ToggleSwitchTip ("Viewmodel FOV", BELOW (ts_fov), LOC((size.x - 20) / 6.75, 30), &Settings::FOVChanger::viewmodel_enabled, "Viewmodel field of view");
 	sl_fov_viewmodel_value = new Slider ("", STACK (ts_fov_viewmodel), LOC ((size.x / 2) - ts_fov_viewmodel->size.x - 30, 30), &Settings::FOVChanger::viewmodel_value, 0.0f, 360.0f);
-	ts_fakelag = new ToggleSwitchTip ("Fake Lag", BELOW (ts_fov_viewmodel), LOC((size.x - 20) / 6.75, 30), &Settings::FakeLag::enabled, "Adds fake lag to appear laggier");
+	ts_fakelag = new ToggleSwitchTip ("Fake Lag", BELOW (ts_fov_viewmodel), LOC((size.x - 20) / 6.75, 30), &Settings::FakeLag::enabled, "Chokes network packets. Dont use with fake angles");
 	sl_fakelag = new Slider_INT ("", STACK (ts_fakelag), LOC ((size.x / 2) - ts_fakelag->size.x - 30, 33), &Settings::FakeLag::value, 0, 16);
-	ts_radar = new ToggleSwitchTip ("Radar", BELOW (ts_fakelag), LOC((size.x - 20) / 6.75, 30), &Settings::Radar::enabled, "Show enemies on the radar");
+	ts_radar = new ToggleSwitchTip ("Radar", BELOW (ts_fakelag), LOC((size.x - 20) / 6.75, 30), &Settings::Radar::enabled, "Show all enemies including people who are visible to you/team");
 	ts_showranks = new ToggleSwitchTip ("Show Ranks", BELOW (ts_radar), LOC((size.x - 20) / 6.75, 30), &Settings::ShowRanks::enabled, "Shows peoples ranks in a valve server");
 	ts_showspectators = new ToggleSwitchTip ("Show Spectators", STACK (ts_showranks), LOC((size.x - 20) / 6.75, 30), &Settings::ShowSpectators::enabled, "Shows who is spectating you");
-	ts_clantag = new ToggleSwitchTip ("Custom Clantag", BELOW (ts_showranks), LOC((size.x - 20) / 6.75, 30), &Settings::ClanTagChanger::enabled, "Set a custom clantag");
+	ts_clantag = new ToggleSwitchTip ("Custom Clantag", BELOW (ts_showranks), LOC((size.x - 20) / 6.75, 30), &Settings::ClanTagChanger::enabled, "Set a custom clantag ");
 	tb_clantag = new TextBox ("Clantag", &Settings::ClanTagChanger::value, STACK (ts_clantag), LOC((size.x - 20) / 6.75, 30));
-	ts_clantag_animation = new ToggleSwitchTip ("Clantag Animation", BELOW (ts_clantag), LOC((size.x - 20) / 6.75, 30), &Settings::ClanTagChanger::animation, "Sets the clantag to be animated");
+	ts_clantag_animation = new ToggleSwitchTip ("Clantag Animation", BELOW (ts_clantag), LOC((size.x - 20) / 6.75, 30), &Settings::ClanTagChanger::animation, "Animates the clantag. Can be changed in the config");
 	vtb_nickname = new ValueTextBox ("Nickname", "", BELOW (ts_clantag_animation), LOC((size.x - 20) / 6.75, 30));
 	ob_nickname = new OutlinedButton ("Set Nickname", STACK (vtb_nickname), LOC((size.x - 20) / 6.75, 30));
 	ob_nickname->OnClickedEvent = MFUNC (&MiscPanel::ob_nickname_clicked, this);
