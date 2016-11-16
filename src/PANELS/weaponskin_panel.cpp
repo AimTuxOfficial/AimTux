@@ -34,15 +34,11 @@ std::string convertToUpper(std::string s)
 
 void WeaponSkinPanel::ApplySkin()
 {
-	for (auto i : Settings::Skinchanger::skins)
-	{
-		int weaponID = Util::Items::GetItemIndex(convertToUpper(weaponIDText));
+	int weaponID = Util::Items::GetItemIndex(convertToUpper(weaponIDText));
+	if (weaponID == -1)
+		return;
 
-		if (weaponID == -1 || i.first != weaponID)
-			continue;
-
-		cvar->ConsoleColorPrintf(ColorRGBA(150, 255, 150), "Wepaon ID: %d\n", weaponID);
-		Settings::Skinchanger::skins[i.first] = Settings::Skinchanger::Skin(
+	Settings::Skinchanger::skins[weaponID] = Settings::Skinchanger::Skin(
 			skinIDText.empty() ? -1 : std::stoi(skinIDText),
 			-1,
 			seedIDText.empty() ? -1 : std::stoi(seedIDText),
@@ -50,7 +46,7 @@ void WeaponSkinPanel::ApplySkin()
 			stattrakText.empty() ? -1 : std::stoi(stattrakText),
 			nameIDText,
 			""
-		);
-	}
+	);
+
 	SkinChanger::ForceFullUpdate = true;
 }
