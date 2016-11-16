@@ -233,14 +233,14 @@ void Aimbot::Smooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
 	}
 	
 	float slope = delta.y / delta.x;
-	if(slope != slope) // is NaN
-	{
-		/*
-		 * Will only happen if delta.x is really small, the limit as x-> 0 is infinity,
-		 * so estimate with a big ass number.
-		 */
-	 		slope = 9999999;
-	}
+
+	/*
+	 * Will only happen if delta.x is really small, the limit as x-> 0 is infinity,
+	 * so estimate with a big ass number.
+	 */
+	if (slope != slope) // is NaN
+		slope = 9999999;
+
 	slope = fabs(slope);
 	float theta = atan(slope);
 
