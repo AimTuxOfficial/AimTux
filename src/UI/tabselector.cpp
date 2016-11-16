@@ -52,7 +52,7 @@ Tab::Tab (Vector2D position, Vector2D size, Panel** targetPanel, TabElement info
 
 void Tab::Draw ()
 {
-	Clear (Settings::UI::mainColor / colorDiv);
+	Clear (Settings::UI::mainColor / this->colorDiv);
 	
 	DrawCenteredString (text, normal_font, Color (255, 255, 255, 255), LOC (size.x / 2, size.y / 2));
 }
