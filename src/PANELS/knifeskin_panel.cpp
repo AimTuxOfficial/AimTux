@@ -47,14 +47,7 @@ KnifeSkinPanel::KnifeSkinPanel (Vector2D position, Vector2D size)
 
 void KnifeSkinPanel::ApplySkin()
 {
-	for (auto i : Settings::Skinchanger::skins)
-	{
-		//int weaponID = Util::Items::GetItemIndex(convertToUpper(weaponIDText));
-
-		if (i.first != WEAPON_KNIFE && i.first != WEAPON_KNIFE_T)
-			continue;
-
-		Settings::Skinchanger::skins[i.first] = Settings::Skinchanger::Skin(
+	Settings::Skinchanger::Skin skin = Settings::Skinchanger::Skin(
 			skinIDText.empty() ? -1 : std::stoi(skinIDText),
 			knifeType,
 			seedIDText.empty() ? -1 : std::stoi(seedIDText),
@@ -62,8 +55,10 @@ void KnifeSkinPanel::ApplySkin()
 			stattrakText.empty() ? -1 : std::stoi(stattrakText),
 			nameIDText,
 			""
-		);
-	}
+	);
+
+	Settings::Skinchanger::skins[WEAPON_KNIFE] = skin;
+	Settings::Skinchanger::skins[WEAPON_KNIFE_T] = skin;
 
 	SkinChanger::ForceFullUpdate = true;
 }
