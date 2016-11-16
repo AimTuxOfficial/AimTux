@@ -1,5 +1,6 @@
 #include "aimbot.h"
 #include "autowall.h"
+#include <math.h>
 
 // Default aimbot settings
 bool Settings::Aimbot::enabled = true;
@@ -12,7 +13,7 @@ ButtonCode_t Settings::Aimbot::aimkey = ButtonCode_t::MOUSE_MIDDLE;
 bool Settings::Aimbot::aimkey_only = false;
 bool Settings::Aimbot::Smooth::enabled = false;
 float Settings::Aimbot::Smooth::value = 1.0f;
-float Settings::Aimbot::Smooth::max = 15.0f;
+float Settings::Aimbot::Smooth::max = 1.0f;
 bool Settings::Aimbot::AutoAim::enabled = false;
 bool Settings::Aimbot::AutoWall::enabled = false;
 float Settings::Aimbot::AutoWall::value = 10.0f;
@@ -231,8 +232,22 @@ void Aimbot::Smooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
 		smooth -= remove;
 	}
 	
-	float factorx = 1.0f - smooth;
-	float factory = 1.0f - smooth;
+	float slope = delta.y / delta.x;
+
+	/*
+	 * Will only happen if delta.x is really small, the limit as x-> 0 is infinity,
+	 * so estimate with a big ass number.
+	 */
+	if (slope != slope) // is NaN
+		slope = 9999999;
+
+	slope = fabs(slope);
+	float theta = atan(slope);
+
+	float changeFactor = Settings::Aimbot::Smooth::max - (smooth * Settings::Aimbot::Smooth::max);
+
+	float factorx = changeFactor * cos(theta);
+	float factory = changeFactor * sin(theta);
 
 	if (delta.x < 0.0f)
 	{
