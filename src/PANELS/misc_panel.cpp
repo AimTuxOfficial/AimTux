@@ -9,7 +9,7 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	ts_airstuck = new ToggleSwitchTip ("Air Stuck", BELOW (ts_bhop), LOC((size.x - 20) / 6.75, 30), &Settings::Airstuck::enabled, "Freezes you in place. Can be used to teleport");
 	kb_airstuck_key =  new KeyBind ("", STACK (ts_airstuck), LOC((size.x - 20) / 6.75, 30),  &Settings::Airstuck::key);
 #ifdef UNTRUSTED_SETTINGS
-	ts_teleport = new ToggleSwitchTip ("Teleport", BELOW (ts_airstuck), LOC((size.x - 20) / 6.75, 30), &Settings::Teleport::enabled, "Teleport. DONT USE ON VALVE SERVERS (Casual/Deathmatch/Matchmaking");
+	ts_teleport = new ToggleSwitchTip ("Teleport", BELOW (ts_airstuck), LOC((size.x - 20) / 6.75, 30), &Settings::Teleport::enabled, "Teleport. DON'T USE ON VALVE SERVERS (Casual/Deathmatch/Matchmaking");
 	kb_teleport_key =  new KeyBind ("", STACK (ts_teleport), LOC((size.x - 20) / 6.75, 30),  &Settings::Teleport::key);
 	ba_spammer = new Banner ("Spammer", BELOW (ts_teleport), (size.x - 20) / 2 - 5);
 #else
@@ -28,7 +28,7 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	sl_fov_value = new Slider ("", STACK (ts_fov), LOC ((size.x / 2) - ts_fov->size.x - 30, 30), &Settings::FOVChanger::value, 0.0f, 180.0f);
 	ts_fov_viewmodel = new ToggleSwitchTip ("Viewmodel FOV", BELOW (ts_fov), LOC((size.x - 20) / 6.75, 30), &Settings::FOVChanger::viewmodel_enabled, "Viewmodel field of view");
 	sl_fov_viewmodel_value = new Slider ("", STACK (ts_fov_viewmodel), LOC ((size.x / 2) - ts_fov_viewmodel->size.x - 30, 30), &Settings::FOVChanger::viewmodel_value, 0.0f, 360.0f);
-	ts_fakelag = new ToggleSwitchTip ("Fake Lag", BELOW (ts_fov_viewmodel), LOC((size.x - 20) / 6.75, 30), &Settings::FakeLag::enabled, "Chokes network packets. Dont use with fake angles");
+	ts_fakelag = new ToggleSwitchTip ("Fake Lag", BELOW (ts_fov_viewmodel), LOC((size.x - 20) / 6.75, 30), &Settings::FakeLag::enabled, "Chokes network packets. Don't use with fake angles");
 	sl_fakelag = new Slider_INT ("", STACK (ts_fakelag), LOC ((size.x / 2) - ts_fakelag->size.x - 30, 33), &Settings::FakeLag::value, 0, 16);
 	ts_radar = new ToggleSwitchTip ("Radar", BELOW (ts_fakelag), LOC((size.x - 20) / 6.75, 30), &Settings::Radar::enabled, "Show all enemies including people who are visible to you/team");
 	ts_showranks = new ToggleSwitchTip ("Show Ranks", BELOW (ts_radar), LOC((size.x - 20) / 6.75, 30), &Settings::ShowRanks::enabled, "Shows peoples ranks in a valve server");
