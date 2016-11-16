@@ -9,24 +9,11 @@ class SkinChangerWindow;
 class SkinChangerWindow : public Window
 {
 protected:
-  TextBox* weaponIDTextBox;
-  TextBox* skinIDTextBox;
-  TextBox* seedIDTextBox;
-  Slider* wearAmountSlider;
-  TextBox* stattrakTextBox;
-  TextBox* nameIDTextBox;
-  OutlinedButton* setButton;
-  float wearAmount = 0.0f;
-  std::string weaponIDText;
-  std::string skinIDText;
-  std::string seedIDText;
-  std::string stattrakText;
-  std::string nameIDText;
-  ItemDefinitionIndex knifeType;
-  ScrollingListBox<ItemDefinitionIndex>* slb_knife;
+  TabSelector* tabSelector;
 
-  void ApplySkin();
-
+  Panel* knifeskin_panel;
+  Panel* weaponskin_panel;
+  
 public:
   SkinChangerWindow (std::string title, Vector2D size, Vector2D position, Color backgroundColor);
 };
