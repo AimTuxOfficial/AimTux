@@ -10,8 +10,10 @@
 #include "WINDOWS/config_window.h"
 #include "WINDOWS/main_window.h"
 #include "WINDOWS/popup_window.h"
+#include "WINDOWS/skinchange_window.h"
 
 extern MainWindow* main_window;
 extern ConfigWindow* config_window;
+extern SkinChangerWindow* skinchange_window;
 
 void SetupUI();

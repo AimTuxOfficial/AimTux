@@ -14,5 +14,8 @@ void SetupUI()
 	config_window->position = LOC(x - 10 - 270, y - 10 - 140);
 	gui->AddWindow(config_window);
 
+	skinchange_window = new SkinChangerWindow("Skin Changer ALPHA", LOC(350, 202), LOC(10, 0), Color(0, 0, 0, 0));
+	gui->AddWindow(skinchange_window);
+
 	gui->Focus(config_window);
 }
