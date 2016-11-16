@@ -22,6 +22,8 @@ protected:
   std::string seedIDText;
   std::string stattrakText;
   std::string nameIDText;
+  ItemDefinitionIndex knifeType;
+  ScrollingListBox<ItemDefinitionIndex>* slb_knife;
 
   void ApplySkin();
 

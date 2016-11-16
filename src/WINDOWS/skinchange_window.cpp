@@ -16,6 +16,22 @@ SkinChangerWindow::SkinChangerWindow (std::string title, Vector2D size, Vector2D
   setButton = new OutlinedButton ("Set", BELOW(seedIDTextBox), LOC(330, 30));
   setButton->OnClickedEvent = MFUNC (&SkinChangerWindow::ApplySkin, this);
 
+  slb_knife = new ScrollingListBox<ItemDefinitionIndex>("Knife", BELOW (setButton), (size.x - 20) / 2, &knifeType, std::vector<SLB_Element>
+			{
+					SLB_Element ("Bayonet", WEAPON_KNIFE_BAYONET),
+					SLB_Element ("Flip", WEAPON_KNIFE_FLIP),
+					SLB_Element ("Gut", WEAPON_KNIFE_GUT),
+					SLB_Element ("Karambit", WEAPON_KNIFE_KARAMBIT),
+					SLB_Element ("M9 Bayonet", WEAPON_KNIFE_M9_BAYONET),
+					SLB_Element ("Huntsman", WEAPON_KNIFE_TACTICAL),
+					SLB_Element ("Falchion", WEAPON_KNIFE_FALCHION),
+          SLB_Element ("Butterfly", WEAPON_KNIFE_BUTTERFLY),
+          SLB_Element ("Bowie", WEAPON_KNIFE_SURVIVAL_BOWIE),
+          SLB_Element ("Daggers", WEAPON_KNIFE_PUSH),
+
+			}
+  );
+  AddComponent(slb_knife);
   AddComponent(weaponIDTextBox);
   AddComponent(skinIDTextBox);
   AddComponent(seedIDTextBox);
