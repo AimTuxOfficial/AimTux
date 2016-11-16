@@ -14,7 +14,7 @@ TabSelector::TabSelector (Vector2D position, Vector2D size, std::vector<TabEleme
 		
 		element.panel->shown = false;
 		
-		Tab* new_tab = new Tab (LOC ((i * tab_width), 0), LOC (tab_width, size.y), &this->currentPanel, element, this);
+		Tab* new_tab = new Tab (i, LOC ((i * tab_width), 0), LOC (tab_width, size.y), &this->currentPanel, element, this);
 		this->tabs.push_back (new_tab);
 		AddComponent (new_tab);
 	}
@@ -37,13 +37,11 @@ void TabSelector::UpdateTabColors (int id)
 }
 
 
-Tab::Tab (Vector2D position, Vector2D size, Panel** targetPanel, TabElement info, TabSelector* parent)
+Tab::Tab (int id, Vector2D position, Vector2D size, Panel** targetPanel, TabElement info, TabSelector* parent)
 	: Button (info.name, position, size)
 {
 	this->parent = parent;
-	
-	static int id = -1;
-	id++;
+
 	this->id = id;
 	this->info = info;
 	this->targetPanel = targetPanel;

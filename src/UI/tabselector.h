@@ -43,7 +43,7 @@ public:
 	float colorDiv;
 	TabElement info;
 	int id = 0;
-	Tab (Vector2D position, Vector2D size, Panel** targetPanel, TabElement info, TabSelector* parent);
+	Tab (int id, Vector2D position, Vector2D size, Panel** targetPanel, TabElement info, TabSelector* parent);
 	
 	void OnClicked ();
 	void Draw ();
