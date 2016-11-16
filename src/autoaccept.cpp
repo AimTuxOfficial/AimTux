@@ -1,6 +1,6 @@
 #include "autoaccept.h"
 
-bool Settings::AutoAccept::enabled = true;
+bool Settings::AutoAccept::enabled = false;
 
 struct CServerConfirmedReservationCheckCallback {
 	char pad[0x2200];
