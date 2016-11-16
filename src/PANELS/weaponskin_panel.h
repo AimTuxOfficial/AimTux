@@ -9,21 +9,21 @@ class WeaponSkinPanel;
 class WeaponSkinPanel : public Panel
 {
 private:
-  TextBox* weaponIDTextBox;
-  TextBox* skinIDTextBox;
-  TextBox* seedIDTextBox;
-  Slider* wearAmountSlider;
-  TextBox* stattrakTextBox;
-  TextBox* nameIDTextBox;
-  OutlinedButton* setButton;
-  float wearAmount = 0.0f;
-  std::string weaponIDText;
-  std::string skinIDText;
-  std::string seedIDText;
-  std::string stattrakText;
-  std::string nameIDText;
+	TextBox* weaponIDTextBox;
+	TextBox* skinIDTextBox;
+	TextBox* seedIDTextBox;
+	Slider* wearAmountSlider;
+	TextBox* stattrakTextBox;
+	TextBox* nameIDTextBox;
+	OutlinedButton* setButton;
+	float wearAmount = 0.0f;
+	std::string weaponIDText;
+	std::string skinIDText;
+	std::string seedIDText;
+	std::string stattrakText;
+	std::string nameIDText;
 
-  void ApplySkin();
+	void ApplySkin();
 public:
-  WeaponSkinPanel (Vector2D position, Vector2D size);
+	WeaponSkinPanel (Vector2D position, Vector2D size);
 };
