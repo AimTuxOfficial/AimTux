@@ -39,6 +39,8 @@ CMoveData* g_MoveData = nullptr;
 GlowObjectManagerFn GlowObjectManager;
 MsgFunc_ServerRankRevealAllFn MsgFunc_ServerRankRevealAll;
 SendClanTagFn SendClanTag;
+IsReadyCallbackFn IsReadyCallback;
+
 RecvVarProxyFn fnSequenceProxyFn;
 
 std::unordered_map<const char*, uintptr_t> GetProcessLibraries() {
@@ -161,4 +163,11 @@ void Hooker::HookPrediction()
 	nPredictionRandomSeed = *reinterpret_cast<int**>(GetAbsoluteAddress(seed_instruction_addr, 3, 7));
 	movehelper = *reinterpret_cast<IMoveHelper**>(GetAbsoluteAddress(helper_instruction_addr + 1, 3, 7));
 	g_MoveData = **reinterpret_cast<CMoveData***>(GetAbsoluteAddress(movedata_instruction_addr, 3, 7));
+}
+
+void Hooker::HookIsReadyCallback()
+{
+	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) ISREADY_CALLBACK_SIGNATURE, ISREADY_CALLBACK_MASK);
+	
+	IsReadyCallback = reinterpret_cast<IsReadyCallbackFn>(func_address);
 }

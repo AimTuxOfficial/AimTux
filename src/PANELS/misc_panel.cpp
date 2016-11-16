@@ -30,8 +30,9 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	sl_fov_viewmodel_value = new Slider ("", STACK (ts_fov_viewmodel), LOC ((size.x / 2) - ts_fov_viewmodel->size.x - 30, 30), &Settings::FOVChanger::viewmodel_value, 0.0f, 360.0f);
 	ts_fakelag = new ToggleSwitchTip ("Fake Lag", BELOW (ts_fov_viewmodel), LOC((size.x - 20) / 6.75, 30), &Settings::FakeLag::enabled, "Chokes network packets. Don't use with fake angles");
 	sl_fakelag = new Slider_INT ("", STACK (ts_fakelag), LOC ((size.x / 2) - ts_fakelag->size.x - 30, 33), &Settings::FakeLag::value, 0, 16);
-	ts_radar = new ToggleSwitchTip ("Radar", BELOW (ts_fakelag), LOC((size.x - 20) / 6.75, 30), &Settings::Radar::enabled, "Show all enemies including people who are visible to you/team");
-	ts_showranks = new ToggleSwitchTip ("Show Ranks", BELOW (ts_radar), LOC((size.x - 20) / 6.75, 30), &Settings::ShowRanks::enabled, "Shows peoples ranks in a valve server");
+	ts_radar = new ToggleSwitchTip("Radar", BELOW(ts_fakelag), LOC((size.x - 20) / 6.75, 30), &Settings::Radar::enabled, "Show all enemies including people who are visible to you/team");
+	ts_autoaccept = new ToggleSwitchTip ("Auto Accept", BELOW (ts_radar), LOC((size.x - 20) / 6.75, 30), &Settings::AutoAccept::enabled, "Automatically accept games when in the matchmaking queue.");
+	ts_showranks = new ToggleSwitchTip ("Show Ranks", BELOW (ts_autoaccept), LOC((size.x - 20) / 6.75, 30), &Settings::ShowRanks::enabled, "Shows peoples ranks in a valve server");
 	ts_showspectators = new ToggleSwitchTip ("Show Spectators", STACK (ts_showranks), LOC((size.x - 20) / 6.75, 30), &Settings::ShowSpectators::enabled, "Shows who is spectating you");
 	ts_clantag = new ToggleSwitchTip ("Custom Clantag", BELOW (ts_showranks), LOC((size.x - 20) / 6.75, 30), &Settings::ClanTagChanger::enabled, "Set a custom clantag ");
 	tb_clantag = new TextBox ("Clantag", &Settings::ClanTagChanger::value, STACK (ts_clantag), LOC((size.x - 20) / 6.75, 30));
@@ -62,6 +63,7 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	AddComponent (ts_showspectators);
 	AddComponent (ts_showranks);
 	AddComponent (ts_radar);
+	AddComponent (ts_autoaccept);
 	AddComponent (sl_fakelag);
 	AddComponent (ts_fakelag);
 	AddComponent (sl_fov_viewmodel_value);

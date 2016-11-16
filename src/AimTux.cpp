@@ -21,6 +21,7 @@ int __attribute__((constructor)) aimtux_init()
 	Hooker::HookRankReveal();
 	Hooker::HookSendClanTag();
 	Hooker::HookSendPacket();
+	Hooker::HookIsReadyCallback();
 	Hooker::HookPrediction();
 
 	Chams::CreateMaterials();
@@ -48,6 +49,9 @@ int __attribute__((constructor)) aimtux_init()
 
 	inputInternal_vmt->HookVM((void*) Hooks::SetKeyCodeState, 92);
 	inputInternal_vmt->ApplyVMT();
+	
+	surface_vmt->HookVM((void*) Hooks::PlaySound, 82);
+	surface_vmt->ApplyVMT();
 
 	surface_vmt->HookVM((void*) Hooks::OnScreenSizeChanged, 116);
 	surface_vmt->ApplyVMT();
