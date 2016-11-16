@@ -22,9 +22,4 @@ void AutoStrafe::CreateMove(CUserCmd* cmd)
 
 	if (cmd->mousedx > 1 || cmd->mousedx < -1)
 		cmd->sidemove = cmd->mousedx < 0.f ? -450.f : 450.f;
-	else
-	{
-		cmd->forwardmove = 2550.f / localplayer->GetVelocity().Length2D();
-		cmd->sidemove = cmd->command_number % 2 == 1 ? -450.f : 450.f;
-	}
 }
