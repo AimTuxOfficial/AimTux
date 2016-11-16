@@ -49,7 +49,7 @@ int __attribute__((constructor)) aimtux_init()
 
 	inputInternal_vmt->HookVM((void*) Hooks::SetKeyCodeState, 92);
 	inputInternal_vmt->ApplyVMT();
-	
+
 	surface_vmt->HookVM((void*) Hooks::PlaySound, 82);
 	surface_vmt->HookVM((void*) Hooks::OnScreenSizeChanged, 116);
 	surface_vmt->ApplyVMT();

@@ -51,5 +51,4 @@ namespace Hooker
 	void HookSendPacket();
 	void HookPrediction();
 	void HookIsReadyCallback();
-	void UnhookSendPacket();
 }
