@@ -30,6 +30,7 @@ VMT* clientMode_vmt = nullptr;
 VMT* gameEvents_vmt = nullptr;
 VMT* viewRender_vmt = nullptr;
 VMT* inputInternal_vmt = nullptr;
+VMT* surface_vmt = nullptr;
 
 bool* bSendPacket = nullptr;
 int* nPredictionRandomSeed = nullptr;
@@ -92,6 +93,7 @@ void Hooker::HookVMethods()
 	gameEvents_vmt = new VMT(gameevents);
 	viewRender_vmt = new VMT(viewrender);
 	inputInternal_vmt = new VMT(inputInternal);
+	surface_vmt = new VMT(surface);
 }
 
 void Hooker::HookIClientMode()
