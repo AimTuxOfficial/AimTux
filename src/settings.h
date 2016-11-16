@@ -425,6 +425,11 @@ namespace Settings
 		extern int value;
 	}
 
+	namespace AutoAccept
+	{
+		extern bool enabled;
+	}
+
 	void LoadDefaultsOrSave(const char* filename);
 	void LoadSettings(const char* filename);
 }

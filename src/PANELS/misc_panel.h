@@ -32,6 +32,7 @@ private:
 	ToggleSwitch* ts_fov_viewmodel;
 	Slider* sl_fov_viewmodel_value;
 	ToggleSwitch* ts_radar;
+	ToggleSwitch* ts_autoaccept;
 	ToggleSwitch* ts_fakelag;
 	Slider_INT* sl_fakelag;
 	ToggleSwitch* ts_showranks;

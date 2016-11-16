@@ -256,6 +256,8 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 
 	settings["FakeLag"]["enabled"] = Settings::FakeLag::enabled;
 
+	settings["AutoAccept"]["enabled"] = Settings::AutoAccept::enabled;
+
 	std::ofstream(GetSettingsPath(filename)) << styledWriter.write(settings);
 }
 
@@ -456,4 +458,6 @@ void Settings::LoadSettings(const char* filename)
 	GetButtonCode(settings["Teleport"]["key"], &Settings::Teleport::key);
 
 	GetBool(settings["FakeLag"]["enabled"], &Settings::FakeLag::enabled);
+	
+	GetBool(settings["AutoAccept"]["enabled"], &Settings::AutoAccept::enabled);
 }
