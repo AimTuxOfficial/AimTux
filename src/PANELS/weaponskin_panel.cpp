@@ -4,10 +4,10 @@ WeaponSkinPanel::WeaponSkinPanel (Vector2D position, Vector2D size)
 	: Panel::Panel (position, size)
 {
 	weaponIDTextBox = new TextBox ("Weapon Name", &weaponIDText, LOC(10, 10), LOC(160, 30));
-	skinIDTextBox = new TextBox ("Skin ID", &skinIDText, BELOW(weaponIDTextBox), LOC(160, 30));
-	seedIDTextBox = new TextBox ("Seed ID", &seedIDText, BELOW(skinIDTextBox), LOC(160, 30));
+	skinIDTextBox = new NumberBox ("Skin ID", &skinIDText, BELOW(weaponIDTextBox), LOC(160, 30));
+	seedIDTextBox = new NumberBox ("Seed", &seedIDText, BELOW(skinIDTextBox), LOC(160, 30));
 	wearAmountSlider = new Slider("Wear Amount", STACK(weaponIDTextBox), LOC(160, 30), &wearAmount, 0.005f, 1.0f);
-	stattrakTextBox = new TextBox ("Stat Trak", &stattrakText, BELOW(wearAmountSlider), LOC(160, 30));
+	stattrakTextBox = new NumberBox ("Stat Trak", &stattrakText, BELOW(wearAmountSlider), LOC(160, 30));
 	nameIDTextBox = new TextBox ("Name Tag", &nameIDText, BELOW(stattrakTextBox), LOC(160, 30));
 
 	setButton = new OutlinedButton ("Set", BELOW(seedIDTextBox), LOC(330, 30));

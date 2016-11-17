@@ -3,10 +3,11 @@
 KnifeSkinPanel::KnifeSkinPanel (Vector2D position, Vector2D size)
 	: Panel::Panel (position, size)
 {
-	skinIDTextBox = new TextBox ("Skin ID", &skinIDText, LOC(10, 10), LOC(160, 30));
-	seedIDTextBox = new TextBox ("Seed ID", &seedIDText, BELOW(skinIDTextBox), LOC(160, 30));
+	Side side = CT;
+	skinIDTextBox = new NumberBox ("Skin ID", &skinIDText, LOC(10, 10), LOC(160, 30));
+	seedIDTextBox = new NumberBox ("Seed", &seedIDText, BELOW(skinIDTextBox), LOC(160, 30));
 	wearAmountSlider = new Slider("Wear Amount", STACK(skinIDTextBox), LOC(160, 30), &wearAmount, 0.005f, 1.0f);
-	stattrakTextBox = new TextBox ("Stat Trak", &stattrakText, BELOW(wearAmountSlider), LOC(160, 30));
+	stattrakTextBox = new NumberBox ("Stat Trak", &stattrakText, BELOW(wearAmountSlider), LOC(160, 30));
 	nameIDTextBox = new TextBox ("Name Tag", &nameIDText, BELOW(seedIDTextBox), LOC(160, 30));
 
 	setButton = new OutlinedButton ("Set", BELOW(nameIDTextBox), LOC(330, 30));
@@ -27,6 +28,15 @@ KnifeSkinPanel::KnifeSkinPanel (Vector2D position, Vector2D size)
 
 			}
 	);
+
+	cb_side = new ComboBox<Side>("Side", STACK(slb_knife), (size.x - 20) / 2 - 10, &side, std::vector<CB_Element>
+			{
+					CB_Element ("CT", CT),
+					CB_Element ("T", T),
+			}, false
+	);
+
+	AddComponent(cb_side);
 	AddComponent(slb_knife);
 	AddComponent(skinIDTextBox);
 	AddComponent(seedIDTextBox);
@@ -57,8 +67,23 @@ void KnifeSkinPanel::ApplySkin()
 			""
 	);
 
-	Settings::Skinchanger::skins[WEAPON_KNIFE] = skin;
-	Settings::Skinchanger::skins[WEAPON_KNIFE_T] = skin;
+	if(side == CT)
+		Settings::Skinchanger::skins[WEAPON_KNIFE] = skin;
+	else if (side == T)
+		Settings::Skinchanger::skins[WEAPON_KNIFE_T] = skin;
+	else cvar->ConsoleColorPrintf(ColorRGBA(150, 255, 150), "Please Select a side.\n");
+
+	// switch(side)
+	// {
+	// 	case CT:
+	// 		Settings::Skinchanger::skins[WEAPON_KNIFE] = skin;
+	// 		break;
+	// 	case T:
+	// 		Settings::Skinchanger::skins[WEAPON_KNIFE_T] = skin;
+	// 		break;
+	// 	default:
+	// 		break;
+	// }
 
 	SkinChanger::ForceFullUpdate = true;
 }

@@ -10,13 +10,13 @@ class WeaponSkinPanel : public Panel
 {
 private:
 	TextBox* weaponIDTextBox;
-	TextBox* skinIDTextBox;
-	TextBox* seedIDTextBox;
+	NumberBox* skinIDTextBox;
+	NumberBox* seedIDTextBox;
 	Slider* wearAmountSlider;
-	TextBox* stattrakTextBox;
+	NumberBox* stattrakTextBox;
 	TextBox* nameIDTextBox;
 	OutlinedButton* setButton;
-	float wearAmount = 0.0f;
+	float wearAmount = 0.005f;
 	std::string weaponIDText;
 	std::string skinIDText;
 	std::string seedIDText;

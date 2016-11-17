@@ -9,19 +9,26 @@ class KnifeSkinPanel;
 class KnifeSkinPanel : public Panel
 {
 private:
-	TextBox* skinIDTextBox;
-	TextBox* seedIDTextBox;
+	NumberBox* skinIDTextBox;
+	NumberBox* seedIDTextBox;
 	Slider* wearAmountSlider;
-	TextBox* stattrakTextBox;
+	NumberBox* stattrakTextBox;
 	TextBox* nameIDTextBox;
 	OutlinedButton* setButton;
-	float wearAmount = 0.0f;
+	float wearAmount = 0.005f;
 	std::string skinIDText;
 	std::string seedIDText;
 	std::string stattrakText;
 	std::string nameIDText;
 	ItemDefinitionIndex knifeType;
 	ScrollingListBox<ItemDefinitionIndex>* slb_knife;
+	enum Side : unsigned int
+	{
+		CT,
+		T
+	};
+	Side side;
+	ComboBox<Side>* cb_side;
 
 	void ApplySkin();
 	//std::string WeaponSkinPanel::convertToUpper();
