@@ -38,6 +38,7 @@ Want to chat or play with other AimTux users? Join us on Gitter!
 * *Kill Spammer*
 * *Name Changer*
 * *FOV Changer*
+* *AutoAccept*
 
 ===================
 
