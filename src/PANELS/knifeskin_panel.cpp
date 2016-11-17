@@ -48,13 +48,6 @@ KnifeSkinPanel::KnifeSkinPanel (Vector2D position, Vector2D size)
 	Hide ();
 }
 
-// std::string KnifeSkinPanel::convertToUpper(std::string s)
-// {
-//	 for (int i = 0; i < s.length(); i++)
-//		 s[i] = toupper(s[i]);
-//	 return s;
-// }
-
 void KnifeSkinPanel::ApplySkin()
 {
 	Settings::Skinchanger::Skin skin = Settings::Skinchanger::Skin(
@@ -67,23 +60,7 @@ void KnifeSkinPanel::ApplySkin()
 			""
 	);
 
-	if(side == CT)
-		Settings::Skinchanger::skins[WEAPON_KNIFE] = skin;
-	else if (side == T)
-		Settings::Skinchanger::skins[WEAPON_KNIFE_T] = skin;
-	else cvar->ConsoleColorPrintf(ColorRGBA(150, 255, 150), "Please Select a side.\n");
-
-	// switch(side)
-	// {
-	// 	case CT:
-	// 		Settings::Skinchanger::skins[WEAPON_KNIFE] = skin;
-	// 		break;
-	// 	case T:
-	// 		Settings::Skinchanger::skins[WEAPON_KNIFE_T] = skin;
-	// 		break;
-	// 	default:
-	// 		break;
-	// }
+	Settings::Skinchanger::skins[side == CT ? WEAPON_KNIFE : WEAPON_KNIFE_T] = skin;
 
 	SkinChanger::ForceFullUpdate = true;
 }
