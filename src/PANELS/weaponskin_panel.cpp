@@ -10,7 +10,7 @@ WeaponSkinPanel::WeaponSkinPanel (Vector2D position, Vector2D size)
 	stattrakTextBox = new NumberBox ("Stat Trak", &stattrakText, BELOW(wearAmountSlider), LOC(160, 30));
 	nameIDTextBox = new TextBox ("Name Tag", &nameIDText, BELOW(stattrakTextBox), LOC(160, 30));
 
-	setButton = new OutlinedButton ("Set", BELOW(seedIDTextBox), LOC(330, 30));
+	setButton = new OutlinedButton ("Set", BELOW(seedIDTextBox), LOC(330, 40));
 	setButton->OnClickedEvent = MFUNC (&WeaponSkinPanel::ApplySkin, this);
 
 	AddComponent(weaponIDTextBox);

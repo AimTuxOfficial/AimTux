@@ -14,6 +14,7 @@ private:
 	Slider* wearAmountSlider;
 	NumberBox* stattrakTextBox;
 	TextBox* nameIDTextBox;
+	OutlinedButton* loadButton;
 	OutlinedButton* setButton;
 	float wearAmount = 0.005f;
 	std::string skinIDText;
@@ -30,8 +31,8 @@ private:
 	Side side;
 	ComboBox<Side>* cb_side;
 
+	void LoadSkin();
 	void ApplySkin();
-	//std::string WeaponSkinPanel::convertToUpper();
 public:
 	KnifeSkinPanel(Vector2D position, Vector2D size);
 };

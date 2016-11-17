@@ -10,10 +10,13 @@ KnifeSkinPanel::KnifeSkinPanel (Vector2D position, Vector2D size)
 	stattrakTextBox = new NumberBox ("Stat Trak", &stattrakText, BELOW(wearAmountSlider), LOC(160, 30));
 	nameIDTextBox = new TextBox ("Name Tag", &nameIDText, BELOW(seedIDTextBox), LOC(160, 30));
 
-	setButton = new OutlinedButton ("Set", BELOW(nameIDTextBox), LOC(330, 30));
+	loadButton = new OutlinedButton ("Load", BELOW(nameIDTextBox), LOC ((size.x - 20) / 2 - 5, 40));
+	loadButton->OnClickedEvent = MFUNC (&KnifeSkinPanel::LoadSkin, this);
+
+	setButton = new OutlinedButton ("Set", STACK(loadButton), LOC ((size.x - 20) / 2 - 5, 40));
 	setButton->OnClickedEvent = MFUNC (&KnifeSkinPanel::ApplySkin, this);
 
-	slb_knife = new ScrollingListBox<ItemDefinitionIndex>("Knife", BELOW (setButton), (size.x - 20) / 2, &knifeType, std::vector<SLB_Element>
+	slb_knife = new ScrollingListBox<ItemDefinitionIndex>("Knife", BELOW (loadButton), (size.x - 20) / 2, &knifeType, std::vector<SLB_Element>
 			{
 					SLB_Element ("Bayonet", WEAPON_KNIFE_BAYONET),
 					SLB_Element ("Flip", WEAPON_KNIFE_FLIP),
@@ -29,7 +32,7 @@ KnifeSkinPanel::KnifeSkinPanel (Vector2D position, Vector2D size)
 			}
 	);
 
-	cb_side = new ComboBox<Side>("Side", STACK(nameIDTextBox), (size.x - 20) / 2 - 10, &side, std::vector<CB_Element>
+	cb_side = new ComboBox<Side>("Side", STACK(nameIDTextBox), 160, &side, std::vector<CB_Element>
 			{
 					CB_Element ("CT", CT),
 					CB_Element ("T", T),
@@ -44,8 +47,25 @@ KnifeSkinPanel::KnifeSkinPanel (Vector2D position, Vector2D size)
 	AddComponent(stattrakTextBox);
 	AddComponent(nameIDTextBox);
 
+	AddComponent(loadButton);
 	AddComponent(setButton);
 	Hide ();
+}
+
+void KnifeSkinPanel::LoadSkin()
+{
+	auto keyExists = Settings::Skinchanger::skins.find(side == CT ? WEAPON_KNIFE : WEAPON_KNIFE_T);
+	if (keyExists == Settings::Skinchanger::skins.end())
+		return;
+
+	Settings::Skinchanger::Skin skin = Settings::Skinchanger::skins[side == CT ? WEAPON_KNIFE : WEAPON_KNIFE_T];
+
+	wearAmount = skin.Wear;
+	skinIDText = std::to_string(skin.PaintKit);
+	seedIDText = std::to_string(skin.Seed);
+	stattrakText = std::to_string(skin.StatTrak);
+	nameIDText = skin.CustomName;
+	knifeType = (enum ItemDefinitionIndex) skin.ItemDefinitionIndex;
 }
 
 void KnifeSkinPanel::ApplySkin()
