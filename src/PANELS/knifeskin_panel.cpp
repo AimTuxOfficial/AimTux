@@ -29,7 +29,7 @@ KnifeSkinPanel::KnifeSkinPanel (Vector2D position, Vector2D size)
 			}
 	);
 
-	cb_side = new ComboBox<Side>("Side", STACK(slb_knife), (size.x - 20) / 2 - 10, &side, std::vector<CB_Element>
+	cb_side = new ComboBox<Side>("Side", STACK(nameIDTextBox), (size.x - 20) / 2 - 10, &side, std::vector<CB_Element>
 			{
 					CB_Element ("CT", CT),
 					CB_Element ("T", T),
