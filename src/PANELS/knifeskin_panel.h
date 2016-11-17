@@ -22,6 +22,13 @@ private:
 	std::string nameIDText;
 	ItemDefinitionIndex knifeType;
 	ScrollingListBox<ItemDefinitionIndex>* slb_knife;
+	enum Side : unsigned int
+	{
+		CT,
+		T
+	};
+	Side side;
+	ComboBox<Side>* cb_side;
 
 	void ApplySkin();
 	//std::string WeaponSkinPanel::convertToUpper();

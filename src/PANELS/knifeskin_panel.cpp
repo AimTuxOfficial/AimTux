@@ -27,6 +27,15 @@ KnifeSkinPanel::KnifeSkinPanel (Vector2D position, Vector2D size)
 
 			}
 	);
+
+	cb_side = new ComboBox<Side>("Side", STACK(slb_knife), (size.x - 20) / 2 - 10, &side, std::vector<CB_Element>
+			{
+					CB_Element ("CT", CT),
+					CB_Element ("T", T),
+			}, false
+	);
+
+	AddComponent(cb_side);
 	AddComponent(slb_knife);
 	AddComponent(skinIDTextBox);
 	AddComponent(seedIDTextBox);
@@ -57,8 +66,15 @@ void KnifeSkinPanel::ApplySkin()
 			""
 	);
 
-	Settings::Skinchanger::skins[WEAPON_KNIFE] = skin;
-	Settings::Skinchanger::skins[WEAPON_KNIFE_T] = skin;
+	switch(side)
+	{
+		case CT:
+			Settings::Skinchanger::skins[WEAPON_KNIFE] = skin;
+			break;
+		case T:
+			Settings::Skinchanger::skins[WEAPON_KNIFE_T] = skin;
+			break;
+	}
 
 	SkinChanger::ForceFullUpdate = true;
 }
