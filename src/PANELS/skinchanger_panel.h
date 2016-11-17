@@ -12,7 +12,6 @@ private:
 	Banner* ba_gun;
 	Banner* ba_knife;
 
-//GUNS
 	TextBox* gunIDTextBox;
 	NumberBox* gunSkinIDTextBox;
 	NumberBox* gunSeedIDTextBox;
@@ -30,7 +29,6 @@ private:
 	std::string gunStattrakText;
 	std::string gunNameIDText;
 
-//KNIFE
 	NumberBox* knifeSkinIDTextBox;
 	NumberBox* knifeSeedIDTextBox;
 	Slider* knifeWearAmountSlider;
@@ -51,8 +49,8 @@ private:
 
 	void ApplyGunSkin();
 	void ApplyKnifeSkin();
-	void LoadKnifeSkin();
 	void LoadGunSkin();
+	void LoadKnifeSkin();
 
 public:
 	SkinChangerPanel(Vector2D position, Vector2D size);

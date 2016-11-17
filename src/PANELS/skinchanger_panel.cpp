@@ -3,7 +3,6 @@
 SkinChangerPanel::SkinChangerPanel (Vector2D position, Vector2D size)
 	: Panel::Panel (position, size)
 {
-	side = CT;
 	// ** INITIALIZE GUNS COMPONENTS ** //
 	ba_gun = new Banner("Guns", LOC(10, 10), (size.x - 20) / 2 - 5);
 	cb_gun = new ComboBox<ItemDefinitionIndex>("Guns", BELOW (ba_gun), (size.x - 20) / 6.75, &gun, std::vector<CB_Element>
@@ -36,7 +35,7 @@ SkinChangerPanel::SkinChangerPanel (Vector2D position, Vector2D size)
 	gunLoadButton = new OutlinedButton ("Load", STACK(gunSetButton), LOC ((size.x - 20) / 6.75, 30));
 	gunLoadButton->OnClickedEvent = MFUNC (&SkinChangerPanel::LoadGunSkin, this);
 
-		// ** DRAW GUNS COMPONENTS ** //
+	// ** DRAW GUNS COMPONENTS ** //
 	AddComponent(ba_gun);
 	AddComponent(cb_gun);
 	AddComponent(gunIDTextBox);
@@ -48,8 +47,9 @@ SkinChangerPanel::SkinChangerPanel (Vector2D position, Vector2D size)
 	AddComponent(gunSetButton);
 	AddComponent(gunLoadButton);
 
+	// ** INITIALIZE KNIFE COMPONENTS ** //
+	side = CT;
 
-	// ** INITIALIZE GUNS COMPONENTS ** //
 	ba_knife = new Banner("Knife", STACK(ba_gun), (size.x - 20) / 2 - 5);
 	cb_knife = new ComboBox<ItemDefinitionIndex>("Knife", BELOW(ba_knife), (size.x - 20) / 6.75, &knife, std::vector<CB_Element>
 		{
@@ -106,7 +106,6 @@ std::string convertInputToUpper(std::string s)
 
 void SkinChangerPanel::ApplyGunSkin()
 {
-
 	int weaponID = Util::Items::GetItemIndex(convertInputToUpper(gunIDText));
 
 	Settings::Skinchanger::skins[gunIDText.empty() ? gun : weaponID] = Settings::Skinchanger::Skin(
@@ -118,6 +117,7 @@ void SkinChangerPanel::ApplyGunSkin()
 		gunNameIDText,
 		""
 	);
+
 	SkinChanger::ForceFullUpdate = true;
 }
 
@@ -140,7 +140,6 @@ void SkinChangerPanel::LoadKnifeSkin()
 
 void SkinChangerPanel::LoadGunSkin()
 {
-
 	int weaponID = Util::Items::GetItemIndex(convertInputToUpper(gunIDText));
 
 	Settings::Skinchanger::Skin skin = Settings::Skinchanger::skins[gunIDText.empty() ? gun : weaponID];
