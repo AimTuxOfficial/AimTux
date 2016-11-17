@@ -344,6 +344,7 @@ namespace Settings
 	namespace Recoilcrosshair
 	{
 		extern bool enabled;
+		extern bool showOnlyWhenShooting;
 	}
 
 	namespace Airstuck

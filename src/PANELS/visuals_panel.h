@@ -22,6 +22,7 @@ private:
 	ToggleSwitch* ts_friendly;
 	Banner*	ba_crosshair;
 	ToggleSwitch* ts_recoil_crosshair;
+	ToggleSwitch* ts_recoil_crosshair_shooting;
 	ToggleSwitch* ts_fov_crosshair;
 	Banner*	ba_chams;
 	ToggleSwitch* ts_chams_players;

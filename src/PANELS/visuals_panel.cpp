@@ -16,6 +16,7 @@ VisualsPanel::VisualsPanel (Vector2D position, Vector2D size)
 	ts_visibility_check = new ToggleSwitchTip ("Visibility Check", BELOW (ts_friendly), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::visibility_check, "Only draw ESP elements when an enemy is visible");
 	ba_crosshair = new Banner ("Crosshair", BELOW (ts_visibility_check), (size.x - 20) / 2 - 5);
 	ts_recoil_crosshair = new ToggleSwitchTip ("Recoil Crosshair", BELOW (ba_crosshair), LOC((size.x - 20) / 6.75, 30), &Settings::Recoilcrosshair::enabled, "Show a weapon recoil pattern as a crosshair");
+	ts_recoil_crosshair_shooting = new ToggleSwitchTip ("Only When Shooting", STACK (ts_recoil_crosshair), LOC((size.x - 20) / 6.75, 30), &Settings::Recoilcrosshair::showOnlyWhenShooting, "Only show recoil crosshair when shooting");
 	ts_fov_crosshair = new ToggleSwitchTip ("FOV Circle", BELOW (ts_recoil_crosshair), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::FOVCrosshair::enabled, "Area of Aimbot target zone");
 	ba_chams = new Banner ("Chams", LOC((size.x / 2) + 5, ba_esp->position.y), ((size.x - 20) / 2) - 5);
 	ts_chams_players = new ToggleSwitchTip ("Players", BELOW (ba_chams), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::Chams::players, "Show players in chams");
@@ -67,6 +68,7 @@ VisualsPanel::VisualsPanel (Vector2D position, Vector2D size)
 	AddComponent (ts_chams_visibility_check);
 	AddComponent (ba_chams);
 	AddComponent (ts_fov_crosshair);
+	AddComponent (ts_recoil_crosshair_shooting);
 	AddComponent (ts_recoil_crosshair);
 	AddComponent (ba_crosshair);
 	AddComponent (ts_visibility_check);

@@ -213,6 +213,8 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 
 	settings["Recoilcrosshair"]["enabled"] = Settings::Recoilcrosshair::enabled;
 
+	settings["Recoilcrosshair"]["showOnlyWhenShooting"] = Settings::Recoilcrosshair::showOnlyWhenShooting;
+
 	settings["FOVChanger"]["enabled"] = Settings::FOVChanger::enabled;
 	settings["FOVChanger"]["value"] = Settings::FOVChanger::value;
 	settings["FOVChanger"]["viewmodel_enabled"] = Settings::FOVChanger::viewmodel_enabled;
@@ -392,6 +394,7 @@ void Settings::LoadSettings(const char* filename)
 	GetBool(settings["Radar"]["enabled"], &Settings::Radar::enabled);
 
 	GetBool(settings["Recoilcrosshair"]["enabled"], &Settings::Recoilcrosshair::enabled);
+	GetBool(settings["Recoilcrosshair"]["showOnlyWhenShooting"], &Settings::Recoilcrosshair::showOnlyWhenShooting);
 
 	GetBool(settings["FOVChanger"]["enabled"], &Settings::FOVChanger::enabled);
 	GetFloat(settings["FOVChanger"]["value"], &Settings::FOVChanger::value);
@@ -458,6 +461,6 @@ void Settings::LoadSettings(const char* filename)
 	GetButtonCode(settings["Teleport"]["key"], &Settings::Teleport::key);
 
 	GetBool(settings["FakeLag"]["enabled"], &Settings::FakeLag::enabled);
-	
+
 	GetBool(settings["AutoAccept"]["enabled"], &Settings::AutoAccept::enabled);
 }
