@@ -122,7 +122,10 @@ void MiscPanel::ob_noname_clicked ()
 
 void MiscPanel::ob_unlockcvar_clicked ()
 {
-	cvar->FindVar(vtb_unlockcvar->text.c_str())->nFlags &= ~FCVAR_CHEAT;
+	ConVar* convar = cvar->FindVar(vtb_unlockcvar->text.c_str());
+
+	if (convar)
+		convar->nFlags &= ~FCVAR_CHEAT;
 }
 
 void MiscPanel::bn_ui_color_clicked ()
