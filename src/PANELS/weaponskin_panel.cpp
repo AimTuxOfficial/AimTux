@@ -10,7 +10,10 @@ WeaponSkinPanel::WeaponSkinPanel (Vector2D position, Vector2D size)
 	stattrakTextBox = new NumberBox ("Stat Trak", &stattrakText, BELOW(wearAmountSlider), LOC(160, 30));
 	nameIDTextBox = new TextBox ("Name Tag", &nameIDText, BELOW(stattrakTextBox), LOC(160, 30));
 
-	setButton = new OutlinedButton ("Set", BELOW(seedIDTextBox), LOC(330, 40));
+	loadButton = new OutlinedButton ("Load", BELOW(seedIDTextBox), LOC ((size.x - 20) / 2 - 5, 40));
+	loadButton->OnClickedEvent = MFUNC (&WeaponSkinPanel::LoadSkin, this);
+
+	setButton = new OutlinedButton ("Set", STACK(loadButton), LOC ((size.x - 20) / 2 - 5, 40));
 	setButton->OnClickedEvent = MFUNC (&WeaponSkinPanel::ApplySkin, this);
 
 	AddComponent(weaponIDTextBox);
@@ -20,6 +23,7 @@ WeaponSkinPanel::WeaponSkinPanel (Vector2D position, Vector2D size)
 	AddComponent(stattrakTextBox);
 	AddComponent(nameIDTextBox);
 
+	AddComponent(loadButton);
 	AddComponent(setButton);
 	Hide ();
 }
@@ -30,6 +34,25 @@ std::string convertToUpper(std::string s)
 		s[i] = toupper(s[i]);
 
 	return s;
+}
+
+void WeaponSkinPanel::LoadSkin()
+{
+	int weaponID = Util::Items::GetItemIndex(convertToUpper(weaponIDText));
+	if (weaponID == -1)
+		return;
+
+	auto keyExists = Settings::Skinchanger::skins.find(weaponID);
+	if (keyExists == Settings::Skinchanger::skins.end())
+		return;
+
+	Settings::Skinchanger::Skin skin = Settings::Skinchanger::skins[weaponID];
+
+	wearAmount = skin.Wear;
+	skinIDText = std::to_string(skin.PaintKit);
+	seedIDText = std::to_string(skin.Seed);
+	stattrakText = std::to_string(skin.StatTrak);
+	nameIDText = skin.CustomName;
 }
 
 void WeaponSkinPanel::ApplySkin()

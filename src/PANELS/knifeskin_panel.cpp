@@ -3,7 +3,7 @@
 KnifeSkinPanel::KnifeSkinPanel (Vector2D position, Vector2D size)
 	: Panel::Panel (position, size)
 {
-	//Side side = CT;
+	side = CT;
 	skinIDTextBox = new NumberBox ("Skin ID", &skinIDText, LOC(10, 10), LOC(160, 30));
 	seedIDTextBox = new NumberBox ("Seed", &seedIDText, BELOW(skinIDTextBox), LOC(160, 30));
 	wearAmountSlider = new Slider("Wear Amount", STACK(skinIDTextBox), LOC(160, 30), &wearAmount, 0.005f, 1.0f);

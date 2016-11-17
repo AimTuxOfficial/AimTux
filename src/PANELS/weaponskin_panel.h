@@ -15,6 +15,7 @@ private:
 	Slider* wearAmountSlider;
 	NumberBox* stattrakTextBox;
 	TextBox* nameIDTextBox;
+	OutlinedButton* loadButton;
 	OutlinedButton* setButton;
 	float wearAmount = 0.005f;
 	std::string weaponIDText;
@@ -23,6 +24,7 @@ private:
 	std::string stattrakText;
 	std::string nameIDText;
 
+	void LoadSkin();
 	void ApplySkin();
 public:
 	WeaponSkinPanel (Vector2D position, Vector2D size);
