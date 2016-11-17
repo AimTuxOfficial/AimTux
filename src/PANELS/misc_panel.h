@@ -43,6 +43,8 @@ private:
 	ToggleSwitch* ts_clantag;
 	TextBox* tb_clantag;
 	ToggleSwitch* ts_clantag_animation;
+	ValueTextBox* vtb_unlockcvar;
+	OutlinedButton* ob_unlockcvar;
 	Banner* ba_colors;
 	OutlinedButton* bn_ui_color;
 	OutlinedButton* bn_2_color;
@@ -54,4 +56,5 @@ public:
 	void bn_ui_color_clicked ();
 	void ob_nickname_clicked ();
 	void ob_noname_clicked ();
+	void ob_unlockcvar_clicked ();
 };

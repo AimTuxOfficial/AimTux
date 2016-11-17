@@ -42,7 +42,14 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	ob_nickname->OnClickedEvent = MFUNC (&MiscPanel::ob_nickname_clicked, this);
 	ob_noname = new OutlinedButton ("No Name", BELOW (vtb_nickname), LOC((size.x - 20) / 6.75, 30));
 	ob_noname->OnClickedEvent = MFUNC (&MiscPanel::ob_noname_clicked, this);
+#ifdef UNTRUSTED_SETTINGS
+	vtb_unlockcvar = new ValueTextBox ("CVar", "", BELOW (ob_noname), LOC((size.x - 20) / 6.75, 30));
+	ob_unlockcvar = new OutlinedButton ("Unlock CVar", STACK (vtb_unlockcvar), LOC((size.x - 20) / 6.75, 30));
+	ob_unlockcvar->OnClickedEvent = MFUNC (&MiscPanel::ob_unlockcvar_clicked, this);
+	ba_colors = new Banner ("Colors", BELOW (vtb_unlockcvar), (size.x - 20) / 2 - 5);
+#else
 	ba_colors = new Banner ("Colors", BELOW (ob_noname), (size.x - 20) / 2 - 5);
+#endif
 	int x_wide = ba_colors->size.x / 4;
 	bn_ui_color = new OutlinedButton ("Main UI", BELOW (ba_colors), LOC((size.x - 20) / 6.75, 30));
 	bn_ui_color->OnClickedEvent = MFUNC (&MiscPanel::bn_ui_color_clicked, this);
@@ -57,6 +64,10 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	AddComponent (ob_nickname);
 	AddComponent (ob_nickname);
 	AddComponent (vtb_nickname);
+#ifdef UNTRUSTED_SETTINGS
+	AddComponent (vtb_unlockcvar);
+	AddComponent (ob_unlockcvar);
+#endif
 	AddComponent (ts_clantag_animation);
 	AddComponent (tb_clantag);
 	AddComponent (ts_clantag);
@@ -107,6 +118,11 @@ void MiscPanel::ob_noname_clicked ()
 	NameChanger::changes = -1;
 	Settings::NameChanger::enabled = true;
 	Settings::NameChanger::last_blank = true;
+}
+
+void MiscPanel::ob_unlockcvar_clicked ()
+{
+	cvar->FindVar(vtb_unlockcvar->text.c_str())->nFlags &= ~FCVAR_CHEAT;
 }
 
 void MiscPanel::bn_ui_color_clicked ()
