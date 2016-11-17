@@ -416,7 +416,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 		if (cmd->buttons & IN_ATTACK && !Settings::Aimbot::aimkey_only)
 			shouldAim = true;
 
-		if (!(cmd->buttons & IN_ATTACK) && input->IsButtonDown(Settings::Aimbot::aimkey))
+		if (input->IsButtonDown(Settings::Aimbot::aimkey))
 			shouldAim = true;
 
 		if (shouldAim)
