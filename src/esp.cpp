@@ -13,7 +13,7 @@ Color Settings::ESP::Glow::ally_color = Color(0, 50, 200, 0);
 Color Settings::ESP::Glow::enemy_color = Color(200, 0, 50, 0);
 Color Settings::ESP::Glow::enemy_visible_color = Color(200, 200, 50, 0);
 Color Settings::ESP::Glow::weapon_color = Color(200, 0, 50, 200);
-Color Settings::ESP::Glow::granade_color = Color(200, 0, 50, 200);
+Color Settings::ESP::Glow::grenade_color = Color(200, 0, 50, 200);
 bool Settings::ESP::visibility_check = false;
 bool Settings::ESP::show_scope_border = true;
 bool Settings::ESP::Walls::enabled = false;
@@ -362,7 +362,7 @@ void ESP::DrawGlow()
 		else if (client->m_ClassID == CBaseCSGrenadeProjectile || client->m_ClassID == CDecoyProjectile ||
 				client->m_ClassID == CMolotovProjectile || client->m_ClassID == CSmokeGrenadeProjectile)
 		{
-			color = Settings::ESP::Glow::granade_color;
+			color = Settings::ESP::Glow::grenade_color;
 		}
 
 		glow_object->m_flGlowColor[0] = color.r / 255.0f;

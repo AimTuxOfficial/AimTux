@@ -167,7 +167,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	LoadColor(settings["ESP"]["Glow"]["enemy_color"], Settings::ESP::Glow::enemy_color);
 	LoadColor(settings["ESP"]["Glow"]["enemy_visible_color"], Settings::ESP::Glow::enemy_visible_color);
 	LoadColor(settings["ESP"]["Glow"]["weapon_color"], Settings::ESP::Glow::weapon_color);
-	LoadColor(settings["ESP"]["Glow"]["granade_color"], Settings::ESP::Glow::granade_color);
+	LoadColor(settings["ESP"]["Glow"]["grenade_color"], Settings::ESP::Glow::grenade_color);
 	settings["ESP"]["Tracer"]["enabled"] = Settings::ESP::Tracer::enabled;
 	settings["ESP"]["Tracer"]["type"] = Settings::ESP::Tracer::type;
 	settings["ESP"]["Walls"]["enabled"] = Settings::ESP::Walls::enabled;
@@ -350,7 +350,7 @@ void Settings::LoadSettings(const char* filename)
 	GetColor(settings["ESP"]["Glow"]["enemy_color"], &Settings::ESP::Glow::enemy_color);
 	GetColor(settings["ESP"]["Glow"]["enemy_visible_color"], &Settings::ESP::Glow::enemy_visible_color);
 	GetColor(settings["ESP"]["Glow"]["weapon_color"], &Settings::ESP::Glow::weapon_color);
-	GetColor(settings["ESP"]["Glow"]["granade_color"], &Settings::ESP::Glow::granade_color);
+	GetColor(settings["ESP"]["Glow"]["grenade_color"], &Settings::ESP::Glow::grenade_color);
 	GetBool(settings["ESP"]["Tracer"]["enabled"], &Settings::ESP::Tracer::enabled);
 	GetInt(settings["ESP"]["Tracer"]["type"], &Settings::ESP::Tracer::type);
 	GetBool(settings["ESP"]["Walls"]["enabled"], &Settings::ESP::Walls::enabled);
