@@ -62,9 +62,10 @@ int __attribute__((constructor)) aimtux_init()
 	gui = new UI_Container;
 
 	Fonts::SetupFonts();
-	SetupUI();
 	
 	Settings::LoadSettings ();
+	
+	SetupUI();
 	
 	return 0;
 }
