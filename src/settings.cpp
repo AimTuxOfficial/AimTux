@@ -1,6 +1,7 @@
 #include "settings.h"
 
 std::vector<Config> configs;
+Config* current_config;
 
 void GetBool(Json::Value &config, bool* setting)
 {

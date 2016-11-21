@@ -15,6 +15,8 @@
 #include "config.h"
 
 extern std::vector<Config> configs;
+extern Config* current_config;
+
 
 enum TracerType : unsigned int
 {
