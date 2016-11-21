@@ -462,12 +462,12 @@ void Settings::LoadConfig(Config config)
 void Settings::LoadSettings ()
 {
 	pstring directory = getenv("HOME");
-	directory << "/.config/";
+	directory << "/.config";
 
 	if (!DoesDirectoryExist(directory.c_str()))
 		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
-	directory << "AimTux/";
+	directory << "/AimTux/";
 
 	if (!DoesDirectoryExist(directory.c_str()))
 		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
