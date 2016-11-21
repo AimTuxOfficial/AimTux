@@ -444,4 +444,5 @@ namespace Settings
 	void LoadDefaultsOrSave(Config config);
 	void LoadConfig(Config config);
 	void LoadSettings();
+	void DeleteConfig(Config config);
 }

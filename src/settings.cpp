@@ -1,7 +1,7 @@
 #include "settings.h"
 
 std::vector<Config> configs;
-Config* current_config;
+Config* current_config = nullptr;
 
 void GetBool(Json::Value &config, bool* setting)
 {
@@ -480,4 +480,40 @@ void Settings::LoadSettings ()
 	
 	configs = GetConfigs(directory.c_str());
 	
+}
+
+void remove_directory (const char* path)
+{
+	DIR* dir;
+	dirent* pdir;
+	
+	dir = opendir(path);
+	
+	while (pdir = readdir(dir))
+	{
+		if (strcmp(pdir->d_name, ".") == 0 || strcmp(pdir->d_name, "..") == 0)
+			continue;
+		
+		if (pdir->d_type == DT_DIR)
+		{
+			pstring _dir;
+			_dir << path << "/" << pdir->d_name;
+			
+			remove_directory (_dir.c_str());
+		}
+		else if (pdir->d_type == DT_REG)
+		{
+			pstring file;
+			file << path << "/" << pdir->d_name;
+			
+			unlink (file.c_str());
+		}
+	}
+	
+	rmdir (path);
+}
+
+void Settings::DeleteConfig (Config config)
+{
+	remove_directory (config.path.c_str());
 }
