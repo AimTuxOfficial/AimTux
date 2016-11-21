@@ -94,6 +94,8 @@ SkinChangerPanel::SkinChangerPanel (Vector2D position, Vector2D size)
 	AddComponent(knifeNameIDTextBox);
 	AddComponent(knifeSetButton);
 	AddComponent(knifeLoadButton);
+	
+	Hide ();
 }
 
 std::string convertInputToUpper(std::string s)
