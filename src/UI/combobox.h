@@ -99,12 +99,6 @@ public:
 	void Event_OnClickEnd ()
 	{
 		if(clickStarted){
-			for (int i = 0; i < elements.size(); i++)
-			{
-					CB_Element* element = &this->elements[i];
-					if (*setting == element->value)
-						this->text = element->name;
-			}
 			open = !open;
 			UpdateSize(this->width, elements.size());
 		}
@@ -178,5 +172,12 @@ public:
 		DrawFilledRectangle (LOC(0, 0), LOC(size.x, 30), open ? background_color_hovered : isHovered ? background_color_hovered : background_color_closed);
 
 		DrawCenteredString (text, normal_font, text_color, LOC (size.x / 2, 16));
+
+		for (int i = 0; i < elements.size(); i++)
+		{
+				CB_Element* element = &this->elements[i];
+				if (*setting == element->value)
+					this->text = element->name;
+		}
 	}
 };
