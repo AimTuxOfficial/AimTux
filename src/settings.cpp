@@ -482,7 +482,7 @@ void remove_directory(const char* path)
 	
 	dir = opendir(path);
 	
-	while (pdir = readdir(dir))
+	while ((pdir = readdir(dir)))
 	{
 		if (strcmp(pdir->d_name, ".") == 0 || strcmp(pdir->d_name, "..") == 0)
 			continue;
