@@ -462,27 +462,20 @@ void Settings::LoadConfig(Config config)
 void Settings::LoadSettings ()
 {
 	pstring directory = getenv("HOME");
-	
 	directory << "/.config/";
-	
-	if (!DoesDirectoryExist (directory.c_str(), ".config"))
-	{
+
+	if (!DoesDirectoryExist(directory.c_str()))
 		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-	}
-	
+
 	directory << "AimTux/";
-	
-	if (!DoesDirectoryExist (directory.c_str(), "AimTux"))
-	{
+
+	if (!DoesDirectoryExist(directory.c_str()))
 		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-	}
-	
-	
+
 	configs = GetConfigs(directory.c_str());
-	
 }
 
-void remove_directory (const char* path)
+void remove_directory(const char* path)
 {
 	DIR* dir;
 	dirent* pdir;
@@ -499,21 +492,21 @@ void remove_directory (const char* path)
 			pstring _dir;
 			_dir << path << "/" << pdir->d_name;
 			
-			remove_directory (_dir.c_str());
+			remove_directory(_dir.c_str());
 		}
 		else if (pdir->d_type == DT_REG)
 		{
 			pstring file;
 			file << path << "/" << pdir->d_name;
 			
-			unlink (file.c_str());
+			unlink(file.c_str());
 		}
 	}
 	
-	rmdir (path);
+	rmdir(path);
 }
 
-void Settings::DeleteConfig (Config config)
+void Settings::DeleteConfig(Config config)
 {
-	remove_directory (config.path.c_str());
+	remove_directory(config.path.c_str());
 }
