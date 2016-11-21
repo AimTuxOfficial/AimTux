@@ -463,22 +463,20 @@ void Settings::LoadSettings ()
 {
 	pstring directory = getenv("HOME");
 	
-	directory << "/";
-	
+	directory << "/.config/";
 	
 	if (!DoesDirectoryExist (directory.c_str(), ".config"))
 	{
-		system ("mkdir ~/.config");
-	}
-	
-	directory << ".config/";
-	
-	if (!DoesDirectoryExist (directory.c_str(), "AimTux"))
-	{
-		system ("mkdir ~/.config/AimTux");
+		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 	}
 	
 	directory << "AimTux/";
+	
+	if (!DoesDirectoryExist (directory.c_str(), "AimTux"))
+	{
+		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+	}
+	
 	
 	configs = GetConfigs(directory.c_str());
 	
