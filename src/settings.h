@@ -206,6 +206,12 @@ namespace Settings
 		extern bool enabled_X;
 		extern AntiAimType_Y type_Y;
 		extern AntiAimType_X type_X;
+		
+		namespace HeadHider
+		{
+			extern bool enabled;
+			extern float distance;
+		}
 	}
 
 	namespace ESP

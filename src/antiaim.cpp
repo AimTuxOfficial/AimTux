@@ -4,6 +4,50 @@ bool Settings::AntiAim::enabled_Y = false;
 bool Settings::AntiAim::enabled_X = false;
 AntiAimType_Y Settings::AntiAim::type_Y = SPIN_FAST;
 AntiAimType_X Settings::AntiAim::type_X = STATIC_DOWN;
+bool Settings::AntiAim::HeadHider::enabled = false;
+float Settings::AntiAim::HeadHider::distance = 25.0f;
+
+float Distance (Vector a, Vector b)
+{
+	return sqrt (pow(a.x - b.x, 2)+pow(a.y - b.y, 2)+pow(a.z - b.z, 2));
+}
+
+bool AntiAim::GetBestHeadAngle (QAngle& angle)
+{
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	
+	Vector position = localplayer->GetVecOrigin() + localplayer->GetVecViewOffset();
+	
+	float closest_distance = 100.0f;
+	
+	float radius = 30;
+	float step = M_PI * 2.0 / 8;
+	
+	for (float a = 0; a < ( M_PI * 2.0 ); a += step)
+	{
+		Vector location (radius * cos(a) + position.x, radius * sin(a) + position.y, position.z);
+		
+		Ray_t ray;
+		trace_t tr;
+		ray.Init(position, location);
+		CTraceFilter traceFilter;
+		traceFilter.pSkip = localplayer;
+		trace->TraceRay(ray, 0x4600400B, &traceFilter, &tr);
+		
+		float distance = Distance(position, tr.endpos);
+		
+		if (distance < closest_distance)
+		{
+			closest_distance = distance;
+			angle.y = RAD2DEG (a);
+		}
+	}
+	
+	pstring str; str << closest_distance;
+	engine->Print (str.c_str());
+	
+	return closest_distance < 25.0f;
+}
 
 void AntiAim::CreateMove(CUserCmd* cmd)
 {
@@ -27,12 +71,17 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 
 	if (localplayer->GetMoveType() == MOVETYPE_LADDER || localplayer->GetMoveType() == MOVETYPE_NOCLIP)
 		return;
-
+	
+	QAngle head_hide_angle = angle;
+	bool hiding_head = Settings::AntiAim::HeadHider::enabled && GetBestHeadAngle (head_hide_angle);
+	
 	static bool bFlip;
 	static float fYaw = 0.0f;
 
 	bFlip = !bFlip;
-
+	
+	bool aa_hide_head = false;
+	
 	if (Settings::AntiAim::enabled_Y)
 	{
 		if (Settings::AntiAim::type_Y == SPIN_FAST || Settings::AntiAim::type_Y == SPIN_SLOW)
@@ -70,8 +119,10 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 		}
 		else if (Settings::AntiAim::type_Y == BACKWARDS_FAKE)
 		{
-			angle.y -= bFlip ? 0.0f : 180.0f;
+			angle.y -= bFlip ? 0.0f : (hiding_head ? head_hide_angle.y : 180.0f);
 			CreateMove::SendPacket = bFlip;
+			
+			aa_hide_head = bFlip && hiding_head;
 		}
 		else if (Settings::AntiAim::type_Y == SIDE_FAKE_RIGHT)
 		{
@@ -99,7 +150,10 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 			CreateMove::SendPacket = bFlip;
 		}
 	}
-
+	
+	if (hiding_head && !aa_hide_head)
+		angle.y = head_hide_angle.y;
+		
 	if (Settings::AntiAim::enabled_X)
 	{
 		if (Settings::AntiAim::type_X == STATIC_UP)
@@ -123,7 +177,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 		}
 #endif
 	}
-
+	
 	Math::NormalizeAngles(angle);
 	Math::ClampAngles(angle);
 
