@@ -2,16 +2,16 @@
 
 Config::Config (const char* name, const char* path)
 {
-	this->name = name;
-	this->path = path;
+	this->name = (char*)name;
+	this->path = (char*)path;
 }
 
-bool DoesFileExist(pstring path, const char* file)
+bool DoesFileExist(const char* path, const char* file)
 {
 	DIR* dir;
 	dirent* pdir;
 	
-	dir = opendir(path.c_str());
+	dir = opendir(path);
 	
 	while (pdir = readdir(dir))
 	{
@@ -27,12 +27,12 @@ bool DoesFileExist(pstring path, const char* file)
 
 
 
-bool DoesDirectoryExist(pstring path, const char* directory)
+bool DoesDirectoryExist(const char* path, const char* directory)
 {
 	DIR* dir;
 	dirent* pdir;
 	
-	dir = opendir(path.c_str());
+	dir = opendir(path);
 	
 	while (pdir = readdir(dir))
 	{
@@ -46,7 +46,7 @@ bool DoesDirectoryExist(pstring path, const char* directory)
 	return false;
 }
 
-bool DoesConform(pstring config_path)
+bool DoesConform(const char* config_path)
 {
 	return DoesFileExist(config_path, (char*)"config.json");
 }
@@ -73,9 +73,10 @@ std::vector<Config> GetConfigs (const char* directory)
 		if (pdir->d_type == DT_DIR && strcmp(pdir->d_name, ".") != 0 && strcmp(pdir->d_name, "..") != 0)
 		{
 			pstring config_path;
-			config_path << directory << "/" << pdir->d_name;
+			config_path << directory << pdir->d_name;
 			
-			if (DoesConform (config_path))
+			
+			if (DoesConform (config_path.c_str()))
 			{
 				Config new_config (pdir->d_name, config_path.c_str());
 				configs.push_back (new_config);

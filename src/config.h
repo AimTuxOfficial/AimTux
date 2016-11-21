@@ -8,13 +8,13 @@
 #include "pstring.h"
 
 
-bool DoesFileExist(pstring path, const char* file);
-bool DoesDirectoryExist(pstring path, const char* directory);
+bool DoesFileExist(const char*, const char* file);
+bool DoesDirectoryExist(const char*, const char* directory);
 
 struct Config
 {
-	const char* name;
-	const char* path;
+	std::string name;
+	std::string path;
 	
 	Config (const char* name, const char* path);
 	
