@@ -148,20 +148,24 @@ public:
 	{
 		this->position = position;
 		this->text = text;
-
+		this->size.x = width;
+		
+		Reload ();
+	}
+	
+	void Reload ()
+	{
+		childComponents.clear ();
+		
 		for (int i = 0; i < configs.size(); i++)
 		{
 			Config* config = &configs[i];
 
-			LBC_Button* new_button = new LBC_Button (config->name, LOC (10, 10 + (i * LB_ELEMENT_HEIGHT) + (i * LB_ELEMENT_SEPARATOR_WIDTH)), LOC (width - 20, LB_ELEMENT_HEIGHT), config);
+			LBC_Button* new_button = new LBC_Button (config->name, LOC (10, 10 + (i * LB_ELEMENT_HEIGHT) + (i * LB_ELEMENT_SEPARATOR_WIDTH)), LOC (this->size.x - 20, LB_ELEMENT_HEIGHT), config);
 			AddComponent (new_button);
 		}
 
-		this->size = Vector2D (width, (configs.size() * LB_ELEMENT_HEIGHT) + (10 + (configs.size() * LB_ELEMENT_SEPARATOR_WIDTH)));
-	}
-	
-	void Update ()
-	{
+		this->size = Vector2D (this->size.x, (configs.size() * LB_ELEMENT_HEIGHT) + (10 + (configs.size() * LB_ELEMENT_SEPARATOR_WIDTH)));
 	}
 
 	void Draw ()
