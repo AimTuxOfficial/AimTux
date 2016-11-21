@@ -110,7 +110,12 @@ public:
 
 	void OnClicked ()
 	{
-		current_config = config;
+		if (current_config != config)
+		{
+			current_config = config;
+			engine->Print (config->GetMainConfigFile().c_str());
+			Settings::LoadConfig (*config);
+		}
 	}
 
 	LBC_Button (std::string text, Vector2D position, Vector2D size, Config* config)
@@ -139,8 +144,7 @@ protected:
 	Color background_color = Color (160, 160, 160, 4);
 public:
 	std::string text = "listbox";
-	Config* setting;
-
+	
 	ListBox_Config (std::string text, Vector2D position, int width)
 	{
 		this->position = position;
@@ -148,7 +152,7 @@ public:
 
 		for (int i = 0; i < configs.size(); i++)
 		{
-			Config* config = &configs.at (i);
+			Config* config = &configs[i];
 
 			LBC_Button* new_button = new LBC_Button (config->name, LOC (10, 10 + (i * LB_ELEMENT_HEIGHT) + (i * LB_ELEMENT_SEPARATOR_WIDTH)), LOC (width - 20, LB_ELEMENT_HEIGHT), config);
 			AddComponent (new_button);

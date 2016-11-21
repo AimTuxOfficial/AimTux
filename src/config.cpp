@@ -51,12 +51,12 @@ bool DoesConform(const char* config_path)
 	return DoesFileExist(config_path, (char*)"config.json");
 }
 
-char* Config::GetMainConfigFile()
+std::string Config::GetMainConfigFile()
 {
 	pstring path;
 	path << this->path << "/config.json";
 
-	return (char*)path.c_str();
+	return path;
 }
 
 std::vector<Config> GetConfigs (const char* directory)

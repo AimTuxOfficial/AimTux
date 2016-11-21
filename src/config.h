@@ -18,7 +18,7 @@ struct Config
 	
 	Config (const char* name, const char* path);
 	
-	char* GetMainConfigFile();
+	std::string GetMainConfigFile();
 };
 
 std::vector<Config> GetConfigs (const char* directory);
