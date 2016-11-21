@@ -1,15 +1,6 @@
 #include "settings.h"
 
-char* GetSettingsPath(const char* filename)
-{
-	char* settingsPath;
-	char cwd[1024];
-
-	getcwd(cwd, sizeof(cwd));
-	asprintf(&settingsPath, "%s/%s.json", cwd, filename);
-
-	return settingsPath;
-}
+std::vector<Config> configs;
 
 void GetBool(Json::Value &config, bool* setting)
 {
@@ -89,7 +80,7 @@ void LoadColor(Json::Value &config, Color color)
 	config["a"] = color.a;
 }
 
-void Settings::LoadDefaultsOrSave(const char* filename)
+void Settings::LoadDefaultsOrSave(Config config)
 {
 	Json::Value settings;
 	Json::StyledWriter styledWriter;
@@ -261,19 +252,19 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 
 	settings["AutoAccept"]["enabled"] = Settings::AutoAccept::enabled;
 
-	std::ofstream(GetSettingsPath(filename)) << styledWriter.write(settings);
+	std::ofstream(config.GetMainConfigFile()) << styledWriter.write(settings);
 }
 
-void Settings::LoadSettings(const char* filename)
+void Settings::LoadConfig(Config config)
 {
-	if (!std::ifstream(GetSettingsPath(filename)).good())
+	if (!std::ifstream(config.GetMainConfigFile()).good())
 	{
-		Settings::LoadDefaultsOrSave(filename);
+		Settings::LoadDefaultsOrSave(config);
 		return;
 	}
 
 	Json::Value settings;
-	std::ifstream config_doc(GetSettingsPath(filename), std::ifstream::binary);
+	std::ifstream config_doc(config.GetMainConfigFile(), std::ifstream::binary);
 	config_doc >> settings;
 
 	GetColor(settings["UI"]["mainColor"], &Settings::UI::mainColor);
@@ -465,4 +456,37 @@ void Settings::LoadSettings(const char* filename)
 	GetBool(settings["FakeLag"]["enabled"], &Settings::FakeLag::enabled);
 
 	GetBool(settings["AutoAccept"]["enabled"], &Settings::AutoAccept::enabled);
+}
+
+void Settings::LoadSettings ()
+{
+	pstring directory = getenv("HOME");
+	
+	directory << "/";
+	
+	
+	if (!DoesDirectoryExist (directory, ".config"))
+	{
+		system ("mkdir ~/.config");
+	}
+	
+	directory << ".config/";
+	
+	if (!DoesDirectoryExist (directory, "AimTux"))
+	{
+		system ("mkdir ~/.config/AimTux");
+	}
+	
+	directory << "AimTux/";
+	
+	configs = GetConfigs(directory.c_str());
+	
+	
+	for (int i = 0; i < configs.size(); i++)
+	{
+		Config* config = &configs[i];
+		pstring str;
+		str << "config: " << config->name << "\n";
+		engine->Print (str.c_str());
+	}
 }

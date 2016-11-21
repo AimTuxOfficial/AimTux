@@ -4,6 +4,7 @@
 #include <zconf.h>
 #include <fstream>
 #include <vector>
+#include <stdlib.h>
 #include "json/json.h"
 #include "SDK/SDK.h"
 #include "fonts.h"
@@ -11,6 +12,9 @@
 #include "skinchanger.h"
 #include "util.h"
 #include "util_items.h"
+#include "config.h"
+
+extern std::vector<Config> configs;
 
 enum TracerType : unsigned int
 {
@@ -432,6 +436,7 @@ namespace Settings
 		extern bool enabled;
 	}
 
-	void LoadDefaultsOrSave(const char* filename);
-	void LoadSettings(const char* filename);
+	void LoadDefaultsOrSave(Config config);
+	void LoadConfig(Config config);
+	void LoadSettings();
 }
