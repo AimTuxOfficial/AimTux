@@ -10,7 +10,7 @@ Want to chat or play with other AimTux users? Join us on Gitter!
 
 * *Aimbot*
 * *Triggerbot*
-* *AntiAim (Spinbot, Jitter, Sideways, Backwards, Fake4, Static up / down)*
+* *AntiAim (Slow and Fast Spinbot, Jitter, Sideways, Backwards, Fake4, Static up / down, Fake Backwards, Fake Side Flip, Fake Side L/R)*
 * *AimStep*
 * *AutoShoot*
 * *AutoCrouch*
