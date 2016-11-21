@@ -20,7 +20,7 @@ bool AntiAim::GetBestHeadAngle (QAngle& angle)
 	
 	float closest_distance = 100.0f;
 	
-	float radius = 30;
+	float radius = Settings::AntiAim::HeadHider::distance + 0.1f;
 	float step = M_PI * 2.0 / 8;
 	
 	for (float a = 0; a < ( M_PI * 2.0 ); a += step)
