@@ -46,7 +46,7 @@ bool AntiAim::GetBestHeadAngle (QAngle& angle)
 	pstring str; str << closest_distance;
 	engine->Print (str.c_str());
 	
-	return closest_distance < 25.0f;
+	return closest_distance < Settings::AntiAim::HeadHider::distance;
 }
 
 void AntiAim::CreateMove(CUserCmd* cmd)
