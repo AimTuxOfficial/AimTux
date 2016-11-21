@@ -86,6 +86,21 @@ you can check the *csgo* console for a message saying `AimTux has been unloaded 
 
 If you would like to unload, compile and load the hack back into the game again (mostly for development) you can use the `./rload` command.
 
+## Keeping up to date
+
+AimTux is being updated constantly, if you want to stay up to date, do the following:
+
+* Pull the latest updates from github
+`git pull`
+
+* Recompile the hack
+```bash
+cmake .
+make
+```
+
+All done!
+
 ## Usage
 
 Once injected, press the *insert* key, you should see a window in the top right hand corner of your screen, open any of the windows and have fun!
