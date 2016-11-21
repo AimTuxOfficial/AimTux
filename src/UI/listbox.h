@@ -128,7 +128,7 @@ public:
 	{
 		Clear (isHovered ? background_color_hovered : background_color);
 
-		if (current_config == config)
+		if (current_config && current_config->name == config->name)
 		{
 			DrawRectangle (LOC (0, 0), size, Settings::UI::mainColor);
 		}
