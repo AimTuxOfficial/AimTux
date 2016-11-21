@@ -14,6 +14,7 @@ MainWindow::MainWindow (std::string title, Vector2D size, Vector2D position, Col
 	pl_hvh = new HVHPanel (LOC (0, tab_height), LOC (size.x, size.y - tab_height));
 	pl_misc = new MiscPanel (LOC (0, tab_height), LOC (size.x, size.y - tab_height));
 	pl_skin = new SkinChangerPanel(LOC (0, tab_height), LOC (size.x, size.y - tab_height));
+	pl_config = new ConfigPanel(LOC (0, tab_height), LOC (size.x, size.y - tab_height));
 
 
 	AddComponent (pl_aimbot);
@@ -22,6 +23,7 @@ MainWindow::MainWindow (std::string title, Vector2D size, Vector2D position, Col
 	AddComponent (pl_hvh);
 	AddComponent (pl_misc);
 	AddComponent (pl_skin);
+	AddComponent (pl_config);
 
 	std::vector<TabElement> tabs
 	(
@@ -31,7 +33,9 @@ MainWindow::MainWindow (std::string title, Vector2D size, Vector2D position, Col
 			TabElement ("Visuals", pl_visuals),
 			TabElement ("HVH", pl_hvh),
 			TabElement ("Misc", pl_misc),
-			TabElement ("Skin Changer", pl_skin)
+			TabElement ("Skin Changer", pl_skin),
+			TabElement ("Config", pl_config)
+			
 		}
 	);
 

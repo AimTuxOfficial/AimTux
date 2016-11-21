@@ -11,6 +11,7 @@
 #include "WINDOWS/main_window.h"
 #include "WINDOWS/popup_window.h"
 #include "PANELS/skinchanger_panel.h"
+#include "PANELS/config_panel.h"
 
 extern MainWindow* main_window;
 extern ConfigWindow* config_window;
