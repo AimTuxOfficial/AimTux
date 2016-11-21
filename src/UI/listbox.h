@@ -113,7 +113,6 @@ public:
 		if (current_config != config)
 		{
 			current_config = config;
-			engine->Print (config->GetMainConfigFile().c_str());
 			Settings::LoadConfig (*config);
 		}
 	}

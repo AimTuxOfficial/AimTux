@@ -466,14 +466,14 @@ void Settings::LoadSettings ()
 	directory << "/";
 	
 	
-	if (!DoesDirectoryExist (directory, ".config"))
+	if (!DoesDirectoryExist (directory.c_str(), ".config"))
 	{
 		system ("mkdir ~/.config");
 	}
 	
 	directory << ".config/";
 	
-	if (!DoesDirectoryExist (directory, "AimTux"))
+	if (!DoesDirectoryExist (directory.c_str(), "AimTux"))
 	{
 		system ("mkdir ~/.config/AimTux");
 	}
@@ -482,12 +482,4 @@ void Settings::LoadSettings ()
 	
 	configs = GetConfigs(directory.c_str());
 	
-	
-	for (int i = 0; i < configs.size(); i++)
-	{
-		Config* config = &configs[i];
-		pstring str;
-		str << "config: " << config->name << "\n";
-		engine->Print (str.c_str());
-	}
 }
