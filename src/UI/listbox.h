@@ -94,6 +94,86 @@ public:
 	}
 };
 
+
+
+
+
+
+class LBC_Button : public Button
+{
+protected:
+	Color text_color = Color (255, 255, 255, 255);
+	Color background_color = Color (160, 160, 160, 7);
+	Color background_color_hovered = Color (160, 160, 160, 12);
+public:
+	Config* config;
+
+	void OnClicked ()
+	{
+		current_config = config;
+	}
+
+	LBC_Button (std::string text, Vector2D position, Vector2D size, Config* config)
+		: Button (text, position, size)
+	{
+		this->config = config;
+		this->OnClickedEvent = MFUNC (&LBC_Button::OnClicked, this);
+	}
+
+	void Draw ()
+	{
+		Clear (isHovered ? background_color_hovered : background_color);
+
+		if (current_config == config)
+		{
+			DrawRectangle (LOC (0, 0), size, Settings::UI::mainColor);
+		}
+
+		DrawCenteredString (text, normal_font, text_color, LOC (size.x / 2, size.y / 2));
+	}
+};
+
+class ListBox_Config : public Panel
+{
+protected:
+	Color background_color = Color (160, 160, 160, 4);
+public:
+	std::string text = "listbox";
+	Config* setting;
+
+	ListBox_Config (std::string text, Vector2D position, int width)
+	{
+		this->position = position;
+		this->text = text;
+
+		for (int i = 0; i < configs.size(); i++)
+		{
+			Config* config = &configs.at (i);
+
+			LBC_Button* new_button = new LBC_Button (config->name, LOC (10, 10 + (i * LB_ELEMENT_HEIGHT) + (i * LB_ELEMENT_SEPARATOR_WIDTH)), LOC (width - 20, LB_ELEMENT_HEIGHT), config);
+			AddComponent (new_button);
+		}
+
+		this->size = Vector2D (width, (configs.size() * LB_ELEMENT_HEIGHT) + (10 + (configs.size() * LB_ELEMENT_SEPARATOR_WIDTH)));
+	}
+	
+	void Update ()
+	{
+	}
+
+	void Draw ()
+	{
+		Clear (background_color);
+
+		DrawRectangle (LOC (0, 0), this->size, Settings::UI::mainColor);
+
+		Panel::Draw ();
+	}
+};
+
+
+
+
 template<typename E>
 class StackedListBox : public Panel
 {
