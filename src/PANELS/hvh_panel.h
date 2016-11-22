@@ -18,8 +18,8 @@ private:
 	Banner* ba_movement;
 	ToggleSwitch* ts_autocrouch;
 	ToggleSwitch* ts_autostop;
-	ToggleSwitch* ts_hide_head;
-	Slider* sl_hide_head_distance;
+	ToggleSwitch* ts_edge_hide;
+	Slider* sl_edge_distance;
 
 
 	Banner* ba_autowall;
