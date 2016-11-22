@@ -143,8 +143,8 @@ void Settings::LoadDefaultsOrSave(Config config)
 	settings["AntiAim"]["enabled_X"] = Settings::AntiAim::enabled_X;
 	settings["AntiAim"]["type_Y"] = Settings::AntiAim::type_Y;
 	settings["AntiAim"]["type_X"] = Settings::AntiAim::type_X;
-	settings["AntiAim"]["HeadHider"]["enabled"] = Settings::AntiAim::HeadHider::enabled;
-	settings["AntiAim"]["HeadHider"]["distance"] = Settings::AntiAim::HeadHider::distance;
+	settings["AntiAim"]["HeadEdge"]["enabled"] = Settings::AntiAim::HeadEdge::enabled;
+	settings["AntiAim"]["HeadEdge"]["distance"] = Settings::AntiAim::HeadEdge::distance;
 
 	settings["ESP"]["enabled"] = Settings::ESP::enabled;
 
@@ -329,8 +329,8 @@ void Settings::LoadConfig(Config config)
 	GetBool(settings["AntiAim"]["enabled_X"], &Settings::AntiAim::enabled_X);
 	GetInt(settings["AntiAim"]["type_Y"], &Settings::AntiAim::type_Y);
 	GetInt(settings["AntiAim"]["type_X"], &Settings::AntiAim::type_X);
-	GetBool(settings["AntiAim"]["HeadHider"]["enabled"], &Settings::AntiAim::HeadHider::enabled);
-	GetFloat(settings["AntiAim"]["HeadHider"]["distance"], &Settings::AntiAim::HeadHider::distance);
+	GetBool(settings["AntiAim"]["HeadEdge"]["enabled"], &Settings::AntiAim::HeadEdge::enabled);
+	GetFloat(settings["AntiAim"]["HeadEdge"]["distance"], &Settings::AntiAim::HeadEdge::distance);
 
 	GetBool(settings["ESP"]["enabled"], &Settings::ESP::enabled);
 	GetColor(settings["ESP"]["ally_color"], &Settings::ESP::ally_color);

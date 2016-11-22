@@ -30,9 +30,9 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 #endif
 		}, false
 	);
-	ts_hide_head = new ToggleSwitchTip ("Hide Head", BELOW (cb_antiaim_y), LOC ((size.x - 20) / 6.75, 30), &Settings::AntiAim::HeadHider::enabled, "Hides the head in the closest wall");
-	sl_hide_head_distance = new Slider ("min distance", STACK (ts_hide_head), LOC (ba_antiaim->size.x - (10) - ts_hide_head->size.x, 30), &Settings::AntiAim::HeadHider::distance, 10.0f, 30.0f);
-	ba_movement = new Banner ("Movement", BELOW (ts_hide_head), (size.x - 20) / 2 - (5) - 60);
+	ts_edge_hide = new ToggleSwitchTip ("Edge", BELOW (cb_antiaim_y), LOC ((size.x - 20) / 6.75, 30), &Settings::AntiAim::HeadEdge::enabled, "Hides the head in the closest wall");
+	sl_edge_distance = new Slider ("min distance", STACK (ts_edge_hide), LOC (ba_antiaim->size.x - (10) - ts_edge_hide->size.x, 30), &Settings::AntiAim::HeadEdge::distance, 10.0f, 30.0f);
+	ba_movement = new Banner ("Movement", BELOW (ts_edge_hide), (size.x - 20) / 2 - (5) - 60);
 	ts_autocrouch = new ToggleSwitchTip ("Auto Crouch", BELOW (ba_movement), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoCrouch::enabled, "Auto crouch when an enemy is targetable");
 	ts_autostop = new ToggleSwitchTip ("Auto Stop", STACK (ts_autocrouch), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoStop::enabled, "Auto stop when an enemy is targetable");
 	ba_autowall = new Banner ("Auto Wall", STACK (ba_antiaim), (size.x - 20) / 2 - (5) + 60);
@@ -51,8 +51,8 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 
 	AddComponent (cb_antiaim_x);
 	AddComponent (cb_antiaim_y);
-	AddComponent (ts_hide_head);
-	AddComponent (sl_hide_head_distance);
+	AddComponent (ts_edge_hide);
+	AddComponent (sl_edge_distance);
 	AddComponent (lb_bone_select_multi);
 	AddComponent (sl_autowall);
 	AddComponent (ts_autowall);

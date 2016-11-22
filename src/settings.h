@@ -205,7 +205,7 @@ namespace Settings
 		extern AntiAimType_Y type_Y;
 		extern AntiAimType_X type_X;
 
-		namespace HeadHider
+		namespace HeadEdge
 		{
 			extern bool enabled;
 			extern float distance;
