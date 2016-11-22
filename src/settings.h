@@ -16,10 +16,8 @@
 #include "util_items.h"
 #include "config.h"
 
-
 extern std::vector<Config> configs;
 extern Config* current_config;
-
 
 enum TracerType : unsigned int
 {
@@ -206,7 +204,7 @@ namespace Settings
 		extern bool enabled_X;
 		extern AntiAimType_Y type_Y;
 		extern AntiAimType_X type_X;
-		
+
 		namespace HeadHider
 		{
 			extern bool enabled;
