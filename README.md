@@ -74,7 +74,7 @@ The above message will only be shown if you're in the main menu, additionally, y
 
 ## Un-injecting
 
-If you want to unload the hack from the game, you will first need to launch the game with the command `~/.steam/steam/steamapps/common/Counter-Strike Global Offensive/csgo.sh`, this will start the game using `gdb` in an `-insecure` mode.
+If you want to unload the hack from the game, you will first need to launch the game with the command `~/.steam/steam/steamapps/common/Counter-Strike Global Offensive/csgo.sh -steam`, this will start the game normally.
 
 Once again, make sure you're inside of the AimTux directory, and type `./uload`.
 
