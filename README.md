@@ -103,7 +103,9 @@ All done!
 
 ## Usage
 
-Once injected, press the *insert* key, you should see a window in the top right hand corner of your screen, open any of the windows and have fun!
+Once injected, press the *insert* key to bring up the GUI, then start turning on hacks!
+
+Have fun!
 
 ## Screenshots
 
