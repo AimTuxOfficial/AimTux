@@ -2,6 +2,7 @@
 
 #include "settings.h"
 #include "SDK/SDK.h"
+#include "Hooks/hooks.h"
 #include "draw.h"
 #include "interfaces.h"
 #include "pstring.h"

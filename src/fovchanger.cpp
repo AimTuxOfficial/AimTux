@@ -6,7 +6,7 @@ float Settings::FOVChanger::value = 100.f;
 bool Settings::FOVChanger::viewmodel_enabled = false;
 float Settings::FOVChanger::viewmodel_value = 90.f;
 
-void FOVChanger::RenderView(CViewSetup & setup, CViewSetup & hudViewSetup, unsigned int nClearFlags, int whatToDraw)
+void FOVChanger::RenderView(CViewSetup& setup, CViewSetup& hudViewSetup, unsigned int nClearFlags, int whatToDraw)
 {
 	if (!Settings::FOVChanger::enabled && !Settings::FOVChanger::viewmodel_enabled)
 			return;

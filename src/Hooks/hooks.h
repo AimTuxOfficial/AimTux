@@ -34,3 +34,8 @@ namespace CreateMove
 {
 	extern bool SendPacket;
 }
+
+namespace RenderView
+{
+	extern float currentFOV;
+}
