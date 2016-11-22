@@ -30,7 +30,7 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 #endif
 		}, false
 	);
-	ts_edge_hide = new ToggleSwitchTip ("Hide Head", BELOW (cb_antiaim_y), LOC ((size.x - 20) / 6.75, 30), &Settings::AntiAim::HeadEdge::enabled, "Hides the head in the closest wall");
+	ts_edge_hide = new ToggleSwitchTip ("Edge", BELOW (cb_antiaim_y), LOC ((size.x - 20) / 6.75, 30), &Settings::AntiAim::HeadEdge::enabled, "Hides the head in the closest wall");
 	sl_edge_distance = new Slider ("min distance", STACK (ts_edge_hide), LOC (ba_antiaim->size.x - (10) - ts_edge_hide->size.x, 30), &Settings::AntiAim::HeadEdge::distance, 10.0f, 30.0f);
 	ba_movement = new Banner ("Movement", BELOW (ts_edge_hide), (size.x - 20) / 2 - (5) - 60);
 	ts_autocrouch = new ToggleSwitchTip ("Auto Crouch", BELOW (ba_movement), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoCrouch::enabled, "Auto crouch when an enemy is targetable");
