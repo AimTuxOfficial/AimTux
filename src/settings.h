@@ -24,6 +24,13 @@ enum TracerType : unsigned int
 	BOTTOM,
 	CURSOR
 };
+enum AutostrafeType : unsigned int
+{
+	AS_FORWARDS,
+	AS_BACKWARDS,
+	AS_LEFTSIDEWAYS,
+	AS_RIGHTSIDEWAYS
+};
 
 enum AntiAimType_Y : unsigned int
 {
@@ -334,6 +341,7 @@ namespace Settings
 	namespace AutoStrafe
 	{
 		extern bool enabled;
+		extern AutostrafeType type;
 	}
 
 	namespace Noflash
