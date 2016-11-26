@@ -14,8 +14,8 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 					CB_Element ("RIGHT SIDEWAYS", AS_RIGHTSIDEWAYS)
 			}, false
 	);
-	ts_airstuck = new ToggleSwitchTip ("Air Stuck", BELOW (ts_autostrafe), LOC((size.x - 20) / 6.75, 30), &Settings::Airstuck::enabled, "Freezes you in place. Can be used to teleport");
-	kb_airstuck_key =  new KeyBind ("Airstuck Key", STACK (ts_airstuck), LOC((size.x - 20) / 6.75, 30),  &Settings::Airstuck::key);
+	ts_airstuck = new ToggleSwitchTip ("AirStuck", BELOW (ts_autostrafe), LOC((size.x - 20) / 6.75, 30), &Settings::Airstuck::enabled, "Freezes you in place. Can be used to teleport");
+	kb_airstuck_key =  new KeyBind ("AirStuck Key", STACK (ts_airstuck), LOC((size.x - 20) / 6.75, 30),  &Settings::Airstuck::key);
 #ifdef UNTRUSTED_SETTINGS
 	ts_teleport = new ToggleSwitchTip ("Teleport", BELOW (ts_airstuck), LOC((size.x - 20) / 6.75, 30), &Settings::Teleport::enabled, "Teleport. DON'T USE ON VALVE SERVERS (Casual/Deathmatch/Matchmaking");
 	kb_teleport_key =  new KeyBind ("", STACK (ts_teleport), LOC((size.x - 20) / 6.75, 30),  &Settings::Teleport::key);
