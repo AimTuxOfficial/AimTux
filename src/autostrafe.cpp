@@ -1,6 +1,7 @@
 #include "autostrafe.h"
 
 bool Settings::AutoStrafe::enabled = true;
+AutostrafeType Settings::AutoStrafe::type = AS_FORWARDS;
 
 void AutoStrafe::CreateMove(CUserCmd* cmd)
 {
@@ -20,6 +21,15 @@ void AutoStrafe::CreateMove(CUserCmd* cmd)
 	if (localplayer->GetMoveType() == MOVETYPE_LADDER || localplayer->GetMoveType() == MOVETYPE_NOCLIP)
 		return;
 
-	if (cmd->mousedx > 1 || cmd->mousedx < -1)
-		cmd->sidemove = cmd->mousedx < 0.f ? -450.f : 450.f;
+	if (cmd->mousedx > 1 || cmd->mousedx < -1){
+        if(Settings::AutoStrafe::type == AS_FORWARDS){
+            cmd->sidemove = cmd->mousedx < 0.f ? -450.f : 450.f;
+        } else if(Settings::AutoStrafe::type == AS_BACKWARDS){
+            cmd->sidemove = cmd->mousedx < 0.f ? 450.f : -450.f;
+        } else if(Settings::AutoStrafe::type == AS_LEFTSIDEWAYS){
+            cmd->forwardmove = cmd->mousedx < 0.f ? -450.f : 450.f;
+        }else if(Settings::AutoStrafe::type == AS_RIGHTSIDEWAYS){
+            cmd->forwardmove = cmd->mousedx < 0.f ? 450.f : -450.f;
+        }
+    }
 }

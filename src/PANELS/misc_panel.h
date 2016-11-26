@@ -13,6 +13,7 @@ private:
 	Banner* ba_movement;
 	ToggleSwitch* ts_bhop;
 	ToggleSwitch* ts_autostrafe;
+	ComboBox<AutostrafeType >* cb_autostrafetype;
 	ToggleSwitch* ts_airstuck;
 	KeyBind* kb_airstuck_key;
 	ToggleSwitch* ts_teleport;

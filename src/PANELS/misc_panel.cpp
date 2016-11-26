@@ -6,6 +6,14 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	ba_movement = new Banner ("Movement", LOC (10, 10), (size.x - 20) / 2 - 5);
 	ts_bhop = new ToggleSwitchTip ("Bunny Hop", BELOW (ba_movement), LOC((size.x - 20) / 6.75, 30), &Settings::BHop::enabled, "Enables or disables auto bunny hopping");
 	ts_autostrafe = new ToggleSwitchTip ("Auto Strafe", STACK (ts_bhop), LOC((size.x - 20) / 6.75, 30), &Settings::AutoStrafe::enabled, "Auto strafe when bunny hopping");
+	cb_autostrafetype = new ComboBox<AutostrafeType> ("Autostrafe Type", STACK (ts_autostrafe), (size.x - 20) / 6.75, &Settings::AutoStrafe::type, std::vector<CB_Element>
+			{
+					CB_Element ("FORWARDS", AS_FORWARDS),
+					CB_Element ("BACKWARDS", AS_BACKWARDS),
+					CB_Element ("LEFT SIDEWAYS", AS_LEFTSIDEWAYS),
+					CB_Element ("RIGHT SIDEWAYS", AS_RIGHTSIDEWAYS)
+			}, false
+	);
 	ts_airstuck = new ToggleSwitchTip ("Air Stuck", BELOW (ts_bhop), LOC((size.x - 20) / 6.75, 30), &Settings::Airstuck::enabled, "Freezes you in place. Can be used to teleport");
 	kb_airstuck_key =  new KeyBind ("", STACK (ts_airstuck), LOC((size.x - 20) / 6.75, 30),  &Settings::Airstuck::key);
 #ifdef UNTRUSTED_SETTINGS
@@ -98,6 +106,7 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	AddComponent(kb_airstuck_key);
 	AddComponent (ts_airstuck);
 	AddComponent (ts_autostrafe);
+	AddComponent (cb_autostrafetype);
 	AddComponent (ts_bhop);
 	AddComponent (ba_movement);
 
