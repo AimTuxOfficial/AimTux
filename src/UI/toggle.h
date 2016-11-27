@@ -8,8 +8,8 @@ class ToggleSwitch : public Component
 {
 protected:
 	Color text_color = Color (255, 255, 255, 200);
-	Color background_color = Color (160, 160, 160, 5);
-	Color background_color_hovered = Color (160, 160, 160, 10);
+	Color background_color = Color (45, 45, 55, 25);
+	Color background_color_hovered = Color (45, 45, 55, 35);
 public:
 	bool clickStarted = false;
 	bool* setting;

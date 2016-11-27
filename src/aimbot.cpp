@@ -79,7 +79,7 @@ void GetBestBone(C_BaseEntity* entity, float& best_damage, Bone& best_bone)
 C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible, Bone& best_bone)
 {
 	best_bone = static_cast<Bone>(Settings::Aimbot::bone);
-	
+
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	C_BaseEntity* closestEntity = NULL;
 	float best_fov = Settings::Aimbot::fov;
@@ -117,7 +117,7 @@ C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible, Bone& best_bone)
 			float damage = 0.0f;
 			Bone bone;
 			GetBestBone(entity, damage, bone);
-			
+
 			if (damage >= best_damage && damage >= Settings::Aimbot::AutoWall::value)
 			{
 				best_damage = damage;
@@ -141,6 +141,9 @@ void Aimbot::RCS(QAngle& angle, C_BaseEntity* entity, CUserCmd* cmd)
 		return;
 
 	if (!(cmd->buttons & IN_ATTACK))
+		return;
+
+	if(Settings::Aimbot::aimkey_only && !input->IsButtonDown(Settings::Aimbot::aimkey))
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
@@ -221,17 +224,17 @@ void Aimbot::Smooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
 
 	QAngle delta = angle - cmd->viewangles;
 	Math::NormalizeAngles(delta);
-	
+
 	float smooth = Settings::Aimbot::Smooth::value / Settings::Aimbot::Smooth::max;
-	
+
 	if (Settings::Aimbot::Smooth::Salting::enabled)
 	{
 		float max_remove = Settings::Aimbot::Smooth::value - (((100 - Settings::Aimbot::Smooth::Salting::percentage) / 100) * Settings::Aimbot::Smooth::value);
 		float remove = RandomNumber (0.0f, max_remove);
-		
+
 		smooth -= remove;
 	}
-	
+
 	float slope = delta.y / delta.x;
 
 	/*
@@ -375,7 +378,7 @@ void Aimbot::ShootCheck(C_BaseCombatWeapon* active_weapon, CUserCmd* cmd)
 
 	if (!(cmd->buttons & IN_ATTACK))
 		return;
-	
+
 	if (nextPrimaryAttack < tick)
 		return;
 
