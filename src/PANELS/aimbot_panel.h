@@ -26,6 +26,7 @@ private:
 	Slider* sl_aimstep;
 	Slider* sl_error;
 	ToggleSwitch* ts_autopistol;
+	ToggleSwitch* ts_no_shoot;
 	ToggleSwitch* ts_autoshoot;
 	ToggleSwitch* ts_autoscope;
 	Banner* ba_target;

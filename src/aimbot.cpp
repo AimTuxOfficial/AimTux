@@ -8,6 +8,7 @@ bool Settings::Aimbot::silent = false;
 bool Settings::Aimbot::friendly = false;
 float Settings::Aimbot::fov = 180.0f;
 float Settings::Aimbot::errorMargin = 0.0F;
+bool Settings::Aimbot::no_shoot = false;
 unsigned int Settings::Aimbot::bone = BONE_HEAD;
 ButtonCode_t Settings::Aimbot::aimkey = ButtonCode_t::MOUSE_MIDDLE;
 bool Settings::Aimbot::aimkey_only = false;
@@ -388,6 +389,20 @@ void Aimbot::ShootCheck(C_BaseCombatWeapon* active_weapon, CUserCmd* cmd)
 		cmd->buttons &= ~IN_ATTACK;
 }
 
+void Aimbot::NoShoot(C_BaseCombatWeapon* active_weapon, C_BaseEntity* entity, CUserCmd* cmd)
+{
+	if (entity && Settings::Aimbot::no_shoot)
+	{
+		if (*active_weapon->GetItemDefinitionIndex() == WEAPON_C4)
+			return;
+		
+		if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
+			cmd->buttons &= ~IN_ATTACK2;
+		else
+			cmd->buttons &= ~IN_ATTACK;
+	}
+}
+
 void Aimbot::CreateMove(CUserCmd* cmd)
 {
 	if (!Settings::Aimbot::enabled)
@@ -437,7 +452,8 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	Aimbot::RCS(angle, entity, cmd);
 	Aimbot::Smooth(entity, angle, cmd);
 	Aimbot::ShootCheck(active_weapon, cmd);
-
+	Aimbot::NoShoot(active_weapon, entity, cmd);
+	
 	Math::NormalizeAngles(angle);
 	Math::ClampAngles(angle);
 	cmd->viewangles = angle;
