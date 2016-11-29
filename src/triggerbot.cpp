@@ -60,7 +60,8 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 
 	if (entity == localplayer
 		|| entity->GetDormant()
-		|| !entity->GetAlive())
+		|| !entity->GetAlive()
+		|| entity->GetImmune())
 		return;
 
 	if (entity->GetTeam() == localplayer->GetTeam() && !Settings::Triggerbot::Filter::friendly)
