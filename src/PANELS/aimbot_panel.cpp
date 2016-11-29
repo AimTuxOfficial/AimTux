@@ -58,7 +58,6 @@ AimbotPanel::AimbotPanel (Vector2D position, Vector2D size)
 	AddComponent (ts_autoaim);
 	AddComponent (ts_rcs);
 	AddComponent (ts_silent);
-	AddComponent (ts_silent);
 	AddComponent (kb_aimkey);
 	AddComponent (ts_aimkey_only);
 	AddComponent (ba_aim);
