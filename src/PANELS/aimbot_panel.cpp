@@ -19,10 +19,6 @@ AimbotPanel::AimbotPanel (Vector2D position, Vector2D size)
 	ts_aimstep = new ToggleSwitchTip ("Aim Step", BELOW (ts_salting), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AimStep::enabled, "Adds a delay to the aimbot. Only needed for casual");
 	sl_aimstep = new Slider ("", STACK (ts_aimstep), LOC ((size.x / 2) - ts_aimstep->size.x - 30, 30), &Settings::Aimbot::AimStep::value, 0.0f, 180.0f);
 	sl_error = new Slider("Error Margin", BELOW(ts_aimstep), LOC((size.x / 2) - 20, 30), &Settings::Aimbot::errorMargin, 0.0f, 2.0f);
-	ts_autopistol = new ToggleSwitchTip ("Auto Pistol", BELOW (sl_error), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoPistol::enabled, "Auto shoot the pistol when holding fire");
-	ts_no_shoot = new ToggleSwitchTip ("No Shoot", STACK (ts_autopistol), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::no_shoot, "Don't shoot when an enemy is in the FOV - Usefull for legit settings with triggerbot");
-	ts_autoshoot = new ToggleSwitchTip ("Auto Shoot", BELOW (ts_autopistol), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoShoot::enabled, "Automatically aims and shoots");
-	ts_autoscope = new ToggleSwitchTip ("Auto Scope", STACK (ts_autoshoot), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoShoot::autoscope, "Automatically scopes");
 	ba_target = new Banner ("Target", STACK(ba_aim), ((size.x - 20) / 2) - 5);
 	ts_friendly = new ToggleSwitchTip ("Friendly", BELOW (ba_target), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::friendly, "Friendly fire mode for aimbot.");
 	cb_aimbone = new ComboBox<Bone>("AimBone", STACK (ts_friendly), (size.x - 20) / 6.75, (Bone*)&Settings::Aimbot::bone, std::vector<CB_Element>
@@ -40,10 +36,12 @@ AimbotPanel::AimbotPanel (Vector2D position, Vector2D size)
 	ts_autopistol = new ToggleSwitchTip ("Auto Pistol", BELOW (ba_other), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoPistol::enabled, "Auto shoot the pistol when holding fire");
 	ts_autoshoot = new ToggleSwitchTip ("Auto Shoot", BELOW (ts_autopistol), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoShoot::enabled, "Automatically aims and shoots");
 	ts_autoscope = new ToggleSwitchTip ("Auto Scope", STACK (ts_autoshoot), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoShoot::autoscope, "Automatically scopes");
+	ts_no_shoot = new ToggleSwitchTip ("No Shoot", STACK (ts_autopistol), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::no_shoot, "Stops the aimbot from shooting, usefull for legit settings+triggerbot");
 
 	AddComponent (ts_autoscope);
 	AddComponent (ts_autoshoot);
 	AddComponent (ts_autopistol);
+	AddComponent (ts_no_shoot);
 	AddComponent (ba_other);
 	AddComponent (sl_error);
 	AddComponent (sl_aimstep);
@@ -54,10 +52,6 @@ AimbotPanel::AimbotPanel (Vector2D position, Vector2D size)
 	AddComponent (cb_aimbone);
 	AddComponent (ts_friendly);
 	AddComponent (ba_target);
-	AddComponent (ts_autoscope);
-	AddComponent (ts_autoshoot);
-	AddComponent (ts_autopistol);
-	AddComponent (ts_no_shoot);
 	AddComponent (ts_aimstep);
 	AddComponent (ts_salting);
 	AddComponent (ts_smooth);
