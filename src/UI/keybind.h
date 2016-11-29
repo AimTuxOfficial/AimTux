@@ -46,9 +46,7 @@ public:
 
 	void Draw ()
 	{
-		pstring label = text;
-		if (label.length() > 0)
-			label << ": ";
+		pstring label;
 		label << (chooseStarted ? "< key >" : input->ButtonCodeToString(*key));
 
 		if (isHovered)
@@ -57,7 +55,8 @@ public:
 		}
 
 		DrawFilledRectangle (LOC(0, 0), size, background_color);
-		DrawString (label, mono_font, text_color, LOC (10, (size.y / 2) - (font_size.y / 2)));
+		DrawString (text, mono_font, text_color, LOC (10, (size.y / 2) - (font_size.y / 2)));
+		DrawString (label, mono_font, text_color, LOC ((size.x - Draw::GetTextSize (label, mono_font).x) - 4, (size.y / 2) - (font_size.y / 2)));
 	}
 
 	bool GetPressedKeys (std::vector<ButtonCode_t>& pressedKeys)

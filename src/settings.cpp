@@ -103,6 +103,7 @@ void Settings::LoadDefaultsOrSave(Config config)
 	settings["Aimbot"]["enabled"] = Settings::Aimbot::enabled;
 	settings["Aimbot"]["silent"] = Settings::Aimbot::silent;
 	settings["Aimbot"]["friendly"] = Settings::Aimbot::friendly;
+	settings["Aimbot"]["no_shoot"] = Settings::Aimbot::no_shoot;
 	settings["Aimbot"]["fov"] = Settings::Aimbot::fov;
 	settings["Aimbot"]["errorMargin"] = Settings::Aimbot::errorMargin;
 	settings["Aimbot"]["bone"] = Settings::Aimbot::bone;
@@ -292,6 +293,7 @@ void Settings::LoadConfig(Config config)
 	GetBool(settings["Aimbot"]["friendly"], &Settings::Aimbot::friendly);
 	GetFloat(settings["Aimbot"]["fov"], &Settings::Aimbot::fov);
 	GetFloat(settings["Aimbot"]["errorMargin"], &Settings::Aimbot::errorMargin);
+	GetBool(settings["Aimbot"]["no_shoot"], &Settings::Aimbot::no_shoot);
 	GetInt(settings["Aimbot"]["bone"], &Settings::Aimbot::bone);
 	GetButtonCode(settings["Aimbot"]["aimkey"], &Settings::Aimbot::aimkey);
 	GetBool(settings["Aimbot"]["aimkey_only"], &Settings::Aimbot::aimkey_only);

@@ -18,6 +18,7 @@ namespace Aimbot
 	void AutoPistol(C_BaseCombatWeapon* active_weapon, CUserCmd* cmd);
 	void AutoShoot(C_BaseEntity* entity, C_BaseCombatWeapon* active_weapon, CUserCmd* cmd);
 	void ShootCheck(C_BaseCombatWeapon* active_weapon, CUserCmd* cmd);
-
+	void NoShoot(C_BaseCombatWeapon* active_weapon, C_BaseEntity* entity, CUserCmd* cmd);
+	
 	void CreateMove(CUserCmd* cmd);
 }

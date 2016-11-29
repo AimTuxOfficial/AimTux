@@ -123,6 +123,7 @@ namespace Settings
 		extern unsigned int bone;
 		extern ButtonCode_t aimkey;
 		extern bool aimkey_only;
+		extern bool no_shoot;
 
 		namespace Smooth
 		{
