@@ -1,6 +1,7 @@
 #pragma once
 
 #include "vector.h"
+#include <array>
 
 enum MoveType_t
 {
@@ -220,6 +221,16 @@ public:
 	Vector GetVelocity()
 	{
 		return *(Vector*)((uintptr_t)this + offsets.DT_BasePlayer.m_vecVelocity);
+	}
+	
+	QAngle* GetHeadRotation ()
+	{
+		return (QAngle*)((uintptr_t)this + offsets.DT_BasePlayer.m_angRotation);
+	}
+	
+	QAngle* GetLowerBodyYawTarget ()
+	{
+		return (QAngle*)((uintptr_t)this + offsets.DT_BasePlayer.m_flLowerBodyYawTarget);
 	}
 };
 

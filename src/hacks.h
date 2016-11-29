@@ -22,3 +22,4 @@
 #include "spammer.h"
 #include "teleport.h"
 #include "triggerbot.h"
+#include "resolver.h"
