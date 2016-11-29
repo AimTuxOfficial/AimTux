@@ -1,15 +1,7 @@
 #include "settings.h"
 
-char* GetSettingsPath(const char* filename)
-{
-	char* settingsPath;
-	char cwd[1024];
-
-	getcwd(cwd, sizeof(cwd));
-	asprintf(&settingsPath, "%s/%s.json", cwd, filename);
-
-	return settingsPath;
-}
+std::vector<Config> configs;
+Config* current_config = nullptr;
 
 void GetBool(Json::Value &config, bool* setting)
 {
@@ -53,7 +45,7 @@ void GetOrdinal(Json::Value& config, Ord* setting)
 	Ord value;
 	if (config.isString())
 		value = lookupFunction(config.asString());
-	else 
+	else
 		value = (Ord) config.asInt();
 
 	*setting = value;
@@ -61,7 +53,7 @@ void GetOrdinal(Json::Value& config, Ord* setting)
 
 void GetButtonCode(Json::Value &config, enum ButtonCode_t* setting)
 {
-	GetOrdinal<enum ButtonCode_t, Util::Input::GetButtonCode>(config, setting);
+	GetOrdinal<enum ButtonCode_t, Util::GetButtonCode>(config, setting);
 }
 
 void GetFloat(Json::Value &config, float* setting)
@@ -89,28 +81,33 @@ void LoadColor(Json::Value &config, Color color)
 	config["a"] = color.a;
 }
 
-void Settings::LoadDefaultsOrSave(const char* filename)
+void Settings::LoadDefaultsOrSave(Config config)
 {
-	using Util::Input::GetButtonName;
-
 	Json::Value settings;
 	Json::StyledWriter styledWriter;
 
 	LoadColor(settings["UI"]["mainColor"], Settings::UI::mainColor);
 	settings["UI"]["Fonts"]["Title"]["family"] = Settings::UI::Fonts::Title::family;
 	settings["UI"]["Fonts"]["Title"]["size"] = Settings::UI::Fonts::Title::size;
+	settings["UI"]["Fonts"]["Title"]["flags"] = Settings::UI::Fonts::Title::flags;
 	settings["UI"]["Fonts"]["Normal"]["family"] = Settings::UI::Fonts::Normal::family;
 	settings["UI"]["Fonts"]["Normal"]["size"] = Settings::UI::Fonts::Normal::size;
+	settings["UI"]["Fonts"]["Normal"]["flags"] = Settings::UI::Fonts::Normal::flags;
 	settings["UI"]["Fonts"]["ESP"]["family"] = Settings::UI::Fonts::ESP::family;
 	settings["UI"]["Fonts"]["ESP"]["size"] = Settings::UI::Fonts::ESP::size;
+	settings["UI"]["Fonts"]["ESP"]["flags"] = Settings::UI::Fonts::ESP::flags;
+	settings["UI"]["Fonts"]["Mono"]["family"] = Settings::UI::Fonts::Mono::family;
+	settings["UI"]["Fonts"]["Mono"]["size"] = Settings::UI::Fonts::Mono::size;
+	settings["UI"]["Fonts"]["Mono"]["flags"] = Settings::UI::Fonts::Mono::flags;
 
 	settings["Aimbot"]["enabled"] = Settings::Aimbot::enabled;
 	settings["Aimbot"]["silent"] = Settings::Aimbot::silent;
 	settings["Aimbot"]["friendly"] = Settings::Aimbot::friendly;
+	settings["Aimbot"]["no_shoot"] = Settings::Aimbot::no_shoot;
 	settings["Aimbot"]["fov"] = Settings::Aimbot::fov;
 	settings["Aimbot"]["errorMargin"] = Settings::Aimbot::errorMargin;
 	settings["Aimbot"]["bone"] = Settings::Aimbot::bone;
-	settings["Aimbot"]["aimkey"] = GetButtonName(Settings::Aimbot::aimkey);
+	settings["Aimbot"]["aimkey"] = Util::GetButtonName(Settings::Aimbot::aimkey);
 	settings["Aimbot"]["aimkey_only"] = Settings::Aimbot::aimkey_only;
 	settings["Aimbot"]["Smooth"]["enabled"] = Settings::Aimbot::Smooth::enabled;
 	settings["Aimbot"]["Smooth"]["value"] = Settings::Aimbot::Smooth::value;
@@ -133,7 +130,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["Aimbot"]["AutoStop"]["enabled"] = Settings::Aimbot::AutoStop::enabled;
 
 	settings["Triggerbot"]["enabled"] = Settings::Triggerbot::enabled;
-	settings["Triggerbot"]["key"] = GetButtonName(Settings::Triggerbot::key);
+	settings["Triggerbot"]["key"] = Util::GetButtonName(Settings::Triggerbot::key);
 	settings["Triggerbot"]["Filter"]["friendly"] = Settings::Triggerbot::Filter::friendly;
 	settings["Triggerbot"]["Filter"]["head"] = Settings::Triggerbot::Filter::head;
 	settings["Triggerbot"]["Filter"]["chest"] = Settings::Triggerbot::Filter::chest;
@@ -147,6 +144,8 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["AntiAim"]["enabled_X"] = Settings::AntiAim::enabled_X;
 	settings["AntiAim"]["type_Y"] = Settings::AntiAim::type_Y;
 	settings["AntiAim"]["type_X"] = Settings::AntiAim::type_X;
+	settings["AntiAim"]["HeadEdge"]["enabled"] = Settings::AntiAim::HeadEdge::enabled;
+	settings["AntiAim"]["HeadEdge"]["distance"] = Settings::AntiAim::HeadEdge::distance;
 
 	settings["ESP"]["enabled"] = Settings::ESP::enabled;
 
@@ -156,18 +155,22 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	LoadColor(settings["ESP"]["bones_color"], Settings::ESP::bones_color);
 	LoadColor(settings["ESP"]["bomb_color"], Settings::ESP::bomb_color);
 	settings["ESP"]["visibility_check"] = Settings::ESP::visibility_check;
+	settings["ESP"]["show_scope_border"] = Settings::ESP::show_scope_border;
 	settings["ESP"]["friendly"] = Settings::ESP::friendly;
 	settings["ESP"]["Glow"]["enabled"] = Settings::ESP::Glow::enabled;
 	LoadColor(settings["ESP"]["Glow"]["ally_color"], Settings::ESP::Glow::ally_color);
 	LoadColor(settings["ESP"]["Glow"]["enemy_color"], Settings::ESP::Glow::enemy_color);
 	LoadColor(settings["ESP"]["Glow"]["enemy_visible_color"], Settings::ESP::Glow::enemy_visible_color);
 	LoadColor(settings["ESP"]["Glow"]["weapon_color"], Settings::ESP::Glow::weapon_color);
+	LoadColor(settings["ESP"]["Glow"]["grenade_color"], Settings::ESP::Glow::grenade_color);
 	settings["ESP"]["Tracer"]["enabled"] = Settings::ESP::Tracer::enabled;
 	settings["ESP"]["Tracer"]["type"] = Settings::ESP::Tracer::type;
 	settings["ESP"]["Walls"]["enabled"] = Settings::ESP::Walls::enabled;
 	settings["ESP"]["Walls"]["type"] = Settings::ESP::Walls::type;
 	settings["ESP"]["Info"]["showName"] = Settings::ESP::Info::showName;
 	settings["ESP"]["Info"]["showHealth"] = Settings::ESP::Info::showHealth;
+	settings["ESP"]["Info"]["showWeapon"] = Settings::ESP::Info::showWeapon;
+	settings["ESP"]["Info"]["colorCode"] = Settings::ESP::Info::colorCode;
 	LoadColor(settings["ESP"]["Info"]["ally_color"], Settings::ESP::Info::ally_color);
 	LoadColor(settings["ESP"]["Info"]["enemy_color"], Settings::ESP::Info::enemy_color);
 	LoadColor(settings["ESP"]["Info"]["enemy_visible_color"], Settings::ESP::Info::enemy_visible_color);
@@ -177,14 +180,12 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["ESP"]["FOVCrosshair"]["enabled"] = Settings::ESP::FOVCrosshair::enabled;
 	settings["ESP"]["Chams"]["players"] = Settings::ESP::Chams::players;
 	settings["ESP"]["Chams"]["visibility_check"] = Settings::ESP::Chams::visibility_check;
-	settings["ESP"]["Chams"]["arms"] = Settings::ESP::Chams::arms;
-	settings["ESP"]["Chams"]["rainbow_arms"] = Settings::ESP::Chams::rainbow_arms;
-	settings["ESP"]["Chams"]["wireframe_arms"] = Settings::ESP::Chams::wireframe_arms;
-	settings["ESP"]["Chams"]["no_arms"] = Settings::ESP::Chams::no_arms;
+	settings["ESP"]["Chams"]["Arms"]["enabled"] = Settings::ESP::Chams::Arms::enabled;
+	settings["ESP"]["Chams"]["Arms"]["type"] = Settings::ESP::Chams::Arms::type;
 	LoadColor(settings["ESP"]["Chams"]["players_ally_color"], Settings::ESP::Chams::players_ally_color);
 	LoadColor(settings["ESP"]["Chams"]["players_enemy_color"], Settings::ESP::Chams::players_enemy_color);
 	LoadColor(settings["ESP"]["Chams"]["players_enemy_visible_color"], Settings::ESP::Chams::players_enemy_visible_color);
-	LoadColor(settings["ESP"]["Chams"]["arms_color"], Settings::ESP::Chams::arms_color);
+	LoadColor(settings["ESP"]["Chams"]["Arms"]["color"], Settings::ESP::Chams::Arms::color);
 	settings["ESP"]["Chams"]["type"] = Settings::ESP::Chams::type;
 
 	settings["Dlights"]["enabled"] = Settings::Dlights::enabled;
@@ -200,6 +201,7 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["BHop"]["enabled"] = Settings::BHop::enabled;
 
 	settings["AutoStrafe"]["enabled"] = Settings::AutoStrafe::enabled;
+	settings["AutoStrafe"]["type"] = Settings::AutoStrafe::type;
 
 	settings["Noflash"]["enabled"] = Settings::Noflash::enabled;
 	settings["Noflash"]["value"] = Settings::Noflash::value;
@@ -208,13 +210,15 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 
 	settings["Recoilcrosshair"]["enabled"] = Settings::Recoilcrosshair::enabled;
 
+	settings["Recoilcrosshair"]["showOnlyWhenShooting"] = Settings::Recoilcrosshair::showOnlyWhenShooting;
+
 	settings["FOVChanger"]["enabled"] = Settings::FOVChanger::enabled;
 	settings["FOVChanger"]["value"] = Settings::FOVChanger::value;
 	settings["FOVChanger"]["viewmodel_enabled"] = Settings::FOVChanger::viewmodel_enabled;
 	settings["FOVChanger"]["viewmodel_value"] = Settings::FOVChanger::viewmodel_value;
 
 	settings["Airstuck"]["enabled"] = Settings::Airstuck::enabled;
-	settings["Airstuck"]["key"] = GetButtonName(Settings::Airstuck::key);
+	settings["Airstuck"]["key"] = Util::GetButtonName(Settings::Airstuck::key);
 
 	settings["Skinchanger"]["enabled"] = Settings::Skinchanger::enabled;
 	for (auto i : Settings::Skinchanger::skins)
@@ -241,46 +245,55 @@ void Settings::LoadDefaultsOrSave(const char* filename)
 	settings["ClanTagChanger"]["enabled"] = Settings::ClanTagChanger::enabled;
 	settings["ClanTagChanger"]["animation"] = Settings::ClanTagChanger::animation;
 
+	settings["View"]["NoPunch"]["enabled"] = Settings::View::NoPunch::enabled;
+
 	settings["NameChanger"]["enabled"] = Settings::NameChanger::enabled;
 	settings["NameChanger"]["last_blank"] = Settings::NameChanger::last_blank;
 
 	settings["Teleport"]["enabled"] = Settings::Teleport::enabled;
-	settings["Teleport"]["key"] = GetButtonName(Settings::Teleport::key);
+	settings["Teleport"]["key"] = Settings::Teleport::key;
 
 	settings["FakeLag"]["enabled"] = Settings::FakeLag::enabled;
 
-	std::ofstream(GetSettingsPath(filename)) << styledWriter.write(settings);
+	settings["AutoAccept"]["enabled"] = Settings::AutoAccept::enabled;
+
+	std::ofstream(config.GetMainConfigFile()) << styledWriter.write(settings);
 }
 
-void Settings::LoadSettings(const char* filename)
+void Settings::LoadConfig(Config config)
 {
-	if (!std::ifstream(GetSettingsPath(filename)).good())
+	if (!std::ifstream(config.GetMainConfigFile()).good())
 	{
-		Settings::LoadDefaultsOrSave(filename);
+		Settings::LoadDefaultsOrSave(config);
 		return;
 	}
 
 	Json::Value settings;
-	std::ifstream config_doc(GetSettingsPath(filename), std::ifstream::binary);
+	std::ifstream config_doc(config.GetMainConfigFile(), std::ifstream::binary);
 	config_doc >> settings;
 
 	GetColor(settings["UI"]["mainColor"], &Settings::UI::mainColor);
 	GetCString(settings["UI"]["Fonts"]["Title"]["family"], &Settings::UI::Fonts::Title::family);
 	GetInt(settings["UI"]["Fonts"]["Title"]["size"], &Settings::UI::Fonts::Title::size);
+	GetInt(settings["UI"]["Fonts"]["Title"]["flags"], &Settings::UI::Fonts::Title::flags);
 	GetCString(settings["UI"]["Fonts"]["Normal"]["family"], &Settings::UI::Fonts::Normal::family);
 	GetInt(settings["UI"]["Fonts"]["Normal"]["size"], &Settings::UI::Fonts::Normal::size);
+	GetInt(settings["UI"]["Fonts"]["Normal"]["flags"], &Settings::UI::Fonts::Normal::flags);
 	GetCString(settings["UI"]["Fonts"]["ESP"]["family"], &Settings::UI::Fonts::ESP::family);
 	GetInt(settings["UI"]["Fonts"]["ESP"]["size"], &Settings::UI::Fonts::ESP::size);
+	GetInt(settings["UI"]["Fonts"]["ESP"]["flags"], &Settings::UI::Fonts::ESP::flags);
+	GetCString(settings["UI"]["Fonts"]["Mono"]["family"], &Settings::UI::Fonts::Mono::family);
+	GetInt(settings["UI"]["Fonts"]["Mono"]["size"], &Settings::UI::Fonts::Mono::size);
+	GetInt(settings["UI"]["Fonts"]["Mono"]["flags"], &Settings::UI::Fonts::Mono::flags);
 
-	title_font = Draw::CreateFont(Settings::UI::Fonts::Title::family, Settings::UI::Fonts::Title::size, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
-	normal_font = Draw::CreateFont(Settings::UI::Fonts::Normal::family, Settings::UI::Fonts::Normal::size, FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS);
-	esp_font = Draw::CreateFont(Settings::UI::Fonts::ESP::family, Settings::UI::Fonts::ESP::size, FONTFLAG_ANTIALIAS | FONTFLAG_OUTLINE);
+	Fonts::SetupFonts();
 
 	GetBool(settings["Aimbot"]["enabled"], &Settings::Aimbot::enabled);
 	GetBool(settings["Aimbot"]["silent"], &Settings::Aimbot::silent);
 	GetBool(settings["Aimbot"]["friendly"], &Settings::Aimbot::friendly);
 	GetFloat(settings["Aimbot"]["fov"], &Settings::Aimbot::fov);
 	GetFloat(settings["Aimbot"]["errorMargin"], &Settings::Aimbot::errorMargin);
+	GetBool(settings["Aimbot"]["no_shoot"], &Settings::Aimbot::no_shoot);
 	GetInt(settings["Aimbot"]["bone"], &Settings::Aimbot::bone);
 	GetButtonCode(settings["Aimbot"]["aimkey"], &Settings::Aimbot::aimkey);
 	GetBool(settings["Aimbot"]["aimkey_only"], &Settings::Aimbot::aimkey_only);
@@ -319,6 +332,8 @@ void Settings::LoadSettings(const char* filename)
 	GetBool(settings["AntiAim"]["enabled_X"], &Settings::AntiAim::enabled_X);
 	GetInt(settings["AntiAim"]["type_Y"], &Settings::AntiAim::type_Y);
 	GetInt(settings["AntiAim"]["type_X"], &Settings::AntiAim::type_X);
+	GetBool(settings["AntiAim"]["HeadEdge"]["enabled"], &Settings::AntiAim::HeadEdge::enabled);
+	GetFloat(settings["AntiAim"]["HeadEdge"]["distance"], &Settings::AntiAim::HeadEdge::distance);
 
 	GetBool(settings["ESP"]["enabled"], &Settings::ESP::enabled);
 	GetColor(settings["ESP"]["ally_color"], &Settings::ESP::ally_color);
@@ -327,18 +342,22 @@ void Settings::LoadSettings(const char* filename)
 	GetColor(settings["ESP"]["bones_color"], &Settings::ESP::bones_color);
 	GetColor(settings["ESP"]["bomb_color"], &Settings::ESP::bomb_color);
 	GetBool(settings["ESP"]["visibility_check"], &Settings::ESP::visibility_check);
+	GetBool(settings["ESP"]["show_scope_border"], &Settings::ESP::show_scope_border);
 	GetBool(settings["ESP"]["friendly"], &Settings::ESP::friendly);
 	GetBool(settings["ESP"]["Glow"]["enabled"], &Settings::ESP::Glow::enabled);
 	GetColor(settings["ESP"]["Glow"]["ally_color"], &Settings::ESP::Glow::ally_color);
 	GetColor(settings["ESP"]["Glow"]["enemy_color"], &Settings::ESP::Glow::enemy_color);
 	GetColor(settings["ESP"]["Glow"]["enemy_visible_color"], &Settings::ESP::Glow::enemy_visible_color);
 	GetColor(settings["ESP"]["Glow"]["weapon_color"], &Settings::ESP::Glow::weapon_color);
+	GetColor(settings["ESP"]["Glow"]["grenade_color"], &Settings::ESP::Glow::grenade_color);
 	GetBool(settings["ESP"]["Tracer"]["enabled"], &Settings::ESP::Tracer::enabled);
 	GetInt(settings["ESP"]["Tracer"]["type"], &Settings::ESP::Tracer::type);
 	GetBool(settings["ESP"]["Walls"]["enabled"], &Settings::ESP::Walls::enabled);
 	GetInt(settings["ESP"]["Walls"]["type"], &Settings::ESP::Walls::type);
 	GetBool(settings["ESP"]["Info"]["showName"], &Settings::ESP::Info::showName);
 	GetBool(settings["ESP"]["Info"]["showHealth"], &Settings::ESP::Info::showHealth);
+	GetBool(settings["ESP"]["Info"]["showWeapon"], &Settings::ESP::Info::showWeapon);
+	GetBool(settings["ESP"]["Info"]["colorCode"], &Settings::ESP::Info::colorCode);
 	GetColor(settings["ESP"]["Info"]["ally_color"], &Settings::ESP::Info::ally_color);
 	GetColor(settings["ESP"]["Info"]["enemy_color"], &Settings::ESP::Info::enemy_color);
 	GetColor(settings["ESP"]["Info"]["enemy_visible_color"], &Settings::ESP::Info::enemy_visible_color);
@@ -348,14 +367,12 @@ void Settings::LoadSettings(const char* filename)
 	GetBool(settings["ESP"]["FOVCrosshair"]["enabled"], &Settings::ESP::FOVCrosshair::enabled);
 	GetBool(settings["ESP"]["Chams"]["players"], &Settings::ESP::Chams::players);
 	GetBool(settings["ESP"]["Chams"]["visibility_check"], &Settings::ESP::Chams::visibility_check);
-	GetBool(settings["ESP"]["Chams"]["arms"], &Settings::ESP::Chams::arms);
-	GetBool(settings["ESP"]["Chams"]["rainbow_arms"], &Settings::ESP::Chams::rainbow_arms);
-	GetBool(settings["ESP"]["Chams"]["wireframe_arms"], &Settings::ESP::Chams::wireframe_arms);
-	GetBool(settings["ESP"]["Chams"]["no_arms"], &Settings::ESP::Chams::no_arms);
+	GetBool(settings["ESP"]["Chams"]["Arms"]["enabled"], &Settings::ESP::Chams::Arms::enabled);
+	GetInt(settings["ESP"]["Chams"]["Arms"]["type"], &Settings::ESP::Chams::Arms::type);
 	GetColor(settings["ESP"]["Chams"]["players_ally_color"], &Settings::ESP::Chams::players_ally_color);
 	GetColor(settings["ESP"]["Chams"]["players_enemy_color"], &Settings::ESP::Chams::players_enemy_color);
 	GetColor(settings["ESP"]["Chams"]["players_enemy_visible_color"], &Settings::ESP::Chams::players_enemy_visible_color);
-	GetColor(settings["ESP"]["Chams"]["arms_color"], &Settings::ESP::Chams::arms_color);
+	GetColor(settings["ESP"]["Chams"]["Arms"]["color"], &Settings::ESP::Chams::Arms::color);
 	GetInt(settings["ESP"]["Chams"]["type"], &Settings::ESP::Chams::type);
 
 	GetBool(settings["Dlights"]["enabled"], &Settings::Dlights::enabled);
@@ -371,6 +388,7 @@ void Settings::LoadSettings(const char* filename)
 	GetBool(settings["BHop"]["enabled"], &Settings::BHop::enabled);
 
 	GetBool(settings["AutoStrafe"]["enabled"], &Settings::AutoStrafe::enabled);
+	GetInt(settings["AutoStrafe"]["type"], &Settings::AutoStrafe::type);
 
 	GetBool(settings["Noflash"]["enabled"], &Settings::Noflash::enabled);
 	GetFloat(settings["Noflash"]["value"], &Settings::Noflash::value);
@@ -378,6 +396,7 @@ void Settings::LoadSettings(const char* filename)
 	GetBool(settings["Radar"]["enabled"], &Settings::Radar::enabled);
 
 	GetBool(settings["Recoilcrosshair"]["enabled"], &Settings::Recoilcrosshair::enabled);
+	GetBool(settings["Recoilcrosshair"]["showOnlyWhenShooting"], &Settings::Recoilcrosshair::showOnlyWhenShooting);
 
 	GetBool(settings["FOVChanger"]["enabled"], &Settings::FOVChanger::enabled);
 	GetFloat(settings["FOVChanger"]["value"], &Settings::FOVChanger::value);
@@ -435,6 +454,8 @@ void Settings::LoadSettings(const char* filename)
 	GetBool(settings["ClanTagChanger"]["enabled"], &Settings::ClanTagChanger::enabled);
 	GetBool(settings["ClanTagChanger"]["animation"], &Settings::ClanTagChanger::animation);
 
+	GetBool(settings["View"]["NoPunch"]["enabled"], &Settings::View::NoPunch::enabled);
+
 	GetBool(settings["NameChanger"]["enabled"], &Settings::NameChanger::enabled);
 	GetBool(settings["NameChanger"]["last_blank"], &Settings::NameChanger::last_blank);
 
@@ -442,4 +463,58 @@ void Settings::LoadSettings(const char* filename)
 	GetButtonCode(settings["Teleport"]["key"], &Settings::Teleport::key);
 
 	GetBool(settings["FakeLag"]["enabled"], &Settings::FakeLag::enabled);
+
+	GetBool(settings["AutoAccept"]["enabled"], &Settings::AutoAccept::enabled);
+}
+
+void Settings::LoadSettings ()
+{
+	pstring directory = getenv("HOME");
+	directory << "/.config";
+
+	if (!DoesDirectoryExist(directory.c_str()))
+		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+
+	directory << "/AimTux/";
+
+	if (!DoesDirectoryExist(directory.c_str()))
+		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+
+	configs = GetConfigs(directory.c_str());
+}
+
+void remove_directory(const char* path)
+{
+	DIR* dir;
+	dirent* pdir;
+	
+	dir = opendir(path);
+	
+	while ((pdir = readdir(dir)))
+	{
+		if (strcmp(pdir->d_name, ".") == 0 || strcmp(pdir->d_name, "..") == 0)
+			continue;
+		
+		if (pdir->d_type == DT_DIR)
+		{
+			pstring _dir;
+			_dir << path << "/" << pdir->d_name;
+			
+			remove_directory(_dir.c_str());
+		}
+		else if (pdir->d_type == DT_REG)
+		{
+			pstring file;
+			file << path << "/" << pdir->d_name;
+			
+			unlink(file.c_str());
+		}
+	}
+	
+	rmdir(path);
+}
+
+void Settings::DeleteConfig(Config config)
+{
+	remove_directory(config.path.c_str());
 }

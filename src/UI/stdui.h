@@ -10,6 +10,9 @@
 #include "banner.h"
 #include "textbox.h"
 #include "tabselector.h"
+#include "keybind.h"
+#include "combobox.h"
+#include "scrollinglistbox.h"
 
 #define BELOW(c) LOC (c->position.x, c->position.y + c->size.y + 10)
 #define STACK(c) LOC (c->position.x + c->size.x + 10, c->position.y)

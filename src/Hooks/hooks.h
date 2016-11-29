@@ -13,6 +13,8 @@ typedef bool (*FireEventClientSideFn) (void*, IGameEvent*);
 typedef int (*IN_KeyEventFn) (void*, int, int, const char*);
 typedef void (*RenderViewFn) (void*, CViewSetup&, CViewSetup&, unsigned int, int);
 typedef void (*SetKeyCodeStateFn) (void*, ButtonCode_t, bool);
+typedef void (*OnScreenSizeChangedFn) (void*, int, int);
+typedef void (*PlaySoundFn) (void*, const char*);
 
 namespace Hooks
 {
@@ -24,9 +26,16 @@ namespace Hooks
 	int IN_KeyEvent(void* thisptr, int eventcode, int keynum, const char* currentbinding);
 	void RenderView(void* thisptr, CViewSetup& setup, CViewSetup& hudViewSetup, unsigned int nClearFlags, int whatToDraw);
 	void SetKeyCodeState(void* thisptr, ButtonCode_t code, bool bPressed);
+	void OnScreenSizeChanged(void* thisptr, int oldwidth, int oldheight);
+	void PlaySound(void* thisptr, const char* filename);
 }
 
 namespace CreateMove
 {
 	extern bool SendPacket;
+}
+
+namespace RenderView
+{
+	extern float currentFOV;
 }

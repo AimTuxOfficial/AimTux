@@ -2,15 +2,13 @@
 
 bool Settings::ESP::Chams::players = false;
 bool Settings::ESP::Chams::visibility_check = false;
-bool Settings::ESP::Chams::arms = false;
-bool Settings::ESP::Chams::rainbow_arms = false;
-bool Settings::ESP::Chams::wireframe_arms = false;
-bool Settings::ESP::Chams::no_arms = false;
+bool Settings::ESP::Chams::Arms::enabled = false;
+ArmsType Settings::ESP::Chams::Arms::type = RAINBOW;
 Color Settings::ESP::Chams::players_ally_color = Color(7, 98, 168);
 Color Settings::ESP::Chams::players_ally_visible_color = Color(40, 52, 138);
 Color Settings::ESP::Chams::players_enemy_color = Color(243, 24, 28);
 Color Settings::ESP::Chams::players_enemy_visible_color = Color(243, 159, 20);
-Color Settings::ESP::Chams::arms_color = Color(117, 43, 73);
+Color Settings::ESP::Chams::Arms::color = Color(117, 43, 73);
 ChamsType Settings::ESP::Chams::type = CHAMS;
 
 float rainbowHue;
@@ -27,45 +25,45 @@ void Chams::CreateMaterials()
 	char* chamsFlatPath;
 	char* chamsFlatIgnorezPath;
 
-	chams << "\"VertexLitGeneric\"" << std::endl;
-	chams << "{" << std::endl;
-	chams << "\t\"$basetexture\" \"VGUI/white_additive\"" << std::endl;
-	chams << "\t\"$ignorez\" \"0\"" << std::endl;
-	chams << "\t\"$nofog\" \"1\"" << std::endl;
-	chams << "\t\"$model\" \"1\"" << std::endl;
-	chams << "\t\"$nocull\" \"1\"" << std::endl;
-	chams << "\t\"$halflambert\" \"1\"" << std::endl;
-	chams << "}" << std::endl;
+	chams << "\"VertexLitGeneric\"\n"
+	"{\n"
+	"\t\"$basetexture\" \"VGUI/white_additive\"\n"
+	"\t\"$ignorez\" \"0\"\n"
+	"\t\"$nofog\" \"1\"\n"
+	"\t\"$model\" \"1\"\n"
+	"\t\"$nocull\" \"1\"\n"
+	"\t\"$halflambert\" \"1\"\n"
+	"}\n" << std::flush;
 
-	chamsIgnorez << "\"VertexLitGeneric\"" << std::endl;
-	chamsIgnorez << "{" << std::endl;
-	chamsIgnorez << "\t\"$basetexture\" \"VGUI/white_additive\"" << std::endl;
-	chamsIgnorez << "\t\"$ignorez\" \"1\"" << std::endl;
-	chamsIgnorez << "\t\"$nofog\" \"1\"" << std::endl;
-	chamsIgnorez << "\t\"$model\" \"1\"" << std::endl;
-	chamsIgnorez << "\t\"$nocull\" \"1\"" << std::endl;
-	chamsIgnorez << "\t\"$halflambert\" \"1\"" << std::endl;
-	chamsIgnorez << "}" << std::endl;
+	chamsIgnorez << "\"VertexLitGeneric\"\n"
+	"{\n"
+	"\t\"$basetexture\" \"VGUI/white_additive\"\n"
+	"\t\"$ignorez\" \"1\"\n"
+	"\t\"$nofog\" \"1\"\n"
+	"\t\"$model\" \"1\"\n"
+	"\t\"$nocull\" \"1\"\n"
+	"\t\"$halflambert\" \"1\"\n"
+	"}\n" << std::flush;
 
-	chamsFlat << "\"UnlitGeneric\"" << std::endl;
-	chamsFlat << "{" << std::endl;
-	chamsFlat << "\t\"$basetexture\" \"VGUI/white_additive\"" << std::endl;
-	chamsFlat << "\t\"$ignorez\" \"0\"" << std::endl;
-	chamsFlat << "\t\"$nofog\" \"1\"" << std::endl;
-	chamsFlat << "\t\"$model\" \"1\"" << std::endl;
-	chamsFlat << "\t\"$nocull\" \"1\"" << std::endl;
-	chamsFlat << "\t\"$halflambert\" \"1\"" << std::endl;
-	chamsFlat << "}" << std::endl;
+	chamsFlat << "\"UnlitGeneric\"\n"
+	"{\n"
+	"\t\"$basetexture\" \"VGUI/white_additive\"\n"
+	"\t\"$ignorez\" \"0\"\n"
+	"\t\"$nofog\" \"1\"\n"
+	"\t\"$model\" \"1\"\n"
+	"\t\"$nocull\" \"1\"\n"
+	"\t\"$halflambert\" \"1\"\n"
+	"}\n" << std::flush;
 
-	chamsFlatIgnorez << "\"UnlitGeneric\"" << std::endl;
-	chamsFlatIgnorez << "{" << std::endl;
-	chamsFlatIgnorez << "\t\"$basetexture\" \"VGUI/white_additive\"" << std::endl;
-	chamsFlatIgnorez << "\t\"$ignorez\" \"1\"" << std::endl;
-	chamsFlatIgnorez << "\t\"$nofog\" \"1\"" << std::endl;
-	chamsFlatIgnorez << "\t\"$model\" \"1\"" << std::endl;
-	chamsFlatIgnorez << "\t\"$nocull\" \"1\"" << std::endl;
-	chamsFlatIgnorez << "\t\"$halflambert\" \"1\"" << std::endl;
-	chamsFlatIgnorez << "}" << std::endl;
+	chamsFlatIgnorez << "\"UnlitGeneric\"\n"
+	"{\n"
+	"\t\"$basetexture\" \"VGUI/white_additive\"\n"
+	"\t\"$ignorez\" \"1\"\n"
+	"\t\"$nofog\" \"1\"\n"
+	"\t\"$model\" \"1\"\n"
+	"\t\"$nocull\" \"1\"\n"
+	"\t\"$halflambert\" \"1\"\n"
+	"}\n" << std::flush;
 
 	getcwd(cwd, sizeof(cwd));
 
@@ -93,8 +91,7 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 	if (!entity
 		|| entity == localPlayer
 		|| entity->GetDormant()
-		|| entity->GetLifeState() != LIFE_ALIVE
-		|| entity->GetHealth() <= 0)
+		|| !entity->GetAlive())
 		return;
 
 	IMaterial *visible_material;
@@ -152,28 +149,28 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 
 void DrawArms(const ModelRenderInfo_t &pInfo)
 {
-	if (!Settings::ESP::Chams::arms && !Settings::ESP::Chams::wireframe_arms && !Settings::ESP::Chams::no_arms)
+	if (!Settings::ESP::Chams::Arms::enabled)
 		return;
 
 	std::string modelName = modelInfo->GetModelName(pInfo.pModel);
-	IMaterial *mat = material->FindMaterial(Settings::ESP::Chams::arms ? "aimtux_chams" : modelName.c_str(), TEXTURE_GROUP_MODEL);
+	IMaterial *mat = material->FindMaterial(Settings::ESP::Chams::Arms::enabled ? "aimtux_chams" : modelName.c_str(), TEXTURE_GROUP_MODEL);
 
-	Color color = Settings::ESP::Chams::arms_color;
+	Color color = Settings::ESP::Chams::Arms::color;
 
-	if (Settings::ESP::Chams::arms)
-	{
-		if (Settings::ESP::Chams::rainbow_arms)
-			color = Color::FromHSB(rainbowHue, 1.0f, 1.0f);
-
+	if (Settings::ESP::Chams::Arms::type == RAINBOW){
+		color = Color::FromHSB(rainbowHue, 1.0f, 1.0f);
 		mat->AlphaModulate(1.0f);
-		mat->ColorModulate(color.r / 255.0f,
-						   color.g / 255.0f,
-						   color.b / 255.0f);
+		mat->ColorModulate(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f);
 	}
 
-	mat->SetMaterialVarFlag(MATERIAL_VAR_NO_DRAW, Settings::ESP::Chams::no_arms);
-	mat->SetMaterialVarFlag(MATERIAL_VAR_WIREFRAME, Settings::ESP::Chams::wireframe_arms);
+	if(Settings::ESP::Chams::Arms::type == DEFAULT)
+	{
+		mat->AlphaModulate(1.0f);
+		mat->ColorModulate(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f);
+	}
 
+	mat->SetMaterialVarFlag(MATERIAL_VAR_NO_DRAW, Settings::ESP::Chams::Arms::type == NONE);
+	mat->SetMaterialVarFlag(MATERIAL_VAR_WIREFRAME, Settings::ESP::Chams::Arms::type == WIREFRAME);
 	modelRender->ForcedMaterialOverride(mat);
 }
 

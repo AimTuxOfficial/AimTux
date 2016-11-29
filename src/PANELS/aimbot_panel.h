@@ -11,6 +11,8 @@ class AimbotPanel : public Panel
 private:
 	ToggleSwitch* ts_aimbot_enabled;
 	Banner* ba_aim;
+	KeyBind* kb_aimkey;
+	ToggleSwitch* ts_aimkey_only;
 	ToggleSwitch* ts_silent;
 	ToggleSwitch* ts_rcs;
 	Slider* sl_rcs;
@@ -24,14 +26,13 @@ private:
 	Slider* sl_aimstep;
 	Slider* sl_error;
 	ToggleSwitch* ts_autopistol;
+	ToggleSwitch* ts_no_shoot;
 	ToggleSwitch* ts_autoshoot;
 	ToggleSwitch* ts_autoscope;
-	Banner* ba_movement;
-	ToggleSwitch* ts_autocrouch;
-	ToggleSwitch* ts_autostop;
 	Banner* ba_target;
 	ToggleSwitch* ts_friendly;
-	StackedListBox<Bone>* lb_aimbone;
+	ComboBox<Bone>* cb_aimbone;
+	Banner* ba_other;
 public:
 	AimbotPanel (Vector2D position, Vector2D size);
 };

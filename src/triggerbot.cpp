@@ -13,15 +13,23 @@ ButtonCode_t Settings::Triggerbot::key = ButtonCode_t::KEY_LALT;
 
 void Triggerbot::CreateMove(CUserCmd *cmd)
 {
-	if (!(Settings::Triggerbot::enabled && input->IsButtonDown(Settings::Triggerbot::key)))
+	if (!Settings::Triggerbot::enabled)
+		return;
+
+	if (!engine->IsInGame())
+		return;
+
+	if (!input->IsButtonDown(Settings::Triggerbot::key))
+		return;
+
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer || !localplayer->GetAlive())
 		return;
 
 	long currentTime_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
 			std::chrono::system_clock::now().time_since_epoch()).count();
 	static long timeStamp = currentTime_ms;
 	long oldTimeStamp;
-
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 
 	Vector traceStart, traceEnd;
 	QAngle viewAngles = QAngle(0.0f, 0.0f, 0.0f);
@@ -40,19 +48,19 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	traceFilter.pSkip = localplayer;
 	trace->TraceRay(ray, 0x46004003, &traceFilter, &tr);
 
-	C_BaseEntity *entity = tr.m_pEntityHit;
-
 	oldTimeStamp = timeStamp;
 	timeStamp = currentTime_ms;
 
-	if (!entity
-		|| entity == localplayer
-		|| entity->GetDormant()
-		|| entity->GetLifeState() != LIFE_ALIVE
-		|| entity->GetHealth() <= 0)
+	C_BaseEntity *entity = tr.m_pEntityHit;
+	if (!entity)
 		return;
 
-	if (localplayer->GetLifeState() != LIFE_ALIVE || localplayer->GetHealth() == 0)
+	if (entity->GetClientClass()->m_ClassID != CCSPlayer)
+		return;
+
+	if (entity == localplayer
+		|| entity->GetDormant()
+		|| !entity->GetAlive())
 		return;
 
 	if (entity->GetTeam() == localplayer->GetTeam() && !Settings::Triggerbot::Filter::friendly)
@@ -74,29 +82,29 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 
 	timeStamp = oldTimeStamp;
 
-	if (!active_weapon->IsKnife() && active_weapon->GetAmmo() > 0)
+	if (active_weapon->IsKnife() || active_weapon->GetAmmo() == 0)
+		return;
+
+	float nextPrimaryAttack = active_weapon->GetNextPrimaryAttack();
+	float tick = localplayer->GetTickBase() * globalvars->interval_per_tick;
+
+	if (nextPrimaryAttack > tick)
 	{
-		float nextPrimaryAttack = active_weapon->GetNextPrimaryAttack();
-		float tick = localplayer->GetTickBase() * globalvars->interval_per_tick;
-
-		if (nextPrimaryAttack > tick)
-		{
-			if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
-				cmd->buttons &= ~IN_ATTACK2;
-			else
-				cmd->buttons &= ~IN_ATTACK;
-		}
+		if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
+			cmd->buttons &= ~IN_ATTACK2;
 		else
-		{
-			if (Settings::Triggerbot::Delay::enabled && currentTime_ms - timeStamp < Settings::Triggerbot::Delay::value)
-				return;
-
-			if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
-				cmd->buttons |= IN_ATTACK2;
-			else
-				cmd->buttons |= IN_ATTACK;
-		}
-
-		timeStamp = currentTime_ms;
+			cmd->buttons &= ~IN_ATTACK;
 	}
+	else
+	{
+		if (Settings::Triggerbot::Delay::enabled && currentTime_ms - timeStamp < Settings::Triggerbot::Delay::value)
+			return;
+
+		if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
+			cmd->buttons |= IN_ATTACK2;
+		else
+			cmd->buttons |= IN_ATTACK;
+	}
+
+	timeStamp = currentTime_ms;
 }

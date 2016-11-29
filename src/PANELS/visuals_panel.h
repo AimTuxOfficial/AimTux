@@ -12,24 +12,22 @@ private:
 	ToggleSwitch* ts_esp_enabled;
 	Banner*	ba_esp;
 	ToggleSwitch* ts_walls;
-	StackedListBox<WallBoxType>* lb_wallstype;
 	ToggleSwitch* ts_tracer;
 	ToggleSwitch* ts_name;
 	ToggleSwitch* ts_health;
+	ToggleSwitch* ts_weapon;
+	ToggleSwitch* ts_color_code;
 	ToggleSwitch* ts_bones;
 	ToggleSwitch* ts_visibility_check;
 	ToggleSwitch* ts_friendly;
 	Banner*	ba_crosshair;
 	ToggleSwitch* ts_recoil_crosshair;
+	ToggleSwitch* ts_recoil_crosshair_shooting;
 	ToggleSwitch* ts_fov_crosshair;
 	Banner*	ba_chams;
 	ToggleSwitch* ts_chams_players;
 	ToggleSwitch* ts_chams_arms;
-	ToggleSwitch* ts_chams_rainbow_arms;
-	ToggleSwitch* ts_chams_wireframe_arms;
-	ToggleSwitch* ts_chams_no_arms;
 	ToggleSwitch* ts_chams_visibility_check;
-	StackedListBox<ChamsType>* lb_chamstype;
 	Banner*	ba_other;
 	ToggleSwitch* ts_bomb;
 	ToggleSwitch* ts_weapons;
@@ -37,6 +35,10 @@ private:
 	ToggleSwitch* ts_dlights;
 	Slider* sl_dlights;
 	ToggleSwitch* ts_view_norecoil;
+	ToggleSwitch* ts_show_scope_border;
+	ComboBox<WallBoxType>* cb_wallstype;
+	ComboBox<ChamsType>* cb_chamstype;
+	ComboBox<ArmsType>* cb_armstype;
 public:
 	VisualsPanel (Vector2D position, Vector2D size);
 };

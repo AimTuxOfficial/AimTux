@@ -30,6 +30,7 @@ VMT* clientMode_vmt = nullptr;
 VMT* gameEvents_vmt = nullptr;
 VMT* viewRender_vmt = nullptr;
 VMT* inputInternal_vmt = nullptr;
+VMT* surface_vmt = nullptr;
 
 bool* bSendPacket = nullptr;
 int* nPredictionRandomSeed = nullptr;
@@ -38,6 +39,9 @@ CMoveData* g_MoveData = nullptr;
 GlowObjectManagerFn GlowObjectManager;
 MsgFunc_ServerRankRevealAllFn MsgFunc_ServerRankRevealAll;
 SendClanTagFn SendClanTag;
+IsReadyCallbackFn IsReadyCallback;
+
+RecvVarProxyFn fnSequenceProxyFn;
 
 std::unordered_map<const char*, uintptr_t> GetProcessLibraries() {
 	std::unordered_map<const char*, uintptr_t> modules;
@@ -77,7 +81,7 @@ void Hooker::HookInterfaces()
 	material = BruteforceInterface<IMaterialSystem>("./bin/linux64/materialsystem_client.so", "VMaterialSystem");
 	cvar = BruteforceInterface<ICvar>("./bin/linux64/libvstdlib_client.so", "VEngineCvar");
 	effects = BruteforceInterface<CEffects>("./bin/linux64/engine_client.so", "VEngineEffects");
-	gameevents = BruteforceInterface<IGameEventManager2>("./bin/linux64/engine_client.so", "GAMEEVENTSMANAGER");
+	gameevents = GetInterface<IGameEventManager2>("./bin/linux64/engine_client.so", "GAMEEVENTSMANAGER002");
 	physics = BruteforceInterface<IPhysicsSurfaceProps>("./bin/linux64/vphysics_client.so", "VPhysicsSurfaceProps");
 	prediction = BruteforceInterface<IPrediction>("./csgo/bin/linux64/client_client.so", "VClientPrediction");
 	gamemovement = BruteforceInterface<IGameMovement>("./csgo/bin/linux64/client_client.so", "GameMovement");
@@ -91,6 +95,7 @@ void Hooker::HookVMethods()
 	gameEvents_vmt = new VMT(gameevents);
 	viewRender_vmt = new VMT(viewrender);
 	inputInternal_vmt = new VMT(inputInternal);
+	surface_vmt = new VMT(surface);
 }
 
 void Hooker::HookIClientMode()
@@ -158,4 +163,11 @@ void Hooker::HookPrediction()
 	nPredictionRandomSeed = *reinterpret_cast<int**>(GetAbsoluteAddress(seed_instruction_addr, 3, 7));
 	movehelper = *reinterpret_cast<IMoveHelper**>(GetAbsoluteAddress(helper_instruction_addr + 1, 3, 7));
 	g_MoveData = **reinterpret_cast<CMoveData***>(GetAbsoluteAddress(movedata_instruction_addr, 3, 7));
+}
+
+void Hooker::HookIsReadyCallback()
+{
+	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) ISREADY_CALLBACK_SIGNATURE, ISREADY_CALLBACK_MASK);
+	
+	IsReadyCallback = reinterpret_cast<IsReadyCallbackFn>(func_address);
 }

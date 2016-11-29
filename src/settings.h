@@ -4,18 +4,32 @@
 #include <zconf.h>
 #include <fstream>
 #include <vector>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <stdlib.h>
 #include "json/json.h"
 #include "SDK/SDK.h"
 #include "fonts.h"
 #include "draw.h"
 #include "skinchanger.h"
-#include "util_input.h"
+#include "util.h"
 #include "util_items.h"
+#include "config.h"
+
+extern std::vector<Config> configs;
+extern Config* current_config;
 
 enum TracerType : unsigned int
 {
 	BOTTOM,
 	CURSOR
+};
+enum AutostrafeType : unsigned int
+{
+	AS_FORWARDS,
+	AS_BACKWARDS,
+	AS_LEFTSIDEWAYS,
+	AS_RIGHTSIDEWAYS
 };
 
 enum AntiAimType_Y : unsigned int
@@ -52,6 +66,14 @@ enum WallBoxType : unsigned int
 	BOX_3D
 };
 
+enum ArmsType : unsigned int
+{
+	RAINBOW,
+	WIREFRAME,
+	NONE,
+	DEFAULT
+};
+
 namespace Settings
 {
 	namespace UI
@@ -65,18 +87,28 @@ namespace Settings
 			{
 				extern char* family;
 				extern int size;
+				extern int flags;
 			}
 
 			namespace Normal
 			{
 				extern char* family;
 				extern int size;
+				extern int flags;
 			}
 
 			namespace ESP
 			{
 				extern char* family;
 				extern int size;
+				extern int flags;
+			}
+
+			namespace Mono
+			{
+				extern char* family;
+				extern int size;
+				extern int flags;
 			}
 		}
 	}
@@ -91,6 +123,7 @@ namespace Settings
 		extern unsigned int bone;
 		extern ButtonCode_t aimkey;
 		extern bool aimkey_only;
+		extern bool no_shoot;
 
 		namespace Smooth
 		{
@@ -179,6 +212,12 @@ namespace Settings
 		extern bool enabled_X;
 		extern AntiAimType_Y type_Y;
 		extern AntiAimType_X type_X;
+
+		namespace HeadEdge
+		{
+			extern bool enabled;
+			extern float distance;
+		}
 	}
 
 	namespace ESP
@@ -186,6 +225,7 @@ namespace Settings
 		extern bool enabled;
 		extern bool visibility_check;
 		extern bool friendly;
+		extern bool show_scope_border;
 		extern Color ally_color;
 		extern Color enemy_color;
 		extern Color enemy_visible_color;
@@ -199,6 +239,7 @@ namespace Settings
 			extern Color enemy_color;
 			extern Color enemy_visible_color;
 			extern Color weapon_color;
+			extern Color grenade_color;
 		}
 
 		namespace Tracer
@@ -217,6 +258,8 @@ namespace Settings
 		{
 			extern bool showName;
 			extern bool showHealth;
+			extern bool showWeapon;
+			extern bool colorCode;
 			extern Color ally_color;
 			extern Color enemy_visible_color;
 			extern Color enemy_color;
@@ -246,16 +289,18 @@ namespace Settings
 		{
 			extern bool players;
 			extern bool visibility_check;
-			extern bool arms;
-			extern bool rainbow_arms;
-			extern bool wireframe_arms;
-			extern bool no_arms;
 			extern Color players_ally_color;
 			extern Color players_ally_visible_color;
 			extern Color players_enemy_color;
 			extern Color players_enemy_visible_color;
-			extern Color arms_color;
 			extern ChamsType type;
+
+			namespace Arms
+			{
+				extern bool enabled;
+				extern Color color;
+				extern ArmsType type;
+			}
 		}
 	}
 
@@ -272,17 +317,20 @@ namespace Settings
 		namespace KillSpammer
 		{
 			extern bool enabled;
+			extern bool say_team;
 			extern char* message;
 		}
 
 		namespace PositionSpammer
 		{
 			extern bool enabled;
+			extern bool say_team;
 		}
 
 		namespace NormalSpammer
 		{
 			extern bool enabled;
+			extern bool say_team;
 		}
 	}
 
@@ -294,6 +342,7 @@ namespace Settings
 	namespace AutoStrafe
 	{
 		extern bool enabled;
+		extern AutostrafeType type;
 	}
 
 	namespace Noflash
@@ -318,6 +367,7 @@ namespace Settings
 	namespace Recoilcrosshair
 	{
 		extern bool enabled;
+		extern bool showOnlyWhenShooting;
 	}
 
 	namespace Airstuck
@@ -375,7 +425,6 @@ namespace Settings
 
 	namespace View
 	{
-
 		namespace NoPunch
 		{
 			extern bool enabled;
@@ -400,6 +449,13 @@ namespace Settings
 		extern int value;
 	}
 
-	void LoadDefaultsOrSave(const char* filename);
-	void LoadSettings(const char* filename);
+	namespace AutoAccept
+	{
+		extern bool enabled;
+	}
+
+	void LoadDefaultsOrSave(Config config);
+	void LoadConfig(Config config);
+	void LoadSettings();
+	void DeleteConfig(Config config);
 }

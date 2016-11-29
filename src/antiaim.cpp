@@ -4,6 +4,47 @@ bool Settings::AntiAim::enabled_Y = false;
 bool Settings::AntiAim::enabled_X = false;
 AntiAimType_Y Settings::AntiAim::type_Y = SPIN_FAST;
 AntiAimType_X Settings::AntiAim::type_X = STATIC_DOWN;
+bool Settings::AntiAim::HeadEdge::enabled = false;
+float Settings::AntiAim::HeadEdge::distance = 25.0f;
+
+float Distance(Vector a, Vector b)
+{
+	return sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2) + pow(a.z - b.z, 2));
+}
+
+bool AntiAim::GetBestHeadAngle(QAngle& angle)
+{
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+
+	Vector position = localplayer->GetVecOrigin() + localplayer->GetVecViewOffset();
+
+	float closest_distance = 100.0f;
+
+	float radius = Settings::AntiAim::HeadEdge::distance + 0.1f;
+	float step = M_PI * 2.0 / 8;
+
+	for (float a = 0; a < (M_PI * 2.0); a += step)
+	{
+		Vector location(radius * cos(a) + position.x, radius * sin(a) + position.y, position.z);
+
+		Ray_t ray;
+		trace_t tr;
+		ray.Init(position, location);
+		CTraceFilter traceFilter;
+		traceFilter.pSkip = localplayer;
+		trace->TraceRay(ray, 0x4600400B, &traceFilter, &tr);
+
+		float distance = Distance(position, tr.endpos);
+
+		if (distance < closest_distance)
+		{
+			closest_distance = distance;
+			angle.y = RAD2DEG(a);
+		}
+	}
+
+	return closest_distance < Settings::AntiAim::HeadEdge::distance;
+}
 
 void AntiAim::CreateMove(CUserCmd* cmd)
 {
@@ -28,10 +69,15 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 	if (localplayer->GetMoveType() == MOVETYPE_LADDER || localplayer->GetMoveType() == MOVETYPE_NOCLIP)
 		return;
 
+	QAngle edge_angle = angle;
+	bool edging_head = Settings::AntiAim::HeadEdge::enabled && GetBestHeadAngle(edge_angle);
+
 	static bool bFlip;
 	static float fYaw = 0.0f;
 
 	bFlip = !bFlip;
+
+	bool aa_edge = false;
 
 	if (Settings::AntiAim::enabled_Y)
 	{
@@ -70,8 +116,10 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 		}
 		else if (Settings::AntiAim::type_Y == BACKWARDS_FAKE)
 		{
-			angle.y -= bFlip ? 0.0f : 180.0f;
+			angle.y -= bFlip ? 0.0f : (edging_head ? edge_angle.y : 180.0f);
 			CreateMove::SendPacket = bFlip;
+
+			aa_edge = bFlip && edging_head;
 		}
 		else if (Settings::AntiAim::type_Y == SIDE_FAKE_RIGHT)
 		{
@@ -86,19 +134,23 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 		else if (Settings::AntiAim::type_Y == SIDE_FLIP_FAKE)
 		{
 			static bool bFlip_0;
-			
+
 			if (bFlip)
 			{
-				
 				bFlip_0 = !bFlip_0;
 				angle.y -= bFlip_0 ? 90.0f : -90.0f;
 			}
 			else
+			{
 				angle.y -= 180.0f;
-			
+			}
+
 			CreateMove::SendPacket = bFlip;
 		}
 	}
+
+	if (edging_head && !aa_edge)
+		angle.y = edge_angle.y;
 
 	if (Settings::AntiAim::enabled_X)
 	{

@@ -20,6 +20,8 @@ struct COffsets
 		int m_hObserverTarget;
 		int m_hViewModel;
 		int m_szLastPlaceName;
+		int m_angRotation;
+		int m_flLowerBodyYawTarget;
 	} DT_BasePlayer;
 
 	struct
@@ -73,6 +75,7 @@ struct COffsets
 	{
 		int m_nModelIndex;
 		int m_hWeapon;
+		int m_hOwner;
 	} DT_BaseViewModel;
 
 	struct

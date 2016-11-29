@@ -1,6 +1,7 @@
 #include "recoilcrosshair.h"
 
 bool Settings::Recoilcrosshair::enabled = true;
+bool Settings::Recoilcrosshair::showOnlyWhenShooting = false;
 
 void Recoilcrosshair::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 {
@@ -11,7 +12,10 @@ void Recoilcrosshair::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool 
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer || localplayer->GetLifeState() != LIFE_ALIVE)
+	if (!localplayer || !localplayer->GetAlive())
+		return;
+
+	if(localplayer->GetShotsFired() < 1 && Settings::Recoilcrosshair::showOnlyWhenShooting)
 		return;
 
 	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());

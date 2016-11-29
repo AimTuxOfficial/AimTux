@@ -16,9 +16,7 @@ void Radar::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_forc
 		if (!entity)
 			continue;
 
-		if (entity->GetDormant()
-			|| entity->GetLifeState() != LIFE_ALIVE
-			|| entity->GetHealth() <= 0)
+		if (entity->GetDormant() || !entity->GetAlive())
 			continue;
 
 		*entity->GetSpotted() = true;

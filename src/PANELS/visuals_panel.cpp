@@ -3,99 +3,90 @@
 VisualsPanel::VisualsPanel (Vector2D position, Vector2D size)
 	: Panel::Panel (position, size)
 {
-	ts_esp_enabled = new ToggleSwitch ("enabled", LOC (10, 10), 33, &Settings::ESP::enabled);
-	AddComponent (ts_esp_enabled);
-
+	ts_esp_enabled = new ToggleSwitchTip ("Enabled", LOC (10, 10), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::enabled, "Enables visual assistance");
 	ba_esp = new Banner ("ESP", BELOW (ts_esp_enabled), (size.x - 20) / 2 - 5);
-	AddComponent (ba_esp);
-
-	ts_walls = new ToggleSwitch ("walls", BELOW (ba_esp), 33, &Settings::ESP::Walls::enabled);
-	AddComponent (ts_walls);
-
-	lb_wallstype = new StackedListBox<WallBoxType>("walls type", BELOW (ts_walls), ((size.x - 20) / 2) - 5, 3, &Settings::ESP::Walls::type, std::vector<LB_Element>
-			{
-					LB_Element ("2D", FLAT_2D),
-					LB_Element ("3D", BOX_3D),
-			}
-	);
-	AddComponent (lb_wallstype);
-
-	ts_tracer = new ToggleSwitch ("tracer", BELOW (lb_wallstype), 33, &Settings::ESP::Tracer::enabled);
-	AddComponent (ts_tracer);
-
-	ts_name = new ToggleSwitch ("show name", BELOW (ts_tracer), 33, &Settings::ESP::Info::showName);
-	AddComponent (ts_name);
-
-	ts_health = new ToggleSwitch ("show health", BELOW (ts_name), 33, &Settings::ESP::Info::showHealth);
-	AddComponent (ts_health);
-
-	ts_bones = new ToggleSwitch ("show bones", BELOW (ts_health), 33, &Settings::ESP::Bones::enabled);
-	AddComponent (ts_bones);
-
-	ts_visibility_check = new ToggleSwitch ("visibility check", BELOW (ts_bones), 33, &Settings::ESP::visibility_check);
-	AddComponent (ts_visibility_check);
-
-	ts_friendly = new ToggleSwitch ("friendly", BELOW (ts_visibility_check), 33, &Settings::ESP::friendly);
-	AddComponent (ts_friendly);
-
-	ba_crosshair = new Banner ("Crosshair", BELOW (ts_friendly), (size.x - 20) / 2 - 5);
-	AddComponent (ba_crosshair);
-
-	ts_recoil_crosshair = new ToggleSwitch ("recoil crosshair", BELOW (ba_crosshair), 33, &Settings::Recoilcrosshair::enabled);
-	AddComponent (ts_recoil_crosshair);
-
-	ts_fov_crosshair = new ToggleSwitch ("fov crosshair", BELOW (ts_recoil_crosshair), 33, &Settings::ESP::FOVCrosshair::enabled);
-	AddComponent (ts_fov_crosshair);
-
+	ts_walls = new ToggleSwitchTip ("Walls", BELOW (ba_esp), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::Walls::enabled, "Draws a box around players");
+	ts_tracer = new ToggleSwitchTip ("Tracers", BELOW (ts_walls), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::Tracer::enabled, "Draws a line from the bottom of your screen to the players");
+	ts_name = new ToggleSwitchTip ("Show Name", BELOW (ts_tracer), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::Info::showName, "Show the players name");
+	ts_health = new ToggleSwitchTip ("Show Health", BELOW (ts_name), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::Info::showHealth, "Show the players health");
+	ts_weapon = new ToggleSwitchTip ("Show Weapon", BELOW (ts_health), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::Info::showWeapon, "Show what weapon the player is holding");
+	ts_color_code = new ToggleSwitchTip ("Color Code", BELOW (ts_weapon), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::Info::colorCode, "Colors the ESP either red or blue depending on team");
+	ts_bones = new ToggleSwitchTip ("Show Bones", BELOW (ts_color_code), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::Bones::enabled, "Show player bones");
+	ts_friendly = new ToggleSwitchTip ("Show Friendly", BELOW (ts_bones), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::friendly, "Show friendlies");
+	ts_visibility_check = new ToggleSwitchTip ("Visibility Check", BELOW (ts_friendly), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::visibility_check, "Only draw ESP elements when an enemy is visible");
+	ba_crosshair = new Banner ("Crosshair", BELOW (ts_visibility_check), (size.x - 20) / 2 - 5);
+	ts_recoil_crosshair = new ToggleSwitchTip ("Recoil Crosshair", BELOW (ba_crosshair), LOC((size.x - 20) / 6.75, 30), &Settings::Recoilcrosshair::enabled, "Show a weapon recoil pattern as a crosshair");
+	ts_recoil_crosshair_shooting = new ToggleSwitchTip ("Only When Shooting", STACK (ts_recoil_crosshair), LOC((size.x - 20) / 6.75, 30), &Settings::Recoilcrosshair::showOnlyWhenShooting, "Only show recoil crosshair when shooting");
+	ts_fov_crosshair = new ToggleSwitchTip ("FOV Circle", BELOW (ts_recoil_crosshair), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::FOVCrosshair::enabled, "Area of Aimbot target zone");
 	ba_chams = new Banner ("Chams", LOC((size.x / 2) + 5, ba_esp->position.y), ((size.x - 20) / 2) - 5);
-	AddComponent (ba_chams);
-
-	ts_chams_players = new ToggleSwitch ("players", BELOW (ba_chams), 33, &Settings::ESP::Chams::players);
-	AddComponent (ts_chams_players);
-
-	ts_chams_arms = new ToggleSwitch ("arms", BELOW (ts_chams_players), 33, &Settings::ESP::Chams::arms);
-	AddComponent (ts_chams_arms);
-
-	ts_chams_rainbow_arms = new ToggleSwitch ("rainbow arms", STACK (ts_chams_arms), 33, &Settings::ESP::Chams::rainbow_arms);
-	AddComponent (ts_chams_rainbow_arms);
-
-	ts_chams_wireframe_arms = new ToggleSwitch ("wireframe arms", BELOW (ts_chams_arms), 33, &Settings::ESP::Chams::wireframe_arms);
-	AddComponent (ts_chams_wireframe_arms);
-
-	ts_chams_no_arms = new ToggleSwitch ("no arms", BELOW (ts_chams_wireframe_arms), 33, &Settings::ESP::Chams::no_arms);
-	AddComponent (ts_chams_no_arms);
-
-	ts_chams_visibility_check = new ToggleSwitch ("visibility check", BELOW (ts_chams_no_arms), 33, &Settings::ESP::Chams::visibility_check);
-	AddComponent (ts_chams_visibility_check);
-
-	lb_chamstype = new StackedListBox<ChamsType>("chams type", BELOW (ts_chams_visibility_check), ((size.x - 20) / 2) - 5, 3, &Settings::ESP::Chams::type, std::vector<LB_Element>
+	ts_chams_players = new ToggleSwitchTip ("Players", BELOW (ba_chams), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::Chams::players, "Show players in chams");
+	ts_chams_arms = new ToggleSwitchTip ("Arms", BELOW (ts_chams_players), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::Chams::Arms::enabled, "Change your arm viewmodel");
+	ts_chams_visibility_check = new ToggleSwitchTip ("Visibility Check", BELOW (ts_chams_arms), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::Chams::visibility_check, "Only show player chams when visible");
+	ba_other = new Banner ("Other", BELOW (ts_chams_visibility_check), ((size.x - 20) / 2) - 5);
+	ts_bomb = new ToggleSwitchTip ("Bomb ESP", BELOW (ba_other), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::Bomb::enabled, "Show ESP box around bomb along with countdown");
+	ts_weapons = new ToggleSwitchTip ("Weapon Names", BELOW (ts_bomb), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::Weapons::enabled, "Show dropped weapons and names");
+	ts_glow = new ToggleSwitchTip ("Glow", BELOW (ts_weapons), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::Glow::enabled, "Show a glow around weapons");
+	ts_dlights = new ToggleSwitchTip ("Dlights", BELOW (ts_glow), LOC((size.x - 20) / 6.75, 30), &Settings::Dlights::enabled, "Draws a light at players feet. (VERY LAGGY)");
+	sl_dlights = new Slider ("Radius", STACK (ts_dlights), LOC ((size.x / 2) - ts_dlights->size.x - 30, 30), &Settings::Dlights::radius, 0.0f, 1000.0f);
+	ts_view_norecoil = new ToggleSwitchTip ("No View Punch", BELOW (ts_dlights), LOC((size.x - 20) / 6.75, 30), &Settings::View::NoPunch::enabled, "Disables the visual punch when shooting or being shot");
+#ifdef EXPERIMENTAL_SETTINGS
+	ts_show_scope_border = new ToggleSwitchTip ("Show Scope Border", BELOW (ts_view_norecoil), LOC((size.x - 20) / 6.75, 30), &Settings::ESP::show_scope_border, "Disables the scope border. (Bit buggy)");
+#endif
+	cb_armstype = new ComboBox<ArmsType>("arms type", STACK (ts_chams_arms), (size.x - 20) / 6.75, &Settings::ESP::Chams::Arms::type, std::vector<CB_Element>
 			{
-					LB_Element ("NORMAL", CHAMS),
-					LB_Element ("FLAT", CHAMS_FLAT),
-			}
+					CB_Element ("Rainbow", RAINBOW),
+					CB_Element ("Wire Frame", WIREFRAME),
+					CB_Element ("None", NONE),
+					CB_Element ("Default", DEFAULT)
+			}, false
 	);
-	AddComponent (lb_chamstype);
+	cb_chamstype = new ComboBox<ChamsType>("chams type", STACK (ts_chams_players), (size.x - 20) / 6.75, &Settings::ESP::Chams::type, std::vector<CB_Element>
+			{
+					CB_Element ("NORMAL", CHAMS),
+					CB_Element ("FLAT", CHAMS_FLAT),
+			}, false
+	);
+	cb_wallstype = new ComboBox<WallBoxType>("walls type", STACK (ts_walls), (size.x - 20) / 6.75, &Settings::ESP::Walls::type, std::vector<CB_Element>
+			{
+					CB_Element ("2D", FLAT_2D),
+					CB_Element ("3D", BOX_3D),
+			}, false
+	);
 
-	ba_other = new Banner ("Other", BELOW (lb_chamstype), ((size.x - 20) / 2) - 5);
-	AddComponent (ba_other);
 
-	ts_bomb = new ToggleSwitch ("bomb esp", BELOW (ba_other), 33, &Settings::ESP::Bomb::enabled);
-	AddComponent (ts_bomb);
-
-	ts_weapons = new ToggleSwitch ("weapons esp", BELOW (ts_bomb), 33, &Settings::ESP::Weapons::enabled);
-	AddComponent (ts_weapons);
-
-	ts_glow = new ToggleSwitch ("glow", BELOW (ts_weapons), 33, &Settings::ESP::Glow::enabled);
-	AddComponent (ts_glow);
-
-	ts_dlights = new ToggleSwitch ("dlights", BELOW (ts_glow), 33, &Settings::Dlights::enabled);
-	AddComponent (ts_dlights);
-
-	sl_dlights = new Slider ("radius", STACK (ts_dlights), LOC ((size.x / 2) - ts_dlights->size.x - 30, 33), &Settings::Dlights::radius, 0.0f, 1000.0f);
-	AddComponent (sl_dlights);
-
-	ts_view_norecoil = new ToggleSwitch ("no view punch", BELOW (ts_dlights), 33, &Settings::View::NoPunch::enabled);
+#ifdef EXPERIMENTAL_SETTINGS
+	AddComponent (ts_show_scope_border);
+#endif
 	AddComponent (ts_view_norecoil);
+	AddComponent (sl_dlights);
+	AddComponent (ts_dlights);
+	AddComponent (ts_glow);
+	AddComponent (ts_weapons);
+	AddComponent (ts_bomb);
+	AddComponent (ba_other);
+	AddComponent (ba_other);
+	AddComponent (ts_chams_visibility_check);
+	AddComponent (ba_chams);
+	AddComponent (ts_fov_crosshair);
+	AddComponent (ts_recoil_crosshair_shooting);
+	AddComponent (ts_recoil_crosshair);
+	AddComponent (ba_crosshair);
+	AddComponent (ts_visibility_check);
+	AddComponent (ts_friendly);
+	AddComponent (ts_bones);
+	AddComponent (ts_color_code);
+	AddComponent (ts_weapon);
+	AddComponent (ts_health);
+	AddComponent (ts_name);
+	AddComponent (ts_tracer);
+	AddComponent (ba_esp);
+	AddComponent (ts_esp_enabled);
+	AddComponent (cb_armstype);
+	AddComponent (cb_chamstype);
+	AddComponent(cb_wallstype);
+	AddComponent (ts_walls);
+	AddComponent (ts_chams_arms);
+	AddComponent (ts_chams_players);
 
 	Hide ();
 }

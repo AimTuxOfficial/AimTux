@@ -13,12 +13,18 @@ private:
 	Banner* ba_movement;
 	ToggleSwitch* ts_bhop;
 	ToggleSwitch* ts_autostrafe;
+	ComboBox<AutostrafeType >* cb_autostrafetype;
 	ToggleSwitch* ts_airstuck;
+	KeyBind* kb_airstuck_key;
 	ToggleSwitch* ts_teleport;
+	KeyBind* kb_teleport_key;
 	Banner* ba_spammer;
 	ToggleSwitch* ts_position_spammer;
+	ToggleSwitch* ts_position_spammer_say_team;
 	ToggleSwitch* ts_kill_spammer;
+	ToggleSwitch* ts_kill_spammer_say_team;
 	ToggleSwitch* ts_normal_spammer;
+	ToggleSwitch* ts_normal_spammer_say_team;
 	Banner* ba_other;
 	ToggleSwitch* ts_noflash;
 	Slider* sl_noflash_value;
@@ -27,6 +33,7 @@ private:
 	ToggleSwitch* ts_fov_viewmodel;
 	Slider* sl_fov_viewmodel_value;
 	ToggleSwitch* ts_radar;
+	ToggleSwitch* ts_autoaccept;
 	ToggleSwitch* ts_fakelag;
 	Slider_INT* sl_fakelag;
 	ToggleSwitch* ts_showranks;
@@ -37,6 +44,8 @@ private:
 	ToggleSwitch* ts_clantag;
 	TextBox* tb_clantag;
 	ToggleSwitch* ts_clantag_animation;
+	ValueTextBox* vtb_unlockcvar;
+	OutlinedButton* ob_unlockcvar;
 	Banner* ba_colors;
 	OutlinedButton* bn_ui_color;
 	OutlinedButton* bn_2_color;
@@ -48,4 +57,5 @@ public:
 	void bn_ui_color_clicked ();
 	void ob_nickname_clicked ();
 	void ob_noname_clicked ();
+	void ob_unlockcvar_clicked ();
 };

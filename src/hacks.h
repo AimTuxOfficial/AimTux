@@ -1,6 +1,7 @@
 #include "aimbot.h"
 #include "airstuck.h"
 #include "antiaim.h"
+#include "autoaccept.h"
 #include "autostrafe.h"
 #include "bhop.h"
 #include "chams.h"
@@ -21,3 +22,4 @@
 #include "spammer.h"
 #include "teleport.h"
 #include "triggerbot.h"
+#include "resolver.h"

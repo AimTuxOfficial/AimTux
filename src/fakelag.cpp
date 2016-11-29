@@ -15,7 +15,7 @@ void FakeLag::CreateMove(CUserCmd* cmd)
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	if (localplayer->GetLifeState() != LIFE_ALIVE || localplayer->GetHealth() == 0)
+	if (!localplayer || !localplayer->GetAlive())
 		return;
 
 	if (cmd->buttons & IN_ATTACK)

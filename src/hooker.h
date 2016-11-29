@@ -27,6 +27,9 @@
 #define CLIENT_MOVEDATA_SIGNATURE "\x48\x8B\x0D\x00\x00\x00\x00\x4C\x89\xF2"
 #define CLIENT_MOVEDATA_MASK "xxx????xxx"
 
+#define ISREADY_CALLBACK_SIGNATURE "\x48\x83\x3D\x00\x00\x00\x00\x00\x55\x48\x89\xE5\x41"
+#define ISREADY_CALLBACK_MASK "xxx????xxxxxx"
+
 #include <unordered_map>
 #include <sys/mman.h>
 #include <link.h>
@@ -47,5 +50,5 @@ namespace Hooker
 	void HookViewRender();
 	void HookSendPacket();
 	void HookPrediction();
-	void UnhookSendPacket();
+	void HookIsReadyCallback();
 }

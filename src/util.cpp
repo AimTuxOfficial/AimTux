@@ -95,6 +95,23 @@ char Util::GetUpperValueOf(ButtonCode_t key)
 	}
 }
 
+std::string Util::GetButtonName(ButtonCode_t buttonCode)
+{
+	return input->ButtonCodeToString(buttonCode);
+}
+
+ButtonCode_t Util::GetButtonCode(std::string buttonName)
+{
+	for (int i = 0; i < ButtonCode_t::KEY_XSTICK2_UP; i++)
+	{
+		const char* currentButton = input->ButtonCodeToString((ButtonCode_t) i);
+		if (strcmp(currentButton, buttonName.c_str()) == 0)
+			return (ButtonCode_t) i;
+	}
+
+	return ButtonCode_t::BUTTON_CODE_INVALID;
+}
+
 std::string Util::ReplaceString(std::string subject, const std::string& search, const std::string& replace)
 {
 	size_t pos = 0;

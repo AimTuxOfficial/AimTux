@@ -28,7 +28,7 @@ std::unordered_map<int, Settings::Skinchanger::Skin> Settings::Skinchanger::skin
 		{ WEAPON_KNIFE_PUSH, Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_push.mdl") }
 };
 
-bool SkinChanger::ForceFullUpdate = false;
+bool SkinChanger::ForceFullUpdate = true;
 
 const char* KnifeToName(int id)
 {
@@ -74,7 +74,7 @@ void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 
 	/* get our player entity */
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer || localplayer->GetLifeState() != LIFE_ALIVE)
+	if (!localplayer || !localplayer->GetAlive())
 		return;
 
 	/* get a list of weapon we're holding */
@@ -179,5 +179,141 @@ void SkinChanger::FireEventClientSide(IGameEvent* event)
 	} else if (strcmp(weapon, "knife_t") == 0) {
 		const char* name = KnifeToName(WEAPON_KNIFE_T);
 		event->SetString("weapon", name ?: weapon);
+	}
+}
+
+void SkinChanger::SetViewModelSequence(const CRecvProxyData *pDataConst, void *pStruct, void *pOut)
+{
+	// Make the incoming data editable.
+	CRecvProxyData* pData = const_cast<CRecvProxyData*>(pDataConst);
+
+	// Confirm that we are replacing our view model and not someone elses.
+	C_BaseViewModel* pViewModel = (C_BaseViewModel*)pStruct;
+
+	if (pViewModel) {
+		IClientEntity* pOwner = (IClientEntity*)entitylist->GetClientEntity(pViewModel->GetOwner() & 0xFFF);
+
+		// Compare the owner entity of this view model to the local player entity.
+		if (pOwner && pOwner->GetIndex() == engine->GetLocalPlayer()) {
+			// Get the filename of the current view model.
+			model_t* pModel = modelInfo->GetModel(*pViewModel->GetModelIndex());
+			std::string szModel = modelInfo->GetModelName(pModel);
+
+			// Store the current sequence.
+			int m_nSequence = pData->m_Value.m_Int;
+			if (szModel == "models/weapons/v_knife_butterfly.mdl") {
+				// Fix animations for the Butterfly Knife.
+				switch (m_nSequence) {
+					case SEQUENCE_DEFAULT_DRAW:
+						m_nSequence = RandomInt(SEQUENCE_BUTTERFLY_DRAW, SEQUENCE_BUTTERFLY_DRAW2); break;
+					case SEQUENCE_DEFAULT_LOOKAT01:
+						m_nSequence = RandomInt(SEQUENCE_BUTTERFLY_LOOKAT01, SEQUENCE_BUTTERFLY_LOOKAT03); break;
+					default:
+						m_nSequence++;
+				}
+			} else if (szModel == "models/weapons/v_knife_falchion_advanced.mdl") {
+				// Fix animations for the Falchion Knife.
+				switch (m_nSequence) {
+					case SEQUENCE_DEFAULT_IDLE2:
+						m_nSequence = SEQUENCE_FALCHION_IDLE1; break;
+					case SEQUENCE_DEFAULT_HEAVY_MISS1:
+						m_nSequence = RandomInt(SEQUENCE_FALCHION_HEAVY_MISS1, SEQUENCE_FALCHION_HEAVY_MISS1_NOFLIP); break;
+					case SEQUENCE_DEFAULT_LOOKAT01:
+						m_nSequence = RandomInt(SEQUENCE_FALCHION_LOOKAT01, SEQUENCE_FALCHION_LOOKAT02); break;
+					case SEQUENCE_DEFAULT_DRAW:
+					case SEQUENCE_DEFAULT_IDLE1:
+						break;
+					default:
+						m_nSequence--;
+				}
+			} else if (szModel == "models/weapons/v_knife_push.mdl") {
+				// Fix animations for the Shadow Daggers.
+				switch (m_nSequence) {
+					case SEQUENCE_DEFAULT_IDLE2:
+						m_nSequence = SEQUENCE_DAGGERS_IDLE1; break;
+					case SEQUENCE_DEFAULT_LIGHT_MISS1:
+					case SEQUENCE_DEFAULT_LIGHT_MISS2:
+						m_nSequence = RandomInt(SEQUENCE_DAGGERS_LIGHT_MISS1, SEQUENCE_DAGGERS_LIGHT_MISS5); break;
+					case SEQUENCE_DEFAULT_HEAVY_MISS1:
+						m_nSequence = RandomInt(SEQUENCE_DAGGERS_HEAVY_MISS2, SEQUENCE_DAGGERS_HEAVY_MISS1); break;
+					case SEQUENCE_DEFAULT_HEAVY_HIT1:
+					case SEQUENCE_DEFAULT_HEAVY_BACKSTAB:
+					case SEQUENCE_DEFAULT_LOOKAT01:
+						m_nSequence += 3; break;
+					case SEQUENCE_DEFAULT_DRAW:
+					case SEQUENCE_DEFAULT_IDLE1:
+						break;
+					default:
+						m_nSequence += 2;
+				}
+			} else if (szModel == "models/weapons/v_knife_survival_bowie.mdl") {
+				// Fix animations for the Bowie Knife.
+				switch (m_nSequence) {
+					case SEQUENCE_DEFAULT_DRAW:
+					case SEQUENCE_DEFAULT_IDLE1:
+						break;
+					case SEQUENCE_DEFAULT_IDLE2:
+						m_nSequence = SEQUENCE_BOWIE_IDLE1; break;
+					default:
+						m_nSequence--;
+				}
+			}
+
+			// Set the fixed sequence.
+			pData->m_Value.m_Int = m_nSequence;
+		}
+	}
+
+	// Call original function with the modified data.
+	fnSequenceProxyFn(pData, pStruct, pOut);
+}
+
+void SkinChanger::HookCBaseViewModel()
+{
+	for (ClientClass* pClass = client->GetAllClasses(); pClass; pClass = pClass->m_pNext) {
+		if (strcmp(pClass->m_pNetworkName, "CBaseViewModel") == 0) {
+			// Search for the 'm_nModelIndex' property.
+			RecvTable* pClassTable = pClass->m_pRecvTable;
+
+			for (int nIndex = 0; nIndex < pClassTable->m_nProps; nIndex++) {
+				RecvProp* pProp = &pClassTable->m_pProps[nIndex];
+
+				if (!pProp || strcmp(pProp->m_pVarName, "m_nSequence") != 0)
+					continue;
+
+				// Store the original proxy function.
+				fnSequenceProxyFn = pProp->m_ProxyFn;
+
+				// Replace the proxy function with our sequence changer.
+				pProp->m_ProxyFn = (RecvVarProxyFn)SetViewModelSequence;
+
+				break;
+			}
+
+			break;
+		}
+	}
+}
+
+void SkinChanger::UnhookCBaseViewModel()
+{
+	for (ClientClass* pClass = client->GetAllClasses(); pClass; pClass = pClass->m_pNext) {
+		if (strcmp(pClass->m_pNetworkName, "CBaseViewModel") == 0) {
+			// Search for the 'm_nModelIndex' property.
+			RecvTable* pClassTable = pClass->m_pRecvTable;
+
+			for (int nIndex = 0; nIndex < pClassTable->m_nProps; nIndex++) {
+				RecvProp* pProp = &pClassTable->m_pProps[nIndex];
+
+				if (!pProp || strcmp(pProp->m_pVarName, "m_nSequence") != 0)
+					continue;
+
+				pProp->m_ProxyFn = fnSequenceProxyFn;
+
+				break;
+			}
+
+			break;
+		}
 	}
 }

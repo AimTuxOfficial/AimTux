@@ -1,4 +1,5 @@
 #include "esp.h"
+#include "settings.h"
 
 bool Settings::ESP::enabled	= true;
 Color Settings::ESP::ally_color = Color(0, 50, 200);
@@ -12,11 +13,15 @@ Color Settings::ESP::Glow::ally_color = Color(0, 50, 200, 0);
 Color Settings::ESP::Glow::enemy_color = Color(200, 0, 50, 0);
 Color Settings::ESP::Glow::enemy_visible_color = Color(200, 200, 50, 0);
 Color Settings::ESP::Glow::weapon_color = Color(200, 0, 50, 200);
+Color Settings::ESP::Glow::grenade_color = Color(200, 0, 50, 200);
 bool Settings::ESP::visibility_check = false;
+bool Settings::ESP::show_scope_border = true;
 bool Settings::ESP::Walls::enabled = false;
 WallBoxType Settings::ESP::Walls::type = FLAT_2D;
 bool Settings::ESP::Info::showName = true;
 bool Settings::ESP::Info::showHealth = false;
+bool Settings::ESP::Info::showWeapon = false;
+bool Settings::ESP::Info::colorCode = false;
 Color Settings::ESP::Info::ally_color = Color(0, 50, 200);
 Color Settings::ESP::Info::enemy_color = Color(200, 0, 50);
 Color Settings::ESP::Info::enemy_visible_color = Color(200, 200, 50);
@@ -37,14 +42,6 @@ Vector2D WorldToScreen(const Vector &vOrigin)
 	Vector vec;
 	debugOverlay->ScreenPosition(vOrigin, vec);
 	return LOC(vec.x, vec.y);
-}
-
-static wchar_t* cwConvert(const char* text)
-{
-	const size_t size = strlen(text) + 1;
-	wchar_t* wText = new wchar_t[size];
-	mbstowcs(wText, text, size);
-	return wText;
 }
 
 void DrawESPBox(Vector vecOrigin, Vector vecViewOffset, Color color, int width, int additionalHeight)
@@ -207,29 +204,48 @@ void ESP::DrawPlayerBox(C_BaseEntity* entity)
 
 void ESP::DrawPlayerInfo(C_BaseEntity* entity, int entityIndex)
 {
-	bool isVisible = Entity::IsVisible(entity, BONE_HEAD);
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	Color color;
+	if (!localplayer)
+		return;
 
-	if (localplayer->GetTeam() != entity->GetTeam())
-		color = isVisible ? Settings::ESP::Info::enemy_visible_color : Settings::ESP::Info::enemy_color;
-	else
-		color = Settings::ESP::Info::ally_color;
+	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(entity->GetActiveWeapon());
+	if (!active_weapon)
+		return;
+
+	bool isVisible = Entity::IsVisible(entity, BONE_HEAD);
+	Color color = color = Color(255, 255, 255, 255);
+
+	if (Settings::ESP::Info::colorCode)
+	{
+		if (localplayer->GetTeam() != entity->GetTeam())
+			color = isVisible ? Settings::ESP::Info::enemy_visible_color : Settings::ESP::Info::enemy_color;
+		else
+			color = Settings::ESP::Info::ally_color;
+	}
 
 	IEngineClient::player_info_t entityInformation;
 	engine->GetPlayerInfo(entityIndex, &entityInformation);
 
-	// Name string
-	pstring name;
-	name << entityInformation.name;
+	std::string modelName = std::string(active_weapon->GetClientClass()->m_pNetworkName);
+	if (strstr(modelName.c_str(), "Weapon"))
+		modelName = modelName.substr(7, modelName.length() - 7);
+	else
+		modelName = modelName.substr(1, modelName.length() - 1);
 
-	// Health string
-	pstring health;
-	health + entity->GetHealth();
-	health << "hp";
+	pstring topText;
+	pstring bottomText;
 
-	Vector2D size_name = Draw::GetTextSize(name.c_str(), esp_font);
-	Vector2D size_health = Draw::GetTextSize(health.c_str(), esp_font);
+	if (Settings::ESP::Info::showName)
+		topText << entityInformation.name;
+
+	if (Settings::ESP::Info::showHealth)
+		bottomText << entity->GetHealth() << "hp";
+
+	if (Settings::ESP::Info::showWeapon)
+		bottomText << (bottomText.length() > 0 ? " | " : "") << modelName;
+
+	Vector2D size_top = Draw::GetTextSize(topText.c_str(), esp_font);
+	Vector2D size_bottom = Draw::GetTextSize(bottomText.c_str(), esp_font);
 
 	Vector max = entity->GetCollideable()->OBBMaxs();
 
@@ -244,24 +260,20 @@ void ESP::DrawPlayerInfo(C_BaseEntity* entity, int entityIndex)
 
 	float height = (pos.y - top.y);
 
-	if (Settings::ESP::Info::showHealth)
-		Draw::DrawCenteredString(health.c_str(), LOC (top.x, top.y + height + (size_health.y / 2)), color, esp_font);
-
-	if (Settings::ESP::Info::showName)
-		Draw::DrawCenteredString(name.c_str(), LOC (top.x, top.y - (size_name.y / 2)), color, esp_font);
+	Draw::DrawCenteredString(topText.c_str(), LOC (top.x, top.y - (size_top.y / 2)), color, esp_font);
+	Draw::DrawCenteredString(bottomText.c_str(), LOC (top.x, top.y + height + (size_bottom.y / 2)), color, esp_font);
 }
 
 void ESP::DrawFOVCrosshair()
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-
-	if (localplayer->GetLifeState() != LIFE_ALIVE || localplayer->GetDormant() || localplayer->GetHealth() == 0)
+	if (!localplayer->GetAlive())
 		return;
 
 	int width, height;
 	engine->GetScreenSize(width, height);
 
-	Draw::DrawCircle(LOC(width / 2, height / 2), 20, Settings::Aimbot::fov / 90 * width / 2, Color(255, 100, 100, 255));
+	Draw::DrawCircle(LOC(width / 2, height / 2), 20, Settings::Aimbot::fov / RenderView::currentFOV * width / 2, Color(255, 100, 100, 255));
 }
 
 void ESP::DrawBombBox(C_BasePlantedC4* entity)
@@ -327,8 +339,7 @@ void ESP::DrawGlow()
 		{
 			if (glow_object->m_pEntity == (C_BaseEntity*)localplayer
 				|| glow_object->m_pEntity->GetDormant()
-				|| glow_object->m_pEntity->GetLifeState() != LIFE_ALIVE
-				|| glow_object->m_pEntity->GetHealth() <= 0)
+				|| !glow_object->m_pEntity->GetAlive())
 				continue;
 
 			if (glow_object->m_pEntity->GetTeam() != localplayer->GetTeam())
@@ -348,6 +359,11 @@ void ESP::DrawGlow()
 		{
 				color = Settings::ESP::Glow::weapon_color;
 		}
+		else if (client->m_ClassID == CBaseCSGrenadeProjectile || client->m_ClassID == CDecoyProjectile ||
+				client->m_ClassID == CMolotovProjectile || client->m_ClassID == CSmokeGrenadeProjectile)
+		{
+			color = Settings::ESP::Glow::grenade_color;
+		}
 
 		glow_object->m_flGlowColor[0] = color.r / 255.0f;
 		glow_object->m_flGlowColor[1] = color.g / 255.0f;
@@ -357,6 +373,16 @@ void ESP::DrawGlow()
 		glow_object->m_bRenderWhenOccluded = true;
 		glow_object->m_bRenderWhenUnoccluded = false;
 	}
+}
+
+bool ESP::PrePaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
+{
+#ifdef EXPERIMENTAL_SETTINGS
+	if (strcmp("HudZoom", panel->GetName(vgui_panel)) == 0)
+		return Settings::ESP::show_scope_border;
+#endif
+
+	return true;
 }
 
 void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
@@ -382,8 +408,7 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 		{
 			if (entity == (C_BaseEntity*)localplayer
 				|| entity->GetDormant()
-				|| entity->GetLifeState() != LIFE_ALIVE
-				|| entity->GetHealth() <= 0)
+				|| !entity->GetAlive())
 				continue;
 
 			if (Settings::ESP::visibility_check && !Entity::IsVisible(entity, BONE_HEAD))
@@ -392,8 +417,7 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 			if (!Settings::ESP::friendly && localplayer->GetTeam() == entity->GetTeam())
 				continue;
 
-			if ((localplayer->GetLifeState() != LIFE_ALIVE || localplayer->GetHealth() == 0)
-				&& entitylist->GetClientEntityFromHandle(localplayer->GetObserverTarget()) == entity)
+			if (!localplayer->GetAlive() && entitylist->GetClientEntityFromHandle(localplayer->GetObserverTarget()) == entity)
 				continue;
 
 			if (Settings::ESP::Bones::enabled)
@@ -405,7 +429,7 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 			if (Settings::ESP::Tracer::enabled)
 				ESP::DrawTracer(entity);
 
-			if (Settings::ESP::Info::showHealth || Settings::ESP::Info::showName)
+			if (Settings::ESP::Info::showName || Settings::ESP::Info::showHealth || Settings::ESP::Info::showWeapon)
 				ESP::DrawPlayerInfo(entity, i);
 		}
 		else if (client->m_ClassID == CPlantedC4)

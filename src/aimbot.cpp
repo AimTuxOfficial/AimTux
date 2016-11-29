@@ -1,5 +1,6 @@
 #include "aimbot.h"
 #include "autowall.h"
+#include <math.h>
 
 // Default aimbot settings
 bool Settings::Aimbot::enabled = true;
@@ -7,12 +8,13 @@ bool Settings::Aimbot::silent = false;
 bool Settings::Aimbot::friendly = false;
 float Settings::Aimbot::fov = 180.0f;
 float Settings::Aimbot::errorMargin = 0.0F;
+bool Settings::Aimbot::no_shoot = false;
 unsigned int Settings::Aimbot::bone = BONE_HEAD;
 ButtonCode_t Settings::Aimbot::aimkey = ButtonCode_t::MOUSE_MIDDLE;
 bool Settings::Aimbot::aimkey_only = false;
 bool Settings::Aimbot::Smooth::enabled = false;
 float Settings::Aimbot::Smooth::value = 1.0f;
-float Settings::Aimbot::Smooth::max = 15.0f;
+float Settings::Aimbot::Smooth::max = 1.0f;
 bool Settings::Aimbot::AutoAim::enabled = false;
 bool Settings::Aimbot::AutoWall::enabled = false;
 float Settings::Aimbot::AutoWall::value = 10.0f;
@@ -78,7 +80,7 @@ void GetBestBone(C_BaseEntity* entity, float& best_damage, Bone& best_bone)
 C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible, Bone& best_bone)
 {
 	best_bone = static_cast<Bone>(Settings::Aimbot::bone);
-	
+
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	C_BaseEntity* closestEntity = NULL;
 	float best_fov = Settings::Aimbot::fov;
@@ -94,8 +96,7 @@ C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible, Bone& best_bone)
 		if (!entity
 			|| entity == localplayer
 			|| entity->GetDormant()
-			|| entity->GetLifeState() != LIFE_ALIVE
-			|| entity->GetHealth() <= 0
+			|| !entity->GetAlive()
 			|| entity->GetImmune())
 			continue;
 
@@ -117,7 +118,7 @@ C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible, Bone& best_bone)
 			float damage = 0.0f;
 			Bone bone;
 			GetBestBone(entity, damage, bone);
-			
+
 			if (damage >= best_damage && damage >= Settings::Aimbot::AutoWall::value)
 			{
 				best_damage = damage;
@@ -141,6 +142,9 @@ void Aimbot::RCS(QAngle& angle, C_BaseEntity* entity, CUserCmd* cmd)
 		return;
 
 	if (!(cmd->buttons & IN_ATTACK))
+		return;
+
+	if(Settings::Aimbot::aimkey_only && !input->IsButtonDown(Settings::Aimbot::aimkey))
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
@@ -221,19 +225,33 @@ void Aimbot::Smooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
 
 	QAngle delta = angle - cmd->viewangles;
 	Math::NormalizeAngles(delta);
-	
+
 	float smooth = Settings::Aimbot::Smooth::value / Settings::Aimbot::Smooth::max;
-	
+
 	if (Settings::Aimbot::Smooth::Salting::enabled)
 	{
 		float max_remove = Settings::Aimbot::Smooth::value - (((100 - Settings::Aimbot::Smooth::Salting::percentage) / 100) * Settings::Aimbot::Smooth::value);
 		float remove = RandomNumber (0.0f, max_remove);
-		
+
 		smooth -= remove;
 	}
-	
-	float factorx = 1.0f - smooth;
-	float factory = 1.0f - smooth;
+
+	float slope = delta.y / delta.x;
+
+	/*
+	 * Will only happen if delta.x is really small, the limit as x-> 0 is infinity,
+	 * so estimate with a big ass number.
+	 */
+	if (slope != slope) // is NaN
+		slope = 9999999;
+
+	slope = fabs(slope);
+	float theta = atan(slope);
+
+	float changeFactor = Settings::Aimbot::Smooth::max - (smooth * Settings::Aimbot::Smooth::max);
+
+	float factorx = changeFactor * cos(theta);
+	float factory = changeFactor * sin(theta);
 
 	if (delta.x < 0.0f)
 	{
@@ -322,6 +340,9 @@ void Aimbot::AutoShoot(C_BaseEntity* entity, C_BaseCombatWeapon* active_weapon, 
 	if (!entity || !active_weapon || active_weapon->IsKnife() || active_weapon->GetAmmo() == 0)
 		return;
 
+	if (cmd->buttons & IN_USE)
+		return;
+
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	float nextPrimaryAttack = active_weapon->GetNextPrimaryAttack();
 	float tick = localplayer->GetTickBase() * globalvars->interval_per_tick;
@@ -358,7 +379,7 @@ void Aimbot::ShootCheck(C_BaseCombatWeapon* active_weapon, CUserCmd* cmd)
 
 	if (!(cmd->buttons & IN_ATTACK))
 		return;
-	
+
 	if (nextPrimaryAttack < tick)
 		return;
 
@@ -369,6 +390,20 @@ void Aimbot::ShootCheck(C_BaseCombatWeapon* active_weapon, CUserCmd* cmd)
 		cmd->buttons &= ~IN_ATTACK2;
 	else
 		cmd->buttons &= ~IN_ATTACK;
+}
+
+void Aimbot::NoShoot(C_BaseCombatWeapon* active_weapon, C_BaseEntity* entity, CUserCmd* cmd)
+{
+	if (entity && Settings::Aimbot::no_shoot)
+	{
+		if (*active_weapon->GetItemDefinitionIndex() == WEAPON_C4)
+			return;
+		
+		if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
+			cmd->buttons &= ~IN_ATTACK2;
+		else
+			cmd->buttons &= ~IN_ATTACK;
+	}
 }
 
 void Aimbot::CreateMove(CUserCmd* cmd)
@@ -385,11 +420,11 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	shouldAim = Settings::Aimbot::AutoShoot::enabled;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	if (localplayer->GetLifeState() != LIFE_ALIVE || localplayer->GetHealth() == 0)
+	if (!localplayer || !localplayer->GetAlive())
 		return;
 
 	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
-	if (!active_weapon || active_weapon->GetInReload() || active_weapon->IsGrenade() || active_weapon->IsKnife())
+	if (!active_weapon || active_weapon->GetInReload() || active_weapon->IsGrenade() || active_weapon->IsKnife() || active_weapon->IsBomb())
 		return;
 
 	Bone aw_bone;
@@ -399,7 +434,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 		if (cmd->buttons & IN_ATTACK && !Settings::Aimbot::aimkey_only)
 			shouldAim = true;
 
-		if (!(cmd->buttons & IN_ATTACK) && input->IsButtonDown(Settings::Aimbot::aimkey))
+		if (input->IsButtonDown(Settings::Aimbot::aimkey))
 			shouldAim = true;
 
 		if (shouldAim)
@@ -420,7 +455,8 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	Aimbot::RCS(angle, entity, cmd);
 	Aimbot::Smooth(entity, angle, cmd);
 	Aimbot::ShootCheck(active_weapon, cmd);
-
+	Aimbot::NoShoot(active_weapon, entity, cmd);
+	
 	Math::NormalizeAngles(angle);
 	Math::ClampAngles(angle);
 	cmd->viewangles = angle;

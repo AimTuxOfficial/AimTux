@@ -75,6 +75,11 @@ class IClientEntity : public IClientUnknown, public IClientRenderable, public IC
 {
 public:
 	virtual ~IClientEntity() {};
+
+	int GetIndex()
+	{
+		return *(int*)((uintptr_t)this + 0x94);
+	}
 };
 
 class C_BaseEntity : public IClientEntity
@@ -113,6 +118,11 @@ public:
 	unsigned char GetLifeState()
 	{
 		return *(unsigned char*)((uintptr_t)this + offsets.DT_BasePlayer.m_lifeState);
+	}
+
+	bool GetAlive()
+	{
+		return this->GetHealth() > 0 && this->GetLifeState() == LIFE_ALIVE;
 	}
 
 	int* GetWeapons()
@@ -210,6 +220,16 @@ public:
 	Vector GetVelocity()
 	{
 		return *(Vector*)((uintptr_t)this + offsets.DT_BasePlayer.m_vecVelocity);
+	}
+	
+	QAngle* GetHeadRotation ()
+	{
+		return (QAngle*)((uintptr_t)this + offsets.DT_BasePlayer.m_angRotation);
+	}
+	
+	float* GetLowerBodyYawTarget ()
+	{
+		return (float*)((uintptr_t)this + offsets.DT_BasePlayer.m_flLowerBodyYawTarget);
 	}
 };
 
@@ -398,6 +418,11 @@ public:
 		}
 	}
 
+	bool IsBomb()
+	{
+		return *this->GetItemDefinitionIndex() == WEAPON_C4;
+	}
+
 	bool CanScope()
 	{
 		switch (*this->GetItemDefinitionIndex())
@@ -420,6 +445,11 @@ public:
 	int GetWeapon()
 	{
 		return *(int*)((uintptr_t)this + offsets.DT_BaseViewModel.m_hWeapon);
+	}
+
+	int GetOwner()
+	{
+		return *(int*)((uintptr_t)this + offsets.DT_BaseViewModel.m_hOwner);
 	}
 };
 
