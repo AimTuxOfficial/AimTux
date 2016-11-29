@@ -418,6 +418,11 @@ public:
 		}
 	}
 
+	bool IsBomb()
+	{
+		return *this->GetItemDefinitionIndex() == WEAPON_C4;
+	}
+
 	bool CanScope()
 	{
 		switch (*this->GetItemDefinitionIndex())
