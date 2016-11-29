@@ -1,7 +1,6 @@
 #pragma once
 
 #include "vector.h"
-#include <array>
 
 enum MoveType_t
 {
@@ -228,9 +227,9 @@ public:
 		return (QAngle*)((uintptr_t)this + offsets.DT_BasePlayer.m_angRotation);
 	}
 	
-	QAngle* GetLowerBodyYawTarget ()
+	float* GetLowerBodyYawTarget ()
 	{
-		return (QAngle*)((uintptr_t)this + offsets.DT_BasePlayer.m_flLowerBodyYawTarget);
+		return (float*)((uintptr_t)this + offsets.DT_BasePlayer.m_flLowerBodyYawTarget);
 	}
 };
 

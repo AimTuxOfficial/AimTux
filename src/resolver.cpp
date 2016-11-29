@@ -37,7 +37,7 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 				
 				player_data.push_back (PlayerAA(player, *player->GetHeadRotation()));
 				
-				player->GetHeadRotation()->y = player->GetLowerBodyYawTarget()->x;
+				player->GetHeadRotation()->y = *player->GetLowerBodyYawTarget();
 				
 			}
 		}
