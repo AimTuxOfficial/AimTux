@@ -25,45 +25,45 @@ void Chams::CreateMaterials()
 	char* chamsFlatPath;
 	char* chamsFlatIgnorezPath;
 
-	chams << "\"VertexLitGeneric\"" << std::endl;
-	chams << "{" << std::endl;
-	chams << "\t\"$basetexture\" \"VGUI/white_additive\"" << std::endl;
-	chams << "\t\"$ignorez\" \"0\"" << std::endl;
-	chams << "\t\"$nofog\" \"1\"" << std::endl;
-	chams << "\t\"$model\" \"1\"" << std::endl;
-	chams << "\t\"$nocull\" \"1\"" << std::endl;
-	chams << "\t\"$halflambert\" \"1\"" << std::endl;
-	chams << "}" << std::endl;
+	chams << "\"VertexLitGeneric\"\n"
+	"{\n"
+	"\t\"$basetexture\" \"VGUI/white_additive\"\n"
+	"\t\"$ignorez\" \"0\"\n"
+	"\t\"$nofog\" \"1\"\n"
+	"\t\"$model\" \"1\"\n"
+	"\t\"$nocull\" \"1\"\n"
+	"\t\"$halflambert\" \"1\"\n"
+	"}\n" << std::flush;
 
-	chamsIgnorez << "\"VertexLitGeneric\"" << std::endl;
-	chamsIgnorez << "{" << std::endl;
-	chamsIgnorez << "\t\"$basetexture\" \"VGUI/white_additive\"" << std::endl;
-	chamsIgnorez << "\t\"$ignorez\" \"1\"" << std::endl;
-	chamsIgnorez << "\t\"$nofog\" \"1\"" << std::endl;
-	chamsIgnorez << "\t\"$model\" \"1\"" << std::endl;
-	chamsIgnorez << "\t\"$nocull\" \"1\"" << std::endl;
-	chamsIgnorez << "\t\"$halflambert\" \"1\"" << std::endl;
-	chamsIgnorez << "}" << std::endl;
+	chamsIgnorez << "\"VertexLitGeneric\"\n"
+	"{\n"
+	"\t\"$basetexture\" \"VGUI/white_additive\"\n"
+	"\t\"$ignorez\" \"1\"\n"
+	"\t\"$nofog\" \"1\"\n"
+	"\t\"$model\" \"1\"\n"
+	"\t\"$nocull\" \"1\"\n"
+	"\t\"$halflambert\" \"1\"\n"
+	"}\n" << std::flush;
 
-	chamsFlat << "\"UnlitGeneric\"" << std::endl;
-	chamsFlat << "{" << std::endl;
-	chamsFlat << "\t\"$basetexture\" \"VGUI/white_additive\"" << std::endl;
-	chamsFlat << "\t\"$ignorez\" \"0\"" << std::endl;
-	chamsFlat << "\t\"$nofog\" \"1\"" << std::endl;
-	chamsFlat << "\t\"$model\" \"1\"" << std::endl;
-	chamsFlat << "\t\"$nocull\" \"1\"" << std::endl;
-	chamsFlat << "\t\"$halflambert\" \"1\"" << std::endl;
-	chamsFlat << "}" << std::endl;
+	chamsFlat << "\"UnlitGeneric\"\n"
+	"{\n"
+	"\t\"$basetexture\" \"VGUI/white_additive\"\n"
+	"\t\"$ignorez\" \"0\"\n"
+	"\t\"$nofog\" \"1\"\n"
+	"\t\"$model\" \"1\"\n"
+	"\t\"$nocull\" \"1\"\n"
+	"\t\"$halflambert\" \"1\"\n"
+	"}\n" << std::flush;
 
-	chamsFlatIgnorez << "\"UnlitGeneric\"" << std::endl;
-	chamsFlatIgnorez << "{" << std::endl;
-	chamsFlatIgnorez << "\t\"$basetexture\" \"VGUI/white_additive\"" << std::endl;
-	chamsFlatIgnorez << "\t\"$ignorez\" \"1\"" << std::endl;
-	chamsFlatIgnorez << "\t\"$nofog\" \"1\"" << std::endl;
-	chamsFlatIgnorez << "\t\"$model\" \"1\"" << std::endl;
-	chamsFlatIgnorez << "\t\"$nocull\" \"1\"" << std::endl;
-	chamsFlatIgnorez << "\t\"$halflambert\" \"1\"" << std::endl;
-	chamsFlatIgnorez << "}" << std::endl;
+	chamsFlatIgnorez << "\"UnlitGeneric\"\n"
+	"{\n"
+	"\t\"$basetexture\" \"VGUI/white_additive\"\n"
+	"\t\"$ignorez\" \"1\"\n"
+	"\t\"$nofog\" \"1\"\n"
+	"\t\"$model\" \"1\"\n"
+	"\t\"$nocull\" \"1\"\n"
+	"\t\"$halflambert\" \"1\"\n"
+	"}\n" << std::flush;
 
 	getcwd(cwd, sizeof(cwd));
 
