@@ -24,8 +24,8 @@ class LB_Button : public Button
 {
 protected:
 	Color text_color = Color (255, 255, 255, 255);
-	Color background_color = Color (160, 160, 160, 7);
-	Color background_color_hovered = Color (160, 160, 160, 12);
+	Color background_color = Color (35, 35, 45, 60);
+	Color background_color_hovered = Color (35, 35, 45, 100);
 public:
 	LB_Element* element;
 	T* setting;
@@ -60,7 +60,7 @@ template<typename E>
 class ListBox : public Panel
 {
 protected:
-	Color background_color = Color (160, 160, 160, 4);
+	Color background_color = Color (25, 25, 35, 250);
 public:
 	std::string text = "listbox";
 	std::vector<LB_Element> elements;
@@ -103,8 +103,8 @@ class LBC_Button : public Button
 {
 protected:
 	Color text_color = Color (255, 255, 255, 255);
-	Color background_color = Color (160, 160, 160, 7);
-	Color background_color_hovered = Color (160, 160, 160, 12);
+	Color background_color = Color (35, 35, 45, 60);
+	Color background_color_hovered = Color (35, 35, 45, 100);
 public:
 	Config* config;
 
@@ -140,23 +140,23 @@ public:
 class ListBox_Config : public Panel
 {
 protected:
-	Color background_color = Color (160, 160, 160, 4);
+	Color background_color = Color (25, 25, 35, 250);
 public:
 	std::string text = "listbox";
-	
+
 	ListBox_Config (std::string text, Vector2D position, int width)
 	{
 		this->position = position;
 		this->text = text;
 		this->size.x = width;
-		
+
 		Reload ();
 	}
-	
+
 	void Reload ()
 	{
 		childComponents.clear ();
-		
+
 		for (int i = 0; i < configs.size(); i++)
 		{
 			Config* config = &configs[i];
@@ -185,7 +185,7 @@ template<typename E>
 class StackedListBox : public Panel
 {
 protected:
-	Color background_color = Color (160, 160, 160, 4);
+	Color background_color = Color (25, 25, 35, 250);
 public:
 	std::string text = "listbox";
 	std::vector<LB_Element> elements;
@@ -247,8 +247,8 @@ class MS_LB_Button : public Button
 {
 protected:
 	Color text_color = Color (255, 255, 255, 255);
-	Color background_color = Color (160, 160, 160, 7);
-	Color background_color_hovered = Color (160, 160, 160, 12);
+	Color background_color = Color (35, 35, 45, 60);
+	Color background_color_hovered = Color (35, 35, 45, 100);
 public:
 	LB_Element* element;
 	std::vector<T>* setting;
@@ -296,7 +296,7 @@ template<typename E>
 class MS_ListBox : public Panel
 {
 protected:
-	Color background_color = Color (160, 160, 160, 4);
+	Color background_color = Color (25, 25, 35, 250);
 public:
 	std::string text = "multi-select listbox";
 	std::vector<LB_Element> elements;

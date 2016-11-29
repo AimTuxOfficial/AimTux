@@ -24,8 +24,8 @@ class CB_Button : public Button
 {
 protected:
 	Color text_color = Color (255, 255, 255, 255);
-	Color background_color = Color (160, 160, 160, 7);
-	Color background_color_hovered = Color (160, 160, 160, 12);
+	Color background_color = Color (35, 35, 45, 60);
+	Color background_color_hovered = Color (35, 35, 45, 100);
 public:
 	CB_Element* element;
 	bool open;
@@ -79,9 +79,9 @@ class ComboBox : public Panel
 {
 protected:
 	Color text_color = Color (255, 255, 255, 200);
-	Color background_color = Color (40, 40, 40, 230);
-	Color background_color_hovered = Color (160, 160, 160, 10);
-	Color background_color_closed = Color (160, 160, 160, 5);
+	Color background_color = Color (25, 25, 35, 250);
+	Color background_color_hovered = Color (45, 45, 55, 35);
+	Color background_color_closed = Color (45, 45, 55, 25);
 public:
 	bool clickStarted = false;
 	std::string text = "ComboBox";

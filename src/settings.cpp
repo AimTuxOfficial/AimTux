@@ -201,6 +201,7 @@ void Settings::LoadDefaultsOrSave(Config config)
 	settings["BHop"]["enabled"] = Settings::BHop::enabled;
 
 	settings["AutoStrafe"]["enabled"] = Settings::AutoStrafe::enabled;
+	settings["AutoStrafe"]["type"] = Settings::AutoStrafe::type;
 
 	settings["Noflash"]["enabled"] = Settings::Noflash::enabled;
 	settings["Noflash"]["value"] = Settings::Noflash::value;
@@ -387,6 +388,7 @@ void Settings::LoadConfig(Config config)
 	GetBool(settings["BHop"]["enabled"], &Settings::BHop::enabled);
 
 	GetBool(settings["AutoStrafe"]["enabled"], &Settings::AutoStrafe::enabled);
+	GetInt(settings["AutoStrafe"]["type"], &Settings::AutoStrafe::type);
 
 	GetBool(settings["Noflash"]["enabled"], &Settings::Noflash::enabled);
 	GetFloat(settings["Noflash"]["value"], &Settings::Noflash::value);
