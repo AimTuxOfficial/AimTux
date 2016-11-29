@@ -424,7 +424,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 		return;
 
 	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
-	if (!active_weapon || active_weapon->GetInReload() || active_weapon->IsGrenade() || active_weapon->IsKnife())
+	if (!active_weapon || active_weapon->GetInReload() || active_weapon->IsGrenade() || active_weapon->IsKnife() || active_weapon->IsBomb())
 		return;
 
 	Bone aw_bone;
