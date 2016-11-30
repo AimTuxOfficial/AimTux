@@ -368,7 +368,7 @@ void ESP::DrawGlow()
 		{
 			color = Settings::ESP::Glow::defuser_color;
 
-			if (localplayer->HasDefuser())
+			if (localplayer->HasDefuser() || localplayer->GetTeam() == TEAM_TERRORIST)
 				should_glow = false;
 		}
 
