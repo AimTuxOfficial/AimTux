@@ -372,12 +372,14 @@ void ESP::DrawGlow()
 				should_glow = false;
 		}
 
+		should_glow = should_glow && color.a > 0;
+
 		glow_object.m_flGlowColor[0] = color.r / 255.0f;
 		glow_object.m_flGlowColor[1] = color.g / 255.0f;
 		glow_object.m_flGlowColor[2] = color.b / 255.0f;
-		glow_object.m_flGlowAlpha = should_glow ? color.a / 255.0f : 0.f;
+		glow_object.m_flGlowAlpha = should_glow ? color.a / 255.0f : 255.0f;
 		glow_object.m_flBloomAmount = 1.0f;
-		glow_object.m_bRenderWhenOccluded = true;
+		glow_object.m_bRenderWhenOccluded = should_glow;
 		glow_object.m_bRenderWhenUnoccluded = false;
 	}
 }
