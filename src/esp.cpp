@@ -14,6 +14,7 @@ Color Settings::ESP::Glow::enemy_color = Color(200, 0, 50, 0);
 Color Settings::ESP::Glow::enemy_visible_color = Color(200, 200, 50, 0);
 Color Settings::ESP::Glow::weapon_color = Color(200, 0, 50, 200);
 Color Settings::ESP::Glow::grenade_color = Color(200, 0, 50, 200);
+Color Settings::ESP::Glow::defuser_color = Color(100, 100, 200, 200);
 bool Settings::ESP::visibility_check = false;
 bool Settings::ESP::show_scope_border = true;
 bool Settings::ESP::Walls::enabled = false;
@@ -332,6 +333,7 @@ void ESP::DrawGlow()
 
 		Color color;
 		ClientClass* client = glow_object.m_pEntity->GetClientClass();
+		bool should_glow = true;
 
 		if (client->m_ClassID == CCSPlayer)
 		{
@@ -362,11 +364,18 @@ void ESP::DrawGlow()
 		{
 			color = Settings::ESP::Glow::grenade_color;
 		}
+		else if (client->m_ClassID == CBaseAnimating)
+		{
+			color = Settings::ESP::Glow::defuser_color;
+
+			if (localplayer->HasDefuser())
+				should_glow = false;
+		}
 
 		glow_object.m_flGlowColor[0] = color.r / 255.0f;
 		glow_object.m_flGlowColor[1] = color.g / 255.0f;
 		glow_object.m_flGlowColor[2] = color.b / 255.0f;
-		glow_object.m_flGlowAlpha = color.a / 255.0f;
+		glow_object.m_flGlowAlpha = should_glow ? color.a / 255.0f : 0.f;
 		glow_object.m_flBloomAmount = 1.0f;
 		glow_object.m_bRenderWhenOccluded = true;
 		glow_object.m_bRenderWhenUnoccluded = false;

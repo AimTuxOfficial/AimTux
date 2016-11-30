@@ -240,6 +240,7 @@ namespace Settings
 			extern Color enemy_visible_color;
 			extern Color weapon_color;
 			extern Color grenade_color;
+			extern Color defuser_color;
 		}
 
 		namespace Tracer

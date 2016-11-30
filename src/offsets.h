@@ -55,6 +55,7 @@ struct COffsets
 		int m_bIsScoped;
 		int m_bGunGameImmunity;
 		int m_bHasHelmet;
+		int m_bHasDefuser;
 		int m_flFlashMaxAlpha;
 	} DT_CSPlayer;
 

@@ -104,6 +104,11 @@ public:
 	{
 		return *(int*)((uintptr_t)this + offsets.DT_CSPlayer.m_bHasHelmet);
 	}
+
+	int HasDefuser()
+	{
+		return *(int*)((uintptr_t)this + offsets.DT_CSPlayer.m_bHasDefuser);
+	}
 	
 	int GetTeam()
 	{
