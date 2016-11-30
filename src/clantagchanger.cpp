@@ -5,69 +5,49 @@ std::string Settings::ClanTagChanger::value = "";
 bool Settings::ClanTagChanger::animation = false;
 bool Settings::ClanTagChanger::enabled = false; // TODO find a way to go back to the "official" clan tag for the player? -- Save the current clan tag, before editing, then restore it later
 
+ClanTagChanger::Animation ClanTagChanger::Marquee(std::string name, std::string text, int width, int speed)
+{
+	// Outputs cool scrolling text animation
+
+	char empty = '_';
+	std::replace(text.begin(), text.end(), ' ', empty);
+
+	std::string cropString = std::string(width, empty) + text + std::string(width - 1, empty);
+
+	std::vector<ClanTagChanger::Frame> frames;
+	for (int i = 0; i < text.length() + width; i++)
+		frames.push_back(ClanTagChanger::Frame(cropString.substr(i, width + i), speed));
+
+	return ClanTagChanger::Animation(name, frames, ClanTagChanger::ANIM_LOOP);
+}
+
+std::vector<std::string> splitWords(std::string text)
+{
+	std::istringstream stream(text);
+	std::string word;
+	std::vector<std::string> words;
+	while (stream >> word)
+		words.push_back(word);
+
+	return words;
+}
+
+ClanTagChanger::Animation ClanTagChanger::Words(std::string name, std::string text, int speed)
+{
+	// Outputs a word by word animation
+
+	std::vector<std::string> words = splitWords(text);
+	std::vector<ClanTagChanger::Frame> frames;
+	for (int i = 0; i < words.size(); i++)
+		frames.push_back(Frame(words[i], speed));
+
+	return ClanTagChanger::Animation(name, frames, ClanTagChanger::ANIM_LOOP);
+}
+
 std::vector<ClanTagChanger::Animation> ClanTagChanger::animations =
 {
-	Animation ("NOVAC",
-		std::vector<ClanTagChanger::Frame>
-		{
-			Frame ("_____________NO", 500),
-			Frame ("____________NO_", 500),
-			Frame ("___________NO_V", 500),
-			Frame ("__________NO_VA", 500),
-			Frame ("_________NO_VAC", 500),
-			Frame ("________NO_VAC_", 500),
-			Frame ("_______NO_VAC_O", 500),
-			Frame ("______NO_VAC_ON", 500),
-			Frame ("_____NO_VAC_ON_", 500),
-			Frame ("____NO_VAC_ON_L", 500),
-			Frame ("___NO_VAC_ON_LI", 500),
-			Frame ("__NO_VAC_ON_LIN", 500),
-			Frame ("_NO_VAC_ON_LINU", 500),
-			Frame ("O_VAC_ON_LINUX_", 500),
-			Frame ("_VAC_ON_LINUX__", 500),
-			Frame ("VAC_ON_LINUX___", 500),
-			Frame ("AC_ON_LINUX____", 500),
-			Frame ("C_ON_LINUX_____", 500),
-			Frame ("_ON_LINUX______", 500),
-			Frame ("ON_LINUX_______", 500),
-			Frame ("N_LINUX________", 500),
-			Frame ("_LINUX_________", 500),
-			Frame ("LINUX__________", 500),
-			Frame ("INUX___________", 500),
-			Frame ("NUX____________", 500),
-			Frame ("UX_____________", 500),
-			Frame ("X______________", 500),
-			Frame ("_______________", 500),
-			Frame ("____AimTux!____", 900),
-			Frame ("_______________", 500),
-			Frame ("____AimTux!____", 900),
-			Frame ("_______________", 500),
-			Frame ("____AimTux!____", 900),
-			Frame ("_______________", 500),
-		}, ANIM_LOOP
-	),
-
-	Animation ("USPINME",
-		std::vector<ClanTagChanger::Frame>
-		{
-			Frame ("You", 700),
-			Frame ("spin", 700),
-			Frame ("me", 700),
-			Frame ("right", 700),
-			Frame ("round,", 700),
-			Frame ("baby", 700),
-			Frame ("right", 700),
-			Frame ("round", 700),
-			Frame ("like", 700),
-			Frame ("a", 700),
-			Frame ("record", 700),
-			Frame ("baby", 700),
-			Frame ("right", 700),
-			Frame ("round", 700),
-			Frame ("_round", 700),
-			Frame ("__round", 800),
-		}, ANIM_LOOP
-	)
+	ClanTagChanger::Marquee("NOVAC", "NO VAC ON LINUX"),
+	ClanTagChanger::Words("USPINME", "You spin me right round baby right round like a record baby right round _round __round")
 };
 ClanTagChanger::Animation* ClanTagChanger::animation = &ClanTagChanger::animations[0];
 
