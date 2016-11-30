@@ -4,9 +4,6 @@ std::vector<std::pair<int, int>> custom_glow_entities;
 
 void CustomGlow::FrameStageNotify(ClientFrameStage_t stage)
 {
-	if (stage != ClientFrameStage_t::FRAME_RENDER_START)
-		return;
-
 	// Skip reserved slots that are guaranteed to be managed by the engine.
 	for (int i = 64; i < entitylist->GetHighestEntityIndex(); i++) {
 		C_BaseEntity* entity = reinterpret_cast<C_BaseEntity*>(entitylist->GetClientEntity(i));
