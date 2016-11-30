@@ -1,5 +1,9 @@
 #pragma once
 
+// Special values for GlowObjectDefinition_t::m_nNextFreeSlot
+#define END_OF_FREE_LIST -1
+#define ENTRY_IN_USE -2
+
 struct GlowObjectDefinition_t {
 	C_BaseEntity* m_pEntity;
 	float m_flGlowColor[3];
@@ -16,17 +20,14 @@ struct GlowObjectDefinition_t {
 	int iUnk;
 	int m_nSplitScreenSlot;
 	int m_nNextFreeSlot;
+
+	bool IsUnused() const {
+		return m_nNextFreeSlot != ENTRY_IN_USE;
+	}
 };
 
-struct CGlowObjectManager {
-	GlowObjectDefinition_t* m_GlowObjectDefinitions;
-	int max_size;
-	int pad;
-	int size;
-	GlowObjectDefinition_t* m_GlowObjectDefinitions2;
-	int currentObjects;
+class CGlowObjectManager {
+public:
+	CUtlVector<GlowObjectDefinition_t> m_GlowObjectDefinitions;
+	int m_nFirstFreeSlot;
 };
-
-// Special values for GlowObjectDefinition_t::m_nNextFreeSlot
-#define END_OF_FREE_LIST -1
-#define ENTRY_IN_USE -2

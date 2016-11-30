@@ -320,31 +320,29 @@ void ESP::DrawWeaponText(C_BaseEntity* entity, ClientClass* client)
 
 void ESP::DrawGlow()
 {
-	static CGlowObjectManager* glow_object_mgr = GlowObjectManager();
-
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return;
 
-	for (int i = 0; i < glow_object_mgr->max_size; i++) {
-		auto glow_object = &glow_object_mgr->m_GlowObjectDefinitions[i];
+	for (int i = 0; i < glowmanager->m_GlowObjectDefinitions.Count(); i++) {
+		GlowObjectDefinition_t& glow_object = glowmanager->m_GlowObjectDefinitions[i];
 
-		if (!glow_object || glow_object->m_nNextFreeSlot != ENTRY_IN_USE || !glow_object->m_pEntity)
+		if (glow_object.IsUnused() || !glow_object.m_pEntity)
 			continue;
 
 		Color color;
-		ClientClass* client = glow_object->m_pEntity->GetClientClass();
+		ClientClass* client = glow_object.m_pEntity->GetClientClass();
 
 		if (client->m_ClassID == CCSPlayer)
 		{
-			if (glow_object->m_pEntity == (C_BaseEntity*)localplayer
-				|| glow_object->m_pEntity->GetDormant()
-				|| !glow_object->m_pEntity->GetAlive())
+			if (glow_object.m_pEntity == (C_BaseEntity*)localplayer
+				|| glow_object.m_pEntity->GetDormant()
+				|| !glow_object.m_pEntity->GetAlive())
 				continue;
 
-			if (glow_object->m_pEntity->GetTeam() != localplayer->GetTeam())
+			if (glow_object.m_pEntity->GetTeam() != localplayer->GetTeam())
 			{
-				if (Entity::IsVisible(glow_object->m_pEntity, BONE_HEAD))
+				if (Entity::IsVisible(glow_object.m_pEntity, BONE_HEAD))
 					color = Settings::ESP::Glow::enemy_visible_color;
 				else
 					color = Settings::ESP::Glow::enemy_color;
@@ -365,13 +363,13 @@ void ESP::DrawGlow()
 			color = Settings::ESP::Glow::grenade_color;
 		}
 
-		glow_object->m_flGlowColor[0] = color.r / 255.0f;
-		glow_object->m_flGlowColor[1] = color.g / 255.0f;
-		glow_object->m_flGlowColor[2] = color.b / 255.0f;
-		glow_object->m_flGlowAlpha = color.a / 255.0f;
-		glow_object->m_flBloomAmount = 1.0f;
-		glow_object->m_bRenderWhenOccluded = true;
-		glow_object->m_bRenderWhenUnoccluded = false;
+		glow_object.m_flGlowColor[0] = color.r / 255.0f;
+		glow_object.m_flGlowColor[1] = color.g / 255.0f;
+		glow_object.m_flGlowColor[2] = color.b / 255.0f;
+		glow_object.m_flGlowAlpha = color.a / 255.0f;
+		glow_object.m_flBloomAmount = 1.0f;
+		glow_object.m_bRenderWhenOccluded = true;
+		glow_object.m_bRenderWhenUnoccluded = false;
 	}
 }
 

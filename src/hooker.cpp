@@ -22,6 +22,7 @@ CViewRender* viewrender = nullptr;
 IPrediction* prediction = nullptr;
 IGameMovement* gamemovement = nullptr;
 IMoveHelper* movehelper = nullptr;
+CGlowObjectManager* glowmanager = nullptr;
 
 VMT* panel_vmt = nullptr;
 VMT* client_vmt = nullptr;
@@ -36,7 +37,6 @@ bool* bSendPacket = nullptr;
 int* nPredictionRandomSeed = nullptr;
 CMoveData* g_MoveData = nullptr;
 
-GlowObjectManagerFn GlowObjectManager;
 MsgFunc_ServerRankRevealAllFn MsgFunc_ServerRankRevealAll;
 SendClanTagFn SendClanTag;
 IsReadyCallbackFn IsReadyCallback;
@@ -121,7 +121,7 @@ void Hooker::HookGlowManager()
 {
 	uintptr_t instruction_addr = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) GLOWOBJECT_SIGNATURE, GLOWOBJECT_MASK);
 
-	GlowObjectManager = reinterpret_cast<GlowObjectManagerFn>(GetAbsoluteAddress(instruction_addr, 1, 5));
+	glowmanager = reinterpret_cast<GlowObjectManagerFn>(GetAbsoluteAddress(instruction_addr, 1, 5))();
 }
 
 void Hooker::HookRankReveal()
