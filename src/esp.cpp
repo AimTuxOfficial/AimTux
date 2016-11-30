@@ -14,6 +14,7 @@ Color Settings::ESP::Glow::enemy_color = Color(200, 0, 50, 0);
 Color Settings::ESP::Glow::enemy_visible_color = Color(200, 200, 50, 0);
 Color Settings::ESP::Glow::weapon_color = Color(200, 0, 50, 200);
 Color Settings::ESP::Glow::grenade_color = Color(200, 0, 50, 200);
+Color Settings::ESP::Glow::defuser_color = Color(100, 100, 200, 200);
 bool Settings::ESP::visibility_check = false;
 bool Settings::ESP::show_scope_border = true;
 bool Settings::ESP::Walls::enabled = false;
@@ -320,31 +321,30 @@ void ESP::DrawWeaponText(C_BaseEntity* entity, ClientClass* client)
 
 void ESP::DrawGlow()
 {
-	static CGlowObjectManager* glow_object_mgr = GlowObjectManager();
-
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return;
 
-	for (int i = 0; i < glow_object_mgr->max_size; i++) {
-		auto glow_object = &glow_object_mgr->m_GlowObjectDefinitions[i];
+	for (int i = 0; i < glowmanager->m_GlowObjectDefinitions.Count(); i++) {
+		GlowObjectDefinition_t& glow_object = glowmanager->m_GlowObjectDefinitions[i];
 
-		if (!glow_object || glow_object->m_nNextFreeSlot != ENTRY_IN_USE || !glow_object->m_pEntity)
+		if (glow_object.IsUnused() || !glow_object.m_pEntity)
 			continue;
 
 		Color color;
-		ClientClass* client = glow_object->m_pEntity->GetClientClass();
+		ClientClass* client = glow_object.m_pEntity->GetClientClass();
+		bool should_glow = true;
 
 		if (client->m_ClassID == CCSPlayer)
 		{
-			if (glow_object->m_pEntity == (C_BaseEntity*)localplayer
-				|| glow_object->m_pEntity->GetDormant()
-				|| !glow_object->m_pEntity->GetAlive())
+			if (glow_object.m_pEntity == (C_BaseEntity*)localplayer
+				|| glow_object.m_pEntity->GetDormant()
+				|| !glow_object.m_pEntity->GetAlive())
 				continue;
 
-			if (glow_object->m_pEntity->GetTeam() != localplayer->GetTeam())
+			if (glow_object.m_pEntity->GetTeam() != localplayer->GetTeam())
 			{
-				if (Entity::IsVisible(glow_object->m_pEntity, BONE_HEAD))
+				if (Entity::IsVisible(glow_object.m_pEntity, BONE_HEAD))
 					color = Settings::ESP::Glow::enemy_visible_color;
 				else
 					color = Settings::ESP::Glow::enemy_color;
@@ -364,14 +364,21 @@ void ESP::DrawGlow()
 		{
 			color = Settings::ESP::Glow::grenade_color;
 		}
+		else if (client->m_ClassID == CBaseAnimating)
+		{
+			color = Settings::ESP::Glow::defuser_color;
 
-		glow_object->m_flGlowColor[0] = color.r / 255.0f;
-		glow_object->m_flGlowColor[1] = color.g / 255.0f;
-		glow_object->m_flGlowColor[2] = color.b / 255.0f;
-		glow_object->m_flGlowAlpha = color.a / 255.0f;
-		glow_object->m_flBloomAmount = 1.0f;
-		glow_object->m_bRenderWhenOccluded = true;
-		glow_object->m_bRenderWhenUnoccluded = false;
+			if (localplayer->HasDefuser() || localplayer->GetTeam() == TEAM_TERRORIST)
+				should_glow = false;
+		}
+
+		glow_object.m_flGlowColor[0] = color.r / 255.0f;
+		glow_object.m_flGlowColor[1] = color.g / 255.0f;
+		glow_object.m_flGlowColor[2] = color.b / 255.0f;
+		glow_object.m_flGlowAlpha = should_glow ? color.a / 255.0f : 0.f;
+		glow_object.m_flBloomAmount = 1.0f;
+		glow_object.m_bRenderWhenOccluded = true;
+		glow_object.m_bRenderWhenUnoccluded = false;
 	}
 }
 

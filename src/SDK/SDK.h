@@ -27,6 +27,8 @@
 #include "IClientMode.h"
 #include "ICvar.h"
 #include "IGameEvent.h"
+#include "CUtlMemory.h"
+#include "CUtlVector.h"
 #include "CGlowObjectManager.h"
 #include "IPhysicsSurfaceProps.h"
 #include "CViewRender.h"

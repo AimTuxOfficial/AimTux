@@ -24,6 +24,7 @@ extern IPhysicsSurfaceProps* physics;
 extern IPrediction* prediction;
 extern IGameMovement* gamemovement;
 extern IMoveHelper* movehelper;
+extern CGlowObjectManager* glowmanager;
 
 extern VMT* panel_vmt;
 extern VMT* client_vmt;

@@ -28,6 +28,14 @@ struct WeaponInfo_t {
 	float m_flRangeModifier;
 };
 
+enum TeamID: int
+{
+	TEAM_UNASSIGNED,
+	TEAM_SPECTATOR,
+	TEAM_TERRORIST,
+	TEAM_COUNTER_TERRORIST,
+};
+
 enum class FontFeature: int
 {
 	FONT_FEATURE_ANTIALIASED_FONTS = 1,
