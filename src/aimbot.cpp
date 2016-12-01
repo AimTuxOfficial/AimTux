@@ -220,7 +220,7 @@ void Aimbot::Smooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
 	if (Settings::AntiAim::enabled_X || Settings::AntiAim::enabled_Y)
 		return;
 
-	if (!entity)
+	if (!shouldAim)
 		return;
 
 	QAngle delta = angle - cmd->viewangles;
