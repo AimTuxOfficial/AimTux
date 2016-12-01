@@ -221,18 +221,18 @@ public:
 	{
 		return (char*)((uintptr_t)this + offsets.DT_BasePlayer.m_szLastPlaceName);
 	}
-	
+
 	Vector GetVelocity()
 	{
 		return *(Vector*)((uintptr_t)this + offsets.DT_BasePlayer.m_vecVelocity);
 	}
-	
-	QAngle* GetHeadRotation ()
+
+	QAngle* GetHeadRotation()
 	{
 		return (QAngle*)((uintptr_t)this + offsets.DT_BasePlayer.m_angRotation);
 	}
-	
-	float* GetLowerBodyYawTarget ()
+
+	float* GetLowerBodyYawTarget()
 	{
 		return (float*)((uintptr_t)this + offsets.DT_BasePlayer.m_flLowerBodyYawTarget);
 	}

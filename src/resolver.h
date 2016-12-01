@@ -11,7 +11,7 @@ struct PlayerAA
 {
 	C_BasePlayer* player;
 	QAngle angle;
-	
+
 	PlayerAA(C_BasePlayer* player, QAngle angle)
 	{
 		this->player = player;

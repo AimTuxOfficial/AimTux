@@ -7,7 +7,7 @@ template <class T, class A = CUtlMemory<T>> class CUtlVector {
 		T& operator[](int i) {
 			return m_Memory[i];
 		}
-		
+
 		int Count() const {
 			return m_Size;
 		}

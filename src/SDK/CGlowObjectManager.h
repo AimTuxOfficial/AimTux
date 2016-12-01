@@ -35,7 +35,7 @@ public:
 
 		int index = m_nFirstFreeSlot;
 		m_nFirstFreeSlot = m_GlowObjectDefinitions[index].m_nNextFreeSlot;
-		
+
 		m_GlowObjectDefinitions[index].m_pEntity = entity;
 		m_GlowObjectDefinitions[index].flUnk = 0.0f;
 		m_GlowObjectDefinitions[index].localplayeriszeropoint3 = 0.0f;
