@@ -228,6 +228,14 @@ void Aimbot::Smooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
 
 	float smooth = powf(Settings::Aimbot::Smooth::value, 0.4f); // Makes more slider space for actual useful values
 
+	if (Settings::Aimbot::Smooth::Salting::enabled)
+	{
+		float max_remove = Settings::Aimbot::Smooth::value - (((100 - Settings::Aimbot::Smooth::Salting::percentage) / 100) * smooth);
+		float remove = RandomNumber(0.0f, max_remove);
+
+		smooth -= remove;
+	}
+
 	// For convenience
 	// Because of the powf, when the slider is 0.01, the smooth value is 0.02^0.4 = ~0.21
 	if (Settings::Aimbot::Smooth::value < 0.02f)
