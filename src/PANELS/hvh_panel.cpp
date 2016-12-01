@@ -35,6 +35,8 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 	ba_movement = new Banner ("Movement", BELOW (ts_edge_hide), (size.x - 20) / 2 - (5) - 60);
 	ts_autocrouch = new ToggleSwitchTip ("Auto Crouch", BELOW (ba_movement), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoCrouch::enabled, "Auto crouch when an enemy is targetable");
 	ts_autostop = new ToggleSwitchTip ("Auto Stop", STACK (ts_autocrouch), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoStop::enabled, "Auto stop when an enemy is targetable");
+	ba_resolver = new Banner ("Resolver", BELOW (ts_autocrouch), (size.x - 20) / 2 - (5) - 60);
+	ts_resolver = new ToggleSwitchTip ("Resolver", BELOW (ba_resolver), LOC((size.x - 20) / 6.75, 30), &Settings::Resolver::enabled, "Resolves fake angles");
 	ba_autowall = new Banner ("Auto Wall", STACK (ba_antiaim), (size.x - 20) / 2 - (5) + 60);
 	ts_autowall = new ToggleSwitchTip ("Enabled", BELOW (ba_autowall), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoWall::enabled, "Automatically shoots an enemy when possible");
 	sl_autowall = new Slider ("min damage", BELOW (ts_autowall), LOC (ba_autowall->size.x, 30), &Settings::Aimbot::AutoWall::value, 0.0f, 100.0f);
@@ -60,6 +62,8 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 	AddComponent (ts_autostop);
 	AddComponent (ts_autocrouch);
 	AddComponent (ba_movement);
+	AddComponent (ba_resolver);
+	AddComponent (ts_resolver);
 	AddComponent (ts_antiaim_x);
 	AddComponent (ts_antiaim_y);
 	AddComponent (ba_antiaim);

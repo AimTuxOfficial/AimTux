@@ -15,12 +15,15 @@ private:
 	ToggleSwitch* ts_antiaim_x;
 	ComboBox<AntiAimType_Y>* cb_antiaim_y;
 	ToggleSwitch* ts_antiaim_y;
-	Banner* ba_movement;
-	ToggleSwitch* ts_autocrouch;
-	ToggleSwitch* ts_autostop;
 	ToggleSwitch* ts_edge_hide;
 	Slider* sl_edge_distance;
 
+	Banner* ba_movement;
+	ToggleSwitch* ts_autocrouch;
+	ToggleSwitch* ts_autostop;
+
+	Banner* ba_resolver;
+	ToggleSwitch* ts_resolver;
 
 	Banner* ba_autowall;
 	ToggleSwitch* ts_autowall;

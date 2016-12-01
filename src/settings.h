@@ -455,6 +455,11 @@ namespace Settings
 		extern bool enabled;
 	}
 
+	namespace Resolver
+	{
+		extern bool enabled;
+	}
+
 	void LoadDefaultsOrSave(Config config);
 	void LoadConfig(Config config);
 	void LoadSettings();

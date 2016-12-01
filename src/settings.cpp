@@ -258,6 +258,8 @@ void Settings::LoadDefaultsOrSave(Config config)
 
 	settings["AutoAccept"]["enabled"] = Settings::AutoAccept::enabled;
 
+	settings["Resolver"]["enabled"] = Settings::Resolver::enabled;
+
 	std::ofstream(config.GetMainConfigFile()) << styledWriter.write(settings);
 }
 
@@ -467,6 +469,8 @@ void Settings::LoadConfig(Config config)
 	GetBool(settings["FakeLag"]["enabled"], &Settings::FakeLag::enabled);
 
 	GetBool(settings["AutoAccept"]["enabled"], &Settings::AutoAccept::enabled);
+
+	GetBool(settings["Resolver"]["enabled"], &Settings::Resolver::enabled);
 }
 
 void Settings::LoadSettings ()

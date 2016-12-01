@@ -1,9 +1,14 @@
 #include "resolver.h"
 
+bool Settings::Resolver::enabled = false;
+
 std::vector<PlayerAA> player_data;
 
 void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 {
+	if (!Settings::Resolver::enabled)
+		return;
+
 	if (!engine->IsInGame())
 		return;
 
