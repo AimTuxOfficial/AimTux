@@ -274,7 +274,12 @@ void ESP::DrawFOVCrosshair()
 	int width, height;
 	engine->GetScreenSize(width, height);
 
-	Draw::DrawCircle(LOC(width / 2, height / 2), 20, Settings::Aimbot::fov / RenderView::currentFOV * width / 2, Color(255, 100, 100, 255));
+	float radAimbotFov = Settings::Aimbot::fov * M_PI / 180;
+	float radViewFov = RenderView::currentFOV * M_PI / 180;
+
+	float circleRadius = tanf(radAimbotFov / 2) / tanf(radViewFov / 2) * width;
+
+	Draw::DrawCircle(LOC(width / 2, height / 2), 20, circleRadius, Color(255, 100, 100, 255));
 }
 
 void ESP::DrawBombBox(C_BasePlantedC4* entity)
