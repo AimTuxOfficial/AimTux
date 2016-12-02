@@ -74,6 +74,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 
 	static bool bFlip;
 	static float fYaw = 0.0f;
+	static float fYaw2 = 0.0f;
 	static float rYaw = 0.0f;
 	static float pDance = 0.0f;
 
@@ -107,13 +108,22 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 		{
 			angle.y -= 180.0f;
 		}
-		else if (Settings::AntiAim::type_Y == FAKE4)
+		else if (Settings::AntiAim::type_Y == FAKE_BACKWARDS_JITTER)
 		{
-			if (bFlip)
-				angle.y += 140.0f;
-			else
-				angle.y -= 40.0f;
-
+			fYaw += 10.0f;
+			if (fYaw > 100.0f)
+			{
+				fYaw = 0.0f;
+			}
+			else if (fYaw > 50.0f)
+			{
+				fYaw2 = 210.0f;
+			}
+			else if (fYaw < 50.0f)
+			{
+				fYaw2 = 150.0f;
+			}
+			angle.y = bFlip ? fYaw2 : 180.0f;
 			CreateMove::SendPacket = bFlip;
 		}
 		else if (Settings::AntiAim::type_Y == SPIN_SLOW_FAKE)
