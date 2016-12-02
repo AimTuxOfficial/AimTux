@@ -13,6 +13,10 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 			CB_Element ("SIDE", SIDE),
 			CB_Element ("BACKWARDS", BACKWARDS),
 			CB_Element ("FAKE4", FAKE4),
+			CB_Element ("FAKE STATIC", STATIC_FAKE),
+			CB_Element ("FAKE SLOW SPIN", SPIN_SLOW_FAKE),
+			CB_Element ("FAKE FAST SPIN", SPIN_FAST_FAKE),
+			CB_Element ("FAKE FORWARDS", FORWARDS_FAKE),
 			CB_Element ("FAKE BACKWARDS", BACKWARDS_FAKE),
 			CB_Element ("FAKE SIDE FLIP", SIDE_FLIP_FAKE),
 			CB_Element ("FAKE SIDE L", SIDE_FAKE_LEFT),
@@ -24,6 +28,8 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 		{
 			CB_Element ("UP", STATIC_UP),
 			CB_Element ("DOWN", STATIC_DOWN),
+			CB_Element ("FRONT", STATIC_FRONT),
+			CB_Element ("DANCE", DANCE),
 #ifdef UNTRUSTED_SETTINGS
 			CB_Element ("FAKE UP", STATIC_UP_FAKE),
 			CB_Element ("FAKE DOWN", STATIC_DOWN_FAKE),
