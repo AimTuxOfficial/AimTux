@@ -7,7 +7,7 @@ bool Settings::Aimbot::enabled = true;
 bool Settings::Aimbot::silent = false;
 bool Settings::Aimbot::friendly = false;
 float Settings::Aimbot::fov = 180.0f;
-float Settings::Aimbot::errorMargin = 0.0F;
+float Settings::Aimbot::errorMargin = 0.0f;
 bool Settings::Aimbot::no_shoot = false;
 unsigned int Settings::Aimbot::bone = BONE_HEAD;
 ButtonCode_t Settings::Aimbot::aimkey = ButtonCode_t::MOUSE_MIDDLE;
@@ -220,7 +220,50 @@ void Aimbot::Smooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
 	if (Settings::AntiAim::enabled_X || Settings::AntiAim::enabled_Y)
 		return;
 
-	if (!entity)
+	if (!shouldAim || !entity)
+		return;
+
+	if (Settings::Aimbot::silent)
+		return;
+
+	QAngle delta = angle - cmd->viewangles;
+	Math::NormalizeAngles(delta);
+
+	float smooth = powf(Settings::Aimbot::Smooth::value, 0.4f); // Makes more slider space for actual useful values
+
+	if (Settings::Aimbot::Smooth::Salting::enabled)
+	{
+		float max_remove = Settings::Aimbot::Smooth::value - (((100 - Settings::Aimbot::Smooth::Salting::percentage) / 100) * smooth);
+		float remove = RandomNumber(0.0f, max_remove);
+
+		smooth -= remove;
+	}
+
+	// For convenience
+	// Because of the powf, when the slider is 0.01, the smooth value is 0.02^0.4 = ~0.21
+	if (Settings::Aimbot::Smooth::value < 0.02f)
+		smooth = 0.0f;
+
+	// When smooth is 1 it doesn't move at all, useless to have that on the slider
+	if (Settings::Aimbot::Smooth::value > 0.99f)
+		smooth = 0.99f;
+
+	QAngle toChange = delta - delta * smooth;
+	angle = cmd->viewangles + toChange;
+}
+
+void Aimbot::ConstSpeedSmooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
+{
+	if (!Settings::Aimbot::Smooth::enabled)
+		return;
+
+	if (Settings::AntiAim::enabled_X || Settings::AntiAim::enabled_Y)
+		return;
+
+	if (!shouldAim || !entity)
+		return;
+
+	if (Settings::Aimbot::silent)
 		return;
 
 	QAngle delta = angle - cmd->viewangles;
