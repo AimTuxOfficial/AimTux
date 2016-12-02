@@ -161,18 +161,13 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 			if (bFlip)
 			{
 				fYaw += 5.0f;
+
 				if (fYaw > 100)
-				{
-				fYaw = 0.0f;
-				}
+					fYaw = 0.0f;
 				else if (fYaw < 50.0f)
-				{
-				angle.y = 150.0f;
-				}
+					angle.y = 150.0f;
 				else if (fYaw > 50.0f)
-				{
 					angle.y = 210.0f;
-				}
 			}
 			else
 			{
