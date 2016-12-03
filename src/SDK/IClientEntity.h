@@ -154,7 +154,10 @@ public:
 	{
 		return *(Vector*)((uintptr_t)this + offsets.DT_BasePlayer.m_vecViewOffset);
 	}
-
+	Vector GetServerViewAngle()
+	{
+		return *(Vector*)((uintptr_t)this + offsets.DT_BasePlayer.m_angRotation);
+	}
 	Vector GetEyePosition()
 	{
 		return this->GetVecOrigin() + this->GetVecViewOffset();
