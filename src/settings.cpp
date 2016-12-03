@@ -184,6 +184,7 @@ void Settings::LoadDefaultsOrSave(Config config)
 	settings["ESP"]["Chams"]["Arms"]["enabled"] = Settings::ESP::Chams::Arms::enabled;
 	settings["ESP"]["Chams"]["Arms"]["type"] = Settings::ESP::Chams::Arms::type;
 	LoadColor(settings["ESP"]["Chams"]["players_ally_color"], Settings::ESP::Chams::players_ally_color);
+	LoadColor(settings["ESP"]["Chams"]["players_ally_visible_color"], Settings::ESP::Chams::players_ally_visible_color);
 	LoadColor(settings["ESP"]["Chams"]["players_enemy_color"], Settings::ESP::Chams::players_enemy_color);
 	LoadColor(settings["ESP"]["Chams"]["players_enemy_visible_color"], Settings::ESP::Chams::players_enemy_visible_color);
 	LoadColor(settings["ESP"]["Chams"]["Arms"]["color"], Settings::ESP::Chams::Arms::color);
