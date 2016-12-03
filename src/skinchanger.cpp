@@ -30,6 +30,35 @@ std::unordered_map<int, Settings::Skinchanger::Skin> Settings::Skinchanger::skin
 
 bool SkinChanger::ForceFullUpdate = true;
 
+const char* GetModelByItemIndex(int id)
+{
+	switch (id)
+	{
+		case WEAPON_KNIFE_GUT:
+			return "models/weapons/v_knife_gut.mdl";
+		case WEAPON_KNIFE_FLIP:
+			return "models/weapons/v_knife_flip.mdl";
+		case WEAPON_KNIFE_BAYONET:
+			return "models/weapons/v_knife_bayonet.mdl";
+		case WEAPON_KNIFE_M9_BAYONET:
+			return "models/weapons/v_knife_m9_bay.mdl";
+		case WEAPON_KNIFE_KARAMBIT:
+			return "models/weapons/v_knife_karam.mdl";
+		case WEAPON_KNIFE_TACTICAL:
+			return "models/weapons/v_knife_tactical.mdl";
+		case WEAPON_KNIFE_BUTTERFLY:
+			return "models/weapons/v_knife_butterfly.mdl";
+		case WEAPON_KNIFE_SURVIVAL_BOWIE:
+			return "models/weapons/v_knife_survival_bowie.mdl";
+		case WEAPON_KNIFE_FALCHION:
+			return "models/weapons/v_knife_falchion_advanced.mdl";
+		case WEAPON_KNIFE_PUSH:
+			return "models/weapons/v_knife_push.mdl";
+		default:
+			return NULL;
+	}
+}
+
 const char* KnifeToName(int id)
 {
 	Settings::Skinchanger::Skin skin = Settings::Skinchanger::skins[id];
@@ -107,6 +136,9 @@ void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 		if (currentSkin.ItemDefinitionIndex != -1)
 			*weapon->GetItemDefinitionIndex() = currentSkin.ItemDefinitionIndex;
 
+		if (const char* modelFilename = GetModelByItemIndex(*weapon->GetItemDefinitionIndex()))
+			*weapon->GetModelIndex() = modelInfo->GetModelIndex(modelFilename);
+		
 		if (currentSkin.Seed != -1)
 			*weapon->GetFallbackSeed() = currentSkin.Seed;
 
