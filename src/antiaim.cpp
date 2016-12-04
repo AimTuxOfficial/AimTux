@@ -52,6 +52,10 @@ void DoAntiAimY(QAngle&  angle, bool bFlip)
 	AntiAimType_Y aa_type = bFlip ? Settings::AntiAim::type_Y : Settings::AntiAim::type_fake_Y;
 	
 	static float fYaw = 0.0f;
+	static bool yFlip;
+	
+	if (bFlip)
+		yFlip = !yFlip;
 	
 	if (aa_type == SPIN_FAST || aa_type == SPIN_SLOW)
 	{
@@ -64,11 +68,11 @@ void DoAntiAimY(QAngle&  angle, bool bFlip)
 	}
 	else if (aa_type == JITTER)
 	{
-		angle.y = bFlip ? 270.0f : 90.0f;
+		angle.y = yFlip ? 270.0f : 90.0f;
 	}
 	else if (aa_type == SIDE)
 	{
-		if (bFlip)
+		if (yFlip)
 			angle.y += 90.0f;
 		else
 			angle.y -= 90.0f;
