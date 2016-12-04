@@ -13,6 +13,8 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 			CB_Element ("SIDE", SIDE),
 			CB_Element ("BACKWARDS", BACKWARDS),
 			CB_Element ("FORWARDS", FORWARDS),
+			CB_Element ("LEFT", LEFT),
+			CB_Element ("RIGHT", RIGHT),
 		}, false
 	);
 	
@@ -24,6 +26,8 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 			CB_Element ("SIDE", SIDE),
 			CB_Element ("BACKWARDS", BACKWARDS),
 			CB_Element ("FORWARDS", FORWARDS),
+			CB_Element ("LEFT", LEFT),
+			CB_Element ("RIGHT", RIGHT),
 		}, false
 	);
 	
