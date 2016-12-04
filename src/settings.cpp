@@ -143,6 +143,7 @@ void Settings::LoadDefaultsOrSave(Config config)
 	settings["AntiAim"]["enabled_Y"] = Settings::AntiAim::enabled_Y;
 	settings["AntiAim"]["enabled_X"] = Settings::AntiAim::enabled_X;
 	settings["AntiAim"]["type_Y"] = Settings::AntiAim::type_Y;
+	settings["AntiAim"]["type_fake_Y"] = Settings::AntiAim::type_fake_Y;
 	settings["AntiAim"]["type_X"] = Settings::AntiAim::type_X;
 	settings["AntiAim"]["HeadEdge"]["enabled"] = Settings::AntiAim::HeadEdge::enabled;
 	settings["AntiAim"]["HeadEdge"]["distance"] = Settings::AntiAim::HeadEdge::distance;
@@ -335,6 +336,7 @@ void Settings::LoadConfig(Config config)
 	GetBool(settings["AntiAim"]["enabled_Y"], &Settings::AntiAim::enabled_Y);
 	GetBool(settings["AntiAim"]["enabled_X"], &Settings::AntiAim::enabled_X);
 	GetInt(settings["AntiAim"]["type_Y"], &Settings::AntiAim::type_Y);
+	GetInt(settings["AntiAim"]["type_fake_Y"], &Settings::AntiAim::type_fake_Y);
 	GetInt(settings["AntiAim"]["type_X"], &Settings::AntiAim::type_X);
 	GetBool(settings["AntiAim"]["HeadEdge"]["enabled"], &Settings::AntiAim::HeadEdge::enabled);
 	GetFloat(settings["AntiAim"]["HeadEdge"]["distance"], &Settings::AntiAim::HeadEdge::distance);
