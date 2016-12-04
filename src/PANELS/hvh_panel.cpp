@@ -12,7 +12,7 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 			CB_Element ("JITTER", JITTER),
 			CB_Element ("SIDE", SIDE),
 			CB_Element ("BACKWARDS", BACKWARDS),
-			CB_Element ("FAKE BACKWARDS JITTER", FAKE_BACKWARDS_JITTER),
+			CB_Element ("FAKE4", FAKE4),
 			CB_Element ("FAKE STATIC", STATIC_FAKE),
 			CB_Element ("FAKE SLOW SPIN", SPIN_SLOW_FAKE),
 			CB_Element ("FAKE FAST SPIN", SPIN_FAST_FAKE),
