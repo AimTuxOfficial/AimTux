@@ -3,6 +3,7 @@
 bool Settings::AntiAim::enabled_Y = false;
 bool Settings::AntiAim::enabled_X = false;
 AntiAimType_Y Settings::AntiAim::type_Y = SPIN_FAST;
+AntiAimType_Y Settings::AntiAim::type_fake_Y = SPIN_FAST;
 AntiAimType_X Settings::AntiAim::type_X = STATIC_DOWN;
 bool Settings::AntiAim::HeadEdge::enabled = false;
 float Settings::AntiAim::HeadEdge::distance = 25.0f;
@@ -46,6 +47,43 @@ bool AntiAim::GetBestHeadAngle(QAngle& angle)
 	return closest_distance < Settings::AntiAim::HeadEdge::distance;
 }
 
+void DoAntiAimY(QAngle&  angle, bool bFlip)
+{
+	AntiAimType_Y aa_type = bFlip ? Settings::AntiAim::type_Y : Settings::AntiAim::type_fake_Y;
+	
+	static float fYaw = 0.0f;
+	
+	if (aa_type == SPIN_FAST || aa_type == SPIN_SLOW)
+	{
+		fYaw += aa_type == SPIN_FAST ? 40.0f : 5.0f;
+
+		if (fYaw > 180.0f)
+			fYaw -= 360.0f;
+
+		angle.y = fYaw;
+	}
+	else if (aa_type == JITTER)
+	{
+		angle.y = bFlip ? 270.0f : 90.0f;
+	}
+	else if (aa_type == SIDE)
+	{
+		if (bFlip)
+			angle.y += 90.0f;
+		else
+			angle.y -= 90.0f;
+	}
+	else if (aa_type == BACKWARDS)
+	{
+		angle.y -= 180.0f;
+	}
+	else if (aa_type == FORWARDS)
+	{
+		angle.y -= 0;
+	}
+}
+
+
 void AntiAim::CreateMove(CUserCmd* cmd)
 {
 	if (!Settings::AntiAim::enabled_Y && !Settings::AntiAim::enabled_X)
@@ -73,74 +111,15 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 	bool edging_head = Settings::AntiAim::HeadEdge::enabled && GetBestHeadAngle(edge_angle);
 
 	static bool bFlip;
-	static float fYaw = 0.0f;
 
 	bFlip = !bFlip;
 
-	bool aa_edge = false;
-
 	if (Settings::AntiAim::enabled_Y)
 	{
-		if (Settings::AntiAim::type_Y == SPIN_FAST || Settings::AntiAim::type_Y == SPIN_SLOW)
-		{
-			fYaw += Settings::AntiAim::type_Y == SPIN_FAST ? 40.0f : 5.0f;
-
-			if (fYaw > 180.0f)
-				fYaw -= 360.0f;
-
-			angle.y = fYaw;
-		}
-		else if (Settings::AntiAim::type_Y == JITTER)
-		{
-			angle.y = bFlip ? 270.0f : 90.0f;
-		}
-		else if (Settings::AntiAim::type_Y == SIDE)
-		{
-			if (bFlip)
-				angle.y += 90.0f;
-			else
-				angle.y -= 90.0f;
-		}
-		else if (Settings::AntiAim::type_Y == BACKWARDS)
-		{
-			angle.y -= 180.0f;
-		}
-		else if (Settings::AntiAim::type_Y == FAKE4)
-		{
-			if (bFlip)
-				angle.y += 140.0f;
-			else
-				angle.y -= 40.0f;
-
-			CreateMove::SendPacket = bFlip;
-		}
-		else if (Settings::AntiAim::type_Y == BACKWARDS_FAKE)
-		{
-			angle.y -= bFlip ? 0.0f : (edging_head ? edge_angle.y : 180.0f);
-			CreateMove::SendPacket = bFlip;
-
-			aa_edge = bFlip && edging_head;
-		}
-		else if (Settings::AntiAim::type_Y == SIDE_FLIP_FAKE)
-		{
-			static bool bFlip_0;
-
-			if (bFlip)
-			{
-				bFlip_0 = !bFlip_0;
-				angle.y -= bFlip_0 ? 90.0f : -90.0f;
-			}
-			else
-			{
-				angle.y -= 180.0f;
-			}
-
-			CreateMove::SendPacket = bFlip;
-		}
+		DoAntiAimY (angle, bFlip);
+		Math::NormalizeAngles(angle);
+		CreateMove::SendPacket = bFlip;
 	}
-
-	if (edging_head && !aa_edge)
-		angle.y = edge_angle.y;
 
 	if (Settings::AntiAim::enabled_X)
 	{

@@ -34,14 +34,14 @@ enum AutostrafeType : unsigned int
 
 enum AntiAimType_Y : unsigned int
 {
-	SPIN_FAST,
 	SPIN_SLOW,
+	SPIN_FAST,
 	JITTER,
 	SIDE,
 	BACKWARDS,
-	FAKE4,
-	BACKWARDS_FAKE,
-	SIDE_FLIP_FAKE,
+	FORWARDS,
+	LEFT,
+	RIGHT
 };
 
 enum AntiAimType_X : unsigned int
@@ -209,6 +209,7 @@ namespace Settings
 		extern bool enabled_Y;
 		extern bool enabled_X;
 		extern AntiAimType_Y type_Y;
+		extern AntiAimType_Y type_fake_Y;
 		extern AntiAimType_X type_X;
 
 		namespace HeadEdge

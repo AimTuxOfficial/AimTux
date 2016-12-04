@@ -14,6 +14,7 @@ private:
 	ComboBox<AntiAimType_X>* cb_antiaim_x;
 	ToggleSwitch* ts_antiaim_x;
 	ComboBox<AntiAimType_Y>* cb_antiaim_y;
+	ComboBox<AntiAimType_Y>* cb_antiaim_fake_y;
 	ToggleSwitch* ts_antiaim_y;
 	ToggleSwitch* ts_edge_hide;
 	Slider* sl_edge_distance;
