@@ -77,7 +77,7 @@ void GetBestBone(C_BaseEntity* entity, float& best_damage, Bone& best_bone)
 	}
 }
 
-C_BaseEntity* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& best_bone, bool distance = false)
+C_BaseEntity* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& best_bone, AimTargetType aimTargetType = AimTargetType::FOV)
 {
 	best_bone = static_cast<Bone>(Settings::Aimbot::bone);
 
@@ -85,7 +85,8 @@ C_BaseEntity* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& best_bone, boo
 	C_BaseEntity* closestEntity = NULL;
 
 	// TODO Change the big value with a distance/fov slider
-	float best_fov = distance ? 999999999.0f : Settings::Aimbot::fov;
+	float best_fov = Settings::Aimbot::fov;
+	float best_distance = 999999999.0f;
 	float best_damage = 0;
 
 	if (!localplayer)
@@ -108,9 +109,13 @@ C_BaseEntity* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& best_bone, boo
 		Vector e_vecHead = entity->GetBonePosition(Settings::Aimbot::bone);
 		Vector p_vecHead = localplayer->GetEyePosition();
 
-		float fov = distance ? Math::GetDistance(p_vecHead, e_vecHead) : Math::GetFov(cmd->viewangles, Math::CalcAngle(p_vecHead, e_vecHead));
+		float fov = Math::GetFov(cmd->viewangles, Math::CalcAngle(p_vecHead, e_vecHead));
+		float distance = Math::GetDistance(p_vecHead, e_vecHead);
 
-		if (fov > best_fov)
+		if (aimTargetType == AimTargetType::DISTANCE && distance > best_distance)
+			continue;
+
+		if (aimTargetType == AimTargetType::FOV && fov > best_fov)
 			continue;
 
 		if (visible && !Entity::IsVisible(entity, Settings::Aimbot::bone) && !Settings::Aimbot::AutoWall::enabled)

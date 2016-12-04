@@ -80,6 +80,12 @@ enum ArmsType : unsigned int
 	DEFAULT
 };
 
+enum AimTargetType : unsigned int
+{
+	FOV,
+	DISTANCE
+};
+
 namespace Settings
 {
 	namespace UI
