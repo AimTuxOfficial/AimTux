@@ -13,6 +13,7 @@ namespace ESP
 	void DrawTracer(C_BaseEntity* entity);
 	void DrawPlayerBox(C_BaseEntity* entity);
 	void DrawPlayerInfo(C_BaseEntity* entity, int entityIndex);
+	float GetArmourHealth(float flDamage, int ArmorValue);
 	void DrawBombBox(C_BasePlantedC4* entity);
 	void DrawWeaponText(C_BaseEntity* entity, ClientClass* client);
 	void DrawBones(C_BaseEntity* entity);
