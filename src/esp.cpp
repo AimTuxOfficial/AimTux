@@ -331,13 +331,18 @@ void ESP::DrawBombBox(C_BasePlantedC4* entity)
 
 	bool surviveBlast = localplayer->GetHealth() > damage;
 
-	if (bombTime > 0)
-		str << " (" << bombTime << ", " << damage << "hp)";
+	if(surviveBlast && damage == 1.f)
+		damage = 0.0f;
+
+	if (bombTime > 0 && localplayer->GetAlive())
+		str << " (" << bombTime << ", " << damage << " damage)";
+	else if(bombTime > 0)
+		str << " (" << bombTime << ")";
 
 	Vector s_veclocalplayer_s;
 	if (!WorldToScreen(vecOrigin, s_veclocalplayer_s))
 	{
-		Color colorText = entity->GetBombDefuser() != -1 ? Color(0, 50, 200) : surviveBlast ? Color(255, 255, 255) : Color(255, 0, 0);
+		Color colorText = entity->GetBombDefuser() != -1 ? Color(0, 50, 200) : surviveBlast ? Color(0, 255, 0) : Color(255, 0, 0);
 		DrawESPBox(vecOrigin, vecViewOffset, color, width, additionalHeight);
 		Draw::DrawCenteredString(str.c_str(), LOC(s_veclocalplayer_s.x, s_veclocalplayer_s.y), colorText, esp_font);
 	}
