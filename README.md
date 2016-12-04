@@ -20,6 +20,7 @@ Want to chat or play with other AimTux users? Join us on Gitter!
 * *AutoStop*
 * *AutoWall*
 * *RCS*
+* *Radar*
 * *Box ESP (2D/3D)*
 * *Name ESP*
 * *Bone ESP*
