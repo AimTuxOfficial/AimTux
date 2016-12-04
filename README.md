@@ -10,24 +10,30 @@ Want to chat or play with other AimTux users? Join us on Gitter!
 
 * *Aimbot*
 * *Triggerbot*
-* *AntiAim (Slow and Fast Spinbot, Jitter, Sideways, Backwards, Fake4, Static up / down, Fake Backwards, Fake Side Flip, Fake Side L/R)*
+* *AntiAim (Slow and Fast Spinbot, Jitter, Sideways, Backwards)*
+* *Fake AntiAim (Backwards Jitter, Static, Static Follow, Slow Spin,Fast Spin, Forwards, Backwards, Flip, Side Left & Right)*
+* *Pitch (Up/Down/Front/Dance)*
+* *FakeLag*
 * *AimStep*
 * *AutoShoot*
 * *AutoCrouch*
 * *AutoStop*
 * *AutoWall*
 * *RCS*
-* *Box ESP*
+* *Box ESP (2D/3D)*
 * *Name ESP*
 * *Bone ESP*
 * *Bomb ESP*
 * *Bomb Timer*
+* *Bomb Damage Indicator*
 * *FOV ESP*
 * *Weapons ESP*
 * *Chams*
+* *Glow*
 * *Rank Viewer*
 * *Tracer*
 * *Bhop*
+* *Autostrafe*
 * *No Flash*
 * *Airstuck*
 * *Recoil Crosshair*
@@ -109,10 +115,11 @@ Have fun!
 
 ## Screenshots
 
-![menu](http://i.imgur.com/sRSjvhP.jpg)
-![esp_chams](http://i.imgur.com/qZqhixp.jpg)
-![chams](https://i.imgur.com/XYUWhHz.jpg)
-![fov crosshair](http://i.imgur.com/LoKzzLQ.jpg)
+![menu](http://i.imgur.com/GjdLRzW.jpg)
+![hvh_menu](i.imgur.com/z8lNqeq.jpg)
+![config_menu](http://i.imgur.com/UoxaHKZ.png)
+![esp_chams](http://i.imgur.com/r8fk1Rt.jpg)
+![bomb_esp](http://i.imgur.com/ZgMrHrr.jpg)
 
 ## Credits
 Special thanks to [@aixxe](http://www.github.com/aixxe/) ([aixxe.net](http://www.aixxe.net)) for the skin changer and with the initial project, as well as helping this project with source code (Available on [@aixxe's](http://www.github.com/aixxe/) github page.)
