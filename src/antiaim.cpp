@@ -154,12 +154,13 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 		else if (Settings::AntiAim::type_X == DANCE)
 		{
 			pDance += 15.0f;
-			if(pDance > 100)
+
+			if (pDance > 100)
 				pDance = 0.0f;
-			else if(pDance > 50.f)
+			else if (pDance > 50.f)
 				angle.x = 330.f;
-			else if(pDance < 50.f)
-					angle.x = 30.f;
+			else if (pDance < 50.f)
+				angle.x = 30.f;
 		}
 #ifdef UNTRUSTED_SETTINGS
 		else if (Settings::AntiAim::type_X == STATIC_UP_FAKE)
