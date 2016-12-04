@@ -116,7 +116,7 @@ Have fun!
 ## Screenshots
 
 ![menu](http://i.imgur.com/GjdLRzW.jpg)
-![hvh_menu](i.imgur.com/z8lNqeq.jpg)
+![hvh_menu](http://i.imgur.com/z8lNqeq.jpg)
 ![config_menu](http://i.imgur.com/UoxaHKZ.png)
 ![esp_chams](http://i.imgur.com/r8fk1Rt.jpg)
 ![bomb_esp](http://i.imgur.com/ZgMrHrr.jpg)
