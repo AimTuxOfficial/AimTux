@@ -247,6 +247,7 @@ void Settings::LoadDefaultsOrSave(Config config)
 	settings["ClanTagChanger"]["value"] = Settings::ClanTagChanger::value;
 	settings["ClanTagChanger"]["enabled"] = Settings::ClanTagChanger::enabled;
 	settings["ClanTagChanger"]["animation"] = Settings::ClanTagChanger::animation;
+	settings["ClanTagChanger"]["type"] = Settings::ClanTagChanger::type;
 
 	settings["View"]["NoPunch"]["enabled"] = Settings::View::NoPunch::enabled;
 
@@ -461,6 +462,7 @@ void Settings::LoadConfig(Config config)
 	GetString(settings["ClanTagChanger"]["value"], &Settings::ClanTagChanger::value);
 	GetBool(settings["ClanTagChanger"]["enabled"], &Settings::ClanTagChanger::enabled);
 	GetBool(settings["ClanTagChanger"]["animation"], &Settings::ClanTagChanger::animation);
+	GetInt(settings["ClanTagChanger"]["type"], &Settings::ClanTagChanger::type);
 
 	GetBool(settings["View"]["NoPunch"]["enabled"], &Settings::View::NoPunch::enabled);
 
@@ -497,30 +499,30 @@ void remove_directory(const char* path)
 {
 	DIR* dir;
 	dirent* pdir;
-	
+
 	dir = opendir(path);
-	
+
 	while ((pdir = readdir(dir)))
 	{
 		if (strcmp(pdir->d_name, ".") == 0 || strcmp(pdir->d_name, "..") == 0)
 			continue;
-		
+
 		if (pdir->d_type == DT_DIR)
 		{
 			pstring _dir;
 			_dir << path << "/" << pdir->d_name;
-			
+
 			remove_directory(_dir.c_str());
 		}
 		else if (pdir->d_type == DT_REG)
 		{
 			pstring file;
 			file << path << "/" << pdir->d_name;
-			
+
 			unlink(file.c_str());
 		}
 	}
-	
+
 	rmdir(path);
 }
 

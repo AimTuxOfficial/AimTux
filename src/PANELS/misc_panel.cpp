@@ -43,11 +43,18 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	ts_autoaccept = new ToggleSwitchTip ("Auto Accept", BELOW (ts_radar), LOC((size.x - 20) / 6.75, 30), &Settings::AutoAccept::enabled, "Automatically accept games when in the matchmaking queue.");
 	ts_showranks = new ToggleSwitchTip ("Show Ranks", BELOW (ts_autoaccept), LOC((size.x - 20) / 6.75, 30), &Settings::ShowRanks::enabled, "Shows peoples ranks in a valve server");
 	ts_showspectators = new ToggleSwitchTip ("Show Spectators", STACK (ts_showranks), LOC((size.x - 20) / 6.75, 30), &Settings::ShowSpectators::enabled, "Shows who is spectating you");
-	ts_clantag = new ToggleSwitchTip ("Custom Clantag", BELOW (ts_showranks), LOC((size.x - 20) / 6.75, 30), &Settings::ClanTagChanger::enabled, "Set a custom clantag ");
-	tb_clantag = new TextBox ("Clantag", &Settings::ClanTagChanger::value, STACK (ts_clantag), LOC((size.x - 20) / 6.75, 30));
-	ts_clantag_animation = new ToggleSwitchTip ("Clantag Animation", STACK (tb_clantag), LOC((size.x - 20) / 6.75, 30), &Settings::ClanTagChanger::animation, "Animates the clantag. Can be changed in the config");
+	ba_clantag = new Banner("Clantag Settings", BELOW(ts_normal_spammer), (size.x - 20) / 2 - 5);
+	ts_clantag = new ToggleSwitchTip ("Custom Clantag", BELOW (ba_clantag), LOC((size.x - 20) / 6.75, 30), &Settings::ClanTagChanger::enabled, "Set a custom clantag ");
+	tb_clantag = new TextBox ("Clantag", &Settings::ClanTagChanger::value, STACK (ts_clantag), LOC((size.x - 20) / 3.29, 30));
+	ts_clantag_animation = new ToggleSwitchTip ("Animate", BELOW (ts_clantag), LOC((size.x - 20) / 6.75, 30), &Settings::ClanTagChanger::animation, "Animates the clantag. Can be changed in the config");
 	ts_clantag_animation->onMouseClickEndEvent = MFUNC(&MiscPanel::ts_clantag_animation_clicked, this);
-	vtb_nickname = new ValueTextBox ("Nickname", "", BELOW (ts_clantag), LOC((size.x - 20) / 6.75, 30));
+	cb_clantag_type = new ComboBox<ClanTagType>("clantag type", STACK (ts_clantag_animation), (size.x - 20) / 6.75, &Settings::ClanTagChanger::type, std::vector<CB_Element>
+			{
+				CB_Element ("Marquee", MARQUEE),
+				CB_Element ("Words", WORDS)
+			}, false
+	);
+	vtb_nickname = new ValueTextBox ("Nickname", "", BELOW (ts_showranks), LOC((size.x - 20) / 6.75, 30));
 	ob_nickname = new OutlinedButton ("Set Nickname", STACK (vtb_nickname), LOC((size.x - 20) / 6.75, 30));
 	ob_nickname->OnClickedEvent = MFUNC (&MiscPanel::ob_nickname_clicked, this);
 	ob_noname = new OutlinedButton ("No Name", STACK (ob_nickname), LOC((size.x - 20) / 6.75, 30));
@@ -78,9 +85,6 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	AddComponent (vtb_unlockcvar);
 	AddComponent (ob_unlockcvar);
 #endif
-	AddComponent (ts_clantag_animation);
-	AddComponent (tb_clantag);
-	AddComponent (ts_clantag);
 	AddComponent (ts_showspectators);
 	AddComponent (ts_showranks);
 	AddComponent (ts_radar);
@@ -94,6 +98,11 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	AddComponent (sl_noflash_value);
 	AddComponent (ts_noflash);
 	AddComponent (ba_other);
+	AddComponent (cb_clantag_type);
+	AddComponent (ts_clantag_animation);
+	AddComponent (tb_clantag);
+	AddComponent (ts_clantag);
+	AddComponent (ba_clantag);
 	AddComponent (ts_normal_spammer_say_team);
 	AddComponent (ts_normal_spammer);
 	AddComponent (ts_kill_spammer_say_team);
@@ -159,6 +168,13 @@ void MiscPanel::bn_ui_color_clicked ()
 void MiscPanel::ts_clantag_animation_clicked()
 {
 	Settings::ClanTagChanger::animation = !Settings::ClanTagChanger::animation;
-
-	ClanTagChanger::animations[0] = ClanTagChanger::Marquee("CUSTOM", Settings::ClanTagChanger::value);
+	switch(Settings::ClanTagChanger::type)
+	{
+		case MARQUEE:
+			ClanTagChanger::animations[0] = ClanTagChanger::Marquee("CUSTOM", Settings::ClanTagChanger::value);
+			break;
+		case WORDS:
+			ClanTagChanger::animations[0] = ClanTagChanger::Words("CUSTOM", Settings::ClanTagChanger::value);
+			break;
+	}
 }

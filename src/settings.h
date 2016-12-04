@@ -24,6 +24,13 @@ enum TracerType : unsigned int
 	BOTTOM,
 	CURSOR
 };
+
+enum ClanTagType : unsigned int
+{
+	MARQUEE,
+	WORDS
+};
+
 enum AutostrafeType : unsigned int
 {
 	AS_FORWARDS,
@@ -422,6 +429,7 @@ namespace Settings
 		extern std::string value;
 		extern bool animation;
 		extern bool enabled;
+		extern ClanTagType type;
 	}
 
 	namespace View

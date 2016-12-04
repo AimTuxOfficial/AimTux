@@ -4,6 +4,7 @@
 std::string Settings::ClanTagChanger::value = "";
 bool Settings::ClanTagChanger::animation = false;
 bool Settings::ClanTagChanger::enabled = false; // TODO find a way to go back to the "official" clan tag for the player? -- Save the current clan tag, before editing, then restore it later
+ClanTagType Settings::ClanTagChanger::type = MARQUEE;
 
 ClanTagChanger::Animation ClanTagChanger::Marquee(std::string name, std::string text, int width, int speed)
 {

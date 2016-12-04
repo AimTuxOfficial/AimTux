@@ -50,6 +50,8 @@ private:
 	OutlinedButton* bn_ui_color;
 	OutlinedButton* bn_2_color;
 	OutlinedButton* bn_3_color;
+	Banner* ba_clantag;
+	ComboBox<ClanTagType>* cb_clantag_type;
 
 public:
 	MiscPanel (Vector2D position, Vector2D size);
