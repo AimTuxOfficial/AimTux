@@ -79,7 +79,10 @@ void DoAntiAimY(QAngle&  angle, bool bFlip)
 	}
 	else if (aa_type == FORWARDS)
 	{
-		angle.y -= 0;
+		if (bFlip)
+			angle.y -= 0.0f;
+		else
+			angle.y -= 180.0f;
 	}
 	else if (aa_type == LEFT)
 	{
