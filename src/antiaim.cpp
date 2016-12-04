@@ -74,7 +74,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 
 	static bool bFlip;
 	static float fYaw = 0.0f;
-	static float rYaw = 0.0f;
+	static float rYaw = 0.0f
 	static float pDance = 0.0f;
 
 	bFlip = !bFlip;
