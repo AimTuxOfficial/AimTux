@@ -83,7 +83,8 @@ enum ArmsType : unsigned int
 enum AimTargetType : unsigned int
 {
 	FOV,
-	DISTANCE
+	DISTANCE,
+	HP
 };
 
 namespace Settings

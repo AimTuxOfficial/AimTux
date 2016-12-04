@@ -87,6 +87,7 @@ C_BaseEntity* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& best_bone, Aim
 	// TODO Change the big value with a distance/fov slider
 	float best_fov = Settings::Aimbot::fov;
 	float best_distance = 999999999.0f;
+	int best_hp = 100;
 	float best_damage = 0;
 
 	if (!localplayer)
@@ -111,11 +112,15 @@ C_BaseEntity* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& best_bone, Aim
 
 		float fov = Math::GetFov(cmd->viewangles, Math::CalcAngle(p_vecHead, e_vecHead));
 		float distance = Math::GetDistance(p_vecHead, e_vecHead);
+		int hp = entity->GetHealth();
 
 		if (aimTargetType == AimTargetType::DISTANCE && distance > best_distance)
 			continue;
 
 		if (aimTargetType == AimTargetType::FOV && fov > best_fov)
+			continue;
+
+		if (aimTargetType == AimTargetType::HP && hp > best_hp)
 			continue;
 
 		if (visible && !Entity::IsVisible(entity, Settings::Aimbot::bone) && !Settings::Aimbot::AutoWall::enabled)
@@ -138,6 +143,8 @@ C_BaseEntity* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& best_bone, Aim
 		{
 			closestEntity = entity;
 			best_fov = fov;
+			best_distance = distance;
+			best_hp = hp;
 		}
 	}
 
