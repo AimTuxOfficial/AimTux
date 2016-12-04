@@ -77,13 +77,15 @@ void GetBestBone(C_BaseEntity* entity, float& best_damage, Bone& best_bone)
 	}
 }
 
-C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible, Bone& best_bone)
+C_BaseEntity* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& best_bone, bool distance = false)
 {
 	best_bone = static_cast<Bone>(Settings::Aimbot::bone);
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	C_BaseEntity* closestEntity = NULL;
-	float best_fov = Settings::Aimbot::fov;
+
+	// TODO Change the big value with a distance/fov slider
+	float best_fov = distance ? 999999999.0f : Settings::Aimbot::fov;
 	float best_damage = 0;
 
 	if (!localplayer)
@@ -105,7 +107,8 @@ C_BaseEntity* GetClosestEnemy(CUserCmd* cmd, bool visible, Bone& best_bone)
 
 		Vector e_vecHead = entity->GetBonePosition(Settings::Aimbot::bone);
 		Vector p_vecHead = localplayer->GetEyePosition();
-		float fov = Math::GetFov(cmd->viewangles, Math::CalcAngle(p_vecHead, e_vecHead));
+
+		float fov = distance ? Math::GetDistance(p_vecHead, e_vecHead) : Math::GetFov(cmd->viewangles, Math::CalcAngle(p_vecHead, e_vecHead));
 
 		if (fov > best_fov)
 			continue;
@@ -240,7 +243,7 @@ void Aimbot::Smooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
 	}
 
 	// For convenience
-	// Because of the powf, when the slider is 0.01, the smooth value is 0.02^0.4 = ~0.21
+	// Because of the powf, when the slider is 0.02, the smooth value is 0.02^0.4 = ~0.21
 	if (Settings::Aimbot::Smooth::value < 0.02f)
 		smooth = 0.0f;
 
@@ -471,7 +474,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 		return;
 
 	Bone aw_bone;
-	C_BaseEntity* entity = GetClosestEnemy(cmd, true, aw_bone);
+	C_BaseEntity* entity = GetClosestPlayer(cmd, true, aw_bone);
 	if (entity && Settings::Aimbot::AutoAim::enabled)
 	{
 		if (cmd->buttons & IN_ATTACK && !Settings::Aimbot::aimkey_only)
