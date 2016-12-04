@@ -111,48 +111,56 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 		else if (Settings::AntiAim::type_Y == FAKE_BACKWARDS_JITTER)
   		{
 			fYaw += 10.0f;
-
 			if (fYaw > 100.0f)
+			{
 				fYaw = 0.0f;
+			}
 			else if (fYaw > 50.0f)
+			{
 				fYaw2 = 210.0f;
+			}
 			else if (fYaw < 50.0f)
+			{
 				fYaw2 = 150.0f;
-
+			}
 			angle.y = bFlip ? fYaw2 : 180.0f;
   			CreateMove::SendPacket = bFlip;
 		}
 		else if (Settings::AntiAim::type_Y == SPIN_SLOW_FAKE)
 		{
 			fYaw += 5.0f;
-
 			if (fYaw > 180)
+			{
 				fYaw -= 360.0f;
-
+			}
 			angle.y = bFlip ? fYaw : 180.f;
 			CreateMove::SendPacket = bFlip;
 		}
 		else if (Settings::AntiAim::type_Y == SPIN_FAST_FAKE)
 		{
 			fYaw += 40.0f;
-
 			if (fYaw > 180)
+			{
 				fYaw -= 360.0f;
-
+			}
 			angle.y = bFlip ? fYaw : 180.f;
 			CreateMove::SendPacket = bFlip;
 		}
 		else if (Settings::AntiAim::type_Y == STATIC_FAKE)
 		{
 			fYaw += 5.0f;
-
 			if (fYaw > 100)
+			{
 				fYaw = 0.0f;
+			}
 			else if (fYaw < 50.0f)
+			{
 				rYaw = 150.f;
+			}
 			else if (fYaw > 100)
+			{
 				rYaw = 210.f;
-
+			}
 			angle.y = bFlip ? 0.0f : rYaw;
 			CreateMove::SendPacket = bFlip;
 		}
@@ -218,13 +226,18 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 		else if (Settings::AntiAim::type_X == DANCE)
 		{
 			pDance += 15.0f;
-
 			if (pDance > 100)
+			{
 				pDance = 0.0f;
-			else if (pDance > 50.0f)
+			}
+			else if (pDance > 50.0f) 
+			{
 				angle.x = 330.f;
+			}
 			else if (pDance < 50.0f)
+			{
 				angle.x = 30.f;
+			}
 		}
 #ifdef UNTRUSTED_SETTINGS
 		else if (Settings::AntiAim::type_X == STATIC_UP_FAKE)
