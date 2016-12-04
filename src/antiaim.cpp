@@ -52,10 +52,6 @@ void DoAntiAimY(QAngle&  angle, bool bFlip)
 	AntiAimType_Y aa_type = bFlip ? Settings::AntiAim::type_Y : Settings::AntiAim::type_fake_Y;
 	
 	static float fYaw = 0.0f;
-	static bool yFlip;
-	
-	if (bFlip)
-		yFlip = !yFlip;
 	
 	if (aa_type == SPIN_FAST || aa_type == SPIN_SLOW)
 	{
@@ -68,7 +64,7 @@ void DoAntiAimY(QAngle&  angle, bool bFlip)
 	}
 	else if (aa_type == JITTER)
 	{
-		angle.y = yFlip ? 270.0f : 90.0f;
+		angle.y += yFlip ? 150.0f : -150.0f;
 	}
 	else if (aa_type == SIDE)
 	{
@@ -83,15 +79,19 @@ void DoAntiAimY(QAngle&  angle, bool bFlip)
 	}
 	else if (aa_type == FORWARDS)
 	{
-		angle.y -= 0;
+			angle.y -= 0.0f;
 	}
 	else if (aa_type == LEFT)
 	{
-		angle.y += 90;
+		angle.y += 90.0f;
 	}
 	else if (aa_type == RIGHT)
 	{
-		angle.y -= 90;
+		angle.y -= 90.0f;
+	}
+	else if (aa_type == STATIC)
+	{
+		angle.y = 0.0f;
 	}
 }
 
@@ -123,9 +123,9 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 	bool edging_head = Settings::AntiAim::HeadEdge::enabled && GetBestHeadAngle(edge_angle);
 
 	static bool bFlip;
-
+	static bool yFlip;
 	bFlip = !bFlip;
-
+	yFlip = !yFlip;
 	if (Settings::AntiAim::enabled_Y)
 	{
 		DoAntiAimY (angle, bFlip);
