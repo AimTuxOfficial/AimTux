@@ -111,19 +111,19 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 		else if (Settings::AntiAim::type_Y == FAKE_BACKWARDS_JITTER)
   		{
 			fYaw += 10.0f;
-			if (fYaw > 100.0f)
-			{
-				fYaw = 0.0f;
-			}
-			else if (fYaw > 50.0f)
-			{
-				fYaw2 = 210.0f;
-			}
-			else if (fYaw < 50.0f)
-			{
-				fYaw2 = 150.0f;
-			}
-			angle.y = bFlip ? fYaw2 : 180.0f;
+ +			if (fYaw > 100.0f)
+ +			{
+ +				fYaw = 0.0f;
+ +			}
+ +			else if (fYaw > 50.0f)
+ +			{
+ +				fYaw2 = 210.0f;
+ +			}
+ +			else if (fYaw < 50.0f)
+ +			{
+ +				fYaw2 = 150.0f;
+ +			}
+ +			angle.y = bFlip ? fYaw2 : 180.0f;
   			CreateMove::SendPacket = bFlip;
 		}
 		else if (Settings::AntiAim::type_Y == SPIN_SLOW_FAKE)
