@@ -1,4 +1,5 @@
 #include "misc_panel.h"
+#include "../clantagchanger.h"
 
 MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	: Panel::Panel (position, size)
@@ -45,6 +46,7 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	ts_clantag = new ToggleSwitchTip ("Custom Clantag", BELOW (ts_showranks), LOC((size.x - 20) / 6.75, 30), &Settings::ClanTagChanger::enabled, "Set a custom clantag ");
 	tb_clantag = new TextBox ("Clantag", &Settings::ClanTagChanger::value, STACK (ts_clantag), LOC((size.x - 20) / 6.75, 30));
 	ts_clantag_animation = new ToggleSwitchTip ("Clantag Animation", STACK (tb_clantag), LOC((size.x - 20) / 6.75, 30), &Settings::ClanTagChanger::animation, "Animates the clantag. Can be changed in the config");
+	ts_clantag_animation->onMouseClickEndEvent = MFUNC(&MiscPanel::ts_clantag_animation_clicked, this);
 	vtb_nickname = new ValueTextBox ("Nickname", "", BELOW (ts_clantag), LOC((size.x - 20) / 6.75, 30));
 	ob_nickname = new OutlinedButton ("Set Nickname", STACK (vtb_nickname), LOC((size.x - 20) / 6.75, 30));
 	ob_nickname->OnClickedEvent = MFUNC (&MiscPanel::ob_nickname_clicked, this);
@@ -152,4 +154,11 @@ void MiscPanel::bn_ui_color_clicked ()
 	{
 		wn_pop_color->Destroy ();
 	}
+}
+
+void MiscPanel::ts_clantag_animation_clicked()
+{
+	Settings::ClanTagChanger::animation = !Settings::ClanTagChanger::animation;
+
+	ClanTagChanger::animations[0] = ClanTagChanger::Marquee("CUSTOM", Settings::ClanTagChanger::value);
 }

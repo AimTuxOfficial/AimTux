@@ -53,9 +53,10 @@ private:
 
 public:
 	MiscPanel (Vector2D position, Vector2D size);
-	
+
 	void bn_ui_color_clicked ();
 	void ob_nickname_clicked ();
 	void ob_noname_clicked ();
 	void ob_unlockcvar_clicked ();
+	void ts_clantag_animation_clicked();
 };
