@@ -1,3 +1,4 @@
+#include <math.h>
 #include "esp.h"
 #include "settings.h"
 
@@ -43,6 +44,28 @@ Vector2D WorldToScreen(const Vector &vOrigin)
 	Vector vec;
 	debugOverlay->ScreenPosition(vOrigin, vec);
 	return LOC(vec.x, vec.y);
+}
+
+//credits to Casual_Hacker from UC for this method (I modified it a lil bit)
+float GetArmourHealth(float flDamage, int ArmorValue)
+{
+	float flCurDamage = flDamage;
+
+	if (flCurDamage == 0.0f || ArmorValue == 0)
+		return flCurDamage;
+
+	float flArmorRatio = 0.5f;
+	float flArmorBonus = 0.5f;
+	float flNew = flCurDamage * flArmorRatio;
+	float flArmor = (flCurDamage - flNew) * flArmorBonus;
+
+	if (flArmor > ArmorValue)
+	{
+		flArmor = ArmorValue * (1.0f / flArmorBonus);
+		flNew = flCurDamage - flArmor;
+	}
+
+	return flNew;
 }
 
 void DrawESPBox(Vector vecOrigin, Vector vecViewOffset, Color color, int width, int additionalHeight)
@@ -284,8 +307,8 @@ void ESP::DrawFOVCrosshair()
 
 void ESP::DrawBombBox(C_BasePlantedC4* entity)
 {
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	Color color = Settings::ESP::bomb_color;
-	Color colorText = entity->GetBombDefuser() != -1 ? Color(0, 50, 200) : Color(255, 255, 255);
 
 	int width = 7;
 	int additionalHeight = 4;
@@ -296,12 +319,25 @@ void ESP::DrawBombBox(C_BasePlantedC4* entity)
 
 	pstring str = "C4";
 
+	float flDistance = sqrt(localplayer->GetEyePosition().DistToSqr(vecOrigin));
+
+	float a = 450.7f;
+	float b = 75.68f;
+	float c = 789.2f;
+	float d = ((flDistance - b) / c);
+	float flDamage = a*exp(-d * d);
+
+	float damage = std::max((int)ceilf(GetArmourHealth(flDamage, localplayer->GetArmor())), 0);
+
+	bool surviveBlast = localplayer->GetHealth() > damage;
+
 	if (bombTime > 0)
-		str << " (" << bombTime << ")";
+		str << " (" << bombTime << ", " << damage << "hp)";
 
 	Vector s_veclocalplayer_s;
 	if (!WorldToScreen(vecOrigin, s_veclocalplayer_s))
 	{
+		Color colorText = entity->GetBombDefuser() != -1 ? Color(0, 50, 200) : surviveBlast ? Color(255, 255, 255) : Color(255, 0, 0);
 		DrawESPBox(vecOrigin, vecViewOffset, color, width, additionalHeight);
 		Draw::DrawCenteredString(str.c_str(), LOC(s_veclocalplayer_s.x, s_veclocalplayer_s.y), colorText, esp_font);
 	}
