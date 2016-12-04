@@ -18,7 +18,9 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 		}, false
 	);
 	
-	cb_antiaim_fake_y = new ComboBox<AntiAimType_Y> ("fake antiaim type", BELOW (cb_antiaim_y), (size.x - 20) / 6.75, &Settings::AntiAim::type_fake_Y, std::vector<CB_Element>
+	ba_actual = new Banner ("Actual", BELOW (cb_antiaim_y), (size.x - 20) / 6.75);
+	
+	cb_antiaim_fake_y = new ComboBox<AntiAimType_Y> ("fake antiaim type", BELOW (ba_actual), (size.x - 20) / 6.75, &Settings::AntiAim::type_fake_Y, std::vector<CB_Element>
 		{
 			CB_Element ("SLOW SPIN", SPIN_SLOW),
 			CB_Element ("FAST SPIN", SPIN_FAST),
@@ -63,6 +65,7 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 		}
 	);
 
+	AddComponent (ba_actual);
 	AddComponent (cb_antiaim_x);
 	AddComponent (cb_antiaim_y);
 	AddComponent (cb_antiaim_fake_y);

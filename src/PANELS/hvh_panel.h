@@ -11,6 +11,7 @@ class HVHPanel : public Panel
 private:
 
 	Banner* ba_antiaim;
+	Banner* ba_actual;
 	ComboBox<AntiAimType_X>* cb_antiaim_x;
 	ToggleSwitch* ts_antiaim_x;
 	ComboBox<AntiAimType_Y>* cb_antiaim_y;
