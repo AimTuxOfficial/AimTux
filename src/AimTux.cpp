@@ -43,7 +43,7 @@ int __attribute__((constructor)) aimtux_init()
 
 	gameEvents_vmt->HookVM((void*) Hooks::FireEventClientSide, 10);
 	gameEvents_vmt->ApplyVMT();
-
+	
 	viewRender_vmt->HookVM((void*) Hooks::RenderView, 6);
 	viewRender_vmt->ApplyVMT();
 
@@ -62,9 +62,9 @@ int __attribute__((constructor)) aimtux_init()
 	gui = new UI_Container;
 
 	Fonts::SetupFonts();
-
+	
 	Settings::LoadSettings();
-
+	
 	SetupUI();
 
 	return 0;
