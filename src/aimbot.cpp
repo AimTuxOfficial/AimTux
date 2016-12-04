@@ -387,6 +387,7 @@ void Aimbot::AutoShoot(C_BaseEntity* entity, C_BaseCombatWeapon* active_weapon, 
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+
 	float nextPrimaryAttack = active_weapon->GetNextPrimaryAttack();
 	float tick = localplayer->GetTickBase() * globalvars->interval_per_tick;
 
@@ -463,6 +464,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	shouldAim = Settings::Aimbot::AutoShoot::enabled;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+
 	if (!localplayer || !localplayer->GetAlive())
 		return;
 
@@ -472,6 +474,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 
 	Bone aw_bone;
 	C_BaseEntity* entity = GetClosestEnemy(cmd, true, aw_bone);
+
 	if (entity && Settings::Aimbot::AutoAim::enabled)
 	{
 		if (cmd->buttons & IN_ATTACK && !Settings::Aimbot::aimkey_only)
@@ -507,4 +510,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 
 	if (!Settings::Aimbot::silent)
 		engine->SetViewAngles(cmd->viewangles);
+
+	if (Settings::Aimbot::AutoShoot::autoscope && localplayer->IsScoped() && !entity)
+                cmd->buttons |= IN_ATTACK2;
 }
