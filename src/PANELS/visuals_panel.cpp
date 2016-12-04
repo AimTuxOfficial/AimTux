@@ -52,6 +52,12 @@ VisualsPanel::VisualsPanel (Vector2D position, Vector2D size)
 					CB_Element ("3D", BOX_3D),
 			}, false
 	);
+	cb_tracertype = new ComboBox<TracerType>("tracer type", STACK(ts_tracer), (size.x - 20) / 6.75, &Settings::ESP::Tracer::type,
+			{
+				CB_Element ("Bottom", BOTTOM),
+				CB_Element ("Cursor", CURSOR),
+			}, false
+	);
 
 
 #ifdef EXPERIMENTAL_SETTINGS
@@ -78,6 +84,7 @@ VisualsPanel::VisualsPanel (Vector2D position, Vector2D size)
 	AddComponent (ts_weapon);
 	AddComponent (ts_health);
 	AddComponent (ts_name);
+	AddComponent (cb_tracertype);
 	AddComponent (ts_tracer);
 	AddComponent (ba_esp);
 	AddComponent (ts_esp_enabled);

@@ -39,6 +39,7 @@ private:
 	ComboBox<WallBoxType>* cb_wallstype;
 	ComboBox<ChamsType>* cb_chamstype;
 	ComboBox<ArmsType>* cb_armstype;
+	ComboBox<TracerType>* cb_tracertype;
 public:
 	VisualsPanel (Vector2D position, Vector2D size);
 };
