@@ -22,13 +22,12 @@ void AutoStrafe::CreateMove(CUserCmd* cmd)
 		return;
 
 	if (cmd->mousedx > 1 || cmd->mousedx < -1){
-		if (Settings::AutoStrafe::type == AS_FORWARDS)
-			cmd->sidemove = cmd->mousedx < 0.f ? -450.f : 450.f;
-		else if (Settings::AutoStrafe::type == AS_BACKWARDS)
-			cmd->sidemove = cmd->mousedx < 0.f ? 450.f : -450.f;
-		else if (Settings::AutoStrafe::type == AS_LEFTSIDEWAYS)
-			cmd->forwardmove = cmd->mousedx < 0.f ? -450.f : 450.f;
-		else if (Settings::AutoStrafe::type == AS_RIGHTSIDEWAYS)
-			cmd->forwardmove = cmd->mousedx < 0.f ? 450.f : -450.f;
+		switch(Settings::AutoStrafe::type)
+		{
+			case AS_FORWARDS: cmd->sidemove = cmd->mousedx < 0.f ? -450.f : 450.f; break;
+			case AS_BACKWARDS: cmd->sidemove = cmd->mousedx < 0.f ? 450.f : -450.f;	break;
+			case AS_LEFTSIDEWAYS: cmd->forwardmove = cmd->mousedx < 0.f ? -450.f : 450.f; break;
+			case AS_RIGHTSIDEWAYS: cmd->forwardmove = cmd->mousedx < 0.f ? 450.f : -450.f; break;
+		}
 	}
 }
