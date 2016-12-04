@@ -49,7 +49,8 @@ enum AntiAimType_X : unsigned int
 	STATIC_UP,
 	STATIC_DOWN,
 	STATIC_UP_FAKE,
-	STATIC_DOWN_FAKE
+	STATIC_DOWN_FAKE,
+	DANCE
 };
 
 enum ChamsType : unsigned int

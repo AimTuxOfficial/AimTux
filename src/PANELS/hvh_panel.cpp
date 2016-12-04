@@ -17,9 +17,9 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 			CB_Element ("RIGHT", RIGHT),
 		}, false
 	);
-	
+
 	ba_actual = new Banner ("Actual", BELOW (cb_antiaim_y), (size.x - 20) / 6.75);
-	
+
 	cb_antiaim_fake_y = new ComboBox<AntiAimType_Y> ("fake antiaim type", BELOW (ba_actual), (size.x - 20) / 6.75, &Settings::AntiAim::type_fake_Y, std::vector<CB_Element>
 		{
 			CB_Element ("SLOW SPIN", SPIN_SLOW),
@@ -32,12 +32,13 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 			CB_Element ("RIGHT", RIGHT),
 		}, false
 	);
-	
+
 	ts_antiaim_x = new ToggleSwitchTip ("X Axis", STACK(ts_antiaim_y), LOC((size.x - 20) / 6.75, 30), &Settings::AntiAim::enabled_X, "Anti-Aim X Axis");
 	cb_antiaim_x = new ComboBox<AntiAimType_X> ("anti aim type", BELOW (ts_antiaim_x), (size.x - 20) / 6.75, &Settings::AntiAim::type_X, std::vector<CB_Element>
 		{
 			CB_Element ("UP", STATIC_UP),
 			CB_Element ("DOWN", STATIC_DOWN),
+			CB_Element ("DANCE", DANCE),
 #ifdef UNTRUSTED_SETTINGS
 			CB_Element ("FAKE UP", STATIC_UP_FAKE),
 			CB_Element ("FAKE DOWN", STATIC_DOWN_FAKE),

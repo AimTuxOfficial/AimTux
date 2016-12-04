@@ -50,13 +50,13 @@ bool AntiAim::GetBestHeadAngle(QAngle& angle)
 void DoAntiAimY(QAngle&  angle, bool bFlip)
 {
 	AntiAimType_Y aa_type = bFlip ? Settings::AntiAim::type_Y : Settings::AntiAim::type_fake_Y;
-	
+
 	static float fYaw = 0.0f;
 	static bool yFlip;
-	
+
 	if (bFlip)
 		yFlip = !yFlip;
-	
+
 	if (aa_type == SPIN_FAST || aa_type == SPIN_SLOW)
 	{
 		fYaw += aa_type == SPIN_FAST ? 40.0f : 5.0f;
@@ -123,6 +123,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 	bool edging_head = Settings::AntiAim::HeadEdge::enabled && GetBestHeadAngle(edge_angle);
 
 	static bool bFlip;
+	static float pDance = 0.0f;
 
 	bFlip = !bFlip;
 
@@ -149,6 +150,16 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 		else if (Settings::AntiAim::type_X == STATIC_DOWN)
 		{
 			angle.x = 89.0f;
+		}
+		else if (Settings::AntiAim::type_X == DANCE)
+		{
+			pDance += 15.0f;
+			if(pDance > 100)
+				pDance = 0.0f;
+			else if(pDance > 50.f)
+				angle.x = 330.f;
+			else if(pDance < 50.f)
+					angle.x = 30.f;
 		}
 #ifdef UNTRUSTED_SETTINGS
 		else if (Settings::AntiAim::type_X == STATIC_UP_FAKE)
