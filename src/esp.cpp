@@ -331,13 +331,16 @@ void ESP::DrawBombBox(C_BasePlantedC4* entity)
 
 	bool surviveBlast = localplayer->GetHealth() > damage;
 
-	if(surviveBlast && damage == 1.f)
+	if (surviveBlast && damage == 1.f)
 		damage = 0.0f;
 
-	if (bombTime > 0 && localplayer->GetAlive())
-		str << " (" << bombTime << ", " << damage << " damage)";
-	else if(bombTime > 0)
-		str << " (" << bombTime << ")";
+	if (bombTime > 0)
+	{
+		if (localplayer->GetAlive())
+			str << " (" << bombTime << ", " << damage << " damage)";
+		else
+			str << " (" << bombTime << ")";
+	}
 
 	Vector s_veclocalplayer_s;
 	if (!WorldToScreen(vecOrigin, s_veclocalplayer_s))
