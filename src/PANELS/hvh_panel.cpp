@@ -14,9 +14,7 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 			CB_Element ("BACKWARDS", BACKWARDS),
 			CB_Element ("FAKE4", FAKE4),
 			CB_Element ("FAKE BACKWARDS", BACKWARDS_FAKE),
-			CB_Element ("FAKE SIDE FLIP", SIDE_FLIP_FAKE),
-			CB_Element ("FAKE SIDE L", SIDE_FAKE_LEFT),
-			CB_Element ("FAKE SIDE R", SIDE_FAKE_RIGHT)
+			CB_Element ("FAKE SIDE FLIP", SIDE_FLIP_FAKE)
 		}, false
 	);
 	ts_antiaim_x = new ToggleSwitchTip ("X Axis", STACK(ts_antiaim_y), LOC((size.x - 20) / 6.75, 30), &Settings::AntiAim::enabled_X, "Anti-Aim X Axis");
