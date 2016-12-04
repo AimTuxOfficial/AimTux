@@ -127,6 +127,13 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 		DoAntiAimY (angle, bFlip);
 		Math::NormalizeAngles(angle);
 		CreateMove::SendPacket = bFlip;
+		if (Settings::AntiAim::HeadEdge::enabled && edging_head)
+		{
+			if (Settings::AntiAim::type_Y == Settings::AntiAim::type_fake_Y || !bFlip)
+			{
+				angle.y = edge_angle.y;
+			}
+		}
 	}
 
 	if (Settings::AntiAim::enabled_X)
