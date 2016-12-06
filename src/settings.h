@@ -28,7 +28,8 @@ enum TracerType : unsigned int
 enum ClanTagType : unsigned int
 {
 	MARQUEE,
-	WORDS
+	WORDS,
+	LETTERS
 };
 
 enum AutostrafeType : unsigned int
