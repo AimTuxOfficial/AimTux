@@ -51,7 +51,8 @@ MiscPanel::MiscPanel (Vector2D position, Vector2D size)
 	cb_clantag_type = new ComboBox<ClanTagType>("clantag type", STACK (ts_clantag_animation), (size.x - 20) / 6.75, &Settings::ClanTagChanger::type, std::vector<CB_Element>
 			{
 				CB_Element ("Marquee", MARQUEE),
-				CB_Element ("Words", WORDS)
+				CB_Element ("Words", WORDS),
+				CB_Element ("Letters", LETTERS)
 			}, false
 	);
 	vtb_nickname = new ValueTextBox ("Nickname", "", BELOW (ts_showranks), LOC((size.x - 20) / 6.75, 30));
@@ -175,6 +176,9 @@ void MiscPanel::ts_clantag_animation_clicked()
 			break;
 		case WORDS:
 			ClanTagChanger::animations[0] = ClanTagChanger::Words("CUSTOM", Settings::ClanTagChanger::value);
+			break;
+		case LETTERS:
+			ClanTagChanger::animations[0] = ClanTagChanger::Letters("CUSTOM", Settings::ClanTagChanger::value);
 			break;
 	}
 }

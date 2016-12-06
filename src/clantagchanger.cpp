@@ -6,7 +6,7 @@ bool Settings::ClanTagChanger::animation = false;
 bool Settings::ClanTagChanger::enabled = false; // TODO find a way to go back to the "official" clan tag for the player? -- Save the current clan tag, before editing, then restore it later
 ClanTagType Settings::ClanTagChanger::type = MARQUEE;
 
-ClanTagChanger::Animation ClanTagChanger::Marquee(std::string name, std::string text, int width, int speed)
+ClanTagChanger::Animation ClanTagChanger::Marquee(std::string name, std::string text, int width /*= 15*/, int speed /*= 650*/)
 {
 	// Outputs cool scrolling text animation
 
@@ -33,7 +33,7 @@ std::vector<std::string> splitWords(std::string text)
 	return words;
 }
 
-ClanTagChanger::Animation ClanTagChanger::Words(std::string name, std::string text, int speed)
+ClanTagChanger::Animation ClanTagChanger::Words(std::string name, std::string text, int speed /*= 1000*/)
 {
 	// Outputs a word by word animation
 
@@ -41,6 +41,20 @@ ClanTagChanger::Animation ClanTagChanger::Words(std::string name, std::string te
 	std::vector<ClanTagChanger::Frame> frames;
 	for (int i = 0; i < words.size(); i++)
 		frames.push_back(Frame(words[i], speed));
+
+	return ClanTagChanger::Animation(name, frames, ClanTagChanger::ANIM_LOOP);
+}
+
+ClanTagChanger::Animation ClanTagChanger::Letters(std::string name, std::string text, int speed /*= 1000*/)
+{
+	// Outputs a letter incrementing animation
+
+	std::vector<ClanTagChanger::Frame> frames;
+	for (int i = 1; i <= text.length(); i++)
+		frames.push_back(Frame(text.substr(0, i), speed));
+
+	for (int i = text.length() - 2; i > 0; i--)
+		frames.push_back(Frame(frames[i].text, speed));
 
 	return ClanTagChanger::Animation(name, frames, ClanTagChanger::ANIM_LOOP);
 }
