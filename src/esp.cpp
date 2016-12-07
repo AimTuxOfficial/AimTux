@@ -314,6 +314,9 @@ void ESP::DrawBombBox(C_BasePlantedC4* entity)
 	int additionalHeight = 4;
 	float bombTime = entity->GetBombTime() - globalvars->curtime;
 
+	if(bombTime <= 0.0f)
+		return;
+
 	Vector vecOrigin = entity->GetVecOrigin();
 	Vector vecViewOffset = Vector(vecOrigin.x, vecOrigin.y, vecOrigin.z - 4);
 
