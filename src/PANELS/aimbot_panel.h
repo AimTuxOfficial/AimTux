@@ -32,6 +32,7 @@ private:
 	Banner* ba_target;
 	ToggleSwitch* ts_friendly;
 	ComboBox<Bone>* cb_aimbone;
+	ComboBox<AimTargetType>* cb_target_type;
 	Banner* ba_other;
 public:
 	AimbotPanel (Vector2D position, Vector2D size);

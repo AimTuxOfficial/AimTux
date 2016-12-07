@@ -12,7 +12,7 @@ AimbotPanel::AimbotPanel (Vector2D position, Vector2D size)
 	sl_rcs = new Slider ("", STACK (ts_rcs), LOC ((size.x / 2) - ts_rcs->size.x - 30, 30), &Settings::Aimbot::RCS::value, 0.0f, 2.0f);
 	ts_autoaim = new ToggleSwitchTip ("Auto Aim", BELOW (ts_rcs), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoAim::enabled, "Field of view for target to be locked onto");
 	sl_fov = new Slider ("FOV", STACK (ts_autoaim), LOC ((size.x / 2) - ts_autoaim->size.x - 30, 30), &Settings::Aimbot::fov, 0.0f, 180.0f);
-	ts_smooth = new ToggleSwitchTip ("Smooth", BELOW (ts_autoaim), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::Smooth::enabled, "Smoothing reduces the aimbot \"snap\". 0 for full snap. 1 for full smoothing");
+	ts_smooth = new ToggleSwitchTip ("Smooth", BELOW (ts_autoaim), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::Smooth::enabled, "Smoothing reduces the aimbot \"snap\". 0 for full snap. 1 for slowest smoothing.");
 	sl_smooth = new Slider ("", STACK (ts_smooth), LOC ((size.x / 2) - ts_smooth->size.x - 30, 30), &Settings::Aimbot::Smooth::value, 0.0f, Settings::Aimbot::Smooth::max);
 	ts_salting = new ToggleSwitchTip ("Smooth Salting", BELOW (ts_smooth), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::Smooth::Salting::enabled, "Breaks the smoothing into smaller steps, high smooth + low salt is slightly stuttery");
 	sl_salting = new Slider ("Salt Percentage", STACK (ts_salting), LOC ((size.x / 2) - ts_salting->size.x - 30, 30), &Settings::Aimbot::Smooth::Salting::percentage, 0.0f, 100.0f);
@@ -22,21 +22,28 @@ AimbotPanel::AimbotPanel (Vector2D position, Vector2D size)
 	ba_target = new Banner ("Target", STACK(ba_aim), ((size.x - 20) / 2) - 5);
 	ts_friendly = new ToggleSwitchTip ("Friendly", BELOW (ba_target), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::friendly, "Friendly fire mode for aimbot.");
 	cb_aimbone = new ComboBox<Bone>("AimBone", STACK (ts_friendly), (size.x - 20) / 6.75, (Bone*)&Settings::Aimbot::bone, std::vector<CB_Element>
-			{
-					CB_Element ("HEAD", BONE_HEAD),
-					CB_Element ("NECK", BONE_NECK),
-					CB_Element ("UPPER SPINE", BONE_UPPER_SPINAL_COLUMN),
-					CB_Element ("MIDDLE SPINE", BONE_MIDDLE_SPINAL_COLUMN),
-					CB_Element ("LOWER SPINE", BONE_LOWER_SPINAL_COLUMN),
-					CB_Element ("HIP", BONE_HIP),
-					CB_Element ("PELVIS", BONE_PELVIS)
-			}, false
+		{
+			CB_Element ("HEAD", BONE_HEAD),
+			CB_Element ("NECK", BONE_NECK),
+			CB_Element ("UPPER SPINE", BONE_UPPER_SPINAL_COLUMN),
+			CB_Element ("MIDDLE SPINE", BONE_MIDDLE_SPINAL_COLUMN),
+			CB_Element ("LOWER SPINE", BONE_LOWER_SPINAL_COLUMN),
+			CB_Element ("HIP", BONE_HIP),
+			CB_Element ("PELVIS", BONE_PELVIS)
+		}, false
+	);
+	cb_target_type = new ComboBox<AimTargetType>("Target Type", STACK(cb_aimbone), (size.x - 20) / 6.75, (AimTargetType*)&Settings::Aimbot::target_type, std::vector<CB_Element>
+		{
+			CB_Element("FOV", FOV),
+			CB_Element("DISTANCE", DISTANCE),
+			CB_Element("HEALTH", HP)
+		}, false
 	);
 	ba_other = new Banner("Other", BELOW(ts_friendly), ((size.x - 20) / 2) - 5);
 	ts_autopistol = new ToggleSwitchTip ("Auto Pistol", BELOW (ba_other), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoPistol::enabled, "Auto shoot the pistol when holding fire");
 	ts_autoshoot = new ToggleSwitchTip ("Auto Shoot", BELOW (ts_autopistol), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoShoot::enabled, "Automatically aims and shoots");
 	ts_autoscope = new ToggleSwitchTip ("Auto Scope", STACK (ts_autoshoot), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoShoot::autoscope, "Automatically scopes");
-	ts_no_shoot = new ToggleSwitchTip ("No Shoot", STACK (ts_autopistol), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::no_shoot, "Stops the aimbot from shooting, usefull for legit settings+triggerbot");
+	ts_no_shoot = new ToggleSwitchTip ("No Shoot", STACK (ts_autopistol), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::no_shoot, "Stops the aimbot from shooting, useful for legit settings + triggerbot");
 
 	AddComponent (ts_autoscope);
 	AddComponent (ts_autoshoot);
@@ -50,6 +57,7 @@ AimbotPanel::AimbotPanel (Vector2D position, Vector2D size)
 	AddComponent (sl_fov);
 	AddComponent (sl_rcs);
 	AddComponent (cb_aimbone);
+	AddComponent (cb_target_type);
 	AddComponent (ts_friendly);
 	AddComponent (ba_target);
 	AddComponent (ts_aimstep);

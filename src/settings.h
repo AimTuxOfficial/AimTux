@@ -138,6 +138,7 @@ namespace Settings
 		extern ButtonCode_t aimkey;
 		extern bool aimkey_only;
 		extern bool no_shoot;
+		extern unsigned int target_type;
 
 		namespace Smooth
 		{
