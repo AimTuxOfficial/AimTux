@@ -37,6 +37,7 @@
 #include "SDK/SDK.h"
 #include "vmt.h"
 #include "util.h"
+#include "glhook.h"
 
 namespace Hooker
 {
@@ -51,4 +52,5 @@ namespace Hooker
 	void HookSendPacket();
 	void HookPrediction();
 	void HookIsReadyCallback();
+	void HookSwapWindow();
 }

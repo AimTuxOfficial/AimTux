@@ -6,4 +6,4 @@ set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -static-libstdc++")
 
 file(GLOB_RECURSE SOURCE_FILES src/*.cpp)
 add_library(AimTux SHARED ${SOURCE_FILES})
-target_link_libraries(AimTux dl)
+target_link_libraries(AimTux SDL2 GL dl)

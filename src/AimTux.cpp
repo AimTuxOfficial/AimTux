@@ -23,6 +23,7 @@ int __attribute__((constructor)) aimtux_init()
 	Hooker::HookSendPacket();
 	Hooker::HookIsReadyCallback();
 	Hooker::HookPrediction();
+	Hooker::HookSwapWindow();
 
 	Chams::CreateMaterials();
 
@@ -86,6 +87,7 @@ void __attribute__((destructor)) aimtux_shutdown()
 	SkinChanger::UnhookCBaseViewModel();
 
 	*bSendPacket = true;
+	*swap_window_jump_address = original_swap_window;
 
 	cvar->ConsoleColorPrintf(ColorRGBA(255, 150, 150), "AimTux has been unloaded successfully.\n");
 }

@@ -37,6 +37,9 @@ bool* bSendPacket = nullptr;
 int* nPredictionRandomSeed = nullptr;
 CMoveData* g_MoveData = nullptr;
 
+uintptr_t original_swap_window;
+uintptr_t* swap_window_jump_address = nullptr;
+
 MsgFunc_ServerRankRevealAllFn MsgFunc_ServerRankRevealAll;
 SendClanTagFn SendClanTag;
 IsReadyCallbackFn IsReadyCallback;
@@ -170,4 +173,21 @@ void Hooker::HookIsReadyCallback()
 	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) ISREADY_CALLBACK_SIGNATURE, ISREADY_CALLBACK_MASK);
 	
 	IsReadyCallback = reinterpret_cast<IsReadyCallbackFn>(func_address);
+}
+
+void Hooker::HookSwapWindow()
+{
+	/*
+		
+		.text:0000000000047830                         SDL_GL_SwapWindow proc near
+		.text:0000000000047830 48 8B 05 D9 5F 2B 00                    mov     rax, cs:off_2FD810
+		.text:0000000000047837 FF E0                                   jmp     rax
+		.text:0000000000047837                         SDL_GL_SwapWindow endp
+
+		.data:00000000002FD810 A0 E5 03 00 00 00 00 00 off_2FD810      dq offset sub_3E5A0
+
+	*/
+	swap_window_jump_address = reinterpret_cast<uintptr_t*>(GetLibraryAddress("libSDL2-2.0.so.0") + 0x2FD810);
+	original_swap_window = *swap_window_jump_address;
+	*swap_window_jump_address = reinterpret_cast<uintptr_t>(&SDL2::SwapWindow);
 }
