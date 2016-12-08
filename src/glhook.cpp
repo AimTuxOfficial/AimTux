@@ -14,6 +14,10 @@ void SDL2::SwapWindow(SDL_Window* window)
 
 	SDL_GL_MakeCurrent(window, user_context);
 
+	SDL_Event event;
+	while (SDL_PollEvent(&event))
+		ImGui_ImplSdl_ProcessEvent(&event);
+
 	ImGui_ImplSdl_NewFrame(window);
 
 	ImGui::ShowTestWindow();
