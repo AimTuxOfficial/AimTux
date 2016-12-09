@@ -92,9 +92,6 @@ namespace Settings
 {
 	namespace UI
 	{
-		extern Color mainColor;
-		extern Color bodyColor;
-
 		namespace Fonts
 		{
 			namespace Title
