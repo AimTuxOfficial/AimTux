@@ -2,7 +2,6 @@
 
 #include "../SDK/SDK.h"
 #include "../interfaces.h"
-#include "../UI/ui_container.h"
 #include "../hacks.h"
 
 typedef void (*FrameStageNotifyFn) (void*, int);

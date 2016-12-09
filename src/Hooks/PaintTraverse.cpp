@@ -19,8 +19,6 @@ void Hooks::PaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, 
 	Recoilcrosshair::PaintTraverse(vgui_panel, force_repaint, allow_force);
 	ShowSpectators::PaintTraverse(vgui_panel, force_repaint, allow_force);
 
-	gui->Draw();
-
 	if (!engine->IsInGame())
 	{
 		CreateMove::SendPacket = true;

@@ -7,8 +7,6 @@
 #include "atgui.h"
 #include "Hooks/hooks.h"
 
-UI_Container* gui;
-
 /* called when the library is loading */
 int __attribute__((constructor)) aimtux_init()
 {
@@ -59,8 +57,6 @@ int __attribute__((constructor)) aimtux_init()
 
 	NetVarManager::dumpNetvars();
 	Offsets::getOffsets();
-
-	gui = new UI_Container;
 
 	Fonts::SetupFonts();
 	
