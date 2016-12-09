@@ -82,8 +82,9 @@ void __attribute__((destructor)) aimtux_shutdown()
 
 	SkinChanger::UnhookCBaseViewModel();
 
-	*bSendPacket = true;
-	*swap_window_jump_address = original_swap_window;
+	SDL2::UnhookWindow();
 
+	*bSendPacket = true;
+	
 	cvar->ConsoleColorPrintf(ColorRGBA(255, 150, 150), "AimTux has been unloaded successfully.\n");
 }

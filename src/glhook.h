@@ -10,4 +10,5 @@ typedef void (*SDL_GL_SwapWindow_t) (SDL_Window*);
 namespace SDL2
 {
 	void SwapWindow(SDL_Window*);
+	void UnhookWindow();
 }
