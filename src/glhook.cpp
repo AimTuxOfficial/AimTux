@@ -1,6 +1,6 @@
 #include "glhook.h"
 
- SDL_GLContext aimtux_context = nullptr;
+SDL_GLContext aimtux_context = nullptr;
 
 void SDL2::SwapWindow(SDL_Window* window)
 {
@@ -24,7 +24,7 @@ void SDL2::SwapWindow(SDL_Window* window)
 	ImGui::GetIO().MouseDrawCursor = true;
 
 	ImGui::Text("Hello, world!");
-
+	
 	ImGui::Render();
 
 	SDL_GL_MakeCurrent(window, original_context);
@@ -35,8 +35,6 @@ void SDL2::SwapWindow(SDL_Window* window)
 void SDL2::UnhookWindow()
 {
 	*swap_window_jump_address = original_swap_window;
-	
-	ImGui_ImplSdl_Shutdown();
 	
 	SDL_GL_DeleteContext(aimtux_context);
 }
