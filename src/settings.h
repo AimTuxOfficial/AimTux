@@ -131,7 +131,7 @@ namespace Settings
 		extern bool friendly;
 		extern float fov;
 		extern float errorMargin;
-		extern unsigned int bone;
+		extern int bone;
 		extern ButtonCode_t aimkey;
 		extern bool aimkey_only;
 		extern bool no_shoot;

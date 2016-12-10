@@ -192,10 +192,9 @@ void AimbotTab()
 	{
 		ImGui::Checkbox("Friendly   ", &Settings::Aimbot::friendly);
 		ImGui::SameLine();
-		const char* targets[] = { "HEAD", "NECK", "UPPER SPINE", "MIDDLE SPINE", "LOWER SPINE", "HIP", "PELVIS" };
-		static int target = 0;
+		const char* targets[] = { "PELVIS", "LEAN_ROOT", "CAM_DRIVER", "HIP", "LOWER SPINE", "MIDDLE SPINE", "UPPER SPINE", "NECK", "HEAD" };
 		ImGui::PushItemWidth(100);
-			ImGui::Combo("", &target, targets, IM_ARRAYSIZE(targets));
+			ImGui::Combo("", &Settings::Aimbot::bone, targets, IM_ARRAYSIZE(targets));
 		ImGui::PopItemWidth();
 
 		ImGui::Checkbox("Auto Pistol", &Settings::Aimbot::AutoPistol::enabled);
