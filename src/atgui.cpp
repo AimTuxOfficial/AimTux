@@ -107,8 +107,6 @@ void setupMainMenuBar()
 		if (ImGui::Button("Config Winow")) showConfigWindow = !showConfigWindow;
 		ImGui::SameLine();
 
-		if (ImGui::Button("Close")) UI::isVisible = false;
-
 		ImGui::EndMainMenuBar();
 	}
 }
@@ -151,6 +149,7 @@ void aimbotTab()
 		ImGui::Checkbox("Auto Aim", &Settings::Aimbot::AutoAim::enabled);
 		ImGui::Checkbox("Smoothing", &Settings::Aimbot::Smooth::enabled);
 		ImGui::Checkbox("Smooth Salting", &Settings::Aimbot::Smooth::Salting::enabled);
+		ImGui::Checkbox("Aim Step", &Settings::Aimbot::AimStep::enabled);
 	}
 
 	ImGui::NextColumn();
@@ -159,14 +158,10 @@ void aimbotTab()
 
 		ImGui::PushItemWidth(-1);
 			ImGui::SliderFloat("##RCS", &Settings::Aimbot::RCS::value, 0, 2, "0%f");
-		ImGui::PopItemWidth();
-
-		ImGui::PushItemWidth(-1);
 			ImGui::SliderFloat("##AA", &Settings::Aimbot::fov, 0, 180, "FOV: %f");
-		ImGui::PopItemWidth();
-
-		ImGui::PushItemWidth(-1);
 			ImGui::SliderFloat("##SMOOTH", &Settings::Aimbot::Smooth::value, 0, 1, "0%f");
+			ImGui::SliderFloat("##SALT", &Settings::Aimbot::Smooth::Salting::percentage, 0, 100, "Salt Percentage: %f");
+			ImGui::SliderFloat("##STEP", &Settings::Aimbot::AimStep::value, 0, 100, "%f");
 		ImGui::PopItemWidth();
 	}
 
