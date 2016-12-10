@@ -89,10 +89,13 @@ void setupMainMenuBar()
 {
 	if (ImGui::BeginMainMenuBar())
 	{
-		ImGui::Text("AimTux!");
+		if (ImGui::Button("Main Window")) showMainWindow = !showMainWindow;
 		ImGui::SameLine();
 
-		if (ImGui::Button("Main Window")) showMainWindow = !showMainWindow;
+		if (ImGui::Button("Skin Changer Window")) showSkinChangerWindow = !showSkinChangerWindow;
+		ImGui::SameLine();
+
+		if (ImGui::Button("Config Winow")) showConfigWindow = !showConfigWindow;
 		ImGui::SameLine();
 
 		if (ImGui::Button("Close")) UI::isVisible = false;
@@ -165,7 +168,20 @@ void skinChangerWindow()
 		return;
 
 	ImGui::SetNextWindowSize(ImVec2(500, 600), ImGuiSetCond_FirstUseEver);
-	ImGui::Begin("Skin Changer", &showSkinChangerWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar);
+	ImGui::Begin("Skin Changer", &showSkinChangerWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders);
+
+
+
+	ImGui::End();
+}
+
+void configWindow()
+{
+	if(!showConfigWindow)
+		return;
+
+	ImGui::SetNextWindowSize(ImVec2(500, 600), ImGuiSetCond_FirstUseEver);
+	ImGui::Begin("Configs", &showConfigWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders);
 
 
 
@@ -176,6 +192,8 @@ void UI::setupWindows()
 {
 	setupMainMenuBar();
 	mainWindow();
+	skinChangerWindow();
+	configWindow();
 }
 
 bool UI::ColorPicker(float *col, bool alphabar)
