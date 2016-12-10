@@ -82,19 +82,18 @@ void UI::setupColors()
 
 void setupMainMenuBar()
 {
-	ImGui::BeginMainMenuBar();
-
+	if (ImGui::BeginMainMenuBar())
+	{
 		ImGui::Text("AimTux!");
 		ImGui::SameLine();
 
-		if(ImGui::Button("Main Window"))
-			showMainWindow = !showMainWindow;
+		if (ImGui::Button("Main Window")) showMainWindow = !showMainWindow;
 		ImGui::SameLine();
 
-		if(ImGui::Button("Close"))
-			UI::isVisible = false;
+		if (ImGui::Button("Close")) UI::isVisible = false;
 
-	ImGui::EndMainMenuBar();
+		ImGui::EndMainMenuBar();
+	}
 }
 
 void mainWindow()
