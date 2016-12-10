@@ -164,26 +164,22 @@ void mainWindow()
 
 void skinChangerWindow()
 {
-	if(!showSkinChangerWindow)
+	if (!showSkinChangerWindow)
 		return;
 
 	ImGui::SetNextWindowSize(ImVec2(500, 600), ImGuiSetCond_FirstUseEver);
 	ImGui::Begin("Skin Changer", &showSkinChangerWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders);
-
-
 
 	ImGui::End();
 }
 
 void configWindow()
 {
-	if(!showConfigWindow)
+	if (!showConfigWindow)
 		return;
 
 	ImGui::SetNextWindowSize(ImVec2(500, 600), ImGuiSetCond_FirstUseEver);
 	ImGui::Begin("Configs", &showConfigWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders);
-
-
 
 	ImGui::End();
 }
