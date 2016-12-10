@@ -12,13 +12,13 @@ bool test = false;
 
 #define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))
 
-void UI::setVisible(bool visible)
+void UI::SetVisible(bool visible)
 {
 	UI::isVisible = visible;
 	cvar->FindVar("cl_mouseenable")->SetValue(!UI::isVisible);
 }
 
-void UI::setupColors()
+void UI::SetupColors()
 {
 	ImGuiStyle& style = ImGui::GetStyle();
 
@@ -94,7 +94,7 @@ void UI::setupColors()
 	style.Colors[ImGuiCol_ModalWindowDarkening] = ImVec4(1.00f, 0.98f, 0.95f, 0.73f);
 }
 
-void setupMainMenuBar()
+void SetupMainMenuBar()
 {
 	if (ImGui::BeginMainMenuBar())
 	{
@@ -111,7 +111,7 @@ void setupMainMenuBar()
 	}
 }
 
-void popupWindows()
+void PopupWindows()
 {
 	if (showMainColorPopupWindow)
 	{
@@ -128,7 +128,7 @@ void popupWindows()
 	}
 }
 
-void aimbotTab()
+void AimbotTab()
 {
 
 	ImGui::Columns(3, NULL, false);
@@ -168,7 +168,7 @@ void aimbotTab()
 	ImGui::Columns(1);
 }
 
-void mainWindow()
+void MainWindow()
 {
 	if (!showMainWindow)
 		return;
@@ -205,7 +205,7 @@ void mainWindow()
 		switch (page)
 		{
 			case 0:
-				aimbotTab();
+				AimbotTab();
 				break;
 			case 1:
 				ImGui::Text("Triggerbot stuff");
@@ -232,7 +232,7 @@ void mainWindow()
 	}
 }
 
-void skinChangerWindow()
+void SkinChangerWindow()
 {
 	if (!showSkinChangerWindow)
 		return;
@@ -243,7 +243,7 @@ void skinChangerWindow()
 	ImGui::End();
 }
 
-void configWindow()
+void ConfigWindow()
 {
 	if (!showConfigWindow)
 		return;
@@ -254,13 +254,13 @@ void configWindow()
 	ImGui::End();
 }
 
-void UI::setupWindows()
+void UI::SetupWindows()
 {
-	setupMainMenuBar();
-	mainWindow();
-	skinChangerWindow();
-	configWindow();
-	popupWindows();
+	SetupMainMenuBar();
+	MainWindow();
+	SkinChangerWindow();
+	ConfigWindow();
+	PopupWindows();
 }
 
 bool UI::ColorPicker(float *col, bool alphabar)

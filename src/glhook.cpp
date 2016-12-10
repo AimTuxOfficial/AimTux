@@ -29,11 +29,11 @@ void SDL2::SwapWindow(SDL_Window* window)
 				return;
 
 			if (event.key.keysym.sym == SDLK_INSERT && event.type == SDL_KEYDOWN)
-				UI::setVisible(false);
+				UI::SetVisible(false);
 		}
 
-		UI::setupColors();
-		UI::setupWindows();
+		UI::SetupColors();
+		UI::SetupWindows();
 
 		ImGui::GetIO().MouseDrawCursor = true;
 		ImGui::Render();

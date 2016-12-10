@@ -7,9 +7,9 @@ namespace UI
 {
 	extern bool isVisible;
 
-	void setVisible(bool visible);
-	void setupColors();
-	void setupWindows();
+	void SetVisible(bool visible);
+	void SetupColors();
+	void SetupWindows();
 	bool ColorPicker(float*, bool);
 	bool ColorPicker3(float*);
 	bool ColorPicker4(float*);
