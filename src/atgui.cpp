@@ -126,8 +126,8 @@ void popupWindows()
 
 void aimbotTab()
 {
-	ImGui::Columns(2, NULL, true);
 
+	ImGui::Columns(3, NULL, false);
 	{
 		ImGui::SetColumnOffset(1, 150);
 		ImGui::PushItemWidth(-1);
@@ -139,25 +139,24 @@ void aimbotTab()
 
 	ImGui::NextColumn();
 	{
+		ImGui::SetColumnOffset(2, 275);
 		ImGui::Checkbox("Enabled", &Settings::Aimbot::enabled);
-		ImGui::Checkbox("Silent Aim", &Settings::Aimbot::silent);
-
 		ImGui::Checkbox("Recoi Control", &Settings::Aimbot::RCS::enabled);
-		ImGui::SameLine();
+		ImGui::Checkbox("Auto Aim", &Settings::Aimbot::AutoAim::enabled);
+		ImGui::Checkbox("Smoothing", &Settings::Aimbot::Smooth::enabled);
+	}
+
+	ImGui::NextColumn();
+	{
+		ImGui::Checkbox("Silent Aim", &Settings::Aimbot::silent);
 
 		ImGui::PushItemWidth(-1);
 			ImGui::SliderFloat("##RCS", &Settings::Aimbot::RCS::value, 0, 2, "0%f");
 		ImGui::PopItemWidth();
 
-		ImGui::Checkbox("Auto Aim", &Settings::Aimbot::AutoAim::enabled);
-		ImGui::SameLine();
-
 		ImGui::PushItemWidth(-1);
 			ImGui::SliderFloat("##AA", &Settings::Aimbot::fov, 0, 180, "FOV: %f");
 		ImGui::PopItemWidth();
-
-		ImGui::Checkbox("Smoothing", &Settings::Aimbot::Smooth::enabled);
-		ImGui::SameLine();
 
 		ImGui::PushItemWidth(-1);
 			ImGui::SliderFloat("##SMOOTH", &Settings::Aimbot::Smooth::value, 0, 1, "0%f");
