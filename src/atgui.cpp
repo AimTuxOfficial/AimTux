@@ -107,17 +107,19 @@ void setupMainMenuBar()
 
 void popupWindows()
 {
-	if(showMainColorPopupWindow)
+	if (showMainColorPopupWindow)
 	{
 		ImGui::GetStyle().WindowMinSize = ImVec2(240, 265);
 		ImGui::SetNextWindowSize(ImVec2(240, 265), ImGuiSetCond_Always);
-		ImGui::Begin("Color", &showMainColorPopupWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoResize);
+
+		if (ImGui::Begin("Color", &showMainColorPopupWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoResize))
+		{
 			UI::ColorPicker3((float *)&mainColor);
-			if(ImGui::Button("Close")) showMainColorPopupWindow = false;
-		ImGui::End();
+			if (ImGui::Button("Close")) showMainColorPopupWindow = false;
+
+			ImGui::End();
+		}
 	}
-
-
 }
 
 void mainWindow()
@@ -127,70 +129,63 @@ void mainWindow()
 
 	static int page = 0;
 	ImGui::SetNextWindowSize(ImVec2(500, 600), ImGuiSetCond_FirstUseEver);
-	ImGui::Begin("AimTux", &showMainWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders);
-
-	const char* tabs[] =
-			{
-					"Aimbot",
-					"Triggerbot",
-					"Visuals",
-					"HvH",
-					"Misc",
-			};
-	int tabs_size = sizeof(tabs) / sizeof(tabs[0]);
-
-	for (int i = 0; i < tabs_size; i++)
+	if (ImGui::Begin("AimTux", &showMainWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
 	{
-		ImVec2 windowSize = ImGui::GetWindowSize();
-		int width = windowSize.x / tabs_size - 9;
-		int height = 25;
+		const char* tabs[] =
+				{
+						"Aimbot",
+						"Triggerbot",
+						"Visuals",
+						"HvH",
+						"Misc",
+				};
+		int tabs_size = sizeof(tabs) / sizeof(tabs[0]);
 
-		if (ImGui::Button(tabs[i], ImVec2(width, height)))
-			page = i;
+		for (int i = 0; i < tabs_size; i++)
+		{
+			ImVec2 windowSize = ImGui::GetWindowSize();
+			int width = windowSize.x / tabs_size - 9;
+			int height = 25;
 
-		if (i < tabs_size - 1)
-			ImGui::SameLine();
+			if (ImGui::Button(tabs[i], ImVec2(width, height)))
+				page = i;
+
+			if (i < tabs_size - 1)
+				ImGui::SameLine();
+		}
+
+		ImGui::Separator();
+
+		switch (page)
+		{
+			case 0:
+				ImGui::Text("AimBot stuff");
+				ImGui::Checkbox("Check box", &test);
+
+				break;
+			case 1:
+				ImGui::Text("Triggerbot stuff");
+
+				break;
+			case 2:
+				ImGui::Text("Visuals stuff");
+
+				break;
+			case 3:
+				ImGui::Text("HvH stuff");
+
+				break;
+			case 4:
+				ImGui::Text("Misc stuff");
+
+				if (ImGui::ColorButton(mainColor, true))
+					showMainColorPopupWindow = true;
+
+				break;
+		}
+
+		ImGui::End();
 	}
-
-	ImGui::Separator();
-
-	switch (page)
-	{
-		case 0:
-
-			ImGui::Text("AimBot stuff");
-			ImGui::Checkbox("Check box", &test);
-
-			break;
-		case 1:
-
-			ImGui::Text("Triggerbot stuff");
-
-			break;
-		case 2:
-
-			ImGui::Text("Visuals stuff");
-
-			break;
-		case 3:
-
-			ImGui::Text("HvH stuff");
-
-			break;
-		case 4:
-
-			ImGui::Text("Misc stuff");
-
-			if(ImGui::ColorButton(mainColor, true))
-			{
-				showMainColorPopupWindow = true;
-
-			}
-
-			break;
-	}
-
-	ImGui::End();
 }
 
 void skinChangerWindow()
