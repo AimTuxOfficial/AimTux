@@ -2,9 +2,9 @@
 
 bool Settings::ShowSpectators::enabled = true;
 
-std::list<std::string> ShowSpectators::GetObservervators(C_BaseEntity* pEntity)
+std::list<int> ShowSpectators::GetObservervators(C_BaseEntity* pEntity)
 {
-	std::list<std::string> list;
+	std::list<int> list;
 
 	if (!engine->IsInGame())
 		return list;
@@ -21,20 +21,11 @@ std::list<std::string> ShowSpectators::GetObservervators(C_BaseEntity* pEntity)
 		if (entity->GetDormant() || entity->GetAlive())
 			continue;
 
-		if (*entity->GetObserverMode() != ObserverMode_t::OBS_MODE_IN_EYE)
-			continue;
-
 		C_BaseEntity *target = entitylist->GetClientEntityFromHandle(entity->GetObserverTarget());
 		if (pEntity != target)
 			continue;
 
-		IEngineClient::player_info_t entityInformation;
-		engine->GetPlayerInfo(i, &entityInformation);
-
-		if (strcmp(entityInformation.guid, "BOT") == 0)
-			continue;
-
-		list.push_back(entityInformation.name);
+		list.push_back(i);
 	}
 
 	return list;
