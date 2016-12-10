@@ -102,42 +102,49 @@ void mainWindow()
 		return;
 
 	static int page = 1;
-	ImGui::SetNextWindowSize(ImVec2(500, 500), ImGuiSetCond_FirstUseEver);
+	ImGui::SetNextWindowSize(ImVec2(500, 600), ImGuiSetCond_FirstUseEver);
 	ImGui::Begin("AimTux", &showMainWindow, ImGuiWindowFlags_NoCollapse);
 
-	ImGui::Columns(5, NULL, false);
-	if (ImGui::Button("Aimbot", ImVec2(100 /* Width */, 25 /* Height */))) page = 1;
+	const char* tabs[] =
+			{
+					"Aimbot",
+					"Triggerbot",
+					"Visuals",
+					"HvH",
+					"Misc",
+			};
+	int tabs_size = sizeof(tabs) / sizeof(tabs[0]);
 
-	ImGui::NextColumn();
-	if (ImGui::Button("Triggerbot", ImVec2(100, 25))) page = 2;
+	for (int i = 0; i < tabs_size; i++)
+	{
+		ImVec2 windowSize = ImGui::GetWindowSize();
+		int width = windowSize.x / tabs_size - 9;
+		int height = 25;
 
-	ImGui::NextColumn();
-	if (ImGui::Button("Visuals", ImVec2(100, 25))) page = 3;
+		if (ImGui::Button(tabs[i], ImVec2(width, height)))
+			page = i;
 
-	ImGui::NextColumn();
-	if (ImGui::Button("HvH", ImVec2(100, 25))) page = 4;
-
-	ImGui::NextColumn();
-	if (ImGui::Button("Misc", ImVec2(100, 25))) page = 5;
+		if (i < tabs_size - 1)
+			ImGui::SameLine();
+	}
 
 	ImGui::Separator();
-	ImGui::Columns(1);
 
 	switch (page)
 	{
-		case 1:
+		case 0:
 			ImGui::Text("AimBot stuff");
 			break;
-		case 2:
+		case 1:
 			ImGui::Text("Triggerbot stuff");
 			break;
-		case 3:
+		case 2:
 			ImGui::Text("Visuals stuff");
 			break;
-		case 4:
+		case 3:
 			ImGui::Text("HvH stuff");
 			break;
-		case 5:
+		case 4:
 			ImGui::Text("Misc stuff");
 			UI::ColorPicker3((float *)&colTest);
 			break;
