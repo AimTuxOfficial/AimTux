@@ -11,6 +11,8 @@ void UI::setupColors()
 {
 	ImGuiStyle& style = ImGui::GetStyle();
 
+	ImVec4 mainColorHovered = ImVec4(mainColor.x + 0.1f, mainColor.y + 0.1f, mainColor.z + 0.1f, 1.00f);
+
 	style.Alpha = 1.0f;
 	style.WindowPadding = ImVec2(8, 8);
 	style.WindowMinSize = ImVec2(32, 32);
@@ -43,11 +45,11 @@ void UI::setupColors()
 	style.Colors[ImGuiCol_Border] = ImVec4(0.80f, 0.80f, 0.83f, 0.88f);
 	style.Colors[ImGuiCol_BorderShadow] = ImVec4(0.92f, 0.91f, 0.88f, 0.00f);
 	style.Colors[ImGuiCol_FrameBg]= mainColor;
-	style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
+	style.Colors[ImGuiCol_FrameBgHovered] = mainColorHovered;
 	style.Colors[ImGuiCol_FrameBgActive] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
 	style.Colors[ImGuiCol_TitleBg]= mainColor;
 	style.Colors[ImGuiCol_TitleBgCollapsed] = ImVec4(1.00f, 0.98f, 0.95f, 0.75f);
-	style.Colors[ImGuiCol_TitleBgActive] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
+	style.Colors[ImGuiCol_TitleBgActive] = mainColor;
 	style.Colors[ImGuiCol_MenuBarBg] = mainColor;
 	style.Colors[ImGuiCol_ScrollbarBg] = mainColor;
 	style.Colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
@@ -58,10 +60,10 @@ void UI::setupColors()
 	style.Colors[ImGuiCol_SliderGrab] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
 	style.Colors[ImGuiCol_SliderGrabActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
 	style.Colors[ImGuiCol_Button] = mainColor;
-	style.Colors[ImGuiCol_ButtonHovered] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
+	style.Colors[ImGuiCol_ButtonHovered] = mainColorHovered;
 	style.Colors[ImGuiCol_ButtonActive] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
 	style.Colors[ImGuiCol_Header] = mainColor;
-	style.Colors[ImGuiCol_HeaderHovered] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+	style.Colors[ImGuiCol_HeaderHovered] = mainColorHovered;
 	style.Colors[ImGuiCol_HeaderActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
 	style.Colors[ImGuiCol_Column] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
 	style.Colors[ImGuiCol_ColumnHovered] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
