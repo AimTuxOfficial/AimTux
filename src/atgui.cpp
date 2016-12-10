@@ -133,7 +133,6 @@ void PopupWindows()
 
 void AimbotTab()
 {
-
 	ImGui::Columns(4, NULL, false);
 	{
 		ImGui::SetColumnOffset(1, 125);
@@ -147,15 +146,14 @@ void AimbotTab()
 
 	ImGui::NextColumn();
 	{
-		//ImGui::SetColumnOffset(2, 300);
 		ImGui::Checkbox("Silent Aim", &Settings::Aimbot::silent);
 
 		ImGui::PushItemWidth(-1);
-			ImGui::SliderFloat("##RCS", &Settings::Aimbot::RCS::value, 0, 2, "0%f");
-			ImGui::SliderFloat("##AA", &Settings::Aimbot::fov, 0, 180, "FOV: %f");
-			ImGui::SliderFloat("##SMOOTH", &Settings::Aimbot::Smooth::value, 0, 1, "0%f");
-			ImGui::SliderFloat("##SALT", &Settings::Aimbot::Smooth::Salting::percentage, 0, 100, "Salt Percentage: %f");
-			ImGui::SliderFloat("##STEP", &Settings::Aimbot::AimStep::value, 0, 100, "%f");
+			ImGui::SliderFloat("##RCS", &Settings::Aimbot::RCS::value, 0, 2);
+			ImGui::SliderFloat("##AA", &Settings::Aimbot::fov, 0, 180);
+			ImGui::SliderFloat("##SMOOTH", &Settings::Aimbot::Smooth::value, 0, 1);
+			ImGui::SliderFloat("##SALT", &Settings::Aimbot::Smooth::Salting::percentage, 0, 100);
+			ImGui::SliderFloat("##STEP", &Settings::Aimbot::AimStep::value, 0, 100);
 		ImGui::PopItemWidth();
 	}
 
@@ -184,6 +182,49 @@ void AimbotTab()
 			ImGui::SliderFloat("##ERROR", &Settings::Aimbot::errorMargin, 0, 2, "Error Margin 0%f");
 		ImGui::PopItemWidth();
 	}
+}
+
+void TriggerbotTab()
+{
+	ImGui::Columns(4, NULL, false);
+	{
+		ImGui::SetColumnOffset(1, 100);
+		ImGui::Checkbox("Enabled", &Settings::Triggerbot::enabled);
+		ImGui::Checkbox("Delay", &Settings::Triggerbot::Delay::enabled);
+	}
+
+	ImGui::NextColumn();
+	{
+		static char buf[128] = "Text Boxes are buggy, try typing";
+		ImGui::InputText("##TRIGGERKEY", buf, IM_ARRAYSIZE(buf));
+		ImGui::SliderInt("##TRIGGERDELAY", &Settings::Triggerbot::Delay::value, 0, 1000);
+	}
+
+	ImGui::NextColumn();
+	{
+
+	}
+
+	ImGui::NextColumn();
+	{
+
+	}
+}
+
+void VisualsTab()
+{
+
+}
+
+void HvHTab()
+{
+
+}
+
+void MiscTab()
+{
+	if (ImGui::ColorButton(mainColor, true))
+		showMainColorPopupWindow = true;
 }
 
 void MainWindow()
@@ -226,23 +267,16 @@ void MainWindow()
 				AimbotTab();
 				break;
 			case 1:
-				ImGui::Text("Triggerbot stuff");
-
+				TriggerbotTab();
 				break;
 			case 2:
-				ImGui::Text("Visuals stuff");
-
+				VisualsTab();
 				break;
 			case 3:
-				ImGui::Text("HvH stuff");
-
+				HvHTab();
 				break;
 			case 4:
-				ImGui::Text("Misc stuff");
-
-				if (ImGui::ColorButton(mainColor, true))
-					showMainColorPopupWindow = true;
-
+				MiscTab();
 				break;
 		}
 
