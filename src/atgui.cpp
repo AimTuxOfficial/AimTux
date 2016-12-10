@@ -158,12 +158,16 @@ void aimbotTab()
 
 	ImGui::NextColumn();
 	{
-		ImGui::Checkbox("Test1", &Settings::Aimbot::silent);
+		ImGui::Checkbox("Friendly", &Settings::Aimbot::friendly);
 	}
 
 	ImGui::NextColumn();
 	{
-		ImGui::Checkbox("Test2", &Settings::Aimbot::silent);
+		const char* targets[] = { "HEAD", "NECK", "UPPER SPINE", "LOWER SPINE", "DICK" };
+		static int target = -1;
+		ImGui::PushItemWidth(-1);
+			ImGui::Combo("", &target, targets, IM_ARRAYSIZE(targets));
+		ImGui::PopItemWidth();
 	}
 
 	ImGui::Columns(2, NULL, false);
