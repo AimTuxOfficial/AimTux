@@ -1,4 +1,5 @@
 #include "glhook.h"
+#include "atgui.h"
 
 SDL_GLContext aimtux_context = nullptr;
 
@@ -20,6 +21,8 @@ void SDL2::SwapWindow(SDL_Window* window)
 		ImGui_ImplSdl_ProcessEvent(&event);
 
 	ImGui_ImplSdl_NewFrame(window);
+
+	SetupUI();
 
 	ImGui::GetIO().MouseDrawCursor = true;
 

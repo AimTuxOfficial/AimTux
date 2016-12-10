@@ -61,8 +61,6 @@ int __attribute__((constructor)) aimtux_init()
 	Fonts::SetupFonts();
 	
 	Settings::LoadSettings();
-	
-	SetupUI();
 
 	return 0;
 }
