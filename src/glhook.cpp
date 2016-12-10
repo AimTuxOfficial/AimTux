@@ -16,22 +16,29 @@ void SDL2::SwapWindow(SDL_Window* window)
 
 	SDL_GL_MakeCurrent(window, aimtux_context);
 
-	SDL_Event event;
-	while (SDL_PollEvent(&event))
-		ImGui_ImplSdl_ProcessEvent(&event);
-
 	ImGui_ImplSdl_NewFrame(window);
 
-	SetupUI();
+	if (UIVisible)
+	{
+		SDL_Event event;
+		while (SDL_PollEvent(&event))
+		{
+			ImGui_ImplSdl_ProcessEvent(&event);
 
-	ImGui::GetIO().MouseDrawCursor = true;
+			if (event.key.keysym.sym == SDLK_INSERT && event.key.state == SDL_KEYDOWN)
+				UIVisible = !UIVisible;
+		}
 
-	ImGui::Text("Hello, world!");
-	
-	ImGui::Render();
+		SetupUI();
+
+		ImGui::GetIO().MouseDrawCursor = true;
+
+		ImGui::Text("Hello, world!");
+
+		ImGui::Render();
+	}
 
 	SDL_GL_MakeCurrent(window, original_context);
-
 	oSDL_GL_SwapWindow(window);
 }
 

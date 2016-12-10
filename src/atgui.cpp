@@ -1,5 +1,7 @@
 #include "atgui.h"
 
+bool UIVisible = false;
+
 void SetupUI()
 {
 	ImGuiStyle& style = ImGui::GetStyle();

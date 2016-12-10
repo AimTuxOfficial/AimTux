@@ -3,6 +3,7 @@
 #include "../SDK/SDK.h"
 #include "../interfaces.h"
 #include "../hacks.h"
+#include "../atgui.h"
 
 typedef void (*FrameStageNotifyFn) (void*, int);
 typedef void (*PaintTraverseFn) (void*, VPANEL, bool, bool);
