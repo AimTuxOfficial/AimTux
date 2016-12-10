@@ -34,10 +34,10 @@ void SDL2::SwapWindow(SDL_Window* window)
 
 		UI::SetupColors();
 		UI::SetupWindows();
-
-		ImGui::GetIO().MouseDrawCursor = true;
-		ImGui::Render();
 	}
+
+	ImGui::GetIO().MouseDrawCursor = UI::isVisible;
+	ImGui::Render();
 
 	SDL_GL_MakeCurrent(window, original_context);
 	oSDL_GL_SwapWindow(window);
