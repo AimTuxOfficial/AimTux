@@ -7,6 +7,7 @@ ImVec4 mainColor = ImVec4(0.5f, 0.25f, 0.75f, 1.00f);
 bool showMainWindow = true;
 bool showSkinChangerWindow = false;
 bool showConfigWindow = false;
+bool showMainColorPopupWindow = false;
 bool test = false;
 
 void UI::setupColors()
@@ -18,7 +19,7 @@ void UI::setupColors()
 
 	style.Alpha = 1.0f;
 	style.WindowPadding = ImVec2(8, 8);
-	style.WindowMinSize = ImVec2(32, 32);
+	style.WindowMinSize = ImVec2(400, 400);
 	style.WindowRounding = 0.0f;
 	style.WindowTitleAlign = ImVec2(0.5f, 0.5f);
 	style.ChildWindowRounding = 0.0f;
@@ -42,7 +43,7 @@ void UI::setupColors()
 
 	style.Colors[ImGuiCol_Text] = ImVec4(0.80f, 0.80f, 0.83f, 1.00f);
 	style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
-	style.Colors[ImGuiCol_WindowBg] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
+	style.Colors[ImGuiCol_WindowBg] = ImVec4(0.06f, 0.05f, 0.07f, 0.85f);
 	style.Colors[ImGuiCol_ChildWindowBg] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
 	style.Colors[ImGuiCol_PopupBg] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
 	style.Colors[ImGuiCol_Border] = mainColor;
@@ -104,6 +105,21 @@ void setupMainMenuBar()
 	}
 }
 
+void popupWindows()
+{
+	if(showMainColorPopupWindow)
+	{
+		ImGui::GetStyle().WindowMinSize = ImVec2(240, 265);
+		ImGui::SetNextWindowSize(ImVec2(240, 265), ImGuiSetCond_Always);
+		ImGui::Begin("Color", &showMainColorPopupWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoResize);
+			UI::ColorPicker3((float *)&mainColor);
+			if(ImGui::Button("Close")) showMainColorPopupWindow = false;
+		ImGui::End();
+	}
+
+
+}
+
 void mainWindow()
 {
 	if (!showMainWindow)
@@ -141,21 +157,36 @@ void mainWindow()
 	switch (page)
 	{
 		case 0:
+
 			ImGui::Text("AimBot stuff");
 			ImGui::Checkbox("Check box", &test);
+
 			break;
 		case 1:
+
 			ImGui::Text("Triggerbot stuff");
+
 			break;
 		case 2:
+
 			ImGui::Text("Visuals stuff");
+
 			break;
 		case 3:
+
 			ImGui::Text("HvH stuff");
+
 			break;
 		case 4:
+
 			ImGui::Text("Misc stuff");
-			UI::ColorPicker3((float *)&mainColor);
+
+			if(ImGui::ColorButton(mainColor, true))
+			{
+				showMainColorPopupWindow = true;
+
+			}
+
 			break;
 	}
 
@@ -190,6 +221,7 @@ void UI::setupWindows()
 	mainWindow();
 	skinChangerWindow();
 	configWindow();
+	popupWindows();
 }
 
 bool UI::ColorPicker(float *col, bool alphabar)
