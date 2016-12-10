@@ -3,7 +3,7 @@
 bool UI::isVisible = false;
 
 ImVec4 colTest = ImGui::GetStyle().Colors[ImGuiCol_MenuBarBg]; //Place holder for color picker testing
-bool showMainWindow = false;
+bool showMainWindow = true;
 bool showSkinChangerWindow = false;
 bool showConfigWindow = false;
 
@@ -99,15 +99,42 @@ void setupMainMenuBar()
 
 void mainWindow()
 {
-	ImGui::SetNextWindowSize(ImVec2(720, 720), ImGuiSetCond_Always);
+	static int page = 1;
+	ImGui::SetNextWindowSize(ImVec2(500, 500), ImGuiSetCond_Always);
 	ImGui::Begin("AimTux", &showMainWindow, ImGuiWindowFlags_NoCollapse|ImGuiWindowFlags_MenuBar|ImGuiWindowFlags_NoResize);
 
-	ImGui::Text("Hello, world!");
-	ImGui::Columns(4, NULL, false);
+	ImGui::Columns(5, NULL, false);
+	if(ImGui::Button("Aimbot", ImVec2(100 /* Width */, 25 /* Height */))) page = 1;
 	ImGui::NextColumn();
-	ImGui::Text("Hello, world!");
+	if(ImGui::Button("Triggerbot", ImVec2(100, 25))) page = 2;
+	ImGui::NextColumn();
+	if(ImGui::Button("Visuals", ImVec2(100, 25))) page = 3;
+	ImGui::NextColumn();
+	if(ImGui::Button("HvH", ImVec2(100, 25))) page = 4;
+	ImGui::NextColumn();
+	if(ImGui::Button("Misc", ImVec2(100, 25))) page = 5;
+
 	ImGui::Columns(1);
-	UI::ColorPicker3((float *)&colTest);
+
+	switch (page)
+	{
+		case 1:
+			ImGui::Text("AimBot stuff");
+			break;
+		case 2:
+			ImGui::Text("Triggerbot stuff");
+			break;
+		case 3:
+			ImGui::Text("Visuals stuff");
+			break;
+		case 4:
+			ImGui::Text("HvH stuff");
+			break;
+		case 5:
+			ImGui::Text("Misc stuff");
+			UI::ColorPicker3((float *)&colTest);
+			break;
+	}
 
 	ImGui::End();
 }
