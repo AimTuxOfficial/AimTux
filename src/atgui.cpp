@@ -105,7 +105,7 @@ void SetupMainMenuBar()
 		if (ImGui::Button("Skin Changer Window")) showSkinChangerWindow = !showSkinChangerWindow;
 		ImGui::SameLine();
 
-		if (ImGui::Button("Config Winow")) showConfigWindow = !showConfigWindow;
+		if (ImGui::Button("Config Window")) showConfigWindow = !showConfigWindow;
 		ImGui::SameLine();
 
 		if (ImGui::Button("Spectators")) showSpectatorsWindow = !showSpectatorsWindow;
@@ -137,7 +137,7 @@ void AimbotTab()
 	{
 		ImGui::SetColumnOffset(1, 125);
 		ImGui::Checkbox("Enabled", &Settings::Aimbot::enabled);
-		ImGui::Checkbox("Recoi Control", &Settings::Aimbot::RCS::enabled);
+		ImGui::Checkbox("Recoil Control", &Settings::Aimbot::RCS::enabled);
 		ImGui::Checkbox("Auto Aim", &Settings::Aimbot::AutoAim::enabled);
 		ImGui::Checkbox("Smoothing", &Settings::Aimbot::Smooth::enabled);
 		ImGui::Checkbox("Smooth Salting", &Settings::Aimbot::Smooth::Salting::enabled);
@@ -191,6 +191,12 @@ void TriggerbotTab()
 		ImGui::SetColumnOffset(1, 100);
 		ImGui::Checkbox("Enabled", &Settings::Triggerbot::enabled);
 		ImGui::Checkbox("Delay", &Settings::Triggerbot::Delay::enabled);
+		ImGui::Checkbox("Friendly", &Settings::Triggerbot::Filter::friendly);
+		ImGui::Checkbox("Head", &Settings::Triggerbot::Filter::head);
+		ImGui::Checkbox("Chest", &Settings::Triggerbot::Filter::chest);
+		ImGui::Checkbox("Stomach", &Settings::Triggerbot::Filter::stomach);
+		ImGui::Checkbox("Arms", &Settings::Triggerbot::Filter::arms);
+		ImGui::Checkbox("Legs", &Settings::Triggerbot::Filter::legs);
 	}
 
 	ImGui::NextColumn();
