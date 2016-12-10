@@ -79,6 +79,10 @@ void UI::setupColors()
 
 void UI::setupWindows()
 {
+	ImGui::BeginMainMenuBar();
+		ImGui::Text("AimTux!"); ImGui::SameLine(); if(ImGui::Button("Close"))	UI::isVisible = false;
+	ImGui::EndMainMenuBar();
+
 	ImGui::Text("Hello, world!");
 	UI::ColorPicker3((float *)&colTest);
 }
