@@ -98,20 +98,27 @@ void setupMainMenuBar()
 
 void mainWindow()
 {
+	if (!showMainWindow)
+		return;
+
 	static int page = 1;
 	ImGui::SetNextWindowSize(ImVec2(500, 500), ImGuiSetCond_Always);
-	ImGui::Begin("AimTux", &showMainWindow, ImGuiWindowFlags_NoCollapse|ImGuiWindowFlags_MenuBar|ImGuiWindowFlags_NoResize);
+	ImGui::Begin("AimTux", &showMainWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoResize);
 
 	ImGui::Columns(5, NULL, false);
-	if(ImGui::Button("Aimbot", ImVec2(100 /* Width */, 25 /* Height */))) page = 1;
+	if (ImGui::Button("Aimbot", ImVec2(100 /* Width */, 25 /* Height */))) page = 1;
+
 	ImGui::NextColumn();
-	if(ImGui::Button("Triggerbot", ImVec2(100, 25))) page = 2;
+	if (ImGui::Button("Triggerbot", ImVec2(100, 25))) page = 2;
+
 	ImGui::NextColumn();
-	if(ImGui::Button("Visuals", ImVec2(100, 25))) page = 3;
+	if (ImGui::Button("Visuals", ImVec2(100, 25))) page = 3;
+
 	ImGui::NextColumn();
-	if(ImGui::Button("HvH", ImVec2(100, 25))) page = 4;
+	if (ImGui::Button("HvH", ImVec2(100, 25))) page = 4;
+
 	ImGui::NextColumn();
-	if(ImGui::Button("Misc", ImVec2(100, 25))) page = 5;
+	if (ImGui::Button("Misc", ImVec2(100, 25))) page = 5;
 
 	ImGui::Columns(1);
 
@@ -141,9 +148,7 @@ void mainWindow()
 void UI::setupWindows()
 {
 	setupMainMenuBar();
-
-	if(showMainWindow)
-		mainWindow();
+	mainWindow();
 }
 
 bool UI::ColorPicker( float *col, bool alphabar )
