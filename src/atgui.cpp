@@ -131,19 +131,9 @@ void PopupWindows()
 void AimbotTab()
 {
 
-	ImGui::Columns(3, NULL, false);
+	ImGui::Columns(4, NULL, false);
 	{
-		ImGui::SetColumnOffset(1, 150);
-		ImGui::PushItemWidth(-1);
-		const char* listbox_weapons[] = { "Default", "AK-47", "M4A1-S", "M4A4", "AWP" };
-		static int listbox_weapon_current = 0;
-		ImGui::ListBox("", &listbox_weapon_current, listbox_weapons, IM_ARRAYSIZE(listbox_weapons));
-		ImGui::PopItemWidth();
-	}
-
-	ImGui::NextColumn();
-	{
-		ImGui::SetColumnOffset(2, 275);
+		ImGui::SetColumnOffset(1, 125);
 		ImGui::Checkbox("Enabled", &Settings::Aimbot::enabled);
 		ImGui::Checkbox("Recoi Control", &Settings::Aimbot::RCS::enabled);
 		ImGui::Checkbox("Auto Aim", &Settings::Aimbot::AutoAim::enabled);
@@ -154,6 +144,7 @@ void AimbotTab()
 
 	ImGui::NextColumn();
 	{
+		//ImGui::SetColumnOffset(2, 300);
 		ImGui::Checkbox("Silent Aim", &Settings::Aimbot::silent);
 
 		ImGui::PushItemWidth(-1);
@@ -165,7 +156,26 @@ void AimbotTab()
 		ImGui::PopItemWidth();
 	}
 
-	ImGui::Columns(1);
+	ImGui::NextColumn();
+	{
+		ImGui::Checkbox("Friendly", &Settings::Aimbot::friendly);
+	}
+
+	ImGui::NextColumn();
+	{
+		const char* targets[] = { "HEAD", "NECK", "UPPER SPINE", "LOWER SPINE", "DICK" };
+		static int target = -1;
+		ImGui::PushItemWidth(-1);
+			ImGui::Combo("", &target, targets, IM_ARRAYSIZE(targets));
+		ImGui::PopItemWidth();
+	}
+
+	ImGui::Columns(2, NULL, false);
+	{
+		ImGui::PushItemWidth(-1);
+			ImGui::SliderFloat("##ERROR", &Settings::Aimbot::errorMargin, 0, 2, "Error Margin 0%f");
+		ImGui::PopItemWidth();
+	}
 }
 
 void MainWindow()
