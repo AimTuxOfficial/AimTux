@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ImGUI/imgui.h"
+#include "settings.h"
 
 namespace UI
 {

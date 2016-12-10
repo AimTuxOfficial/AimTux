@@ -10,6 +10,8 @@ bool showConfigWindow = false;
 bool showMainColorPopupWindow = false;
 bool test = false;
 
+#define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))
+
 void UI::setupColors()
 {
 	ImGuiStyle& style = ImGui::GetStyle();
@@ -122,6 +124,51 @@ void popupWindows()
 	}
 }
 
+void aimbotTab()
+{
+	ImGui::Columns(2, NULL, true);
+
+	{
+		ImGui::SetColumnOffset(1, 150);
+		ImGui::PushItemWidth(-1);
+		const char* listbox_weapons[] = { "Default", "AK-47", "M4A1-S", "M4A4", "AWP" };
+		static int listbox_weapon_current = 0;
+		ImGui::ListBox("", &listbox_weapon_current, listbox_weapons, IM_ARRAYSIZE(listbox_weapons));
+		ImGui::PopItemWidth();
+	}
+
+	ImGui::NextColumn();
+	{
+
+		//ImGui::SetColumnOffset(2, 250);
+		ImGui::Checkbox("Enabled", &Settings::Aimbot::enabled);
+		ImGui::Checkbox("Silent Aim", &Settings::Aimbot::silent);
+
+		ImGui::Checkbox("Recoi Control", &Settings::Aimbot::RCS::enabled);
+		ImGui::SameLine();
+
+		ImGui::PushItemWidth(-1);
+			ImGui::SliderFloat("##RCS", &Settings::Aimbot::RCS::value, 0, 2, "0%f");
+		ImGui::PopItemWidth();
+
+		ImGui::Checkbox("Auto Aim", &Settings::Aimbot::AutoAim::enabled);
+		ImGui::SameLine();
+
+		ImGui::PushItemWidth(-1);
+			ImGui::SliderFloat("##AA", &Settings::Aimbot::fov, 0, 180, "FOV: %f");
+		ImGui::PopItemWidth();
+
+		ImGui::Checkbox("Smoothing", &Settings::Aimbot::Smooth::enabled);
+		ImGui::SameLine();
+
+		ImGui::PushItemWidth(-1);
+			ImGui::SliderFloat("##SMOOTH", &Settings::Aimbot::Smooth::value, 0, 1, "0%f");
+		ImGui::PopItemWidth();
+	}
+
+	ImGui::Columns(1);
+}
+
 void mainWindow()
 {
 	if (!showMainWindow)
@@ -159,9 +206,7 @@ void mainWindow()
 		switch (page)
 		{
 			case 0:
-				ImGui::Text("AimBot stuff");
-				ImGui::Checkbox("Check box", &test);
-
+				aimbotTab();
 				break;
 			case 1:
 				ImGui::Text("Triggerbot stuff");
