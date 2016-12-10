@@ -18,7 +18,7 @@ void SDL2::SwapWindow(SDL_Window* window)
 
 	ImGui_ImplSdl_NewFrame(window);
 
-	if (UIVisible)
+	if (UI::isVisible)
 	{
 		SDL_Event event;
 		while (SDL_PollEvent(&event))
@@ -26,15 +26,13 @@ void SDL2::SwapWindow(SDL_Window* window)
 			ImGui_ImplSdl_ProcessEvent(&event);
 
 			if (event.key.keysym.sym == SDLK_INSERT && event.key.state == SDL_KEYDOWN)
-				UIVisible = !UIVisible;
+				UI::isVisible = !UI::isVisible;
 		}
 
-		SetupUI();
+		UI::setupColors();
+		UI::setupWindows();
 
 		ImGui::GetIO().MouseDrawCursor = true;
-
-		ImGui::Text("Hello, world!");
-
 		ImGui::Render();
 	}
 

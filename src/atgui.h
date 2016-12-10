@@ -2,6 +2,10 @@
 
 #include "ImGUI/imgui.h"
 
-extern bool UIVisible;
+namespace UI
+{
+	extern bool isVisible;
 
-void SetupUI();
+	void setupColors();
+	void setupWindows();
+}
