@@ -103,7 +103,7 @@ void mainWindow()
 
 	static int page = 1;
 	ImGui::SetNextWindowSize(ImVec2(500, 600), ImGuiSetCond_FirstUseEver);
-	ImGui::Begin("AimTux", &showMainWindow, ImGuiWindowFlags_NoCollapse);
+	ImGui::Begin("AimTux", &showMainWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar);
 
 	const char* tabs[] =
 			{
