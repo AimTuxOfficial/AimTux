@@ -139,8 +139,6 @@ void aimbotTab()
 
 	ImGui::NextColumn();
 	{
-
-		//ImGui::SetColumnOffset(2, 250);
 		ImGui::Checkbox("Enabled", &Settings::Aimbot::enabled);
 		ImGui::Checkbox("Silent Aim", &Settings::Aimbot::silent);
 
