@@ -77,11 +77,22 @@ void UI::setupColors()
 	style.Colors[ImGuiCol_ModalWindowDarkening] = ImVec4(1.00f, 0.98f, 0.95f, 0.73f);
 }
 
-void UI::setupWindows()
+void setupMainMenuBar()
 {
 	ImGui::BeginMainMenuBar();
-		ImGui::Text("AimTux!"); ImGui::SameLine(); if(ImGui::Button("Close"))	UI::isVisible = false;
+
+	ImGui::Text("AimTux!");
+	ImGui::SameLine();
+
+	if (ImGui::Button("Close"))
+		UI::isVisible = false;
+
 	ImGui::EndMainMenuBar();
+}
+
+void UI::setupWindows()
+{
+	setupMainMenuBar();
 
 	ImGui::Text("Hello, world!");
 	UI::ColorPicker3((float *)&colTest);
