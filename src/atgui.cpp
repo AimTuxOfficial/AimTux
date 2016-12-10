@@ -133,93 +133,141 @@ void PopupWindows()
 
 void AimbotTab()
 {
-	ImGui::Columns(4, NULL, false);
-	{
-		ImGui::SetColumnOffset(1, 125);
-		ImGui::Checkbox("Enabled", &Settings::Aimbot::enabled);
-		ImGui::Checkbox("Recoil Control", &Settings::Aimbot::RCS::enabled);
-		ImGui::Checkbox("Auto Aim", &Settings::Aimbot::AutoAim::enabled);
-		ImGui::Checkbox("Smoothing", &Settings::Aimbot::Smooth::enabled);
-		ImGui::Checkbox("Smooth Salting", &Settings::Aimbot::Smooth::Salting::enabled);
-		ImGui::Checkbox("Aim Step", &Settings::Aimbot::AimStep::enabled);
-	}
-
-	ImGui::NextColumn();
-	{
-		ImGui::Checkbox("Silent Aim", &Settings::Aimbot::silent);
-
-		ImGui::PushItemWidth(-1);
-			ImGui::SliderFloat("##RCS", &Settings::Aimbot::RCS::value, 0, 2);
-			ImGui::SliderFloat("##AA", &Settings::Aimbot::fov, 0, 180);
-			ImGui::SliderFloat("##SMOOTH", &Settings::Aimbot::Smooth::value, 0, 1);
-			ImGui::SliderFloat("##SALT", &Settings::Aimbot::Smooth::Salting::percentage, 0, 100);
-			ImGui::SliderFloat("##STEP", &Settings::Aimbot::AimStep::value, 0, 100);
-		ImGui::PopItemWidth();
-	}
-
-	ImGui::NextColumn();
-	{
-		ImGui::SetColumnOffset(3, (ImGui::GetWindowWidth() / 2) + 115);
-		ImGui::Checkbox("Friendly", &Settings::Aimbot::friendly);
-		ImGui::Checkbox("Auto Pistol", &Settings::Aimbot::AutoPistol::enabled);
-		ImGui::Checkbox("Auto Shoot", &Settings::Aimbot::AutoShoot::enabled);
-	}
-
-	ImGui::NextColumn();
-	{
-		const char* targets[] = { "HEAD", "NECK", "UPPER SPINE", "MIDDLE SPINE", "LOWER SPINE", "HIP", "PELVIS" };
-		static int target = 0;
-		ImGui::PushItemWidth(-1);
-			ImGui::Combo("", &target, targets, IM_ARRAYSIZE(targets));
-		ImGui::PopItemWidth();
-		ImGui::Checkbox("No Shoot", &Settings::Aimbot::no_shoot);
-		ImGui::Checkbox("Auto Scope", &Settings::Aimbot::AutoShoot::autoscope);
-	}
+	ImGui::Checkbox("Enabled", &Settings::Aimbot::enabled);
 
 	ImGui::Columns(2, NULL, false);
 	{
+		ImGui::Checkbox("Silent Aim", &Settings::Aimbot::silent);
+
+		ImGui::Checkbox("Aimkey Only   ", &Settings::Aimbot::aimkey_only);
+		ImGui::SameLine();
+
 		ImGui::PushItemWidth(-1);
+			static char buf[128] = "Text Boxes are buggy, try typing";
+			ImGui::InputText("##AIMKEY", buf, IM_ARRAYSIZE(buf));
+		ImGui::PopItemWidth();
+
+		ImGui::Checkbox("Recoil Control", &Settings::Aimbot::RCS::enabled);
+		ImGui::SameLine();
+
+		ImGui::PushItemWidth(-1);
+			ImGui::SliderFloat("##RCS", &Settings::Aimbot::RCS::value, 0, 2);
+		ImGui::PopItemWidth();
+
+		ImGui::Checkbox("Auto Aim      ", &Settings::Aimbot::AutoAim::enabled);
+		ImGui::SameLine();
+
+		ImGui::PushItemWidth(-1);
+			ImGui::SliderFloat("##AA", &Settings::Aimbot::fov, 0, 180);
+		ImGui::PopItemWidth();
+
+		ImGui::Checkbox("Smoothing     ", &Settings::Aimbot::Smooth::enabled);
+		ImGui::SameLine();
+
+		ImGui::PushItemWidth(-1);
+			ImGui::SliderFloat("##SMOOTH", &Settings::Aimbot::Smooth::value, 0, 1);
+		ImGui::PopItemWidth();
+
+		ImGui::Checkbox("Smooth Salting", &Settings::Aimbot::Smooth::Salting::enabled);
+		ImGui::SameLine();
+
+		ImGui::PushItemWidth(-1);
+			ImGui::SliderFloat("##SALT", &Settings::Aimbot::Smooth::Salting::percentage, 0, 100);
+		ImGui::PopItemWidth();
+
+		ImGui::Checkbox("Aim Step      ", &Settings::Aimbot::AimStep::enabled);
+		ImGui::SameLine();
+
+		ImGui::PushItemWidth(-1);
+			ImGui::SliderFloat("##STEP", &Settings::Aimbot::AimStep::value, 0, 100);
 			ImGui::SliderFloat("##ERROR", &Settings::Aimbot::errorMargin, 0, 2, "Error Margin 0%f");
 		ImGui::PopItemWidth();
+
+		// ImGui::PushItemWidth(-1);
+		//
+		// ImGui::PopItemWidth();
 	}
+
+	ImGui::NextColumn();
+	{
+		ImGui::Checkbox("Friendly   ", &Settings::Aimbot::friendly);
+		ImGui::SameLine();
+		const char* targets[] = { "HEAD", "NECK", "UPPER SPINE", "MIDDLE SPINE", "LOWER SPINE", "HIP", "PELVIS" };
+		static int target = 0;
+		ImGui::PushItemWidth(100);
+			ImGui::Combo("", &target, targets, IM_ARRAYSIZE(targets));
+		ImGui::PopItemWidth();
+
+		ImGui::Checkbox("Auto Pistol", &Settings::Aimbot::AutoPistol::enabled);
+		ImGui::SameLine();
+		ImGui::Checkbox("No Shoot", &Settings::Aimbot::no_shoot);
+
+		ImGui::Checkbox("Auto Shoot ", &Settings::Aimbot::AutoShoot::enabled);
+		ImGui::SameLine();
+		ImGui::Checkbox("Auto Scope", &Settings::Aimbot::AutoShoot::autoscope);
+	}
+
 }
 
 void TriggerbotTab()
 {
-	ImGui::Columns(4, NULL, false);
-	{
-		ImGui::SetColumnOffset(1, 100);
-		ImGui::Checkbox("Enabled", &Settings::Triggerbot::enabled);
-		ImGui::Checkbox("Delay", &Settings::Triggerbot::Delay::enabled);
-		ImGui::Checkbox("Friendly", &Settings::Triggerbot::Filter::friendly);
-		ImGui::Checkbox("Head", &Settings::Triggerbot::Filter::head);
-		ImGui::Checkbox("Chest", &Settings::Triggerbot::Filter::chest);
-		ImGui::Checkbox("Stomach", &Settings::Triggerbot::Filter::stomach);
-		ImGui::Checkbox("Arms", &Settings::Triggerbot::Filter::arms);
-		ImGui::Checkbox("Legs", &Settings::Triggerbot::Filter::legs);
-	}
+	ImGui::Checkbox("Enabled", &Settings::Triggerbot::enabled);
+	ImGui::SameLine();
 
-	ImGui::NextColumn();
-	{
+	ImGui::PushItemWidth(200);
 		static char buf[128] = "Text Boxes are buggy, try typing";
 		ImGui::InputText("##TRIGGERKEY", buf, IM_ARRAYSIZE(buf));
+	ImGui::PopItemWidth();
+
+	ImGui::Checkbox("Delay  ", &Settings::Triggerbot::Delay::enabled);
+	ImGui::SameLine();
+
+	ImGui::PushItemWidth(200);
 		ImGui::SliderInt("##TRIGGERDELAY", &Settings::Triggerbot::Delay::value, 0, 1000);
-	}
+	ImGui::PopItemWidth();
 
-	ImGui::NextColumn();
-	{
-
-	}
-
-	ImGui::NextColumn();
-	{
-
-	}
+	ImGui::Separator();
+	ImGui::Checkbox("Friendly", &Settings::Triggerbot::Filter::friendly);
+	ImGui::Checkbox("Head", &Settings::Triggerbot::Filter::head);
+	ImGui::Checkbox("Chest", &Settings::Triggerbot::Filter::chest);
+	ImGui::Checkbox("Stomach", &Settings::Triggerbot::Filter::stomach);
+	ImGui::Checkbox("Arms", &Settings::Triggerbot::Filter::arms);
+	ImGui::Checkbox("Legs", &Settings::Triggerbot::Filter::legs);
 }
 
 void VisualsTab()
 {
+	ImGui::Columns(2, NULL, false);
+	{
+		ImGui::Checkbox("Enabled    ", &Settings::ESP::enabled);
+		ImGui::Checkbox("Walls      ", &Settings::ESP::Walls::enabled);
+		ImGui::SameLine();
 
+		const char* WallTypes[] = { "2D", "3D" };
+		static int WallType = 0;
+		ImGui::PushItemWidth(75);
+			ImGui::Combo("##WALLTYPE", &WallType, WallTypes, IM_ARRAYSIZE(WallTypes));
+		ImGui::PopItemWidth();
+
+		ImGui::Checkbox("Tracers    ", &Settings::ESP::Tracer::enabled);
+		ImGui::SameLine();
+
+		const char* TracerTypes[] = { "Bottom", "Cursor" };
+		static int TracerType = 0;
+		ImGui::PushItemWidth(75);
+			ImGui::Combo("##TRACERTYPE", &TracerType, TracerTypes, IM_ARRAYSIZE(TracerTypes));
+		ImGui::PopItemWidth();
+
+		ImGui::Checkbox("Show Name  ", &Settings::ESP::Info::showName);
+		ImGui::Checkbox("Show Health", &Settings::ESP::Info::showHealth);
+		ImGui::Checkbox("Show Weapon", &Settings::ESP::Info::showWeapon);
+
+	}
+
+	ImGui::NextColumn();
+	{
+
+	}
 }
 
 void HvHTab()
