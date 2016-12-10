@@ -144,6 +144,7 @@ void aimbotTab()
 		ImGui::Checkbox("Recoi Control", &Settings::Aimbot::RCS::enabled);
 		ImGui::Checkbox("Auto Aim", &Settings::Aimbot::AutoAim::enabled);
 		ImGui::Checkbox("Smoothing", &Settings::Aimbot::Smooth::enabled);
+		ImGui::Checkbox("Smooth Salting", &Settings::Aimbot::Smooth::Salting::enabled);
 	}
 
 	ImGui::NextColumn();

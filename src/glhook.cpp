@@ -6,9 +6,9 @@ SDL_GLContext aimtux_context = nullptr;
 void SDL2::SwapWindow(SDL_Window* window)
 {
 	static SDL_GL_SwapWindow_t oSDL_GL_SwapWindow = reinterpret_cast<SDL_GL_SwapWindow_t>(original_swap_window);
-	
+
 	static SDL_GLContext original_context = SDL_GL_GetCurrentContext();
-	
+
 	if (!aimtux_context) {
 		aimtux_context = SDL_GL_CreateContext(window);
 		ImGui_ImplSdl_Init(window);
@@ -25,8 +25,8 @@ void SDL2::SwapWindow(SDL_Window* window)
 		{
 			ImGui_ImplSdl_ProcessEvent(&event);
 
-			if (event.key.keysym.sym == SDLK_INSERT && event.key.state == SDL_KEYDOWN)
-				UI::isVisible = !UI::isVisible;
+			if (event.key.keysym.sym == SDLK_INSERT && event.type == SDL_KEYDOWN)
+				UI::isVisible = false;
 		}
 
 		UI::setupColors();
@@ -43,6 +43,6 @@ void SDL2::SwapWindow(SDL_Window* window)
 void SDL2::UnhookWindow()
 {
 	*swap_window_jump_address = original_swap_window;
-	
+
 	SDL_GL_DeleteContext(aimtux_context);
 }
