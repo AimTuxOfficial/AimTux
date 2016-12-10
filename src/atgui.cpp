@@ -158,6 +158,7 @@ void AimbotTab()
 
 	ImGui::NextColumn();
 	{
+		ImGui::SetColumnOffset(3, (ImGui::GetWindowWidth() / 2) + 115);
 		ImGui::Checkbox("Friendly", &Settings::Aimbot::friendly);
 		ImGui::Checkbox("Auto Pistol", &Settings::Aimbot::AutoPistol::enabled);
 		ImGui::Checkbox("Auto Shoot", &Settings::Aimbot::AutoShoot::enabled);
