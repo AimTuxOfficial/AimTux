@@ -12,6 +12,12 @@ bool test = false;
 
 #define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))
 
+void UI::setVisible(bool visible)
+{
+	UI::isVisible = visible;
+	cvar->FindVar("cl_mouseenable")->SetValue(!UI::isVisible);
+}
+
 void UI::setupColors()
 {
 	ImGuiStyle& style = ImGui::GetStyle();

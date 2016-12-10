@@ -26,7 +26,7 @@ void SDL2::SwapWindow(SDL_Window* window)
 			ImGui_ImplSdl_ProcessEvent(&event);
 
 			if (event.key.keysym.sym == SDLK_INSERT && event.type == SDL_KEYDOWN)
-				UI::isVisible = false;
+				UI::setVisible(false);
 		}
 
 		UI::setupColors();
