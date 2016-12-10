@@ -3,6 +3,9 @@
 bool UI::isVisible = false;
 
 ImVec4 colTest = ImGui::GetStyle().Colors[ImGuiCol_MenuBarBg]; //Place holder for color picker testing
+bool showMainWindow = false;
+bool showSkinChangerWindow = false;
+bool showConfigWindow = false;
 
 void UI::setupColors()
 {
@@ -12,7 +15,7 @@ void UI::setupColors()
 	style.WindowPadding = ImVec2(8, 8);
 	style.WindowMinSize = ImVec2(32, 32);
 	style.WindowRounding = 0.0f;
-	style.WindowTitleAlign = ImVec2(0.0f, 0.5f);
+	style.WindowTitleAlign = ImVec2(0.5f, 0.5f);
 	style.ChildWindowRounding = 0.0f;
 	style.FramePadding = ImVec2(4, 1);
 	style.FrameRounding = 0.0f;
@@ -77,14 +80,44 @@ void UI::setupColors()
 	style.Colors[ImGuiCol_ModalWindowDarkening] = ImVec4(1.00f, 0.98f, 0.95f, 0.73f);
 }
 
-void UI::setupWindows()
+void setupMainMenuBar()
 {
 	ImGui::BeginMainMenuBar();
-		ImGui::Text("AimTux!"); ImGui::SameLine(); if(ImGui::Button("Close"))	UI::isVisible = false;
+
+		ImGui::Text("AimTux!");
+		ImGui::SameLine();
+
+		if(ImGui::Button("Main Window"))
+			showMainWindow = !showMainWindow;
+		ImGui::SameLine();
+
+		if(ImGui::Button("Close"))
+			UI::isVisible = false;
+
 	ImGui::EndMainMenuBar();
+}
+
+void mainWindow()
+{
+	ImGui::SetNextWindowSize(ImVec2(720, 720), ImGuiSetCond_Always);
+	ImGui::Begin("AimTux", &showMainWindow, ImGuiWindowFlags_NoCollapse|ImGuiWindowFlags_MenuBar|ImGuiWindowFlags_NoResize);
 
 	ImGui::Text("Hello, world!");
+	ImGui::Columns(4, NULL, false);
+	ImGui::NextColumn();
+	ImGui::Text("Hello, world!");
+	ImGui::Columns(1);
 	UI::ColorPicker3((float *)&colTest);
+
+	ImGui::End();
+}
+
+void UI::setupWindows()
+{
+	setupMainMenuBar();
+
+	if(showMainWindow)
+		mainWindow();
 }
 
 bool UI::ColorPicker( float *col, bool alphabar )
