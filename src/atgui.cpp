@@ -159,15 +159,19 @@ void AimbotTab()
 	ImGui::NextColumn();
 	{
 		ImGui::Checkbox("Friendly", &Settings::Aimbot::friendly);
+		ImGui::Checkbox("Auto Pistol", &Settings::Aimbot::AutoPistol::enabled);
+		ImGui::Checkbox("Auto Shoot", &Settings::Aimbot::AutoShoot::enabled);
 	}
 
 	ImGui::NextColumn();
 	{
-		const char* targets[] = { "HEAD", "NECK", "UPPER SPINE", "LOWER SPINE", "DICK" };
-		static int target = -1;
+		const char* targets[] = { "HEAD", "NECK", "UPPER SPINE", "MIDDLE SPINE", "LOWER SPINE", "HIP", "PELVIS" };
+		static int target = 0;
 		ImGui::PushItemWidth(-1);
 			ImGui::Combo("", &target, targets, IM_ARRAYSIZE(targets));
 		ImGui::PopItemWidth();
+		ImGui::Checkbox("No Shoot", &Settings::Aimbot::no_shoot);
+		ImGui::Checkbox("Auto Scope", &Settings::Aimbot::AutoShoot::autoscope);
 	}
 
 	ImGui::Columns(2, NULL, false);
