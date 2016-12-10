@@ -31,12 +31,14 @@ void SDL2::SwapWindow(SDL_Window* window)
 			if (event.key.keysym.sym == SDLK_INSERT && event.type == SDL_KEYDOWN)
 				UI::SetVisible(false);
 		}
-
-		UI::SetupColors();
-		UI::SetupWindows();
 	}
 
+	UI::SetupColors();
+	UI::SetupWindows();
+
 	ImGui::GetIO().MouseDrawCursor = UI::isVisible;
+	ImGui::GetIO().WantCaptureMouse = UI::isVisible;
+
 	ImGui::Render();
 
 	SDL_GL_MakeCurrent(window, original_context);

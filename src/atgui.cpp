@@ -7,6 +7,7 @@ ImVec4 mainColor = ImVec4(0.5f, 0.25f, 0.75f, 1.00f);
 bool showMainWindow = true;
 bool showSkinChangerWindow = false;
 bool showConfigWindow = false;
+bool showSpectatorsWindow = false;
 bool showMainColorPopupWindow = false;
 bool test = false;
 
@@ -27,7 +28,7 @@ void UI::SetupColors()
 
 	style.Alpha = 1.0f;
 	style.WindowPadding = ImVec2(8, 8);
-	style.WindowMinSize = ImVec2(400, 400);
+	style.WindowMinSize = ImVec2(32, 32);
 	style.WindowRounding = 0.0f;
 	style.WindowTitleAlign = ImVec2(0.5f, 0.5f);
 	style.ChildWindowRounding = 0.0f;
@@ -107,6 +108,9 @@ void SetupMainMenuBar()
 		if (ImGui::Button("Config Winow")) showConfigWindow = !showConfigWindow;
 		ImGui::SameLine();
 
+		if (ImGui::Button("Spectators")) showSpectatorsWindow = !showSpectatorsWindow;
+		ImGui::SameLine();
+
 		ImGui::EndMainMenuBar();
 	}
 }
@@ -115,7 +119,6 @@ void PopupWindows()
 {
 	if (showMainColorPopupWindow)
 	{
-		ImGui::GetStyle().WindowMinSize = ImVec2(240, 265);
 		ImGui::SetNextWindowSize(ImVec2(240, 265), ImGuiSetCond_Always);
 
 		if (ImGui::Begin("Color", &showMainColorPopupWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoResize))
@@ -269,13 +272,38 @@ void ConfigWindow()
 	ImGui::End();
 }
 
+void SpectatorsWindow()
+{
+	if (!showSpectatorsWindow)
+		return;
+
+	if (!UI::isVisible && !engine->IsInGame())
+		return;
+
+	ImGui::SetNextWindowSize(ImVec2(50, 100), ImGuiSetCond_FirstUseEver);
+	ImGui::Begin("Spectators", &showSpectatorsWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders);
+
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	std::list<std::string> observators = ShowSpectators::GetObservervators(localplayer);
+
+	for (std::string name : observators)
+		ImGui::Text(name.c_str());
+
+	ImGui::End();
+}
+
 void UI::SetupWindows()
 {
-	SetupMainMenuBar();
-	MainWindow();
-	SkinChangerWindow();
-	ConfigWindow();
-	PopupWindows();
+	if (UI::isVisible)
+	{
+		SetupMainMenuBar();
+		MainWindow();
+		SkinChangerWindow();
+		ConfigWindow();
+		PopupWindows();
+	}
+
+	SpectatorsWindow();
 }
 
 bool UI::ColorPicker(float *col, bool alphabar)

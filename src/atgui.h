@@ -1,7 +1,9 @@
 #pragma once
 
+#include <list>
 #include "ImGUI/imgui.h"
 #include "settings.h"
+#include "hacks.h"
 
 namespace UI
 {

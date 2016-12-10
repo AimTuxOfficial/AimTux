@@ -2,9 +2,15 @@
 
 bool Settings::ShowSpectators::enabled = true;
 
-std::list<std::string> GetObservervators(C_BaseEntity* pEntity)
+std::list<std::string> ShowSpectators::GetObservervators(C_BaseEntity* pEntity)
 {
 	std::list<std::string> list;
+
+	if (!engine->IsInGame())
+		return list;
+
+	if (!pEntity || !pEntity->GetAlive())
+		return list;
 
 	for (int i = 1; i < engine->GetMaxClients(); ++i)
 	{
@@ -32,33 +38,4 @@ std::list<std::string> GetObservervators(C_BaseEntity* pEntity)
 	}
 
 	return list;
-}
-
-void ShowSpectators::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
-{
-	if (!Settings::ShowSpectators::enabled)
-		return;
-
-	if (!engine->IsInGame())
-		return;
-
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer || !localplayer->GetAlive())
-		return;
-
-	std::list<std::string> observators = GetObservervators(localplayer);
-	if (observators.size() == 0)
-		return;
-
-	int index = 1;
-	pstring text;
-	text << "Spectators (" << observators.size() << "):";
-
-	Draw::DrawString(text.c_str(), LOC(10, 400), Color(255, 255, 255), normal_font);
-
-	for (std::string name : observators)
-	{
-		Draw::DrawString(name.c_str(), LOC(10, 400 + 20 * index), Color(255, 255, 255), normal_font);
-		index++;
-	}
 }

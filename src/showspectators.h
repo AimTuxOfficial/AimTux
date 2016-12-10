@@ -7,5 +7,5 @@
 
 namespace ShowSpectators
 {
-	void PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force);
+	std::list<std::string> GetObservervators(C_BaseEntity* pEntity);
 }
