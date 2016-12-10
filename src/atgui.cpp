@@ -120,6 +120,7 @@ void mainWindow()
 	ImGui::NextColumn();
 	if (ImGui::Button("Misc", ImVec2(100, 25))) page = 5;
 
+	ImGui::Separator();
 	ImGui::Columns(1);
 
 	switch (page)
