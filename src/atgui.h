@@ -8,4 +8,7 @@ namespace UI
 
 	void setupColors();
 	void setupWindows();
+	bool ColorPicker(float*, bool);
+	bool ColorPicker3(float*);
+	bool ColorPicker4(float*);
 }
