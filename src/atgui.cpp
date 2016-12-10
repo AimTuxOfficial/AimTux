@@ -102,8 +102,8 @@ void mainWindow()
 		return;
 
 	static int page = 1;
-	ImGui::SetNextWindowSize(ImVec2(500, 500), ImGuiSetCond_Always);
-	ImGui::Begin("AimTux", &showMainWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize);
+	ImGui::SetNextWindowSize(ImVec2(500, 500), ImGuiSetCond_FirstUseEver);
+	ImGui::Begin("AimTux", &showMainWindow, ImGuiWindowFlags_NoCollapse);
 
 	ImGui::Columns(5, NULL, false);
 	if (ImGui::Button("Aimbot", ImVec2(100 /* Width */, 25 /* Height */))) page = 1;
