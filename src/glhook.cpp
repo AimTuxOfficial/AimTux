@@ -18,17 +18,17 @@ void SDL2::SwapWindow(SDL_Window* window)
 
 	ImGui_ImplSdl_NewFrame(window);
 
-	SDL_Event event;
-	while (SDL_PollEvent(&event))
-	{
-		ImGui_ImplSdl_ProcessEvent(&event);
-
-		if (event.key.keysym.sym == SDLK_INSERT && event.type == SDL_KEYDOWN)
-			UI::isVisible = !UI::isVisible;
-	}
-
 	if (UI::isVisible)
 	{
+		SDL_Event event;
+		while (SDL_PollEvent(&event))
+		{
+			ImGui_ImplSdl_ProcessEvent(&event);
+
+			if (event.key.keysym.sym == SDLK_INSERT && event.type == SDL_KEYDOWN)
+				UI::isVisible = false;
+		}
+
 		UI::setupColors();
 		UI::setupWindows();
 
