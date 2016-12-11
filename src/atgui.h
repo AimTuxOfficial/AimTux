@@ -15,5 +15,5 @@ namespace UI
 	bool ColorPicker(float*, bool);
 	bool ColorPicker3(float*);
 	bool ColorPicker4(float*);
-	bool ReverseCheckbox(const char*, bool*);
+	bool ReverseCheckbox(std::string, bool*, int = 18);
 }
