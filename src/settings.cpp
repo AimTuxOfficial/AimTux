@@ -456,7 +456,7 @@ void Settings::LoadConfig(std::string path)
 
 	GetBool(settings["ShowSpectators"]["enabled"], &Settings::ShowSpectators::enabled);
 
-	GetString(settings["ClanTagChanger"]["value"], &Settings::ClanTagChanger::value);
+	GetCString(settings["ClanTagChanger"]["value"], &Settings::ClanTagChanger::value);
 	GetBool(settings["ClanTagChanger"]["enabled"], &Settings::ClanTagChanger::enabled);
 	GetBool(settings["ClanTagChanger"]["animation"], &Settings::ClanTagChanger::animation);
 	GetInt(settings["ClanTagChanger"]["type"], &Settings::ClanTagChanger::type);

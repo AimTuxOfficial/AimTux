@@ -448,8 +448,7 @@ void MiscTab()
 		UI::ReverseCheckbox("Custom Clantag", &Settings::ClanTagChanger::enabled);
 		ImGui::SameLine();
 		ImGui::PushItemWidth(-1);
-			static char test[128] = "clantag";
-			ImGui::InputText("##CLANTAGTEXT", test, IM_ARRAYSIZE(test));
+			ImGui::InputText("##CLANTAGTEXT", Settings::ClanTagChanger::value, 15);
 		ImGui::PopItemWidth();
 
 		UI::ReverseCheckbox("Animate Clantag", &Settings::ClanTagChanger::animation);

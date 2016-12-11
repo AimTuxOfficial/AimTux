@@ -431,7 +431,7 @@ namespace Settings
 
 	namespace ClanTagChanger
 	{
-		extern std::string value;
+		extern char* value;
 		extern bool animation;
 		extern bool enabled;
 		extern ClanTagType type;
