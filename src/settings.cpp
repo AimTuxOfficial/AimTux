@@ -296,6 +296,8 @@ void Settings::LoadConfig(std::string path)
 	std::ifstream config_doc(path, std::ifstream::binary);
 	config_doc >> settings;
 
+	GetUIColor(settings["UI"]["mainColor"], &Settings::UI::mainColor);
+	GetUIColor(settings["UI"]["bodyColor"], &Settings::UI::bodyColor);
 	GetCString(settings["UI"]["Fonts"]["Title"]["family"], &Settings::UI::Fonts::Title::family);
 	GetInt(settings["UI"]["Fonts"]["Title"]["size"], &Settings::UI::Fonts::Title::size);
 	GetInt(settings["UI"]["Fonts"]["Title"]["flags"], &Settings::UI::Fonts::Title::flags);
