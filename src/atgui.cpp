@@ -326,7 +326,7 @@ void HvHTab()
 
 		UI::ReverseCheckbox("X Axis", &Settings::AntiAim::enabled_X);
 
-		const char* YFakeTypes[] = { "FAKE FAST SPIN", "FAKE SLOW SPIN", "FAKE JITTER", "FAKE SIDE", "FAKE BACKWARDS", "FAKE FORWARDS", "FAKE LEFT", "FAKE RIGHT" };
+		const char* YFakeTypes[] = { "SLOW SPIN", "FAST SPIN", "JITTER", "SIDE", "BACKWARDS", "FORWARDS", "LEFT", "RIGHT" };
 		static int YFakeType = 0;
 		ImGui::PushItemWidth(148);
 			ImGui::Combo("##YFAKETYPE", &YFakeType, YFakeTypes, IM_ARRAYSIZE(YFakeTypes));
@@ -339,7 +339,7 @@ void HvHTab()
 			ImGui::Combo("##XTYPE", &XType, XTypes, IM_ARRAYSIZE(XTypes));
 		ImGui::PopItemWidth();
 
-		const char* YActualTypes[] = { "FAST SPIN", "SLOW SPIN", "JITTER", "SIDE", "BACKWARDS", "FORWARDS", "LEFT", "RIGHT" };
+		const char* YActualTypes[] = { "SLOW SPIN", "FAST SPIN", "JITTER", "SIDE", "BACKWARDS", "FORWARDS", "LEFT", "RIGHT" };
 		static int YActualType = 0;
 		ImGui::PushItemWidth(148);
 			ImGui::Combo("##YACTUALTYPE", &YActualType, YActualTypes, IM_ARRAYSIZE(YActualTypes));
