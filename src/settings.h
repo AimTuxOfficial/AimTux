@@ -306,13 +306,13 @@ namespace Settings
 			extern Color players_ally_visible_color;
 			extern Color players_enemy_color;
 			extern Color players_enemy_visible_color;
-			extern ChamsType type;
+			extern int type;
 
 			namespace Arms
 			{
 				extern bool enabled;
 				extern Color color;
-				extern ArmsType type;
+				extern int type;
 			}
 		}
 	}

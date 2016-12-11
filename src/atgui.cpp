@@ -273,17 +273,15 @@ void VisualsTab()
 		UI::ReverseCheckbox("Players", &Settings::ESP::Chams::players);
 		ImGui::SameLine();
 		const char* ChamsTypes[] = { "Normal", "Flat" };
-		static int ChamsType = 0;
 		ImGui::PushItemWidth(148);
-			ImGui::Combo("##CHAMSTYPE", &ChamsType, ChamsTypes, IM_ARRAYSIZE(ChamsTypes));
+			ImGui::Combo("##CHAMSTYPE", &Settings::ESP::Chams::type, ChamsTypes, IM_ARRAYSIZE(ChamsTypes));
 		ImGui::PopItemWidth();
 
 		UI::ReverseCheckbox("Arms", &Settings::ESP::Chams::Arms::enabled);
 		ImGui::SameLine();
-		const char* ArmsTypes[] = { "Rainbow", "Wireframe", "None", "Default" };
-		static int ArmsType = 0;
+		const char* ArmsTypes[] = { "Default", "Rainbow", "Wireframe", "None"  };
 		ImGui::PushItemWidth(148);
-			ImGui::Combo("##ARMSTYPE", &ArmsType, ArmsTypes, IM_ARRAYSIZE(ArmsTypes));
+			ImGui::Combo("##ARMSTYPE", &Settings::ESP::Chams::Arms::type, ArmsTypes, IM_ARRAYSIZE(ArmsTypes));
 		ImGui::PopItemWidth();
 
 		ImGui::PushID(1);
