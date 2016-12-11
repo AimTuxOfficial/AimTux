@@ -168,7 +168,7 @@ void AimbotTab()
 		UI::ReverseCheckbox("Aimkey Only", &Settings::Aimbot::aimkey_only);
 		ImGui::SameLine();
 		ImGui::PushItemWidth(-1);
-			static char buf[128] = "Text Boxes are buggy, try typing";
+			static char buf[128] = "TODO: hotkeys";
 			ImGui::InputText("##AIMKEY", buf, IM_ARRAYSIZE(buf));
 		ImGui::PopItemWidth();
 
@@ -229,7 +229,7 @@ void TriggerbotTab()
 	UI::ReverseCheckbox("Enabled", &Settings::Triggerbot::enabled);
 	ImGui::SameLine();
 	ImGui::PushItemWidth(200);
-		static char buf[128] = "Text Boxes are buggy, try typing";
+		static char buf[128] = "TODO: hotkeys";
 		ImGui::InputText("##TRIGGERKEY", buf, IM_ARRAYSIZE(buf));
 	ImGui::PopItemWidth();
 
@@ -429,7 +429,7 @@ void MiscTab()
 		UI::ReverseCheckbox("AirStuck", &Settings::Airstuck::enabled);
 		ImGui::SameLine();
 		ImGui::PushItemWidth(-1);
-			static char buf[128] = "Text Boxes are buggy, try typing";
+			static char buf[128] = "TODO: hotkeys";
 			ImGui::InputText("##AIRSTUCKKEY", buf, IM_ARRAYSIZE(buf));
 		ImGui::PopItemWidth();
 
