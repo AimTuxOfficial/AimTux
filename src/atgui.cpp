@@ -242,18 +242,16 @@ void TriggerbotTab()
 	ImGui::PopItemWidth();
 
 	ImGui::Separator();
-
-	UI::ReverseCheckbox("Friendly", &Settings::Triggerbot::Filter::friendly);
-
-	UI::ReverseCheckbox("Head", &Settings::Triggerbot::Filter::head);
-
-	UI::ReverseCheckbox("Chest", &Settings::Triggerbot::Filter::chest);
-
-	UI::ReverseCheckbox("Stomach", &Settings::Triggerbot::Filter::stomach);
-
-	UI::ReverseCheckbox("Arms", &Settings::Triggerbot::Filter::arms);
-
-	UI::ReverseCheckbox("Legs", &Settings::Triggerbot::Filter::legs);
+	ImGui::PushItemWidth(148);
+		ImGui::ListBoxHeader("##TRIGGERFILTER");
+			ImGui::Selectable("Friendly", &Settings::Triggerbot::Filter::friendly);
+			ImGui::Selectable("Head", &Settings::Triggerbot::Filter::head);
+			ImGui::Selectable("Chest", &Settings::Triggerbot::Filter::chest);
+			ImGui::Selectable("Stomach", &Settings::Triggerbot::Filter::stomach);
+			ImGui::Selectable("Arms", &Settings::Triggerbot::Filter::arms);
+			ImGui::Selectable("Legs", &Settings::Triggerbot::Filter::legs);
+		ImGui::ListBoxFooter();
+	ImGui::PopItemWidth();
 }
 
 void VisualsTab()
@@ -399,12 +397,12 @@ void HvHTab()
 
 		ImGui::PushItemWidth(100);
 			ImGui::ListBoxHeader("##AUTOWALLBODYPART", 10);
-				ImGui::Checkbox("Head", &Settings::Aimbot::AutoWall::bones[HITBOX_HEAD]);
-				ImGui::Checkbox("Neck", &Settings::Aimbot::AutoWall::bones[HITBOX_NECK]);
-				ImGui::Checkbox("Pelvis", &Settings::Aimbot::AutoWall::bones[HITBOX_PELVIS]);
-				ImGui::Checkbox("Spine", &Settings::Aimbot::AutoWall::bones[HITBOX_SPINE]);
-				ImGui::Checkbox("Legs", &Settings::Aimbot::AutoWall::bones[HITBOX_LEGS]);
-				ImGui::Checkbox("Arms", &Settings::Aimbot::AutoWall::bones[HITBOX_ARMS]);
+				ImGui::Selectable("Head", &Settings::Aimbot::AutoWall::bones[HITBOX_HEAD]);
+				ImGui::Selectable("Neck", &Settings::Aimbot::AutoWall::bones[HITBOX_NECK]);
+				ImGui::Selectable("Pelvis", &Settings::Aimbot::AutoWall::bones[HITBOX_PELVIS]);
+				ImGui::Selectable("Spine", &Settings::Aimbot::AutoWall::bones[HITBOX_SPINE]);
+				ImGui::Selectable("Legs", &Settings::Aimbot::AutoWall::bones[HITBOX_LEGS]);
+				ImGui::Selectable("Arms", &Settings::Aimbot::AutoWall::bones[HITBOX_ARMS]);
 			ImGui::ListBoxFooter();
 		ImGui::PopItemWidth();
 	}
