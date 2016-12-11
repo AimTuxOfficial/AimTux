@@ -116,8 +116,8 @@ void Settings::LoadDefaultsOrSave(Config config)
 	settings["Aimbot"]["AutoWall"]["enabled"] = Settings::Aimbot::AutoWall::enabled;
 	settings["Aimbot"]["AutoWall"]["value"] = Settings::Aimbot::AutoWall::value;
 	settings["Aimbot"]["AutoWall"]["bones"] = Json::Value(Json::arrayValue);
-	for (auto bone : Settings::Aimbot::AutoWall::bones)
-		settings["Aimbot"]["AutoWall"]["bones"].append(bone);
+	for (int i = HITBOX_HEAD; i <= HITBOX_ARMS; i++)
+		settings["Aimbot"]["AutoWall"]["bones"][i] = Settings::Aimbot::AutoWall::bones[i];
 	settings["Aimbot"]["AimStep"]["enabled"] = Settings::Aimbot::AimStep::enabled;
 	settings["Aimbot"]["AimStep"]["value"] = Settings::Aimbot::AimStep::value;
 	settings["Aimbot"]["RCS"]["enabled"] = Settings::Aimbot::RCS::enabled;
@@ -308,9 +308,8 @@ void Settings::LoadConfig(Config config)
 	GetBool(settings["Aimbot"]["AutoAim"]["enabled"], &Settings::Aimbot::AutoAim::enabled);
 	GetBool(settings["Aimbot"]["AutoWall"]["enabled"], &Settings::Aimbot::AutoWall::enabled);
 	GetFloat(settings["Aimbot"]["AutoWall"]["value"], &Settings::Aimbot::AutoWall::value);
-	Settings::Aimbot::AutoWall::bones.clear();
-	for (Json::ValueIterator itr = settings["Aimbot"]["AutoWall"]["bones"].begin(); itr != settings["Aimbot"]["AutoWall"]["bones"].end(); itr++)
-		Settings::Aimbot::AutoWall::bones.push_back((Hitbox) settings["Aimbot"]["AutoWall"]["bones"][itr.index()].asInt());
+	for (int i = HITBOX_HEAD; i <= HITBOX_ARMS; i++)
+		GetBool(settings["Aimbot"]["AutoWall"]["bones"][i], &Settings::Aimbot::AutoWall::bones[i]);
 	GetBool(settings["Aimbot"]["AimStep"]["enabled"], &Settings::Aimbot::AimStep::enabled);
 	GetFloat(settings["Aimbot"]["AimStep"]["value"], &Settings::Aimbot::AimStep::value);
 	GetBool(settings["Aimbot"]["RCS"]["enabled"], &Settings::Aimbot::RCS::enabled);

@@ -10,7 +10,6 @@ bool showConfigWindow = false;
 bool showSpectatorsWindow = false;
 bool showMainColorPopupWindow = false;
 bool test = false;
-static bool head = true, neck = true, pelvis = true, spine = true, legs = true, arms = true;
 
 #define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))
 
@@ -367,12 +366,12 @@ void HvHTab()
 
 		ImGui::PushItemWidth(100);
 			ImGui::ListBoxHeader("##AUTOWALLBODYPART", 10);
-				ImGui::Checkbox("Head", &head);
-				ImGui::Checkbox("Neck", &neck);
-				ImGui::Checkbox("Pelvis", &pelvis);
-				ImGui::Checkbox("Spine", &spine);
-				ImGui::Checkbox("Legs", &legs);
-				ImGui::Checkbox("Arms", &arms);
+				ImGui::Checkbox("Head", &Settings::Aimbot::AutoWall::bones[HITBOX_HEAD]);
+				ImGui::Checkbox("Neck", &Settings::Aimbot::AutoWall::bones[HITBOX_NECK]);
+				ImGui::Checkbox("Pelvis", &Settings::Aimbot::AutoWall::bones[HITBOX_PELVIS]);
+				ImGui::Checkbox("Spine", &Settings::Aimbot::AutoWall::bones[HITBOX_SPINE]);
+				ImGui::Checkbox("Legs", &Settings::Aimbot::AutoWall::bones[HITBOX_LEGS]);
+				ImGui::Checkbox("Arms", &Settings::Aimbot::AutoWall::bones[HITBOX_ARMS]);
 			ImGui::ListBoxFooter();
 		ImGui::PopItemWidth();
 	}

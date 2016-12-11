@@ -18,7 +18,7 @@ float Settings::Aimbot::Smooth::max = 1.0f;
 bool Settings::Aimbot::AutoAim::enabled = false;
 bool Settings::Aimbot::AutoWall::enabled = false;
 float Settings::Aimbot::AutoWall::value = 10.0f;
-std::vector<Hitbox> Settings::Aimbot::AutoWall::bones = { HITBOX_HEAD };
+bool Settings::Aimbot::AutoWall::bones[] = { true, false, false, false, false, false };
 bool Settings::Aimbot::AimStep::enabled = false;
 float Settings::Aimbot::AimStep::value = 25.0f;
 bool Settings::Aimbot::AutoPistol::enabled = false;
@@ -57,10 +57,12 @@ void GetBestBone(C_BaseEntity* entity, float& best_damage, Bone& best_bone)
 {
 	best_bone = BONE_HEAD;
 
-	for (std::vector<Hitbox>::iterator it = Settings::Aimbot::AutoWall::bones.begin(); it != Settings::Aimbot::AutoWall::bones.end(); it++)
+	for (std::unordered_map<int, std::vector<const char*>>::iterator it = hitboxes.begin(); it != hitboxes.end(); it++)
 	{
-		std::vector<const char*> hitboxList = hitboxes[*it];
+		if (!Settings::Aimbot::AutoWall::bones[it->first])
+			continue;
 
+		std::vector<const char*> hitboxList = hitboxes[it->first];
 		for (std::vector<const char*>::iterator it2 = hitboxList.begin(); it2 != hitboxList.end(); it2++)
 		{
 			Bone bone = (Bone) Entity::GetBoneByName(entity, *it2);

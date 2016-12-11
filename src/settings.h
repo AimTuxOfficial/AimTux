@@ -158,7 +158,7 @@ namespace Settings
 		{
 			extern bool enabled;
 			extern float value;
-			extern std::vector<Hitbox> bones;
+			extern bool bones[];
 		}
 
 		namespace AimStep
