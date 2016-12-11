@@ -474,11 +474,20 @@ void MiscTab()
 		ImGui::SameLine();
 		UI::ReverseCheckbox("Show Spectators", &Settings::ShowSpectators::enabled);
 
+		ImGui::Button("No Name");
+		ImGui::SameLine();
+		ImGui::Button("Set Nickname");
+		ImGui::SameLine();
+		static char nickname[128] = "nickname";
+		ImGui::PushItemWidth(-1);
+			ImGui::InputText("##NICKNAMETEXT", nickname, IM_ARRAYSIZE(nickname));
+		ImGui::PopItemWidth();
 
+		ImGui::Text("UI Main Color");
+		ImGui::SameLine();
+		if (ImGui::ColorButton(mainColor, true))
+			showMainColorPopupWindow = true;
 	}
-
-// if (ImGui::ColorButton(mainColor, true))
-	// 	showMainColorPopupWindow = true;
 }
 
 void MainWindow()
