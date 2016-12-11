@@ -41,8 +41,10 @@ void SDL2::PollEvent(SDL_Event* event)
 {
 	static SDL_PollEvent_t oSDL_PollEvent = reinterpret_cast<SDL_PollEvent_t>(original_pollevent);
 
-	if(UI::isVisible)
-		ImGui_ImplSdl_ProcessEvent(event);
+	ImGui_ImplSdl_ProcessEvent(event);
+
+	if (event->key.keysym.sym == SDLK_INSERT && event->type == SDL_KEYDOWN)
+		UI::SetVisible(!UI::isVisible);
 
 	oSDL_PollEvent(event);
 }
