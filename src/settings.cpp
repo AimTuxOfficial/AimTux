@@ -76,10 +76,10 @@ void GetColor(Json::Value &config, T setting)
 template <typename T>
 void GetUIColor(Json::Value &config, T setting)
 {
-	GetInt(config["r"], &setting->x);
-	GetInt(config["g"], &setting->y);
-	GetInt(config["b"], &setting->z);
-	GetInt(config["a"], &setting->w);
+	GetFloat(config["r"], &setting->x);
+	GetFloat(config["g"], &setting->y);
+	GetFloat(config["b"], &setting->z);
+	GetFloat(config["a"], &setting->w);
 }
 
 void LoadColor(Json::Value &config, Color color)
