@@ -396,7 +396,7 @@ void HvHTab()
 		ImGui::PopItemWidth();
 
 		ImGui::PushItemWidth(100);
-			ImGui::ListBoxHeader("##AUTOWALLBODYPART", 10);
+			ImGui::ListBoxHeader("##AUTOWALLBODYPART", 6);
 				ImGui::Selectable("Head", &Settings::Aimbot::AutoWall::bones[HITBOX_HEAD]);
 				ImGui::Selectable("Neck", &Settings::Aimbot::AutoWall::bones[HITBOX_NECK]);
 				ImGui::Selectable("Pelvis", &Settings::Aimbot::AutoWall::bones[HITBOX_PELVIS]);
