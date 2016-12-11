@@ -414,14 +414,14 @@ void MiscTab()
 		ImGui::SameLine();
 		UI::ReverseCheckbox("Team Chat Only", &Settings::Spammer::NormalSpammer::say_team);
 
-		UI::ReverseCheckbox("Custom Clangtag", &Settings::Clangtag::enabled);
+		UI::ReverseCheckbox("Custom Clangtag", &Settings::ClanTagChanger::enabled);
 		ImGui::SameLine();
 		ImGui::PushItemWidth(-1);
-			static char buf[128] = "Text Boxes are buggy, try typing";
-			ImGui::InputText("##CLANTAGTEXT", buf, IM_ARRAYSIZE(buf));
+			static char test[128] = "clantag";
+			ImGui::InputText("##CLANTAGTEXT", test, IM_ARRAYSIZE(test));
 		ImGui::PopItemWidth();
 
-		UI::ReverseCheckbox("Animate Clantag", &Settings::Clantag::animation);
+		UI::ReverseCheckbox("Animate Clantag", &Settings::ClanTagChanger::animation);
 		ImGui::SameLine();
 		const char* AnimationTypes[] = { "Marquee", "Words", "Letters" };
 		static int AnimationType = 0;
@@ -434,7 +434,27 @@ void MiscTab()
 	{
 		UI::ReverseCheckbox("No Flash", &Settings::Noflash::enabled);
 		ImGui::SameLine();
+		ImGui::SliderFloat("##NOFLASHAMOUNT", &Settings::Noflash::value, 0, 255);
 
+		UI::ReverseCheckbox("View FOV", &Settings::FOVChanger::enabled);
+		ImGui::SameLine();
+		ImGui::SliderFloat("##FOVAMOUNT", &Settings::FOVChanger::value, 0, 180);
+
+		UI::ReverseCheckbox("Viewmodel FOV", &Settings::FOVChanger::viewmodel_enabled);
+		ImGui::SameLine();
+		ImGui::SliderFloat("##MODELFOVAMOUNT", &Settings::FOVChanger::viewmodel_value, 0, 360);
+
+		UI::ReverseCheckbox("Fake Lag", &Settings::FakeLag::enabled);
+		ImGui::SameLine();
+		ImGui::SliderInt("##FAKELAGAMOUNT", &Settings::FakeLag::value, 0, 16);
+
+		UI::ReverseCheckbox("Radar", &Settings::Radar::enabled);
+
+		UI::ReverseCheckbox("Auto Accept", &Settings::AutoAccept::enabled);
+
+		UI::ReverseCheckbox("Show Ranks", &Settings::ShowRanks::enabled);
+		ImGui::SameLine();
+		UI::ReverseCheckbox("Show Spectators", &Settings::ShowSpectators::enabled);
 	}
 
 // if (ImGui::ColorButton(mainColor, true))
