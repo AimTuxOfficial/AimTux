@@ -414,7 +414,7 @@ void MiscTab()
 		ImGui::SameLine();
 		UI::ReverseCheckbox("Team Chat Only", &Settings::Spammer::NormalSpammer::say_team);
 
-		UI::ReverseCheckbox("Custom Clangtag", &Settings::ClanTagChanger::enabled);
+		UI::ReverseCheckbox("Custom Clantag", &Settings::ClanTagChanger::enabled);
 		ImGui::SameLine();
 		ImGui::PushItemWidth(-1);
 			static char test[128] = "clantag";
@@ -455,6 +455,8 @@ void MiscTab()
 		UI::ReverseCheckbox("Show Ranks", &Settings::ShowRanks::enabled);
 		ImGui::SameLine();
 		UI::ReverseCheckbox("Show Spectators", &Settings::ShowSpectators::enabled);
+
+
 	}
 
 // if (ImGui::ColorButton(mainColor, true))
