@@ -53,4 +53,5 @@ namespace Hooker
 	void HookPrediction();
 	void HookIsReadyCallback();
 	void HookSwapWindow();
+	void HookPollEvent();
 }

@@ -18,21 +18,6 @@ void SDL2::SwapWindow(SDL_Window* window)
 
 	ImGui_ImplSdl_NewFrame(window);
 
-	if (UI::isVisible)
-	{
-		SDL_Event event;
-		while (SDL_PollEvent(&event))
-		{
-			ImGui_ImplSdl_ProcessEvent(&event);
-
-			if (event.type == SDL_QUIT)
-				return;
-
-			if (event.key.keysym.sym == SDLK_INSERT && event.type == SDL_KEYDOWN)
-				UI::SetVisible(false);
-		}
-	}
-
 	UI::SetupColors();
 	UI::SetupWindows();
 
@@ -50,4 +35,19 @@ void SDL2::UnhookWindow()
 	*swap_window_jump_address = original_swap_window;
 
 	SDL_GL_DeleteContext(aimtux_context);
+}
+
+void SDL2::PollEvent(SDL_Event* event)
+{
+	static SDL_PollEvent_t oSDL_PollEvent = reinterpret_cast<SDL_PollEvent_t>(original_pollevent);
+
+	if(UI::isVisible)
+		ImGui_ImplSdl_ProcessEvent(event);
+
+	oSDL_PollEvent(event);
+}
+
+void SDL2::UnhookPollEvent()
+{
+	*pollevent_jump_address = original_pollevent;
 }

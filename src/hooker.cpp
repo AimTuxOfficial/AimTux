@@ -40,6 +40,9 @@ CMoveData* g_MoveData = nullptr;
 uintptr_t original_swap_window;
 uintptr_t* swap_window_jump_address = nullptr;
 
+uintptr_t original_pollevent;
+uintptr_t* pollevent_jump_address = nullptr;
+
 MsgFunc_ServerRankRevealAllFn MsgFunc_ServerRankRevealAll;
 SendClanTagFn SendClanTag;
 IsReadyCallbackFn IsReadyCallback;
@@ -110,7 +113,7 @@ void Hooker::HookIClientMode()
 
 	uint32_t offset = *reinterpret_cast<uint32_t*>(init_address + 3);
 	clientMode = reinterpret_cast<IClientMode*>(init_address + offset + 7);
-	
+
 	clientMode_vmt = new VMT(clientMode);
 }
 
@@ -171,7 +174,7 @@ void Hooker::HookPrediction()
 void Hooker::HookIsReadyCallback()
 {
 	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) ISREADY_CALLBACK_SIGNATURE, ISREADY_CALLBACK_MASK);
-	
+
 	IsReadyCallback = reinterpret_cast<IsReadyCallbackFn>(func_address);
 }
 
@@ -181,4 +184,12 @@ void Hooker::HookSwapWindow()
 	swap_window_jump_address = reinterpret_cast<uintptr_t*>(GetAbsoluteAddress(swapwindow_fn, 3, 7));
 	original_swap_window = *swap_window_jump_address;
 	*swap_window_jump_address = reinterpret_cast<uintptr_t>(&SDL2::SwapWindow);
+}
+
+void Hooker::HookPollEvent()
+{
+	uintptr_t pollevent_fn = reinterpret_cast<uintptr_t>(dlsym(RTLD_NEXT, "SDL_PollEvent"));
+	pollevent_jump_address = reinterpret_cast<uintptr_t*>(GetAbsoluteAddress(pollevent_fn, 3, 7));
+	original_pollevent = *pollevent_jump_address;
+	*pollevent_jump_address = reinterpret_cast<uintptr_t>(&SDL2::PollEvent);
 }

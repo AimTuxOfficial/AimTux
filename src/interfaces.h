@@ -41,3 +41,6 @@ extern CMoveData* g_MoveData;
 
 extern uintptr_t original_swap_window;
 extern uintptr_t* swap_window_jump_address;
+
+extern uintptr_t original_pollevent;
+extern uintptr_t* pollevent_jump_address;

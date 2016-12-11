@@ -22,6 +22,7 @@ int __attribute__((constructor)) aimtux_init()
 	Hooker::HookIsReadyCallback();
 	Hooker::HookPrediction();
 	Hooker::HookSwapWindow();
+	Hooker::HookPollEvent();
 
 	Chams::CreateMaterials();
 
@@ -42,7 +43,7 @@ int __attribute__((constructor)) aimtux_init()
 
 	gameEvents_vmt->HookVM((void*) Hooks::FireEventClientSide, 10);
 	gameEvents_vmt->ApplyVMT();
-	
+
 	viewRender_vmt->HookVM((void*) Hooks::RenderView, 6);
 	viewRender_vmt->ApplyVMT();
 
@@ -59,7 +60,7 @@ int __attribute__((constructor)) aimtux_init()
 	Offsets::getOffsets();
 
 	Fonts::SetupFonts();
-	
+
 	Settings::LoadSettings();
 
 	return 0;
@@ -81,8 +82,9 @@ void __attribute__((destructor)) aimtux_shutdown()
 	SkinChanger::UnhookCBaseViewModel();
 
 	SDL2::UnhookWindow();
+	SDL2::UnhookPollEvent();
 
 	*bSendPacket = true;
-	
+
 	cvar->ConsoleColorPrintf(ColorRGBA(255, 150, 150), "AimTux has been unloaded successfully.\n");
 }
