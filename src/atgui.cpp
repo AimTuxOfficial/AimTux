@@ -10,6 +10,7 @@ bool showConfigWindow = false;
 bool showSpectatorsWindow = false;
 bool showMainColorPopupWindow = false;
 bool test = false;
+static bool head = true, neck = true, pelvis = true, spine = true, legs = true, arms = true;
 
 #define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))
 
@@ -267,8 +268,6 @@ void VisualsTab()
 		UI::ReverseCheckbox("Show Bones        ", &Settings::ESP::Bones::enabled);
 		UI::ReverseCheckbox("Show Friendly     ", &Settings::ESP::friendly);
 		UI::ReverseCheckbox("Visibility Check  ", &Settings::ESP::visibility_check);
-
-
 	}
 
 	ImGui::NextColumn();
@@ -313,11 +312,70 @@ void VisualsTab()
 
 	UI::ReverseCheckbox("Only When Shooting", &Settings::Recoilcrosshair::showOnlyWhenShooting);
 	UI::ReverseCheckbox("FOV Circle        ", &Settings::ESP::FOVCrosshair::enabled);
+
 }
 
 void HvHTab()
 {
+	ImGui::Columns(2, NULL, false);
+	{
+		UI::ReverseCheckbox("Y Axis            ", &Settings::AntiAim::enabled_Y);
+		ImGui::SameLine();
 
+		UI::ReverseCheckbox("X Axis            ", &Settings::AntiAim::enabled_X);
+
+		const char* YFakeTypes[] = { "FAKE FAST SPIN", "FAKE SLOW SPIN", "FAKE JITTER", "FAKE SIDE", "FAKE BACKWARDS", "FAKE FORWARDS", "FAKE LEFT", "FAKE RIGHT" };
+		static int YFakeType = 0;
+		ImGui::PushItemWidth(148);
+			ImGui::Combo("##YFAKETYPE", &YFakeType, YFakeTypes, IM_ARRAYSIZE(YFakeTypes));
+			ImGui::PopItemWidth();
+		ImGui::SameLine();
+
+		const char* XTypes[] = { "UP", "DOWN", "DANCE" };
+		static int XType = 0;
+		ImGui::PushItemWidth(148);
+			ImGui::Combo("##XTYPE", &XType, XTypes, IM_ARRAYSIZE(XTypes));
+		ImGui::PopItemWidth();
+
+		const char* YActualTypes[] = { "FAST SPIN", "SLOW SPIN", "JITTER", "SIDE", "BACKWARDS", "FORWARDS", "LEFT", "RIGHT" };
+		static int YActualType = 0;
+		ImGui::PushItemWidth(148);
+			ImGui::Combo("##YACTUALTYPE", &YActualType, YActualTypes, IM_ARRAYSIZE(YActualTypes));
+		ImGui::PopItemWidth();
+
+		UI::ReverseCheckbox("Edge              ", &Settings::AntiAim::HeadEdge::enabled);
+		ImGui::SameLine();
+
+		ImGui::PushItemWidth(-1);
+			ImGui::SliderFloat("##EDGEDISTANCE", &Settings::AntiAim::HeadEdge::distance, 10, 30);
+		ImGui::PopItemWidth();
+
+		UI::ReverseCheckbox("Auto Crouch       ", &Settings::Aimbot::AutoCrouch::enabled);
+
+		ImGui::SameLine();
+
+		UI::ReverseCheckbox("Auto Stop         ", &Settings::Aimbot::AutoStop::enabled);
+		UI::ReverseCheckbox("Resolver          ", &Settings::Resolver::enabled);
+	}
+
+	ImGui::NextColumn();
+	{
+		UI::ReverseCheckbox("Auto Wall         ", &Settings::Aimbot::AutoWall::enabled);
+		ImGui::PushItemWidth(-1);
+			ImGui::SliderFloat("##AUTOWALLDMG", &Settings::Aimbot::AutoWall::value, 0, 100, "Min Damage %f");
+		ImGui::PopItemWidth();
+
+		ImGui::PushItemWidth(100);
+			ImGui::ListBoxHeader("##AUTOWALLBODYPART", 10);
+				ImGui::Checkbox("Head", &head);
+				ImGui::Checkbox("Neck", &neck);
+				ImGui::Checkbox("Pelvis", &pelvis);
+				ImGui::Checkbox("Spine", &spine);
+				ImGui::Checkbox("Legs", &legs);
+				ImGui::Checkbox("Arms", &arms);
+			ImGui::ListBoxFooter();
+		ImGui::PopItemWidth();
+	}
 }
 
 void MiscTab()
