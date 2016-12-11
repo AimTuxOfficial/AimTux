@@ -19,7 +19,7 @@ Color Settings::ESP::Glow::defuser_color = Color(100, 100, 200, 200);
 bool Settings::ESP::visibility_check = false;
 bool Settings::ESP::show_scope_border = true;
 bool Settings::ESP::Walls::enabled = false;
-WallBoxType Settings::ESP::Walls::type = FLAT_2D;
+int Settings::ESP::Walls::type = 0;
 bool Settings::ESP::Info::showName = true;
 bool Settings::ESP::Info::showHealth = false;
 bool Settings::ESP::Info::showWeapon = false;
@@ -32,7 +32,7 @@ bool Settings::ESP::Bomb::enabled = true;
 bool Settings::ESP::Weapons::enabled = false;
 bool Settings::ESP::Tracer::enabled = false;
 bool Settings::ESP::FOVCrosshair::enabled = false;
-TracerType Settings::ESP::Tracer::type = BOTTOM;
+int Settings::ESP::Tracer::type = 0;
 
 bool WorldToScreen(const Vector &vOrigin, Vector &vScreen)
 {
@@ -165,10 +165,10 @@ void ESP::DrawTracer(C_BaseEntity* entity)
 
 	switch (Settings::ESP::Tracer::type)
 	{
-		case BOTTOM:
+		case 0:
 			tracerLocation = LOC(width / 2, height);
 			break;
-		case CURSOR:
+		case 1:
 			tracerLocation = LOC(width / 2, height / 2);
 			break;
 	}
@@ -192,7 +192,7 @@ void ESP::DrawPlayerBox(C_BaseEntity* entity)
 	else
 		color = Settings::ESP::ally_color;
 
-	if (Settings::ESP::Walls::type == FLAT_2D)
+	if (Settings::ESP::Walls::type == 0)
 	{
 		Vector max = entity->GetCollideable()->OBBMaxs();
 
@@ -210,7 +210,7 @@ void ESP::DrawPlayerBox(C_BaseEntity* entity)
 
 		Draw::DrawOutlinedBox(top.x, top.y, width, height, color);
 	}
-	else if (Settings::ESP::Walls::type == BOX_3D)
+	else if (Settings::ESP::Walls::type == 1)
 	{
 		int width = 14;
 		int additionalHeight = 6;

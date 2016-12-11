@@ -241,17 +241,15 @@ void VisualsTab()
 		UI::ReverseCheckbox("Walls", &Settings::ESP::Walls::enabled);
 		ImGui::SameLine();
 		const char* WallTypes[] = { "2D", "3D" };
-		static int WallType = 0;
 		ImGui::PushItemWidth(148);
-			ImGui::Combo("##WALLTYPE", &WallType, WallTypes, IM_ARRAYSIZE(WallTypes));
+			ImGui::Combo("##WALLTYPE", &Settings::ESP::Walls::type, WallTypes, IM_ARRAYSIZE(WallTypes));
 		ImGui::PopItemWidth();
 
 		UI::ReverseCheckbox("Tracers", &Settings::ESP::Tracer::enabled);
 		ImGui::SameLine();
 		const char* TracerTypes[] = { "Bottom", "Cursor" };
-		static int TracerType = 0;
 		ImGui::PushItemWidth(148);
-			ImGui::Combo("##TRACERTYPE", &TracerType, TracerTypes, IM_ARRAYSIZE(TracerTypes));
+			ImGui::Combo("##TRACERTYPE", &Settings::ESP::Tracer::type, TracerTypes, IM_ARRAYSIZE(TracerTypes));
 		ImGui::PopItemWidth();
 
 		UI::ReverseCheckbox("Show Name", &Settings::ESP::Info::showName);

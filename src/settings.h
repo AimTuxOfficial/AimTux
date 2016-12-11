@@ -257,14 +257,14 @@ namespace Settings
 
 		namespace Tracer
 		{
-			extern TracerType type;
+			extern int type;
 			extern bool enabled;
 		}
 
 		namespace Walls
 		{
 			extern bool enabled;
-			extern WallBoxType type;
+			extern int type;
 		}
 
 		namespace Info
