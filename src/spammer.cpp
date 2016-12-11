@@ -4,7 +4,7 @@ bool Settings::Spammer::PositionSpammer::enabled = false;
 bool Settings::Spammer::PositionSpammer::say_team = false;
 bool Settings::Spammer::KillSpammer::enabled = false;
 bool Settings::Spammer::KillSpammer::say_team = false;
-char* Settings::Spammer::KillSpammer::message = (char*) "$nick just got OWNED by AimTux!!";
+char* Settings::Spammer::KillSpammer::message = strdup("$nick just got OWNED by AimTux!!");
 bool Settings::Spammer::NormalSpammer::enabled = false;
 bool Settings::Spammer::NormalSpammer::say_team = false;
 

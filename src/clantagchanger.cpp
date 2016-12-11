@@ -1,7 +1,7 @@
 #include "clantagchanger.h"
 #include "util.h"
 
-char* Settings::ClanTagChanger::value = (char*) "";
+char* Settings::ClanTagChanger::value = strdup("");
 bool Settings::ClanTagChanger::animation = false;
 bool Settings::ClanTagChanger::enabled = false; // TODO find a way to go back to the "official" clan tag for the player? -- Save the current clan tag, before editing, then restore it later
 ClanTagType Settings::ClanTagChanger::type = MARQUEE;

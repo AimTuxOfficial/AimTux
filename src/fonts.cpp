@@ -5,16 +5,16 @@ FONT normal_font = 0;
 FONT esp_font = 0;
 FONT mono_font = 0;
 
-char* Settings::UI::Fonts::Title::family = (char *) "Arial";
+char* Settings::UI::Fonts::Title::family = strdup("Arial");
 int Settings::UI::Fonts::Title::size = 20;
 int Settings::UI::Fonts::Title::flags = FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS;
-char* Settings::UI::Fonts::Normal::family = (char *) "Arial";
+char* Settings::UI::Fonts::Normal::family = strdup("Arial");
 int Settings::UI::Fonts::Normal::size = 17;
 int Settings::UI::Fonts::Normal::flags = FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS;
-char* Settings::UI::Fonts::ESP::family = (char *) "Andale Mono";
+char* Settings::UI::Fonts::ESP::family = strdup("Andale Mono");
 int Settings::UI::Fonts::ESP::size = 20;
 int Settings::UI::Fonts::ESP::flags = FONTFLAG_OUTLINE | FONTFLAG_ANTIALIAS;
-char* Settings::UI::Fonts::Mono::family = (char *) "DejaVu Sans Mono";
+char* Settings::UI::Fonts::Mono::family = strdup("DejaVu Sans Mono");
 int Settings::UI::Fonts::Mono::size = 17;
 int Settings::UI::Fonts::Mono::flags = FONTFLAG_DROPSHADOW | FONTFLAG_ANTIALIAS;
 
