@@ -13,6 +13,31 @@ bool test = false;
 
 #define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))
 
+namespace ImGui
+{
+	static auto vector_getter = [](void* vec, int idx, const char** out_text)
+	{
+		auto& vector = *static_cast<std::vector<std::string>*>(vec);
+		if (idx < 0 || idx >= static_cast<int>(vector.size())) { return false; }
+		*out_text = vector.at(idx).c_str();
+		return true;
+	};
+
+	bool Combo(const char* label, int* currIndex, std::vector<std::string>& values)
+	{
+		if (values.empty()) { return false; }
+		return Combo(label, currIndex, vector_getter,
+					 static_cast<void*>(&values), values.size());
+	}
+
+	bool ListBox(const char* label, int* currIndex, std::vector<std::string>& values)
+	{
+		if (values.empty()) { return false; }
+		return ListBox(label, currIndex, vector_getter,
+					   static_cast<void*>(&values), values.size());
+	}
+}
+
 void UI::SetVisible(bool visible)
 {
 	UI::isVisible = visible;
@@ -561,6 +586,65 @@ void ConfigWindow()
 
 	ImGui::SetNextWindowSize(ImVec2(500, 600), ImGuiSetCond_FirstUseEver);
 	ImGui::Begin("Configs", &showConfigWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders);
+
+	static std::vector<std::string> configItems = GetConfigs();
+	static int configItemCurrent = -1;
+
+	if (ImGui::Button("Refresh"))
+		configItems = GetConfigs();
+
+	ImGui::SameLine();
+	if (ImGui::Button("Save"))
+	{
+		pstring path = GetConfigDirectory();
+		path << configItems[configItemCurrent] << "/config.json";
+
+		Settings::LoadDefaultsOrSave(path);
+	}
+
+	ImGui::SameLine();
+	if (ImGui::Button("Remove"))
+	{
+		pstring path = GetConfigDirectory();
+		path << configItems[configItemCurrent];
+
+		Settings::DeleteConfig(path);
+
+		configItems = GetConfigs();
+		configItemCurrent = -1;
+	}
+
+	static char buf[128] = "";
+	ImGui::InputText("", buf, IM_ARRAYSIZE(buf));
+
+	ImGui::SameLine();
+	if (ImGui::Button("Add"))
+	{
+		printf("%s\n", buf);
+		if (strlen(buf) == 0)
+			return;
+
+		pstring path = GetConfigDirectory();
+		path << buf;
+
+		printf("path: %s\n", path.c_str());
+
+		if (DoesFileExist(path.c_str()))
+			return;
+
+		mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+		Settings::LoadDefaultsOrSave(path  << "/config.json");
+
+		configItems = GetConfigs();
+	}
+
+	if (ImGui::ListBox("", &configItemCurrent, configItems))
+	{
+		pstring path = GetConfigDirectory();
+		path << configItems[configItemCurrent] << "/config.json";
+
+		Settings::LoadConfig(path);
+	}
 
 	ImGui::End();
 }

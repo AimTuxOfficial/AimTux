@@ -81,7 +81,7 @@ void LoadColor(Json::Value &config, Color color)
 	config["a"] = color.a;
 }
 
-void Settings::LoadDefaultsOrSave(Config config)
+void Settings::LoadDefaultsOrSave(std::string path)
 {
 	Json::Value settings;
 	Json::StyledWriter styledWriter;
@@ -262,19 +262,19 @@ void Settings::LoadDefaultsOrSave(Config config)
 
 	settings["Resolver"]["enabled"] = Settings::Resolver::enabled;
 
-	std::ofstream(config.GetMainConfigFile()) << styledWriter.write(settings);
+	std::ofstream(path) << styledWriter.write(settings);
 }
 
-void Settings::LoadConfig(Config config)
+void Settings::LoadConfig(std::string path)
 {
-	if (!std::ifstream(config.GetMainConfigFile()).good())
+	if (!std::ifstream(path).good())
 	{
-		Settings::LoadDefaultsOrSave(config);
+		Settings::LoadDefaultsOrSave(path);
 		return;
 	}
 
 	Json::Value settings;
-	std::ifstream config_doc(config.GetMainConfigFile(), std::ifstream::binary);
+	std::ifstream config_doc(path, std::ifstream::binary);
 	config_doc >> settings;
 
 	GetCString(settings["UI"]["Fonts"]["Title"]["family"], &Settings::UI::Fonts::Title::family);
@@ -476,7 +476,7 @@ void Settings::LoadConfig(Config config)
 	GetBool(settings["Resolver"]["enabled"], &Settings::Resolver::enabled);
 }
 
-void Settings::LoadSettings ()
+void Settings::LoadSettings()
 {
 	pstring directory = getenv("HOME");
 	directory << "/.config";
@@ -523,7 +523,7 @@ void remove_directory(const char* path)
 	rmdir(path);
 }
 
-void Settings::DeleteConfig(Config config)
+void Settings::DeleteConfig(std::string path)
 {
-	remove_directory(config.path.c_str());
+	remove_directory(path.c_str());
 }

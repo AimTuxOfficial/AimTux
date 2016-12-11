@@ -473,8 +473,8 @@ namespace Settings
 		extern bool enabled;
 	}
 
-	void LoadDefaultsOrSave(Config config);
-	void LoadConfig(Config config);
+	void LoadDefaultsOrSave(std::string path);
+	void LoadConfig(std::string path);
 	void LoadSettings();
-	void DeleteConfig(Config config);
+	void DeleteConfig(std::string path);
 }
