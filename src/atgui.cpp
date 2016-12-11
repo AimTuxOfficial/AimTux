@@ -425,7 +425,7 @@ void MiscTab()
 		ImGui::SameLine();
 		const char* AnimationTypes[] = { "Marquee", "Words", "Letters" };
 		static int AnimationType = 0;
-		ImGui::PushItemWidth(-1);
+		ImGui::PushItemWidth(148);
 			ImGui::Combo("##ANIMATIONTYPE", &AnimationType, AnimationTypes, IM_ARRAYSIZE(AnimationTypes));
 		ImGui::PopItemWidth();
 	}
@@ -434,19 +434,27 @@ void MiscTab()
 	{
 		UI::ReverseCheckbox("No Flash", &Settings::Noflash::enabled);
 		ImGui::SameLine();
-		ImGui::SliderFloat("##NOFLASHAMOUNT", &Settings::Noflash::value, 0, 255);
+		ImGui::PushItemWidth(-1);
+			ImGui::SliderFloat("##NOFLASHAMOUNT", &Settings::Noflash::value, 0, 255);
+		ImGui::PopItemWidth();
 
 		UI::ReverseCheckbox("View FOV", &Settings::FOVChanger::enabled);
 		ImGui::SameLine();
-		ImGui::SliderFloat("##FOVAMOUNT", &Settings::FOVChanger::value, 0, 180);
+		ImGui::PushItemWidth(-1);
+			ImGui::SliderFloat("##FOVAMOUNT", &Settings::FOVChanger::value, 0, 180);
+		ImGui::PopItemWidth();
 
 		UI::ReverseCheckbox("Viewmodel FOV", &Settings::FOVChanger::viewmodel_enabled);
 		ImGui::SameLine();
-		ImGui::SliderFloat("##MODELFOVAMOUNT", &Settings::FOVChanger::viewmodel_value, 0, 360);
+		ImGui::PushItemWidth(-1);
+			ImGui::SliderFloat("##MODELFOVAMOUNT", &Settings::FOVChanger::viewmodel_value, 0, 360);
+		ImGui::PopItemWidth();
 
 		UI::ReverseCheckbox("Fake Lag", &Settings::FakeLag::enabled);
 		ImGui::SameLine();
-		ImGui::SliderInt("##FAKELAGAMOUNT", &Settings::FakeLag::value, 0, 16);
+		ImGui::PushItemWidth(-1);
+			ImGui::SliderInt("##FAKELAGAMOUNT", &Settings::FakeLag::value, 0, 16);
+		ImGui::PopItemWidth();
 
 		UI::ReverseCheckbox("Radar", &Settings::Radar::enabled);
 
