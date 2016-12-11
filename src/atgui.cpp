@@ -134,13 +134,13 @@ void PopupWindows()
 
 void AimbotTab()
 {
-	UI::ReverseCheckbox("Enabled           ", &Settings::Aimbot::enabled);
+	UI::ReverseCheckbox("Enabled", &Settings::Aimbot::enabled);
 	ImGui::Separator();
 
 	ImGui::Columns(2, NULL, false);
 	{
-		UI::ReverseCheckbox("Silent Aim        ", &Settings::Aimbot::silent);
-		UI::ReverseCheckbox("Aimkey Only       ", &Settings::Aimbot::aimkey_only);
+		UI::ReverseCheckbox("Silent Aim", &Settings::Aimbot::silent);
+		UI::ReverseCheckbox("Aimkey Only", &Settings::Aimbot::aimkey_only);
 		ImGui::SameLine();
 
 		ImGui::PushItemWidth(-1);
@@ -148,35 +148,35 @@ void AimbotTab()
 			ImGui::InputText("##AIMKEY", buf, IM_ARRAYSIZE(buf));
 		ImGui::PopItemWidth();
 
-		UI::ReverseCheckbox("Recoil Control    ", &Settings::Aimbot::RCS::enabled);
+		UI::ReverseCheckbox("Recoil Control", &Settings::Aimbot::RCS::enabled);
 		ImGui::SameLine();
 
 		ImGui::PushItemWidth(-1);
 			ImGui::SliderFloat("##RCS", &Settings::Aimbot::RCS::value, 0, 2);
 		ImGui::PopItemWidth();
 
-		UI::ReverseCheckbox("Auto Aim          ", &Settings::Aimbot::AutoAim::enabled);
+		UI::ReverseCheckbox("Auto Aim", &Settings::Aimbot::AutoAim::enabled);
 		ImGui::SameLine();
 
 		ImGui::PushItemWidth(-1);
 			ImGui::SliderFloat("##AA", &Settings::Aimbot::fov, 0, 180);
 		ImGui::PopItemWidth();
 
-		UI::ReverseCheckbox("Smoothing         ", &Settings::Aimbot::Smooth::enabled);
+		UI::ReverseCheckbox("Smoothing", &Settings::Aimbot::Smooth::enabled);
 		ImGui::SameLine();
 
 		ImGui::PushItemWidth(-1);
 			ImGui::SliderFloat("##SMOOTH", &Settings::Aimbot::Smooth::value, 0, 1);
 		ImGui::PopItemWidth();
 
-		UI::ReverseCheckbox("Smooth Salting    ", &Settings::Aimbot::Smooth::Salting::enabled);
+		UI::ReverseCheckbox("Smooth Salting", &Settings::Aimbot::Smooth::Salting::enabled);
 		ImGui::SameLine();
 
 		ImGui::PushItemWidth(-1);
 			ImGui::SliderFloat("##SALT", &Settings::Aimbot::Smooth::Salting::percentage, 0, 100);
 		ImGui::PopItemWidth();
 
-		UI::ReverseCheckbox("Aim Step          ", &Settings::Aimbot::AimStep::enabled);
+		UI::ReverseCheckbox("Aim Step", &Settings::Aimbot::AimStep::enabled);
 		ImGui::SameLine();
 
 		ImGui::PushItemWidth(-1);
@@ -198,20 +198,20 @@ void AimbotTab()
 			ImGui::Combo("##AIMTARGET", &Settings::Aimbot::bone, targets, IM_ARRAYSIZE(targets));
 		ImGui::PopItemWidth();
 
-		UI::ReverseCheckbox("Auto Pistol       ", &Settings::Aimbot::AutoPistol::enabled);
+		UI::ReverseCheckbox("Auto Pistol", &Settings::Aimbot::AutoPistol::enabled);
 		ImGui::SameLine();
-		UI::ReverseCheckbox("No Shoot          ", &Settings::Aimbot::no_shoot);
+		UI::ReverseCheckbox("No Shoot", &Settings::Aimbot::no_shoot);
 
-		UI::ReverseCheckbox("Auto Shoot        ", &Settings::Aimbot::AutoShoot::enabled);
+		UI::ReverseCheckbox("Auto Shoot", &Settings::Aimbot::AutoShoot::enabled);
 		ImGui::SameLine();
-		UI::ReverseCheckbox("Auto Scope        ", &Settings::Aimbot::AutoShoot::autoscope);
+		UI::ReverseCheckbox("Auto Scope", &Settings::Aimbot::AutoShoot::autoscope);
 	}
 
 }
 
 void TriggerbotTab()
 {
-	UI::ReverseCheckbox("Enabled           ", &Settings::Triggerbot::enabled);
+	UI::ReverseCheckbox("Enabled", &Settings::Triggerbot::enabled);
 	ImGui::SameLine();
 
 	ImGui::PushItemWidth(200);
@@ -220,7 +220,7 @@ void TriggerbotTab()
 	ImGui::PopItemWidth();
 
 	ImGui::Separator();
-	UI::ReverseCheckbox("Delay             ", &Settings::Triggerbot::Delay::enabled);
+	UI::ReverseCheckbox("Delay", &Settings::Triggerbot::Delay::enabled);
 	ImGui::SameLine();
 
 	ImGui::PushItemWidth(200);
@@ -228,22 +228,22 @@ void TriggerbotTab()
 	ImGui::PopItemWidth();
 
 	ImGui::Separator();
-	UI::ReverseCheckbox("Friendly          ", &Settings::Triggerbot::Filter::friendly);
-	UI::ReverseCheckbox("Head              ", &Settings::Triggerbot::Filter::head);
-	UI::ReverseCheckbox("Chest             ", &Settings::Triggerbot::Filter::chest);
-	UI::ReverseCheckbox("Stomach           ", &Settings::Triggerbot::Filter::stomach);
-	UI::ReverseCheckbox("Arms              ", &Settings::Triggerbot::Filter::arms);
-	UI::ReverseCheckbox("Legs              ", &Settings::Triggerbot::Filter::legs);
+	UI::ReverseCheckbox("Friendly", &Settings::Triggerbot::Filter::friendly);
+	UI::ReverseCheckbox("Head", &Settings::Triggerbot::Filter::head);
+	UI::ReverseCheckbox("Chest", &Settings::Triggerbot::Filter::chest);
+	UI::ReverseCheckbox("Stomach", &Settings::Triggerbot::Filter::stomach);
+	UI::ReverseCheckbox("Arms", &Settings::Triggerbot::Filter::arms);
+	UI::ReverseCheckbox("Legs", &Settings::Triggerbot::Filter::legs);
 }
 
 void VisualsTab()
 {
-	UI::ReverseCheckbox("Enabled           ", &Settings::ESP::enabled);
+	UI::ReverseCheckbox("Enabled", &Settings::ESP::enabled);
 	ImGui::Separator();
 
 	ImGui::Columns(2, NULL, false);
 	{
-		UI::ReverseCheckbox("Walls             ", &Settings::ESP::Walls::enabled);
+		UI::ReverseCheckbox("Walls", &Settings::ESP::Walls::enabled);
 		ImGui::SameLine();
 
 		const char* WallTypes[] = { "2D", "3D" };
@@ -252,7 +252,7 @@ void VisualsTab()
 			ImGui::Combo("##WALLTYPE", &WallType, WallTypes, IM_ARRAYSIZE(WallTypes));
 		ImGui::PopItemWidth();
 
-		UI::ReverseCheckbox("Tracers           ", &Settings::ESP::Tracer::enabled);
+		UI::ReverseCheckbox("Tracers", &Settings::ESP::Tracer::enabled);
 		ImGui::SameLine();
 
 		const char* TracerTypes[] = { "Bottom", "Cursor" };
@@ -261,18 +261,18 @@ void VisualsTab()
 			ImGui::Combo("##TRACERTYPE", &TracerType, TracerTypes, IM_ARRAYSIZE(TracerTypes));
 		ImGui::PopItemWidth();
 
-		UI::ReverseCheckbox("Show Name         ", &Settings::ESP::Info::showName);
-		UI::ReverseCheckbox("Show Health       ", &Settings::ESP::Info::showHealth);
-		UI::ReverseCheckbox("Show Weapon       ", &Settings::ESP::Info::showWeapon);
-		UI::ReverseCheckbox("Color Code        ", &Settings::ESP::Info::colorCode);
-		UI::ReverseCheckbox("Show Bones        ", &Settings::ESP::Bones::enabled);
-		UI::ReverseCheckbox("Show Friendly     ", &Settings::ESP::friendly);
-		UI::ReverseCheckbox("Visibility Check  ", &Settings::ESP::visibility_check);
+		UI::ReverseCheckbox("Show Name", &Settings::ESP::Info::showName);
+		UI::ReverseCheckbox("Show Health", &Settings::ESP::Info::showHealth);
+		UI::ReverseCheckbox("Show Weapon", &Settings::ESP::Info::showWeapon);
+		UI::ReverseCheckbox("Color Code", &Settings::ESP::Info::colorCode);
+		UI::ReverseCheckbox("Show Bones", &Settings::ESP::Bones::enabled);
+		UI::ReverseCheckbox("Show Friendly", &Settings::ESP::friendly);
+		UI::ReverseCheckbox("Visibility Check", &Settings::ESP::visibility_check);
 	}
 
 	ImGui::NextColumn();
 	{
-		UI::ReverseCheckbox("Players           ", &Settings::ESP::Chams::players);
+		UI::ReverseCheckbox("Players", &Settings::ESP::Chams::players);
 		ImGui::SameLine();
 
 		const char* ChamsTypes[] = { "Normal", "Flat" };
@@ -281,7 +281,7 @@ void VisualsTab()
 			ImGui::Combo("##CHAMSTYPE", &ChamsType, ChamsTypes, IM_ARRAYSIZE(ChamsTypes));
 		ImGui::PopItemWidth();
 
-		UI::ReverseCheckbox("Arms              ", &Settings::ESP::Chams::Arms::enabled);
+		UI::ReverseCheckbox("Arms", &Settings::ESP::Chams::Arms::enabled);
 		ImGui::SameLine();
 
 		const char* ArmsTypes[] = { "Rainbow", "Wireframe", "None", "Default" };
@@ -290,28 +290,28 @@ void VisualsTab()
 			ImGui::Combo("##ARMSTYPE", &ArmsType, ArmsTypes, IM_ARRAYSIZE(ArmsTypes));
 		ImGui::PopItemWidth();
 
-		UI::ReverseCheckbox("Visibility Check  ", &Settings::ESP::Chams::visibility_check);
-		UI::ReverseCheckbox("Bomb ESP          ", &Settings::ESP::Bomb::enabled);
-		UI::ReverseCheckbox("Weapon Names      ", &Settings::ESP::Weapons::enabled);
-		UI::ReverseCheckbox("Glow              ", &Settings::ESP::Glow::enabled);
-		UI::ReverseCheckbox("Dlights           ", &Settings::Dlights::enabled);
+		UI::ReverseCheckbox("Visibility Check", &Settings::ESP::Chams::visibility_check);
+		UI::ReverseCheckbox("Bomb ESP", &Settings::ESP::Bomb::enabled);
+		UI::ReverseCheckbox("Weapon Names", &Settings::ESP::Weapons::enabled);
+		UI::ReverseCheckbox("Glow", &Settings::ESP::Glow::enabled);
+		UI::ReverseCheckbox("Dlights", &Settings::Dlights::enabled);
 		ImGui::SameLine();
 
 		ImGui::PushItemWidth(-1);
 			ImGui::SliderFloat("##DLIGHTRADIUS", &Settings::Dlights::radius, 0, 1000);
 		ImGui::PopItemWidth();
 
-		UI::ReverseCheckbox("No View Punch     ", &Settings::View::NoPunch::enabled);
+		UI::ReverseCheckbox("No View Punch", &Settings::View::NoPunch::enabled);
 	}
 
 	ImGui::Columns(1);
 
 	ImGui::Separator();
-	UI::ReverseCheckbox("Recoil Crosshair  ", &Settings::Recoilcrosshair::enabled);
+	UI::ReverseCheckbox("Recoil Crosshair", &Settings::Recoilcrosshair::enabled);
 	ImGui::SameLine();
 
 	UI::ReverseCheckbox("Only When Shooting", &Settings::Recoilcrosshair::showOnlyWhenShooting);
-	UI::ReverseCheckbox("FOV Circle        ", &Settings::ESP::FOVCrosshair::enabled);
+	UI::ReverseCheckbox("FOV Circle", &Settings::ESP::FOVCrosshair::enabled);
 
 }
 
@@ -319,10 +319,10 @@ void HvHTab()
 {
 	ImGui::Columns(2, NULL, false);
 	{
-		UI::ReverseCheckbox("Y Axis            ", &Settings::AntiAim::enabled_Y);
+		UI::ReverseCheckbox("Y Axis", &Settings::AntiAim::enabled_Y);
 		ImGui::SameLine();
 
-		UI::ReverseCheckbox("X Axis            ", &Settings::AntiAim::enabled_X);
+		UI::ReverseCheckbox("X Axis", &Settings::AntiAim::enabled_X);
 
 		const char* YFakeTypes[] = { "FAKE FAST SPIN", "FAKE SLOW SPIN", "FAKE JITTER", "FAKE SIDE", "FAKE BACKWARDS", "FAKE FORWARDS", "FAKE LEFT", "FAKE RIGHT" };
 		static int YFakeType = 0;
@@ -343,24 +343,24 @@ void HvHTab()
 			ImGui::Combo("##YACTUALTYPE", &YActualType, YActualTypes, IM_ARRAYSIZE(YActualTypes));
 		ImGui::PopItemWidth();
 
-		UI::ReverseCheckbox("Edge              ", &Settings::AntiAim::HeadEdge::enabled);
+		UI::ReverseCheckbox("Edge", &Settings::AntiAim::HeadEdge::enabled);
 		ImGui::SameLine();
 
 		ImGui::PushItemWidth(-1);
 			ImGui::SliderFloat("##EDGEDISTANCE", &Settings::AntiAim::HeadEdge::distance, 10, 30);
 		ImGui::PopItemWidth();
 
-		UI::ReverseCheckbox("Auto Crouch       ", &Settings::Aimbot::AutoCrouch::enabled);
+		UI::ReverseCheckbox("Auto Crouch", &Settings::Aimbot::AutoCrouch::enabled);
 
 		ImGui::SameLine();
 
-		UI::ReverseCheckbox("Auto Stop         ", &Settings::Aimbot::AutoStop::enabled);
-		UI::ReverseCheckbox("Resolver          ", &Settings::Resolver::enabled);
+		UI::ReverseCheckbox("Auto Stop", &Settings::Aimbot::AutoStop::enabled);
+		UI::ReverseCheckbox("Resolver", &Settings::Resolver::enabled);
 	}
 
 	ImGui::NextColumn();
 	{
-		UI::ReverseCheckbox("Auto Wall         ", &Settings::Aimbot::AutoWall::enabled);
+		UI::ReverseCheckbox("Auto Wall", &Settings::Aimbot::AutoWall::enabled);
 		ImGui::PushItemWidth(-1);
 			ImGui::SliderFloat("##AUTOWALLDMG", &Settings::Aimbot::AutoWall::value, 0, 100, "Min Damage %f");
 		ImGui::PopItemWidth();
@@ -545,12 +545,16 @@ void UI::SetupWindows()
 	SpectatorsWindow();
 }
 
-bool UI::ReverseCheckbox(const char* name, bool* toggle)
+bool UI::ReverseCheckbox(std::string name, bool* toggle, int spaces /*= 18*/)
 {
 	std::string prefix = "##";
-	std::string inputName = name;
-	std::string outputTag = prefix + inputName;
-	ImGui::Text(name); ImGui::SameLine();	ImGui::Checkbox(outputTag.c_str(), toggle);
+	std::string outputTag = prefix + name;
+
+	std::string text = name;
+	for (int i = 0; i < spaces - name.length(); i++)
+		text += ' ';
+
+	ImGui::Text(text.c_str()); ImGui::SameLine();	ImGui::Checkbox(outputTag.c_str(), toggle);
 }
 
 bool UI::ColorPicker(float *col, bool alphabar)
