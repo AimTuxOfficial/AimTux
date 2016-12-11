@@ -73,6 +73,15 @@ void GetColor(Json::Value &config, T setting)
 	GetInt(config["a"], &setting->a);
 }
 
+template <typename T>
+void GetUIColor(Json::Value &config, T setting)
+{
+	GetInt(config["r"], &setting->x);
+	GetInt(config["g"], &setting->y);
+	GetInt(config["b"], &setting->z);
+	GetInt(config["a"], &setting->w);
+}
+
 void LoadColor(Json::Value &config, Color color)
 {
 	config["r"] = color.r;
@@ -81,11 +90,21 @@ void LoadColor(Json::Value &config, Color color)
 	config["a"] = color.a;
 }
 
+void LoadUIColor(Json::Value &config, ImVec4 color)
+{
+	config["r"] = color.x;
+	config["g"] = color.y;
+	config["b"] = color.z;
+	config["a"] = color.w;
+}
+
 void Settings::LoadDefaultsOrSave(std::string path)
 {
 	Json::Value settings;
 	Json::StyledWriter styledWriter;
 
+	LoadUIColor(settings["UI"]["mainColor"], Settings::UI::mainColor);
+	LoadUIColor(settings["UI"]["bodyColor"], Settings::UI::bodyColor);
 	settings["UI"]["Fonts"]["Title"]["family"] = Settings::UI::Fonts::Title::family;
 	settings["UI"]["Fonts"]["Title"]["size"] = Settings::UI::Fonts::Title::size;
 	settings["UI"]["Fonts"]["Title"]["flags"] = Settings::UI::Fonts::Title::flags;

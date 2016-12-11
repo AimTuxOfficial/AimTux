@@ -15,6 +15,7 @@
 #include "util.h"
 #include "util_items.h"
 #include "config.h"
+#include "atgui.h"
 
 extern std::vector<Config> configs;
 extern Config* current_config;
@@ -92,6 +93,9 @@ namespace Settings
 {
 	namespace UI
 	{
+		extern ImVec4 mainColor;
+		extern ImVec4 bodyColor;
+
 		namespace Fonts
 		{
 			namespace Title

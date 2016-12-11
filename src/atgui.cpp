@@ -2,8 +2,8 @@
 
 bool UI::isVisible = false;
 
-ImVec4 mainColorORIG = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
-ImVec4 mainColor = ImVec4(0.5f, 0.25f, 0.75f, 1.00f);
+ImVec4 Settings::UI::mainColor = ImVec4(0.5f, 0.25f, 0.75f, 1.00f);
+ImVec4 Settings::UI::bodyColor = ImVec4(0.06f, 0.05f, 0.07f, 0.85f);
 bool showMainWindow = true;
 bool showSkinChangerWindow = false;
 bool showConfigWindow = false;
@@ -48,8 +48,8 @@ void UI::SetupColors()
 {
 	ImGuiStyle& style = ImGui::GetStyle();
 
-	ImVec4 mainColorHovered = ImVec4(mainColor.x + 0.1f, mainColor.y + 0.1f, mainColor.z + 0.1f, 1.00f);
-	ImVec4 mainColorActive = ImVec4(mainColor.x + 0.2f, mainColor.y + 0.2f, mainColor.z + 0.2f, 1.00f);
+	ImVec4 mainColorHovered = ImVec4(Settings::UI::mainColor.x + 0.1f, Settings::UI::mainColor.y + 0.1f, Settings::UI::mainColor.z + 0.1f, Settings::UI::mainColor.w);
+	ImVec4 mainColorActive = ImVec4(Settings::UI::mainColor.x + 0.2f, Settings::UI::mainColor.y + 0.2f, Settings::UI::mainColor.z + 0.2f, Settings::UI::mainColor.w);
 
 	style.Alpha = 1.0f;
 	style.WindowPadding = ImVec2(8, 8);
@@ -77,44 +77,44 @@ void UI::SetupColors()
 
 	style.Colors[ImGuiCol_Text] = ImVec4(0.80f, 0.80f, 0.83f, 1.00f);
 	style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
-	style.Colors[ImGuiCol_WindowBg] = ImVec4(0.06f, 0.05f, 0.07f, 0.85f);
+	style.Colors[ImGuiCol_WindowBg] = Settings::UI::bodyColor;
 	style.Colors[ImGuiCol_ChildWindowBg] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
 	style.Colors[ImGuiCol_PopupBg] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
-	style.Colors[ImGuiCol_Border] = mainColor;
+	style.Colors[ImGuiCol_Border] = Settings::UI::mainColor;
 	style.Colors[ImGuiCol_BorderShadow] = ImVec4(0.92f, 0.91f, 0.88f, 0.00f);
 	style.Colors[ImGuiCol_FrameBg]= ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
 	style.Colors[ImGuiCol_FrameBgHovered] = mainColorHovered;
 	style.Colors[ImGuiCol_FrameBgActive] = mainColorActive;
-	style.Colors[ImGuiCol_TitleBg]= mainColor;
+	style.Colors[ImGuiCol_TitleBg]= Settings::UI::mainColor;
 	style.Colors[ImGuiCol_TitleBgCollapsed] = ImVec4(1.00f, 0.98f, 0.95f, 0.75f);
-	style.Colors[ImGuiCol_TitleBgActive] = mainColor;
-	style.Colors[ImGuiCol_MenuBarBg] = mainColor;
-	style.Colors[ImGuiCol_ScrollbarBg] = mainColor;
-	style.Colors[ImGuiCol_ScrollbarGrab] = mainColor;
+	style.Colors[ImGuiCol_TitleBgActive] = Settings::UI::mainColor;
+	style.Colors[ImGuiCol_MenuBarBg] = Settings::UI::mainColor;
+	style.Colors[ImGuiCol_ScrollbarBg] = Settings::UI::mainColor;
+	style.Colors[ImGuiCol_ScrollbarGrab] = Settings::UI::mainColor;
 	style.Colors[ImGuiCol_ScrollbarGrabHovered] = mainColorHovered;
 	style.Colors[ImGuiCol_ScrollbarGrabActive] = mainColorActive;
 	style.Colors[ImGuiCol_ComboBg] = ImVec4(0.19f, 0.18f, 0.21f, 1.00f);
-	style.Colors[ImGuiCol_CheckMark] = mainColor;
+	style.Colors[ImGuiCol_CheckMark] = Settings::UI::mainColor;
 	style.Colors[ImGuiCol_SliderGrab] = mainColorHovered;
 	style.Colors[ImGuiCol_SliderGrabActive] = mainColorActive;
-	style.Colors[ImGuiCol_Button] = mainColor;
+	style.Colors[ImGuiCol_Button] = Settings::UI::mainColor;
 	style.Colors[ImGuiCol_ButtonHovered] = mainColorHovered;
 	style.Colors[ImGuiCol_ButtonActive] = mainColorActive;
-	style.Colors[ImGuiCol_Header] = mainColor;
+	style.Colors[ImGuiCol_Header] = Settings::UI::mainColor;
 	style.Colors[ImGuiCol_HeaderHovered] = mainColorHovered;
 	style.Colors[ImGuiCol_HeaderActive] = mainColorActive;
-	style.Colors[ImGuiCol_Column] = mainColor;
+	style.Colors[ImGuiCol_Column] = Settings::UI::mainColor;
 	style.Colors[ImGuiCol_ColumnHovered] = mainColorHovered;
 	style.Colors[ImGuiCol_ColumnActive] = mainColorActive;
-	style.Colors[ImGuiCol_ResizeGrip] = mainColor;
+	style.Colors[ImGuiCol_ResizeGrip] = Settings::UI::mainColor;
 	style.Colors[ImGuiCol_ResizeGripHovered] = mainColorHovered;
 	style.Colors[ImGuiCol_ResizeGripActive] = mainColorActive;
-	style.Colors[ImGuiCol_CloseButton] = mainColor;
+	style.Colors[ImGuiCol_CloseButton] = Settings::UI::mainColor;
 	style.Colors[ImGuiCol_CloseButtonHovered] = mainColorHovered;
 	style.Colors[ImGuiCol_CloseButtonActive] = mainColorActive;
-	style.Colors[ImGuiCol_PlotLines] = mainColor;
+	style.Colors[ImGuiCol_PlotLines] = Settings::UI::mainColor;
 	style.Colors[ImGuiCol_PlotLinesHovered] = mainColorHovered;
-	style.Colors[ImGuiCol_PlotHistogram] = mainColor;
+	style.Colors[ImGuiCol_PlotHistogram] = Settings::UI::mainColor;
 	style.Colors[ImGuiCol_PlotHistogramHovered] =  mainColorHovered;
 	style.Colors[ImGuiCol_TextSelectedBg] = ImVec4(0.25f, 1.00f, 0.00f, 0.43f);
 	style.Colors[ImGuiCol_ModalWindowDarkening] = ImVec4(1.00f, 0.98f, 0.95f, 0.73f);
@@ -148,7 +148,7 @@ void PopupWindows()
 
 		if (ImGui::Begin("Color", &showMainColorPopupWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoResize))
 		{
-			UI::ColorPicker3((float *)&mainColor);
+			UI::ColorPicker3((float *)&Settings::UI::mainColor);
 			if (ImGui::Button("Close")) showMainColorPopupWindow = false;
 
 			ImGui::End();
@@ -509,7 +509,7 @@ void MiscTab()
 
 		ImGui::Text("UI Main Color");
 		ImGui::SameLine();
-		if (ImGui::ColorButton(mainColor, true))
+		if (ImGui::ColorButton(Settings::UI::mainColor, true))
 			showMainColorPopupWindow = true;
 	}
 }
