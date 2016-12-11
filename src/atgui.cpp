@@ -289,7 +289,10 @@ void VisualsTab()
 			ImGui::Combo("##ARMSTYPE", &ArmsType, ArmsTypes, IM_ARRAYSIZE(ArmsTypes));
 		ImGui::PopItemWidth();
 
-		UI::ReverseCheckbox("Visibility Check", &Settings::ESP::Chams::visibility_check);
+		ImGui::PushID(1);
+			UI::ReverseCheckbox("Visibility Check", &Settings::ESP::Chams::visibility_check);
+		ImGui::PopID();
+
 		UI::ReverseCheckbox("Bomb ESP", &Settings::ESP::Bomb::enabled);
 		UI::ReverseCheckbox("Weapon Names", &Settings::ESP::Weapons::enabled);
 		UI::ReverseCheckbox("Glow", &Settings::ESP::Glow::enabled);
