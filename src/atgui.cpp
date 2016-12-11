@@ -328,7 +328,7 @@ void HvHTab()
 		const char* YFakeTypes[] = { "SLOW SPIN", "FAST SPIN", "JITTER", "SIDE", "BACKWARDS", "FORWARDS", "LEFT", "RIGHT" };
 		static int YFakeType = 0;
 
-		ImGui::Text("Fake                  ");
+		ImGui::Text(""); ImGui::SameLine(); ImGui::Text(""); ImGui::SameLine(); ImGui::Text("Fake               ");
 		ImGui::SameLine();
 
 		ImGui::PushItemWidth(148);
@@ -338,7 +338,7 @@ void HvHTab()
 		const char* YActualTypes[] = { "SLOW SPIN", "FAST SPIN", "JITTER", "SIDE", "BACKWARDS", "FORWARDS", "LEFT", "RIGHT" };
 		static int YActualType = 0;
 
-		ImGui::Text("Actual                ");
+		ImGui::Text(""); ImGui::SameLine(); ImGui::Text(""); ImGui::SameLine(); ImGui::Text("Actual             ");
 		ImGui::SameLine();
 
 		ImGui::PushItemWidth(148);
