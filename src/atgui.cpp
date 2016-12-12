@@ -167,7 +167,7 @@ void AimbotTab()
 		UI::ReverseCheckbox("Aimkey Only", &Settings::Aimbot::aimkey_only);
 		ImGui::SameLine();
 
-		if (ImGui::Button(input->ButtonCodeToString(Settings::Aimbot::aimkey)))
+		if (ImGui::Button(input->ButtonCodeToString(Settings::Aimbot::aimkey), ImVec2(-1, 0)))
 		{
 			SetKeyCodeState::shouldListen = true;
 			SetKeyCodeState::keyOutput = &Settings::Aimbot::aimkey;
@@ -227,9 +227,10 @@ void AimbotTab()
 
 void TriggerbotTab()
 {
+	ImGui::Columns(2, NULL, false);
 	UI::ReverseCheckbox("Enabled", &Settings::Triggerbot::enabled);
 	ImGui::SameLine();
-	if (ImGui::Button(input->ButtonCodeToString(Settings::Triggerbot::key)))
+	if (ImGui::Button(input->ButtonCodeToString(Settings::Triggerbot::key), ImVec2(-1, 0)))
 	{
 		SetKeyCodeState::shouldListen = true;
 		SetKeyCodeState::keyOutput = &Settings::Aimbot::aimkey;
@@ -238,7 +239,7 @@ void TriggerbotTab()
 
 	UI::ReverseCheckbox("Delay", &Settings::Triggerbot::Delay::enabled);
 	ImGui::SameLine();
-	ImGui::PushItemWidth(200);
+	ImGui::PushItemWidth(-1);
 		ImGui::SliderInt("##TRIGGERDELAY", &Settings::Triggerbot::Delay::value, 0, 1000);
 	ImGui::PopItemWidth();
 
