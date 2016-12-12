@@ -718,6 +718,44 @@ void SpectatorsWindow()
 	ImGui::End();
 }
 
+void DrawBanner()
+{
+	if (UI::isVisible)
+		return;
+
+	if (engine->IsInGame())
+		return;
+
+	// Make a static invisible window to draw text on
+	ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiSetCond_Always);
+	ImGui::SetNextWindowSize(ImVec2(50, 100), ImGuiSetCond_Always);
+	ImGui::Begin(
+			"Banner",
+			(bool*)true,
+			ImVec2(100, 100),
+			0.f,
+			ImGuiWindowFlags_NoTitleBar
+			|ImGuiWindowFlags_NoResize
+			|ImGuiWindowFlags_NoMove
+			|ImGuiWindowFlags_NoScrollbar
+			|ImGuiWindowFlags_NoSavedSettings
+			|ImGuiWindowFlags_NoInputs
+	);
+
+	ImGui::GetWindowDrawList()->AddText(
+			ImGui::GetWindowFont(),
+			ImGui::GetWindowFontSize(),
+			ImVec2(4.f, 4.f),
+			ImColor(255, 255, 255, 255),
+			"AimTux",
+			0,
+			0.0f,
+			0
+	);
+
+	ImGui::End();
+}
+
 void UI::SetupWindows()
 {
 	if (UI::isVisible)
@@ -730,6 +768,7 @@ void UI::SetupWindows()
 	}
 
 	SpectatorsWindow();
+	DrawBanner();
 }
 
 bool UI::ReverseCheckbox(std::string name, bool* toggle, int spaces /*= 18*/)
