@@ -37,7 +37,7 @@ void SDL2::UnhookWindow()
 	SDL_GL_DeleteContext(aimtux_context);
 }
 
-void SDL2::PollEvent(SDL_Event* event)
+int SDL2::PollEvent(SDL_Event* event)
 {
 	static SDL_PollEvent_t oSDL_PollEvent = reinterpret_cast<SDL_PollEvent_t>(original_pollevent);
 
@@ -46,7 +46,7 @@ void SDL2::PollEvent(SDL_Event* event)
 	if (event->key.keysym.sym == SDLK_INSERT && event->type == SDL_KEYDOWN)
 		UI::SetVisible(!UI::isVisible);
 
-	oSDL_PollEvent(event);
+	return oSDL_PollEvent(event);
 }
 
 void SDL2::UnhookPollEvent()

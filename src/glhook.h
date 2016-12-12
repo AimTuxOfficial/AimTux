@@ -6,12 +6,12 @@
 #include "ImGUI/imgui_impl_sdl.h"
 
 typedef void (*SDL_GL_SwapWindow_t) (SDL_Window*);
-typedef void (*SDL_PollEvent_t) (SDL_Event*);
+typedef int (*SDL_PollEvent_t) (SDL_Event*);
 
 namespace SDL2
 {
 	void SwapWindow(SDL_Window*);
 	void UnhookWindow();
-	void PollEvent(SDL_Event*);
+	int PollEvent(SDL_Event*);
 	void UnhookPollEvent();
 }
