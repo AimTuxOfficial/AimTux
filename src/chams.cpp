@@ -169,8 +169,9 @@ void DrawArms(const ModelRenderInfo_t &pInfo)
 			mat->ColorModulate(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f);
 			break;
 	}
-	mat->SetMaterialVarFlag(MATERIAL_VAR_NO_DRAW, Settings::ESP::Chams::Arms::type == 3);
+	
 	mat->SetMaterialVarFlag(MATERIAL_VAR_WIREFRAME, Settings::ESP::Chams::Arms::type == 2);
+	mat->SetMaterialVarFlag(MATERIAL_VAR_NO_DRAW, Settings::ESP::Chams::Arms::type == 3);
 	modelRender->ForcedMaterialOverride(mat);
 }
 

@@ -9,7 +9,10 @@ bool showSkinChangerWindow = false;
 bool showConfigWindow = false;
 bool showSpectatorsWindow = false;
 bool showMainColorPopupWindow = false;
-bool test = false;
+std::string aimKey = input->ButtonCodeToString(Settings::Aimbot::aimkey);      // These are temporary until a propery system is in place. Just for looks. atm.
+std::string triggerKey = input->ButtonCodeToString(Settings::Triggerbot::key); //TODO: Cleanup config inconsistancies, it really is fucking annoying.
+																																							//       I get botched for inconsistant code yet some things are all over the fucking place
+																																							//       We should do a mass cleanup and basically call it AimTux Reborn.
 
 #define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))
 
@@ -167,10 +170,10 @@ void AimbotTab()
 
 		UI::ReverseCheckbox("Aimkey Only", &Settings::Aimbot::aimkey_only);
 		ImGui::SameLine();
-		ImGui::PushItemWidth(-1);
-			static char buf[128] = "TODO: hotkeys";
-			ImGui::InputText("##AIMKEY", buf, IM_ARRAYSIZE(buf));
-		ImGui::PopItemWidth();
+		if(ImGui::Button(aimKey.c_str()))
+		{
+			//TODO: Make Keybinds work.
+		}
 
 		UI::ReverseCheckbox("Recoil Control", &Settings::Aimbot::RCS::enabled);
 		ImGui::SameLine();
@@ -228,11 +231,7 @@ void TriggerbotTab()
 {
 	UI::ReverseCheckbox("Enabled", &Settings::Triggerbot::enabled);
 	ImGui::SameLine();
-	ImGui::PushItemWidth(200);
-		static char buf[128] = "TODO: hotkeys";
-		ImGui::InputText("##TRIGGERKEY", buf, IM_ARRAYSIZE(buf));
-	ImGui::PopItemWidth();
-
+	ImGui::Button(triggerKey.c_str());
 	ImGui::Separator();
 
 	UI::ReverseCheckbox("Delay", &Settings::Triggerbot::Delay::enabled);
