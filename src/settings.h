@@ -26,7 +26,7 @@ enum TracerType : unsigned int
 	CURSOR
 };
 
-enum ClanTagType : unsigned int
+enum ClanTagType : int
 {
 	MARQUEE,
 	WORDS,
@@ -438,7 +438,7 @@ namespace Settings
 		extern char* value;
 		extern bool animation;
 		extern bool enabled;
-		extern ClanTagType type;
+		extern int type;
 	}
 
 	namespace View

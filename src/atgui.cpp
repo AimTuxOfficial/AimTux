@@ -462,9 +462,8 @@ void MiscTab()
 		UI::ReverseCheckbox("Animate Clantag", &Settings::ClanTagChanger::animation);
 		ImGui::SameLine();
 		const char* AnimationTypes[] = { "Marquee", "Words", "Letters" };
-		static int AnimationType = 0;
 		ImGui::PushItemWidth(148);
-			ImGui::Combo("##ANIMATIONTYPE", &AnimationType, AnimationTypes, IM_ARRAYSIZE(AnimationTypes));
+			ImGui::Combo("##ANIMATIONTYPE", &Settings::ClanTagChanger::type, AnimationTypes, IM_ARRAYSIZE(AnimationTypes));
 		ImGui::PopItemWidth();
 	}
 
