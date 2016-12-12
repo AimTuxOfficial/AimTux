@@ -362,26 +362,23 @@ void HvHTab()
 		ImGui::SameLine();
 
 		ImGui::PushItemWidth(148);
-			ImGui::Combo("##YFAKETYPE", &YFakeType, YFakeTypes, IM_ARRAYSIZE(YFakeTypes));
-			ImGui::PopItemWidth();
+			ImGui::Combo("##YFAKETYPE", &Settings::AntiAim::type_fake_Y, YFakeTypes, IM_ARRAYSIZE(YFakeTypes));
+		ImGui::PopItemWidth();
 
 		const char* YActualTypes[] = { "SLOW SPIN", "FAST SPIN", "JITTER", "SIDE", "BACKWARDS", "FORWARDS", "LEFT", "RIGHT" };
-		static int YActualType = 0;
-
 		ImGui::Text(""); ImGui::SameLine(); ImGui::Text(""); ImGui::SameLine(); ImGui::Text("Actual             ");
 		ImGui::SameLine();
 
 		ImGui::PushItemWidth(148);
-			ImGui::Combo("##YACTUALTYPE", &YActualType, YActualTypes, IM_ARRAYSIZE(YActualTypes));
+			ImGui::Combo("##YACTUALTYPE", &Settings::AntiAim::type_Y, YActualTypes, IM_ARRAYSIZE(YActualTypes));
 		ImGui::PopItemWidth();
 
 		const char* XTypes[] = { "UP", "DOWN", "DANCE" };
-		static int XType = 0;
 
 		UI::ReverseCheckbox("X Axis", &Settings::AntiAim::enabled_X);
 		ImGui::SameLine();
 		ImGui::PushItemWidth(148);
-			ImGui::Combo("##XTYPE", &XType, XTypes, IM_ARRAYSIZE(XTypes));
+			ImGui::Combo("##XTYPE", &Settings::AntiAim::type_X, XTypes, IM_ARRAYSIZE(XTypes));
 		ImGui::PopItemWidth();
 
 

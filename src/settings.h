@@ -57,9 +57,9 @@ enum AntiAimType_X : int
 {
 	STATIC_UP,
 	STATIC_DOWN,
+	DANCE,
 	STATIC_UP_FAKE,
-	STATIC_DOWN_FAKE,
-	DANCE
+	STATIC_DOWN_FAKE
 };
 
 enum ChamsType : int
@@ -76,10 +76,10 @@ enum WallBoxType : int
 
 enum ArmsType : int
 {
+	DEFAULT,
 	RAINBOW,
 	WIREFRAME,
-	NONE,
-	DEFAULT
+	NONE
 };
 
 enum AimTargetType : int
@@ -225,9 +225,9 @@ namespace Settings
 	{
 		extern bool enabled_Y;
 		extern bool enabled_X;
-		extern AntiAimType_Y type_Y;
-		extern AntiAimType_Y type_fake_Y;
-		extern AntiAimType_X type_X;
+		extern int type_Y;
+		extern int type_fake_Y;
+		extern int type_X;
 
 		namespace HeadEdge
 		{

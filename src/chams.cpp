@@ -3,13 +3,13 @@
 bool Settings::ESP::Chams::players = false;
 bool Settings::ESP::Chams::visibility_check = false;
 bool Settings::ESP::Chams::Arms::enabled = false;
-int Settings::ESP::Chams::Arms::type = 0;
+int Settings::ESP::Chams::Arms::type = DEFAULT;
 Color Settings::ESP::Chams::players_ally_color = Color(7, 98, 168);
 Color Settings::ESP::Chams::players_ally_visible_color = Color(40, 52, 138);
 Color Settings::ESP::Chams::players_enemy_color = Color(243, 24, 28);
 Color Settings::ESP::Chams::players_enemy_visible_color = Color(243, 159, 20);
 Color Settings::ESP::Chams::Arms::color = Color(117, 43, 73);
-int Settings::ESP::Chams::type = 0;
+int Settings::ESP::Chams::type = DEFAULT;
 
 float rainbowHue;
 
@@ -99,11 +99,11 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 
 	switch (Settings::ESP::Chams::type)
 	{
-		case 0:
+		case CHAMS:
 			visible_material = material->FindMaterial("aimtux_chams", TEXTURE_GROUP_MODEL);
 			hidden_material = material->FindMaterial("aimtux_chamsIgnorez", TEXTURE_GROUP_MODEL);
 			break;
-		case 1:
+		case CHAMS_FLAT:
 			visible_material = material->FindMaterial("aimtux_chamsFlat", TEXTURE_GROUP_MODEL);
 			hidden_material = material->FindMaterial("aimtux_chamsFlatIgnorez", TEXTURE_GROUP_MODEL);
 			break;
@@ -159,19 +159,19 @@ void DrawArms(const ModelRenderInfo_t &pInfo)
 
 	switch(Settings::ESP::Chams::Arms::type)
 	{
-		case 0:
+		case DEFAULT:
 			mat->AlphaModulate(1.0f);
 			mat->ColorModulate(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f);
 			break;
-		case 1:
+		case RAINBOW:
 			color = Color::FromHSB(rainbowHue, 1.0f, 1.0f);
 			mat->AlphaModulate(1.0f);
 			mat->ColorModulate(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f);
 			break;
 	}
-	
-	mat->SetMaterialVarFlag(MATERIAL_VAR_WIREFRAME, Settings::ESP::Chams::Arms::type == 2);
-	mat->SetMaterialVarFlag(MATERIAL_VAR_NO_DRAW, Settings::ESP::Chams::Arms::type == 3);
+
+	mat->SetMaterialVarFlag(MATERIAL_VAR_WIREFRAME, Settings::ESP::Chams::Arms::type == WIREFRAME);
+	mat->SetMaterialVarFlag(MATERIAL_VAR_NO_DRAW, Settings::ESP::Chams::Arms::type == NONE);
 	modelRender->ForcedMaterialOverride(mat);
 }
 

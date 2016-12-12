@@ -2,9 +2,9 @@
 
 bool Settings::AntiAim::enabled_Y = false;
 bool Settings::AntiAim::enabled_X = false;
-AntiAimType_Y Settings::AntiAim::type_Y = SPIN_FAST;
-AntiAimType_Y Settings::AntiAim::type_fake_Y = SPIN_FAST;
-AntiAimType_X Settings::AntiAim::type_X = STATIC_DOWN;
+int Settings::AntiAim::type_Y = SPIN_FAST;
+int Settings::AntiAim::type_fake_Y = SPIN_FAST;
+int Settings::AntiAim::type_X = STATIC_DOWN;
 bool Settings::AntiAim::HeadEdge::enabled = false;
 float Settings::AntiAim::HeadEdge::distance = 25.0f;
 
@@ -49,7 +49,7 @@ bool AntiAim::GetBestHeadAngle(QAngle& angle)
 
 void DoAntiAimY(QAngle&  angle, bool bFlip)
 {
-	AntiAimType_Y aa_type = bFlip ? Settings::AntiAim::type_Y : Settings::AntiAim::type_fake_Y;
+	int aa_type = bFlip ? Settings::AntiAim::type_Y : Settings::AntiAim::type_fake_Y;
 
 	static float fYaw = 0.0f;
 	static bool yFlip;
