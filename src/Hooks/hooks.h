@@ -39,3 +39,9 @@ namespace RenderView
 {
 	extern float currentFOV;
 }
+
+namespace SetKeyCodeState
+{
+	extern bool shouldListen;
+	extern ButtonCode_t* keyOutput;
+}

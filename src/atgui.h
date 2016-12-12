@@ -17,5 +17,4 @@ namespace UI
 	bool ColorPicker3(float*);
 	bool ColorPicker4(float*);
 	bool ReverseCheckbox(std::string, bool*, int = 18);
-	void ProcessEvent(SDL_Event*);
 }
