@@ -429,10 +429,9 @@ void MiscTab()
 		UI::ReverseCheckbox("Auto Strafe", &Settings::AutoStrafe::enabled);
 		ImGui::SameLine();
 
-		const char* StrafeTypes[] = { "Forwards", "Backwards", "Left", "Right" };
-		static int StrafeType = 0;
+		const char* strafeTypes[] = { "Forwards", "Backwards", "Left", "Right" };
 		ImGui::PushItemWidth(-1);
-			ImGui::Combo("##STRAFETYPE", &StrafeType, StrafeTypes, IM_ARRAYSIZE(StrafeTypes));
+			ImGui::Combo("##STRAFETYPE", &Settings::AutoStrafe::type, strafeTypes, IM_ARRAYSIZE(strafeTypes));
 		ImGui::PopItemWidth();
 
 		UI::ReverseCheckbox("AirStuck", &Settings::Airstuck::enabled);

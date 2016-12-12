@@ -1,7 +1,7 @@
 #include "autostrafe.h"
 
 bool Settings::AutoStrafe::enabled = true;
-AutostrafeType Settings::AutoStrafe::type = AS_FORWARDS;
+int Settings::AutoStrafe::type = AS_FORWARDS;
 
 void AutoStrafe::CreateMove(CUserCmd* cmd)
 {
@@ -21,13 +21,22 @@ void AutoStrafe::CreateMove(CUserCmd* cmd)
 	if (localplayer->GetMoveType() == MOVETYPE_LADDER || localplayer->GetMoveType() == MOVETYPE_NOCLIP)
 		return;
 
-	if (cmd->mousedx > 1 || cmd->mousedx < -1){
-		switch(Settings::AutoStrafe::type)
+	if (cmd->mousedx > 1 || cmd->mousedx < -1)
+	{
+		switch (Settings::AutoStrafe::type)
 		{
-			case AS_FORWARDS: cmd->sidemove = cmd->mousedx < 0.f ? -450.f : 450.f; break;
-			case AS_BACKWARDS: cmd->sidemove = cmd->mousedx < 0.f ? 450.f : -450.f;	break;
-			case AS_LEFTSIDEWAYS: cmd->forwardmove = cmd->mousedx < 0.f ? -450.f : 450.f; break;
-			case AS_RIGHTSIDEWAYS: cmd->forwardmove = cmd->mousedx < 0.f ? 450.f : -450.f; break;
+			case AS_FORWARDS:
+				cmd->sidemove = cmd->mousedx < 0.f ? -450.f : 450.f;
+				break;
+			case AS_BACKWARDS:
+				cmd->sidemove = cmd->mousedx < 0.f ? 450.f : -450.f;
+				break;
+			case AS_LEFTSIDEWAYS:
+				cmd->forwardmove = cmd->mousedx < 0.f ? -450.f : 450.f;
+				break;
+			case AS_RIGHTSIDEWAYS:
+				cmd->forwardmove = cmd->mousedx < 0.f ? 450.f : -450.f;
+				break;
 		}
 	}
 }

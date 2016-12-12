@@ -33,7 +33,7 @@ enum ClanTagType : unsigned int
 	LETTERS
 };
 
-enum AutostrafeType : unsigned int
+enum AutostrafeType : int
 {
 	AS_FORWARDS,
 	AS_BACKWARDS,
@@ -359,7 +359,7 @@ namespace Settings
 	namespace AutoStrafe
 	{
 		extern bool enabled;
-		extern AutostrafeType type;
+		extern int type;
 	}
 
 	namespace Noflash
