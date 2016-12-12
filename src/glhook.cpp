@@ -1,5 +1,4 @@
 #include "glhook.h"
-#include "atgui.h"
 
 SDL_GLContext aimtux_context = nullptr;
 
@@ -17,6 +16,11 @@ void SDL2::SwapWindow(SDL_Window* window)
 	SDL_GL_MakeCurrent(window, aimtux_context);
 
 	ImGui_ImplSdl_NewFrame(window);
+
+	Draw::ImStart();
+	UI::DrawBanner();
+	ESP::SwapWindow();
+	Draw::ImEnd();
 
 	UI::SetupColors();
 	UI::SetupWindows();

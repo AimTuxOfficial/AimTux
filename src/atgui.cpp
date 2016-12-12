@@ -733,7 +733,7 @@ void SpectatorsWindow()
 	ImGui::End();
 }
 
-void DrawBanner()
+void UI::DrawBanner()
 {
 	if (UI::isVisible)
 		return;
@@ -741,72 +741,7 @@ void DrawBanner()
 	if (engine->IsInGame())
 		return;
 
-	// Make a static invisible window to draw text on
-	ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiSetCond_Always);
-	ImGui::SetNextWindowSize(ImVec2(50, 100), ImGuiSetCond_Always);
-	ImGui::Begin(
-			"Banner",
-			(bool*)true,
-			ImVec2(100, 100),
-			0.f,
-			ImGuiWindowFlags_NoTitleBar
-			|ImGuiWindowFlags_NoResize
-			|ImGuiWindowFlags_NoMove
-			|ImGuiWindowFlags_NoScrollbar
-			|ImGuiWindowFlags_NoSavedSettings
-			|ImGuiWindowFlags_NoInputs
-	);
-
-	ImGui::GetWindowDrawList()->AddText(
-			ImGui::GetWindowFont(),
-			ImGui::GetWindowFontSize(),
-			ImVec2(4.f, 4.f),
-			ImColor(255, 255, 255, 255),
-			"AimTux",
-			0,
-			0.0f,
-			0
-	);
-
-	ImGui::End();
-}
-
-void DrawFOVCrosshair()
-{
-	if(!Settings::ESP::FOVCrosshair::enabled)
-		return;
-
-	if(!engine->IsInGame())
-		return;
-
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer->GetAlive())
-		return;
-
-	int width, height;
-	engine->GetScreenSize(width, height);
-
-	float radAimbotFov = Settings::Aimbot::fov * M_PI / 180;
-	float radViewFov = RenderView::currentFOV * M_PI / 180;
-
-	float circleRadius = tanf(radAimbotFov / 2) / tanf(radViewFov / 2) * width;
-
-	ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiSetCond_Always);
-	ImGui::SetNextWindowSize(ImVec2(width, height), ImGuiSetCond_Always);
-	ImGui::Begin(
-			"FOV Circle",
-			(bool*)true,
-			ImVec2(width, height),
-			0.f,
-			ImGuiWindowFlags_NoTitleBar
-			|ImGuiWindowFlags_NoResize
-			|ImGuiWindowFlags_NoMove
-			|ImGuiWindowFlags_NoScrollbar
-			|ImGuiWindowFlags_NoSavedSettings
-			|ImGuiWindowFlags_NoInputs
-	);
-	ImGui::GetWindowDrawList()->AddCircle(ImVec2(width / 2, height / 2), circleRadius, ImGui::GetColorU32(Settings::UI::mainColor), 100, 1.5f);
-	ImGui::End();
+	Draw::ImDrawText(ImVec2(4.f, 4.f), ImColor(255, 255, 255, 255), "AimTux");
 }
 
 void UI::SetupWindows()
@@ -821,6 +756,4 @@ void UI::SetupWindows()
 	}
 
 	SpectatorsWindow();
-	DrawBanner();
-	DrawFOVCrosshair();
 }

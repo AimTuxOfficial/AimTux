@@ -1,6 +1,8 @@
 #pragma once
 
 #include "interfaces.h"
+#include "atgui.h"
+#include "hacks.h"
 
 #include "ImGUI/imgui.h"
 #include "ImGUI/imgui_impl_sdl.h"

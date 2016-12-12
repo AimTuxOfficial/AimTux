@@ -9,6 +9,7 @@
 #include <stdarg.h>
 #include <wchar.h>
 #include "fonts.h"
+#include "ImGUI/imgui.h"
 
 namespace Draw
 {
@@ -26,4 +27,10 @@ namespace Draw
 	void DrawPolygonOutline(int count, Vertex_t* Vertexs, Color color, Color colorLine);
 	void DrawPolyLine(int* x, int* y, int count, Color color);
 	void DrawPolyLine(int count, Vertex_t* Vertexs, Color colorLine);
+
+	// ImGui
+	void ImStart();
+	void ImDrawText(ImVec2 point, ImColor color, const char* text);
+	void ImDrawCircle(ImVec2 point, ImColor color, float radius, int num_segments = 12, float thickness = 1.0f);
+	void ImEnd();
 }

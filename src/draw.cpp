@@ -144,3 +144,32 @@ void Draw::DrawPolyLine(int count, Vertex_t* Vertexs, Color colorLine)
 
 	Draw::DrawPolyLine(x, y, count, colorLine);
 }
+
+void Draw::ImStart()
+{
+	int width, height;
+	engine->GetScreenSize(width, height);
+
+	ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiSetCond_Always);
+	ImGui::SetNextWindowSize(ImVec2(width, height), ImGuiSetCond_Always);
+	ImGui::Begin("",
+				 (bool*)true,
+				 ImVec2(width, height),
+				 0.f,
+				 ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoInputs);
+}
+
+void Draw::ImDrawText(ImVec2 point, ImColor color, const char* text)
+{
+	ImGui::GetWindowDrawList()->AddText(ImGui::GetWindowFont(), ImGui::GetWindowFontSize(), point, color, text, 0, 0.0f, 0);
+}
+
+void Draw::ImDrawCircle(ImVec2 point, ImColor color, float radius, int num_segments, float thickness)
+{
+	ImGui::GetWindowDrawList()->AddCircle(point, radius, color, 100, 1.5f);
+}
+
+void Draw::ImEnd()
+{
+	ImGui::End();
+}
