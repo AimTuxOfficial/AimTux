@@ -169,6 +169,11 @@ void Draw::ImDrawCircle(ImVec2 point, ImColor color, float radius, int num_segme
 	ImGui::GetWindowDrawList()->AddCircle(point, radius, color, 100, 1.5f);
 }
 
+void Draw::ImDrawRect(ImVec2 a, ImVec2 b, ImColor color, float rounding, int rounding_corners_flags, float thickness)
+{
+	ImGui::GetWindowDrawList()->AddRect(a, b, color, rounding, rounding_corners_flags, thickness);
+}
+
 void Draw::ImEnd()
 {
 	ImGui::End();

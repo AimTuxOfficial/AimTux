@@ -32,5 +32,6 @@ namespace Draw
 	void ImStart();
 	void ImDrawText(ImVec2 point, ImColor color, const char* text);
 	void ImDrawCircle(ImVec2 point, ImColor color, float radius, int num_segments = 12, float thickness = 1.0f);
+	void ImDrawRect(ImVec2 a, ImVec2 b, ImColor color, float rounding = 0.0f, int rounding_corners_flags = ~0, float thickness = 1.0f);
 	void ImEnd();
 }
