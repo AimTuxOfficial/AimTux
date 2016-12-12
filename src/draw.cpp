@@ -159,14 +159,14 @@ void Draw::ImStart()
 				 ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoInputs);
 }
 
-void Draw::ImDrawText(ImVec2 point, ImColor color, const char* text)
+void Draw::ImDrawText(ImVec2 pos, ImColor color, const char* text_begin, const char* text_end, float wrap_width, const ImVec4* cpu_fine_clip_rect)
 {
-	ImGui::GetWindowDrawList()->AddText(ImGui::GetWindowFont(), ImGui::GetWindowFontSize(), point, color, text, 0, 0.0f, 0);
+	ImGui::GetWindowDrawList()->AddText(ImGui::GetWindowFont(), ImGui::GetWindowFontSize(), pos, color, text_begin, text_end, wrap_width, cpu_fine_clip_rect);
 }
 
 void Draw::ImDrawCircle(ImVec2 point, ImColor color, float radius, int num_segments, float thickness)
 {
-	ImGui::GetWindowDrawList()->AddCircle(point, radius, color, 100, 1.5f);
+	ImGui::GetWindowDrawList()->AddCircle(point, radius, color, num_segments, thickness);
 }
 
 void Draw::ImDrawRect(ImVec2 a, ImVec2 b, ImColor color, float rounding, int rounding_corners_flags, float thickness)
