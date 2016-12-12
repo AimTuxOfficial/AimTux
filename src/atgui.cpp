@@ -493,7 +493,11 @@ void MiscTab()
 
 		static char nickname[127] = "nickname";
 
-		ImGui::Button("No Name");
+		if (ImGui::Button("No Name"))
+		{
+			Settings::NameChanger::enabled = true;
+			Settings::NameChanger::last_blank = true;
+		}
 		ImGui::SameLine();
 
 		if (ImGui::Button("Set Nickname"))
