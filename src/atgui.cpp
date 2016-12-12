@@ -2,7 +2,7 @@
 
 bool UI::isVisible = false;
 
-ImVec4 Settings::UI::mainColor = ImVec4(0.5f, 0.25f, 0.75f, 1.00f);
+ImVec4 Settings::UI::mainColor = ImVec4(0.8f, 0.3f, 0.4f, 1.00f);
 ImVec4 Settings::UI::bodyColor = ImVec4(0.06f, 0.05f, 0.07f, 0.85f);
 bool showMainWindow = true;
 bool showSkinChangerWindow = false;
@@ -74,7 +74,7 @@ void UI::SetupColors()
 	style.AntiAliasedShapes = true;
 	style.CurveTessellationTol = 1.25f;
 
-	style.Colors[ImGuiCol_Text] = ImVec4(0.80f, 0.80f, 0.83f, 1.00f);
+	style.Colors[ImGuiCol_Text] = ImVec4(1.0f, 1.0f, 1.0f, 1.00f);
 	style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
 	style.Colors[ImGuiCol_WindowBg] = Settings::UI::bodyColor;
 	style.Colors[ImGuiCol_ChildWindowBg] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
