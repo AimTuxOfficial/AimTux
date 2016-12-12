@@ -167,7 +167,11 @@ void AimbotTab()
 		UI::ReverseCheckbox("Aimkey Only", &Settings::Aimbot::aimkey_only);
 		ImGui::SameLine();
 
-		if (ImGui::Button(input->ButtonCodeToString(Settings::Aimbot::aimkey), ImVec2(-1, 0)))
+		const char* aimkeyText = input->ButtonCodeToString(Settings::Aimbot::aimkey);
+		if (SetKeyCodeState::shouldListen && SetKeyCodeState::keyOutput == &Settings::Aimbot::aimkey)
+			aimkeyText = "-- press a key --";
+
+		if (ImGui::Button(aimkeyText, ImVec2(-1, 0)))
 		{
 			SetKeyCodeState::shouldListen = true;
 			SetKeyCodeState::keyOutput = &Settings::Aimbot::aimkey;
@@ -230,7 +234,12 @@ void TriggerbotTab()
 	ImGui::Columns(2, NULL, false);
 	UI::ReverseCheckbox("Enabled", &Settings::Triggerbot::enabled);
 	ImGui::SameLine();
-	if (ImGui::Button(input->ButtonCodeToString(Settings::Triggerbot::key), ImVec2(-1, 0)))
+
+	const char* triggerkeyText = input->ButtonCodeToString(Settings::Triggerbot::key);
+	if (SetKeyCodeState::shouldListen && SetKeyCodeState::keyOutput == &Settings::Triggerbot::key)
+		triggerkeyText = "-- press a key --";
+
+	if (ImGui::Button(triggerkeyText, ImVec2(-1, 0)))
 	{
 		SetKeyCodeState::shouldListen = true;
 		SetKeyCodeState::keyOutput = &Settings::Aimbot::aimkey;
