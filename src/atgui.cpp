@@ -733,7 +733,7 @@ void SpectatorsWindow()
 	ImGui::End();
 }
 
-void UI::DrawBanner()
+void UI::SwapWindow()
 {
 	if (UI::isVisible)
 		return;

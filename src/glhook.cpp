@@ -18,7 +18,7 @@ void SDL2::SwapWindow(SDL_Window* window)
 	ImGui_ImplSdl_NewFrame(window);
 
 	Draw::ImStart();
-	UI::DrawBanner();
+	UI::SwapWindow();
 	ESP::SwapWindow();
 	Draw::ImEnd();
 

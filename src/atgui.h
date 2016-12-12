@@ -11,7 +11,7 @@ namespace UI
 	extern bool isVisible;
 
 	void SetVisible(bool visible);
-	void DrawBanner();
+	void SwapWindow();
 	void SetupColors();
 	void SetupWindows();
 	bool ColorPicker(float*, bool);
