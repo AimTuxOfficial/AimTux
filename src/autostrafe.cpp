@@ -24,10 +24,10 @@ void AutoStrafe::CreateMove(CUserCmd* cmd)
 	if (cmd->mousedx > 1 || cmd->mousedx < -1){
 		switch(Settings::AutoStrafe::type)
 		{
-			case AS_FORWARDS: cmd->sidemove = cmd->mousedx < 0.f ? -450.f : 450.f; break;
-			case AS_BACKWARDS: cmd->sidemove = cmd->mousedx < 0.f ? 450.f : -450.f;	break;
-			case AS_LEFTSIDEWAYS: cmd->forwardmove = cmd->mousedx < 0.f ? -450.f : 450.f; break;
-			case AS_RIGHTSIDEWAYS: cmd->forwardmove = cmd->mousedx < 0.f ? 450.f : -450.f; break;
+			case 0: cmd->sidemove = cmd->mousedx < 0.f ? -450.f : 450.f; break;
+			case 1: cmd->sidemove = cmd->mousedx < 0.f ? 450.f : -450.f;	break;
+			case 2: cmd->forwardmove = cmd->mousedx < 0.f ? -450.f : 450.f; break;
+			case 3: cmd->forwardmove = cmd->mousedx < 0.f ? 450.f : -450.f; break;
 		}
 	}
 }
