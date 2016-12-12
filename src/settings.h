@@ -20,7 +20,7 @@
 extern std::vector<Config> configs;
 extern Config* current_config;
 
-enum TracerType : unsigned int
+enum TracerType : int
 {
 	BOTTOM,
 	CURSOR
@@ -41,7 +41,7 @@ enum AutostrafeType : int
 	AS_RIGHTSIDEWAYS
 };
 
-enum AntiAimType_Y : unsigned int
+enum AntiAimType_Y : int
 {
 	SPIN_SLOW,
 	SPIN_FAST,
@@ -53,7 +53,7 @@ enum AntiAimType_Y : unsigned int
 	RIGHT
 };
 
-enum AntiAimType_X : unsigned int
+enum AntiAimType_X : int
 {
 	STATIC_UP,
 	STATIC_DOWN,
@@ -62,19 +62,19 @@ enum AntiAimType_X : unsigned int
 	DANCE
 };
 
-enum ChamsType : unsigned int
+enum ChamsType : int
 {
 	CHAMS,
 	CHAMS_FLAT
 };
 
-enum WallBoxType : unsigned int
+enum WallBoxType : int
 {
 	FLAT_2D,
 	BOX_3D
 };
 
-enum ArmsType : unsigned int
+enum ArmsType : int
 {
 	RAINBOW,
 	WIREFRAME,
@@ -82,7 +82,7 @@ enum ArmsType : unsigned int
 	DEFAULT
 };
 
-enum AimTargetType : unsigned int
+enum AimTargetType : int
 {
 	FOV,
 	DISTANCE,
