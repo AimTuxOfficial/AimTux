@@ -243,7 +243,7 @@ void TriggerbotTab()
 
 	ImGui::Separator();
 	ImGui::PushItemWidth(148);
-		ImGui::ListBoxHeader("##TRIGGERFILTER");
+		ImGui::ListBoxHeader("##TRIGGERFILTER", 6);
 			ImGui::Selectable("Friendly", &Settings::Triggerbot::Filter::friendly);
 			ImGui::Selectable("Head", &Settings::Triggerbot::Filter::head);
 			ImGui::Selectable("Chest", &Settings::Triggerbot::Filter::chest);
@@ -395,7 +395,7 @@ void HvHTab()
 			ImGui::SliderFloat("##AUTOWALLDMG", &Settings::Aimbot::AutoWall::value, 0, 100, "Min Damage %f");
 		ImGui::PopItemWidth();
 
-		ImGui::PushItemWidth(100);
+		ImGui::PushItemWidth(148);
 			ImGui::ListBoxHeader("##AUTOWALLBODYPART", 6);
 				ImGui::Selectable("Head", &Settings::Aimbot::AutoWall::bones[HITBOX_HEAD]);
 				ImGui::Selectable("Neck", &Settings::Aimbot::AutoWall::bones[HITBOX_NECK]);
