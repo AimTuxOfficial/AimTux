@@ -11,6 +11,13 @@
 #include "fonts.h"
 #include "ImGUI/imgui.h"
 
+enum ImFontFlags
+{
+	ImFontFlags_None = 1 << 1,
+	ImFontFlags_Outline = 1 << 2,
+	ImFontFlags_Shadow = 1 << 3
+};
+
 namespace Draw
 {
 	FONT CreateFont(const char* fontName, int size, int flag);
@@ -30,7 +37,7 @@ namespace Draw
 
 	// ImGui
 	void ImStart();
-	void ImDrawText(ImVec2 pos, ImColor color, const char* text_begin, const char* text_end = NULL, float wrap_width = 0.0f, const ImVec4* cpu_fine_clip_rect = NULL);
+	void ImDrawText(ImVec2 pos, ImColor color, const char* text_begin, const char* text_end = NULL, float wrap_width = 0.0f, const ImVec4* cpu_fine_clip_rect = NULL, ImFontFlags flags = ImFontFlags_None);
 	void ImDrawCircle(ImVec2 point, ImColor color, float radius, int num_segments = 12, float thickness = 1.0f);
 	void ImDrawRect(ImVec2 a, ImVec2 b, ImColor color, float rounding = 0.0f, int rounding_corners_flags = ~0, float thickness = 1.0f);
 	void ImEnd();
