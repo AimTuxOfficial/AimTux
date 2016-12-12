@@ -9,11 +9,11 @@ bool showSkinChangerWindow = false;
 bool showConfigWindow = false;
 bool showSpectatorsWindow = false;
 bool showMainColorPopupWindow = false;
+bool bindAimKey = false;
 std::string aimKey = input->ButtonCodeToString(Settings::Aimbot::aimkey);      // These are temporary until a propery system is in place. Just for looks. atm.
 std::string triggerKey = input->ButtonCodeToString(Settings::Triggerbot::key); //TODO: Cleanup config inconsistancies, it really is fucking annoying.
 																																							//       I get botched for inconsistant code yet some things are all over the fucking place
 																																							//       We should do a mass cleanup and basically call it AimTux Reborn.
-
 #define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))
 
 namespace ImGui
@@ -173,8 +173,8 @@ void AimbotTab()
 		if(ImGui::Button(aimKey.c_str()))
 		{
 			//TODO: Make Keybinds work.
+			bindAimKey = true;
 		}
-
 		UI::ReverseCheckbox("Recoil Control", &Settings::Aimbot::RCS::enabled);
 		ImGui::SameLine();
 		ImGui::PushItemWidth(-1);
@@ -768,6 +768,18 @@ void UI::SetupWindows()
 
 	SpectatorsWindow();
 	DrawBanner();
+}
+
+void UI::ProcessEvent(SDL_Event* e)
+{
+	if(bindAimKey)
+	{
+		if(e->type == SDL_KEYDOWN)
+		{
+			cvar->ConsoleColorPrintf(ColorRGBA(255, 150, 255), "key = %i\n", e->key.keysym.sym);
+			bindAimKey = false;
+		}
+	}
 }
 
 bool UI::ReverseCheckbox(std::string name, bool* toggle, int spaces /*= 18*/)
