@@ -433,10 +433,15 @@ void MiscTab()
 
 		UI::ReverseCheckbox("AirStuck", &Settings::Airstuck::enabled);
 		ImGui::SameLine();
-		ImGui::PushItemWidth(-1);
-			static char buf[128] = "TODO: hotkeys";
-			ImGui::InputText("##AIRSTUCKKEY", buf, IM_ARRAYSIZE(buf));
-		ImGui::PopItemWidth();
+		const char* airstuckKeyText = input->ButtonCodeToString(Settings::Airstuck::key);
+		if (SetKeyCodeState::shouldListen && SetKeyCodeState::keyOutput == &Settings::Airstuck::key)
+			airstuckKeyText = "-- press a key --";
+
+		if (ImGui::Button(airstuckKeyText, ImVec2(-1, 0)))
+		{
+			SetKeyCodeState::shouldListen = true;
+			SetKeyCodeState::keyOutput = &Settings::Airstuck::key;
+		}
 
 		UI::ReverseCheckbox("Position Spammer", &Settings::Spammer::PositionSpammer::enabled);
 		ImGui::SameLine();
