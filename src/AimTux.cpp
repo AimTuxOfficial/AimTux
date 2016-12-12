@@ -48,6 +48,7 @@ int __attribute__((constructor)) aimtux_init()
 	viewRender_vmt->ApplyVMT();
 
 	inputInternal_vmt->HookVM((void*) Hooks::SetKeyCodeState, 92);
+	inputInternal_vmt->HookVM((void*) Hooks::SetMouseCodeState, 93);
 	inputInternal_vmt->ApplyVMT();
 
 	surface_vmt->HookVM((void*) Hooks::PlaySound, 82);
