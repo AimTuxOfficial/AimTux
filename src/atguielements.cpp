@@ -12,6 +12,20 @@ bool UI::ReverseCheckbox(std::string name, bool* toggle, int spaces /*= 18*/)
 	ImGui::Text(text.c_str()); ImGui::SameLine();	ImGui::Checkbox(outputTag.c_str(), toggle);
 }
 
+bool UI::KeyBindButton(ButtonCode_t *key)
+{
+	const char* text = input->ButtonCodeToString(*key);
+
+	if (SetKeyCodeState::shouldListen && SetKeyCodeState::keyOutput == key)
+		text = "-- press a key --";
+
+	if (ImGui::Button(text, ImVec2(-1, 0)))
+	{
+		SetKeyCodeState::shouldListen = true;
+		SetKeyCodeState::keyOutput = key;
+	}
+}
+
 bool UI::ColorPicker(float *col, bool alphabar)
 {
 	const int EDGE_SIZE = 200; // = int(ImGui::GetWindowWidth() * 0.75f);
