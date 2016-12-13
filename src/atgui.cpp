@@ -691,68 +691,69 @@ void ConfigWindow()
 		return;
 
 	ImGui::SetNextWindowSize(ImVec2(500, 600), ImGuiSetCond_FirstUseEver);
-	ImGui::Begin("Configs", &showConfigWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders);
-
-	static std::vector<std::string> configItems = GetConfigs();
-	static int configItemCurrent = -1;
-
-	if (ImGui::Button("Refresh"))
-		configItems = GetConfigs();
-
-	ImGui::SameLine();
-	if (ImGui::Button("Save"))
+	if (ImGui::Begin("Configs", &showConfigWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
 	{
-		pstring path = GetConfigDirectory();
-		path << configItems[configItemCurrent] << "/config.json";
+		static std::vector<std::string> configItems = GetConfigs();
+		static int configItemCurrent = -1;
 
-		Settings::LoadDefaultsOrSave(path);
+		if (ImGui::Button("Refresh"))
+			configItems = GetConfigs();
+
+		ImGui::SameLine();
+		if (ImGui::Button("Save"))
+		{
+			pstring path = GetConfigDirectory();
+			path << configItems[configItemCurrent] << "/config.json";
+
+			Settings::LoadDefaultsOrSave(path);
+		}
+
+		ImGui::SameLine();
+		if (ImGui::Button("Remove"))
+		{
+			pstring path = GetConfigDirectory();
+			path << configItems[configItemCurrent];
+
+			Settings::DeleteConfig(path);
+
+			configItems = GetConfigs();
+			configItemCurrent = -1;
+		}
+
+		static char buf[128] = "";
+		ImGui::InputText("", buf, IM_ARRAYSIZE(buf));
+
+		ImGui::SameLine();
+		if (ImGui::Button("Add"))
+		{
+			printf("%s\n", buf);
+			if (strlen(buf) == 0)
+				return;
+
+			pstring path = GetConfigDirectory();
+			path << buf;
+
+			printf("path: %s\n", path.c_str());
+
+			if (DoesFileExist(path.c_str()))
+				return;
+
+			mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+			Settings::LoadDefaultsOrSave(path  << "/config.json");
+
+			configItems = GetConfigs();
+		}
+
+		if (ImGui::ListBox("", &configItemCurrent, configItems))
+		{
+			pstring path = GetConfigDirectory();
+			path << configItems[configItemCurrent] << "/config.json";
+
+			Settings::LoadConfig(path);
+		}
+
+		ImGui::End();
 	}
-
-	ImGui::SameLine();
-	if (ImGui::Button("Remove"))
-	{
-		pstring path = GetConfigDirectory();
-		path << configItems[configItemCurrent];
-
-		Settings::DeleteConfig(path);
-
-		configItems = GetConfigs();
-		configItemCurrent = -1;
-	}
-
-	static char buf[128] = "";
-	ImGui::InputText("", buf, IM_ARRAYSIZE(buf));
-
-	ImGui::SameLine();
-	if (ImGui::Button("Add"))
-	{
-		printf("%s\n", buf);
-		if (strlen(buf) == 0)
-			return;
-
-		pstring path = GetConfigDirectory();
-		path << buf;
-
-		printf("path: %s\n", path.c_str());
-
-		if (DoesFileExist(path.c_str()))
-			return;
-
-		mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-		Settings::LoadDefaultsOrSave(path  << "/config.json");
-
-		configItems = GetConfigs();
-	}
-
-	if (ImGui::ListBox("", &configItemCurrent, configItems))
-	{
-		pstring path = GetConfigDirectory();
-		path << configItems[configItemCurrent] << "/config.json";
-
-		Settings::LoadConfig(path);
-	}
-
-	ImGui::End();
 }
 
 void SpectatorsWindow()
@@ -764,63 +765,64 @@ void SpectatorsWindow()
 		return;
 
 	ImGui::SetNextWindowSize(ImVec2(50, 100), ImGuiSetCond_FirstUseEver);
-	ImGui::Begin("Spectators", &showSpectatorsWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders);
-
-	ImGui::Columns(2);
-	ImGui::Separator();
-
-	ImGui::Text("Name");
-	ImGui::NextColumn();
-
-	ImGui::Text("Mode");
-	ImGui::NextColumn();
-
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	std::list<int> observators = ShowSpectators::GetObservervators(localplayer);
-
-	for (int entityId : observators)
+	if (ImGui::Begin("Spectators", &showSpectatorsWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
 	{
-		C_BaseEntity* entity = entitylist->GetClientEntity(entityId);
-
-		IEngineClient::player_info_t entityInformation;
-		engine->GetPlayerInfo(entityId, &entityInformation);
-
-		if (strcmp(entityInformation.guid, "BOT") == 0)
-			continue;
-
+		ImGui::Columns(2);
 		ImGui::Separator();
 
-		ImGui::Text(entityInformation.name);
+		ImGui::Text("Name");
 		ImGui::NextColumn();
 
-		switch (*entity->GetObserverMode())
+		ImGui::Text("Mode");
+		ImGui::NextColumn();
+
+		C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+		std::list<int> observators = ShowSpectators::GetObservervators(localplayer);
+
+		for (int entityId : observators)
 		{
-			case ObserverMode_t::OBS_MODE_IN_EYE:
-				ImGui::Text("Perspective");
-				break;
-			case ObserverMode_t::OBS_MODE_CHASE:
-				ImGui::Text("3rd person");
-				break;
-			case ObserverMode_t::OBS_MODE_ROAMING:
-				ImGui::Text("Free look");
-				break;
-			case ObserverMode_t::OBS_MODE_DEATHCAM:
-				ImGui::Text("Deathcam");
-				break;
-			case ObserverMode_t::OBS_MODE_FREEZECAM:
-				ImGui::Text("Freezecam");
-				break;
-			case ObserverMode_t::OBS_MODE_FIXED:
-				ImGui::Text("Fixed");
-				break;
+			C_BaseEntity* entity = entitylist->GetClientEntity(entityId);
+
+			IEngineClient::player_info_t entityInformation;
+			engine->GetPlayerInfo(entityId, &entityInformation);
+
+			if (strcmp(entityInformation.guid, "BOT") == 0)
+				continue;
+
+			ImGui::Separator();
+
+			ImGui::Text(entityInformation.name);
+			ImGui::NextColumn();
+
+			switch (*entity->GetObserverMode())
+			{
+				case ObserverMode_t::OBS_MODE_IN_EYE:
+					ImGui::Text("Perspective");
+					break;
+				case ObserverMode_t::OBS_MODE_CHASE:
+					ImGui::Text("3rd person");
+					break;
+				case ObserverMode_t::OBS_MODE_ROAMING:
+					ImGui::Text("Free look");
+					break;
+				case ObserverMode_t::OBS_MODE_DEATHCAM:
+					ImGui::Text("Deathcam");
+					break;
+				case ObserverMode_t::OBS_MODE_FREEZECAM:
+					ImGui::Text("Freezecam");
+					break;
+				case ObserverMode_t::OBS_MODE_FIXED:
+					ImGui::Text("Fixed");
+					break;
+			}
+			ImGui::NextColumn();
 		}
-		ImGui::NextColumn();
+
+		ImGui::Columns(1);
+		ImGui::Separator();
+
+		ImGui::End();
 	}
-
-	ImGui::Columns(1);
-	ImGui::Separator();
-
-	ImGui::End();
 }
 
 void UI::SwapWindow()
