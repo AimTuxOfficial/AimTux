@@ -148,7 +148,7 @@ void Draw::DrawPolyLine(int count, Vertex_t* Vertexs, Color colorLine)
 void Draw::ImStart()
 {
 	int width, height;
-	engine->GetScreenSize(width, height);
+	SDL_GetWindowSize(SDL_GL_GetCurrentWindow(), &width, &height);
 
 	ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiSetCond_Always);
 	ImGui::SetNextWindowSize(ImVec2(width, height), ImGuiSetCond_Always);
