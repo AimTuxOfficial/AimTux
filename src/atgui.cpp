@@ -124,18 +124,21 @@ void SetupMainMenuBar()
 {
 	if (ImGui::BeginMainMenuBar())
 	{
-		if (ImGui::Button("| Main Window |")) showMainWindow = !showMainWindow;
+		ImGuiStyle& style = ImGui::GetStyle();
+		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(8 * 2.0f, 4 * 2.0f));
+
+		ImGui::Selectable("Main Window", &showMainWindow, 0, ImVec2(ImGui::CalcTextSize("Main Window", NULL, true).x, 0.0f));
 		ImGui::SameLine();
 
-		if (ImGui::Button("| Skin Changer Window |")) showSkinChangerWindow = !showSkinChangerWindow;
+		ImGui::Selectable("Skin Changer Window", &showSkinChangerWindow, 0, ImVec2(ImGui::CalcTextSize("Skin Changer Window", NULL, true).x, 0.0f));
 		ImGui::SameLine();
 
-		if (ImGui::Button("| Config Window |")) showConfigWindow = !showConfigWindow;
+		ImGui::Selectable("Config Window", &showConfigWindow, 0, ImVec2(ImGui::CalcTextSize("Config Window", NULL, true).x, 0.0f));
 		ImGui::SameLine();
 
-		if (ImGui::Button("| Spectators |")) Settings::ShowSpectators::enabled = !Settings::ShowSpectators::enabled;
-		ImGui::SameLine();
+		ImGui::Selectable("Spectators Window", &Settings::ShowSpectators::enabled, 0, ImVec2(ImGui::CalcTextSize("Spectators Window", NULL, true).x, 0.0f));
 
+		ImGui::PopStyleVar();
 		ImGui::EndMainMenuBar();
 	}
 }
