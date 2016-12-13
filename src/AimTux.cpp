@@ -71,6 +71,9 @@ void __attribute__((destructor)) aimtux_shutdown()
 {
 	cvar->FindVar("cl_mouseenable")->SetValue(1);
 
+	SDL2::UnhookWindow();
+	SDL2::UnhookPollEvent();
+
 	client_vmt->ReleaseVMT();
 	panel_vmt->ReleaseVMT();
 	modelRender_vmt->ReleaseVMT();
@@ -81,9 +84,6 @@ void __attribute__((destructor)) aimtux_shutdown()
 	surface_vmt->ReleaseVMT();
 
 	SkinChanger::UnhookCBaseViewModel();
-
-	SDL2::UnhookWindow();
-	SDL2::UnhookPollEvent();
 
 	*bSendPacket = true;
 
