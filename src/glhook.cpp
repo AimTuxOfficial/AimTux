@@ -12,12 +12,10 @@ void SDL2::SwapWindow(SDL_Window* window)
 		aimtux_context = SDL_GL_CreateContext(window);
 		ImGui_ImplSdl_Init(window);
 
-//#if 0
 		ImGuiIO& io = ImGui::GetIO();
 		io.Fonts->Clear();
 		io.Fonts->AddFontFromMemoryCompressedTTF(RobotoMonoRegular_compressed_data, RobotoMonoRegular_compressed_size, 18.0f);
 		io.Fonts->Build();
-//#endif
 	}
 
 	SDL_GL_MakeCurrent(window, aimtux_context);
