@@ -435,6 +435,10 @@ void ESP::DrawFOVCrosshair()
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+
+	if(!localplayer)
+		return;
+
 	if (!localplayer->GetAlive())
 		return;
 
