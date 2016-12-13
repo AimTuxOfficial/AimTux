@@ -258,86 +258,124 @@ void TriggerbotTab()
 
 void VisualsTab()
 {
-	UI::ReverseCheckbox("Enabled", &Settings::ESP::enabled);
+	const char* WallTypes[] = { "Flat 2D", "Box 3D" };
+	const char* TracerTypes[] = { "Bottom", "Cursor" };
+	const char* ChamsTypes[] = { "Normal", "Flat" };
+	const char* ArmsTypes[] = { "Default", "Rainbow", "Wireframe", "None" };
+
+	ImGui::Checkbox("Enabled", &Settings::ESP::enabled);
 	ImGui::Separator();
 
-	ImGui::Columns(2, NULL, false);
+	ImGui::Columns(2, NULL, true);
 	{
-		UI::ReverseCheckbox("Walls", &Settings::ESP::Walls::enabled);
-		ImGui::SameLine();
-		const char* WallTypes[] = { "2D", "3D" };
-		ImGui::PushItemWidth(150);
-			ImGui::Combo("##WALLTYPE", &Settings::ESP::Walls::type, WallTypes, IM_ARRAYSIZE(WallTypes));
-		ImGui::PopItemWidth();
-
-		UI::ReverseCheckbox("Tracers", &Settings::ESP::Tracer::enabled);
-		ImGui::SameLine();
-		const char* TracerTypes[] = { "Bottom", "Cursor" };
-		ImGui::PushItemWidth(150);
-			ImGui::Combo("##TRACERTYPE", &Settings::ESP::Tracer::type, TracerTypes, IM_ARRAYSIZE(TracerTypes));
-		ImGui::PopItemWidth();
-
-		UI::ReverseCheckbox("Show Name", &Settings::ESP::Info::showName);
-
-		UI::ReverseCheckbox("Show Health", &Settings::ESP::Info::showHealth);
-
-		UI::ReverseCheckbox("Show Weapon", &Settings::ESP::Info::showWeapon);
-
-		UI::ReverseCheckbox("Color Code", &Settings::ESP::Info::colorCode);
-
-		UI::ReverseCheckbox("Show Bones", &Settings::ESP::Bones::enabled);
-
-		UI::ReverseCheckbox("Show Friendly", &Settings::ESP::friendly);
-
-		UI::ReverseCheckbox("Visibility Check", &Settings::ESP::visibility_check);
-
+		if (ImGui::BeginChild("ESP", ImVec2(0, 0), true))
+		{
+			ImGui::Text("Player ESP");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Checkbox("Walls", &Settings::ESP::Walls::enabled);
+				ImGui::Checkbox("Tracers", &Settings::ESP::Tracer::enabled);
+				ImGui::Checkbox("Show Bones", &Settings::ESP::Bones::enabled);
+				ImGui::Checkbox("Show Friendly", &Settings::ESP::friendly);
+				ImGui::Checkbox("Visibility Check", &Settings::ESP::visibility_check);
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::PushItemWidth(-1);
+					ImGui::Combo("##WALLTYPE", &Settings::ESP::Walls::type, WallTypes, IM_ARRAYSIZE(WallTypes));
+					ImGui::Combo("##TRACERTYPE", &Settings::ESP::Tracer::type, TracerTypes, IM_ARRAYSIZE(TracerTypes));
+				ImGui::PopItemWidth();
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::Text("Player Information");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Checkbox("Name", &Settings::ESP::Info::showName);
+				ImGui::Checkbox("Health", &Settings::ESP::Info::showHealth);
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::Checkbox("Weapon", &Settings::ESP::Info::showWeapon);
+				ImGui::Checkbox("Colored", &Settings::ESP::Info::colorCode);
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::Text("World ESP");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Checkbox("Dropped Weapon Names", &Settings::ESP::Weapons::enabled);
+				ImGui::Checkbox("Dropped Weapon Glow", &Settings::ESP::Glow::enabled);
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::Checkbox("Bomb ESP", &Settings::ESP::Bomb::enabled);
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::EndChild();
+		}
 	}
 
 	ImGui::NextColumn();
 	{
-		UI::ReverseCheckbox("Players", &Settings::ESP::Chams::players);
-		ImGui::SameLine();
-		const char* ChamsTypes[] = { "Normal", "Flat" };
-		ImGui::PushItemWidth(150);
-			ImGui::Combo("##CHAMSTYPE", &Settings::ESP::Chams::type, ChamsTypes, IM_ARRAYSIZE(ChamsTypes));
-		ImGui::PopItemWidth();
-
-		UI::ReverseCheckbox("Arms", &Settings::ESP::Chams::Arms::enabled);
-		ImGui::SameLine();
-		const char* ArmsTypes[] = { "Default", "Rainbow", "Wireframe", "None" };
-		ImGui::PushItemWidth(150);
-			ImGui::Combo("##ARMSTYPE", &Settings::ESP::Chams::Arms::type, ArmsTypes, IM_ARRAYSIZE(ArmsTypes));
-		ImGui::PopItemWidth();
-
-		ImGui::PushID(1);
-			UI::ReverseCheckbox("Visibility Check", &Settings::ESP::Chams::visibility_check);
-		ImGui::PopID();
-
-		UI::ReverseCheckbox("Bomb ESP", &Settings::ESP::Bomb::enabled);
-
-		UI::ReverseCheckbox("Weapon Names", &Settings::ESP::Weapons::enabled);
-
-		UI::ReverseCheckbox("Glow", &Settings::ESP::Glow::enabled);
-
-		UI::ReverseCheckbox("Dlights", &Settings::Dlights::enabled);
-		ImGui::SameLine();
-		ImGui::PushItemWidth(-1);
-			ImGui::SliderFloat("##DLIGHTRADIUS", &Settings::Dlights::radius, 0, 1000);
-		ImGui::PopItemWidth();
-
-		UI::ReverseCheckbox("No View Punch", &Settings::View::NoPunch::enabled);
+		if (ImGui::BeginChild("Chams", ImVec2(0, 0), true))
+		{
+			ImGui::Text("Chams");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Checkbox("Players", &Settings::ESP::Chams::players);
+				ImGui::Checkbox("Arms", &Settings::ESP::Chams::Arms::enabled);
+				ImGui::PushID(1);
+					ImGui::Checkbox("Visibility Check", &Settings::ESP::Chams::visibility_check);
+				ImGui::PopID();
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::PushItemWidth(-1);
+					ImGui::Combo("##CHAMSTYPE", &Settings::ESP::Chams::type, ChamsTypes, IM_ARRAYSIZE(ChamsTypes));
+					ImGui::Combo("##ARMSTYPE", &Settings::ESP::Chams::Arms::type, ArmsTypes, IM_ARRAYSIZE(ArmsTypes));
+				ImGui::PopItemWidth();
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::Text("Crosshair");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Checkbox("Recoil Crosshair", &Settings::Recoilcrosshair::enabled);
+				ImGui::Checkbox("FOV Circle", &Settings::ESP::FOVCrosshair::enabled);
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::Checkbox("Only When Shooting", &Settings::Recoilcrosshair::showOnlyWhenShooting);
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::Text("Other Visual Settings");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Checkbox("Dlights", &Settings::Dlights::enabled);
+				ImGui::Checkbox("No View Punch", &Settings::View::NoPunch::enabled);
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::PushItemWidth(-1);
+					ImGui::SliderFloat("##DLIGHTRADIUS", &Settings::Dlights::radius, 0, 1000);
+				ImGui::PopItemWidth();
+				ImGui::Checkbox("Radar", &Settings::Radar::enabled);
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::EndChild();
+		}
 	}
-
 	ImGui::Columns(1);
-
-	ImGui::Separator();
-
-	UI::ReverseCheckbox("Recoil Crosshair", &Settings::Recoilcrosshair::enabled);
-	ImGui::SameLine();
-	UI::ReverseCheckbox("Only When Shooting", &Settings::Recoilcrosshair::showOnlyWhenShooting);
-
-	UI::ReverseCheckbox("FOV Circle", &Settings::ESP::FOVCrosshair::enabled);
-
 }
 
 void HvHTab()
@@ -349,7 +387,7 @@ void HvHTab()
 		const char* YActualTypes[] = { "SLOW SPIN", "FAST SPIN", "JITTER", "SIDE", "BACKWARDS", "FORWARDS", "LEFT", "RIGHT" };
 		const char* XTypes[] = { "UP", "DOWN", "DANCE" };
 
-		if (ImGui::BeginChild("SubColums", ImVec2(0, 60), true))
+		if (ImGui::BeginChild("YAWTYPE", ImVec2(0, 60), true))
 		{
 			ImGui::Columns(2, NULL, false);
 			{
@@ -477,8 +515,6 @@ void MiscTab()
 		ImGui::PushItemWidth(-1);
 			ImGui::SliderInt("##FAKELAGAMOUNT", &Settings::FakeLag::value, 0, 16);
 		ImGui::PopItemWidth();
-
-		UI::ReverseCheckbox("Radar", &Settings::Radar::enabled);
 
 		UI::ReverseCheckbox("Auto Accept", &Settings::AutoAccept::enabled);
 
