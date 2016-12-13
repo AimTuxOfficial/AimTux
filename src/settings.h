@@ -95,6 +95,7 @@ namespace Settings
 	{
 		extern ImVec4 mainColor;
 		extern ImVec4 bodyColor;
+		extern ImVec4 fontColor;
 
 		namespace Fonts
 		{
@@ -300,6 +301,7 @@ namespace Settings
 		namespace FOVCrosshair
 		{
 			extern bool enabled;
+			extern ImVec4 color;
 		}
 
 		namespace Chams

@@ -33,6 +33,7 @@ bool Settings::ESP::Weapons::enabled = false;
 bool Settings::ESP::Tracer::enabled = false;
 bool Settings::ESP::FOVCrosshair::enabled = false;
 int Settings::ESP::Tracer::type = BOTTOM;
+ImVec4 Settings::ESP::FOVCrosshair::color = ImVec4(.75f, .25f, .25f, 1.f);
 
 bool WorldToScreen(const Vector &vOrigin, Vector &vScreen)
 {
@@ -446,7 +447,7 @@ void ESP::DrawFOVCrosshair()
 
 	float circleRadius = tanf(radAimbotFov / 2) / tanf(radViewFov / 2) * ImGui::GetWindowSize().x;
 
-	Draw::ImDrawCircle(ImVec2(ImGui::GetWindowSize().x / 2, ImGui::GetWindowSize().y / 2), Settings::UI::mainColor, circleRadius, 100, 1.5f);
+	Draw::ImDrawCircle(ImVec2(ImGui::GetWindowSize().x / 2, ImGui::GetWindowSize().y / 2), Settings::ESP::FOVCrosshair::color, circleRadius, 100, 1.5f);
 }
 
 void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)

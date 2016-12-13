@@ -105,6 +105,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 
 	LoadUIColor(settings["UI"]["mainColor"], Settings::UI::mainColor);
 	LoadUIColor(settings["UI"]["bodyColor"], Settings::UI::bodyColor);
+	LoadUIColor(settings["UI"]["fontColor"], Settings::UI::fontColor);
 	settings["UI"]["Fonts"]["Title"]["family"] = Settings::UI::Fonts::Title::family;
 	settings["UI"]["Fonts"]["Title"]["size"] = Settings::UI::Fonts::Title::size;
 	settings["UI"]["Fonts"]["Title"]["flags"] = Settings::UI::Fonts::Title::flags;
@@ -198,6 +199,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["ESP"]["Bomb"]["enabled"] = Settings::ESP::Bomb::enabled;
 	settings["ESP"]["Weapons"]["enabled"] = Settings::ESP::Weapons::enabled;
 	settings["ESP"]["FOVCrosshair"]["enabled"] = Settings::ESP::FOVCrosshair::enabled;
+	LoadUIColor(settings["ESP"]["FOVCrosshair"]["color"], Settings::ESP::FOVCrosshair::color);
 	settings["ESP"]["Chams"]["players"] = Settings::ESP::Chams::players;
 	settings["ESP"]["Chams"]["visibility_check"] = Settings::ESP::Chams::visibility_check;
 	settings["ESP"]["Chams"]["Arms"]["enabled"] = Settings::ESP::Chams::Arms::enabled;
@@ -298,6 +300,7 @@ void Settings::LoadConfig(std::string path)
 
 	GetUIColor(settings["UI"]["mainColor"], &Settings::UI::mainColor);
 	GetUIColor(settings["UI"]["bodyColor"], &Settings::UI::bodyColor);
+	GetUIColor(settings["UI"]["fontColor"], &Settings::UI::fontColor);
 	GetCString(settings["UI"]["Fonts"]["Title"]["family"], &Settings::UI::Fonts::Title::family);
 	GetInt(settings["UI"]["Fonts"]["Title"]["size"], &Settings::UI::Fonts::Title::size);
 	GetInt(settings["UI"]["Fonts"]["Title"]["flags"], &Settings::UI::Fonts::Title::flags);
@@ -391,6 +394,7 @@ void Settings::LoadConfig(std::string path)
 	GetBool(settings["ESP"]["Bomb"]["enabled"], &Settings::ESP::Bomb::enabled);
 	GetBool(settings["ESP"]["Weapons"]["enabled"], &Settings::ESP::Weapons::enabled);
 	GetBool(settings["ESP"]["FOVCrosshair"]["enabled"], &Settings::ESP::FOVCrosshair::enabled);
+	GetUIColor(settings["ESP"]["FOVCrosshair"]["color"], &Settings::ESP::FOVCrosshair::color);
 	GetBool(settings["ESP"]["Chams"]["players"], &Settings::ESP::Chams::players);
 	GetBool(settings["ESP"]["Chams"]["visibility_check"], &Settings::ESP::Chams::visibility_check);
 	GetBool(settings["ESP"]["Chams"]["Arms"]["enabled"], &Settings::ESP::Chams::Arms::enabled);

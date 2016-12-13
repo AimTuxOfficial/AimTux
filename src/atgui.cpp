@@ -2,12 +2,13 @@
 
 bool UI::isVisible = false;
 
-ImVec4 Settings::UI::mainColor = ImVec4(0.8f, 0.3f, 0.4f, 1.00f);
-ImVec4 Settings::UI::bodyColor = ImVec4(0.06f, 0.05f, 0.07f, 0.85f);
+ImVec4 Settings::UI::mainColor = ImVec4(0.215f, 0.215f, 0.215f, 1.f);
+ImVec4 Settings::UI::bodyColor = ImVec4(0.095f, 0.095f, 0.095f, 0.95f);
+ImVec4 Settings::UI::fontColor = ImVec4(1.f, 1.f, 1.f, 1.f);
 bool showMainWindow = true;
 bool showSkinChangerWindow = false;
 bool showConfigWindow = false;
-bool showMainColorPopupWindow = false;
+bool showColorsWindow = false;
 float gunWearAmount = 0.005f;
 float knifeWearAmount = 0.005f;
 
@@ -51,6 +52,7 @@ void UI::SetupColors()
 	ImVec4 mainColorHovered = ImVec4(Settings::UI::mainColor.x + 0.1f, Settings::UI::mainColor.y + 0.1f, Settings::UI::mainColor.z + 0.1f, Settings::UI::mainColor.w);
 	ImVec4 mainColorActive = ImVec4(Settings::UI::mainColor.x + 0.2f, Settings::UI::mainColor.y + 0.2f, Settings::UI::mainColor.z + 0.2f, Settings::UI::mainColor.w);
 	ImVec4 menubarColor = ImVec4(Settings::UI::bodyColor.x, Settings::UI::bodyColor.y, Settings::UI::bodyColor.z, Settings::UI::bodyColor.w - 0.8f);
+	ImVec4 frameBgColor = ImVec4(Settings::UI::bodyColor.x, Settings::UI::bodyColor.y, Settings::UI::bodyColor.z, Settings::UI::bodyColor.w + .1f);
 
 	style.Alpha = 1.0f;
 	style.WindowPadding = ImVec2(8, 8);
@@ -76,25 +78,25 @@ void UI::SetupColors()
 	style.AntiAliasedShapes = true;
 	style.CurveTessellationTol = 1.25f;
 
-	style.Colors[ImGuiCol_Text] = ImVec4(1.0f, 1.0f, 1.0f, 1.00f);
+	style.Colors[ImGuiCol_Text] = Settings::UI::fontColor;
 	style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
 	style.Colors[ImGuiCol_WindowBg] = Settings::UI::bodyColor;
-	style.Colors[ImGuiCol_ChildWindowBg] = ImVec4(0.00f, 0.00f, 0.00f, .0f);
+	style.Colors[ImGuiCol_ChildWindowBg] = ImVec4(.0f, .0f, .0f, .0f);
 	style.Colors[ImGuiCol_PopupBg] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
 	style.Colors[ImGuiCol_Border] = Settings::UI::mainColor;
 	style.Colors[ImGuiCol_BorderShadow] = ImVec4(0.92f, 0.91f, 0.88f, 0.00f);
-	style.Colors[ImGuiCol_FrameBg]= ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
+	style.Colors[ImGuiCol_FrameBg]= frameBgColor;
 	style.Colors[ImGuiCol_FrameBgHovered] = mainColorHovered;
 	style.Colors[ImGuiCol_FrameBgActive] = mainColorActive;
 	style.Colors[ImGuiCol_TitleBg]= Settings::UI::mainColor;
 	style.Colors[ImGuiCol_TitleBgCollapsed] = ImVec4(1.00f, 0.98f, 0.95f, 0.75f);
 	style.Colors[ImGuiCol_TitleBgActive] = Settings::UI::mainColor;
-	style.Colors[ImGuiCol_MenuBarBg] = menubarColor/*Settings::UI::bodyColor */;
+	style.Colors[ImGuiCol_MenuBarBg] = menubarColor;
 	style.Colors[ImGuiCol_ScrollbarBg] = Settings::UI::mainColor;
 	style.Colors[ImGuiCol_ScrollbarGrab] = Settings::UI::mainColor;
 	style.Colors[ImGuiCol_ScrollbarGrabHovered] = mainColorHovered;
 	style.Colors[ImGuiCol_ScrollbarGrabActive] = mainColorActive;
-	style.Colors[ImGuiCol_ComboBg] = ImVec4(0.19f, 0.18f, 0.21f, 1.00f);
+	style.Colors[ImGuiCol_ComboBg] = frameBgColor;
 	style.Colors[ImGuiCol_CheckMark] = Settings::UI::mainColor;
 	style.Colors[ImGuiCol_SliderGrab] = mainColorHovered;
 	style.Colors[ImGuiCol_SliderGrabActive] = mainColorActive;
@@ -138,26 +140,63 @@ void SetupMainMenuBar()
 		ImGui::SameLine();
 
 		ImGui::Selectable("Spectators Window", &Settings::ShowSpectators::enabled, 0, ImVec2(ImGui::CalcTextSize("Spectators Window", NULL, true).x, 0.0f));
+		ImGui::SameLine();
+
+		ImGui::Selectable("Colors Window", &showColorsWindow, 0, ImVec2(ImGui::CalcTextSize("Colors Window", NULL, true).x, 0.0f));
 
 		ImGui::PopStyleVar();
 		ImGui::EndMainMenuBar();
 	}
 }
 
-void PopupWindows()
+void ColorsWindow()
 {
-	if (showMainColorPopupWindow)
-	{
-		ImGui::SetNextWindowSize(ImVec2(240, 280), ImGuiSetCond_Always);
-		ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(240, 280));
-		if (ImGui::Begin("UI Main Color", &showMainColorPopupWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoResize))
-		{
-			UI::ColorPicker3((float *)&Settings::UI::mainColor);
-			if (ImGui::Button("Close")) showMainColorPopupWindow = false;
+	if (!showColorsWindow)
+		return;
 
-			ImGui::End();
+	const char* colorSelection[] = { "UI Main",
+																	 "UI Body",
+																	 "UI Font",
+																	 "FOV Circle",
+																	 "ESP - Team",
+																	 "ESP - Enemy",
+																	 "ESP - Enemy Visible",
+																	 "Chams - Team",
+																	 "Chams - Enemy",
+																	 "Chams - Enemy Visible"
+																 };
+	static int colorSelected = 0;
+	ImGui::SetNextWindowSize(ImVec2(540, 260), ImGuiSetCond_Always);
+	if (ImGui::Begin("Colors", &showColorsWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoResize))
+	{
+		ImGui::Columns(2, NULL, true);
+		{
+			ImGui::PushItemWidth(-1);
+				ImGui::ListBox("##COLORSELECTION", &colorSelected, colorSelection, IM_ARRAYSIZE(colorSelection), 10);
+			ImGui::PopItemWidth();
 		}
-		ImGui::PopStyleVar();
+		ImGui::NextColumn();
+		{
+			switch(colorSelected)
+			{
+				case 0:
+					UI::ColorPicker4((float *)&Settings::UI::mainColor);
+					break;
+				case 1:
+					UI::ColorPicker4((float *)&Settings::UI::bodyColor);
+					break;
+				case 2:
+					UI::ColorPicker4((float *)&Settings::UI::fontColor);
+					break;
+				case 3:
+					UI::ColorPicker4((float *)&Settings::ESP::FOVCrosshair::color);
+					break;
+				default:
+					ImGui::Text("Filler text, hang on");
+					break;
+			}
+		}
+		ImGui::End();
 	}
 }
 
@@ -536,11 +575,6 @@ void MiscTab()
 		ImGui::PushItemWidth(-1);
 			ImGui::InputText("##NICKNAMETEXT", nickname, 127);
 		ImGui::PopItemWidth();
-
-		ImGui::Text("UI Main Color");
-		ImGui::SameLine();
-		if (ImGui::ColorButton(Settings::UI::mainColor, true))
-			showMainColorPopupWindow = true;
 	}
 }
 
@@ -606,7 +640,6 @@ void SkinChangerWindow()
 	if (!showSkinChangerWindow)
 		return;
 
-	ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(500, 600));
 	ImGui::SetNextWindowSize(ImVec2(500, 600), ImGuiSetCond_FirstUseEver);
 	if (ImGui::Begin("Skin Changer", &showSkinChangerWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
 	{
@@ -700,7 +733,6 @@ void SkinChangerWindow()
 		}
 
 		ImGui::End();
-		ImGui::PopStyleVar();
 	}
 }
 
@@ -860,12 +892,17 @@ void UI::SetupWindows()
 	if (UI::isVisible)
 	{
 		SetupMainMenuBar();
+
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(960, 520));
 			MainWindow();
 		ImGui::PopStyleVar();
-		SkinChangerWindow();
+
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(500, 600));
+			SkinChangerWindow();
+		ImGui::PopStyleVar();
+
 		ConfigWindow();
-		PopupWindows();
+		ColorsWindow();
 	}
 
 	SpectatorsWindow();
