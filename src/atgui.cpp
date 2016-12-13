@@ -7,7 +7,6 @@ ImVec4 Settings::UI::bodyColor = ImVec4(0.06f, 0.05f, 0.07f, 0.85f);
 bool showMainWindow = true;
 bool showSkinChangerWindow = false;
 bool showConfigWindow = false;
-bool showSpectatorsWindow = false;
 bool showMainColorPopupWindow = false;
 float gunWearAmount = 0.005f;
 float knifeWearAmount = 0.005f;
@@ -134,7 +133,7 @@ void SetupMainMenuBar()
 		if (ImGui::Button("| Config Window |")) showConfigWindow = !showConfigWindow;
 		ImGui::SameLine();
 
-		if (ImGui::Button("| Spectators |")) showSpectatorsWindow = !showSpectatorsWindow;
+		if (ImGui::Button("| Spectators |")) Settings::ShowSpectators::enabled = !Settings::ShowSpectators::enabled;
 		ImGui::SameLine();
 
 		ImGui::EndMainMenuBar();
@@ -503,8 +502,6 @@ void MiscTab()
 		UI::ReverseCheckbox("Auto Accept", &Settings::AutoAccept::enabled);
 
 		UI::ReverseCheckbox("Show Ranks", &Settings::ShowRanks::enabled);
-		ImGui::SameLine();
-		UI::ReverseCheckbox("Show Spectators", &Settings::ShowSpectators::enabled);
 
 		static char nickname[127] = "nickname";
 
@@ -758,14 +755,14 @@ void ConfigWindow()
 
 void SpectatorsWindow()
 {
-	if (!showSpectatorsWindow)
+	if (!Settings::ShowSpectators::enabled)
 		return;
 
 	if (!UI::isVisible && !engine->IsInGame())
 		return;
 
 	ImGui::SetNextWindowSize(ImVec2(50, 100), ImGuiSetCond_FirstUseEver);
-	if (ImGui::Begin("Spectators", &showSpectatorsWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
+	if (ImGui::Begin("Spectators", &Settings::ShowSpectators::enabled, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
 	{
 		ImGui::Columns(2);
 		ImGui::Separator();
