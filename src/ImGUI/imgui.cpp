@@ -8532,11 +8532,13 @@ bool ImGui::Combo(const char* label, int* current_item, bool (*items_getter)(voi
             Spacing();
             for (int i = 0; i < items_count; i++)
             {
-                PushID((void*)(intptr_t)i);
                 const bool item_selected = (i == *current_item);
                 const char* item_text;
                 if (!items_getter(data, i, &item_text))
                     item_text = "*Unknown item*";
+                if (strlen(item_text) == 0)
+                    continue;
+                PushID((void*)(intptr_t)i);
                 if (Selectable(item_text, item_selected))
                 {
                     SetActiveID(0);

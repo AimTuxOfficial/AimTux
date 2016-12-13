@@ -211,7 +211,7 @@ void AimbotTab()
 	{
 		UI::ReverseCheckbox("Friendly", &Settings::Aimbot::friendly);
 		ImGui::SameLine();
-		const char* targets[] = { "PELVIS", "LEAN_ROOT", "CAM_DRIVER", "HIP", "LOWER SPINE", "MIDDLE SPINE", "UPPER SPINE", "NECK", "HEAD" };
+		const char* targets[] = { "PELVIS", "", "", "HIP", "LOWER SPINE", "MIDDLE SPINE", "UPPER SPINE", "NECK", "HEAD" };
 		ImGui::PushItemWidth(175);
 			ImGui::Combo("##AIMTARGET", &Settings::Aimbot::bone, targets, IM_ARRAYSIZE(targets));
 		ImGui::PopItemWidth();
