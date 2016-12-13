@@ -9,7 +9,7 @@ Color Settings::ESP::Chams::players_ally_visible_color = Color(40, 52, 138);
 Color Settings::ESP::Chams::players_enemy_color = Color(243, 24, 28);
 Color Settings::ESP::Chams::players_enemy_visible_color = Color(243, 159, 20);
 Color Settings::ESP::Chams::Arms::color = Color(117, 43, 73);
-int Settings::ESP::Chams::type = DEFAULT;
+int Settings::ESP::Chams::type = CHAMS;
 
 float rainbowHue;
 
@@ -109,8 +109,8 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 			break;
 	}
 
-	visible_material->AlphaModulate (1.0f);
-	hidden_material->AlphaModulate (1.0f);
+	visible_material->AlphaModulate(1.0f);
+	hidden_material->AlphaModulate(1.0f);
 
 	if (entity->GetTeam() == localPlayer->GetTeam())
 	{
@@ -157,7 +157,7 @@ void DrawArms(const ModelRenderInfo_t &pInfo)
 
 	Color color = Settings::ESP::Chams::Arms::color;
 
-	switch(Settings::ESP::Chams::Arms::type)
+	switch (Settings::ESP::Chams::Arms::type)
 	{
 		case DEFAULT:
 			mat->AlphaModulate(1.0f);
