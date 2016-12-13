@@ -16,7 +16,7 @@ namespace ESP
 	void DrawBombBox(C_BasePlantedC4* entity);
 	void DrawWeaponText(C_BaseEntity* entity, ClientClass* client);
 	void DrawBones(C_BaseEntity* entity);
-	void DrawFOVCrosshair();
+	void DrawFOVCrosshair(C_BasePlayer* localplayer);
 	void DrawGlow();
 	bool PrePaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force);
 	void PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force);

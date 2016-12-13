@@ -429,14 +429,9 @@ bool ESP::PrePaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_for
 	return true;
 }
 
-void ESP::DrawFOVCrosshair()
+void ESP::DrawFOVCrosshair(C_BasePlayer* localplayer)
 {
 	if (!engine->IsInGame())
-		return;
-
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-
-	if(!localplayer)
 		return;
 
 	if (!localplayer->GetAlive())
@@ -518,6 +513,11 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 
 void ESP::SwapWindow()
 {
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+
+	if(!localplayer)
+		return;
+
 	if (Settings::ESP::FOVCrosshair::enabled)
-		ESP::DrawFOVCrosshair();
+		ESP::DrawFOVCrosshair(localplayer);
 }
