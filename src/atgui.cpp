@@ -244,7 +244,7 @@ void TriggerbotTab()
 	if (ImGui::Button(triggerkeyText, ImVec2(-1, 0)))
 	{
 		SetKeyCodeState::shouldListen = true;
-		SetKeyCodeState::keyOutput = &Settings::Aimbot::aimkey;
+		SetKeyCodeState::keyOutput = &Settings::Triggerbot::key;
 	}
 	ImGui::Separator();
 
