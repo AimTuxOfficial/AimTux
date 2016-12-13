@@ -361,9 +361,8 @@ void HvHTab()
 		const char* YActualTypes[] = { "SLOW SPIN", "FAST SPIN", "JITTER", "SIDE", "BACKWARDS", "FORWARDS", "LEFT", "RIGHT" };
 		const char* XTypes[] = { "UP", "DOWN", "DANCE" };
 
-		if(ImGui::BeginChild("SubColums", ImVec2(0, 60), true))
+		if (ImGui::BeginChild("SubColums", ImVec2(0, 60), true))
 		{
-
 			ImGui::Columns(2, NULL, false);
 			{
 				ImGui::SetColumnOffset(1, 175);
@@ -594,7 +593,7 @@ void SkinChangerWindow()
 		return;
 
 	ImGui::SetNextWindowSize(ImVec2(500, 600), ImGuiSetCond_FirstUseEver);
-	if(ImGui::Begin("Skin Changer", &showSkinChangerWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
+	if (ImGui::Begin("Skin Changer", &showSkinChangerWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
 	{
 		const char* guns[] = { "AK-47", "M4A1-S", "AWP", "USP", "P2000", "Glock", "Deagle", "Famas", "Galil-AR", "Negev", "SCAR-20", "G3SG1" };
 		static int current_gun = 0;
@@ -610,11 +609,10 @@ void SkinChangerWindow()
 		static char knifeName[18];
 
 		ImGui::Text("Guns");
-		if(ImGui::BeginChild("GunsSection", ImVec2(0, 325), true))
+		if (ImGui::BeginChild("GunsSection", ImVec2(0, 325), true))
 		{
 			ImGui::Columns(2, NULL, true);
 			{
-
 				ImGui::PushItemWidth(-1);
 					ImGui::ListBox("##GUNS", &current_gun, guns, IM_ARRAYSIZE(guns), 10);
 				ImGui::PopItemWidth();
@@ -622,7 +620,7 @@ void SkinChangerWindow()
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-					switch(current_gun)
+					switch (current_gun)
 					{
 						case 0:
 							ImGui::ListBox("##AK47_SKINS", &current_ak47_skin, ak47_skins, IM_ARRAYSIZE(ak47_skins), 10);
@@ -660,7 +658,7 @@ void SkinChangerWindow()
 		}
 
 		ImGui::Text("Knife");
-		if(ImGui::BeginChild("KnifeSection", ImVec2(0, 200), true))
+		if (ImGui::BeginChild("KnifeSection", ImVec2(0, 200), true))
 		{
 			ImGui::Columns(2, NULL, true);
 			{
@@ -679,8 +677,10 @@ void SkinChangerWindow()
 			{
 				ImGui::Text("Column 8");
 			}
+
 			ImGui::EndChild();
 		}
+
 		ImGui::End();
 	}
 }
