@@ -208,7 +208,7 @@ void AimbotTab()
 		UI::ReverseCheckbox("Friendly          ", &Settings::Aimbot::friendly);
 		ImGui::SameLine();
 		const char* targets[] = { "PELVIS", "LEAN_ROOT", "CAM_DRIVER", "HIP", "LOWER SPINE", "MIDDLE SPINE", "UPPER SPINE", "NECK", "HEAD" };
-		ImGui::PushItemWidth(148);
+		ImGui::PushItemWidth(175);
 			ImGui::Combo("##AIMTARGET", &Settings::Aimbot::bone, targets, IM_ARRAYSIZE(targets));
 		ImGui::PopItemWidth();
 
@@ -240,7 +240,7 @@ void TriggerbotTab()
 	ImGui::PopItemWidth();
 
 	ImGui::Separator();
-	ImGui::PushItemWidth(148);
+	ImGui::PushItemWidth(150);
 		ImGui::ListBoxHeader("##TRIGGERFILTER", 6);
 			ImGui::Selectable("Friendly", &Settings::Triggerbot::Filter::friendly);
 			ImGui::Selectable("Head", &Settings::Triggerbot::Filter::head);
@@ -262,14 +262,14 @@ void VisualsTab()
 		UI::ReverseCheckbox("Walls", &Settings::ESP::Walls::enabled);
 		ImGui::SameLine();
 		const char* WallTypes[] = { "2D", "3D" };
-		ImGui::PushItemWidth(148);
+		ImGui::PushItemWidth(150);
 			ImGui::Combo("##WALLTYPE", &Settings::ESP::Walls::type, WallTypes, IM_ARRAYSIZE(WallTypes));
 		ImGui::PopItemWidth();
 
 		UI::ReverseCheckbox("Tracers", &Settings::ESP::Tracer::enabled);
 		ImGui::SameLine();
 		const char* TracerTypes[] = { "Bottom", "Cursor" };
-		ImGui::PushItemWidth(148);
+		ImGui::PushItemWidth(150);
 			ImGui::Combo("##TRACERTYPE", &Settings::ESP::Tracer::type, TracerTypes, IM_ARRAYSIZE(TracerTypes));
 		ImGui::PopItemWidth();
 
@@ -294,14 +294,14 @@ void VisualsTab()
 		UI::ReverseCheckbox("Players", &Settings::ESP::Chams::players);
 		ImGui::SameLine();
 		const char* ChamsTypes[] = { "Normal", "Flat" };
-		ImGui::PushItemWidth(148);
+		ImGui::PushItemWidth(150);
 			ImGui::Combo("##CHAMSTYPE", &Settings::ESP::Chams::type, ChamsTypes, IM_ARRAYSIZE(ChamsTypes));
 		ImGui::PopItemWidth();
 
 		UI::ReverseCheckbox("Arms", &Settings::ESP::Chams::Arms::enabled);
 		ImGui::SameLine();
 		const char* ArmsTypes[] = { "Default", "Rainbow", "Wireframe", "None"  };
-		ImGui::PushItemWidth(148);
+		ImGui::PushItemWidth(150);
 			ImGui::Combo("##ARMSTYPE", &Settings::ESP::Chams::Arms::type, ArmsTypes, IM_ARRAYSIZE(ArmsTypes));
 		ImGui::PopItemWidth();
 
@@ -349,7 +349,7 @@ void HvHTab()
 		{
 			ImGui::Columns(2, NULL, false);
 			{
-				ImGui::SetColumnOffset(1, 175);
+				ImGui::SetColumnOffset(1, 150);
 				ImGui::Text("Fake");
 				ImGui::Text("Actual");
 			}
@@ -366,7 +366,7 @@ void HvHTab()
 		UI::ReverseCheckbox("X Axis", &Settings::AntiAim::enabled_X);
 
 		ImGui::SameLine();
-		ImGui::PushItemWidth(148);
+		ImGui::PushItemWidth(174);
 			ImGui::Combo("##XTYPE", &Settings::AntiAim::type_X, XTypes, IM_ARRAYSIZE(XTypes));
 		ImGui::PopItemWidth();
 
@@ -390,7 +390,7 @@ void HvHTab()
 			ImGui::SliderFloat("##AUTOWALLDMG", &Settings::Aimbot::AutoWall::value, 0, 100, "Min Damage %f");
 		ImGui::PopItemWidth();
 
-		ImGui::PushItemWidth(148);
+		ImGui::PushItemWidth(150);
 			ImGui::ListBoxHeader("##AUTOWALLBODYPART", 6);
 				ImGui::Selectable("Head", &Settings::Aimbot::AutoWall::bones[HITBOX_HEAD]);
 				ImGui::Selectable("Neck", &Settings::Aimbot::AutoWall::bones[HITBOX_NECK]);
@@ -408,7 +408,6 @@ void MiscTab()
 	ImGui::Columns(2, NULL, false);
 	{
 		UI::ReverseCheckbox("Bunny Hop", &Settings::BHop::enabled);
-		ImGui::SameLine();
 
 		UI::ReverseCheckbox("Auto Strafe", &Settings::AutoStrafe::enabled);
 		ImGui::SameLine();
@@ -444,7 +443,7 @@ void MiscTab()
 		UI::ReverseCheckbox("Animate Clantag", &Settings::ClanTagChanger::animation);
 		ImGui::SameLine();
 		const char* AnimationTypes[] = { "Marquee", "Words", "Letters" };
-		ImGui::PushItemWidth(148);
+		ImGui::PushItemWidth(150);
 			ImGui::Combo("##ANIMATIONTYPE", &Settings::ClanTagChanger::type, AnimationTypes, IM_ARRAYSIZE(AnimationTypes));
 		ImGui::PopItemWidth();
 	}
