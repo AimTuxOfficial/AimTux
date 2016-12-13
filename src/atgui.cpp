@@ -566,6 +566,7 @@ void SkinChangerWindow()
 	if (!showSkinChangerWindow)
 		return;
 
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(500, 600));
 	ImGui::SetNextWindowSize(ImVec2(500, 600), ImGuiSetCond_FirstUseEver);
 	if (ImGui::Begin("Skin Changer", &showSkinChangerWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
 	{
@@ -611,6 +612,7 @@ void SkinChangerWindow()
 				ImGui::PushItemWidth(-1);
 					ImGui::SliderFloat("##GUNWEAR", &gunWearAmount, 0.005f, 1.f, "Wear amount: %f");
 				ImGui::PopItemWidth();
+
 				ImGui::Text("Seed");
 				ImGui::SameLine();
 				ImGui::PushItemWidth(-1);
@@ -622,11 +624,13 @@ void SkinChangerWindow()
 				ImGui::PushItemWidth(-1);
 					ImGui::InputText("##GUNSTATRAK", gunStatTrak, IM_ARRAYSIZE(gunStatTrak));
 				ImGui::PopItemWidth();
-
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::Text("Column 4");
+				ImGui::Button("Load", ImVec2(-1, 0));
+				ImGui::Button("Apply", ImVec2(-1, 0));
+				ImGui::Button("Save", ImVec2(-1, 0));
 			}
 			ImGui::EndChild();
 		}
@@ -656,6 +660,7 @@ void SkinChangerWindow()
 		}
 
 		ImGui::End();
+		ImGui::PopStyleVar();
 	}
 }
 
