@@ -9,6 +9,8 @@ bool showSkinChangerWindow = false;
 bool showConfigWindow = false;
 bool showSpectatorsWindow = false;
 bool showMainColorPopupWindow = false;
+float gunWearAmount = 0.005f;
+float knifeWearAmount = 0.005f;
 
 #define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))
 
@@ -592,9 +594,95 @@ void SkinChangerWindow()
 		return;
 
 	ImGui::SetNextWindowSize(ImVec2(500, 600), ImGuiSetCond_FirstUseEver);
-	ImGui::Begin("Skin Changer", &showSkinChangerWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders);
+	if(ImGui::Begin("Skin Changer", &showSkinChangerWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
+	{
+		const char* guns[] = { "AK-47", "M4A1-S", "AWP", "USP", "P2000", "Glock", "Deagle", "Famas", "Galil-AR", "Negev", "SCAR-20", "G3SG1" };
+		static int current_gun = 0;
+		const char* ak47_skins[] = { "Candy apple", "potato", "donut", "Candy apple", "potato", "donut", "Candy apple", "potato", "donut", "Candy apple", "potato", "donut", "Candy apple", "potato", "donut", };
+		static int current_ak47_skin = 0;
+		const char* m4a1_skins[] = { "pizza", "cheese", "tomato", "12 year olds", "Candy apple", "potato", "donut", "Candy apple", };
+		static int current_m4a1_skin = 0;
+		static char gunSkinSeed[5];
+		static char gunStatTrak[9];
+		static char gunName[18];
+		static char knifeSkinSeed[4];
+		static char knifeStatTrak[9];
+		static char knifeName[18];
 
-	ImGui::End();
+		ImGui::Text("Guns");
+		if(ImGui::BeginChild("GunsSection", ImVec2(0, 325), true))
+		{
+			ImGui::Columns(2, NULL, true);
+			{
+
+				ImGui::PushItemWidth(-1);
+					ImGui::ListBox("##GUNS", &current_gun, guns, IM_ARRAYSIZE(guns), 10);
+				ImGui::PopItemWidth();
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::PushItemWidth(-1);
+					switch(current_gun)
+					{
+						case 0:
+							ImGui::ListBox("##AK47_SKINS", &current_ak47_skin, ak47_skins, IM_ARRAYSIZE(ak47_skins), 10);
+							break;
+						case 1:
+							ImGui::ListBox("##M4A1_SKINS", &current_m4a1_skin, m4a1_skins, IM_ARRAYSIZE(m4a1_skins), 10);
+							break;
+					}
+				ImGui::PopItemWidth();
+			}
+			ImGui::Columns(1);
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::PushItemWidth(-1);
+					ImGui::SliderFloat("##GUNWEAR", &gunWearAmount, 0.005f, 1.f, "Wear amount: %f");
+				ImGui::PopItemWidth();
+				ImGui::Text("Seed    ");
+				ImGui::SameLine();
+				ImGui::PushItemWidth(-1);
+					ImGui::InputText("##GUNSEED", gunSkinSeed, IM_ARRAYSIZE(gunSkinSeed));
+				ImGui::PopItemWidth();
+
+				ImGui::Text("StatTrak");
+				ImGui::SameLine();
+				ImGui::PushItemWidth(-1);
+					ImGui::InputText("##GUNSTATRAK", gunStatTrak, IM_ARRAYSIZE(gunStatTrak));
+				ImGui::PopItemWidth();
+
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::Text("Column 4");
+			}
+			ImGui::EndChild();
+		}
+
+		ImGui::Text("Knife");
+		if(ImGui::BeginChild("KnifeSection", ImVec2(0, 200), true))
+		{
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Text("Column 5");
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::Text("Column 6");
+			}
+			ImGui::Columns(1);
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Text("Column 7");
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::Text("Column 8");
+			}
+			ImGui::EndChild();
+		}
+		ImGui::End();
+	}
 }
 
 void ConfigWindow()

@@ -13,7 +13,7 @@ Vector2D Draw::GetTextSize(std::string text, FONT font)
 {
 	int x = 0;
 	int y = 0;
-	
+
 	surface->GetTextSize(font, std::wstring (text.begin(), text.end()).c_str(), x, y);
 
 	return LOC(x, y);
@@ -23,7 +23,7 @@ Vector2D Draw::GetTextSize(const wchar_t* text, FONT font)
 {
 	int x = 0;
 	int y = 0;
-	
+
 	surface->GetTextSize(font, text, x, y);
 
 	return LOC(x, y);
@@ -32,7 +32,7 @@ Vector2D Draw::GetTextSize(const wchar_t* text, FONT font)
 void Draw::DrawString(std::string text, Vector2D location, Color color, FONT font)
 {
 	std::wstring wtext = std::wstring(text.begin(), text.end());
-	
+
 	surface->DrawSetTextColor(color.r, color.g, color.b, color.a);
 	surface->DrawSetTextFont(font);
 	surface->DrawSetTextPos((int) location.x, (int) location.y);
@@ -43,7 +43,7 @@ void Draw::DrawString(std::string text, Vector2D location, Color color, FONT fon
 void Draw::DrawCenteredString(std::string text, Vector2D location, Color color, FONT font)
 {
 	std::wstring wtext = std::wstring(text.begin(), text.end());
-	
+
 	Vector2D textSize = GetTextSize(wtext.c_str(), font);
 
 	location.x -= textSize.x / 2;
@@ -175,14 +175,14 @@ void Draw::ImDrawText(ImVec2 pos, ImColor color, const char* text_begin, const c
 	ImGui::GetWindowDrawList()->AddText(ImGui::GetWindowFont(), ImGui::GetWindowFontSize(), pos, color, text_begin, text_end, wrap_width, cpu_fine_clip_rect);
 }
 
-void Draw::ImDrawCircle(ImVec2 point, ImColor color, float radius, int num_segments, float thickness)
+void Draw::ImDrawCircle(ImVec2 point, ImVec4 color, float radius, int num_segments, float thickness)
 {
-	ImGui::GetWindowDrawList()->AddCircle(point, radius, color, num_segments, thickness);
+	ImGui::GetWindowDrawList()->AddCircle(point, radius, ImGui::GetColorU32(color), num_segments, thickness);
 }
 
-void Draw::ImDrawRect(ImVec2 a, ImVec2 b, ImColor color, float rounding, int rounding_corners_flags, float thickness)
+void Draw::ImDrawRect(ImVec2 a, ImVec2 b, ImVec4 color, float rounding, int rounding_corners_flags, float thickness)
 {
-	ImGui::GetWindowDrawList()->AddRect(a, b, color, rounding, rounding_corners_flags, thickness);
+	ImGui::GetWindowDrawList()->AddRect(a, b, ImGui::GetColorU32(color), rounding, rounding_corners_flags, thickness);
 }
 
 void Draw::ImEnd()

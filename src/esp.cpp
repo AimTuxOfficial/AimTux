@@ -446,7 +446,7 @@ void ESP::DrawFOVCrosshair()
 
 	float circleRadius = tanf(radAimbotFov / 2) / tanf(radViewFov / 2) * width;
 
-	Draw::ImDrawCircle(ImVec2(width / 2, height / 2), ImGui::GetColorU32(Settings::UI::mainColor), circleRadius, 100, 1.5f);
+	Draw::ImDrawCircle(ImVec2(width / 2, height / 2), Settings::UI::mainColor, circleRadius, 100, 1.5f);
 }
 
 void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
