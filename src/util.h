@@ -17,6 +17,7 @@ namespace Util {
 	ButtonCode_t GetButtonCode(std::string buttonName);
 	std::string ReplaceString(std::string subject, const std::string& search, const std::string& replace);
 	void StdReplaceStr(std::string&, const std::string&, const std::string&);
+	const char* PadStringRight(std::string text, size_t value);
 	void ProtectAddr(void* address, int prot);
 
 	template <typename K, typename V>

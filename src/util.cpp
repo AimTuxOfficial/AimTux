@@ -143,6 +143,13 @@ void Util::StdReplaceStr(std::string& replaceIn, const std::string& replace, con
     }
 }
 
+const char* Util::PadStringRight(std::string text, size_t value)
+{
+	text.insert(text.length(), value - text.length(), ' ');
+
+	return text.c_str();
+}
+
 void Util::ProtectAddr(void* addr, int prot)
 {
 	long pagesize = sysconf(_SC_PAGESIZE);
