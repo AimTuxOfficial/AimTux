@@ -205,7 +205,7 @@ void AimbotTab()
 
 	ImGui::NextColumn();
 	{
-		UI::ReverseCheckbox("Friendly          ", &Settings::Aimbot::friendly);
+		UI::ReverseCheckbox("Friendly", &Settings::Aimbot::friendly);
 		ImGui::SameLine();
 		const char* targets[] = { "PELVIS", "LEAN_ROOT", "CAM_DRIVER", "HIP", "LOWER SPINE", "MIDDLE SPINE", "UPPER SPINE", "NECK", "HEAD" };
 		ImGui::PushItemWidth(175);
@@ -300,7 +300,7 @@ void VisualsTab()
 
 		UI::ReverseCheckbox("Arms", &Settings::ESP::Chams::Arms::enabled);
 		ImGui::SameLine();
-		const char* ArmsTypes[] = { "Default", "Rainbow", "Wireframe", "None"  };
+		const char* ArmsTypes[] = { "Default", "Rainbow", "Wireframe", "None" };
 		ImGui::PushItemWidth(150);
 			ImGui::Combo("##ARMSTYPE", &Settings::ESP::Chams::Arms::type, ArmsTypes, IM_ARRAYSIZE(ArmsTypes));
 		ImGui::PopItemWidth();
@@ -611,7 +611,7 @@ void SkinChangerWindow()
 				ImGui::PushItemWidth(-1);
 					ImGui::SliderFloat("##GUNWEAR", &gunWearAmount, 0.005f, 1.f, "Wear amount: %f");
 				ImGui::PopItemWidth();
-				ImGui::Text("Seed    ");
+				ImGui::Text("Seed");
 				ImGui::SameLine();
 				ImGui::PushItemWidth(-1);
 					ImGui::InputText("##GUNSEED", gunSkinSeed, IM_ARRAYSIZE(gunSkinSeed));
@@ -713,7 +713,7 @@ void ConfigWindow()
 				return;
 
 			mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-			Settings::LoadDefaultsOrSave(path  << "/config.json");
+			Settings::LoadDefaultsOrSave(path << "/config.json");
 
 			configItems = GetConfigs();
 		}
