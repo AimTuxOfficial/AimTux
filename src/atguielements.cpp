@@ -1,6 +1,6 @@
 #include "atgui.h"
 
-bool UI::ReverseCheckbox(std::string name, bool* toggle, size_t spaces /*= 18*/)
+bool UI::ReverseCheckbox(std::string name, bool* toggle, size_t spaces)
 {
 	std::string prefix = "##";
 	std::string outputTag = prefix + name;
@@ -10,7 +10,7 @@ bool UI::ReverseCheckbox(std::string name, bool* toggle, size_t spaces /*= 18*/)
 	return ImGui::Checkbox(outputTag.c_str(), toggle);
 }
 
-bool UI::KeyBindButton(ButtonCode_t *key)
+bool UI::KeyBindButton(ButtonCode_t* key)
 {
 	const char* text = input->ButtonCodeToString(*key);
 
@@ -24,7 +24,7 @@ bool UI::KeyBindButton(ButtonCode_t *key)
 	}
 }
 
-bool UI::ColorPicker(float *col, bool alphabar)
+bool UI::ColorPicker(float* col, bool alphabar)
 {
 	const int EDGE_SIZE = 200; // = int(ImGui::GetWindowWidth() * 0.75f);
 	const ImVec2 SV_PICKER_SIZE = ImVec2(EDGE_SIZE, EDGE_SIZE);

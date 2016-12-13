@@ -14,9 +14,9 @@ namespace UI
 	void SwapWindow();
 	void SetupColors();
 	void SetupWindows();
-	bool ColorPicker(float*, bool);
-	bool ColorPicker3(float*);
-	bool ColorPicker4(float*);
-	bool ReverseCheckbox(std::string, bool*, size_t = 18);
-	bool KeyBindButton(ButtonCode_t*);
+	bool ColorPicker(float* col, bool alphabar);
+	bool ColorPicker3(float col[3]);
+	bool ColorPicker4(float col[4]);
+	bool ReverseCheckbox(std::string name, bool* toggle, size_t spaces = 18);
+	bool KeyBindButton(ButtonCode_t* key);
 }
