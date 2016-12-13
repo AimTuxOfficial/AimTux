@@ -169,15 +169,7 @@ void AimbotTab()
 		UI::ReverseCheckbox("Aimkey Only", &Settings::Aimbot::aimkey_only);
 		ImGui::SameLine();
 
-		const char* aimkeyText = input->ButtonCodeToString(Settings::Aimbot::aimkey);
-		if (SetKeyCodeState::shouldListen && SetKeyCodeState::keyOutput == &Settings::Aimbot::aimkey)
-			aimkeyText = "-- press a key --";
-
-		if (ImGui::Button(aimkeyText, ImVec2(-1, 0)))
-		{
-			SetKeyCodeState::shouldListen = true;
-			SetKeyCodeState::keyOutput = &Settings::Aimbot::aimkey;
-		}
+		UI::KeyBindButton(&Settings::Aimbot::aimkey);
 
 		UI::ReverseCheckbox("Recoil Control", &Settings::Aimbot::RCS::enabled);
 		ImGui::SameLine();
@@ -237,15 +229,8 @@ void TriggerbotTab()
 	UI::ReverseCheckbox("Enabled", &Settings::Triggerbot::enabled);
 	ImGui::SameLine();
 
-	const char* triggerkeyText = input->ButtonCodeToString(Settings::Triggerbot::key);
-	if (SetKeyCodeState::shouldListen && SetKeyCodeState::keyOutput == &Settings::Triggerbot::key)
-		triggerkeyText = "-- press a key --";
+	UI::KeyBindButton(&Settings::Triggerbot::key);
 
-	if (ImGui::Button(triggerkeyText, ImVec2(-1, 0)))
-	{
-		SetKeyCodeState::shouldListen = true;
-		SetKeyCodeState::keyOutput = &Settings::Triggerbot::key;
-	}
 	ImGui::Separator();
 
 	UI::ReverseCheckbox("Delay", &Settings::Triggerbot::Delay::enabled);
@@ -435,15 +420,8 @@ void MiscTab()
 
 		UI::ReverseCheckbox("AirStuck", &Settings::Airstuck::enabled);
 		ImGui::SameLine();
-		const char* airstuckKeyText = input->ButtonCodeToString(Settings::Airstuck::key);
-		if (SetKeyCodeState::shouldListen && SetKeyCodeState::keyOutput == &Settings::Airstuck::key)
-			airstuckKeyText = "-- press a key --";
 
-		if (ImGui::Button(airstuckKeyText, ImVec2(-1, 0)))
-		{
-			SetKeyCodeState::shouldListen = true;
-			SetKeyCodeState::keyOutput = &Settings::Airstuck::key;
-		}
+		UI::KeyBindButton(&Settings::Airstuck::key);
 
 		UI::ReverseCheckbox("Position Spammer", &Settings::Spammer::PositionSpammer::enabled);
 		ImGui::SameLine();
