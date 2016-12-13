@@ -77,7 +77,7 @@ void UI::SetupColors()
 	style.Colors[ImGuiCol_Text] = ImVec4(1.0f, 1.0f, 1.0f, 1.00f);
 	style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
 	style.Colors[ImGuiCol_WindowBg] = Settings::UI::bodyColor;
-	style.Colors[ImGuiCol_ChildWindowBg] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
+	style.Colors[ImGuiCol_ChildWindowBg] = ImVec4(0.00f, 0.00f, 0.00f, .0f);
 	style.Colors[ImGuiCol_PopupBg] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
 	style.Colors[ImGuiCol_Border] = Settings::UI::mainColor;
 	style.Colors[ImGuiCol_BorderShadow] = ImVec4(0.92f, 0.91f, 0.88f, 0.00f);
@@ -123,16 +123,16 @@ void SetupMainMenuBar()
 {
 	if (ImGui::BeginMainMenuBar())
 	{
-		if (ImGui::Button("Main Window")) showMainWindow = !showMainWindow;
+		if (ImGui::Button("| Main Window |")) showMainWindow = !showMainWindow;
 		ImGui::SameLine();
 
-		if (ImGui::Button("Skin Changer Window")) showSkinChangerWindow = !showSkinChangerWindow;
+		if (ImGui::Button("| Skin Changer Window |")) showSkinChangerWindow = !showSkinChangerWindow;
 		ImGui::SameLine();
 
-		if (ImGui::Button("Config Window")) showConfigWindow = !showConfigWindow;
+		if (ImGui::Button("| Config Window |")) showConfigWindow = !showConfigWindow;
 		ImGui::SameLine();
 
-		if (ImGui::Button("Spectators")) showSpectatorsWindow = !showSpectatorsWindow;
+		if (ImGui::Button("| Spectators |")) showSpectatorsWindow = !showSpectatorsWindow;
 		ImGui::SameLine();
 
 		ImGui::EndMainMenuBar();
@@ -143,15 +143,16 @@ void PopupWindows()
 {
 	if (showMainColorPopupWindow)
 	{
-		ImGui::SetNextWindowSize(ImVec2(240, 265), ImGuiSetCond_Always);
-
-		if (ImGui::Begin("Color", &showMainColorPopupWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoResize))
+		ImGui::SetNextWindowSize(ImVec2(240, 280), ImGuiSetCond_Always);
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(240, 280));
+		if (ImGui::Begin("UI Main Color", &showMainColorPopupWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoResize))
 		{
 			UI::ColorPicker3((float *)&Settings::UI::mainColor);
 			if (ImGui::Button("Close")) showMainColorPopupWindow = false;
 
 			ImGui::End();
 		}
+		ImGui::PopStyleVar();
 	}
 }
 
@@ -354,34 +355,35 @@ void HvHTab()
 	ImGui::Columns(2, NULL, false);
 	{
 		UI::ReverseCheckbox("Y Axis", &Settings::AntiAim::enabled_Y);
-
 		const char* YFakeTypes[] = { "SLOW SPIN", "FAST SPIN", "JITTER", "SIDE", "BACKWARDS", "FORWARDS", "LEFT", "RIGHT" };
-		static int YFakeType = 0;
-
-		ImGui::Text(""); ImGui::SameLine(); ImGui::Text(""); ImGui::SameLine(); ImGui::Text("Fake               ");
-		ImGui::SameLine();
-
-		ImGui::PushItemWidth(148);
-			ImGui::Combo("##YFAKETYPE", &Settings::AntiAim::type_fake_Y, YFakeTypes, IM_ARRAYSIZE(YFakeTypes));
-		ImGui::PopItemWidth();
-
 		const char* YActualTypes[] = { "SLOW SPIN", "FAST SPIN", "JITTER", "SIDE", "BACKWARDS", "FORWARDS", "LEFT", "RIGHT" };
-		ImGui::Text(""); ImGui::SameLine(); ImGui::Text(""); ImGui::SameLine(); ImGui::Text("Actual             ");
-		ImGui::SameLine();
-
-		ImGui::PushItemWidth(148);
-			ImGui::Combo("##YACTUALTYPE", &Settings::AntiAim::type_Y, YActualTypes, IM_ARRAYSIZE(YActualTypes));
-		ImGui::PopItemWidth();
-
 		const char* XTypes[] = { "UP", "DOWN", "DANCE" };
 
+		if(ImGui::BeginChild("SubColums", ImVec2(0, 60), true))
+		{
+
+			ImGui::Columns(2, NULL, false);
+			{
+				ImGui::SetColumnOffset(1, 175);
+				ImGui::Text("Fake");
+				ImGui::Text("Actual");
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::PushItemWidth(150);
+					ImGui::Combo("##YFAKETYPE", &Settings::AntiAim::type_fake_Y, YFakeTypes, IM_ARRAYSIZE(YFakeTypes));
+					ImGui::Combo("##YACTUALTYPE", &Settings::AntiAim::type_Y, YActualTypes, IM_ARRAYSIZE(YActualTypes));
+				ImGui::PopItemWidth();
+			}
+			ImGui::EndChild();
+		}
+
 		UI::ReverseCheckbox("X Axis", &Settings::AntiAim::enabled_X);
+
 		ImGui::SameLine();
 		ImGui::PushItemWidth(148);
 			ImGui::Combo("##XTYPE", &Settings::AntiAim::type_X, XTypes, IM_ARRAYSIZE(XTypes));
 		ImGui::PopItemWidth();
-
-
 
 		UI::ReverseCheckbox("Edge", &Settings::AntiAim::HeadEdge::enabled);
 		ImGui::SameLine();
@@ -749,7 +751,9 @@ void UI::SetupWindows()
 	if (UI::isVisible)
 	{
 		SetupMainMenuBar();
-		MainWindow();
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(960, 520));
+			MainWindow();
+		ImGui::PopStyleVar();
 		SkinChangerWindow();
 		ConfigWindow();
 		PopupWindows();
