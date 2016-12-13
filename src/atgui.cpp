@@ -50,6 +50,7 @@ void UI::SetupColors()
 
 	ImVec4 mainColorHovered = ImVec4(Settings::UI::mainColor.x + 0.1f, Settings::UI::mainColor.y + 0.1f, Settings::UI::mainColor.z + 0.1f, Settings::UI::mainColor.w);
 	ImVec4 mainColorActive = ImVec4(Settings::UI::mainColor.x + 0.2f, Settings::UI::mainColor.y + 0.2f, Settings::UI::mainColor.z + 0.2f, Settings::UI::mainColor.w);
+	ImVec4 menubarColor = ImVec4(Settings::UI::bodyColor.x, Settings::UI::bodyColor.y, Settings::UI::bodyColor.z, Settings::UI::bodyColor.w - 0.8f);
 
 	style.Alpha = 1.0f;
 	style.WindowPadding = ImVec2(8, 8);
@@ -88,7 +89,7 @@ void UI::SetupColors()
 	style.Colors[ImGuiCol_TitleBg]= Settings::UI::mainColor;
 	style.Colors[ImGuiCol_TitleBgCollapsed] = ImVec4(1.00f, 0.98f, 0.95f, 0.75f);
 	style.Colors[ImGuiCol_TitleBgActive] = Settings::UI::mainColor;
-	style.Colors[ImGuiCol_MenuBarBg] = Settings::UI::mainColor;
+	style.Colors[ImGuiCol_MenuBarBg] = menubarColor/*Settings::UI::bodyColor */;
 	style.Colors[ImGuiCol_ScrollbarBg] = Settings::UI::mainColor;
 	style.Colors[ImGuiCol_ScrollbarGrab] = Settings::UI::mainColor;
 	style.Colors[ImGuiCol_ScrollbarGrabHovered] = mainColorHovered;
