@@ -33,7 +33,7 @@ bool Settings::ESP::Weapons::enabled = false;
 bool Settings::ESP::Tracer::enabled = false;
 bool Settings::ESP::FOVCrosshair::enabled = false;
 int Settings::ESP::Tracer::type = BOTTOM;
-ImColor Settings::ESP::FOVCrosshair::color = ImColor(.75f, .25f, .25f, 1.f);
+ImColor Settings::ESP::FOVCrosshair::color = ImColor(180, 50, 50, 255);
 
 bool WorldToScreen(const Vector &vOrigin, Vector &vScreen)
 {
