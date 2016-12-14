@@ -31,11 +31,11 @@ namespace ImGui
 					 static_cast<void*>(&values), values.size());
 	}
 
-	bool ListBox(const char* label, int* currIndex, std::vector<std::string>& values)
+	bool ListBox(const char* label, int* currIndex, std::vector<std::string>& values, int height_in_items = -1)
 	{
 		if (values.empty()) { return false; }
 		return ListBox(label, currIndex, vector_getter,
-					   static_cast<void*>(&values), values.size());
+					   static_cast<void*>(&values), values.size(), height_in_items);
 	}
 }
 
@@ -722,78 +722,78 @@ void SkinChangerWindow()
 	{
 		const char* guns[] =
 				{
-					"", //0
-					"Deagle", //1
-					"Dual Berettas", //2
-					"Five-SeveN", //3
-					"Glock", //4
-					"", //5
-					"", //6
-					"AK-47", //7
-					"AUG", //8
-					"AWP", //9
-					"Famas", //10
-					"G3SG1", //11
-					"", //12
-					"Galil AR", //13
-					"M249", //14
-					"", //15
-					"M4A4", //16
-					"MAC-10", //17
-					"", //18
-					"P90", //19
-					"", //20
-					"", //21
-					"", //22
-					"", //23
-					"UMP-45", //24
-					"XM1014", //25
-					"PP-19 Bizon", //26
-					"MAG-7", //27
-					"Negev", //28
-					"Sawed-Off Shotgun", //29
-					"Tec-9", //30
-					"", //31
-					"P2000", //32
-					"MP7", //33
-					"MP9", //34
-					"Nova", //35
-					"P250", //36
-					"", //37
-					"SCAR-20", //38
-					"SG 553", //39
-					"SSG 08", //40
-					"", //41
-					"", //42
-					"", //43
-					"", //44
-					"", //45
-					"", //46
-					"", //47
-					"", //48
-					"", //49
-					"", //50
-					"", //51
-					"", //52
-					"", //53
-					"", //54
-					"", //55
-					"", //56
-					"", //57
-					"", //58
-					"", //59
-					"M4A1-S", //60
-					"USP", //61
-					"", //62
-					"CZ-75", //63
-					"Revolver", //64
+						"", //0
+						"Deagle", //1
+						"Dual Berettas", //2
+						"Five-SeveN", //3
+						"Glock", //4
+						"", //5
+						"", //6
+						"AK-47", //7
+						"AUG", //8
+						"AWP", //9
+						"Famas", //10
+						"G3SG1", //11
+						"", //12
+						"Galil AR", //13
+						"M249", //14
+						"", //15
+						"M4A4", //16
+						"MAC-10", //17
+						"", //18
+						"P90", //19
+						"", //20
+						"", //21
+						"", //22
+						"", //23
+						"UMP-45", //24
+						"XM1014", //25
+						"PP-19 Bizon", //26
+						"MAG-7", //27
+						"Negev", //28
+						"Sawed-Off Shotgun", //29
+						"Tec-9", //30
+						"", //31
+						"P2000", //32
+						"MP7", //33
+						"MP9", //34
+						"Nova", //35
+						"P250", //36
+						"", //37
+						"SCAR-20", //38
+						"SG 553", //39
+						"SSG 08", //40
+						"", //41
+						"", //42
+						"", //43
+						"", //44
+						"", //45
+						"", //46
+						"", //47
+						"", //48
+						"", //49
+						"", //50
+						"", //51
+						"", //52
+						"", //53
+						"", //54
+						"", //55
+						"", //56
+						"", //57
+						"", //58
+						"", //59
+						"M4A1-S", //60
+						"USP", //61
+						"", //62
+						"CZ-75", //63
+						"Revolver", //64
 				};
 		static int current_gun = 0;
 		const char* gun_skins[] =
 				{
-					"", //0
-					"", //1
-					"Candy Apple", //2
+						"", //0
+						"", //1
+						"Candy Apple", //2
 				};
 		static int current_gun_skin = 0;
 		static char gunSkinSeed[5];
@@ -880,8 +880,8 @@ void ConfigWindow()
 	if (!showConfigWindow)
 		return;
 
-	ImGui::SetNextWindowSize(ImVec2(500, 600), ImGuiSetCond_FirstUseEver);
-	if (ImGui::Begin("Configs", &showConfigWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
+	ImGui::SetNextWindowSize(ImVec2(195, 250), ImGuiSetCond_Always);
+	if (ImGui::Begin("Configs", &showConfigWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoResize))
 	{
 		static std::vector<std::string> configItems = GetConfigs();
 		static int configItemCurrent = -1;
@@ -911,7 +911,9 @@ void ConfigWindow()
 		}
 
 		static char buf[128] = "";
-		ImGui::InputText("", buf, IM_ARRAYSIZE(buf));
+		ImGui::PushItemWidth(138);
+			ImGui::InputText("", buf, IM_ARRAYSIZE(buf));
+		ImGui::PopItemWidth();
 
 		ImGui::SameLine();
 		if (ImGui::Button("Add"))
@@ -931,13 +933,15 @@ void ConfigWindow()
 			configItems = GetConfigs();
 		}
 
-		if (ImGui::ListBox("", &configItemCurrent, configItems))
-		{
-			pstring path = GetConfigDirectory();
-			path << configItems[configItemCurrent] << "/config.json";
+		ImGui::PushItemWidth(178);
+		if (ImGui::ListBox("", &configItemCurrent, configItems, 7))
+			{
+				pstring path = GetConfigDirectory();
+				path << configItems[configItemCurrent] << "/config.json";
 
-			Settings::LoadConfig(path);
-		}
+				Settings::LoadConfig(path);
+			}
+		ImGui::PopItemWidth();
 
 		ImGui::End();
 	}
