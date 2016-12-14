@@ -432,22 +432,19 @@ bool ESP::PrePaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_for
 
 void ESP::DrawFOVCrosshair()
 {
-	if (!engine->IsInGame())
-		return;
-
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer)
-		return;
-
 	if (!localplayer->GetAlive())
 		return;
+
+	int width, height;
+	engine->GetScreenSize(width, height);
 
 	float radAimbotFov = Settings::Aimbot::fov * M_PI / 180;
 	float radViewFov = RenderView::currentFOV * M_PI / 180;
 
-	float circleRadius = tanf(radAimbotFov / 2) / tanf(radViewFov / 2) * ImGui::GetWindowSize().x;
+	float circleRadius = tanf(radAimbotFov / 2) / tanf(radViewFov / 2) * width;
 
-	Draw::ImDrawCircle(ImVec2(ImGui::GetWindowSize().x / 2, ImGui::GetWindowSize().y / 2), Settings::ESP::FOVCrosshair::color, circleRadius, 100, 1.5f);
+	Draw::DrawCircle(LOC(width / 2, height / 2), 20, circleRadius, Color().FromImColor(Settings::ESP::FOVCrosshair::color));
 }
 
 void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
@@ -514,10 +511,7 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 
 	if (Settings::ESP::Glow::enabled)
 		ESP::DrawGlow();
-}
 
-void ESP::SwapWindow()
-{
 	if (Settings::ESP::FOVCrosshair::enabled)
 		ESP::DrawFOVCrosshair();
 }

@@ -51,7 +51,6 @@ void SDL2::SwapWindow(SDL_Window* window)
 
 	Draw::ImStart();
 	UI::SwapWindow();
-	ESP::SwapWindow();
 	Draw::ImEnd();
 
 	UI::SetupColors();
