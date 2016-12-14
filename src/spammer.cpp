@@ -18,7 +18,8 @@ std::vector<Spammer::SpamCollection> Spammer::collections =
 			"It's free as in FREEDOM!",
 			"Tux only let me out so I could play this game, please be nice!",
 			"Tux nutted but you keep sucken",
-			">tfw no vac on Linux"
+			">tfw no vac on Linux",
+			"get fucked AIMWARE scrubs (hahaha paying for a cheat!!)"
 		}, 0)
 };
 
