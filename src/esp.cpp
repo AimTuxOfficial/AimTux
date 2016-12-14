@@ -3,19 +3,19 @@
 #include "settings.h"
 
 bool Settings::ESP::enabled	= true;
-Color Settings::ESP::ally_color = Color(0, 50, 200);
-Color Settings::ESP::enemy_color = Color(200, 0, 50);
-Color Settings::ESP::enemy_visible_color = Color(200, 200, 50);
-Color Settings::ESP::bones_color = Color(255, 255, 255);
-Color Settings::ESP::bomb_color = Color(200, 0, 50);
+ImColor Settings::ESP::ally_color = ImColor(0, 50, 200, 255);
+ImColor Settings::ESP::enemy_color = ImColor(200, 0, 50, 255);
+ImColor Settings::ESP::enemy_visible_color = ImColor(200, 200, 50, 255);
+ImColor Settings::ESP::bones_color = ImColor(255, 255, 255, 255);
+ImColor Settings::ESP::bomb_color = ImColor(200, 0, 50, 255);
 bool Settings::ESP::Glow::enabled = false;
 bool Settings::ESP::friendly = true;
-Color Settings::ESP::Glow::ally_color = Color(0, 50, 200, 0);
-Color Settings::ESP::Glow::enemy_color = Color(200, 0, 50, 0);
-Color Settings::ESP::Glow::enemy_visible_color = Color(200, 200, 50, 0);
-Color Settings::ESP::Glow::weapon_color = Color(200, 0, 50, 200);
-Color Settings::ESP::Glow::grenade_color = Color(200, 0, 50, 200);
-Color Settings::ESP::Glow::defuser_color = Color(100, 100, 200, 200);
+ImColor Settings::ESP::Glow::ally_color = ImColor(0, 50, 200, 0);
+ImColor Settings::ESP::Glow::enemy_color = ImColor(200, 0, 50, 0);
+ImColor Settings::ESP::Glow::enemy_visible_color = ImColor(200, 200, 50, 0);
+ImColor Settings::ESP::Glow::weapon_color = ImColor(200, 0, 50, 200);
+ImColor Settings::ESP::Glow::grenade_color = ImColor(200, 0, 50, 200);
+ImColor Settings::ESP::Glow::defuser_color = ImColor(100, 100, 200, 200);
 bool Settings::ESP::visibility_check = false;
 bool Settings::ESP::show_scope_border = true;
 bool Settings::ESP::Walls::enabled = false;
@@ -24,9 +24,9 @@ bool Settings::ESP::Info::showName = true;
 bool Settings::ESP::Info::showHealth = false;
 bool Settings::ESP::Info::showWeapon = false;
 bool Settings::ESP::Info::colorCode = false;
-Color Settings::ESP::Info::ally_color = Color(0, 50, 200);
-Color Settings::ESP::Info::enemy_color = Color(200, 0, 50);
-Color Settings::ESP::Info::enemy_visible_color = Color(200, 200, 50);
+ImColor Settings::ESP::Info::ally_color = ImColor(0, 50, 200, 255);
+ImColor Settings::ESP::Info::enemy_color = ImColor(200, 0, 50, 255);
+ImColor Settings::ESP::Info::enemy_visible_color = ImColor(200, 200, 50, 255);
 bool Settings::ESP::Bones::enabled = false;
 bool Settings::ESP::Bomb::enabled = true;
 bool Settings::ESP::Weapons::enabled = false;
@@ -146,7 +146,7 @@ void ESP::DrawBones(C_BaseEntity* entity)
 			if (WorldToScreen(Vector(pBoneToWorldOut[pBone->parent][0][3], pBoneToWorldOut[pBone->parent][1][3], pBoneToWorldOut[pBone->parent][2][3]), vBonePos2))
 				continue;
 
-			Draw::DrawLine(LOC(vBonePos1.x, vBonePos1.y), LOC(vBonePos2.x, vBonePos2.y), Settings::ESP::bones_color);
+			Draw::DrawLine(LOC(vBonePos1.x, vBonePos1.y), LOC(vBonePos2.x, vBonePos2.y), Color().FromImColor(Settings::ESP::bones_color));
 		}
 	}
 }
@@ -156,7 +156,7 @@ void ESP::DrawTracer(C_BaseEntity* entity)
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	int playerTeam = localplayer->GetTeam();
 	int entityTeam = entity->GetTeam();
-	Color color = playerTeam == entityTeam ? Settings::ESP::ally_color : Settings::ESP::enemy_color;
+	Color color = Color().FromImColor(playerTeam == entityTeam ? Settings::ESP::ally_color : Settings::ESP::enemy_color);
 
 	int width;
 	int height;
@@ -189,9 +189,9 @@ void ESP::DrawPlayerBox(C_BaseEntity* entity)
 	Color color;
 
 	if (playerTeam != entityTeam)
-		color = isVisible ? Settings::ESP::enemy_visible_color : Settings::ESP::enemy_color;
+		color = Color().FromImColor(isVisible ? Settings::ESP::enemy_visible_color : Settings::ESP::enemy_color);
 	else
-		color = Settings::ESP::ally_color;
+		color = Color().FromImColor(Settings::ESP::ally_color);
 
 	if (Settings::ESP::Walls::type == FLAT_2D)
 	{
@@ -243,9 +243,9 @@ void ESP::DrawPlayerInfo(C_BaseEntity* entity, int entityIndex)
 	if (Settings::ESP::Info::colorCode)
 	{
 		if (localplayer->GetTeam() != entity->GetTeam())
-			color = isVisible ? Settings::ESP::Info::enemy_visible_color : Settings::ESP::Info::enemy_color;
+			color = Color().FromImColor(isVisible ? Settings::ESP::Info::enemy_visible_color : Settings::ESP::Info::enemy_color);
 		else
-			color = Settings::ESP::Info::ally_color;
+			color = Color().FromImColor(Settings::ESP::Info::ally_color);
 	}
 
 	IEngineClient::player_info_t entityInformation;
@@ -292,7 +292,7 @@ void ESP::DrawPlayerInfo(C_BaseEntity* entity, int entityIndex)
 void ESP::DrawBombBox(C_BasePlantedC4* entity)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	Color color = Settings::ESP::bomb_color;
+	Color color = Color().FromImColor(Settings::ESP::bomb_color);
 
 	int width = 7;
 	int additionalHeight = 4;
@@ -381,28 +381,28 @@ void ESP::DrawGlow()
 			if (glow_object.m_pEntity->GetTeam() != localplayer->GetTeam())
 			{
 				if (Entity::IsVisible(glow_object.m_pEntity, BONE_HEAD))
-					color = Settings::ESP::Glow::enemy_visible_color;
+					color = Color().FromImColor(Settings::ESP::Glow::enemy_visible_color);
 				else
-					color = Settings::ESP::Glow::enemy_color;
+					color = Color().FromImColor(Settings::ESP::Glow::enemy_color);
 			}
 			else
 			{
-				color = Settings::ESP::Glow::ally_color;
+				color = Color().FromImColor(Settings::ESP::Glow::ally_color);
 			}
 		}
 		else if (client->m_ClassID != CBaseWeaponWorldModel &&
 			(strstr(client->m_pNetworkName, "Weapon") || client->m_ClassID == CDEagle || client->m_ClassID == CAK47))
 		{
-				color = Settings::ESP::Glow::weapon_color;
+				color = Color().FromImColor(Settings::ESP::Glow::weapon_color);
 		}
 		else if (client->m_ClassID == CBaseCSGrenadeProjectile || client->m_ClassID == CDecoyProjectile ||
 				client->m_ClassID == CMolotovProjectile || client->m_ClassID == CSmokeGrenadeProjectile)
 		{
-			color = Settings::ESP::Glow::grenade_color;
+			color = Color().FromImColor(Settings::ESP::Glow::grenade_color);
 		}
 		else if (client->m_ClassID == CBaseAnimating)
 		{
-			color = Settings::ESP::Glow::defuser_color;
+			color = Color().FromImColor(Settings::ESP::Glow::defuser_color);
 
 			if (localplayer->HasDefuser() || localplayer->GetTeam() == TEAM_TERRORIST)
 				should_glow = false;

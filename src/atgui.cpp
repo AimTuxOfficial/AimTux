@@ -155,18 +155,36 @@ void ColorsWindow()
 	if (!showColorsWindow)
 		return;
 
-	const char* colorSelection[] = { "UI Main",
-																	 "UI Body",
-																	 "UI Font",
-																	 "FOV Circle",
-																	 "ESP - Team",
-																	 "ESP - Enemy",
-																	 "ESP - Enemy Visible",
-																	 "Chams - Team",
-																	 "Chams - Enemy",
-																	 "Chams - Enemy Visible"
-																 };
+	const char* colorSelection[] =
+			{
+					"UI Main",
+					"UI Body",
+					"UI Font",
+					"FOV Circle",
+					"ESP - Team",
+					"ESP - Enemy",
+					"ESP - Enemy Visible",
+					"Chams - Team",
+					"Chams - Team Visible",
+					"Chams - Enemy",
+					"Chams - Enemy Visible"
+			};
+	ImColor* colors[] =
+			{
+					&Settings::UI::mainColor,
+					&Settings::UI::bodyColor,
+					&Settings::UI::fontColor,
+					&Settings::ESP::FOVCrosshair::color,
+					&Settings::ESP::ally_color,
+					&Settings::ESP::enemy_color,
+					&Settings::ESP::enemy_visible_color,
+					&Settings::ESP::Chams::players_ally_color,
+					&Settings::ESP::Chams::players_ally_visible_color,
+					&Settings::ESP::Chams::players_enemy_color,
+					&Settings::ESP::Chams::players_enemy_visible_color,
+			};
 	static int colorSelected = 0;
+
 	ImGui::SetNextWindowSize(ImVec2(540, 260), ImGuiSetCond_Always);
 	if (ImGui::Begin("Colors", &showColorsWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoResize))
 	{
@@ -178,24 +196,7 @@ void ColorsWindow()
 		}
 		ImGui::NextColumn();
 		{
-			switch(colorSelected)
-			{
-				case 0:
-					UI::ColorPicker4((float *)&Settings::UI::mainColor);
-					break;
-				case 1:
-					UI::ColorPicker4((float *)&Settings::UI::bodyColor);
-					break;
-				case 2:
-					UI::ColorPicker4((float *)&Settings::UI::fontColor);
-					break;
-				case 3:
-					UI::ColorPicker4((float *)&Settings::ESP::FOVCrosshair::color);
-					break;
-				default:
-					ImGui::Text("Filler text, hang on");
-					break;
-			}
+			UI::ColorPicker4((float *)colors[colorSelected]);
 		}
 		ImGui::End();
 	}

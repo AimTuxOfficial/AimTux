@@ -2,8 +2,8 @@
 
 bool Settings::Dlights::enabled = false;
 float Settings::Dlights::radius = 500.0f;
-Color Settings::Dlights::ally_color = Color(0, 50, 200);
-Color Settings::Dlights::enemy_color = Color(200, 0, 50);
+ImColor Settings::Dlights::ally_color = ImColor(0, 50, 200, 255);
+ImColor Settings::Dlights::enemy_color = ImColor(200, 0, 50, 255);
 
 void Dlights::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 {
@@ -31,15 +31,15 @@ void Dlights::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_fo
 
 		if (entity->GetTeam() == localPlayer->GetTeam())
 		{
-			dLight->color.r = Settings::Dlights::ally_color.r;
-			dLight->color.g = Settings::Dlights::ally_color.g;
-			dLight->color.b = Settings::Dlights::ally_color.b;
+			dLight->color.r = (unsigned char)(Settings::Dlights::ally_color.Value.x / 255);
+			dLight->color.g = (unsigned char)(Settings::Dlights::ally_color.Value.y / 255);
+			dLight->color.b = (unsigned char)(Settings::Dlights::ally_color.Value.z / 255);
 		}
 		else
 		{
-			dLight->color.r = Settings::Dlights::enemy_color.r;
-			dLight->color.g = Settings::Dlights::enemy_color.g;
-			dLight->color.b = Settings::Dlights::enemy_color.b;
+			dLight->color.r = (unsigned char)(Settings::Dlights::enemy_color.Value.x / 255);
+			dLight->color.g = (unsigned char)(Settings::Dlights::enemy_color.Value.y / 255);
+			dLight->color.b = (unsigned char)(Settings::Dlights::enemy_color.Value.z / 255);
 		}
 
 		dLight->radius = Settings::Dlights::radius;

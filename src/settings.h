@@ -243,21 +243,21 @@ namespace Settings
 		extern bool visibility_check;
 		extern bool friendly;
 		extern bool show_scope_border;
-		extern Color ally_color;
-		extern Color enemy_color;
-		extern Color enemy_visible_color;
-		extern Color bones_color;
-		extern Color bomb_color;
+		extern ImColor ally_color;
+		extern ImColor enemy_color;
+		extern ImColor enemy_visible_color;
+		extern ImColor bones_color;
+		extern ImColor bomb_color;
 
 		namespace Glow
 		{
 			extern bool enabled;
-			extern Color ally_color;
-			extern Color enemy_color;
-			extern Color enemy_visible_color;
-			extern Color weapon_color;
-			extern Color grenade_color;
-			extern Color defuser_color;
+			extern ImColor ally_color;
+			extern ImColor enemy_color;
+			extern ImColor enemy_visible_color;
+			extern ImColor weapon_color;
+			extern ImColor grenade_color;
+			extern ImColor defuser_color;
 		}
 
 		namespace Tracer
@@ -278,9 +278,9 @@ namespace Settings
 			extern bool showHealth;
 			extern bool showWeapon;
 			extern bool colorCode;
-			extern Color ally_color;
-			extern Color enemy_visible_color;
-			extern Color enemy_color;
+			extern ImColor ally_color;
+			extern ImColor enemy_visible_color;
+			extern ImColor enemy_color;
 		}
 
 		namespace Bones
@@ -308,16 +308,16 @@ namespace Settings
 		{
 			extern bool players;
 			extern bool visibility_check;
-			extern Color players_ally_color;
-			extern Color players_ally_visible_color;
-			extern Color players_enemy_color;
-			extern Color players_enemy_visible_color;
+			extern ImColor players_ally_color;
+			extern ImColor players_ally_visible_color;
+			extern ImColor players_enemy_color;
+			extern ImColor players_enemy_visible_color;
 			extern int type;
 
 			namespace Arms
 			{
 				extern bool enabled;
-				extern Color color;
+				extern ImColor color;
 				extern int type;
 			}
 		}
@@ -327,8 +327,8 @@ namespace Settings
 	{
 		extern bool enabled;
 		extern float radius;
-		extern Color ally_color;
-		extern Color enemy_color;
+		extern ImColor ally_color;
+		extern ImColor enemy_color;
 	}
 
 	namespace Spammer

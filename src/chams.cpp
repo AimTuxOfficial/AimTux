@@ -4,11 +4,11 @@ bool Settings::ESP::Chams::players = false;
 bool Settings::ESP::Chams::visibility_check = false;
 bool Settings::ESP::Chams::Arms::enabled = false;
 int Settings::ESP::Chams::Arms::type = DEFAULT;
-Color Settings::ESP::Chams::players_ally_color = Color(7, 98, 168);
-Color Settings::ESP::Chams::players_ally_visible_color = Color(40, 52, 138);
-Color Settings::ESP::Chams::players_enemy_color = Color(243, 24, 28);
-Color Settings::ESP::Chams::players_enemy_visible_color = Color(243, 159, 20);
-Color Settings::ESP::Chams::Arms::color = Color(117, 43, 73);
+ImColor Settings::ESP::Chams::players_ally_color = ImColor(7, 98, 168, 255);
+ImColor Settings::ESP::Chams::players_ally_visible_color = ImColor(40, 52, 138, 255);
+ImColor Settings::ESP::Chams::players_enemy_color = ImColor(243, 24, 28, 255);
+ImColor Settings::ESP::Chams::players_enemy_visible_color = ImColor(243, 159, 20, 255);
+ImColor Settings::ESP::Chams::Arms::color = ImColor(117, 43, 73, 255);
 int Settings::ESP::Chams::type = CHAMS;
 
 float rainbowHue;
@@ -115,26 +115,26 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 	if (entity->GetTeam() == localPlayer->GetTeam())
 	{
 		visible_material->ColorModulate(
-							Settings::ESP::Chams::players_ally_visible_color.r / 255.0f,
-							Settings::ESP::Chams::players_ally_visible_color.g / 255.0f,
-							Settings::ESP::Chams::players_ally_visible_color.b / 255.0f);
+							Settings::ESP::Chams::players_ally_visible_color.Value.x,
+							Settings::ESP::Chams::players_ally_visible_color.Value.y,
+							Settings::ESP::Chams::players_ally_visible_color.Value.z);
 
 		hidden_material->ColorModulate(
-							Settings::ESP::Chams::players_ally_color.r / 255.0f,
-							Settings::ESP::Chams::players_ally_color.g / 255.0f,
-							Settings::ESP::Chams::players_ally_color.b / 255.0f);
+							Settings::ESP::Chams::players_ally_color.Value.x,
+							Settings::ESP::Chams::players_ally_color.Value.y,
+							Settings::ESP::Chams::players_ally_color.Value.z);
 	}
 	else
 	{
 		visible_material->ColorModulate(
-							Settings::ESP::Chams::players_enemy_visible_color.r / 255.0f,
-							Settings::ESP::Chams::players_enemy_visible_color.g / 255.0f,
-							Settings::ESP::Chams::players_enemy_visible_color.b / 255.0f);
+							Settings::ESP::Chams::players_enemy_visible_color.Value.x,
+							Settings::ESP::Chams::players_enemy_visible_color.Value.y,
+							Settings::ESP::Chams::players_enemy_visible_color.Value.z);
 
 		hidden_material->ColorModulate(
-							Settings::ESP::Chams::players_enemy_color.r / 255.0f,
-							Settings::ESP::Chams::players_enemy_color.g / 255.0f,
-							Settings::ESP::Chams::players_enemy_color.b / 255.0f);
+							Settings::ESP::Chams::players_enemy_color.Value.x,
+							Settings::ESP::Chams::players_enemy_color.Value.y,
+							Settings::ESP::Chams::players_enemy_color.Value.z);
 	}
 
 	if (!Settings::ESP::Chams::visibility_check)
@@ -155,16 +155,18 @@ void DrawArms(const ModelRenderInfo_t &pInfo)
 	std::string modelName = modelInfo->GetModelName(pInfo.pModel);
 	IMaterial *mat = material->FindMaterial(Settings::ESP::Chams::Arms::enabled ? "aimtux_chams" : modelName.c_str(), TEXTURE_GROUP_MODEL);
 
-	Color color = Settings::ESP::Chams::Arms::color;
-
 	switch (Settings::ESP::Chams::Arms::type)
 	{
 		case DEFAULT:
 			mat->AlphaModulate(1.0f);
-			mat->ColorModulate(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f);
+			mat->ColorModulate(
+					Settings::ESP::Chams::Arms::color.Value.x,
+					Settings::ESP::Chams::Arms::color.Value.y,
+					Settings::ESP::Chams::Arms::color.Value.z
+			);
 			break;
 		case RAINBOW:
-			color = Color::FromHSB(rainbowHue, 1.0f, 1.0f);
+			Color color = Color::FromHSB(rainbowHue, 1.0f, 1.0f);
 			mat->AlphaModulate(1.0f);
 			mat->ColorModulate(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f);
 			break;

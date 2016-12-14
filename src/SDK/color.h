@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../ImGUI/imgui.h"
+
 struct Color
 {
 	int r;
@@ -105,6 +107,16 @@ struct Color
 					(unsigned char)(q * 255)
 			);
 		}
+	}
+
+	static Color FromImColor(ImColor color)
+	{
+		return Color(
+				(int)(color.Value.x * 255),
+				(int)(color.Value.y * 255),
+				(int)(color.Value.z * 255),
+				(int)(color.Value.w * 255)
+		);
 	}
 
 	//TODO: Add operator overloads
