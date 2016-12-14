@@ -179,6 +179,9 @@ void ColorsWindow()
 					"Glow - Weapon",
 					"Glow - Grenade",
 					"Glow - Defuser",
+					"Glow - Defuser",
+					"Dlights - Team",
+					"Dlights - Enemy",
 			};
 	ImColor* colors[] =
 			{
@@ -204,6 +207,8 @@ void ColorsWindow()
 					&Settings::ESP::Glow::weapon_color,
 					&Settings::ESP::Glow::grenade_color,
 					&Settings::ESP::Glow::defuser_color,
+					&Settings::Dlights::ally_color,
+					&Settings::Dlights::enemy_color,
 			};
 	static int colorSelected = 0;
 
