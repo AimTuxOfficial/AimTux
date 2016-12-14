@@ -96,6 +96,9 @@ bool ImGui_ImplSdl_ProcessEvent(SDL_Event* event) {
 	switch (event->type) {
 		case SDL_MOUSEWHEEL:
 		{
+			if (!io.WantCaptureMouse)
+				return false;
+
 			if (event->wheel.y > 0)
 				g_MouseWheel = 1;
 			if (event->wheel.y < 0)
@@ -104,6 +107,9 @@ bool ImGui_ImplSdl_ProcessEvent(SDL_Event* event) {
 		}
 		case SDL_MOUSEBUTTONDOWN:
 		{
+			if (!io.WantCaptureMouse)
+				return false;
+
 			if (event->button.button == SDL_BUTTON_LEFT) g_MousePressed[0] = true;
 			if (event->button.button == SDL_BUTTON_RIGHT) g_MousePressed[1] = true;
 			if (event->button.button == SDL_BUTTON_MIDDLE) g_MousePressed[2] = true;
@@ -111,12 +117,18 @@ bool ImGui_ImplSdl_ProcessEvent(SDL_Event* event) {
 		}
 		case SDL_TEXTINPUT:
 		{
+			if (!io.WantCaptureKeyboard)
+				return false;
+
 			io.AddInputCharactersUTF8(event->text.text);
 			return true;
 		}
 		case SDL_KEYDOWN:
 		case SDL_KEYUP:
 		{
+			if (!io.WantCaptureKeyboard)
+				return false;
+
 			int key = event->key.keysym.sym & ~SDLK_SCANCODE_MASK;
 			io.KeysDown[key] = (event->type == SDL_KEYDOWN);
 			io.KeyShift = ((SDL_GetModState() & KMOD_SHIFT) != 0);
