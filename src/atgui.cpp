@@ -526,9 +526,10 @@ void MiscTab()
 		{
 			ImGui::Text("Movement");
 			ImGui::Separator();
+			ImGui::Checkbox("Bunny Hop", &Settings::BHop::enabled);
+			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-					ImGui::Checkbox("Bunny Hop", &Settings::BHop::enabled);
 					ImGui::Checkbox("Auto Strafe", &Settings::AutoStrafe::enabled);
 			}
 			ImGui::NextColumn();
