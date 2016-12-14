@@ -2,9 +2,9 @@
 
 bool UI::isVisible = false;
 
-ImVec4 Settings::UI::mainColor = ImVec4(0.215f, 0.215f, 0.215f, 1.f);
-ImVec4 Settings::UI::bodyColor = ImVec4(0.095f, 0.095f, 0.095f, 0.95f);
-ImVec4 Settings::UI::fontColor = ImVec4(1.f, 1.f, 1.f, 1.f);
+ImColor Settings::UI::mainColor = ImColor(54, 54, 54, 255);
+ImColor Settings::UI::bodyColor = ImColor(0.095f, 0.095f, 0.095f, 0.95f);
+ImColor Settings::UI::fontColor = ImColor(1.f, 1.f, 1.f, 1.f);
 bool showMainWindow = true;
 bool showSkinChangerWindow = false;
 bool showConfigWindow = false;
@@ -47,12 +47,13 @@ void UI::SetVisible(bool visible)
 
 void UI::SetupColors()
 {
+
 	ImGuiStyle& style = ImGui::GetStyle();
 
-	ImVec4 mainColorHovered = ImVec4(Settings::UI::mainColor.x + 0.1f, Settings::UI::mainColor.y + 0.1f, Settings::UI::mainColor.z + 0.1f, Settings::UI::mainColor.w);
-	ImVec4 mainColorActive = ImVec4(Settings::UI::mainColor.x + 0.2f, Settings::UI::mainColor.y + 0.2f, Settings::UI::mainColor.z + 0.2f, Settings::UI::mainColor.w);
-	ImVec4 menubarColor = ImVec4(Settings::UI::bodyColor.x, Settings::UI::bodyColor.y, Settings::UI::bodyColor.z, Settings::UI::bodyColor.w - 0.8f);
-	ImVec4 frameBgColor = ImVec4(Settings::UI::bodyColor.x, Settings::UI::bodyColor.y, Settings::UI::bodyColor.z, Settings::UI::bodyColor.w + .1f);
+	ImVec4 mainColorHovered = ImVec4(Settings::UI::mainColor.Value.x + 0.1f, Settings::UI::mainColor.Value.y + 0.1f, Settings::UI::mainColor.Value.z + 0.1f, Settings::UI::mainColor.Value.w);
+	ImVec4 mainColorActive = ImVec4(Settings::UI::mainColor.Value.x + 0.2f, Settings::UI::mainColor.Value.y + 0.2f, Settings::UI::mainColor.Value.z + 0.2f, Settings::UI::mainColor.Value.w);
+	ImVec4 menubarColor = ImVec4(Settings::UI::bodyColor.Value.x, Settings::UI::bodyColor.Value.y, Settings::UI::bodyColor.Value.z, Settings::UI::bodyColor.Value.w - 0.8f);
+	ImVec4 frameBgColor = ImVec4(Settings::UI::bodyColor.Value.x, Settings::UI::bodyColor.Value.y, Settings::UI::bodyColor.Value.z, Settings::UI::bodyColor.Value.w + .1f);
 
 	style.Alpha = 1.0f;
 	style.WindowPadding = ImVec2(8, 8);

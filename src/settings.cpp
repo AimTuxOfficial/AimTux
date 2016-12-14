@@ -76,10 +76,10 @@ void GetColor(Json::Value &config, T setting)
 template <typename T>
 void GetUIColor(Json::Value &config, T setting)
 {
-	GetFloat(config["r"], &setting->x);
-	GetFloat(config["g"], &setting->y);
-	GetFloat(config["b"], &setting->z);
-	GetFloat(config["a"], &setting->w);
+	GetFloat(config["r"], &setting->Value.x);
+	GetFloat(config["g"], &setting->Value.y);
+	GetFloat(config["b"], &setting->Value.z);
+	GetFloat(config["a"], &setting->Value.w);
 }
 
 void LoadColor(Json::Value &config, Color color)
@@ -90,12 +90,12 @@ void LoadColor(Json::Value &config, Color color)
 	config["a"] = color.a;
 }
 
-void LoadUIColor(Json::Value &config, ImVec4 color)
+void LoadUIColor(Json::Value &config, ImColor color)
 {
-	config["r"] = color.x;
-	config["g"] = color.y;
-	config["b"] = color.z;
-	config["a"] = color.w;
+	config["r"] = color.Value.x;
+	config["g"] = color.Value.y;
+	config["b"] = color.Value.z;
+	config["a"] = color.Value.w;
 }
 
 void Settings::LoadDefaultsOrSave(std::string path)
