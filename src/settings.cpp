@@ -109,6 +109,7 @@ void Settings::LoadDefaultsOrSave(Config config)
 	settings["Aimbot"]["bone"] = Settings::Aimbot::bone;
 	settings["Aimbot"]["aimkey"] = Util::GetButtonName(Settings::Aimbot::aimkey);
 	settings["Aimbot"]["aimkey_only"] = Settings::Aimbot::aimkey_only;
+	settings["Aimbot"]["target_type"] = Settings::Aimbot::target_type;
 	settings["Aimbot"]["Smooth"]["enabled"] = Settings::Aimbot::Smooth::enabled;
 	settings["Aimbot"]["Smooth"]["value"] = Settings::Aimbot::Smooth::value;
 	settings["Aimbot"]["Smooth"]["Salting"]["enabled"] = Settings::Aimbot::Smooth::Salting::enabled;
@@ -303,6 +304,7 @@ void Settings::LoadConfig(Config config)
 	GetInt(settings["Aimbot"]["bone"], &Settings::Aimbot::bone);
 	GetButtonCode(settings["Aimbot"]["aimkey"], &Settings::Aimbot::aimkey);
 	GetBool(settings["Aimbot"]["aimkey_only"], &Settings::Aimbot::aimkey_only);
+	GetInt(settings["Aimbot"]["target_type"], &Settings::Aimbot::target_type);
 	GetBool(settings["Aimbot"]["Smooth"]["enabled"], &Settings::Aimbot::Smooth::enabled);
 	GetFloat(settings["Aimbot"]["Smooth"]["value"], &Settings::Aimbot::Smooth::value);
 	GetBool(settings["Aimbot"]["Smooth"]["Salting"]["enabled"], &Settings::Aimbot::Smooth::Salting::enabled);

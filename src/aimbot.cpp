@@ -31,6 +31,7 @@ bool Settings::Aimbot::AutoStop::enabled = false;
 bool Settings::Aimbot::Smooth::Salting::enabled = false;
 float Settings::Aimbot::Smooth::Salting::percentage = 0.0f;
 bool Aimbot::AimStepInProgress = false;
+unsigned int Settings::Aimbot::target_type = FOV;
 
 bool shouldAim;
 QAngle AimStepLastAngle;
@@ -77,7 +78,7 @@ void GetBestBone(C_BaseEntity* entity, float& best_damage, Bone& best_bone)
 	}
 }
 
-C_BaseEntity* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& best_bone, AimTargetType aimTargetType = AimTargetType::FOV)
+C_BaseEntity* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& best_bone)
 {
 	best_bone = static_cast<Bone>(Settings::Aimbot::bone);
 
@@ -114,13 +115,13 @@ C_BaseEntity* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& best_bone, Aim
 		float distance = Math::GetDistance(p_vecHead, e_vecHead);
 		int hp = entity->GetHealth();
 
-		if (aimTargetType == AimTargetType::DISTANCE && distance > best_distance)
+		if (Settings::Aimbot::target_type == AimTargetType::DISTANCE && distance > best_distance)
 			continue;
 
-		if (aimTargetType == AimTargetType::FOV && fov > best_fov)
+		if (Settings::Aimbot::target_type == AimTargetType::FOV && fov > best_fov)
 			continue;
 
-		if (aimTargetType == AimTargetType::HP && hp > best_hp)
+		if (Settings::Aimbot::target_type == AimTargetType::HP && hp > best_hp)
 			continue;
 
 		if (visible && !Entity::IsVisible(entity, Settings::Aimbot::bone) && !Settings::Aimbot::AutoWall::enabled)
