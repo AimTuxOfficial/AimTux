@@ -4,7 +4,7 @@
 char* Settings::ClanTagChanger::value = strdup("");
 bool Settings::ClanTagChanger::animation = false;
 bool Settings::ClanTagChanger::enabled = false; // TODO find a way to go back to the "official" clan tag for the player? -- Save the current clan tag, before editing, then restore it later
-int Settings::ClanTagChanger::type = MARQUEE;
+int Settings::ClanTagChanger::type = STATIC;
 
 ClanTagChanger::Animation ClanTagChanger::Marquee(std::string name, std::string text, int width /*= 15*/, int speed /*= 650*/)
 {
@@ -62,7 +62,8 @@ ClanTagChanger::Animation ClanTagChanger::Letters(std::string name, std::string 
 std::vector<ClanTagChanger::Animation> ClanTagChanger::animations =
 {
 	ClanTagChanger::Marquee("NOVAC", "NO VAC ON LINUX"),
-	ClanTagChanger::Words("USPINME", "You spin me right round baby right round like a record baby right round _round __round")
+	ClanTagChanger::Words("USPINME", "You spin me right round baby right round like a record baby right round _round __round"),
+	ClanTagChanger::Letters("ILOVELINUX", "Suck my Tux!")
 };
 ClanTagChanger::Animation* ClanTagChanger::animation = &ClanTagChanger::animations[0];
 
@@ -86,15 +87,15 @@ void ClanTagChanger::CreateMove(CUserCmd* cmd)
 		timeStamp = currentTime_ms;
 		ClanTagChanger::animation->NextFrame();
 	}
-
-	if (Settings::ClanTagChanger::animation)
+	switch(Settings::ClanTagChanger::type)
 	{
-		SendClanTag(ClanTagChanger::animation->GetCurrentFrame().text.c_str(), "");
+		case MARQUEE:
+		case WORDS:
+		case LETTERS:
+			ClanTagChanger::animation = &ClanTagChanger::animations[0];
+			break;
 	}
-	else
-	{
-		std::string ctWithEscapesProcessed = std::string(Settings::ClanTagChanger::value);
-		Util::StdReplaceStr(ctWithEscapesProcessed, "\\n", "\n"); // compute time impact? also, referential so i assume RAII builtin cleans it up...
-		SendClanTag(ctWithEscapesProcessed.c_str(), "");
-	}
+	std::string ctWithEscapesProcessed = std::string(Settings::ClanTagChanger::value);
+	Util::StdReplaceStr(ctWithEscapesProcessed, "\\n", "\n"); // compute time impact? also, referential so i assume RAII builtin cleans it up...
+	SendClanTag(Settings::ClanTagChanger::type == STATIC ? ctWithEscapesProcessed.c_str() : ClanTagChanger::animation->GetCurrentFrame().text.c_str(), "");
 }

@@ -28,6 +28,7 @@ enum TracerType : int
 
 enum ClanTagType : int
 {
+	STATIC,
 	MARQUEE,
 	WORDS,
 	LETTERS

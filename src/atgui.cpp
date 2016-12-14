@@ -428,12 +428,14 @@ void VisualsTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("Dlights", &Settings::Dlights::enabled);
+				ImGui::Checkbox("No Flash", &Settings::Noflash::enabled);
 				ImGui::Checkbox("No View Punch", &Settings::View::NoPunch::enabled);
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
 					ImGui::SliderFloat("##DLIGHTRADIUS", &Settings::Dlights::radius, 0, 1000);
+					ImGui::SliderFloat("##NOFLASHAMOUNT", &Settings::Noflash::value, 0, 255);
 				ImGui::PopItemWidth();
 				ImGui::Checkbox("Radar", &Settings::Radar::enabled);
 			}
@@ -514,95 +516,141 @@ void HvHTab()
 
 void MiscTab()
 {
-	ImGui::Columns(2, NULL, false);
+	const char* strafeTypes[] = { "Forwards", "Backwards", "Left", "Right" };
+	static char nickname[127] = "";
+	const char* AnimationTypes[] = { "Static", "Marquee", "Words", "Letters" };
+
+	ImGui::Columns(2, NULL, true);
 	{
-		UI::ReverseCheckbox("Bunny Hop", &Settings::BHop::enabled);
-
-		UI::ReverseCheckbox("Auto Strafe", &Settings::AutoStrafe::enabled);
-		ImGui::SameLine();
-
-		const char* strafeTypes[] = { "Forwards", "Backwards", "Left", "Right" };
-		ImGui::PushItemWidth(-1);
-			ImGui::Combo("##STRAFETYPE", &Settings::AutoStrafe::type, strafeTypes, IM_ARRAYSIZE(strafeTypes));
-		ImGui::PopItemWidth();
-
-		UI::ReverseCheckbox("AirStuck", &Settings::Airstuck::enabled);
-		ImGui::SameLine();
-
-		UI::KeyBindButton(&Settings::Airstuck::key);
-
-		UI::ReverseCheckbox("Position Spammer", &Settings::Spammer::PositionSpammer::enabled);
-		ImGui::SameLine();
-		UI::ReverseCheckbox("Team Chat Only", &Settings::Spammer::PositionSpammer::say_team);
-
-		UI::ReverseCheckbox("Kill Spammer", &Settings::Spammer::KillSpammer::enabled);
-		ImGui::SameLine();
-		UI::ReverseCheckbox("Team Chat Only", &Settings::Spammer::KillSpammer::say_team);
-
-		UI::ReverseCheckbox("Chat Spammer", &Settings::Spammer::NormalSpammer::enabled);
-		ImGui::SameLine();
-		UI::ReverseCheckbox("Team Chat Only", &Settings::Spammer::NormalSpammer::say_team);
-
-		UI::ReverseCheckbox("Custom Clantag", &Settings::ClanTagChanger::enabled);
-		ImGui::SameLine();
-		ImGui::PushItemWidth(-1);
-			ImGui::InputText("##CLANTAGTEXT", Settings::ClanTagChanger::value, 15);
-		ImGui::PopItemWidth();
-
-		UI::ReverseCheckbox("Animate Clantag", &Settings::ClanTagChanger::animation);
-		ImGui::SameLine();
-		const char* AnimationTypes[] = { "Marquee", "Words", "Letters" };
-		ImGui::PushItemWidth(150);
-			ImGui::Combo("##ANIMATIONTYPE", &Settings::ClanTagChanger::type, AnimationTypes, IM_ARRAYSIZE(AnimationTypes));
-		ImGui::PopItemWidth();
+		if (ImGui::BeginChild("Child1", ImVec2(0, 0), true))
+		{
+			ImGui::Text("Movement");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+					ImGui::Checkbox("Bunny Hop", &Settings::BHop::enabled);
+					ImGui::Checkbox("Auto Strafe", &Settings::AutoStrafe::enabled);
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::PushItemWidth(-1);
+					ImGui::Combo("##STRAFETYPE", &Settings::AutoStrafe::type, strafeTypes, IM_ARRAYSIZE(strafeTypes));
+				ImGui::PopItemWidth();
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::Text("Spammer");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Checkbox("Position", &Settings::Spammer::PositionSpammer::enabled);
+				ImGui::Checkbox("Kill", &Settings::Spammer::KillSpammer::enabled);
+				ImGui::Checkbox("Chat", &Settings::Spammer::NormalSpammer::enabled);
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::Checkbox("Team Chat Only", &Settings::Spammer::PositionSpammer::say_team);
+				ImGui::Checkbox("Team Chat Only", &Settings::Spammer::KillSpammer::say_team);
+				ImGui::Checkbox("Team Chat Only", &Settings::Spammer::NormalSpammer::say_team);
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::Text("FOV");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Checkbox("FOV", &Settings::FOVChanger::enabled);
+				ImGui::Checkbox("Viewmodel FOV", &Settings::FOVChanger::viewmodel_enabled);
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::PushItemWidth(-1);
+					ImGui::SliderFloat("##FOVAMOUNT", &Settings::FOVChanger::value, 0, 180);
+					ImGui::SliderFloat("##MODELFOVAMOUNT", &Settings::FOVChanger::viewmodel_value, 0, 360);
+				ImGui::PopItemWidth();
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::EndChild();
+		}
 	}
-
 	ImGui::NextColumn();
 	{
-		UI::ReverseCheckbox("No Flash", &Settings::Noflash::enabled);
-		ImGui::SameLine();
-		ImGui::PushItemWidth(-1);
-			ImGui::SliderFloat("##NOFLASHAMOUNT", &Settings::Noflash::value, 0, 255);
-		ImGui::PopItemWidth();
-
-		UI::ReverseCheckbox("View FOV", &Settings::FOVChanger::enabled);
-		ImGui::SameLine();
-		ImGui::PushItemWidth(-1);
-			ImGui::SliderFloat("##FOVAMOUNT", &Settings::FOVChanger::value, 0, 180);
-		ImGui::PopItemWidth();
-
-		UI::ReverseCheckbox("Viewmodel FOV", &Settings::FOVChanger::viewmodel_enabled);
-		ImGui::SameLine();
-		ImGui::PushItemWidth(-1);
-			ImGui::SliderFloat("##MODELFOVAMOUNT", &Settings::FOVChanger::viewmodel_value, 0, 360);
-		ImGui::PopItemWidth();
-
-		UI::ReverseCheckbox("Fake Lag", &Settings::FakeLag::enabled);
-		ImGui::SameLine();
-		ImGui::PushItemWidth(-1);
-			ImGui::SliderInt("##FAKELAGAMOUNT", &Settings::FakeLag::value, 0, 16);
-		ImGui::PopItemWidth();
-
-		UI::ReverseCheckbox("Auto Accept", &Settings::AutoAccept::enabled);
-
-		UI::ReverseCheckbox("Show Ranks", &Settings::ShowRanks::enabled);
-
-		static char nickname[127] = "nickname";
-
-		if (ImGui::Button("No Name"))
+		if (ImGui::BeginChild("Child2", ImVec2(0, 0), true))
 		{
-			Settings::NameChanger::enabled = true;
-			Settings::NameChanger::last_blank = true;
+			ImGui::Text("Clantag");
+			ImGui::Separator();
+			ImGui::Checkbox("Enabled", &Settings::ClanTagChanger::enabled);
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::PushItemWidth(-1);
+					ImGui::InputText("##CLANTAGTEXT", Settings::ClanTagChanger::value, 30);
+				ImGui::PopItemWidth();
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::PushItemWidth(-1);
+					if (ImGui::Combo("##ANIMATIONTYPE", &Settings::ClanTagChanger::type, AnimationTypes, IM_ARRAYSIZE(AnimationTypes)))
+					{
+						switch(Settings::ClanTagChanger::type)
+						{
+							case MARQUEE:
+								ClanTagChanger::animations[0] = ClanTagChanger::Marquee("CUSTOM", Settings::ClanTagChanger::value);
+								break;
+							case WORDS:
+								ClanTagChanger::animations[0] = ClanTagChanger::Words("CUSTOM", Settings::ClanTagChanger::value);
+								break;
+							case LETTERS:
+								ClanTagChanger::animations[0] = ClanTagChanger::Letters("CUSTOM", Settings::ClanTagChanger::value);
+								break;
+						}
+					}
+				ImGui::PopItemWidth();
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::Text("Nickname");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::PushItemWidth(-1);
+					ImGui::InputText("##NICKNAMETEXT", nickname, 127);
+				ImGui::PopItemWidth();
+			}
+			ImGui::NextColumn();
+			{
+				if (ImGui::Button("Set Nickname"))
+					NameChanger::SetName(nickname);
+				ImGui::SameLine();
+				if (ImGui::Button("No Name", ImVec2(-1, 0)))
+				{
+					Settings::NameChanger::enabled = true;
+					Settings::NameChanger::last_blank = true;
+				}
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::Text("Other");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Checkbox("Fake Lag", &Settings::FakeLag::enabled);
+				ImGui::Checkbox("Auto Accept", &Settings::AutoAccept::enabled);
+				ImGui::Checkbox("AirStuck", &Settings::Airstuck::enabled);
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::PushItemWidth(-1);
+					ImGui::SliderInt("##FAKELAGAMOUNT", &Settings::FakeLag::value, 0, 16);
+				ImGui::PopItemWidth();
+				ImGui::Checkbox("Show Ranks", &Settings::ShowRanks::enabled);
+				UI::KeyBindButton(&Settings::Airstuck::key);
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::EndChild();
 		}
-		ImGui::SameLine();
-
-		if (ImGui::Button("Set Nickname"))
-			NameChanger::SetName(nickname);
-		ImGui::SameLine();
-
-		ImGui::PushItemWidth(-1);
-			ImGui::InputText("##NICKNAMETEXT", nickname, 127);
-		ImGui::PopItemWidth();
 	}
 }
 
