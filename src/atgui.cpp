@@ -594,7 +594,7 @@ void MiscTab()
 				ImGui::PushItemWidth(-1);
 					if (ImGui::Combo("##ANIMATIONTYPE", &Settings::ClanTagChanger::type, AnimationTypes, IM_ARRAYSIZE(AnimationTypes)))
 					{
-						switch(Settings::ClanTagChanger::type)
+						switch (Settings::ClanTagChanger::type)
 						{
 							case MARQUEE:
 								ClanTagChanger::animations[0] = ClanTagChanger::Marquee("CUSTOM", Settings::ClanTagChanger::value);
@@ -912,14 +912,11 @@ void ConfigWindow()
 		ImGui::SameLine();
 		if (ImGui::Button("Add"))
 		{
-			printf("%s\n", buf);
 			if (strlen(buf) == 0)
 				return;
 
 			pstring path = GetConfigDirectory();
 			path << buf;
-
-			printf("path: %s\n", path.c_str());
 
 			if (DoesFileExist(path.c_str()))
 				return;
