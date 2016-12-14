@@ -7,8 +7,8 @@
 #include "ImGUI/imgui.h"
 #include "ImGUI/imgui_impl_sdl.h"
 #include "ImGUI/imgui_internal.h"
-#include "ImGUI/KaiGenGothicJPRegular.h"
-#include "ImGUI/RobotoMonoRegular.h"
+#include "ImGUI/fonts/KaiGenGothicJPRegular.h"
+#include "ImGUI/fonts/RobotoMonoRegular.h"
 
 typedef void (*SDL_GL_SwapWindow_t) (SDL_Window*);
 typedef int (*SDL_PollEvent_t) (SDL_Event*);
