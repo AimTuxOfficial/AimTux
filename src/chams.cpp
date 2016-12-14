@@ -21,6 +21,7 @@ void Chams::CreateMaterials()
 	std::stringstream chamsFlat;
 	std::stringstream chamsFlatIgnorez;
 	char* chamsPath;
+	char* chamsArmsPath;
 	char* chamsIgnorezPath;
 	char* chamsFlatPath;
 	char* chamsFlatIgnorezPath;
@@ -68,11 +69,13 @@ void Chams::CreateMaterials()
 	getcwd(cwd, sizeof(cwd));
 
 	asprintf(&chamsPath, "%s/csgo/materials/aimtux_chams.vmt", cwd);
+	asprintf(&chamsArmsPath, "%s/csgo/materials/aimtux_chams_arms.vmt", cwd);
 	asprintf(&chamsIgnorezPath, "%s/csgo/materials/aimtux_chamsIgnorez.vmt", cwd);
 	asprintf(&chamsFlatPath, "%s/csgo/materials/aimtux_chamsFlat.vmt", cwd);
 	asprintf(&chamsFlatIgnorezPath, "%s/csgo/materials/aimtux_chamsFlatIgnorez.vmt", cwd);
 
 	std::ofstream(chamsPath) << chams.str();
+	std::ofstream(chamsArmsPath) << chams.str();
 	std::ofstream(chamsIgnorezPath) << chamsIgnorez.str();
 	std::ofstream(chamsFlatPath) << chamsFlat.str();
 	std::ofstream(chamsFlatIgnorezPath) << chamsFlatIgnorez.str();
@@ -153,7 +156,7 @@ void DrawArms(const ModelRenderInfo_t &pInfo)
 		return;
 
 	std::string modelName = modelInfo->GetModelName(pInfo.pModel);
-	IMaterial *mat = material->FindMaterial(Settings::ESP::Chams::Arms::enabled ? "aimtux_chams" : modelName.c_str(), TEXTURE_GROUP_MODEL);
+	IMaterial *mat = material->FindMaterial(Settings::ESP::Chams::Arms::enabled ? "aimtux_chams_arms" : modelName.c_str(), TEXTURE_GROUP_MODEL);
 
 	Color color = Settings::ESP::Chams::Arms::color;
 
