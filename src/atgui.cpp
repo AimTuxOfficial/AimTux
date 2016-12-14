@@ -211,7 +211,7 @@ void ColorsWindow()
 			};
 	static int colorSelected = 0;
 
-	ImGui::SetNextWindowSize(ImVec2(540, 260), ImGuiSetCond_Always);
+	ImGui::SetNextWindowSize(ImVec2(540, 265), ImGuiSetCond_Always);
 	if (ImGui::Begin("Colors", &showColorsWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoResize))
 	{
 		ImGui::Columns(2, NULL, true);
