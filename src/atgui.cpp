@@ -167,7 +167,13 @@ void ColorsWindow()
 					"Chams - Team",
 					"Chams - Team Visible",
 					"Chams - Enemy",
-					"Chams - Enemy Visible"
+					"Chams - Enemy Visible",
+					"Glow - Team",
+					"Glow - Enemy",
+					"Glow - Enemy Visible",
+					"Glow - Weapon",
+					"Glow - Grenade",
+					"Glow - Defuser",
 			};
 	ImColor* colors[] =
 			{
@@ -182,6 +188,12 @@ void ColorsWindow()
 					&Settings::ESP::Chams::players_ally_visible_color,
 					&Settings::ESP::Chams::players_enemy_color,
 					&Settings::ESP::Chams::players_enemy_visible_color,
+					&Settings::ESP::Glow::ally_color,
+					&Settings::ESP::Glow::enemy_color,
+					&Settings::ESP::Glow::enemy_visible_color,
+					&Settings::ESP::Glow::weapon_color,
+					&Settings::ESP::Glow::grenade_color,
+					&Settings::ESP::Glow::defuser_color,
 			};
 	static int colorSelected = 0;
 
