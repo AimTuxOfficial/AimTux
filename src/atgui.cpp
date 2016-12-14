@@ -376,7 +376,7 @@ void VisualsTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("Dropped Weapon Names", &Settings::ESP::Weapons::enabled);
-				ImGui::Checkbox("Dropped Weapon Glow", &Settings::ESP::Glow::enabled);
+				ImGui::Checkbox("Entity Glow", &Settings::ESP::Glow::enabled);
 			}
 			ImGui::NextColumn();
 			{
