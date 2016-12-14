@@ -787,10 +787,11 @@ void SkinChangerWindow()
 													 "Revolver", //64
 												  };
 		static int current_gun = 0;
-		const char* ak47_skins[] = { "Candy apple", "potato", "donut", "Candy apple", "potato", "donut", "Candy apple", "potato", "donut", "Candy apple", "potato", "donut", "Candy apple", "potato", "donut", };
-		static int current_ak47_skin = 0;
-		const char* m4a1_skins[] = { "pizza", "cheese", "tomato", "12 year olds", "Candy apple", "potato", "donut", "Candy apple", };
-		static int current_m4a1_skin = 0;
+		const char* gun_skins[] = { "", //0
+																"", //1
+																"Candy Apple", //2
+															};
+		static int current_gun_skin = 0;
 		static char gunSkinSeed[5];
 		static char gunStatTrak[9];
 		static char gunName[18];
@@ -810,15 +811,7 @@ void SkinChangerWindow()
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-					switch (current_gun)
-					{
-						case 0:
-							ImGui::ListBox("##AK47_SKINS", &current_ak47_skin, ak47_skins, IM_ARRAYSIZE(ak47_skins), 10);
-							break;
-						case 1:
-							ImGui::ListBox("##M4A1_SKINS", &current_m4a1_skin, m4a1_skins, IM_ARRAYSIZE(m4a1_skins), 10);
-							break;
-					}
+					ImGui::ListBox("##GUN_SKINS", &current_gun_skin, gun_skins, IM_ARRAYSIZE(gun_skins), 10);
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
