@@ -55,7 +55,7 @@ Want to chat or play with other AimTux users? Join us on Gitter!
 
 1. Make sure you're inside of the *AimTux* directory
 2. Download the required tools to compile AimTux
-    * **Debian-based:** `apt-get install cmake g++ gdb zlib1g-dev`
+    * **Debian-based:** `apt-get install cmake g++ gdb libsdl2-dev zlib1g-dev`
     * **Fedora:** `dnf install cmake gcc-c++ gdb libstdc++-static mesa-libGL-devel SDL2-devel zlib-devel`
     * **Arch Linux:** `pacman -S base-devel cmake gdb sdl2`
 3. Generate a *makefile* with the command `cmake .`
