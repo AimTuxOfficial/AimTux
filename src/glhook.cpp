@@ -13,8 +13,20 @@ void SDL2::SwapWindow(SDL_Window* window)
 		ImGui_ImplSdl_Init(window);
 
 		ImGuiIO& io = ImGui::GetIO();
+		ImFontConfig config;
+
+		ImWchar ranges[] =
+				{
+						0x0020, 0x007F, // Basic Latin
+						0x00A0, 0x00FF, // Latin-1 Supplement
+						0x0100, 0x017F, // Latin Extended-A
+						0x0180, 0x024F, // Latin Extended-B
+						0x0400, 0x04FF, // Cyrillic
+						0x0500, 0x052F, // Cyrillic Supplementary
+				};
+
 		io.Fonts->Clear();
-		io.Fonts->AddFontFromMemoryCompressedTTF(RobotoMonoRegular_compressed_data, RobotoMonoRegular_compressed_size, 18.0f);
+		io.Fonts->AddFontFromMemoryCompressedTTF(RobotoMonoRegular_compressed_data, RobotoMonoRegular_compressed_size, 18.0f, &config, ranges);
 		io.Fonts->Build();
 	}
 
