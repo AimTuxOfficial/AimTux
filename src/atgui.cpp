@@ -3,7 +3,7 @@
 bool UI::isVisible = false;
 
 ImColor Settings::UI::mainColor = ImColor(54, 54, 54, 255);
-ImColor Settings::UI::bodyColor = ImColor(24, 24, 24, 24);
+ImColor Settings::UI::bodyColor = ImColor(24, 24, 24, 240);
 ImColor Settings::UI::fontColor = ImColor(255, 255, 255, 255);
 bool showMainWindow = true;
 bool showSkinChangerWindow = false;
