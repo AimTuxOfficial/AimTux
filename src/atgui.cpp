@@ -179,7 +179,6 @@ void ColorsWindow()
 					"Glow - Weapon",
 					"Glow - Grenade",
 					"Glow - Defuser",
-					"Glow - Defuser",
 					"Dlights - Team",
 					"Dlights - Enemy",
 			};
