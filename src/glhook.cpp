@@ -12,10 +12,7 @@ void SDL2::SwapWindow(SDL_Window* window)
 		aimtux_context = SDL_GL_CreateContext(window);
 		ImGui_ImplSdl_Init(window);
 
-		ImGuiIO& io = ImGui::GetIO();
-		ImFontConfig config;
-
-		ImWchar ranges[] =
+		ImWchar RobotoMonoRegular_ranges[] =
 				{
 						0x0020, 0x007F, // Basic Latin
 						0x00A0, 0x00FF, // Latin-1 Supplement
@@ -27,8 +24,23 @@ void SDL2::SwapWindow(SDL_Window* window)
 						0
 				};
 
-		io.Fonts->Clear();
-		io.Fonts->AddFontFromMemoryCompressedTTF(RobotoMonoRegular_compressed_data, RobotoMonoRegular_compressed_size, 18.0f, &config, ranges);
+		ImWchar KaiGenGothicJPRegular_ranges[] =
+				{
+						0x3000, 0x30FF, // Punctuations, Hiragana, Katakana
+						0x31F0, 0x31FF, // Katakana Phonetic Extensions
+						0xFF00, 0xFFEF, // Half-width characters
+						0
+				};
+
+		ImGuiIO& io = ImGui::GetIO();
+		ImFontConfig config;
+
+		// Add Roboto as default font
+		io.Fonts->AddFontFromMemoryCompressedTTF(RobotoMonoRegular_compressed_data, RobotoMonoRegular_compressed_size, 18.0f, &config, RobotoMonoRegular_ranges);
+
+		// Enable MergeMody and add additional fonts
+		config.MergeMode = true;
+		io.Fonts->AddFontFromMemoryCompressedBase85TTF(KaiGenGothicJPRegular_compressed_data_base85, 14.0f, &config, KaiGenGothicJPRegular_ranges);
 		io.Fonts->Build();
 	}
 
