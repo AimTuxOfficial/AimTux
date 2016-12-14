@@ -720,7 +720,72 @@ void SkinChangerWindow()
 	ImGui::SetNextWindowSize(ImVec2(500, 600), ImGuiSetCond_FirstUseEver);
 	if (ImGui::Begin("Skin Changer", &showSkinChangerWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
 	{
-		const char* guns[] = { "AK-47", "M4A1-S", "AWP", "USP", "P2000", "Glock", "Deagle", "Famas", "Galil-AR", "Negev", "SCAR-20", "G3SG1" };
+		const char* guns[] = { "", //0
+		 											 "Deagle", //1
+													 "Dual Berettas", //2
+													 "Five-SeveN", //3
+													 "Glock", //4
+													 "", //5
+													 "", //6
+													 "AK-47", //7
+													 "AUG", //8
+													 "AWP", //9
+													 "Famas", //10
+													 "G3SG1", //11
+													 "", //12
+													 "Galil AR", //13
+													 "M249", //14
+													 "", //15
+													 "M4A4", //16
+													 "MAC-10", //17
+													 "", //18
+													 "P90", //19
+													 "", //20
+													 "", //21
+													 "", //22
+													 "", //23
+													 "UMP-45", //24
+													 "XM1014", //25
+													 "PP-19 Bizon", //26
+													 "MAG-7", //27
+													 "Negev", //28
+													 "Sawed-Off Shotgun", //29
+													 "Tec-9", //30
+													 "", //31
+													 "P2000", //32
+													 "MP7", //33
+													 "MP9", //34
+													 "Nova", //35
+													 "P250", //36
+													 "", //37
+													 "SCAR-20", //38
+													 "SG 553", //39
+													 "SSG 08", //40
+													 "", //41
+													 "", //42
+													 "", //43
+													 "", //44
+													 "", //45
+													 "", //46
+													 "", //47
+													 "", //48
+													 "", //49
+													 "", //50
+													 "", //51
+													 "", //52
+													 "", //53
+													 "", //54
+													 "", //55
+													 "", //56
+													 "", //57
+													 "", //58
+													 "", //59
+													 "M4A1-S", //60
+													 "USP", //61
+													 "", //62
+													 "CZ-75", //63
+													 "Revolver", //64
+												  };
 		static int current_gun = 0;
 		const char* ak47_skins[] = { "Candy apple", "potato", "donut", "Candy apple", "potato", "donut", "Candy apple", "potato", "donut", "Candy apple", "potato", "donut", "Candy apple", "potato", "donut", };
 		static int current_ak47_skin = 0;
