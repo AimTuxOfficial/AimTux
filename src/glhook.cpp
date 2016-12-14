@@ -24,11 +24,12 @@ void SDL2::SwapWindow(SDL_Window* window)
 						0
 				};
 
-		ImWchar KaiGenGothicJPRegular_ranges[] =
+		ImWchar KaiGenGothicCNRegular_ranges[] =
 				{
 						0x3000, 0x30FF, // Punctuations, Hiragana, Katakana
 						0x31F0, 0x31FF, // Katakana Phonetic Extensions
 						0xFF00, 0xFFEF, // Half-width characters
+						0x4e00, 0x9FAF, // CJK Ideograms
 						0
 				};
 
@@ -38,9 +39,9 @@ void SDL2::SwapWindow(SDL_Window* window)
 		// Add Roboto as default font
 		io.Fonts->AddFontFromMemoryCompressedTTF(RobotoMonoRegular_compressed_data, RobotoMonoRegular_compressed_size, 18.0f, &config, RobotoMonoRegular_ranges);
 
-		// Enable MergeMody and add additional fonts
+		// Enable MergeMode and add additional fonts
 		config.MergeMode = true;
-		io.Fonts->AddFontFromMemoryCompressedBase85TTF(KaiGenGothicJPRegular_compressed_data_base85, 14.0f, &config, KaiGenGothicJPRegular_ranges);
+		io.Fonts->AddFontFromMemoryCompressedBase85TTF(KaiGenGothicCNRegular_compressed_data_base85, 14.0f, &config, KaiGenGothicCNRegular_ranges);
 		io.Fonts->Build();
 	}
 
