@@ -815,8 +815,18 @@ void MainWindow()
 			int width = windowSize.x / tabs_size - 9;
 			int height = 25;
 
-			if(page == i)
-				ImGui::GetStyle().Colors[ImGuiCol_Button] = ImVec4(Settings::UI::mainColor.Value.x + 0.1f, Settings::UI::mainColor.Value.y + 0.1f, Settings::UI::mainColor.Value.z + 0.1f, Settings::UI::mainColor.Value.w);
+			int distance;
+			if (i == page)
+				distance = 0;
+			else
+				distance = i > page ? i - page : page - i;
+
+			ImGui::GetStyle().Colors[ImGuiCol_Button] = ImVec4(
+					Settings::UI::mainColor.Value.x + (distance * 0.125f),
+					Settings::UI::mainColor.Value.y + (distance * 0.125f),
+					Settings::UI::mainColor.Value.z + (distance * 0.125f),
+					Settings::UI::mainColor.Value.w
+			);
 
 			if (ImGui::Button(tabs[i], ImVec2(width, height)))
 				page = i;
