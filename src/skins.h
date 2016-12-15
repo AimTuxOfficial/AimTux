@@ -49,644 +49,553 @@ std::map<int, const char*> knives = {
 		{ 16, "Shadow Daggers" },
 };
 
-const char *weapon_skins[] =
-	{
-		"<-Default->", // 0
-		"",
-		"Groundwater", // 2
-		"Candy Apple", // 3
-		"",
-		"Forest DDPAT", // 5
-		"Arctic Camo",  // 6
-		"",
-		"Desert Storm", // 8
-		"Bengal Tiger", // 9
-		"Copperhead",   // 10
-		"Skulls",       // 11
-		"Crimson Web",  // 12
-		"Blue Streak",  // 13
-		"Red Laminate", // 14
-		"Gunsmoke",     // 15
-		"Jungle Tiger", // 16
-		"Urban DDPAT",  // 17
-		"",
-		"",
-		"Virus",              // 20
-		"Granite Marbleized", // 21
-		"Contrast Spray",     // 22
-		"",
-		"",
-		"Forest Leaves", // 25
-		"Lichen Dashed", // 26
-		"Bone Mask",     // 27
-		"Anodized Navy", // 28
-		"",
-		"Snake Camo", // 30
-		"",
-		"Silver",         // 32
-		"Hot Rod",        // 33
-		"Metallic DDPAT", // 34
-		"",
-		"Ossified",      // 36
-		"Blaze",         // 37
-		"Fade",          // 38
-		"Bulldozer",     // 39
-		"Night",         // 40
-		"Copper",        // 41
-		"Blue Steel",    // 42
-		"Stained",       // 43
-		"Case Hardened", // 44
-		"",
-		"Contractor",    // 46
-		"Colony",        // 47
-		"Dragon Tattoo", // 48
-		"",
-		"",
-		"Lightning Strike", // 51
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"Slaughter",  // 59
-		"Dark Water", // 60
-		"Hypnotic",   // 61
-		"Bloomstick", // 62
-		"",
-		"",
-		"",
-		"",
-		"Cold Blooded", // 67
-		"",
-		"",
-		"Carbon Fiber",        // 70
-		"Scorpion",            // 71
-		"Safari Mesh",         // 72
-		"Wings",               // 73
-		"Polar Camo",          // 74
-		"Blizzard Marbleized", // 75
-		"Winter Forest",       // 76
-		"Boreal Forest",       // 77
-		"Forest Night",        // 78
-		"",
-		"",
-		"",
-		"",
-		"Orange DDPAT", // 83
-		"Pink DDPAT",   // 84
-		"",
-		"",
-		"",
-		"",
-		"",
-		"Mudder", // 90
-		"",
-		"Cyanospatter", // 92
-		"Caramel",      // 93
-		"",
-		"Grassland",   // 95
-		"Blue Spruce", // 96
-		"",
-		"Ultraviolet", // 98
-		"Sand Dune",   // 99
-		"Storm",       // 100
-		"Tornado",     // 101
-		"Whiteout",    // 102
-		"",
-		"Grassland Leaves", // 104
-		"",
-		"",
-		"Polar Mesh", // 107
-		"",
-		"",
-		"Condemned",    // 110
-		"Glacier Mesh", // 111
-		"",
-		"",
-		"",
-		"",
-		"Sand Mesh", // 116
-		"",
-		"",
-		"Sage Spray", // 119
-		"",
-		"",
-		"Jungle Spray", // 122
-		"",
-		"Sand Spray", // 124
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"Urban Perforated", // 135
-		"Waves Perforated", // 136
-		"",
-		"",
-		"",
-		"",
-		"Orange Peel", // 141
-		"",
-		"Urban Masked", // 143
-		"",
-		"",
-		"",
-		"Jungle Dashed", // 147
-		"Sand Dashed",   // 148
-		"Urban Dashed",  // 149
-		"",
-		"Jungle", // 151
-		"",
-		"Demolition",     // 153
-		"Afterimage",     // 154
-		"Bullet Rain",    // 155
-		"Death by Kitty", // 156
-		"Palm",           // 157
-		"Walnut",         // 158
-		"Brass",          // 159
-		"",
-		"",
-		"Splash", // 162
-		"",
-		"Modern Hunter",    // 164
-		"Splash Jam",       // 165
-		"Blaze Orange",     // 166
-		"Radiation Hazard", // 167
-		"Nuclear Threat",   // 168
-		"Fallout Warning",  // 169
-		"Predator",         // 170
-		"Irradiated Alert", // 171
-		"Black Laminate",   // 172
-		"",
-		"BOOM",               // 174
-		"Scorched",           // 175
-		"Faded Zebra",        // 176
-		"Memento",            // 177
-		"Doomkitty",          // 178
-		"Nuclear Threat",     // 179
-		"Fire Serpent",       // 180
-		"Corticera",          // 181
-		"Emerald Dragon",     // 182
-		"Overgrowth",         // 183
-		"Corticera",          // 184
-		"Golden Koi",         // 185
-		"Wave Spray",         // 186
-		"Zirka",              // 187
-		"Graven",             // 188
-		"Bright Water",       // 189
-		"Black Limba",        // 190
-		"Tempest",            // 191
-		"Shattered",          // 192
-		"Bone Pile",          // 193
-		"Spitfire",           // 194
-		"Demeter",            // 195
-		"Emerald",            // 196
-		"Anodized Navy",      // 197
-		"Hazard",             // 198
-		"Dry Season",         // 199
-		"Mayan Dreams",       // 200
-		"Palm",               // 201
-		"Jungle DDPAT",       // 202
-		"Rust Coat",          // 203
-		"Mosaico",            // 204
-		"Jungle",             // 205
-		"Tornado",            // 206
-		"Facets",             // 207
-		"Sand Dune",          // 208
-		"Groundwater",        // 209
-		"Anodized Gunmetal",  // 210
-		"Ocean Foam",         // 211
-		"Graphite",           // 212
-		"Ocean Foam",         // 213
-		"Graphite",           // 214
-		"X-Ray",              // 215
-		"Blue Titanium",      // 216
-		"Blood Tiger",        // 217
-		"Hexane",             // 218
-		"Hive",               // 219
-		"Hemoglobin",         // 220
-		"Serum",              // 221
-		"Blood in the Water", // 222
-		"Nightshade",         // 223
-		"Water Sigil",        // 224
-		"Ghost Camo",         // 225
-		"Blue Laminate",      // 226
-		"Electric Hive",      // 227
-		"Blind Spot",         // 228
-		"Azure Zebra",        // 229
-		"Steel Disruption",   // 230
-		"Cobalt Disruption",  // 231
-		"Crimson Web",        // 232
-		"Tropical Storm",     // 233
-		"Ash Wood",           // 234
-		"VariCamo",           // 235
-		"Night Ops",          // 236
-		"Urban Rubble",       // 237
-		"VariCamo Blue",      // 238
-		"",
-		"CaliCamo",           // 240
-		"Hunting Blind",      // 241
-		"Army Mesh",          // 242
-		"Gator Mesh",         // 243
-		"Teardown",           // 244
-		"Army Recon",         // 245
-		"Amber Fade",         // 246
-		"Damascus Steel",     // 247
-		"Red Quartz",         // 248
-		"Cobalt Quartz",      // 249
-		"Full Stop",          // 250
-		"Pit Viper",          // 251
-		"Silver Quartz",      // 252
-		"Acid Fade",          // 253
-		"Nitro",              // 254
-		"Asiimov (M4A4)",            // 255
-		"The Kraken",         // 256
-		"Guardian",           // 257
-		"Mehndi",             // 258
-		"Redline",            // 259
-		"Pulse",              // 260
-		"Marina",             // 261
-		"Rose Iron",          // 262
-		"Rising Skull",       // 263
-		"Sandstorm",          // 264
-		"Kami",               // 265
-		"Magma",              // 266
-		"Cobalt Halftone",    // 267
-		"Tread Plate",        // 268
-		"The Fuschia Is Now", // 269
-		"Victoria",           // 270
-		"Undertow",           // 271
-		"Titanium Bit",       // 272
-		"Heirloom",           // 273
-		"Copper Galaxy",      // 274
-		"Red FragCam",        // 275
-		"Panther",            // 276
-		"Stainless",          // 277
-		"Blue Fissure",       // 278
-		"Asiimov (AWP)",            // 279
-		"Chameleon",          // 280
-		"Corporal",           // 281
-		"Redline",            // 282
-		"Trigon",             // 283
-		"Heat",               // 284
-		"Terrain",            // 285
-		"Antique",            // 286
-		"Pulse",              // 287
-		"Sergeant",           // 288
-		"Sandstorm",          // 289
-		"Guardian",           // 290
-		"Heaven Guard",       // 291
-		"",
-		"Death Rattle",      // 293
-		"Green Apple",       // 294
-		"Franklin",          // 295
-		"Meteorite",         // 296
-		"Tuxedo",            // 297
-		"Army Sheen",        // 298
-		"Caged Steel",       // 299
-		"Emerald Pinstripe", // 300
-		"Atomic Alloy",      // 301
-		"Vulcan",            // 302
-		"Isaac",             // 303
-		"Slashed",           // 304
-		"Torque",            // 305
-		"Antique",           // 306
-		"Retribution",       // 307
-		"Kami",              // 308
-		"Howl",              // 309
-		"Curse",             // 310
-		"Desert Warfare",    // 311
-		"Cyrex",             // 312
-		"Orion",             // 313
-		"Heaven Guard",      // 314
-		"Poison Dart",       // 315
-		"Jaguar",            // 316
-		"Bratatat",          // 317
-		"Road Rash",         // 318
-		"Detour",            // 319
-		"Red Python",        // 320
-		"Master Piece",      // 321
-		"Nitro",             // 322
-		"Rust Coat",         // 323
-		"",
-		"Chalice",     // 325
-		"Knight",      // 326
-		"Chainmail",   // 327
-		"Hand Cannon", // 328
-		"Dark Age",    // 329
-		"Briar",       // 330
-		"",
-		"Royal Blue",                  // 332
-		"Indigo",                      // 333
-		"Twist",                       // 334
-		"Module",                      // 335
-		"Desert-Strike",               // 336
-		"Tatter",                      // 337
-		"Pulse",                       // 338
-		"Caiman",                      // 339
-		"Jet Set",                     // 340
-		"First Class",                 // 341
-		"Leather",                     // 342
-		"Commuter",                    // 343
-		"Dragon Lore",                 // 344
-		"First Class",                 // 345
-		"Coach Class",                 // 346
-		"Pilot",                       // 347
-		"Red Leather",                 // 348
-		"Osiris",                      // 349
-		"Tigris",                      // 350
-		"Conspiracy",                  // 351
-		"Fowl Play",                   // 352
-		"Water Elemental",             // 353
-		"Urban Hazard",                // 354
-		"Desert-Strike",               // 355
-		"Koi",                         // 356
-		"Ivory",                       // 357
-		"Supernova",                   // 358
-		"Asiimov (P90)",                     // 359
-		"Cyrex",                       // 360
-		"Abyss",                       // 361
-		"Labyrinth",                   // 362
-		"Traveler",                    // 363
-		"Business Class",              // 364
-		"Olive Plaid",                 // 365
-		"Green Plaid",                 // 366
-		"Reactor",                     // 367
-		"Setting Sun",                 // 368
-		"Nuclear Waste",               // 369
-		"Bone Machine",                // 370
-		"Styx",                        // 371
-		"Nuclear Garden",              // 372
-		"Contamination",               // 373
-		"Toxic",                       // 374
-		"Radiation Hazard",            // 375
-		"Chemical Green",              // 376
-		"Hot Shot",                    // 377
-		"Fallout Warning",             // 378
-		"Cerberus",                    // 379
-		"Wasteland Rebel",             // 380
-		"Grinder",                     // 381
-		"Murky",                       // 382
-		"Basilisk",                    // 383
-		"Griffin",                     // 384
-		"Firestarter",                 // 385
-		"Dart",                        // 386
-		"Urban Hazard",                // 387
-		"Cartel",                      // 388
-		"Fire Elemental",              // 389
-		"Highwayman",                  // 390
-		"Cardiac",                     // 391
-		"Delusion",                    // 392
-		"Tranquility",                 // 393
-		"Cartel",                      // 394
-		"Man-o'-war",                  // 395
-		"Urban Shock",                 // 396
-		"Naga",                        // 397
-		"Chatterbox",                  // 398
-		"Catacombs",                   // 399
-		"Dragon King", // 400
-		"System Lock",                 // 401
-		"Malachite",                   // 402
-		"Deadly Poison",               // 403
-		"Muertos",                     // 404
-		"Serenity",                    // 405
-		"Grotto",                      // 406
-		"Quicksilver",                 // 407
-		"",
-		"Tiger Tooth",    // 409
-		"Damascus Steel", // 410
-		"Damascus Steel", // 411
-		"",
-		"Marble Fade",          // 413
-		"Rust Coat",            // 414
-		"Doppler (Ruby)",              // 415
-		"Doppler (Sapphire)",              // 416
-		"Doppler (Black Pearl)",              // 417
-		"Doppler (Phase 1)",              // 418
-		"Doppler (Phase 2)",              // 419
-		"Doppler (Phase 3)",              // 420
-		"Doppler (Phase 4)",              // 421
-		"Elite Build",          // 422
-		"Armor Core",           // 423
-		"Worm God",             // 424
-		"Bronze Deco",          // 425
-		"Valence",              // 426
-		"Monkey Business",      // 427
-		"Eco",                  // 428
-		"Djinn",                // 429
-		"Hyper Beast",          // 430
-		"Heat",                 // 431
-		"Man-o'-war",           // 432
-		"Neon Rider",           // 433
-		"Origami",              // 434
-		"Pole Position",        // 435
-		"Grand Prix",           // 436
-		"Twilight Galaxy",      // 437
-		"Chronos",              // 438
-		"Hades",                // 439
-		"Icarus Fell",          // 440
-		"Minotaur's Labyrinth", // 441
-		"Asterion",             // 442
-		"Pathfinder",           // 443
-		"Daedalus",             // 444
-		"Hot Rod",              // 445
-		"Medusa",               // 446
-		"Duelist",              // 447
-		"Pandora's Box",        // 448
-		"Poseidon",             // 449
-		"Moon in Libra",        // 450
-		"Sun in Leo",           // 451
-		"Shipping Forecast",    // 452
-		"Emerald",              // 453
-		"Para Green",           // 454
-		"Akihabara Accept",     // 455
-		"Hydroponic",           // 456
-		"Bamboo Print",         // 457
-		"Bamboo Shadow",        // 458
-		"Bamboo Forest",        // 459
-		"Aqua Terrace",         // 460
-		"",
-		"Counter Terrace",     // 462
-		"Terrace",             // 463
-		"Neon Kimono",         // 464
-		"Orange Kimono",       // 465
-		"Crimson Kimono",      // 466
-		"Mint Kimono",         // 467
-		"Midnight Storm",      // 468
-		"Sunset Storm å£±",    // 469
-		"Sunset Storm å¼", // 470
-		"Daybreak",            // 471
-		"Impact Drill",        // 472
-		"Seabird",             // 473
-		"Aquamarine Revenge",  // 474
-		"Hyper Beast",         // 475
-		"Yellow Jacket",       // 476
-		"Neural Net",          // 477
-		"Rocket Pop",          // 478
-		"Bunsen Burner",       // 479
-		"Evil Daimyo",         // 480
-		"Nemesis",             // 481
-		"Ruby Poison Dart",    // 482
-		"Loudmouth",           // 483
-		"Ranger",              // 484
-		"Handgun",             // 485
-		"Elite Build",         // 486
-		"Cyrex",               // 487
-		"Riot",                // 488
-		"Torque",              // 489
-		"Frontside Misty",     // 490
-		"Dualing Dragons",     // 491
-		"Survivor Z",          // 492
-		"Flux",                // 493
-		"Stone Cold",          // 494
-		"Wraiths",             // 495
-		"Nebula Crusader",     // 496
-		"Golden Coil",         // 497
-		"Rangeen",             // 498
-		"Cobalt Core",         // 499
-		"Special Delivery",    // 500
-		"Wingshot",            // 501
-		"Green Marine",        // 502
-		"Big Iron",            // 503
-		"Kill Confirmed",      // 504
-		"Scumbria",            // 505
-		"Point Disarray",      // 506
-		"Ricochet",            // 507
-		"Fuel Rod",            // 508
-		"Corinthian",          // 509
-		"Retrobution",         // 510
-		"The Executioner",     // 511
-		"Royal Paladin",       // 512
-		"",
-		"Power Loader",   // 514
-		"Imperial",       // 515
-		"Shapewood",      // 516
-		"Yorick",         // 517
-		"Outbreak",       // 518
-		"Tiger Moth",     // 519
-		"Avalanche",      // 520
-		"Teclu Burner",   // 521
-		"Fade",           // 522
-		"Amber Fade",     // 523
-		"Fuel Injector",  // 524
-		"Elite Build",    // 525
-		"Photic Zone",    // 526
-		"Kumicho Dragon", // 527
-		"Cartel",         // 528
-		"Valence",        // 529
-		"Triumvirate",    // 530
-		"",
-		"Royal Legion",                 // 532
-		"The Battlestar",               // 533
-		"Lapis Gator",                  // 534
-		"Praetorian",                   // 535
-		"Impire",                       // 536
-		"Hyper Beast",                  // 537
-		"Necropos",                     // 538
-		"Jambiya",                      // 539
-		"Lead Conduit",                 // 540
-		"Fleet Flock",                  // 541
-		"Judgement of Anubis",          // 542
-		"Red Astor",                    // 543
-		"Ventilators",                  // 544
-		"Orange Crash",                 // 545
-		"Firefight",                    // 546
-		"Spectre",                      // 547
-		"Chantico's Fire",              // 548
-		"Bioleak",                      // 549
-		"Oceanic",                      // 550
-		"Asiimov P250",                      // 551
-		"Fubar",                        // 552
-		"Atlas",                        // 553
-		"Ghost Crusader",               // 554
-		"Re-Entry",                     // 555
-		"Primal Saber",                 // 556
-		"Black Tie",                    // 557
-		"Lore (Bayonet)",                         // 558
-		"Lore (Flip)",                         // 559
-		"Lore (Gut)",                         // 560
-		"Lore (Karambit)",                         // 561
-		"Lore (M9 Bayonet)",                         // 562
-		"Black Laminate (Bayonet)",               // 563
-		"Black Laminate (Flip)",               // 564
-		"Black Laminate (Gut)",               // 565
-		"Black Laminate (Karambit)",               // 566
-		"Black Laminate (M9 Bayonet)",               // 567
-		"Gamma Doppler Emerald Marble", // 568
-		"Gamma Doppler Phase 1",        // 569
-		"Gamma Doppler Phase 2",        // 570
-		"Gamma Doppler Phase 3",        // 571
-		"Gamma Doppler Phase 4",        // 572
-		"Autotronic (Bayonet)",                   // 573
-		"Autotronic (Flip)",                   // 574
-		"Autotronic (Gut)",                   // 575
-		"Autotronic (Karambit)",                   // 576
-		"Autotronic (M9 Bayonet)",                   // 577
-		"Bright Water",                 // 578
-		"Bright Water",                 // 579
-		"Freehand",                     // 580
-		"Freehand",                     // 581
-		"Freehand",                     // 582
-		"Aristocrat",                   // 583
-		"Phobos",                       // 584
-		"Violent Daimyo",               // 585
-		"Wasteland Rebel",              // 586
-		"Mecha Industries",             // 587
-		"Desolate Space",               // 588
-		"Carnivore",                    // 589
-		"Exo",                          // 590
-		"Imperial Dragon",              // 591
-		"Iron Clad",                    // 592
-		"Chopper",                      // 593
-		"Harvester",                    // 594
-		"Reboot",                       // 595
-		"Limelight",                    // 596
-		"Bloodsport",                   // 597
-		"Aerial",                       // 598
-		"Ice Cap",                      // 599
-		"Neon Revolution",              // 600
-		"Syd Mead",                     // 601
-		"Imprint",                      // 602
-		"Directive",                    // 603
-		"Roll Cage",                    // 604
-		"Scumbria",                     // 605
-		"Ventilator",                   // 606
-		"Weasel",                       // 607
-		"Petroglyph",                   // 608
-		"Airlock",                      // 609
-		"Dazzle",                       // 610
-		"Grim",                         // 611
-		"Powercore",                    // 612
-		"Triarch",                      // 613
-		"Fuel Injector",                // 614
-		"Briefing",                     // 615
-		"Slipstream",                   // 616
-		"",
-		"",
-		"",
-		"",
-		"",
-		"Polymer",          // 622
-		"Ironwork",         // 623
-		"Dragonfire",       // 624
-		"Royal Consorts",   // 625
-		"Mecha Industries", // 626
-		"Cirrus",           // 627
-		"Stinger",          // 628
-		"Black Sand",       // 629
-		"Sand Scale",       // 630
-		"Flashback",        // 631
-		"Buzz Kill",        // 632
-		"Sonar",            // 633
-		"Gila",             // 634
-		"Turf",             // 635
-		"Shallow Grave",    // 636
-		"Cyrex",            // 637
+std::map<int, const char*> weapon_skins = {
+		{  0, "<-Default->" },
+		{  2, "Groundwater" },
+		{  3, "Candy Apple" },
+		{  5, "Forest DDPAT" },
+		{  6, "Arctic Camo" },
+		{  8, "Desert Storm" },
+		{  9, "Bengal Tiger" },
+		{  10, "Copperhead" },
+		{  11, "Skulls" },
+		{  12, "Crimson Web" },
+		{  13, "Blue Streak" },
+		{  14, "Red Laminate" },
+		{  15, "Gunsmoke" },
+		{  16, "Jungle Tiger" },
+		{  17, "Urban DDPAT" },
+		{  20, "Virus" },
+		{  21, "Granite Marbleized" },
+		{  22, "Contrast Spray" },
+		{  25, "Forest Leaves" },
+		{  26, "Lichen Dashed" },
+		{  27, "Bone Mask" },
+		{  28, "Anodized Navy" },
+		{  30, "Snake Camo" },
+		{  32, "Silver" },
+		{  33, "Hot Rod" },
+		{  34, "Metallic DDPAT" },
+		{  36, "Ossified" },
+		{  37, "Blaze" },
+		{  38, "Fade" },
+		{  39, "Bulldozer" },
+		{  40, "Night" },
+		{  41, "Copper" },
+		{  42, "Blue Steel" },
+		{  43, "Stained" },
+		{  44, "Case Hardened" },
+		{  46, "Contractor" },
+		{  47, "Colony" },
+		{  48, "Dragon Tattoo" },
+		{  51, "Lightning Strike" },
+		{  59, "Slaughter" },
+		{  60, "Dark Water" },
+		{  61, "Hypnotic" },
+		{  62, "Bloomstick" },
+		{  67, "Cold Blooded" },
+		{  70, "Carbon Fiber" },
+		{  71, "Scorpion" },
+		{  72, "Safari Mesh" },
+		{  73, "Wings" },
+		{  74, "Polar Camo" },
+		{  75, "Blizzard Marbleized" },
+		{  76, "Winter Forest" },
+		{  77, "Boreal Forest" },
+		{  78, "Forest Night" },
+		{  83, "Orange DDPAT" },
+		{  84, "Pink DDPAT" },
+		{  90, "Mudder" },
+		{  92, "Cyanospatter" },
+		{  93, "Caramel" },
+		{  95, "Grassland" },
+		{  96, "Blue Spruce" },
+		{  98, "Ultraviolet" },
+		{  99, "Sand Dune" },
+		{  100, "Storm" },
+		{  101, "Tornado" },
+		{  102, "Whiteout" },
+		{  104, "Grassland Leaves" },
+		{  107, "Polar Mesh" },
+		{  110, "Condemned" },
+		{  111, "Glacier Mesh" },
+		{  116, "Sand Mesh" },
+		{  119, "Sage Spray" },
+		{  122, "Jungle Spray" },
+		{  124, "Sand Spray" },
+		{  135, "Urban Perforated" },
+		{  136, "Waves Perforated" },
+		{  141, "Orange Peel" },
+		{  143, "Urban Masked" },
+		{  147, "Jungle Dashed" },
+		{  148, "Sand Dashed" },
+		{  149, "Urban Dashed" },
+		{  151, "Jungle" },
+		{  153, "Demolition" },
+		{  154, "Afterimage" },
+		{  155, "Bullet Rain" },
+		{  156, "Death by Kitty" },
+		{  157, "Palm" },
+		{  158, "Walnut" },
+		{  159, "Brass" },
+		{  162, "Splash" },
+		{  164, "Modern Hunter" },
+		{  165, "Splash Jam" },
+		{  166, "Blaze Orange" },
+		{  167, "Radiation Hazard" },
+		{  168, "Nuclear Threat" },
+		{  169, "Fallout Warning" },
+		{  170, "Predator" },
+		{  171, "Irradiated Alert" },
+		{  172, "Black Laminate" },
+		{  174, "BOOM" },
+		{  175, "Scorched" },
+		{  176, "Faded Zebra" },
+		{  177, "Memento" },
+		{  178, "Doomkitty" },
+		{  179, "Nuclear Threat" },
+		{  180, "Fire Serpent" },
+		{  181, "Corticera" },
+		{  182, "Emerald Dragon" },
+		{  183, "Overgrowth" },
+		{  184, "Corticera" },
+		{  185, "Golden Koi" },
+		{  186, "Wave Spray" },
+		{  187, "Zirka" },
+		{  188, "Graven" },
+		{  189, "Bright Water" },
+		{  190, "Black Limba" },
+		{  191, "Tempest" },
+		{  192, "Shattered" },
+		{  193, "Bone Pile" },
+		{  194, "Spitfire" },
+		{  195, "Demeter" },
+		{  196, "Emerald" },
+		{  197, "Anodized Navy" },
+		{  198, "Hazard" },
+		{  199, "Dry Season" },
+		{  200, "Mayan Dreams" },
+		{  201, "Palm" },
+		{  202, "Jungle DDPAT" },
+		{  203, "Rust Coat" },
+		{  204, "Mosaico" },
+		{  205, "Jungle" },
+		{  206, "Tornado" },
+		{  207, "Facets" },
+		{  208, "Sand Dune" },
+		{  209, "Groundwater" },
+		{  210, "Anodized Gunmetal" },
+		{  211, "Ocean Foam" },
+		{  212, "Graphite" },
+		{  213, "Ocean Foam" },
+		{  214, "Graphite" },
+		{  215, "X-Ray" },
+		{  216, "Blue Titanium" },
+		{  217, "Blood Tiger" },
+		{  218, "Hexane" },
+		{  219, "Hive" },
+		{  220, "Hemoglobin" },
+		{  221, "Serum" },
+		{  222, "Blood in the Water" },
+		{  223, "Nightshade" },
+		{  224, "Water Sigil" },
+		{  225, "Ghost Camo" },
+		{  226, "Blue Laminate" },
+		{  227, "Electric Hive" },
+		{  228, "Blind Spot" },
+		{  229, "Azure Zebra" },
+		{  230, "Steel Disruption" },
+		{  231, "Cobalt Disruption" },
+		{  232, "Crimson Web" },
+		{  233, "Tropical Storm" },
+		{  234, "Ash Wood" },
+		{  235, "VariCamo" },
+		{  236, "Night Ops" },
+		{  237, "Urban Rubble" },
+		{  238, "VariCamo Blue" },
+		{  240, "CaliCamo" },
+		{  241, "Hunting Blind" },
+		{  242, "Army Mesh" },
+		{  243, "Gator Mesh" },
+		{  244, "Teardown" },
+		{  245, "Army Recon" },
+		{  246, "Amber Fade" },
+		{  247, "Damascus Steel" },
+		{  248, "Red Quartz" },
+		{  249, "Cobalt Quartz" },
+		{  250, "Full Stop" },
+		{  251, "Pit Viper" },
+		{  252, "Silver Quartz" },
+		{  253, "Acid Fade" },
+		{  254, "Nitro" },
+		{  255, "Asiimov (M4A4)" },
+		{  256, "The Kraken" },
+		{  257, "Guardian" },
+		{  258, "Mehndi" },
+		{  259, "Redline" },
+		{  260, "Pulse" },
+		{  261, "Marina" },
+		{  262, "Rose Iron" },
+		{  263, "Rising Skull" },
+		{  264, "Sandstorm" },
+		{  265, "Kami" },
+		{  266, "Magma" },
+		{  267, "Cobalt Halftone" },
+		{  268, "Tread Plate" },
+		{  269, "The Fuschia Is Now" },
+		{  270, "Victoria" },
+		{  271, "Undertow" },
+		{  272, "Titanium Bit" },
+		{  273, "Heirloom" },
+		{  274, "Copper Galaxy" },
+		{  275, "Red FragCam" },
+		{  276, "Panther" },
+		{  277, "Stainless" },
+		{  278, "Blue Fissure" },
+		{  279, "Asiimov (AWP)" },
+		{  280, "Chameleon" },
+		{  281, "Corporal" },
+		{  282, "Redline" },
+		{  283, "Trigon" },
+		{  284, "Heat" },
+		{  285, "Terrain" },
+		{  286, "Antique" },
+		{  287, "Pulse" },
+		{  288, "Sergeant" },
+		{  289, "Sandstorm" },
+		{  290, "Guardian" },
+		{  291, "Heaven Guard" },
+		{  293, "Death Rattle" },
+		{  294, "Green Apple" },
+		{  295, "Franklin" },
+		{  296, "Meteorite" },
+		{  297, "Tuxedo" },
+		{  298, "Army Sheen" },
+		{  299, "Caged Steel" },
+		{  300, "Emerald Pinstripe" },
+		{  301, "Atomic Alloy" },
+		{  302, "Vulcan" },
+		{  303, "Isaac" },
+		{  304, "Slashed" },
+		{  305, "Torque" },
+		{  306, "Antique" },
+		{  307, "Retribution" },
+		{  308, "Kami" },
+		{  309, "Howl" },
+		{  310, "Curse" },
+		{  311, "Desert Warfare" },
+		{  312, "Cyrex" },
+		{  313, "Orion" },
+		{  314, "Heaven Guard" },
+		{  315, "Poison Dart" },
+		{  316, "Jaguar" },
+		{  317, "Bratatat" },
+		{  318, "Road Rash" },
+		{  319, "Detour" },
+		{  320, "Red Python" },
+		{  321, "Master Piece" },
+		{  322, "Nitro" },
+		{  323, "Rust Coat" },
+		{  325, "Chalice" },
+		{  326, "Knight" },
+		{  327, "Chainmail" },
+		{  328, "Hand Cannon" },
+		{  329, "Dark Age" },
+		{  330, "Briar" },
+		{  332, "Royal Blue" },
+		{  333, "Indigo" },
+		{  334, "Twist" },
+		{  335, "Module" },
+		{  336, "Desert-Strike" },
+		{  337, "Tatter" },
+		{  338, "Pulse" },
+		{  339, "Caiman" },
+		{  340, "Jet Set" },
+		{  341, "First Class" },
+		{  342, "Leather" },
+		{  343, "Commuter" },
+		{  344, "Dragon Lore" },
+		{  345, "First Class" },
+		{  346, "Coach Class" },
+		{  347, "Pilot" },
+		{  348, "Red Leather" },
+		{  349, "Osiris" },
+		{  350, "Tigris" },
+		{  351, "Conspiracy" },
+		{  352, "Fowl Play" },
+		{  353, "Water Elemental" },
+		{  354, "Urban Hazard" },
+		{  355, "Desert-Strike" },
+		{  356, "Koi" },
+		{  357, "Ivory" },
+		{  358, "Supernova" },
+		{  359, "Asiimov (P90)" },
+		{  360, "Cyrex" },
+		{  361, "Abyss" },
+		{  362, "Labyrinth" },
+		{  363, "Traveler" },
+		{  364, "Business Class" },
+		{  365, "Olive Plaid" },
+		{  366, "Green Plaid" },
+		{  367, "Reactor" },
+		{  368, "Setting Sun" },
+		{  369, "Nuclear Waste" },
+		{  370, "Bone Machine" },
+		{  371, "Styx" },
+		{  372, "Nuclear Garden" },
+		{  373, "Contamination" },
+		{  374, "Toxic" },
+		{  375, "Radiation Hazard" },
+		{  376, "Chemical Green" },
+		{  377, "Hot Shot" },
+		{  378, "Fallout Warning" },
+		{  379, "Cerberus" },
+		{  380, "Wasteland Rebel" },
+		{  381, "Grinder" },
+		{  382, "Murky" },
+		{  383, "Basilisk" },
+		{  384, "Griffin" },
+		{  385, "Firestarter" },
+		{  386, "Dart" },
+		{  387, "Urban Hazard" },
+		{  388, "Cartel" },
+		{  389, "Fire Elemental" },
+		{  390, "Highwayman" },
+		{  391, "Cardiac" },
+		{  392, "Delusion" },
+		{  393, "Tranquility" },
+		{  394, "Cartel" },
+		{  395, "Man-o'-war" },
+		{  396, "Urban Shock" },
+		{  397, "Naga" },
+		{  398, "Chatterbox" },
+		{  399, "Catacombs" },
+		{  400, "Dragon King" },
+		{  401, "System Lock" },
+		{  402, "Malachite" },
+		{  403, "Deadly Poison" },
+		{  404, "Muertos" },
+		{  405, "Serenity" },
+		{  406, "Grotto" },
+		{  407, "Quicksilver" },
+		{  409, "Tiger Tooth" },
+		{  410, "Damascus Steel" },
+		{  411, "Damascus Steel" },
+		{  413, "Marble Fade" },
+		{  414, "Rust Coat" },
+		{  415, "Doppler (Ruby)" },
+		{  416, "Doppler (Sapphire)" },
+		{  417, "Doppler (Black Pearl)" },
+		{  418, "Doppler (Phase 1)" },
+		{  419, "Doppler (Phase 2)" },
+		{  420, "Doppler (Phase 3)" },
+		{  421, "Doppler (Phase 4)" },
+		{  422, "Elite Build" },
+		{  423, "Armor Core" },
+		{  424, "Worm God" },
+		{  425, "Bronze Deco" },
+		{  426, "Valence" },
+		{  427, "Monkey Business" },
+		{  428, "Eco" },
+		{  429, "Djinn" },
+		{  430, "Hyper Beast" },
+		{  431, "Heat" },
+		{  432, "Man-o'-war" },
+		{  433, "Neon Rider" },
+		{  434, "Origami" },
+		{  435, "Pole Position" },
+		{  436, "Grand Prix" },
+		{  437, "Twilight Galaxy" },
+		{  438, "Chronos" },
+		{  439, "Hades" },
+		{  440, "Icarus Fell" },
+		{  441, "Minotaur's Labyrinth" },
+		{  442, "Asterion" },
+		{  443, "Pathfinder" },
+		{  444, "Daedalus" },
+		{  445, "Hot Rod" },
+		{  446, "Medusa" },
+		{  447, "Duelist" },
+		{  448, "Pandora's Box" },
+		{  449, "Poseidon" },
+		{  450, "Moon in Libra" },
+		{  451, "Sun in Leo" },
+		{  452, "Shipping Forecast" },
+		{  453, "Emerald" },
+		{  454, "Para Green" },
+		{  455, "Akihabara Accept" },
+		{  456, "Hydroponic" },
+		{  457, "Bamboo Print" },
+		{  458, "Bamboo Shadow" },
+		{  459, "Bamboo Forest" },
+		{  460, "Aqua Terrace" },
+		{  462, "Counter Terrace" },
+		{  463, "Terrace" },
+		{  464, "Neon Kimono" },
+		{  465, "Orange Kimono" },
+		{  466, "Crimson Kimono" },
+		{  467, "Mint Kimono" },
+		{  468, "Midnight Storm" },
+		{  469, "Sunset Storm å£±" },
+		{  470, "Sunset Storm å¼" },
+		{  471, "Daybreak" },
+		{  472, "Impact Drill" },
+		{  473, "Seabird" },
+		{  474, "Aquamarine Revenge" },
+		{  475, "Hyper Beast" },
+		{  476, "Yellow Jacket" },
+		{  477, "Neural Net" },
+		{  478, "Rocket Pop" },
+		{  479, "Bunsen Burner" },
+		{  480, "Evil Daimyo" },
+		{  481, "Nemesis" },
+		{  482, "Ruby Poison Dart" },
+		{  483, "Loudmouth" },
+		{  484, "Ranger" },
+		{  485, "Handgun" },
+		{  486, "Elite Build" },
+		{  487, "Cyrex" },
+		{  488, "Riot" },
+		{  489, "Torque" },
+		{  490, "Frontside Misty" },
+		{  491, "Dualing Dragons" },
+		{  492, "Survivor Z" },
+		{  493, "Flux" },
+		{  494, "Stone Cold" },
+		{  495, "Wraiths" },
+		{  496, "Nebula Crusader" },
+		{  497, "Golden Coil" },
+		{  498, "Rangeen" },
+		{  499, "Cobalt Core" },
+		{  500, "Special Delivery" },
+		{  501, "Wingshot" },
+		{  502, "Green Marine" },
+		{  503, "Big Iron" },
+		{  504, "Kill Confirmed" },
+		{  505, "Scumbria" },
+		{  506, "Point Disarray" },
+		{  507, "Ricochet" },
+		{  508, "Fuel Rod" },
+		{  509, "Corinthian" },
+		{  510, "Retrobution" },
+		{  511, "The Executioner" },
+		{  512, "Royal Paladin" },
+		{  514, "Power Loader" },
+		{  515, "Imperial" },
+		{  516, "Shapewood" },
+		{  517, "Yorick" },
+		{  518, "Outbreak" },
+		{  519, "Tiger Moth" },
+		{  520, "Avalanche" },
+		{  521, "Teclu Burner" },
+		{  522, "Fade" },
+		{  523, "Amber Fade" },
+		{  524, "Fuel Injector" },
+		{  525, "Elite Build" },
+		{  526, "Photic Zone" },
+		{  527, "Kumicho Dragon" },
+		{  528, "Cartel" },
+		{  529, "Valence" },
+		{  530, "Triumvirate" },
+		{  532, "Royal Legion" },
+		{  533, "The Battlestar" },
+		{  534, "Lapis Gator" },
+		{  535, "Praetorian" },
+		{  536, "Impire" },
+		{  537, "Hyper Beast" },
+		{  538, "Necropos" },
+		{  539, "Jambiya" },
+		{  540, "Lead Conduit" },
+		{  541, "Fleet Flock" },
+		{  542, "Judgement of Anubis" },
+		{  543, "Red Astor" },
+		{  544, "Ventilators" },
+		{  545, "Orange Crash" },
+		{  546, "Firefight" },
+		{  547, "Spectre" },
+		{  548, "Chantico's Fire" },
+		{  549, "Bioleak" },
+		{  550, "Oceanic" },
+		{  551, "Asiimov P250" },
+		{  552, "Fubar" },
+		{  553, "Atlas" },
+		{  554, "Ghost Crusader" },
+		{  555, "Re-Entry" },
+		{  556, "Primal Saber" },
+		{  557, "Black Tie" },
+		{  558, "Lore (Bayonet)" },
+		{  559, "Lore (Flip)" },
+		{  560, "Lore (Gut)" },
+		{  561, "Lore (Karambit)" },
+		{  562, "Lore (M9 Bayonet)" },
+		{  563, "Black Laminate (Bayonet)" },
+		{  564, "Black Laminate (Flip)" },
+		{  565, "Black Laminate (Gut)" },
+		{  566, "Black Laminate (Karambit)" },
+		{  567, "Black Laminate (M9 Bayonet)" },
+		{  568, "Gamma Doppler Emerald Marble" },
+		{  569, "Gamma Doppler Phase 1" },
+		{  570, "Gamma Doppler Phase 2" },
+		{  571, "Gamma Doppler Phase 3" },
+		{  572, "Gamma Doppler Phase 4" },
+		{  573, "Autotronic (Bayonet)" },
+		{  574, "Autotronic (Flip)" },
+		{  575, "Autotronic (Gut)" },
+		{  576, "Autotronic (Karambit)" },
+		{  577, "Autotronic (M9 Bayonet)" },
+		{  578, "Bright Water" },
+		{  579, "Bright Water" },
+		{  580, "Freehand" },
+		{  581, "Freehand" },
+		{  582, "Freehand" },
+		{  583, "Aristocrat" },
+		{  584, "Phobos" },
+		{  585, "Violent Daimyo" },
+		{  586, "Wasteland Rebel" },
+		{  587, "Mecha Industries" },
+		{  588, "Desolate Space" },
+		{  589, "Carnivore" },
+		{  590, "Exo" },
+		{  591, "Imperial Dragon" },
+		{  592, "Iron Clad" },
+		{  593, "Chopper" },
+		{  594, "Harvester" },
+		{  595, "Reboot" },
+		{  596, "Limelight" },
+		{  597, "Bloodsport" },
+		{  598, "Aerial" },
+		{  599, "Ice Cap" },
+		{  600, "Neon Revolution" },
+		{  601, "Syd Mead" },
+		{  602, "Imprint" },
+		{  603, "Directive" },
+		{  604, "Roll Cage" },
+		{  605, "Scumbria" },
+		{  606, "Ventilator" },
+		{  607, "Weasel" },
+		{  608, "Petroglyph" },
+		{  609, "Airlock" },
+		{  610, "Dazzle" },
+		{  611, "Grim" },
+		{  612, "Powercore" },
+		{  613, "Triarch" },
+		{  614, "Fuel Injector" },
+		{  615, "Briefing" },
+		{  616, "Slipstream" },
+		{  622, "Polymer" },
+		{  623, "Ironwork" },
+		{  624, "Dragonfire" },
+		{  625, "Royal Consorts" },
+		{  626, "Mecha Industries" },
+		{  627, "Cirrus" },
+		{  628, "Stinger" },
+		{  629, "Black Sand" },
+		{  630, "Sand Scale" },
+		{  631, "Flashback" },
+		{  632, "Buzz Kill" },
+		{  633, "Sonar" },
+		{  634, "Gila" },
+		{  635, "Turf" },
+		{  636, "Shallow Grave" },
+		{  637, "Cyrex" },
 };

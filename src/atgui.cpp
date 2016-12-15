@@ -819,14 +819,12 @@ void SkinChangerWindow()
 			{
 				ImGui::PushItemWidth(-1);
 					ImGui::ListBoxHeader("##SKINS", ImVec2(0, 300));
-						for (int i = 0; i < IM_ARRAYSIZE(weapon_skins); i++)
+						for (auto it : weapon_skins)
 						{
-							const bool item_selected = (i == current_weapon_skin);
-							if (strlen(weapon_skins[i]) == 0)
-									continue;
-							ImGui::PushID(i);
-								if (ImGui::Selectable(weapon_skins[i], item_selected))
-									current_weapon_skin = i;
+							const bool item_selected = (it.first == current_weapon_skin);
+							ImGui::PushID(it.first);
+								if (ImGui::Selectable(it.second, item_selected))
+									current_weapon_skin = it.first;
 							ImGui::PopID();
 						}
 					ImGui::ListBoxFooter();
