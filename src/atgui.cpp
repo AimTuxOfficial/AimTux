@@ -497,68 +497,125 @@ void VisualsTab()
 
 void HvHTab()
 {
-	ImGui::Columns(2, NULL, false);
-	{
-		UI::ReverseCheckbox("Y Axis", &Settings::AntiAim::enabled_Y);
-		const char* YFakeTypes[] = { "SLOW SPIN", "FAST SPIN", "JITTER", "SIDE", "BACKWARDS", "FORWARDS", "LEFT", "RIGHT" };
-		const char* YActualTypes[] = { "SLOW SPIN", "FAST SPIN", "JITTER", "SIDE", "BACKWARDS", "FORWARDS", "LEFT", "RIGHT" };
-		const char* XTypes[] = { "UP", "DOWN", "DANCE" };
 
-		if (ImGui::BeginChild("YAWTYPE", ImVec2(0, 60), true))
+	const char* YFakeTypes[] = { "SLOW SPIN", "FAST SPIN", "JITTER", "SIDE", "BACKWARDS", "FORWARDS", "LEFT", "RIGHT" };
+	const char* YActualTypes[] = { "SLOW SPIN", "FAST SPIN", "JITTER", "SIDE", "BACKWARDS", "FORWARDS", "LEFT", "RIGHT" };
+	const char* XTypes[] = { "UP", "DOWN", "DANCE" };
+
+	ImGui::Columns(2, NULL, true);
+	{
+		if (ImGui::BeginChild("HVH1", ImVec2(0, 0), true))
 		{
-			ImGui::Columns(2, NULL, false);
+			ImGui::Text("AntiAim");
+			if (ImGui::BeginChild("##ANTIAIM", ImVec2(0, 205), true))
 			{
-				ImGui::SetColumnOffset(1, 150);
-				ImGui::Text("Fake");
-				ImGui::Text("Actual");
+				ImGui::Checkbox("Yaw", &Settings::AntiAim::enabled_Y);
+				ImGui::Separator();
+				ImGui::Columns(2, NULL, true);
+				{
+					ImGui::Text("Yaw Fake");
+					ImGui::Text("Yaw Actual");
+				}
+				ImGui::NextColumn();
+				{
+					ImGui::PushItemWidth(-1);
+						ImGui::Combo("##YFAKETYPE", &Settings::AntiAim::type_fake_Y, YFakeTypes, IM_ARRAYSIZE(YFakeTypes));
+						ImGui::Combo("##YACTUALTYPE", &Settings::AntiAim::type_Y, YActualTypes, IM_ARRAYSIZE(YActualTypes));
+					ImGui::PopItemWidth();
+				}
+				ImGui::Columns(1);
+				ImGui::Separator();
+				ImGui::Checkbox("Pitch", &Settings::AntiAim::enabled_X);
+				ImGui::Separator();
+				ImGui::Columns(2, NULL, true);
+				{
+					ImGui::Text("Pitch Actual");
+				}
+				ImGui::NextColumn();
+				{
+					ImGui::PushItemWidth(-1);
+						ImGui::Combo("##XTYPE", &Settings::AntiAim::type_X, XTypes, IM_ARRAYSIZE(XTypes));
+					ImGui::PopItemWidth();
+				}
+				ImGui::Columns(1);
+				ImGui::Separator();
+				ImGui::Text("Edging");
+				ImGui::Separator();
+				ImGui::Columns(2, NULL, true);
+				{
+					ImGui::Checkbox("Enabled", &Settings::AntiAim::HeadEdge::enabled);
+				}
+				ImGui::NextColumn();
+				{
+					ImGui::PushItemWidth(-1);
+						ImGui::SliderFloat("##EDGEDISTANCE", &Settings::AntiAim::HeadEdge::distance, 10, 30);
+					ImGui::PopItemWidth();
+				}
+				ImGui::Columns(1);
+				ImGui::EndChild();
+			}
+			ImGui::Separator();
+			ImGui::Text("Movement");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Checkbox("Auto Crouch", &Settings::Aimbot::AutoCrouch::enabled);
 			}
 			ImGui::NextColumn();
 			{
-				ImGui::PushItemWidth(150);
-					ImGui::Combo("##YFAKETYPE", &Settings::AntiAim::type_fake_Y, YFakeTypes, IM_ARRAYSIZE(YFakeTypes));
-					ImGui::Combo("##YACTUALTYPE", &Settings::AntiAim::type_Y, YActualTypes, IM_ARRAYSIZE(YActualTypes));
-				ImGui::PopItemWidth();
+				ImGui::Checkbox("Auto Stop", &Settings::Aimbot::AutoStop::enabled);
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::Text("Resolver");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Checkbox("Enabled", &Settings::Resolver::enabled);
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::EndChild();
+		}
+	}
+	ImGui::NextColumn();
+	{
+		if (ImGui::BeginChild("HVH2", ImVec2(0, 0), true))
+		{
+			ImGui::Text("AutoWall");
+			if (ImGui::BeginChild("##AUTOWALL", ImVec2(0, 140), true))
+			{
+				ImGui::Columns(2, NULL, true);
+				{
+					ImGui::Checkbox("Enabled", &Settings::Aimbot::AutoWall::enabled);
+				}
+				ImGui::NextColumn();
+				{
+					ImGui::PushItemWidth(-1);
+						ImGui::SliderFloat("##AUTOWALLDMG", &Settings::Aimbot::AutoWall::value, 0, 100, "Min Damage: %f");
+					ImGui::PopItemWidth();
+				}
+				ImGui::Columns(1);
+				ImGui::Separator();
+				ImGui::Text("Target");
+				ImGui::Separator();
+				ImGui::Columns(2, NULL, true);
+				{
+					ImGui::Checkbox("Head", &Settings::Aimbot::AutoWall::bones[HITBOX_HEAD]);
+					ImGui::Checkbox("Neck", &Settings::Aimbot::AutoWall::bones[HITBOX_NECK]);
+					ImGui::Checkbox("Pelvis", &Settings::Aimbot::AutoWall::bones[HITBOX_PELVIS]);
+				}
+				ImGui::NextColumn();
+				{
+					ImGui::Checkbox("Spine", &Settings::Aimbot::AutoWall::bones[HITBOX_SPINE]);
+					ImGui::Checkbox("Legs", &Settings::Aimbot::AutoWall::bones[HITBOX_LEGS]);
+					ImGui::Checkbox("Arms", &Settings::Aimbot::AutoWall::bones[HITBOX_ARMS]);
+				}
+				ImGui::Columns(1);
+				ImGui::EndChild();
 			}
 			ImGui::EndChild();
 		}
-
-		UI::ReverseCheckbox("X Axis", &Settings::AntiAim::enabled_X);
-
-		ImGui::SameLine();
-		ImGui::PushItemWidth(174);
-			ImGui::Combo("##XTYPE", &Settings::AntiAim::type_X, XTypes, IM_ARRAYSIZE(XTypes));
-		ImGui::PopItemWidth();
-
-		UI::ReverseCheckbox("Edge", &Settings::AntiAim::HeadEdge::enabled);
-		ImGui::SameLine();
-		ImGui::PushItemWidth(-1);
-			ImGui::SliderFloat("##EDGEDISTANCE", &Settings::AntiAim::HeadEdge::distance, 10, 30);
-		ImGui::PopItemWidth();
-
-		UI::ReverseCheckbox("Auto Crouch", &Settings::Aimbot::AutoCrouch::enabled);
-		ImGui::SameLine();
-		UI::ReverseCheckbox("Auto Stop", &Settings::Aimbot::AutoStop::enabled);
-
-		UI::ReverseCheckbox("Resolver", &Settings::Resolver::enabled);
-	}
-
-	ImGui::NextColumn();
-	{
-		UI::ReverseCheckbox("Auto Wall", &Settings::Aimbot::AutoWall::enabled);
-		ImGui::PushItemWidth(-1);
-			ImGui::SliderFloat("##AUTOWALLDMG", &Settings::Aimbot::AutoWall::value, 0, 100, "Min Damage %f");
-		ImGui::PopItemWidth();
-
-		ImGui::PushItemWidth(150);
-			ImGui::ListBoxHeader("##AUTOWALLBODYPART", 6);
-				ImGui::Selectable("Head", &Settings::Aimbot::AutoWall::bones[HITBOX_HEAD]);
-				ImGui::Selectable("Neck", &Settings::Aimbot::AutoWall::bones[HITBOX_NECK]);
-				ImGui::Selectable("Pelvis", &Settings::Aimbot::AutoWall::bones[HITBOX_PELVIS]);
-				ImGui::Selectable("Spine", &Settings::Aimbot::AutoWall::bones[HITBOX_SPINE]);
-				ImGui::Selectable("Legs", &Settings::Aimbot::AutoWall::bones[HITBOX_LEGS]);
-				ImGui::Selectable("Arms", &Settings::Aimbot::AutoWall::bones[HITBOX_ARMS]);
-			ImGui::ListBoxFooter();
-		ImGui::PopItemWidth();
 	}
 }
 
