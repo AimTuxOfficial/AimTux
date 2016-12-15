@@ -178,7 +178,7 @@ namespace Settings
 		namespace RCS
 		{
 			extern bool enabled;
-			extern bool aimbot_only;
+			extern bool always_on;
 			extern float value;
 		}
 

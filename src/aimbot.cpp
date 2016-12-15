@@ -26,7 +26,7 @@ bool Settings::Aimbot::AutoPistol::enabled = false;
 bool Settings::Aimbot::AutoShoot::enabled = false;
 bool Settings::Aimbot::AutoShoot::autoscope = false;
 bool Settings::Aimbot::RCS::enabled = false;
-bool Settings::Aimbot::RCS::aimbot_only = false;
+bool Settings::Aimbot::RCS::always_on = false;
 float Settings::Aimbot::RCS::value = 2.0f;
 bool Settings::Aimbot::AutoCrouch::enabled = false;
 bool Settings::Aimbot::AutoStop::enabled = false;
@@ -168,7 +168,7 @@ void Aimbot::RCS(QAngle& angle, C_BaseEntity* entity, CUserCmd* cmd)
 	bool isSilent = Settings::Aimbot::silent;
 	bool hasTarget = Settings::Aimbot::AutoAim::enabled && entity != NULL && shouldAim;
 
-	if (Settings::Aimbot::RCS::aimbot_only && !hasTarget)
+	if (!Settings::Aimbot::RCS::always_on && !hasTarget)
 		return;
 
 	if (isSilent || hasTarget)

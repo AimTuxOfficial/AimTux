@@ -259,7 +259,7 @@ void AimbotTab()
 			{
 				ImGui::Checkbox("Auto Aim", &Settings::Aimbot::AutoAim::enabled);
 				ImGui::Checkbox("Recoil Control", &Settings::Aimbot::RCS::enabled);
-				ImGui::Checkbox("RCS Always on", &Settings::Aimbot::RCS::aimbot_only);
+				ImGui::Checkbox("RCS Always on", &Settings::Aimbot::RCS::always_on);
 			}
 			ImGui::NextColumn();
 			{
