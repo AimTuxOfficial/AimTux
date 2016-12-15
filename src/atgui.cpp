@@ -1089,22 +1089,28 @@ void ConfigWindow()
 		ImGui::SameLine();
 		if (ImGui::Button("Save"))
 		{
-			pstring path = GetConfigDirectory();
-			path << configItems[configItemCurrent] << "/config.json";
+			if (configItems.size() > 0 && (configItemCurrent > 0 && configItemCurrent < configItems.size()))
+			{
+				pstring path = GetConfigDirectory();
+				path << configItems[configItemCurrent] << "/config.json";
 
-			Settings::LoadDefaultsOrSave(path);
+				Settings::LoadDefaultsOrSave(path);
+			}
 		}
 
 		ImGui::SameLine();
 		if (ImGui::Button("Remove"))
 		{
-			pstring path = GetConfigDirectory();
-			path << configItems[configItemCurrent];
+			if (configItems.size() > 0 && (configItemCurrent > 0 && configItemCurrent < configItems.size()))
+			{
+				pstring path = GetConfigDirectory();
+				path << configItems[configItemCurrent];
 
-			Settings::DeleteConfig(path);
+				Settings::DeleteConfig(path);
 
-			configItems = GetConfigs();
-			configItemCurrent = -1;
+				configItems = GetConfigs();
+				configItemCurrent = -1;
+			}
 		}
 
 		static char buf[128] = "";
