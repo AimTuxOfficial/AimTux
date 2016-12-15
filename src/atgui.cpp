@@ -820,7 +820,7 @@ void MainWindow()
 
 			if (ImGui::Button(tabs[i], ImVec2(width, height)))
 				page = i;
-			
+
 			ImGui::GetStyle().Colors[ImGuiCol_Button] = Settings::UI::mainColor;
 
 			if (i < tabs_size - 1)
@@ -1044,6 +1044,8 @@ void SkinChangerWindow()
 							SkinChanger::ForceFullUpdate = true;
 						}
 					}
+					ImGui::Columns(1);
+					ImGui::Separator();
 					ImGui::EndChild();
 				}
 			}
