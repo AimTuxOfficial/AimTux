@@ -157,60 +157,58 @@ void ColorsWindow()
 	if (!showColorsWindow)
 		return;
 
-	const char* colorSelection[] =
-			{
-					"UI Main",
-					"UI Body",
-					"UI Font",
-					"FOV Circle",
-					"ESP - Team",
-					"ESP - Enemy",
-					"ESP - Enemy Visible",
-					"ESP - Bones",
-					"ESP - Bomb",
-					"ESP - Team Text",
-					"ESP - Enemy Text",
-					"ESP - Enemy Visible Text",
-					"Chams - Team",
-					"Chams - Team Visible",
-					"Chams - Enemy",
-					"Chams - Enemy Visible",
-					"Glow - Team",
-					"Glow - Enemy",
-					"Glow - Enemy Visible",
-					"Glow - Weapon",
-					"Glow - Grenade",
-					"Glow - Defuser",
-					"Dlights - Team",
-					"Dlights - Enemy",
-			};
-	ImColor* colors[] =
-			{
-					&Settings::UI::mainColor,
-					&Settings::UI::bodyColor,
-					&Settings::UI::fontColor,
-					&Settings::ESP::FOVCrosshair::color,
-					&Settings::ESP::ally_color,
-					&Settings::ESP::enemy_color,
-					&Settings::ESP::enemy_visible_color,
-					&Settings::ESP::bones_color,
-					&Settings::ESP::bomb_color,
-					&Settings::ESP::Info::ally_color,
-					&Settings::ESP::Info::enemy_color,
-					&Settings::ESP::Info::enemy_visible_color,
-					&Settings::ESP::Chams::players_ally_color,
-					&Settings::ESP::Chams::players_ally_visible_color,
-					&Settings::ESP::Chams::players_enemy_color,
-					&Settings::ESP::Chams::players_enemy_visible_color,
-					&Settings::ESP::Glow::ally_color,
-					&Settings::ESP::Glow::enemy_color,
-					&Settings::ESP::Glow::enemy_visible_color,
-					&Settings::ESP::Glow::weapon_color,
-					&Settings::ESP::Glow::grenade_color,
-					&Settings::ESP::Glow::defuser_color,
-					&Settings::Dlights::ally_color,
-					&Settings::Dlights::enemy_color,
-			};
+	const char* colorSelection[] = {
+			"UI Main",
+			"UI Body",
+			"UI Font",
+			"FOV Circle",
+			"ESP - Team",
+			"ESP - Enemy",
+			"ESP - Enemy Visible",
+			"ESP - Bones",
+			"ESP - Bomb",
+			"ESP - Team Text",
+			"ESP - Enemy Text",
+			"ESP - Enemy Visible Text",
+			"Chams - Team",
+			"Chams - Team Visible",
+			"Chams - Enemy",
+			"Chams - Enemy Visible",
+			"Glow - Team",
+			"Glow - Enemy",
+			"Glow - Enemy Visible",
+			"Glow - Weapon",
+			"Glow - Grenade",
+			"Glow - Defuser",
+			"Dlights - Team",
+			"Dlights - Enemy",
+	};
+	ImColor* colors[] = {
+			&Settings::UI::mainColor,
+			&Settings::UI::bodyColor,
+			&Settings::UI::fontColor,
+			&Settings::ESP::FOVCrosshair::color,
+			&Settings::ESP::ally_color,
+			&Settings::ESP::enemy_color,
+			&Settings::ESP::enemy_visible_color,
+			&Settings::ESP::bones_color,
+			&Settings::ESP::bomb_color,
+			&Settings::ESP::Info::ally_color,
+			&Settings::ESP::Info::enemy_color,
+			&Settings::ESP::Info::enemy_visible_color,
+			&Settings::ESP::Chams::players_ally_color,
+			&Settings::ESP::Chams::players_ally_visible_color,
+			&Settings::ESP::Chams::players_enemy_color,
+			&Settings::ESP::Chams::players_enemy_visible_color,
+			&Settings::ESP::Glow::ally_color,
+			&Settings::ESP::Glow::enemy_color,
+			&Settings::ESP::Glow::enemy_visible_color,
+			&Settings::ESP::Glow::weapon_color,
+			&Settings::ESP::Glow::grenade_color,
+			&Settings::ESP::Glow::defuser_color,
+			&Settings::Dlights::ally_color,
+			&Settings::Dlights::enemy_color,
+	};
 	static int colorSelected = 0;
 
 	ImGui::SetNextWindowSize(ImVec2(540, 265), ImGuiSetCond_Always);
@@ -712,14 +710,13 @@ void MainWindow()
 	ImGui::SetNextWindowSize(ImVec2(1000, 500), ImGuiSetCond_FirstUseEver);
 	if (ImGui::Begin("AimTux", &showMainWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
 	{
-		const char* tabs[] =
-				{
-						"Aimbot",
-						"Triggerbot",
-						"Visuals",
-						"HvH",
-						"Misc",
-				};
+		const char* tabs[] = {
+				"Aimbot",
+				"Triggerbot",
+				"Visuals",
+				"HvH",
+				"Misc",
+		};
 		int tabs_size = sizeof(tabs) / sizeof(tabs[0]);
 
 		for (int i = 0; i < tabs_size; i++)

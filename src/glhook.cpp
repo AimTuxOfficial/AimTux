@@ -12,26 +12,24 @@ void SDL2::SwapWindow(SDL_Window* window)
 		aimtux_context = SDL_GL_CreateContext(window);
 		ImGui_ImplSdl_Init(window);
 
-		ImWchar RobotoMonoRegular_ranges[] =
-				{
-						0x0020, 0x007F, // Basic Latin
-						0x00A0, 0x00FF, // Latin-1 Supplement
-						0x0100, 0x017F, // Latin Extended-A
-						0x0180, 0x024F, // Latin Extended-B
-						0x0370, 0x03FF, // Greek and Coptic
-						0x0400, 0x04FF, // Cyrillic
-						0x0500, 0x052F, // Cyrillic Supplementary
-						0
-				};
+		ImWchar RobotoMonoRegular_ranges[] = {
+				0x0020, 0x007F, // Basic Latin
+				0x00A0, 0x00FF, // Latin-1 Supplement
+				0x0100, 0x017F, // Latin Extended-A
+				0x0180, 0x024F, // Latin Extended-B
+				0x0370, 0x03FF, // Greek and Coptic
+				0x0400, 0x04FF, // Cyrillic
+				0x0500, 0x052F, // Cyrillic Supplementary
+				0
+		};
 
-		ImWchar KaiGenGothicCNRegular_ranges[] =
-				{
-						0x3000, 0x30FF, // Punctuations, Hiragana, Katakana
-						0x31F0, 0x31FF, // Katakana Phonetic Extensions
-						0xFF00, 0xFFEF, // Half-width characters
-						0x4E00, 0x9FAF, // CJK Ideograms
-						0
-				};
+		ImWchar KaiGenGothicCNRegular_ranges[] = {
+				0x3000, 0x30FF, // Punctuations, Hiragana, Katakana
+				0x31F0, 0x31FF, // Katakana Phonetic Extensions
+				0xFF00, 0xFFEF, // Half-width characters
+				0x4E00, 0x9FAF, // CJK Ideograms
+				0
+		};
 
 		ImGuiIO& io = ImGui::GetIO();
 		ImFontConfig config;
