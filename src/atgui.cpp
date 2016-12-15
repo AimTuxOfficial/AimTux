@@ -157,60 +157,58 @@ void ColorsWindow()
 	if (!showColorsWindow)
 		return;
 
-	const char* colorSelection[] =
-			{
-					"UI Main",
-					"UI Body",
-					"UI Font",
-					"FOV Circle",
-					"ESP - Team",
-					"ESP - Enemy",
-					"ESP - Enemy Visible",
-					"ESP - Bones",
-					"ESP - Bomb",
-					"ESP - Team Text",
-					"ESP - Enemy Text",
-					"ESP - Enemy Visible Text",
-					"Chams - Team",
-					"Chams - Team Visible",
-					"Chams - Enemy",
-					"Chams - Enemy Visible",
-					"Glow - Team",
-					"Glow - Enemy",
-					"Glow - Enemy Visible",
-					"Glow - Weapon",
-					"Glow - Grenade",
-					"Glow - Defuser",
-					"Dlights - Team",
-					"Dlights - Enemy",
-			};
-	ImColor* colors[] =
-			{
-					&Settings::UI::mainColor,
-					&Settings::UI::bodyColor,
-					&Settings::UI::fontColor,
-					&Settings::ESP::FOVCrosshair::color,
-					&Settings::ESP::ally_color,
-					&Settings::ESP::enemy_color,
-					&Settings::ESP::enemy_visible_color,
-					&Settings::ESP::bones_color,
-					&Settings::ESP::bomb_color,
-					&Settings::ESP::Info::ally_color,
-					&Settings::ESP::Info::enemy_color,
-					&Settings::ESP::Info::enemy_visible_color,
-					&Settings::ESP::Chams::players_ally_color,
-					&Settings::ESP::Chams::players_ally_visible_color,
-					&Settings::ESP::Chams::players_enemy_color,
-					&Settings::ESP::Chams::players_enemy_visible_color,
-					&Settings::ESP::Glow::ally_color,
-					&Settings::ESP::Glow::enemy_color,
-					&Settings::ESP::Glow::enemy_visible_color,
-					&Settings::ESP::Glow::weapon_color,
-					&Settings::ESP::Glow::grenade_color,
-					&Settings::ESP::Glow::defuser_color,
-					&Settings::Dlights::ally_color,
-					&Settings::Dlights::enemy_color,
-			};
+	const char* colorSelection[] = {
+			"UI Main",
+			"UI Body",
+			"UI Font",
+			"FOV Circle",
+			"ESP - Team",
+			"ESP - Enemy",
+			"ESP - Enemy Visible",
+			"ESP - Bones",
+			"ESP - Bomb",
+			"ESP - Team Text",
+			"ESP - Enemy Text",
+			"ESP - Enemy Visible Text",
+			"Chams - Team",
+			"Chams - Team Visible",
+			"Chams - Enemy",
+			"Chams - Enemy Visible",
+			"Glow - Team",
+			"Glow - Enemy",
+			"Glow - Enemy Visible",
+			"Glow - Weapon",
+			"Glow - Grenade",
+			"Glow - Defuser",
+			"Dlights - Team",
+			"Dlights - Enemy",
+	};
+	ImColor* colors[] = {
+			&Settings::UI::mainColor,
+			&Settings::UI::bodyColor,
+			&Settings::UI::fontColor,
+			&Settings::ESP::FOVCrosshair::color,
+			&Settings::ESP::ally_color,
+			&Settings::ESP::enemy_color,
+			&Settings::ESP::enemy_visible_color,
+			&Settings::ESP::bones_color,
+			&Settings::ESP::bomb_color,
+			&Settings::ESP::Info::ally_color,
+			&Settings::ESP::Info::enemy_color,
+			&Settings::ESP::Info::enemy_visible_color,
+			&Settings::ESP::Chams::players_ally_color,
+			&Settings::ESP::Chams::players_ally_visible_color,
+			&Settings::ESP::Chams::players_enemy_color,
+			&Settings::ESP::Chams::players_enemy_visible_color,
+			&Settings::ESP::Glow::ally_color,
+			&Settings::ESP::Glow::enemy_color,
+			&Settings::ESP::Glow::enemy_visible_color,
+			&Settings::ESP::Glow::weapon_color,
+			&Settings::ESP::Glow::grenade_color,
+			&Settings::ESP::Glow::defuser_color,
+			&Settings::Dlights::ally_color,
+			&Settings::Dlights::enemy_color,
+	};
 	static int colorSelected = 0;
 
 	ImGui::SetNextWindowSize(ImVec2(540, 265), ImGuiSetCond_Always);
@@ -769,14 +767,13 @@ void MainWindow()
 	ImGui::SetNextWindowSize(ImVec2(1000, 500), ImGuiSetCond_FirstUseEver);
 	if (ImGui::Begin("AimTux", &showMainWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
 	{
-		const char* tabs[] =
-				{
-						"Aimbot",
-						"Triggerbot",
-						"Visuals",
-						"HvH",
-						"Misc",
-				};
+		const char* tabs[] = {
+				"Aimbot",
+				"Triggerbot",
+				"Visuals",
+				"HvH",
+				"Misc",
+		};
 		int tabs_size = sizeof(tabs) / sizeof(tabs[0]);
 
 		for (int i = 0; i < tabs_size; i++)
@@ -853,16 +850,19 @@ void SkinChangerWindow()
 			{
 				ImGui::PushItemWidth(-1);
 					ImGui::ListBoxHeader("##GUNS", ImVec2(0, 300));
-						for (int i = 0; i < IM_ARRAYSIZE(guns); i++)
+						for (auto it : guns)
 						{
-							const bool item_selected = (i == current_weapon);
-							if (strlen(guns[i]) == 0)
-								continue;
-							ImGui::PushID(i);
-								if (ImGui::Selectable(guns[i], item_selected))
+							const bool item_selected = (it.first == current_weapon);
+							ImGui::PushID(it.first);
+								if (ImGui::Selectable(it.second, item_selected))
 								{
-									current_weapon = i;
-									current_weapon_skin = Settings::Skinchanger::skins[i].PaintKit;
+									current_weapon = it.first;
+
+									auto keyExists = Settings::Skinchanger::skins.find(it.first);
+									if (keyExists == Settings::Skinchanger::skins.end())
+										current_weapon_skin = -1;
+									else
+										current_weapon_skin = Settings::Skinchanger::skins[it.first].PaintKit;
 								}
 							ImGui::PopID();
 						}
@@ -873,14 +873,12 @@ void SkinChangerWindow()
 			{
 				ImGui::PushItemWidth(-1);
 					ImGui::ListBoxHeader("##SKINS", ImVec2(0, 300));
-						for (int i = 0; i < IM_ARRAYSIZE(weapon_skins); i++)
+						for (auto it : weapon_skins)
 						{
-							const bool item_selected = (i == current_weapon_skin);
-							if (strlen(weapon_skins[i]) == 0)
-									continue;
-							ImGui::PushID(i);
-								if (ImGui::Selectable(weapon_skins[i], item_selected))
-									current_weapon_skin = i;
+							const bool item_selected = (it.first == current_weapon_skin);
+							ImGui::PushID(it.first);
+								if (ImGui::Selectable(it.second, item_selected))
+									current_weapon_skin = it.first;
 							ImGui::PopID();
 						}
 					ImGui::ListBoxFooter();
@@ -906,15 +904,13 @@ void SkinChangerWindow()
 					{
 						ImGui::SetColumnOffset(1, ImGui::GetWindowWidth() - 60);
 						ImGui::ListBoxHeader("##KNIVES", ImVec2(-1, -1));
-							for (int i = 0; i < IM_ARRAYSIZE(knives); i++)
+							for (auto knife : knives)
 							{
-								const bool item_selected = ((500 + i) == current_weapon);
-								if (strlen(knives[i]) == 0)
-										continue;
-								ImGui::PushID(i);
-									if (ImGui::Selectable(knives[i], item_selected))
+								const bool item_selected = ((WEAPON_KNIFE_BAYONET + knife.first) == current_weapon);
+								ImGui::PushID(knife.first);
+									if (ImGui::Selectable(knife.second, item_selected))
 									{
-										current_weapon = (500 + i);
+										current_weapon = (WEAPON_KNIFE_BAYONET + knife.first);
 										current_weapon_skin = Settings::Skinchanger::skins[isCT > 0 ? WEAPON_KNIFE : WEAPON_KNIFE_T].PaintKit;
 									}
 								ImGui::PopID();
@@ -947,11 +943,16 @@ void SkinChangerWindow()
 							Settings::Skinchanger::Skin skin;
 							if (current_weapon >= WEAPON_KNIFE_BAYONET)
 							{
-								skin = Settings::Skinchanger::skins[isCT > 0 ? WEAPON_KNIFE : WEAPON_KNIFE_T];
+								skin = Settings::Skinchanger::skins[isCT == 1 ? WEAPON_KNIFE : WEAPON_KNIFE_T];
 								current_weapon = skin.ItemDefinitionIndex;
 							}
 							else
-								skin = Settings::Skinchanger::skins[current_weapon];
+							{
+								auto keyExists = Settings::Skinchanger::skins.find(current_weapon);
+								if (keyExists == Settings::Skinchanger::skins.end())
+									skin = Settings::Skinchanger::Skin(current_weapon, -1, -1, -1, -1, "", "");
+								else
+									skin = Settings::Skinchanger::skins[current_weapon];
 
 								current_weapon_skin = skin.PaintKit;
 								weaponSkinSeed = skin.Seed;
@@ -959,6 +960,7 @@ void SkinChangerWindow()
 								weaponStatTrak = skin.StatTrak;
 								std::fill(std::begin(weaponName), std::end(weaponName), 0);
 								std::copy(std::begin(skin.CustomName), std::end(skin.CustomName), std::begin(weaponName));
+							}
 						}
 					}
 					ImGui::NextColumn();
@@ -978,9 +980,28 @@ void SkinChangerWindow()
 								Settings::Skinchanger::skins[WEAPON_KNIFE_FALCHION] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_falchion_advanced.mdl");
 								Settings::Skinchanger::skins[WEAPON_KNIFE_PUSH] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_push.mdl");
 
-								Settings::Skinchanger::skins[isCT > 0 ? WEAPON_KNIFE : WEAPON_KNIFE_T] = Settings::Skinchanger::Skin(current_weapon_skin == 0 ? -1 : current_weapon_skin, current_weapon, weaponSkinSeed, weaponWear, weaponStatTrak, weaponName, "");
-							} else
-								Settings::Skinchanger::skins[current_weapon] = Settings::Skinchanger::Skin(current_weapon_skin == 0 ? -1 : current_weapon_skin, current_weapon, weaponSkinSeed, weaponWear, weaponStatTrak, weaponName, "");
+								Settings::Skinchanger::skins[isCT > 0 ? WEAPON_KNIFE : WEAPON_KNIFE_T] = Settings::Skinchanger::Skin(
+										current_weapon_skin == 0 ? -1 : current_weapon_skin,
+										current_weapon,
+										weaponSkinSeed,
+										weaponWear,
+										weaponStatTrak,
+										weaponName,
+										""
+								);
+							}
+							else
+							{
+								Settings::Skinchanger::skins[current_weapon] = Settings::Skinchanger::Skin(
+										current_weapon_skin == 0 ? -1 : current_weapon_skin,
+										current_weapon,
+										weaponSkinSeed,
+										weaponWear,
+										weaponStatTrak,
+										weaponName,
+										""
+								);
+							}
 
 							SkinChanger::ForceFullUpdate = true;
 						}
