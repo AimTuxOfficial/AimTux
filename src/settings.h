@@ -136,7 +136,6 @@ namespace Settings
 		extern bool silent;
 		extern bool friendly;
 		extern float fov;
-		extern float errorMargin;
 		extern int bone;
 		extern ButtonCode_t aimkey;
 		extern bool aimkey_only;
@@ -153,6 +152,12 @@ namespace Settings
 				extern bool enabled;
 				extern float percentage;
 			}
+		}
+
+		namespace ErrorMargin
+		{
+			extern bool enabled;
+			extern float value;
 		}
 
 		namespace AutoAim

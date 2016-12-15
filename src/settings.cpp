@@ -124,7 +124,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Aimbot"]["friendly"] = Settings::Aimbot::friendly;
 	settings["Aimbot"]["no_shoot"] = Settings::Aimbot::no_shoot;
 	settings["Aimbot"]["fov"] = Settings::Aimbot::fov;
-	settings["Aimbot"]["errorMargin"] = Settings::Aimbot::errorMargin;
+	settings["Aimbot"]["ErrorMargin"]["enabled"] = Settings::Aimbot::ErrorMargin::enabled;
+	settings["Aimbot"]["ErrorMargin"]["value"] = Settings::Aimbot::ErrorMargin::value;
 	settings["Aimbot"]["bone"] = Settings::Aimbot::bone;
 	settings["Aimbot"]["aimkey"] = Util::GetButtonName(Settings::Aimbot::aimkey);
 	settings["Aimbot"]["aimkey_only"] = Settings::Aimbot::aimkey_only;
@@ -320,7 +321,8 @@ void Settings::LoadConfig(std::string path)
 	GetBool(settings["Aimbot"]["silent"], &Settings::Aimbot::silent);
 	GetBool(settings["Aimbot"]["friendly"], &Settings::Aimbot::friendly);
 	GetFloat(settings["Aimbot"]["fov"], &Settings::Aimbot::fov);
-	GetFloat(settings["Aimbot"]["errorMargin"], &Settings::Aimbot::errorMargin);
+	GetBool(settings["Aimbot"]["ErrorMargin"]["enabled"], &Settings::Aimbot::ErrorMargin::enabled);
+	GetFloat(settings["Aimbot"]["ErrorMargin"]["value"], &Settings::Aimbot::ErrorMargin::value);
 	GetBool(settings["Aimbot"]["no_shoot"], &Settings::Aimbot::no_shoot);
 	GetInt(settings["Aimbot"]["bone"], &Settings::Aimbot::bone);
 	GetButtonCode(settings["Aimbot"]["aimkey"], &Settings::Aimbot::aimkey);

@@ -7,7 +7,6 @@ bool Settings::Aimbot::enabled = true;
 bool Settings::Aimbot::silent = false;
 bool Settings::Aimbot::friendly = false;
 float Settings::Aimbot::fov = 180.0f;
-float Settings::Aimbot::errorMargin = 0.0f;
 bool Settings::Aimbot::no_shoot = false;
 int Settings::Aimbot::bone = BONE_HEAD;
 ButtonCode_t Settings::Aimbot::aimkey = ButtonCode_t::MOUSE_MIDDLE;
@@ -15,6 +14,8 @@ bool Settings::Aimbot::aimkey_only = false;
 bool Settings::Aimbot::Smooth::enabled = false;
 float Settings::Aimbot::Smooth::value = 1.0f;
 float Settings::Aimbot::Smooth::max = 1.0f;
+bool Settings::Aimbot::ErrorMargin::enabled = false;
+float Settings::Aimbot::ErrorMargin::value = 0.0f;
 bool Settings::Aimbot::AutoAim::enabled = false;
 bool Settings::Aimbot::AutoWall::enabled = false;
 float Settings::Aimbot::AutoWall::value = 10.0f;
@@ -500,7 +501,9 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 			Vector p_vecHead = localplayer->GetEyePosition();
 
 			angle = Math::CalcAngle(p_vecHead, e_vecHead);
-			ApplyErrorToAngle(&angle, Settings::Aimbot::errorMargin);
+
+			if (Settings::Aimbot::ErrorMargin::enabled)
+				ApplyErrorToAngle(&angle, Settings::Aimbot::ErrorMargin::value);
 		}
 	}
 

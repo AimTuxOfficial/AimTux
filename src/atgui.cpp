@@ -275,14 +275,14 @@ void AimbotTab()
 			{
 				ImGui::Checkbox("Smoothing", &Settings::Aimbot::Smooth::enabled);
 				ImGui::Checkbox("Smooth Salting", &Settings::Aimbot::Smooth::Salting::enabled);
-				ImGui::Text("Error Margin");
+				ImGui::Checkbox("Error Margin", &Settings::Aimbot::ErrorMargin::enabled);
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
 					ImGui::SliderFloat("##SMOOTH", &Settings::Aimbot::Smooth::value, 0, 1);
 					ImGui::SliderFloat("##SALT", &Settings::Aimbot::Smooth::Salting::percentage, 0, 100);
-					ImGui::SliderFloat("##ERROR", &Settings::Aimbot::errorMargin, 0, 2);
+					ImGui::SliderFloat("##ERROR", &Settings::Aimbot::ErrorMargin::value, 0, 2);
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
