@@ -8,7 +8,8 @@ void SDL2::SwapWindow(SDL_Window* window)
 
 	static SDL_GLContext original_context = SDL_GL_GetCurrentContext();
 
-	if (!aimtux_context) {
+	if (!aimtux_context)
+	{
 		aimtux_context = SDL_GL_CreateContext(window);
 		ImGui_ImplSdl_Init(window);
 
