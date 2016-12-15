@@ -805,7 +805,12 @@ void SkinChangerWindow()
 								if (ImGui::Selectable(guns[i], item_selected))
 								{
 									current_weapon = i;
-									current_weapon_skin = Settings::Skinchanger::skins[i].PaintKit;
+
+									auto keyExists = Settings::Skinchanger::skins.find(i);
+									if (keyExists == Settings::Skinchanger::skins.end())
+										current_weapon_skin = -1;
+									else
+										current_weapon_skin = Settings::Skinchanger::skins[i].PaintKit;
 								}
 							ImGui::PopID();
 						}
@@ -851,13 +856,13 @@ void SkinChangerWindow()
 						ImGui::ListBoxHeader("##KNIVES", ImVec2(-1, -1));
 							for (int i = 0; i < IM_ARRAYSIZE(knives); i++)
 							{
-								const bool item_selected = ((500 + i) == current_weapon);
+								const bool item_selected = ((WEAPON_KNIFE_BAYONET + i) == current_weapon);
 								if (strlen(knives[i]) == 0)
 										continue;
 								ImGui::PushID(i);
 									if (ImGui::Selectable(knives[i], item_selected))
 									{
-										current_weapon = (500 + i);
+										current_weapon = (WEAPON_KNIFE_BAYONET + i);
 										current_weapon_skin = Settings::Skinchanger::skins[isCT > 0 ? WEAPON_KNIFE : WEAPON_KNIFE_T].PaintKit;
 									}
 								ImGui::PopID();
@@ -890,11 +895,16 @@ void SkinChangerWindow()
 							Settings::Skinchanger::Skin skin;
 							if (current_weapon >= WEAPON_KNIFE_BAYONET)
 							{
-								skin = Settings::Skinchanger::skins[isCT > 0 ? WEAPON_KNIFE : WEAPON_KNIFE_T];
+								skin = Settings::Skinchanger::skins[isCT == 1 ? WEAPON_KNIFE : WEAPON_KNIFE_T];
 								current_weapon = skin.ItemDefinitionIndex;
 							}
 							else
-								skin = Settings::Skinchanger::skins[current_weapon];
+							{
+								auto keyExists = Settings::Skinchanger::skins.find(current_weapon);
+								if (keyExists == Settings::Skinchanger::skins.end())
+									skin = Settings::Skinchanger::Skin(current_weapon, -1, -1, -1, -1, "", "");
+								else
+									skin = Settings::Skinchanger::skins[current_weapon];
 
 								current_weapon_skin = skin.PaintKit;
 								weaponSkinSeed = skin.Seed;
@@ -902,6 +912,7 @@ void SkinChangerWindow()
 								weaponStatTrak = skin.StatTrak;
 								std::fill(std::begin(weaponName), std::end(weaponName), 0);
 								std::copy(std::begin(skin.CustomName), std::end(skin.CustomName), std::begin(weaponName));
+							}
 						}
 					}
 					ImGui::NextColumn();
@@ -921,9 +932,28 @@ void SkinChangerWindow()
 								Settings::Skinchanger::skins[WEAPON_KNIFE_FALCHION] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_falchion_advanced.mdl");
 								Settings::Skinchanger::skins[WEAPON_KNIFE_PUSH] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_push.mdl");
 
-								Settings::Skinchanger::skins[isCT > 0 ? WEAPON_KNIFE : WEAPON_KNIFE_T] = Settings::Skinchanger::Skin(current_weapon_skin == 0 ? -1 : current_weapon_skin, current_weapon, weaponSkinSeed, weaponWear, weaponStatTrak, weaponName, "");
-							} else
-								Settings::Skinchanger::skins[current_weapon] = Settings::Skinchanger::Skin(current_weapon_skin == 0 ? -1 : current_weapon_skin, current_weapon, weaponSkinSeed, weaponWear, weaponStatTrak, weaponName, "");
+								Settings::Skinchanger::skins[isCT > 0 ? WEAPON_KNIFE : WEAPON_KNIFE_T] = Settings::Skinchanger::Skin(
+										current_weapon_skin == 0 ? -1 : current_weapon_skin,
+										current_weapon,
+										weaponSkinSeed,
+										weaponWear,
+										weaponStatTrak,
+										weaponName,
+										""
+								);
+							}
+							else
+							{
+								Settings::Skinchanger::skins[current_weapon] = Settings::Skinchanger::Skin(
+										current_weapon_skin == 0 ? -1 : current_weapon_skin,
+										current_weapon,
+										weaponSkinSeed,
+										weaponWear,
+										weaponStatTrak,
+										weaponName,
+										""
+								);
+							}
 
 							SkinChanger::ForceFullUpdate = true;
 						}
