@@ -50,7 +50,7 @@ std::map<int, const char*> knives = {
 };
 
 std::map<int, const char*> weapon_skins = {
-		{  0, "<-Default->" },
+		{  0,   "<-Default->" },
 		{  361, "Abyss" },
 		{  253, "Acid Fade" },
 		{  598, "Aerial" },
