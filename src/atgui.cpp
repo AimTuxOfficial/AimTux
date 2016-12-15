@@ -880,8 +880,8 @@ void SkinChangerWindow()
 		static int current_weapon = 1;
 		static int current_weapon_skin = Settings::Skinchanger::skins[current_weapon].PaintKit;
 		static float weaponWear = 0.00050000002374872565f;
-		static int weaponSkinSeed;
-		static int weaponStatTrak;
+		static int weaponSkinSeed = -1;
+		static int weaponStatTrak = -1;
 		static char weaponName[18];
 		static int isCT = 1;
 
@@ -1038,9 +1038,9 @@ void SkinChangerWindow()
 								Settings::Skinchanger::skins[isCT > 0 ? WEAPON_KNIFE : WEAPON_KNIFE_T] = Settings::Skinchanger::Skin(
 										current_weapon_skin == 0 ? -1 : current_weapon_skin,
 										current_weapon,
-										weaponSkinSeed,
+										weaponSkinSeed == 0 ? -1 : weaponSkinSeed,
 										weaponWear,
-										weaponStatTrak,
+										weaponStatTrak == 0 ? -1 : weaponStatTrak,
 										weaponName,
 										""
 								);
