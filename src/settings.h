@@ -181,6 +181,7 @@ namespace Settings
 		namespace RCS
 		{
 			extern bool enabled;
+			extern bool aimkey_only;
 			extern float value;
 		}
 
