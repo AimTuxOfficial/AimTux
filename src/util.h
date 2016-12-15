@@ -12,7 +12,6 @@
 
 namespace Util {
 	char GetButtonString(ButtonCode_t key);
-	char GetUpperValueOf(ButtonCode_t key);
 	std::string GetButtonName(ButtonCode_t buttonCode);
 	ButtonCode_t GetButtonCode(std::string buttonName);
 	std::string ReplaceString(std::string subject, const std::string& search, const std::string& replace);

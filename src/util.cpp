@@ -39,62 +39,6 @@ char Util::GetButtonString(ButtonCode_t key)
 	}
 }
 
-char Util::GetUpperValueOf(ButtonCode_t key)
-{
-	switch (key)
-	{
-		case KEY_0:
-			return ')';
-		case KEY_1:
-			return '!';
-		case KEY_2:
-			return '@';
-		case KEY_3:
-			return '#';
-		case KEY_4:
-			return '$';
-		case KEY_5:
-			return '%';
-		case KEY_6:
-			return '^';
-		case KEY_7:
-			return '&';
-		case KEY_8:
-			return '*';
-		case KEY_9:
-			return '(';
-		case KEY_LBRACKET:
-			return '{';
-		case KEY_RBRACKET:
-			return '}';
-		case KEY_SEMICOLON:
-			return ':';
-		case KEY_APOSTROPHE:
-			return '"';
-		case KEY_BACKQUOTE:
-			return '~';
-		case KEY_COMMA:
-			return '<';
-		case KEY_PERIOD:
-			return '>';
-		case KEY_SLASH:
-			return '?';
-		case KEY_BACKSLASH:
-			return '|';
-		case KEY_MINUS:
-			return '_';
-		case KEY_EQUAL:
-			return '+';
-		default:
-			char buttonChar = Util::GetButtonString(key);
-
-			if (buttonChar >= 'a' && buttonChar <= 'z')
-				buttonChar -= 32;
-
-			return buttonChar;
-	}
-}
-
 std::string Util::GetButtonName(ButtonCode_t buttonCode)
 {
 	return input->ButtonCodeToString(buttonCode);
