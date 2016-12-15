@@ -26,6 +26,7 @@ bool Settings::Aimbot::AutoPistol::enabled = false;
 bool Settings::Aimbot::AutoShoot::enabled = false;
 bool Settings::Aimbot::AutoShoot::autoscope = false;
 bool Settings::Aimbot::RCS::enabled = false;
+bool Settings::Aimbot::RCS::aimbot_only = false;
 float Settings::Aimbot::RCS::value = 2.0f;
 bool Settings::Aimbot::AutoCrouch::enabled = false;
 bool Settings::Aimbot::AutoStop::enabled = false;
@@ -456,7 +457,7 @@ void Aimbot::NoShoot(C_BaseCombatWeapon* active_weapon, C_BaseEntity* entity, CU
 	{
 		if (*active_weapon->GetItemDefinitionIndex() == WEAPON_C4)
 			return;
-		
+
 		if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
 			cmd->buttons &= ~IN_ATTACK2;
 		else
@@ -516,7 +517,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	Aimbot::Smooth(entity, angle, cmd);
 	Aimbot::ShootCheck(active_weapon, cmd);
 	Aimbot::NoShoot(active_weapon, entity, cmd);
-	
+
 	Math::NormalizeAngles(angle);
 	Math::ClampAngles(angle);
 	cmd->viewangles = angle;

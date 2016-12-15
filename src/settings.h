@@ -17,6 +17,9 @@
 #include "config.h"
 #include "atgui.h"
 
+extern std::vector<Config> configs;
+extern Config* current_config;
+
 enum TracerType : int
 {
 	BOTTOM,
@@ -178,7 +181,7 @@ namespace Settings
 		namespace RCS
 		{
 			extern bool enabled;
-			extern bool aimkey_only;
+			extern bool aimbot_only;
 			extern float value;
 		}
 

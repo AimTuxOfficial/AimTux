@@ -299,7 +299,7 @@ void AimbotTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("Enabled", &Settings::Aimbot::aimkey_only);
-				ImGui::Checkbox("Recoil Control", &Settings::Aimbot::RCS::aimkey_only);
+				ImGui::Checkbox("Recoil Control", &Settings::Aimbot::RCS::aimbot_only);
 			}
 			ImGui::NextColumn();
 			{
