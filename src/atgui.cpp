@@ -342,31 +342,64 @@ void AimbotTab()
 
 void TriggerbotTab()
 {
-	ImGui::Columns(2, NULL, false);
-	UI::ReverseCheckbox("Enabled", &Settings::Triggerbot::enabled);
-	ImGui::SameLine();
-
-	UI::KeyBindButton(&Settings::Triggerbot::key);
-
+	ImGui::Checkbox("Enabled", &Settings::Triggerbot::enabled);
 	ImGui::Separator();
-
-	UI::ReverseCheckbox("Delay", &Settings::Triggerbot::Delay::enabled);
-	ImGui::SameLine();
-	ImGui::PushItemWidth(-1);
-		ImGui::SliderInt("##TRIGGERDELAY", &Settings::Triggerbot::Delay::value, 0, 1000);
-	ImGui::PopItemWidth();
-
-	ImGui::Separator();
-	ImGui::PushItemWidth(150);
-		ImGui::ListBoxHeader("##TRIGGERFILTER", 6);
-			ImGui::Selectable("Friendly", &Settings::Triggerbot::Filter::friendly);
-			ImGui::Selectable("Head", &Settings::Triggerbot::Filter::head);
-			ImGui::Selectable("Chest", &Settings::Triggerbot::Filter::chest);
-			ImGui::Selectable("Stomach", &Settings::Triggerbot::Filter::stomach);
-			ImGui::Selectable("Arms", &Settings::Triggerbot::Filter::arms);
-			ImGui::Selectable("Legs", &Settings::Triggerbot::Filter::legs);
-		ImGui::ListBoxFooter();
-	ImGui::PopItemWidth();
+	ImGui::Columns(2, NULL, true);
+	{
+		if (ImGui::BeginChild("TRIG1", ImVec2(0, 0), true))
+		{
+			ImGui::Text("Keybind");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Text("Trigger Key");
+			}
+			ImGui::NextColumn();
+			{
+				UI::KeyBindButton(&Settings::Triggerbot::key);
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::Text("Delay");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Checkbox("Enabled", &Settings::Triggerbot::Delay::enabled);
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::PushItemWidth(-1);
+					ImGui::SliderInt("##TRIGGERDELAY", &Settings::Triggerbot::Delay::value, 0, 1000);
+				ImGui::PopItemWidth();
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::EndChild();
+		}
+	}
+	ImGui::NextColumn();
+	{
+		if (ImGui::BeginChild("TRIG2", ImVec2(0, 0), true))
+		{
+			ImGui::Text("Filter");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Checkbox("Friendly", &Settings::Triggerbot::Filter::friendly);
+				ImGui::Checkbox("Head", &Settings::Triggerbot::Filter::head);
+				ImGui::Checkbox("Chest", &Settings::Triggerbot::Filter::chest);
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::Checkbox("Stomach", &Settings::Triggerbot::Filter::stomach);
+				ImGui::Checkbox("Arms", &Settings::Triggerbot::Filter::arms);
+				ImGui::Checkbox("Legs", &Settings::Triggerbot::Filter::legs);
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::EndChild();
+		}
+	}
 }
 
 void VisualsTab()
