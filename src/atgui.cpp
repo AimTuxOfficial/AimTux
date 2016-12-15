@@ -765,7 +765,7 @@ void SkinChangerWindow()
 	if (!showSkinChangerWindow)
 		return;
 
-	ImGui::SetNextWindowSize(ImVec2(800, 600), ImGuiSetCond_FirstUseEver);
+	ImGui::SetNextWindowSize(ImVec2(800, 690), ImGuiSetCond_FirstUseEver);
 	if (ImGui::Begin("Skin Changer", &showSkinChangerWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
 	{
 		static int current_weapon = 1;
@@ -877,6 +877,7 @@ void SkinChangerWindow()
 			{
 				if (ImGui::BeginChild("Other", ImVec2(-1, -1), true))
 				{
+					ImGui::InputInt("Skin ID", &current_weapon_skin);
 					ImGui::SliderFloat("Wear", &weaponWear, 0.00050000002374872565f, 1.0f, "0%f");
 					ImGui::InputInt("Seed", &weaponSkinSeed);
 					ImGui::InputInt("StatTrak", &weaponStatTrak);
@@ -1098,7 +1099,7 @@ void UI::SetupWindows()
 			MainWindow();
 		ImGui::PopStyleVar();
 
-		ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(800, 600));
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(800, 690));
 			SkinChangerWindow();
 		ImGui::PopStyleVar();
 
