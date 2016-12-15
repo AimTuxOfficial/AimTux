@@ -1089,7 +1089,7 @@ void ConfigWindow()
 		ImGui::SameLine();
 		if (ImGui::Button("Save"))
 		{
-			if (configItems.size() > 0 && (configItemCurrent > 0 && configItemCurrent < configItems.size()))
+			if (configItems.size() > 0 && (configItemCurrent >= 0 && configItemCurrent < configItems.size()))
 			{
 				pstring path = GetConfigDirectory();
 				path << configItems[configItemCurrent] << "/config.json";
@@ -1101,7 +1101,7 @@ void ConfigWindow()
 		ImGui::SameLine();
 		if (ImGui::Button("Remove"))
 		{
-			if (configItems.size() > 0 && (configItemCurrent > 0 && configItemCurrent < configItems.size()))
+			if (configItems.size() > 0 && (configItemCurrent >= 0 && configItemCurrent < configItems.size()))
 			{
 				pstring path = GetConfigDirectory();
 				path << configItems[configItemCurrent];
