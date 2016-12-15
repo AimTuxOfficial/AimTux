@@ -1,15 +1,5 @@
 #include "atgui.h"
 
-bool UI::ReverseCheckbox(std::string name, bool* toggle, size_t spaces)
-{
-	std::string prefix = "##";
-	std::string outputTag = prefix + name;
-
-	ImGui::Text(Util::PadStringRight(name, spaces));
-	ImGui::SameLine();
-	return ImGui::Checkbox(outputTag.c_str(), toggle);
-}
-
 bool UI::KeyBindButton(ButtonCode_t* key)
 {
 	const char* text = input->ButtonCodeToString(*key);

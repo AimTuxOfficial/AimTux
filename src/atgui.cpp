@@ -232,7 +232,7 @@ void AimbotTab()
 {
 	const char* targets[] = { "PELVIS", "", "", "HIP", "LOWER SPINE", "MIDDLE SPINE", "UPPER SPINE", "NECK", "HEAD" };
 
-	UI::ReverseCheckbox("Enabled", &Settings::Aimbot::enabled);
+	ImGui::Checkbox("Enabled", &Settings::Aimbot::enabled);
 	ImGui::Separator();
 
 	ImGui::Columns(2, NULL, true);

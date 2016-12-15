@@ -17,6 +17,5 @@ namespace UI
 	bool ColorPicker(float* col, bool alphabar);
 	bool ColorPicker3(float col[3]);
 	bool ColorPicker4(float col[4]);
-	bool ReverseCheckbox(std::string name, bool* toggle, size_t spaces = 18);
 	bool KeyBindButton(ButtonCode_t* key);
 }
