@@ -776,6 +776,9 @@ void MiscTab()
 				ImGui::Checkbox("Fake Lag", &Settings::FakeLag::enabled);
 				ImGui::Checkbox("Auto Accept", &Settings::AutoAccept::enabled);
 				ImGui::Checkbox("AirStuck", &Settings::Airstuck::enabled);
+#ifdef UNTRUSTED_SETTINGS
+				ImGui::Checkbox("Teleport", &Settings::Teleport::enabled);
+#endif
 			}
 			ImGui::NextColumn();
 			{
@@ -784,6 +787,9 @@ void MiscTab()
 				ImGui::PopItemWidth();
 				ImGui::Checkbox("Show Ranks", &Settings::ShowRanks::enabled);
 				UI::KeyBindButton(&Settings::Airstuck::key);
+#ifdef UNTRUSTED_SETTINGS
+				UI::KeyBindButton(&Settings::Teleport::key);
+#endif
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
