@@ -168,6 +168,9 @@ void Aimbot::RCS(QAngle& angle, C_BaseEntity* entity, CUserCmd* cmd)
 	bool isSilent = Settings::Aimbot::silent;
 	bool hasTarget = Settings::Aimbot::AutoAim::enabled && entity != NULL && shouldAim;
 
+	if (Settings::Aimbot::RCS::aimbot_only && !hasTarget)
+		return;
+
 	if (isSilent || hasTarget)
 	{
 		angle -= CurrentPunch * Settings::Aimbot::RCS::value;
