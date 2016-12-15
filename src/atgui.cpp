@@ -843,7 +843,7 @@ void SkinChangerWindow()
 			ImGui::Columns(1);
 			ImGui::Columns(2, NULL, true);
 			{
-				if(ImGui::BeginChild("##KNIFESECTION", ImVec2(0, 0), true))
+				if (ImGui::BeginChild("##KNIFESECTION", ImVec2(0, 0), true))
 				{
 					ImGui::Columns(2, NULL, false);
 					{
