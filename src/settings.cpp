@@ -1,8 +1,5 @@
 #include "settings.h"
 
-std::vector<Config> configs;
-Config* current_config = nullptr;
-
 void GetBool(Json::Value &config, bool* setting)
 {
 	if (config.isNull())
@@ -517,8 +514,6 @@ void Settings::LoadSettings()
 
 	if (!DoesDirectoryExist(directory.c_str()))
 		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-
-	configs = GetConfigs(directory.c_str());
 }
 
 void remove_directory(const char* path)
