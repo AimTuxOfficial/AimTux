@@ -1,4 +1,6 @@
 #include "atgui.h"
+#include "skins.h"
+#include <string>
 
 bool UI::isVisible = false;
 
@@ -67,7 +69,7 @@ void UI::SetupColors()
 	style.ItemInnerSpacing = ImVec2(4, 4);
 	style.TouchExtraPadding = ImVec2(0, 0);
 	style.IndentSpacing = 21.0f;
-	style.ColumnsMinSpacing = 6.0f;
+	style.ColumnsMinSpacing = 3.0f;
 	style.ScrollbarSize = 10.0f;
 	style.ScrollbarRounding = 0.0f;
 	style.GrabMinSize = 5.0f;
@@ -230,68 +232,114 @@ void ColorsWindow()
 
 void AimbotTab()
 {
+	const char* targets[] = { "PELVIS", "", "", "HIP", "LOWER SPINE", "MIDDLE SPINE", "UPPER SPINE", "NECK", "HEAD" };
+
 	UI::ReverseCheckbox("Enabled", &Settings::Aimbot::enabled);
 	ImGui::Separator();
 
-	ImGui::Columns(2, NULL, false);
+	ImGui::Columns(2, NULL, true);
 	{
-		UI::ReverseCheckbox("Silent Aim", &Settings::Aimbot::silent);
-
-		UI::ReverseCheckbox("Aimkey Only", &Settings::Aimbot::aimkey_only);
-		ImGui::SameLine();
-
-		UI::KeyBindButton(&Settings::Aimbot::aimkey);
-
-		UI::ReverseCheckbox("Recoil Control", &Settings::Aimbot::RCS::enabled);
-		ImGui::SameLine();
-		ImGui::PushItemWidth(-1);
-			ImGui::SliderFloat("##RCS", &Settings::Aimbot::RCS::value, 0, 2);
-		ImGui::PopItemWidth();
-
-		UI::ReverseCheckbox("Auto Aim", &Settings::Aimbot::AutoAim::enabled);
-		ImGui::SameLine();
-		ImGui::PushItemWidth(-1);
-			ImGui::SliderFloat("##AA", &Settings::Aimbot::fov, 0, 180);
-		ImGui::PopItemWidth();
-
-		UI::ReverseCheckbox("Smoothing", &Settings::Aimbot::Smooth::enabled);
-		ImGui::SameLine();
-		ImGui::PushItemWidth(-1);
-			ImGui::SliderFloat("##SMOOTH", &Settings::Aimbot::Smooth::value, 0, 1);
-		ImGui::PopItemWidth();
-
-		UI::ReverseCheckbox("Smooth Salting", &Settings::Aimbot::Smooth::Salting::enabled);
-		ImGui::SameLine();
-		ImGui::PushItemWidth(-1);
-			ImGui::SliderFloat("##SALT", &Settings::Aimbot::Smooth::Salting::percentage, 0, 100);
-		ImGui::PopItemWidth();
-
-		UI::ReverseCheckbox("Aim Step", &Settings::Aimbot::AimStep::enabled);
-		ImGui::SameLine();
-		ImGui::PushItemWidth(-1);
-			ImGui::SliderFloat("##STEP", &Settings::Aimbot::AimStep::value, 0, 100);
-			ImGui::SliderFloat("##ERROR", &Settings::Aimbot::errorMargin, 0, 2, "Error Margin 0%f");
-		ImGui::PopItemWidth();
+		if (ImGui::BeginChild("COL1", ImVec2(0, 0), true))
+		{
+			ImGui::Text("Target");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Checkbox("Friendly", &Settings::Aimbot::friendly);
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::PushItemWidth(-1);
+					ImGui::Combo("##AIMTARGET", &Settings::Aimbot::bone, targets, IM_ARRAYSIZE(targets));
+				ImGui::PopItemWidth();
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::Text("Accuracy");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Checkbox("Auto Aim", &Settings::Aimbot::AutoAim::enabled);
+				ImGui::Checkbox("Recoil Control", &Settings::Aimbot::RCS::enabled);
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::PushItemWidth(-1);
+					ImGui::SliderFloat("##AA", &Settings::Aimbot::fov, 0, 180);
+					ImGui::SliderFloat("##RCS", &Settings::Aimbot::RCS::value, 0, 2);
+				ImGui::PopItemWidth();
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::Text("Humanizing");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Checkbox("Smoothing", &Settings::Aimbot::Smooth::enabled);
+				ImGui::Checkbox("Smooth Salting", &Settings::Aimbot::Smooth::Salting::enabled);
+				ImGui::Text("Error Margin");
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::PushItemWidth(-1);
+					ImGui::SliderFloat("##SMOOTH", &Settings::Aimbot::Smooth::value, 0, 1);
+					ImGui::SliderFloat("##SALT", &Settings::Aimbot::Smooth::Salting::percentage, 0, 100);
+					ImGui::SliderFloat("##ERROR", &Settings::Aimbot::errorMargin, 0, 2);
+				ImGui::PopItemWidth();
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::EndChild();
+		}
 	}
-
 	ImGui::NextColumn();
 	{
-		UI::ReverseCheckbox("Friendly", &Settings::Aimbot::friendly);
-		ImGui::SameLine();
-		const char* targets[] = { "PELVIS", "", "", "HIP", "LOWER SPINE", "MIDDLE SPINE", "UPPER SPINE", "NECK", "HEAD" };
-		ImGui::PushItemWidth(175);
-			ImGui::Combo("##AIMTARGET", &Settings::Aimbot::bone, targets, IM_ARRAYSIZE(targets));
-		ImGui::PopItemWidth();
-
-		UI::ReverseCheckbox("Auto Pistol", &Settings::Aimbot::AutoPistol::enabled);
-		ImGui::SameLine();
-		UI::ReverseCheckbox("No Shoot", &Settings::Aimbot::no_shoot);
-
-		UI::ReverseCheckbox("Auto Shoot", &Settings::Aimbot::AutoShoot::enabled);
-		ImGui::SameLine();
-		UI::ReverseCheckbox("Auto Scope", &Settings::Aimbot::AutoShoot::autoscope);
+		if (ImGui::BeginChild("COL2", ImVec2(0, 0), true))
+		{
+			ImGui::Text("Aimkey Only");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Checkbox("Enabled", &Settings::Aimbot::aimkey_only);
+			}
+			ImGui::NextColumn();
+			{
+				UI::KeyBindButton(&Settings::Aimbot::aimkey);
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::Text("Casual / DM Only");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Checkbox("Aim Step", &Settings::Aimbot::AimStep::enabled);
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::PushItemWidth(-1);
+					ImGui::SliderFloat("##STEP", &Settings::Aimbot::AimStep::value, 0, 100);
+				ImGui::PopItemWidth();
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::Text("Other");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Checkbox("Auto Pistol", &Settings::Aimbot::AutoPistol::enabled);
+				ImGui::Checkbox("Auto Shoot", &Settings::Aimbot::AutoShoot::enabled);
+				ImGui::Checkbox("Silent Aim", &Settings::Aimbot::silent);
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::Checkbox("No Shoot", &Settings::Aimbot::no_shoot);
+				ImGui::Checkbox("Auto Scope", &Settings::Aimbot::AutoShoot::autoscope);
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::EndChild();
+		}
 	}
-
 }
 
 void TriggerbotTab()
@@ -717,119 +765,172 @@ void SkinChangerWindow()
 	if (!showSkinChangerWindow)
 		return;
 
-	ImGui::SetNextWindowSize(ImVec2(600, 500), ImGuiSetCond_FirstUseEver);
+	ImGui::SetNextWindowSize(ImVec2(800, 600), ImGuiSetCond_FirstUseEver);
 	if (ImGui::Begin("Skin Changer", &showSkinChangerWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
 	{
-		const char* guns[] =
-				{
-						"", //0
-						"Deagle", //1
-						"Dual Berettas", //2
-						"Five-SeveN", //3
-						"Glock", //4
-						"", //5
-						"", //6
-						"AK-47", //7
-						"AUG", //8
-						"AWP", //9
-						"Famas", //10
-						"G3SG1", //11
-						"", //12
-						"Galil AR", //13
-						"M249", //14
-						"", //15
-						"M4A4", //16
-						"MAC-10", //17
-						"", //18
-						"P90", //19
-						"", //20
-						"", //21
-						"", //22
-						"", //23
-						"UMP-45", //24
-						"XM1014", //25
-						"PP-19 Bizon", //26
-						"MAG-7", //27
-						"Negev", //28
-						"Sawed-Off Shotgun", //29
-						"Tec-9", //30
-						"", //31
-						"P2000", //32
-						"MP7", //33
-						"MP9", //34
-						"Nova", //35
-						"P250", //36
-						"", //37
-						"SCAR-20", //38
-						"SG 553", //39
-						"SSG 08", //40
-						"", //41
-						"", //42
-						"", //43
-						"", //44
-						"", //45
-						"", //46
-						"", //47
-						"", //48
-						"", //49
-						"", //50
-						"", //51
-						"", //52
-						"", //53
-						"", //54
-						"", //55
-						"", //56
-						"", //57
-						"", //58
-						"", //59
-						"M4A1-S", //60
-						"USP", //61
-						"", //62
-						"CZ-75", //63
-						"Revolver", //64
-				};
-		static int current_gun = 0;
-		const char* gun_skins[] =
-				{
-						"", //0
-						"", //1
-						"Groundwater", //2
-						"Candy Apple", //3
-						"", //4
-						"Forset DDPAT", //5
-						"Arctic Camo", //6
-						"", //7
-						"Desert Storm", //8
-						"Bengal Tiger", //9
-						"Copperhead", //10
-						"Skulls", //11
-						"Crimson Web (Deagle)", //12
-						"Blue Streak", //13
-						"Red Laminate", //14
-				};
-		static int current_gun_skin = 0;
-		static char gunSkinSeed[5];
-		static char gunStatTrak[9];
-		static char gunName[18];
-		static char knifeSkinSeed[4];
-		static char knifeStatTrak[9];
-		static char knifeName[18];
+		static int current_weapon = 1;
+		static int current_weapon_skin = Settings::Skinchanger::skins[current_weapon].PaintKit;
+		static float weaponWear = 0.00050000002374872565f;
+		static int weaponSkinSeed;
+		static int weaponStatTrak;
+		static char weaponName[18];
+		static int isCT = 1;
 
-		ImGui::Columns(2, NULL, true);
+		if (ImGui::Checkbox("Enabled", &Settings::Skinchanger::enabled))
+			SkinChanger::ForceFullUpdate = true;
+
+		ImGui::Separator();
+		if (ImGui::BeginChild("##GUNSECTION", ImVec2(0, 0), true))
 		{
-			ImGui::Text("Guns");
-			if (ImGui::BeginChild("##GUNSECTION", ImVec2(0, 0), true))
+			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::EndChild();
+				ImGui::Text("Guns");
 			}
-		}
-		ImGui::NextColumn();
-		{
-			ImGui::Text("Knives");
-			if (ImGui::BeginChild("##KNVIESSECTION", ImVec2(0, 0), true))
+			ImGui::NextColumn();
 			{
-				ImGui::EndChild();
+				ImGui::Text("Skins");
 			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::PushItemWidth(-1);
+					ImGui::ListBoxHeader("##GUNS", ImVec2(0, 300));
+						for (int i = 0; i < IM_ARRAYSIZE(guns); i++)
+						{
+							const bool item_selected = (i == current_weapon);
+							if (strlen(guns[i]) == 0)
+								continue;
+							ImGui::PushID(i);
+								if (ImGui::Selectable(guns[i], item_selected))
+								{
+									current_weapon = i;
+									current_weapon_skin = Settings::Skinchanger::skins[i].PaintKit;
+								}
+							ImGui::PopID();
+						}
+				ImGui::ListBoxFooter();
+				ImGui::PopItemWidth();
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::PushItemWidth(-1);
+					ImGui::ListBoxHeader("##SKINS", ImVec2(0, 300));
+						for (int i = 0; i < IM_ARRAYSIZE(weapon_skins); i++)
+						{
+							const bool item_selected = (i == current_weapon_skin);
+							if (strlen(weapon_skins[i]) == 0)
+									continue;
+							ImGui::PushID(i);
+								if (ImGui::Selectable(weapon_skins[i], item_selected))
+									current_weapon_skin = i;
+							ImGui::PopID();
+						}
+					ImGui::ListBoxFooter();
+				ImGui::PopItemWidth();
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Text("Knife");
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::Text("Other");
+			}
+			ImGui::Separator();
+			ImGui::Columns(1);
+			ImGui::Columns(2, NULL, true);
+			{
+				if(ImGui::BeginChild("##KNIFESECTION", ImVec2(0, 0), true))
+				{
+					ImGui::Columns(2, NULL, false);
+					{
+						ImGui::SetColumnOffset(1, ImGui::GetWindowWidth() - 60);
+						ImGui::ListBoxHeader("##KNIVES", ImVec2(-1, -1));
+							for (int i = 0; i < IM_ARRAYSIZE(knives); i++)
+							{
+								const bool item_selected = ((500 + i) == current_weapon);
+								if (strlen(knives[i]) == 0)
+										continue;
+								ImGui::PushID(i);
+									if (ImGui::Selectable(knives[i], item_selected))
+									{
+										current_weapon = (500 + i);
+										current_weapon_skin = Settings::Skinchanger::skins[isCT > 0 ? WEAPON_KNIFE : WEAPON_KNIFE_T].PaintKit;
+									}
+								ImGui::PopID();
+							}
+						ImGui::ListBoxFooter();
+					}
+					ImGui::NextColumn();
+					{
+						ImGui::RadioButton("CT", &isCT, 1);
+						ImGui::RadioButton("T", &isCT, 0);
+					}
+					ImGui::Columns(1);
+					ImGui::EndChild();
+				}
+			}
+			ImGui::NextColumn();
+			{
+				if (ImGui::BeginChild("Other", ImVec2(-1, -1), true))
+				{
+					ImGui::SliderFloat("Wear", &weaponWear, 0.00050000002374872565f, 1.0f, "0%f");
+					ImGui::InputInt("Seed", &weaponSkinSeed);
+					ImGui::InputInt("StatTrak", &weaponStatTrak);
+					ImGui::InputText("Name", weaponName, IM_ARRAYSIZE(weaponName));
+					ImGui::Separator();
+					ImGui::Columns(2, NULL, true);
+					{
+						if (ImGui::Button("Load", ImVec2(-1, 0)))
+						{
+							Settings::Skinchanger::Skin skin;
+							if (current_weapon >= WEAPON_KNIFE_BAYONET)
+							{
+								skin = Settings::Skinchanger::skins[isCT > 0 ? WEAPON_KNIFE : WEAPON_KNIFE_T];
+								current_weapon = skin.ItemDefinitionIndex;
+							}
+							else
+								skin = Settings::Skinchanger::skins[current_weapon];
+
+								current_weapon_skin = skin.PaintKit;
+								weaponSkinSeed = skin.Seed;
+								weaponWear = skin.Wear;
+								weaponStatTrak = skin.StatTrak;
+								std::fill(std::begin(weaponName), std::end(weaponName), 0);
+								std::copy(std::begin(skin.CustomName), std::end(skin.CustomName), std::begin(weaponName));
+						}
+					}
+					ImGui::NextColumn();
+					{
+						if (ImGui::Button("Apply", ImVec2(-1, 0)))
+						{
+							if (current_weapon >= WEAPON_KNIFE_BAYONET)
+							{
+								Settings::Skinchanger::skins[WEAPON_KNIFE_FLIP] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_flip.mdl");
+								Settings::Skinchanger::skins[WEAPON_KNIFE_GUT] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_gut.mdl");
+								Settings::Skinchanger::skins[WEAPON_KNIFE_BAYONET] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_bayonet.mdl");
+								Settings::Skinchanger::skins[WEAPON_KNIFE_M9_BAYONET] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_m9_bay.mdl");
+								Settings::Skinchanger::skins[WEAPON_KNIFE_KARAMBIT] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_karam.mdl");
+								Settings::Skinchanger::skins[WEAPON_KNIFE_TACTICAL] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_tactical.mdl");
+								Settings::Skinchanger::skins[WEAPON_KNIFE_BUTTERFLY] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_butterfly.mdl");
+								Settings::Skinchanger::skins[WEAPON_KNIFE_SURVIVAL_BOWIE] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_survival_bowie.mdl");
+								Settings::Skinchanger::skins[WEAPON_KNIFE_FALCHION] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_falchion_advanced.mdl");
+								Settings::Skinchanger::skins[WEAPON_KNIFE_PUSH] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_push.mdl");
+
+								Settings::Skinchanger::skins[isCT > 0 ? WEAPON_KNIFE : WEAPON_KNIFE_T] = Settings::Skinchanger::Skin(current_weapon_skin == 0 ? -1 : current_weapon_skin, current_weapon, weaponSkinSeed, weaponWear, weaponStatTrak, weaponName, "");
+							} else
+								Settings::Skinchanger::skins[current_weapon] = Settings::Skinchanger::Skin(current_weapon_skin == 0 ? -1 : current_weapon_skin, current_weapon, weaponSkinSeed, weaponWear, weaponStatTrak, weaponName, "");
+
+							SkinChanger::ForceFullUpdate = true;
+						}
+					}
+					ImGui::EndChild();
+				}
+			}
+			ImGui::EndChild();
 		}
 		ImGui::End();
 	}
@@ -997,7 +1098,7 @@ void UI::SetupWindows()
 			MainWindow();
 		ImGui::PopStyleVar();
 
-		ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(600, 500));
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(800, 600));
 			SkinChangerWindow();
 		ImGui::PopStyleVar();
 
