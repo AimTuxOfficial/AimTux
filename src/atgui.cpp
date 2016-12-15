@@ -70,7 +70,7 @@ void UI::SetupColors()
 	style.TouchExtraPadding = ImVec2(0, 0);
 	style.IndentSpacing = 21.0f;
 	style.ColumnsMinSpacing = 3.0f;
-	style.ScrollbarSize = 10.0f;
+	style.ScrollbarSize = 12.0f;
 	style.ScrollbarRounding = 0.0f;
 	style.GrabMinSize = 5.0f;
 	style.GrabRounding = 0.0f;
