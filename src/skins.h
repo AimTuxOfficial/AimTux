@@ -84,8 +84,7 @@ const char *knives[] =
 		"", //10
 		"", //11
 		"Falchion", //12
-		"",
-		"",
+		"", //13
 		"Bowie", //14
 		"Butterfly", //15
 		"Shadow Daggers", //16
