@@ -823,9 +823,9 @@ void MainWindow()
 				distance = i > page ? i - page : page - i;
 
 			ImGui::GetStyle().Colors[ImGuiCol_Button] = ImVec4(
-					Settings::UI::mainColor.Value.x + (distance * 0.125f),
-					Settings::UI::mainColor.Value.y + (distance * 0.125f),
-					Settings::UI::mainColor.Value.z + (distance * 0.125f),
+					Settings::UI::mainColor.Value.x - (distance * 0.035f),
+					Settings::UI::mainColor.Value.y - (distance * 0.035f),
+					Settings::UI::mainColor.Value.z - (distance * 0.035f),
 					Settings::UI::mainColor.Value.w
 			);
 
