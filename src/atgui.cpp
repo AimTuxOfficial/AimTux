@@ -796,21 +796,19 @@ void SkinChangerWindow()
 			{
 				ImGui::PushItemWidth(-1);
 					ImGui::ListBoxHeader("##GUNS", ImVec2(0, 300));
-						for (int i = 0; i < IM_ARRAYSIZE(guns); i++)
+						for (auto it : guns)
 						{
-							const bool item_selected = (i == current_weapon);
-							if (strlen(guns[i]) == 0)
-								continue;
-							ImGui::PushID(i);
-								if (ImGui::Selectable(guns[i], item_selected))
+							const bool item_selected = (it.first == current_weapon);
+							ImGui::PushID(it.first);
+								if (ImGui::Selectable(it.second, item_selected))
 								{
-									current_weapon = i;
+									current_weapon = it.first;
 
-									auto keyExists = Settings::Skinchanger::skins.find(i);
+									auto keyExists = Settings::Skinchanger::skins.find(it.first);
 									if (keyExists == Settings::Skinchanger::skins.end())
 										current_weapon_skin = -1;
 									else
-										current_weapon_skin = Settings::Skinchanger::skins[i].PaintKit;
+										current_weapon_skin = Settings::Skinchanger::skins[it.first].PaintKit;
 								}
 							ImGui::PopID();
 						}
@@ -854,15 +852,13 @@ void SkinChangerWindow()
 					{
 						ImGui::SetColumnOffset(1, ImGui::GetWindowWidth() - 60);
 						ImGui::ListBoxHeader("##KNIVES", ImVec2(-1, -1));
-							for (int i = 0; i < IM_ARRAYSIZE(knives); i++)
+							for (auto knife : knives)
 							{
-								const bool item_selected = ((WEAPON_KNIFE_BAYONET + i) == current_weapon);
-								if (strlen(knives[i]) == 0)
-										continue;
-								ImGui::PushID(i);
-									if (ImGui::Selectable(knives[i], item_selected))
+								const bool item_selected = ((WEAPON_KNIFE_BAYONET + knife.first) == current_weapon);
+								ImGui::PushID(knife.first);
+									if (ImGui::Selectable(knife.second, item_selected))
 									{
-										current_weapon = (WEAPON_KNIFE_BAYONET + i);
+										current_weapon = (WEAPON_KNIFE_BAYONET + knife.first);
 										current_weapon_skin = Settings::Skinchanger::skins[isCT > 0 ? WEAPON_KNIFE : WEAPON_KNIFE_T].PaintKit;
 									}
 								ImGui::PopID();

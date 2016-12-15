@@ -1,94 +1,53 @@
 #pragma once
 
-const char *guns[] =
-	{
-		"",                  // 0
-		"Deagle",            // 1
-		"Dual Berettas",     // 2
-		"Five-SeveN",        // 3
-		"Glock",             // 4
-		"",                  // 5
-		"",                  // 6
-		"AK-47",             // 7
-		"AUG",               // 8
-		"AWP",               // 9
-		"Famas",             // 10
-		"G3SG1",             // 11
-		"",                  // 12
-		"Galil AR",          // 13
-		"M249",              // 14
-		"",                  // 15
-		"M4A4",              // 16
-		"MAC-10",            // 17
-		"",                  // 18
-		"P90",               // 19
-		"",                  // 20
-		"",                  // 21
-		"",                  // 22
-		"",                  // 23
-		"UMP-45",            // 24
-		"XM1014",            // 25
-		"PP-19 Bizon",       // 26
-		"MAG-7",             // 27
-		"Negev",             // 28
-		"Sawed-Off Shotgun", // 29
-		"Tec-9",             // 30
-		"",                  // 31
-		"P2000",             // 32
-		"MP7",               // 33
-		"MP9",               // 34
-		"Nova",              // 35
-		"P250",              // 36
-		"",                  // 37
-		"SCAR-20",           // 38
-		"SG 553",            // 39
-		"SSG 08",            // 40
-		"",                  // 41
-		"",                  // 42
-		"",                  // 43
-		"",                  // 44
-		"",                  // 45
-		"",                  // 46
-		"",                  // 47
-		"",                  // 48
-		"",                  // 49
-		"",                  // 50
-		"",                  // 51
-		"",                  // 52
-		"",                  // 53
-		"",                  // 54
-		"",                  // 55
-		"",                  // 56
-		"",                  // 57
-		"",                  // 58
-		"",                  // 59
-		"M4A1-S",            // 60
-		"USP",               // 61
-		"",                  // 62
-		"CZ-75",             // 63
-		"Revolver",          // 64
+std::map<int, const char*> guns = {
+		{ WEAPON_DEAGLE, "Deagle" },
+		{ WEAPON_ELITE, "Dual Berettas" },
+		{ WEAPON_FIVESEVEN, "Five-SeveN" },
+		{ WEAPON_GLOCK, "Glock" },
+		{ WEAPON_AK47, "AK-47" },
+		{ WEAPON_AUG, "AUG" },
+		{ WEAPON_AWP, "AWP" },
+		{ WEAPON_FAMAS, "Famas" },
+		{ WEAPON_G3SG1, "G3SG1" },
+		{ WEAPON_GALILAR, "Galil AR" },
+		{ WEAPON_M249, "M249" },
+		{ WEAPON_M4A1, "M4A4" },
+		{ WEAPON_MAC10, "MAC-10" },
+		{ WEAPON_P90, "P90" },
+		{ WEAPON_UMP45, "UMP-45" },
+		{ WEAPON_XM1014, "XM1014" },
+		{ WEAPON_BIZON, "PP-19 Bizon" },
+		{ WEAPON_MAG7, "MAG-7" },
+		{ WEAPON_NEGEV, "Negev" },
+		{ WEAPON_SAWEDOFF, "Sawed-Off" },
+		{ WEAPON_TEC9, "Tec-9" },
+		{ WEAPON_HKP2000, "P2000" },
+		{ WEAPON_MP7, "MP7" },
+		{ WEAPON_MP9, "MP9" },
+		{ WEAPON_NOVA, "Nova" },
+		{ WEAPON_P250, "P250" },
+		{ WEAPON_SCAR20, "SCAR-20" },
+		{ WEAPON_SG556, "SG 553" },
+		{ WEAPON_SSG08, "SSG 08" },
+		{ WEAPON_M4A1_SILENCER, "M4A1-S" },
+		{ WEAPON_USP_SILENCER, "USP-S" },
+		{ WEAPON_CZ75A, "CZ-75" },
+		{ WEAPON_REVOLVER, "Revolver" },
 };
 
-const char *knives[] =
-	{
-		"Bayonet", //0
-		"",
-		"",
-		"",
-		"",
-		"Flip", //5
-		"Gut", //6
-		"Karambit", //7
-		"M9 Bayonet", //8
-		"Huntsman", //9
-		"", //10
-		"", //11
-		"Falchion", //12
-		"", //13
-		"Bowie", //14
-		"Butterfly", //15
-		"Shadow Daggers", //16
-	};
+std::map<int, const char*> knives = {
+		{ 0, "Bayonet" },
+		{ 5, "Flip" },
+		{ 6, "Gut" },
+		{ 7, "Karambit" },
+		{ 8, "M9 Bayonet" },
+		{ 9, "Huntsman" },
+		{ 12, "Falchion" },
+		{ 14, "Bowie" },
+		{ 15, "Butterfly" },
+		{ 16, "Shadow Daggers" },
+};
 
 const char *weapon_skins[] =
 	{
