@@ -533,11 +533,11 @@ void HvHTab()
 
 	const char* YTypes[] = { "SLOW SPIN", "FAST SPIN", "JITTER", "SIDE", "BACKWARDS", "FORWARDS", "LEFT", "RIGHT", "STATIC" };
 	const char* XTypes[] = { "UP", "DOWN", "DANCE", "FRONT",
-		#ifdef UNTRUSTED_SETTINGS
+#ifdef UNTRUSTED_SETTINGS
 			"FAKE UP",
 			"FAKE DOWN",
-		#endif
- 	};
+#endif
+	};
 
 	ImGui::Columns(2, NULL, true);
 	{
