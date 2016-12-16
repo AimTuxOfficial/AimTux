@@ -544,7 +544,7 @@ void HvHTab()
 		ImGui::BeginChild("HVH1", ImVec2(0, 0), true);
 		{
 			ImGui::Text("AntiAim");
-			ImGui::BeginChild("##ANTIAIM", ImVec2(0, 175), true);
+			ImGui::BeginChild("##ANTIAIM", ImVec2(0, 197), true);
 			{
 				ImGui::Checkbox("Yaw", &Settings::AntiAim::Yaw::enabled);
 				ImGui::Separator();
@@ -983,6 +983,7 @@ void SkinChangerWindow()
 					else
 						skin = Settings::Skinchanger::skins[current_weapon];
 				}
+
 				current_weapon_skin = skin.PaintKit;
 				weaponSkinSeed = skin.Seed;
 				weaponWear = skin.Wear;
