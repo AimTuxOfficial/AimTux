@@ -237,7 +237,7 @@ void AimbotTab()
 
 	ImGui::Columns(2, NULL, true);
 	{
-		if (ImGui::BeginChild("COL1", ImVec2(0, 0), true))
+		ImGui::BeginChild("COL1", ImVec2(0, 0), true);
 		{
 			ImGui::Text("Target");
 			ImGui::Separator();
@@ -293,7 +293,7 @@ void AimbotTab()
 	}
 	ImGui::NextColumn();
 	{
-		if (ImGui::BeginChild("COL2", ImVec2(0, 0), true))
+		ImGui::BeginChild("COL2", ImVec2(0, 0), true);
 		{
 			ImGui::Text("Aimkey Only");
 			ImGui::Separator();
@@ -347,7 +347,7 @@ void TriggerbotTab()
 	ImGui::Separator();
 	ImGui::Columns(2, NULL, true);
 	{
-		if (ImGui::BeginChild("TRIG1", ImVec2(0, 0), true))
+		ImGui::BeginChild("TRIG1", ImVec2(0, 0), true);
 		{
 			ImGui::Text("Keybind");
 			ImGui::Separator();
@@ -380,7 +380,7 @@ void TriggerbotTab()
 	}
 	ImGui::NextColumn();
 	{
-		if (ImGui::BeginChild("TRIG2", ImVec2(0, 0), true))
+		ImGui::BeginChild("TRIG2", ImVec2(0, 0), true);
 		{
 			ImGui::Text("Filter");
 			ImGui::Separator();
@@ -415,7 +415,7 @@ void VisualsTab()
 
 	ImGui::Columns(2, NULL, true);
 	{
-		if (ImGui::BeginChild("ESP", ImVec2(0, 0), true))
+		ImGui::BeginChild("ESP", ImVec2(0, 0), true);
 		{
 			ImGui::Text("Player ESP");
 			ImGui::Separator();
@@ -469,7 +469,7 @@ void VisualsTab()
 
 	ImGui::NextColumn();
 	{
-		if (ImGui::BeginChild("Chams", ImVec2(0, 0), true))
+		ImGui::BeginChild("Chams", ImVec2(0, 0), true);
 		{
 			ImGui::Text("Chams");
 			ImGui::Separator();
@@ -536,10 +536,10 @@ void HvHTab()
 
 	ImGui::Columns(2, NULL, true);
 	{
-		if (ImGui::BeginChild("HVH1", ImVec2(0, 0), true))
+		ImGui::BeginChild("HVH1", ImVec2(0, 0), true);
 		{
 			ImGui::Text("AntiAim");
-			if (ImGui::BeginChild("##ANTIAIM", ImVec2(0, 205), true))
+			ImGui::BeginChild("##ANTIAIM", ImVec2(0, 205), true);
 			{
 				ImGui::Checkbox("Yaw", &Settings::AntiAim::enabled_Y);
 				ImGui::Separator();
@@ -612,10 +612,10 @@ void HvHTab()
 	}
 	ImGui::NextColumn();
 	{
-		if (ImGui::BeginChild("HVH2", ImVec2(0, 0), true))
+		ImGui::BeginChild("HVH2", ImVec2(0, 0), true);
 		{
 			ImGui::Text("AutoWall");
-			if (ImGui::BeginChild("##AUTOWALL", ImVec2(0, 140), true))
+			ImGui::BeginChild("##AUTOWALL", ImVec2(0, 140), true);
 			{
 				ImGui::Columns(2, NULL, true);
 				{
@@ -659,7 +659,7 @@ void MiscTab()
 
 	ImGui::Columns(2, NULL, true);
 	{
-		if (ImGui::BeginChild("Child1", ImVec2(0, 0), true))
+		ImGui::BeginChild("Child1", ImVec2(0, 0), true);
 		{
 			ImGui::Text("Movement");
 			ImGui::Separator();
@@ -714,7 +714,7 @@ void MiscTab()
 	}
 	ImGui::NextColumn();
 	{
-		if (ImGui::BeginChild("Child2", ImVec2(0, 0), true))
+		ImGui::BeginChild("Child2", ImVec2(0, 0), true);
 		{
 			ImGui::Text("Clantag");
 			ImGui::Separator();
@@ -946,6 +946,7 @@ void SkinChangerWindow()
 			ImGui::RadioButton("T", &isCT, 0);
 		ImGui::NextColumn();
 		ImGui::BeginChild("Other", ImVec2(-1, -1), true);
+		{
 			ImGui::InputInt("Skin ID", &current_weapon_skin);
 			ImGui::SliderFloat("Wear", &weaponWear, 0.00050000002374872565f, 1.0f, "0%f");
 			ImGui::InputInt("Seed", &weaponSkinSeed);
@@ -1024,7 +1025,8 @@ void SkinChangerWindow()
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
-		ImGui::EndChild();
+			ImGui::EndChild();
+		}
 		ImGui::End();
 	}
 }
