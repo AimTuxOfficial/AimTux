@@ -63,6 +63,30 @@ std::vector<ClanTagChanger::Animation> ClanTagChanger::animations = {
 };
 ClanTagChanger::Animation* ClanTagChanger::animation = &ClanTagChanger::animations[0];
 
+void ClanTagChanger::UpdateClanTagCallback()
+{
+	if (strlen(Settings::ClanTagChanger::value) > 0 && Settings::ClanTagChanger::type > STATIC)
+	{
+		switch (Settings::ClanTagChanger::type)
+		{
+			case MARQUEE:
+				*ClanTagChanger::animation = ClanTagChanger::Marquee("CUSTOM", Settings::ClanTagChanger::value);
+				break;
+			case WORDS:
+				*ClanTagChanger::animation = ClanTagChanger::Words("CUSTOM", Settings::ClanTagChanger::value);
+				break;
+			case LETTERS:
+				*ClanTagChanger::animation = ClanTagChanger::Letters("CUSTOM", Settings::ClanTagChanger::value);
+				break;
+		}
+
+		return;
+	}
+
+	int current_animation = Settings::ClanTagChanger::type - 1;
+	if (current_animation >= 0)
+		ClanTagChanger::animation = &ClanTagChanger::animations[current_animation];
+}
 
 void ClanTagChanger::CreateMove(CUserCmd* cmd)
 {
@@ -72,16 +96,7 @@ void ClanTagChanger::CreateMove(CUserCmd* cmd)
 	if (!engine->IsInGame())
 		return;
 
-	static int current_animation = Settings::ClanTagChanger::type - 1;
-	if (current_animation != Settings::ClanTagChanger::type - 1)
-	{
-		current_animation = Settings::ClanTagChanger::type - 1;
-
-		if (current_animation >= 0)
-			ClanTagChanger::animation = &ClanTagChanger::animations[current_animation];
-	}
-
-	if (strlen(Settings::ClanTagChanger::value) == 0 && current_animation < 0)
+	if (strlen(Settings::ClanTagChanger::value) == 0 && Settings::ClanTagChanger::type == STATIC)
 		return;
 
 	long currentTime_ms = std::chrono::duration_cast<std::chrono::milliseconds>(

@@ -60,6 +60,7 @@ namespace ClanTagChanger
 	Animation Letters(std::string name, std::string text, int speed = 1000);
 	extern std::vector<Animation> animations;
 	extern Animation* animation;
+	void UpdateClanTagCallback();
 	void CreateMove(CUserCmd* cmd);
 }
 
