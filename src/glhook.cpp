@@ -52,7 +52,7 @@ void SDL2::SwapWindow(SDL_Window* window)
 	ImGui::GetIO().WantCaptureMouse = UI::isVisible;
 	ImGui::GetIO().WantCaptureKeyboard = UI::isVisible;
 
-	if (!SDLInput::Enabled)
+	if (UI::isVisible && !SetKeyCodeState::shouldListen)
 	{
 		SDL_Event event;
 
@@ -90,8 +90,6 @@ int SDL2::PollEvent(SDL_Event* event)
 
 	if (event->key.keysym.sym == SDLK_INSERT && event->type == SDL_KEYDOWN)
 		UI::SetVisible(!UI::isVisible);
-
-	SDLInput::Enabled = !UI::isVisible;
 
 	return oSDL_PollEvent(event);
 }

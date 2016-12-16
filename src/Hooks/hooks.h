@@ -49,8 +49,3 @@ namespace SetKeyCodeState
 	extern bool shouldListen;
 	extern ButtonCode_t* keyOutput;
 }
-
-namespace SDLInput
-{
-	extern bool Enabled;
-}
