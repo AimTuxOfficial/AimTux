@@ -48,7 +48,8 @@ enum AntiAimType_Y : int
 	BACKWARDS,
 	FORWARDS,
 	LEFT,
-	RIGHT
+	RIGHT,
+	STATICAA
 };
 
 enum AntiAimType_X : int
@@ -56,6 +57,7 @@ enum AntiAimType_X : int
 	STATIC_UP,
 	STATIC_DOWN,
 	DANCE,
+	FRONT,
 	STATIC_UP_FAKE,
 	STATIC_DOWN_FAKE
 };

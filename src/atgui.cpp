@@ -530,9 +530,13 @@ void VisualsTab()
 void HvHTab()
 {
 
-	const char* YFakeTypes[] = { "SLOW SPIN", "FAST SPIN", "JITTER", "SIDE", "BACKWARDS", "FORWARDS", "LEFT", "RIGHT" };
-	const char* YActualTypes[] = { "SLOW SPIN", "FAST SPIN", "JITTER", "SIDE", "BACKWARDS", "FORWARDS", "LEFT", "RIGHT" };
-	const char* XTypes[] = { "UP", "DOWN", "DANCE" };
+	const char* YTypes[] = { "SLOW SPIN", "FAST SPIN", "JITTER", "SIDE", "BACKWARDS", "FORWARDS", "LEFT", "RIGHT", "STATIC" };
+	const char* XTypes[] = { "UP", "DOWN", "DANCE", "FRONT",
+		#ifdef UNTRUSTED_SETTINGS
+			"FAKE UP",
+			"FAKE DOWN",
+		#endif
+ 	};
 
 	ImGui::Columns(2, NULL, true);
 	{
@@ -551,8 +555,8 @@ void HvHTab()
 				ImGui::NextColumn();
 				{
 					ImGui::PushItemWidth(-1);
-						ImGui::Combo("##YFAKETYPE", &Settings::AntiAim::Yaw::type_fake, YFakeTypes, IM_ARRAYSIZE(YFakeTypes));
-						ImGui::Combo("##YACTUALTYPE", &Settings::AntiAim::Yaw::type, YActualTypes, IM_ARRAYSIZE(YActualTypes));
+						ImGui::Combo("##YFAKETYPE", &Settings::AntiAim::Yaw::type_fake, YTypes, IM_ARRAYSIZE(YTypes));
+						ImGui::Combo("##YACTUALTYPE", &Settings::AntiAim::Yaw::type, YTypes, IM_ARRAYSIZE(YTypes));
 					ImGui::PopItemWidth();
 				}
 				ImGui::Columns(1);

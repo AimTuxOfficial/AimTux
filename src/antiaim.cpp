@@ -67,32 +67,22 @@ void DoAntiAimY(QAngle&  angle, bool bFlip)
 		angle.y = fYaw;
 	}
 	else if (aa_type == JITTER)
-	{
 		angle.y = yFlip ? 270.0f : 90.0f;
-	}
 	else if (aa_type == SIDE)
-	{
 		if (yFlip)
 			angle.y += 90.0f;
 		else
 			angle.y -= 90.0f;
-	}
 	else if (aa_type == BACKWARDS)
-	{
 		angle.y -= 180.0f;
-	}
 	else if (aa_type == FORWARDS)
-	{
 		angle.y -= 0;
-	}
 	else if (aa_type == LEFT)
-	{
 		angle.y += 90;
-	}
 	else if (aa_type == RIGHT)
-	{
 		angle.y -= 90;
-	}
+	else if (aa_type == STATICAA)
+		angle.y = 0;
 }
 
 void AntiAim::CreateMove(CUserCmd* cmd)
@@ -141,13 +131,9 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 		int pitch_aa_type = Settings::AntiAim::Pitch::type;
 
 		if (pitch_aa_type == STATIC_UP)
-		{
 			angle.x = -89.0f;
-		}
 		else if (pitch_aa_type == STATIC_DOWN)
-		{
 			angle.x = 89.0f;
-		}
 		else if (pitch_aa_type == DANCE)
 		{
 			pDance += 15.0f;
@@ -159,6 +145,8 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 			else if (pDance < 50.f)
 				angle.x = 30.f;
 		}
+		else if (pitch_aa_type == FRONT)
+			angle.x = 0.0f;
 #ifdef UNTRUSTED_SETTINGS
 		else if (pitch_aa_type == STATIC_UP_FAKE)
 		{
