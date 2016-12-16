@@ -48,6 +48,10 @@ void SDL2::SwapWindow(SDL_Window* window)
 
 	ImGui_ImplSdl_NewFrame(window);
 
+	ImGui::GetIO().MouseDrawCursor = UI::isVisible;
+	ImGui::GetIO().WantCaptureMouse = UI::isVisible;
+	ImGui::GetIO().WantCaptureKeyboard = UI::isVisible;
+
 	if (!SDLInput::Enabled)
 	{
 		SDL_Event event;
@@ -65,9 +69,6 @@ void SDL2::SwapWindow(SDL_Window* window)
 	UI::SetupColors();
 	UI::SetupWindows();
 
-	ImGui::GetIO().MouseDrawCursor = UI::isVisible;
-	ImGui::GetIO().WantCaptureMouse = UI::isVisible;
-	ImGui::GetIO().WantCaptureKeyboard = UI::isVisible;
 	ImGui::GetCurrentContext()->Font->DisplayOffset = ImVec2(0.f, 0.f);
 
 	ImGui::Render();
