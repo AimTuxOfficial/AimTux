@@ -1,5 +1,6 @@
 #include "atgui.h"
 #include "skins.h"
+#include "util.h"
 #include <string>
 
 bool UI::isVisible = false;
@@ -871,6 +872,8 @@ void SkinChangerWindow()
 		static int weaponSkinSeed;
 		static int weaponStatTrak;
 		static char weaponName[18];
+		static char filterSkins[32];
+		static char filterGuns[32];
 		static int isCT = 1;
 
 		if (ImGui::Checkbox("Enabled", &Settings::Skinchanger::enabled))
@@ -886,9 +889,12 @@ void SkinChangerWindow()
 
 		ImGui::Columns(2, NULL, false);
 			ImGui::PushItemWidth(-1);
+				ImGui::InputText("Filter Guns", filterGuns, IM_ARRAYSIZE(filterGuns));
 				ImGui::ListBoxHeader("##GUNS", ImVec2(0, 300));
 					for (auto it : guns)
 					{
+						if (!Util::Contains(Util::ToLower(std::string(filterGuns)), Util::ToLower(std::string(it.second))))
+							continue;
 						const bool item_selected = (it.first == current_weapon);
 						ImGui::PushID(it.first);
 							if (ImGui::Selectable(it.second, item_selected))
@@ -907,13 +913,16 @@ void SkinChangerWindow()
 			ImGui::PopItemWidth();
 		ImGui::NextColumn();
 		ImGui::PushItemWidth(-1);
+			ImGui::InputText("Filter Skins", filterSkins, IM_ARRAYSIZE(filterSkins));
 			ImGui::ListBoxHeader("##SKINS", ImVec2(0, 300));
 				for (auto it : weapon_skins)
 				{
+					if (!Util::Contains(Util::ToLower(std::string(filterSkins)), Util::ToLower(std::string(it.second))))
+						continue;
 					const bool item_selected = (it.first == current_weapon_skin);
 					ImGui::PushID(it.first);
-						if (ImGui::Selectable(it.second, item_selected))
-							current_weapon_skin = it.first;
+					if (ImGui::Selectable(it.second, item_selected))
+						current_weapon_skin = it.first;
 					ImGui::PopID();
 				}
 			ImGui::ListBoxFooter();

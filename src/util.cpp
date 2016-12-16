@@ -102,3 +102,14 @@ void Util::ProtectAddr(void* addr, int prot)
 	mprotect(address, sizeof(address), prot);
 }
 
+bool Util::Contains(const std::string &word, const std::string &sentence) {
+	if (word == "" || sentence == "")
+		return true;
+	return sentence.find(word) != std::string::npos;
+}
+
+std::string Util::ToLower(std::string str)
+{
+	std::transform(str.begin(), str.end(), str.begin(), (int (*)(int))std::tolower);
+	return str;
+}
