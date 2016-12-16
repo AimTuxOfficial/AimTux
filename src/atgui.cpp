@@ -872,7 +872,7 @@ void SkinChangerWindow()
 	{
 		static int current_weapon = 1;
 		static int current_weapon_skin = Settings::Skinchanger::skins[current_weapon].PaintKit;
-		static float weaponWear = 0.00050000002374872565f;
+		static float weaponWear = 0.005f;
 		static int weaponSkinSeed;
 		static int weaponStatTrak;
 		static char weaponName[18];
@@ -961,7 +961,7 @@ void SkinChangerWindow()
 		ImGui::BeginChild("Other", ImVec2(-1, -1), true);
 		{
 			ImGui::InputInt("Skin ID", &current_weapon_skin);
-			ImGui::SliderFloat("Wear", &weaponWear, 0.00050000002374872565f, 1.0f, "0%f");
+			ImGui::SliderFloat("Wear", &weaponWear, 0.005f, 1.0f, "0%f");
 			ImGui::InputInt("Seed", &weaponSkinSeed);
 			ImGui::InputInt("StatTrak", &weaponStatTrak);
 			ImGui::InputText("Name", weaponName, IM_ARRAYSIZE(weaponName));
