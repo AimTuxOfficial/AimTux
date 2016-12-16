@@ -961,7 +961,7 @@ void SkinChangerWindow()
 		ImGui::BeginChild("Other", ImVec2(-1, -1), true);
 		{
 			ImGui::InputInt("Skin ID", &current_weapon_skin);
-			ImGui::SliderFloat("Wear", &weaponWear, 0.005f, 1.0f, "0%f");
+			ImGui::SliderFloat("Wear", &weaponWear, 0.005f, 1.0f);
 			ImGui::InputInt("Seed", &weaponSkinSeed);
 			ImGui::InputInt("StatTrak", &weaponStatTrak);
 			ImGui::InputText("Name", weaponName, IM_ARRAYSIZE(weaponName));
