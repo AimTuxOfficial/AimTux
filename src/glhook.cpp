@@ -48,6 +48,16 @@ void SDL2::SwapWindow(SDL_Window* window)
 
 	ImGui_ImplSdl_NewFrame(window);
 
+	if (!SDLInput::Enabled)
+	{
+		SDL_Event event;
+
+		while (SDL_PollEvent(&event))
+		{
+			ImGui_ImplSdl_ProcessEvent(&event);
+		}
+	}
+
 	Draw::ImStart();
 	UI::SwapWindow();
 	Draw::ImEnd();
@@ -81,6 +91,8 @@ int SDL2::PollEvent(SDL_Event* event)
 
 	if (event->key.keysym.sym == SDLK_INSERT && event->type == SDL_KEYDOWN)
 		UI::SetVisible(!UI::isVisible);
+
+	SDLInput::Enabled = !UI::isVisible;
 
 	return oSDL_PollEvent(event);
 }

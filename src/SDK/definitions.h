@@ -19,6 +19,7 @@ typedef CGlowObjectManager* (*GlowObjectManagerFn) (void);
 typedef bool (*MsgFunc_ServerRankRevealAllFn) (float*);
 typedef void (*SendClanTagFn) (const char*, const char*);
 typedef void (*IsReadyCallbackFn) (void*);
+typedef void* (*GetSDLManagerFn) (void);
 
 struct WeaponInfo_t {
 	float m_flWeaponArmorRatio;

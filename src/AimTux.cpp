@@ -12,6 +12,7 @@ int __attribute__((constructor)) aimtux_init()
 {
 	Hooker::HookInterfaces();
 	Hooker::HookViewRender();
+	Hooker::HookSDLInput();
 	Hooker::HookVMethods();
 	Hooker::HookIClientMode();
 	Hooker::HookGlobalVars();
@@ -55,6 +56,9 @@ int __attribute__((constructor)) aimtux_init()
 	surface_vmt->HookVM((void*) Hooks::OnScreenSizeChanged, 116);
 	surface_vmt->ApplyVMT();
 
+	sdlmanager_vmt->HookVM((void*) Hooks::HandleSDLInput, 19);
+	sdlmanager_vmt->ApplyVMT();
+
 	SkinChanger::HookCBaseViewModel();
 
 	NetVarManager::dumpNetvars();
@@ -82,6 +86,7 @@ void __attribute__((destructor)) aimtux_shutdown()
 	viewRender_vmt->ReleaseVMT();
 	inputInternal_vmt->ReleaseVMT();
 	surface_vmt->ReleaseVMT();
+	sdlmanager_vmt->ReleaseVMT();
 
 	SkinChanger::UnhookCBaseViewModel();
 

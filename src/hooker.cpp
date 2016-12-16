@@ -23,6 +23,7 @@ IPrediction* prediction = nullptr;
 IGameMovement* gamemovement = nullptr;
 IMoveHelper* movehelper = nullptr;
 CGlowObjectManager* glowmanager = nullptr;
+void* sdlmanager = nullptr;
 
 VMT* panel_vmt = nullptr;
 VMT* client_vmt = nullptr;
@@ -32,6 +33,7 @@ VMT* gameEvents_vmt = nullptr;
 VMT* viewRender_vmt = nullptr;
 VMT* inputInternal_vmt = nullptr;
 VMT* surface_vmt = nullptr;
+VMT* sdlmanager_vmt = nullptr;
 
 bool* bSendPacket = nullptr;
 int* nPredictionRandomSeed = nullptr;
@@ -102,6 +104,7 @@ void Hooker::HookVMethods()
 	viewRender_vmt = new VMT(viewrender);
 	inputInternal_vmt = new VMT(inputInternal);
 	surface_vmt = new VMT(surface);
+	sdlmanager_vmt = new VMT(sdlmanager);
 }
 
 void Hooker::HookIClientMode()
@@ -192,4 +195,11 @@ void Hooker::HookPollEvent()
 	pollevent_jump_address = reinterpret_cast<uintptr_t*>(GetAbsoluteAddress(pollevent_fn, 3, 7));
 	original_pollevent = *pollevent_jump_address;
 	*pollevent_jump_address = reinterpret_cast<uintptr_t>(&SDL2::PollEvent);
+}
+
+void Hooker::HookSDLInput()
+{
+	uintptr_t func_address = FindPattern(GetLibraryAddress("launcher_client.so"), 0xFFFFFFFFF, (unsigned char*) GETSDLMGR_SIGNATURE, GETSDLMGR_MASK);
+
+	sdlmanager = reinterpret_cast<GetSDLManagerFn>(func_address)();
 }
