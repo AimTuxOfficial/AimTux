@@ -967,77 +967,69 @@ void SkinChangerWindow()
 			ImGui::InputInt("StatTrak", &weaponStatTrak);
 			ImGui::InputText("Name", weaponName, IM_ARRAYSIZE(weaponName));
 			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
+			if (ImGui::Button("Load", ImVec2(-1, 0)))
 			{
-				if (ImGui::Button("Load", ImVec2(-1, 0)))
+				Settings::Skinchanger::Skin skin;
+				if (current_weapon >= WEAPON_KNIFE_BAYONET)
 				{
-					Settings::Skinchanger::Skin skin;
-					if (current_weapon >= WEAPON_KNIFE_BAYONET)
-					{
-						skin = Settings::Skinchanger::skins[isCT == 1 ? WEAPON_KNIFE : WEAPON_KNIFE_T];
-						current_weapon = skin.ItemDefinitionIndex;
-					}
-					else
-					{
-						auto keyExists = Settings::Skinchanger::skins.find(current_weapon);
-						if (keyExists == Settings::Skinchanger::skins.end())
-							skin = Settings::Skinchanger::Skin(current_weapon, -1, -1, -1, -1, "", "");
-						else
-							skin = Settings::Skinchanger::skins[current_weapon];
-
-						current_weapon_skin = skin.PaintKit;
-						weaponSkinSeed = skin.Seed;
-						weaponWear = skin.Wear;
-						weaponStatTrak = skin.StatTrak;
-						std::fill(std::begin(weaponName), std::end(weaponName), 0);
-						std::copy(std::begin(skin.CustomName), std::end(skin.CustomName), std::begin(weaponName));
-					}
+					skin = Settings::Skinchanger::skins[isCT == 1 ? WEAPON_KNIFE : WEAPON_KNIFE_T];
+					current_weapon = skin.ItemDefinitionIndex;
 				}
+				else
+				{
+					auto keyExists = Settings::Skinchanger::skins.find(current_weapon);
+					if (keyExists == Settings::Skinchanger::skins.end())
+						skin = Settings::Skinchanger::Skin(current_weapon, -1, -1, -1, -1, "", "");
+					else
+						skin = Settings::Skinchanger::skins[current_weapon];
+				}
+				current_weapon_skin = skin.PaintKit;
+				weaponSkinSeed = skin.Seed;
+				weaponWear = skin.Wear;
+				weaponStatTrak = skin.StatTrak;
+				std::fill(std::begin(weaponName), std::end(weaponName), 0);
+				std::copy(std::begin(skin.CustomName), std::end(skin.CustomName), std::begin(weaponName));
 			}
-			ImGui::NextColumn();
+			if (ImGui::Button("Apply", ImVec2(-1, 0)))
 			{
-				if (ImGui::Button("Apply", ImVec2(-1, 0)))
+				if (current_weapon >= WEAPON_KNIFE_BAYONET)
 				{
-					if (current_weapon >= WEAPON_KNIFE_BAYONET)
-					{
-						Settings::Skinchanger::skins[WEAPON_KNIFE_FLIP] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_flip.mdl");
-						Settings::Skinchanger::skins[WEAPON_KNIFE_GUT] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_gut.mdl");
-						Settings::Skinchanger::skins[WEAPON_KNIFE_BAYONET] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_bayonet.mdl");
-						Settings::Skinchanger::skins[WEAPON_KNIFE_M9_BAYONET] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_m9_bay.mdl");
-						Settings::Skinchanger::skins[WEAPON_KNIFE_KARAMBIT] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_karam.mdl");
-						Settings::Skinchanger::skins[WEAPON_KNIFE_TACTICAL] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_tactical.mdl");
-						Settings::Skinchanger::skins[WEAPON_KNIFE_BUTTERFLY] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_butterfly.mdl");
-						Settings::Skinchanger::skins[WEAPON_KNIFE_SURVIVAL_BOWIE] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_survival_bowie.mdl");
-						Settings::Skinchanger::skins[WEAPON_KNIFE_FALCHION] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_falchion_advanced.mdl");
-						Settings::Skinchanger::skins[WEAPON_KNIFE_PUSH] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_push.mdl");
+					Settings::Skinchanger::skins[WEAPON_KNIFE_FLIP] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_flip.mdl");
+					Settings::Skinchanger::skins[WEAPON_KNIFE_GUT] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_gut.mdl");
+					Settings::Skinchanger::skins[WEAPON_KNIFE_BAYONET] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_bayonet.mdl");
+					Settings::Skinchanger::skins[WEAPON_KNIFE_M9_BAYONET] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_m9_bay.mdl");
+					Settings::Skinchanger::skins[WEAPON_KNIFE_KARAMBIT] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_karam.mdl");
+					Settings::Skinchanger::skins[WEAPON_KNIFE_TACTICAL] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_tactical.mdl");
+					Settings::Skinchanger::skins[WEAPON_KNIFE_BUTTERFLY] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_butterfly.mdl");
+					Settings::Skinchanger::skins[WEAPON_KNIFE_SURVIVAL_BOWIE] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_survival_bowie.mdl");
+					Settings::Skinchanger::skins[WEAPON_KNIFE_FALCHION] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_falchion_advanced.mdl");
+					Settings::Skinchanger::skins[WEAPON_KNIFE_PUSH] = Settings::Skinchanger::Skin(-1, -1, -1, -1, -1, "", "models/weapons/v_knife_push.mdl");
 
-						Settings::Skinchanger::skins[isCT > 0 ? WEAPON_KNIFE : WEAPON_KNIFE_T] = Settings::Skinchanger::Skin(
-								current_weapon_skin == 0 ? -1 : current_weapon_skin,
-								current_weapon,
-								weaponSkinSeed,
-								weaponWear,
-								weaponStatTrak,
-								weaponName,
-								""
-						);
-					}
-					else
-					{
-						Settings::Skinchanger::skins[current_weapon] = Settings::Skinchanger::Skin(
-								current_weapon_skin == 0 ? -1 : current_weapon_skin,
-								current_weapon,
-								weaponSkinSeed,
-								weaponWear,
-								weaponStatTrak,
-								weaponName,
-								""
-						);
-					}
-
-					SkinChanger::ForceFullUpdate = true;
+					Settings::Skinchanger::skins[isCT > 0 ? WEAPON_KNIFE : WEAPON_KNIFE_T] = Settings::Skinchanger::Skin(
+							current_weapon_skin == 0 ? -1 : current_weapon_skin,
+							current_weapon,
+							weaponSkinSeed,
+							weaponWear,
+							weaponStatTrak,
+							weaponName,
+							""
+					);
 				}
+				else
+				{
+					Settings::Skinchanger::skins[current_weapon] = Settings::Skinchanger::Skin(
+							current_weapon_skin == 0 ? -1 : current_weapon_skin,
+							current_weapon,
+							weaponSkinSeed,
+							weaponWear,
+							weaponStatTrak,
+							weaponName,
+							""
+					);
+				}
+
+				SkinChanger::ForceFullUpdate = true;
 			}
-			ImGui::Columns(1);
 			ImGui::Separator();
 			ImGui::EndChild();
 		}
