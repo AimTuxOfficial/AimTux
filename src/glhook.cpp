@@ -57,6 +57,7 @@ void SDL2::SwapWindow(SDL_Window* window)
 
 	ImGui::GetIO().MouseDrawCursor = UI::isVisible;
 	ImGui::GetIO().WantCaptureMouse = UI::isVisible;
+	ImGui::GetIO().WantCaptureKeyboard = UI::isVisible;
 	ImGui::GetCurrentContext()->Font->DisplayOffset = ImVec2(0.f, 0.f);
 
 	ImGui::Render();
