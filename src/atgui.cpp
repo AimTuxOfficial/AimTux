@@ -539,7 +539,7 @@ void HvHTab()
 		ImGui::BeginChild("HVH1", ImVec2(0, 0), true);
 		{
 			ImGui::Text("AntiAim");
-			ImGui::BeginChild("##ANTIAIM", ImVec2(0, 205), true);
+			ImGui::BeginChild("##ANTIAIM", ImVec2(0, 175), true);
 			{
 				ImGui::Checkbox("Yaw", &Settings::AntiAim::Yaw::enabled);
 				ImGui::Separator();
