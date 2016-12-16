@@ -921,8 +921,8 @@ void SkinChangerWindow()
 						continue;
 					const bool item_selected = (it.first == current_weapon_skin);
 					ImGui::PushID(it.first);
-					if (ImGui::Selectable(it.second, item_selected))
-						current_weapon_skin = it.first;
+						if (ImGui::Selectable(it.second, item_selected))
+							current_weapon_skin = it.first;
 					ImGui::PopID();
 				}
 			ImGui::ListBoxFooter();
