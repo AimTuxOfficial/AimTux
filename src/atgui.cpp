@@ -894,7 +894,7 @@ void SkinChangerWindow()
 
 		ImGui::Columns(2, NULL, false);
 			ImGui::PushItemWidth(-1);
-				ImGui::InputText("Filter Guns", filterGuns, IM_ARRAYSIZE(filterGuns));
+				ImGui::InputText("##FilterGuns", filterGuns, IM_ARRAYSIZE(filterGuns));
 				ImGui::ListBoxHeader("##GUNS", ImVec2(0, 300));
 					for (auto it : guns)
 					{
@@ -918,7 +918,7 @@ void SkinChangerWindow()
 			ImGui::PopItemWidth();
 		ImGui::NextColumn();
 		ImGui::PushItemWidth(-1);
-			ImGui::InputText("Filter Skins", filterSkins, IM_ARRAYSIZE(filterSkins));
+			ImGui::InputText("##FilterSkins", filterSkins, IM_ARRAYSIZE(filterSkins));
 			ImGui::ListBoxHeader("##SKINS", ImVec2(0, 300));
 				for (auto it : weapon_skins)
 				{
