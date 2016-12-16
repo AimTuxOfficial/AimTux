@@ -6,8 +6,6 @@
 bool Settings::Aimbot::enabled = true;
 bool Settings::Aimbot::silent = false;
 bool Settings::Aimbot::friendly = false;
-float Settings::Aimbot::fov = 180.0f;
-bool Settings::Aimbot::no_shoot = false;
 int Settings::Aimbot::bone = BONE_HEAD;
 ButtonCode_t Settings::Aimbot::aimkey = ButtonCode_t::MOUSE_MIDDLE;
 bool Settings::Aimbot::aimkey_only = false;
@@ -17,6 +15,7 @@ float Settings::Aimbot::Smooth::max = 1.0f;
 bool Settings::Aimbot::ErrorMargin::enabled = false;
 float Settings::Aimbot::ErrorMargin::value = 0.0f;
 bool Settings::Aimbot::AutoAim::enabled = false;
+float Settings::Aimbot::AutoAim::fov = 180.0f;
 bool Settings::Aimbot::AutoWall::enabled = false;
 float Settings::Aimbot::AutoWall::value = 10.0f;
 bool Settings::Aimbot::AutoWall::bones[] = { true, false, false, false, false, false };
@@ -30,6 +29,7 @@ bool Settings::Aimbot::RCS::always_on = false;
 float Settings::Aimbot::RCS::value = 2.0f;
 bool Settings::Aimbot::AutoCrouch::enabled = false;
 bool Settings::Aimbot::AutoStop::enabled = false;
+bool Settings::Aimbot::NoShoot::enabled = false;
 bool Settings::Aimbot::Smooth::Salting::enabled = false;
 float Settings::Aimbot::Smooth::Salting::percentage = 0.0f;
 bool Aimbot::AimStepInProgress = false;
@@ -89,7 +89,7 @@ C_BaseEntity* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& best_bone, Aim
 	C_BaseEntity* closestEntity = NULL;
 
 	// TODO Change the big value with a distance/fov slider
-	float best_fov = Settings::Aimbot::fov;
+	float best_fov = Settings::Aimbot::AutoAim::fov;
 	float best_distance = 999999999.0f;
 	int best_hp = 100;
 	float best_damage = 0;
@@ -236,7 +236,7 @@ void Aimbot::Smooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
 	if (!Settings::Aimbot::Smooth::enabled)
 		return;
 
-	if (Settings::AntiAim::enabled_X || Settings::AntiAim::enabled_Y)
+	if (Settings::AntiAim::Pitch::enabled || Settings::AntiAim::Yaw::enabled)
 		return;
 
 	if (!shouldAim || !entity)
@@ -276,7 +276,7 @@ void Aimbot::ConstSpeedSmooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd
 	if (!Settings::Aimbot::Smooth::enabled)
 		return;
 
-	if (Settings::AntiAim::enabled_X || Settings::AntiAim::enabled_Y)
+	if (Settings::AntiAim::Pitch::enabled || Settings::AntiAim::Yaw::enabled)
 		return;
 
 	if (!shouldAim || !entity)
@@ -433,7 +433,7 @@ void Aimbot::ShootCheck(C_BaseCombatWeapon* active_weapon, CUserCmd* cmd)
 	float nextPrimaryAttack = active_weapon->GetNextPrimaryAttack();
 	float tick = localplayer->GetTickBase() * globalvars->interval_per_tick;
 
-	if (!Settings::AntiAim::enabled_X && !Settings::AntiAim::enabled_Y)
+	if (!Settings::AntiAim::Pitch::enabled && !Settings::AntiAim::Yaw::enabled)
 		return;
 
 	if (!Settings::Aimbot::silent)
@@ -456,7 +456,7 @@ void Aimbot::ShootCheck(C_BaseCombatWeapon* active_weapon, CUserCmd* cmd)
 
 void Aimbot::NoShoot(C_BaseCombatWeapon* active_weapon, C_BaseEntity* entity, CUserCmd* cmd)
 {
-	if (entity && Settings::Aimbot::no_shoot)
+	if (entity && Settings::Aimbot::NoShoot::enabled)
 	{
 		if (*active_weapon->GetItemDefinitionIndex() == WEAPON_C4)
 			return;

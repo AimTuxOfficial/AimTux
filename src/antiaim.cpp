@@ -1,10 +1,10 @@
 #include "antiaim.h"
 
-bool Settings::AntiAim::enabled_Y = false;
-bool Settings::AntiAim::enabled_X = false;
-int Settings::AntiAim::type_Y = SPIN_FAST;
-int Settings::AntiAim::type_fake_Y = SPIN_FAST;
-int Settings::AntiAim::type_X = STATIC_DOWN;
+bool Settings::AntiAim::Yaw::enabled = false;
+bool Settings::AntiAim::Pitch::enabled = false;
+int Settings::AntiAim::Yaw::type = SPIN_FAST;
+int Settings::AntiAim::Yaw::type_fake = SPIN_FAST;
+int Settings::AntiAim::Pitch::type = STATIC_DOWN;
 bool Settings::AntiAim::HeadEdge::enabled = false;
 float Settings::AntiAim::HeadEdge::distance = 25.0f;
 
@@ -49,7 +49,7 @@ bool AntiAim::GetBestHeadAngle(QAngle& angle)
 
 void DoAntiAimY(QAngle&  angle, bool bFlip)
 {
-	int aa_type = bFlip ? Settings::AntiAim::type_Y : Settings::AntiAim::type_fake_Y;
+	int aa_type = bFlip ? Settings::AntiAim::Yaw::type : Settings::AntiAim::Yaw::type_fake;
 
 	static float fYaw = 0.0f;
 	static bool yFlip;
@@ -98,7 +98,7 @@ void DoAntiAimY(QAngle&  angle, bool bFlip)
 
 void AntiAim::CreateMove(CUserCmd* cmd)
 {
-	if (!Settings::AntiAim::enabled_Y && !Settings::AntiAim::enabled_X)
+	if (!Settings::AntiAim::Yaw::enabled && !Settings::AntiAim::Pitch::enabled)
 		return;
 
 	if (Settings::Aimbot::AimStep::enabled && Aimbot::AimStepInProgress)
@@ -127,31 +127,33 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 
 	bFlip = !bFlip;
 
-	if (Settings::AntiAim::enabled_Y)
+	if (Settings::AntiAim::Yaw::enabled)
 	{
 		DoAntiAimY (angle, bFlip);
 		Math::NormalizeAngles(angle);
 		CreateMove::SendPacket = bFlip;
 		if (Settings::AntiAim::HeadEdge::enabled && edging_head)
 		{
-			if (Settings::AntiAim::type_Y == Settings::AntiAim::type_fake_Y || !bFlip)
+			if (Settings::AntiAim::Yaw::type == Settings::AntiAim::Yaw::type_fake || !bFlip)
 			{
 				angle.y = edge_angle.y;
 			}
 		}
 	}
 
-	if (Settings::AntiAim::enabled_X)
+	if (Settings::AntiAim::Pitch::enabled)
 	{
-		if (Settings::AntiAim::type_X == STATIC_UP)
+		int pitch_aa_type = Settings::AntiAim::Pitch::type;
+
+		if (pitch_aa_type == STATIC_UP)
 		{
 			angle.x = -89.0f;
 		}
-		else if (Settings::AntiAim::type_X == STATIC_DOWN)
+		else if (pitch_aa_type == STATIC_DOWN)
 		{
 			angle.x = 89.0f;
 		}
-		else if (Settings::AntiAim::type_X == DANCE)
+		else if (pitch_aa_type == DANCE)
 		{
 			pDance += 15.0f;
 
@@ -163,12 +165,12 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 				angle.x = 30.f;
 		}
 #ifdef UNTRUSTED_SETTINGS
-		else if (Settings::AntiAim::type_X == STATIC_UP_FAKE)
+		else if (pitch_aa_type == STATIC_UP_FAKE)
 		{
 			angle.x = bFlip ? 89.0f : -89.0f;
 			CreateMove::SendPacket = bFlip;
 		}
-		else if (Settings::AntiAim::type_X == STATIC_DOWN_FAKE)
+		else if (pitch_aa_type == STATIC_DOWN_FAKE)
 		{
 			angle.x = bFlip ? -89.0f : 89.0f;
 			CreateMove::SendPacket = bFlip;

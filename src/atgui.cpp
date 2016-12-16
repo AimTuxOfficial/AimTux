@@ -264,7 +264,7 @@ void AimbotTab()
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-					ImGui::SliderFloat("##AA", &Settings::Aimbot::fov, 0, 180);
+					ImGui::SliderFloat("##AA", &Settings::Aimbot::AutoAim::fov, 0, 180);
 					ImGui::SliderFloat("##RCS", &Settings::Aimbot::RCS::value, 0, 2);
 				ImGui::PopItemWidth();
 			}
@@ -331,7 +331,7 @@ void AimbotTab()
 			}
 			ImGui::NextColumn();
 			{
-				ImGui::Checkbox("No Shoot", &Settings::Aimbot::no_shoot);
+				ImGui::Checkbox("No Shoot", &Settings::Aimbot::NoShoot::enabled);
 				ImGui::Checkbox("Auto Scope", &Settings::Aimbot::AutoShoot::autoscope);
 			}
 			ImGui::Columns(1);
@@ -541,7 +541,7 @@ void HvHTab()
 			ImGui::Text("AntiAim");
 			ImGui::BeginChild("##ANTIAIM", ImVec2(0, 205), true);
 			{
-				ImGui::Checkbox("Yaw", &Settings::AntiAim::enabled_Y);
+				ImGui::Checkbox("Yaw", &Settings::AntiAim::Yaw::enabled);
 				ImGui::Separator();
 				ImGui::Columns(2, NULL, true);
 				{
@@ -551,13 +551,13 @@ void HvHTab()
 				ImGui::NextColumn();
 				{
 					ImGui::PushItemWidth(-1);
-						ImGui::Combo("##YFAKETYPE", &Settings::AntiAim::type_fake_Y, YFakeTypes, IM_ARRAYSIZE(YFakeTypes));
-						ImGui::Combo("##YACTUALTYPE", &Settings::AntiAim::type_Y, YActualTypes, IM_ARRAYSIZE(YActualTypes));
+						ImGui::Combo("##YFAKETYPE", &Settings::AntiAim::Yaw::type_fake, YFakeTypes, IM_ARRAYSIZE(YFakeTypes));
+						ImGui::Combo("##YACTUALTYPE", &Settings::AntiAim::Yaw::type, YActualTypes, IM_ARRAYSIZE(YActualTypes));
 					ImGui::PopItemWidth();
 				}
 				ImGui::Columns(1);
 				ImGui::Separator();
-				ImGui::Checkbox("Pitch", &Settings::AntiAim::enabled_X);
+				ImGui::Checkbox("Pitch", &Settings::AntiAim::Pitch::enabled);
 				ImGui::Separator();
 				ImGui::Columns(2, NULL, true);
 				{
@@ -566,7 +566,7 @@ void HvHTab()
 				ImGui::NextColumn();
 				{
 					ImGui::PushItemWidth(-1);
-						ImGui::Combo("##XTYPE", &Settings::AntiAim::type_X, XTypes, IM_ARRAYSIZE(XTypes));
+						ImGui::Combo("##XTYPE", &Settings::AntiAim::Pitch::type, XTypes, IM_ARRAYSIZE(XTypes));
 					ImGui::PopItemWidth();
 				}
 				ImGui::Columns(1);

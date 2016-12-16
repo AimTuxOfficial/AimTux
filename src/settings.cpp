@@ -119,8 +119,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Aimbot"]["enabled"] = Settings::Aimbot::enabled;
 	settings["Aimbot"]["silent"] = Settings::Aimbot::silent;
 	settings["Aimbot"]["friendly"] = Settings::Aimbot::friendly;
-	settings["Aimbot"]["no_shoot"] = Settings::Aimbot::no_shoot;
-	settings["Aimbot"]["fov"] = Settings::Aimbot::fov;
+	settings["Aimbot"]["NoShoot"]["enabled"] = Settings::Aimbot::NoShoot::enabled;
 	settings["Aimbot"]["ErrorMargin"]["enabled"] = Settings::Aimbot::ErrorMargin::enabled;
 	settings["Aimbot"]["ErrorMargin"]["value"] = Settings::Aimbot::ErrorMargin::value;
 	settings["Aimbot"]["bone"] = Settings::Aimbot::bone;
@@ -131,6 +130,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Aimbot"]["Smooth"]["Salting"]["enabled"] = Settings::Aimbot::Smooth::Salting::enabled;
 	settings["Aimbot"]["Smooth"]["Salting"]["percentage"] = Settings::Aimbot::Smooth::Salting::percentage;
 	settings["Aimbot"]["AutoAim"]["enabled"] = Settings::Aimbot::AutoAim::enabled;
+	settings["Aimbot"]["AutoAim"]["fov"] = Settings::Aimbot::AutoAim::fov;
 	settings["Aimbot"]["AutoWall"]["enabled"] = Settings::Aimbot::AutoWall::enabled;
 	settings["Aimbot"]["AutoWall"]["value"] = Settings::Aimbot::AutoWall::value;
 	settings["Aimbot"]["AutoWall"]["bones"] = Json::Value(Json::arrayValue);
@@ -158,11 +158,11 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Triggerbot"]["Delay"]["enabled"] = Settings::Triggerbot::Delay::enabled;
 	settings["Triggerbot"]["Delay"]["value"] = Settings::Triggerbot::Delay::value;
 
-	settings["AntiAim"]["enabled_Y"] = Settings::AntiAim::enabled_Y;
-	settings["AntiAim"]["enabled_X"] = Settings::AntiAim::enabled_X;
-	settings["AntiAim"]["type_Y"] = Settings::AntiAim::type_Y;
-	settings["AntiAim"]["type_fake_Y"] = Settings::AntiAim::type_fake_Y;
-	settings["AntiAim"]["type_X"] = Settings::AntiAim::type_X;
+	settings["AntiAim"]["Yaw"]["enabled"] = Settings::AntiAim::Yaw::enabled;
+	settings["AntiAim"]["Yaw"]["type"] = Settings::AntiAim::Yaw::type;
+	settings["AntiAim"]["Yaw"]["type_fake"] = Settings::AntiAim::Yaw::type_fake;
+	settings["AntiAim"]["Pitch"]["enabled"] = Settings::AntiAim::Pitch::enabled;
+	settings["AntiAim"]["Pitch"]["type"] = Settings::AntiAim::Pitch::type;
 	settings["AntiAim"]["HeadEdge"]["enabled"] = Settings::AntiAim::HeadEdge::enabled;
 	settings["AntiAim"]["HeadEdge"]["distance"] = Settings::AntiAim::HeadEdge::distance;
 
@@ -318,10 +318,9 @@ void Settings::LoadConfig(std::string path)
 	GetBool(settings["Aimbot"]["enabled"], &Settings::Aimbot::enabled);
 	GetBool(settings["Aimbot"]["silent"], &Settings::Aimbot::silent);
 	GetBool(settings["Aimbot"]["friendly"], &Settings::Aimbot::friendly);
-	GetFloat(settings["Aimbot"]["fov"], &Settings::Aimbot::fov);
 	GetBool(settings["Aimbot"]["ErrorMargin"]["enabled"], &Settings::Aimbot::ErrorMargin::enabled);
 	GetFloat(settings["Aimbot"]["ErrorMargin"]["value"], &Settings::Aimbot::ErrorMargin::value);
-	GetBool(settings["Aimbot"]["no_shoot"], &Settings::Aimbot::no_shoot);
+	GetBool(settings["Aimbot"]["NoShoot"]["enabled"], &Settings::Aimbot::NoShoot::enabled);
 	GetInt(settings["Aimbot"]["bone"], &Settings::Aimbot::bone);
 	GetButtonCode(settings["Aimbot"]["aimkey"], &Settings::Aimbot::aimkey);
 	GetBool(settings["Aimbot"]["aimkey_only"], &Settings::Aimbot::aimkey_only);
@@ -330,6 +329,7 @@ void Settings::LoadConfig(std::string path)
 	GetBool(settings["Aimbot"]["Smooth"]["Salting"]["enabled"], &Settings::Aimbot::Smooth::Salting::enabled);
 	GetFloat(settings["Aimbot"]["Smooth"]["Salting"]["percentage"], &Settings::Aimbot::Smooth::Salting::percentage);
 	GetBool(settings["Aimbot"]["AutoAim"]["enabled"], &Settings::Aimbot::AutoAim::enabled);
+	GetFloat(settings["Aimbot"]["AutoAim"]["fov"], &Settings::Aimbot::AutoAim::fov);
 	GetBool(settings["Aimbot"]["AutoWall"]["enabled"], &Settings::Aimbot::AutoWall::enabled);
 	GetFloat(settings["Aimbot"]["AutoWall"]["value"], &Settings::Aimbot::AutoWall::value);
 	for (int i = HITBOX_HEAD; i <= HITBOX_ARMS; i++)
@@ -356,11 +356,11 @@ void Settings::LoadConfig(std::string path)
 	GetBool(settings["Triggerbot"]["Delay"]["enabled"], &Settings::Triggerbot::Delay::enabled);
 	GetInt(settings["Triggerbot"]["Delay"]["value"], &Settings::Triggerbot::Delay::value);
 
-	GetBool(settings["AntiAim"]["enabled_Y"], &Settings::AntiAim::enabled_Y);
-	GetBool(settings["AntiAim"]["enabled_X"], &Settings::AntiAim::enabled_X);
-	GetInt(settings["AntiAim"]["type_Y"], &Settings::AntiAim::type_Y);
-	GetInt(settings["AntiAim"]["type_fake_Y"], &Settings::AntiAim::type_fake_Y);
-	GetInt(settings["AntiAim"]["type_X"], &Settings::AntiAim::type_X);
+	GetBool(settings["AntiAim"]["Yaw"]["enabled"], &Settings::AntiAim::Yaw::enabled);
+	GetInt(settings["AntiAim"]["Yaw"]["type"], &Settings::AntiAim::Yaw::type);
+	GetInt(settings["AntiAim"]["Yaw"]["type_fake"], &Settings::AntiAim::Yaw::type_fake);
+	GetBool(settings["AntiAim"]["Pitch"]["enabled"], &Settings::AntiAim::Pitch::enabled);
+	GetInt(settings["AntiAim"]["Pitch"]["type"], &Settings::AntiAim::Pitch::type);
 	GetBool(settings["AntiAim"]["HeadEdge"]["enabled"], &Settings::AntiAim::HeadEdge::enabled);
 	GetFloat(settings["AntiAim"]["HeadEdge"]["distance"], &Settings::AntiAim::HeadEdge::distance);
 

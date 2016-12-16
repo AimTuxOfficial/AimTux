@@ -132,11 +132,9 @@ namespace Settings
 		extern bool enabled;
 		extern bool silent;
 		extern bool friendly;
-		extern float fov;
 		extern int bone;
 		extern ButtonCode_t aimkey;
 		extern bool aimkey_only;
-		extern bool no_shoot;
 
 		namespace Smooth
 		{
@@ -160,6 +158,7 @@ namespace Settings
 		namespace AutoAim
 		{
 			extern bool enabled;
+			extern float fov;
 		}
 
 		namespace AutoWall
@@ -202,6 +201,11 @@ namespace Settings
 		{
 			extern bool enabled;
 		}
+
+		namespace NoShoot
+		{
+			extern bool enabled;
+		}
 	}
 
 	namespace Triggerbot
@@ -228,11 +232,18 @@ namespace Settings
 
 	namespace AntiAim
 	{
-		extern bool enabled_Y;
-		extern bool enabled_X;
-		extern int type_Y;
-		extern int type_fake_Y;
-		extern int type_X;
+		namespace Yaw
+		{
+			extern bool enabled;
+			extern int type;
+			extern int type_fake;
+		}
+
+		namespace Pitch
+		{
+			extern bool enabled;
+			extern int type;
+		}
 
 		namespace HeadEdge
 		{
