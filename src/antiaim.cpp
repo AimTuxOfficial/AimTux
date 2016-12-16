@@ -7,6 +7,7 @@ int Settings::AntiAim::Yaw::type_fake = SPIN_FAST;
 int Settings::AntiAim::Pitch::type = STATIC_DOWN;
 bool Settings::AntiAim::HeadEdge::enabled = false;
 float Settings::AntiAim::HeadEdge::distance = 25.0f;
+bool Settings::AntiAim::FakeOut::enabled = false;
 
 float Distance(Vector a, Vector b)
 {
@@ -113,6 +114,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 
 	static bool bFlip;
 	static float pDance = 0.0f;
+	static float rYaw = 0.0f;
 
 	bFlip = !bFlip;
 
@@ -121,8 +123,21 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 		DoAntiAimY(angle, bFlip);
 		Math::NormalizeAngles(angle);
 		CreateMove::SendPacket = bFlip;
+		if (Settings::AntiAim::HeadEdge::enabled && edging_head && Settings::AntiAim::HeadEdge::enabled)
+		{
+			if (Settings::AntiAim::Yaw::type == Settings::AntiAim::Yaw::type_fake || !bFlip)
+				angle.y = edge_angle.y;
+			else if (Settings::AntiAim::Yaw::type == Settings::AntiAim::Yaw::type_fake || bFlip)
+			{
+				rYaw += 70.0f;
 
-		if ((Settings::AntiAim::HeadEdge::enabled && edging_head) && (Settings::AntiAim::Yaw::type == Settings::AntiAim::Yaw::type_fake || !bFlip))
+				if (rYaw > 180.0f)
+					rYaw -= 360.0f;
+
+				angle.y = rYaw;
+			}
+		}
+		else if ((Settings::AntiAim::HeadEdge::enabled && edging_head && !Settings::AntiAim::FakeOut::enabled) && (Settings::AntiAim::Yaw::type == Settings::AntiAim::Yaw::type_fake || !bFlip))
 			angle.y = edge_angle.y;
 	}
 

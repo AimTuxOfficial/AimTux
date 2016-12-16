@@ -580,6 +580,7 @@ void HvHTab()
 				ImGui::Columns(2, NULL, true);
 				{
 					ImGui::Checkbox("Enabled", &Settings::AntiAim::HeadEdge::enabled);
+					ImGui::Checkbox("Fake Out", &Settings::AntiAim::FakeOut::enabled);
 				}
 				ImGui::NextColumn();
 				{
