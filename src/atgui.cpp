@@ -1103,7 +1103,7 @@ void ConfigWindow()
 		}
 
 		ImGui::PushItemWidth(178);
-		if (ImGui::ListBox("", &configItemCurrent, configItems, 7))
+			if (ImGui::ListBox("", &configItemCurrent, configItems, 7))
 			{
 				pstring path = GetConfigDirectory();
 				path << configItems[configItemCurrent] << "/config.json";
