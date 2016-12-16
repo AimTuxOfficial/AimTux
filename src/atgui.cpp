@@ -131,7 +131,6 @@ void SetupMainMenuBar()
 {
 	if (ImGui::BeginMainMenuBar())
 	{
-		ImGuiStyle& style = ImGui::GetStyle();
 		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(8 * 2.0f, 4 * 2.0f));
 
 		ImGui::Selectable("Main Window", &showMainWindow, 0, ImVec2(ImGui::CalcTextSize("Main Window", NULL, true).x, 0.0f));
@@ -1055,7 +1054,7 @@ void ConfigWindow()
 		ImGui::SameLine();
 		if (ImGui::Button("Save"))
 		{
-			if (configItems.size() > 0 && (configItemCurrent >= 0 && configItemCurrent < configItems.size()))
+			if (configItems.size() > 0 && (configItemCurrent >= 0 && configItemCurrent < (int) configItems.size()))
 			{
 				pstring path = GetConfigDirectory();
 				path << configItems[configItemCurrent] << "/config.json";
@@ -1067,7 +1066,7 @@ void ConfigWindow()
 		ImGui::SameLine();
 		if (ImGui::Button("Remove"))
 		{
-			if (configItems.size() > 0 && (configItemCurrent >= 0 && configItemCurrent < configItems.size()))
+			if (configItems.size() > 0 && (configItemCurrent >= 0 && configItemCurrent < (int) configItems.size()))
 			{
 				pstring path = GetConfigDirectory();
 				path << configItems[configItemCurrent];
@@ -1151,7 +1150,7 @@ void SpectatorsWindow()
 
 			ImGui::Separator();
 
-			ImGui::Text(entityInformation.name);
+			ImGui::Text("%s", entityInformation.name);
 			ImGui::NextColumn();
 
 			switch (*entity->GetObserverMode())

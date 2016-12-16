@@ -45,7 +45,7 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 	}
 	else if (stage == ClientFrameStage_t::FRAME_RENDER_END)
 	{
-		for (int i = 0; i < player_data.size(); i++)
+		for (unsigned long i = 0; i < player_data.size(); i++)
 		{
 			PlayerAA player_aa_data = player_data[i];
 

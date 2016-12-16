@@ -15,7 +15,7 @@ ClanTagChanger::Animation ClanTagChanger::Marquee(std::string name, std::string 
 	std::string cropString = std::string(width, empty) + text + std::string(width - 1, empty);
 
 	std::vector<ClanTagChanger::Frame> frames;
-	for (int i = 0; i < text.length() + width; i++)
+	for (unsigned long i = 0; i < text.length() + width; i++)
 		frames.push_back(ClanTagChanger::Frame(cropString.substr(i, width + i), speed));
 
 	return ClanTagChanger::Animation(name, frames, ClanTagChanger::ANIM_LOOP);
@@ -37,7 +37,7 @@ ClanTagChanger::Animation ClanTagChanger::Words(std::string name, std::string te
 	// Outputs a word by word animation
 	std::vector<std::string> words = splitWords(text);
 	std::vector<ClanTagChanger::Frame> frames;
-	for (int i = 0; i < words.size(); i++)
+	for (unsigned long i = 0; i < words.size(); i++)
 		frames.push_back(Frame(words[i], speed));
 
 	return ClanTagChanger::Animation(name, frames, ClanTagChanger::ANIM_LOOP);
@@ -47,10 +47,10 @@ ClanTagChanger::Animation ClanTagChanger::Letters(std::string name, std::string 
 {
 	// Outputs a letter incrementing animation
 	std::vector<ClanTagChanger::Frame> frames;
-	for (int i = 1; i <= text.length(); i++)
+	for (unsigned long i = 1; i <= text.length(); i++)
 		frames.push_back(Frame(text.substr(0, i), speed));
 
-	for (int i = text.length() - 2; i > 0; i--)
+	for (unsigned long i = text.length() - 2; i > 0; i--)
 		frames.push_back(Frame(frames[i].text, speed));
 
 	return ClanTagChanger::Animation(name, frames, ClanTagChanger::ANIM_LOOP);

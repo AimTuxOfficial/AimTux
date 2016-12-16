@@ -238,7 +238,7 @@ void ESP::DrawPlayerInfo(C_BaseEntity* entity, int entityIndex)
 		return;
 
 	bool isVisible = Entity::IsVisible(entity, BONE_HEAD);
-	Color color = color = Color(255, 255, 255, 255);
+	Color color = Color(255, 255, 255, 255);
 
 	if (Settings::ESP::Info::colorCode)
 	{
