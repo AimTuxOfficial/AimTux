@@ -862,7 +862,7 @@ void SkinChangerWindow()
 	if (!showSkinChangerWindow)
 		return;
 
-	ImGui::SetNextWindowSize(ImVec2(800, 690), ImGuiSetCond_FirstUseEver);
+	ImGui::SetNextWindowSize(ImVec2(640, 620), ImGuiSetCond_FirstUseEver);
 	if (ImGui::Begin("Skin Changer", &showSkinChangerWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
 	{
 		static int current_weapon = 1;
@@ -945,8 +945,7 @@ void SkinChangerWindow()
 			ImGui::RadioButton("CT", &isCT, 1);
 			ImGui::RadioButton("T", &isCT, 0);
 		ImGui::NextColumn();
-		if (ImGui::BeginChild("Other", ImVec2(-1, -1), true))
-		{
+		ImGui::BeginChild("Other", ImVec2(-1, -1), true);
 			ImGui::InputInt("Skin ID", &current_weapon_skin);
 			ImGui::SliderFloat("Wear", &weaponWear, 0.00050000002374872565f, 1.0f, "0%f");
 			ImGui::InputInt("Seed", &weaponSkinSeed);
@@ -1025,8 +1024,7 @@ void SkinChangerWindow()
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
-			ImGui::EndChild();
-		}
+		ImGui::EndChild();
 		ImGui::End();
 	}
 }
@@ -1199,7 +1197,7 @@ void UI::SetupWindows()
 			MainWindow();
 		ImGui::PopStyleVar();
 
-		ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(800, 690));
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(640, 620));
 			SkinChangerWindow();
 		ImGui::PopStyleVar();
 
