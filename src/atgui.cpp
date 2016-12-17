@@ -11,13 +11,13 @@ bool showMainWindow = true;
 bool showSkinChangerWindow = false;
 bool showConfigWindow = false;
 bool showColorsWindow = false;
-bool showResolverWindow = false;
+bool showPlayerListWindow = false;
 float gunWearAmount = 0.005f;
 float knifeWearAmount = 0.005f;
 
 #define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))
 
-//#define RESOLVERWINDOW;
+//#define PLAYERLISTWINDOW;
 
 namespace ImGui
 {
@@ -148,10 +148,10 @@ void SetupMainMenuBar()
 		ImGui::SameLine();
 
 		ImGui::Selectable("Colors Window", &showColorsWindow, 0, ImVec2(ImGui::CalcTextSize("Colors Window", NULL, true).x, 0.0f));
-#ifdef RESOLVERWINDOW
+#ifdef PlAYERLISTWINDOW
 		ImGui::SameLine();
 
-		ImGui::Selectable("Resolver Window", &showResolverWindow, 0, ImVec2(ImGui::CalcTextSize("Resolver Window", NULL, true).x, 0.0f));
+		ImGui::Selectable("Player List Window", &showPlayerListWindow, 0, ImVec2(ImGui::CalcTextSize("Player List Window", NULL, true).x, 0.0f));
 #endif
 		ImGui::PopStyleVar();
 		ImGui::EndMainMenuBar();
@@ -267,7 +267,7 @@ void AimbotTab()
 			{
 				ImGui::Checkbox("Auto Aim", &Settings::Aimbot::AutoAim::enabled);
 				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Field of view for target to be locked onto");
+					ImGui::SetTooltip("Locks onto enemies within a certain FOV amount");
 				ImGui::Checkbox("Recoil Control", &Settings::Aimbot::RCS::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Automatically controls recoil");
@@ -1224,13 +1224,13 @@ void SpectatorsWindow()
 	}
 }
 
-void ResolverWindow()
+void PlayerListWindow()
 {
-	if(!showResolverWindow)
+	if(!showPlayerListWindow)
 		return;
 
 	ImGui::SetNextWindowSize(ImVec2(700, 500), ImGuiSetCond_FirstUseEver);
-	if(ImGui::Begin("Resolver", &Settings::ShowSpectators::enabled, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
+	if(ImGui::Begin("Player List", &Settings::ShowSpectators::enabled, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
 	{
 		C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 
@@ -1297,7 +1297,7 @@ void UI::SetupWindows()
 
 		ConfigWindow();
 		ColorsWindow();
-		ResolverWindow();
+		PlayerListWindow();
 	}
 
 	SpectatorsWindow();
