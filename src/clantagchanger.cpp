@@ -10,7 +10,7 @@ ClanTagChanger::Animation ClanTagChanger::Marquee(std::string name, std::string 
 {
 	// Outputs cool scrolling text animation
 
-	char empty = '_';
+	char empty = ' ';
 	std::replace(text.begin(), text.end(), ' ', empty);
 
 	std::string cropString = std::string(width, empty) + text + std::string(width - 1, empty);

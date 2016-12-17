@@ -48,8 +48,10 @@ enum AntiAimType_Y : unsigned int
 	SIDE,
 	BACKWARDS,
 	FORWARDS,
+	ORIGIN,
 	LEFT,
-	RIGHT
+	RIGHT,
+	STATIC
 };
 
 enum AntiAimType_X : unsigned int
@@ -58,7 +60,8 @@ enum AntiAimType_X : unsigned int
 	STATIC_DOWN,
 	STATIC_UP_FAKE,
 	STATIC_DOWN_FAKE,
-	DANCE
+	DANCE,
+	OVERFLOW_DOWN
 };
 
 enum ChamsType : unsigned int
