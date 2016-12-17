@@ -250,6 +250,8 @@ void AimbotTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("Friendly", &Settings::Aimbot::friendly);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Whether to target friendlies");
 			}
 			ImGui::NextColumn();
 			{
@@ -264,8 +266,14 @@ void AimbotTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("Auto Aim", &Settings::Aimbot::AutoAim::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Field of view for target to be locked onto");
 				ImGui::Checkbox("Recoil Control", &Settings::Aimbot::RCS::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Automatically controls recoil");
 				ImGui::Checkbox("RCS Always on", &Settings::Aimbot::RCS::always_on);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Whether Recoil Control always controls recoil (even when not aimbotting)");
 			}
 			ImGui::NextColumn();
 			{
@@ -281,8 +289,14 @@ void AimbotTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("Smoothing", &Settings::Aimbot::Smooth::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Smoothing reduces the aimbot \"snap\". 0 for full snap. 1 for full smoothing");
 				ImGui::Checkbox("Smooth Salting", &Settings::Aimbot::Smooth::Salting::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Breaks the smoothing into smaller steps, high smooth + low salt is slightly stuttery");
 				ImGui::Checkbox("Error Margin", &Settings::Aimbot::ErrorMargin::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Adds a margin of error to the aim, it will be obvious what it does when using it");
 			}
 			ImGui::NextColumn();
 			{
@@ -306,6 +320,8 @@ void AimbotTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("Enabled", &Settings::Aimbot::aimkey_only);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Enabling this means it you need to press a specific key to aimlock");
 			}
 			ImGui::NextColumn();
 			{
@@ -318,6 +334,8 @@ void AimbotTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("Aim Step", &Settings::Aimbot::AimStep::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Stops your getting VAC auth kicked in Casual / DM");
 			}
 			ImGui::NextColumn();
 			{
@@ -332,13 +350,23 @@ void AimbotTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("Auto Pistol", &Settings::Aimbot::AutoPistol::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Automatically shoots the pistol when holding fire");
 				ImGui::Checkbox("Auto Shoot", &Settings::Aimbot::AutoShoot::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Automatically shoots when locking to an enemy");
 				ImGui::Checkbox("Silent Aim", &Settings::Aimbot::silent);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Prevents the camera from locking to an enemy, doesn't work for demos");
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::Checkbox("No Shoot", &Settings::Aimbot::NoShoot::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Stops you shooting when locking to an enemy");
 				ImGui::Checkbox("Auto Scope", &Settings::Aimbot::AutoShoot::autoscope);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Automatically scopes weapons that have them");
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
