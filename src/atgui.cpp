@@ -56,7 +56,7 @@ void UI::SetupColors()
 	ImVec4 mainColorActive = ImVec4(Settings::UI::mainColor.Value.x + 0.2f, Settings::UI::mainColor.Value.y + 0.2f, Settings::UI::mainColor.Value.z + 0.2f, Settings::UI::mainColor.Value.w);
 	ImVec4 menubarColor = ImVec4(Settings::UI::bodyColor.Value.x, Settings::UI::bodyColor.Value.y, Settings::UI::bodyColor.Value.z, Settings::UI::bodyColor.Value.w - 0.8f);
 	ImVec4 frameBgColor = ImVec4(Settings::UI::bodyColor.Value.x, Settings::UI::bodyColor.Value.y, Settings::UI::bodyColor.Value.z, Settings::UI::bodyColor.Value.w + .1f);
-	
+
 	style.Alpha = 1.0f;
 	style.WindowPadding = ImVec2(8, 8);
 	style.WindowMinSize = ImVec2(32, 32);
@@ -80,7 +80,7 @@ void UI::SetupColors()
 	style.AntiAliasedLines = true;
 	style.AntiAliasedShapes = true;
 	style.CurveTessellationTol = 1.25f;
-	
+
 	style.Colors[ImGuiCol_Text] = Settings::UI::fontColor;
 	style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
 	style.Colors[ImGuiCol_WindowBg] = Settings::UI::bodyColor;
