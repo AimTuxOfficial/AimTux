@@ -34,13 +34,15 @@ bool UI::ColorPicker(float* col, bool alphabar)
 	float hue, saturation, value;
 	ImGui::ColorConvertRGBtoHSV(color.Value.x, color.Value.y, color.Value.z, hue, saturation, value);
 
-	ImColor colors[] = { ImColor(255, 0, 0),
-						 ImColor(255, 255, 0),
-						 ImColor(0, 255, 0),
-						 ImColor(0, 255, 255),
-						 ImColor(0, 0, 255),
-						 ImColor(255, 0, 255),
-						 ImColor(255, 0, 0) };
+	ImColor colors[] = {
+			ImColor(255, 0, 0),
+			ImColor(255, 255, 0),
+			ImColor(0, 255, 0),
+			ImColor(0, 255, 255),
+			ImColor(0, 0, 255),
+			ImColor(255, 0, 255),
+			ImColor(255, 0, 0)
+	};
 
 	for (int i = 0; i < 6; i++)
 	{

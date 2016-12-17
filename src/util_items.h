@@ -5,8 +5,10 @@
 #include <algorithm>
 #include "SDK/SDK.h"
 
-namespace Util {
-	namespace Items {
+namespace Util
+{
+	namespace Items
+	{
 		/*
 		 * Look up a ItemDefinitionIndex ordinal value by the symbolic name
 		 * using an internal map

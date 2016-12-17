@@ -9,10 +9,8 @@ bool Settings::Spammer::NormalSpammer::enabled = false;
 bool Settings::Spammer::NormalSpammer::say_team = false;
 
 std::vector<IEngineClient::player_info_t> Spammer::killedPlayerQueue = std::vector<IEngineClient::player_info_t>();
-std::vector<Spammer::SpamCollection> Spammer::collections =
-{
-	Spammer::SpamCollection("AimTux",
-		{
+std::vector<Spammer::SpamCollection> Spammer::collections = {
+		Spammer::SpamCollection("AimTux", {
 			"AimTux owns me and all",
 			"Your Windows p2c sucks my AimTux dry",
 			"It's free as in FREEDOM!",

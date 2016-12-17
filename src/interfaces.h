@@ -5,7 +5,7 @@
 
 extern IBaseClientDLL* client;
 extern ISurface* surface;
-extern IVPanel*	panel;
+extern IVPanel* panel;
 extern IEngineClient* engine;
 extern IClientEntityList* entitylist;
 extern IVDebugOverlay* debugOverlay;

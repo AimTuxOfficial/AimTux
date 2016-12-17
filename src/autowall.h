@@ -6,7 +6,8 @@
 
 namespace Autowall
 {
-	struct FireBulletData {
+	struct FireBulletData
+	{
 		Vector src;
 		trace_t enter_trace;
 		Vector direction;

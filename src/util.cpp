@@ -75,7 +75,7 @@ void Util::StdReplaceStr(std::string& replaceIn, const std::string& replace, con
     size_t const step = replaceWith.size(); 
     size_t index = 0;
 
-    while(true)
+    while (true)
     {
         index = replaceIn.find(replace, index);
 
@@ -105,17 +105,20 @@ void Util::ProtectAddr(void* addr, int prot)
 bool Util::Contains(const std::string &word, const std::string &sentence) {
 	if (word == "" || sentence == "")
 		return true;
+
 	return sentence.find(word) != std::string::npos;
 }
 
 std::string Util::ToLower(std::string str)
 {
 	std::transform(str.begin(), str.end(), str.begin(), (int (*)(int))std::tolower);
+
 	return str;
 }
 
 std::string Util::ToUpper(std::string str)
 {
 	std::transform(str.begin(), str.end(), str.begin(), (int (*)(int))std::toupper);
+
 	return str;
 }

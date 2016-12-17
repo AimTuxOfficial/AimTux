@@ -45,7 +45,6 @@ void View::NoPunch::PostFrameStageNotify(ClientFrameStage_t stage)
 		*punch_angle = old_punch_angle;
 }
 
-
 void View::FrameStageNotify(ClientFrameStage_t stage)
 {
 	View::NoPunch::FrameStageNotify(stage);

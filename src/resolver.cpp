@@ -13,7 +13,6 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	
 	if (!localplayer)
 		return;
 
@@ -49,7 +48,7 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 		{
 			PlayerAA player_aa_data = player_data[i];
 
-			*player_aa_data.player->GetHeadRotation () = player_aa_data.angle;
+			*player_aa_data.player->GetHeadRotation() = player_aa_data.angle;
 		}
 
 		player_data.clear();
