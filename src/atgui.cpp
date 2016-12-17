@@ -1228,26 +1228,26 @@ void PlayerListWindow()
 		static int currentPlayer = -1;
 
 		ImGui::ListBoxHeader("##PLAYERS", ImVec2(-1, (ImGui::GetWindowSize().y - 150)));
-		for (int i = 1; i < engine->GetMaxClients(); i++)
+		if (engine->IsInGame())
 		{
-			C_BaseEntity* entity = entitylist->GetClientEntity(i);
-			if (!engine->IsInGame())
-				continue;
+			for (int i = 1; i < engine->GetMaxClients(); i++)
+			{
+				C_BaseEntity* entity = entitylist->GetClientEntity(i);
+				if (!entity)
+					continue;
 
-			if (!entity)
-				continue;
+				if (entity == (C_BaseEntity*)localplayer)
+					continue;
 
-			if (entity == (C_BaseEntity*)localplayer)
-				continue;
+				IEngineClient::player_info_t entityInformation;
+				engine->GetPlayerInfo(i, &entityInformation);
+				bool selected = (i == currentPlayer);
 
-			IEngineClient::player_info_t entityInformation;
-			engine->GetPlayerInfo(i, &entityInformation);
-			bool selected = (i == currentPlayer);
-
-			ImGui::PushID(i);
-			if (ImGui::Selectable(entityInformation.name, selected))
-				currentPlayer = i;
-			ImGui::PopID();
+				ImGui::PushID(i);
+				if (ImGui::Selectable(entityInformation.name, selected))
+					currentPlayer = i;
+				ImGui::PopID();
+			}
 		}
 		ImGui::ListBoxFooter();
 
