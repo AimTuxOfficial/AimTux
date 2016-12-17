@@ -197,30 +197,19 @@ void SkinChanger::FireEventClientSide(IGameEvent* event)
 	if (!engine->IsInGame())
 		return;
 
-	if (!event)
+	if (!event || strcmp(event->GetName(), "player_death") != 0)
 		return;
 
-	if (strcmp(event->GetName(), "player_death") == 0)
-	{
-		if (!event->GetInt("attacker") || engine->GetPlayerForUserID(event->GetInt("attacker")) != engine->GetLocalPlayer())
-			return;
+	if (!event->GetInt("attacker") || engine->GetPlayerForUserID(event->GetInt("attacker")) != engine->GetLocalPlayer())
+		return;
 
-		const char* weapon = event->GetString("weapon");
-		if (strcmp(weapon, "knife_default_ct") == 0) {
-			const char* name = KnifeToName(WEAPON_KNIFE);
-			event->SetString("weapon", name ?: weapon);
-		} else if (strcmp(weapon, "knife_t") == 0) {
-			const char* name = KnifeToName(WEAPON_KNIFE_T);
-			event->SetString("weapon", name ?: weapon);
-		}
-	}
-	else if (strcmp(event->GetName(), "item_pickup") == 0)
-	{
-		if (!event->GetInt("userid") || engine->GetPlayerForUserID(event->GetInt("userid")) != engine->GetLocalPlayer())
-			return;
-
-		if (Settings::Skinchanger::enabled)
-			SkinChanger::ForceFullUpdate = true;
+	const char* weapon = event->GetString("weapon");
+	if (strcmp(weapon, "knife_default_ct") == 0) {
+		const char* name = KnifeToName(WEAPON_KNIFE);
+		event->SetString("weapon", name ?: weapon);
+	} else if (strcmp(weapon, "knife_t") == 0) {
+		const char* name = KnifeToName(WEAPON_KNIFE_T);
+		event->SetString("weapon", name ?: weapon);
 	}
 }
 
