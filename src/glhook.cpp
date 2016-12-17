@@ -58,6 +58,9 @@ void SDL2::SwapWindow(SDL_Window* window)
 
 		while (SDL_PollEvent(&event))
 		{
+			if (event.type == SDL_QUIT)
+				return;
+
 			ImGui_ImplSdl_ProcessEvent(&event);
 		}
 	}
