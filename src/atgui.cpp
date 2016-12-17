@@ -728,11 +728,14 @@ void MiscTab()
 					if (ImGui::InputText("##CLANTAGTEXT", Settings::ClanTagChanger::value, 30))
 						ClanTagChanger::UpdateClanTagCallback();
 				ImGui::PopItemWidth();
+				ImGui::Text("Animation Speed");
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
 					if (ImGui::Combo("##ANIMATIONTYPE", &Settings::ClanTagChanger::type, AnimationTypes, IM_ARRAYSIZE(AnimationTypes)))
+						ClanTagChanger::UpdateClanTagCallback();
+					if (ImGui::SliderInt("##ANIMATIONSPEED", &Settings::ClanTagChanger::animation_speed, 0, 2000))
 						ClanTagChanger::UpdateClanTagCallback();
 				ImGui::PopItemWidth();
 			}

@@ -267,6 +267,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["ClanTagChanger"]["value"] = Settings::ClanTagChanger::value;
 	settings["ClanTagChanger"]["enabled"] = Settings::ClanTagChanger::enabled;
 	settings["ClanTagChanger"]["animation"] = Settings::ClanTagChanger::animation;
+	settings["ClanTagChanger"]["animation_speed"] = Settings::ClanTagChanger::animation_speed;
 	settings["ClanTagChanger"]["type"] = Settings::ClanTagChanger::type;
 
 	settings["View"]["NoPunch"]["enabled"] = Settings::View::NoPunch::enabled;
@@ -487,6 +488,7 @@ void Settings::LoadConfig(std::string path)
 	GetCString(settings["ClanTagChanger"]["value"], &Settings::ClanTagChanger::value);
 	GetBool(settings["ClanTagChanger"]["enabled"], &Settings::ClanTagChanger::enabled);
 	GetBool(settings["ClanTagChanger"]["animation"], &Settings::ClanTagChanger::animation);
+	GetInt(settings["ClanTagChanger"]["animation_speed"], &Settings::ClanTagChanger::animation_speed);
 	GetInt(settings["ClanTagChanger"]["type"], &Settings::ClanTagChanger::type);
 
 	GetBool(settings["View"]["NoPunch"]["enabled"], &Settings::View::NoPunch::enabled);

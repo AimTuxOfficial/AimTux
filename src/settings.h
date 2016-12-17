@@ -461,6 +461,7 @@ namespace Settings
 	{
 		extern char* value;
 		extern bool animation;
+		extern int animation_speed;
 		extern bool enabled;
 		extern int type;
 	}
