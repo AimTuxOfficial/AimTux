@@ -32,6 +32,7 @@ VMT* clientMode_vmt = nullptr;
 VMT* gameEvents_vmt = nullptr;
 VMT* viewRender_vmt = nullptr;
 VMT* inputInternal_vmt = nullptr;
+VMT* material_vmt = nullptr;
 VMT* surface_vmt = nullptr;
 VMT* sdlmanager_vmt = nullptr;
 
@@ -103,6 +104,7 @@ void Hooker::HookVMethods()
 	gameEvents_vmt = new VMT(gameevents);
 	viewRender_vmt = new VMT(viewrender);
 	inputInternal_vmt = new VMT(inputInternal);
+	material_vmt = new VMT(material);
 	surface_vmt = new VMT(surface);
 	sdlmanager_vmt = new VMT(sdlmanager);
 }

@@ -52,6 +52,9 @@ int __attribute__((constructor)) aimtux_init()
 	inputInternal_vmt->HookVM((void*) Hooks::SetMouseCodeState, 93);
 	inputInternal_vmt->ApplyVMT();
 
+	material_vmt->HookVM((void*) Hooks::BeginFrame, 42);
+	material_vmt->ApplyVMT();
+
 	surface_vmt->HookVM((void*) Hooks::PlaySound, 82);
 	surface_vmt->HookVM((void*) Hooks::OnScreenSizeChanged, 116);
 	surface_vmt->ApplyVMT();
@@ -85,6 +88,7 @@ void __attribute__((destructor)) aimtux_shutdown()
 	gameEvents_vmt->ReleaseVMT();
 	viewRender_vmt->ReleaseVMT();
 	inputInternal_vmt->ReleaseVMT();
+	material_vmt->ReleaseVMT();
 	surface_vmt->ReleaseVMT();
 	sdlmanager_vmt->ReleaseVMT();
 

@@ -16,6 +16,7 @@ typedef void (*SetKeyCodeStateFn) (void*, ButtonCode_t, bool);
 typedef void (*SetMouseCodeStateFn) (void*, ButtonCode_t, MouseCodeState_t);
 typedef void (*OnScreenSizeChangedFn) (void*, int, int);
 typedef void (*PlaySoundFn) (void*, const char*);
+typedef void (*BeginFrameFn) (void*, float);
 typedef int (*HandleSDLInputFn) (void*, wchar_t*);
 
 namespace Hooks
@@ -31,6 +32,7 @@ namespace Hooks
 	void SetMouseCodeState(void* thisptr, ButtonCode_t code, MouseCodeState_t state);
 	void OnScreenSizeChanged(void* thisptr, int oldwidth, int oldheight);
 	void PlaySound(void* thisptr, const char* filename);
+	void BeginFrame(void* thisptr, float frameTime);
 	int HandleSDLInput(void* thisptr, wchar_t* unknown);
 }
 

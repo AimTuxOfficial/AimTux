@@ -34,6 +34,7 @@ extern VMT* clientMode_vmt;
 extern VMT* gameEvents_vmt;
 extern VMT* viewRender_vmt;
 extern VMT* inputInternal_vmt;
+extern VMT* material_vmt;
 extern VMT* surface_vmt;
 extern VMT* sdlmanager_vmt;
 
