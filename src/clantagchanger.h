@@ -13,7 +13,7 @@ namespace ClanTagChanger
 		unsigned int time;
 		std::string text;
 
-		Frame (std::string text, unsigned int time)
+		Frame(std::string text, unsigned int time)
 		{
 			this->text = text;
 			this->time = time;
