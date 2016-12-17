@@ -869,8 +869,8 @@ void SkinChangerWindow()
 		static int current_weapon = 7;
 		static int current_weapon_skin = Settings::Skinchanger::skins[current_weapon].PaintKit;
 		static float weaponWear = 0.005f;
-		static int weaponSkinSeed;
-		static int weaponStatTrak;
+		static int weaponSkinSeed = -1;
+		static int weaponStatTrak = -1;
 		static char weaponName[18];
 		static char filterSkins[32];
 		static char filterGuns[32];
