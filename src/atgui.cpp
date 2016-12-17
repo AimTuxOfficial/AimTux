@@ -1,6 +1,5 @@
 #include "atgui.h"
 #include "skins.h"
-#include "util.h"
 #include <string>
 
 bool UI::isVisible = false;
