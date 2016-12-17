@@ -642,14 +642,6 @@ void HvHTab()
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
-			ImGui::Text("Resolver");
-			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
-			{
-				ImGui::Checkbox("Enabled", &Settings::Resolver::enabled);
-			}
-			ImGui::Columns(1);
-			ImGui::Separator();
 			ImGui::EndChild();
 		}
 	}
@@ -1233,7 +1225,7 @@ void PlayerListWindow()
 	if (ImGui::Begin("Player list", &Settings::ShowSpectators::enabled, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
 	{
 		C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-		static int currentplayer = -1;
+		static int currentPlayer = -1;
 
 		ImGui::ListBoxHeader("##PLAYERS", ImVec2(-1, (ImGui::GetWindowSize().y - 150)));
 		for (int i = 1; i < engine->GetMaxClients(); i++)
@@ -1250,19 +1242,19 @@ void PlayerListWindow()
 
 			IEngineClient::player_info_t entityInformation;
 			engine->GetPlayerInfo(i, &entityInformation);
-			bool selected = (i == currentplayer);
+			bool selected = (i == currentPlayer);
 
 			ImGui::PushID(i);
 			if (ImGui::Selectable(entityInformation.name, selected))
-				currentplayer = i;
+				currentPlayer = i;
 			ImGui::PopID();
 		}
 		ImGui::ListBoxFooter();
 
-		if (currentplayer != -1)
+		if (currentPlayer != -1)
 		{
 			IEngineClient::player_info_t entityInformation;
-			engine->GetPlayerInfo(currentplayer, &entityInformation);
+			engine->GetPlayerInfo(currentPlayer, &entityInformation);
 
 			bool isFriendly = std::find(Aimbot::Friendlies.begin(), Aimbot::Friendlies.end(), entityInformation.xuid) != Aimbot::Friendlies.end();
 			if (ImGui::Checkbox("Friend", &isFriendly))
@@ -1271,6 +1263,15 @@ void PlayerListWindow()
 					Aimbot::Friendlies.push_back(entityInformation.xuid);
 				else
 					Aimbot::Friendlies.erase(std::find(Aimbot::Friendlies.begin(), Aimbot::Friendlies.end(), entityInformation.xuid));
+			}
+
+			bool shouldResolve = std::find(Resolver::Players.begin(), Resolver::Players.end(), entityInformation.xuid) != Resolver::Players.end();
+			if (ImGui::Checkbox("Resolver", &shouldResolve))
+			{
+				if (shouldResolve)
+					Resolver::Players.push_back(entityInformation.xuid);
+				else
+					Resolver::Players.erase(std::find(Resolver::Players.begin(), Resolver::Players.end(), entityInformation.xuid));
 			}
 		}
 

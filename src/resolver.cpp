@@ -1,14 +1,11 @@
 #include "resolver.h"
 
-bool Settings::Resolver::enabled = false;
+std::vector<int64_t> Resolver::Players = { };
 
 std::vector<PlayerAA> player_data;
 
 void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 {
-	if (!Settings::Resolver::enabled)
-		return;
-
 	if (!engine->IsInGame())
 		return;
 
@@ -18,7 +15,7 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 
 	if (stage == ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_START)
 	{
-		for (int i = 1; i < entitylist->GetHighestEntityIndex(); ++i)
+		for (int i = 1; i < engine->GetMaxClients(); ++i)
 		{
 			C_BaseEntity* entity = entitylist->GetClientEntity(i);
 
@@ -30,16 +27,17 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 				|| entity->GetTeam() == localplayer->GetTeam())
 				continue;
 
-			ClientClass* client = entity->GetClientClass();
-			if (client->m_ClassID == CCSPlayer)
-			{
-				C_BasePlayer* player = (C_BasePlayer*)entity;
+			IEngineClient::player_info_t entityInformation;
+			engine->GetPlayerInfo(i, &entityInformation);
 
-				player_data.push_back (PlayerAA(player, *player->GetHeadRotation()));
+			if (std::find(Resolver::Players.begin(), Resolver::Players.end(), entityInformation.xuid) != Resolver::Players.end())
+				continue;
 
-				player->GetHeadRotation()->y = *player->GetLowerBodyYawTarget();
-				
-			}
+			C_BasePlayer* player = (C_BasePlayer*)entity;
+
+			player_data.push_back(PlayerAA(player, *player->GetHeadRotation()));
+
+			player->GetHeadRotation()->y = *player->GetLowerBodyYawTarget();
 		}
 	}
 	else if (stage == ClientFrameStage_t::FRAME_RENDER_END)
@@ -57,4 +55,13 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 
 void Resolver::PostFrameStageNotify(ClientFrameStage_t stage)
 {
+}
+
+void Resolver::FireEventClientSide(IGameEvent* event)
+{
+	if (!event)
+		return;
+
+	if (strcmp(event->GetName(), "player_connect_full") == 0 || strcmp(event->GetName(), "cs_game_disconnected") == 0)
+		Resolver::Players.clear();
 }
