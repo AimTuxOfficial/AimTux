@@ -20,6 +20,7 @@ namespace Util {
 	void ProtectAddr(void* address, int prot);
 	bool Contains(const std::string &word, const std::string &sentence);
 	std::string ToLower(std::string str);
+	std::string ToUpper(std::string str);
 
 	template <typename K, typename V>
 	K MapReverseSearchOrDefault(std::map<K, V> const* _map, V value, K fallback) 
