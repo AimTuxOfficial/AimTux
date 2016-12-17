@@ -1,6 +1,6 @@
 #pragma once
 
-std::map<int, const char*> guns = {
+std::vector<std::pair<int, const char*>> guns = {
 		{ WEAPON_DEAGLE, "Deagle" },
 		{ WEAPON_ELITE, "Dual Berettas" },
 		{ WEAPON_FIVESEVEN, "Five-SeveN" },
@@ -36,7 +36,7 @@ std::map<int, const char*> guns = {
 		{ WEAPON_REVOLVER, "Revolver" },
 };
 
-std::map<int, const char*> knives = {
+std::vector<std::pair<int, const char*>> knives = {
 		{ 0, "Bayonet" },
 		{ 5, "Flip" },
 		{ 6, "Gut" },
@@ -49,7 +49,7 @@ std::map<int, const char*> knives = {
 		{ 16, "Shadow Daggers" },
 };
 
-std::map<int, const char*> weapon_skins = {
+std::vector<std::pair<int, const char*>> weapon_skins = {
 		{ 0,   "<-Default->" },
 		{ 361, "Abyss" },
 		{ 253, "Acid Fade" },
