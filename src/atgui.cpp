@@ -1256,22 +1256,33 @@ void PlayerListWindow()
 			IEngineClient::player_info_t entityInformation;
 			engine->GetPlayerInfo(currentPlayer, &entityInformation);
 
-			bool isFriendly = std::find(Aimbot::Friendlies.begin(), Aimbot::Friendlies.end(), entityInformation.xuid) != Aimbot::Friendlies.end();
-			if (ImGui::Checkbox("Friend", &isFriendly))
+			ImGui::Columns(2);
 			{
-				if (isFriendly)
-					Aimbot::Friendlies.push_back(entityInformation.xuid);
-				else
-					Aimbot::Friendlies.erase(std::find(Aimbot::Friendlies.begin(), Aimbot::Friendlies.end(), entityInformation.xuid));
-			}
+				bool isFriendly = std::find(Aimbot::Friendlies.begin(), Aimbot::Friendlies.end(), entityInformation.xuid) != Aimbot::Friendlies.end();
+				if (ImGui::Checkbox("Friend", &isFriendly))
+				{
+					if (isFriendly)
+						Aimbot::Friendlies.push_back(entityInformation.xuid);
+					else
+						Aimbot::Friendlies.erase(std::find(Aimbot::Friendlies.begin(), Aimbot::Friendlies.end(), entityInformation.xuid));
+				}
 
-			bool shouldResolve = std::find(Resolver::Players.begin(), Resolver::Players.end(), entityInformation.xuid) != Resolver::Players.end();
-			if (ImGui::Checkbox("Resolver", &shouldResolve))
+				bool shouldResolve = std::find(Resolver::Players.begin(), Resolver::Players.end(), entityInformation.xuid) != Resolver::Players.end();
+				if (ImGui::Checkbox("Resolver", &shouldResolve))
+				{
+					if (shouldResolve)
+						Resolver::Players.push_back(entityInformation.xuid);
+					else
+						Resolver::Players.erase(std::find(Resolver::Players.begin(), Resolver::Players.end(), entityInformation.xuid));
+				}
+			}
+			ImGui::NextColumn();
 			{
-				if (shouldResolve)
-					Resolver::Players.push_back(entityInformation.xuid);
-				else
-					Resolver::Players.erase(std::find(Resolver::Players.begin(), Resolver::Players.end(), entityInformation.xuid));
+				if (ImGui::Button("Steal name"))
+				{
+					std::string name(entityInformation.name);
+					NameChanger::SetName(Util::PadStringRight(name, name.length() + 1));
+				}
 			}
 		}
 
