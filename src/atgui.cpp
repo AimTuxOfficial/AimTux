@@ -352,6 +352,7 @@ void TriggerbotTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
+				ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
 				ImGui::Text("Trigger Key");
 			}
 			ImGui::NextColumn();
@@ -548,7 +549,10 @@ void HvHTab()
 				ImGui::Separator();
 				ImGui::Columns(2, NULL, true);
 				{
+					ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
 					ImGui::Text("Yaw Fake");
+					ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
+					ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
 					ImGui::Text("Yaw Actual");
 				}
 				ImGui::NextColumn();
@@ -728,6 +732,8 @@ void MiscTab()
 					if (ImGui::InputText("##CLANTAGTEXT", Settings::ClanTagChanger::value, 30))
 						ClanTagChanger::UpdateClanTagCallback();
 				ImGui::PopItemWidth();
+
+				ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
 				ImGui::Text("Animation Speed");
 			}
 			ImGui::NextColumn();
