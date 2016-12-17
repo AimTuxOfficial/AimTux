@@ -15,6 +15,7 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 			CB_Element ("FORWARDS", FORWARDS),
 			CB_Element ("LEFT", LEFT),
 			CB_Element ("RIGHT", RIGHT),
+			CB_Element ("STATIC", STATIC),
 		}, false
 	);
 
@@ -30,6 +31,7 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 			CB_Element ("FORWARDS", FORWARDS),
 			CB_Element ("LEFT", LEFT),
 			CB_Element ("RIGHT", RIGHT),
+			CB_Element ("STATIC", STATIC),
 		}, false
 	);
 
@@ -42,6 +44,7 @@ HVHPanel::HVHPanel (Vector2D position, Vector2D size)
 #ifdef UNTRUSTED_SETTINGS
 			CB_Element ("FAKE UP", STATIC_UP_FAKE),
 			CB_Element ("FAKE DOWN", STATIC_DOWN_FAKE),
+			CB_Element ("OVERFLOW DOWN", OVERFLOW_DOWN),
 #endif
 		}, false
 	);
