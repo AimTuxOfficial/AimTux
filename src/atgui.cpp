@@ -11,10 +11,13 @@ bool showMainWindow = true;
 bool showSkinChangerWindow = false;
 bool showConfigWindow = false;
 bool showColorsWindow = false;
+bool showResolverWindow = false;
 float gunWearAmount = 0.005f;
 float knifeWearAmount = 0.005f;
 
 #define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))
+
+//#define RESOLVERWINDOW;
 
 namespace ImGui
 {
@@ -145,7 +148,11 @@ void SetupMainMenuBar()
 		ImGui::SameLine();
 
 		ImGui::Selectable("Colors Window", &showColorsWindow, 0, ImVec2(ImGui::CalcTextSize("Colors Window", NULL, true).x, 0.0f));
+#ifdef RESOLVERWINDOW
+		ImGui::SameLine();
 
+		ImGui::Selectable("Resolver Window", &showResolverWindow, 0, ImVec2(ImGui::CalcTextSize("Resolver Window", NULL, true).x, 0.0f));
+#endif
 		ImGui::PopStyleVar();
 		ImGui::EndMainMenuBar();
 	}
@@ -1183,6 +1190,52 @@ void SpectatorsWindow()
 	}
 }
 
+void ResolverWindow()
+{
+	if(!showResolverWindow)
+		return;
+
+	ImGui::SetNextWindowSize(ImVec2(700, 500), ImGuiSetCond_FirstUseEver);
+	if(ImGui::Begin("Resolver", &Settings::ShowSpectators::enabled, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
+	{
+		C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+
+		static int currentplayer;
+
+		ImGui::ListBoxHeader("##PLAYERS", ImVec2(-1, (ImGui::GetWindowSize().y - 150)));
+			for (int i = 1; i < entitylist->GetHighestEntityIndex(); ++i)
+			{
+				C_BaseEntity* entity = entitylist->GetClientEntity(i);
+
+				if (!engine->IsInGame())
+					continue;
+
+				if (!entity)
+					continue;
+
+				ClientClass* client = entity->GetClientClass();
+				if (client->m_ClassID == CCSPlayer)
+				{
+
+					if (entity == (C_BaseEntity*)localplayer || entity->GetDormant())
+						continue;
+
+					IEngineClient::player_info_t entityInformation;
+					engine->GetPlayerInfo(i, &entityInformation);
+					bool selected = (i == currentplayer);
+
+					ImGui::PushID(i);
+						if (ImGui::Selectable(entityInformation.name, selected))
+							currentplayer = i;
+					ImGui::PopID();
+				}
+			}
+		ImGui::ListBoxFooter();
+
+		ImGui::End();
+	}
+}
+
 void UI::SwapWindow()
 {
 	if (UI::isVisible)
@@ -1210,6 +1263,7 @@ void UI::SetupWindows()
 
 		ConfigWindow();
 		ColorsWindow();
+		ResolverWindow();
 	}
 
 	SpectatorsWindow();
