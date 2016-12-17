@@ -7,7 +7,11 @@ bool UI::KeyBindButton(ButtonCode_t* key)
 	if (SetKeyCodeState::shouldListen && SetKeyCodeState::keyOutput == key)
 		text = "-- press a key --";
 
-	if (ImGui::Button(text, ImVec2(-1, 0)))
+	std::string str(text);
+
+	std::transform(str.begin(), str.end(), str.begin(), ::toupper);
+
+	if (ImGui::Button(str.c_str(), ImVec2(-1, 0)))
 	{
 		SetKeyCodeState::shouldListen = true;
 		SetKeyCodeState::keyOutput = key;
