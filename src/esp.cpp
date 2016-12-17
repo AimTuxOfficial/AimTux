@@ -509,9 +509,12 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 		}
 	}
 
-	if (Settings::ESP::Glow::enabled)
-		ESP::DrawGlow();
-
 	if (Settings::ESP::FOVCrosshair::enabled)
 		ESP::DrawFOVCrosshair();
+}
+
+void ESP::BeginFrame(float frameTime)
+{
+	if (Settings::ESP::Glow::enabled)
+		ESP::DrawGlow();
 }
