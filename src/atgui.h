@@ -2,6 +2,7 @@
 
 #include <list>
 #include "ImGUI/imgui.h"
+#include "ImGUI/imgui_internal.h"
 #include "ImGUI/imgui_impl_sdl.h"
 #include "settings.h"
 #include "hacks.h"
