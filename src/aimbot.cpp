@@ -32,7 +32,9 @@ bool Settings::Aimbot::AutoStop::enabled = false;
 bool Settings::Aimbot::NoShoot::enabled = false;
 bool Settings::Aimbot::Smooth::Salting::enabled = false;
 float Settings::Aimbot::Smooth::Salting::percentage = 0.0f;
+
 bool Aimbot::AimStepInProgress = false;
+std::vector<int64_t> Aimbot::Friendlies = { };
 
 bool shouldAim;
 QAngle AimStepLastAngle;
@@ -109,6 +111,12 @@ C_BaseEntity* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& best_bone, Aim
 			continue;
 
 		if (!Settings::Aimbot::friendly && entity->GetTeam() == localplayer->GetTeam())
+			continue;
+
+		IEngineClient::player_info_t entityInformation;
+		engine->GetPlayerInfo(i, &entityInformation);
+
+		if (std::find(Aimbot::Friendlies.begin(), Aimbot::Friendlies.end(), entityInformation.xuid) != Aimbot::Friendlies.end())
 			continue;
 
 		Vector e_vecHead = entity->GetBonePosition(Settings::Aimbot::bone);
@@ -528,4 +536,13 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 
 	if (!Settings::Aimbot::silent)
 		engine->SetViewAngles(cmd->viewangles);
+}
+
+void Aimbot::FireEventClientSide(IGameEvent* event)
+{
+	if (!event)
+		return;
+
+	if (strcmp(event->GetName(), "player_connect_full") == 0 || strcmp(event->GetName(), "cs_game_disconnected") == 0)
+		Aimbot::Friendlies.clear();
 }

@@ -2,6 +2,7 @@
 
 bool Hooks::FireEventClientSide(void* thisptr, IGameEvent* event)
 {
+	Aimbot::FireEventClientSide(event);
 	SkinChanger::FireEventClientSide(event);
 	Spammer::FireEventClientSide(event);
 

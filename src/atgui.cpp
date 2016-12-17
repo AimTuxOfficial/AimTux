@@ -149,11 +149,10 @@ void SetupMainMenuBar()
 		ImGui::SameLine();
 
 		ImGui::Selectable("Colors Window", &showColorsWindow, 0, ImVec2(ImGui::CalcTextSize("Colors Window", NULL, true).x, 0.0f));
-#ifdef PlAYERLISTWINDOW
 		ImGui::SameLine();
 
 		ImGui::Selectable("Player List Window", &showPlayerListWindow, 0, ImVec2(ImGui::CalcTextSize("Player List Window", NULL, true).x, 0.0f));
-#endif
+
 		ImGui::PopStyleVar();
 		ImGui::EndMainMenuBar();
 	}
@@ -1227,45 +1226,53 @@ void SpectatorsWindow()
 
 void PlayerListWindow()
 {
-	if(!showPlayerListWindow)
+	if (!showPlayerListWindow)
 		return;
 
 	ImGui::SetNextWindowSize(ImVec2(700, 500), ImGuiSetCond_FirstUseEver);
-	if(ImGui::Begin("Player List", &Settings::ShowSpectators::enabled, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
+	if (ImGui::Begin("Player list", &Settings::ShowSpectators::enabled, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
 	{
 		C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-
-		static int currentplayer;
+		static int currentplayer = -1;
 
 		ImGui::ListBoxHeader("##PLAYERS", ImVec2(-1, (ImGui::GetWindowSize().y - 150)));
-			for (int i = 1; i < entitylist->GetHighestEntityIndex(); ++i)
-			{
-				C_BaseEntity* entity = entitylist->GetClientEntity(i);
+		for (int i = 1; i < engine->GetMaxClients(); i++)
+		{
+			C_BaseEntity* entity = entitylist->GetClientEntity(i);
+			if (!engine->IsInGame())
+				continue;
 
-				if (!engine->IsInGame())
-					continue;
+			if (!entity)
+				continue;
 
-				if (!entity)
-					continue;
+			if (entity == (C_BaseEntity*)localplayer)
+				continue;
 
-				ClientClass* client = entity->GetClientClass();
-				if (client->m_ClassID == CCSPlayer)
-				{
+			IEngineClient::player_info_t entityInformation;
+			engine->GetPlayerInfo(i, &entityInformation);
+			bool selected = (i == currentplayer);
 
-					if (entity == (C_BaseEntity*)localplayer || entity->GetDormant())
-						continue;
-
-					IEngineClient::player_info_t entityInformation;
-					engine->GetPlayerInfo(i, &entityInformation);
-					bool selected = (i == currentplayer);
-
-					ImGui::PushID(i);
-						if (ImGui::Selectable(entityInformation.name, selected))
-							currentplayer = i;
-					ImGui::PopID();
-				}
-			}
+			ImGui::PushID(i);
+			if (ImGui::Selectable(entityInformation.name, selected))
+				currentplayer = i;
+			ImGui::PopID();
+		}
 		ImGui::ListBoxFooter();
+
+		if (currentplayer != -1)
+		{
+			IEngineClient::player_info_t entityInformation;
+			engine->GetPlayerInfo(currentplayer, &entityInformation);
+
+			bool isFriendly = std::find(Aimbot::Friendlies.begin(), Aimbot::Friendlies.end(), entityInformation.xuid) != Aimbot::Friendlies.end();
+			if (ImGui::Checkbox("Friend", &isFriendly))
+			{
+				if (isFriendly)
+					Aimbot::Friendlies.push_back(entityInformation.xuid);
+				else
+					Aimbot::Friendlies.erase(std::find(Aimbot::Friendlies.begin(), Aimbot::Friendlies.end(), entityInformation.xuid));
+			}
+		}
 
 		ImGui::End();
 	}
