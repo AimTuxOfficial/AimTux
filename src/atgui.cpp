@@ -868,7 +868,7 @@ void SkinChangerWindow()
 	ImGui::SetNextWindowSize(ImVec2(640, 695), ImGuiSetCond_FirstUseEver);
 	if (ImGui::Begin("Skin Changer", &showSkinChangerWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
 	{
-		static int current_weapon = 1;
+		static int current_weapon = 7;
 		static int current_weapon_skin = Settings::Skinchanger::skins[current_weapon].PaintKit;
 		static float weaponWear = 0.005f;
 		static int weaponSkinSeed;
