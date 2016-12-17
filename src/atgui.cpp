@@ -59,6 +59,7 @@ void UI::SetupColors()
 	ImVec4 mainColorActive = ImVec4(Settings::UI::mainColor.Value.x + 0.2f, Settings::UI::mainColor.Value.y + 0.2f, Settings::UI::mainColor.Value.z + 0.2f, Settings::UI::mainColor.Value.w);
 	ImVec4 menubarColor = ImVec4(Settings::UI::bodyColor.Value.x, Settings::UI::bodyColor.Value.y, Settings::UI::bodyColor.Value.z, Settings::UI::bodyColor.Value.w - 0.8f);
 	ImVec4 frameBgColor = ImVec4(Settings::UI::bodyColor.Value.x, Settings::UI::bodyColor.Value.y, Settings::UI::bodyColor.Value.z, Settings::UI::bodyColor.Value.w + .1f);
+	ImVec4 tooltipBgColor = ImVec4(Settings::UI::bodyColor.Value.x, Settings::UI::bodyColor.Value.y, Settings::UI::bodyColor.Value.z, Settings::UI::bodyColor.Value.w + .05f);
 
 	style.Alpha = 1.0f;
 	style.WindowPadding = ImVec2(8, 8);
@@ -88,7 +89,7 @@ void UI::SetupColors()
 	style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
 	style.Colors[ImGuiCol_WindowBg] = Settings::UI::bodyColor;
 	style.Colors[ImGuiCol_ChildWindowBg] = ImVec4(.0f, .0f, .0f, .0f);
-	style.Colors[ImGuiCol_PopupBg] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
+	style.Colors[ImGuiCol_PopupBg] = tooltipBgColor;
 	style.Colors[ImGuiCol_Border] = Settings::UI::mainColor;
 	style.Colors[ImGuiCol_BorderShadow] = ImVec4(0.92f, 0.91f, 0.88f, 0.00f);
 	style.Colors[ImGuiCol_FrameBg] = frameBgColor;
