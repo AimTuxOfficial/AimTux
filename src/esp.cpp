@@ -515,6 +515,9 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 
 void ESP::BeginFrame(float frameTime)
 {
+	if (!engine->IsInGame())
+		return;
+
 	if (Settings::ESP::Glow::enabled)
 		ESP::DrawGlow();
 }

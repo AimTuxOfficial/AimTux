@@ -24,7 +24,7 @@ std::vector<Spammer::SpamCollection> Spammer::collections =
 
 Spammer::SpamCollection* Spammer::currentSpamCollection = &collections[0];
 
-void Spammer::CreateMove(CUserCmd* cmd)
+void Spammer::BeginFrame(float frameTime)
 {
 	// Grab the current time in milliseconds
 	long currentTime_ms = std::chrono::duration_cast<std::chrono::milliseconds>(

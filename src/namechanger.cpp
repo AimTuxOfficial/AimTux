@@ -7,7 +7,7 @@ int NameChanger::changes = -1;
 const char* atom[] = { "AIMTUX.NET", "AIMTUX.NET ", "AIMTUX.NET", "AIMTUX.NET ", "AIMTUX.NET" };
 int atomSize = sizeof(atom) / sizeof(atom[0]);
 
-void NameChanger::CreateMove(CUserCmd* cmd)
+void NameChanger::BeginFrame(float frameTime)
 {
 	if (!Settings::NameChanger::enabled)
 		return;
