@@ -543,7 +543,7 @@ void HvHTab()
 		ImGui::BeginChild("HVH1", ImVec2(0, 0), true);
 		{
 			ImGui::Text("AntiAim");
-			ImGui::BeginChild("##ANTIAIM", ImVec2(0, 197), true);
+			ImGui::BeginChild("##ANTIAIM", ImVec2(0, ImGui::GetWindowSize().y / 2 - 30), true);
 			{
 				ImGui::Checkbox("Yaw", &Settings::AntiAim::Yaw::enabled);
 				ImGui::Separator();
@@ -620,7 +620,7 @@ void HvHTab()
 		ImGui::BeginChild("HVH2", ImVec2(0, 0), true);
 		{
 			ImGui::Text("AutoWall");
-			ImGui::BeginChild("##AUTOWALL", ImVec2(0, 140), true);
+			ImGui::BeginChild("##AUTOWALL", ImVec2(0, ImGui::GetWindowSize().y / 2 - 102), true);
 			{
 				ImGui::Columns(2, NULL, true);
 				{
