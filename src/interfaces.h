@@ -25,6 +25,7 @@ extern IPrediction* prediction;
 extern IGameMovement* gamemovement;
 extern IMoveHelper* movehelper;
 extern CGlowObjectManager* glowmanager;
+extern void* sdlmanager;
 
 extern VMT* panel_vmt;
 extern VMT* client_vmt;
@@ -34,6 +35,7 @@ extern VMT* gameEvents_vmt;
 extern VMT* viewRender_vmt;
 extern VMT* inputInternal_vmt;
 extern VMT* surface_vmt;
+extern VMT* sdlmanager_vmt;
 
 extern int* nPredictionRandomSeed;
 extern bool* bSendPacket;

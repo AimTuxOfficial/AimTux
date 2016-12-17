@@ -48,6 +48,20 @@ void SDL2::SwapWindow(SDL_Window* window)
 
 	ImGui_ImplSdl_NewFrame(window);
 
+	ImGui::GetIO().MouseDrawCursor = UI::isVisible;
+	ImGui::GetIO().WantCaptureMouse = UI::isVisible;
+	ImGui::GetIO().WantCaptureKeyboard = UI::isVisible;
+
+	if (UI::isVisible && !SetKeyCodeState::shouldListen)
+	{
+		SDL_Event event;
+
+		while (SDL_PollEvent(&event))
+		{
+			ImGui_ImplSdl_ProcessEvent(&event);
+		}
+	}
+
 	Draw::ImStart();
 	UI::SwapWindow();
 	Draw::ImEnd();
@@ -55,9 +69,6 @@ void SDL2::SwapWindow(SDL_Window* window)
 	UI::SetupColors();
 	UI::SetupWindows();
 
-	ImGui::GetIO().MouseDrawCursor = UI::isVisible;
-	ImGui::GetIO().WantCaptureMouse = UI::isVisible;
-	ImGui::GetIO().WantCaptureKeyboard = UI::isVisible;
 	ImGui::GetCurrentContext()->Font->DisplayOffset = ImVec2(0.f, 0.f);
 
 	ImGui::Render();
@@ -76,8 +87,6 @@ void SDL2::UnhookWindow()
 int SDL2::PollEvent(SDL_Event* event)
 {
 	static SDL_PollEvent_t oSDL_PollEvent = reinterpret_cast<SDL_PollEvent_t>(original_pollevent);
-
-	ImGui_ImplSdl_ProcessEvent(event);
 
 	if (event->key.keysym.sym == SDLK_INSERT && event->type == SDL_KEYDOWN)
 		UI::SetVisible(!UI::isVisible);

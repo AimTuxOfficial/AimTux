@@ -30,6 +30,9 @@
 #define ISREADY_CALLBACK_SIGNATURE "\x48\x83\x3D\x00\x00\x00\x00\x00\x55\x48\x89\xE5\x41"
 #define ISREADY_CALLBACK_MASK "xxx????xxxxxx"
 
+#define GETSDLMGR_SIGNATURE "\x55\x48\x89\xE5\x53\x48\x83\xEC\x18"
+#define GETSDLMGR_MASK "xxxxxxxxx"
+
 #include <unordered_map>
 #include <sys/mman.h>
 #include <link.h>
@@ -54,4 +57,5 @@ namespace Hooker
 	void HookIsReadyCallback();
 	void HookSwapWindow();
 	void HookPollEvent();
+	void HookSDLInput();
 }
