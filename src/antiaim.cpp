@@ -83,15 +83,19 @@ void DoAntiAimY(QAngle&  angle, bool bFlip)
 	}
 	else if (aa_type == FORWARDS)
 	{
-		angle.y -= 0;
+		angle.y -= 0.0f;
 	}
 	else if (aa_type == LEFT)
 	{
-		angle.y += 90;
+		angle.y += 90.0f;
 	}
 	else if (aa_type == RIGHT)
 	{
-		angle.y -= 90;
+		angle.y -= 90.0f;
+	}
+	else if (aa_type == STATIC)
+	{
+		angle.y = 0.0f;
 	}
 }
 
@@ -172,6 +176,10 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 		{
 			angle.x = bFlip ? -89.0f : 89.0f;
 			CreateMove::SendPacket = bFlip;
+		}
+		else if (Settings::AntiAim::type_X == OVERFLOW_DOWN)
+		{
+			angle.x = 32000088.0f;
 		}
 #endif
 	}
