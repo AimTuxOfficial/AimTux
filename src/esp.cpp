@@ -252,7 +252,15 @@ void ESP::DrawPlayerInfo(C_BaseEntity* entity, int entityIndex)
 	IEngineClient::player_info_t entityInformation;
 	engine->GetPlayerInfo(entityIndex, &entityInformation);
 
-	const char* modelName = Util::GetValueByKey(guns, *active_weapon->GetItemDefinitionIndex());
+	std::string modelName = std::string(Util::GetValueByKey(guns, *active_weapon->GetItemDefinitionIndex()));
+
+	if (modelName == "") {
+		modelName = std::string(active_weapon->GetClientClass()->m_pNetworkName);
+		if (strstr(modelName.c_str(), "Weapon"))
+			modelName = modelName.substr(7, modelName.length() - 7);
+		else
+			modelName = modelName.substr(1, modelName.length() - 1);
+	}
 
 	pstring topText;
 	pstring bottomText;
@@ -335,10 +343,18 @@ void ESP::DrawBombBox(C_BasePlantedC4* entity)
 	}
 }
 
-void ESP::DrawWeaponText(C_BaseAttributableItem* entity, ClientClass* client)
+void ESP::DrawWeaponText(C_BaseEntity* entity, ClientClass* client)
 {
-	int modelId = *entity->GetItemDefinitionIndex();
-	const char *modelName = Util::GetValueByKey(guns, modelId);
+	int modelId = *((C_BaseAttributableItem*)entity)->GetItemDefinitionIndex();
+	std::string modelName = Util::GetValueByKey(guns, modelId);
+
+	if (modelName == "") {
+		modelName = std::string(client->m_pNetworkName);
+		if (strstr(modelName.c_str(), "Weapon"))
+			modelName = modelName.substr(7, modelName.length() - 7);
+		else
+			modelName = modelName.substr(1, modelName.length() - 1);
+	}
 
 	Vector vecOrigin = entity->GetVecOrigin();
 	if (vecOrigin == Vector(0, 0, 0))
@@ -346,7 +362,7 @@ void ESP::DrawWeaponText(C_BaseAttributableItem* entity, ClientClass* client)
 
 	Vector s_veclocalplayer_s;
 	if (!WorldToScreen(vecOrigin, s_veclocalplayer_s))
-		Draw::DrawCenteredString(modelName, LOC(s_veclocalplayer_s.x, s_veclocalplayer_s.y), Color(255, 255, 255, 255), esp_font);
+		Draw::DrawCenteredString(modelName.c_str(), LOC(s_veclocalplayer_s.x, s_veclocalplayer_s.y), Color(255, 255, 255, 255), esp_font);
 }
 
 void ESP::DrawGlow()
@@ -499,7 +515,7 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 				(strstr(client->m_pNetworkName, "Weapon") || client->m_ClassID == CDEagle || client->m_ClassID == CAK47))
 		{
 			if (Settings::ESP::Weapons::enabled)
-				ESP::DrawWeaponText((C_BaseAttributableItem*)entity, client);
+				ESP::DrawWeaponText(entity, client);
 		}
 	}
 

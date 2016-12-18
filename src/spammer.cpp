@@ -78,7 +78,15 @@ void Spammer::BeginFrame(float frameTime)
 			engine->GetPlayerInfo(i, &entityInformation);
 
 			C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(entity->GetActiveWeapon());
-			const char* modelName = Util::GetValueByKey(guns, *active_weapon->GetItemDefinitionIndex());
+			std::string modelName = Util::GetValueByKey(guns, *active_weapon->GetItemDefinitionIndex());
+
+			if (modelName == "") {
+				modelName = std::string(active_weapon->GetClientClass()->m_pNetworkName);
+				if (strstr(modelName.c_str(), "Weapon"))
+					modelName = modelName.substr(7, modelName.length() - 7);
+				else
+					modelName = modelName.substr(1, modelName.length() - 1);
+			}
 
 			// Prepare player's nickname without ';' & '"' characters
 			// as they might cause user to execute a command.

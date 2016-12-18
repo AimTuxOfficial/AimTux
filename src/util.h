@@ -30,7 +30,7 @@ namespace Util {
 			if (i.first == key)
 				return i.second;
 		}
-		return NULL;
+		return "";
 	}
 
 	template <typename K, typename V>
