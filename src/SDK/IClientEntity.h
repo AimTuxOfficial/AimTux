@@ -461,6 +461,11 @@ public:
 class C_BaseCombatWeapon: public C_BaseAttributableItem
 {
 public:
+	int GetOwner()
+	{
+		return *(int*)((uintptr_t)this + offsets.DT_BaseCombatWeapon.m_hOwner);
+	}
+
 	unsigned int GetAmmo()
 	{
 		return *(unsigned int*)((uintptr_t)this + offsets.DT_BaseCombatWeapon.m_iClip1);

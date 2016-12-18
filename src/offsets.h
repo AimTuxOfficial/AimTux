@@ -141,6 +141,7 @@ struct COffsets
 	struct
 	{
 		int m_flNextPrimaryAttack;
+		int m_hOwner;
 		int m_iClip1;
 		int m_bInReload;
 	} DT_BaseCombatWeapon;
