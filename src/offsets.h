@@ -135,6 +135,11 @@ struct COffsets
 
 	struct
 	{
+		int m_bStartedArming;
+	} DT_WeaponC4;
+
+	struct
+	{
 		int m_flNextPrimaryAttack;
 		int m_iClip1;
 		int m_bInReload;

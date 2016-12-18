@@ -105,6 +105,8 @@ void Offsets::getOffsets()
 
 	offsets.DT_WeaponCSBase.m_fAccuracyPenalty = NetVarManager::getOffset(tables, "DT_WeaponCSBase", "m_fAccuracyPenalty");
 
+	offsets.DT_WeaponC4.m_bStartedArming = NetVarManager::getOffset(tables, "DT_WeaponC4", "m_bStartedArming");
+
 	offsets.DT_BaseCombatWeapon.m_flNextPrimaryAttack = NetVarManager::getOffset(tables, "DT_BaseCombatWeapon", "m_flNextPrimaryAttack");
 	offsets.DT_BaseCombatWeapon.m_iClip1 = NetVarManager::getOffset(tables, "DT_BaseCombatWeapon", "m_iClip1");
 	offsets.DT_BaseCombatWeapon.m_bInReload = offsets.DT_BaseCombatWeapon.m_flNextPrimaryAttack + 113;

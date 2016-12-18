@@ -762,3 +762,12 @@ public:
 		return weaponInfo;
 	}
 };
+
+class C_WeaponC4 : C_BaseCombatWeapon
+{
+public:
+	bool GetStartedArming()
+	{
+		return *(bool*)((uintptr_t)this + offsets.DT_WeaponC4.m_bStartedArming);
+	}
+};
