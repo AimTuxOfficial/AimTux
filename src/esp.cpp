@@ -1,6 +1,7 @@
 #include <math.h>
 #include "esp.h"
 #include "settings.h"
+#include "skins.h"
 
 bool Settings::ESP::enabled	= true;
 ImColor Settings::ESP::ally_color = ImColor(0, 50, 200, 255);
@@ -251,11 +252,15 @@ void ESP::DrawPlayerInfo(C_BaseEntity* entity, int entityIndex)
 	IEngineClient::player_info_t entityInformation;
 	engine->GetPlayerInfo(entityIndex, &entityInformation);
 
-	std::string modelName = std::string(active_weapon->GetClientClass()->m_pNetworkName);
-	if (strstr(modelName.c_str(), "Weapon"))
-		modelName = modelName.substr(7, modelName.length() - 7);
-	else
-		modelName = modelName.substr(1, modelName.length() - 1);
+	std::string modelName = std::string(Util::GetValueByKey(guns, *active_weapon->GetItemDefinitionIndex()));
+	if (modelName == "")
+	{
+		modelName = std::string(active_weapon->GetClientClass()->m_pNetworkName);
+		if (strstr(modelName.c_str(), "Weapon"))
+			modelName = modelName.substr(7, modelName.length() - 7);
+		else
+			modelName = modelName.substr(1, modelName.length() - 1);
+	}
 
 	pstring topText;
 	pstring bottomText;
@@ -340,11 +345,17 @@ void ESP::DrawBombBox(C_BasePlantedC4* entity)
 
 void ESP::DrawWeaponText(C_BaseEntity* entity, ClientClass* client)
 {
-	std::string modelName = std::string(client->m_pNetworkName);
-	if (strstr(modelName.c_str(), "Weapon"))
-		modelName = modelName.substr(7, modelName.length() - 7);
-	else
-		modelName = modelName.substr(1, modelName.length() - 1);
+	int modelId = *((C_BaseAttributableItem*)entity)->GetItemDefinitionIndex();
+
+	std::string modelName = Util::GetValueByKey(guns, modelId);
+	if (modelName == "")
+	{
+		modelName = std::string(client->m_pNetworkName);
+		if (strstr(modelName.c_str(), "Weapon"))
+			modelName = modelName.substr(7, modelName.length() - 7);
+		else
+			modelName = modelName.substr(1, modelName.length() - 1);
+	}
 
 	Vector vecOrigin = entity->GetVecOrigin();
 	if (vecOrigin == Vector(0, 0, 0))
