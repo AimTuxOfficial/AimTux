@@ -1,6 +1,5 @@
 #include "atgui.h"
 #include "skins.h"
-#include <string>
 
 bool UI::isVisible = false;
 
@@ -12,12 +11,8 @@ bool showSkinChangerWindow = false;
 bool showConfigWindow = false;
 bool showColorsWindow = false;
 bool showPlayerListWindow = false;
-float gunWearAmount = 0.005f;
-float knifeWearAmount = 0.005f;
 
 #define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))
-
-//#define PLAYERLISTWINDOW;
 
 namespace ImGui
 {
