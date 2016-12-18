@@ -84,12 +84,10 @@ void Math::CorrectMovement(QAngle vOldAngles, CUserCmd* pCmd, float fOldForward,
 
 float Math::GetFov(const QAngle& viewAngle, const QAngle& aimAngle)
 {
-	Vector ang, aim;
+	QAngle delta = aimAngle - viewAngle;
+	NormalizeAngles(delta);
 
-	Math::AngleVectors(viewAngle, aim);
-	Math::AngleVectors(aimAngle, ang);
-
-	return RAD2DEG(acos(aim.Dot(ang) / aim.LengthSqr()));
+	return sqrtf(powf(delta.x, 2.0) + powf(delta.y, 2.0));
 }
 
 float Math::GetDistance(const Vector& source, const Vector& destination)

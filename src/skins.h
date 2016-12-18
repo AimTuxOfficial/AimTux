@@ -1,5 +1,4 @@
 #pragma once
-#include <map>
 
 static std::vector<std::pair<int, const char*>> guns = {
 		{ WEAPON_AK47,				"AK-47" },
