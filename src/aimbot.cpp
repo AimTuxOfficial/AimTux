@@ -72,7 +72,8 @@ void GetBestBone(C_BaseEntity* entity, float& best_damage, Bone& best_bone)
 			Bone bone = (Bone) Entity::GetBoneByName(entity, *it2);
 			Vector vec_bone = entity->GetBonePosition(bone);
 
-			float damage = Autowall::GetDamage(vec_bone);
+			Autowall::FireBulletData data;
+			float damage = Autowall::GetDamage(vec_bone, data);
 
 			if (damage > best_damage)
 			{

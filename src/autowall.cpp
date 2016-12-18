@@ -239,7 +239,7 @@ bool Autowall::SimulateFireBullet(C_BaseCombatWeapon* pWeapon, FireBulletData &d
 	return false;
 }
 
-float Autowall::GetDamage(const Vector& point)
+float Autowall::GetDamage(const Vector& point, FireBulletData& fData)
 {
 	float damage = 0.f;
 	Vector dst = point;
@@ -259,6 +259,8 @@ float Autowall::GetDamage(const Vector& point)
 
 	if (SimulateFireBullet(active_weapon, data))
 		damage = data.current_damage;
+
+	fData = data;
 
 	return damage;
 }

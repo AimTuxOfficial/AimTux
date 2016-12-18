@@ -422,6 +422,7 @@ void TriggerbotTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("Friendly", &Settings::Triggerbot::Filter::friendly);
+				ImGui::Checkbox("Walls", &Settings::Triggerbot::Filter::walls);
 				ImGui::Checkbox("Head", &Settings::Triggerbot::Filter::head);
 				ImGui::Checkbox("Chest", &Settings::Triggerbot::Filter::chest);
 			}
