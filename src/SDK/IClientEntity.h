@@ -170,14 +170,34 @@ public:
 		return *(MoveType_t*)((uintptr_t)this + offsets.DT_BaseEntity.m_MoveType);
 	}
 
+	float GetFlashDuration()
+	{
+		return *(float*)((uintptr_t)this + offsets.DT_CSPlayer.m_flFlashDuration);
+	}
+
 	float* GetFlashMaxAlpha()
 	{
 		return (float*)((uintptr_t)this + offsets.DT_CSPlayer.m_flFlashMaxAlpha);
 	}
 
+	bool IsDefusing()
+	{
+		return *(bool*)((uintptr_t)this + offsets.DT_CSPlayer.m_bIsDefusing);
+	}
+
+	bool IsGrabbingHostage()
+	{
+		return *(bool*)((uintptr_t)this + offsets.DT_CSPlayer.m_bIsGrabbingHostage);
+	}
+
 	bool IsScoped()
 	{
 		return *(bool*)((uintptr_t)this + offsets.DT_CSPlayer.m_bIsScoped);
+	}
+
+	bool IsRescuing()
+	{
+		return *(bool*)((uintptr_t)this + offsets.DT_CSPlayer.m_bIsRescuing);
 	}
 
 	bool GetImmune()
