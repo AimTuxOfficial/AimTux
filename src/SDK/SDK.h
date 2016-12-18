@@ -34,3 +34,4 @@
 #include "CViewRender.h"
 #include "IGameMovement.h"
 #include "IPrediction.h"
+#include "CPlayerResource.h"
