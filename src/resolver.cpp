@@ -64,7 +64,7 @@ void Resolver::FireEventClientSide(IGameEvent* event)
 
 	if (strcmp(event->GetName(), "player_connect_full") == 0 || strcmp(event->GetName(), "cs_game_disconnected") == 0)
 	{
-		if (event->GetInt("userid") || engine->GetPlayerForUserID(event->GetInt("userid")) != engine->GetLocalPlayer())
+		if (event->GetInt("userid") && engine->GetPlayerForUserID(event->GetInt("userid")) != engine->GetLocalPlayer())
 			return;
 
 		Resolver::Players.clear();
