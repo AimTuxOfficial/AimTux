@@ -1278,6 +1278,18 @@ void PlayerListWindow()
 					std::string name(entityInformation.name);
 					NameChanger::SetName(Util::PadStringRight(name, name.length() + 1));
 				}
+
+				if (ImGui::Button("Steal clan tag"))
+				{
+					if (playerResource != nullptr)
+					{
+						Settings::ClanTagChanger::enabled = true;
+						Settings::ClanTagChanger::value = playerResource->GetClan(currentPlayer);
+						Settings::ClanTagChanger::type = STATIC;
+
+						ClanTagChanger::UpdateClanTagCallback();
+					}
+				}
 			}
 		}
 

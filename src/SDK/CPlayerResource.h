@@ -40,9 +40,9 @@ public:
 		return *reinterpret_cast<int*>(reinterpret_cast<uintptr_t>(this) + offsets.DT_CSPlayerResource.m_iCompTeammateColor + index * 4);
 	}
 
-	const char* GetClan(int index)
+	char* GetClan(int index)
 	{
-		return reinterpret_cast<const char*>(reinterpret_cast<uintptr_t>(this) + offsets.DT_CSPlayerResource.m_szClan + index * 15);
+		return reinterpret_cast<char*>(reinterpret_cast<uintptr_t>(this) + offsets.DT_CSPlayerResource.m_szClan + index * 16);
 	}
 
 	int* GetActiveCoinRank(int index)
