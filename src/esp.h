@@ -14,7 +14,7 @@ namespace ESP
 	void DrawPlayerBox(C_BaseEntity* entity);
 	void DrawPlayerInfo(C_BaseEntity* entity, int entityIndex);
 	void DrawBombBox(C_BasePlantedC4* entity);
-	void DrawWeaponText(C_BaseEntity* entity, ClientClass* client);
+	void DrawWeaponText(C_BaseAttributableItem* entity, ClientClass* client);
 	void DrawBones(C_BaseEntity* entity);
 	void DrawFOVCrosshair();
 	void DrawGlow();

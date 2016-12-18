@@ -1,6 +1,7 @@
 #include <math.h>
 #include "esp.h"
 #include "settings.h"
+#include "skins.h"
 
 bool Settings::ESP::enabled	= true;
 ImColor Settings::ESP::ally_color = ImColor(0, 50, 200, 255);
@@ -338,13 +339,10 @@ void ESP::DrawBombBox(C_BasePlantedC4* entity)
 	}
 }
 
-void ESP::DrawWeaponText(C_BaseEntity* entity, ClientClass* client)
+void ESP::DrawWeaponText(C_BaseAttributableItem* entity, ClientClass* client)
 {
-	std::string modelName = std::string(client->m_pNetworkName);
-	if (strstr(modelName.c_str(), "Weapon"))
-		modelName = modelName.substr(7, modelName.length() - 7);
-	else
-		modelName = modelName.substr(1, modelName.length() - 1);
+	int modelId = *entity->GetItemDefinitionIndex();
+	const char *modelName = guns.find(modelId)->second;
 
 	Vector vecOrigin = entity->GetVecOrigin();
 	if (vecOrigin == Vector(0, 0, 0))
@@ -352,7 +350,7 @@ void ESP::DrawWeaponText(C_BaseEntity* entity, ClientClass* client)
 
 	Vector s_veclocalplayer_s;
 	if (!WorldToScreen(vecOrigin, s_veclocalplayer_s))
-		Draw::DrawCenteredString(modelName.c_str(), LOC(s_veclocalplayer_s.x, s_veclocalplayer_s.y), Color(255, 255, 255, 255), esp_font);
+		Draw::DrawCenteredString(modelName, LOC(s_veclocalplayer_s.x, s_veclocalplayer_s.y), Color(255, 255, 255, 255), esp_font);
 }
 
 void ESP::DrawGlow()
@@ -505,7 +503,7 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 				(strstr(client->m_pNetworkName, "Weapon") || client->m_ClassID == CDEagle || client->m_ClassID == CAK47))
 		{
 			if (Settings::ESP::Weapons::enabled)
-				ESP::DrawWeaponText(entity, client);
+				ESP::DrawWeaponText((C_BaseAttributableItem*)entity, client);
 		}
 	}
 
