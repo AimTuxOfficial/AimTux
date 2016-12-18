@@ -22,6 +22,17 @@ namespace Util {
 	std::string ToLower(std::string str);
 	std::string ToUpper(std::string str);
 
+	template <typename T>
+	T GetValueByKey(std::vector<std::pair<int, T>> vec, int key)
+	{
+		for (auto i : vec)
+		{
+			if (i.first == key)
+				return i.second;
+		}
+		return "";
+	}
+
 	template <typename K, typename V>
 	K MapReverseSearchOrDefault(std::map<K, V> const* _map, V value, K fallback) 
 	{
