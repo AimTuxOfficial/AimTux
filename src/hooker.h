@@ -49,6 +49,7 @@ namespace Hooker
 	void HookIClientMode();
 	void HookGlobalVars();
 	void HookGlowManager();
+	void HookPlayerResource();
 	void HookRankReveal();
 	void HookSendClanTag();
 	void HookViewRender();

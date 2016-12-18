@@ -25,6 +25,7 @@ extern IPrediction* prediction;
 extern IGameMovement* gamemovement;
 extern IMoveHelper* movehelper;
 extern CGlowObjectManager* glowmanager;
+extern C_CSPlayerResource* playerResource;
 extern void* sdlmanager;
 
 extern VMT* panel_vmt;

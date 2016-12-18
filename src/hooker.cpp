@@ -23,6 +23,7 @@ IPrediction* prediction = nullptr;
 IGameMovement* gamemovement = nullptr;
 IMoveHelper* movehelper = nullptr;
 CGlowObjectManager* glowmanager = nullptr;
+C_CSPlayerResource* playerResource = nullptr;
 void* sdlmanager = nullptr;
 
 VMT* panel_vmt = nullptr;
@@ -133,6 +134,26 @@ void Hooker::HookGlowManager()
 	uintptr_t instruction_addr = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) GLOWOBJECT_SIGNATURE, GLOWOBJECT_MASK);
 
 	glowmanager = reinterpret_cast<GlowObjectManagerFn>(GetAbsoluteAddress(instruction_addr, 1, 5))();
+}
+
+void Hooker::HookPlayerResource()
+{
+	if (!engine->IsInGame())
+		return;
+
+	if (playerResource != nullptr)
+		return;
+
+	for (int i = 1; i < entitylist->GetHighestEntityIndex(); ++i)
+	{
+		C_BaseEntity *entity = entitylist->GetClientEntity(i);
+		if (!entity)
+			continue;
+
+		ClientClass *client = entity->GetClientClass();
+		if (client->m_ClassID == CCSPlayerResource)
+			playerResource = (C_CSPlayerResource*) entity;
+	}
 }
 
 void Hooker::HookRankReveal()

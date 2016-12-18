@@ -4,6 +4,7 @@
 #include "../interfaces.h"
 #include "../hacks.h"
 #include "../atgui.h"
+#include "../hooker.h"
 
 typedef void (*FrameStageNotifyFn) (void*, int);
 typedef void (*PaintTraverseFn) (void*, VPANEL, bool, bool);

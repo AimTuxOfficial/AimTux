@@ -4,9 +4,6 @@
 #include "hooker.h"
 #include "netvarmanager.h"
 
-#include "atgui.h"
-#include "Hooks/hooks.h"
-
 /* called when the library is loading */
 int __attribute__((constructor)) aimtux_init()
 {
@@ -17,6 +14,7 @@ int __attribute__((constructor)) aimtux_init()
 	Hooker::HookIClientMode();
 	Hooker::HookGlobalVars();
 	Hooker::HookGlowManager();
+	Hooker::HookPlayerResource();
 	Hooker::HookRankReveal();
 	Hooker::HookSendClanTag();
 	Hooker::HookSendPacket();
