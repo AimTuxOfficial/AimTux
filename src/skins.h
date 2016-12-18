@@ -1,7 +1,7 @@
 #pragma once
 #include <map>
 
-static std::map<int, const char*> guns = {
+static std::vector<std::pair<int, const char*>> guns = {
 		{ WEAPON_AK47,				"AK-47" },
 		{ WEAPON_AUG,				"AUG" },
 		{ WEAPON_AWP,				"AWP" },
@@ -37,7 +37,7 @@ static std::map<int, const char*> guns = {
 		{ WEAPON_XM1014,			"XM1014" },
 };
 
-static std::map<int, const char*> knives = {
+static std::vector<std::pair<int, const char*>> knives = {
 		{ 0,  "Bayonet" },
 		{ 5,  "Flip" },
 		{ 6,  "Gut" },
@@ -50,7 +50,7 @@ static std::map<int, const char*> knives = {
 		{ 16, "Shadow Daggers" },
 };
 
-static std::map<int, const char*> weapon_skins = {
+static std::vector<std::pair<int, const char*>> weapon_skins = {
 		{ 0,   "<-Default->" },
 		{ 361, "Abyss" },
 		{ 253, "Acid Fade" },

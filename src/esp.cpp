@@ -252,11 +252,7 @@ void ESP::DrawPlayerInfo(C_BaseEntity* entity, int entityIndex)
 	IEngineClient::player_info_t entityInformation;
 	engine->GetPlayerInfo(entityIndex, &entityInformation);
 
-	std::string modelName = std::string(active_weapon->GetClientClass()->m_pNetworkName);
-	if (strstr(modelName.c_str(), "Weapon"))
-		modelName = modelName.substr(7, modelName.length() - 7);
-	else
-		modelName = modelName.substr(1, modelName.length() - 1);
+	const char* modelName = Util::GetValueByKey(guns, *active_weapon->GetItemDefinitionIndex());
 
 	pstring topText;
 	pstring bottomText;
@@ -342,7 +338,7 @@ void ESP::DrawBombBox(C_BasePlantedC4* entity)
 void ESP::DrawWeaponText(C_BaseAttributableItem* entity, ClientClass* client)
 {
 	int modelId = *entity->GetItemDefinitionIndex();
-	const char *modelName = guns.find(modelId)->second;
+	const char *modelName = Util::GetValueByKey(guns, modelId);
 
 	Vector vecOrigin = entity->GetVecOrigin();
 	if (vecOrigin == Vector(0, 0, 0))
