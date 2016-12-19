@@ -31,6 +31,7 @@ bool Settings::Aimbot::AutoStop::enabled = false;
 bool Settings::Aimbot::Smooth::Salting::enabled = false;
 float Settings::Aimbot::Smooth::Salting::percentage = 0.0f;
 bool Aimbot::AimStepInProgress = false;
+bool Settings::Aimbot::RCSAutoOnly::enabled = false;
 
 bool shouldAim;
 QAngle AimStepLastAngle;
@@ -160,6 +161,10 @@ void Aimbot::RCS(QAngle& angle, C_BaseEntity* entity, CUserCmd* cmd)
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+	if (Settings::Aimbot::RCSAutoOnly::enabled && !active_weapon->IsAutomatic())
+		return;
+
 	QAngle CurrentPunch = localplayer->GetAimPunchAngle();
 	bool isSilent = Settings::Aimbot::silent;
 	bool hasTarget = Settings::Aimbot::AutoAim::enabled && entity != NULL && shouldAim;
