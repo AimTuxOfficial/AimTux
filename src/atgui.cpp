@@ -1225,6 +1225,20 @@ void PlayerListWindow()
 		ImGui::ListBoxHeader("##PLAYERS", ImVec2(-1, (ImGui::GetWindowSize().y - 150)));
 		if (engine->IsInGame())
 		{
+			ImGui::Columns(4);
+
+			ImGui::Text("ID");
+			ImGui::NextColumn();
+
+			ImGui::Text("Nickname");
+			ImGui::NextColumn();
+
+			ImGui::Text("Team");
+			ImGui::NextColumn();
+
+			ImGui::Text("Clan tag");
+			ImGui::NextColumn();
+
 			for (int i = 1; i < engine->GetMaxClients(); i++)
 			{
 				C_BaseEntity* entity = entitylist->GetClientEntity(i);
@@ -1238,10 +1252,40 @@ void PlayerListWindow()
 				engine->GetPlayerInfo(i, &entityInformation);
 				bool selected = (i == currentPlayer);
 
-				ImGui::PushID(i);
-				if (ImGui::Selectable(entityInformation.name, selected))
+				char* team = strdup("");
+				switch (entity->GetTeam())
+				{
+					case TEAM_UNASSIGNED:
+						team = strdup("Unassigned");
+						break;
+					case TEAM_SPECTATOR:
+						team = strdup("Spectator");
+						break;
+					case TEAM_TERRORIST:
+						team = strdup("Terrorist");
+						break;
+					case TEAM_COUNTER_TERRORIST:
+						team = strdup("Counter Terrorist");
+						break;
+				}
+
+				char* id;
+				asprintf(&id, "%d", i);
+
+				ImGui::Separator();
+
+				if (ImGui::Selectable(id, selected, ImGuiSelectableFlags_SpanAllColumns))
 					currentPlayer = i;
-				ImGui::PopID();
+				ImGui::NextColumn();
+
+				ImGui::Text(entityInformation.name);
+				ImGui::NextColumn();
+
+				ImGui::Text(team);
+				ImGui::NextColumn();
+
+				ImGui::Text(strdup(playerResource->GetClan(i)));
+				ImGui::NextColumn();
 			}
 		}
 		ImGui::ListBoxFooter();
