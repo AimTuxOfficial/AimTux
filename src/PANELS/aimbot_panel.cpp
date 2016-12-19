@@ -10,7 +10,8 @@ AimbotPanel::AimbotPanel (Vector2D position, Vector2D size)
 	ts_silent = new ToggleSwitchTip ("Silent Aim", BELOW (ts_aimkey_only), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::silent, "Hides aim from client view. (Spectators can see)");
 	ts_rcs = new ToggleSwitchTip ("Recoil Control", BELOW (ts_silent), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::RCS::enabled, "Recoil Control. 2=perfect");
 	sl_rcs = new Slider ("", STACK (ts_rcs), LOC ((size.x / 2) - ts_rcs->size.x - 30, 30), &Settings::Aimbot::RCS::value, 0.0f, 2.0f);
-	ts_autoaim = new ToggleSwitchTip ("Auto Aim", BELOW (ts_rcs), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoAim::enabled, "Field of view for target to be locked onto");
+	ts_rcsautoonly = new ToggleSwitchTip("RCS Automatic Only", BELOW (ts_rcs), LOC((size.x -20) / 6.75, 30), &Settings::Aimbot::RCSAutoOnly::enabled, "RCS will only activate with automatic weapons");	
+	ts_autoaim = new ToggleSwitchTip ("Auto Aim", BELOW (ts_rcsautoonly), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::AutoAim::enabled, "Field of view for target to be locked onto");
 	sl_fov = new Slider ("FOV", STACK (ts_autoaim), LOC ((size.x / 2) - ts_autoaim->size.x - 30, 30), &Settings::Aimbot::fov, 0.0f, 180.0f);
 	ts_smooth = new ToggleSwitchTip ("Smooth", BELOW (ts_autoaim), LOC((size.x - 20) / 6.75, 30), &Settings::Aimbot::Smooth::enabled, "Smoothing reduces the aimbot \"snap\". 0 for full snap. 1 for full smoothing");
 	sl_smooth = new Slider ("", STACK (ts_smooth), LOC ((size.x / 2) - ts_smooth->size.x - 30, 30), &Settings::Aimbot::Smooth::value, 0.0f, Settings::Aimbot::Smooth::max);
@@ -55,6 +56,7 @@ AimbotPanel::AimbotPanel (Vector2D position, Vector2D size)
 	AddComponent (ts_aimstep);
 	AddComponent (ts_salting);
 	AddComponent (ts_smooth);
+	AddComponent (ts_rcsautoonly);
 	AddComponent (ts_autoaim);
 	AddComponent (ts_rcs);
 	AddComponent (ts_silent);
