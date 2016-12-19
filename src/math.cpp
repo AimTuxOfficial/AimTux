@@ -87,7 +87,7 @@ float Math::GetFov(const QAngle& viewAngle, const QAngle& aimAngle)
 	QAngle delta = aimAngle - viewAngle;
 	NormalizeAngles(delta);
 
-	return sqrtf(powf(delta.x, 2.0) + powf(delta.y, 2.0));
+	return sqrtf(powf(delta.x, 2.0f) + powf(delta.y, 2.0f));
 }
 
 float Math::GetDistance(const Vector& source, const Vector& destination)
