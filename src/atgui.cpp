@@ -1281,7 +1281,7 @@ void PlayerListWindow()
 
 				if (ImGui::Button("Steal clan tag"))
 				{
-					if (playerResource != nullptr)
+					if (playerResource != nullptr && strlen(playerResource->GetClan(currentPlayer)) > 0)
 					{
 						Settings::ClanTagChanger::enabled = true;
 						Settings::ClanTagChanger::value = playerResource->GetClan(currentPlayer);
