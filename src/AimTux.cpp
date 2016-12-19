@@ -57,8 +57,8 @@ int __attribute__((constructor)) aimtux_init()
 	surface_vmt->HookVM((void*) Hooks::OnScreenSizeChanged, 116);
 	surface_vmt->ApplyVMT();
 
-	sdlmanager_vmt->HookVM((void*) Hooks::HandleSDLInput, 19);
-	sdlmanager_vmt->ApplyVMT();
+	launchermgr_vmt->HookVM((void*) Hooks::PumpWindowsMessageLoop, 19);
+	launchermgr_vmt->ApplyVMT();
 
 	SkinChanger::HookCBaseViewModel();
 
@@ -88,7 +88,7 @@ void __attribute__((destructor)) aimtux_shutdown()
 	inputInternal_vmt->ReleaseVMT();
 	material_vmt->ReleaseVMT();
 	surface_vmt->ReleaseVMT();
-	sdlmanager_vmt->ReleaseVMT();
+	launchermgr_vmt->ReleaseVMT();
 
 	SkinChanger::UnhookCBaseViewModel();
 

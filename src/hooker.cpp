@@ -22,9 +22,9 @@ CViewRender* viewrender = nullptr;
 IPrediction* prediction = nullptr;
 IGameMovement* gamemovement = nullptr;
 IMoveHelper* movehelper = nullptr;
+ILauncherMgr* launchermgr = nullptr;
 CGlowObjectManager* glowmanager = nullptr;
 C_CSPlayerResource* playerResource = nullptr;
-void* sdlmanager = nullptr;
 
 VMT* panel_vmt = nullptr;
 VMT* client_vmt = nullptr;
@@ -35,7 +35,7 @@ VMT* viewRender_vmt = nullptr;
 VMT* inputInternal_vmt = nullptr;
 VMT* material_vmt = nullptr;
 VMT* surface_vmt = nullptr;
-VMT* sdlmanager_vmt = nullptr;
+VMT* launchermgr_vmt = nullptr;
 
 bool* bSendPacket = nullptr;
 int* nPredictionRandomSeed = nullptr;
@@ -107,7 +107,7 @@ void Hooker::HookVMethods()
 	inputInternal_vmt = new VMT(inputInternal);
 	material_vmt = new VMT(material);
 	surface_vmt = new VMT(surface);
-	sdlmanager_vmt = new VMT(sdlmanager);
+	launchermgr_vmt = new VMT(launchermgr);
 }
 
 void Hooker::HookIClientMode()
@@ -224,5 +224,5 @@ void Hooker::HookSDLInput()
 {
 	uintptr_t func_address = FindPattern(GetLibraryAddress("launcher_client.so"), 0xFFFFFFFFF, (unsigned char*) GETSDLMGR_SIGNATURE, GETSDLMGR_MASK);
 
-	sdlmanager = reinterpret_cast<GetSDLManagerFn>(func_address)();
+	launchermgr = reinterpret_cast<ILauncherMgrCreateFn>(func_address)();
 }
