@@ -1323,12 +1323,13 @@ void PlayerListWindow()
 					NameChanger::SetName(Util::PadStringRight(name, name.length() + 1));
 				}
 
-				if (ImGui::Button("Steal clan tag"))
+				char* clanTag = playerResource ? strdup(playerResource->GetClan(currentPlayer)) : strdup("");
+				if (strlen(clanTag) > 0)
 				{
-					if (playerResource != nullptr && strlen(playerResource->GetClan(currentPlayer)) > 0)
+					if (ImGui::Button("Steal clan tag"))
 					{
 						Settings::ClanTagChanger::enabled = true;
-						Settings::ClanTagChanger::value = strdup(playerResource->GetClan(currentPlayer));
+						Settings::ClanTagChanger::value = clanTag;
 						Settings::ClanTagChanger::type = STATIC;
 
 						ClanTagChanger::UpdateClanTagCallback();
