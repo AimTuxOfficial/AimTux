@@ -560,11 +560,16 @@ void VisualsTab()
 void HvHTab()
 {
 
-	const char* YTypes[] = { "SLOW SPIN", "FAST SPIN", "JITTER", "SIDE", "BACKWARDS", "FORWARDS", "LEFT", "RIGHT", "STATIC" };
+	const char* YTypes[] = { "SLOW SPIN", "FAST SPIN", "JITTER", "JITTER2", "JITTER3", "SIDE", "BACKWARDS", "FORWARDS", "LEFT", "RIGHT", "STATIC", "FAKE",
+#ifdef UNTRUSTED_SETTINGS
+			"OVERFLOW INVERSE",
+#endif
+	};
 	const char* XTypes[] = { "UP", "DOWN", "DANCE", "FRONT",
 #ifdef UNTRUSTED_SETTINGS
 			"FAKE UP",
 			"FAKE DOWN",
+			"OVERFLOW DOWN",
 #endif
 	};
 
