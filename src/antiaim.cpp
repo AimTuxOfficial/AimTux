@@ -69,6 +69,10 @@ void DoAntiAimY(QAngle&  angle, bool bFlip)
 	}
 	else if (aa_type == JITTER)
 		angle.y = yFlip ? 270.0f : 90.0f;
+	else if (aa_type == JITTER2)
+		angle.y = yFlip ? 88.0f : 45.0f;
+	else if (aa_type == JITTER3)
+		angle.y = yFlip ? 135.0f : 45.0f;
 	else if (aa_type == SIDE)
 		if (yFlip)
 			angle.y += 90.0f;
@@ -77,13 +81,22 @@ void DoAntiAimY(QAngle&  angle, bool bFlip)
 	else if (aa_type == BACKWARDS)
 		angle.y -= 180.0f;
 	else if (aa_type == FORWARDS)
-		angle.y -= 0;
+		angle.y -= 0.0f;
 	else if (aa_type == LEFT)
-		angle.y += 90;
+		angle.y += 90.0f;
 	else if (aa_type == RIGHT)
-		angle.y -= 90;
+		angle.y -= 90.0f;
 	else if (aa_type == STATICAA)
-		angle.y = 0;
+		angle.y = 0.0f;
+	else if (aa_type == FAKE)
+		if (yFlip)
+			angle.y += 140.0f;
+		else
+			angle.y -= 40.0f;
+#ifdef UNTRUSTED_SETTINGS
+	else if (aa_type == OVERFLOW_INVERSE)
+		angle.y = 36000180.0f;
+#endif
 }
 
 void AntiAim::CreateMove(CUserCmd* cmd)
@@ -173,6 +186,8 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 			angle.x = bFlip ? -89.0f : 89.0f;
 			CreateMove::SendPacket = bFlip;
 		}
+		else if (pitch_aa_type == OVERFLOW_DOWN)
+			angle.x = 180000089;
 #endif
 	}
 
