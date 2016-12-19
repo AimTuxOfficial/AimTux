@@ -123,6 +123,7 @@ void Settings::LoadDefaultsOrSave(Config config)
 	settings["Aimbot"]["AimStep"]["value"] = Settings::Aimbot::AimStep::value;
 	settings["Aimbot"]["RCS"]["enabled"] = Settings::Aimbot::RCS::enabled;
 	settings["Aimbot"]["RCS"]["value"] = Settings::Aimbot::RCS::value;
+	settings["Aimbot"]["RCSAutoOnly"]["enabled"] = Settings::Aimbot::RCSAutoOnly::enabled;
 	settings["Aimbot"]["AutoPistol"]["enabled"] = Settings::Aimbot::AutoPistol::enabled;
 	settings["Aimbot"]["AutoShoot"]["enabled"] = Settings::Aimbot::AutoShoot::enabled;
 	settings["Aimbot"]["AutoShoot"]["autoscope"] = Settings::Aimbot::AutoShoot::autoscope;
@@ -317,6 +318,7 @@ void Settings::LoadConfig(Config config)
 	GetFloat(settings["Aimbot"]["AimStep"]["value"], &Settings::Aimbot::AimStep::value);
 	GetBool(settings["Aimbot"]["RCS"]["enabled"], &Settings::Aimbot::RCS::enabled);
 	GetFloat(settings["Aimbot"]["RCS"]["value"], &Settings::Aimbot::RCS::value);
+	GetBool(settings["Aimbot"]["RCSAutoOnly"]["enabled"], &Settings::Aimbot::RCSAutoOnly::enabled);
 	GetBool(settings["Aimbot"]["AutoPistol"]["enabled"], &Settings::Aimbot::AutoPistol::enabled);
 	GetBool(settings["Aimbot"]["AutoShoot"]["enabled"], &Settings::Aimbot::AutoShoot::enabled);
 	GetBool(settings["Aimbot"]["AutoShoot"]["autoscope"], &Settings::Aimbot::AutoShoot::autoscope);

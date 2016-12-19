@@ -176,6 +176,11 @@ namespace Settings
 			extern float value;
 		}
 
+		namespace RCSAutoOnly
+		{
+			extern bool enabled;
+		}
+
 		namespace AutoPistol
 		{
 			extern bool enabled;
