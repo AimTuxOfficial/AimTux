@@ -472,7 +472,7 @@ void Settings::LoadConfig(std::string path)
 	GetBool(settings["ClanTagChanger"]["animation"], &Settings::ClanTagChanger::animation);
 	GetInt(settings["ClanTagChanger"]["animation_speed"], &Settings::ClanTagChanger::animation_speed);
 	GetInt(settings["ClanTagChanger"]["type"], &Settings::ClanTagChanger::type);
-	ClanTagChanger::UpdateClanTagCallback();
+	::ClanTagChanger::UpdateClanTagCallback();
 
 	GetBool(settings["View"]["NoPunch"]["enabled"], &Settings::View::NoPunch::enabled);
 
