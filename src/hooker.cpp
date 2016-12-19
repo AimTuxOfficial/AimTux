@@ -112,15 +112,10 @@ void Hooker::HookVMethods()
 
 void Hooker::HookIClientMode()
 {
-	uintptr_t init_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) CCSMODEMANAGER_INIT_SIGNATURE, CCSMODEMANAGER_INIT_MASK);
+	uintptr_t hudprocessinput = reinterpret_cast<uintptr_t>(getvtable(client)[10]);
+	GetClientModeFn GetClientMode = reinterpret_cast<GetClientModeFn>(GetAbsoluteAddress(hudprocessinput + 11, 1, 5));
 
-	if (!init_address)
-		return;
-
-	uint32_t offset = *reinterpret_cast<uint32_t*>(init_address + 3);
-	clientMode = reinterpret_cast<IClientMode*>(init_address + offset + 7);
-
-	clientMode_vmt = new VMT(clientMode);
+	clientMode_vmt = new VMT(GetClientMode());
 }
 
 void Hooker::HookGlobalVars()

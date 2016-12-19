@@ -11,11 +11,13 @@
 #define VPANEL unsigned long long
 typedef unsigned long long FONT;
 
+class IClientMode;
 class ILauncherMgr;
 struct CGlowObjectManager;
 
 /* function prototypes */
 typedef void* (*CreateInterfaceFn) (const char*, int*);
+typedef IClientMode* (*GetClientModeFn) (void);
 typedef CGlowObjectManager* (*GlowObjectManagerFn) (void);
 typedef bool (*MsgFunc_ServerRankRevealAllFn) (float*);
 typedef void (*SendClanTagFn) (const char*, const char*);
