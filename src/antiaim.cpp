@@ -77,13 +77,13 @@ void DoAntiAimY(QAngle&  angle, bool bFlip)
 	else if (aa_type == BACKWARDS)
 		angle.y -= 180.0f;
 	else if (aa_type == FORWARDS)
-		angle.y -= 0;
+		angle.y -= 0.0f;
 	else if (aa_type == LEFT)
-		angle.y += 90;
+		angle.y += 90.0f;
 	else if (aa_type == RIGHT)
-		angle.y -= 90;
+		angle.y -= 90.0f;
 	else if (aa_type == STATICAA)
-		angle.y = 0;
+		angle.y = 0.0f;
 }
 
 void AntiAim::CreateMove(CUserCmd* cmd)
