@@ -44,12 +44,16 @@ enum AntiAimType_Y : int
 	SPIN_SLOW,
 	SPIN_FAST,
 	JITTER,
+	JITTER2,
+	JITTER3,
 	SIDE,
 	BACKWARDS,
 	FORWARDS,
 	LEFT,
 	RIGHT,
-	STATICAA
+	STATICAA,
+	FAKE,
+	OVERFLOW_INVERSE
 };
 
 enum AntiAimType_X : int
@@ -59,7 +63,8 @@ enum AntiAimType_X : int
 	DANCE,
 	FRONT,
 	STATIC_UP_FAKE,
-	STATIC_DOWN_FAKE
+	STATIC_DOWN_FAKE,
+	OVERFLOW_DOWN
 };
 
 enum ChamsType : int
