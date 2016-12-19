@@ -1284,7 +1284,7 @@ void PlayerListWindow()
 					if (playerResource != nullptr && strlen(playerResource->GetClan(currentPlayer)) > 0)
 					{
 						Settings::ClanTagChanger::enabled = true;
-						Settings::ClanTagChanger::value = playerResource->GetClan(currentPlayer);
+						Settings::ClanTagChanger::value = strdup(playerResource->GetClan(currentPlayer));
 						Settings::ClanTagChanger::type = STATIC;
 
 						ClanTagChanger::UpdateClanTagCallback();
