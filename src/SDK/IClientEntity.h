@@ -109,7 +109,7 @@ public:
 	{
 		return *(int*)((uintptr_t)this + offsets.DT_CSPlayer.m_bHasDefuser);
 	}
-	
+
 	int GetTeam()
 	{
 		return *(int*)((uintptr_t)this + offsets.DT_BaseEntity.m_iTeamNum);
@@ -251,7 +251,7 @@ public:
 	{
 		return *(QAngle*)((uintptr_t)this + offsets.DT_BasePlayer.m_aimPunchAngle);
 	}
-	
+
 	QAngle* GetViewPunchAngle()
 	{
 		return (QAngle*)((uintptr_t)this + offsets.DT_BasePlayer.m_viewPunchAngle);
@@ -406,7 +406,7 @@ public:
 				return false;
 		}
 	}
-	
+
 	bool IsGrenade()
 	{
 		switch (*this->GetItemDefinitionIndex())

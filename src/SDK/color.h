@@ -32,7 +32,7 @@ struct Color
 		this->b = b;
 		this->a = a;
 	}
-	
+
 	Color operator / (float div)
 	{
 		Color color = *this;
@@ -41,7 +41,7 @@ struct Color
 		color.b = color.b / div;
 		return color;
 	}
-	
+
 	Color& operator /= (float div)
 	{
 		Color& color = *this;
