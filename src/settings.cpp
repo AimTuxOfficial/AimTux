@@ -211,9 +211,12 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	LoadUIColor(settings["Dlights"]["enemy_color"], Settings::Dlights::enemy_color);
 
 	settings["Spammer"]["PositionSpammer"]["enabled"] = Settings::Spammer::PositionSpammer::enabled;
+	settings["Spammer"]["PositionSpammer"]["say_team"] = Settings::Spammer::PositionSpammer::say_team;
 	settings["Spammer"]["KillSpammer"]["enabled"] = Settings::Spammer::KillSpammer::enabled;
+	settings["Spammer"]["KillSpammer"]["say_team"] = Settings::Spammer::KillSpammer::say_team;
 	settings["Spammer"]["KillSpammer"]["message"] = Settings::Spammer::KillSpammer::message;
 	settings["Spammer"]["NormalSpammer"]["enabled"] = Settings::Spammer::NormalSpammer::enabled;
+	settings["Spammer"]["NormalSpammer"]["say_team"] = Settings::Spammer::NormalSpammer::say_team;
 
 	settings["BHop"]["enabled"] = Settings::BHop::enabled;
 
@@ -402,9 +405,12 @@ void Settings::LoadConfig(std::string path)
 	GetUIColor(settings["Dlights"]["enemy_color"], &Settings::Dlights::enemy_color);
 
 	GetBool(settings["Spammer"]["PositionSpammer"]["enabled"], &Settings::Spammer::PositionSpammer::enabled);
+	GetBool(settings["Spammer"]["PositionSpammer"]["say_team"], &Settings::Spammer::PositionSpammer::say_team);
 	GetBool(settings["Spammer"]["KillSpammer"]["enabled"], &Settings::Spammer::KillSpammer::enabled);
+	GetBool(settings["Spammer"]["KillSpammer"]["say_team"], &Settings::Spammer::KillSpammer::say_team);
 	GetCString(settings["Spammer"]["KillSpammer"]["message"], &Settings::Spammer::KillSpammer::message);
 	GetBool(settings["Spammer"]["NormalSpammer"]["enabled"], &Settings::Spammer::NormalSpammer::enabled);
+	GetBool(settings["Spammer"]["NormalSpammer"]["say_team"], &Settings::Spammer::NormalSpammer::say_team);
 
 	GetBool(settings["BHop"]["enabled"], &Settings::BHop::enabled);
 
