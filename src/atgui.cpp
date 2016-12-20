@@ -454,6 +454,7 @@ void VisualsTab()
 				ImGui::Checkbox("Walls", &Settings::ESP::Walls::enabled);
 				ImGui::Checkbox("Tracers", &Settings::ESP::Tracer::enabled);
 				ImGui::Checkbox("Show Bones", &Settings::ESP::Bones::enabled);
+				ImGui::Checkbox("Health Bar", &Settings::ESP::HealthBar::enabled);
 				ImGui::Checkbox("Show Friendly", &Settings::ESP::friendly);
 				ImGui::Checkbox("Visibility Check", &Settings::ESP::visibility_check);
 			}

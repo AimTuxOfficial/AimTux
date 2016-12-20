@@ -12,6 +12,7 @@ namespace ESP
 {
 	void DrawTracer(C_BaseEntity* entity);
 	void DrawPlayerBox(C_BaseEntity* entity);
+	void DrawPlayerHealthBar(C_BaseEntity* entity);
 	void DrawPlayerInfo(C_BaseEntity* entity, int entityIndex);
 	void DrawBombBox(C_BasePlantedC4* entity);
 	void DrawWeaponText(C_BaseEntity* entity, ClientClass* client);
