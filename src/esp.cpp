@@ -246,6 +246,10 @@ void ESP::DrawPlayerHealthBar(C_BaseEntity* entity)
 	Color outline = Color(8, 8, 8, 92);
 
 	int hp = entity->GetHealth();
+
+	if (hp > 100)
+		hp = 100;
+
 	Color color = GetHealthColor(hp);
 
 	Vector max = entity->GetCollideable()->OBBMaxs();
