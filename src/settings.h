@@ -74,6 +74,12 @@ enum WallBoxType : int
 	BOX_3D
 };
 
+enum HealthBarType : int
+{
+	VERTICAL,
+	HORIZONTAL
+};
+
 enum ArmsType : int
 {
 	DEFAULT,
@@ -277,6 +283,7 @@ namespace Settings
 		namespace HealthBar
 		{
 			extern bool enabled;
+			extern int type;
 		}
 
 		namespace Info

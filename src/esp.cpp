@@ -22,6 +22,7 @@ bool Settings::ESP::show_scope_border = true;
 bool Settings::ESP::Walls::enabled = false;
 int Settings::ESP::Walls::type = FLAT_2D;
 bool Settings::ESP::HealthBar::enabled = false;
+int Settings::ESP::HealthBar::type = VERTICAL;
 bool Settings::ESP::Info::showName = true;
 bool Settings::ESP::Info::showHealth = false;
 bool Settings::ESP::Info::showWeapon = false;
@@ -239,10 +240,9 @@ Color GetHealthColor(int hp)
 
 void ESP::DrawPlayerHealthBar(C_BaseEntity* entity)
 {
-	int yOffset = 2;
+	int barOffset = 2;
+	int barWidth = 4;
 	int frameWidth = 1;
-	int minH = 4;
-	int maxH = 8;
 	Color outline = Color(8, 8, 8, 92);
 
 	int hp = entity->GetHealth();
@@ -262,29 +262,44 @@ void ESP::DrawPlayerHealthBar(C_BaseEntity* entity)
 	float height = (pos.y - top.y);
 	float width = height / 4.0f;
 
-	int leftSide = (int)(top.x - width);
-	int rightSideFull = (int)(top.x + width);
-	int rightSide = (int)(leftSide + width * 2.0f * hp / 100.0f);
+	Vector2D begin, end;
+	Vector2D frameBegin, frameEnd;
 
-	// Always show at least 1 pixel
-	if (rightSide - leftSide < 1)
-		rightSide += 1;
+	int endFull = 0;
 
-	int barHeight = (int)(height / 32);
+	if (Settings::ESP::HealthBar::type == VERTICAL)
+	{
+		int bottomSide = (int)pos.y;
+		endFull = (int)(pos.y - height);
+		int topSide = (int)(pos.y - height * hp / 100.0f);
 
-	if (barHeight < minH)
-		barHeight = minH;
-	if (barHeight > maxH)
-		barHeight = maxH;
+		if (bottomSide - topSide < 1)
+			topSide += 1;
 
-	Vector2D left = Vector2D(leftSide, pos.y + yOffset);
-	Vector2D right = Vector2D(rightSide, pos.y + yOffset + barHeight);
+		begin = Vector2D(top.x - width - barWidth - barOffset, topSide);
+		end = Vector2D(top.x - width - barOffset, bottomSide);
 
-	Vector2D frameLeft = Vector2D(left.x - frameWidth, left.y - frameWidth);
-	Vector2D frameRight = Vector2D(rightSideFull + frameWidth, right.y + frameWidth);
+		frameBegin = Vector2D(begin.x - frameWidth, endFull - frameWidth);
+		frameEnd = Vector2D(end.x + frameWidth, end.y + frameWidth);
+	}
+	else if (Settings::ESP::HealthBar::type == HORIZONTAL)
+	{
+		int leftSide = (int)(top.x - width);
+		endFull = (int)(top.x + width);
+		int rightSide = (int)(leftSide + width * 2.0f * hp / 100.0f);
 
-	Draw::DrawRect(left, right, color);
-	Draw::DrawRect(frameLeft, frameRight, outline);
+		if (rightSide - leftSide < 1)
+			rightSide += 1;
+
+		begin = Vector2D(leftSide, pos.y + barOffset);
+		end = Vector2D(rightSide, pos.y + barOffset + barWidth);
+
+		frameBegin = Vector2D(begin.x - frameWidth, begin.y - frameWidth);
+		frameEnd = Vector2D(endFull + frameWidth, end.y + frameWidth);
+	}
+
+	Draw::DrawRect(frameBegin, frameEnd, outline);
+	Draw::DrawRect(begin, end, color);
 }
 
 void ESP::DrawPlayerInfo(C_BaseEntity* entity, int entityIndex)
@@ -350,10 +365,10 @@ void ESP::DrawPlayerInfo(C_BaseEntity* entity, int entityIndex)
 	float height = (pos.y - top.y);
 
 	// So the text doesn't cover up the health bar
-	float yOffset = Settings::ESP::HealthBar::enabled ? 6.0f : 0.0f;
+	float bottomTextOffset = Settings::ESP::HealthBar::enabled && Settings::ESP::HealthBar::type == HORIZONTAL ? 6.0f : 0.0f;
 
 	Draw::DrawCenteredString(topText.c_str(), LOC (top.x, top.y - (size_top.y / 2)), color, esp_font);
-	Draw::DrawCenteredString(bottomText.c_str(), LOC (top.x, top.y + height + (size_bottom.y / 2) + yOffset), color, esp_font);
+	Draw::DrawCenteredString(bottomText.c_str(), LOC (top.x, top.y + height + (size_bottom.y / 2) + bottomTextOffset), color, esp_font);
 }
 
 void ESP::DrawBombBox(C_BasePlantedC4* entity)
