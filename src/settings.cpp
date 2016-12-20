@@ -217,6 +217,10 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Spammer"]["KillSpammer"]["message"] = Settings::Spammer::KillSpammer::message;
 	settings["Spammer"]["NormalSpammer"]["enabled"] = Settings::Spammer::NormalSpammer::enabled;
 	settings["Spammer"]["NormalSpammer"]["say_team"] = Settings::Spammer::NormalSpammer::say_team;
+	Json::Value messages;
+	for (auto it : Settings::Spammer::NormalSpammer::messages)
+		messages.append(it);
+	settings["Spammer"]["NormalSpammer"]["messages"] = messages;
 
 	settings["BHop"]["enabled"] = Settings::BHop::enabled;
 
@@ -411,6 +415,9 @@ void Settings::LoadConfig(std::string path)
 	GetCString(settings["Spammer"]["KillSpammer"]["message"], &Settings::Spammer::KillSpammer::message);
 	GetBool(settings["Spammer"]["NormalSpammer"]["enabled"], &Settings::Spammer::NormalSpammer::enabled);
 	GetBool(settings["Spammer"]["NormalSpammer"]["say_team"], &Settings::Spammer::NormalSpammer::say_team);
+	Settings::Spammer::NormalSpammer::messages.clear();
+	for (const Json::Value& message : settings["Spammer"]["NormalSpammer"]["messages"])
+		Settings::Spammer::NormalSpammer::messages.push_back(message.asString());
 
 	GetBool(settings["BHop"]["enabled"], &Settings::BHop::enabled);
 
