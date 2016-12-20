@@ -437,6 +437,7 @@ void VisualsTab()
 {
 	const char* WallTypes[] = { "Flat 2D", "Box 3D" };
 	const char* TracerTypes[] = { "Bottom", "Cursor" };
+	const char* HealthBarTypes[] = { "Vertical", "Horizontal" };
 	const char* ChamsTypes[] = { "Normal", "Flat" };
 	const char* ArmsTypes[] = { "Default", "Rainbow", "Wireframe", "None" };
 
@@ -453,8 +454,8 @@ void VisualsTab()
 			{
 				ImGui::Checkbox("Walls", &Settings::ESP::Walls::enabled);
 				ImGui::Checkbox("Tracers", &Settings::ESP::Tracer::enabled);
-				ImGui::Checkbox("Show Bones", &Settings::ESP::Bones::enabled);
 				ImGui::Checkbox("Health Bar", &Settings::ESP::HealthBar::enabled);
+				ImGui::Checkbox("Show Bones", &Settings::ESP::Bones::enabled);
 				ImGui::Checkbox("Show Friendly", &Settings::ESP::friendly);
 				ImGui::Checkbox("Visibility Check", &Settings::ESP::visibility_check);
 			}
@@ -463,6 +464,7 @@ void VisualsTab()
 				ImGui::PushItemWidth(-1);
 					ImGui::Combo("##WALLTYPE", &Settings::ESP::Walls::type, WallTypes, IM_ARRAYSIZE(WallTypes));
 					ImGui::Combo("##TRACERTYPE", &Settings::ESP::Tracer::type, TracerTypes, IM_ARRAYSIZE(TracerTypes));
+					ImGui::Combo("##HEALTHBARTYPE", &Settings::ESP::HealthBar::type, HealthBarTypes, IM_ARRAYSIZE(HealthBarTypes));
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);

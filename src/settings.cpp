@@ -181,6 +181,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["ESP"]["Walls"]["enabled"] = Settings::ESP::Walls::enabled;
 	settings["ESP"]["Walls"]["type"] = Settings::ESP::Walls::type;
 	settings["ESP"]["HealthBar"]["enabled"] = Settings::ESP::HealthBar::enabled;
+	settings["ESP"]["HealthBar"]["type"] = Settings::ESP::HealthBar::type;
 	settings["ESP"]["Info"]["showName"] = Settings::ESP::Info::showName;
 	settings["ESP"]["Info"]["showHealth"] = Settings::ESP::Info::showHealth;
 	settings["ESP"]["Info"]["showWeapon"] = Settings::ESP::Info::showWeapon;
@@ -371,6 +372,7 @@ void Settings::LoadConfig(std::string path)
 	GetBool(settings["ESP"]["Walls"]["enabled"], &Settings::ESP::Walls::enabled);
 	GetInt(settings["ESP"]["Walls"]["type"], &Settings::ESP::Walls::type);
 	GetBool(settings["ESP"]["HealthBar"]["enabled"], &Settings::ESP::HealthBar::enabled);
+	GetInt(settings["ESP"]["HealthBar"]["type"], &Settings::ESP::HealthBar::type);
 	GetBool(settings["ESP"]["Info"]["showName"], &Settings::ESP::Info::showName);
 	GetBool(settings["ESP"]["Info"]["showHealth"], &Settings::ESP::Info::showHealth);
 	GetBool(settings["ESP"]["Info"]["showWeapon"], &Settings::ESP::Info::showWeapon);
