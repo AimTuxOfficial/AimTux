@@ -415,9 +415,12 @@ void Settings::LoadConfig(std::string path)
 	GetCString(settings["Spammer"]["KillSpammer"]["message"], &Settings::Spammer::KillSpammer::message);
 	GetBool(settings["Spammer"]["NormalSpammer"]["enabled"], &Settings::Spammer::NormalSpammer::enabled);
 	GetBool(settings["Spammer"]["NormalSpammer"]["say_team"], &Settings::Spammer::NormalSpammer::say_team);
-	Settings::Spammer::NormalSpammer::messages.clear();
-	for (const Json::Value& message : settings["Spammer"]["NormalSpammer"]["messages"])
-		Settings::Spammer::NormalSpammer::messages.push_back(message.asString());
+	if (!settings["Spammer"]["NormalSpammer"]["messages"].isNull())
+	{
+		Settings::Spammer::NormalSpammer::messages.clear();
+		for (const Json::Value& message : settings["Spammer"]["NormalSpammer"]["messages"])
+			Settings::Spammer::NormalSpammer::messages.push_back(message.asString());
+	}
 
 	GetBool(settings["BHop"]["enabled"], &Settings::BHop::enabled);
 
