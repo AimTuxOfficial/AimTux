@@ -2,7 +2,8 @@
 
 void Hooks::BeginFrame(void* thisptr, float frameTime)
 {
-	Hooker::HookPlayerResource();
+	if (playerResource == nullptr)
+		Hooker::HookPlayerResource();
 
 	ESP::BeginFrame(frameTime);
 	Radar::BeginFrame(frameTime);
