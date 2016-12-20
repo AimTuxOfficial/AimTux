@@ -1223,7 +1223,7 @@ void PlayerListWindow()
 	if (ImGui::Begin("Player list", &showPlayerListWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
 	{
 		static int currentPlayer = -1;
-		if (!engine->IsInGame())
+		if (!engine->IsInGame() || (playerResource != nullptr && !playerResource->GetConnected(currentPlayer)))
 			currentPlayer = -1;
 
 		ImGui::ListBoxHeader("##PLAYERS", ImVec2(-1, (ImGui::GetWindowSize().y - 95)));
