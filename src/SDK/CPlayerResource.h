@@ -85,9 +85,9 @@ public:
 		return *(int*)((uintptr_t)this + offsets.DT_CSPlayerResource.m_iCompTeammateColor + index * 4);
 	}
 
-	char* GetClan(int index)
+	const char* GetClan(int index)
 	{
-		return (char*)((uintptr_t)this + offsets.DT_CSPlayerResource.m_szClan + index * 16);
+		return (const char*)((uintptr_t)this + offsets.DT_CSPlayerResource.m_szClan + index * 16);
 	}
 
 	int* GetActiveCoinRank(int index)

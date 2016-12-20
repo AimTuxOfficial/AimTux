@@ -1296,7 +1296,7 @@ void PlayerListWindow()
 					ImGui::Text("%s", teamName);
 					ImGui::NextColumn();
 
-					ImGui::Text("%s", strdup(playerResource->GetClan(it)));
+					ImGui::Text("%s", playerResource->GetClan(it));
 					ImGui::NextColumn();
 				}
 			}
@@ -1336,17 +1336,14 @@ void PlayerListWindow()
 					NameChanger::SetName(Util::PadStringRight(name, name.length() + 1));
 				}
 
-				char* clanTag = strdup(playerResource->GetClan(currentPlayer));
-				if (strlen(clanTag) > 0)
+				const char* clanTag = playerResource->GetClan(currentPlayer);
+				if (strlen(clanTag) && ImGui::Button("Steal clan tag"))
 				{
-					if (ImGui::Button("Steal clan tag"))
-					{
-						Settings::ClanTagChanger::enabled = true;
-						Settings::ClanTagChanger::value = clanTag;
-						Settings::ClanTagChanger::type = STATIC;
+					Settings::ClanTagChanger::enabled = true;
+					Settings::ClanTagChanger::value = strdup(clanTag);
+					Settings::ClanTagChanger::type = STATIC;
 
-						ClanTagChanger::UpdateClanTagCallback();
-					}
+					ClanTagChanger::UpdateClanTagCallback();
 				}
 			}
 		}
