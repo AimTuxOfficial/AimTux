@@ -133,22 +133,9 @@ void Hooker::HookGlowManager()
 
 void Hooker::HookPlayerResource()
 {
-	if (!engine->IsInGame())
-		return;
-
-	for (int i = 1; i < entitylist->GetHighestEntityIndex(); i++)
-	{
-		C_BaseEntity *entity = entitylist->GetClientEntity(i);
-		if (!entity)
-			continue;
-
-		ClientClass *client = entity->GetClientClass();
-		if (client->m_ClassID == CCSPlayerResource)
-		{
-			playerResource = (C_CSPlayerResource*) entity;
-			break;
-		}
-	}
+	uintptr_t instruction_addr = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) PLAYERRESOURCES_SIGNATURE, PLAYERRESOURCES_MASK);
+	
+	playerResource = *reinterpret_cast<C_CSPlayerResource**>(GetAbsoluteAddress(instruction_addr, 3, 7));
 }
 
 void Hooker::HookRankReveal()
