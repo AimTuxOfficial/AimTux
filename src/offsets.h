@@ -42,6 +42,19 @@ struct COffsets
 
 	struct
 	{
+		int m_iPing;
+		int m_iKills;
+		int m_iAssists;
+		int m_iDeaths;
+		int m_bConnected;
+		int m_iTeam;
+		int m_iPendingTeam;
+		int m_bAlive;
+		int m_iHealth;
+	} DT_PlayerResource;
+
+	struct
+	{
 		int m_iPlayerC4;
 		int m_iPlayerVIP;
 		int m_bHostageAlive;

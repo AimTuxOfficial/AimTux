@@ -33,6 +33,16 @@ void Offsets::getOffsets()
 	offsets.DT_BaseCombatCharacter.m_hActiveWeapon = NetVarManager::getOffset(tables, "DT_BaseCombatCharacter", "m_hActiveWeapon");
 	offsets.DT_BaseCombatCharacter.m_hMyWeapons = NetVarManager::getOffset(tables, "DT_BaseCombatCharacter", "m_hMyWeapons") / 2;
 
+	offsets.DT_PlayerResource.m_iPing = NetVarManager::getOffset(tables, "DT_PlayerResource", "m_iPing");
+	offsets.DT_PlayerResource.m_iKills = NetVarManager::getOffset(tables, "DT_PlayerResource", "m_iKills");
+	offsets.DT_PlayerResource.m_iAssists = NetVarManager::getOffset(tables, "DT_PlayerResource", "m_iAssists");
+	offsets.DT_PlayerResource.m_iDeaths = NetVarManager::getOffset(tables, "DT_PlayerResource", "m_iDeaths");
+	offsets.DT_PlayerResource.m_bConnected = NetVarManager::getOffset(tables, "DT_PlayerResource", "m_bConnected");
+	offsets.DT_PlayerResource.m_iTeam = NetVarManager::getOffset(tables, "DT_PlayerResource", "m_iTeam");
+	offsets.DT_PlayerResource.m_iPendingTeam = NetVarManager::getOffset(tables, "DT_PlayerResource", "m_iPendingTeam");
+	offsets.DT_PlayerResource.m_bAlive = NetVarManager::getOffset(tables, "DT_PlayerResource", "m_bAlive");
+	offsets.DT_PlayerResource.m_iHealth = NetVarManager::getOffset(tables, "DT_PlayerResource", "m_iHealth");
+
 	offsets.DT_CSPlayerResource.m_iPlayerC4 = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_iPlayerC4");
 	offsets.DT_CSPlayerResource.m_iPlayerVIP = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_iPlayerVIP");
 	offsets.DT_CSPlayerResource.m_bHostageAlive = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_bHostageAlive");

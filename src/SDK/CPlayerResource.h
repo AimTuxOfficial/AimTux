@@ -5,6 +5,51 @@ class CPlayerResource {};
 class C_CSPlayerResource : public CPlayerResource
 {
 public:
+	int GetPing(int index)
+	{
+		return *(int*)((uintptr_t)this + offsets.DT_PlayerResource.m_iPing + index * 4);
+	}
+
+	int GetKills(int index)
+	{
+		return *(int*)((uintptr_t)this + offsets.DT_PlayerResource.m_iKills + index * 4);
+	}
+
+	int GetAssists(int index)
+	{
+		return *(int*)((uintptr_t)this + offsets.DT_PlayerResource.m_iAssists + index * 4);
+	}
+
+	int GetDeaths(int index)
+	{
+		return *(int*)((uintptr_t)this + offsets.DT_PlayerResource.m_iDeaths + index * 4);
+	}
+
+	bool GetConnected(int index)
+	{
+		return *(bool*)((uintptr_t)this + offsets.DT_PlayerResource.m_bConnected + index);
+	}
+
+	int GetTeam(int index)
+	{
+		return *(int*)((uintptr_t)this + offsets.DT_PlayerResource.m_iTeam + index * 4);
+	}
+
+	int GetPendingTeam(int index)
+	{
+		return *(int*)((uintptr_t)this + offsets.DT_PlayerResource.m_iPendingTeam + index * 4);
+	}
+
+	bool GetAlive(int index)
+	{
+		return *(bool*)((uintptr_t)this + offsets.DT_PlayerResource.m_bAlive + index);
+	}
+
+	int GetHealth(int index)
+	{
+		return *(int*)((uintptr_t)this + offsets.DT_PlayerResource.m_iHealth + index * 4);
+	}
+
 	int GetPlayerC4()
 	{
 		return *(int*)((uintptr_t)this + offsets.DT_CSPlayerResource.m_iPlayerC4);
