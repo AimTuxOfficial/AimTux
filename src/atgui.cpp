@@ -1222,7 +1222,7 @@ void PlayerListWindow()
 	{
 		static int currentPlayer = -1;
 
-		ImGui::ListBoxHeader("##PLAYERS", ImVec2(-1, (ImGui::GetWindowSize().y - 150)));
+		ImGui::ListBoxHeader("##PLAYERS", ImVec2(-1, (ImGui::GetWindowSize().y - 95)));
 		if (engine->IsInGame() && playerResource != nullptr)
 		{
 			ImGui::Columns(4);
