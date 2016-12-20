@@ -1278,13 +1278,13 @@ void PlayerListWindow()
 					currentPlayer = i;
 				ImGui::NextColumn();
 
-				ImGui::Text(entityInformation.name);
+				ImGui::Text("%s", entityInformation.name);
 				ImGui::NextColumn();
 
-				ImGui::Text(team);
+				ImGui::Text("%s", team);
 				ImGui::NextColumn();
 
-				ImGui::Text(strdup(playerResource->GetClan(i)));
+				ImGui::Text("%s", strdup(playerResource->GetClan(i)));
 				ImGui::NextColumn();
 			}
 		}
