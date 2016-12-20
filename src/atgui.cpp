@@ -1251,6 +1251,9 @@ void PlayerListWindow()
 				if (i == engine->GetLocalPlayer())
 					continue;
 
+				if (!playerResource->GetConnected(i))
+					continue;
+
 				players[playerResource->GetTeam(i)].push_back(i);
 			}
 
@@ -1280,14 +1283,10 @@ void PlayerListWindow()
 
 					IEngineClient::player_info_t entityInformation;
 					engine->GetPlayerInfo(it, &entityInformation);
-					if (strlen(entityInformation.name) == 0)
-						continue;
-
-					bool selected = (it == currentPlayer);
 
 					ImGui::Separator();
 
-					if (ImGui::Selectable(id, selected, ImGuiSelectableFlags_SpanAllColumns))
+					if (ImGui::Selectable(id, it == currentPlayer, ImGuiSelectableFlags_SpanAllColumns))
 						currentPlayer = it;
 					ImGui::NextColumn();
 
