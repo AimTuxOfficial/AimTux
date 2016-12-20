@@ -1220,11 +1220,10 @@ void PlayerListWindow()
 	ImGui::SetNextWindowSize(ImVec2(700, 500), ImGuiSetCond_FirstUseEver);
 	if (ImGui::Begin("Player list", &showPlayerListWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
 	{
-		C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 		static int currentPlayer = -1;
 
 		ImGui::ListBoxHeader("##PLAYERS", ImVec2(-1, (ImGui::GetWindowSize().y - 150)));
-		if (engine->IsInGame())
+		if (engine->IsInGame() && playerResource != nullptr)
 		{
 			ImGui::Columns(4);
 
@@ -1249,14 +1248,10 @@ void PlayerListWindow()
 
 			for (int i = 1; i < engine->GetMaxClients(); i++)
 			{
-				C_BaseEntity *entity = entitylist->GetClientEntity(i);
-				if (!entity)
+				if (i == engine->GetLocalPlayer())
 					continue;
 
-				if (entity == (C_BaseEntity *) localplayer)
-					continue;
-
-				players[entity->GetTeam()].push_back(i);
+				players[playerResource->GetTeam(i)].push_back(i);
 			}
 
 			for (int team = TEAM_UNASSIGNED; team <= TEAM_COUNTER_TERRORIST ; team++)
@@ -1285,6 +1280,9 @@ void PlayerListWindow()
 
 					IEngineClient::player_info_t entityInformation;
 					engine->GetPlayerInfo(it, &entityInformation);
+					if (strlen(entityInformation.name) == 0)
+						continue;
+
 					bool selected = (it == currentPlayer);
 
 					ImGui::Separator();
@@ -1339,7 +1337,7 @@ void PlayerListWindow()
 					NameChanger::SetName(Util::PadStringRight(name, name.length() + 1));
 				}
 
-				char* clanTag = playerResource ? strdup(playerResource->GetClan(currentPlayer)) : strdup("");
+				char* clanTag = strdup(playerResource->GetClan(currentPlayer));
 				if (strlen(clanTag) > 0)
 				{
 					if (ImGui::Button("Steal clan tag"))

@@ -27,7 +27,7 @@ public:
 
 	bool GetConnected(int index)
 	{
-		return *(bool*)((uintptr_t)this + offsets.DT_PlayerResource.m_bConnected + index);
+		return *(bool*)((uintptr_t)this + offsets.DT_PlayerResource.m_bConnected + index * 4);
 	}
 
 	int GetTeam(int index)
@@ -42,7 +42,7 @@ public:
 
 	bool GetAlive(int index)
 	{
-		return *(bool*)((uintptr_t)this + offsets.DT_PlayerResource.m_bAlive + index);
+		return *(bool*)((uintptr_t)this + offsets.DT_PlayerResource.m_bAlive + index * 4);
 	}
 
 	int GetHealth(int index)
