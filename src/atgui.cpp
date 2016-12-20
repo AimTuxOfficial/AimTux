@@ -1240,53 +1240,68 @@ void PlayerListWindow()
 			ImGui::Text("Clan tag");
 			ImGui::NextColumn();
 
+			std::unordered_map<int, std::vector<int>> players = {
+					{ TEAM_UNASSIGNED, { } },
+					{ TEAM_SPECTATOR, { } },
+					{ TEAM_TERRORIST, { } },
+					{ TEAM_COUNTER_TERRORIST, { } },
+			};
+
 			for (int i = 1; i < engine->GetMaxClients(); i++)
 			{
-				C_BaseEntity* entity = entitylist->GetClientEntity(i);
+				C_BaseEntity *entity = entitylist->GetClientEntity(i);
 				if (!entity)
 					continue;
 
-				if (entity == (C_BaseEntity*)localplayer)
+				if (entity == (C_BaseEntity *) localplayer)
 					continue;
 
-				IEngineClient::player_info_t entityInformation;
-				engine->GetPlayerInfo(i, &entityInformation);
-				bool selected = (i == currentPlayer);
+				players[entity->GetTeam()].push_back(i);
+			}
 
-				char* team = strdup("");
-				switch (entity->GetTeam())
+			for (int team = TEAM_UNASSIGNED; team <= TEAM_COUNTER_TERRORIST ; team++)
+			{
+				char* teamName = strdup("");
+				switch (team)
 				{
 					case TEAM_UNASSIGNED:
-						team = strdup("Unassigned");
+						teamName = strdup("Unassigned");
 						break;
 					case TEAM_SPECTATOR:
-						team = strdup("Spectator");
+						teamName = strdup("Spectator");
 						break;
 					case TEAM_TERRORIST:
-						team = strdup("Terrorist");
+						teamName = strdup("Terrorist");
 						break;
 					case TEAM_COUNTER_TERRORIST:
-						team = strdup("Counter Terrorist");
+						teamName = strdup("Counter Terrorist");
 						break;
 				}
 
-				char* id;
-				asprintf(&id, "%d", i);
+				for (auto it : players[team])
+				{
+					char* id;
+					asprintf(&id, "%d", it);
 
-				ImGui::Separator();
+					IEngineClient::player_info_t entityInformation;
+					engine->GetPlayerInfo(it, &entityInformation);
+					bool selected = (it == currentPlayer);
 
-				if (ImGui::Selectable(id, selected, ImGuiSelectableFlags_SpanAllColumns))
-					currentPlayer = i;
-				ImGui::NextColumn();
+					ImGui::Separator();
 
-				ImGui::Text("%s", entityInformation.name);
-				ImGui::NextColumn();
+					if (ImGui::Selectable(id, selected, ImGuiSelectableFlags_SpanAllColumns))
+						currentPlayer = it;
+					ImGui::NextColumn();
 
-				ImGui::Text("%s", team);
-				ImGui::NextColumn();
+					ImGui::Text("%s", entityInformation.name);
+					ImGui::NextColumn();
 
-				ImGui::Text("%s", strdup(playerResource->GetClan(i)));
-				ImGui::NextColumn();
+					ImGui::Text("%s", teamName);
+					ImGui::NextColumn();
+
+					ImGui::Text("%s", strdup(playerResource->GetClan(it)));
+					ImGui::NextColumn();
+				}
 			}
 		}
 		ImGui::ListBoxFooter();
