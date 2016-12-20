@@ -136,10 +136,7 @@ void Hooker::HookPlayerResource()
 	if (!engine->IsInGame())
 		return;
 
-	if (playerResource != nullptr)
-		return;
-
-	for (int i = 1; i < entitylist->GetHighestEntityIndex(); ++i)
+	for (int i = 1; i < entitylist->GetHighestEntityIndex(); i++)
 	{
 		C_BaseEntity *entity = entitylist->GetClientEntity(i);
 		if (!entity)
@@ -147,7 +144,10 @@ void Hooker::HookPlayerResource()
 
 		ClientClass *client = entity->GetClientClass();
 		if (client->m_ClassID == CCSPlayerResource)
+		{
 			playerResource = (C_CSPlayerResource*) entity;
+			break;
+		}
 	}
 }
 
