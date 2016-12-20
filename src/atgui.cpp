@@ -1339,7 +1339,7 @@ void PlayerListWindow()
 				}
 
 				const char* clanTag = playerResource->GetClan(currentPlayer);
-				if (strlen(clanTag) && ImGui::Button("Steal clan tag"))
+				if (strlen(clanTag) > 1 && ImGui::Button("Steal clan tag"))
 				{
 					Settings::ClanTagChanger::enabled = true;
 					Settings::ClanTagChanger::value = strdup(clanTag);
