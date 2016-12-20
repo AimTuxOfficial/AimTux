@@ -136,6 +136,9 @@ void Hooker::HookPlayerResource()
 	if (!engine->IsInGame())
 		return;
 
+	if (playerResource != nullptr)
+		return;
+
 	for (int i = 1; i < entitylist->GetHighestEntityIndex(); i++)
 	{
 		C_BaseEntity *entity = entitylist->GetClientEntity(i);
