@@ -21,6 +21,7 @@ bool Settings::ESP::visibility_check = false;
 bool Settings::ESP::show_scope_border = true;
 bool Settings::ESP::Walls::enabled = false;
 int Settings::ESP::Walls::type = FLAT_2D;
+bool Settings::ESP::HealthBar::enabled = false;
 bool Settings::ESP::Info::showName = true;
 bool Settings::ESP::Info::showHealth = false;
 bool Settings::ESP::Info::showWeapon = false;
@@ -228,6 +229,64 @@ void ESP::DrawPlayerBox(C_BaseEntity* entity)
 	}
 }
 
+Color GetHealthColor(int hp)
+{
+	float hpHue = hp * 1.2f / 360.0f;
+	Color color = Color().FromHSB(hpHue, 1.0f, 1.0f);
+	color.b = 48; // Just for looks
+	return color;
+}
+
+void ESP::DrawPlayerHealthBar(C_BaseEntity* entity)
+{
+	int yOffset = 2;
+	int frameWidth = 1;
+	int minH = 4;
+	int maxH = 8;
+	Color outline = Color(8, 8, 8, 92);
+
+	int hp = entity->GetHealth();
+	Color color = GetHealthColor(hp);
+
+	Vector max = entity->GetCollideable()->OBBMaxs();
+
+	Vector pos, pos3D;
+	Vector top, top3D;
+
+	pos3D = entity->GetVecOrigin();
+	top3D = pos3D + Vector(0, 0, max.z);
+
+	if (WorldToScreen(pos3D, pos) || WorldToScreen(top3D, top))
+		return;
+
+	float height = (pos.y - top.y);
+	float width = height / 4.0f;
+
+	int leftSide = (int)(top.x - width);
+	int rightSideFull = (int)(top.x + width);
+	int rightSide = (int)(leftSide + width * 2.0f * hp / 100.0f);
+
+	// Always show at least 1 pixel
+	if (rightSide - leftSide < 1)
+		rightSide += 1;
+
+	int barHeight = (int)(height / 32);
+
+	if (barHeight < minH)
+		barHeight = minH;
+	if (barHeight > maxH)
+		barHeight = maxH;
+
+	Vector2D left = Vector2D(leftSide, pos.y + yOffset);
+	Vector2D right = Vector2D(rightSide, pos.y + yOffset + barHeight);
+
+	Vector2D frameLeft = Vector2D(left.x - frameWidth, left.y - frameWidth);
+	Vector2D frameRight = Vector2D(rightSideFull + frameWidth, right.y + frameWidth);
+
+	Draw::DrawRect(left, right, color);
+	Draw::DrawRect(frameLeft, frameRight, outline);
+}
+
 void ESP::DrawPlayerInfo(C_BaseEntity* entity, int entityIndex)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
@@ -290,8 +349,11 @@ void ESP::DrawPlayerInfo(C_BaseEntity* entity, int entityIndex)
 
 	float height = (pos.y - top.y);
 
+	// So the text doesn't cover up the health bar
+	float yOffset = Settings::ESP::HealthBar::enabled ? 6.0f : 0.0f;
+
 	Draw::DrawCenteredString(topText.c_str(), LOC (top.x, top.y - (size_top.y / 2)), color, esp_font);
-	Draw::DrawCenteredString(bottomText.c_str(), LOC (top.x, top.y + height + (size_bottom.y / 2)), color, esp_font);
+	Draw::DrawCenteredString(bottomText.c_str(), LOC (top.x, top.y + height + (size_bottom.y / 2) + yOffset), color, esp_font);
 }
 
 void ESP::DrawBombBox(C_BasePlantedC4* entity)
@@ -498,6 +560,9 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 
 			if (Settings::ESP::Walls::enabled)
 				ESP::DrawPlayerBox(entity);
+
+			if (Settings::ESP::HealthBar::enabled)
+				ESP::DrawPlayerHealthBar(entity);
 
 			if (Settings::ESP::Tracer::enabled)
 				ESP::DrawTracer(entity);

@@ -274,6 +274,11 @@ namespace Settings
 			extern int type;
 		}
 
+		namespace HealthBar
+		{
+			extern bool enabled;
+		}
+
 		namespace Info
 		{
 			extern bool showName;
