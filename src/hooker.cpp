@@ -24,7 +24,7 @@ IGameMovement* gamemovement = nullptr;
 IMoveHelper* movehelper = nullptr;
 ILauncherMgr* launchermgr = nullptr;
 CGlowObjectManager* glowmanager = nullptr;
-C_CSPlayerResource* playerResource = nullptr;
+C_CSPlayerResource** csPlayerResource = nullptr;
 
 VMT* panel_vmt = nullptr;
 VMT* client_vmt = nullptr;
@@ -133,9 +133,9 @@ void Hooker::HookGlowManager()
 
 void Hooker::HookPlayerResource()
 {
-	static uintptr_t instruction_addr = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) PLAYERRESOURCES_SIGNATURE, PLAYERRESOURCES_MASK);
-	
-	playerResource = *reinterpret_cast<C_CSPlayerResource**>(GetAbsoluteAddress(instruction_addr, 3, 7));
+	uintptr_t instruction_addr = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) PLAYERRESOURCES_SIGNATURE, PLAYERRESOURCES_MASK);
+
+	csPlayerResource = reinterpret_cast<C_CSPlayerResource**>(GetAbsoluteAddress(instruction_addr, 3, 7));
 }
 
 void Hooker::HookRankReveal()
