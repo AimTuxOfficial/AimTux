@@ -22,11 +22,11 @@ sudo apt-get install cmake g++ gdb libsdl2-dev zlib1g-dev git
 ```
 __Arch:__
 ```bash
-sudo dnf install cmake gcc-c++ gdb libstdc++-static mesa-libGL-devel SDL2-devel zlib-devel git
+sudo pacman -S base-devel cmake gdb sdl2 git
 ```
 __Fedora:__
 ```bash
-sudo pacman -S base-devel cmake gdb sdl2 git
+sudo dnf install cmake gcc-c++ gdb libstdc++-static mesa-libGL-devel SDL2-devel zlib-devel git
 ```
 
 ===================
