@@ -245,10 +245,7 @@ void ESP::DrawPlayerHealthBar(C_BaseEntity* entity)
 	int frameWidth = 1;
 	Color outline = Color(8, 8, 8, 92);
 
-	int hp = entity->GetHealth();
-
-	if (hp > 100)
-		hp = 100;
+	int hp = entity->GetHealth() > 100 ? 100 : entity->GetHealth();
 
 	Color color = GetHealthColor(hp);
 
