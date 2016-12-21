@@ -33,6 +33,7 @@ ImColor Settings::ESP::Glow::enemy_visible_color = ImColor(200, 200, 50, 0);
 ImColor Settings::ESP::Glow::weapon_color = ImColor(200, 0, 50, 200);
 ImColor Settings::ESP::Glow::grenade_color = ImColor(200, 0, 50, 200);
 ImColor Settings::ESP::Glow::defuser_color = ImColor(100, 100, 200, 200);
+ImColor Settings::ESP::Glow::chicken_color = ImColor(100, 200, 100, 200);
 bool Settings::ESP::Filters::legit = false;
 bool Settings::ESP::Filters::visibility_check = false;
 bool Settings::ESP::Filters::enemies = false;
@@ -875,6 +876,12 @@ void ESP::DrawGlow()
 
 			if (localplayer->HasDefuser() || localplayer->GetTeam() == TEAM_TERRORIST)
 				should_glow = false;
+		}
+		else if (client->m_ClassID == CChicken)
+		{
+			color = Color::FromImColor(Settings::ESP::Glow::chicken_color);
+
+			*reinterpret_cast<C_Chicken*>(glow_object.m_pEntity)->GetShouldGlow() = should_glow;
 		}
 
 		should_glow = should_glow && color.a > 0;

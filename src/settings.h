@@ -298,6 +298,7 @@ namespace Settings
 			extern ImColor weapon_color;
 			extern ImColor grenade_color;
 			extern ImColor defuser_color;
+			extern ImColor chicken_color;
 		}
 
 		namespace Filters

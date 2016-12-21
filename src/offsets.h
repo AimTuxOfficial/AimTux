@@ -149,6 +149,11 @@ struct COffsets
 		int m_iClip1;
 		int m_bInReload;
 	} DT_BaseCombatWeapon;
+
+	struct
+	{
+		int m_bShouldGlow;
+	} DT_DynamicProp;
 };
 
 namespace Offsets

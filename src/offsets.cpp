@@ -116,4 +116,6 @@ void Offsets::getOffsets()
 	offsets.DT_BaseCombatWeapon.m_hOwner = NetVarManager::getOffset(tables, "DT_BaseCombatWeapon", "m_hOwner");
 	offsets.DT_BaseCombatWeapon.m_iClip1 = NetVarManager::getOffset(tables, "DT_BaseCombatWeapon", "m_iClip1");
 	offsets.DT_BaseCombatWeapon.m_bInReload = offsets.DT_BaseCombatWeapon.m_flNextPrimaryAttack + 113;
+
+	offsets.DT_DynamicProp.m_bShouldGlow = NetVarManager::getOffset(tables, "DT_DynamicProp", "m_bShouldGlow");
 }

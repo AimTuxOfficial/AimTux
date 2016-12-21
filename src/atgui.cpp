@@ -193,6 +193,7 @@ void ColorsWindow()
 			"Glow - Weapon",
 			"Glow - Grenade",
 			"Glow - Defuser",
+			"Glow - Chicken",
 			"Dlights - Team",
 			"Dlights - Enemy",
 	};
@@ -233,6 +234,7 @@ void ColorsWindow()
 			&Settings::ESP::Glow::weapon_color,
 			&Settings::ESP::Glow::grenade_color,
 			&Settings::ESP::Glow::defuser_color,
+			&Settings::ESP::Glow::chicken_color,
 			&Settings::Dlights::ally_color,
 			&Settings::Dlights::enemy_color,
 	};
