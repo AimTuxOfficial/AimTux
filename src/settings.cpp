@@ -189,6 +189,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	LoadUIColor(settings["ESP"]["Glow"]["grenade_color"], Settings::ESP::Glow::grenade_color);
 	LoadUIColor(settings["ESP"]["Glow"]["defuser_color"], Settings::ESP::Glow::defuser_color);
 	settings["ESP"]["Filters"]["legit"] = Settings::ESP::Filters::legit;
+	settings["ESP"]["Filters"]["visibility_check"] = Settings::ESP::Filters::visibility_check;
 	settings["ESP"]["Filters"]["enemies"] = Settings::ESP::Filters::enemies;
 	settings["ESP"]["Filters"]["allies"] = Settings::ESP::Filters::allies;
 	settings["ESP"]["Filters"]["bomb"] = Settings::ESP::Filters::bomb;
@@ -417,6 +418,7 @@ void Settings::LoadConfig(std::string path)
 	GetUIColor(settings["ESP"]["Glow"]["grenade_color"], &Settings::ESP::Glow::grenade_color);
 	GetUIColor(settings["ESP"]["Glow"]["defuser_color"], &Settings::ESP::Glow::defuser_color);
 	GetBool(settings["ESP"]["Filters"]["legit"], &Settings::ESP::Filters::legit);
+	GetBool(settings["ESP"]["Filters"]["visibility_check"], &Settings::ESP::Filters::visibility_check);
 	GetBool(settings["ESP"]["Filters"]["enemies"], &Settings::ESP::Filters::enemies);
 	GetBool(settings["ESP"]["Filters"]["allies"], &Settings::ESP::Filters::allies);
 	GetBool(settings["ESP"]["Filters"]["bomb"], &Settings::ESP::Filters::bomb);

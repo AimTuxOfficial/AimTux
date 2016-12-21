@@ -509,6 +509,7 @@ void VisualsTab()
 			{
 				ImGui::Checkbox("Friendlies", &Settings::ESP::Filters::allies);
 				ImGui::Checkbox("Fish", &Settings::ESP::Filters::fishes);
+				ImGui::Checkbox("Visiblity Check", &Settings::ESP::Filters::visibility_check);
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();

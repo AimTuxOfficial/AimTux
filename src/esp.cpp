@@ -34,6 +34,7 @@ ImColor Settings::ESP::Glow::weapon_color = ImColor(200, 0, 50, 200);
 ImColor Settings::ESP::Glow::grenade_color = ImColor(200, 0, 50, 200);
 ImColor Settings::ESP::Glow::defuser_color = ImColor(100, 100, 200, 200);
 bool Settings::ESP::Filters::legit = false;
+bool Settings::ESP::Filters::visibility_check = false;
 bool Settings::ESP::Filters::enemies = false;
 bool Settings::ESP::Filters::allies = false;
 bool Settings::ESP::Filters::bomb = false;
@@ -335,12 +336,12 @@ void ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_info
 
 	if (player->GetTeam() != localplayer->GetTeam() && !Settings::ESP::Filters::enemies)
 		return;
+
 	if (player->GetTeam() == localplayer->GetTeam() && !Settings::ESP::Filters::allies)
 		return;
 
-
 	bool bIsVisible = Entity::IsVisible(player, BONE_HEAD);
-	if (Settings::ESP::Filters::legit)
+	if (Settings::ESP::Filters::visibility_check || Settings::ESP::Filters::legit)
 		if (!bIsVisible && Settings::ESP::Filters::legit)
 			return;
 

@@ -299,6 +299,7 @@ namespace Settings
 		namespace Filters
 		{
 			extern bool legit;
+			extern bool visibility_check;
 			extern bool enemies;
 			extern bool allies;
 			extern bool bomb;
