@@ -132,7 +132,8 @@ bool ::ESP::GetBox(C_BaseEntity *entity, int &x, int &y, int &w, int &h)
 	bottom = flb.y;
 
 	// Find the bounding corners for our box
-	for (int i = 1; i < 8; i++) {
+	for (int i = 1; i < 8; i++)
+	{
 		if (left > arr[i].x)
 			left = arr[i].x;
 		if (bottom < arr[i].y)
@@ -144,10 +145,10 @@ bool ::ESP::GetBox(C_BaseEntity *entity, int &x, int &y, int &w, int &h)
 	}
 
 	// Width / height
-	x = left;
-	y = top;
-	w = right - left;
-	h = bottom - top;
+	x = (int) left;
+	y = (int) top;
+	w = (int) (right - left);
+	h = (int) (bottom - top);
 	
 	return true;
 }
@@ -189,7 +190,7 @@ ImColor ESP::GetESPPlayerColor(C_BaseEntity* player, bool visible)
 		}
 		else if (Settings::ESP::team_color_type == TeamColorType::ABSOLUTE)
 		{
-			if(player->GetTeam() == TEAM_TERRORIST)
+			if (player->GetTeam() == TEAM_TERRORIST)
 				playerColor = visible ? Settings::ESP::t_visible_color : Settings::ESP::t_color;
 
 			else if (player->GetTeam() == TEAM_COUNTER_TERRORIST)
@@ -197,7 +198,8 @@ ImColor ESP::GetESPPlayerColor(C_BaseEntity* player, bool visible)
 		}
 	}
 
-	if (player->GetImmune()){
+	if (player->GetImmune())
+	{
 		playerColor.Value.x -= 0.5f;
 		playerColor.Value.y -= 0.5f;
 		playerColor.Value.z -= 0.5f;
@@ -210,8 +212,8 @@ void ::ESP::DrawBox(Color color, int x, int y, int w, int h)
 {
 	if (Settings::ESP::Boxes::type == BoxType::FRAME_2D)
 	{
-		int VertLine = (float)w * 0.33f;
-		int HorzLine = (float)h * 0.33f;
+		int VertLine = (int) (w * 0.33f);
+		int HorzLine = (int) (h * 0.33f);
 		int squareLine = std::min(VertLine, HorzLine);
 
 		// top-left corner / color
@@ -300,7 +302,7 @@ void ::ESP::DrawEntity(C_BaseEntity* entity, const char* string, Color color)
 		DrawBox(color, x, y, w, h);
 
 		Vector2D nameSize = Draw::GetTextSize(string, esp_font);
-		Draw::Text(x + (w / 2) - (nameSize.x / 2), y + h + 2, string, esp_font, Color(255,255,255,255));
+		Draw::Text((int)(x + (w / 2) - (nameSize.x / 2)), y + h + 2, string, esp_font, Color(255, 255, 255, 255));
 	}
 }
 
@@ -345,8 +347,8 @@ void ::ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_in
 		float HealthValue = player->GetHealth();
 		float HealthPerc = HealthValue / 100.f;
 
-		int Red = 255 - HealthValue * 2.55;
-		int Green = HealthValue * 2.55;
+		int Red = (int)(255 - HealthValue * 2.55);
+		int Green = (int)(HealthValue * 2.55);
 
 		if (Settings::ESP::Bars::color_type == BarColorType::HEALTH_BASED)
 		{
@@ -423,7 +425,7 @@ void ::ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_in
 			barh = 4;
 
 			float Width = (w * HealthPerc);
-			barw = Width;
+			barw = (int)(Width);
 
 			Vertex_t Verts[4];
 			Verts[0].Init(Vector2D(barx, bary));
@@ -453,9 +455,9 @@ void ::ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_in
 
 		// draw name
 		int multiplier = 1;
-		int nameOffset = Settings::ESP::Bars::type == BarType::HORIZONTAL_UP ? boxSpacing + barsSpacing.y : 0;
+		int nameOffset = (int)(Settings::ESP::Bars::type == BarType::HORIZONTAL_UP ? boxSpacing + barsSpacing.y : 0);
 
-		if(Settings::ESP::Info::name || Settings::ESP::Info::clan)
+		if (Settings::ESP::Info::name || Settings::ESP::Info::clan)
 		{
 			std::string displayString;
 
@@ -469,7 +471,7 @@ void ::ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_in
 				displayString += player_info.name;
 
 			Vector2D nameSize = Draw::GetTextSize(displayString.c_str(), esp_font);
-			Draw::Text(x + (w / 2) - (nameSize.x / 2), y - textSize.y - nameOffset, displayString.c_str(), esp_font, Color(255, 255, 255));
+			Draw::Text((int)(x + (w / 2) - (nameSize.x / 2)), (int)(y - textSize.y - nameOffset), displayString.c_str(), esp_font, Color(255, 255, 255));
 			multiplier++;
 		}
 
@@ -477,7 +479,7 @@ void ::ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_in
 		if (Settings::ESP::Info::steam_id)
 		{
 			Vector2D rankSize = Draw::GetTextSize(player_info.guid, esp_font);
-			Draw::Text(x + (w / 2) - (rankSize.x / 2), y - (textSize.y * multiplier) - nameOffset, player_info.guid, esp_font, Color(255, 255, 255, 255));
+			Draw::Text((int)(x + (w / 2) - (rankSize.x / 2)), (int)(y - (textSize.y * multiplier) - nameOffset), player_info.guid, esp_font, Color(255, 255, 255, 255));
 			multiplier++;
 		}
 
@@ -489,8 +491,7 @@ void ::ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_in
 			if (rank >= 0 && rank < 19)
 			{
 				Vector2D rankSize = Draw::GetTextSize(Ranks[rank], esp_font);
-				Draw::Text(x + (w / 2) - (rankSize.x / 2), y - (textSize.y * multiplier) - nameOffset, Ranks[rank], esp_font, Color(255, 255, 255, 255));
-				multiplier++;
+				Draw::Text((int)(x + (w / 2) - (rankSize.x / 2)), (int)(y - (textSize.y * multiplier) - nameOffset), Ranks[rank], esp_font, Color(255, 255, 255, 255));
 			}
 		}
 
@@ -500,7 +501,7 @@ void ::ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_in
 		if (Settings::ESP::Info::health)
 		{
 			std::string buf = std::to_string(player->GetHealth()) + " HP";
-			Draw::Text(x + w + boxSpacing, y + h - textSize.y, buf.c_str(), esp_font, Color(255, 255, 255));
+			Draw::Text(x + w + boxSpacing, (int)(y + h - textSize.y), buf.c_str(), esp_font, Color(255, 255, 255));
 		}
 
 		// weapon
@@ -517,10 +518,10 @@ void ::ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_in
 					else
 						modelName = modelName.substr(1, modelName.length() - 1);
 				}
-				int offset = Settings::ESP::Bars::type == BarType::HORIZONTAL || Settings::ESP::Bars::type == BarType::INTERWEBZ ? boxSpacing + barsSpacing.y + 1 : 0;
+				int offset = (int)(Settings::ESP::Bars::type == BarType::HORIZONTAL || Settings::ESP::Bars::type == BarType::INTERWEBZ ? boxSpacing + barsSpacing.y + 1 : 0);
 
 				Vector2D weaponTextSize = Draw::GetTextSize(modelName.c_str(), esp_font);
-				Draw::Text(x + (w / 2) - (weaponTextSize.x / 2), y + h + offset, modelName.c_str(), esp_font, Color(255, 255, 255));
+				Draw::Text((int)(x + (w / 2) - (weaponTextSize.x / 2)), y + h + offset, modelName.c_str(), esp_font, Color(255, 255, 255));
 			}
 		}
 
@@ -558,8 +559,9 @@ void ::ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_in
 			stringsToShow.push_back(player->GetLastPlaceName());
 
 		int i = 0;
-		for (auto Text : stringsToShow) {
-			Draw::Text(x + w + boxSpacing, y + (i * (textSize.y + 2)), Text.c_str(), esp_font, Color(255, 255, 255));
+		for (auto Text : stringsToShow)
+		{
+			Draw::Text(x + w + boxSpacing, (int)(y + (i * (textSize.y + 2))), Text.c_str(), esp_font, Color(255, 255, 255));
 			i++;
 		}
 	}
@@ -580,9 +582,7 @@ void ::ESP::DrawBomb(C_BaseCombatWeapon* bomb)
 	int owner = bomb->GetOwner();
 
 	if (owner == -1 && !(vOrig.x == 0 && vOrig.y == 0 && vOrig.z == 0))
-	{
 		DrawEntity(bomb, "Bomb", Color::FromImColor(Settings::ESP::bomb_color));
-	}
 }
 
 void ::ESP::DrawPlantedBomb(C_BasePlantedC4* bomb)
@@ -750,8 +750,8 @@ void ::ESP::DrawBulletTrace(C_BaseEntity* player)
 	if (debugOverlay->ScreenPosition(src3D, src) || debugOverlay->ScreenPosition(tr.endpos, dst))
 		return;
 
-	Draw::Line(src.x, src.y, dst.x, dst.y, Color::FromImColor(GetESPPlayerColor(player, true)));
-	Draw::FilledRectangle(dst.x - 3, dst.y - 3, 6, 6, Color::FromImColor(GetESPPlayerColor(player, false)));
+	Draw::Line((int)(src.x), (int)(src.y), (int)(dst.x), (int)(dst.y), Color::FromImColor(GetESPPlayerColor(player, true)));
+	Draw::FilledRectangle((int)(dst.x - 3), (int)(dst.y - 3), 6, 6, Color::FromImColor(GetESPPlayerColor(player, false)));
 }
 
 void ::ESP::DrawTracer(C_BaseEntity* entity)
@@ -765,16 +765,16 @@ void ::ESP::DrawTracer(C_BaseEntity* entity)
 	int ScreenWidth, ScreenHeight;
 	engine->GetScreenSize(ScreenWidth, ScreenHeight);
 
-	int x = ScreenWidth * 0.5f;
-	int y;
+	int x = (int)(ScreenWidth * 0.5f);
+	int y = 0;
 
 	if (Settings::ESP::Tracers::type == TracerType::CURSOR)
-		y = ScreenHeight * 0.5f;
+		y = (int)(ScreenHeight * 0.5f);
 	else if (Settings::ESP::Tracers::type == TracerType::BOTTOM)
 		y = ScreenHeight;
 
 	bool bIsVisible = Entity::IsVisible(entity, BONE_HEAD);
-	Draw::Line(src.x, src.y, x, y, Color::FromImColor(GetESPPlayerColor(entity,bIsVisible)));
+	Draw::Line((int)(src.x), (int)(src.y), x, y, Color::FromImColor(GetESPPlayerColor(entity,bIsVisible)));
 }
 
 void ESP::DrawFOVCrosshair()
@@ -786,8 +786,8 @@ void ESP::DrawFOVCrosshair()
 	int width, height;
 	engine->GetScreenSize(width, height);
 
-	float radAimbotFov = Settings::Aimbot::AutoAim::fov * M_PI / 180;
-	float radViewFov = RenderView::currentFOV * M_PI / 180;
+	float radAimbotFov = (float)(Settings::Aimbot::AutoAim::fov * M_PI / 180);
+	float radViewFov = (float)(RenderView::currentFOV * M_PI / 180);
 
 	float circleRadius = tanf(radAimbotFov / 2) / tanf(radViewFov / 2) * width;
 
@@ -882,7 +882,7 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 	if (!localplayer)
 		return;
 
-	for (int i = 1; i < entitylist->GetHighestEntityIndex(); ++i)
+	for (int i = 1; i < entitylist->GetHighestEntityIndex(); i++)
 	{
 		C_BaseEntity* entity = entitylist->GetClientEntity(i);
 		if (!entity)
