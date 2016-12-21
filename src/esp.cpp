@@ -376,7 +376,7 @@ void ::ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_in
 			Draw::Rectangle(barx , bary, barw, barh, Color(10, 10, 10, 255));
 			barsSpacing.x += barw;
 		}
-		else if (Settings::ESP::Bars::type == BarType::HORIZONTAL_UP)
+		else if (Settings::ESP::Bars::type == BarType::HORIZONTAL)
 		{
 			int barx = 0;
 			int bary = 0;
@@ -414,7 +414,7 @@ void ::ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_in
 			}
 			barsSpacing.y += barh;
 		}
-		else if (Settings::ESP::Bars::type == BarType::HORIZONTAL_UP)
+		else if (Settings::ESP::Bars::type == BarType::INTERWEBZ)
 		{
 			// pasted from ayyware and broken ( bg is 1px off to the left ) idc
 			int barx = 0;
