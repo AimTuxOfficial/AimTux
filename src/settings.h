@@ -68,16 +68,30 @@ enum ChamsType : int
 	CHAMS_FLAT
 };
 
-enum WallBoxType : int
+enum BoxType : int
 {
 	FLAT_2D,
-	BOX_3D
+	FRAME_2D
 };
 
-enum HealthBarType : int
+enum BarType : int
 {
 	VERTICAL,
-	HORIZONTAL
+	HORIZONTAL,
+	HORIZONTAL_UP,
+	INTERWEBZ
+};
+
+enum BarColorType : int
+{
+	STATIC_COLOR,
+	HEALTH_BASED
+};
+
+enum TeamColorType : int
+{
+	ABSOLUTE,
+	RELATIVE
 };
 
 enum ArmsType : int
@@ -248,14 +262,28 @@ namespace Settings
 	namespace ESP
 	{
 		extern bool enabled;
-		extern bool visibility_check;
-		extern bool friendly;
-		extern bool show_scope_border;
-		extern ImColor ally_color;
+		extern int team_color_type;
 		extern ImColor enemy_color;
+		extern ImColor ally_color;
 		extern ImColor enemy_visible_color;
-		extern ImColor bones_color;
+		extern ImColor ally_visible_color;
+		extern ImColor ct_color;
+		extern ImColor t_color;
+		extern ImColor ct_visible_color;
+		extern ImColor t_visible_color;
 		extern ImColor bomb_color;
+		extern ImColor bomb_defusing_color;
+		extern ImColor hostage_color;
+		extern ImColor defuser_color;
+		extern ImColor weapon_color;
+		extern ImColor chicken_color;
+		extern ImColor fish_color;
+		extern ImColor smoke_color;
+		extern ImColor decoy_color;
+		extern ImColor flashbang_color;
+		extern ImColor grenade_color;
+		extern ImColor molotov_color;
+		extern ImColor skeleton_color;
 
 		namespace Glow
 		{
@@ -268,46 +296,65 @@ namespace Settings
 			extern ImColor defuser_color;
 		}
 
-		namespace Tracer
+		namespace Filters
 		{
-			extern int type;
-			extern bool enabled;
-		}
-
-		namespace Walls
-		{
-			extern bool enabled;
-			extern int type;
-		}
-
-		namespace HealthBar
-		{
-			extern bool enabled;
-			extern int type;
+			extern bool legit;
+			extern bool visibility_check;
+			extern bool enemies;
+			extern bool allies;
+			extern bool bomb;
+			extern bool hostages;
+			extern bool defusers;
+			extern bool weapons;
+			extern bool chickens;
+			extern bool fishes;
+			extern bool throwables;
 		}
 
 		namespace Info
 		{
-			extern bool showName;
-			extern bool showHealth;
-			extern bool showWeapon;
-			extern bool colorCode;
-			extern ImColor ally_color;
-			extern ImColor enemy_visible_color;
-			extern ImColor enemy_color;
+			extern bool name;
+			extern bool clan;
+			extern bool steam_id;
+			extern bool rank;
+			extern bool health;
+			extern bool weapon;
+			extern bool scoped;
+			extern bool reloading;
+			extern bool flashed;
+			extern bool planting;
+			extern bool has_defuser;
+			extern bool defusing;
+			extern bool grabbing_hostage;
+			extern bool rescuing;
+			extern bool location;
 		}
 
-		namespace Bones
+		namespace Boxes
+		{
+			extern bool enabled;
+			extern int type;
+		}
+
+		namespace Bars
+		{
+			extern bool enabled;
+			extern int type;
+			extern int color_type;
+		}
+
+		namespace Tracers
+		{
+			extern bool enabled;
+			extern int type;
+		}
+
+		namespace BulletTracers
 		{
 			extern bool enabled;
 		}
 
 		namespace Bomb
-		{
-			extern bool enabled;
-		}
-
-		namespace Weapons
 		{
 			extern bool enabled;
 		}

@@ -162,14 +162,27 @@ void ColorsWindow()
 			"UI Body",
 			"UI Font",
 			"FOV Circle",
-			"ESP - Team",
 			"ESP - Enemy",
+			"ESP - Team",
 			"ESP - Enemy Visible",
-			"ESP - Bones",
+			"ESP - Team Visible",
+			"ESP - CT",
+			"ESP - T",
+			"ESP - CT Visible",
+			"ESP - T Visible",
 			"ESP - Bomb",
-			"ESP - Team Text",
-			"ESP - Enemy Text",
-			"ESP - Enemy Visible Text",
+			"ESP - Bomb Defusing",
+			"ESP - Hostage",
+			"ESP - Defuser",
+			"ESP - Weapon",
+			"ESP - Chicken",
+			"ESP - Fish",
+			"ESP - Smoke",
+			"ESP - Decoy",
+			"ESP - Flashbang",
+			"ESP - Grenade",
+			"ESP - Molotov",
+			"ESP - Skeleton",
 			"Chams - Team",
 			"Chams - Team Visible",
 			"Chams - Enemy",
@@ -188,14 +201,27 @@ void ColorsWindow()
 			&Settings::UI::bodyColor,
 			&Settings::UI::fontColor,
 			&Settings::ESP::FOVCrosshair::color,
-			&Settings::ESP::ally_color,
 			&Settings::ESP::enemy_color,
+			&Settings::ESP::ally_color,
 			&Settings::ESP::enemy_visible_color,
-			&Settings::ESP::bones_color,
+			&Settings::ESP::ally_visible_color,
+			&Settings::ESP::ct_color,
+			&Settings::ESP::t_color,
+			&Settings::ESP::ct_visible_color,
+			&Settings::ESP::t_visible_color,
 			&Settings::ESP::bomb_color,
-			&Settings::ESP::Info::ally_color,
-			&Settings::ESP::Info::enemy_color,
-			&Settings::ESP::Info::enemy_visible_color,
+			&Settings::ESP::bomb_defusing_color,
+			&Settings::ESP::hostage_color,
+			&Settings::ESP::defuser_color,
+			&Settings::ESP::weapon_color,
+			&Settings::ESP::chicken_color,
+			&Settings::ESP::fish_color,
+			&Settings::ESP::smoke_color,
+			&Settings::ESP::decoy_color,
+			&Settings::ESP::flashbang_color,
+			&Settings::ESP::grenade_color,
+			&Settings::ESP::molotov_color,
+			&Settings::ESP::skeleton_color,
 			&Settings::ESP::Chams::players_ally_color,
 			&Settings::ESP::Chams::players_ally_visible_color,
 			&Settings::ESP::Chams::players_enemy_color,
@@ -209,6 +235,7 @@ void ColorsWindow()
 			&Settings::Dlights::ally_color,
 			&Settings::Dlights::enemy_color,
 	};
+
 	static int colorSelected = 0;
 
 	ImGui::SetNextWindowSize(ImVec2(540, 265), ImGuiSetCond_Always);
@@ -452,19 +479,19 @@ void VisualsTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::Checkbox("Walls", &Settings::ESP::Walls::enabled);
-				ImGui::Checkbox("Tracers", &Settings::ESP::Tracer::enabled);
-				ImGui::Checkbox("Health Bar", &Settings::ESP::HealthBar::enabled);
-				ImGui::Checkbox("Show Bones", &Settings::ESP::Bones::enabled);
-				ImGui::Checkbox("Show Friendly", &Settings::ESP::friendly);
-				ImGui::Checkbox("Visibility Check", &Settings::ESP::visibility_check);
+				//ImGui::Checkbox("Walls", &Settings::ESP::Walls::enabled);
+				//ImGui::Checkbox("Tracers", &Settings::ESP::Tracer::enabled);
+				//ImGui::Checkbox("Health Bar", &Settings::ESP::HealthBar::enabled);
+				//ImGui::Checkbox("Show Bones", &Settings::ESP::Bones::enabled);
+				//ImGui::Checkbox("Show Friendly", &Settings::ESP::friendly);
+				//ImGui::Checkbox("Visibility Check", &Settings::ESP::visibility_check);
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-					ImGui::Combo("##WALLTYPE", &Settings::ESP::Walls::type, WallTypes, IM_ARRAYSIZE(WallTypes));
-					ImGui::Combo("##TRACERTYPE", &Settings::ESP::Tracer::type, TracerTypes, IM_ARRAYSIZE(TracerTypes));
-					ImGui::Combo("##HEALTHBARTYPE", &Settings::ESP::HealthBar::type, HealthBarTypes, IM_ARRAYSIZE(HealthBarTypes));
+					//ImGui::Combo("##WALLTYPE", &Settings::ESP::Walls::type, WallTypes, IM_ARRAYSIZE(WallTypes));
+					//ImGui::Combo("##TRACERTYPE", &Settings::ESP::Tracer::type, TracerTypes, IM_ARRAYSIZE(TracerTypes));
+					//ImGui::Combo("##HEALTHBARTYPE", &Settings::ESP::HealthBar::type, HealthBarTypes, IM_ARRAYSIZE(HealthBarTypes));
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
@@ -473,13 +500,13 @@ void VisualsTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::Checkbox("Name", &Settings::ESP::Info::showName);
-				ImGui::Checkbox("Health", &Settings::ESP::Info::showHealth);
+				//ImGui::Checkbox("Name", &Settings::ESP::Info::showName);
+				//ImGui::Checkbox("Health", &Settings::ESP::Info::showHealth);
 			}
 			ImGui::NextColumn();
 			{
-				ImGui::Checkbox("Weapon", &Settings::ESP::Info::showWeapon);
-				ImGui::Checkbox("Colored", &Settings::ESP::Info::colorCode);
+				//ImGui::Checkbox("Weapon", &Settings::ESP::Info::showWeapon);
+				//ImGui::Checkbox("Colored", &Settings::ESP::Info::colorCode);
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -487,12 +514,12 @@ void VisualsTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::Checkbox("Dropped Weapon Names", &Settings::ESP::Weapons::enabled);
+				//ImGui::Checkbox("Dropped Weapon Names", &Settings::ESP::Weapons::enabled);
 				ImGui::Checkbox("Entity Glow", &Settings::ESP::Glow::enabled);
 			}
 			ImGui::NextColumn();
 			{
-				ImGui::Checkbox("Bomb ESP", &Settings::ESP::Bomb::enabled);
+				//ImGui::Checkbox("Bomb ESP", &Settings::ESP::Bomb::enabled);
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();

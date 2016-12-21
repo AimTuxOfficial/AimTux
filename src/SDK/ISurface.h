@@ -30,6 +30,12 @@ public:
 		getvfunc<oDrawSetColor>(this, 14)(this, r, g, b, a);
 	}
 
+	void DrawSetColor(Color color)
+	{
+		typedef void (* oDrawSetColor)(void*, int, int, int, int);
+		getvfunc<oDrawSetColor>(this, 14)(this, color.r, color.g, color.b, color.a);
+	}
+
 	void DrawFilledRect(int x0, int y0, int x1, int y1)
 	{
 		typedef void (* oDrawFilledRect)(void*, int, int, int, int);
@@ -64,6 +70,12 @@ public:
 	{
 		typedef void (* oDrawSetTextColor)(void*, int, int, int, int);
 		getvfunc<oDrawSetTextColor>(this, 24)(this, r, g, b, a);
+	}
+
+	void DrawSetTextColor(Color color)
+	{
+		typedef void (* oDrawSetTextColor)(void*, int, int, int, int);
+		getvfunc<oDrawSetTextColor>(this, 24)(this, color.r, color.g, color.b, color.a);
 	}
 
 	void DrawSetTextPos(int x, int y)
