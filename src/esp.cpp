@@ -241,7 +241,7 @@ Color GetHealthColor(int hp)
 void ESP::DrawPlayerHealthBar(C_BaseEntity* entity)
 {
 	int barOffset = 2;
-	int barWidth = 4;
+	int barWidth = 2;
 	int frameWidth = 1;
 	Color outline = Color(8, 8, 8, 92);
 
