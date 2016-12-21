@@ -600,8 +600,9 @@ void ESP::DrawPlantedBomb(C_BasePlantedC4* bomb)
 {
 	ImColor color = bomb->GetBombDefuser() != -1 || bomb->IsBombDefused() ? Settings::ESP::bomb_defusing_color : Settings::ESP::bomb_color;
 
+	float bombTimer = bomb->GetBombTime() - globalvars->curtime;
 	std::string displayText;
-	if (bomb->IsBombDefused() || !bomb->IsBombTicking() || bomb->GetBombTime() - globalvars->curtime <= 0.f)
+	if (bomb->IsBombDefused() || !bomb->IsBombTicking() || bombTimer <= 0.f)
 	{
 			displayText = "Bomb";
 	}
@@ -621,7 +622,7 @@ void ESP::DrawPlantedBomb(C_BasePlantedC4* bomb)
 		float damage = std::max((int)ceilf(GetArmourHealth(flDamage, localplayer->GetArmor())), 0);
 
 		char* buffer;
-		asprintf(&buffer, "Bomb: %.1f, damage: %d", bomb->GetBombTime() - globalvars->curtime, (int) damage);
+		asprintf(&buffer, "Bomb: %.1f, damage: %d", bombTimer, (int) damage);
 		displayText = std::string(buffer);
 	}
 
