@@ -196,6 +196,7 @@ void ColorsWindow()
 			"Dlights - Team",
 			"Dlights - Enemy",
 	};
+
 	ImColor* colors[] = {
 			&Settings::UI::mainColor,
 			&Settings::UI::bodyColor,
@@ -462,9 +463,11 @@ void TriggerbotTab()
 
 void VisualsTab()
 {
-	const char* WallTypes[] = { "Flat 2D", "Box 3D" };
+	const char* BoxTypes[] = { "Flat 2D", "Frame 2D" };
 	const char* TracerTypes[] = { "Bottom", "Cursor" };
-	const char* HealthBarTypes[] = { "Vertical", "Horizontal" };
+	const char* BarTypes[] = { "Vertical", "Horizontal Below", "Horizontal Above", "Interwebz" };
+	const char* BarColorTypes[] = { "Static", "Health Based" };
+	const char* TeamColorTypes[] = { "Absolute", "Relative" };
 	const char* ChamsTypes[] = { "Normal", "Flat" };
 	const char* ArmsTypes[] = { "Default", "Rainbow", "Wireframe", "None" };
 
@@ -475,38 +478,37 @@ void VisualsTab()
 	{
 		ImGui::BeginChild("ESP", ImVec2(0, 0), true);
 		{
-			ImGui::Text("Player ESP");
+			ImGui::Text("ESP Type");
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				//ImGui::Checkbox("Walls", &Settings::ESP::Walls::enabled);
-				//ImGui::Checkbox("Tracers", &Settings::ESP::Tracer::enabled);
-				//ImGui::Checkbox("Health Bar", &Settings::ESP::HealthBar::enabled);
-				//ImGui::Checkbox("Show Bones", &Settings::ESP::Bones::enabled);
-				//ImGui::Checkbox("Show Friendly", &Settings::ESP::friendly);
-				//ImGui::Checkbox("Visibility Check", &Settings::ESP::visibility_check);
+				ImGui::Checkbox("Outline Box", &Settings::ESP::Boxes::enabled);
+				ImGui::Checkbox("Health", &Settings::ESP::Bars::enabled);
+				ImGui::Checkbox("Tracers", &Settings::ESP::Tracers::enabled);
+				ImGui::Checkbox("Bullet Tracers", &Settings::ESP::BulletTracers::enabled);
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-					//ImGui::Combo("##WALLTYPE", &Settings::ESP::Walls::type, WallTypes, IM_ARRAYSIZE(WallTypes));
-					//ImGui::Combo("##TRACERTYPE", &Settings::ESP::Tracer::type, TracerTypes, IM_ARRAYSIZE(TracerTypes));
-					//ImGui::Combo("##HEALTHBARTYPE", &Settings::ESP::HealthBar::type, HealthBarTypes, IM_ARRAYSIZE(HealthBarTypes));
+					ImGui::Combo("##BOXTYPE", &Settings::ESP::Boxes::type, BoxTypes, IM_ARRAYSIZE(BoxTypes));
+					ImGui::Combo("##BARTYPE", &Settings::ESP::Bars::type, BarTypes, IM_ARRAYSIZE(BarTypes));
+					ImGui::Combo("##TRACERTYPE", &Settings::ESP::Tracers::type, TracerTypes, IM_ARRAYSIZE(TracerTypes));
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
-			ImGui::Text("Player Information");
+			ImGui::Text("ESP Filter");
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				//ImGui::Checkbox("Name", &Settings::ESP::Info::showName);
-				//ImGui::Checkbox("Health", &Settings::ESP::Info::showHealth);
+				ImGui::Checkbox("Enemies", &Settings::ESP::Filters::enemies);
+				ImGui::Checkbox("Chickens", &Settings::ESP::Filters::chickens);
+				ImGui::Checkbox("Legit Mode", &Settings::ESP::Filters::legit);
 			}
 			ImGui::NextColumn();
 			{
-				//ImGui::Checkbox("Weapon", &Settings::ESP::Info::showWeapon);
-				//ImGui::Checkbox("Colored", &Settings::ESP::Info::colorCode);
+				ImGui::Checkbox("Friendlies", &Settings::ESP::Filters::allies);
+				ImGui::Checkbox("Fish", &Settings::ESP::Filters::fishes);
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -514,12 +516,15 @@ void VisualsTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				//ImGui::Checkbox("Dropped Weapon Names", &Settings::ESP::Weapons::enabled);
+				ImGui::Checkbox("Weapons", &Settings::ESP::Filters::weapons);
+				ImGui::Checkbox("Throwables", &Settings::ESP::Filters::throwables);
 				ImGui::Checkbox("Entity Glow", &Settings::ESP::Glow::enabled);
 			}
 			ImGui::NextColumn();
 			{
-				//ImGui::Checkbox("Bomb ESP", &Settings::ESP::Bomb::enabled);
+				ImGui::Checkbox("Bomb", &Settings::ESP::Filters::bomb);
+				ImGui::Checkbox("Defuse Kits", &Settings::ESP::Filters::defusers);
+				ImGui::Checkbox("Hostages", &Settings::ESP::Filters::hostages);
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -531,6 +536,31 @@ void VisualsTab()
 	{
 		ImGui::BeginChild("Chams", ImVec2(0, 0), true);
 		{
+			ImGui::Text("Player Information");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Checkbox("Clan", &Settings::ESP::Info::clan);
+				ImGui::Checkbox("Rank", &Settings::ESP::Info::rank);
+				ImGui::Checkbox("Health", &Settings::ESP::Info::health);
+				ImGui::Checkbox("Scoped", &Settings::ESP::Info::scoped);
+				ImGui::Checkbox("Flashed", &Settings::ESP::Info::flashed);
+				ImGui::Checkbox("Defuse Kit", &Settings::ESP::Info::has_defuser);
+				ImGui::Checkbox("Grabbing Hostage", &Settings::ESP::Info::grabbing_hostage);
+				ImGui::Checkbox("Location", &Settings::ESP::Info::location);
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::Checkbox("Name", &Settings::ESP::Info::name);
+				ImGui::Checkbox("Steam ID", &Settings::ESP::Info::steam_id);
+				ImGui::Checkbox("Weapoon", &Settings::ESP::Info::weapon);
+				ImGui::Checkbox("Reloading", &Settings::ESP::Info::reloading);
+				ImGui::Checkbox("Planting", &Settings::ESP::Info::planting);
+				ImGui::Checkbox("Defusing", &Settings::ESP::Info::defusing);
+				ImGui::Checkbox("Rescuing Hostage", &Settings::ESP::Info::rescuing);
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
 			ImGui::Text("Chams");
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);

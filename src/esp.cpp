@@ -34,7 +34,6 @@ ImColor Settings::ESP::Glow::weapon_color = ImColor(200, 0, 50, 200);
 ImColor Settings::ESP::Glow::grenade_color = ImColor(200, 0, 50, 200);
 ImColor Settings::ESP::Glow::defuser_color = ImColor(100, 100, 200, 200);
 bool Settings::ESP::Filters::legit = false;
-bool Settings::ESP::Filters::visibility_check = true;
 bool Settings::ESP::Filters::enemies = true;
 bool Settings::ESP::Filters::allies = true;
 bool Settings::ESP::Filters::bomb = true;
@@ -171,7 +170,7 @@ bool ESP::GetBox(C_BaseEntity *entity, int &x, int &y, int &w, int &h)
 	y = (int) top;
 	w = (int) (right - left);
 	h = (int) (bottom - top);
-	
+
 	return true;
 }
 
@@ -341,16 +340,14 @@ void ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_info
 
 
 	bool bIsVisible = Entity::IsVisible(player, BONE_HEAD);
-	if (Settings::ESP::Filters::visibility_check || Settings::ESP::Filters::legit)
-	{
+	if (Settings::ESP::Filters::legit)
 		if (!bIsVisible && Settings::ESP::Filters::legit)
 			return;
-	}
 
 	ImColor playerColor = GetESPPlayerColor(player, bIsVisible);
 
 	static Vector2D textSize = Draw::GetTextSize("Hi", esp_font);
-	
+
 	int x, y, w, h;
 	if (!GetBox(player, x, y, w, h))
 		return;
