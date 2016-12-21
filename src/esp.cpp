@@ -601,7 +601,7 @@ void ESP::DrawPlantedBomb(C_BasePlantedC4* bomb)
 	ImColor color = bomb->GetBombDefuser() != -1 || bomb->IsBombDefused() ? Settings::ESP::bomb_defusing_color : Settings::ESP::bomb_color;
 
 	std::string displayText;
-	if (bomb->IsBombDefused() || !bomb->IsBombTicking())
+	if (bomb->IsBombDefused() || !bomb->IsBombTicking() || bomb->GetBombTime() - globalvars->curtime <= 0.f)
 	{
 			displayText = "Bomb";
 	}
@@ -610,13 +610,13 @@ void ESP::DrawPlantedBomb(C_BasePlantedC4* bomb)
 		C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 		Vector vecOrigin = bomb->GetVecOrigin();
 
-		float flDistance = sqrt(localplayer->GetEyePosition().DistToSqr(vecOrigin));
+		float flDistance = sqrtf(localplayer->GetEyePosition().DistToSqr(vecOrigin));
 
 		float a = 450.7f;
 		float b = 75.68f;
 		float c = 789.2f;
 		float d = ((flDistance - b) / c);
-		float flDamage = a*exp(-d * d);
+		float flDamage = a*expf(-d * d);
 
 		float damage = std::max((int)ceilf(GetArmourHealth(flDamage, localplayer->GetArmor())), 0);
 
