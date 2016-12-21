@@ -745,9 +745,9 @@ void MiscTab()
 			}
 			ImGui::NextColumn();
 			{
-				ImGui::Checkbox("Team Chat Only", &Settings::Spammer::PositionSpammer::say_team);
-				ImGui::Checkbox("Team Chat Only", &Settings::Spammer::KillSpammer::say_team);
-				ImGui::Checkbox("Team Chat Only", &Settings::Spammer::NormalSpammer::say_team);
+				ImGui::Checkbox("Team Chat Only###SAY_TEAM1", &Settings::Spammer::PositionSpammer::say_team);
+				ImGui::Checkbox("Team Chat Only###SAY_TEAM2", &Settings::Spammer::KillSpammer::say_team);
+				ImGui::Checkbox("Team Chat Only###SAY_TEAM3", &Settings::Spammer::NormalSpammer::say_team);
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
