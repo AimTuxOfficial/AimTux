@@ -509,7 +509,7 @@ void VisualsTab()
 			{
 				ImGui::Checkbox("Friendlies", &Settings::ESP::Filters::allies);
 				ImGui::Checkbox("Fish", &Settings::ESP::Filters::fishes);
-				ImGui::Checkbox("Visiblity Check", &Settings::ESP::Filters::visibility_check);
+				ImGui::Checkbox("Visiblity Check###VISIBILITY_CHECK_ESP", &Settings::ESP::Filters::visibility_check);
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -569,7 +569,7 @@ void VisualsTab()
 				ImGui::Checkbox("Players", &Settings::ESP::Chams::players);
 				ImGui::Checkbox("Arms", &Settings::ESP::Chams::Arms::enabled);
 				ImGui::PushID(1);
-					ImGui::Checkbox("Visibility Check", &Settings::ESP::Chams::visibility_check);
+					ImGui::Checkbox("Visibility Check###VISIBILITY_CHECK_CHAMS", &Settings::ESP::Chams::visibility_check);
 				ImGui::PopID();
 			}
 			ImGui::NextColumn();

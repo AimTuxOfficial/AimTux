@@ -188,7 +188,6 @@ ImColor ESP::GetESPPlayerColor(C_BaseEntity* player, bool visible)
 	{
 		if (Settings::ESP::team_color_type == TeamColorType::RELATIVE)
 			playerColor = player->GetTeam() != localplayer->GetTeam() ? Settings::ESP::enemy_visible_color : Settings::ESP::ally_visible_color;
-
 		else if (Settings::ESP::team_color_type == TeamColorType::ABSOLUTE)
 		{
 			if (player->GetTeam() == TEAM_TERRORIST)
@@ -196,7 +195,6 @@ ImColor ESP::GetESPPlayerColor(C_BaseEntity* player, bool visible)
 
 			else if (player->GetTeam() == TEAM_COUNTER_TERRORIST)
 				playerColor = Settings::ESP::ct_visible_color;
-
 		}
 	}
 	// check for visibility check
@@ -340,10 +338,13 @@ void ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_info
 	if (player->GetTeam() == localplayer->GetTeam() && !Settings::ESP::Filters::allies)
 		return;
 
-	bool bIsVisible = Entity::IsVisible(player, BONE_HEAD);
+	bool bIsVisible = false;
 	if (Settings::ESP::Filters::visibility_check || Settings::ESP::Filters::legit)
+	{
+		bIsVisible = Entity::IsVisible(player, BONE_HEAD);
 		if (!bIsVisible && Settings::ESP::Filters::legit)
 			return;
+	}
 
 	ImColor playerColor = GetESPPlayerColor(player, bIsVisible);
 
