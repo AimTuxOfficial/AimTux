@@ -94,7 +94,29 @@ const char* Ranks[] = {
 		"The Global Elite"
 };
 
-bool ::ESP::GetBox(C_BaseEntity *entity, int &x, int &y, int &w, int &h)
+// credits to Casual_Hacker from UC for this method (I modified it a lil bit)
+float GetArmourHealth(float flDamage, int ArmorValue)
+{
+	float flCurDamage = flDamage;
+
+	if (flCurDamage == 0.0f || ArmorValue == 0)
+		return flCurDamage;
+
+	float flArmorRatio = 0.5f;
+	float flArmorBonus = 0.5f;
+	float flNew = flCurDamage * flArmorRatio;
+	float flArmor = (flCurDamage - flNew) * flArmorBonus;
+
+	if (flArmor > ArmorValue)
+	{
+		flArmor = ArmorValue * (1.0f / flArmorBonus);
+		flNew = flCurDamage - flArmor;
+	}
+
+	return flNew;
+}
+
+bool ESP::GetBox(C_BaseEntity *entity, int &x, int &y, int &w, int &h)
 {
 	// Variables
 	Vector vOrigin, min, max, flb, brt, blb, frt, frb, brb, blt, flt;
@@ -208,7 +230,7 @@ ImColor ESP::GetESPPlayerColor(C_BaseEntity* player, bool visible)
 	return playerColor;
 }
 
-void ::ESP::DrawBox(Color color, int x, int y, int w, int h)
+void ESP::DrawBox(Color color, int x, int y, int w, int h)
 {
 	if (Settings::ESP::Boxes::type == BoxType::FRAME_2D)
 	{
@@ -294,7 +316,7 @@ void ::ESP::DrawBox(Color color, int x, int y, int w, int h)
 	}
 }
 
-void ::ESP::DrawEntity(C_BaseEntity* entity, const char* string, Color color)
+void ESP::DrawEntity(C_BaseEntity* entity, const char* string, Color color)
 {
 	int x, y, w, h;
 	if (GetBox(entity, x, y, w, h))
@@ -306,7 +328,7 @@ void ::ESP::DrawEntity(C_BaseEntity* entity, const char* string, Color color)
 	}
 }
 
-void ::ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_info_t player_info)
+void ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_info_t player_info)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
@@ -565,7 +587,7 @@ void ::ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_in
 		DrawTracer(player);
 }
 
-void ::ESP::DrawBomb(C_BaseCombatWeapon* bomb)
+void ESP::DrawBomb(C_BaseCombatWeapon* bomb)
 {
 	Vector vOrig = bomb->GetVecOrigin();
 	int owner = bomb->GetOwner();
@@ -574,7 +596,7 @@ void ::ESP::DrawBomb(C_BaseCombatWeapon* bomb)
 		DrawEntity(bomb, "Bomb", Color::FromImColor(Settings::ESP::bomb_color));
 }
 
-void ::ESP::DrawPlantedBomb(C_BasePlantedC4* bomb)
+void ESP::DrawPlantedBomb(C_BasePlantedC4* bomb)
 {
 	ImColor color = bomb->GetBombDefuser() != -1 || bomb->IsBombDefused() ? Settings::ESP::bomb_defusing_color : Settings::ESP::bomb_color;
 
@@ -585,20 +607,33 @@ void ::ESP::DrawPlantedBomb(C_BasePlantedC4* bomb)
 	}
 	else
 	{
+		C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+		Vector vecOrigin = bomb->GetVecOrigin();
+
+		float flDistance = sqrt(localplayer->GetEyePosition().DistToSqr(vecOrigin));
+
+		float a = 450.7f;
+		float b = 75.68f;
+		float c = 789.2f;
+		float d = ((flDistance - b) / c);
+		float flDamage = a*exp(-d * d);
+
+		float damage = std::max((int)ceilf(GetArmourHealth(flDamage, localplayer->GetArmor())), 0);
+
 		char* buffer;
-		asprintf(&buffer, "Bomb: %.1f", bomb->GetBombTime() - globalvars->curtime);
+		asprintf(&buffer, "Bomb: %.1f, damage: %d", bomb->GetBombTime() - globalvars->curtime, (int) damage);
 		displayText = std::string(buffer);
 	}
 
 	DrawEntity(bomb, displayText.c_str(), Color::FromImColor(color));
 }
 
-void ::ESP::DrawDefuseKit(C_BaseEntity* defuser)
+void ESP::DrawDefuseKit(C_BaseEntity* defuser)
 {
 	DrawEntity(defuser, "Defuser", Color::FromImColor(Settings::ESP::defuser_color));
 }
 
-void ::ESP::DrawDroppedWeapons(C_BaseCombatWeapon* weapon)
+void ESP::DrawDroppedWeapons(C_BaseCombatWeapon* weapon)
 {
 	Vector vOrig = weapon->GetVecOrigin();
 	int owner = weapon->GetOwner();
@@ -625,22 +660,22 @@ void ::ESP::DrawDroppedWeapons(C_BaseCombatWeapon* weapon)
 	DrawEntity(weapon, modelName.c_str(), Color::FromImColor(Settings::ESP::weapon_color));
 }
 
-void ::ESP::DrawHostage(C_BaseEntity* hostage)
+void ESP::DrawHostage(C_BaseEntity* hostage)
 {
 	DrawEntity(hostage, "Hostage", Color::FromImColor(Settings::ESP::hostage_color));
 }
 
-void ::ESP::DrawChicken(C_BaseEntity* chicken)
+void ESP::DrawChicken(C_BaseEntity* chicken)
 {
 	DrawEntity(chicken, "Chicken", Color::FromImColor(Settings::ESP::chicken_color));
 }
 
-void ::ESP::DrawFish(C_BaseEntity* fish)
+void ESP::DrawFish(C_BaseEntity* fish)
 {
 	DrawEntity(fish, "Fish", Color::FromImColor(Settings::ESP::fish_color));
 }
 
-void ::ESP::DrawThrowable(C_BaseEntity* throwable, ClientClass* client)
+void ESP::DrawThrowable(C_BaseEntity* throwable, ClientClass* client)
 {
 	model_t* nadeModel = throwable->GetModel();
 
@@ -692,7 +727,7 @@ void ::ESP::DrawThrowable(C_BaseEntity* throwable, ClientClass* client)
 	DrawEntity(throwable, nadeName.c_str(), Color::FromImColor(nadeColor));
 }
 
-void ::ESP::DrawSkeleton(C_BaseEntity* player)
+void ESP::DrawSkeleton(C_BaseEntity* player)
 {
 	studiohdr_t* pStudioModel = modelInfo->GetStudioModel(player->GetModel());
 	if (!pStudioModel)
@@ -720,7 +755,7 @@ void ::ESP::DrawSkeleton(C_BaseEntity* player)
 	}
 }
 
-void ::ESP::DrawBulletTrace(C_BaseEntity* player)
+void ESP::DrawBulletTrace(C_BaseEntity* player)
 {
 	Vector src3D, dst3D, forward, src, dst;
 	trace_t tr;
@@ -743,7 +778,7 @@ void ::ESP::DrawBulletTrace(C_BaseEntity* player)
 	Draw::FilledRectangle((int)(dst.x - 3), (int)(dst.y - 3), 6, 6, Color::FromImColor(GetESPPlayerColor(player, false)));
 }
 
-void ::ESP::DrawTracer(C_BaseEntity* entity)
+void ESP::DrawTracer(C_BaseEntity* entity)
 {
 	Vector src3D, src;
 	src3D = entity->GetVecOrigin() - Vector(0, 0, 0);
