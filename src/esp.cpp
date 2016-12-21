@@ -350,6 +350,11 @@ void ::ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_in
 		int Red = (int)(255 - HealthValue * 2.55);
 		int Green = (int)(HealthValue * 2.55);
 
+		int barx = x;
+		int bary = y;
+		int barw = w;
+		int barh = h;
+
 		if (Settings::ESP::Bars::color_type == BarColorType::HEALTH_BASED)
 		{
 			barColor = ImColor(Red, Green, 0, 255);
@@ -361,10 +366,6 @@ void ::ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_in
 
 		if (Settings::ESP::Bars::type == BarType::VERTICAL)
 		{
-			int barx = 0;
-			int bary = 0;
-			int barw = 0;
-			int barh = 0;
 			barw = 4; // outline(1px) + bar(2px) + outline(1px) = 6px;
 			barx -= barw + boxSpacing; // spacing(1px) + outline(1px) + bar(2px) + outline (1px) = 8 px
 
@@ -378,10 +379,6 @@ void ::ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_in
 		}
 		else if (Settings::ESP::Bars::type == BarType::HORIZONTAL)
 		{
-			int barx = 0;
-			int bary = 0;
-			int barw = 0;
-			int barh = 0;
 			bary += barh + boxSpacing; // player box(?px) + spacing(1px) + outline(1px) + bar(2px) + outline (1px) = 5 px
 			barh = 4; // outline(1px) + bar(2px) + outline(1px) = 4px;
 
@@ -391,16 +388,12 @@ void ::ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_in
 			if (HealthPerc > 0)
 			{
 				barw *= HealthPerc;
-				Draw::FilledRectangle(barx + 1, bary + 1, barw - 2, barh - 2, Color::FromImColor(barColor));
+				Draw::Rectangle(barx + 1, bary + 1, barw - 2, barh - 2, Color::FromImColor(barColor));
 			}
 			barsSpacing.y += barh;
 		}
 		else if (Settings::ESP::Bars::type == BarType::HORIZONTAL_UP)
 		{
-			int barx = 0;
-			int bary = 0;
-			int barw = 0;
-			int barh = 0;
 			barh = 4; // outline(1px) + bar(2px) + outline(1px) = 4px;
 			bary -= barh + boxSpacing; // spacing(1px) + outline(1px) + bar(2px) + outline (1px) = 5 px
 
@@ -417,10 +410,6 @@ void ::ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_in
 		else if (Settings::ESP::Bars::type == BarType::INTERWEBZ)
 		{
 			// pasted from ayyware and broken ( bg is 1px off to the left ) idc
-			int barx = 0;
-			int bary = 0;
-			int barw = 0;
-			int barh = 0;
 			bary += barh + boxSpacing;
 			barh = 4;
 
