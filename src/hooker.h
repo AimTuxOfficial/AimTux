@@ -30,6 +30,9 @@
 #define GETSDLMGR_SIGNATURE "\x55\x48\x89\xE5\x53\x48\x83\xEC\x18"
 #define GETSDLMGR_MASK "xxxxxxxxx"
 
+#define PLAYERRESOURCES_SIGNATURE "\x48\x8B\x05\x00\x00\x00\x00\x55\x48\x89\xE5\x48\x85\xC0\x74\x10\x48"
+#define PLAYERRESOURCES_MASK "xxx????xxxxxxxxxx"
+
 #include <unordered_map>
 #include <sys/mman.h>
 #include <link.h>

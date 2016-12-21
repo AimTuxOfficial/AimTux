@@ -1223,11 +1223,12 @@ void PlayerListWindow()
 	if (ImGui::Begin("Player list", &showPlayerListWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
 	{
 		static int currentPlayer = -1;
-		if (!engine->IsInGame())
+
+		if (!engine->IsInGame() || (*csPlayerResource && !(*csPlayerResource)->GetConnected(currentPlayer)))
 			currentPlayer = -1;
 
 		ImGui::ListBoxHeader("##PLAYERS", ImVec2(-1, (ImGui::GetWindowSize().y - 95)));
-		if (engine->IsInGame() && playerResource != nullptr)
+		if (engine->IsInGame() && *csPlayerResource)
 		{
 			ImGui::Columns(4);
 
@@ -1255,10 +1256,10 @@ void PlayerListWindow()
 				if (i == engine->GetLocalPlayer())
 					continue;
 
-				if (!playerResource->GetConnected(i))
+				if (!(*csPlayerResource)->GetConnected(i))
 					continue;
 
-				players[playerResource->GetTeam(i)].push_back(i);
+				players[(*csPlayerResource)->GetTeam(i)].push_back(i);
 			}
 
 			for (int team = TEAM_UNASSIGNED; team <= TEAM_COUNTER_TERRORIST ; team++)
@@ -1300,7 +1301,7 @@ void PlayerListWindow()
 					ImGui::Text("%s", teamName);
 					ImGui::NextColumn();
 
-					ImGui::Text("%s", playerResource->GetClan(it));
+					ImGui::Text("%s", (*csPlayerResource)->GetClan(it));
 					ImGui::NextColumn();
 				}
 			}
@@ -1340,7 +1341,7 @@ void PlayerListWindow()
 					NameChanger::SetName(Util::PadStringRight(name, name.length() + 1));
 				}
 
-				const char* clanTag = playerResource->GetClan(currentPlayer);
+				const char* clanTag = (*csPlayerResource)->GetClan(currentPlayer);
 				if (strlen(clanTag) > 0 && ImGui::Button("Steal clan tag"))
 				{
 					Settings::ClanTagChanger::enabled = true;

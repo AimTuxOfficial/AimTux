@@ -2,8 +2,6 @@
 
 void Hooks::BeginFrame(void* thisptr, float frameTime)
 {
-	Hooker::HookPlayerResource();
-
 	ESP::BeginFrame(frameTime);
 	Radar::BeginFrame(frameTime);
 	ClanTagChanger::BeginFrame(frameTime);

@@ -364,6 +364,7 @@ namespace Settings
 		{
 			extern bool enabled;
 			extern bool say_team;
+			extern std::vector<std::string> messages;
 		}
 	}
 
