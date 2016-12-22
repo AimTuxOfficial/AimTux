@@ -19,6 +19,7 @@ typedef void (*OnScreenSizeChangedFn) (void*, int, int);
 typedef void (*PlaySoundFn) (void*, const char*);
 typedef void (*BeginFrameFn) (void*, float);
 typedef int (*PumpWindowsMessageLoopFn) (void*, void*);
+typedef void (*PaintFn) (void*, PaintMode_t);
 
 namespace Hooks
 {
@@ -35,6 +36,7 @@ namespace Hooks
 	void PlaySound(void* thisptr, const char* filename);
 	void BeginFrame(void* thisptr, float frameTime);
 	int PumpWindowsMessageLoop(void* thisptr, void* unknown);
+	void Paint(void* thisptr, PaintMode_t mode);
 }
 
 namespace CreateMove
