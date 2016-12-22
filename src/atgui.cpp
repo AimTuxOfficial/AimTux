@@ -902,10 +902,14 @@ void MiscTab()
 			ImGui::Text("Movement");
 			ImGui::Separator();
 			ImGui::Checkbox("Bunny Hop", &Settings::BHop::enabled);
+			if (ImGui::IsItemHovered())
+				ImGui::SetTooltip("Auto bunny hop");
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
 					ImGui::Checkbox("Auto Strafe", &Settings::AutoStrafe::enabled);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Auto strafe when bunny hopping");
 			}
 			ImGui::NextColumn();
 			{
@@ -920,14 +924,26 @@ void MiscTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("Position", &Settings::Spammer::PositionSpammer::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Shows enemy position in chat");
 				ImGui::Checkbox("Kill", &Settings::Spammer::KillSpammer::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Spams a kill message when killing an enemy");
 				ImGui::Checkbox("Chat", &Settings::Spammer::NormalSpammer::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Spams chat with random messages");
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::Checkbox("Team Chat Only###SAY_TEAM1", &Settings::Spammer::PositionSpammer::say_team);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Only show position in team chat");
 				ImGui::Checkbox("Team Chat Only###SAY_TEAM2", &Settings::Spammer::KillSpammer::say_team);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Only show kill message in team chat");
 				ImGui::Checkbox("Team Chat Only###SAY_TEAM3", &Settings::Spammer::NormalSpammer::say_team);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Only spam messages in team chat");
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -936,7 +952,11 @@ void MiscTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("FOV", &Settings::FOVChanger::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Change camera FOV");
 				ImGui::Checkbox("Viewmodel FOV", &Settings::FOVChanger::viewmodel_enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Change viewmodel FOV");
 			}
 			ImGui::NextColumn();
 			{
@@ -957,6 +977,8 @@ void MiscTab()
 			ImGui::Text("Clantag");
 			ImGui::Separator();
 			ImGui::Checkbox("Enabled", &Settings::ClanTagChanger::enabled);
+			if (ImGui::IsItemHovered())
+				ImGui::SetTooltip("Display a custom clantag");
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
@@ -1005,10 +1027,18 @@ void MiscTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("Fake Lag", &Settings::FakeLag::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Chokes packets so it appears your lagging");
 				ImGui::Checkbox("Auto Accept", &Settings::AutoAccept::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Auto accept games when in MM queue");
 				ImGui::Checkbox("AirStuck", &Settings::Airstuck::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Stops tickrate so you freeze in place");
 #ifdef UNTRUSTED_SETTINGS
 				ImGui::Checkbox("Teleport", &Settings::Teleport::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Teleport to 0,0,0 on any map");
 #endif
 			}
 			ImGui::NextColumn();
