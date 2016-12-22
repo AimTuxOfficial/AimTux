@@ -41,6 +41,7 @@ extern VMT* material_vmt;
 extern VMT* surface_vmt;
 extern VMT* launchermgr_vmt;
 extern VMT* enginevgui_vmt;
+extern VMT* sound_vmt;
 
 extern int* nPredictionRandomSeed;
 extern bool* bSendPacket;

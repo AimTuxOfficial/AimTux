@@ -39,6 +39,7 @@ VMT* material_vmt = nullptr;
 VMT* surface_vmt = nullptr;
 VMT* launchermgr_vmt = nullptr;
 VMT* enginevgui_vmt = nullptr;
+VMT* sound_vmt = nullptr;
 
 bool* bSendPacket = nullptr;
 int* nPredictionRandomSeed = nullptr;
@@ -117,6 +118,7 @@ void Hooker::HookVMethods()
 	surface_vmt = new VMT(surface);
 	launchermgr_vmt = new VMT(launchermgr);
 	enginevgui_vmt = new VMT(enginevgui);
+	sound_vmt = new VMT(sound);
 }
 
 void Hooker::HookIClientMode()

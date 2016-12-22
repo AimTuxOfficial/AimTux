@@ -64,6 +64,9 @@ int __attribute__((constructor)) aimtux_init()
 	enginevgui_vmt->HookVM((void*) Hooks::Paint, 15);
 	enginevgui_vmt->ApplyVMT();
 
+	sound_vmt->HookVM((void*) Hooks::EmitSound, 5);
+	sound_vmt->ApplyVMT();
+
 	SkinChanger::HookCBaseViewModel();
 
 	NetVarManager::dumpNetvars();
@@ -94,6 +97,7 @@ void __attribute__((destructor)) aimtux_shutdown()
 	surface_vmt->ReleaseVMT();
 	launchermgr_vmt->ReleaseVMT();
 	enginevgui_vmt->ReleaseVMT();
+	sound_vmt->ReleaseVMT();
 
 	SkinChanger::UnhookCBaseViewModel();
 

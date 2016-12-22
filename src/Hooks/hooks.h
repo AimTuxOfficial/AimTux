@@ -20,6 +20,7 @@ typedef void (*PlaySoundFn) (void*, const char*);
 typedef void (*BeginFrameFn) (void*, float);
 typedef int (*PumpWindowsMessageLoopFn) (void*, void*);
 typedef void (*PaintFn) (void*, PaintMode_t);
+typedef void (*EmitSoundFn) (void*, IRecipientFilter&, int, int, const char*, unsigned int, const char*, float, float, int, int, int, const Vector*, const Vector*, void*, bool, float, int);
 
 namespace Hooks
 {
@@ -37,6 +38,7 @@ namespace Hooks
 	void BeginFrame(void* thisptr, float frameTime);
 	int PumpWindowsMessageLoop(void* thisptr, void* unknown);
 	void Paint(void* thisptr, PaintMode_t mode);
+	void EmitSound(void* thisptr, IRecipientFilter& filter, int iEntIndex, int iChannel, const char* pSoundEntry, unsigned int nSoundEntryHash, const char *pSample, float flVolume, float flAttenuation, int nSeed, int iFlags, int iPitch, const Vector* pOrigin, const Vector* pDirection, void* pUtlVecOrigins, bool bUpdatePositions, float soundtime, int speakerentity);
 }
 
 namespace CreateMove

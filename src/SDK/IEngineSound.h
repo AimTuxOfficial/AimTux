@@ -26,6 +26,8 @@ struct SndInfo_t
 	bool m_bFromServer;
 };
 
+class IRecipientFilter;
+
 class IEngineSound
 {
 public:
