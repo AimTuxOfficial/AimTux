@@ -366,11 +366,12 @@ void ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_info
 	{
 		ImColor barColor;
 
-		float HealthValue = player->GetHealth();
+		// clamp it to 100
+		float HealthValue = std::max(0, std::min(player->GetHealth(), 100));
 		float HealthPerc = HealthValue / 100.f;
 
-		int Red = (int)(255 - HealthValue * 2.55);
-		int Green = (int)(HealthValue * 2.55);
+		int Red = std::min((int)((510 * (100-HealthValue)) / 100), 255);
+		int Green = std::min((int)((510 * HealthValue) / 100), 255);
 
 		int barx = x;
 		int bary = y;
