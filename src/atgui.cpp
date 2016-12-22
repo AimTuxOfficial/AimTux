@@ -1470,7 +1470,7 @@ void PlayerListWindow()
 		ImGui::ListBoxHeader("##PLAYERS", ImVec2(-1, (ImGui::GetWindowSize().y - 95)));
 		if (engine->IsInGame() && *csPlayerResource)
 		{
-			ImGui::Columns(4);
+			ImGui::Columns(6);
 
 			ImGui::Text("ID");
 			ImGui::NextColumn();
@@ -1482,6 +1482,12 @@ void PlayerListWindow()
 			ImGui::NextColumn();
 
 			ImGui::Text("Clan tag");
+			ImGui::NextColumn();
+
+			ImGui::Text("Rank");
+			ImGui::NextColumn();
+
+			ImGui::Text("Wins");
 			ImGui::NextColumn();
 
 			std::unordered_map<int, std::vector<int>> players = {
@@ -1542,6 +1548,12 @@ void PlayerListWindow()
 					ImGui::NextColumn();
 
 					ImGui::Text("%s", (*csPlayerResource)->GetClan(it));
+					ImGui::NextColumn();
+
+					ImGui::Text("%s", ESP::Ranks[*(*csPlayerResource)->GetCompetitiveRanking(it)]);
+					ImGui::NextColumn();
+
+					ImGui::Text("%d", *(*csPlayerResource)->GetCompetitiveWins(it));
 					ImGui::NextColumn();
 				}
 			}
