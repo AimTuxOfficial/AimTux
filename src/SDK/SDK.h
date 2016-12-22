@@ -37,3 +37,4 @@
 #include "ILauncherMgr.h"
 #include "CPlayerResource.h"
 #include "IEngineVGui.h"
+#include "IEngineSound.h"

@@ -398,6 +398,11 @@ namespace Settings
 				extern int type;
 			}
 		}
+
+		namespace Sounds
+		{
+			extern bool enabled;
+		}
 	}
 
 	namespace Dlights
