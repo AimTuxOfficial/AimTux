@@ -10,7 +10,6 @@ bool showSkinChangerWindow = false;
 bool showConfigWindow = false;
 bool showColorsWindow = false;
 bool showPlayerListWindow = false;
-bool showPlayerInfoWindow = false;
 
 #define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))
 
@@ -459,18 +458,6 @@ void TriggerbotTab()
 			ImGui::Separator();
 			ImGui::EndChild();
 		}
-	}
-}
-
-void PlayerInformationPopup()
-{
-	if (!showPlayerInfoWindow)
-		return;
-
-	ImGui::SetNextWindowSize(ImVec2(400, 258), ImGuiSetCond_Always);
-	if (ImGui::Begin("Player Information", &showPlayerInfoWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoResize))
-	{
-
 	}
 }
 
@@ -1476,7 +1463,6 @@ void UI::SetupWindows()
 		ConfigWindow();
 		ColorsWindow();
 		PlayerListWindow();
-		PlayerInformationPopup();
 	}
 
 	SpectatorsWindow();
