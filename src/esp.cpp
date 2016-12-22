@@ -310,11 +310,11 @@ void ESP::DrawBox(Color color, int x, int y, int w, int h)
 	else if (Settings::ESP::Boxes::type == BoxType::FLAT_2D)
 	{
 		// color
-		Draw::Rectangle(x, y, w, h, color);
+		Draw::Rectangle(x, y, x + w, y + h, color);
 		// outer outline
-		Draw::Rectangle(x + 1, y + 1, w - 2, h - 2, Color(10, 10, 10, 190));
+		Draw::Rectangle(x + 1, y + 1, x + w - 2, y + h - 2, Color(10, 10, 10, 190));
 		// inner outline
-		Draw::Rectangle(x - 1, y - 1, w + 2, h + 2, Color(10, 10, 10, 190));
+		Draw::Rectangle(x - 1, y - 1, x + w + 2, y + h + 2, Color(10, 10, 10, 190));
 	}
 }
 
