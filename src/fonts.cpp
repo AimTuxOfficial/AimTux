@@ -3,8 +3,8 @@
 FONT esp_font = 0;
 
 char* Settings::UI::Fonts::ESP::family = (char *) "Andale Mono";
-int Settings::UI::Fonts::ESP::size = 20;
-int Settings::UI::Fonts::ESP::flags = FONTFLAG_OUTLINE | FONTFLAG_ANTIALIAS;
+int Settings::UI::Fonts::ESP::size = 12;
+int Settings::UI::Fonts::ESP::flags = FONTFLAG_DROPSHADOW;
 
 void Fonts::SetupFonts()
 {

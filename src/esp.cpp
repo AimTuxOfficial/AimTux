@@ -3,54 +3,99 @@
 #include "settings.h"
 #include "skins.h"
 
-bool Settings::ESP::enabled	= true;
-ImColor Settings::ESP::ally_color = ImColor(0, 50, 200, 255);
-ImColor Settings::ESP::enemy_color = ImColor(200, 0, 50, 255);
-ImColor Settings::ESP::enemy_visible_color = ImColor(200, 200, 50, 255);
-ImColor Settings::ESP::bones_color = ImColor(255, 255, 255, 255);
-ImColor Settings::ESP::bomb_color = ImColor(200, 0, 50, 255);
+bool Settings::ESP::enabled = true;
+int Settings::ESP::team_color_type = TeamColorType::RELATIVE;
+ImColor Settings::ESP::enemy_color = ImColor(240, 60, 60, 255);
+ImColor Settings::ESP::enemy_visible_color = ImColor(240, 185, 60, 255);
+ImColor Settings::ESP::ally_color = ImColor(60, 60, 240, 255);
+ImColor Settings::ESP::ally_visible_color = ImColor(60, 185, 240, 255);
+ImColor Settings::ESP::t_color = ImColor(240, 60, 60, 255);
+ImColor Settings::ESP::t_visible_color = ImColor(240, 185, 60, 255);
+ImColor Settings::ESP::ct_color = ImColor(60, 60, 240, 255);
+ImColor Settings::ESP::ct_visible_color = ImColor(60, 185, 240, 255);
+ImColor Settings::ESP::bomb_color = ImColor(242, 48, 193, 255);
+ImColor Settings::ESP::bomb_defusing_color = ImColor(100, 48, 242, 255);
+ImColor Settings::ESP::hostage_color = ImColor(242, 48, 193, 255);
+ImColor Settings::ESP::defuser_color = ImColor(132, 48, 242, 255);
+ImColor Settings::ESP::weapon_color = ImColor(255, 255, 255, 255);
+ImColor Settings::ESP::chicken_color = ImColor(255, 255, 255, 255);
+ImColor Settings::ESP::fish_color = ImColor(255, 255, 255, 255);
+ImColor Settings::ESP::smoke_color = ImColor(32, 224, 22, 255);
+ImColor Settings::ESP::decoy_color = ImColor(32, 224, 22, 255);
+ImColor Settings::ESP::flashbang_color = ImColor(224, 207, 22, 255);
+ImColor Settings::ESP::grenade_color = ImColor(224, 22, 22, 255);
+ImColor Settings::ESP::molotov_color = ImColor(224, 22, 22, 255);
+ImColor Settings::ESP::Skeleton::color = ImColor(255, 255, 255, 255);
 bool Settings::ESP::Glow::enabled = false;
-bool Settings::ESP::friendly = true;
 ImColor Settings::ESP::Glow::ally_color = ImColor(0, 50, 200, 0);
 ImColor Settings::ESP::Glow::enemy_color = ImColor(200, 0, 50, 0);
 ImColor Settings::ESP::Glow::enemy_visible_color = ImColor(200, 200, 50, 0);
 ImColor Settings::ESP::Glow::weapon_color = ImColor(200, 0, 50, 200);
 ImColor Settings::ESP::Glow::grenade_color = ImColor(200, 0, 50, 200);
 ImColor Settings::ESP::Glow::defuser_color = ImColor(100, 100, 200, 200);
-bool Settings::ESP::visibility_check = false;
-bool Settings::ESP::show_scope_border = true;
-bool Settings::ESP::Walls::enabled = false;
-int Settings::ESP::Walls::type = FLAT_2D;
-bool Settings::ESP::HealthBar::enabled = false;
-int Settings::ESP::HealthBar::type = VERTICAL;
-bool Settings::ESP::Info::showName = true;
-bool Settings::ESP::Info::showHealth = false;
-bool Settings::ESP::Info::showWeapon = false;
-bool Settings::ESP::Info::colorCode = false;
-ImColor Settings::ESP::Info::ally_color = ImColor(0, 50, 200, 255);
-ImColor Settings::ESP::Info::enemy_color = ImColor(200, 0, 50, 255);
-ImColor Settings::ESP::Info::enemy_visible_color = ImColor(200, 200, 50, 255);
-bool Settings::ESP::Bones::enabled = false;
-bool Settings::ESP::Bomb::enabled = true;
-bool Settings::ESP::Weapons::enabled = false;
-bool Settings::ESP::Tracer::enabled = false;
+bool Settings::ESP::Filters::legit = false;
+bool Settings::ESP::Filters::visibility_check = false;
+bool Settings::ESP::Filters::enemies = false;
+bool Settings::ESP::Filters::allies = false;
+bool Settings::ESP::Filters::bomb = false;
+bool Settings::ESP::Filters::hostages = false;
+bool Settings::ESP::Filters::defusers = false;
+bool Settings::ESP::Filters::weapons = false;
+bool Settings::ESP::Filters::chickens = false;
+bool Settings::ESP::Filters::fishes = false;
+bool Settings::ESP::Filters::throwables = false;
+bool Settings::ESP::Info::name = false;
+bool Settings::ESP::Info::clan = false;
+bool Settings::ESP::Info::steam_id = false;
+bool Settings::ESP::Info::rank = false;
+bool Settings::ESP::Info::health = false;
+bool Settings::ESP::Info::weapon = false;
+bool Settings::ESP::Info::scoped = false;
+bool Settings::ESP::Info::reloading = false;
+bool Settings::ESP::Info::flashed = false;
+bool Settings::ESP::Info::planting = false;
+bool Settings::ESP::Info::has_defuser = false;
+bool Settings::ESP::Info::defusing = false;
+bool Settings::ESP::Info::grabbing_hostage = false;
+bool Settings::ESP::Info::rescuing = false;
+bool Settings::ESP::Info::location = false;
+bool Settings::ESP::Boxes::enabled = false;
+int Settings::ESP::Boxes::type = BoxType::FRAME_2D;
+bool Settings::ESP::Bars::enabled = false;
+int Settings::ESP::Bars::color_type = BarColorType::HEALTH_BASED;
+int Settings::ESP::Bars::type = BarType::HORIZONTAL;
+bool Settings::ESP::Tracers::enabled = false;
+int Settings::ESP::Tracers::type = TracerType::BOTTOM;
+bool Settings::ESP::BulletTracers::enabled = false;
 bool Settings::ESP::FOVCrosshair::enabled = false;
-int Settings::ESP::Tracer::type = BOTTOM;
 ImColor Settings::ESP::FOVCrosshair::color = ImColor(180, 50, 50, 255);
+bool Settings::ESP::Skeleton::enabled = false;
 
-bool WorldToScreen(const Vector &vOrigin, Vector &vScreen)
-{
-	return debugOverlay->ScreenPosition(vOrigin, vScreen);
-}
+const char* Ranks[] = {
+		"Unranked",
+		"Silver I",
+		"Silver II",
+		"Silver III",
+		"Silver IV",
+		"Silver Elite",
+		"Silver Elite Master",
 
-Vector2D WorldToScreen(const Vector &vOrigin)
-{
-	Vector vec;
-	debugOverlay->ScreenPosition(vOrigin, vec);
-	return LOC(vec.x, vec.y);
-}
+		"Gold Nova I",
+		"Gold Nova II",
+		"Gold Nova III",
+		"Gold Nova Master",
+		"Master Guardian I",
+		"Master Guardian II",
 
-//credits to Casual_Hacker from UC for this method (I modified it a lil bit)
+		"Master Guardian Elite",
+		"Distinguished Master Guardian",
+		"Legendary Eagle",
+		"Legendary Eagle Master",
+		"Supreme Master First Class",
+		"The Global Elite"
+};
+
+// credits to Casual_Hacker from UC for this method (I modified it a lil bit)
 float GetArmourHealth(float flDamage, int ArmorValue)
 {
 	float flCurDamage = flDamage;
@@ -72,68 +117,625 @@ float GetArmourHealth(float flDamage, int ArmorValue)
 	return flNew;
 }
 
-void DrawESPBox(Vector vecOrigin, Vector vecViewOffset, Color color, int width, int additionalHeight)
+bool ESP::GetBox(C_BaseEntity *entity, int &x, int &y, int &w, int &h)
 {
-	//SIDES
-	Vector2D a = WorldToScreen(vecOrigin + Vector(width, width, additionalHeight));
-	Vector2D b = WorldToScreen(vecViewOffset + Vector(width, width, additionalHeight));
-	Draw::DrawLine(a, b, color);
+	// Variables
+	Vector vOrigin, min, max, flb, brt, blb, frt, frb, brb, blt, flt;
+	float left, top, right, bottom;
 
-	a = WorldToScreen(vecOrigin + Vector(-width, width, additionalHeight));
-	b = WorldToScreen(vecViewOffset + Vector(-width, width, additionalHeight));
-	Draw::DrawLine(a, b, color);
+	// Get the locations
+	vOrigin = entity->GetVecOrigin();
+	min = entity->GetCollideable()->OBBMins() + vOrigin;
+	max = entity->GetCollideable()->OBBMaxs() + vOrigin;
 
-	a = WorldToScreen(vecOrigin + Vector(-width, -width, additionalHeight));
-	b = WorldToScreen(vecViewOffset + Vector(-width, -width, additionalHeight));
-	Draw::DrawLine(a, b, color);
+	// Points of a 3d bounding box
+	Vector points[] = { Vector(min.x, min.y, min.z),
+	                    Vector(min.x, max.y, min.z),
+	                    Vector(max.x, max.y, min.z),
+	                    Vector(max.x, min.y, min.z),
+	                    Vector(max.x, max.y, max.z),
+	                    Vector(min.x, max.y, max.z),
+	                    Vector(min.x, min.y, max.z),
+	                    Vector(max.x, min.y, max.z) };
 
-	a = WorldToScreen(vecOrigin + Vector(width, -width, additionalHeight));
-	b = WorldToScreen(vecViewOffset + Vector(width, -width, additionalHeight));
-	Draw::DrawLine(a, b, color);
+	// Get screen positions
+	if (debugOverlay->ScreenPosition(points[3], flb) || debugOverlay->ScreenPosition(points[5], brt)
+	    || debugOverlay->ScreenPosition(points[0], blb) || debugOverlay->ScreenPosition(points[4], frt)
+	    || debugOverlay->ScreenPosition(points[2], frb) || debugOverlay->ScreenPosition(points[1], brb)
+	    || debugOverlay->ScreenPosition(points[6], blt) || debugOverlay->ScreenPosition(points[7], flt))
+		return false;
 
-	// TOP
-	a = WorldToScreen(vecViewOffset + Vector(width, width, additionalHeight));
-	b = WorldToScreen(vecViewOffset + Vector(width, -width, additionalHeight));
-	Draw::DrawLine(a, b, color);
+	// Put them in an array (maybe start them off in one later for speed?)
+	Vector arr[] = { flb, brt, blb, frt, frb, brb, blt, flt };
 
-	a = WorldToScreen(vecViewOffset + Vector(width, width, additionalHeight));
-	b = WorldToScreen(vecViewOffset + Vector(-width, width, additionalHeight));
-	Draw::DrawLine(a, b, color);
+	// Init this shit
+	left = flb.x;
+	top = flb.y;
+	right = flb.x;
+	bottom = flb.y;
 
-	a = WorldToScreen(vecViewOffset + Vector(-width, -width, additionalHeight));
-	b = WorldToScreen(vecViewOffset + Vector(-width, width, additionalHeight));
-	Draw::DrawLine(a, b, color);
+	// Find the bounding corners for our box
+	for (int i = 1; i < 8; i++)
+	{
+		if (left > arr[i].x)
+			left = arr[i].x;
+		if (bottom < arr[i].y)
+			bottom = arr[i].y;
+		if (right < arr[i].x)
+			right = arr[i].x;
+		if (top > arr[i].y)
+			top = arr[i].y;
+	}
 
-	a = WorldToScreen(vecViewOffset + Vector(width, -width, additionalHeight));
-	b = WorldToScreen(vecViewOffset + Vector(-width, -width, additionalHeight));
-	Draw::DrawLine(a, b, color);
+	// Width / height
+	x = (int) left;
+	y = (int) top;
+	w = (int) (right - left);
+	h = (int) (bottom - top);
 
-	// BOTTOM
-	a = WorldToScreen(vecOrigin + Vector(width, width, additionalHeight));
-	b = WorldToScreen(vecOrigin + Vector(width, -width, additionalHeight));
-	Draw::DrawLine(a, b, color);
-
-	a = WorldToScreen(vecOrigin + Vector(width, width, additionalHeight));
-	b = WorldToScreen(vecOrigin + Vector(-width, width, additionalHeight));
-	Draw::DrawLine(a, b, color);
-
-	a = WorldToScreen(vecOrigin + Vector(-width, -width, additionalHeight));
-	b = WorldToScreen(vecOrigin + Vector(-width, width, additionalHeight));
-	Draw::DrawLine(a, b, color);
-
-	a = WorldToScreen(vecOrigin + Vector(width, -width, additionalHeight));
-	b = WorldToScreen(vecOrigin + Vector(-width, -width, additionalHeight));
-	Draw::DrawLine(a, b, color);
+	return true;
 }
 
-void ESP::DrawBones(C_BaseEntity* entity)
+ImColor ESP::GetESPPlayerColor(C_BaseEntity* player, bool visible)
 {
-	studiohdr_t* pStudioModel = modelInfo->GetStudioModel(entity->GetModel());
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer)
+		return ImColor(255,255,255,255);
+
+	ImColor playerColor;
+
+	// dont actually check for visibility since we only render our boxes when the player IS visible (so-called "legit" mode)
+	if (Settings::ESP::Filters::legit)
+	{
+		if (Settings::ESP::team_color_type == TeamColorType::RELATIVE)
+			playerColor = player->GetTeam() != localplayer->GetTeam() ? Settings::ESP::enemy_visible_color : Settings::ESP::ally_visible_color;
+		else if (Settings::ESP::team_color_type == TeamColorType::ABSOLUTE)
+		{
+			if (player->GetTeam() == TEAM_TERRORIST)
+				playerColor = Settings::ESP::t_visible_color;
+
+			else if (player->GetTeam() == TEAM_COUNTER_TERRORIST)
+				playerColor = Settings::ESP::ct_visible_color;
+		}
+	}
+	// check for visibility check
+	else
+	{
+		if (Settings::ESP::team_color_type == TeamColorType::RELATIVE)
+		{
+			if (player->GetTeam() != localplayer->GetTeam())
+				playerColor = visible ? Settings::ESP::enemy_visible_color : Settings::ESP::enemy_color;
+			else
+				playerColor = visible ? Settings::ESP::ally_visible_color  : Settings::ESP::ally_color;
+
+		}
+		else if (Settings::ESP::team_color_type == TeamColorType::ABSOLUTE)
+		{
+			if (player->GetTeam() == TEAM_TERRORIST)
+				playerColor = visible ? Settings::ESP::t_visible_color : Settings::ESP::t_color;
+
+			else if (player->GetTeam() == TEAM_COUNTER_TERRORIST)
+				playerColor = visible ? Settings::ESP::ct_visible_color : Settings::ESP::ct_color;
+		}
+	}
+
+	if (player->GetImmune())
+	{
+		playerColor.Value.x -= 0.5f;
+		playerColor.Value.y -= 0.5f;
+		playerColor.Value.z -= 0.5f;
+	}
+
+	return playerColor;
+}
+
+void ESP::DrawBox(Color color, int x, int y, int w, int h)
+{
+	if (Settings::ESP::Boxes::type == BoxType::FRAME_2D)
+	{
+		int VertLine = (int) (w * 0.33f);
+		int HorzLine = (int) (h * 0.33f);
+		int squareLine = std::min(VertLine, HorzLine);
+
+		// top-left corner / color
+		Draw::Rectangle(x, y, squareLine, 1, color);
+		Draw::Rectangle(x, y, 1, squareLine, color);
+
+		// top-left corner / outer outline
+		Draw::Rectangle(x - 1, y - 1, squareLine + 1, 1, Color(10, 10, 10, 190));
+		Draw::Rectangle(x - 1, y, 1, squareLine, Color(10, 10, 10, 190));
+
+		// top-left corner / inner outline
+		Draw::Rectangle(x + 1, y + 1, squareLine - 1, 1, Color(10, 10, 10, 190));
+		Draw::Rectangle(x + 1, y + 2, 1, squareLine - 2, Color(10, 10, 10, 190));
+
+		// top-left corner / missing edges
+		Draw::Rectangle(x + squareLine, y - 1, 1, 3, Color(10, 10, 10, 190));
+		Draw::Rectangle(x - 1, y + squareLine, 3, 1, Color(10, 10, 10, 190));
+
+
+		// top-right corner / color
+		Draw::Rectangle(x + w - squareLine, y, squareLine, 1, color);
+		Draw::Rectangle(x + w - 1, y, 1, squareLine, color);
+
+		// top-right corner / outer outline
+		Draw::Rectangle(x + w - squareLine, y - 1, squareLine + 1, 1, Color(10, 10, 10, 190));
+		Draw::Rectangle(x + w, y, 1, squareLine, Color(10, 10, 10, 190));
+
+		// top-right corner / inner outline
+		Draw::Rectangle(x + w - squareLine, y + 1, squareLine - 1, 1, Color(10, 10, 10, 190));
+		Draw::Rectangle(x + w - 2, y + 2, 1, squareLine - 2, Color(10, 10, 10, 190));
+
+		// top-right corner / missing edges
+		Draw::Rectangle(x + w - squareLine - 1, y - 1, 1, 3, Color(10, 10, 10, 190));
+		Draw::Rectangle(x + w - 2, y + squareLine, 3, 1, Color(10, 10, 10, 190));
+
+
+		// bottom-left corner / color
+		Draw::Rectangle(x, y + h - 1, squareLine, 1, color);
+		Draw::Rectangle(x, y + h - squareLine, 1, squareLine, color);
+
+		// bottom-left corner / outer outline
+		Draw::Rectangle(x - 1, y + h, squareLine + 1, 1, Color(10, 10, 10, 190));
+		Draw::Rectangle(x - 1, y + h - squareLine, 1, squareLine, Color(10, 10, 10, 190));
+
+		// bottom-left corner / inner outline
+		Draw::Rectangle(x + 1, y + h - 2, squareLine - 1, 1, Color(10, 10, 10, 190));
+		Draw::Rectangle(x + 1, y + h - squareLine, 1, squareLine - 2, Color(10, 10, 10, 190));
+
+		// bottom-left corner / missing edges
+		Draw::Rectangle(x + squareLine, y + h - 2, 1, 3, Color(10, 10, 10, 190));
+		Draw::Rectangle(x - 1, y + h - squareLine - 1, 3, 1, Color(10, 10, 10, 190));
+
+
+		// bottom-right corner / color
+		Draw::Rectangle(x + w - squareLine, y + h - 1, squareLine, 1, color);
+		Draw::Rectangle(x + w - 1, y + h - squareLine, 1, squareLine, color);
+
+		// bottom-right corner / outer outline
+		Draw::Rectangle(x + w - squareLine, y + h, squareLine + 1, 1, Color(10, 10, 10, 190));
+		Draw::Rectangle(x + w, y + h - squareLine, 1, squareLine + 1, Color(10, 10, 10, 190));
+
+		// bottom-right corner / inner outline
+		Draw::Rectangle(x + w - squareLine, y + h - 2, squareLine - 1, 1, Color(10, 10, 10, 190));
+		Draw::Rectangle(x + w - 2, y + h - squareLine, 1, squareLine - 2, Color(10, 10, 10, 190));
+
+		// bottom-right corner / missing edges
+		Draw::Rectangle(x + w - squareLine, y + h - 2, 1, 3, Color(10, 10, 10, 190));
+		Draw::Rectangle(x + w - 2, y + h - squareLine - 1, 3, 1, Color(10, 10, 10, 190));
+	}
+	else if (Settings::ESP::Boxes::type == BoxType::FLAT_2D)
+	{
+		// color
+		Draw::Rectangle(x, y, w, h, color);
+		// outer outline
+		Draw::Rectangle(x + 1, y + 1, w - 2, h - 2, Color(10, 10, 10, 190));
+		// inner outline
+		Draw::Rectangle(x - 1, y - 1, w + 2, h + 2, Color(10, 10, 10, 190));
+	}
+}
+
+void ESP::DrawEntity(C_BaseEntity* entity, const char* string, Color color)
+{
+	int x, y, w, h;
+	if (GetBox(entity, x, y, w, h))
+	{
+		DrawBox(color, x, y, w, h);
+
+		Vector2D nameSize = Draw::GetTextSize(string, esp_font);
+		Draw::Text((int)(x + (w / 2) - (nameSize.x / 2)), y + h + 2, string, esp_font, Color(255, 255, 255, 255));
+	}
+}
+
+void ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_info_t player_info)
+{
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer)
+		return;
+
+	if (player->GetTeam() != localplayer->GetTeam() && !Settings::ESP::Filters::enemies)
+		return;
+
+	if (player->GetTeam() == localplayer->GetTeam() && !Settings::ESP::Filters::allies)
+		return;
+
+	bool bIsVisible = false;
+	if (Settings::ESP::Filters::visibility_check || Settings::ESP::Filters::legit)
+	{
+		bIsVisible = Entity::IsVisible(player, BONE_HEAD);
+		if (!bIsVisible && Settings::ESP::Filters::legit)
+			return;
+	}
+
+	ImColor playerColor = GetESPPlayerColor(player, bIsVisible);
+
+	static Vector2D textSize = Draw::GetTextSize("Hi", esp_font);
+
+	int x, y, w, h;
+	if (!GetBox(player, x, y, w, h))
+		return;
+
+	if (Settings::ESP::Boxes::enabled)
+		DrawBox(Color::FromImColor(playerColor), x ,y ,w, h);
+
+	int boxSpacing = Settings::ESP::Boxes::enabled ? 3 : 0;
+	Vector2D barsSpacing = Vector2D(0,0);
+
+	// draw bars
+	if (Settings::ESP::Bars::enabled)
+	{
+		ImColor barColor;
+
+		float HealthValue = player->GetHealth();
+		float HealthPerc = HealthValue / 100.f;
+
+		int Red = (int)(255 - HealthValue * 2.55);
+		int Green = (int)(HealthValue * 2.55);
+
+		int barx = x;
+		int bary = y;
+		int barw = w;
+		int barh = h;
+
+		if (Settings::ESP::Bars::color_type == BarColorType::HEALTH_BASED)
+		{
+			barColor = ImColor(Red, Green, 0, 255);
+		}
+		else if (Settings::ESP::Bars::color_type== BarColorType::STATIC_COLOR)
+		{
+			barColor = playerColor;
+		}
+
+		if (Settings::ESP::Bars::type == BarType::VERTICAL)
+		{
+			barw = 4; // outline(1px) + bar(2px) + outline(1px) = 6px;
+			barx -= barw + boxSpacing; // spacing(1px) + outline(1px) + bar(2px) + outline (1px) = 8 px
+
+			Draw::Rectangle(barx - 1, bary - 1, barw + 2, barh + 2, Color(255, 255, 255, 170));
+			Draw::FilledRectangle(barx, bary, barw, barh, Color(10, 10, 10, 255));
+			Draw::Rectangle(barx + 1, bary + 1, barw - 2, barh - 2, Color::FromImColor(barColor));
+
+			barh *= (1 - HealthPerc); // invert value as we want to cover more as health gets lower
+			Draw::Rectangle(barx , bary, barw, barh, Color(10, 10, 10, 255));
+			barsSpacing.x += barw;
+		}
+		else if (Settings::ESP::Bars::type == BarType::HORIZONTAL)
+		{
+			bary += barh + boxSpacing; // player box(?px) + spacing(1px) + outline(1px) + bar(2px) + outline (1px) = 5 px
+			barh = 4; // outline(1px) + bar(2px) + outline(1px) = 4px;
+
+			Draw::Rectangle(barx - 1, bary - 1, barw + 2, barh + 2, Color(255, 255, 255, 170));
+			Draw::FilledRectangle(barx, bary, barw, barh, Color(10, 10, 10, 255));
+
+			if (HealthPerc > 0)
+			{
+				barw *= HealthPerc;
+				Draw::Rectangle(barx + 1, bary + 1, barw - 2, barh - 2, Color::FromImColor(barColor));
+			}
+			barsSpacing.y += barh;
+		}
+		else if (Settings::ESP::Bars::type == BarType::HORIZONTAL_UP)
+		{
+			barh = 4; // outline(1px) + bar(2px) + outline(1px) = 4px;
+			bary -= barh + boxSpacing; // spacing(1px) + outline(1px) + bar(2px) + outline (1px) = 5 px
+
+			Draw::Rectangle(barx - 1, bary - 1, barw + 2, barh + 2, Color(255, 255, 255, 170));
+			Draw::FilledRectangle(barx, bary, barw, barh, Color(10, 10, 10, 255));
+
+			if (HealthPerc > 0)
+			{
+				barw *= HealthPerc;
+				Draw::Rectangle(barx + 1, bary + 1, barw - 2, barh - 2, Color::FromImColor(barColor));
+			}
+			barsSpacing.y += barh;
+		}
+		else if (Settings::ESP::Bars::type == BarType::INTERWEBZ)
+		{
+			// pasted from ayyware and broken ( bg is 1px off to the left ) idc
+			bary += barh + boxSpacing;
+			barh = 4;
+
+			float Width = (w * HealthPerc);
+			barw = (int)(Width);
+
+			Vertex_t Verts[4];
+			Verts[0].Init(Vector2D(barx, bary));
+			Verts[1].Init(Vector2D(barx + w + 5, bary));
+			Verts[2].Init(Vector2D(barx + w, bary + 5));
+			Verts[3].Init(Vector2D(barx - 5, bary + 5));
+
+			Draw::PolyLine(Verts, 4, Color(255, 255, 255, 170));
+
+			Vertex_t Verts2[4];
+			Verts2[0].Init(Vector2D(barx + 1, bary + 1));
+			Verts2[1].Init(Vector2D(barx + barw + 5, bary + 1));
+			Verts2[2].Init(Vector2D(barx + barw, bary + 5));
+			Verts2[3].Init(Vector2D(barx - 4, bary + 5));
+
+			Draw::TexturedPolygon(4, Verts2, Color::FromImColor(barColor));
+
+			Verts2[0].Init(Vector2D(barx + 1, bary + 1));
+			Verts2[1].Init(Vector2D(barx + barw + 2, bary + 1));
+			Verts2[2].Init(Vector2D(barx + barw, bary + 2));
+			Verts2[3].Init(Vector2D(barx - 2, bary + 2));
+
+			Draw::TexturedPolygon(4, Verts2, Color(255, 255, 255, 40));
+
+			barsSpacing.y += barh;
+		}
+
+		// draw name
+		int multiplier = 1;
+		int nameOffset = (int)(Settings::ESP::Bars::type == BarType::HORIZONTAL_UP ? boxSpacing + barsSpacing.y : 0);
+
+		if (Settings::ESP::Info::name || Settings::ESP::Info::clan)
+		{
+			std::string displayString;
+
+			if (Settings::ESP::Info::clan)
+				displayString += std::string((*csPlayerResource)->GetClan(index));
+
+			if (Settings::ESP::Info::clan && Settings::ESP::Info::name)
+				displayString += " ";
+
+			if (Settings::ESP::Info::name)
+				displayString += player_info.name;
+
+			Vector2D nameSize = Draw::GetTextSize(displayString.c_str(), esp_font);
+			Draw::Text((int)(x + (w / 2) - (nameSize.x / 2)), (int)(y - textSize.y - nameOffset), displayString.c_str(), esp_font, Color(255, 255, 255));
+			multiplier++;
+		}
+
+		// draw steamid
+		if (Settings::ESP::Info::steam_id)
+		{
+			Vector2D rankSize = Draw::GetTextSize(player_info.guid, esp_font);
+			Draw::Text((int)(x + (w / 2) - (rankSize.x / 2)), (int)(y - (textSize.y * multiplier) - nameOffset), player_info.guid, esp_font, Color(255, 255, 255, 255));
+			multiplier++;
+		}
+
+		// draw rank
+		if (Settings::ESP::Info::rank)
+		{
+			int rank = *(*csPlayerResource)->GetCompetitiveRanking(index);
+
+			if (rank >= 0 && rank < 19)
+			{
+				Vector2D rankSize = Draw::GetTextSize(Ranks[rank], esp_font);
+				Draw::Text((int)(x + (w / 2) - (rankSize.x / 2)), (int)(y - (textSize.y * multiplier) - nameOffset), Ranks[rank], esp_font, Color(255, 255, 255, 255));
+			}
+		}
+
+		C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(player->GetActiveWeapon());
+
+		// health
+		if (Settings::ESP::Info::health)
+		{
+			std::string buf = std::to_string(player->GetHealth()) + " HP";
+			Draw::Text(x + w + boxSpacing, (int)(y + h - textSize.y), buf.c_str(), esp_font, Color(255, 255, 255));
+		}
+
+		// weapon
+		if (Settings::ESP::Info::weapon)
+		{
+			if (active_weapon)
+			{
+				std::string modelName = std::string(Util::GetValueByKey(guns, *active_weapon->GetItemDefinitionIndex()));
+				if (modelName == "")
+				{
+					modelName = std::string(active_weapon->GetClientClass()->m_pNetworkName);
+					if (strstr(modelName.c_str(), "Weapon"))
+						modelName = modelName.substr(7, modelName.length() - 7);
+					else
+						modelName = modelName.substr(1, modelName.length() - 1);
+				}
+				int offset = (int)(Settings::ESP::Bars::type == BarType::HORIZONTAL || Settings::ESP::Bars::type == BarType::INTERWEBZ ? boxSpacing + barsSpacing.y + 1 : 0);
+
+				Vector2D weaponTextSize = Draw::GetTextSize(modelName.c_str(), esp_font);
+				Draw::Text((int)(x + (w / 2) - (weaponTextSize.x / 2)), y + h + offset, modelName.c_str(), esp_font, Color(255, 255, 255));
+			}
+		}
+
+		// draw info
+		std::vector<std::string> stringsToShow;
+
+		if (Settings::ESP::Info::scoped && player->IsScoped())
+			stringsToShow.push_back("Scoped");
+
+		if (Settings::ESP::Info::reloading && active_weapon && active_weapon->GetInReload())
+			stringsToShow.push_back("Reloading");
+
+		if (Settings::ESP::Info::flashed && player->GetFlashDuration() > 0.01f)
+			stringsToShow.push_back("Flashed");
+
+		if (Settings::ESP::Info::planting && Entity::IsPlanting(player))
+			stringsToShow.push_back("Planting");
+
+		if (Settings::ESP::Info::planting && index == (*csPlayerResource)->GetPlayerC4())
+			stringsToShow.push_back("Bomb Carrier");
+
+		if (Settings::ESP::Info::has_defuser && player->HasDefuser())
+			stringsToShow.push_back("Defuse kit");
+
+		if (Settings::ESP::Info::defusing && player->IsDefusing())
+			stringsToShow.push_back("Defusing");
+
+		if (Settings::ESP::Info::grabbing_hostage && player->IsGrabbingHostage())
+			stringsToShow.push_back("Hostage Carrier");
+
+		if (Settings::ESP::Info::rescuing && player->IsRescuing())
+			stringsToShow.push_back("Rescuing");
+
+		if (Settings::ESP::Info::location)
+			stringsToShow.push_back(player->GetLastPlaceName());
+
+		int i = 0;
+		for (auto Text : stringsToShow)
+		{
+			Draw::Text(x + w + boxSpacing, (int)(y + (i * (textSize.y + 2))), Text.c_str(), esp_font, Color(255, 255, 255));
+			i++;
+		}
+	}
+
+	if (Settings::ESP::Skeleton::enabled)
+		DrawSkeleton(player);
+
+	if (Settings::ESP::BulletTracers::enabled)
+		DrawBulletTrace(player);
+
+	if (Settings::ESP::Tracers::enabled)
+		DrawTracer(player);
+}
+
+void ESP::DrawBomb(C_BaseCombatWeapon* bomb)
+{
+	Vector vOrig = bomb->GetVecOrigin();
+	int owner = bomb->GetOwner();
+
+	if (owner == -1 && !(vOrig.x == 0 && vOrig.y == 0 && vOrig.z == 0))
+		DrawEntity(bomb, "Bomb", Color::FromImColor(Settings::ESP::bomb_color));
+}
+
+void ESP::DrawPlantedBomb(C_BasePlantedC4* bomb)
+{
+	ImColor color = bomb->GetBombDefuser() != -1 || bomb->IsBombDefused() ? Settings::ESP::bomb_defusing_color : Settings::ESP::bomb_color;
+
+	float bombTimer = bomb->GetBombTime() - globalvars->curtime;
+	std::string displayText;
+	if (bomb->IsBombDefused() || !bomb->IsBombTicking() || bombTimer <= 0.f)
+	{
+			displayText = "Bomb";
+	}
+	else
+	{
+		C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+		Vector vecOrigin = bomb->GetVecOrigin();
+
+		float flDistance = sqrtf(localplayer->GetEyePosition().DistToSqr(vecOrigin));
+
+		float a = 450.7f;
+		float b = 75.68f;
+		float c = 789.2f;
+		float d = ((flDistance - b) / c);
+		float flDamage = a*expf(-d * d);
+
+		float damage = std::max((int)ceilf(GetArmourHealth(flDamage, localplayer->GetArmor())), 0);
+
+		char* buffer;
+		asprintf(&buffer, "Bomb: %.1f, damage: %d", bombTimer, (int) damage);
+		displayText = std::string(buffer);
+	}
+
+	DrawEntity(bomb, displayText.c_str(), Color::FromImColor(color));
+}
+
+void ESP::DrawDefuseKit(C_BaseEntity* defuser)
+{
+	DrawEntity(defuser, "Defuser", Color::FromImColor(Settings::ESP::defuser_color));
+}
+
+void ESP::DrawDroppedWeapons(C_BaseCombatWeapon* weapon)
+{
+	Vector vOrig = weapon->GetVecOrigin();
+	int owner = weapon->GetOwner();
+
+	if (owner > -1 || (vOrig.x == 0 && vOrig.y == 0 && vOrig.z == 0))
+		return;
+
+	std::string modelName = std::string(Util::GetValueByKey(guns, *weapon->GetItemDefinitionIndex()));
+	if (modelName == "")
+	{
+		modelName = std::string(weapon->GetClientClass()->m_pNetworkName);
+		if (strstr(modelName.c_str(), "Weapon"))
+			modelName = modelName.substr(7, modelName.length() - 7);
+		else
+			modelName = modelName.substr(1, modelName.length() - 1);
+	}
+
+	if (weapon->GetAmmo() > 0)
+	{
+		modelName += " | ";
+		modelName += std::to_string(weapon->GetAmmo());
+	}
+
+	DrawEntity(weapon, modelName.c_str(), Color::FromImColor(Settings::ESP::weapon_color));
+}
+
+void ESP::DrawHostage(C_BaseEntity* hostage)
+{
+	DrawEntity(hostage, "Hostage", Color::FromImColor(Settings::ESP::hostage_color));
+}
+
+void ESP::DrawChicken(C_BaseEntity* chicken)
+{
+	DrawEntity(chicken, "Chicken", Color::FromImColor(Settings::ESP::chicken_color));
+}
+
+void ESP::DrawFish(C_BaseEntity* fish)
+{
+	DrawEntity(fish, "Fish", Color::FromImColor(Settings::ESP::fish_color));
+}
+
+void ESP::DrawThrowable(C_BaseEntity* throwable, ClientClass* client)
+{
+	model_t* nadeModel = throwable->GetModel();
+
+	if (!nadeModel)
+		return;
+
+	studiohdr_t* hdr = modelInfo->GetStudioModel(nadeModel);
+
+	if (!hdr)
+		return;
+
+	// smokes have "thrown" suffix, other nades have "dropped" suffix
+	if (!strstr(hdr->name, "thrown") && !strstr(hdr->name, "dropped"))
+		return;
+
+	ImColor nadeColor = ImColor(255, 255, 255, 255);
+	std::string nadeName = "Unknown Grenade";
+	if (strstr(hdr->name, "flash"))
+	{
+		nadeName = "Flashbang";
+		nadeColor = Settings::ESP::flashbang_color;
+	}
+	else if (strstr(hdr->name, "molotov"))
+	{
+		nadeName = "Molotov";
+		nadeColor = Settings::ESP::molotov_color;
+	}
+	else if (strstr(hdr->name, "incendiarygrenade"))
+	{
+		nadeName = "Incendiary Grenade";
+		nadeColor = Settings::ESP::molotov_color;
+	}
+	else if (strstr(hdr->name, "fraggrenade"))
+	{
+		nadeName = "Grenade";
+		nadeColor = Settings::ESP::grenade_color;
+	}
+	else if (strstr(hdr->name, "smoke"))
+	{
+		nadeName = "Smoke";
+		nadeColor = Settings::ESP::smoke_color;
+	}
+	else if (strstr(hdr->name, "decoy"))
+	{
+		nadeName = "Decoy";
+		nadeColor = Settings::ESP::decoy_color;
+	}
+
+	DrawEntity(throwable, nadeName.c_str(), Color::FromImColor(nadeColor));
+}
+
+void ESP::DrawSkeleton(C_BaseEntity* player)
+{
+	studiohdr_t* pStudioModel = modelInfo->GetStudioModel(player->GetModel());
 	if (!pStudioModel)
 		return;
 
 	static matrix3x4_t pBoneToWorldOut[128];
-	if (entity->SetupBones(pBoneToWorldOut, 128, 256, 0))
+	if (player->SetupBones(pBoneToWorldOut, 128, 256, 0))
 	{
 		for (int i = 0; i < pStudioModel->numbones; i++)
 		{
@@ -142,306 +744,79 @@ void ESP::DrawBones(C_BaseEntity* entity)
 				continue;
 
 			Vector vBonePos1;
-			if (WorldToScreen(Vector(pBoneToWorldOut[i][0][3], pBoneToWorldOut[i][1][3], pBoneToWorldOut[i][2][3]), vBonePos1))
+			if (debugOverlay->ScreenPosition(Vector(pBoneToWorldOut[i][0][3], pBoneToWorldOut[i][1][3], pBoneToWorldOut[i][2][3]), vBonePos1))
 				continue;
 
 			Vector vBonePos2;
-			if (WorldToScreen(Vector(pBoneToWorldOut[pBone->parent][0][3], pBoneToWorldOut[pBone->parent][1][3], pBoneToWorldOut[pBone->parent][2][3]), vBonePos2))
+			if (debugOverlay->ScreenPosition(Vector(pBoneToWorldOut[pBone->parent][0][3], pBoneToWorldOut[pBone->parent][1][3], pBoneToWorldOut[pBone->parent][2][3]), vBonePos2))
 				continue;
 
-			Draw::DrawLine(LOC(vBonePos1.x, vBonePos1.y), LOC(vBonePos2.x, vBonePos2.y), Color().FromImColor(Settings::ESP::bones_color));
+			Draw::Line(LOC(vBonePos1.x, vBonePos1.y), LOC(vBonePos2.x, vBonePos2.y), Color::FromImColor(Settings::ESP::Skeleton::color));
 		}
 	}
 }
 
+void ESP::DrawBulletTrace(C_BaseEntity* player)
+{
+	Vector src3D, dst3D, forward, src, dst;
+	trace_t tr;
+	Ray_t ray;
+	CTraceFilter filter;
+
+	Math::AngleVectors(*player->GetHeadRotation(), forward);
+	filter.pSkip = player;
+	src3D = player->GetEyePosition();
+	dst3D = src3D + (forward * 8192);
+
+	ray.Init(src3D, dst3D);
+
+	trace->TraceRay(ray, MASK_SHOT, &filter, &tr);
+
+	if (debugOverlay->ScreenPosition(src3D, src) || debugOverlay->ScreenPosition(tr.endpos, dst))
+		return;
+
+	Draw::Line((int)(src.x), (int)(src.y), (int)(dst.x), (int)(dst.y), Color::FromImColor(GetESPPlayerColor(player, true)));
+	Draw::FilledRectangle((int)(dst.x - 3), (int)(dst.y - 3), 6, 6, Color::FromImColor(GetESPPlayerColor(player, false)));
+}
+
 void ESP::DrawTracer(C_BaseEntity* entity)
 {
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	int playerTeam = localplayer->GetTeam();
-	int entityTeam = entity->GetTeam();
-	Color color = Color().FromImColor(playerTeam == entityTeam ? Settings::ESP::ally_color : Settings::ESP::enemy_color);
+	Vector src3D, src;
+	src3D = entity->GetVecOrigin() - Vector(0, 0, 0);
 
-	int width;
-	int height;
+	if (debugOverlay->ScreenPosition(src3D, src))
+		return;
+
+	int ScreenWidth, ScreenHeight;
+	engine->GetScreenSize(ScreenWidth, ScreenHeight);
+
+	int x = (int)(ScreenWidth * 0.5f);
+	int y = 0;
+
+	if (Settings::ESP::Tracers::type == TracerType::CURSOR)
+		y = (int)(ScreenHeight * 0.5f);
+	else if (Settings::ESP::Tracers::type == TracerType::BOTTOM)
+		y = ScreenHeight;
+
+	bool bIsVisible = Entity::IsVisible(entity, BONE_HEAD);
+	Draw::Line((int)(src.x), (int)(src.y), x, y, Color::FromImColor(GetESPPlayerColor(entity,bIsVisible)));
+}
+
+void ESP::DrawFOVCrosshair()
+{
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer->GetAlive())
+		return;
+
+	int width, height;
 	engine->GetScreenSize(width, height);
 
-	Vector2D tracerLocation;
+	float radAimbotFov = (float)(Settings::Aimbot::AutoAim::fov * M_PI / 180);
+	float radViewFov = (float)(RenderView::currentFOV * M_PI / 180);
 
-	switch (Settings::ESP::Tracer::type)
-	{
-		case BOTTOM:
-			tracerLocation = LOC(width / 2, height);
-			break;
-		case CURSOR:
-			tracerLocation = LOC(width / 2, height / 2);
-			break;
-	}
+	float circleRadius = tanf(radAimbotFov / 2) / tanf(radViewFov / 2) * width;
 
-	Vector s_vecEntity_s;
-	if (!WorldToScreen(entity->GetVecOrigin(), s_vecEntity_s) && localplayer->GetHealth() > 0)
-		Draw::DrawLine(tracerLocation, LOC(s_vecEntity_s.x, s_vecEntity_s.y), color);
-}
-
-void ESP::DrawPlayerBox(C_BaseEntity* entity)
-{
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	int playerTeam = localplayer->GetTeam();
-	int entityTeam = entity->GetTeam();
-	bool isVisible = Entity::IsVisible(entity, BONE_HEAD);
-
-	Color color;
-
-	if (playerTeam != entityTeam)
-		color = Color().FromImColor(isVisible ? Settings::ESP::enemy_visible_color : Settings::ESP::enemy_color);
-	else
-		color = Color().FromImColor(Settings::ESP::ally_color);
-
-	if (Settings::ESP::Walls::type == FLAT_2D)
-	{
-		Vector max = entity->GetCollideable()->OBBMaxs();
-
-		Vector pos, pos3D;
-		Vector top, top3D;
-
-		pos3D = entity->GetVecOrigin();
-		top3D = pos3D + Vector(0, 0, max.z);
-
-		if (WorldToScreen(pos3D, pos) || WorldToScreen(top3D, top))
-			return;
-
-		float height = (pos.y - top.y);
-		float width = height / 4.f;
-
-		Draw::DrawOutlinedBox(top.x, top.y, width, height, color);
-	}
-	else if (Settings::ESP::Walls::type == BOX_3D)
-	{
-		int width = 14;
-		int additionalHeight = 6;
-
-		Vector vecOrigin = entity->GetVecOrigin();
-
-		Vector vecHeadBone = entity->GetBonePosition(Bone::BONE_HEAD);
-		Vector vecViewOffset = Vector(vecOrigin.x, vecOrigin.y, vecHeadBone.z);
-
-		Vector s_veclocalplayer_s;
-		if (!WorldToScreen(vecOrigin, s_veclocalplayer_s))
-			DrawESPBox(vecOrigin, vecViewOffset, color, width, additionalHeight);
-	}
-}
-
-Color GetHealthColor(int hp)
-{
-	float hpHue = hp * 1.2f / 360.0f;
-	Color color = Color().FromHSB(hpHue, 1.0f, 1.0f);
-	color.b = 48; // Just for looks
-	return color;
-}
-
-void ESP::DrawPlayerHealthBar(C_BaseEntity* entity)
-{
-	int barOffset = 2;
-	int barWidth = 2;
-	int frameWidth = 1;
-	Color outline = Color(8, 8, 8, 92);
-
-	int hp = entity->GetHealth() > 100 ? 100 : entity->GetHealth();
-
-	Color color = GetHealthColor(hp);
-
-	Vector max = entity->GetCollideable()->OBBMaxs();
-
-	Vector pos, pos3D;
-	Vector top, top3D;
-
-	pos3D = entity->GetVecOrigin();
-	top3D = pos3D + Vector(0, 0, max.z);
-
-	if (WorldToScreen(pos3D, pos) || WorldToScreen(top3D, top))
-		return;
-
-	float height = (pos.y - top.y);
-	float width = height / 4.0f;
-
-	Vector2D begin, end;
-	Vector2D frameBegin, frameEnd;
-
-	int endFull = 0;
-
-	if (Settings::ESP::HealthBar::type == VERTICAL)
-	{
-		int bottomSide = (int)pos.y;
-		endFull = (int)(pos.y - height);
-		int topSide = (int)(pos.y - height * hp / 100.0f);
-
-		if (bottomSide - topSide < 1)
-			topSide += 1;
-
-		begin = Vector2D(top.x - width - barWidth - barOffset, topSide);
-		end = Vector2D(top.x - width - barOffset, bottomSide);
-
-		frameBegin = Vector2D(begin.x - frameWidth, endFull - frameWidth);
-		frameEnd = Vector2D(end.x + frameWidth, end.y + frameWidth);
-	}
-	else if (Settings::ESP::HealthBar::type == HORIZONTAL)
-	{
-		int leftSide = (int)(top.x - width);
-		endFull = (int)(top.x + width);
-		int rightSide = (int)(leftSide + width * 2.0f * hp / 100.0f);
-
-		if (rightSide - leftSide < 1)
-			rightSide += 1;
-
-		begin = Vector2D(leftSide, pos.y + barOffset);
-		end = Vector2D(rightSide, pos.y + barOffset + barWidth);
-
-		frameBegin = Vector2D(begin.x - frameWidth, begin.y - frameWidth);
-		frameEnd = Vector2D(endFull + frameWidth, end.y + frameWidth);
-	}
-
-	Draw::DrawRect(frameBegin, frameEnd, outline);
-	Draw::DrawRect(begin, end, color);
-}
-
-void ESP::DrawPlayerInfo(C_BaseEntity* entity, int entityIndex)
-{
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer)
-		return;
-
-	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(entity->GetActiveWeapon());
-	if (!active_weapon)
-		return;
-
-	bool isVisible = Entity::IsVisible(entity, BONE_HEAD);
-	Color color = Color(255, 255, 255, 255);
-
-	if (Settings::ESP::Info::colorCode)
-	{
-		if (localplayer->GetTeam() != entity->GetTeam())
-			color = Color().FromImColor(isVisible ? Settings::ESP::Info::enemy_visible_color : Settings::ESP::Info::enemy_color);
-		else
-			color = Color().FromImColor(Settings::ESP::Info::ally_color);
-	}
-
-	IEngineClient::player_info_t entityInformation;
-	engine->GetPlayerInfo(entityIndex, &entityInformation);
-
-	std::string modelName = std::string(Util::GetValueByKey(guns, *active_weapon->GetItemDefinitionIndex()));
-	if (modelName == "")
-	{
-		modelName = std::string(active_weapon->GetClientClass()->m_pNetworkName);
-		if (strstr(modelName.c_str(), "Weapon"))
-			modelName = modelName.substr(7, modelName.length() - 7);
-		else
-			modelName = modelName.substr(1, modelName.length() - 1);
-	}
-
-	pstring topText;
-	pstring bottomText;
-
-	if (Settings::ESP::Info::showName)
-		topText << entityInformation.name;
-
-	if (Settings::ESP::Info::showHealth)
-		bottomText << entity->GetHealth() << "hp";
-
-	if (Settings::ESP::Info::showWeapon)
-		bottomText << (bottomText.length() > 0 ? " | " : "") << modelName;
-
-	Vector2D size_top = Draw::GetTextSize(topText.c_str(), esp_font);
-	Vector2D size_bottom = Draw::GetTextSize(bottomText.c_str(), esp_font);
-
-	Vector max = entity->GetCollideable()->OBBMaxs();
-
-	Vector pos, pos3D;
-	Vector top, top3D;
-
-	pos3D = entity->GetVecOrigin();
-	top3D = pos3D + Vector(0, 0, max.z);
-
-	if (WorldToScreen(pos3D, pos) || WorldToScreen(top3D, top))
-		return;
-
-	float height = (pos.y - top.y);
-
-	// So the text doesn't cover up the health bar
-	float bottomTextOffset = Settings::ESP::HealthBar::enabled && Settings::ESP::HealthBar::type == HORIZONTAL ? 6.0f : 0.0f;
-
-	Draw::DrawCenteredString(topText.c_str(), LOC (top.x, top.y - (size_top.y / 2)), color, esp_font);
-	Draw::DrawCenteredString(bottomText.c_str(), LOC (top.x, top.y + height + (size_bottom.y / 2) + bottomTextOffset), color, esp_font);
-}
-
-void ESP::DrawBombBox(C_BasePlantedC4* entity)
-{
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	Color color = Color().FromImColor(Settings::ESP::bomb_color);
-
-	int width = 7;
-	int additionalHeight = 4;
-
-	float bombTime = entity->GetBombTime() - globalvars->curtime;
-	if (bombTime <= 0.0f)
-		return;
-
-	Vector vecOrigin = entity->GetVecOrigin();
-	Vector vecViewOffset = Vector(vecOrigin.x, vecOrigin.y, vecOrigin.z - 4);
-
-	pstring str = "C4";
-
-	float flDistance = sqrt(localplayer->GetEyePosition().DistToSqr(vecOrigin));
-
-	float a = 450.7f;
-	float b = 75.68f;
-	float c = 789.2f;
-	float d = ((flDistance - b) / c);
-	float flDamage = a*exp(-d * d);
-
-	float damage = std::max((int)ceilf(GetArmourHealth(flDamage, localplayer->GetArmor())), 0);
-
-	bool surviveBlast = localplayer->GetHealth() > damage;
-
-	if (surviveBlast && damage == 1.f)
-		damage = 0.0f;
-
-	if (bombTime > 0)
-	{
-		if (localplayer->GetAlive())
-			str << " (" << bombTime << ", " << damage << " damage)";
-		else
-			str << " (" << bombTime << ")";
-	}
-
-	Vector s_veclocalplayer_s;
-	if (!WorldToScreen(vecOrigin, s_veclocalplayer_s))
-	{
-		Color colorText = entity->GetBombDefuser() != -1 ? Color(0, 50, 200) : surviveBlast ? Color(0, 255, 0) : Color(255, 0, 0);
-		DrawESPBox(vecOrigin, vecViewOffset, color, width, additionalHeight);
-		Draw::DrawCenteredString(str.c_str(), LOC(s_veclocalplayer_s.x, s_veclocalplayer_s.y), colorText, esp_font);
-	}
-}
-
-void ESP::DrawWeaponText(C_BaseEntity* entity, ClientClass* client)
-{
-	int modelId = *((C_BaseAttributableItem*)entity)->GetItemDefinitionIndex();
-
-	std::string modelName = Util::GetValueByKey(guns, modelId);
-	if (modelName == "")
-	{
-		modelName = std::string(client->m_pNetworkName);
-		if (strstr(modelName.c_str(), "Weapon"))
-			modelName = modelName.substr(7, modelName.length() - 7);
-		else
-			modelName = modelName.substr(1, modelName.length() - 1);
-	}
-
-	Vector vecOrigin = entity->GetVecOrigin();
-	if (vecOrigin == Vector(0, 0, 0))
-		return;
-
-	Vector s_veclocalplayer_s;
-	if (!WorldToScreen(vecOrigin, s_veclocalplayer_s))
-		Draw::DrawCenteredString(modelName.c_str(), LOC(s_veclocalplayer_s.x, s_veclocalplayer_s.y), Color(255, 255, 255, 255), esp_font);
+	Draw::Circle(LOC(width / 2, height / 2), 20, circleRadius, Color().FromImColor(Settings::ESP::FOVCrosshair::color));
 }
 
 void ESP::DrawGlow()
@@ -450,7 +825,8 @@ void ESP::DrawGlow()
 	if (!localplayer)
 		return;
 
-	for (int i = 0; i < glowmanager->m_GlowObjectDefinitions.Count(); i++) {
+	for (int i = 0; i < glowmanager->m_GlowObjectDefinitions.Count(); i++)
+	{
 		GlowObjectDefinition_t& glow_object = glowmanager->m_GlowObjectDefinitions[i];
 
 		if (glow_object.IsUnused() || !glow_object.m_pEntity)
@@ -480,12 +856,12 @@ void ESP::DrawGlow()
 			}
 		}
 		else if (client->m_ClassID != CBaseWeaponWorldModel &&
-			(strstr(client->m_pNetworkName, "Weapon") || client->m_ClassID == CDEagle || client->m_ClassID == CAK47))
+				 (strstr(client->m_pNetworkName, "Weapon") || client->m_ClassID == CDEagle || client->m_ClassID == CAK47))
 		{
-				color = Color().FromImColor(Settings::ESP::Glow::weapon_color);
+			color = Color().FromImColor(Settings::ESP::Glow::weapon_color);
 		}
 		else if (client->m_ClassID == CBaseCSGrenadeProjectile || client->m_ClassID == CDecoyProjectile ||
-				client->m_ClassID == CMolotovProjectile || client->m_ClassID == CSmokeGrenadeProjectile)
+				 client->m_ClassID == CMolotovProjectile || client->m_ClassID == CSmokeGrenadeProjectile)
 		{
 			color = Color().FromImColor(Settings::ESP::Glow::grenade_color);
 		}
@@ -519,23 +895,6 @@ bool ESP::PrePaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_for
 	return true;
 }
 
-void ESP::DrawFOVCrosshair()
-{
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer->GetAlive())
-		return;
-
-	int width, height;
-	engine->GetScreenSize(width, height);
-
-	float radAimbotFov = Settings::Aimbot::AutoAim::fov * M_PI / 180;
-	float radViewFov = RenderView::currentFOV * M_PI / 180;
-
-	float circleRadius = tanf(radAimbotFov / 2) / tanf(radViewFov / 2) * width;
-
-	Draw::DrawCircle(LOC(width / 2, height / 2), 20, circleRadius, Color().FromImColor(Settings::ESP::FOVCrosshair::color));
-}
-
 void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 {
 	if (!Settings::ESP::enabled)
@@ -548,62 +907,67 @@ void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 	if (!localplayer)
 		return;
 
-	for (int i = 1; i < entitylist->GetHighestEntityIndex(); ++i)
+	for (int i = 1; i < entitylist->GetHighestEntityIndex(); i++)
 	{
 		C_BaseEntity* entity = entitylist->GetClientEntity(i);
 		if (!entity)
 			continue;
 
 		ClientClass* client = entity->GetClientClass();
-		if (client->m_ClassID == CCSPlayer)
+
+		if (client->m_ClassID == CCSPlayer && (Settings::ESP::Filters::enemies || Settings::ESP::Filters::allies))
 		{
+			IEngineClient::player_info_t playerInfo;
+
 			if (entity == (C_BaseEntity*)localplayer
-				|| entity->GetDormant()
-				|| !entity->GetAlive())
+			    || entity->GetDormant()
+			    || !entity->GetAlive())
 				continue;
 
-			if (Settings::ESP::visibility_check && !Entity::IsVisible(entity, BONE_HEAD))
-				continue;
-
-			if (!Settings::ESP::friendly && localplayer->GetTeam() == entity->GetTeam())
-				continue;
-
-			if (!localplayer->GetAlive() && entitylist->GetClientEntityFromHandle(localplayer->GetObserverTarget()) == entity)
-				continue;
-
-			if (Settings::ESP::Bones::enabled)
-				ESP::DrawBones(entity);
-
-			if (Settings::ESP::Walls::enabled)
-				ESP::DrawPlayerBox(entity);
-
-			if (Settings::ESP::HealthBar::enabled)
-				ESP::DrawPlayerHealthBar(entity);
-
-			if (Settings::ESP::Tracer::enabled)
-				ESP::DrawTracer(entity);
-
-			if (Settings::ESP::Info::showName || Settings::ESP::Info::showHealth || Settings::ESP::Info::showWeapon)
-				ESP::DrawPlayerInfo(entity, i);
+			if (engine->GetPlayerInfo(i, &playerInfo))
+				DrawPlayer(i, entity, playerInfo);
 		}
-		else if (client->m_ClassID == CPlantedC4)
+		if ((client->m_ClassID != CBaseWeaponWorldModel && (strstr(client->m_pNetworkName, "Weapon") || client->m_ClassID == CDEagle || client->m_ClassID == CAK47)) && Settings::ESP::Filters::weapons)
 		{
-			C_BasePlantedC4* bomb = (C_BasePlantedC4*) entitylist->GetClientEntity(i);
-
-			if (Settings::ESP::Bomb::enabled && bomb->IsBombTicking() && !bomb->IsBombDefused())
-				ESP::DrawBombBox(bomb);
+			C_BaseCombatWeapon* weapon = (C_BaseCombatWeapon*)entity;
+			DrawDroppedWeapons(weapon);
 		}
-		else if (client->m_ClassID != CBaseWeaponWorldModel &&
-				(strstr(client->m_pNetworkName, "Weapon") || client->m_ClassID == CDEagle || client->m_ClassID == CAK47))
+		else if (client->m_ClassID == CC4 && Settings::ESP::Filters::bomb)
 		{
-			if (Settings::ESP::Weapons::enabled)
-				ESP::DrawWeaponText(entity, client);
+			C_BaseCombatWeapon* bomb = (C_BaseCombatWeapon*)entity;
+			DrawBomb(bomb);
+		}
+		else if (client->m_ClassID == CPlantedC4 && Settings::ESP::Filters::bomb)
+		{
+			C_BasePlantedC4* pC4 = (C_BasePlantedC4*)entity;
+			DrawPlantedBomb(pC4);
+		}
+		else if (client->m_ClassID == CHostage && Settings::ESP::Filters::hostages)
+		{
+			DrawHostage(entity);
+		}
+		else if (client->m_ClassID == CBaseAnimating && Settings::ESP::Filters::defusers)
+		{
+			DrawDefuseKit(entity);
+		}
+		else if (client->m_ClassID == CChicken && Settings::ESP::Filters::chickens)
+		{
+			DrawChicken(entity);
+		}
+		else if (client->m_ClassID == CFish && Settings::ESP::Filters::fishes)
+		{
+			DrawFish(entity);
+		}
+		else if (strstr(client->m_pNetworkName, "Projectile") && Settings::ESP::Filters::throwables)
+		{
+			DrawThrowable(entity, client);
 		}
 	}
 
 	if (Settings::ESP::FOVCrosshair::enabled)
 		ESP::DrawFOVCrosshair();
 }
+
 
 void ESP::BeginFrame(float frameTime)
 {

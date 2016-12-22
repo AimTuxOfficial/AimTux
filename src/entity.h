@@ -7,5 +7,6 @@
 namespace Entity
 {
 	bool IsVisible(C_BaseEntity *pEntity, int bone);
+	bool IsPlanting(C_BaseEntity *pEntity);
 	int GetBoneByName(C_BaseEntity *pEntity, const char* boneName);
 }

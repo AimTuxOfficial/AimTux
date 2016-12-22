@@ -10,6 +10,7 @@ bool showSkinChangerWindow = false;
 bool showConfigWindow = false;
 bool showColorsWindow = false;
 bool showPlayerListWindow = false;
+bool showPlayerInfoWindow = false;
 
 #define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))
 
@@ -162,14 +163,27 @@ void ColorsWindow()
 			"UI Body",
 			"UI Font",
 			"FOV Circle",
-			"ESP - Team",
 			"ESP - Enemy",
+			"ESP - Team",
 			"ESP - Enemy Visible",
-			"ESP - Bones",
+			"ESP - Team Visible",
+			"ESP - CT",
+			"ESP - T",
+			"ESP - CT Visible",
+			"ESP - T Visible",
 			"ESP - Bomb",
-			"ESP - Team Text",
-			"ESP - Enemy Text",
-			"ESP - Enemy Visible Text",
+			"ESP - Bomb Defusing",
+			"ESP - Hostage",
+			"ESP - Defuser",
+			"ESP - Weapon",
+			"ESP - Chicken",
+			"ESP - Fish",
+			"ESP - Smoke",
+			"ESP - Decoy",
+			"ESP - Flashbang",
+			"ESP - Grenade",
+			"ESP - Molotov",
+			"ESP - Skeleton",
 			"Chams - Team",
 			"Chams - Team Visible",
 			"Chams - Enemy",
@@ -183,19 +197,33 @@ void ColorsWindow()
 			"Dlights - Team",
 			"Dlights - Enemy",
 	};
+
 	ImColor* colors[] = {
 			&Settings::UI::mainColor,
 			&Settings::UI::bodyColor,
 			&Settings::UI::fontColor,
 			&Settings::ESP::FOVCrosshair::color,
-			&Settings::ESP::ally_color,
 			&Settings::ESP::enemy_color,
+			&Settings::ESP::ally_color,
 			&Settings::ESP::enemy_visible_color,
-			&Settings::ESP::bones_color,
+			&Settings::ESP::ally_visible_color,
+			&Settings::ESP::ct_color,
+			&Settings::ESP::t_color,
+			&Settings::ESP::ct_visible_color,
+			&Settings::ESP::t_visible_color,
 			&Settings::ESP::bomb_color,
-			&Settings::ESP::Info::ally_color,
-			&Settings::ESP::Info::enemy_color,
-			&Settings::ESP::Info::enemy_visible_color,
+			&Settings::ESP::bomb_defusing_color,
+			&Settings::ESP::hostage_color,
+			&Settings::ESP::defuser_color,
+			&Settings::ESP::weapon_color,
+			&Settings::ESP::chicken_color,
+			&Settings::ESP::fish_color,
+			&Settings::ESP::smoke_color,
+			&Settings::ESP::decoy_color,
+			&Settings::ESP::flashbang_color,
+			&Settings::ESP::grenade_color,
+			&Settings::ESP::molotov_color,
+			&Settings::ESP::Skeleton::color,
 			&Settings::ESP::Chams::players_ally_color,
 			&Settings::ESP::Chams::players_ally_visible_color,
 			&Settings::ESP::Chams::players_enemy_color,
@@ -209,9 +237,10 @@ void ColorsWindow()
 			&Settings::Dlights::ally_color,
 			&Settings::Dlights::enemy_color,
 	};
+
 	static int colorSelected = 0;
 
-	ImGui::SetNextWindowSize(ImVec2(540, 265), ImGuiSetCond_Always);
+	ImGui::SetNextWindowSize(ImVec2(540, 270), ImGuiSetCond_Always);
 	if (ImGui::Begin("Colors", &showColorsWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoResize))
 	{
 		ImGui::Columns(2, NULL, true);
@@ -433,11 +462,25 @@ void TriggerbotTab()
 	}
 }
 
+void PlayerInformationPopup()
+{
+	if (!showPlayerInfoWindow)
+		return;
+
+	ImGui::SetNextWindowSize(ImVec2(400, 258), ImGuiSetCond_Always);
+	if (ImGui::Begin("Player Information", &showPlayerInfoWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoResize))
+	{
+
+	}
+}
+
 void VisualsTab()
 {
-	const char* WallTypes[] = { "Flat 2D", "Box 3D" };
+	const char* BoxTypes[] = { "Flat 2D", "Frame 2D" };
 	const char* TracerTypes[] = { "Bottom", "Cursor" };
-	const char* HealthBarTypes[] = { "Vertical", "Horizontal" };
+	const char* BarTypes[] = { "Vertical", "Horizontal Below", "Horizontal Above", "Interwebz" };
+	const char* BarColorTypes[] = { "Static", "Health Based" };
+	const char* TeamColorTypes[] = { "Absolute", "Relative" };
 	const char* ChamsTypes[] = { "Normal", "Flat" };
 	const char* ArmsTypes[] = { "Default", "Rainbow", "Wireframe", "None" };
 
@@ -446,56 +489,96 @@ void VisualsTab()
 
 	ImGui::Columns(2, NULL, true);
 	{
-		ImGui::BeginChild("ESP", ImVec2(0, 0), true);
+		ImGui::BeginChild("COL1", ImVec2(0, 0), true);
 		{
-			ImGui::Text("Player ESP");
-			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
-			{
-				ImGui::Checkbox("Walls", &Settings::ESP::Walls::enabled);
-				ImGui::Checkbox("Tracers", &Settings::ESP::Tracer::enabled);
-				ImGui::Checkbox("Health Bar", &Settings::ESP::HealthBar::enabled);
-				ImGui::Checkbox("Show Bones", &Settings::ESP::Bones::enabled);
-				ImGui::Checkbox("Show Friendly", &Settings::ESP::friendly);
-				ImGui::Checkbox("Visibility Check", &Settings::ESP::visibility_check);
-			}
-			ImGui::NextColumn();
-			{
-				ImGui::PushItemWidth(-1);
-					ImGui::Combo("##WALLTYPE", &Settings::ESP::Walls::type, WallTypes, IM_ARRAYSIZE(WallTypes));
-					ImGui::Combo("##TRACERTYPE", &Settings::ESP::Tracer::type, TracerTypes, IM_ARRAYSIZE(TracerTypes));
-					ImGui::Combo("##HEALTHBARTYPE", &Settings::ESP::HealthBar::type, HealthBarTypes, IM_ARRAYSIZE(HealthBarTypes));
-				ImGui::PopItemWidth();
-			}
-			ImGui::Columns(1);
-			ImGui::Separator();
-			ImGui::Text("Player Information");
-			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
-			{
-				ImGui::Checkbox("Name", &Settings::ESP::Info::showName);
-				ImGui::Checkbox("Health", &Settings::ESP::Info::showHealth);
-			}
-			ImGui::NextColumn();
-			{
-				ImGui::Checkbox("Weapon", &Settings::ESP::Info::showWeapon);
-				ImGui::Checkbox("Colored", &Settings::ESP::Info::colorCode);
-			}
-			ImGui::Columns(1);
-			ImGui::Separator();
-			ImGui::Text("World ESP");
-			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
-			{
-				ImGui::Checkbox("Dropped Weapon Names", &Settings::ESP::Weapons::enabled);
-				ImGui::Checkbox("Entity Glow", &Settings::ESP::Glow::enabled);
-			}
-			ImGui::NextColumn();
-			{
-				ImGui::Checkbox("Bomb ESP", &Settings::ESP::Bomb::enabled);
-			}
-			ImGui::Columns(1);
-			ImGui::Separator();
+			ImGui::Text("ESP");
+			ImGui::BeginChild("ESP", ImVec2(0, 0), true);
+				ImGui::Text("Type");
+				ImGui::Separator();
+				ImGui::Columns(2, NULL, true);
+				{
+					ImGui::Checkbox("Outline Box", &Settings::ESP::Boxes::enabled);
+					ImGui::Checkbox("Health", &Settings::ESP::Bars::enabled);
+					ImGui::Checkbox("Tracers", &Settings::ESP::Tracers::enabled);
+					ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
+					ImGui::Text("Bar Color");
+					ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
+					ImGui::Text("Team Color");
+					ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
+					ImGui::Checkbox("Bullet Tracers", &Settings::ESP::BulletTracers::enabled);
+
+				}
+				ImGui::NextColumn();
+				{
+					ImGui::PushItemWidth(-1);
+						ImGui::Combo("##BOXTYPE", &Settings::ESP::Boxes::type, BoxTypes, IM_ARRAYSIZE(BoxTypes));
+						ImGui::Combo("##BARTYPE", &Settings::ESP::Bars::type, BarTypes, IM_ARRAYSIZE(BarTypes));
+						ImGui::Combo("##TRACERTYPE", &Settings::ESP::Tracers::type, TracerTypes, IM_ARRAYSIZE(TracerTypes));
+						ImGui::Combo("##BARCOLTYPE", &Settings::ESP::Bars::color_type, BarColorTypes, IM_ARRAYSIZE(BarColorTypes));
+						ImGui::Combo("##TEAMCOLTYPE", &Settings::ESP::team_color_type, TeamColorTypes, IM_ARRAYSIZE(TeamColorTypes));
+					ImGui::PopItemWidth();
+					ImGui::Checkbox("Skeleton", &Settings::ESP::Skeleton::enabled);
+				}
+				ImGui::Columns(1);
+				ImGui::Separator();
+				ImGui::Text("Filter");
+				ImGui::Separator();
+				ImGui::Columns(2, NULL, true);
+				{
+					ImGui::Checkbox("Enemies", &Settings::ESP::Filters::enemies);
+					ImGui::Checkbox("Chickens", &Settings::ESP::Filters::chickens);
+					ImGui::Checkbox("Legit Mode", &Settings::ESP::Filters::legit);
+				}
+				ImGui::NextColumn();
+				{
+					ImGui::Checkbox("Friendlies", &Settings::ESP::Filters::allies);
+					ImGui::Checkbox("Fish", &Settings::ESP::Filters::fishes);
+					ImGui::Checkbox("Visiblity Check", &Settings::ESP::Filters::visibility_check);
+				}
+				ImGui::Columns(1);
+				ImGui::Separator();
+				ImGui::Text("Player Information");
+				ImGui::Separator();
+				ImGui::Columns(2, NULL, true);
+				{
+					ImGui::Checkbox("Clan", &Settings::ESP::Info::clan);
+					ImGui::Checkbox("Rank", &Settings::ESP::Info::rank);
+					ImGui::Checkbox("Health", &Settings::ESP::Info::health);
+					ImGui::Checkbox("Scoped", &Settings::ESP::Info::scoped);
+					ImGui::Checkbox("Flashed", &Settings::ESP::Info::flashed);
+					ImGui::Checkbox("Defuse Kit", &Settings::ESP::Info::has_defuser);
+					ImGui::Checkbox("Grabbing Hostage", &Settings::ESP::Info::grabbing_hostage);
+					ImGui::Checkbox("Location", &Settings::ESP::Info::location);
+				}
+				ImGui::NextColumn();
+				{
+					ImGui::Checkbox("Name", &Settings::ESP::Info::name);
+					ImGui::Checkbox("Steam ID", &Settings::ESP::Info::steam_id);
+					ImGui::Checkbox("Weapon", &Settings::ESP::Info::weapon);
+					ImGui::Checkbox("Reloading", &Settings::ESP::Info::reloading);
+					ImGui::Checkbox("Planting", &Settings::ESP::Info::planting);
+					ImGui::Checkbox("Defusing", &Settings::ESP::Info::defusing);
+					ImGui::Checkbox("Rescuing Hostage", &Settings::ESP::Info::rescuing);
+				}
+
+				ImGui::Columns(1);
+				ImGui::Separator();
+				ImGui::Text("World");
+				ImGui::Separator();
+				ImGui::Columns(2, NULL, true);
+				{
+					ImGui::Checkbox("Weapons", &Settings::ESP::Filters::weapons);
+					ImGui::Checkbox("Throwables", &Settings::ESP::Filters::throwables);
+					ImGui::Checkbox("Entity Glow", &Settings::ESP::Glow::enabled);
+				}
+				ImGui::NextColumn();
+				{
+					ImGui::Checkbox("Bomb", &Settings::ESP::Filters::bomb);
+					ImGui::Checkbox("Defuse Kits", &Settings::ESP::Filters::defusers);
+					ImGui::Checkbox("Hostages", &Settings::ESP::Filters::hostages);
+				}
+				ImGui::Columns(1);
+				ImGui::EndChild();
 			ImGui::EndChild();
 		}
 	}
@@ -585,7 +668,6 @@ void HvHTab()
 					ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
 					ImGui::Text("Yaw Fake");
 					ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
-					ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
 					ImGui::Text("Yaw Actual");
 				}
 				ImGui::NextColumn();
@@ -601,6 +683,7 @@ void HvHTab()
 				ImGui::Separator();
 				ImGui::Columns(2, NULL, true);
 				{
+					ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
 					ImGui::Text("Pitch Actual");
 				}
 				ImGui::NextColumn();
@@ -624,7 +707,6 @@ void HvHTab()
 						ImGui::SliderFloat("##EDGEDISTANCE", &Settings::AntiAim::HeadEdge::distance, 10, 30);
 					ImGui::PopItemWidth();
 				}
-				ImGui::Columns(1);
 				ImGui::EndChild();
 			}
 			ImGui::Separator();
@@ -1385,6 +1467,7 @@ void UI::SetupWindows()
 		ConfigWindow();
 		ColorsWindow();
 		PlayerListWindow();
+		PlayerInformationPopup();
 	}
 
 	SpectatorsWindow();

@@ -101,10 +101,14 @@ struct COffsets
 	{
 		int m_iShotsFired;
 		int m_ArmorValue;
+		int m_bHasDefuser;
+		int m_bIsDefusing;
+		int m_bIsGrabbingHostage;
 		int m_bIsScoped;
 		int m_bGunGameImmunity;
+		int m_bIsRescuing;
 		int m_bHasHelmet;
-		int m_bHasDefuser;
+		int m_flFlashDuration;
 		int m_flFlashMaxAlpha;
 	} DT_CSPlayer;
 
@@ -135,7 +139,13 @@ struct COffsets
 
 	struct
 	{
+		int m_bStartedArming;
+	} DT_WeaponC4;
+
+	struct
+	{
 		int m_flNextPrimaryAttack;
+		int m_hOwner;
 		int m_iClip1;
 		int m_bInReload;
 	} DT_BaseCombatWeapon;
