@@ -389,6 +389,9 @@ void AimbotTab()
 				ImGui::Checkbox("Auto Scope", &Settings::Aimbot::AutoShoot::autoscope);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Automatically scopes weapons that have them");
+				ImGui::Checkbox("Ignore Jump", &Settings::Aimbot::IgnoreJump::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Prevents you from aimbotting while jumping");
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();

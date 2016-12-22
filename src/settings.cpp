@@ -137,6 +137,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Aimbot"]["AutoShoot"]["autoscope"] = Settings::Aimbot::AutoShoot::autoscope;
 	settings["Aimbot"]["AutoCrouch"]["enabled"] = Settings::Aimbot::AutoCrouch::enabled;
 	settings["Aimbot"]["AutoStop"]["enabled"] = Settings::Aimbot::AutoStop::enabled;
+	settings["Aimbot"]["IgnoreJump"]["enabled"] = Settings::Aimbot::IgnoreJump::enabled;
 
 	settings["Resolver"]["resolve_all"] = Settings::Resolver::resolve_all;
 
@@ -369,6 +370,7 @@ void Settings::LoadConfig(std::string path)
 	GetBool(settings["Aimbot"]["AutoShoot"]["autoscope"], &Settings::Aimbot::AutoShoot::autoscope);
 	GetBool(settings["Aimbot"]["AutoCrouch"]["enabled"], &Settings::Aimbot::AutoCrouch::enabled);
 	GetBool(settings["Aimbot"]["AutoStop"]["enabled"], &Settings::Aimbot::AutoStop::enabled);
+	GetBool(settings["Aimbot"]["IgnoreJump"]["enabled"], &Settings::Aimbot::IgnoreJump::enabled);
 
 	GetBool(settings["Resolver"]["resolve_all"], &Settings::Resolver::resolve_all);
 
