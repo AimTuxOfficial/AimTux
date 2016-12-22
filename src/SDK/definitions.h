@@ -23,6 +23,8 @@ typedef bool (*MsgFunc_ServerRankRevealAllFn) (float*);
 typedef void (*SendClanTagFn) (const char*, const char*);
 typedef void (*IsReadyCallbackFn) (void*);
 typedef ILauncherMgr* (*ILauncherMgrCreateFn) (void);
+typedef void (*StartDrawingFn) (void*);
+typedef void (*FinishDrawingFn) (void*);
 
 struct WeaponInfo_t {
 	float m_flWeaponArmorRatio;

@@ -33,6 +33,12 @@
 #define PLAYERRESOURCES_SIGNATURE "\x48\x8B\x05\x00\x00\x00\x00\x55\x48\x89\xE5\x48\x85\xC0\x74\x10\x48"
 #define PLAYERRESOURCES_MASK "xxx????xxxxxxxxxx"
 
+#define CMATSYSTEMSURFACE_STARTDRAWING_SIGNATURE "\x55\x48\x89\xE5\x53\x48\x89\xFB\x48\x83\xEC\x28\x80"
+#define CMATSYSTEMSURFACE_STARTDRAWING_MASK "xxxxxxxxxxxxx"
+
+#define CMATSYSTEMSURFACE_FINISHDRAWING_SIGNATURE "\x55\x31\xFF\x48\x89"
+#define CMATSYSTEMSURFACE_FINISHDRAWING_MASK "xxxxx"
+
 #include <unordered_map>
 #include <sys/mman.h>
 #include <link.h>
@@ -56,6 +62,7 @@ namespace Hooker
 	void HookSendPacket();
 	void HookPrediction();
 	void HookIsReadyCallback();
+	void HookSurfaceDrawing();
 	void HookSwapWindow();
 	void HookPollEvent();
 	void HookSDLInput();
