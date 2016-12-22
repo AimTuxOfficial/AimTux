@@ -30,6 +30,7 @@ float Settings::Aimbot::RCS::value = 2.0f;
 bool Settings::Aimbot::AutoCrouch::enabled = false;
 bool Settings::Aimbot::AutoStop::enabled = false;
 bool Settings::Aimbot::NoShoot::enabled = false;
+bool Settings::Aimbot::IgnoreJump::enabled = false;
 bool Settings::Aimbot::Smooth::Salting::enabled = false;
 float Settings::Aimbot::Smooth::Salting::percentage = 0.0f;
 
@@ -492,6 +493,9 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer || !localplayer->GetAlive())
+		return;
+
+	if (Settings::Aimbot::IgnoreJump::enabled && !(localplayer->GetFlags() & FL_ONGROUND))
 		return;
 
 	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());

@@ -207,6 +207,11 @@ namespace Settings
 		{
 			extern bool enabled;
 		}
+
+		namespace IgnoreJump
+		{
+			extern bool enabled;
+		}
 	}
 
 	namespace Triggerbot
