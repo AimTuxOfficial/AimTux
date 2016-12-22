@@ -26,7 +26,7 @@ void Draw::FilledRectangle(Vector2D start_pos, Vector2D end_pos, Color col)
 void Draw::Rectangle(int x0, int y0, int x1, int y1, Color col)
 {
 	surface->DrawSetColor(col);
-	surface->DrawOutlinedRect(x0, y0, x0 + x1, y0 + y1);
+	surface->DrawOutlinedRect(x0, y0, x1, y1);
 }
 
 void Draw::Rectangle(Vector2D start_pos, Vector2D end_pos, Color col)

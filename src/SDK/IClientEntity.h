@@ -796,3 +796,12 @@ public:
 		return *(bool*)((uintptr_t)this + offsets.DT_WeaponC4.m_bStartedArming);
 	}
 };
+
+class C_Chicken : C_BaseEntity
+{
+public:
+	bool* GetShouldGlow()
+	{
+		return (bool*)((uintptr_t)this + offsets.DT_DynamicProp.m_bShouldGlow);
+	}
+};
