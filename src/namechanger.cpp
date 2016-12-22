@@ -20,18 +20,18 @@ void NameChanger::BeginFrame(float frameTime)
 		Settings::NameChanger::enabled = false;
 		return;
 	}
-	
+
 	long currentTime_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
 			std::chrono::system_clock::now().time_since_epoch()).count();
 	static long timeStamp = currentTime_ms;
-	
+
 	if (currentTime_ms - timeStamp < 100)
 		return;
-	
+
 	timeStamp = currentTime_ms;
-	
+
 	changes++;
-	
+
 	if (changes == atomSize - 1 && Settings::NameChanger::last_blank)
 		SetName("\n");
 	else if (changes < atomSize - 1)
