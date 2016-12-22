@@ -543,7 +543,9 @@ void VisualsTab()
 				{
 					ImGui::Checkbox("Clan", &Settings::ESP::Info::clan);
 					ImGui::Checkbox("Rank", &Settings::ESP::Info::rank);
-					ImGui::Checkbox("Health", &Settings::ESP::Info::health);
+					ImGui::PushID(1);
+						ImGui::Checkbox("Health", &Settings::ESP::Info::health);
+					ImGui::PopID();
 					ImGui::Checkbox("Scoped", &Settings::ESP::Info::scoped);
 					ImGui::Checkbox("Flashed", &Settings::ESP::Info::flashed);
 					ImGui::Checkbox("Defuse Kit", &Settings::ESP::Info::has_defuser);
