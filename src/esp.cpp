@@ -816,7 +816,7 @@ void ESP::DrawFOVCrosshair()
 
 	float circleRadius = tanf(radAimbotFov / 2) / tanf(radViewFov / 2) * width;
 
-	Draw::Circle(LOC(width / 2, height / 2), 20, circleRadius, Color().FromImColor(Settings::ESP::FOVCrosshair::color));
+	Draw::Circle(LOC(width / 2, height / 2), 20, circleRadius, Color::FromImColor(Settings::ESP::FOVCrosshair::color));
 }
 
 void ESP::DrawGlow()
@@ -846,28 +846,28 @@ void ESP::DrawGlow()
 			if (glow_object.m_pEntity->GetTeam() != localplayer->GetTeam())
 			{
 				if (Entity::IsVisible(glow_object.m_pEntity, BONE_HEAD))
-					color = Color().FromImColor(Settings::ESP::Glow::enemy_visible_color);
+					color = Color::FromImColor(Settings::ESP::Glow::enemy_visible_color);
 				else
-					color = Color().FromImColor(Settings::ESP::Glow::enemy_color);
+					color = Color::FromImColor(Settings::ESP::Glow::enemy_color);
 			}
 			else
 			{
-				color = Color().FromImColor(Settings::ESP::Glow::ally_color);
+				color = Color::FromImColor(Settings::ESP::Glow::ally_color);
 			}
 		}
 		else if (client->m_ClassID != CBaseWeaponWorldModel &&
 				 (strstr(client->m_pNetworkName, "Weapon") || client->m_ClassID == CDEagle || client->m_ClassID == CAK47))
 		{
-			color = Color().FromImColor(Settings::ESP::Glow::weapon_color);
+			color = Color::FromImColor(Settings::ESP::Glow::weapon_color);
 		}
 		else if (client->m_ClassID == CBaseCSGrenadeProjectile || client->m_ClassID == CDecoyProjectile ||
 				 client->m_ClassID == CMolotovProjectile || client->m_ClassID == CSmokeGrenadeProjectile)
 		{
-			color = Color().FromImColor(Settings::ESP::Glow::grenade_color);
+			color = Color::FromImColor(Settings::ESP::Glow::grenade_color);
 		}
 		else if (client->m_ClassID == CBaseAnimating)
 		{
-			color = Color().FromImColor(Settings::ESP::Glow::defuser_color);
+			color = Color::FromImColor(Settings::ESP::Glow::defuser_color);
 
 			if (localplayer->HasDefuser() || localplayer->GetTeam() == TEAM_TERRORIST)
 				should_glow = false;
