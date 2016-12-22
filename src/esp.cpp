@@ -470,118 +470,118 @@ void ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_info
 
 			barsSpacing.y += barh;
 		}
+	}
 
-		// draw name
-		int multiplier = 1;
-		int nameOffset = (int)(Settings::ESP::Bars::type == BarType::HORIZONTAL_UP ? boxSpacing + barsSpacing.y : 0);
+	// draw name
+	int multiplier = 1;
+	int nameOffset = (int)(Settings::ESP::Bars::type == BarType::HORIZONTAL_UP ? boxSpacing + barsSpacing.y : 0);
 
-		if (Settings::ESP::Info::name || Settings::ESP::Info::clan)
+	if (Settings::ESP::Info::name || Settings::ESP::Info::clan)
+	{
+		std::string displayString;
+
+		if (Settings::ESP::Info::clan)
+			displayString += std::string((*csPlayerResource)->GetClan(index));
+
+		if (Settings::ESP::Info::clan && Settings::ESP::Info::name)
+			displayString += " ";
+
+		if (Settings::ESP::Info::name)
+			displayString += player_info.name;
+
+		Vector2D nameSize = Draw::GetTextSize(displayString.c_str(), esp_font);
+		Draw::Text((int)(x + (w / 2) - (nameSize.x / 2)), (int)(y - textSize.y - nameOffset), displayString.c_str(), esp_font, Color(255, 255, 255));
+		multiplier++;
+	}
+
+	// draw steamid
+	if (Settings::ESP::Info::steam_id)
+	{
+		Vector2D rankSize = Draw::GetTextSize(player_info.guid, esp_font);
+		Draw::Text((int)(x + (w / 2) - (rankSize.x / 2)), (int)(y - (textSize.y * multiplier) - nameOffset), player_info.guid, esp_font, Color(255, 255, 255, 255));
+		multiplier++;
+	}
+
+	// draw rank
+	if (Settings::ESP::Info::rank)
+	{
+		int rank = *(*csPlayerResource)->GetCompetitiveRanking(index);
+
+		if (rank >= 0 && rank < 19)
 		{
-			std::string displayString;
-
-			if (Settings::ESP::Info::clan)
-				displayString += std::string((*csPlayerResource)->GetClan(index));
-
-			if (Settings::ESP::Info::clan && Settings::ESP::Info::name)
-				displayString += " ";
-
-			if (Settings::ESP::Info::name)
-				displayString += player_info.name;
-
-			Vector2D nameSize = Draw::GetTextSize(displayString.c_str(), esp_font);
-			Draw::Text((int)(x + (w / 2) - (nameSize.x / 2)), (int)(y - textSize.y - nameOffset), displayString.c_str(), esp_font, Color(255, 255, 255));
-			multiplier++;
+			Vector2D rankSize = Draw::GetTextSize(ESP::Ranks[rank], esp_font);
+			Draw::Text((int)(x + (w / 2) - (rankSize.x / 2)), (int)(y - (textSize.y * multiplier) - nameOffset), ESP::Ranks[rank], esp_font, Color(255, 255, 255, 255));
 		}
+	}
 
-		// draw steamid
-		if (Settings::ESP::Info::steam_id)
+	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(player->GetActiveWeapon());
+
+	// health
+	if (Settings::ESP::Info::health)
+	{
+		std::string buf = std::to_string(player->GetHealth()) + " HP";
+		Draw::Text(x + w + boxSpacing, (int)(y + h - textSize.y), buf.c_str(), esp_font, Color(255, 255, 255));
+	}
+
+	// weapon
+	if (Settings::ESP::Info::weapon)
+	{
+		if (active_weapon)
 		{
-			Vector2D rankSize = Draw::GetTextSize(player_info.guid, esp_font);
-			Draw::Text((int)(x + (w / 2) - (rankSize.x / 2)), (int)(y - (textSize.y * multiplier) - nameOffset), player_info.guid, esp_font, Color(255, 255, 255, 255));
-			multiplier++;
-		}
-
-		// draw rank
-		if (Settings::ESP::Info::rank)
-		{
-			int rank = *(*csPlayerResource)->GetCompetitiveRanking(index);
-
-			if (rank >= 0 && rank < 19)
+			std::string modelName = std::string(Util::GetValueByKey(guns, *active_weapon->GetItemDefinitionIndex()));
+			if (modelName == "")
 			{
-				Vector2D rankSize = Draw::GetTextSize(ESP::Ranks[rank], esp_font);
-				Draw::Text((int)(x + (w / 2) - (rankSize.x / 2)), (int)(y - (textSize.y * multiplier) - nameOffset), ESP::Ranks[rank], esp_font, Color(255, 255, 255, 255));
+				modelName = std::string(active_weapon->GetClientClass()->m_pNetworkName);
+				if (strstr(modelName.c_str(), "Weapon"))
+					modelName = modelName.substr(7, modelName.length() - 7);
+				else
+					modelName = modelName.substr(1, modelName.length() - 1);
 			}
+			int offset = (int)(Settings::ESP::Bars::type == BarType::HORIZONTAL || Settings::ESP::Bars::type == BarType::INTERWEBZ ? boxSpacing + barsSpacing.y + 1 : 0);
+
+			Vector2D weaponTextSize = Draw::GetTextSize(modelName.c_str(), esp_font);
+			Draw::Text((int)(x + (w / 2) - (weaponTextSize.x / 2)), y + h + offset, modelName.c_str(), esp_font, Color(255, 255, 255));
 		}
+	}
 
-		C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(player->GetActiveWeapon());
+	// draw info
+	std::vector<std::string> stringsToShow;
 
-		// health
-		if (Settings::ESP::Info::health)
-		{
-			std::string buf = std::to_string(player->GetHealth()) + " HP";
-			Draw::Text(x + w + boxSpacing, (int)(y + h - textSize.y), buf.c_str(), esp_font, Color(255, 255, 255));
-		}
+	if (Settings::ESP::Info::scoped && player->IsScoped())
+		stringsToShow.push_back("Scoped");
 
-		// weapon
-		if (Settings::ESP::Info::weapon)
-		{
-			if (active_weapon)
-			{
-				std::string modelName = std::string(Util::GetValueByKey(guns, *active_weapon->GetItemDefinitionIndex()));
-				if (modelName == "")
-				{
-					modelName = std::string(active_weapon->GetClientClass()->m_pNetworkName);
-					if (strstr(modelName.c_str(), "Weapon"))
-						modelName = modelName.substr(7, modelName.length() - 7);
-					else
-						modelName = modelName.substr(1, modelName.length() - 1);
-				}
-				int offset = (int)(Settings::ESP::Bars::type == BarType::HORIZONTAL || Settings::ESP::Bars::type == BarType::INTERWEBZ ? boxSpacing + barsSpacing.y + 1 : 0);
+	if (Settings::ESP::Info::reloading && active_weapon && active_weapon->GetInReload())
+		stringsToShow.push_back("Reloading");
 
-				Vector2D weaponTextSize = Draw::GetTextSize(modelName.c_str(), esp_font);
-				Draw::Text((int)(x + (w / 2) - (weaponTextSize.x / 2)), y + h + offset, modelName.c_str(), esp_font, Color(255, 255, 255));
-			}
-		}
+	if (Settings::ESP::Info::flashed && player->GetFlashDuration() > 0.01f)
+		stringsToShow.push_back("Flashed");
 
-		// draw info
-		std::vector<std::string> stringsToShow;
+	if (Settings::ESP::Info::planting && Entity::IsPlanting(player))
+		stringsToShow.push_back("Planting");
 
-		if (Settings::ESP::Info::scoped && player->IsScoped())
-			stringsToShow.push_back("Scoped");
+	if (Settings::ESP::Info::planting && index == (*csPlayerResource)->GetPlayerC4())
+		stringsToShow.push_back("Bomb Carrier");
 
-		if (Settings::ESP::Info::reloading && active_weapon && active_weapon->GetInReload())
-			stringsToShow.push_back("Reloading");
+	if (Settings::ESP::Info::has_defuser && player->HasDefuser())
+		stringsToShow.push_back("Defuse kit");
 
-		if (Settings::ESP::Info::flashed && player->GetFlashDuration() > 0.01f)
-			stringsToShow.push_back("Flashed");
+	if (Settings::ESP::Info::defusing && player->IsDefusing())
+		stringsToShow.push_back("Defusing");
 
-		if (Settings::ESP::Info::planting && Entity::IsPlanting(player))
-			stringsToShow.push_back("Planting");
+	if (Settings::ESP::Info::grabbing_hostage && player->IsGrabbingHostage())
+		stringsToShow.push_back("Hostage Carrier");
 
-		if (Settings::ESP::Info::planting && index == (*csPlayerResource)->GetPlayerC4())
-			stringsToShow.push_back("Bomb Carrier");
+	if (Settings::ESP::Info::rescuing && player->IsRescuing())
+		stringsToShow.push_back("Rescuing");
 
-		if (Settings::ESP::Info::has_defuser && player->HasDefuser())
-			stringsToShow.push_back("Defuse kit");
+	if (Settings::ESP::Info::location)
+		stringsToShow.push_back(player->GetLastPlaceName());
 
-		if (Settings::ESP::Info::defusing && player->IsDefusing())
-			stringsToShow.push_back("Defusing");
-
-		if (Settings::ESP::Info::grabbing_hostage && player->IsGrabbingHostage())
-			stringsToShow.push_back("Hostage Carrier");
-
-		if (Settings::ESP::Info::rescuing && player->IsRescuing())
-			stringsToShow.push_back("Rescuing");
-
-		if (Settings::ESP::Info::location)
-			stringsToShow.push_back(player->GetLastPlaceName());
-
-		int i = 0;
-		for (auto Text : stringsToShow)
-		{
-			Draw::Text(x + w + boxSpacing, (int)(y + (i * (textSize.y + 2))), Text.c_str(), esp_font, Color(255, 255, 255));
-			i++;
-		}
+	int i = 0;
+	for (auto Text : stringsToShow)
+	{
+		Draw::Text(x + w + boxSpacing, (int)(y + (i * (textSize.y + 2))), Text.c_str(), esp_font, Color(255, 255, 255));
+		i++;
 	}
 
 	if (Settings::ESP::Skeleton::enabled)
