@@ -668,7 +668,7 @@ void VisualsTab()
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Adds chams effect to your arms");
 				ImGui::PushID(1);
-					ImGui::Checkbox("Visibility Check", &Settings::ESP::Chams::visibility_check);
+					ImGui::Checkbox("Legit", &Settings::ESP::Chams::visibility_check);
 					if (ImGui::IsItemHovered())
 						ImGui::SetTooltip("Hides enemies through walls");
 				ImGui::PopID();
