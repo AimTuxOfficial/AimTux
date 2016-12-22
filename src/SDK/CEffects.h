@@ -60,18 +60,18 @@ struct dlight_t {
 
 class CEffects {
 public:
-	dlight_t *CL_AllocDlight(int key) {
-		typedef dlight_t*(* oCL_AllocDlight)(void*, int);
-		getvfunc<oCL_AllocDlight>(this, 4)(this, key);
+	dlight_t* CL_AllocDlight(int key) {
+		typedef dlight_t* (* oCL_AllocDlight)(void*, int);
+		return getvfunc<oCL_AllocDlight>(this, 4)(this, key);
 	}
 
-	dlight_t *CL_AllocElight(int key) {
-		typedef dlight_t*(* oCL_AllocElight)(void*, int);
-		getvfunc<oCL_AllocElight>(this, 5)(this, key);
+	dlight_t* CL_AllocElight(int key) {
+		typedef dlight_t* (* oCL_AllocElight)(void*, int);
+		return getvfunc<oCL_AllocElight>(this, 5)(this, key);
 	}
 
-	dlight_t *GetElightByKey(int key) {
-		typedef dlight_t*(* oGetElightByKey)(void*, int);
-		getvfunc<oGetElightByKey>(this, 8)(this, key);
+	dlight_t* GetElightByKey(int key) {
+		typedef dlight_t* (* oGetElightByKey)(void*, int);
+		return getvfunc<oGetElightByKey>(this, 8)(this, key);
 	}
 };

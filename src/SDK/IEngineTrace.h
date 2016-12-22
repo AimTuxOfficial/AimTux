@@ -111,12 +111,12 @@ public:
 	void TraceRay(const Ray_t &ray, unsigned int fMask, CTraceFilter *pTraceFilter, trace_t *pTrace)
 	{
 		typedef void (* oTraceRay)(void*, const Ray_t&, unsigned int, CTraceFilter *, trace_t*);
-		getvfunc<oTraceRay>(this, 5)(this, ray, fMask, pTraceFilter, pTrace);
+		return getvfunc<oTraceRay>(this, 5)(this, ray, fMask, pTraceFilter, pTrace);
 	}
 
 	int GetPointContents(const Vector &vecAbsPosition, int contentsMask = MASK_ALL, IHandleEntity** ppEntity = NULL)
 	{
 		typedef int (* oGetPointContents)(void*, const Vector &vecAbsPosition, int contentsMask, IHandleEntity** ppEntity);
-		getvfunc<oGetPointContents>(this, 1)(this, vecAbsPosition, contentsMask, ppEntity);
+		return getvfunc<oGetPointContents>(this, 1)(this, vecAbsPosition, contentsMask, ppEntity);
 	}
 };

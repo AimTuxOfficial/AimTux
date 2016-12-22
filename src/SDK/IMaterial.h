@@ -141,18 +141,18 @@ public:
 	void AlphaModulate(float alpha)
 	{
 		typedef void (* oAlphaModulate)(void*, float);
-		getvfunc<oAlphaModulate>(this, 27)(this, alpha);
+		return getvfunc<oAlphaModulate>(this, 27)(this, alpha);
 	}
 
 	void ColorModulate(float r, float g, float b)
 	{
 		typedef void (* oColorModulate)(void*, float, float, float);
-		getvfunc<oColorModulate>(this, 28)(this, r, g, b);
+		return getvfunc<oColorModulate>(this, 28)(this, r, g, b);
 	}
 
 	void SetMaterialVarFlag(MaterialVarFlags_t flag, bool on)
 	{
 		typedef void (* oSetMaterialVarFlag)(void*, MaterialVarFlags_t, bool);
-		getvfunc<oSetMaterialVarFlag>(this, 29)(this, flag, on);
+		return getvfunc<oSetMaterialVarFlag>(this, 29)(this, flag, on);
 	}
 };
