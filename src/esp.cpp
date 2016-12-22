@@ -908,7 +908,7 @@ bool ESP::PrePaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_for
 	return true;
 }
 
-void ESP::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
+void ESP::Paint()
 {
 	if (!Settings::ESP::enabled)
 		return;

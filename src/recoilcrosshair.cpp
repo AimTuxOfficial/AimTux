@@ -3,7 +3,7 @@
 bool Settings::Recoilcrosshair::enabled = true;
 bool Settings::Recoilcrosshair::showOnlyWhenShooting = false;
 
-void Recoilcrosshair::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
+void Recoilcrosshair::Paint()
 {
 	if (!Settings::Recoilcrosshair::enabled)
 		return;

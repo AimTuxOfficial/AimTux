@@ -5,7 +5,7 @@ float Settings::Dlights::radius = 500.0f;
 ImColor Settings::Dlights::ally_color = ImColor(0, 50, 200, 255);
 ImColor Settings::Dlights::enemy_color = ImColor(200, 0, 50, 255);
 
-void Dlights::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
+void Dlights::Paint()
 {
 	if (!Settings::ESP::enabled)
 		return;
