@@ -5,6 +5,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Wno-maybe-uninitialize
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -static-libstdc++")
 set(CMAKE_BUILD_TYPE Debug)
 
+include_directories("/usr/include/freetype2")
+
 file(GLOB_RECURSE SOURCE_FILES src/*.cpp)
 add_library(AimTux SHARED ${SOURCE_FILES})
-target_link_libraries(AimTux SDL2 GL dl)
+target_link_libraries(AimTux SDL2 GL dl freetype)
