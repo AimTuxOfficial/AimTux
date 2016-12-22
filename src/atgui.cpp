@@ -423,6 +423,8 @@ void TriggerbotTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("Enabled", &Settings::Triggerbot::Delay::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Adds a delay to the Triggerbot");
 			}
 			ImGui::NextColumn();
 			{
@@ -444,15 +446,29 @@ void TriggerbotTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("Friendly", &Settings::Triggerbot::Filter::friendly);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger on friendlies");
 				ImGui::Checkbox("Walls", &Settings::Triggerbot::Filter::walls);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger through walls");
 				ImGui::Checkbox("Head", &Settings::Triggerbot::Filter::head);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger on head");
 				ImGui::Checkbox("Chest", &Settings::Triggerbot::Filter::chest);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger on chest");
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::Checkbox("Stomach", &Settings::Triggerbot::Filter::stomach);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger on stomach");
 				ImGui::Checkbox("Arms", &Settings::Triggerbot::Filter::arms);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger on arms");
 				ImGui::Checkbox("Legs", &Settings::Triggerbot::Filter::legs);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger on legs");
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -485,15 +501,22 @@ void VisualsTab()
 				ImGui::Columns(2, NULL, true);
 				{
 					ImGui::Checkbox("Outline Box", &Settings::ESP::Boxes::enabled);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Outline players with a box");
 					ImGui::Checkbox("Health", &Settings::ESP::Bars::enabled);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Show a players health with a bar");
 					ImGui::Checkbox("Tracers", &Settings::ESP::Tracers::enabled);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Draws a line to each player");
 					ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
 					ImGui::Text("Bar Color");
 					ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
 					ImGui::Text("Team Color");
 					ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
 					ImGui::Checkbox("Bullet Tracers", &Settings::ESP::BulletTracers::enabled);
-
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Adds a line showing where a player is aiming");
 				}
 				ImGui::NextColumn();
 				{
@@ -505,6 +528,8 @@ void VisualsTab()
 						ImGui::Combo("##TEAMCOLTYPE", &Settings::ESP::team_color_type, TeamColorTypes, IM_ARRAYSIZE(TeamColorTypes));
 					ImGui::PopItemWidth();
 					ImGui::Checkbox("Skeleton", &Settings::ESP::Skeleton::enabled);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Show a players skeleton");
 				}
 				ImGui::Columns(1);
 				ImGui::Separator();
@@ -513,14 +538,26 @@ void VisualsTab()
 				ImGui::Columns(2, NULL, true);
 				{
 					ImGui::Checkbox("Enemies", &Settings::ESP::Filters::enemies);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Show enemies");
 					ImGui::Checkbox("Chickens", &Settings::ESP::Filters::chickens);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Show chickens");
 					ImGui::Checkbox("Legit Mode", &Settings::ESP::Filters::legit);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Hide enemies behind walls");
 				}
 				ImGui::NextColumn();
 				{
 					ImGui::Checkbox("Friendlies", &Settings::ESP::Filters::allies);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Show team mates");
 					ImGui::Checkbox("Fish", &Settings::ESP::Filters::fishes);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Show fish");
 					ImGui::Checkbox("Visiblity Check", &Settings::ESP::Filters::visibility_check);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Change color of outlined box based on whether you see them");
 				}
 				ImGui::Columns(1);
 				ImGui::Separator();
@@ -529,25 +566,55 @@ void VisualsTab()
 				ImGui::Columns(2, NULL, true);
 				{
 					ImGui::Checkbox("Clan", &Settings::ESP::Info::clan);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Show clan");
 					ImGui::Checkbox("Rank", &Settings::ESP::Info::rank);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Show rank");
 					ImGui::PushID(1);
 						ImGui::Checkbox("Health", &Settings::ESP::Info::health);
+						if (ImGui::IsItemHovered())
+							ImGui::SetTooltip("Show health");
 					ImGui::PopID();
 					ImGui::Checkbox("Scoped", &Settings::ESP::Info::scoped);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Show whether they are scoped");
 					ImGui::Checkbox("Flashed", &Settings::ESP::Info::flashed);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Show whether they are flashed");
 					ImGui::Checkbox("Defuse Kit", &Settings::ESP::Info::has_defuser);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Show whether they have a defuse kit");
 					ImGui::Checkbox("Grabbing Hostage", &Settings::ESP::Info::grabbing_hostage);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Show whether they are grabbing a hostage");
 					ImGui::Checkbox("Location", &Settings::ESP::Info::location);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Show location");
 				}
 				ImGui::NextColumn();
 				{
 					ImGui::Checkbox("Name", &Settings::ESP::Info::name);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Show name");
 					ImGui::Checkbox("Steam ID", &Settings::ESP::Info::steam_id);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Show Steam ID");
 					ImGui::Checkbox("Weapon", &Settings::ESP::Info::weapon);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Show held weapon");
 					ImGui::Checkbox("Reloading", &Settings::ESP::Info::reloading);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Show whether they are reloading");
 					ImGui::Checkbox("Planting", &Settings::ESP::Info::planting);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Show whether they are planting");
 					ImGui::Checkbox("Defusing", &Settings::ESP::Info::defusing);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Show whether they are defusing");
 					ImGui::Checkbox("Rescuing Hostage", &Settings::ESP::Info::rescuing);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Show whether they are rescuing a hostage");
 				}
 
 				ImGui::Columns(1);
@@ -557,14 +624,26 @@ void VisualsTab()
 				ImGui::Columns(2, NULL, true);
 				{
 					ImGui::Checkbox("Weapons", &Settings::ESP::Filters::weapons);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Show weapons on floor");
 					ImGui::Checkbox("Throwables", &Settings::ESP::Filters::throwables);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Show throwables");
 					ImGui::Checkbox("Entity Glow", &Settings::ESP::Glow::enabled);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Show a glow around entities");
 				}
 				ImGui::NextColumn();
 				{
 					ImGui::Checkbox("Bomb", &Settings::ESP::Filters::bomb);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Show bomb when planted");
 					ImGui::Checkbox("Defuse Kits", &Settings::ESP::Filters::defusers);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Show defuse kits on floor");
 					ImGui::Checkbox("Hostages", &Settings::ESP::Filters::hostages);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Show hostages");
 				}
 				ImGui::Columns(1);
 				ImGui::EndChild();
@@ -581,9 +660,15 @@ void VisualsTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("Players", &Settings::ESP::Chams::players);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Show other players");
 				ImGui::Checkbox("Arms", &Settings::ESP::Chams::Arms::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Adds chams effect to your arms");
 				ImGui::PushID(1);
 					ImGui::Checkbox("Visibility Check", &Settings::ESP::Chams::visibility_check);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Hides enemies through walls");
 				ImGui::PopID();
 			}
 			ImGui::NextColumn();
@@ -600,11 +685,17 @@ void VisualsTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("Recoil Crosshair", &Settings::Recoilcrosshair::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Show a crosshair based on recoil");
 				ImGui::Checkbox("FOV Circle", &Settings::ESP::FOVCrosshair::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Show circle around aimbot FOV");
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::Checkbox("Only When Shooting", &Settings::Recoilcrosshair::showOnlyWhenShooting);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Only show recoil crosshair when shooting");
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -613,8 +704,14 @@ void VisualsTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("Dlights", &Settings::Dlights::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Adds a light source to players");
 				ImGui::Checkbox("No Flash", &Settings::Noflash::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Hide flashbang effect");
 				ImGui::Checkbox("No View Punch", &Settings::View::NoPunch::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Disables view punch when shooting");
 			}
 			ImGui::NextColumn();
 			{
@@ -623,6 +720,8 @@ void VisualsTab()
 					ImGui::SliderFloat("##NOFLASHAMOUNT", &Settings::Noflash::value, 0, 255);
 				ImGui::PopItemWidth();
 				ImGui::Checkbox("Radar", &Settings::Radar::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Shows enemies on radar");
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -650,6 +749,8 @@ void HvHTab()
 			ImGui::BeginChild("##ANTIAIM", ImVec2(0, ImGui::GetWindowSize().y / 2 - 30), true);
 			{
 				ImGui::Checkbox("Yaw", &Settings::AntiAim::Yaw::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Enables Yaw AntiAim");
 				ImGui::Separator();
 				ImGui::Columns(2, NULL, true);
 				{
@@ -668,6 +769,8 @@ void HvHTab()
 				ImGui::Columns(1);
 				ImGui::Separator();
 				ImGui::Checkbox("Pitch", &Settings::AntiAim::Pitch::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Enables Pitch AntiAim");
 				ImGui::Separator();
 				ImGui::Columns(2, NULL, true);
 				{
@@ -687,7 +790,11 @@ void HvHTab()
 				ImGui::Columns(2, NULL, true);
 				{
 					ImGui::Checkbox("Enabled", &Settings::AntiAim::HeadEdge::enabled);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Aims your head into the closest wall");
 					ImGui::Checkbox("Fake Out", &Settings::AntiAim::FakeOut::enabled);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Fakes your head poking out of the wall");
 				}
 				ImGui::NextColumn();
 				{
@@ -702,6 +809,8 @@ void HvHTab()
 				ImGui::NextColumn();
 				{
 					ImGui::Checkbox("Resolve All", &Settings::Resolver::resolve_all);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Resolves all players on the server");
 				}
 				ImGui::EndChild();
 			}
@@ -711,10 +820,14 @@ void HvHTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("Auto Crouch", &Settings::Aimbot::AutoCrouch::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Auto crouch when an enemy is in sight");
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::Checkbox("Auto Stop", &Settings::Aimbot::AutoStop::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Auto stop when an enemy is in sight");
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -730,6 +843,8 @@ void HvHTab()
 			ImGui::Columns(2, NULL, true);
 				{
 					ImGui::Checkbox("Enabled", &Settings::Aimbot::AutoWall::enabled);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Shoots enemy through a wall if it does X amount of damage");
 				}
 				ImGui::NextColumn();
 				{
@@ -744,14 +859,26 @@ void HvHTab()
 				ImGui::Columns(2, NULL, true);
 				{
 					ImGui::Checkbox("Head", &Settings::Aimbot::AutoWall::bones[HITBOX_HEAD]);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Trigger on head");
 					ImGui::Checkbox("Neck", &Settings::Aimbot::AutoWall::bones[HITBOX_NECK]);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Trigger on neck");
 					ImGui::Checkbox("Pelvis", &Settings::Aimbot::AutoWall::bones[HITBOX_PELVIS]);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Trigger on pelvis");
 				}
 				ImGui::NextColumn();
 				{
 					ImGui::Checkbox("Spine", &Settings::Aimbot::AutoWall::bones[HITBOX_SPINE]);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Trigger on spine");
 					ImGui::Checkbox("Legs", &Settings::Aimbot::AutoWall::bones[HITBOX_LEGS]);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Trigger on legs");
 					ImGui::Checkbox("Arms", &Settings::Aimbot::AutoWall::bones[HITBOX_ARMS]);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Trigger on arms");
 				}
 				ImGui::Columns(1);
 				ImGui::Separator();
