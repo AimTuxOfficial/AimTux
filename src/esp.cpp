@@ -444,6 +444,7 @@ void ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_info
 			Verts[2].Init(Vector2D(barx + w, bary + 5));
 			Verts[3].Init(Vector2D(barx - 5, bary + 5));
 
+			Draw::TexturedPolygon(4, Verts, Color(10, 10, 10, 255));
 			Draw::PolyLine(Verts, 4, Color(255, 255, 255, 170));
 
 			Vertex_t Verts2[4];
