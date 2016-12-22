@@ -812,31 +812,7 @@ void ESP::DrawTracer(C_BaseEntity* entity)
 
 void ESP::DrawSounds()
 {
-	static CUtlVector<SndInfo_t> sounds;
-	sound->GetActiveSounds(sounds);
 
-	std::vector<Vector> positions;
-
-	for (int i = 0; i < sounds.Count(); i++)
-	{
-		SndInfo_t current = sounds[i];
-
-		if (current.m_flVolume <= 0.0f)
-			continue;
-
-		Vector *pos = current.m_pOrigin;
-		Vector pos2d;
-
-		if (debugOverlay->ScreenPosition(*pos, pos2d))
-			continue;
-
-		if (std::find(positions.begin(), positions.end(), *pos) != positions.end())
-			continue;
-
-		Draw::Text((int)pos2d.x, (int)pos2d.y, "Sound", esp_font, Color(255, 255, 255, 255));
-
-		positions.push_back(*pos);
-	}
 }
 
 void ESP::DrawFOVCrosshair()
