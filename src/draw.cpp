@@ -87,12 +87,13 @@ void Draw::TextW(Vector2D pos, const wchar_t* text, FONT font, Color col)
 
 void Draw::Text(int x, int y, const char* text, FONT font, Color col)
 {
-	std::string stext = std::string(text);
-	std::wstring wtext = std::wstring(stext.begin(), stext.end());
+	std::wstring wc(strlen(text) + 1, L'#');
+	mbstowcs(&wc[0], text, strlen(text) + 1);
+
 	surface->DrawSetTextPos(x, y);
 	surface->DrawSetTextFont(font);
 	surface->DrawSetTextColor(col);
-	surface->DrawPrintText(wtext.c_str(), wcslen(wtext.c_str()));
+	surface->DrawPrintText(wc.c_str(), wcslen(wc.c_str()));
 }
 
 void Draw::Text(Vector2D pos, const char* text, FONT font, Color col)
