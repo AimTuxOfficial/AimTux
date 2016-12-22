@@ -59,6 +59,9 @@ int __attribute__((constructor)) aimtux_init()
 
 	launchermgr_vmt->HookVM((void*) Hooks::PumpWindowsMessageLoop, 19);
 	launchermgr_vmt->ApplyVMT();
+	
+	enginevgui_vmt->HookVM((void*) Hooks::Paint, 15);
+	enginevgui_vmt->ApplyVMT();
 
 	SkinChanger::HookCBaseViewModel();
 
@@ -89,6 +92,7 @@ void __attribute__((destructor)) aimtux_shutdown()
 	material_vmt->ReleaseVMT();
 	surface_vmt->ReleaseVMT();
 	launchermgr_vmt->ReleaseVMT();
+	enginevgui_vmt->ReleaseVMT();
 
 	SkinChanger::UnhookCBaseViewModel();
 
