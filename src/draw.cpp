@@ -1,62 +1,6 @@
 #include "draw.h"
 
-FONT Draw::CreateFont(const char* fontName, int size, int flag = FONTFLAG_DROPSHADOW)
-{
-	FONT newFont = surface->CreateFont();
-
-	surface->SetFontGlyphSet(newFont, fontName, size, 0, 0, 0, flag);
-
-	return newFont;
-}
-
-Vector2D Draw::GetTextSize(std::string text, FONT font)
-{
-	int x = 0;
-	int y = 0;
-	
-	surface->GetTextSize(font, std::wstring (text.begin(), text.end()).c_str(), x, y);
-
-	return LOC(x, y);
-}
-
-Vector2D Draw::GetTextSize(const wchar_t* text, FONT font)
-{
-	int x = 0;
-	int y = 0;
-	
-	surface->GetTextSize(font, text, x, y);
-
-	return LOC(x, y);
-}
-
-void Draw::DrawString(std::string text, Vector2D location, Color color, FONT font)
-{
-	std::wstring wtext = std::wstring(text.begin(), text.end());
-	
-	surface->DrawSetTextColor(color.r, color.g, color.b, color.a);
-	surface->DrawSetTextFont(font);
-	surface->DrawSetTextPos((int) location.x, (int) location.y);
-
-	surface->DrawPrintText(wtext.c_str(), wcslen(wtext.c_str()));
-}
-
-void Draw::DrawCenteredString(std::string text, Vector2D location, Color color, FONT font)
-{
-	std::wstring wtext = std::wstring(text.begin(), text.end());
-	
-	Vector2D textSize = GetTextSize(wtext.c_str(), font);
-
-	location.x -= textSize.x / 2;
-	location.y -= textSize.y / 2;
-
-	surface->DrawSetTextColor(color.r, color.g, color.b, color.a);
-	surface->DrawSetTextFont(font);
-	surface->DrawSetTextPos((int) location.x, (int) location.y);
-
-	surface->DrawPrintText(wtext.c_str(), wcslen(wtext.c_str()));
-}
-
-void Draw::DrawCircle(Vector2D position, float points, float radius, Color color)
+void ::Draw::Circle(Vector2D position, float points, float radius, Color color)
 {
 	float step = M_PI * 2.0 / points;
 
@@ -64,83 +8,175 @@ void Draw::DrawCircle(Vector2D position, float points, float radius, Color color
 	{
 		Vector2D start(radius * cos(a) + position.x, radius * sin(a) + position.y);
 		Vector2D end(radius * cos(a + step) + position.x, radius * sin(a + step) + position.y);
-		DrawLine(start, end, color);
+		Line(start, end, color);
 	}
 }
 
-void Draw::DrawRect(Vector2D start, Vector2D end, Color color)
+void Draw::FilledRectangle(int x0, int y0, int x1, int y1, Color col)
 {
-	surface->DrawSetColor(color.r, color.g, color.b, color.a);
-	surface->DrawFilledRect((int) start.x, (int) start.y, (int) end.x, (int) end.y);
+	surface->DrawSetColor(col);
+	surface->DrawFilledRect(x0, y0, x1, y1);
 }
 
-void Draw::DrawBox(Vector2D start, Vector2D end, Color color)
+void Draw::FilledRectangle(Vector2D start_pos, Vector2D end_pos, Color col)
 {
-	surface->DrawSetColor(color.r, color.g, color.b, color.a);
-	surface->DrawOutlinedRect((int) start.x, (int) start.y, (int) end.x, (int) end.y);
+	FilledRectangle(start_pos.x, start_pos.y, end_pos.x, end_pos.y, col);
 }
 
-void Draw::DrawLine(Vector2D start, Vector2D end, Color color)
+void Draw::Rectangle(int x0, int y0, int x1, int y1, Color col)
 {
-	surface->DrawSetColor(color.r, color.g, color.b, color.a);
-	surface->DrawLine((int) start.x, (int) start.y, (int) end.x, (int) end.y);
+	surface->DrawSetColor(col);
+	surface->DrawOutlinedRect(x0, y0, x0 + x1, y0 + y1);
 }
 
-void Draw::DrawOutlinedBox(float x, float y, float w, float h, Color color )
+void Draw::Rectangle(Vector2D start_pos, Vector2D end_pos, Color col)
 {
-	surface->DrawSetColor(color.r, color.g, color.b, color.a);
-	surface->DrawOutlinedRect((int) (x - w), (int) y, (int) (x + w), (int) (y + h));
-
-	int div = 3;
-	surface->DrawSetColor(color.r / div, color.g / div, color.b / div, 255);
-	surface->DrawOutlinedRect((int) (x - w - 1), (int) (y - 1), (int) (x + w + 1), (int) (y + h + 1));
-	surface->DrawOutlinedRect((int) (x - w + 1), (int) (y + 1), (int) (x + w - 1), (int) (y + h - 1));
+	Rectangle(start_pos.x, start_pos.y, end_pos.x, end_pos.y, col);
 }
 
-void Draw::DrawPolygon(int count, Vertex_t* Vertexs, Color color)
+void Draw::Line(int x0, int y0, int x1, int y1, Color col)
 {
-	static int Texture = surface->CreateNewTextureID(true);
-	unsigned char buffer[4] = { 255, 255, 255, 255 };
-
-	surface->DrawSetTextureRGBA(Texture, buffer, 1, 1);
-	surface->DrawSetColor(color.r, color.g, color.b, color.a);
-	surface->DrawSetTexture(Texture);
-
-	surface->DrawTexturedPolygon(count, Vertexs);
+	surface->DrawSetColor(col);
+	surface->DrawLine(x0, y0, x1, y1);
+}
+void Draw::Line(Vector2D start_pos, Vector2D end_pos, Color col)
+{
+	Line(start_pos.x, start_pos.y, end_pos.x, end_pos.y, col);
 }
 
-void Draw::DrawPolygonOutline(int count, Vertex_t* Vertexs, Color color, Color colorLine)
+void Draw::PolyLine(int* px, int* py, int num_points, Color col)
 {
-	static int x[128];
-	static int y[128];
+	surface->DrawSetColor(col);
+	surface->DrawPolyLine(px, py, num_points);
+}
 
-	Draw::DrawPolygon(count, Vertexs, color);
-
-	for (int i = 0; i < count; i++)
+void Draw::PolyLine(Vertex_t* vertice, int num_points, Color col)
+{
+	static int* points_x = new int[num_points];
+	static int* points_y = new int[num_points];
+	for (int i = 0; i < num_points; i++)
 	{
-		x[i] = Vertexs[i].m_Position.x;
-		y[i] = Vertexs[i].m_Position.y;
+		points_x[i] = static_cast<int>(vertice[i].m_Position.x);
+		points_y[i] = static_cast<int>(vertice[i].m_Position.y);
 	}
-
-	Draw::DrawPolyLine(x, y, count, colorLine);
+	PolyLine(points_x, points_y, num_points, col);
 }
 
-void Draw::DrawPolyLine(int *x, int *y, int count, Color color)
+void Draw::TexturedPolygon(int n, Vertex_t* vertice, Color col)
 {
-	surface->DrawSetColor(color.r, color.g, color.b, color.a);
-	surface->DrawPolyLine(x, y, count);
+	static int texture_id = surface->CreateNewTextureID(true);
+	static unsigned char buf[4] = {255, 255, 255, 255};
+	surface->DrawSetTextureRGBA(texture_id, buf, 1, 1);
+	surface->DrawSetColor(col);
+	surface->DrawSetTexture(texture_id);
+	surface->DrawTexturedPolygon(n, vertice);
 }
 
-void Draw::DrawPolyLine(int count, Vertex_t* Vertexs, Color colorLine)
+void Draw::TextW(int x, int y, const wchar_t* text, FONT font, Color col)
 {
-	static int x[128];
-	static int y[128];
+	surface->DrawSetTextPos(x, y);
+	surface->DrawSetTextFont(font);
+	surface->DrawSetTextColor(col);
+	surface->DrawPrintText(text, wcslen(text));
+}
 
-	for (int i = 0; i < count; i++)
+void Draw::TextW(Vector2D pos, const wchar_t* text, FONT font, Color col)
+{
+	TextW(pos.x, pos.y, text, font, col);
+}
+
+void Draw::Text(int x, int y, const char* text, FONT font, Color col)
+{
+	std::string stext = std::string(text);
+	std::wstring wtext = std::wstring(stext.begin(), stext.end());
+	surface->DrawSetTextPos(x, y);
+	surface->DrawSetTextFont(font);
+	surface->DrawSetTextColor(col);
+	surface->DrawPrintText(wtext.c_str(), wcslen(wtext.c_str()));
+}
+
+void Draw::Text(Vector2D pos, const char* text, FONT font, Color col)
+{
+	Text(pos.x, pos.y, text, font, col);
+}
+
+void Draw::GetTextWSize(const wchar_t* text, FONT font, int& wide, int& tall)
+{
+	surface->GetTextSize(font, text, wide, tall);
+}
+
+void Draw::GetTextSize(const char* text, FONT font, int& wide, int& tall)
+{
+	std::string stext = std::string(text);
+	std::wstring wtext = std::wstring(stext.begin(), stext.end());
+	surface->GetTextSize(font, wtext.c_str(), wide, tall);
+}
+
+Vector2D Draw::GetTextWSize(const wchar_t* text, FONT font)
+{
+	int x_res, y_res;
+	surface->GetTextSize(font, text, x_res,y_res);
+	return Vector2D(x_res, y_res);
+}
+
+Vector2D Draw::GetTextSize(const char* text, FONT font)
+{
+	std::string stext = std::string(text);
+	std::wstring wtext = std::wstring(stext.begin(), stext.end());
+
+	int x_res, y_res;
+	surface->GetTextSize(font, wtext.c_str(), x_res, y_res);
+	return Vector2D(x_res, y_res);
+}
+
+FONT Draw::CreateFont(const char* fontName, int size, int flag)
+{
+	FONT newFont = surface->CreateFont();
+	surface->SetFontGlyphSet(newFont, fontName, size, 0, 0, 0, flag);
+	return newFont;
+}
+
+void Draw::ImStart()
+{
+	int width, height;
+	SDL_GetWindowSize(SDL_GL_GetCurrentWindow(), &width, &height);
+
+	ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiSetCond_Always);
+	ImGui::SetNextWindowSize(ImVec2(width, height), ImGuiSetCond_Always);
+	ImGui::Begin("",
+	             (bool*)true,
+	             ImVec2(width, height),
+	             0.f,
+	             ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoInputs);
+}
+
+void Draw::ImDrawText(ImVec2 pos, ImColor color, const char* text_begin, const char* text_end, float wrap_width, const ImVec4* cpu_fine_clip_rect, ImFontFlags flags)
+{
+	if (flags & ImFontFlags_Outline)
 	{
-		x[i] = Vertexs[i].m_Position.x;
-		y[i] = Vertexs[i].m_Position.y;
+		ImGui::GetWindowDrawList()->AddText(ImGui::GetWindowFont(), ImGui::GetWindowFontSize(), ImVec2(pos.x - 1, pos.y - 1), ImColor(0, 0, 0, 255), text_begin, text_end, wrap_width, cpu_fine_clip_rect);
+		ImGui::GetWindowDrawList()->AddText(ImGui::GetWindowFont(), ImGui::GetWindowFontSize(), ImVec2(pos.x + 2, pos.y), ImColor(0, 0, 0, 255), text_begin, text_end, wrap_width, cpu_fine_clip_rect);
+		ImGui::GetWindowDrawList()->AddText(ImGui::GetWindowFont(), ImGui::GetWindowFontSize(), ImVec2(pos.x, pos.y + 2), ImColor(0, 0, 0, 255), text_begin, text_end, wrap_width, cpu_fine_clip_rect);
+		ImGui::GetWindowDrawList()->AddText(ImGui::GetWindowFont(), ImGui::GetWindowFontSize(), ImVec2(pos.x - 2, pos.y), ImColor(0, 0, 0, 255), text_begin, text_end, wrap_width, cpu_fine_clip_rect);
 	}
 
-	Draw::DrawPolyLine(x, y, count, colorLine);
+	if (flags & ImFontFlags_Shadow)
+		ImGui::GetWindowDrawList()->AddText(ImGui::GetWindowFont(), ImGui::GetWindowFontSize(), ImVec2(pos.x + 1, pos.y + 1), ImColor(0, 0, 0, 255), text_begin, text_end, wrap_width, cpu_fine_clip_rect);
+
+	ImGui::GetWindowDrawList()->AddText(ImGui::GetWindowFont(), ImGui::GetWindowFontSize(), pos, color, text_begin, text_end, wrap_width, cpu_fine_clip_rect);
+}
+
+void Draw::ImDrawCircle(ImVec2 point, ImColor color, float radius, int num_segments, float thickness)
+{
+	ImGui::GetWindowDrawList()->AddCircle(point, radius, color, num_segments, thickness);
+}
+
+void Draw::ImDrawRect(ImVec2 a, ImVec2 b, ImColor color, float rounding, int rounding_corners_flags, float thickness)
+{
+	ImGui::GetWindowDrawList()->AddRect(a, b, color, rounding, rounding_corners_flags, thickness);
+}
+
+void Draw::ImEnd()
+{
+	ImGui::End();
 }

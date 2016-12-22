@@ -33,6 +33,49 @@ void Offsets::getOffsets()
 	offsets.DT_BaseCombatCharacter.m_hActiveWeapon = NetVarManager::getOffset(tables, "DT_BaseCombatCharacter", "m_hActiveWeapon");
 	offsets.DT_BaseCombatCharacter.m_hMyWeapons = NetVarManager::getOffset(tables, "DT_BaseCombatCharacter", "m_hMyWeapons") / 2;
 
+	offsets.DT_PlayerResource.m_iPing = NetVarManager::getOffset(tables, "DT_PlayerResource", "m_iPing");
+	offsets.DT_PlayerResource.m_iKills = NetVarManager::getOffset(tables, "DT_PlayerResource", "m_iKills");
+	offsets.DT_PlayerResource.m_iAssists = NetVarManager::getOffset(tables, "DT_PlayerResource", "m_iAssists");
+	offsets.DT_PlayerResource.m_iDeaths = NetVarManager::getOffset(tables, "DT_PlayerResource", "m_iDeaths");
+	offsets.DT_PlayerResource.m_bConnected = NetVarManager::getOffset(tables, "DT_PlayerResource", "m_bConnected");
+	offsets.DT_PlayerResource.m_iTeam = NetVarManager::getOffset(tables, "DT_PlayerResource", "m_iTeam");
+	offsets.DT_PlayerResource.m_iPendingTeam = NetVarManager::getOffset(tables, "DT_PlayerResource", "m_iPendingTeam");
+	offsets.DT_PlayerResource.m_bAlive = NetVarManager::getOffset(tables, "DT_PlayerResource", "m_bAlive");
+	offsets.DT_PlayerResource.m_iHealth = NetVarManager::getOffset(tables, "DT_PlayerResource", "m_iHealth");
+
+	offsets.DT_CSPlayerResource.m_iPlayerC4 = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_iPlayerC4");
+	offsets.DT_CSPlayerResource.m_iPlayerVIP = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_iPlayerVIP");
+	offsets.DT_CSPlayerResource.m_bHostageAlive = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_bHostageAlive");
+	offsets.DT_CSPlayerResource.m_isHostageFollowingSomeone = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_isHostageFollowingSomeone");
+	offsets.DT_CSPlayerResource.m_iHostageEntityIDs = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_iHostageEntityIDs");
+	offsets.DT_CSPlayerResource.m_bombsiteCenterB = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_bombsiteCenterB");
+	offsets.DT_CSPlayerResource.m_hostageRescueX = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_hostageRescueX");
+	offsets.DT_CSPlayerResource.m_hostageRescueY = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_hostageRescueY");
+	offsets.DT_CSPlayerResource.m_hostageRescueZ = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_hostageRescueZ");
+	offsets.DT_CSPlayerResource.m_iMVPs = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_iMVPs");
+	offsets.DT_CSPlayerResource.m_iArmor = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_iArmor");
+	offsets.DT_CSPlayerResource.m_bHasHelmet = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_bHasHelmet");
+	offsets.DT_CSPlayerResource.m_bHasDefuser = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_bHasDefuser");
+	offsets.DT_CSPlayerResource.m_iScore = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_iScore");
+	offsets.DT_CSPlayerResource.m_iCompetitiveRanking = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_iCompetitiveRanking");
+	offsets.DT_CSPlayerResource.m_iCompetitiveWins = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_iCompetitiveWins");
+	offsets.DT_CSPlayerResource.m_iCompTeammateColor = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_iCompTeammateColor");
+	offsets.DT_CSPlayerResource.m_bControllingBot = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_bControllingBot");
+	offsets.DT_CSPlayerResource.m_iControlledPlayer = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_iControlledPlayer");
+	offsets.DT_CSPlayerResource.m_iControlledByPlayer = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_iControlledByPlayer");
+	offsets.DT_CSPlayerResource.m_iBotDifficulty = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_iBotDifficulty");
+	offsets.DT_CSPlayerResource.m_szClan = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_szClan");
+	offsets.DT_CSPlayerResource.m_iTotalCashSpent = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_iTotalCashSpent");
+	offsets.DT_CSPlayerResource.m_iCashSpentThisRound = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_iCashSpentThisRound");
+	offsets.DT_CSPlayerResource.m_nEndMatchNextMapVotes = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_nEndMatchNextMapVotes");
+	offsets.DT_CSPlayerResource.m_bEndMatchNextMapAllVoted = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_bEndMatchNextMapAllVoted");
+	offsets.DT_CSPlayerResource.m_nActiveCoinRank = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_nActiveCoinRank");
+	offsets.DT_CSPlayerResource.m_nMusicID = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_nMusicID");
+	offsets.DT_CSPlayerResource.m_nPersonaDataPublicLevel = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_nPersonaDataPublicLevel");
+	offsets.DT_CSPlayerResource.m_nPersonaDataPublicCommendsLeader = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_nPersonaDataPublicCommendsLeader");
+	offsets.DT_CSPlayerResource.m_nPersonaDataPublicCommendsTeacher = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_nPersonaDataPublicCommendsTeacher");
+	offsets.DT_CSPlayerResource.m_nPersonaDataPublicCommendsFriendly = NetVarManager::getOffset(tables, "DT_CSPlayerResource", "m_nPersonaDataPublicCommendsFriendly");
+
 	offsets.DT_PlantedC4.m_bBombTicking = NetVarManager::getOffset(tables, "DT_PlantedC4", "m_bBombTicking");
 	offsets.DT_PlantedC4.m_flC4Blow = NetVarManager::getOffset(tables, "DT_PlantedC4", "m_flC4Blow");
 	offsets.DT_PlantedC4.m_bBombDefused = NetVarManager::getOffset(tables, "DT_PlantedC4", "m_bBombDefused");
@@ -40,10 +83,15 @@ void Offsets::getOffsets()
 
 	offsets.DT_CSPlayer.m_iShotsFired = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_iShotsFired");
 	offsets.DT_CSPlayer.m_ArmorValue = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_ArmorValue");
+	offsets.DT_CSPlayer.m_bHasDefuser = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_bHasDefuser");
+	offsets.DT_CSPlayer.m_bIsDefusing = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_bIsDefusing");
+	offsets.DT_CSPlayer.m_bIsGrabbingHostage = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_bIsGrabbingHostage");
 	offsets.DT_CSPlayer.m_bIsScoped = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_bIsScoped");
 	offsets.DT_CSPlayer.m_bGunGameImmunity = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_bGunGameImmunity");
+	offsets.DT_CSPlayer.m_bIsRescuing = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_bIsRescuing");
 	offsets.DT_CSPlayer.m_bHasHelmet = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_bHasHelmet");
 	offsets.DT_CSPlayer.m_bHasDefuser = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_bHasDefuser");
+	offsets.DT_CSPlayer.m_flFlashDuration = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_flFlashDuration");
 	offsets.DT_CSPlayer.m_flFlashMaxAlpha = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_flFlashMaxAlpha");
 
 	offsets.DT_BaseAttributableItem.m_iItemDefinitionIndex = NetVarManager::getOffset(tables, "DT_BaseAttributableItem", "m_iItemDefinitionIndex");
@@ -62,7 +110,10 @@ void Offsets::getOffsets()
 
 	offsets.DT_WeaponCSBase.m_fAccuracyPenalty = NetVarManager::getOffset(tables, "DT_WeaponCSBase", "m_fAccuracyPenalty");
 
+	offsets.DT_WeaponC4.m_bStartedArming = NetVarManager::getOffset(tables, "DT_WeaponC4", "m_bStartedArming");
+
 	offsets.DT_BaseCombatWeapon.m_flNextPrimaryAttack = NetVarManager::getOffset(tables, "DT_BaseCombatWeapon", "m_flNextPrimaryAttack");
+	offsets.DT_BaseCombatWeapon.m_hOwner = NetVarManager::getOffset(tables, "DT_BaseCombatWeapon", "m_hOwner");
 	offsets.DT_BaseCombatWeapon.m_iClip1 = NetVarManager::getOffset(tables, "DT_BaseCombatWeapon", "m_iClip1");
 	offsets.DT_BaseCombatWeapon.m_bInReload = offsets.DT_BaseCombatWeapon.m_flNextPrimaryAttack + 113;
 }

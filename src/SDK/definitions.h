@@ -11,14 +11,18 @@
 #define VPANEL unsigned long long
 typedef unsigned long long FONT;
 
+class IClientMode;
+class ILauncherMgr;
 struct CGlowObjectManager;
 
 /* function prototypes */
 typedef void* (*CreateInterfaceFn) (const char*, int*);
+typedef IClientMode* (*GetClientModeFn) (void);
 typedef CGlowObjectManager* (*GlowObjectManagerFn) (void);
 typedef bool (*MsgFunc_ServerRankRevealAllFn) (float*);
 typedef void (*SendClanTagFn) (const char*, const char*);
 typedef void (*IsReadyCallbackFn) (void*);
+typedef ILauncherMgr* (*ILauncherMgrCreateFn) (void);
 
 struct WeaponInfo_t {
 	float m_flWeaponArmorRatio;
@@ -942,10 +946,12 @@ enum EClassIds: int
 	SporeTrail
 };
 
-enum Bone: unsigned int
+enum Bone: int
 {
 	BONE_PELVIS = 0,
-	BONE_HIP = 3,
+	LEAN_ROOT,
+	CAM_DRIVER,
+	BONE_HIP,
 	BONE_LOWER_SPINAL_COLUMN,
 	BONE_MIDDLE_SPINAL_COLUMN,
 	BONE_UPPER_SPINAL_COLUMN,
@@ -953,7 +959,7 @@ enum Bone: unsigned int
 	BONE_HEAD,
 };
 
-enum Hitbox: unsigned int
+enum Hitbox: int
 {
 	HITBOX_HEAD = 0,
 	HITBOX_NECK,

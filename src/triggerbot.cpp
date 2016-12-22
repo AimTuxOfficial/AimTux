@@ -1,7 +1,9 @@
 #include "triggerbot.h"
+#include "autowall.h"
 
 bool Settings::Triggerbot::enabled = true;
 bool Settings::Triggerbot::Filter::friendly = false;
+bool Settings::Triggerbot::Filter::walls = false;
 bool Settings::Triggerbot::Filter::head = true;
 bool Settings::Triggerbot::Filter::chest = true;
 bool Settings::Triggerbot::Filter::stomach = true;
@@ -41,10 +43,22 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 
 	Ray_t ray;
 	trace_t tr;
-	ray.Init(traceStart, traceEnd);
-	CTraceFilter traceFilter;
-	traceFilter.pSkip = localplayer;
-	trace->TraceRay(ray, 0x46004003, &traceFilter, &tr);
+
+	if (Settings::Triggerbot::Filter::walls)
+	{
+		Autowall::FireBulletData data;
+		if (Autowall::GetDamage(traceEnd, data) == 0.0f)
+			return;
+
+		tr = data.enter_trace;
+	}
+	else
+	{
+		ray.Init(traceStart, traceEnd);
+		CTraceFilter traceFilter;
+		traceFilter.pSkip = localplayer;
+		trace->TraceRay(ray, 0x46004003, &traceFilter, &tr);
+	}
 
 	oldTimeStamp = timeStamp;
 	timeStamp = currentTime_ms;

@@ -39,62 +39,6 @@ char Util::GetButtonString(ButtonCode_t key)
 	}
 }
 
-char Util::GetUpperValueOf(ButtonCode_t key)
-{
-	switch (key)
-	{
-		case KEY_0:
-			return ')';
-		case KEY_1:
-			return '!';
-		case KEY_2:
-			return '@';
-		case KEY_3:
-			return '#';
-		case KEY_4:
-			return '$';
-		case KEY_5:
-			return '%';
-		case KEY_6:
-			return '^';
-		case KEY_7:
-			return '&';
-		case KEY_8:
-			return '*';
-		case KEY_9:
-			return '(';
-		case KEY_LBRACKET:
-			return '{';
-		case KEY_RBRACKET:
-			return '}';
-		case KEY_SEMICOLON:
-			return ':';
-		case KEY_APOSTROPHE:
-			return '"';
-		case KEY_BACKQUOTE:
-			return '~';
-		case KEY_COMMA:
-			return '<';
-		case KEY_PERIOD:
-			return '>';
-		case KEY_SLASH:
-			return '?';
-		case KEY_BACKSLASH:
-			return '|';
-		case KEY_MINUS:
-			return '_';
-		case KEY_EQUAL:
-			return '+';
-		default:
-			char buttonChar = Util::GetButtonString(key);
-
-			if (buttonChar >= 'a' && buttonChar <= 'z')
-				buttonChar -= 32;
-
-			return buttonChar;
-	}
-}
-
 std::string Util::GetButtonName(ButtonCode_t buttonCode)
 {
 	return input->ButtonCodeToString(buttonCode);
@@ -131,7 +75,7 @@ void Util::StdReplaceStr(std::string& replaceIn, const std::string& replace, con
     size_t const step = replaceWith.size(); 
     size_t index = 0;
 
-    while(true)
+    while (true)
     {
         index = replaceIn.find(replace, index);
 
@@ -143,6 +87,13 @@ void Util::StdReplaceStr(std::string& replaceIn, const std::string& replace, con
     }
 }
 
+const char* Util::PadStringRight(std::string text, size_t value)
+{
+	text.insert(text.length(), value - text.length(), ' ');
+
+	return text.c_str();
+}
+
 void Util::ProtectAddr(void* addr, int prot)
 {
 	long pagesize = sysconf(_SC_PAGESIZE);
@@ -151,3 +102,23 @@ void Util::ProtectAddr(void* addr, int prot)
 	mprotect(address, sizeof(address), prot);
 }
 
+bool Util::Contains(const std::string &word, const std::string &sentence) {
+	if (word == "" || sentence == "")
+		return true;
+
+	return sentence.find(word) != std::string::npos;
+}
+
+std::string Util::ToLower(std::string str)
+{
+	std::transform(str.begin(), str.end(), str.begin(), (int (*)(int))std::tolower);
+
+	return str;
+}
+
+std::string Util::ToUpper(std::string str)
+{
+	std::transform(str.begin(), str.end(), str.begin(), (int (*)(int))std::toupper);
+
+	return str;
+}

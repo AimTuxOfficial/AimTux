@@ -6,6 +6,6 @@ namespace NameChanger
 {
 	extern int changes;
 
-	void CreateMove(CUserCmd* cmd);
+	void BeginFrame(float frameTime);
 	void SetName(const char* name);
 };

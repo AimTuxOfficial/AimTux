@@ -9,21 +9,41 @@
 #include <stdarg.h>
 #include <wchar.h>
 #include "fonts.h"
+#include "ImGUI/imgui.h"
+
+enum ImFontFlags
+{
+	ImFontFlags_None = 1 << 1,
+	ImFontFlags_Outline = 1 << 2,
+	ImFontFlags_Shadow = 1 << 3
+};
 
 namespace Draw
 {
-	FONT CreateFont(const char* fontName, int size, int flag);
-	Vector2D GetTextSize(const wchar_t* input, FONT font);
-	Vector2D GetTextSize(std::string text, FONT font);
-	void DrawCenteredString(std::string text, Vector2D location, Color color, FONT font);
-	void DrawString(std::string text, Vector2D location, Color color, FONT font);
-	void DrawRect(Vector2D start, Vector2D end, Color color);
-	void DrawBox(Vector2D start, Vector2D end, Color color);
-	void DrawLine(Vector2D start, Vector2D end, Color color);
-	void DrawOutlinedBox(float x, float y, float w, float h, Color color);
-	void DrawCircle(Vector2D position, float points, float radius, Color color);
-	void DrawPolygon(int count, Vertex_t* Vertexs, Color color);
-	void DrawPolygonOutline(int count, Vertex_t* Vertexs, Color color, Color colorLine);
-	void DrawPolyLine(int* x, int* y, int count, Color color);
-	void DrawPolyLine(int count, Vertex_t* Vertexs, Color colorLine);
+	void Circle(Vector2D position, float points, float radius, Color color);
+	void FilledRectangle(int x0, int y0, int x1, int y1, Color col);
+	void FilledRectangle(Vector2D start_pos, Vector2D end_pos, Color col);
+	void Rectangle(int x0, int y0, int x1, int y1, Color col);
+	void Rectangle(Vector2D start_pos, Vector2D end_pos, Color col);
+	void Line(int x0, int y0, int x1, int y1, Color col);
+	void Line(Vector2D start_pos, Vector2D end_pos, Color col);
+	void PolyLine(int* px, int* py, int num_points, Color col);
+	void PolyLine(Vertex_t* vertice, int num_points, Color col);
+	void TexturedPolygon(int n, Vertex_t* vertice, Color col);
+	void TextW(int x, int y, const wchar_t* text, FONT font, Color col);
+	void TextW(Vector2D pos, const wchar_t* text, FONT font, Color col);
+	void Text(int x, int y, const char* text, FONT font, Color col);
+	void Text(Vector2D pos, const char* text, FONT font, Color col);
+	void GetTextWSize(const wchar_t* text, FONT font, int& wide, int& tall);
+	void GetTextSize(const char* text, FONT font, int& wide, int& tall);
+	Vector2D GetTextWSize(const wchar_t* text, FONT font);
+	Vector2D GetTextSize(const char* text, FONT font);
+	FONT CreateFont(const char* fontName, int size, int flag = FONTFLAG_DROPSHADOW);
+
+	// ImGui
+	void ImStart();
+	void ImDrawText(ImVec2 pos, ImColor color, const char* text_begin, const char* text_end = NULL, float wrap_width = 0.0f, const ImVec4* cpu_fine_clip_rect = NULL, ImFontFlags flags = ImFontFlags_None);
+	void ImDrawCircle(ImVec2 point, ImColor color, float radius, int num_segments = 12, float thickness = 1.0f);
+	void ImDrawRect(ImVec2 a, ImVec2 b, ImColor color, float rounding = 0.0f, int rounding_corners_flags = ~0, float thickness = 1.0f);
+	void ImEnd();
 }

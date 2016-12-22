@@ -22,7 +22,9 @@ CViewRender* viewrender = nullptr;
 IPrediction* prediction = nullptr;
 IGameMovement* gamemovement = nullptr;
 IMoveHelper* movehelper = nullptr;
+ILauncherMgr* launchermgr = nullptr;
 CGlowObjectManager* glowmanager = nullptr;
+C_CSPlayerResource** csPlayerResource = nullptr;
 
 VMT* panel_vmt = nullptr;
 VMT* client_vmt = nullptr;
@@ -31,11 +33,19 @@ VMT* clientMode_vmt = nullptr;
 VMT* gameEvents_vmt = nullptr;
 VMT* viewRender_vmt = nullptr;
 VMT* inputInternal_vmt = nullptr;
+VMT* material_vmt = nullptr;
 VMT* surface_vmt = nullptr;
+VMT* launchermgr_vmt = nullptr;
 
 bool* bSendPacket = nullptr;
 int* nPredictionRandomSeed = nullptr;
 CMoveData* g_MoveData = nullptr;
+
+uintptr_t original_swap_window;
+uintptr_t* swap_window_jump_address = nullptr;
+
+uintptr_t original_pollevent;
+uintptr_t* pollevent_jump_address = nullptr;
 
 MsgFunc_ServerRankRevealAllFn MsgFunc_ServerRankRevealAll;
 SendClanTagFn SendClanTag;
@@ -95,20 +105,17 @@ void Hooker::HookVMethods()
 	gameEvents_vmt = new VMT(gameevents);
 	viewRender_vmt = new VMT(viewrender);
 	inputInternal_vmt = new VMT(inputInternal);
+	material_vmt = new VMT(material);
 	surface_vmt = new VMT(surface);
+	launchermgr_vmt = new VMT(launchermgr);
 }
 
 void Hooker::HookIClientMode()
 {
-	uintptr_t init_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) CCSMODEMANAGER_INIT_SIGNATURE, CCSMODEMANAGER_INIT_MASK);
+	uintptr_t hudprocessinput = reinterpret_cast<uintptr_t>(getvtable(client)[10]);
+	GetClientModeFn GetClientMode = reinterpret_cast<GetClientModeFn>(GetAbsoluteAddress(hudprocessinput + 11, 1, 5));
 
-	if (!init_address)
-		return;
-
-	uint32_t offset = *reinterpret_cast<uint32_t*>(init_address + 3);
-	clientMode = reinterpret_cast<IClientMode*>(init_address + offset + 7);
-	
-	clientMode_vmt = new VMT(clientMode);
+	clientMode_vmt = new VMT(GetClientMode());
 }
 
 void Hooker::HookGlobalVars()
@@ -122,6 +129,13 @@ void Hooker::HookGlowManager()
 	uintptr_t instruction_addr = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) GLOWOBJECT_SIGNATURE, GLOWOBJECT_MASK);
 
 	glowmanager = reinterpret_cast<GlowObjectManagerFn>(GetAbsoluteAddress(instruction_addr, 1, 5))();
+}
+
+void Hooker::HookPlayerResource()
+{
+	uintptr_t instruction_addr = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) PLAYERRESOURCES_SIGNATURE, PLAYERRESOURCES_MASK);
+
+	csPlayerResource = reinterpret_cast<C_CSPlayerResource**>(GetAbsoluteAddress(instruction_addr, 3, 7));
 }
 
 void Hooker::HookRankReveal()
@@ -168,6 +182,29 @@ void Hooker::HookPrediction()
 void Hooker::HookIsReadyCallback()
 {
 	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) ISREADY_CALLBACK_SIGNATURE, ISREADY_CALLBACK_MASK);
-	
+
 	IsReadyCallback = reinterpret_cast<IsReadyCallbackFn>(func_address);
+}
+
+void Hooker::HookSwapWindow()
+{
+	uintptr_t swapwindow_fn = reinterpret_cast<uintptr_t>(dlsym(RTLD_NEXT, "SDL_GL_SwapWindow"));
+	swap_window_jump_address = reinterpret_cast<uintptr_t*>(GetAbsoluteAddress(swapwindow_fn, 3, 7));
+	original_swap_window = *swap_window_jump_address;
+	*swap_window_jump_address = reinterpret_cast<uintptr_t>(&SDL2::SwapWindow);
+}
+
+void Hooker::HookPollEvent()
+{
+	uintptr_t pollevent_fn = reinterpret_cast<uintptr_t>(dlsym(RTLD_NEXT, "SDL_PollEvent"));
+	pollevent_jump_address = reinterpret_cast<uintptr_t*>(GetAbsoluteAddress(pollevent_fn, 3, 7));
+	original_pollevent = *pollevent_jump_address;
+	*pollevent_jump_address = reinterpret_cast<uintptr_t>(&SDL2::PollEvent);
+}
+
+void Hooker::HookSDLInput()
+{
+	uintptr_t func_address = FindPattern(GetLibraryAddress("launcher_client.so"), 0xFFFFFFFFF, (unsigned char*) GETSDLMGR_SIGNATURE, GETSDLMGR_MASK);
+
+	launchermgr = reinterpret_cast<ILauncherMgrCreateFn>(func_address)();
 }

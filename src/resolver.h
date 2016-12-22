@@ -21,6 +21,9 @@ struct PlayerAA
 
 namespace Resolver
 {
+	extern std::vector<int64_t> Players;
+
 	void FrameStageNotify(ClientFrameStage_t stage);
 	void PostFrameStageNotify(ClientFrameStage_t stage);
+	void FireEventClientSide(IGameEvent* event);
 }

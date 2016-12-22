@@ -9,6 +9,7 @@
 namespace Aimbot
 {
 	extern bool AimStepInProgress;
+	extern std::vector<int64_t> Friendlies;
 
 	void RCS(QAngle& angle, C_BaseEntity* entity, CUserCmd* cmd);
 	void AimStep(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd);
@@ -20,6 +21,7 @@ namespace Aimbot
 	void AutoShoot(C_BaseEntity* entity, C_BaseCombatWeapon* active_weapon, CUserCmd* cmd);
 	void ShootCheck(C_BaseCombatWeapon* active_weapon, CUserCmd* cmd);
 	void NoShoot(C_BaseCombatWeapon* active_weapon, C_BaseEntity* entity, CUserCmd* cmd);
-	
+
 	void CreateMove(CUserCmd* cmd);
+	void FireEventClientSide(IGameEvent* event);
 }

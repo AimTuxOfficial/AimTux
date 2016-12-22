@@ -1,37 +1,32 @@
 #include "spammer.h"
+#include "skins.h"
 
 bool Settings::Spammer::PositionSpammer::enabled = false;
 bool Settings::Spammer::PositionSpammer::say_team = false;
 bool Settings::Spammer::KillSpammer::enabled = false;
 bool Settings::Spammer::KillSpammer::say_team = false;
-char* Settings::Spammer::KillSpammer::message = (char*) "$nick just got OWNED by AimTux!!";
+char* Settings::Spammer::KillSpammer::message = strdup("$nick just got OWNED by AimTux!!");
 bool Settings::Spammer::NormalSpammer::enabled = false;
 bool Settings::Spammer::NormalSpammer::say_team = false;
-
-std::vector<IEngineClient::player_info_t> Spammer::killedPlayerQueue = std::vector<IEngineClient::player_info_t>();
-std::vector<Spammer::SpamCollection> Spammer::collections =
-{
-	Spammer::SpamCollection("AimTux",
-		{
-			"AimTux owns me and all",
-			"Your Windows p2c sucks my AimTux dry",
-			"It's free as in FREEDOM!",
-			"Tux only let me out so I could play this game, please be nice!",
-			"Tux nutted but you keep sucken",
-			">tfw no vac on Linux"
-		}, 0)
+std::vector<std::string> Settings::Spammer::NormalSpammer::messages = {
+		"AimTux owns me and all",
+		"Your Windows p2c sucks my AimTux dry",
+		"It's free as in FREEDOM!",
+		"Tux only let me out so I could play this game, please be nice!",
+		"Tux nutted but you keep sucken",
+		">tfw no vac on Linux"
 };
 
-Spammer::SpamCollection* Spammer::currentSpamCollection = &collections[0];
+std::vector<IEngineClient::player_info_t> Spammer::killedPlayerQueue = std::vector<IEngineClient::player_info_t>();
 
-void Spammer::CreateMove(CUserCmd* cmd)
+void Spammer::BeginFrame(float frameTime)
 {
 	// Grab the current time in milliseconds
 	long currentTime_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
 			std::chrono::system_clock::now().time_since_epoch()).count();
 	static long timeStamp = currentTime_ms;
 
-	if (currentTime_ms - timeStamp < (850 + currentSpamCollection->delay))
+	if (currentTime_ms - timeStamp < 850)
 		return;
 
 	// Kill spammer
@@ -79,11 +74,16 @@ void Spammer::CreateMove(CUserCmd* cmd)
 			engine->GetPlayerInfo(i, &entityInformation);
 
 			C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(entity->GetActiveWeapon());
-			std::string modelName = std::string(active_weapon->GetClientClass()->m_pNetworkName);
-			if (strstr(modelName.c_str(), "Weapon"))
-				modelName = modelName.substr(7, modelName.length() - 7);
-			else
-				modelName = modelName.substr(1, modelName.length() - 1);
+
+			std::string modelName = Util::GetValueByKey(guns, *active_weapon->GetItemDefinitionIndex());
+			if (modelName == "")
+			{
+				modelName = std::string(active_weapon->GetClientClass()->m_pNetworkName);
+				if (strstr(modelName.c_str(), "Weapon"))
+					modelName = modelName.substr(7, modelName.length() - 7);
+				else
+					modelName = modelName.substr(1, modelName.length() - 1);
+			}
 
 			// Prepare player's nickname without ';' & '"' characters
 			// as they might cause user to execute a command.
@@ -111,7 +111,7 @@ void Spammer::CreateMove(CUserCmd* cmd)
 		std::srand(std::time(NULL));
 
 		// Grab a random message string
-		std::string message = currentSpamCollection->messages[std::rand() % currentSpamCollection->messages.size()];
+		std::string message = Settings::Spammer::NormalSpammer::messages[std::rand() % Settings::Spammer::NormalSpammer::messages.size()];
 
 		// Construct a command with our message
 		pstring str;

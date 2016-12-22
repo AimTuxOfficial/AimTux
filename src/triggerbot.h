@@ -7,6 +7,7 @@
 #include "entity.h"
 #include "math.h"
 
-namespace Triggerbot {
+namespace Triggerbot
+{
 	void CreateMove(CUserCmd* cmd);
 };

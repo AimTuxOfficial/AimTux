@@ -2,7 +2,7 @@
 
 bool Settings::Radar::enabled = false;
 
-void Radar::PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
+void Radar::BeginFrame(float frameTime)
 {
 	if (!Settings::Radar::enabled)
 		return;

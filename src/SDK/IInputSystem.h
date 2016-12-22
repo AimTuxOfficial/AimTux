@@ -240,6 +240,13 @@ enum ButtonCode_t
 	KEY_XSTICK2_UP,								// VAXIS NEGATIVE
 };
 
+enum MouseCodeState_t
+{
+	BUTTON_RELEASED = 0,
+	BUTTON_PRESSED,
+	BUTTON_DOUBLECLICKED,
+};
+
 struct CUserCmd {
 	virtual ~CUserCmd() {};
 	int command_number;

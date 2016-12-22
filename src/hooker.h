@@ -1,8 +1,5 @@
 #pragma once
 
-#define CCSMODEMANAGER_INIT_SIGNATURE "\x48\x8D\x05\x00\x00\x00\x00\x48\x89\xE5\x48\x89\x05\x00\x00\x00\x00\xE8\x00\x00\x00\x00\x5D\x48"
-#define CCSMODEMANAGER_INIT_MASK "xxx????xxxxxx????x????xx"
-
 #define GLOWOBJECT_SIGNATURE "\xE8\x00\x00\x00\x00\x48\x8B\x3D\x00\x00\x00\x00\xBE\x01\x00\x00\x00\xC7"
 #define GLOWOBJECT_MASK "x????xxx????xxxxxx"
 
@@ -30,6 +27,12 @@
 #define ISREADY_CALLBACK_SIGNATURE "\x48\x83\x3D\x00\x00\x00\x00\x00\x55\x48\x89\xE5\x41"
 #define ISREADY_CALLBACK_MASK "xxx????xxxxxx"
 
+#define GETSDLMGR_SIGNATURE "\x55\x48\x89\xE5\x53\x48\x83\xEC\x18"
+#define GETSDLMGR_MASK "xxxxxxxxx"
+
+#define PLAYERRESOURCES_SIGNATURE "\x48\x8B\x05\x00\x00\x00\x00\x55\x48\x89\xE5\x48\x85\xC0\x74\x10\x48"
+#define PLAYERRESOURCES_MASK "xxx????xxxxxxxxxx"
+
 #include <unordered_map>
 #include <sys/mman.h>
 #include <link.h>
@@ -37,6 +40,7 @@
 #include "SDK/SDK.h"
 #include "vmt.h"
 #include "util.h"
+#include "glhook.h"
 
 namespace Hooker
 {
@@ -45,10 +49,14 @@ namespace Hooker
 	void HookIClientMode();
 	void HookGlobalVars();
 	void HookGlowManager();
+	void HookPlayerResource();
 	void HookRankReveal();
 	void HookSendClanTag();
 	void HookViewRender();
 	void HookSendPacket();
 	void HookPrediction();
 	void HookIsReadyCallback();
+	void HookSwapWindow();
+	void HookPollEvent();
+	void HookSDLInput();
 }

@@ -6,7 +6,8 @@
 
 namespace Autowall
 {
-	struct FireBulletData {
+	struct FireBulletData
+	{
 		Vector src;
 		trace_t enter_trace;
 		Vector direction;
@@ -17,7 +18,7 @@ namespace Autowall
 		int penetrate_count;
 	};
 
-	float GetDamage(const Vector& vecPoint);
+	float GetDamage(const Vector& vecPoint, FireBulletData& fData);
 	bool SimulateFireBullet(C_BaseCombatWeapon* pWeapon, FireBulletData &data);
 	bool HandleBulletPenetration(WeaponInfo_t wpn_data, FireBulletData &data);
 	bool TraceToExit(Vector &end, trace_t *enter_trace, Vector start, Vector dir, trace_t *exit_trace);

@@ -109,7 +109,7 @@ public:
 	{
 		return *(int*)((uintptr_t)this + offsets.DT_CSPlayer.m_bHasDefuser);
 	}
-	
+
 	int GetTeam()
 	{
 		return *(int*)((uintptr_t)this + offsets.DT_BaseEntity.m_iTeamNum);
@@ -170,14 +170,34 @@ public:
 		return *(MoveType_t*)((uintptr_t)this + offsets.DT_BaseEntity.m_MoveType);
 	}
 
+	float GetFlashDuration()
+	{
+		return *(float*)((uintptr_t)this + offsets.DT_CSPlayer.m_flFlashDuration);
+	}
+
 	float* GetFlashMaxAlpha()
 	{
 		return (float*)((uintptr_t)this + offsets.DT_CSPlayer.m_flFlashMaxAlpha);
 	}
 
+	bool IsDefusing()
+	{
+		return *(bool*)((uintptr_t)this + offsets.DT_CSPlayer.m_bIsDefusing);
+	}
+
+	bool IsGrabbingHostage()
+	{
+		return *(bool*)((uintptr_t)this + offsets.DT_CSPlayer.m_bIsGrabbingHostage);
+	}
+
 	bool IsScoped()
 	{
 		return *(bool*)((uintptr_t)this + offsets.DT_CSPlayer.m_bIsScoped);
+	}
+
+	bool IsRescuing()
+	{
+		return *(bool*)((uintptr_t)this + offsets.DT_CSPlayer.m_bIsRescuing);
 	}
 
 	bool GetImmune()
@@ -251,7 +271,7 @@ public:
 	{
 		return *(QAngle*)((uintptr_t)this + offsets.DT_BasePlayer.m_aimPunchAngle);
 	}
-	
+
 	QAngle* GetViewPunchAngle()
 	{
 		return (QAngle*)((uintptr_t)this + offsets.DT_BasePlayer.m_viewPunchAngle);
@@ -406,7 +426,7 @@ public:
 				return false;
 		}
 	}
-	
+
 	bool IsGrenade()
 	{
 		switch (*this->GetItemDefinitionIndex())
@@ -461,6 +481,11 @@ public:
 class C_BaseCombatWeapon: public C_BaseAttributableItem
 {
 public:
+	int GetOwner()
+	{
+		return *(int*)((uintptr_t)this + offsets.DT_BaseCombatWeapon.m_hOwner);
+	}
+
 	unsigned int GetAmmo()
 	{
 		return *(unsigned int*)((uintptr_t)this + offsets.DT_BaseCombatWeapon.m_iClip1);
@@ -760,5 +785,14 @@ public:
 		}
 
 		return weaponInfo;
+	}
+};
+
+class C_WeaponC4 : C_BaseCombatWeapon
+{
+public:
+	bool GetStartedArming()
+	{
+		return *(bool*)((uintptr_t)this + offsets.DT_WeaponC4.m_bStartedArming);
 	}
 };

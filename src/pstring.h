@@ -20,7 +20,7 @@ public:
 		*this = stream.str();
 		return *this;
     }
-	
+
 	pstring& operator+(const unsigned int i)
 	{
 		std::stringstream stream;

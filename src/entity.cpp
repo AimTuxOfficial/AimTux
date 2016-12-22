@@ -28,6 +28,22 @@ bool Entity::IsVisible(C_BaseEntity* pEntity, int bone)
 	return tr.m_pEntityHit == pEntity;
 }
 
+bool Entity::IsPlanting(C_BaseEntity *pEntity)
+{
+	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(pEntity->GetActiveWeapon());
+	if (!active_weapon)
+		return false;
+
+	ClientClass* clientClass = active_weapon->GetClientClass();
+	if (!clientClass)
+		return false;
+
+	if (clientClass->m_ClassID != CC4)
+		return false;
+
+	return ((C_WeaponC4*)active_weapon)->GetStartedArming();
+}
+
 int Entity::GetBoneByName(C_BaseEntity *pEntity, const char* boneName)
 {
 	studiohdr_t* pStudioModel = modelInfo->GetStudioModel(pEntity->GetModel());

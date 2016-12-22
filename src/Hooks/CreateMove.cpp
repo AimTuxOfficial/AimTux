@@ -15,9 +15,6 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		AutoStrafe::CreateMove(cmd);
 		Chams::CreateMove(cmd);
 		ShowRanks::CreateMove(cmd);
-		ClanTagChanger::CreateMove(cmd);
-		Spammer::CreateMove(cmd);
-		NameChanger::CreateMove(cmd);
 
 		PredictionSystem::StartPrediction(cmd);
 		Aimbot::CreateMove(cmd);
