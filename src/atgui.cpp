@@ -13,6 +13,8 @@ bool showPlayerListWindow = false;
 
 #define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))
 
+static char nickname[127] = "";
+
 namespace ImGui
 {
 	static auto vector_getter = [](void* vec, int idx, const char** out_text)
@@ -895,7 +897,6 @@ void HvHTab()
 void MiscTab()
 {
 	const char* strafeTypes[] = { "Forwards", "Backwards", "Left", "Right" };
-	static char nickname[127] = "";
 	const char* AnimationTypes[] = { "Static", "Marquee", "Words", "Letters" };
 
 	ImGui::Columns(2, NULL, true);
@@ -1590,6 +1591,9 @@ void PlayerListWindow()
 				if (ImGui::Button("Steal name"))
 				{
 					std::string name(entityInformation.name);
+					name = Util::PadStringRight(name, name.length() + 1);
+
+					memcpy(nickname, name.c_str(), name.length());
 					NameChanger::SetName(Util::PadStringRight(name, name.length() + 1));
 				}
 
