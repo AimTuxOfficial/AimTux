@@ -147,6 +147,7 @@ bool ImGui_ImplSdl_CreateDeviceObjects() {
 	
 	unsigned char* pixels;
 	int width, height;
+	ImGuiFreeType::BuildFontAtlas(io.Fonts, 0);
 	io.Fonts->GetTexDataAsAlpha8(&pixels, &width, &height);
 
 	GLint last_texture;
