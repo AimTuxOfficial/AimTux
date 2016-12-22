@@ -708,6 +708,14 @@ void HvHTab()
 						ImGui::SliderFloat("##EDGEDISTANCE", &Settings::AntiAim::HeadEdge::distance, 10, 30);
 					ImGui::PopItemWidth();
 				}
+				ImGui::Columns(1);
+				ImGui::Separator();
+				ImGui::Text("Resolver");
+				ImGui::Separator();
+				ImGui::NextColumn();
+				{
+					ImGui::Checkbox("Resolve All", &Settings::Resolver::resolve_all);
+				}
 				ImGui::EndChild();
 			}
 			ImGui::Separator();

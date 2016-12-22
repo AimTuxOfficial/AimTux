@@ -259,6 +259,11 @@ namespace Settings
 		}
 	}
 
+	namespace Resolver
+	{
+		extern bool resolve_all;
+	}
+
 	namespace ESP
 	{
 		extern bool enabled;

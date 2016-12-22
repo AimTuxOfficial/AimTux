@@ -138,6 +138,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Aimbot"]["AutoCrouch"]["enabled"] = Settings::Aimbot::AutoCrouch::enabled;
 	settings["Aimbot"]["AutoStop"]["enabled"] = Settings::Aimbot::AutoStop::enabled;
 
+	settings["Resolver"]["resolve_all"] = Settings::Resolver::resolve_all;
+
 	settings["Triggerbot"]["enabled"] = Settings::Triggerbot::enabled;
 	settings["Triggerbot"]["key"] = Util::GetButtonName(Settings::Triggerbot::key);
 	settings["Triggerbot"]["Filter"]["friendly"] = Settings::Triggerbot::Filter::friendly;
@@ -367,6 +369,8 @@ void Settings::LoadConfig(std::string path)
 	GetBool(settings["Aimbot"]["AutoShoot"]["autoscope"], &Settings::Aimbot::AutoShoot::autoscope);
 	GetBool(settings["Aimbot"]["AutoCrouch"]["enabled"], &Settings::Aimbot::AutoCrouch::enabled);
 	GetBool(settings["Aimbot"]["AutoStop"]["enabled"], &Settings::Aimbot::AutoStop::enabled);
+
+	GetBool(settings["Resolver"]["resolve_all"], &Settings::Resolver::resolve_all);
 
 	GetBool(settings["Triggerbot"]["enabled"], &Settings::Triggerbot::enabled);
 	GetButtonCode(settings["Triggerbot"]["key"], &Settings::Triggerbot::key);
