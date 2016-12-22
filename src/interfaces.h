@@ -27,6 +27,7 @@ extern IMoveHelper* movehelper;
 extern CGlowObjectManager* glowmanager;
 extern ILauncherMgr* launchermgr;
 extern C_CSPlayerResource** csPlayerResource;
+extern IEngineVGui* enginevgui;
 
 extern VMT* panel_vmt;
 extern VMT* client_vmt;

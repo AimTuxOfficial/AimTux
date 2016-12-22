@@ -25,6 +25,7 @@ IMoveHelper* movehelper = nullptr;
 ILauncherMgr* launchermgr = nullptr;
 CGlowObjectManager* glowmanager = nullptr;
 C_CSPlayerResource** csPlayerResource = nullptr;
+IEngineVGui* enginevgui = nullptr;
 
 VMT* panel_vmt = nullptr;
 VMT* client_vmt = nullptr;
@@ -95,6 +96,7 @@ void Hooker::HookInterfaces()
 	physics = BruteforceInterface<IPhysicsSurfaceProps>("./bin/linux64/vphysics_client.so", "VPhysicsSurfaceProps");
 	prediction = BruteforceInterface<IPrediction>("./csgo/bin/linux64/client_client.so", "VClientPrediction");
 	gamemovement = BruteforceInterface<IGameMovement>("./csgo/bin/linux64/client_client.so", "GameMovement");
+	enginevgui = BruteforceInterface<IEngineVGui>("./bin/linux64/engine_client.so", "VEngineVGui");
 }
 
 void Hooker::HookVMethods()
