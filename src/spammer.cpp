@@ -85,6 +85,8 @@ void Spammer::BeginFrame(float frameTime)
 					modelName = modelName.substr(1, modelName.length() - 1);
 			}
 
+			const char* rank = ESP::Ranks[*(*csPlayerResource)->GetCompetitiveRanking(i)];
+
 			// Prepare player's nickname without ';' & '"' characters
 			// as they might cause user to execute a command.
 			std::string player_name = std::string(entityInformation.name);
@@ -96,6 +98,7 @@ void Spammer::BeginFrame(float frameTime)
 			str << (Settings::Spammer::PositionSpammer::say_team ? "say_team" : "say") << " \"";
 			str << player_name << " | ";
 			str << modelName << " | ";
+			str << rank << " | ";
 			str << entity->GetHealth() << "HP | ";
 			str << entity->GetLastPlaceName() << "\"";
 

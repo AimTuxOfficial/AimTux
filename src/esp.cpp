@@ -72,7 +72,7 @@ bool Settings::ESP::FOVCrosshair::enabled = false;
 ImColor Settings::ESP::FOVCrosshair::color = ImColor(180, 50, 50, 255);
 bool Settings::ESP::Skeleton::enabled = false;
 
-const char* Ranks[] = {
+const char* ESP::Ranks[] = {
 		"Unranked",
 		"Silver I",
 		"Silver II",
@@ -508,8 +508,8 @@ void ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_info
 
 			if (rank >= 0 && rank < 19)
 			{
-				Vector2D rankSize = Draw::GetTextSize(Ranks[rank], esp_font);
-				Draw::Text((int)(x + (w / 2) - (rankSize.x / 2)), (int)(y - (textSize.y * multiplier) - nameOffset), Ranks[rank], esp_font, Color(255, 255, 255, 255));
+				Vector2D rankSize = Draw::GetTextSize(ESP::Ranks[rank], esp_font);
+				Draw::Text((int)(x + (w / 2) - (rankSize.x / 2)), (int)(y - (textSize.y * multiplier) - nameOffset), ESP::Ranks[rank], esp_font, Color(255, 255, 255, 255));
 			}
 		}
 

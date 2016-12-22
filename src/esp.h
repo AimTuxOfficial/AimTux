@@ -10,6 +10,8 @@
 
 namespace ESP
 {
+	extern const char* Ranks[];
+
 	bool GetBox(C_BaseEntity* entity, int& x, int& y, int& w, int& h);
 	ImColor GetESPPlayerColor(C_BaseEntity* entity, bool visible);
 	void DrawBox(Color color, int x, int y, int w, int h);
