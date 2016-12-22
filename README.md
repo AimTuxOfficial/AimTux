@@ -34,7 +34,7 @@ sudo dnf install cmake gcc-c++ gdb git libstdc++-static mesa-libGL-devel SDL2-de
 #### Download AimTux:
 
 ```bash
-git clone -b imgui https://github.com/McSwaggens/AimTux
+git clone https://github.com/McSwaggens/AimTux
 ```
 
 ```bash
