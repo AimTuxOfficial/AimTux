@@ -13,7 +13,7 @@ bool showPlayerListWindow = false;
 
 #define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))
 
-static char nickname[127] = "";
+static char* nickname = strdup("");
 
 namespace ImGui
 {
@@ -1593,7 +1593,7 @@ void PlayerListWindow()
 					std::string name(entityInformation.name);
 					name = Util::PadStringRight(name, name.length() + 1);
 
-					memcpy(nickname, name.c_str(), name.length());
+					nickname = strdup(name.c_str());
 					NameChanger::SetName(Util::PadStringRight(name, name.length() + 1));
 				}
 
