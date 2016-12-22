@@ -180,7 +180,7 @@ ImColor ESP::GetESPPlayerColor(C_BaseEntity* player, bool visible)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
-		return ImColor(255,255,255,255);
+		return ImColor(255, 255, 255, 255);
 
 	ImColor playerColor;
 
@@ -188,7 +188,9 @@ ImColor ESP::GetESPPlayerColor(C_BaseEntity* player, bool visible)
 	if (Settings::ESP::Filters::legit)
 	{
 		if (Settings::ESP::team_color_type == TeamColorType::RELATIVE)
+		{
 			playerColor = player->GetTeam() != localplayer->GetTeam() ? Settings::ESP::enemy_visible_color : Settings::ESP::ally_visible_color;
+		}
 		else if (Settings::ESP::team_color_type == TeamColorType::ABSOLUTE)
 		{
 			if (player->GetTeam() == TEAM_TERRORIST)
@@ -356,7 +358,7 @@ void ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_info
 		return;
 
 	if (Settings::ESP::Boxes::enabled)
-		DrawBox(Color::FromImColor(playerColor), x ,y ,w, h);
+		DrawBox(Color::FromImColor(playerColor), x, y, w, h);
 
 	int boxSpacing = Settings::ESP::Boxes::enabled ? 3 : 0;
 	Vector2D barsSpacing = Vector2D(0,0);
@@ -370,7 +372,7 @@ void ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_info
 		float HealthValue = std::max(0, std::min(player->GetHealth(), 100));
 		float HealthPerc = HealthValue / 100.f;
 
-		int Red = std::min((int)((510 * (100-HealthValue)) / 100), 255);
+		int Red = std::min((int)((510 * (100 - HealthValue)) / 100), 255);
 		int Green = std::min((int)((510 * HealthValue) / 100), 255);
 
 		int barx = x;
