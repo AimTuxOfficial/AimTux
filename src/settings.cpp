@@ -180,7 +180,6 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	LoadUIColor(settings["ESP"]["flashbang_color"], Settings::ESP::flashbang_color);
 	LoadUIColor(settings["ESP"]["grenade_color"], Settings::ESP::grenade_color);
 	LoadUIColor(settings["ESP"]["molotov_color"], Settings::ESP::molotov_color);
-	LoadUIColor(settings["ESP"]["skeleton_color"], Settings::ESP::skeleton_color);
 	settings["ESP"]["Glow"]["enabled"] = Settings::ESP::Glow::enabled;
 	LoadUIColor(settings["ESP"]["Glow"]["ally_color"], Settings::ESP::Glow::ally_color);
 	LoadUIColor(settings["ESP"]["Glow"]["enemy_color"], Settings::ESP::Glow::enemy_color);
@@ -221,6 +220,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["ESP"]["Bars"]["type"] = Settings::ESP::Bars::type;
 	settings["ESP"]["Tracers"]["enabled"] = Settings::ESP::Tracers::enabled;
 	settings["ESP"]["Tracers"]["type"] = Settings::ESP::Tracers::type;
+	settings["ESP"]["Skeleton"]["enabled"] = Settings::ESP::Skeleton::enabled;
+	LoadUIColor(settings["ESP"]["Skeleton"]["color"], Settings::ESP::Skeleton::color);
 	settings["ESP"]["BulletTracers"]["enabled"] = Settings::ESP::BulletTracers::enabled;
 	settings["ESP"]["FOVCrosshair"]["enabled"] = Settings::ESP::FOVCrosshair::enabled;
 	LoadUIColor(settings["ESP"]["FOVCrosshair"]["color"], Settings::ESP::FOVCrosshair::color);
@@ -409,7 +410,6 @@ void Settings::LoadConfig(std::string path)
 	GetUIColor(settings["ESP"]["flashbang_color"], &Settings::ESP::flashbang_color);
 	GetUIColor(settings["ESP"]["grenade_color"], &Settings::ESP::grenade_color);
 	GetUIColor(settings["ESP"]["molotov_color"], &Settings::ESP::molotov_color);
-	GetUIColor(settings["ESP"]["skeleton_color"], &Settings::ESP::skeleton_color);
 	GetBool(settings["ESP"]["Glow"]["enabled"], &Settings::ESP::Glow::enabled);
 	GetUIColor(settings["ESP"]["Glow"]["ally_color"], &Settings::ESP::Glow::ally_color);
 	GetUIColor(settings["ESP"]["Glow"]["enemy_color"], &Settings::ESP::Glow::enemy_color);
@@ -450,6 +450,8 @@ void Settings::LoadConfig(std::string path)
 	GetInt(settings["ESP"]["Bars"]["type"], &Settings::ESP::Bars::type);
 	GetBool(settings["ESP"]["Tracers"]["enabled"], &Settings::ESP::Tracers::enabled);
 	GetInt(settings["ESP"]["Tracers"]["type"], &Settings::ESP::Tracers::type);
+	GetBool(settings["ESP"]["Skeleton"]["enabled"], &Settings::ESP::Skeleton::enabled);
+	GetUIColor(settings["ESP"]["Skeleton"]["color"], &Settings::ESP::Skeleton::color);
 	GetBool(settings["ESP"]["BulletTracers"]["enabled"], &Settings::ESP::BulletTracers::enabled);
 	GetBool(settings["ESP"]["FOVCrosshair"]["enabled"], &Settings::ESP::FOVCrosshair::enabled);
 	GetUIColor(settings["ESP"]["FOVCrosshair"]["color"], &Settings::ESP::FOVCrosshair::color);

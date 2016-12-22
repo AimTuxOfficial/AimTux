@@ -25,7 +25,7 @@ ImColor Settings::ESP::decoy_color = ImColor(32, 224, 22, 255);
 ImColor Settings::ESP::flashbang_color = ImColor(224, 207, 22, 255);
 ImColor Settings::ESP::grenade_color = ImColor(224, 22, 22, 255);
 ImColor Settings::ESP::molotov_color = ImColor(224, 22, 22, 255);
-ImColor Settings::ESP::skeleton_color = ImColor(255, 255, 255, 255);
+ImColor Settings::ESP::Skeleton::color = ImColor(255, 255, 255, 255);
 bool Settings::ESP::Glow::enabled = false;
 ImColor Settings::ESP::Glow::ally_color = ImColor(0, 50, 200, 0);
 ImColor Settings::ESP::Glow::enemy_color = ImColor(200, 0, 50, 0);
@@ -69,6 +69,7 @@ int Settings::ESP::Tracers::type = TracerType::BOTTOM;
 bool Settings::ESP::BulletTracers::enabled = false;
 bool Settings::ESP::FOVCrosshair::enabled = false;
 ImColor Settings::ESP::FOVCrosshair::color = ImColor(180, 50, 50, 255);
+bool Settings::ESP::Skeleton::enabled = false;
 
 const char* Ranks[] = {
 		"Unranked",
@@ -576,7 +577,7 @@ void ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_info
 		}
 	}
 
-	if (Settings::ESP::Info::health)
+	if (Settings::ESP::Skeleton::enabled)
 		DrawSkeleton(player);
 
 	if (Settings::ESP::BulletTracers::enabled)
@@ -750,7 +751,7 @@ void ESP::DrawSkeleton(C_BaseEntity* player)
 			if (debugOverlay->ScreenPosition(Vector(pBoneToWorldOut[pBone->parent][0][3], pBoneToWorldOut[pBone->parent][1][3], pBoneToWorldOut[pBone->parent][2][3]), vBonePos2))
 				continue;
 
-			Draw::Line(LOC(vBonePos1.x, vBonePos1.y), LOC(vBonePos2.x, vBonePos2.y), Color::FromImColor(Settings::ESP::skeleton_color));
+			Draw::Line(LOC(vBonePos1.x, vBonePos1.y), LOC(vBonePos2.x, vBonePos2.y), Color::FromImColor(Settings::ESP::Skeleton::color));
 		}
 	}
 }

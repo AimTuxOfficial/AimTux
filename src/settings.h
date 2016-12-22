@@ -283,7 +283,6 @@ namespace Settings
 		extern ImColor flashbang_color;
 		extern ImColor grenade_color;
 		extern ImColor molotov_color;
-		extern ImColor skeleton_color;
 
 		namespace Glow
 		{
@@ -328,6 +327,12 @@ namespace Settings
 			extern bool grabbing_hostage;
 			extern bool rescuing;
 			extern bool location;
+		}
+
+		namespace Skeleton
+		{
+			extern bool enabled;
+			extern ImColor color;
 		}
 
 		namespace Boxes
