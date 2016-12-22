@@ -55,6 +55,9 @@ IsReadyCallbackFn IsReadyCallback;
 
 RecvVarProxyFn fnSequenceProxyFn;
 
+StartDrawingFn StartDrawing;
+FinishDrawingFn FinishDrawing;
+
 std::unordered_map<const char*, uintptr_t> GetProcessLibraries() {
 	std::unordered_map<const char*, uintptr_t> modules;
 
@@ -188,6 +191,15 @@ void Hooker::HookIsReadyCallback()
 	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) ISREADY_CALLBACK_SIGNATURE, ISREADY_CALLBACK_MASK);
 
 	IsReadyCallback = reinterpret_cast<IsReadyCallbackFn>(func_address);
+}
+
+void Hooker::HookSurfaceDrawing()
+{
+	uintptr_t start_func_address = FindPattern(GetLibraryAddress("vguimatsurface_client.so"), 0xFFFFFFFFF, (unsigned char*) CMATSYSTEMSURFACE_STARTDRAWING_SIGNATURE, CMATSYSTEMSURFACE_STARTDRAWING_MASK);
+	StartDrawing = reinterpret_cast<StartDrawingFn>(start_func_address);
+
+	uintptr_t finish_func_address = FindPattern(GetLibraryAddress("vguimatsurface_client.so"), 0xFFFFFFFFF, (unsigned char*) CMATSYSTEMSURFACE_FINISHDRAWING_SIGNATURE, CMATSYSTEMSURFACE_FINISHDRAWING_MASK);
+	FinishDrawing = reinterpret_cast<FinishDrawingFn>(finish_func_address);
 }
 
 void Hooker::HookSwapWindow()
