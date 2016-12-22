@@ -6,5 +6,5 @@
 
 namespace Dlights
 {
-	void PaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force);
+	void Paint();
 }
