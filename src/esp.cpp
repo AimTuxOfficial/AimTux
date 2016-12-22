@@ -241,71 +241,71 @@ void ESP::DrawBox(Color color, int x, int y, int w, int h)
 		int squareLine = std::min(VertLine, HorzLine);
 
 		// top-left corner / color
-		Draw::Rectangle(x, y, squareLine, 1, color);
-		Draw::Rectangle(x, y, 1, squareLine, color);
+		Draw::Rectangle(x, y, x + squareLine, y + 1, color);
+		Draw::Rectangle(x, y, x + 1, y + squareLine, color);
 
 		// top-left corner / outer outline
-		Draw::Rectangle(x - 1, y - 1, squareLine + 1, 1, Color(10, 10, 10, 190));
-		Draw::Rectangle(x - 1, y, 1, squareLine, Color(10, 10, 10, 190));
+		Draw::Rectangle(x - 1, y - 1, x + squareLine, y, Color(10, 10, 10, 190));
+		Draw::Rectangle(x - 1, y, x, y + squareLine, Color(10, 10, 10, 190));
 
 		// top-left corner / inner outline
-		Draw::Rectangle(x + 1, y + 1, squareLine - 1, 1, Color(10, 10, 10, 190));
-		Draw::Rectangle(x + 1, y + 2, 1, squareLine - 2, Color(10, 10, 10, 190));
+		Draw::Rectangle(x + 1, y + 1, x + squareLine, y + 2, Color(10, 10, 10, 190));
+		Draw::Rectangle(x + 1, y + 2, x + 2, y + squareLine, Color(10, 10, 10, 190));
 
 		// top-left corner / missing edges
-		Draw::Rectangle(x + squareLine, y - 1, 1, 3, Color(10, 10, 10, 190));
-		Draw::Rectangle(x - 1, y + squareLine, 3, 1, Color(10, 10, 10, 190));
+		Draw::Rectangle(x + squareLine, y - 1, x + squareLine + 1, y + 2, Color(10, 10, 10, 190));
+		Draw::Rectangle(x - 1, y + squareLine, x + 2, y + squareLine + 1, Color(10, 10, 10, 190));
 
 
 		// top-right corner / color
-		Draw::Rectangle(x + w - squareLine, y, squareLine, 1, color);
-		Draw::Rectangle(x + w - 1, y, 1, squareLine, color);
+		Draw::Rectangle(x + w - squareLine, y, x + w, y + 1, color);
+		Draw::Rectangle(x + w - 1, y, x + w, y + squareLine, color);
 
 		// top-right corner / outer outline
-		Draw::Rectangle(x + w - squareLine, y - 1, squareLine + 1, 1, Color(10, 10, 10, 190));
-		Draw::Rectangle(x + w, y, 1, squareLine, Color(10, 10, 10, 190));
+		Draw::Rectangle(x + w - squareLine, y - 1, x + w + 1, y, Color(10, 10, 10, 190));
+		Draw::Rectangle(x + w, y, x + w + 1, y + squareLine, Color(10, 10, 10, 190));
 
 		// top-right corner / inner outline
-		Draw::Rectangle(x + w - squareLine, y + 1, squareLine - 1, 1, Color(10, 10, 10, 190));
-		Draw::Rectangle(x + w - 2, y + 2, 1, squareLine - 2, Color(10, 10, 10, 190));
+		Draw::Rectangle(x + w - squareLine, y + 1, x + w - 1, y + 2, Color(10, 10, 10, 190));
+		Draw::Rectangle(x + w - 2, y + 2, x + w - 1, y + squareLine, Color(10, 10, 10, 190));
 
 		// top-right corner / missing edges
-		Draw::Rectangle(x + w - squareLine - 1, y - 1, 1, 3, Color(10, 10, 10, 190));
-		Draw::Rectangle(x + w - 2, y + squareLine, 3, 1, Color(10, 10, 10, 190));
+		Draw::Rectangle(x + w - squareLine - 1, y - 1, x + w - squareLine, y + 2, Color(10, 10, 10, 190));
+		Draw::Rectangle(x + w - 2, y + squareLine, x + w + 1, y + squareLine + 1, Color(10, 10, 10, 190));
 
 
 		// bottom-left corner / color
-		Draw::Rectangle(x, y + h - 1, squareLine, 1, color);
-		Draw::Rectangle(x, y + h - squareLine, 1, squareLine, color);
+		Draw::Rectangle(x, y + h - 1, x + squareLine, y + h, color);
+		Draw::Rectangle(x, y + h - squareLine, x + 1, y + h, color);
 
 		// bottom-left corner / outer outline
-		Draw::Rectangle(x - 1, y + h, squareLine + 1, 1, Color(10, 10, 10, 190));
-		Draw::Rectangle(x - 1, y + h - squareLine, 1, squareLine, Color(10, 10, 10, 190));
+		Draw::Rectangle(x - 1, y + h, x + squareLine, y + h + 1, Color(10, 10, 10, 190));
+		Draw::Rectangle(x - 1, y + h - squareLine, x, y + h, Color(10, 10, 10, 190));
 
 		// bottom-left corner / inner outline
-		Draw::Rectangle(x + 1, y + h - 2, squareLine - 1, 1, Color(10, 10, 10, 190));
-		Draw::Rectangle(x + 1, y + h - squareLine, 1, squareLine - 2, Color(10, 10, 10, 190));
+		Draw::Rectangle(x + 1, y + h - 2, x + squareLine, y + h - 1, Color(10, 10, 10, 190));
+		Draw::Rectangle(x + 1, y + h - squareLine, x + 2, y + h - 2, Color(10, 10, 10, 190));
 
 		// bottom-left corner / missing edges
-		Draw::Rectangle(x + squareLine, y + h - 2, 1, 3, Color(10, 10, 10, 190));
-		Draw::Rectangle(x - 1, y + h - squareLine - 1, 3, 1, Color(10, 10, 10, 190));
+		Draw::Rectangle(x + squareLine, y + h - 2, x + squareLine + 1, y + h + 1, Color(10, 10, 10, 190));
+		Draw::Rectangle(x - 1, y + h - squareLine - 1, x + 2, y + h - squareLine, Color(10, 10, 10, 190));
 
 
 		// bottom-right corner / color
-		Draw::Rectangle(x + w - squareLine, y + h - 1, squareLine, 1, color);
-		Draw::Rectangle(x + w - 1, y + h - squareLine, 1, squareLine, color);
+		Draw::Rectangle(x + w - squareLine, y + h - 1, x + w, y + h, color);
+		Draw::Rectangle(x + w - 1, y + h - squareLine, x + w, y + h, color);
 
 		// bottom-right corner / outer outline
-		Draw::Rectangle(x + w - squareLine, y + h, squareLine + 1, 1, Color(10, 10, 10, 190));
-		Draw::Rectangle(x + w, y + h - squareLine, 1, squareLine + 1, Color(10, 10, 10, 190));
+		Draw::Rectangle(x + w - squareLine, y + h, x + w + 1, y + h + 1, Color(10, 10, 10, 190));
+		Draw::Rectangle(x + w, y + h - squareLine, x + w + 1, y + h + 1, Color(10, 10, 10, 190));
 
 		// bottom-right corner / inner outline
-		Draw::Rectangle(x + w - squareLine, y + h - 2, squareLine - 1, 1, Color(10, 10, 10, 190));
-		Draw::Rectangle(x + w - 2, y + h - squareLine, 1, squareLine - 2, Color(10, 10, 10, 190));
+		Draw::Rectangle(x + w - squareLine, y + h - 2, x + w - 1, y + h - 1, Color(10, 10, 10, 190));
+		Draw::Rectangle(x + w - 2, y + h - squareLine, x + w - 1, y + h - 2, Color(10, 10, 10, 190));
 
 		// bottom-right corner / missing edges
-		Draw::Rectangle(x + w - squareLine, y + h - 2, 1, 3, Color(10, 10, 10, 190));
-		Draw::Rectangle(x + w - 2, y + h - squareLine - 1, 3, 1, Color(10, 10, 10, 190));
+		Draw::Rectangle(x + w - squareLine, y + h - 2, x + w - squareLine + 1, y + h + 1, Color(10, 10, 10, 190));
+		Draw::Rectangle(x + w - 2, y + h - squareLine - 1, x + w + 1, y + h - squareLine, Color(10, 10, 10, 190));
 	}
 	else if (Settings::ESP::Boxes::type == BoxType::FLAT_2D)
 	{
@@ -362,7 +362,7 @@ void ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_info
 		DrawBox(Color::FromImColor(playerColor), x, y, w, h);
 
 	int boxSpacing = Settings::ESP::Boxes::enabled ? 3 : 0;
-	Vector2D barsSpacing = Vector2D(0,0);
+	Vector2D barsSpacing = Vector2D(0, 0);
 
 	// draw bars
 	if (Settings::ESP::Bars::enabled)
@@ -395,12 +395,14 @@ void ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_info
 			barw = 4; // outline(1px) + bar(2px) + outline(1px) = 6px;
 			barx -= barw + boxSpacing; // spacing(1px) + outline(1px) + bar(2px) + outline (1px) = 8 px
 
-			Draw::Rectangle(barx - 1, bary - 1, barw + 2, barh + 2, Color(255, 255, 255, 170));
-			Draw::FilledRectangle(barx, bary, barw, barh, Color(10, 10, 10, 255));
-			Draw::Rectangle(barx + 1, bary + 1, barw - 2, barh - 2, Color::FromImColor(barColor));
+			Draw::Rectangle(barx - 1, bary - 1, barx + barw + 1, bary + barh + 1, Color(255, 255, 255, 170));
+			Draw::FilledRectangle(barx, bary, barx + barw, bary + barh, Color(10, 10, 10, 255));
 
-			barh *= (1 - HealthPerc); // invert value as we want to cover more as health gets lower
-			Draw::Rectangle(barx , bary, barw, barh, Color(10, 10, 10, 255));
+			if (HealthPerc > 0)
+			{
+				Draw::FilledRectangle(barx + 1, bary + (barh * (1.f - HealthPerc)) + 1, barx + barw - 1, bary + barh - 1, Color::FromImColor(barColor));
+			}
+
 			barsSpacing.x += barw;
 		}
 		else if (Settings::ESP::Bars::type == BarType::HORIZONTAL)
@@ -408,13 +410,13 @@ void ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_info
 			bary += barh + boxSpacing; // player box(?px) + spacing(1px) + outline(1px) + bar(2px) + outline (1px) = 5 px
 			barh = 4; // outline(1px) + bar(2px) + outline(1px) = 4px;
 
-			Draw::Rectangle(barx - 1, bary - 1, barw + 2, barh + 2, Color(255, 255, 255, 170));
-			Draw::FilledRectangle(barx, bary, barw, barh, Color(10, 10, 10, 255));
+			Draw::Rectangle(barx - 1, bary - 1, barx + barw + 1, bary + barh + 1, Color(255, 255, 255, 170));
+			Draw::FilledRectangle(barx, bary, barx + barw, bary + barh, Color(10, 10, 10, 255));
 
 			if (HealthPerc > 0)
 			{
 				barw *= HealthPerc;
-				Draw::Rectangle(barx + 1, bary + 1, barw - 2, barh - 2, Color::FromImColor(barColor));
+				Draw::Rectangle(barx + 1, bary + 1, barx + barw - 1, bary + barh - 1, Color::FromImColor(barColor));
 			}
 			barsSpacing.y += barh;
 		}
@@ -423,13 +425,13 @@ void ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_info
 			barh = 4; // outline(1px) + bar(2px) + outline(1px) = 4px;
 			bary -= barh + boxSpacing; // spacing(1px) + outline(1px) + bar(2px) + outline (1px) = 5 px
 
-			Draw::Rectangle(barx - 1, bary - 1, barw + 2, barh + 2, Color(255, 255, 255, 170));
-			Draw::FilledRectangle(barx, bary, barw, barh, Color(10, 10, 10, 255));
+			Draw::Rectangle(barx - 1, bary - 1, barx + barw + 1, bary + barh + 1, Color(255, 255, 255, 170));
+			Draw::FilledRectangle(barx, bary, barx + barw, bary + barh, Color(10, 10, 10, 255));
 
 			if (HealthPerc > 0)
 			{
 				barw *= HealthPerc;
-				Draw::Rectangle(barx + 1, bary + 1, barw - 2, barh - 2, Color::FromImColor(barColor));
+				Draw::Rectangle(barx + 1, bary + 1, barx + barw - 1, bary + barh - 1, Color::FromImColor(barColor));
 			}
 			barsSpacing.y += barh;
 		}
