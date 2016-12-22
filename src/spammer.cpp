@@ -93,6 +93,9 @@ void Spammer::BeginFrame(float frameTime)
 			player_name.erase(std::remove(player_name.begin(), player_name.end(), ';'), player_name.end());
 			player_name.erase(std::remove(player_name.begin(), player_name.end(), '"'), player_name.end());
 
+			// Remove end line character
+			player_name.erase(std::remove(player_name.begin(), player_name.end(), '\n'), player_name.end());
+
 			// Construct a command with our message
 			pstring str;
 			str << (Settings::Spammer::PositionSpammer::say_team ? "say_team" : "say") << " \"";
