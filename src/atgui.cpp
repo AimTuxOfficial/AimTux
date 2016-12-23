@@ -723,9 +723,11 @@ void VisualsTab()
 				ImGui::Checkbox("No View Punch", &Settings::View::NoPunch::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Disables view punch when shooting");
+#ifdef EXPERIMENTAL_SETTINGS
 				ImGui::Checkbox("No Sky", &Settings::NoSky::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Allows for the skybox to be colored or disabled.");
+#endif
 			}
 			ImGui::NextColumn();
 			{
@@ -736,9 +738,11 @@ void VisualsTab()
 				ImGui::Checkbox("Radar", &Settings::Radar::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Shows enemies on radar");
+#ifdef EXPERIMENTAL_SETTINGS
 				ImGui::Checkbox("ASUS Walls", &Settings::ASUSWalls::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Makes wall textures transparent.");
+#endif
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
