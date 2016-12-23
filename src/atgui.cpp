@@ -1418,6 +1418,9 @@ void SpectatorsWindow()
 
 		for (int entityId : ShowSpectators::GetObservervators(engine->GetLocalPlayer()))
 		{
+			if (entityId == engine->GetLocalPlayer())
+				continue;
+
 			C_BaseEntity* entity = entitylist->GetClientEntity(entityId);
 
 			IEngineClient::player_info_t entityInformation;
