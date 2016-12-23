@@ -402,6 +402,7 @@ namespace Settings
 		namespace Sounds
 		{
 			extern bool enabled;
+			extern int time;
 		}
 	}
 

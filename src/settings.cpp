@@ -239,6 +239,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	LoadUIColor(settings["ESP"]["Chams"]["players_enemy_visible_color"], Settings::ESP::Chams::players_enemy_visible_color);
 	LoadUIColor(settings["ESP"]["Chams"]["Arms"]["color"], Settings::ESP::Chams::Arms::color);
 	settings["ESP"]["Chams"]["type"] = Settings::ESP::Chams::type;
+	settings["ESP"]["Sounds"]["enabled"] = Settings::ESP::Sounds::enabled;
+	settings["ESP"]["Sounds"]["time"] = Settings::ESP::Sounds::time;
 
 	settings["Dlights"]["enabled"] = Settings::Dlights::enabled;
 	settings["Dlights"]["radius"] = Settings::Dlights::radius;
@@ -479,6 +481,8 @@ void Settings::LoadConfig(std::string path)
 	GetUIColor(settings["ESP"]["Chams"]["players_enemy_visible_color"], &Settings::ESP::Chams::players_enemy_visible_color);
 	GetUIColor(settings["ESP"]["Chams"]["Arms"]["color"], &Settings::ESP::Chams::Arms::color);
 	GetInt(settings["ESP"]["Chams"]["type"], &Settings::ESP::Chams::type);
+	GetBool(settings["ESP"]["Sounds"]["enabled"], &Settings::ESP::Sounds::enabled);
+	GetInt(settings["ESP"]["Sounds"]["time"], &Settings::ESP::Sounds::time);
 
 	GetBool(settings["Dlights"]["enabled"], &Settings::Dlights::enabled);
 	GetFloat(settings["Dlights"]["radius"], &Settings::Dlights::radius);

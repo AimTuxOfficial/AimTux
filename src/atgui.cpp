@@ -720,6 +720,9 @@ void VisualsTab()
 				ImGui::Checkbox("No Flash", &Settings::Noflash::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Hide flashbang effect");
+				ImGui::Checkbox("Show Footsteps", &Settings::ESP::Sounds::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Shows you footsteps in 3D space");
 				ImGui::Checkbox("No View Punch", &Settings::View::NoPunch::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Disables view punch when shooting");
@@ -732,6 +735,7 @@ void VisualsTab()
 				ImGui::PushItemWidth(-1);
 					ImGui::SliderFloat("##DLIGHTRADIUS", &Settings::Dlights::radius, 0, 1000);
 					ImGui::SliderFloat("##NOFLASHAMOUNT", &Settings::Noflash::value, 0, 255);
+					ImGui::SliderInt("##SOUNDSTIME", &Settings::ESP::Sounds::time, 250, 5000);
 				ImGui::PopItemWidth();
 				ImGui::Checkbox("Radar", &Settings::Radar::enabled);
 				if (ImGui::IsItemHovered())
