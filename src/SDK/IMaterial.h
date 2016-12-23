@@ -138,6 +138,12 @@ enum MaterialPropertyTypes_t
 class IMaterial
 {
 public:
+	const char* GetTextureGroupName()
+	{
+		typedef const char* (* oGetTextureGroupName)(void*);
+		return getvfunc<oGetTextureGroupName>(this, 1)(this);
+	}
+
 	void AlphaModulate(float alpha)
 	{
 		typedef void (* oAlphaModulate)(void*, float);
