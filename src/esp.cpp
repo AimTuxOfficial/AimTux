@@ -848,7 +848,7 @@ void ESP::DrawSounds()
 
 		int opacity = (int)(255 * diff / Settings::ESP::Sounds::time);
 
-		Draw::Text((int)pos2d.x, (int)pos2d.y, "Step...", esp_font, Color(255, 255, 255, opacity));
+		Draw::Text((int)pos2d.x, (int)pos2d.y, "Step", esp_font, Color(255, 255, 255, opacity));
 	}
 }
 
