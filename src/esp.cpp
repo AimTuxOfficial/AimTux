@@ -817,7 +817,7 @@ void ESP::DrawTracer(C_BaseEntity* entity)
 
 void ESP::CollectFootSteps(int iEntIndex, const char *pSample)
 {
-	if (strstr(pSample, "footstep") == NULL)
+	if (strstr(pSample, "player/footsteps") == NULL && strstr(pSample, "player/land") == NULL)
 		return;
 
 	C_BaseEntity* entity = entitylist->GetClientEntity(iEntIndex);
