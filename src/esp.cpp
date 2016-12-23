@@ -72,8 +72,8 @@ bool Settings::ESP::BulletTracers::enabled = false;
 bool Settings::ESP::FOVCrosshair::enabled = false;
 ImColor Settings::ESP::FOVCrosshair::color = ImColor(180, 50, 50, 255);
 bool Settings::ESP::Skeleton::enabled = false;
-bool Settings::ESP::Sounds::enabled = true;
-int Settings::ESP::Sounds::time = 2500;
+bool Settings::ESP::Sounds::enabled = false;
+int Settings::ESP::Sounds::time = 750;
 
 // long is expiration time, vector is position
 std::vector<std::pair<long, Vector>> ESP::FootSteps;
