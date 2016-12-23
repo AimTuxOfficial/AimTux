@@ -10,7 +10,6 @@
 
 namespace ESP
 {
-	extern std::vector<std::pair<long, C_BaseEntity*>> FootSteps;
 	extern const char* Ranks[];
 
 	bool GetBox(C_BaseEntity* entity, int& x, int& y, int& w, int& h);

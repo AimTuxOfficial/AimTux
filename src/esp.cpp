@@ -76,7 +76,7 @@ bool Settings::ESP::Sounds::enabled = false;
 int Settings::ESP::Sounds::time = 750;
 
 // long is expiration time, C_BaseEntity is entity
-std::vector<std::pair<long, C_BaseEntity*>> ESP::FootSteps;
+std::vector<std::pair<long, C_BaseEntity*>> FootSteps;
 
 const char* ESP::Ranks[] = {
 		"Unranked",
@@ -825,32 +825,32 @@ void ESP::CollectFootSteps(int iEntIndex, const char *pSample)
 	long current = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 	long expiration = current + Settings::ESP::Sounds::time;
 
-	ESP::FootSteps.push_back(std::pair<long, C_BaseEntity*>(expiration, entity));
+	FootSteps.push_back(std::pair<long, C_BaseEntity*>(expiration, entity));
 }
 
 void ESP::DrawSounds()
 {
-	for (unsigned int i = 0; i < ESP::FootSteps.size(); i++)
+	for (unsigned int i = 0; i < FootSteps.size(); i++)
 	{
 		long current = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-		long diff = ESP::FootSteps[i].first - current;
+		long diff = FootSteps[i].first - current;
 
 		if (diff <= 0)
 		{
-			ESP::FootSteps.erase(ESP::FootSteps.begin() + i);
+			FootSteps.erase(FootSteps.begin() + i);
 			continue;
 		}
 
 		Vector pos2d;
 
-		if (debugOverlay->ScreenPosition(ESP::FootSteps[i].second->GetVecOrigin(), pos2d))
+		if (debugOverlay->ScreenPosition(FootSteps[i].second->GetVecOrigin(), pos2d))
 			continue;
 
 		bool bIsVisible = false;
 		if (Settings::ESP::Filters::visibility_check || Settings::ESP::Filters::legit)
-			bIsVisible = Entity::IsVisible(ESP::FootSteps[i].second, BONE_HEAD);
+			bIsVisible = Entity::IsVisible(FootSteps[i].second, BONE_HEAD);
 
-		Color playerColor = Color::FromImColor(GetESPPlayerColor(ESP::FootSteps[i].second, bIsVisible));
+		Color playerColor = Color::FromImColor(GetESPPlayerColor(FootSteps[i].second, bIsVisible));
 		playerColor.a = (int)(255 * diff / Settings::ESP::Sounds::time);;
 
 		Draw::Text((int)pos2d.x, (int)pos2d.y, "Step", esp_font, playerColor);
