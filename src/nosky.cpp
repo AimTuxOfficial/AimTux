@@ -16,16 +16,8 @@ void NoSky::FrameStageNotify(ClientFrameStage_t stage)
 			continue;
 
 		if (Settings::NoSky::enabled)
-		{
-			mat->ColorModulate(
-				Settings::NoSky::color.Value.x,
-				Settings::NoSky::color.Value.y,
-				Settings::NoSky::color.Value.z
-			);
-		}
+			mat->ColorModulate(Settings::NoSky::color);
 		else
-		{
 			mat->ColorModulate(1, 1, 1);
-		}
 	}
 }

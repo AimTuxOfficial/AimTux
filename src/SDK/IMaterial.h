@@ -156,6 +156,18 @@ public:
 		return getvfunc<oColorModulate>(this, 28)(this, r, g, b);
 	}
 
+	void ColorModulate(Color color)
+	{
+		typedef void (* oColorModulate)(void*, float, float, float);
+		return getvfunc<oColorModulate>(this, 28)(this, color.r / 255.0f, color.g / 255.0f, color.b / 255.0f);
+	}
+
+	void ColorModulate(ImColor color)
+	{
+		typedef void (* oColorModulate)(void*, float, float, float);
+		return getvfunc<oColorModulate>(this, 28)(this, color.Value.x, color.Value.y, color.Value.z);
+	}
+
 	void SetMaterialVarFlag(MaterialVarFlags_t flag, bool on)
 	{
 		typedef void (* oSetMaterialVarFlag)(void*, MaterialVarFlags_t, bool);

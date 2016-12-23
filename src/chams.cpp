@@ -117,27 +117,13 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 
 	if (entity->GetTeam() == localPlayer->GetTeam())
 	{
-		visible_material->ColorModulate(
-							Settings::ESP::Chams::players_ally_visible_color.Value.x,
-							Settings::ESP::Chams::players_ally_visible_color.Value.y,
-							Settings::ESP::Chams::players_ally_visible_color.Value.z);
-
-		hidden_material->ColorModulate(
-							Settings::ESP::Chams::players_ally_color.Value.x,
-							Settings::ESP::Chams::players_ally_color.Value.y,
-							Settings::ESP::Chams::players_ally_color.Value.z);
+		visible_material->ColorModulate(Settings::ESP::Chams::players_ally_visible_color);
+		hidden_material->ColorModulate(Settings::ESP::Chams::players_ally_color);
 	}
 	else
 	{
-		visible_material->ColorModulate(
-							Settings::ESP::Chams::players_enemy_visible_color.Value.x,
-							Settings::ESP::Chams::players_enemy_visible_color.Value.y,
-							Settings::ESP::Chams::players_enemy_visible_color.Value.z);
-
-		hidden_material->ColorModulate(
-							Settings::ESP::Chams::players_enemy_color.Value.x,
-							Settings::ESP::Chams::players_enemy_color.Value.y,
-							Settings::ESP::Chams::players_enemy_color.Value.z);
+		visible_material->ColorModulate(Settings::ESP::Chams::players_enemy_visible_color);
+		hidden_material->ColorModulate(Settings::ESP::Chams::players_enemy_color);
 	}
 
 	if (!Settings::ESP::Chams::visibility_check)
@@ -162,16 +148,12 @@ void DrawArms(const ModelRenderInfo_t &pInfo)
 	{
 		case DEFAULT:
 			mat->AlphaModulate(1.0f);
-			mat->ColorModulate(
-					Settings::ESP::Chams::Arms::color.Value.x,
-					Settings::ESP::Chams::Arms::color.Value.y,
-					Settings::ESP::Chams::Arms::color.Value.z
-			);
+			mat->ColorModulate(Settings::ESP::Chams::Arms::color);
 			break;
 		case RAINBOW:
 			Color color = Color::FromHSB(rainbowHue, 1.0f, 1.0f);
 			mat->AlphaModulate(1.0f);
-			mat->ColorModulate(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f);
+			mat->ColorModulate(color);
 			break;
 	}
 

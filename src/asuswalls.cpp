@@ -17,11 +17,7 @@ void ASUSWalls::FrameStageNotify(ClientFrameStage_t stage)
 
 		if (Settings::ASUSWalls::enabled)
 		{
-			mat->ColorModulate(
-				Settings::ASUSWalls::color.Value.x,
-				Settings::ASUSWalls::color.Value.y,
-				Settings::ASUSWalls::color.Value.z
-			);
+			mat->ColorModulate(Settings::ASUSWalls::color);
 			mat->AlphaModulate(Settings::ASUSWalls::color.Value.w);
 		}
 		else
