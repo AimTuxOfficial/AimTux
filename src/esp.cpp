@@ -75,8 +75,8 @@ bool Settings::ESP::Skeleton::enabled = false;
 bool Settings::ESP::Sounds::enabled = false;
 int Settings::ESP::Sounds::time = 750;
 
-// long is expiration time, vector is position
-std::vector<std::pair<long, Vector>> ESP::FootSteps;
+// long is expiration time, C_BaseEntity is entity
+std::vector<std::pair<long, C_BaseEntity*>> ESP::FootSteps;
 
 const char* ESP::Ranks[] = {
 		"Unranked",
@@ -820,12 +820,12 @@ void ESP::CollectFootSteps(int iEntIndex, const char *pSample)
 	if (strstr(pSample, "footstep") == NULL)
 		return;
 
-	C_BaseEntity *entity = entitylist->GetClientEntity(iEntIndex);
+	C_BaseEntity* entity = entitylist->GetClientEntity(iEntIndex);
 
 	long current = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 	long expiration = current + Settings::ESP::Sounds::time;
 
-	ESP::FootSteps.push_back(std::pair<long, Vector>(expiration, entity->GetVecOrigin()));
+	ESP::FootSteps.push_back(std::pair<long, C_BaseEntity*>(expiration, entity));
 }
 
 void ESP::DrawSounds()
@@ -843,12 +843,17 @@ void ESP::DrawSounds()
 
 		Vector pos2d;
 
-		if (debugOverlay->ScreenPosition(ESP::FootSteps[i].second, pos2d))
+		if (debugOverlay->ScreenPosition(ESP::FootSteps[i].second->GetVecOrigin(), pos2d))
 			continue;
 
-		int opacity = (int)(255 * diff / Settings::ESP::Sounds::time);
+		bool bIsVisible = false;
+		if (Settings::ESP::Filters::visibility_check || Settings::ESP::Filters::legit)
+			bIsVisible = Entity::IsVisible(ESP::FootSteps[i].second, BONE_HEAD);
 
-		Draw::Text((int)pos2d.x, (int)pos2d.y, "Step", esp_font, Color(255, 255, 255, opacity));
+		Color playerColor = Color::FromImColor(GetESPPlayerColor(ESP::FootSteps[i].second, bIsVisible));
+		playerColor.a = (int)(255 * diff / Settings::ESP::Sounds::time);;
+
+		Draw::Text((int)pos2d.x, (int)pos2d.y, "Step", esp_font, playerColor);
 	}
 }
 
