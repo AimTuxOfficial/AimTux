@@ -830,7 +830,7 @@ void ESP::CollectFootSteps(int iEntIndex, const char *pSample)
 
 void ESP::DrawSounds()
 {
-	for (int i = 0; i < ESP::FootSteps.size(); i++)
+	for (unsigned int i = 0; i < ESP::FootSteps.size(); i++)
 	{
 		long current = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 		long diff = ESP::FootSteps[i].first - current;
