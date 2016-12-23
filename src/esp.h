@@ -10,6 +10,7 @@
 
 namespace ESP
 {
+	extern std::vector<std::pair<long, Vector>> FootSteps;
 	extern const char* Ranks[];
 
 	bool GetBox(C_BaseEntity* entity, int& x, int& y, int& w, int& h);
@@ -28,6 +29,7 @@ namespace ESP
 	void DrawSkeleton(C_BaseEntity* player);
 	void DrawBulletTrace(C_BaseEntity* player);
 	void DrawTracer(C_BaseEntity *entity);
+	void CollectFootSteps(int iEntIndex, const char *pSample);
 	void DrawSounds();
 	void DrawFOVCrosshair();
 	void DrawGlow();
@@ -35,4 +37,5 @@ namespace ESP
 	void BeginFrame(float frameTime);
 	bool PrePaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force);
 	void Paint();
+	void EmitSound(int iEntIndex, const char *pSample);
 }

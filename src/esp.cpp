@@ -1,4 +1,5 @@
 #include <math.h>
+#include <chrono>
 #include "esp.h"
 #include "settings.h"
 #include "skins.h"
@@ -72,6 +73,11 @@ bool Settings::ESP::FOVCrosshair::enabled = false;
 ImColor Settings::ESP::FOVCrosshair::color = ImColor(180, 50, 50, 255);
 bool Settings::ESP::Skeleton::enabled = false;
 bool Settings::ESP::Sounds::enabled = true;
+
+long soundsExpiration = 3000;//Settings::ESP::Sounds::time = 1000;
+
+// long is expiration time, vector is position
+std::vector<std::pair<long, Vector>> ESP::FootSteps;
 
 const char* ESP::Ranks[] = {
 		"Unranked",
@@ -810,9 +816,41 @@ void ESP::DrawTracer(C_BaseEntity* entity)
 	Draw::Line((int)(src.x), (int)(src.y), x, y, Color::FromImColor(GetESPPlayerColor(entity,bIsVisible)));
 }
 
+void ESP::CollectFootSteps(int iEntIndex, const char *pSample)
+{
+	if (strstr(pSample, "footstep") == NULL)
+		return;
+
+	C_BaseEntity *entity = entitylist->GetClientEntity(iEntIndex);
+
+	long current = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+	long expiration = current + soundsExpiration;
+
+	ESP::FootSteps.push_back(std::pair<long, Vector>(expiration, entity->GetVecOrigin()));
+}
+
 void ESP::DrawSounds()
 {
+	for (int i = 0; i < ESP::FootSteps.size(); i++)
+	{
+		long current = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+		long diff = ESP::FootSteps[i].first - current;
 
+		if (diff <= 0)
+		{
+			ESP::FootSteps.erase(ESP::FootSteps.begin() + i);
+			continue;
+		}
+
+		Vector pos2d;
+
+		if (debugOverlay->ScreenPosition(ESP::FootSteps[i].second, pos2d))
+			continue;
+
+		int opacity = (int)(255 * diff / soundsExpiration);
+
+		Draw::Text((int)pos2d.x, (int)pos2d.y, "Step...", esp_font, Color(255, 255, 255, opacity));
+	}
 }
 
 void ESP::DrawFOVCrosshair()
@@ -990,7 +1028,6 @@ void ESP::Paint()
 		ESP::DrawFOVCrosshair();
 }
 
-
 void ESP::BeginFrame(float frameTime)
 {
 	if (!engine->IsInGame())
@@ -998,4 +1035,10 @@ void ESP::BeginFrame(float frameTime)
 
 	if (Settings::ESP::Glow::enabled)
 		ESP::DrawGlow();
+}
+
+void ESP::EmitSound(int iEntIndex, const char *pSample)
+{
+	if (Settings::ESP::Sounds::enabled)
+		ESP::CollectFootSteps(iEntIndex, pSample);
 }
