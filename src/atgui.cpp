@@ -198,6 +198,8 @@ void ColorsWindow()
 			"Glow - Chicken",
 			"Dlights - Team",
 			"Dlights - Enemy",
+			"Sky",
+			"Walls",
 	};
 
 	ImColor* colors[] = {
@@ -239,6 +241,8 @@ void ColorsWindow()
 			&Settings::ESP::Glow::chicken_color,
 			&Settings::Dlights::ally_color,
 			&Settings::Dlights::enemy_color,
+			&Settings::NoSky::color,
+			&Settings::ASUSWalls::color,
 	};
 
 	static int colorSelected = 0;
@@ -719,6 +723,9 @@ void VisualsTab()
 				ImGui::Checkbox("No View Punch", &Settings::View::NoPunch::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Disables view punch when shooting");
+				ImGui::Checkbox("No Sky", &Settings::NoSky::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Allows for the skybox to be colored or disabled.");
 			}
 			ImGui::NextColumn();
 			{
@@ -729,6 +736,9 @@ void VisualsTab()
 				ImGui::Checkbox("Radar", &Settings::Radar::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Shows enemies on radar");
+				ImGui::Checkbox("ASUS Walls", &Settings::ASUSWalls::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Makes wall textures transparent.");
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();

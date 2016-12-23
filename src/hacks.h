@@ -24,3 +24,5 @@
 #include "teleport.h"
 #include "triggerbot.h"
 #include "resolver.h"
+#include "nosky.h"
+#include "asuswalls.h"

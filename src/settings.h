@@ -553,6 +553,18 @@ namespace Settings
 		extern bool enabled;
 	}
 
+	namespace NoSky
+	{
+		extern bool enabled;
+		extern ImColor color;
+	}
+
+	namespace ASUSWalls
+	{
+		extern bool enabled;
+		extern ImColor color;
+	}
+
 	void LoadDefaultsOrSave(std::string path);
 	void LoadConfig(std::string path);
 	void LoadSettings();

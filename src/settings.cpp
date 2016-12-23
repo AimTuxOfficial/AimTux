@@ -318,6 +318,12 @@ void Settings::LoadDefaultsOrSave(std::string path)
 
 	settings["AutoAccept"]["enabled"] = Settings::AutoAccept::enabled;
 
+	settings["NoSky"]["enabled"] = Settings::NoSky::enabled;
+	LoadUIColor(settings["NoSky"]["color"], Settings::NoSky::color);
+
+	settings["ASUSWalls"]["enabled"] = Settings::ASUSWalls::enabled;
+	LoadUIColor(settings["ASUSWalls"]["color"], Settings::ASUSWalls::color);
+
 	std::ofstream(path) << styledWriter.write(settings);
 }
 
@@ -576,6 +582,12 @@ void Settings::LoadConfig(std::string path)
 	GetBool(settings["FakeLag"]["enabled"], &Settings::FakeLag::enabled);
 
 	GetBool(settings["AutoAccept"]["enabled"], &Settings::AutoAccept::enabled);
+
+	GetBool(settings["NoSky"]["enabled"], &Settings::NoSky::enabled);
+	GetUIColor(settings["NoSky"]["color"], &Settings::NoSky::color);
+
+	GetBool(settings["ASUSWalls"]["enabled"], &Settings::ASUSWalls::enabled);
+	GetUIColor(settings["ASUSWalls"]["color"], &Settings::ASUSWalls::color);
 }
 
 void Settings::LoadSettings()

@@ -7,6 +7,8 @@ void Hooks::FrameStageNotify(void* thisptr, ClientFrameStage_t stage)
 	Noflash::FrameStageNotify(stage);
 	View::FrameStageNotify(stage);
 	Resolver::FrameStageNotify(stage);
+	NoSky::FrameStageNotify(stage);
+	ASUSWalls::FrameStageNotify(stage);
 
 	client_vmt->GetOriginalMethod<FrameStageNotifyFn>(36)(thisptr, stage);
 
