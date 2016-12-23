@@ -541,6 +541,9 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 
 	if (!Settings::Aimbot::silent)
 		engine->SetViewAngles(cmd->viewangles);
+
+	if (Settings::Aimbot::AutoShoot::autoscope && localplayer->IsScoped() && !entity)
+		cmd->buttons |= IN_ATTACK2;
 }
 
 void Aimbot::FireEventClientSide(IGameEvent* event)
