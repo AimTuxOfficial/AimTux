@@ -1420,10 +1420,7 @@ void SpectatorsWindow()
 		ImGui::Text("Mode");
 		ImGui::NextColumn();
 
-		C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-		std::list<int> observators = ShowSpectators::GetObservervators(localplayer);
-
-		for (int entityId : observators)
+		for (int entityId : ShowSpectators::GetObservervators(engine->GetLocalPlayer()))
 		{
 			C_BaseEntity* entity = entitylist->GetClientEntity(entityId);
 

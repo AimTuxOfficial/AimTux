@@ -2,15 +2,25 @@
 
 bool Settings::ShowSpectators::enabled = true;
 
-std::list<int> ShowSpectators::GetObservervators(C_BaseEntity* pEntity)
+std::list<int> ShowSpectators::GetObservervators(int entityId)
 {
 	std::list<int> list;
 
 	if (!engine->IsInGame())
 		return list;
 
-	if (!pEntity || !pEntity->GetAlive())
+	C_BaseEntity* pEntity = entitylist->GetClientEntity(entityId);
+	if (!pEntity)
 		return list;
+
+	if (!pEntity->GetAlive())
+	{
+		C_BaseEntity* observerTarget = entitylist->GetClientEntityFromHandle(pEntity->GetObserverTarget());
+		if (!observerTarget)
+			return list;
+
+		pEntity = observerTarget;
+	}
 
 	for (int i = 1; i < engine->GetMaxClients(); ++i)
 	{
@@ -21,7 +31,7 @@ std::list<int> ShowSpectators::GetObservervators(C_BaseEntity* pEntity)
 		if (entity->GetDormant() || entity->GetAlive())
 			continue;
 
-		C_BaseEntity *target = entitylist->GetClientEntityFromHandle(entity->GetObserverTarget());
+		C_BaseEntity* target = entitylist->GetClientEntityFromHandle(entity->GetObserverTarget());
 		if (pEntity != target)
 			continue;
 
