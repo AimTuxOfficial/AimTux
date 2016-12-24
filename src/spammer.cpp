@@ -147,11 +147,7 @@ void Spammer::FireEventClientSide(IGameEvent* event)
 	int attacker_id = engine->GetPlayerForUserID(event->GetInt("attacker"));
 	int deadPlayer_id = engine->GetPlayerForUserID(event->GetInt("userid"));
 
-	// Make sure both IDs are valid
-	if (!attacker_id || !deadPlayer_id)
-		return;
-
-	// Make sure it's not a suicide.
+	// Make sure it's not a suicide.x
 	if (attacker_id == deadPlayer_id)
 		return;
 
