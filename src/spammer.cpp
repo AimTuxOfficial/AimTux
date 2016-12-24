@@ -97,13 +97,14 @@ void Spammer::BeginFrame(float frameTime)
 
 			// Construct a command with our message
 			pstring str;
-			str << (Settings::Spammer::PositionSpammer::say_team ? "say_team" : "say") << " \"";
-			str << player_name << " | ";
-			str << modelName << " | ";
-			str << ESP::Ranks[*(*csPlayerResource)->GetCompetitiveRanking(i)] << " | ";
-			str << *(*csPlayerResource)->GetCompetitiveWins(i) << " wins | ";
-			str << entity->GetHealth() << "HP | ";
-			str << entity->GetLastPlaceName() << "\"";
+			str << (Settings::Spammer::PositionSpammer::say_team ? "say_team" : "say") << " \""
+			<< player_name << " | "
+			<< modelName << " | "
+			<< "$" << entity->GetMoney() << " | "
+			<< ESP::Ranks[*(*csPlayerResource)->GetCompetitiveRanking(i)] << " | "
+			<< *(*csPlayerResource)->GetCompetitiveWins(i) << " wins | "
+			<< entity->GetHealth() << "HP | "
+			<< entity->GetLastPlaceName() << "\"";
 
 			// Execute our constructed command
 			engine->ExecuteClientCmd(str.c_str());
