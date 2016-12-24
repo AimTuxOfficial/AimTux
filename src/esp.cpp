@@ -78,7 +78,7 @@ int Settings::ESP::Sounds::time = 750;
 struct Footstep
 {
 	long expiration;
-	C_BaseEntity* entity;
+	int entityId;
 	Vector position;
 };
 
@@ -827,8 +827,8 @@ void ESP::CollectFootSteps(int iEntIndex, const char *pSample)
 		return;
 
 	Footstep footstep;
-	footstep.entity = entitylist->GetClientEntity(iEntIndex);
-	footstep.position = footstep.entity->GetVecOrigin();
+	footstep.entityId = iEntIndex;
+	footstep.position = entitylist->GetClientEntity(iEntIndex)->GetVecOrigin();
 
 	long current = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 	footstep.expiration = current + Settings::ESP::Sounds::time;
@@ -854,11 +854,15 @@ void ESP::DrawSounds()
 		if (debugOverlay->ScreenPosition(Footsteps[i].position, pos2d))
 			continue;
 
+		C_BaseEntity* entity = entitylist->GetClientEntity(Footsteps[i].entityId);
+		if (!entity)
+			continue;
+
 		bool bIsVisible = false;
 		if (Settings::ESP::Filters::visibility_check || Settings::ESP::Filters::legit)
-			bIsVisible = Entity::IsVisible(Footsteps[i].entity, BONE_HEAD);
+			bIsVisible = Entity::IsVisible(entity, BONE_HEAD);
 
-		Color playerColor = Color::FromImColor(GetESPPlayerColor(Footsteps[i].entity, bIsVisible));
+		Color playerColor = Color::FromImColor(GetESPPlayerColor(entity, bIsVisible));
 		playerColor.a = (int)(255 * diff / Settings::ESP::Sounds::time);;
 
 		Draw::Text((int)pos2d.x, (int)pos2d.y, "Step", esp_font, playerColor);
