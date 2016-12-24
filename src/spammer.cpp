@@ -147,7 +147,9 @@ void Spammer::BeginFrame(float frameTime)
 				str << entity->GetHealth() << "HP | ";
 
 			if (Settings::Spammer::PositionSpammer::show_lastplace)
-				str << entity->GetLastPlaceName() << "\"";
+				str << entity->GetLastPlaceName();
+
+			str << "\"";
 
 			// Execute our constructed command
 			engine->ExecuteClientCmd(str.c_str());
