@@ -247,18 +247,22 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	LoadUIColor(settings["Dlights"]["ally_color"], Settings::Dlights::ally_color);
 	LoadUIColor(settings["Dlights"]["enemy_color"], Settings::Dlights::enemy_color);
 
-	settings["Spammer"]["PositionSpammer"]["enabled"] = Settings::Spammer::PositionSpammer::enabled;
-	settings["Spammer"]["PositionSpammer"]["say_team"] = Settings::Spammer::PositionSpammer::say_team;
+	settings["Spammer"]["spammer_type"] = Settings::Spammer::type;
+	settings["Spammer"]["say_team"] = Settings::Spammer::say_team;
 	settings["Spammer"]["KillSpammer"]["enabled"] = Settings::Spammer::KillSpammer::enabled;
 	settings["Spammer"]["KillSpammer"]["say_team"] = Settings::Spammer::KillSpammer::say_team;
 	settings["Spammer"]["KillSpammer"]["message"] = Settings::Spammer::KillSpammer::message;
-	settings["Spammer"]["NormalSpammer"]["enabled"] = Settings::Spammer::NormalSpammer::enabled;
-	settings["Spammer"]["NormalSpammer"]["say_team"] = Settings::Spammer::NormalSpammer::say_team;
 	Json::Value messages;
 	for (auto it : Settings::Spammer::NormalSpammer::messages)
 		messages.append(it);
 	settings["Spammer"]["NormalSpammer"]["messages"] = messages;
-
+	settings["Spammer"]["PositionSpammer"]["show_name"] = Settings::Spammer::PositionSpammer::show_name;
+	settings["Spammer"]["PositionSpammer"]["show_weapon"] = Settings::Spammer::PositionSpammer::show_weapon;
+	settings["Spammer"]["PositionSpammer"]["show_rank"] = Settings::Spammer::PositionSpammer::show_rank;
+	settings["Spammer"]["PositionSpammer"]["show_wins"] = Settings::Spammer::PositionSpammer::show_wins;
+	settings["Spammer"]["PositionSpammer"]["show_health"] = Settings::Spammer::PositionSpammer::show_health;
+	settings["Spammer"]["PositionSpammer"]["show_lastplace"] = Settings::Spammer::PositionSpammer::show_lastplace;
+	
 	settings["BHop"]["enabled"] = Settings::BHop::enabled;
 
 	settings["AutoStrafe"]["enabled"] = Settings::AutoStrafe::enabled;
@@ -489,19 +493,23 @@ void Settings::LoadConfig(std::string path)
 	GetUIColor(settings["Dlights"]["ally_color"], &Settings::Dlights::ally_color);
 	GetUIColor(settings["Dlights"]["enemy_color"], &Settings::Dlights::enemy_color);
 
-	GetBool(settings["Spammer"]["PositionSpammer"]["enabled"], &Settings::Spammer::PositionSpammer::enabled);
-	GetBool(settings["Spammer"]["PositionSpammer"]["say_team"], &Settings::Spammer::PositionSpammer::say_team);
+	GetInt(settings["Spammer"]["spammer_type"], &Settings::Spammer::type);
+	GetBool(settings["Spammer"]["say_team"], &Settings::Spammer::say_team);
 	GetBool(settings["Spammer"]["KillSpammer"]["enabled"], &Settings::Spammer::KillSpammer::enabled);
 	GetBool(settings["Spammer"]["KillSpammer"]["say_team"], &Settings::Spammer::KillSpammer::say_team);
 	GetCString(settings["Spammer"]["KillSpammer"]["message"], &Settings::Spammer::KillSpammer::message);
-	GetBool(settings["Spammer"]["NormalSpammer"]["enabled"], &Settings::Spammer::NormalSpammer::enabled);
-	GetBool(settings["Spammer"]["NormalSpammer"]["say_team"], &Settings::Spammer::NormalSpammer::say_team);
 	if (!settings["Spammer"]["NormalSpammer"]["messages"].isNull())
 	{
 		Settings::Spammer::NormalSpammer::messages.clear();
 		for (const Json::Value& message : settings["Spammer"]["NormalSpammer"]["messages"])
 			Settings::Spammer::NormalSpammer::messages.push_back(message.asString());
 	}
+	GetBool(settings["Spammer"]["PositionSpammer"]["show_name"], &Settings::Spammer::PositionSpammer::show_name);
+	GetBool(settings["Spammer"]["PositionSpammer"]["show_weapon"], &Settings::Spammer::PositionSpammer::show_weapon);
+	GetBool(settings["Spammer"]["PositionSpammer"]["show_rank"], &Settings::Spammer::PositionSpammer::show_rank);
+	GetBool(settings["Spammer"]["PositionSpammer"]["show_wins"], &Settings::Spammer::PositionSpammer::show_wins);
+	GetBool(settings["Spammer"]["PositionSpammer"]["show_health"], &Settings::Spammer::PositionSpammer::show_health);
+	GetBool(settings["Spammer"]["PositionSpammer"]["show_lastplace"], &Settings::Spammer::PositionSpammer::show_lastplace);
 
 	GetBool(settings["BHop"]["enabled"], &Settings::BHop::enabled);
 

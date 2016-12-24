@@ -109,6 +109,13 @@ enum AimTargetType : int
 	HP
 };
 
+enum SpammerType : int
+{
+	SPAMMER_NONE,
+	SPAMMER_NORMAL,
+	SPAMMER_POSITIONS
+};
+
 namespace Settings
 {
 	namespace UI
@@ -416,6 +423,9 @@ namespace Settings
 
 	namespace Spammer
 	{
+		extern int type;
+		extern bool say_team;
+
 		namespace KillSpammer
 		{
 			extern bool enabled;
@@ -423,17 +433,19 @@ namespace Settings
 			extern char* message;
 		}
 
-		namespace PositionSpammer
-		{
-			extern bool enabled;
-			extern bool say_team;
-		}
-
 		namespace NormalSpammer
 		{
-			extern bool enabled;
-			extern bool say_team;
 			extern std::vector<std::string> messages;
+		}
+
+		namespace PositionSpammer
+		{
+			extern bool show_name;
+			extern bool show_weapon;
+			extern bool show_rank;
+			extern bool show_wins;
+			extern bool show_health;
+			extern bool show_lastplace;
 		}
 	}
 
