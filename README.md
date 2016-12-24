@@ -85,6 +85,14 @@ Now, go back into csgo, if you're in the main menu of the game you should see th
 
 ![this](http://i.imgur.com/I2NSAia.png)
 
+## Contributing to AimTux
+
+If you wish to contribute code to this opensource project, please keep some things mind before creating a *pull request*:
+ - Make sure you're using tabs instead of spaces.
+ - Curly braces are to be placed on a new line.
+ - Make sure your commits are clean and straight forward ( no junk commits )
+ - Explain what you've done in your pull request.
+
 
 ## Screenshots
 
