@@ -950,7 +950,7 @@ void MiscTab()
 			}
 			ImGui::NextColumn();
 			{
-				ImGui::Checkbox("Team Chat###SAY_TEAM2", &Settings::Spammer::KillSpammer::say_team);
+				ImGui::Checkbox("Team Chat###SAY_TEAM1", &Settings::Spammer::KillSpammer::say_team);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Only show kill message in team chat");
 				ImGui::Checkbox("Team Chat###SAY_TEAM2", &Settings::Spammer::say_team);
