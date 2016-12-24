@@ -17,7 +17,7 @@ std::vector<std::string> Settings::Spammer::NormalSpammer::messages = {
 		">tfw no vac on Linux"
 };
 
-std::vector<IEngineClient::player_info_t> Spammer::killedPlayerQueue = std::vector<IEngineClient::player_info_t>();
+std::vector<int> killedPlayerQueue;
 
 void Spammer::BeginFrame(float frameTime)
 {
@@ -30,13 +30,14 @@ void Spammer::BeginFrame(float frameTime)
 		return;
 
 	// Kill spammer
-	if (Settings::Spammer::KillSpammer::enabled && Spammer::killedPlayerQueue.size() > 0)
+	if (Settings::Spammer::KillSpammer::enabled && killedPlayerQueue.size() > 0)
 	{
-		IEngineClient::player_info_t player_info = Spammer::killedPlayerQueue[0];
+		IEngineClient::player_info_t playerInfo;
+		engine->GetPlayerInfo(killedPlayerQueue[0], &playerInfo);
 
 		// Prepare dead player's nickname without ';' & '"' characters
 		// as they might cause user to execute a command.
-		std::string dead_player_name = std::string(player_info.name);
+		std::string dead_player_name = std::string(playerInfo.name);
 		dead_player_name.erase(std::remove(dead_player_name.begin(), dead_player_name.end(), ';'), dead_player_name.end());
 		dead_player_name.erase(std::remove(dead_player_name.begin(), dead_player_name.end(), '"'), dead_player_name.end());
 
@@ -49,7 +50,7 @@ void Spammer::BeginFrame(float frameTime)
 		engine->ExecuteClientCmd(str.c_str());
 
 		// Remove the first element from the vector
-		Spammer::killedPlayerQueue.erase(Spammer::killedPlayerQueue.begin(), Spammer::killedPlayerQueue.begin() + 1);
+		killedPlayerQueue.erase(killedPlayerQueue.begin(), killedPlayerQueue.begin() + 1);
 	}
 	else if (Settings::Spammer::PositionSpammer::enabled)
 	{
@@ -158,13 +159,5 @@ void Spammer::FireEventClientSide(IGameEvent* event)
 	if (attacker_id != engine->GetLocalPlayer())
 		return;
 
-	// Get the attackers information
-	IEngineClient::player_info_t attacker_info;
-	engine->GetPlayerInfo(attacker_id, &attacker_info);
-
-	// Get the dead players information
-	IEngineClient::player_info_t deadPlayer_info;
-	engine->GetPlayerInfo(deadPlayer_id, &deadPlayer_info);
-
-	Spammer::killedPlayerQueue.push_back(deadPlayer_info);
+	killedPlayerQueue.push_back(deadPlayer_id);
 }
