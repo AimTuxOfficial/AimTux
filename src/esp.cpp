@@ -854,17 +854,18 @@ void ESP::DrawSounds()
 		if (debugOverlay->ScreenPosition(Footsteps[i].position, pos2d))
 			continue;
 
-		C_BaseEntity* entity = entitylist->GetClientEntity(Footsteps[i].entityId);
-
 		C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+		if (!localplayer)
+			continue;
+
+		C_BaseEntity* entity = entitylist->GetClientEntity(Footsteps[i].entityId);
+		if (!entity)
+			continue;
 
 		if (entity->GetTeam() != localplayer->GetTeam() && !Settings::ESP::Filters::enemies)
-			return;
+			continue;
 
 		if (entity->GetTeam() == localplayer->GetTeam() && !Settings::ESP::Filters::allies)
-			return;
-
-		if (!entity)
 			continue;
 
 		bool bIsVisible = false;
