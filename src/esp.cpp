@@ -82,7 +82,7 @@ struct Footstep
 	Vector position;
 };
 
-std::vector<Footstep> Footsteps;
+std::vector<Footstep> footsteps;
 
 const char* ESP::Ranks[] = {
 		"Unranked",
@@ -821,7 +821,7 @@ void ESP::DrawTracer(C_BaseEntity* entity)
 	Draw::Line((int)(src.x), (int)(src.y), x, y, Color::FromImColor(GetESPPlayerColor(entity,bIsVisible)));
 }
 
-void ESP::CollectFootSteps(int iEntIndex, const char *pSample)
+void ESP::CollectFootstep(int iEntIndex, const char *pSample)
 {
 	if (strstr(pSample, "player/footsteps") == NULL && strstr(pSample, "player/land") == NULL)
 		return;
@@ -833,32 +833,50 @@ void ESP::CollectFootSteps(int iEntIndex, const char *pSample)
 	long current = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 	footstep.expiration = current + Settings::ESP::Sounds::time;
 
-	Footsteps.push_back(footstep);
+	footsteps.push_back(footstep);
+}
+
+void Circle3D(Vector position, float points, float radius, Color color)
+{
+	float step = (float)M_PI * 2.0f / points;
+
+	std::vector<Vector> points3d;
+	for (float a = 0; a < (M_PI * 2.0f); a += step)
+	{
+		Vector start(radius * cosf(a) + position.x, radius * sinf(a) + position.y, position.z);
+		Vector end(radius * cosf(a + step) + position.x, radius * sinf(a + step) + position.y, position.z);
+
+		Vector start2d, end2d;
+		if (debugOverlay->ScreenPosition(start, start2d) || debugOverlay->ScreenPosition(end, end2d))
+			return;
+
+		Draw::Line(Vector2D(start2d.x, start2d.y), Vector2D(end2d.x, end2d.y), color);
+	}
 }
 
 void ESP::DrawSounds()
 {
-	for (unsigned int i = 0; i < Footsteps.size(); i++)
+	for (unsigned int i = 0; i < footsteps.size(); i++)
 	{
 		long current = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-		long diff = Footsteps[i].expiration - current;
+		long diff = footsteps[i].expiration - current;
 
 		if (diff <= 0)
 		{
-			Footsteps.erase(Footsteps.begin() + i);
+			footsteps.erase(footsteps.begin() + i);
 			continue;
 		}
 
 		Vector pos2d;
 
-		if (debugOverlay->ScreenPosition(Footsteps[i].position, pos2d))
+		if (debugOverlay->ScreenPosition(footsteps[i].position, pos2d))
 			continue;
 
 		C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 		if (!localplayer)
 			continue;
 
-		C_BaseEntity* entity = entitylist->GetClientEntity(Footsteps[i].entityId);
+		C_BaseEntity* entity = entitylist->GetClientEntity(footsteps[i].entityId);
 		if (!entity)
 			continue;
 
@@ -872,9 +890,18 @@ void ESP::DrawSounds()
 		if (Settings::ESP::Filters::visibility_check || Settings::ESP::Filters::legit)
 			bIsVisible = Entity::IsVisible(entity, BONE_HEAD);
 
-		Color playerColor = Color::FromImColor(GetESPPlayerColor(entity, bIsVisible));
-		playerColor.a = (int)(255 * diff / Settings::ESP::Sounds::time);;
+		float percent = (float)diff / (float)Settings::ESP::Sounds::time;
 
+		Color playerColor = Color::FromImColor(GetESPPlayerColor(entity, bIsVisible));
+		playerColor.a = (int)(255.f * percent);
+
+		Color circleColor = Color::FromImColor(GetESPPlayerColor(entity, bIsVisible));
+		circleColor.a = std::max((int)(255.f * percent) - 64, 0);
+
+		float circleRadius = (float)(fabs(percent - 1.f) * 42.f);
+		float points = circleRadius;
+
+		Circle3D(footsteps[i].position, points, circleRadius, circleColor);
 		Draw::Text((int)pos2d.x, (int)pos2d.y, "Step", esp_font, playerColor);
 	}
 }
@@ -1066,5 +1093,5 @@ void ESP::BeginFrame(float frameTime)
 void ESP::EmitSound(int iEntIndex, const char *pSample)
 {
 	if (Settings::ESP::Sounds::enabled)
-		ESP::CollectFootSteps(iEntIndex, pSample);
+		ESP::CollectFootstep(iEntIndex, pSample);
 }
