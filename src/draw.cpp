@@ -126,9 +126,10 @@ void Draw::GetTextWSize(const wchar_t* text, FONT font, int& wide, int& tall)
 
 void Draw::GetTextSize(const char* text, FONT font, int& wide, int& tall)
 {
-	std::string stext = std::string(text);
-	std::wstring wtext = std::wstring(stext.begin(), stext.end());
-	surface->GetTextSize(font, wtext.c_str(), wide, tall);
+	std::wstring wc(strlen(text) + 1, L'#');
+	mbstowcs(&wc[0], text, strlen(text) + 1);
+
+	surface->GetTextSize(font, wc.c_str(), wide, tall);
 }
 
 Vector2D Draw::GetTextWSize(const wchar_t* text, FONT font)
@@ -140,11 +141,11 @@ Vector2D Draw::GetTextWSize(const wchar_t* text, FONT font)
 
 Vector2D Draw::GetTextSize(const char* text, FONT font)
 {
-	std::string stext = std::string(text);
-	std::wstring wtext = std::wstring(stext.begin(), stext.end());
+	std::wstring wc(strlen(text) + 1, L'#');
+	mbstowcs(&wc[0], text, strlen(text) + 1);
 
 	int x_res, y_res;
-	surface->GetTextSize(font, wtext.c_str(), x_res, y_res);
+	surface->GetTextSize(font, wc.c_str(), x_res, y_res);
 	return Vector2D(x_res, y_res);
 }
 
