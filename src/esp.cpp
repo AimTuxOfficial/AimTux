@@ -73,7 +73,7 @@ bool Settings::ESP::FOVCrosshair::enabled = false;
 ImColor Settings::ESP::FOVCrosshair::color = ImColor(180, 50, 50, 255);
 bool Settings::ESP::Skeleton::enabled = false;
 bool Settings::ESP::Sounds::enabled = false;
-int Settings::ESP::Sounds::time = 750;
+int Settings::ESP::Sounds::time = 1000;
 
 struct Footstep
 {
@@ -875,9 +875,10 @@ void ESP::DrawSounds()
 		float percent = (float)diff / (float)Settings::ESP::Sounds::time;
 
 		Color playerColor = Color::FromImColor(GetESPPlayerColor(entity, bIsVisible));
+		playerColor.a = std::min(powf(percent * 2, 0.6f), 1.f) * 255.f; // fades out alpha when its below 0.5
 
 		float circleRadius = fabs(percent - 1.f) * 42.f;
-		float points = circleRadius;
+		float points = circleRadius * 0.75f;
 
 		Draw::Circle3D(footsteps[i].position, points, circleRadius, playerColor);
 	}
