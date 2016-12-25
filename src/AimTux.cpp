@@ -7,6 +7,8 @@
 /* called when the library is loading */
 int __attribute__((constructor)) aimtux_init()
 {
+	Interfaces::dumpInterfaces();
+
 	Hooker::HookInterfaces();
 	Hooker::HookViewRender();
 	Hooker::HookSDLInput();
@@ -60,7 +62,7 @@ int __attribute__((constructor)) aimtux_init()
 
 	launchermgr_vmt->HookVM((void*) Hooks::PumpWindowsMessageLoop, 19);
 	launchermgr_vmt->ApplyVMT();
-	
+
 	enginevgui_vmt->HookVM((void*) Hooks::Paint, 15);
 	enginevgui_vmt->ApplyVMT();
 
