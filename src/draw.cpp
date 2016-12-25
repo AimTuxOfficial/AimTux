@@ -12,6 +12,24 @@ void Draw::Circle(Vector2D position, float points, float radius, Color color)
 	}
 }
 
+void Draw::Circle3D(Vector position, float points, float radius, Color color)
+{
+	float step = (float)M_PI * 2.0f / points;
+
+	std::vector<Vector> points3d;
+	for (float a = 0; a < (M_PI * 2.0f); a += step)
+	{
+		Vector start(radius * cosf(a) + position.x, radius * sinf(a) + position.y, position.z);
+		Vector end(radius * cosf(a + step) + position.x, radius * sinf(a + step) + position.y, position.z);
+
+		Vector start2d, end2d;
+		if (debugOverlay->ScreenPosition(start, start2d) || debugOverlay->ScreenPosition(end, end2d))
+			return;
+
+		Draw::Line(Vector2D(start2d.x, start2d.y), Vector2D(end2d.x, end2d.y), color);
+	}
+}
+
 void Draw::FilledRectangle(int x0, int y0, int x1, int y1, Color col)
 {
 	surface->DrawSetColor(col);
