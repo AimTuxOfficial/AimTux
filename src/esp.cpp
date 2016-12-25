@@ -855,6 +855,15 @@ void ESP::DrawSounds()
 			continue;
 
 		C_BaseEntity* entity = entitylist->GetClientEntity(Footsteps[i].entityId);
+
+		C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+
+		if (entity->GetTeam() != localplayer->GetTeam() && !Settings::ESP::Filters::enemies)
+			return;
+
+		if (entity->GetTeam() == localplayer->GetTeam() && !Settings::ESP::Filters::allies)
+			return;
+
 		if (!entity)
 			continue;
 
