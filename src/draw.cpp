@@ -1,13 +1,13 @@
 #include "draw.h"
 
-void ::Draw::Circle(Vector2D position, float points, float radius, Color color)
+void Draw::Circle(Vector2D position, float points, float radius, Color color)
 {
-	float step = M_PI * 2.0 / points;
+	float step = (float)M_PI * 2.0f / points;
 
-	for (float a = 0; a < ( M_PI * 2.0 ); a += step)
+	for (float a = 0; a < (M_PI * 2.0f); a += step)
 	{
-		Vector2D start(radius * cos(a) + position.x, radius * sin(a) + position.y);
-		Vector2D end(radius * cos(a + step) + position.x, radius * sin(a + step) + position.y);
+		Vector2D start(radius * cosf(a) + position.x, radius * sinf(a) + position.y);
+		Vector2D end(radius * cosf(a + step) + position.x, radius * sinf(a + step) + position.y);
 		Line(start, end, color);
 	}
 }
