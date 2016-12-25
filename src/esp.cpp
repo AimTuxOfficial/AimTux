@@ -875,16 +875,11 @@ void ESP::DrawSounds()
 		float percent = (float)diff / (float)Settings::ESP::Sounds::time;
 
 		Color playerColor = Color::FromImColor(GetESPPlayerColor(entity, bIsVisible));
-		playerColor.a = (int)(255.f * percent);
 
-		Color circleColor = Color::FromImColor(GetESPPlayerColor(entity, bIsVisible));
-		circleColor.a = std::max((int)(255.f * percent) - 64, 0);
-
-		float circleRadius = (float)(fabs(percent - 1.f) * 42.f);
+		float circleRadius = fabs(percent - 1.f) * 42.f;
 		float points = circleRadius;
 
-		Draw::Circle3D(footsteps[i].position, points, circleRadius, circleColor);
-		Draw::Text((int)pos2d.x, (int)pos2d.y, "Step", esp_font, playerColor);
+		Draw::Circle3D(footsteps[i].position, points, circleRadius, playerColor);
 	}
 }
 
