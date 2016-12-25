@@ -261,6 +261,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Spammer"]["PositionSpammer"]["show_rank"] = Settings::Spammer::PositionSpammer::show_rank;
 	settings["Spammer"]["PositionSpammer"]["show_wins"] = Settings::Spammer::PositionSpammer::show_wins;
 	settings["Spammer"]["PositionSpammer"]["show_health"] = Settings::Spammer::PositionSpammer::show_health;
+	settings["Spammer"]["PositionSpammer"]["show_money"] = Settings::Spammer::PositionSpammer::show_money;
 	settings["Spammer"]["PositionSpammer"]["show_lastplace"] = Settings::Spammer::PositionSpammer::show_lastplace;
 	
 	settings["BHop"]["enabled"] = Settings::BHop::enabled;
@@ -509,6 +510,7 @@ void Settings::LoadConfig(std::string path)
 	GetBool(settings["Spammer"]["PositionSpammer"]["show_rank"], &Settings::Spammer::PositionSpammer::show_rank);
 	GetBool(settings["Spammer"]["PositionSpammer"]["show_wins"], &Settings::Spammer::PositionSpammer::show_wins);
 	GetBool(settings["Spammer"]["PositionSpammer"]["show_health"], &Settings::Spammer::PositionSpammer::show_health);
+	GetBool(settings["Spammer"]["PositionSpammer"]["show_money"], &Settings::Spammer::PositionSpammer::show_money);
 	GetBool(settings["Spammer"]["PositionSpammer"]["show_lastplace"], &Settings::Spammer::PositionSpammer::show_lastplace);
 
 	GetBool(settings["BHop"]["enabled"], &Settings::BHop::enabled);

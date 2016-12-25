@@ -20,6 +20,7 @@ void Offsets::getOffsets()
 	offsets.DT_BasePlayer.m_hObserverTarget = NetVarManager::getOffset(tables, "DT_BasePlayer", "m_hObserverTarget");
 	offsets.DT_BasePlayer.m_hViewModel = NetVarManager::getOffset(tables, "DT_BasePlayer", "m_hViewModel[0]");
 	offsets.DT_BasePlayer.m_szLastPlaceName = NetVarManager::getOffset(tables, "DT_BasePlayer", "m_szLastPlaceName");
+	offsets.DT_BasePlayer.m_iAccount = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_iAccount");
 	offsets.DT_BasePlayer.m_angRotation = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_angEyeAngles[0]");
 	offsets.DT_BasePlayer.m_flLowerBodyYawTarget = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_flLowerBodyYawTarget");
 

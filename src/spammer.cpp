@@ -19,6 +19,7 @@ bool Settings::Spammer::PositionSpammer::show_weapon = true;
 bool Settings::Spammer::PositionSpammer::show_rank = true;
 bool Settings::Spammer::PositionSpammer::show_wins = true;
 bool Settings::Spammer::PositionSpammer::show_health = true;
+bool Settings::Spammer::PositionSpammer::show_money = true;
 bool Settings::Spammer::PositionSpammer::show_lastplace = true;
 
 std::vector<int> killedPlayerQueue;
@@ -145,6 +146,9 @@ void Spammer::BeginFrame(float frameTime)
 
 			if (Settings::Spammer::PositionSpammer::show_health)
 				str << entity->GetHealth() << "HP | ";
+
+			if (Settings::Spammer::PositionSpammer::show_money)
+				str << "$" << entity->GetMoney() << " | ";
 
 			if (Settings::Spammer::PositionSpammer::show_lastplace)
 				str << entity->GetLastPlaceName();
