@@ -875,7 +875,7 @@ void ESP::DrawSounds()
 		float percent = (float)diff / (float)Settings::ESP::Sounds::time;
 
 		Color playerColor = Color::FromImColor(GetESPPlayerColor(entity, bIsVisible));
-		playerColor.a = std::min(powf(percent * 2, 0.6f), 1.f) * 255.f; // fades out alpha when its below 0.5
+		playerColor.a = std::min(powf(percent * 2, 0.6f), 1.f) * playerColor.a; // fades out alpha when its below 0.5
 
 		float circleRadius = fabs(percent - 1.f) * 42.f;
 		float points = circleRadius * 0.75f;
