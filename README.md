@@ -85,6 +85,10 @@ Now, go back into csgo, if you're in the main menu of the game you should see th
 
 ![this](http://i.imgur.com/I2NSAia.png)
 
+## Opening the Menu
+
+Press INSERT on your keyboard to open the menu. For laptops this may be Fn + DELETE.
+
 ## Contributing to AimTux
 
 If you wish to contribute code to this opensource project, please keep some things mind before creating a *pull request*:
