@@ -445,6 +445,7 @@ namespace Settings
 			extern bool show_rank;
 			extern bool show_wins;
 			extern bool show_health;
+			extern bool show_money;
 			extern bool show_lastplace;
 		}
 	}

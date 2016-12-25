@@ -105,6 +105,11 @@ public:
 		return *(int*)((uintptr_t)this + offsets.DT_CSPlayer.m_ArmorValue);
 	}
 
+	int GetMoney()
+	{
+		return *(int*)((uintptr_t)this + offsets.DT_BasePlayer.m_iAccount);
+	}
+
 	int HasHelmet()
 	{
 		return *(int*)((uintptr_t)this + offsets.DT_CSPlayer.m_bHasHelmet);

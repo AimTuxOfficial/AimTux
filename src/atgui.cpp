@@ -985,10 +985,10 @@ void MiscTab()
 					if (Settings::Spammer::type == SpammerType::SPAMMER_NORMAL)
 					{
 						static int spammerMessageCurrent = -1;
-						static char* spammerMessageBuf = strdup("");
+						static char spammerMessageBuf[126];
 
 						ImGui::PushItemWidth(445);
-							ImGui::InputText("###SPAMMERMESSAGE", spammerMessageBuf, 126);
+							ImGui::InputText("###SPAMMERMESSAGE", spammerMessageBuf, IM_ARRAYSIZE(spammerMessageBuf));
 						ImGui::PopItemWidth();
 						ImGui::SameLine();
 
@@ -997,7 +997,7 @@ void MiscTab()
 							if (strlen(spammerMessageBuf) > 0)
 								Settings::Spammer::NormalSpammer::messages.push_back(std::string(spammerMessageBuf));
 
-							spammerMessageBuf = strdup("");
+							strcpy(spammerMessageBuf, "");
 						}
 						ImGui::SameLine();
 
@@ -1016,6 +1016,7 @@ void MiscTab()
 						ImGui::Checkbox("Show Rank", &Settings::Spammer::PositionSpammer::show_rank);
 						ImGui::Checkbox("Show Wins", &Settings::Spammer::PositionSpammer::show_wins);
 						ImGui::Checkbox("Show Health", &Settings::Spammer::PositionSpammer::show_health);
+						ImGui::Checkbox("Show Money", &Settings::Spammer::PositionSpammer::show_money);
 						ImGui::Checkbox("Show Last Place", &Settings::Spammer::PositionSpammer::show_lastplace);
 					}
 
