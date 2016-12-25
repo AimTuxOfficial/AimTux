@@ -85,9 +85,19 @@ Now, go back into csgo, if you're in the main menu of the game you should see th
 
 ![this](http://i.imgur.com/I2NSAia.png)
 
-## Opening the Menu
+## Using the hack
 
-Press INSERT on your keyboard to open the menu. For laptops this may be Fn + DELETE.
+Now that AimTux has been injected into the game, press the **insert** key on your keyboard to open the hack menu.
+
+If you want to change skins, create and load configs or open the player list, you can find those buttons at the top of the screen.
+
+## Unloading the hack
+
+If you wish to unload the hack from the game, you can do so by entering the command:
+
+```bash
+./uload
+```
 
 ## Contributing to AimTux
 
