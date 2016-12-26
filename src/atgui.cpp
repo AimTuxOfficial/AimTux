@@ -813,9 +813,6 @@ void HvHTab()
 					ImGui::Checkbox("Enabled", &Settings::AntiAim::HeadEdge::enabled);
 					if (ImGui::IsItemHovered())
 						ImGui::SetTooltip("Aims your head into the closest wall");
-					ImGui::Checkbox("Fake Out", &Settings::AntiAim::FakeOut::enabled);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Fakes your head poking out of the wall");
 				}
 				ImGui::NextColumn();
 				{

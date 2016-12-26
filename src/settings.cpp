@@ -160,7 +160,6 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["AntiAim"]["Pitch"]["type"] = Settings::AntiAim::Pitch::type;
 	settings["AntiAim"]["HeadEdge"]["enabled"] = Settings::AntiAim::HeadEdge::enabled;
 	settings["AntiAim"]["HeadEdge"]["distance"] = Settings::AntiAim::HeadEdge::distance;
-	settings["AntiAim"]["FakeOut"]["enabled"] = Settings::AntiAim::FakeOut::enabled;
 
 	settings["ESP"]["enabled"], Settings::ESP::enabled;
 	LoadUIColor(settings["ESP"]["enemy_color"], Settings::ESP::enemy_color);
@@ -407,7 +406,6 @@ void Settings::LoadConfig(std::string path)
 	GetInt(settings["AntiAim"]["Pitch"]["type"], &Settings::AntiAim::Pitch::type);
 	GetBool(settings["AntiAim"]["HeadEdge"]["enabled"], &Settings::AntiAim::HeadEdge::enabled);
 	GetFloat(settings["AntiAim"]["HeadEdge"]["distance"], &Settings::AntiAim::HeadEdge::distance);
-	GetBool(settings["AntiAim"]["FakeOut"]["enabled"], &Settings::AntiAim::FakeOut::enabled);
 
 	GetBool(settings["ESP"]["enabled"], &Settings::ESP::enabled);
 	GetUIColor(settings["ESP"]["enemy_color"], &Settings::ESP::enemy_color);

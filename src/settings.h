@@ -264,11 +264,6 @@ namespace Settings
 			extern bool enabled;
 			extern float distance;
 		}
-
-		namespace FakeOut
-		{
-			extern bool enabled;
-		}
 	}
 
 	namespace Resolver

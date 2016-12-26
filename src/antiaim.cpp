@@ -7,7 +7,6 @@ int Settings::AntiAim::Yaw::type_fake = SPIN_FAST;
 int Settings::AntiAim::Pitch::type = STATIC_DOWN;
 bool Settings::AntiAim::HeadEdge::enabled = false;
 float Settings::AntiAim::HeadEdge::distance = 25.0f;
-bool Settings::AntiAim::FakeOut::enabled = false;
 
 float Distance(Vector a, Vector b)
 {
