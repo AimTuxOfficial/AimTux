@@ -124,7 +124,10 @@ C_BaseEntity* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& best_bone, Aim
 		Vector e_vecHead = entity->GetBonePosition(Settings::Aimbot::bone);
 		Vector p_vecHead = localplayer->GetEyePosition();
 
-		float fov = Math::GetFov(cmd->viewangles, Math::CalcAngle(p_vecHead, e_vecHead));
+		QAngle viewAngles;
+		engine->GetViewAngles(viewAngles);
+
+		float fov = Math::GetFov(viewAngles, Math::CalcAngle(p_vecHead, e_vecHead));
 		float distance = Math::GetDistance(p_vecHead, e_vecHead);
 		int hp = entity->GetHealth();
 
@@ -255,7 +258,10 @@ void Aimbot::Smooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
 	if (Settings::Aimbot::silent)
 		return;
 
-	QAngle delta = angle - cmd->viewangles;
+	QAngle viewAngles;
+	engine->GetViewAngles(viewAngles);
+
+	QAngle delta = angle - viewAngles;
 	Math::NormalizeAngles(delta);
 
 	float smooth = powf(Settings::Aimbot::Smooth::value, 0.4f); // Makes more slider space for actual useful values
@@ -278,7 +284,7 @@ void Aimbot::Smooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
 		smooth = 0.99f;
 
 	QAngle toChange = delta - delta * smooth;
-	angle = cmd->viewangles + toChange;
+	angle = viewAngles + toChange;
 }
 
 void Aimbot::ConstSpeedSmooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
@@ -295,7 +301,10 @@ void Aimbot::ConstSpeedSmooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd
 	if (Settings::Aimbot::silent)
 		return;
 
-	QAngle delta = angle - cmd->viewangles;
+	QAngle viewAngles;
+	engine->GetViewAngles(viewAngles);
+
+	QAngle delta = angle - viewAngles;
 	Math::NormalizeAngles(delta);
 
 	float smooth = Settings::Aimbot::Smooth::value / Settings::Aimbot::Smooth::max;
@@ -330,14 +339,14 @@ void Aimbot::ConstSpeedSmooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd
 		if (factorx > fabs(delta.x))
 			factorx = fabs(delta.x);
 
-		angle.x = cmd->viewangles.x - factorx;
+		angle.x = viewAngles.x - factorx;
 	}
 	else
 	{
 		if (factorx > delta.x)
 			factorx = delta.x;
 
-		angle.x = cmd->viewangles.x + factorx;
+		angle.x = viewAngles.x + factorx;
 	}
 
 	if (delta.y < 0.0f)
@@ -345,14 +354,14 @@ void Aimbot::ConstSpeedSmooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd
 		if (factory > fabs(delta.y))
 			factory = fabs(delta.y);
 
-		angle.y = cmd->viewangles.y - factory;
+		angle.y = viewAngles.y - factory;
 	}
 	else
 	{
 		if (factory > delta.y)
 			factory = delta.y;
 
-		angle.y = cmd->viewangles.y + factory;
+		angle.y = viewAngles.y + factory;
 	}
 }
 
@@ -483,7 +492,8 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	if (!Settings::Aimbot::enabled)
 		return;
 
-	QAngle oldAngle = cmd->viewangles;
+	QAngle oldAngle;
+	engine->GetViewAngles(oldAngle);
 	float oldForward = cmd->forwardmove;
 	float oldSideMove = cmd->sidemove;
 
