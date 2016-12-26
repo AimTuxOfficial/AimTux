@@ -1,13 +1,11 @@
 #include "spammer.h"
 #include "skins.h"
 
-bool Settings::Spammer::PositionSpammer::enabled = false;
-bool Settings::Spammer::PositionSpammer::say_team = false;
+int Settings::Spammer::type = SpammerType::SPAMMER_NONE;
+bool Settings::Spammer::say_team = false;
 bool Settings::Spammer::KillSpammer::enabled = false;
 bool Settings::Spammer::KillSpammer::say_team = false;
 char* Settings::Spammer::KillSpammer::message = strdup("$nick just got OWNED by AimTux!!");
-bool Settings::Spammer::NormalSpammer::enabled = false;
-bool Settings::Spammer::NormalSpammer::say_team = false;
 std::vector<std::string> Settings::Spammer::NormalSpammer::messages = {
 		"AimTux owns me and all",
 		"Your Windows p2c sucks my AimTux dry",
@@ -16,11 +14,21 @@ std::vector<std::string> Settings::Spammer::NormalSpammer::messages = {
 		"Tux nutted but you keep sucken",
 		">tfw no vac on Linux"
 };
+bool Settings::Spammer::PositionSpammer::show_name = true;
+bool Settings::Spammer::PositionSpammer::show_weapon = true;
+bool Settings::Spammer::PositionSpammer::show_rank = true;
+bool Settings::Spammer::PositionSpammer::show_wins = true;
+bool Settings::Spammer::PositionSpammer::show_health = true;
+bool Settings::Spammer::PositionSpammer::show_money = true;
+bool Settings::Spammer::PositionSpammer::show_lastplace = true;
 
-std::vector<IEngineClient::player_info_t> Spammer::killedPlayerQueue = std::vector<IEngineClient::player_info_t>();
+std::vector<int> killedPlayerQueue;
 
 void Spammer::BeginFrame(float frameTime)
 {
+	if (!engine->IsInGame())
+		return;
+
 	// Grab the current time in milliseconds
 	long currentTime_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
 			std::chrono::system_clock::now().time_since_epoch()).count();
@@ -30,15 +38,19 @@ void Spammer::BeginFrame(float frameTime)
 		return;
 
 	// Kill spammer
-	if (Settings::Spammer::KillSpammer::enabled && Spammer::killedPlayerQueue.size() > 0)
+	if (Settings::Spammer::KillSpammer::enabled && killedPlayerQueue.size() > 0)
 	{
-		IEngineClient::player_info_t player_info = Spammer::killedPlayerQueue[0];
+		IEngineClient::player_info_t playerInfo;
+		engine->GetPlayerInfo(killedPlayerQueue[0], &playerInfo);
 
 		// Prepare dead player's nickname without ';' & '"' characters
 		// as they might cause user to execute a command.
-		std::string dead_player_name = std::string(player_info.name);
+		std::string dead_player_name = std::string(playerInfo.name);
 		dead_player_name.erase(std::remove(dead_player_name.begin(), dead_player_name.end(), ';'), dead_player_name.end());
 		dead_player_name.erase(std::remove(dead_player_name.begin(), dead_player_name.end(), '"'), dead_player_name.end());
+
+		// Remove end line character
+		dead_player_name.erase(std::remove(dead_player_name.begin(), dead_player_name.end(), '\n'), dead_player_name.end());
 
 		// Construct a command with our message
 		pstring str;
@@ -49,9 +61,31 @@ void Spammer::BeginFrame(float frameTime)
 		engine->ExecuteClientCmd(str.c_str());
 
 		// Remove the first element from the vector
-		Spammer::killedPlayerQueue.erase(Spammer::killedPlayerQueue.begin(), Spammer::killedPlayerQueue.begin() + 1);
+		killedPlayerQueue.erase(killedPlayerQueue.begin(), killedPlayerQueue.begin() + 1);
+
+		return;
 	}
-	else if (Settings::Spammer::PositionSpammer::enabled)
+
+	if (Settings::Spammer::type == SpammerType::SPAMMER_NORMAL)
+	{
+		if (Settings::Spammer::NormalSpammer::messages.empty())
+			return;
+
+		// Give the random number generator a new seed based of the current time
+		std::srand(std::time(NULL));
+
+		// Grab a random message string
+		std::string message = Settings::Spammer::NormalSpammer::messages[std::rand() % Settings::Spammer::NormalSpammer::messages.size()];
+
+		// Construct a command with our message
+		pstring str;
+		str << (Settings::Spammer::say_team ? "say_team" : "say") << " ";
+		str << message;
+
+		// Execute our constructed command
+		engine->ExecuteClientCmd(str.c_str());
+	}
+	else if (Settings::Spammer::type == SpammerType::SPAMMER_POSITIONS)
 	{
 		C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 		static int lastId = 1;
@@ -96,35 +130,36 @@ void Spammer::BeginFrame(float frameTime)
 
 			// Construct a command with our message
 			pstring str;
-			str << (Settings::Spammer::PositionSpammer::say_team ? "say_team" : "say") << " \"";
-			str << player_name << " | ";
-			str << modelName << " | ";
-			str << ESP::Ranks[*(*csPlayerResource)->GetCompetitiveRanking(i)] << " | ";
-			str << *(*csPlayerResource)->GetCompetitiveWins(i) << " wins | ";
-			str << entity->GetHealth() << "HP | ";
-			str << entity->GetLastPlaceName() << "\"";
+			str << (Settings::Spammer::say_team ? "say_team" : "say") << " \"";
+
+			if (Settings::Spammer::PositionSpammer::show_name)
+				str << player_name << " | ";
+
+			if (Settings::Spammer::PositionSpammer::show_weapon)
+				str << modelName << " | ";
+
+			if (Settings::Spammer::PositionSpammer::show_rank)
+				str << ESP::Ranks[*(*csPlayerResource)->GetCompetitiveRanking(i)] << " | ";
+
+			if (Settings::Spammer::PositionSpammer::show_wins)
+				str << *(*csPlayerResource)->GetCompetitiveWins(i) << " wins | ";
+
+			if (Settings::Spammer::PositionSpammer::show_health)
+				str << entity->GetHealth() << "HP | ";
+
+			if (Settings::Spammer::PositionSpammer::show_money)
+				str << "$" << entity->GetMoney() << " | ";
+
+			if (Settings::Spammer::PositionSpammer::show_lastplace)
+				str << entity->GetLastPlaceName();
+
+			str << "\"";
 
 			// Execute our constructed command
 			engine->ExecuteClientCmd(str.c_str());
 
 			break;
 		}
-	}
-	else if (Settings::Spammer::NormalSpammer::enabled)
-	{
-		// Give the random number generator a new seed based of the current time
-		std::srand(std::time(NULL));
-
-		// Grab a random message string
-		std::string message = Settings::Spammer::NormalSpammer::messages[std::rand() % Settings::Spammer::NormalSpammer::messages.size()];
-
-		// Construct a command with our message
-		pstring str;
-		str << (Settings::Spammer::NormalSpammer::say_team ? "say_team" : "say") << " ";
-		str << message;
-
-		// Execute our constructed command
-		engine->ExecuteClientCmd(str.c_str());
 	}
 
 	// Update the time stamp
@@ -146,11 +181,7 @@ void Spammer::FireEventClientSide(IGameEvent* event)
 	int attacker_id = engine->GetPlayerForUserID(event->GetInt("attacker"));
 	int deadPlayer_id = engine->GetPlayerForUserID(event->GetInt("userid"));
 
-	// Make sure both IDs are valid
-	if (!attacker_id || !deadPlayer_id)
-		return;
-
-	// Make sure it's not a suicide.
+	// Make sure it's not a suicide.x
 	if (attacker_id == deadPlayer_id)
 		return;
 
@@ -158,13 +189,5 @@ void Spammer::FireEventClientSide(IGameEvent* event)
 	if (attacker_id != engine->GetLocalPlayer())
 		return;
 
-	// Get the attackers information
-	IEngineClient::player_info_t attacker_info;
-	engine->GetPlayerInfo(attacker_id, &attacker_info);
-
-	// Get the dead players information
-	IEngineClient::player_info_t deadPlayer_info;
-	engine->GetPlayerInfo(deadPlayer_id, &deadPlayer_info);
-
-	Spammer::killedPlayerQueue.push_back(deadPlayer_info);
+	killedPlayerQueue.push_back(deadPlayer_id);
 }

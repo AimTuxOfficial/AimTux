@@ -21,6 +21,7 @@ enum ImFontFlags
 namespace Draw
 {
 	void Circle(Vector2D position, float points, float radius, Color color);
+	void Circle3D(Vector position, float points, float radius, Color color);
 	void FilledRectangle(int x0, int y0, int x1, int y1, Color col);
 	void FilledRectangle(Vector2D start_pos, Vector2D end_pos, Color col);
 	void Rectangle(int x0, int y0, int x1, int y1, Color col);

@@ -85,6 +85,28 @@ Now, go back into csgo, if you're in the main menu of the game you should see th
 
 ![this](http://i.imgur.com/I2NSAia.png)
 
+## Using the hack
+
+Now that AimTux has been injected into the game, press the **insert** key on your keyboard to open the hack menu (**Fn + Delete** if you're using a laptop).
+
+If you want to change skins, create and load configs or open the player list, you can find those buttons at the top of the screen.
+
+## Unloading the hack
+
+If you wish to unload the hack from the game, you can do so by entering the command:
+
+```bash
+./uload
+```
+
+## Contributing to AimTux
+
+If you wish to contribute code to this opensource project, please keep some things mind before creating a *pull request*:
+ - Make sure you're using tabs instead of spaces.
+ - Curly braces are to be placed on a new line.
+ - Make sure your commits are clean and straight forward ( no junk commits )
+ - Explain what you've done in your pull request.
+
 
 ## Screenshots
 

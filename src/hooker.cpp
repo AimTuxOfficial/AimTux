@@ -26,6 +26,7 @@ ILauncherMgr* launchermgr = nullptr;
 CGlowObjectManager* glowmanager = nullptr;
 C_CSPlayerResource** csPlayerResource = nullptr;
 IEngineVGui* enginevgui = nullptr;
+IEngineSound* sound = nullptr;
 
 VMT* panel_vmt = nullptr;
 VMT* client_vmt = nullptr;
@@ -38,6 +39,7 @@ VMT* material_vmt = nullptr;
 VMT* surface_vmt = nullptr;
 VMT* launchermgr_vmt = nullptr;
 VMT* enginevgui_vmt = nullptr;
+VMT* sound_vmt = nullptr;
 
 bool* bSendPacket = nullptr;
 int* nPredictionRandomSeed = nullptr;
@@ -82,25 +84,26 @@ uintptr_t GetLibraryAddress(const char* moduleName)
 
 void Hooker::HookInterfaces()
 {
-	client = BruteforceInterface<IBaseClientDLL>("./csgo/bin/linux64/client_client.so", "VClient");
-	engine = BruteforceInterface<IEngineClient>("./bin/linux64/engine_client.so", "VEngineClient");
-	entitylist = BruteforceInterface<IClientEntityList>("./csgo/bin/linux64/client_client.so", "VClientEntityList");
-	surface = BruteforceInterface<ISurface>("./bin/linux64/vguimatsurface_client.so", "VGUI_Surface");
-	panel = BruteforceInterface<IVPanel>("./bin/linux64/vgui2_client.so", "VGUI_Panel");
-	debugOverlay = BruteforceInterface<IVDebugOverlay>("./bin/linux64/engine_client.so", "VDebugOverlay");
-	modelInfo = BruteforceInterface<IVModelInfo>("./bin/linux64/engine_client.so", "VModelInfoClient");
-	modelRender = BruteforceInterface<IVModelRender>("./bin/linux64/engine_client.so", "VEngineModel");
-	trace = BruteforceInterface<IEngineTrace>("./bin/linux64/engine_client.so", "EngineTraceClient");
-	input = BruteforceInterface<IInputSystem>("./bin/linux64/inputsystem_client.so", "InputSystemVersion");
-	inputInternal = BruteforceInterface<IInputInternal>("./bin/linux64/vgui2_client.so", "VGUI_InputInternal");
-	material = BruteforceInterface<IMaterialSystem>("./bin/linux64/materialsystem_client.so", "VMaterialSystem");
-	cvar = BruteforceInterface<ICvar>("./bin/linux64/libvstdlib_client.so", "VEngineCvar");
-	effects = BruteforceInterface<CEffects>("./bin/linux64/engine_client.so", "VEngineEffects");
-	gameevents = GetInterface<IGameEventManager2>("./bin/linux64/engine_client.so", "GAMEEVENTSMANAGER002");
-	physics = BruteforceInterface<IPhysicsSurfaceProps>("./bin/linux64/vphysics_client.so", "VPhysicsSurfaceProps");
-	prediction = BruteforceInterface<IPrediction>("./csgo/bin/linux64/client_client.so", "VClientPrediction");
-	gamemovement = BruteforceInterface<IGameMovement>("./csgo/bin/linux64/client_client.so", "GameMovement");
-	enginevgui = BruteforceInterface<IEngineVGui>("./bin/linux64/engine_client.so", "VEngineVGui");
+	client = GetInterface<IBaseClientDLL>("./csgo/bin/linux64/client_client.so", "VClient");
+	engine = GetInterface<IEngineClient>("./bin/linux64/engine_client.so", "VEngineClient");
+	entitylist = GetInterface<IClientEntityList>("./csgo/bin/linux64/client_client.so", "VClientEntityList");
+	surface = GetInterface<ISurface>("./bin/linux64/vguimatsurface_client.so", "VGUI_Surface");
+	panel = GetInterface<IVPanel>("./bin/linux64/vgui2_client.so", "VGUI_Panel");
+	debugOverlay = GetInterface<IVDebugOverlay>("./bin/linux64/engine_client.so", "VDebugOverlay");
+	modelInfo = GetInterface<IVModelInfo>("./bin/linux64/engine_client.so", "VModelInfoClient");
+	modelRender = GetInterface<IVModelRender>("./bin/linux64/engine_client.so", "VEngineModel");
+	trace = GetInterface<IEngineTrace>("./bin/linux64/engine_client.so", "EngineTraceClient");
+	input = GetInterface<IInputSystem>("./bin/linux64/inputsystem_client.so", "InputSystemVersion");
+	inputInternal = GetInterface<IInputInternal>("./bin/linux64/vgui2_client.so", "VGUI_InputInternal");
+	material = GetInterface<IMaterialSystem>("./bin/linux64/materialsystem_client.so", "VMaterialSystem");
+	cvar = GetInterface<ICvar>("./bin/linux64/materialsystem_client.so", "VEngineCvar");
+	effects = GetInterface<CEffects>("./bin/linux64/engine_client.so", "VEngineEffects");
+	gameevents = GetInterface<IGameEventManager2>("./bin/linux64/engine_client.so", "GAMEEVENTSMANAGER002", true);
+	physics = GetInterface<IPhysicsSurfaceProps>("./bin/linux64/vphysics_client.so", "VPhysicsSurfaceProps");
+	prediction = GetInterface<IPrediction>("./csgo/bin/linux64/client_client.so", "VClientPrediction");
+	gamemovement = GetInterface<IGameMovement>("./csgo/bin/linux64/client_client.so", "GameMovement");
+	enginevgui = GetInterface<IEngineVGui>("./bin/linux64/engine_client.so", "VEngineVGui");
+	sound = GetInterface<IEngineSound>("./bin/linux64/engine_client.so", "IEngineSoundClient");
 }
 
 void Hooker::HookVMethods()
@@ -115,6 +118,7 @@ void Hooker::HookVMethods()
 	surface_vmt = new VMT(surface);
 	launchermgr_vmt = new VMT(launchermgr);
 	enginevgui_vmt = new VMT(enginevgui);
+	sound_vmt = new VMT(sound);
 }
 
 void Hooker::HookIClientMode()

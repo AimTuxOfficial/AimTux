@@ -1,5 +1,7 @@
 #pragma once
 
+typedef unsigned short MaterialHandle_t;
+
 class IMaterialSystem
 {
 public:
@@ -7,5 +9,29 @@ public:
 	{
 		typedef IMaterial* (* oFindMaterial)(void*, char const*, const char*, bool, const char*);
 		return getvfunc<oFindMaterial>(this, 84)(this, pMaterialName, pTextureGroupName, complain, pComplainPrefix);
+	}
+
+	MaterialHandle_t FirstMaterial()
+	{
+		typedef MaterialHandle_t (* oFirstMaterial)(void*);
+		return getvfunc<oFirstMaterial>(this, 86)(this);
+	}
+
+	MaterialHandle_t NextMaterial(MaterialHandle_t h)
+	{
+		typedef MaterialHandle_t (* oNextMaterial)(void*, MaterialHandle_t);
+		return getvfunc<oNextMaterial>(this, 87)(this, h);
+	}
+
+	MaterialHandle_t InvalidMaterial()
+	{
+		typedef MaterialHandle_t (* oInvalidMaterial)(void*);
+		return getvfunc<oInvalidMaterial>(this, 88)(this);
+	}
+
+	IMaterial* GetMaterial(MaterialHandle_t h)
+	{
+		typedef IMaterial* (* oGetMaterial)(void*, MaterialHandle_t);
+		return getvfunc<oGetMaterial>(this, 89)(this, h);
 	}
 };

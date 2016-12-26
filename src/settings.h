@@ -109,6 +109,13 @@ enum AimTargetType : int
 	HP
 };
 
+enum SpammerType : int
+{
+	SPAMMER_NONE,
+	SPAMMER_NORMAL,
+	SPAMMER_POSITIONS
+};
+
 namespace Settings
 {
 	namespace UI
@@ -398,6 +405,12 @@ namespace Settings
 				extern int type;
 			}
 		}
+
+		namespace Sounds
+		{
+			extern bool enabled;
+			extern int time;
+		}
 	}
 
 	namespace Dlights
@@ -410,6 +423,9 @@ namespace Settings
 
 	namespace Spammer
 	{
+		extern int type;
+		extern bool say_team;
+
 		namespace KillSpammer
 		{
 			extern bool enabled;
@@ -417,17 +433,20 @@ namespace Settings
 			extern char* message;
 		}
 
-		namespace PositionSpammer
-		{
-			extern bool enabled;
-			extern bool say_team;
-		}
-
 		namespace NormalSpammer
 		{
-			extern bool enabled;
-			extern bool say_team;
 			extern std::vector<std::string> messages;
+		}
+
+		namespace PositionSpammer
+		{
+			extern bool show_name;
+			extern bool show_weapon;
+			extern bool show_rank;
+			extern bool show_wins;
+			extern bool show_health;
+			extern bool show_money;
+			extern bool show_lastplace;
 		}
 	}
 
@@ -551,6 +570,18 @@ namespace Settings
 	namespace AutoAccept
 	{
 		extern bool enabled;
+	}
+
+	namespace NoSky
+	{
+		extern bool enabled;
+		extern ImColor color;
+	}
+
+	namespace ASUSWalls
+	{
+		extern bool enabled;
+		extern ImColor color;
 	}
 
 	void LoadDefaultsOrSave(std::string path);

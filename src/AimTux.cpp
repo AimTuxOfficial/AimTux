@@ -7,6 +7,8 @@
 /* called when the library is loading */
 int __attribute__((constructor)) aimtux_init()
 {
+	Interfaces::dumpInterfaces();
+
 	Hooker::HookInterfaces();
 	Hooker::HookViewRender();
 	Hooker::HookSDLInput();
@@ -60,9 +62,13 @@ int __attribute__((constructor)) aimtux_init()
 
 	launchermgr_vmt->HookVM((void*) Hooks::PumpWindowsMessageLoop, 19);
 	launchermgr_vmt->ApplyVMT();
-	
+
 	enginevgui_vmt->HookVM((void*) Hooks::Paint, 15);
 	enginevgui_vmt->ApplyVMT();
+
+	sound_vmt->HookVM((void*) Hooks::EmitSound1, 5);
+	sound_vmt->HookVM((void*) Hooks::EmitSound2, 6);
+	sound_vmt->ApplyVMT();
 
 	SkinChanger::HookCBaseViewModel();
 
@@ -94,6 +100,7 @@ void __attribute__((destructor)) aimtux_shutdown()
 	surface_vmt->ReleaseVMT();
 	launchermgr_vmt->ReleaseVMT();
 	enginevgui_vmt->ReleaseVMT();
+	sound_vmt->ReleaseVMT();
 
 	SkinChanger::UnhookCBaseViewModel();
 

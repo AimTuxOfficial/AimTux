@@ -1,14 +1,32 @@
 #include "draw.h"
 
-void ::Draw::Circle(Vector2D position, float points, float radius, Color color)
+void Draw::Circle(Vector2D position, float points, float radius, Color color)
 {
-	float step = M_PI * 2.0 / points;
+	float step = (float)M_PI * 2.0f / points;
 
-	for (float a = 0; a < ( M_PI * 2.0 ); a += step)
+	for (float a = 0; a < (M_PI * 2.0f); a += step)
 	{
-		Vector2D start(radius * cos(a) + position.x, radius * sin(a) + position.y);
-		Vector2D end(radius * cos(a + step) + position.x, radius * sin(a + step) + position.y);
+		Vector2D start(radius * cosf(a) + position.x, radius * sinf(a) + position.y);
+		Vector2D end(radius * cosf(a + step) + position.x, radius * sinf(a + step) + position.y);
 		Line(start, end, color);
+	}
+}
+
+void Draw::Circle3D(Vector position, float points, float radius, Color color)
+{
+	float step = (float)M_PI * 2.0f / points;
+
+	std::vector<Vector> points3d;
+	for (float a = 0; a < (M_PI * 2.0f); a += step)
+	{
+		Vector start(radius * cosf(a) + position.x, radius * sinf(a) + position.y, position.z);
+		Vector end(radius * cosf(a + step) + position.x, radius * sinf(a + step) + position.y, position.z);
+
+		Vector start2d, end2d;
+		if (debugOverlay->ScreenPosition(start, start2d) || debugOverlay->ScreenPosition(end, end2d))
+			return;
+
+		Draw::Line(Vector2D(start2d.x, start2d.y), Vector2D(end2d.x, end2d.y), color);
 	}
 }
 
@@ -108,9 +126,10 @@ void Draw::GetTextWSize(const wchar_t* text, FONT font, int& wide, int& tall)
 
 void Draw::GetTextSize(const char* text, FONT font, int& wide, int& tall)
 {
-	std::string stext = std::string(text);
-	std::wstring wtext = std::wstring(stext.begin(), stext.end());
-	surface->GetTextSize(font, wtext.c_str(), wide, tall);
+	std::wstring wc(strlen(text) + 1, L'#');
+	mbstowcs(&wc[0], text, strlen(text) + 1);
+
+	surface->GetTextSize(font, wc.c_str(), wide, tall);
 }
 
 Vector2D Draw::GetTextWSize(const wchar_t* text, FONT font)
@@ -122,11 +141,11 @@ Vector2D Draw::GetTextWSize(const wchar_t* text, FONT font)
 
 Vector2D Draw::GetTextSize(const char* text, FONT font)
 {
-	std::string stext = std::string(text);
-	std::wstring wtext = std::wstring(stext.begin(), stext.end());
+	std::wstring wc(strlen(text) + 1, L'#');
+	mbstowcs(&wc[0], text, strlen(text) + 1);
 
 	int x_res, y_res;
-	surface->GetTextSize(font, wtext.c_str(), x_res, y_res);
+	surface->GetTextSize(font, wc.c_str(), x_res, y_res);
 	return Vector2D(x_res, y_res);
 }
 

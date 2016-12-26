@@ -198,6 +198,8 @@ void ColorsWindow()
 			"Glow - Chicken",
 			"Dlights - Team",
 			"Dlights - Enemy",
+			"Sky",
+			"Walls",
 	};
 
 	ImColor* colors[] = {
@@ -239,6 +241,8 @@ void ColorsWindow()
 			&Settings::ESP::Glow::chicken_color,
 			&Settings::Dlights::ally_color,
 			&Settings::Dlights::enemy_color,
+			&Settings::NoSky::color,
+			&Settings::ASUSWalls::color,
 	};
 
 	static int colorSelected = 0;
@@ -716,19 +720,29 @@ void VisualsTab()
 				ImGui::Checkbox("No Flash", &Settings::Noflash::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Hide flashbang effect");
+				ImGui::Checkbox("Show Footsteps", &Settings::ESP::Sounds::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Shows you footsteps in 3D space");
 				ImGui::Checkbox("No View Punch", &Settings::View::NoPunch::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Disables view punch when shooting");
+				ImGui::Checkbox("No Sky", &Settings::NoSky::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Allows for the skybox to be colored or disabled");
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
 					ImGui::SliderFloat("##DLIGHTRADIUS", &Settings::Dlights::radius, 0, 1000);
 					ImGui::SliderFloat("##NOFLASHAMOUNT", &Settings::Noflash::value, 0, 255);
+					ImGui::SliderInt("##SOUNDSTIME", &Settings::ESP::Sounds::time, 250, 5000);
 				ImGui::PopItemWidth();
 				ImGui::Checkbox("Radar", &Settings::Radar::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Shows enemies on radar");
+				ImGui::Checkbox("ASUS Walls", &Settings::ASUSWalls::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Makes wall textures transparent");
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -897,7 +911,8 @@ void HvHTab()
 void MiscTab()
 {
 	const char* strafeTypes[] = { "Forwards", "Backwards", "Left", "Right" };
-	const char* AnimationTypes[] = { "Static", "Marquee", "Words", "Letters" };
+	const char* animationTypes[] = { "Static", "Marquee", "Words", "Letters" };
+	const char* spammerTypes[] = { "None", "Normal", "Positions" };
 
 	ImGui::Columns(2, NULL, true);
 	{
@@ -925,29 +940,88 @@ void MiscTab()
 			ImGui::Separator();
 			ImGui::Text("Spammer");
 			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
+			ImGui::Columns(3, NULL, true);
 			{
-				ImGui::Checkbox("Position", &Settings::Spammer::PositionSpammer::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Shows enemy position in chat");
-				ImGui::Checkbox("Kill", &Settings::Spammer::KillSpammer::enabled);
+				ImGui::Checkbox("Kill Messages", &Settings::Spammer::KillSpammer::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Spams a kill message when killing an enemy");
-				ImGui::Checkbox("Chat", &Settings::Spammer::NormalSpammer::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Spams chat with random messages");
+
+				ImGui::Combo("###SPAMMERYPE", &Settings::Spammer::type, spammerTypes, IM_ARRAYSIZE(spammerTypes));
 			}
 			ImGui::NextColumn();
 			{
-				ImGui::Checkbox("Team Chat Only###SAY_TEAM1", &Settings::Spammer::PositionSpammer::say_team);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Only show position in team chat");
-				ImGui::Checkbox("Team Chat Only###SAY_TEAM2", &Settings::Spammer::KillSpammer::say_team);
+				ImGui::Checkbox("Team Chat###SAY_TEAM1", &Settings::Spammer::KillSpammer::say_team);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Only show kill message in team chat");
-				ImGui::Checkbox("Team Chat Only###SAY_TEAM3", &Settings::Spammer::NormalSpammer::say_team);
+				ImGui::Checkbox("Team Chat###SAY_TEAM2", &Settings::Spammer::say_team);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Only spam messages in team chat");
+			}
+			ImGui::NextColumn();
+			{
+				if (ImGui::Button("Options###KILL"))
+					ImGui::OpenPopup("options_kill");
+
+				ImGui::SetNextWindowSize(ImVec2(565, 40), ImGuiSetCond_Always);
+				if (ImGui::BeginPopup("options_kill"))
+				{
+					ImGui::PushItemWidth(550);
+						ImGui::InputText("", Settings::Spammer::KillSpammer::message, 127);
+					ImGui::PopItemWidth();
+
+					ImGui::EndPopup();
+				}
+
+				if (Settings::Spammer::type != SpammerType::SPAMMER_NONE && ImGui::Button("Options###SPAMMER"))
+					ImGui::OpenPopup("options_spammer");
+
+				if (Settings::Spammer::type == SpammerType::SPAMMER_NORMAL)
+					ImGui::SetNextWindowSize(ImVec2(565, 268), ImGuiSetCond_Always);
+				else if (Settings::Spammer::type == SpammerType::SPAMMER_POSITIONS)
+					ImGui::SetNextWindowSize(ImVec2(200, 180), ImGuiSetCond_Always);
+
+				if (Settings::Spammer::type != SpammerType::SPAMMER_NONE && ImGui::BeginPopup("options_spammer"))
+				{
+					if (Settings::Spammer::type == SpammerType::SPAMMER_NORMAL)
+					{
+						static int spammerMessageCurrent = -1;
+						static char spammerMessageBuf[126];
+
+						ImGui::PushItemWidth(445);
+							ImGui::InputText("###SPAMMERMESSAGE", spammerMessageBuf, IM_ARRAYSIZE(spammerMessageBuf));
+						ImGui::PopItemWidth();
+						ImGui::SameLine();
+
+						if (ImGui::Button("Add"))
+						{
+							if (strlen(spammerMessageBuf) > 0)
+								Settings::Spammer::NormalSpammer::messages.push_back(std::string(spammerMessageBuf));
+
+							strcpy(spammerMessageBuf, "");
+						}
+						ImGui::SameLine();
+
+						if (ImGui::Button("Remove"))
+							if (spammerMessageCurrent > -1 && (int) Settings::Spammer::NormalSpammer::messages.size() > spammerMessageCurrent)
+								Settings::Spammer::NormalSpammer::messages.erase(Settings::Spammer::NormalSpammer::messages.begin() + spammerMessageCurrent);
+
+						ImGui::PushItemWidth(550);
+							ImGui::ListBox("", &spammerMessageCurrent, Settings::Spammer::NormalSpammer::messages, 10);
+						ImGui::PopItemWidth();
+					}
+					else if (Settings::Spammer::type == SpammerType::SPAMMER_POSITIONS)
+					{
+						ImGui::Checkbox("Show Name", &Settings::Spammer::PositionSpammer::show_name);
+						ImGui::Checkbox("Show Weapon", &Settings::Spammer::PositionSpammer::show_weapon);
+						ImGui::Checkbox("Show Rank", &Settings::Spammer::PositionSpammer::show_rank);
+						ImGui::Checkbox("Show Wins", &Settings::Spammer::PositionSpammer::show_wins);
+						ImGui::Checkbox("Show Health", &Settings::Spammer::PositionSpammer::show_health);
+						ImGui::Checkbox("Show Money", &Settings::Spammer::PositionSpammer::show_money);
+						ImGui::Checkbox("Show Last Place", &Settings::Spammer::PositionSpammer::show_lastplace);
+					}
+
+					ImGui::EndPopup();
+				}
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -997,7 +1071,7 @@ void MiscTab()
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-					if (ImGui::Combo("##ANIMATIONTYPE", &Settings::ClanTagChanger::type, AnimationTypes, IM_ARRAYSIZE(AnimationTypes)))
+					if (ImGui::Combo("##ANIMATIONTYPE", &Settings::ClanTagChanger::type, animationTypes, IM_ARRAYSIZE(animationTypes)))
 						ClanTagChanger::UpdateClanTagCallback();
 					if (ImGui::SliderInt("##ANIMATIONSPEED", &Settings::ClanTagChanger::animation_speed, 0, 2000))
 						ClanTagChanger::UpdateClanTagCallback();
@@ -1406,11 +1480,11 @@ void SpectatorsWindow()
 		ImGui::Text("Mode");
 		ImGui::NextColumn();
 
-		C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-		std::list<int> observators = ShowSpectators::GetObservervators(localplayer);
-
-		for (int entityId : observators)
+		for (int entityId : ShowSpectators::GetObservervators(engine->GetLocalPlayer()))
 		{
+			if (entityId == engine->GetLocalPlayer())
+				continue;
+
 			C_BaseEntity* entity = entitylist->GetClientEntity(entityId);
 
 			IEngineClient::player_info_t entityInformation;

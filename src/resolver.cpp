@@ -31,7 +31,7 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 			IEngineClient::player_info_t entityInformation;
 			engine->GetPlayerInfo(i, &entityInformation);
 
-			if (!Settings::Resolver::resolve_all && std::find(Resolver::Players.begin(), Resolver::Players.end(), entityInformation.xuid) != Resolver::Players.end())
+			if (!Settings::Resolver::resolve_all && std::find(Resolver::Players.begin(), Resolver::Players.end(), entityInformation.xuid) == Resolver::Players.end())
 				continue;
 
 			C_BasePlayer* player = (C_BasePlayer*)entity;

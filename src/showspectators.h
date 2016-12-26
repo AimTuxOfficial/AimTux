@@ -7,5 +7,5 @@
 
 namespace ShowSpectators
 {
-	std::list<int> GetObservervators(C_BaseEntity* pEntity);
+	std::list<int> GetObservervators(int entityId);
 }

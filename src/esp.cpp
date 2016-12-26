@@ -1,4 +1,5 @@
 #include <math.h>
+#include <chrono>
 #include "esp.h"
 #include "settings.h"
 #include "skins.h"
@@ -71,6 +72,17 @@ bool Settings::ESP::BulletTracers::enabled = false;
 bool Settings::ESP::FOVCrosshair::enabled = false;
 ImColor Settings::ESP::FOVCrosshair::color = ImColor(180, 50, 50, 255);
 bool Settings::ESP::Skeleton::enabled = false;
+bool Settings::ESP::Sounds::enabled = false;
+int Settings::ESP::Sounds::time = 1000;
+
+struct Footstep
+{
+	long expiration;
+	int entityId;
+	Vector position;
+};
+
+std::vector<Footstep> footsteps;
 
 const char* ESP::Ranks[] = {
 		"Unranked",
@@ -809,6 +821,69 @@ void ESP::DrawTracer(C_BaseEntity* entity)
 	Draw::Line((int)(src.x), (int)(src.y), x, y, Color::FromImColor(GetESPPlayerColor(entity,bIsVisible)));
 }
 
+void ESP::CollectFootstep(int iEntIndex, const char *pSample)
+{
+	if (strstr(pSample, "player/footsteps") == NULL && strstr(pSample, "player/land") == NULL)
+		return;
+
+	Footstep footstep;
+	footstep.entityId = iEntIndex;
+	footstep.position = entitylist->GetClientEntity(iEntIndex)->GetVecOrigin();
+
+	long current = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+	footstep.expiration = current + Settings::ESP::Sounds::time;
+
+	footsteps.push_back(footstep);
+}
+
+void ESP::DrawSounds()
+{
+	for (unsigned int i = 0; i < footsteps.size(); i++)
+	{
+		long current = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+		long diff = footsteps[i].expiration - current;
+
+		if (diff <= 0)
+		{
+			footsteps.erase(footsteps.begin() + i);
+			continue;
+		}
+
+		Vector pos2d;
+
+		if (debugOverlay->ScreenPosition(footsteps[i].position, pos2d))
+			continue;
+
+		C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+		if (!localplayer)
+			continue;
+
+		C_BaseEntity* entity = entitylist->GetClientEntity(footsteps[i].entityId);
+		if (!entity)
+			continue;
+
+		if (entity->GetTeam() != localplayer->GetTeam() && !Settings::ESP::Filters::enemies)
+			continue;
+
+		if (entity->GetTeam() == localplayer->GetTeam() && !Settings::ESP::Filters::allies)
+			continue;
+
+		bool bIsVisible = false;
+		if (Settings::ESP::Filters::visibility_check || Settings::ESP::Filters::legit)
+			bIsVisible = Entity::IsVisible(entity, BONE_HEAD);
+
+		float percent = (float)diff / (float)Settings::ESP::Sounds::time;
+
+		Color playerColor = Color::FromImColor(GetESPPlayerColor(entity, bIsVisible));
+		playerColor.a = std::min(powf(percent * 2, 0.6f), 1.f) * playerColor.a; // fades out alpha when its below 0.5
+
+		float circleRadius = fabs(percent - 1.f) * 42.f;
+		float points = circleRadius * 0.75f;
+
+		Draw::Circle3D(footsteps[i].position, points, circleRadius, playerColor);
+	}
+}
+
 void ESP::DrawFOVCrosshair()
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
@@ -839,7 +914,7 @@ void ESP::DrawGlow()
 		if (glow_object.IsUnused() || !glow_object.m_pEntity)
 			continue;
 
-		Color color;
+		ImColor color;
 		ClientClass* client = glow_object.m_pEntity->GetClientClass();
 		bool should_glow = true;
 
@@ -853,45 +928,45 @@ void ESP::DrawGlow()
 			if (glow_object.m_pEntity->GetTeam() != localplayer->GetTeam())
 			{
 				if (Entity::IsVisible(glow_object.m_pEntity, BONE_HEAD))
-					color = Color::FromImColor(Settings::ESP::Glow::enemy_visible_color);
+					color = Settings::ESP::Glow::enemy_visible_color;
 				else
-					color = Color::FromImColor(Settings::ESP::Glow::enemy_color);
+					color = Settings::ESP::Glow::enemy_color;
 			}
 			else
 			{
-				color = Color::FromImColor(Settings::ESP::Glow::ally_color);
+				color = Settings::ESP::Glow::ally_color;
 			}
 		}
 		else if (client->m_ClassID != CBaseWeaponWorldModel &&
 				 (strstr(client->m_pNetworkName, "Weapon") || client->m_ClassID == CDEagle || client->m_ClassID == CAK47))
 		{
-			color = Color::FromImColor(Settings::ESP::Glow::weapon_color);
+			color = Settings::ESP::Glow::weapon_color;
 		}
 		else if (client->m_ClassID == CBaseCSGrenadeProjectile || client->m_ClassID == CDecoyProjectile ||
 				 client->m_ClassID == CMolotovProjectile || client->m_ClassID == CSmokeGrenadeProjectile)
 		{
-			color = Color::FromImColor(Settings::ESP::Glow::grenade_color);
+			color = Settings::ESP::Glow::grenade_color;
 		}
 		else if (client->m_ClassID == CBaseAnimating)
 		{
-			color = Color::FromImColor(Settings::ESP::Glow::defuser_color);
+			color = Settings::ESP::Glow::defuser_color;
 
 			if (localplayer->HasDefuser() || localplayer->GetTeam() == TEAM_TERRORIST)
 				should_glow = false;
 		}
 		else if (client->m_ClassID == CChicken)
 		{
-			color = Color::FromImColor(Settings::ESP::Glow::chicken_color);
+			color = Settings::ESP::Glow::chicken_color;
 
 			*reinterpret_cast<C_Chicken*>(glow_object.m_pEntity)->GetShouldGlow() = should_glow;
 		}
 
-		should_glow = should_glow && color.a > 0;
+		should_glow = should_glow && color.Value.w > 0;
 
-		glow_object.m_flGlowColor[0] = color.r / 255.0f;
-		glow_object.m_flGlowColor[1] = color.g / 255.0f;
-		glow_object.m_flGlowColor[2] = color.b / 255.0f;
-		glow_object.m_flGlowAlpha = should_glow ? color.a / 255.0f : 255.0f;
+		glow_object.m_flGlowColor[0] = color.Value.x;
+		glow_object.m_flGlowColor[1] = color.Value.y;
+		glow_object.m_flGlowColor[2] = color.Value.z;
+		glow_object.m_flGlowAlpha = should_glow ? color.Value.w : 1.0f;
 		glow_object.m_flBloomAmount = 1.0f;
 		glow_object.m_bRenderWhenOccluded = should_glow;
 		glow_object.m_bRenderWhenUnoccluded = false;
@@ -977,10 +1052,12 @@ void ESP::Paint()
 		}
 	}
 
+	if (Settings::ESP::Sounds::enabled)
+		ESP::DrawSounds();
+
 	if (Settings::ESP::FOVCrosshair::enabled)
 		ESP::DrawFOVCrosshair();
 }
-
 
 void ESP::BeginFrame(float frameTime)
 {
@@ -989,4 +1066,10 @@ void ESP::BeginFrame(float frameTime)
 
 	if (Settings::ESP::Glow::enabled)
 		ESP::DrawGlow();
+}
+
+void ESP::EmitSound(int iEntIndex, const char *pSample)
+{
+	if (Settings::ESP::Sounds::enabled)
+		ESP::CollectFootstep(iEntIndex, pSample);
 }

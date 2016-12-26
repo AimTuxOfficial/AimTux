@@ -85,6 +85,11 @@ public:
 class C_BaseEntity : public IClientEntity
 {
 public:
+	int GetId()
+	{
+		return *(int*)((uintptr_t)this + 0x94);
+	}
+
 	int* GetModelIndex()
 	{
 		return (int*)((uintptr_t)this + offsets.DT_BaseViewModel.m_nModelIndex);
@@ -98,6 +103,11 @@ public:
 	int GetArmor()
 	{
 		return *(int*)((uintptr_t)this + offsets.DT_CSPlayer.m_ArmorValue);
+	}
+
+	int GetMoney()
+	{
+		return *(int*)((uintptr_t)this + offsets.DT_BasePlayer.m_iAccount);
 	}
 
 	int HasHelmet()

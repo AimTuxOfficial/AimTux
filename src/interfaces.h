@@ -28,6 +28,7 @@ extern CGlowObjectManager* glowmanager;
 extern ILauncherMgr* launchermgr;
 extern C_CSPlayerResource** csPlayerResource;
 extern IEngineVGui* enginevgui;
+extern IEngineSound* sound;
 
 extern VMT* panel_vmt;
 extern VMT* client_vmt;
@@ -40,6 +41,7 @@ extern VMT* material_vmt;
 extern VMT* surface_vmt;
 extern VMT* launchermgr_vmt;
 extern VMT* enginevgui_vmt;
+extern VMT* sound_vmt;
 
 extern int* nPredictionRandomSeed;
 extern bool* bSendPacket;
@@ -50,3 +52,7 @@ extern uintptr_t* swap_window_jump_address;
 
 extern uintptr_t original_pollevent;
 extern uintptr_t* pollevent_jump_address;
+
+namespace Interfaces {
+	void dumpInterfaces();
+}

@@ -11,9 +11,6 @@
 
 namespace Spammer
 {
-	extern std::vector<const char*> collections;
-	extern std::vector<IEngineClient::player_info_t> killedPlayerQueue;
-
 	void BeginFrame(float frameTime);
 	void FireEventClientSide(IGameEvent* event);
 }
