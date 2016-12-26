@@ -123,7 +123,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 		DoAntiAimY(angle, bFlip);
 		Math::NormalizeAngles(angle);
 		CreateMove::SendPacket = bFlip;
-		if (Settings::AntiAim::HeadEdge::enabled && edging_head && Settings::AntiAim::HeadEdge::enabled)
+		if (Settings::AntiAim::HeadEdge::enabled && edging_head && Settings::AntiAim::FakeOut::enabled)
 		{
 			if (Settings::AntiAim::Yaw::type == Settings::AntiAim::Yaw::type_fake || !bFlip)
 				angle.y = edge_angle.y;
