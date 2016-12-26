@@ -34,9 +34,12 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	long oldTimeStamp;
 
 	Vector traceStart, traceEnd;
-	QAngle viewAngles = cmd->viewangles + localplayer->GetAimPunchAngle() * 2.0f;
 
-	Math::AngleVectors(viewAngles, traceEnd);
+	QAngle viewAngles;
+	engine->GetViewAngles(viewAngles);
+	QAngle viewAngles_rcs = viewAngles + localplayer->GetAimPunchAngle() * 2.0f;
+
+	Math::AngleVectors(viewAngles_rcs, traceEnd);
 
 	traceStart = localplayer->GetEyePosition();
 	traceEnd = traceStart + (traceEnd * 8192.0f);
