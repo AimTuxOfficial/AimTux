@@ -85,11 +85,6 @@ public:
 class C_BaseEntity : public IClientEntity
 {
 public:
-	int GetId()
-	{
-		return *(int*)((uintptr_t)this + 0x94);
-	}
-
 	int* GetModelIndex()
 	{
 		return (int*)((uintptr_t)this + offsets.DT_BaseViewModel.m_nModelIndex);
