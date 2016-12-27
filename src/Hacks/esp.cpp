@@ -708,41 +708,51 @@ void ESP::DrawThrowable(C_BaseEntity* throwable, ClientClass* client)
 	if (!hdr)
 		return;
 
-	// smokes have "thrown" suffix, other nades have "dropped" suffix
 	if (!strstr(hdr->name, "thrown") && !strstr(hdr->name, "dropped"))
 		return;
 
 	ImColor nadeColor = ImColor(255, 255, 255, 255);
 	std::string nadeName = "Unknown Grenade";
-	if (strstr(hdr->name, "flash"))
+
+	IMaterial* mats[32];
+	modelInfo->GetModelMaterials(nadeModel, hdr->numtextures, mats);
+
+	for (int i = 0; i < hdr->numtextures; i++)
 	{
-		nadeName = "Flashbang";
-		nadeColor = Settings::ESP::flashbang_color;
-	}
-	else if (strstr(hdr->name, "molotov"))
-	{
-		nadeName = "Molotov";
-		nadeColor = Settings::ESP::molotov_color;
-	}
-	else if (strstr(hdr->name, "incendiarygrenade"))
-	{
-		nadeName = "Incendiary Grenade";
-		nadeColor = Settings::ESP::molotov_color;
-	}
-	else if (strstr(hdr->name, "fraggrenade"))
-	{
-		nadeName = "Grenade";
-		nadeColor = Settings::ESP::grenade_color;
-	}
-	else if (strstr(hdr->name, "smoke"))
-	{
-		nadeName = "Smoke";
-		nadeColor = Settings::ESP::smoke_color;
-	}
-	else if (strstr(hdr->name, "decoy"))
-	{
-		nadeName = "Decoy";
-		nadeColor = Settings::ESP::decoy_color;
+		IMaterial *mat = mats[i];
+		if (!mat)
+			continue;
+
+		if (strstr(mat->GetName(), "flashbang"))
+		{
+			nadeName = "Flashbang";
+			nadeColor = Settings::ESP::flashbang_color;
+			break;
+		}
+		else if (strstr(mat->GetName(), "m67_grenade") || strstr(mat->GetName(), "hegrenade"))
+		{
+			nadeName = "HE Grenade";
+			nadeColor = Settings::ESP::grenade_color;
+			break;
+		}
+		else if (strstr(mat->GetName(), "smoke"))
+		{
+			nadeName = "Smoke";
+			nadeColor = Settings::ESP::smoke_color;
+			break;
+		}
+		else if (strstr(mat->GetName(), "decoy"))
+		{
+			nadeName = "Decoy";
+			nadeColor = Settings::ESP::decoy_color;
+			break;
+		}
+		else if (strstr(mat->GetName(), "incendiary") || strstr(mat->GetName(), "molotov"))
+		{
+			nadeName = "Molotov";
+			nadeColor = Settings::ESP::molotov_color;
+			break;
+		}
 	}
 
 	DrawEntity(throwable, nadeName.c_str(), Color::FromImColor(nadeColor));
