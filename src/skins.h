@@ -581,6 +581,7 @@ static std::vector<std::pair<int, const char*>> weapon_skins = {
 		{ 20,  "Virus" },
 		{ 302, "Vulcan" },
 		{ 158, "Walnut" },
+		{ 638, "Wasteland Princess" },
 		{ 380, "Wasteland Rebel (AK-47)" },
 		{ 586, "Wasteland Rebel (Glock)" },
 		{ 353, "Water Elemental" },
