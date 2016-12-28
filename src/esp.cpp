@@ -1046,7 +1046,7 @@ void ESP::Paint()
 		{
 			DrawFish(entity);
 		}
-		else if (strstr(client->m_pNetworkName, "Projectile") && Settings::ESP::Filters::throwables)
+		else if (Settings::ESP::Filters::throwables && strstr(client->m_pNetworkName, "Projectile"))
 		{
 			DrawThrowable(entity, client);
 		}
