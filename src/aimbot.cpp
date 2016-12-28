@@ -244,7 +244,7 @@ float RandomNumber(float Min, float Max)
 	return ((float(rand()) / float(RAND_MAX)) * (Max - Min)) + Min;
 }
 
-float Salt (float& smooth)
+float Salt(float& smooth)
 {
 	float sine = sin (globalvars->tickcount);
 	float salt = sine * Settings::Aimbot::Smooth::Salting::multiplier;
@@ -270,13 +270,13 @@ void Aimbot::Smooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
 
 	QAngle delta = angle - viewAngles;
 	Math::NormalizeAngles(delta);
-	
+
 	float smooth = powf(Settings::Aimbot::Smooth::value, 0.4f); // Makes more slider space for actual useful values
 
 	if (Settings::Aimbot::Smooth::Salting::enabled)
 	{
 		float oval = Settings::Aimbot::Smooth::value;
-		Salt (oval);
+		Salt(oval);
 		smooth *= oval;
 	}
 
@@ -317,7 +317,7 @@ void Aimbot::ConstSpeedSmooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd
 
 	if (Settings::Aimbot::Smooth::Salting::enabled)
 	{
-		Salt (smooth);
+		Salt(smooth);
 	}
 
 	float slope = delta.y / delta.x;

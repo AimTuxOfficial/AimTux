@@ -251,7 +251,7 @@ namespace Settings
 			extern bool no_enemy;
 			extern bool knife_held;
 		}
-		
+
 		namespace Yaw
 		{
 			extern bool enabled;

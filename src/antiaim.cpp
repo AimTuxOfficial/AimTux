@@ -50,10 +50,10 @@ bool AntiAim::GetBestHeadAngle(QAngle& angle)
 	return closest_distance < Settings::AntiAim::HeadEdge::distance;
 }
 
-bool HasViableEnemy ()
+bool HasViableEnemy()
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	
+
 	for (int i = 1; i < engine->GetMaxClients(); ++i)
 	{
 		C_BaseEntity* entity = entitylist->GetClientEntity(i);
@@ -64,10 +64,11 @@ bool HasViableEnemy ()
 			|| !entity->GetAlive()
 			|| entity->GetImmune())
 			continue;
-		
+
 		if (Settings::Aimbot::friendly || entity->GetTeam() != localplayer->GetTeam())
 			return true;
 	}
+
 	return false;
 }
 
@@ -124,23 +125,28 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 	QAngle angle = cmd->viewangles;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+	if (!localplayer)
+		return;
 
-	if (cmd->buttons & IN_USE || cmd->buttons & IN_ATTACK || (active_weapon && active_weapon->IsGrenade()))
+	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+	if (!active_weapon)
+		return;
+
+	if (cmd->buttons & IN_USE || cmd->buttons & IN_ATTACK || active_weapon->IsGrenade())
 		return;
 
 	if (localplayer->GetMoveType() == MOVETYPE_LADDER || localplayer->GetMoveType() == MOVETYPE_NOCLIP)
 		return;
 	
 	// AutoDisable checks
-	
+
 	// Knife
-	if (localplayer->GetAlive() && active_weapon && Settings::AntiAim::AutoDisable::knife_held && active_weapon->IsKnife())
+	if (Settings::AntiAim::AutoDisable::knife_held && localplayer->GetAlive() && active_weapon->IsKnife())
 		return;
-	
-	if (localplayer->GetAlive() && Settings::AntiAim::AutoDisable::no_enemy && !HasViableEnemy())
+
+	if (Settings::AntiAim::AutoDisable::no_enemy && localplayer->GetAlive() && !HasViableEnemy())
 		return;
-	
+
 	QAngle edge_angle = angle;
 	bool edging_head = Settings::AntiAim::HeadEdge::enabled && GetBestHeadAngle(edge_angle);
 

@@ -8,6 +8,6 @@
 
 namespace AntiAim
 {
-	bool GetBestHeadAngle (QAngle& angle);
+	bool GetBestHeadAngle(QAngle& angle);
 	void CreateMove(CUserCmd* cmd);
 }
