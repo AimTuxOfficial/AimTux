@@ -160,7 +160,9 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["AntiAim"]["Pitch"]["type"] = Settings::AntiAim::Pitch::type;
 	settings["AntiAim"]["HeadEdge"]["enabled"] = Settings::AntiAim::HeadEdge::enabled;
 	settings["AntiAim"]["HeadEdge"]["distance"] = Settings::AntiAim::HeadEdge::distance;
-
+	settings["AntiAim"]["AutoDisable"]["no_enemy"] = Settings::AntiAim::AutoDisable::no_enemy;
+	settings["AntiAim"]["AutoDisable"]["knife_held"] = Settings::AntiAim::AutoDisable::knife_held;
+	
 	settings["ESP"]["enabled"], Settings::ESP::enabled;
 	LoadUIColor(settings["ESP"]["enemy_color"], Settings::ESP::enemy_color);
 	LoadUIColor(settings["ESP"]["enemy_visible_color"], Settings::ESP::enemy_visible_color);
@@ -406,6 +408,8 @@ void Settings::LoadConfig(std::string path)
 	GetInt(settings["AntiAim"]["Pitch"]["type"], &Settings::AntiAim::Pitch::type);
 	GetBool(settings["AntiAim"]["HeadEdge"]["enabled"], &Settings::AntiAim::HeadEdge::enabled);
 	GetFloat(settings["AntiAim"]["HeadEdge"]["distance"], &Settings::AntiAim::HeadEdge::distance);
+	GetBool(settings["AntiAim"]["AutoDisable"]["knife_held"], &Settings::AntiAim::AutoDisable::knife_held);
+	GetBool(settings["AntiAim"]["AutoDisable"]["no_enemy"], &Settings::AntiAim::AutoDisable::no_enemy);
 
 	GetBool(settings["ESP"]["enabled"], &Settings::ESP::enabled);
 	GetUIColor(settings["ESP"]["enemy_color"], &Settings::ESP::enemy_color);
