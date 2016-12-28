@@ -27,26 +27,23 @@ void Dlights::Paint()
 		if (!entity)
 			continue;
 
-		dlight_t* dLight = effects->CL_AllocDlight(i);
-
+		Color color;
 		if (entity->GetTeam() == localPlayer->GetTeam())
-		{
-			dLight->color.r = (unsigned char)(Settings::Dlights::ally_color.Value.x / 255);
-			dLight->color.g = (unsigned char)(Settings::Dlights::ally_color.Value.y / 255);
-			dLight->color.b = (unsigned char)(Settings::Dlights::ally_color.Value.z / 255);
-		}
+			color = Color::FromImColor(Settings::Dlights::ally_color);
 		else
-		{
-			dLight->color.r = (unsigned char)(Settings::Dlights::enemy_color.Value.x / 255);
-			dLight->color.g = (unsigned char)(Settings::Dlights::enemy_color.Value.y / 255);
-			dLight->color.b = (unsigned char)(Settings::Dlights::enemy_color.Value.z / 255);
-		}
+			color = Color::FromImColor(Settings::Dlights::enemy_color);
 
-		dLight->radius = Settings::Dlights::radius;
+		dlight_t* dLight = effects->CL_AllocDlight(i);
 		dLight->key = i;
+		dLight->color.r = (unsigned char) color.r;
+		dLight->color.g = (unsigned char) color.g;
+		dLight->color.b = (unsigned char) color.b;
+		dLight->color.exponent = true;
+		dLight->flags = DLIGHT_NO_MODEL_ILLUMINATION;
 		dLight->m_Direction = entity->GetVecOrigin();
 		dLight->origin = entity->GetVecOrigin();
-		dLight->die = globalvars->curtime + 1.f;
-		dLight->decay = 20;
+		dLight->radius = Settings::Dlights::radius;
+		dLight->die = globalvars->curtime + 0.1f;
+		dLight->decay = 20.0f;
 	}
 }
