@@ -135,7 +135,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 	// AutoDisable checks
 	
 	// Knife
-	if (Settings::AntiAim::AutoDisable::knife_held && active_weapon->IsKnife())
+	if (active_weapon && Settings::AntiAim::AutoDisable::knife_held && active_weapon->IsKnife())
 		return;
 	
 	if (Settings::AntiAim::AutoDisable::no_enemy && !HasViableEnemy())
