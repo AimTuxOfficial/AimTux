@@ -783,8 +783,8 @@ void HvHTab()
 				ImGui::NextColumn();
 				{
 					ImGui::PushItemWidth(-1);
-						ImGui::Combo("##YFAKETYPE", &Settings::AntiAim::Yaw::type_fake, YTypes, IM_ARRAYSIZE(YTypes));
-						ImGui::Combo("##YACTUALTYPE", &Settings::AntiAim::Yaw::type, YTypes, IM_ARRAYSIZE(YTypes));
+						ImGui::Combo("##YFAKETYPE", &Settings::AntiAim::Yaw::type, YTypes, IM_ARRAYSIZE(YTypes));
+						ImGui::Combo("##YACTUALTYPE", &Settings::AntiAim::Yaw::type_fake, YTypes, IM_ARRAYSIZE(YTypes));
 					ImGui::PopItemWidth();
 				}
 				ImGui::Columns(1);
