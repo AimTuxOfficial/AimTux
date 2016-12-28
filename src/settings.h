@@ -246,6 +246,12 @@ namespace Settings
 
 	namespace AntiAim
 	{
+		namespace AutoDisable
+		{
+			extern bool no_enemy;
+			extern bool knife_held;
+		}
+		
 		namespace Yaw
 		{
 			extern bool enabled;

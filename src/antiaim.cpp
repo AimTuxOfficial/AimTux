@@ -7,6 +7,9 @@ int Settings::AntiAim::Yaw::type_fake = SPIN_FAST;
 int Settings::AntiAim::Pitch::type = STATIC_DOWN;
 bool Settings::AntiAim::HeadEdge::enabled = false;
 float Settings::AntiAim::HeadEdge::distance = 25.0f;
+bool Settings::AntiAim::AutoDisable::no_enemy = false;
+bool Settings::AntiAim::AutoDisable::knife_held = false;
+
 
 float Distance(Vector a, Vector b)
 {
@@ -45,6 +48,27 @@ bool AntiAim::GetBestHeadAngle(QAngle& angle)
 	}
 
 	return closest_distance < Settings::AntiAim::HeadEdge::distance;
+}
+
+bool HasViableEnemy ()
+{
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	
+	for (int i = 1; i < engine->GetMaxClients(); ++i)
+	{
+		C_BaseEntity* entity = entitylist->GetClientEntity(i);
+
+		if (!entity
+			|| entity == localplayer
+			|| entity->GetDormant()
+			|| !entity->GetAlive()
+			|| entity->GetImmune())
+			continue;
+		
+		if (Settings::Aimbot::friendly || entity->GetTeam() != localplayer->GetTeam())
+			return true;
+	}
+	return false;
 }
 
 void DoAntiAimY(QAngle&  angle, bool bFlip)
@@ -107,7 +131,16 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 
 	if (localplayer->GetMoveType() == MOVETYPE_LADDER || localplayer->GetMoveType() == MOVETYPE_NOCLIP)
 		return;
-
+	
+	// AutoDisable checks
+	
+	// Knife
+	if (Settings::AntiAim::AutoDisable::knife_held && active_weapon->IsKnife())
+		return;
+	
+	if (Settings::AntiAim::AutoDisable::no_enemy && !HasViableEnemy())
+		return;
+	
 	QAngle edge_angle = angle;
 	bool edging_head = Settings::AntiAim::HeadEdge::enabled && GetBestHeadAngle(edge_angle);
 

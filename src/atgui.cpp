@@ -806,6 +806,19 @@ void HvHTab()
 				}
 				ImGui::Columns(1);
 				ImGui::Separator();
+				ImGui::Text("Disable");
+				ImGui::Separator();
+				ImGui::Checkbox("Knife", &Settings::AntiAim::AutoDisable::knife_held);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Stops your antiaim while you have your knife out.");
+				ImGui::NextColumn();
+				
+				ImGui::Checkbox("No Enemy", &Settings::AntiAim::AutoDisable::no_enemy);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Stops your antiaim when there are no enemies visible.");
+				
+				ImGui::Columns(1);
+				ImGui::Separator();
 				ImGui::Text("Edging");
 				ImGui::Separator();
 				ImGui::Columns(2, NULL, true);
