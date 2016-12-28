@@ -71,20 +71,20 @@ std::string Util::ReplaceString(std::string subject, const std::string& search, 
 
 void Util::StdReplaceStr(std::string& replaceIn, const std::string& replace, const std::string& replaceWith)
 {
-    size_t const span = replace.size();
-    size_t const step = replaceWith.size(); 
-    size_t index = 0;
+	size_t const span = replace.size();
+	size_t const step = replaceWith.size();
+	size_t index = 0;
 
-    while (true)
-    {
-        index = replaceIn.find(replace, index);
+	while (true)
+	{
+		index = replaceIn.find(replace, index);
 
-        if (index == std::string::npos)
-            break;
+		if (index == std::string::npos)
+			break;
 
-        replaceIn.replace(index, span, replaceWith);
-        index += step;
-    }
+		replaceIn.replace(index, span, replaceWith);
+		index += step;
+	}
 }
 
 const char* Util::PadStringRight(std::string text, size_t value)

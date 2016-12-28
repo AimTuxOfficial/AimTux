@@ -143,19 +143,19 @@ bool ESP::GetBox(C_BaseEntity *entity, int &x, int &y, int &w, int &h)
 
 	// Points of a 3d bounding box
 	Vector points[] = { Vector(min.x, min.y, min.z),
-	                    Vector(min.x, max.y, min.z),
-	                    Vector(max.x, max.y, min.z),
-	                    Vector(max.x, min.y, min.z),
-	                    Vector(max.x, max.y, max.z),
-	                    Vector(min.x, max.y, max.z),
-	                    Vector(min.x, min.y, max.z),
-	                    Vector(max.x, min.y, max.z) };
+						Vector(min.x, max.y, min.z),
+						Vector(max.x, max.y, min.z),
+						Vector(max.x, min.y, min.z),
+						Vector(max.x, max.y, max.z),
+						Vector(min.x, max.y, max.z),
+						Vector(min.x, min.y, max.z),
+						Vector(max.x, min.y, max.z) };
 
 	// Get screen positions
 	if (debugOverlay->ScreenPosition(points[3], flb) || debugOverlay->ScreenPosition(points[5], brt)
-	    || debugOverlay->ScreenPosition(points[0], blb) || debugOverlay->ScreenPosition(points[4], frt)
-	    || debugOverlay->ScreenPosition(points[2], frb) || debugOverlay->ScreenPosition(points[1], brb)
-	    || debugOverlay->ScreenPosition(points[6], blt) || debugOverlay->ScreenPosition(points[7], flt))
+		|| debugOverlay->ScreenPosition(points[0], blb) || debugOverlay->ScreenPosition(points[4], frt)
+		|| debugOverlay->ScreenPosition(points[2], frb) || debugOverlay->ScreenPosition(points[1], brb)
+		|| debugOverlay->ScreenPosition(points[6], blt) || debugOverlay->ScreenPosition(points[7], flt))
 		return false;
 
 	// Put them in an array (maybe start them off in one later for speed?)
@@ -1008,8 +1008,8 @@ void ESP::Paint()
 			IEngineClient::player_info_t playerInfo;
 
 			if (entity == (C_BaseEntity*)localplayer
-			    || entity->GetDormant()
-			    || !entity->GetAlive())
+				|| entity->GetDormant()
+				|| !entity->GetAlive())
 				continue;
 
 			if (engine->GetPlayerInfo(i, &playerInfo))
