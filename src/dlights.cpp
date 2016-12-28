@@ -14,8 +14,8 @@ void Dlights::Paint()
 	if (!engine->IsInGame())
 		return;
 
-	C_BasePlayer* localPlayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	if (!localPlayer)
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer)
 		return;
 
 	for (int i = 1; i < engine->GetMaxClients(); ++i)
@@ -24,8 +24,14 @@ void Dlights::Paint()
 		if (!entity)
 			continue;
 
-		if (entity == localPlayer)
+		if (entity == localplayer)
 			continue;
+
+		if (entity->GetTeam() != localplayer->GetTeam() && !Settings::ESP::Filters::enemies)
+			return;
+
+		if (entity->GetTeam() == localplayer->GetTeam() && !Settings::ESP::Filters::allies)
+			return;
 
 		bool bIsVisible = false;
 		if (Settings::ESP::Filters::visibility_check || Settings::ESP::Filters::legit)
