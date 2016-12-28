@@ -1061,6 +1061,9 @@ void ESP::Paint()
 
 void ESP::BeginFrame(float frameTime)
 {
+	if (!Settings::ESP::enabled)
+		return;
+
 	if (!engine->IsInGame())
 		return;
 
