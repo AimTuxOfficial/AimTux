@@ -60,7 +60,8 @@ RecvVarProxyFn fnSequenceProxyFn;
 StartDrawingFn StartDrawing;
 FinishDrawingFn FinishDrawing;
 
-std::unordered_map<const char*, uintptr_t> GetProcessLibraries() {
+std::unordered_map<const char*, uintptr_t> GetProcessLibraries()
+{
 	std::unordered_map<const char*, uintptr_t> modules;
 
 	dl_iterate_phdr([](struct dl_phdr_info* info, size_t size, void* data) {
