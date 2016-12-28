@@ -1103,10 +1103,7 @@ void MiscTab()
 					NameChanger::SetName(nickname);
 				ImGui::SameLine();
 				if (ImGui::Button("No Name", ImVec2(-1, 0)))
-				{
-					Settings::NameChanger::enabled = true;
-					Settings::NameChanger::last_blank = true;
-				}
+					NameChanger::changes = 0;
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();

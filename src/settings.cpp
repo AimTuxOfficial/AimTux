@@ -316,9 +316,6 @@ void Settings::LoadDefaultsOrSave(std::string path)
 
 	settings["View"]["NoPunch"]["enabled"] = Settings::View::NoPunch::enabled;
 
-	settings["NameChanger"]["enabled"] = Settings::NameChanger::enabled;
-	settings["NameChanger"]["last_blank"] = Settings::NameChanger::last_blank;
-
 	settings["Teleport"]["enabled"] = Settings::Teleport::enabled;
 	settings["Teleport"]["key"] = Settings::Teleport::key;
 
@@ -588,9 +585,6 @@ void Settings::LoadConfig(std::string path)
 	::ClanTagChanger::UpdateClanTagCallback();
 
 	GetBool(settings["View"]["NoPunch"]["enabled"], &Settings::View::NoPunch::enabled);
-
-	GetBool(settings["NameChanger"]["enabled"], &Settings::NameChanger::enabled);
-	GetBool(settings["NameChanger"]["last_blank"], &Settings::NameChanger::last_blank);
 
 	GetBool(settings["Teleport"]["enabled"], &Settings::Teleport::enabled);
 	GetButtonCode(settings["Teleport"]["key"], &Settings::Teleport::key);

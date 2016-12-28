@@ -550,12 +550,6 @@ namespace Settings
 		}
 	}
 
-	namespace NameChanger
-	{
-		extern bool enabled;
-		extern bool last_blank;
-	}
-
 	namespace Teleport
 	{
 		extern bool enabled;
