@@ -153,7 +153,7 @@ namespace Settings
 			namespace Salting
 			{
 				extern bool enabled;
-				extern float percentage;
+				extern float multiplier;
 			}
 		}
 

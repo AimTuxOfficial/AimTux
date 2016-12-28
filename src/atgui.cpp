@@ -332,7 +332,7 @@ void AimbotTab()
 			{
 				ImGui::PushItemWidth(-1);
 					ImGui::SliderFloat("##SMOOTH", &Settings::Aimbot::Smooth::value, 0, 1);
-					ImGui::SliderFloat("##SALT", &Settings::Aimbot::Smooth::Salting::percentage, 0, 100);
+					ImGui::SliderFloat("##SALT", &Settings::Aimbot::Smooth::Salting::multiplier, 0, Settings::Aimbot::Smooth::value);
 					ImGui::SliderFloat("##ERROR", &Settings::Aimbot::ErrorMargin::value, 0, 2);
 				ImGui::PopItemWidth();
 			}

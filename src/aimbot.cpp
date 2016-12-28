@@ -32,7 +32,7 @@ bool Settings::Aimbot::AutoStop::enabled = false;
 bool Settings::Aimbot::NoShoot::enabled = false;
 bool Settings::Aimbot::IgnoreJump::enabled = false;
 bool Settings::Aimbot::Smooth::Salting::enabled = false;
-float Settings::Aimbot::Smooth::Salting::percentage = 0.0f;
+float Settings::Aimbot::Smooth::Salting::multiplier = 0.0f;
 
 bool Aimbot::AimStepInProgress = false;
 std::vector<int64_t> Aimbot::Friendlies = { };
@@ -244,6 +244,13 @@ float RandomNumber(float Min, float Max)
 	return ((float(rand()) / float(RAND_MAX)) * (Max - Min)) + Min;
 }
 
+float Salt (float& smooth)
+{
+	float sine = sin (globalvars->tickcount);
+	float salt = sine * Settings::Aimbot::Smooth::Salting::multiplier;
+	smooth += salt;
+}
+
 void Aimbot::Smooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
 {
 	if (!Settings::Aimbot::Smooth::enabled)
@@ -263,15 +270,14 @@ void Aimbot::Smooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
 
 	QAngle delta = angle - viewAngles;
 	Math::NormalizeAngles(delta);
-
+	
 	float smooth = powf(Settings::Aimbot::Smooth::value, 0.4f); // Makes more slider space for actual useful values
 
 	if (Settings::Aimbot::Smooth::Salting::enabled)
 	{
-		float max_remove = Settings::Aimbot::Smooth::value - (((100 - Settings::Aimbot::Smooth::Salting::percentage) / 100) * smooth);
-		float remove = RandomNumber(0.0f, max_remove);
-
-		smooth -= remove;
+		float oval = Settings::Aimbot::Smooth::value;
+		Salt (oval);
+		smooth *= oval;
 	}
 
 	// For convenience
@@ -311,10 +317,7 @@ void Aimbot::ConstSpeedSmooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd
 
 	if (Settings::Aimbot::Smooth::Salting::enabled)
 	{
-		float max_remove = Settings::Aimbot::Smooth::value - (((100 - Settings::Aimbot::Smooth::Salting::percentage) / 100) * Settings::Aimbot::Smooth::value);
-		float remove = RandomNumber (0.0f, max_remove);
-
-		smooth -= remove;
+		Salt (smooth);
 	}
 
 	float slope = delta.y / delta.x;
