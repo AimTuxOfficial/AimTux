@@ -418,8 +418,6 @@ namespace Settings
 	{
 		extern bool enabled;
 		extern float radius;
-		extern ImColor ally_color;
-		extern ImColor enemy_color;
 	}
 
 	namespace Spammer

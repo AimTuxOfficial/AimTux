@@ -2,22 +2,19 @@
 
 bool Settings::Dlights::enabled = false;
 float Settings::Dlights::radius = 500.0f;
-ImColor Settings::Dlights::ally_color = ImColor(0, 50, 200, 255);
-ImColor Settings::Dlights::enemy_color = ImColor(200, 0, 50, 255);
 
 void Dlights::Paint()
 {
-	if (!Settings::ESP::enabled)
+	if (!Settings::ESP::enabled || !Settings::Dlights::enabled)
 		return;
 
-	if (!Settings::Dlights::enabled)
+	if (!Settings::ESP::Filters::enemies && !Settings::ESP::Filters::allies)
 		return;
 
 	if (!engine->IsInGame())
 		return;
 
 	C_BasePlayer* localPlayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-
 	if (!localPlayer)
 		return;
 
@@ -27,11 +24,18 @@ void Dlights::Paint()
 		if (!entity)
 			continue;
 
-		Color color;
-		if (entity->GetTeam() == localPlayer->GetTeam())
-			color = Color::FromImColor(Settings::Dlights::ally_color);
-		else
-			color = Color::FromImColor(Settings::Dlights::enemy_color);
+		if (entity == localPlayer)
+			continue;
+
+		bool bIsVisible = false;
+		if (Settings::ESP::Filters::visibility_check || Settings::ESP::Filters::legit)
+		{
+			bIsVisible = Entity::IsVisible(entity, BONE_HEAD);
+			if (!bIsVisible && Settings::ESP::Filters::legit)
+				continue;
+		}
+
+		Color color = Color::FromImColor(ESP::GetESPPlayerColor(entity, bIsVisible));
 
 		dlight_t* dLight = effects->CL_AllocDlight(i);
 		dLight->key = i;

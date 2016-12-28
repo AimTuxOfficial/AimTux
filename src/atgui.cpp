@@ -196,8 +196,6 @@ void ColorsWindow()
 			"Glow - Grenade",
 			"Glow - Defuser",
 			"Glow - Chicken",
-			"Dlights - Team",
-			"Dlights - Enemy",
 			"Sky",
 			"Walls",
 	};
@@ -239,8 +237,6 @@ void ColorsWindow()
 			&Settings::ESP::Glow::grenade_color,
 			&Settings::ESP::Glow::defuser_color,
 			&Settings::ESP::Glow::chicken_color,
-			&Settings::Dlights::ally_color,
-			&Settings::Dlights::enemy_color,
 			&Settings::NoSky::color,
 			&Settings::ASUSWalls::color,
 	};

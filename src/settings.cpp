@@ -245,8 +245,6 @@ void Settings::LoadDefaultsOrSave(std::string path)
 
 	settings["Dlights"]["enabled"] = Settings::Dlights::enabled;
 	settings["Dlights"]["radius"] = Settings::Dlights::radius;
-	LoadUIColor(settings["Dlights"]["ally_color"], Settings::Dlights::ally_color);
-	LoadUIColor(settings["Dlights"]["enemy_color"], Settings::Dlights::enemy_color);
 
 	settings["Spammer"]["spammer_type"] = Settings::Spammer::type;
 	settings["Spammer"]["say_team"] = Settings::Spammer::say_team;
@@ -490,8 +488,6 @@ void Settings::LoadConfig(std::string path)
 
 	GetBool(settings["Dlights"]["enabled"], &Settings::Dlights::enabled);
 	GetFloat(settings["Dlights"]["radius"], &Settings::Dlights::radius);
-	GetUIColor(settings["Dlights"]["ally_color"], &Settings::Dlights::ally_color);
-	GetUIColor(settings["Dlights"]["enemy_color"], &Settings::Dlights::enemy_color);
 
 	GetInt(settings["Spammer"]["spammer_type"], &Settings::Spammer::type);
 	GetBool(settings["Spammer"]["say_team"], &Settings::Spammer::say_team);
