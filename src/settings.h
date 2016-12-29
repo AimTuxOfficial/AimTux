@@ -577,6 +577,11 @@ namespace Settings
 		extern ImColor color;
 	}
 
+	namespace NoScopeBorder
+	{
+		extern bool enabled;
+	}
+
 	void LoadDefaultsOrSave(std::string path);
 	void LoadConfig(std::string path);
 	void LoadSettings();

@@ -262,7 +262,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Spammer"]["PositionSpammer"]["show_health"] = Settings::Spammer::PositionSpammer::show_health;
 	settings["Spammer"]["PositionSpammer"]["show_money"] = Settings::Spammer::PositionSpammer::show_money;
 	settings["Spammer"]["PositionSpammer"]["show_lastplace"] = Settings::Spammer::PositionSpammer::show_lastplace;
-	
+
 	settings["BHop"]["enabled"] = Settings::BHop::enabled;
 
 	settings["AutoStrafe"]["enabled"] = Settings::AutoStrafe::enabled;
@@ -326,6 +326,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
 
 	settings["ASUSWalls"]["enabled"] = Settings::ASUSWalls::enabled;
 	LoadUIColor(settings["ASUSWalls"]["color"], Settings::ASUSWalls::color);
+
+	settings["NoScopeBorder"]["enabled"] = Settings::NoScopeBorder::enabled;
 
 	std::ofstream(path) << styledWriter.write(settings);
 }
@@ -594,6 +596,8 @@ void Settings::LoadConfig(std::string path)
 
 	GetBool(settings["ASUSWalls"]["enabled"], &Settings::ASUSWalls::enabled);
 	GetUIColor(settings["ASUSWalls"]["color"], &Settings::ASUSWalls::color);
+
+	GetBool(settings["NoScopeBorder"]["enabled"], &Settings::NoScopeBorder::enabled);
 }
 
 void Settings::LoadSettings()
