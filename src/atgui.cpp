@@ -725,6 +725,9 @@ void VisualsTab()
 				ImGui::Checkbox("No Sky", &Settings::NoSky::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Allows for the skybox to be colored or disabled");
+				ImGui::Checkbox("No Scope Border", &Settings::NoScopeBorder::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Disables black scope silhouette");
 			}
 			ImGui::NextColumn();
 			{

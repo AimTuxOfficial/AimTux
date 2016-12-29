@@ -74,6 +74,7 @@ ImColor Settings::ESP::FOVCrosshair::color = ImColor(180, 50, 50, 255);
 bool Settings::ESP::Skeleton::enabled = false;
 bool Settings::ESP::Sounds::enabled = false;
 int Settings::ESP::Sounds::time = 1000;
+bool Settings::NoScopeBorder::enabled = false;
 
 struct Footstep
 {
@@ -975,10 +976,8 @@ void ESP::DrawGlow()
 
 bool ESP::PrePaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 {
-#ifdef EXPERIMENTAL_SETTINGS
-	if (strcmp("HudZoom", panel->GetName(vgui_panel)) == 0)
-		return Settings::ESP::show_scope_border;
-#endif
+	if (Settings::ESP::enabled && Settings::NoScopeBorder::enabled && strcmp("HudZoom", panel->GetName(vgui_panel)) == 0)
+		return false;
 
 	return true;
 }
@@ -1057,6 +1056,10 @@ void ESP::Paint()
 
 	if (Settings::ESP::FOVCrosshair::enabled)
 		ESP::DrawFOVCrosshair();
+
+	if (Settings::NoScopeBorder::enabled && localplayer->IsScoped())
+		ESP::DrawScope();
+
 }
 
 void ESP::BeginFrame(float frameTime)
@@ -1075,4 +1078,13 @@ void ESP::EmitSound(int iEntIndex, const char *pSample)
 {
 	if (Settings::ESP::Sounds::enabled)
 		ESP::CollectFootstep(iEntIndex, pSample);
+}
+
+void ::ESP::DrawScope()
+{
+	int width, height;
+	engine->GetScreenSize(width, height);
+
+	Draw::Line(0, height * 0.5, width, height * 0.5, Color(0, 0, 0, 255));
+	Draw::Line(width * 0.5, 0, width * 0.5, height, Color(0, 0, 0, 255));
 }
