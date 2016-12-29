@@ -1080,8 +1080,19 @@ void ESP::EmitSound(int iEntIndex, const char *pSample)
 		ESP::CollectFootstep(iEntIndex, pSample);
 }
 
-void ::ESP::DrawScope()
+void ESP::DrawScope()
 {
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer)
+		return;
+
+	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+	if (!active_weapon)
+		return;
+
+	if (*active_weapon->GetItemDefinitionIndex() == WEAPON_SG556 || *active_weapon->GetItemDefinitionIndex() == WEAPON_AUG)
+		return;
+
 	int width, height;
 	engine->GetScreenSize(width, height);
 
