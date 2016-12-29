@@ -361,7 +361,7 @@ void AimbotTab()
 			{
 				ImGui::Checkbox("Aim Step", &Settings::Aimbot::AimStep::enabled);
 				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Stops your getting VAC auth kicked in Casual / DM");
+					ImGui::SetTooltip("Stops you getting VAC auth kicked in Casual / DM");
 			}
 			ImGui::NextColumn();
 			{
@@ -1112,7 +1112,7 @@ void MiscTab()
 			{
 				ImGui::Checkbox("Fake Lag", &Settings::FakeLag::enabled);
 				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Chokes packets so it appears your lagging");
+					ImGui::SetTooltip("Chokes packets so it appears you're lagging");
 				ImGui::Checkbox("Auto Accept", &Settings::AutoAccept::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Auto accept games when in MM queue");
