@@ -50,6 +50,15 @@ std::unordered_map<int, std::vector<const char*>> hitboxes = {
 		{ HITBOX_ARMS, { "hand_L", "hand_R", "arm_upper_L", "arm_lower_L", "arm_upper_R", "arm_lower_R" } },
 };
 
+std::vector<ItemDefinitionIndex> ignore_rcs_weapons = {
+		{ WEAPON_AWP },
+		{ WEAPON_SSG08 },
+		{ WEAPON_MAG7 },
+		{ WEAPON_SAWEDOFF },
+		{ WEAPON_NOVA },
+		{ WEAPON_XM1014 }
+};
+
 static void ApplyErrorToAngle(QAngle* angles, float margin)
 {
 	QAngle error;
@@ -177,6 +186,11 @@ void Aimbot::RCS(QAngle& angle, C_BaseEntity* entity, CUserCmd* cmd)
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+
+	if (std::find(ignore_rcs_weapons.begin(), ignore_rcs_weapons.end(), *active_weapon->GetItemDefinitionIndex()) != ignore_rcs_weapons.end())
+		return;
+
 	QAngle CurrentPunch = localplayer->GetAimPunchAngle();
 	bool isSilent = Settings::Aimbot::silent;
 	bool hasTarget = Settings::Aimbot::AutoAim::enabled && entity != NULL && shouldAim;
