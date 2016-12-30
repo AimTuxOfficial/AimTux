@@ -827,6 +827,9 @@ void ESP::CollectFootstep(int iEntIndex, const char *pSample)
 	if (strstr(pSample, "player/footsteps") == NULL && strstr(pSample, "player/land") == NULL)
 		return;
 
+	if (iEntIndex == engine->GetLocalPlayer())
+		return;
+
 	Footstep footstep;
 	footstep.entityId = iEntIndex;
 	footstep.position = entitylist->GetClientEntity(iEntIndex)->GetVecOrigin();
