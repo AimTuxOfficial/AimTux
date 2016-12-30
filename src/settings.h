@@ -158,6 +158,7 @@ namespace Settings
 	{
 		extern bool enabled;
 		extern bool silent;
+		extern bool faceit;
 		extern bool friendly;
 		extern int bone;
 		extern ButtonCode_t aimkey;

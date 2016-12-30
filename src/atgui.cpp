@@ -422,6 +422,9 @@ void AimbotTab()
 				ImGui::Checkbox("Silent Aim", &Settings::Aimbot::silent);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Prevents the camera from locking to an enemy, doesn't work for demos");
+				ImGui::Checkbox("FaceIt", &Settings::Aimbot::faceit);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("FaceIt Safeness");
 				ImGui::Checkbox("Smoke Check", &Settings::Aimbot::SmokeCheck::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Ignore players that are in smoke");
