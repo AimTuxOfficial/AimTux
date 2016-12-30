@@ -1,7 +1,8 @@
 #include "aimbot.h"
 #include "autowall.h"
 #include <math.h>
-extern "C" {
+extern "C"
+{
 #include <xdo.h>
 }
 
@@ -553,7 +554,8 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 
 	Math::NormalizeAngles(angle);
 	Math::ClampAngles(angle);
-	if(Settings::Aimbot::faceit){
+	if(Settings::Aimbot::faceit)
+	{
 		static float sys_sensitivity = 1.0f; //CHANGE ME IF NOT DEFAULT (xinput --list-props <ID> -> constant deceleration, ID=current mouse's ID)
 		float deltaAngleX = angle.x - oldAngle.x;
 		float deltaAngleY = angle.y - oldAngle.y;
@@ -564,7 +566,9 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 		static xdo_t *xdo = xdo_new(NULL);
 		int pixelsY = deltaAngleY / (m_pitch->GetFloat() * sensitivity->GetFloat() * sys_sensitivity);
 		xdo_move_mouse_relative(xdo, -pixelsY, pixelsX);
-	} else {
+	}
+	else
+	{
 		cmd->viewangles = angle;
 	}
 	//if(cmd->mousedx != 0.0f|| cmd->mousedy != 0.0f)
