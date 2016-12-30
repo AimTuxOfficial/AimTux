@@ -25,4 +25,4 @@ EXCLUDE_FILES_FROM_DIR_IN_LIST("${SOURCE_FILES}" "src/ImGUI/examples/" FALSE)
 EXCLUDE_FILES_FROM_DIR_IN_LIST("${SOURCE_FILES}" "src/ImGUI/extra_fonts" FALSE)
 
 add_library(AimTux SHARED ${SOURCE_FILES})
-target_link_libraries(AimTux SDL2 GL dl)
+target_link_libraries(AimTux SDL2 GL dl xdo)

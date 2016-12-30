@@ -122,6 +122,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 			weaponSetting["AutoWall"]["Bones"][bone] = i.second.autoWallBones[bone];
 
 		weaponSetting["AutoAim"]["RealDistance"] = i.second.autoAimRealDistance;
+		weaponSetting["FACEIT"] = i.second.faceit;
 
 		#undef weaponSetting
 	}
@@ -418,7 +419,7 @@ void Settings::LoadConfig(std::string path)
 	Fonts::SetupFonts();
 
 	Settings::Aimbot::weapons = {
-			{ ItemDefinitionIndex::INVALID, Settings::Aimbot::Weapon(false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, false, false, false, false, false, false, false, 10.0f, &Settings::Aimbot::AutoWall::bones[0], false) },
+			{ ItemDefinitionIndex::INVALID, Settings::Aimbot::Weapon(false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, false, false, false, false, false, false, false, 10.0f, &Settings::Aimbot::AutoWall::bones[0], false, false) },
 	};
 
 	for (Json::ValueIterator itr = settings["Aimbot"]["weapons"].begin(); itr != settings["Aimbot"]["weapons"].end(); itr++)
@@ -474,7 +475,8 @@ void Settings::LoadConfig(std::string path)
 			weaponSetting["AutoWall"]["Enabled"].asBool(),
 			weaponSetting["AutoWall"]["Value"].asFloat(),
 			autoWallBones,
-			weaponSetting["AutoAim"]["RealDistance"].asBool()
+			weaponSetting["AutoAim"]["RealDistance"].asBool(),
+			weaponSetting["FACEIT"].asBool()
 		);
 
 		Settings::Aimbot::weapons[weaponID] = weapon;
