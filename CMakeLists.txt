@@ -7,4 +7,4 @@ set(CMAKE_BUILD_TYPE Debug)
 
 file(GLOB_RECURSE SOURCE_FILES src/*.cpp)
 add_library(AimTux SHARED ${SOURCE_FILES})
-target_link_libraries(AimTux SDL2 GL dl)
+target_link_libraries(AimTux SDL2 GL dl xdo)
