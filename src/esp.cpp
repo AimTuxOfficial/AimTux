@@ -827,9 +827,15 @@ void ESP::CollectFootstep(int iEntIndex, const char *pSample)
 	if (strstr(pSample, "player/footsteps") == NULL && strstr(pSample, "player/land") == NULL)
 		return;
 
+	C_BaseEntity* entity = entitylist->GetClientEntity(iEntIndex);
+
+	C_BaseEntity* localplayer = entitylist->GetClientEntity(engine->GetLocalPlayer());
+	if (entity == localplayer)
+		return;
+
 	Footstep footstep;
 	footstep.entityId = iEntIndex;
-	footstep.position = entitylist->GetClientEntity(iEntIndex)->GetVecOrigin();
+	footstep.position = entity->GetVecOrigin();
 
 	long current = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 	footstep.expiration = current + Settings::ESP::Sounds::time;
