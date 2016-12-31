@@ -244,11 +244,12 @@ float RandomNumber(float Min, float Max)
 	return ((float(rand()) / float(RAND_MAX)) * (Max - Min)) + Min;
 }
 
-float Salt(float& smooth)
+void Salt(float& smooth)
 {
 	float sine = sin (globalvars->tickcount);
 	float salt = sine * Settings::Aimbot::Smooth::Salting::multiplier;
-	smooth += salt;
+	float oval = smooth + salt;
+	smooth *= oval;
 }
 
 void Aimbot::Smooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
@@ -275,9 +276,7 @@ void Aimbot::Smooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
 
 	if (Settings::Aimbot::Smooth::Salting::enabled)
 	{
-		float oval = Settings::Aimbot::Smooth::value;
-		Salt(oval);
-		smooth *= oval;
+		Salt(smooth);
 	}
 
 	// For convenience
