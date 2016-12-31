@@ -432,6 +432,11 @@ namespace Settings
 			extern char* message;
 		}
 
+		namespace RadioSpammer
+		{
+			extern bool enabled;
+		}
+
 		namespace NormalSpammer
 		{
 			extern std::vector<std::string> messages;

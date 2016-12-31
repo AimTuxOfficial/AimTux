@@ -6,6 +6,7 @@ bool Settings::Spammer::say_team = false;
 bool Settings::Spammer::KillSpammer::enabled = false;
 bool Settings::Spammer::KillSpammer::say_team = false;
 char* Settings::Spammer::KillSpammer::message = strdup("$nick just got OWNED by AimTux!!");
+bool Settings::Spammer::RadioSpammer::enabled = false;
 std::vector<std::string> Settings::Spammer::NormalSpammer::messages = {
 		"AimTux owns me and all",
 		"Your Windows p2c sucks my AimTux dry",
@@ -64,6 +65,34 @@ void Spammer::BeginFrame(float frameTime)
 		killedPlayerQueue.erase(killedPlayerQueue.begin(), killedPlayerQueue.begin() + 1);
 
 		return;
+	}
+
+	if (Settings::Spammer::RadioSpammer::enabled)
+	{
+		const char* radioCommands[] = {
+				"coverme",
+				"takepoint",
+				"holdpos",
+				"regroup",
+				"followme",
+				"takingfire",
+				"go",
+				"fallback",
+				"sticktog",
+				"report",
+				"roger",
+				"enemyspot",
+				"needbackup",
+				"sectorclear",
+				"inposition",
+				"reportingin",
+				"getout",
+				"negative",
+				"enemydown",
+		};
+
+		std::srand(std::time(NULL));
+		engine->ClientCmd_Unrestricted(radioCommands[std::rand() % IM_ARRAYSIZE(radioCommands)]);
 	}
 
 	if (Settings::Spammer::type == SpammerType::SPAMMER_NORMAL)

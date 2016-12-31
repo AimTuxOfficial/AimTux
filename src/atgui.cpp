@@ -949,22 +949,18 @@ void MiscTab()
 			ImGui::Separator();
 			ImGui::Text("Spammer");
 			ImGui::Separator();
+
 			ImGui::Columns(3, NULL, true);
 			{
 				ImGui::Checkbox("Kill Messages", &Settings::Spammer::KillSpammer::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Spams a kill message when killing an enemy");
-
-				ImGui::Combo("###SPAMMERYPE", &Settings::Spammer::type, spammerTypes, IM_ARRAYSIZE(spammerTypes));
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::Checkbox("Team Chat###SAY_TEAM1", &Settings::Spammer::KillSpammer::say_team);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Only show kill message in team chat");
-				ImGui::Checkbox("Team Chat###SAY_TEAM2", &Settings::Spammer::say_team);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Only spam messages in team chat");
 			}
 			ImGui::NextColumn();
 			{
@@ -980,7 +976,23 @@ void MiscTab()
 
 					ImGui::EndPopup();
 				}
+			}
 
+			ImGui::Columns(1);
+			ImGui::Checkbox("Radio Commands", &Settings::Spammer::RadioSpammer::enabled);
+
+			ImGui::Columns(3, NULL, true);
+			{
+				ImGui::Combo("###SPAMMERYPE", &Settings::Spammer::type, spammerTypes, IM_ARRAYSIZE(spammerTypes));
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::Checkbox("Team Chat###SAY_TEAM2", &Settings::Spammer::say_team);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Only spam messages in team chat");
+			}
+			ImGui::NextColumn();
+			{
 				if (Settings::Spammer::type != SpammerType::SPAMMER_NONE && ImGui::Button("Options###SPAMMER"))
 					ImGui::OpenPopup("options_spammer");
 
