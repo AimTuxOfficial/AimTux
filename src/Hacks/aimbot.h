@@ -5,6 +5,7 @@
 #include "../interfaces.h"
 #include "../Utils/entity.h"
 #include "../Utils/math.h"
+#include <xdo.h>
 
 namespace Aimbot
 {
