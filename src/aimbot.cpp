@@ -10,6 +10,7 @@ extern "C"
 bool Settings::Aimbot::enabled = true;
 bool Settings::Aimbot::silent = false;
 bool Settings::Aimbot::faceit = false;
+float Settings::Aimbot::system_sens = 1.0f; //xinput --list-props <ID> -> constant deceleration, ID=current mouse's ID
 bool Settings::Aimbot::friendly = false;
 int Settings::Aimbot::bone = BONE_HEAD;
 ButtonCode_t Settings::Aimbot::aimkey = ButtonCode_t::MOUSE_MIDDLE;
@@ -556,15 +557,14 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	Math::ClampAngles(angle);
 	if(Settings::Aimbot::faceit)
 	{
-		static float sys_sensitivity = 1.0f; //CHANGE ME IF NOT DEFAULT (xinput --list-props <ID> -> constant deceleration, ID=current mouse's ID)
 		float deltaAngleX = angle.x - oldAngle.x;
 		float deltaAngleY = angle.y - oldAngle.y;
 		ConVar* m_yaw = cvar->FindVar("m_yaw");
 		ConVar* m_pitch = cvar->FindVar("m_pitch");
 		ConVar* sensitivity = cvar->FindVar("sensitivity");
-		int pixelsX = deltaAngleX / (m_yaw->GetFloat() * sensitivity->GetFloat() * sys_sensitivity);
+		int pixelsX = deltaAngleX / (m_yaw->GetFloat() * sensitivity->GetFloat() * Settings::Aimbot::system_sens);
 		static xdo_t *xdo = xdo_new(NULL);
-		int pixelsY = deltaAngleY / (m_pitch->GetFloat() * sensitivity->GetFloat() * sys_sensitivity);
+		int pixelsY = deltaAngleY / (m_pitch->GetFloat() * sensitivity->GetFloat() * Settings::Aimbot::system_sens);
 		xdo_move_mouse_relative(xdo, -pixelsY, pixelsX);
 	}
 	else
