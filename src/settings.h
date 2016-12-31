@@ -164,6 +164,7 @@ namespace Settings
 		extern bool enabled;
 		extern bool silent;
 		extern bool faceit;
+		extern float system_sens;
 		extern bool friendly;
 		extern Bone bone;
 		extern ButtonCode_t aimkey;
@@ -261,6 +262,7 @@ namespace Settings
 			float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmount, autoWallValue;
 			bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check, autoWallEnabled, autoWallBones[6], autoAimRealDistance;
 			bool faceit;
+			float system_sens;
 
 			Weapon(bool enabled, bool silent, bool friendly, Bone bone, ButtonCode_t aimkey, bool aimkey_only,
 				   bool smoothEnabled, float smoothValue, SmoothType smoothType, bool smoothSaltEnabled, float smoothSaltMultiplier,
@@ -269,7 +271,7 @@ namespace Settings
 				   bool rcsEnabled, bool rcsAlways_on, float rcsFloat,
 				   bool autoPistolEnabled, bool autoShootEnabled, bool autoScopeEnabled,
 				   bool noShootEnabled, bool ignoreJumpEnabled, bool smoke_check, bool autoWallEnabled, float autoWallValue, bool autoWallBones[6], bool autoAimRealDistance,
-				   bool faceit)
+				   bool faceit, float system_sens)
 			{
 				this->enabled = enabled;
 				this->silent = silent;
@@ -305,6 +307,7 @@ namespace Settings
 
 				this->autoAimRealDistance = autoAimRealDistance;
 				this->faceit = faceit;
+				this->system_sens = system_sens;
 			}
 
 			Weapon() {};
