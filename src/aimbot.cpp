@@ -1,10 +1,5 @@
 #include "aimbot.h"
 #include "autowall.h"
-#include <math.h>
-extern "C"
-{
-#include <xdo.h>
-}
 
 // Default aimbot settings
 bool Settings::Aimbot::enabled = true;
