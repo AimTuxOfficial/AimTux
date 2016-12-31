@@ -110,6 +110,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Aimbot"]["enabled"] = Settings::Aimbot::enabled;
 	settings["Aimbot"]["silent"] = Settings::Aimbot::silent;
 	settings["Aimbot"]["faceit"] = Settings::Aimbot::faceit;
+	settings["Aimbot"]["system_sens"] = Settings::Aimbot::system_sens;
 	settings["Aimbot"]["friendly"] = Settings::Aimbot::friendly;
 	settings["Aimbot"]["NoShoot"]["enabled"] = Settings::Aimbot::NoShoot::enabled;
 	settings["Aimbot"]["ErrorMargin"]["enabled"] = Settings::Aimbot::ErrorMargin::enabled;
@@ -397,6 +398,7 @@ void Settings::LoadConfig(std::string path)
 	GetBool(settings["Aimbot"]["enabled"], &Settings::Aimbot::enabled);
 	GetBool(settings["Aimbot"]["silent"], &Settings::Aimbot::silent);
 	GetBool(settings["Aimbot"]["faceit"], &Settings::Aimbot::faceit);
+	GetFloat(settings["Aimbot"]["system_sens"], &Settings::Aimbot::system_sens);
 	GetBool(settings["Aimbot"]["friendly"], &Settings::Aimbot::friendly);
 	GetBool(settings["Aimbot"]["ErrorMargin"]["enabled"], &Settings::Aimbot::ErrorMargin::enabled);
 	GetFloat(settings["Aimbot"]["ErrorMargin"]["value"], &Settings::Aimbot::ErrorMargin::value);

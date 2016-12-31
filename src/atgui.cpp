@@ -440,6 +440,9 @@ void AimbotTab()
 				ImGui::Checkbox("Ignore Jump", &Settings::Aimbot::IgnoreJump::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Prevents you from aimbotting while jumping");
+                ImGui::SliderFloat("###Sensitivity", &Settings::Aimbot::system_sens, 0.1, 10);
+                if (ImGui::IsItemHovered())
+                    ImGui::SetTooltip("System Sensitivity for FaceIT");
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
