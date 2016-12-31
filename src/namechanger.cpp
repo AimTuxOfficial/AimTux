@@ -22,7 +22,7 @@ void NameChanger::BeginFrame(float frameTime)
 
 	if (changes >= 5)
 	{
-		SetName("\n");
+		SetName(" \n\u000A AIMTUX.NET");
 		changes = -1;
 
 		return;
