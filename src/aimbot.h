@@ -5,7 +5,11 @@
 #include "interfaces.h"
 #include "entity.h"
 #include "math.h"
+
+extern "C"
+{
 #include <xdo.h>
+}
 
 namespace Aimbot
 {
