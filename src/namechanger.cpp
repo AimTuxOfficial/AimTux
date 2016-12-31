@@ -22,7 +22,13 @@ void NameChanger::BeginFrame(float frameTime)
 
 	if (changes >= 5)
 	{
-		SetName("\n");
+		std::string name = "\n";
+		char characters[3] = { '\n', '\0', '\t' };
+
+		for (int i = 0; i < 127; i++)
+			name += characters[RandomInt(0, 2)];
+
+		SetName(name.c_str());
 		changes = -1;
 
 		return;

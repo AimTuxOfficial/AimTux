@@ -4,8 +4,6 @@
 #include "interfaces.h"
 #include "settings.h"
 
-#define RandomInt(nMin, nMax) (rand() % (nMax - nMin + 1) + nMin);
-
 namespace SkinChanger {
 	extern bool ForceFullUpdate;
 

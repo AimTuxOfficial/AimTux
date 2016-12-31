@@ -9,6 +9,8 @@
 #include "SDK/SDK.h"
 #include "interfaces.h"
 
+#define RandomInt(nMin, nMax) (rand() % (nMax - nMin + 1) + nMin)
+
 namespace Util {
 	char GetButtonString(ButtonCode_t key);
 	std::string GetButtonName(ButtonCode_t buttonCode);
