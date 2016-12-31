@@ -552,11 +552,11 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 
 			float deltaAngleX = angle.x - oldAngle.x;
 			float deltaAngleY = angle.y - oldAngle.y;
-			int pixelsX = deltaAngleX / (m_yaw->GetFloat() * sensitivity->GetFloat() * Settings::Aimbot::system_sens);
-			int pixelsY = deltaAngleY / (m_pitch->GetFloat() * sensitivity->GetFloat() * Settings::Aimbot::system_sens);
+			float pixelsX = deltaAngleX / (m_yaw->GetFloat() * sensitivity->GetFloat() * Settings::Aimbot::system_sens);
+			float pixelsY = deltaAngleY / (m_pitch->GetFloat() * sensitivity->GetFloat() * Settings::Aimbot::system_sens);
 
 			static xdo_t *xdo = xdo_new(NULL);
-			xdo_move_mouse_relative(xdo, -pixelsY, pixelsX);
+			xdo_move_mouse_relative(xdo, (int) -pixelsY, (int) pixelsX);
 		}
 		else
 		{
