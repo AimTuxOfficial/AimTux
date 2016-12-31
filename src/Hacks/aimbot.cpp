@@ -544,24 +544,24 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 		Math::NormalizeAngles(angle);
 		Math::ClampAngles(angle);
 
-		if(Settings::Aimbot::faceit)
+		if (Settings::Aimbot::faceit)
 		{
-			float deltaAngleX = angle.x - oldAngle.x;
-			float deltaAngleY = angle.y - oldAngle.y;
 			ConVar* m_yaw = cvar->FindVar("m_yaw");
 			ConVar* m_pitch = cvar->FindVar("m_pitch");
 			ConVar* sensitivity = cvar->FindVar("sensitivity");
+
+			float deltaAngleX = angle.x - oldAngle.x;
+			float deltaAngleY = angle.y - oldAngle.y;
 			int pixelsX = deltaAngleX / (m_yaw->GetFloat() * sensitivity->GetFloat() * Settings::Aimbot::system_sens);
-			static xdo_t *xdo = xdo_new(NULL);
 			int pixelsY = deltaAngleY / (m_pitch->GetFloat() * sensitivity->GetFloat() * Settings::Aimbot::system_sens);
+
+			static xdo_t *xdo = xdo_new(NULL);
 			xdo_move_mouse_relative(xdo, -pixelsY, pixelsX);
 		}
 		else
 		{
 			cmd->viewangles = angle;
 		}
-		//if(cmd->mousedx != 0.0f|| cmd->mousedy != 0.0f)
-		//	cvar->ConsoleColorPrintf(ColorRGBA(150, 255, 150), "X:%hu Y:%hu\n", cmd->mousedx, cmd->mousedy);
 
 		Math::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);
 
