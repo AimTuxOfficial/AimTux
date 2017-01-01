@@ -9,9 +9,7 @@
 #define CHECK_VALID( _v ) 0
 #define Assert( _exp ) ((void)0)
 
-extern float(*pfSqrt)(float x);
-
-#define FastSqrt(x)			(*pfSqrt)(x)
+#define FastSqrt(x)			(sqrt)(x)
 
 #define M_PI		3.14159265358979323846	// matches value in gcc v2 math.h
 

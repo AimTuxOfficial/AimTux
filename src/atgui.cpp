@@ -725,9 +725,6 @@ void VisualsTab()
 				ImGui::Checkbox("No Sky", &Settings::NoSky::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Allows for the skybox to be colored or disabled");
-				ImGui::Checkbox("No Scope Border", &Settings::NoScopeBorder::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Disables black scope silhouette");
 			}
 			ImGui::NextColumn();
 			{
@@ -736,12 +733,32 @@ void VisualsTab()
 					ImGui::SliderFloat("##NOFLASHAMOUNT", &Settings::Noflash::value, 0, 255);
 					ImGui::SliderInt("##SOUNDSTIME", &Settings::ESP::Sounds::time, 250, 5000);
 				ImGui::PopItemWidth();
-				ImGui::Checkbox("Radar", &Settings::Radar::enabled);
+				ImGui::Checkbox("No Scope Border", &Settings::NoScopeBorder::enabled);
 				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Shows enemies on radar");
+					ImGui::SetTooltip("Disables black scope silhouette");
 				ImGui::Checkbox("ASUS Walls", &Settings::ASUSWalls::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Makes wall textures transparent");
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::Text("Radar");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Checkbox("Radar", &Settings::Radar::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Shows players on radar");
+				ImGui::Checkbox("Enemies", &Settings::Radar::enemies);
+				ImGui::Checkbox("Legit", &Settings::Radar::legit);
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::PushItemWidth(-1);
+				ImGui::SliderInt("##RADARZOOM", &Settings::Radar::zoom, 1, 100);
+				ImGui::PopItemWidth();
+				ImGui::Checkbox("Allies", &Settings::Radar::allies);
+				ImGui::Checkbox("Visibility Check", &Settings::Radar::visibility_check);
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -1736,4 +1753,5 @@ void UI::SetupWindows()
 	}
 
 	SpectatorsWindow();
+	Radar::DrawWindow();
 }
