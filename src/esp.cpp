@@ -616,7 +616,7 @@ void ESP::DrawBomb(C_BaseCombatWeapon* bomb)
 		DrawEntity(bomb, "Bomb", Color::FromImColor(Settings::ESP::bomb_color));
 }
 
-void ESP::DrawPlantedBomb(C_BasePlantedC4* bomb)
+void ESP::DrawPlantedBomb(C_PlantedC4* bomb)
 {
 	ImColor color = bomb->GetBombDefuser() != -1 || bomb->IsBombDefused() ? Settings::ESP::bomb_defusing_color : Settings::ESP::bomb_color;
 
@@ -1032,7 +1032,7 @@ void ESP::Paint()
 		}
 		else if (client->m_ClassID == CPlantedC4 && Settings::ESP::Filters::bomb)
 		{
-			C_BasePlantedC4* pC4 = (C_BasePlantedC4*)entity;
+			C_PlantedC4* pC4 = (C_PlantedC4*)entity;
 			DrawPlantedBomb(pC4);
 		}
 		else if (client->m_ClassID == CHostage && Settings::ESP::Filters::hostages)

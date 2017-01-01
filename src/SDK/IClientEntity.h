@@ -288,7 +288,7 @@ public:
 	}
 };
 
-class C_BasePlantedC4 : public C_BaseEntity
+class C_PlantedC4 : public C_BaseEntity
 {
 public:
 	bool IsBombTicking()
