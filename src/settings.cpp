@@ -272,6 +272,11 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Noflash"]["value"] = Settings::Noflash::value;
 
 	settings["Radar"]["enabled"] = Settings::Radar::enabled;
+	settings["Radar"]["zoom"] = Settings::Radar::zoom;
+	settings["Radar"]["enemies"] = Settings::Radar::enemies;
+	settings["Radar"]["allies"] = Settings::Radar::allies;
+	settings["Radar"]["legit"] = Settings::Radar::legit;
+	settings["Radar"]["visibility_check"] = Settings::Radar::visibility_check;
 
 	settings["Recoilcrosshair"]["enabled"] = Settings::Recoilcrosshair::enabled;
 
@@ -519,6 +524,11 @@ void Settings::LoadConfig(std::string path)
 	GetFloat(settings["Noflash"]["value"], &Settings::Noflash::value);
 
 	GetBool(settings["Radar"]["enabled"], &Settings::Radar::enabled);
+	GetInt(settings["Radar"]["zoom"], &Settings::Radar::zoom);
+	GetBool(settings["Radar"]["enemies"], &Settings::Radar::enemies);
+	GetBool(settings["Radar"]["allies"], &Settings::Radar::allies);
+	GetBool(settings["Radar"]["legit"], &Settings::Radar::legit);
+	GetBool(settings["Radar"]["visibility_check"], &Settings::Radar::visibility_check);
 
 	GetBool(settings["Recoilcrosshair"]["enabled"], &Settings::Recoilcrosshair::enabled);
 	GetBool(settings["Recoilcrosshair"]["showOnlyWhenShooting"], &Settings::Recoilcrosshair::showOnlyWhenShooting);

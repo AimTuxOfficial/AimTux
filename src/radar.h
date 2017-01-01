@@ -2,6 +2,7 @@
 #include "SDK/SDK.h"
 #include "interfaces.h"
 
-namespace Radar {
-	void BeginFrame(float frameTime);
+namespace Radar
+{
+	void DrawWindow();
 };

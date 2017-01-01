@@ -482,6 +482,11 @@ namespace Settings
 	namespace Radar
 	{
 		extern bool enabled;
+		extern int zoom;
+		extern bool enemies;
+		extern bool allies;
+		extern bool legit;
+		extern bool visibility_check;
 	}
 
 	namespace Recoilcrosshair
