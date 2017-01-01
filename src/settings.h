@@ -391,12 +391,11 @@ namespace Settings
 
 		namespace Chams
 		{
-			extern bool players;
-			extern bool visibility_check;
-			extern ImColor players_ally_color;
-			extern ImColor players_ally_visible_color;
-			extern ImColor players_enemy_color;
-			extern ImColor players_enemy_visible_color;
+			extern bool enabled;
+			extern ImColor ally_color;
+			extern ImColor ally_visible_color;
+			extern ImColor enemy_color;
+			extern ImColor enemy_visible_color;
 			extern int type;
 
 			namespace Arms

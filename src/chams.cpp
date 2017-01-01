@@ -1,13 +1,12 @@
 #include "chams.h"
 
-bool Settings::ESP::Chams::players = false;
-bool Settings::ESP::Chams::visibility_check = false;
+bool Settings::ESP::Chams::enabled = false;
 bool Settings::ESP::Chams::Arms::enabled = false;
 int Settings::ESP::Chams::Arms::type = DEFAULT;
-ImColor Settings::ESP::Chams::players_ally_color = ImColor(7, 98, 168, 255);
-ImColor Settings::ESP::Chams::players_ally_visible_color = ImColor(40, 52, 138, 255);
-ImColor Settings::ESP::Chams::players_enemy_color = ImColor(243, 24, 28, 255);
-ImColor Settings::ESP::Chams::players_enemy_visible_color = ImColor(243, 159, 20, 255);
+ImColor Settings::ESP::Chams::ally_color = ImColor(7, 98, 168, 255);
+ImColor Settings::ESP::Chams::ally_visible_color = ImColor(40, 52, 138, 255);
+ImColor Settings::ESP::Chams::enemy_color = ImColor(243, 24, 28, 255);
+ImColor Settings::ESP::Chams::enemy_visible_color = ImColor(243, 159, 20, 255);
 ImColor Settings::ESP::Chams::Arms::color = ImColor(117, 43, 73, 255);
 int Settings::ESP::Chams::type = CHAMS;
 
@@ -83,16 +82,16 @@ void Chams::CreateMaterials()
 
 void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld)
 {
-	if (!Settings::ESP::Chams::players)
+	if (!Settings::ESP::Chams::enabled)
 		return;
 
-	C_BasePlayer* localPlayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	if (!localPlayer)
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer)
 		return;
 
 	C_BasePlayer* entity = (C_BasePlayer*) entitylist->GetClientEntity(pInfo.entity_index);
 	if (!entity
-		|| entity == localPlayer
+		|| entity == localplayer
 		|| entity->GetDormant()
 		|| !entity->GetAlive())
 		return;
@@ -115,18 +114,20 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 	visible_material->AlphaModulate(1.0f);
 	hidden_material->AlphaModulate(1.0f);
 
-	if (entity->GetTeam() == localPlayer->GetTeam())
+	if (Settings::ESP::Filters::allies && entity->GetTeam() == localplayer->GetTeam())
 	{
-		visible_material->ColorModulate(Settings::ESP::Chams::players_ally_visible_color);
-		hidden_material->ColorModulate(Settings::ESP::Chams::players_ally_color);
+		visible_material->ColorModulate(Settings::ESP::Chams::ally_visible_color);
+		hidden_material->ColorModulate(Settings::ESP::Chams::ally_color);
+	}
+	else if (Settings::ESP::Filters::enemies && entity->GetTeam() != localplayer->GetTeam())
+	{
+		visible_material->ColorModulate(Settings::ESP::Chams::enemy_visible_color);
+		hidden_material->ColorModulate(Settings::ESP::Chams::enemy_color);
 	}
 	else
-	{
-		visible_material->ColorModulate(Settings::ESP::Chams::players_enemy_visible_color);
-		hidden_material->ColorModulate(Settings::ESP::Chams::players_enemy_color);
-	}
+		return;
 
-	if (!Settings::ESP::Chams::visibility_check)
+	if (!Settings::ESP::Filters::legit)
 	{
 		modelRender->ForcedMaterialOverride(hidden_material);
 		modelRender_vmt->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);

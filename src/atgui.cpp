@@ -226,10 +226,10 @@ void ColorsWindow()
 			&Settings::ESP::grenade_color,
 			&Settings::ESP::molotov_color,
 			&Settings::ESP::Skeleton::color,
-			&Settings::ESP::Chams::players_ally_color,
-			&Settings::ESP::Chams::players_ally_visible_color,
-			&Settings::ESP::Chams::players_enemy_color,
-			&Settings::ESP::Chams::players_enemy_visible_color,
+			&Settings::ESP::Chams::ally_color,
+			&Settings::ESP::Chams::ally_visible_color,
+			&Settings::ESP::Chams::enemy_color,
+			&Settings::ESP::Chams::enemy_visible_color,
 			&Settings::ESP::Glow::ally_color,
 			&Settings::ESP::Glow::enemy_color,
 			&Settings::ESP::Glow::enemy_visible_color,
@@ -510,6 +510,9 @@ void VisualsTab()
 					ImGui::Checkbox("Outline Box", &Settings::ESP::Boxes::enabled);
 					if (ImGui::IsItemHovered())
 						ImGui::SetTooltip("Outline players with a box");
+					ImGui::Checkbox("Chams", &Settings::ESP::Chams::enabled);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Change players' model texture");
 					ImGui::Checkbox("Health", &Settings::ESP::Bars::enabled);
 					if (ImGui::IsItemHovered())
 						ImGui::SetTooltip("Show a players health with a bar");
@@ -529,6 +532,7 @@ void VisualsTab()
 				{
 					ImGui::PushItemWidth(-1);
 						ImGui::Combo("##BOXTYPE", &Settings::ESP::Boxes::type, BoxTypes, IM_ARRAYSIZE(BoxTypes));
+						ImGui::Combo("##CHAMSTYPE", &Settings::ESP::Chams::type, ChamsTypes, IM_ARRAYSIZE(ChamsTypes));
 						ImGui::Combo("##BARTYPE", &Settings::ESP::Bars::type, BarTypes, IM_ARRAYSIZE(BarTypes));
 						ImGui::Combo("##TRACERTYPE", &Settings::ESP::Tracers::type, TracerTypes, IM_ARRAYSIZE(TracerTypes));
 						ImGui::Combo("##BARCOLTYPE", &Settings::ESP::Bars::color_type, BarColorTypes, IM_ARRAYSIZE(BarColorTypes));
@@ -662,31 +666,6 @@ void VisualsTab()
 	{
 		ImGui::BeginChild("Chams", ImVec2(0, 0), true);
 		{
-			ImGui::Text("Chams");
-			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
-			{
-				ImGui::Checkbox("Players", &Settings::ESP::Chams::players);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Show other players");
-				ImGui::Checkbox("Arms", &Settings::ESP::Chams::Arms::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Adds chams effect to your arms");
-				ImGui::PushID(1);
-					ImGui::Checkbox("Legit", &Settings::ESP::Chams::visibility_check);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Hides enemies through walls");
-				ImGui::PopID();
-			}
-			ImGui::NextColumn();
-			{
-				ImGui::PushItemWidth(-1);
-					ImGui::Combo("##CHAMSTYPE", &Settings::ESP::Chams::type, ChamsTypes, IM_ARRAYSIZE(ChamsTypes));
-					ImGui::Combo("##ARMSTYPE", &Settings::ESP::Chams::Arms::type, ArmsTypes, IM_ARRAYSIZE(ArmsTypes));
-				ImGui::PopItemWidth();
-			}
-			ImGui::Columns(1);
-			ImGui::Separator();
 			ImGui::Text("Crosshair");
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
@@ -710,6 +689,9 @@ void VisualsTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
+				ImGui::Checkbox("Arms", &Settings::ESP::Chams::Arms::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Apply chams to arms");
 				ImGui::Checkbox("Dlights", &Settings::Dlights::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Adds a light source to players");
@@ -732,6 +714,7 @@ void VisualsTab()
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
+					ImGui::Combo("##ARMSTYPE", &Settings::ESP::Chams::Arms::type, ArmsTypes, IM_ARRAYSIZE(ArmsTypes));
 					ImGui::SliderFloat("##DLIGHTRADIUS", &Settings::Dlights::radius, 0, 1000);
 					ImGui::SliderFloat("##NOFLASHAMOUNT", &Settings::Noflash::value, 0, 255);
 					ImGui::SliderInt("##SOUNDSTIME", &Settings::ESP::Sounds::time, 250, 5000);
