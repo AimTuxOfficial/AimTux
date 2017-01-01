@@ -230,16 +230,15 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["ESP"]["BulletTracers"]["enabled"] = Settings::ESP::BulletTracers::enabled;
 	settings["ESP"]["FOVCrosshair"]["enabled"] = Settings::ESP::FOVCrosshair::enabled;
 	LoadUIColor(settings["ESP"]["FOVCrosshair"]["color"], Settings::ESP::FOVCrosshair::color);
-	settings["ESP"]["Chams"]["players"] = Settings::ESP::Chams::players;
-	settings["ESP"]["Chams"]["visibility_check"] = Settings::ESP::Chams::visibility_check;
 	settings["ESP"]["Chams"]["Arms"]["enabled"] = Settings::ESP::Chams::Arms::enabled;
 	settings["ESP"]["Chams"]["Arms"]["type"] = Settings::ESP::Chams::Arms::type;
-	LoadUIColor(settings["ESP"]["Chams"]["players_ally_color"], Settings::ESP::Chams::players_ally_color);
-	LoadUIColor(settings["ESP"]["Chams"]["players_ally_visible_color"], Settings::ESP::Chams::players_ally_visible_color);
-	LoadUIColor(settings["ESP"]["Chams"]["players_enemy_color"], Settings::ESP::Chams::players_enemy_color);
-	LoadUIColor(settings["ESP"]["Chams"]["players_enemy_visible_color"], Settings::ESP::Chams::players_enemy_visible_color);
 	LoadUIColor(settings["ESP"]["Chams"]["Arms"]["color"], Settings::ESP::Chams::Arms::color);
+	LoadUIColor(settings["ESP"]["Chams"]["players_ally_color"], Settings::ESP::Chams::ally_color);
+	LoadUIColor(settings["ESP"]["Chams"]["players_ally_visible_color"], Settings::ESP::Chams::ally_visible_color);
+	LoadUIColor(settings["ESP"]["Chams"]["players_enemy_color"], Settings::ESP::Chams::enemy_color);
+	LoadUIColor(settings["ESP"]["Chams"]["players_enemy_visible_color"], Settings::ESP::Chams::enemy_visible_color);
 	settings["ESP"]["Chams"]["type"] = Settings::ESP::Chams::type;
+	settings["ESP"]["Chams"]["enabled"] = Settings::ESP::Chams::enabled;
 	settings["ESP"]["Sounds"]["enabled"] = Settings::ESP::Sounds::enabled;
 	settings["ESP"]["Sounds"]["time"] = Settings::ESP::Sounds::time;
 
@@ -480,16 +479,15 @@ void Settings::LoadConfig(std::string path)
 	GetBool(settings["ESP"]["BulletTracers"]["enabled"], &Settings::ESP::BulletTracers::enabled);
 	GetBool(settings["ESP"]["FOVCrosshair"]["enabled"], &Settings::ESP::FOVCrosshair::enabled);
 	GetUIColor(settings["ESP"]["FOVCrosshair"]["color"], &Settings::ESP::FOVCrosshair::color);
-	GetBool(settings["ESP"]["Chams"]["players"], &Settings::ESP::Chams::players);
-	GetBool(settings["ESP"]["Chams"]["visibility_check"], &Settings::ESP::Chams::visibility_check);
 	GetBool(settings["ESP"]["Chams"]["Arms"]["enabled"], &Settings::ESP::Chams::Arms::enabled);
 	GetInt(settings["ESP"]["Chams"]["Arms"]["type"], &Settings::ESP::Chams::Arms::type);
-	GetUIColor(settings["ESP"]["Chams"]["players_ally_color"], &Settings::ESP::Chams::players_ally_color);
-	GetUIColor(settings["ESP"]["Chams"]["players_ally_visible_color"], &Settings::ESP::Chams::players_ally_visible_color);
-	GetUIColor(settings["ESP"]["Chams"]["players_enemy_color"], &Settings::ESP::Chams::players_enemy_color);
-	GetUIColor(settings["ESP"]["Chams"]["players_enemy_visible_color"], &Settings::ESP::Chams::players_enemy_visible_color);
 	GetUIColor(settings["ESP"]["Chams"]["Arms"]["color"], &Settings::ESP::Chams::Arms::color);
+	GetUIColor(settings["ESP"]["Chams"]["players_ally_color"], &Settings::ESP::Chams::ally_color);
+	GetUIColor(settings["ESP"]["Chams"]["players_ally_visible_color"], &Settings::ESP::Chams::ally_visible_color);
+	GetUIColor(settings["ESP"]["Chams"]["players_enemy_color"], &Settings::ESP::Chams::enemy_color);
+	GetUIColor(settings["ESP"]["Chams"]["players_enemy_visible_color"], &Settings::ESP::Chams::enemy_visible_color);
 	GetInt(settings["ESP"]["Chams"]["type"], &Settings::ESP::Chams::type);
+	GetBool(settings["ESP"]["Chams"]["enabled"], &Settings::ESP::Chams::enabled);
 	GetBool(settings["ESP"]["Sounds"]["enabled"], &Settings::ESP::Sounds::enabled);
 	GetInt(settings["ESP"]["Sounds"]["time"], &Settings::ESP::Sounds::time);
 
