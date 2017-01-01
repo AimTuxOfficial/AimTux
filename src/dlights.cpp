@@ -20,28 +20,28 @@ void Dlights::Paint()
 
 	for (int i = 1; i < engine->GetMaxClients(); ++i)
 	{
-		C_BaseEntity *entity = entitylist->GetClientEntity(i);
-		if (!entity)
+		C_BasePlayer *player = (C_BasePlayer*) entitylist->GetClientEntity(i);
+		if (!player)
 			continue;
 
-		if (entity == localplayer)
+		if (player == localplayer)
 			continue;
 
-		if (entity->GetTeam() != localplayer->GetTeam() && !Settings::ESP::Filters::enemies)
+		if (player->GetTeam() != localplayer->GetTeam() && !Settings::ESP::Filters::enemies)
 			return;
 
-		if (entity->GetTeam() == localplayer->GetTeam() && !Settings::ESP::Filters::allies)
+		if (player->GetTeam() == localplayer->GetTeam() && !Settings::ESP::Filters::allies)
 			return;
 
 		bool bIsVisible = false;
 		if (Settings::ESP::Filters::visibility_check || Settings::ESP::Filters::legit)
 		{
-			bIsVisible = Entity::IsVisible(entity, BONE_HEAD);
+			bIsVisible = Entity::IsVisible(player, BONE_HEAD);
 			if (!bIsVisible && Settings::ESP::Filters::legit)
 				continue;
 		}
 
-		Color color = Color::FromImColor(ESP::GetESPPlayerColor(entity, bIsVisible));
+		Color color = Color::FromImColor(ESP::GetESPPlayerColor(player, bIsVisible));
 
 		dlight_t* dLight = effects->CL_AllocDlight(i);
 		dLight->key = i;
@@ -50,8 +50,8 @@ void Dlights::Paint()
 		dLight->color.b = (unsigned char) color.b;
 		dLight->color.exponent = true;
 		dLight->flags = DLIGHT_NO_MODEL_ILLUMINATION;
-		dLight->m_Direction = entity->GetVecOrigin();
-		dLight->origin = entity->GetVecOrigin();
+		dLight->m_Direction = player->GetVecOrigin();
+		dLight->origin = player->GetVecOrigin();
 		dLight->radius = Settings::Dlights::radius;
 		dLight->die = globalvars->curtime + 0.1f;
 		dLight->decay = 20.0f;

@@ -1498,15 +1498,15 @@ void SpectatorsWindow()
 		ImGui::Text("Mode");
 		ImGui::NextColumn();
 
-		for (int entityId : ShowSpectators::GetObservervators(engine->GetLocalPlayer()))
+		for (int playerId : ShowSpectators::GetObservervators(engine->GetLocalPlayer()))
 		{
-			if (entityId == engine->GetLocalPlayer())
+			if (playerId == engine->GetLocalPlayer())
 				continue;
 
-			C_BaseEntity* entity = entitylist->GetClientEntity(entityId);
+			C_BasePlayer* player = (C_BasePlayer*) entitylist->GetClientEntity(playerId);
 
 			IEngineClient::player_info_t entityInformation;
-			engine->GetPlayerInfo(entityId, &entityInformation);
+			engine->GetPlayerInfo(playerId, &entityInformation);
 
 			if (strcmp(entityInformation.guid, "BOT") == 0)
 				continue;
@@ -1516,7 +1516,7 @@ void SpectatorsWindow()
 			ImGui::Text("%s", entityInformation.name);
 			ImGui::NextColumn();
 
-			switch (*entity->GetObserverMode())
+			switch (*player->GetObserverMode())
 			{
 				case ObserverMode_t::OBS_MODE_IN_EYE:
 					ImGui::Text("Perspective");

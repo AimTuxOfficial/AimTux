@@ -13,10 +13,10 @@ namespace ESP
 	extern const char* Ranks[];
 
 	bool GetBox(C_BaseEntity* entity, int& x, int& y, int& w, int& h);
-	ImColor GetESPPlayerColor(C_BaseEntity* entity, bool visible);
+	ImColor GetESPPlayerColor(C_BasePlayer* player, bool visible);
 	void DrawBox(Color color, int x, int y, int w, int h);
 	void DrawEntity(C_BaseEntity* entity, const char* string, Color color);
-	void DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_info_t player_info);
+	void DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info_t player_info);
 	void DrawBomb(C_BaseCombatWeapon* bomb);
 	void DrawPlantedBomb(C_BasePlantedC4* bomb);
 	void DrawDefuseKit(C_BaseEntity* defuser);
@@ -25,9 +25,9 @@ namespace ESP
 	void DrawChicken(C_BaseEntity* chicken);
 	void DrawFish(C_BaseEntity* fish);
 	void DrawThrowable(C_BaseEntity* throwable, ClientClass* cClass);
-	void DrawSkeleton(C_BaseEntity* player);
-	void DrawBulletTrace(C_BaseEntity* player);
-	void DrawTracer(C_BaseEntity *entity);
+	void DrawSkeleton(C_BasePlayer* player);
+	void DrawBulletTrace(C_BasePlayer* player);
+	void DrawTracer(C_BasePlayer* player);
 	void CollectFootstep(int iEntIndex, const char *pSample);
 	void DrawSounds();
 	void DrawFOVCrosshair();

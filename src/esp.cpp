@@ -190,7 +190,7 @@ bool ESP::GetBox(C_BaseEntity *entity, int &x, int &y, int &w, int &h)
 	return true;
 }
 
-ImColor ESP::GetESPPlayerColor(C_BaseEntity* player, bool visible)
+ImColor ESP::GetESPPlayerColor(C_BasePlayer* player, bool visible)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
@@ -343,7 +343,7 @@ void ESP::DrawEntity(C_BaseEntity* entity, const char* string, Color color)
 	}
 }
 
-void ESP::DrawPlayer(int index, C_BaseEntity* player, IEngineClient::player_info_t player_info)
+void ESP::DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info_t player_info)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
@@ -748,7 +748,7 @@ void ESP::DrawThrowable(C_BaseEntity* throwable, ClientClass* client)
 	DrawEntity(throwable, nadeName.c_str(), Color::FromImColor(nadeColor));
 }
 
-void ESP::DrawSkeleton(C_BaseEntity* player)
+void ESP::DrawSkeleton(C_BasePlayer* player)
 {
 	studiohdr_t* pStudioModel = modelInfo->GetStudioModel(player->GetModel());
 	if (!pStudioModel)
@@ -776,7 +776,7 @@ void ESP::DrawSkeleton(C_BaseEntity* player)
 	}
 }
 
-void ESP::DrawBulletTrace(C_BaseEntity* player)
+void ESP::DrawBulletTrace(C_BasePlayer* player)
 {
 	Vector src3D, dst3D, forward, src, dst;
 	trace_t tr;
@@ -799,10 +799,10 @@ void ESP::DrawBulletTrace(C_BaseEntity* player)
 	Draw::FilledRectangle((int)(dst.x - 3), (int)(dst.y - 3), 6, 6, Color::FromImColor(GetESPPlayerColor(player, false)));
 }
 
-void ESP::DrawTracer(C_BaseEntity* entity)
+void ESP::DrawTracer(C_BasePlayer* player)
 {
 	Vector src3D, src;
-	src3D = entity->GetVecOrigin() - Vector(0, 0, 0);
+	src3D = player->GetVecOrigin() - Vector(0, 0, 0);
 
 	if (debugOverlay->ScreenPosition(src3D, src))
 		return;
@@ -818,8 +818,8 @@ void ESP::DrawTracer(C_BaseEntity* entity)
 	else if (Settings::ESP::Tracers::type == TracerType::BOTTOM)
 		y = ScreenHeight;
 
-	bool bIsVisible = Entity::IsVisible(entity, BONE_HEAD);
-	Draw::Line((int)(src.x), (int)(src.y), x, y, Color::FromImColor(GetESPPlayerColor(entity,bIsVisible)));
+	bool bIsVisible = Entity::IsVisible(player, BONE_HEAD);
+	Draw::Line((int)(src.x), (int)(src.y), x, y, Color::FromImColor(GetESPPlayerColor(player, bIsVisible)));
 }
 
 void ESP::CollectFootstep(int iEntIndex, const char *pSample)
@@ -862,23 +862,23 @@ void ESP::DrawSounds()
 		if (!localplayer)
 			continue;
 
-		C_BaseEntity* entity = entitylist->GetClientEntity(footsteps[i].entityId);
-		if (!entity)
+		C_BasePlayer* player = (C_BasePlayer*) entitylist->GetClientEntity(footsteps[i].entityId);
+		if (!player)
 			continue;
 
-		if (entity->GetTeam() != localplayer->GetTeam() && !Settings::ESP::Filters::enemies)
+		if (player->GetTeam() != localplayer->GetTeam() && !Settings::ESP::Filters::enemies)
 			continue;
 
-		if (entity->GetTeam() == localplayer->GetTeam() && !Settings::ESP::Filters::allies)
+		if (player->GetTeam() == localplayer->GetTeam() && !Settings::ESP::Filters::allies)
 			continue;
 
 		bool bIsVisible = false;
 		if (Settings::ESP::Filters::visibility_check || Settings::ESP::Filters::legit)
-			bIsVisible = Entity::IsVisible(entity, BONE_HEAD);
+			bIsVisible = Entity::IsVisible(player, BONE_HEAD);
 
 		float percent = (float)diff / (float)Settings::ESP::Sounds::time;
 
-		Color playerColor = Color::FromImColor(GetESPPlayerColor(entity, bIsVisible));
+		Color playerColor = Color::FromImColor(GetESPPlayerColor(player, bIsVisible));
 		playerColor.a = std::min(powf(percent * 2, 0.6f), 1.f) * playerColor.a; // fades out alpha when its below 0.5
 
 		float circleRadius = fabs(percent - 1.f) * 42.f;
@@ -924,14 +924,16 @@ void ESP::DrawGlow()
 
 		if (client->m_ClassID == CCSPlayer)
 		{
-			if (glow_object.m_pEntity == (C_BaseEntity*)localplayer
-				|| glow_object.m_pEntity->GetDormant()
-				|| !glow_object.m_pEntity->GetAlive())
+			C_BasePlayer* player = (C_BasePlayer*) glow_object.m_pEntity;
+
+			if (player == localplayer
+				|| player->GetDormant()
+				|| !player->GetAlive())
 				continue;
 
 			if (glow_object.m_pEntity->GetTeam() != localplayer->GetTeam())
 			{
-				if (Entity::IsVisible(glow_object.m_pEntity, BONE_HEAD))
+				if (Entity::IsVisible(player, BONE_HEAD))
 					color = Settings::ESP::Glow::enemy_visible_color;
 				else
 					color = Settings::ESP::Glow::enemy_color;
@@ -1007,15 +1009,16 @@ void ESP::Paint()
 
 		if (client->m_ClassID == CCSPlayer && (Settings::ESP::Filters::enemies || Settings::ESP::Filters::allies))
 		{
-			IEngineClient::player_info_t playerInfo;
+			C_BasePlayer* player = (C_BasePlayer*) entity;
 
-			if (entity == (C_BaseEntity*)localplayer
-				|| entity->GetDormant()
-				|| !entity->GetAlive())
+			if (player == localplayer
+				|| player->GetDormant()
+				|| !player->GetAlive())
 				continue;
 
+			IEngineClient::player_info_t playerInfo;
 			if (engine->GetPlayerInfo(i, &playerInfo))
-				DrawPlayer(i, entity, playerInfo);
+				DrawPlayer(i, player, playerInfo);
 		}
 		if ((client->m_ClassID != CBaseWeaponWorldModel && (strstr(client->m_pNetworkName, "Weapon") || client->m_ClassID == CDEagle || client->m_ClassID == CAK47)) && Settings::ESP::Filters::weapons)
 		{

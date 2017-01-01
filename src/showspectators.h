@@ -7,5 +7,5 @@
 
 namespace ShowSpectators
 {
-	std::list<int> GetObservervators(int entityId);
+	std::list<int> GetObservervators(int playerId);
 }

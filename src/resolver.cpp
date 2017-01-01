@@ -10,7 +10,7 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 	if (!engine->IsInGame())
 		return;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return;
 
@@ -18,14 +18,14 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 	{
 		for (int i = 1; i < engine->GetMaxClients(); ++i)
 		{
-			C_BaseEntity* entity = entitylist->GetClientEntity(i);
+			C_BasePlayer* player = (C_BasePlayer*) entitylist->GetClientEntity(i);
 
-			if (!entity
-				|| entity == localplayer
-				|| entity->GetDormant()
-				|| !entity->GetAlive()
-				|| entity->GetImmune()
-				|| entity->GetTeam() == localplayer->GetTeam())
+			if (!player
+				|| player == localplayer
+				|| player->GetDormant()
+				|| !player->GetAlive()
+				|| player->GetImmune()
+				|| player->GetTeam() == localplayer->GetTeam())
 				continue;
 
 			IEngineClient::player_info_t entityInformation;
@@ -33,8 +33,6 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 
 			if (!Settings::Resolver::resolve_all && std::find(Resolver::Players.begin(), Resolver::Players.end(), entityInformation.xuid) == Resolver::Players.end())
 				continue;
-
-			C_BasePlayer* player = (C_BasePlayer*)entity;
 
 			player_data.push_back(PlayerAA(player, *player->GetHeadRotation()));
 

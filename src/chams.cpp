@@ -90,7 +90,7 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 	if (!localPlayer)
 		return;
 
-	C_BaseEntity* entity = entitylist->GetClientEntity(pInfo.entity_index);
+	C_BasePlayer* entity = (C_BasePlayer*) entitylist->GetClientEntity(pInfo.entity_index);
 	if (!entity
 		|| entity == localPlayer
 		|| entity->GetDormant()

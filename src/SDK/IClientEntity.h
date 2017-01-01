@@ -90,64 +90,9 @@ public:
 		return (int*)((uintptr_t)this + offsets.DT_BaseViewModel.m_nModelIndex);
 	}
 
-	int GetHealth()
-	{
-		return *(int*)((uintptr_t)this + offsets.DT_BasePlayer.m_iHealth);
-	}
-
-	int GetArmor()
-	{
-		return *(int*)((uintptr_t)this + offsets.DT_CSPlayer.m_ArmorValue);
-	}
-
-	int GetMoney()
-	{
-		return *(int*)((uintptr_t)this + offsets.DT_BasePlayer.m_iAccount);
-	}
-
-	int HasHelmet()
-	{
-		return *(int*)((uintptr_t)this + offsets.DT_CSPlayer.m_bHasHelmet);
-	}
-
-	int HasDefuser()
-	{
-		return *(int*)((uintptr_t)this + offsets.DT_CSPlayer.m_bHasDefuser);
-	}
-
 	int GetTeam()
 	{
 		return *(int*)((uintptr_t)this + offsets.DT_BaseEntity.m_iTeamNum);
-	}
-
-	bool GetDormant()
-	{
-		return *(bool*)((uintptr_t)this + 0x121);
-	}
-
-	unsigned char GetLifeState()
-	{
-		return *(unsigned char*)((uintptr_t)this + offsets.DT_BasePlayer.m_lifeState);
-	}
-
-	bool GetAlive()
-	{
-		return this->GetHealth() > 0 && this->GetLifeState() == LIFE_ALIVE;
-	}
-
-	int* GetWeapons()
-	{
-		return (int*)((uintptr_t)this + offsets.DT_BaseCombatCharacter.m_hMyWeapons);
-	}
-
-	void* GetActiveWeapon()
-	{
-		return (void*)((uintptr_t)this + offsets.DT_BaseCombatCharacter.m_hActiveWeapon);
-	}
-
-	void* GetViewModel()
-	{
-		return (void*)((uintptr_t)this + offsets.DT_BasePlayer.m_hViewModel);
 	}
 
 	Vector GetVecOrigin()
@@ -155,14 +100,59 @@ public:
 		return *(Vector*)((uintptr_t)this + offsets.DT_BaseEntity.m_vecOrigin);
 	}
 
+	MoveType_t GetMoveType()
+	{
+		return *(MoveType_t*)((uintptr_t)this + offsets.DT_BaseEntity.m_MoveType);
+	}
+
+	ICollideable* GetCollideable()
+	{
+		return (ICollideable*)((uintptr_t)this + offsets.DT_BaseEntity.m_Collision);
+	}
+
+	bool* GetSpotted()
+	{
+		return (bool*)((uintptr_t)this + offsets.DT_BaseEntity.m_bSpotted);
+	}
+};
+
+/* generic game classes */
+class C_BasePlayer : public C_BaseEntity
+{
+public:
+	QAngle* GetViewPunchAngle()
+	{
+		return (QAngle*)((uintptr_t)this + offsets.DT_BasePlayer.m_viewPunchAngle);
+	}
+
+	QAngle GetAimPunchAngle()
+	{
+		return *(QAngle*)((uintptr_t)this + offsets.DT_BasePlayer.m_aimPunchAngle);
+	}
+
 	Vector GetVecViewOffset()
 	{
 		return *(Vector*)((uintptr_t)this + offsets.DT_BasePlayer.m_vecViewOffset);
 	}
 
-	Vector GetEyePosition()
+	unsigned int GetTickBase()
 	{
-		return this->GetVecOrigin() + this->GetVecViewOffset();
+		return *(unsigned int*)((uintptr_t)this + offsets.DT_BasePlayer.m_nTickBase);
+	}
+
+	Vector GetVelocity()
+	{
+		return *(Vector*)((uintptr_t)this + offsets.DT_BasePlayer.m_vecVelocity);
+	}
+
+	int GetHealth()
+	{
+		return *(int*)((uintptr_t)this + offsets.DT_BasePlayer.m_iHealth);
+	}
+
+	unsigned char GetLifeState()
+	{
+		return *(unsigned char*)((uintptr_t)this + offsets.DT_BasePlayer.m_lifeState);
 	}
 
 	int GetFlags()
@@ -170,19 +160,49 @@ public:
 		return *(int*)((uintptr_t)this + offsets.DT_BasePlayer.m_fFlags);
 	}
 
-	MoveType_t GetMoveType()
+	int* GetObserverMode()
 	{
-		return *(MoveType_t*)((uintptr_t)this + offsets.DT_BaseEntity.m_MoveType);
+		return (int*)((uintptr_t)this + offsets.DT_BasePlayer.m_iObserverMode);
 	}
 
-	float GetFlashDuration()
+	void* GetObserverTarget()
 	{
-		return *(float*)((uintptr_t)this + offsets.DT_CSPlayer.m_flFlashDuration);
+		return (void*)((uintptr_t)this + offsets.DT_BasePlayer.m_hObserverTarget);
 	}
 
-	float* GetFlashMaxAlpha()
+	void* GetViewModel()
 	{
-		return (float*)((uintptr_t)this + offsets.DT_CSPlayer.m_flFlashMaxAlpha);
+		return (void*)((uintptr_t)this + offsets.DT_BasePlayer.m_hViewModel);
+	}
+
+	const char* GetLastPlaceName()
+	{
+		return (const char*)((uintptr_t)this + offsets.DT_BasePlayer.m_szLastPlaceName);
+	}
+
+	int GetShotsFired()
+	{
+		return *(int*)((uintptr_t)this + offsets.DT_CSPlayer.m_iShotsFired);
+	}
+
+	QAngle* GetHeadRotation()
+	{
+		return (QAngle*)((uintptr_t)this + offsets.DT_CSPlayer.m_angEyeAngles[0]);
+	}
+
+	int GetMoney()
+	{
+		return *(int*)((uintptr_t)this + offsets.DT_CSPlayer.m_iAccount);
+	}
+
+	int GetArmor()
+	{
+		return *(int*)((uintptr_t)this + offsets.DT_CSPlayer.m_ArmorValue);
+	}
+
+	int HasDefuser()
+	{
+		return *(int*)((uintptr_t)this + offsets.DT_CSPlayer.m_bHasDefuser);
 	}
 
 	bool IsDefusing()
@@ -200,14 +220,59 @@ public:
 		return *(bool*)((uintptr_t)this + offsets.DT_CSPlayer.m_bIsScoped);
 	}
 
+	bool GetImmune()
+	{
+		return *(bool*)((uintptr_t)this + offsets.DT_CSPlayer.m_bGunGameImmunity);
+	}
+
 	bool IsRescuing()
 	{
 		return *(bool*)((uintptr_t)this + offsets.DT_CSPlayer.m_bIsRescuing);
 	}
 
-	bool GetImmune()
+	int HasHelmet()
 	{
-		return *(bool*)((uintptr_t)this + offsets.DT_CSPlayer.m_bGunGameImmunity);
+		return *(int*)((uintptr_t)this + offsets.DT_CSPlayer.m_bHasHelmet);
+	}
+
+	float GetFlashDuration()
+	{
+		return *(float*)((uintptr_t)this + offsets.DT_CSPlayer.m_flFlashDuration);
+	}
+
+	float* GetFlashMaxAlpha()
+	{
+		return (float*)((uintptr_t)this + offsets.DT_CSPlayer.m_flFlashMaxAlpha);
+	}
+
+	float* GetLowerBodyYawTarget()
+	{
+		return (float*)((uintptr_t)this + offsets.DT_CSPlayer.m_flLowerBodyYawTarget);
+	}
+
+	void* GetActiveWeapon()
+	{
+		return (void*)((uintptr_t)this + offsets.DT_BaseCombatCharacter.m_hActiveWeapon);
+	}
+
+	int* GetWeapons()
+	{
+		return (int*)((uintptr_t)this + offsets.DT_BaseCombatCharacter.m_hMyWeapons);
+	}
+
+	bool GetDormant()
+	{
+		return *(bool*)((uintptr_t)this + 0x121);
+	}
+
+	bool GetAlive()
+	{
+		return this->GetHealth() > 0 && this->GetLifeState() == LIFE_ALIVE;
+	}
+
+	Vector GetEyePosition()
+	{
+		return this->GetVecOrigin() + this->GetVecViewOffset();
 	}
 
 	inline Vector GetBonePosition(int boneIndex)
@@ -220,76 +285,6 @@ public:
 		matrix3x4_t hitbox = BoneMatrix[boneIndex];
 
 		return Vector(hitbox[0][3], hitbox[1][3], hitbox[2][3]);
-	}
-
-	int* GetObserverMode()
-	{
-		return (int*)((uintptr_t)this + offsets.DT_BasePlayer.m_iObserverMode);
-	}
-
-	void* GetObserverTarget()
-	{
-		return (void*)((uintptr_t)this + offsets.DT_BasePlayer.m_hObserverTarget);
-	}
-
-	ICollideable* GetCollideable()
-	{
-		return (ICollideable*)((uintptr_t)this + offsets.DT_BaseEntity.m_Collision);
-	}
-
-	bool* GetSpotted()
-	{
-		return (bool*)((uintptr_t)this + offsets.DT_BaseEntity.m_bSpotted);
-	}
-
-	char* GetLastPlaceName()
-	{
-		return (char*)((uintptr_t)this + offsets.DT_BasePlayer.m_szLastPlaceName);
-	}
-
-	Vector GetVelocity()
-	{
-		return *(Vector*)((uintptr_t)this + offsets.DT_BasePlayer.m_vecVelocity);
-	}
-
-	QAngle* GetHeadRotation()
-	{
-		return (QAngle*)((uintptr_t)this + offsets.DT_BasePlayer.m_angRotation);
-	}
-
-	float* GetLowerBodyYawTarget()
-	{
-		return (float*)((uintptr_t)this + offsets.DT_BasePlayer.m_flLowerBodyYawTarget);
-	}
-};
-
-/* generic game classes */
-class C_BasePlayer : public C_BaseEntity
-{
-public:
-	int* GetWeapons()
-	{
-		return (int*)((uintptr_t)this + offsets.DT_BaseCombatCharacter.m_hMyWeapons);
-	}
-
-	QAngle GetAimPunchAngle()
-	{
-		return *(QAngle*)((uintptr_t)this + offsets.DT_BasePlayer.m_aimPunchAngle);
-	}
-
-	QAngle* GetViewPunchAngle()
-	{
-		return (QAngle*)((uintptr_t)this + offsets.DT_BasePlayer.m_viewPunchAngle);
-	}
-
-	unsigned int GetTickBase()
-	{
-		return *(unsigned int*)((uintptr_t)this + offsets.DT_BasePlayer.m_nTickBase);
-	}
-
-	int GetShotsFired()
-	{
-		return *(int*)((uintptr_t)this + offsets.DT_CSPlayer.m_iShotsFired);
 	}
 };
 

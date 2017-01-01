@@ -14,14 +14,14 @@ void FOVChanger::RenderView(CViewSetup& setup, CViewSetup& hudViewSetup, unsigne
 	if (!engine->IsInGame())
 		return;
 
-	C_BaseEntity* localplayer = entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return;
 
 	if (!localplayer->GetAlive())
 	{
 		if (*localplayer->GetObserverMode() == ObserverMode_t::OBS_MODE_IN_EYE && localplayer->GetObserverTarget())
-			localplayer = entitylist->GetClientEntityFromHandle(localplayer->GetObserverTarget());
+			localplayer = (C_BasePlayer*) entitylist->GetClientEntityFromHandle(localplayer->GetObserverTarget());
 
 		if (!localplayer)
 			return;

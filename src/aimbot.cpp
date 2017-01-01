@@ -58,7 +58,7 @@ static void ApplyErrorToAngle(QAngle* angles, float margin)
 	angles->operator+=(error);
 }
 
-void GetBestBone(C_BaseEntity* entity, float& best_damage, Bone& best_bone)
+void GetBestBone(C_BasePlayer* player, float& best_damage, Bone& best_bone)
 {
 	best_bone = BONE_HEAD;
 
@@ -70,8 +70,8 @@ void GetBestBone(C_BaseEntity* entity, float& best_damage, Bone& best_bone)
 		std::vector<const char*> hitboxList = hitboxes[it->first];
 		for (std::vector<const char*>::iterator it2 = hitboxList.begin(); it2 != hitboxList.end(); it2++)
 		{
-			Bone bone = (Bone) Entity::GetBoneByName(entity, *it2);
-			Vector vec_bone = entity->GetBonePosition(bone);
+			Bone bone = (Bone) Entity::GetBoneByName(player, *it2);
+			Vector vec_bone = player->GetBonePosition(bone);
 
 			Autowall::FireBulletData data;
 			float damage = Autowall::GetDamage(vec_bone, data);
@@ -85,12 +85,12 @@ void GetBestBone(C_BaseEntity* entity, float& best_damage, Bone& best_bone)
 	}
 }
 
-C_BaseEntity* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& best_bone, AimTargetType aimTargetType = AimTargetType::FOV)
+C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& best_bone, AimTargetType aimTargetType = AimTargetType::FOV)
 {
 	best_bone = static_cast<Bone>(Settings::Aimbot::bone);
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	C_BaseEntity* closestEntity = NULL;
+	C_BasePlayer* closestEntity = NULL;
 
 	// TODO Change the big value with a distance/fov slider
 	float best_fov = Settings::Aimbot::AutoAim::fov;
@@ -103,16 +103,16 @@ C_BaseEntity* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& best_bone, Aim
 
 	for (int i = 1; i < engine->GetMaxClients(); ++i)
 	{
-		C_BaseEntity* entity = entitylist->GetClientEntity(i);
+		C_BasePlayer* player = (C_BasePlayer*) entitylist->GetClientEntity(i);
 
-		if (!entity
-			|| entity == localplayer
-			|| entity->GetDormant()
-			|| !entity->GetAlive()
-			|| entity->GetImmune())
+		if (!player
+			|| player == localplayer
+			|| player->GetDormant()
+			|| !player->GetAlive()
+			|| player->GetImmune())
 			continue;
 
-		if (!Settings::Aimbot::friendly && entity->GetTeam() == localplayer->GetTeam())
+		if (!Settings::Aimbot::friendly && player->GetTeam() == localplayer->GetTeam())
 			continue;
 
 		IEngineClient::player_info_t entityInformation;
@@ -121,7 +121,7 @@ C_BaseEntity* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& best_bone, Aim
 		if (std::find(Aimbot::Friendlies.begin(), Aimbot::Friendlies.end(), entityInformation.xuid) != Aimbot::Friendlies.end())
 			continue;
 
-		Vector e_vecHead = entity->GetBonePosition(Settings::Aimbot::bone);
+		Vector e_vecHead = player->GetBonePosition(Settings::Aimbot::bone);
 		Vector p_vecHead = localplayer->GetEyePosition();
 
 		QAngle viewAngles;
@@ -129,7 +129,7 @@ C_BaseEntity* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& best_bone, Aim
 
 		float fov = Math::GetFov(viewAngles, Math::CalcAngle(p_vecHead, e_vecHead));
 		float distance = Math::GetDistance(p_vecHead, e_vecHead);
-		int hp = entity->GetHealth();
+		int hp = player->GetHealth();
 
 		if (aimTargetType == AimTargetType::DISTANCE && distance > best_distance)
 			continue;
@@ -140,25 +140,25 @@ C_BaseEntity* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& best_bone, Aim
 		if (aimTargetType == AimTargetType::HP && hp > best_hp)
 			continue;
 
-		if (visible && !Entity::IsVisible(entity, Settings::Aimbot::bone) && !Settings::Aimbot::AutoWall::enabled)
+		if (visible && !Entity::IsVisible(player, Settings::Aimbot::bone) && !Settings::Aimbot::AutoWall::enabled)
 			continue;
 
 		if (Settings::Aimbot::AutoWall::enabled)
 		{
 			float damage = 0.0f;
 			Bone bone;
-			GetBestBone(entity, damage, bone);
+			GetBestBone(player, damage, bone);
 
 			if (damage >= best_damage && damage >= Settings::Aimbot::AutoWall::value)
 			{
 				best_damage = damage;
 				best_bone = bone;
-				closestEntity = entity;
+				closestEntity = player;
 			}
 		}
 		else
 		{
-			closestEntity = entity;
+			closestEntity = player;
 			best_fov = fov;
 			best_distance = distance;
 			best_hp = hp;
@@ -168,7 +168,7 @@ C_BaseEntity* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& best_bone, Aim
 	return closestEntity;
 }
 
-void Aimbot::RCS(QAngle& angle, C_BaseEntity* entity, CUserCmd* cmd)
+void Aimbot::RCS(QAngle& angle, C_BasePlayer* player, CUserCmd* cmd)
 {
 	if (!Settings::Aimbot::RCS::enabled)
 		return;
@@ -179,7 +179,7 @@ void Aimbot::RCS(QAngle& angle, C_BaseEntity* entity, CUserCmd* cmd)
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	QAngle CurrentPunch = localplayer->GetAimPunchAngle();
 	bool isSilent = Settings::Aimbot::silent;
-	bool hasTarget = Settings::Aimbot::AutoAim::enabled && entity != NULL && shouldAim;
+	bool hasTarget = Settings::Aimbot::AutoAim::enabled && player && shouldAim;
 
 	if (!Settings::Aimbot::RCS::always_on && !hasTarget)
 		return;
@@ -198,7 +198,7 @@ void Aimbot::RCS(QAngle& angle, C_BaseEntity* entity, CUserCmd* cmd)
 	RCSLastPunch = CurrentPunch;
 }
 
-void Aimbot::AimStep(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
+void Aimbot::AimStep(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd)
 {
 	if (!Settings::Aimbot::AimStep::enabled)
 		return;
@@ -215,11 +215,11 @@ void Aimbot::AimStep(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
 	if (!Aimbot::AimStepInProgress)
 		AimStepLastAngle = cmd->viewangles;
 
-	if (!entity)
+	if (!player)
 		return;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	Vector e_vecHead = entity->GetBonePosition(Settings::Aimbot::bone);
+	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+	Vector e_vecHead = player->GetBonePosition(Settings::Aimbot::bone);
 	Vector p_vecHead = localplayer->GetEyePosition();
 	float fov = Math::GetFov(AimStepLastAngle, Math::CalcAngle(p_vecHead, e_vecHead));
 
@@ -252,7 +252,7 @@ void Salt(float& smooth)
 	smooth *= oval;
 }
 
-void Aimbot::Smooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
+void Aimbot::Smooth(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd)
 {
 	if (!Settings::Aimbot::Smooth::enabled)
 		return;
@@ -260,7 +260,7 @@ void Aimbot::Smooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
 	if (Settings::AntiAim::Pitch::enabled || Settings::AntiAim::Yaw::enabled)
 		return;
 
-	if (!shouldAim || !entity)
+	if (!shouldAim || !player)
 		return;
 
 	if (Settings::Aimbot::silent)
@@ -292,7 +292,7 @@ void Aimbot::Smooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
 	angle = viewAngles + toChange;
 }
 
-void Aimbot::ConstSpeedSmooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd)
+void Aimbot::ConstSpeedSmooth(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd)
 {
 	if (!Settings::Aimbot::Smooth::enabled)
 		return;
@@ -300,7 +300,7 @@ void Aimbot::ConstSpeedSmooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd
 	if (Settings::AntiAim::Pitch::enabled || Settings::AntiAim::Yaw::enabled)
 		return;
 
-	if (!shouldAim || !entity)
+	if (!shouldAim || !player)
 		return;
 
 	if (Settings::Aimbot::silent)
@@ -367,23 +367,23 @@ void Aimbot::ConstSpeedSmooth(C_BaseEntity* entity, QAngle& angle, CUserCmd* cmd
 	}
 }
 
-void Aimbot::AutoCrouch(C_BaseEntity* entity, CUserCmd* cmd)
+void Aimbot::AutoCrouch(C_BasePlayer* player, CUserCmd* cmd)
 {
 	if (!Settings::Aimbot::AutoCrouch::enabled)
 		return;
 
-	if (!entity)
+	if (!player)
 		return;
 
 	cmd->buttons |= IN_DUCK;
 }
 
-void Aimbot::AutoStop(C_BaseEntity* entity, float& forward, float& sideMove, CUserCmd* cmd)
+void Aimbot::AutoStop(C_BasePlayer* player, float& forward, float& sideMove, CUserCmd* cmd)
 {
 	if (!Settings::Aimbot::AutoStop::enabled)
 		return;
 
-	if (!entity)
+	if (!player)
 		return;
 
 	forward = 0;
@@ -412,7 +412,7 @@ void Aimbot::AutoPistol(C_BaseCombatWeapon* active_weapon, CUserCmd* cmd)
 		cmd->buttons &= ~IN_ATTACK;
 }
 
-void Aimbot::AutoShoot(C_BaseEntity* entity, C_BaseCombatWeapon* active_weapon, CUserCmd* cmd)
+void Aimbot::AutoShoot(C_BasePlayer* player, C_BaseCombatWeapon* active_weapon, CUserCmd* cmd)
 {
 	if (!Settings::Aimbot::AutoShoot::enabled)
 		return;
@@ -420,7 +420,7 @@ void Aimbot::AutoShoot(C_BaseEntity* entity, C_BaseCombatWeapon* active_weapon, 
 	if (Settings::Aimbot::AimStep::enabled && Aimbot::AimStepInProgress)
 		return;
 
-	if (!entity || !active_weapon || active_weapon->IsKnife() || active_weapon->GetAmmo() == 0)
+	if (!player || !active_weapon || active_weapon->IsKnife() || active_weapon->GetAmmo() == 0)
 		return;
 
 	if (cmd->buttons & IN_USE)
@@ -475,9 +475,9 @@ void Aimbot::ShootCheck(C_BaseCombatWeapon* active_weapon, CUserCmd* cmd)
 		cmd->buttons &= ~IN_ATTACK;
 }
 
-void Aimbot::NoShoot(C_BaseCombatWeapon* active_weapon, C_BaseEntity* entity, CUserCmd* cmd)
+void Aimbot::NoShoot(C_BaseCombatWeapon* active_weapon, C_BasePlayer* player, CUserCmd* cmd)
 {
-	if (entity && Settings::Aimbot::NoShoot::enabled)
+	if (player && Settings::Aimbot::NoShoot::enabled)
 	{
 		if (*active_weapon->GetItemDefinitionIndex() == WEAPON_C4)
 			return;
@@ -515,8 +515,8 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 		return;
 
 	Bone aw_bone;
-	C_BaseEntity* entity = GetClosestPlayer(cmd, true, aw_bone);
-	if (entity && Settings::Aimbot::AutoAim::enabled)
+	C_BasePlayer* player = GetClosestPlayer(cmd, true, aw_bone);
+	if (player && Settings::Aimbot::AutoAim::enabled)
 	{
 		if (cmd->buttons & IN_ATTACK && !Settings::Aimbot::aimkey_only)
 			shouldAim = true;
@@ -526,7 +526,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 
 		if (shouldAim)
 		{
-			Vector e_vecHead = entity->GetBonePosition(aw_bone);
+			Vector e_vecHead = player->GetBonePosition(aw_bone);
 			Vector p_vecHead = localplayer->GetEyePosition();
 
 			angle = Math::CalcAngle(p_vecHead, e_vecHead);
@@ -536,15 +536,15 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 		}
 	}
 
-	Aimbot::AimStep(entity, angle, cmd);
-	Aimbot::AutoCrouch(entity, cmd);
-	Aimbot::AutoStop(entity, oldForward, oldSideMove, cmd);
+	Aimbot::AimStep(player, angle, cmd);
+	Aimbot::AutoCrouch(player, cmd);
+	Aimbot::AutoStop(player, oldForward, oldSideMove, cmd);
 	Aimbot::AutoPistol(active_weapon, cmd);
-	Aimbot::AutoShoot(entity, active_weapon, cmd);
-	Aimbot::RCS(angle, entity, cmd);
-	Aimbot::Smooth(entity, angle, cmd);
+	Aimbot::AutoShoot(player, active_weapon, cmd);
+	Aimbot::RCS(angle, player, cmd);
+	Aimbot::Smooth(player, angle, cmd);
 	Aimbot::ShootCheck(active_weapon, cmd);
-	Aimbot::NoShoot(active_weapon, entity, cmd);
+	Aimbot::NoShoot(active_weapon, player, cmd);
 
 	Math::NormalizeAngles(angle);
 	Math::ClampAngles(angle);

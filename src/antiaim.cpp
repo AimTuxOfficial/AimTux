@@ -56,7 +56,7 @@ bool HasViableEnemy()
 
 	for (int i = 1; i < engine->GetMaxClients(); ++i)
 	{
-		C_BaseEntity* entity = entitylist->GetClientEntity(i);
+		C_BasePlayer* entity = (C_BasePlayer*) entitylist->GetClientEntity(i);
 
 		if (!entity
 			|| entity == localplayer

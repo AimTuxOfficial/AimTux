@@ -12,13 +12,13 @@ void Radar::BeginFrame(float frameTime)
 
 	for (int i = 1; i < engine->GetMaxClients(); ++i)
 	{
-		C_BaseEntity *entity = entitylist->GetClientEntity(i);
-		if (!entity)
+		C_BasePlayer* player = (C_BasePlayer*) entitylist->GetClientEntity(i);
+		if (!player)
 			continue;
 
-		if (entity->GetDormant() || !entity->GetAlive())
+		if (player->GetDormant() || !player->GetAlive())
 			continue;
 
-		*entity->GetSpotted() = true;
+		*player->GetSpotted() = true;
 	}
 }

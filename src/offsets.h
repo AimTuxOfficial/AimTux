@@ -5,8 +5,7 @@
 
 struct COffsets
 {
-	struct
-	{
+	struct {
 		int m_Local;
 		int m_aimPunchAngle;
 		int m_viewPunchAngle;
@@ -20,9 +19,6 @@ struct COffsets
 		int m_hObserverTarget;
 		int m_hViewModel;
 		int m_szLastPlaceName;
-		int m_iAccount;
-		int m_angRotation;
-		int m_flLowerBodyYawTarget;
 	} DT_BasePlayer;
 
 	struct
@@ -101,6 +97,8 @@ struct COffsets
 	struct
 	{
 		int m_iShotsFired;
+		int m_angEyeAngles[2];
+		int m_iAccount;
 		int m_ArmorValue;
 		int m_bHasDefuser;
 		int m_bIsDefusing;
@@ -111,6 +109,7 @@ struct COffsets
 		int m_bHasHelmet;
 		int m_flFlashDuration;
 		int m_flFlashMaxAlpha;
+		int m_flLowerBodyYawTarget;
 	} DT_CSPlayer;
 
 	struct

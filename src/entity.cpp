@@ -1,21 +1,21 @@
 #include "entity.h"
 
-bool Entity::IsVisible(C_BaseEntity* pEntity, int bone)
+bool Entity::IsVisible(C_BasePlayer* player, int bone)
 {
-	C_BaseEntity* localplayer = entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return true;
 
 	if (!localplayer->GetAlive())
 	{
 		if (*localplayer->GetObserverMode() == ObserverMode_t::OBS_MODE_IN_EYE && localplayer->GetObserverTarget())
-			localplayer = entitylist->GetClientEntityFromHandle(localplayer->GetObserverTarget());
+			localplayer = (C_BasePlayer*) entitylist->GetClientEntityFromHandle(localplayer->GetObserverTarget());
 
 		if (!localplayer)
 			return true;
 	}
 
-	Vector e_vecHead = pEntity->GetBonePosition(bone);
+	Vector e_vecHead = player->GetBonePosition(bone);
 	Vector p_vecHead = localplayer->GetEyePosition();
 
 	Ray_t ray;
@@ -25,12 +25,12 @@ bool Entity::IsVisible(C_BaseEntity* pEntity, int bone)
 	traceFilter.pSkip = localplayer;
 	trace->TraceRay(ray, MASK_SHOT, &traceFilter, &tr);
 
-	return tr.m_pEntityHit == pEntity;
+	return tr.m_pEntityHit == player;
 }
 
-bool Entity::IsPlanting(C_BaseEntity *pEntity)
+bool Entity::IsPlanting(C_BasePlayer* player)
 {
-	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(pEntity->GetActiveWeapon());
+	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(player->GetActiveWeapon());
 	if (!active_weapon)
 		return false;
 
@@ -44,14 +44,14 @@ bool Entity::IsPlanting(C_BaseEntity *pEntity)
 	return ((C_WeaponC4*)active_weapon)->GetStartedArming();
 }
 
-int Entity::GetBoneByName(C_BaseEntity *pEntity, const char* boneName)
+int Entity::GetBoneByName(C_BasePlayer* player, const char* boneName)
 {
-	studiohdr_t* pStudioModel = modelInfo->GetStudioModel(pEntity->GetModel());
+	studiohdr_t* pStudioModel = modelInfo->GetStudioModel(player->GetModel());
 	if (!pStudioModel)
 		return -1;
 
 	matrix3x4_t pBoneToWorldOut[128];
-	if (!pEntity->SetupBones(pBoneToWorldOut, 128, 256, 0))
+	if (!player->SetupBones(pBoneToWorldOut, 128, 256, 0))
 		return -1;
 
 	for (int i = 0; i < pStudioModel->numbones; i++)

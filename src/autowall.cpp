@@ -21,7 +21,7 @@ float Autowall::GetHitgroupDamageMultiplier(int iHitGroup)
 	}
 }
 
-void Autowall::ScaleDamage(int hitgroup, C_BaseEntity* enemy, float weapon_armor_ratio, float &current_damage)
+void Autowall::ScaleDamage(int hitgroup, C_BasePlayer* enemy, float weapon_armor_ratio, float &current_damage)
 {
 	current_damage *= Autowall::GetHitgroupDamageMultiplier(hitgroup);
 	
@@ -49,9 +49,9 @@ void Autowall::ScaleDamage(int hitgroup, C_BaseEntity* enemy, float weapon_armor
 	}
 }
 
-bool Autowall::DidHitNonWorldEntity(C_BaseEntity* entity)
+bool Autowall::DidHitNonWorldEntity(C_BasePlayer* player)
 {
-	return entity != NULL && entity == entitylist->GetClientEntity(0);
+	return player && player == entitylist->GetClientEntity(0);
 }
 
 bool Autowall::TraceToExit(Vector &end, trace_t *enter_trace, Vector start, Vector dir, trace_t *exit_trace)
@@ -94,7 +94,7 @@ bool Autowall::TraceToExit(Vector &end, trace_t *enter_trace, Vector start, Vect
 		{
 			if (exit_trace->m_pEntityHit)
 			{
-				if (Autowall::DidHitNonWorldEntity(enter_trace->m_pEntityHit))
+				if (Autowall::DidHitNonWorldEntity((C_BasePlayer*) enter_trace->m_pEntityHit))
 					return true;
 			}
 
@@ -185,7 +185,7 @@ bool Autowall::HandleBulletPenetration(WeaponInfo_t wpn_data, FireBulletData &da
 	return true;
 }
 
-void TraceLine(Vector vecAbsStart, Vector vecAbsEnd, unsigned int mask, C_BaseEntity* ignore, trace_t* ptr)
+void TraceLine(Vector vecAbsStart, Vector vecAbsEnd, unsigned int mask, C_BasePlayer* ignore, trace_t* ptr)
 {
 	Ray_t ray;
 	ray.Init(vecAbsStart, vecAbsEnd);
@@ -227,7 +227,7 @@ bool Autowall::SimulateFireBullet(C_BaseCombatWeapon* pWeapon, FireBulletData &d
 		{
 			data.trace_length += data.enter_trace.fraction * data.trace_length_remaining;
 			data.current_damage *= pow(weaponData.m_flRangeModifier, data.trace_length * 0.002);
-			ScaleDamage(data.enter_trace.hitgroup, data.enter_trace.m_pEntityHit, weaponData.m_flWeaponArmorRatio, data.current_damage);
+			ScaleDamage(data.enter_trace.hitgroup, (C_BasePlayer*) data.enter_trace.m_pEntityHit, weaponData.m_flWeaponArmorRatio, data.current_damage);
 
 			return true;
 		}

@@ -66,20 +66,20 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	oldTimeStamp = timeStamp;
 	timeStamp = currentTime_ms;
 
-	C_BaseEntity *entity = tr.m_pEntityHit;
-	if (!entity)
+	C_BasePlayer* player = (C_BasePlayer*) tr.m_pEntityHit;
+	if (!player)
 		return;
 
-	if (entity->GetClientClass()->m_ClassID != CCSPlayer)
+	if (player->GetClientClass()->m_ClassID != CCSPlayer)
 		return;
 
-	if (entity == localplayer
-		|| entity->GetDormant()
-		|| !entity->GetAlive()
-		|| entity->GetImmune())
+	if (player == localplayer
+		|| player->GetDormant()
+		|| !player->GetAlive()
+		|| player->GetImmune())
 		return;
 
-	if (entity->GetTeam() == localplayer->GetTeam() && !Settings::Triggerbot::Filter::friendly)
+	if (player->GetTeam() == localplayer->GetTeam() && !Settings::Triggerbot::Filter::friendly)
 		return;
 	else if (tr.hitgroup == HitGroups::HITGROUP_HEAD && !Settings::Triggerbot::Filter::head)
 		return;

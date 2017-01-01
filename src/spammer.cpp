@@ -1,5 +1,4 @@
 #include "spammer.h"
-#include "skins.h"
 
 int Settings::Spammer::type = SpammerType::SPAMMER_NONE;
 bool Settings::Spammer::say_team = false;
@@ -121,22 +120,22 @@ void Spammer::BeginFrame(float frameTime)
 
 		for (int i = lastId; i < engine->GetMaxClients(); i++)
 		{
-			C_BaseEntity *entity = entitylist->GetClientEntity(i);
+			C_BasePlayer* player = (C_BasePlayer*) entitylist->GetClientEntity(i);
 
 			lastId++;
 			if (lastId == engine->GetMaxClients())
 				lastId = 1;
 
-			if (!entity
-				|| entity->GetDormant()
-				|| !entity->GetAlive()
-				|| entity->GetTeam() == localplayer->GetTeam())
+			if (!player
+				|| player->GetDormant()
+				|| !player->GetAlive()
+				|| player->GetTeam() == localplayer->GetTeam())
 				continue;
 
 			IEngineClient::player_info_t entityInformation;
 			engine->GetPlayerInfo(i, &entityInformation);
 
-			C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(entity->GetActiveWeapon());
+			C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(player->GetActiveWeapon());
 
 			std::string modelName = Util::GetValueByKey(guns, *active_weapon->GetItemDefinitionIndex());
 			if (modelName == "")
@@ -174,13 +173,13 @@ void Spammer::BeginFrame(float frameTime)
 				str << *(*csPlayerResource)->GetCompetitiveWins(i) << " wins | ";
 
 			if (Settings::Spammer::PositionSpammer::show_health)
-				str << entity->GetHealth() << "HP | ";
+				str << player->GetHealth() << "HP | ";
 
 			if (Settings::Spammer::PositionSpammer::show_money)
-				str << "$" << entity->GetMoney() << " | ";
+				str << "$" << player->GetMoney() << " | ";
 
 			if (Settings::Spammer::PositionSpammer::show_lastplace)
-				str << entity->GetLastPlaceName();
+				str << player->GetLastPlaceName();
 
 			str << "\"";
 

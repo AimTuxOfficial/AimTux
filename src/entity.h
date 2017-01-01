@@ -6,7 +6,7 @@
 
 namespace Entity
 {
-	bool IsVisible(C_BaseEntity *pEntity, int bone);
-	bool IsPlanting(C_BaseEntity *pEntity);
-	int GetBoneByName(C_BaseEntity *pEntity, const char* boneName);
+	bool IsVisible(C_BasePlayer* player, int bone);
+	bool IsPlanting(C_BasePlayer* player);
+	int GetBoneByName(C_BasePlayer* player, const char* boneName);
 }

@@ -22,7 +22,7 @@ namespace Autowall
 	bool SimulateFireBullet(C_BaseCombatWeapon* pWeapon, FireBulletData &data);
 	bool HandleBulletPenetration(WeaponInfo_t wpn_data, FireBulletData &data);
 	bool TraceToExit(Vector &end, trace_t *enter_trace, Vector start, Vector dir, trace_t *exit_trace);
-	bool DidHitNonWorldEntity(C_BaseEntity* entity);
-	void ScaleDamage(int hitgroup, C_BaseEntity* enemy, float weapon_armor_ratio, float &current_damage);
+	bool DidHitNonWorldEntity(C_BasePlayer* player);
+	void ScaleDamage(int hitgroup, C_BasePlayer* enemy, float weapon_armor_ratio, float &current_damage);
 	float GetHitgroupDamageMultiplier(int iHitGroup);
 }
