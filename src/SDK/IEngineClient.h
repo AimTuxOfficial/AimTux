@@ -82,12 +82,4 @@ public:
 		typedef void (* oClientCmd_Unrestricted)(void*, const char*);
 		return getvfunc<oClientCmd_Unrestricted>(this, 113)(this, szCmdString);
 	}
-
-	void Print(const char* message)
-	{
-		char buffer[256];
-		sprintf (buffer, "echo %s", message);
-
-		ExecuteClientCmd(buffer);
-	}
 };
