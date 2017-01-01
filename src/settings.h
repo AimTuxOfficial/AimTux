@@ -65,7 +65,9 @@ enum AntiAimType_X : int
 enum ChamsType : int
 {
 	CHAMS,
-	CHAMS_FLAT
+	CHAMS_XQZ,
+	CHAMS_FLAT,
+	CHAMS_FLAT_XQZ
 };
 
 enum BoxType : int

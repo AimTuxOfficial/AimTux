@@ -102,10 +102,12 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 	switch (Settings::ESP::Chams::type)
 	{
 		case CHAMS:
+		case CHAMS_XQZ:
 			visible_material = material->FindMaterial("aimtux_chams", TEXTURE_GROUP_MODEL);
 			hidden_material = material->FindMaterial("aimtux_chamsIgnorez", TEXTURE_GROUP_MODEL);
 			break;
 		case CHAMS_FLAT:
+		case CHAMS_FLAT_XQZ:
 			visible_material = material->FindMaterial("aimtux_chamsFlat", TEXTURE_GROUP_MODEL);
 			hidden_material = material->FindMaterial("aimtux_chamsFlatIgnorez", TEXTURE_GROUP_MODEL);
 			break;
@@ -127,7 +129,7 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 	else
 		return;
 
-	if (!Settings::ESP::Filters::legit)
+	if (!Settings::ESP::Filters::legit && (Settings::ESP::Chams::type == CHAMS_XQZ || Settings::ESP::Chams::type == CHAMS_FLAT_XQZ))
 	{
 		modelRender->ForcedMaterialOverride(hidden_material);
 		modelRender_vmt->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
