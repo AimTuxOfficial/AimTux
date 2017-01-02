@@ -22,16 +22,16 @@ std::list<int> ShowSpectators::GetObservervators(int playerId)
 		player = observerTarget;
 	}
 
-	for (int i = 1; i < engine->GetMaxClients(); ++i)
+	for (int i = 1; i < engine->GetMaxClients(); i++)
 	{
-		C_BasePlayer *entity = (C_BasePlayer*) entitylist->GetClientEntity(i);
-		if (!entity)
+		C_BasePlayer* pPlayer = (C_BasePlayer*) entitylist->GetClientEntity(i);
+		if (!pPlayer)
 			continue;
 
-		if (player->GetDormant() || player->GetAlive())
+		if (pPlayer->GetDormant() || pPlayer->GetAlive())
 			continue;
 
-		C_BasePlayer* target = (C_BasePlayer*) entitylist->GetClientEntityFromHandle(player->GetObserverTarget());
+		C_BasePlayer* target = (C_BasePlayer*) entitylist->GetClientEntityFromHandle(pPlayer->GetObserverTarget());
 		if (player != target)
 			continue;
 
