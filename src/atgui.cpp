@@ -738,7 +738,7 @@ void VisualsTab()
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-				ImGui::SliderInt("##RADARZOOM", &Settings::Radar::zoom, 1, 100);
+				ImGui::SliderFloat("##RADARZOOM", &Settings::Radar::zoom, 0.f, 100.f);
 				ImGui::PopItemWidth();
 				ImGui::Checkbox("Allies", &Settings::Radar::allies);
 				ImGui::Checkbox("Defuser", &Settings::Radar::defuser);

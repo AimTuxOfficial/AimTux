@@ -522,7 +522,7 @@ void Settings::LoadConfig(std::string path)
 	GetFloat(settings["Noflash"]["value"], &Settings::Noflash::value);
 
 	GetBool(settings["Radar"]["enabled"], &Settings::Radar::enabled);
-	GetInt(settings["Radar"]["zoom"], &Settings::Radar::zoom);
+	GetFloat(settings["Radar"]["zoom"], &Settings::Radar::zoom);
 	GetBool(settings["Radar"]["enemies"], &Settings::Radar::enemies);
 	GetBool(settings["Radar"]["allies"], &Settings::Radar::allies);
 	GetBool(settings["Radar"]["legit"], &Settings::Radar::legit);

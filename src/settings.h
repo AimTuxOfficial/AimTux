@@ -483,7 +483,7 @@ namespace Settings
 	namespace Radar
 	{
 		extern bool enabled;
-		extern int zoom;
+		extern float zoom;
 		extern bool enemies;
 		extern bool allies;
 		extern bool bomb;

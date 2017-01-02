@@ -1,7 +1,7 @@
 #include "radar.h"
 
 bool Settings::Radar::enabled = false;
-int Settings::Radar::zoom = 16;
+float Settings::Radar::zoom = 16.f;
 bool Settings::Radar::enemies = false;
 bool Settings::Radar::allies = false;
 bool Settings::Radar::bomb = false;
@@ -95,7 +95,7 @@ void Radar::DrawWindow()
 		engine->GetViewAngles(localplayer_angles);
 
 		// draw localplayer
-		draw_list->AddCircleFilled(ImVec2(winpos.x + winsize.x * 0.5, winpos.y + winsize.y * 0.5), 3.f, ImColor(255, 255, 255, 255));
+		draw_list->AddCircleFilled(ImVec2(winpos.x + winsize.x * 0.5, winpos.y + winsize.y * 0.5), 4.5f, ImColor(255, 255, 255, 255));
 
 		for (int i = 1; i < entitylist->GetHighestEntityIndex(); i++)
 		{
@@ -169,11 +169,11 @@ void Radar::DrawWindow()
 			switch (shape)
 			{
 				case EntityShape_t::SHAPE_CIRCLE:
-					draw_list->AddCircleFilled(ImVec2(winpos.x + screenpos.x, winpos.y + screenpos.y), 3.0f, color);
+					draw_list->AddCircleFilled(ImVec2(winpos.x + screenpos.x, winpos.y + screenpos.y), 4.5f, color);
 					break;
 				case EntityShape_t::SHAPE_SQUARE:
 					draw_list->AddRectFilled(ImVec2(winpos.x + screenpos.x, winpos.y + screenpos.y),
-											 ImVec2(winpos.x + screenpos.x + 5.0f, winpos.y + screenpos.y + 5.0f),
+											 ImVec2(winpos.x + screenpos.x + 9.0f, winpos.y + screenpos.y + 9.0f),
 											 color, 0.0f, 0);
 					break;
 				case EntityShape_t::SHAPE_TRIANGLE:
