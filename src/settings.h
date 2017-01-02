@@ -486,6 +486,7 @@ namespace Settings
 		extern int zoom;
 		extern bool enemies;
 		extern bool allies;
+		extern bool bomb;
 		extern bool legit;
 		extern bool visibility_check;
 	}

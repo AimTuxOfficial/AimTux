@@ -732,6 +732,7 @@ void VisualsTab()
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Shows players on radar");
 				ImGui::Checkbox("Enemies", &Settings::Radar::enemies);
+				ImGui::Checkbox("Bomb", &Settings::Radar::bomb);
 				ImGui::Checkbox("Legit", &Settings::Radar::legit);
 			}
 			ImGui::NextColumn();

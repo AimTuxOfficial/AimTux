@@ -4,6 +4,7 @@ bool Settings::Radar::enabled = false;
 int Settings::Radar::zoom = 16;
 bool Settings::Radar::enemies = false;
 bool Settings::Radar::allies = false;
+bool Settings::Radar::bomb = false;
 bool Settings::Radar::legit = false;
 bool Settings::Radar::visibility_check = false;
 
@@ -95,33 +96,85 @@ void Radar::DrawWindow()
 		// draw localplayer
 		draw_list->AddCircleFilled(ImVec2(winpos.x + winsize.x * 0.5, winpos.y + winsize.y * 0.5), 3.f, ImColor(255, 255, 255, 255));
 
-		for (int i = 1; i < engine->GetMaxClients(); ++i)
+		for (int i = 1; i < entitylist->GetHighestEntityIndex(); i++)
 		{
-			C_BasePlayer* player = (C_BasePlayer*) entitylist->GetClientEntity(i);
-			if (!player)
+			C_BaseEntity* entity = entitylist->GetClientEntity(i);
+			if (!entity)
 				continue;
 
-			if (player == localplayer)
-				continue;
+			Vector2D screenpos = WorldToRadar(entity->GetVecOrigin(), localplayer->GetVecOrigin(), localplayer_angles, winsize.x, Settings::Radar::zoom);
+			int classId = entity->GetClientClass()->m_ClassID;
 
-			if (player->GetDormant() || !player->GetAlive())
-				continue;
+			ImColor color;
+			int shape = -1;
 
-			if (player->GetTeam() == localplayer->GetTeam() && !Settings::Radar::allies)
-				continue;
+			if (classId == CCSPlayer)
+			{
+				C_BasePlayer* player = (C_BasePlayer*) entitylist->GetClientEntity(i);
 
-			if (player->GetTeam() != localplayer->GetTeam() && !Settings::Radar::enemies)
-				continue;
+				if (player == localplayer)
+					continue;
 
-			Vector2D screenpos = WorldToRadar(player->GetVecOrigin(), localplayer->GetVecOrigin(), localplayer_angles, winsize.x, Settings::Radar::zoom);
-			bool bIsVisible = player->GetTeam() == localplayer->GetTeam() || (Settings::Radar::visibility_check && (*player->GetSpotted() || Entity::IsVisible(player, BONE_HEAD)));
+				if (player->GetDormant() || !player->GetAlive())
+					continue;
 
-			if (!bIsVisible && Settings::Radar::legit)
-				continue;
+				if (player->GetTeam() == localplayer->GetTeam() && !Settings::Radar::allies)
+					continue;
 
-			ImColor color = ESP::GetESPPlayerColor(player, bIsVisible);
+				if (player->GetTeam() != localplayer->GetTeam() && !Settings::Radar::enemies)
+					continue;
 
-			draw_list->AddCircleFilled(ImVec2(winpos.x + screenpos.x, winpos.y + screenpos.y), 3.f, color);
+				bool bIsVisible = player->GetTeam() == localplayer->GetTeam() || (Settings::Radar::visibility_check && (*player->GetSpotted() || Entity::IsVisible(player, BONE_HEAD)));
+				if (!bIsVisible && Settings::Radar::legit)
+					continue;
+
+				color = ESP::GetESPPlayerColor(player, bIsVisible);
+				shape = EntityShape_t::SHAPE_CIRCLE;
+			}
+			else if (classId == CC4)
+			{
+				if (!Settings::Radar::bomb)
+					continue;
+
+				C_BaseCombatWeapon* bomb = (C_BaseCombatWeapon*) entity;
+				Vector vOrig = bomb->GetVecOrigin();
+
+				int owner = bomb->GetOwner();
+				if (owner != -1 || (vOrig.x == 0 && vOrig.y == 0 && vOrig.z == 0))
+					continue;
+
+				color = Settings::ESP::bomb_color;
+				shape = EntityShape_t::SHAPE_SQUARE;
+			}
+			else if (classId == CPlantedC4)
+			{
+				if (!Settings::Radar::bomb)
+					continue;
+
+				C_PlantedC4* bomb = (C_PlantedC4*) entity;
+
+				color = bomb->GetBombDefuser() != -1 || bomb->IsBombDefused() ? Settings::ESP::bomb_defusing_color : Settings::ESP::bomb_color;
+				shape = EntityShape_t::SHAPE_SQUARE;
+			}
+
+			switch (shape)
+			{
+				case EntityShape_t::SHAPE_CIRCLE:
+					draw_list->AddCircleFilled(ImVec2(winpos.x + screenpos.x, winpos.y + screenpos.y), 3.0f, color);
+					break;
+				case EntityShape_t::SHAPE_SQUARE:
+					draw_list->AddRectFilled(ImVec2(winpos.x + screenpos.x, winpos.y + screenpos.y),
+											 ImVec2(winpos.x + screenpos.x + 5.0f, winpos.y + screenpos.y + 5.0f),
+											 color, 0.0f, 0);
+					break;
+				case EntityShape_t::SHAPE_TRIANGLE:
+					draw_list->AddTriangleFilled(ImVec2(winpos.x + screenpos.x, winpos.y + screenpos.y + 5.0f),
+												 ImVec2(winpos.x + screenpos.x + 5.0f, winpos.y + screenpos.y + 5.0f),
+												 ImVec2(winpos.x + screenpos.x + 2.5f, winpos.y + screenpos.y),
+												 color);
+					break;
+			}
+
 		}
 
 		ImGui::End();
