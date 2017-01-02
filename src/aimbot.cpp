@@ -35,7 +35,7 @@ bool Settings::Aimbot::Smooth::Salting::enabled = false;
 float Settings::Aimbot::Smooth::Salting::multiplier = 0.0f;
 
 bool Aimbot::AimStepInProgress = false;
-std::vector<int64_t> Aimbot::Friendlies = { };
+std::vector<int64_t> Aimbot::Friends = { };
 
 bool shouldAim;
 QAngle AimStepLastAngle;
@@ -118,7 +118,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& best_bone, Aim
 		IEngineClient::player_info_t entityInformation;
 		engine->GetPlayerInfo(i, &entityInformation);
 
-		if (std::find(Aimbot::Friendlies.begin(), Aimbot::Friendlies.end(), entityInformation.xuid) != Aimbot::Friendlies.end())
+		if (std::find(Aimbot::Friends.begin(), Aimbot::Friends.end(), entityInformation.xuid) != Aimbot::Friends.end())
 			continue;
 
 		Vector e_vecHead = player->GetBonePosition(Settings::Aimbot::bone);
@@ -565,6 +565,6 @@ void Aimbot::FireEventClientSide(IGameEvent* event)
 		if (event->GetInt("userid") && engine->GetPlayerForUserID(event->GetInt("userid")) != engine->GetLocalPlayer())
 			return;
 
-		Aimbot::Friendlies.clear();
+		Aimbot::Friends.clear();
 	}
 }

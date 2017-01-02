@@ -1592,13 +1592,13 @@ void PlayerListWindow()
 
 			ImGui::Columns(2);
 			{
-				bool isFriendly = std::find(Aimbot::Friendlies.begin(), Aimbot::Friendlies.end(), entityInformation.xuid) != Aimbot::Friendlies.end();
+				bool isFriendly = std::find(Aimbot::Friends.begin(), Aimbot::Friends.end(), entityInformation.xuid) != Aimbot::Friends.end();
 				if (ImGui::Checkbox("Friend", &isFriendly))
 				{
 					if (isFriendly)
-						Aimbot::Friendlies.push_back(entityInformation.xuid);
+						Aimbot::Friends.push_back(entityInformation.xuid);
 					else
-						Aimbot::Friendlies.erase(std::find(Aimbot::Friendlies.begin(), Aimbot::Friendlies.end(), entityInformation.xuid));
+						Aimbot::Friends.erase(std::find(Aimbot::Friends.begin(), Aimbot::Friends.end(), entityInformation.xuid));
 				}
 
 				bool shouldResolve = std::find(Resolver::Players.begin(), Resolver::Players.end(), entityInformation.xuid) != Resolver::Players.end();
