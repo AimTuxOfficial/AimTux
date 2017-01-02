@@ -5,6 +5,7 @@ int Settings::Radar::zoom = 16;
 bool Settings::Radar::enemies = false;
 bool Settings::Radar::allies = false;
 bool Settings::Radar::bomb = false;
+bool Settings::Radar::defuser = false;
 bool Settings::Radar::legit = false;
 bool Settings::Radar::visibility_check = false;
 
@@ -154,6 +155,14 @@ void Radar::DrawWindow()
 				C_PlantedC4* bomb = (C_PlantedC4*) entity;
 
 				color = bomb->GetBombDefuser() != -1 || bomb->IsBombDefused() ? Settings::ESP::bomb_defusing_color : Settings::ESP::bomb_color;
+				shape = EntityShape_t::SHAPE_SQUARE;
+			}
+			else if (classId == CBaseAnimating)
+			{
+				if (localplayer->HasDefuser() || localplayer->GetTeam() != TEAM_COUNTER_TERRORIST)
+					continue;
+
+				color = Settings::ESP::defuser_color;
 				shape = EntityShape_t::SHAPE_SQUARE;
 			}
 
