@@ -130,7 +130,16 @@ void Radar::DrawWindow()
 					continue;
 
 				color = ESP::GetESPPlayerColor(player, bIsVisible);
-				shape = EntityShape_t::SHAPE_CIRCLE;
+
+				Vector localPos = localplayer->GetVecOrigin();
+				Vector playerPos = player->GetVecOrigin();
+
+				if (playerPos.z + 64.0f < localPos.z)
+					shape = EntityShape_t::SHAPE_TRIANGLE_UPSIDEDOWN;
+				else if (playerPos.z - 64.0f > localPos.z)
+					shape = EntityShape_t::SHAPE_TRIANGLE;
+				else
+					shape = EntityShape_t::SHAPE_CIRCLE;
 			}
 			else if (classId == CC4)
 			{
@@ -181,6 +190,12 @@ void Radar::DrawWindow()
 												 ImVec2(winpos.x + screenpos.x + 5.0f, winpos.y + screenpos.y + 5.0f),
 												 ImVec2(winpos.x + screenpos.x + 2.5f, winpos.y + screenpos.y),
 												 color);
+					break;
+				case EntityShape_t::SHAPE_TRIANGLE_UPSIDEDOWN:
+					draw_list->AddTriangleFilled(ImVec2(winpos.x + screenpos.x, winpos.y + screenpos.y),
+					                             ImVec2(winpos.x + screenpos.x + 5.0f, winpos.y + screenpos.y),
+					                             ImVec2(winpos.x + screenpos.x + 2.5f, winpos.y + screenpos.y + 5.0f),
+					                             color);
 					break;
 			}
 
