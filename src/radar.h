@@ -10,7 +10,8 @@ namespace Radar
 	{
 		SHAPE_CIRCLE,
 		SHAPE_SQUARE,
-		SHAPE_TRIANGLE
+		SHAPE_TRIANGLE,
+		SHAPE_TRIANGLE_UPSIDEDOWN
 	};
 	void DrawWindow();
 };
