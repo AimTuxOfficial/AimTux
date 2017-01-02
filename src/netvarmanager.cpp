@@ -107,7 +107,7 @@ std::string NetVarManager::dumpTable(RecvTable *table, int depth)
 		if (varName.find("baseclass") == 0 || varName.find("0") == 0 || varName.find("1") == 0 || varName.find("2") == 0)
 			continue;
 
-		ss << pre << "\t" << varName << " [0x" << prop->m_Offset << "]\n";
+		ss << pre << "\t" << varName << " [0x" << std::hex << prop->m_Offset << "]\n";
 
 		if (prop->m_pDataTable)
 			ss << dumpTable(prop->m_pDataTable, depth + 1);
