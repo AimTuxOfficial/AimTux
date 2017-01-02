@@ -10,7 +10,6 @@ float Settings::AntiAim::HeadEdge::distance = 25.0f;
 bool Settings::AntiAim::AutoDisable::no_enemy = false;
 bool Settings::AntiAim::AutoDisable::knife_held = false;
 
-
 float Distance(Vector a, Vector b)
 {
 	return sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2) + pow(a.z - b.z, 2));
@@ -63,6 +62,12 @@ bool HasViableEnemy()
 			|| entity->GetDormant()
 			|| !entity->GetAlive()
 			|| entity->GetImmune())
+			continue;
+
+		IEngineClient::player_info_t entityInformation;
+		engine->GetPlayerInfo(i, &entityInformation);
+
+		if (std::find(Aimbot::Friends.begin(), Aimbot::Friends.end(), entityInformation.xuid) != Aimbot::Friends.end())
 			continue;
 
 		if (Settings::Aimbot::friendly || entity->GetTeam() != localplayer->GetTeam())
