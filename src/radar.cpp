@@ -95,7 +95,8 @@ void Radar::DrawWindow()
 		engine->GetViewAngles(localplayer_angles);
 
 		// draw localplayer
-		draw_list->AddCircleFilled(ImVec2(winpos.x + winsize.x * 0.5, winpos.y + winsize.y * 0.5), 4.5f, ImColor(255, 255, 255, 255));
+		if (localplayer->GetAlive() || (!localplayer->GetAlive() && (!localplayer->GetObserverTarget() || *localplayer->GetObserverMode() == OBS_MODE_ROAMING)))
+			draw_list->AddCircleFilled(ImVec2(winpos.x + winsize.x * 0.5, winpos.y + winsize.y * 0.5), 4.5f, ImColor(255, 255, 255, 255));
 
 		for (int i = 1; i < entitylist->GetHighestEntityIndex(); i++)
 		{
