@@ -713,9 +713,9 @@ void VisualsTab()
 			{
 				ImGui::PushItemWidth(-1);
 					ImGui::Combo("##ARMSTYPE", &Settings::ESP::Chams::Arms::type, ArmsTypes, IM_ARRAYSIZE(ArmsTypes));
-					ImGui::SliderFloat("##DLIGHTRADIUS", &Settings::Dlights::radius, 0, 1000);
-					ImGui::SliderFloat("##NOFLASHAMOUNT", &Settings::Noflash::value, 0, 255);
-					ImGui::SliderInt("##SOUNDSTIME", &Settings::ESP::Sounds::time, 250, 5000);
+					ImGui::SliderFloat("##DLIGHTRADIUS", &Settings::Dlights::radius, 0, 1000, "Radius: %0.f");
+					ImGui::SliderFloat("##NOFLASHAMOUNT", &Settings::Noflash::value, 0, 255, "Amount: %0.f");
+					ImGui::SliderInt("##SOUNDSTIME", &Settings::ESP::Sounds::time, 250, 5000), "Timeout: %0.f";
 				ImGui::PopItemWidth();
 				ImGui::Checkbox("No Scope Border", &Settings::NoScopeBorder::enabled);
 				if (ImGui::IsItemHovered())
@@ -740,7 +740,7 @@ void VisualsTab()
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-				ImGui::SliderFloat("##RADARZOOM", &Settings::Radar::zoom, 0.f, 100.f);
+				ImGui::SliderFloat("##RADARZOOM", &Settings::Radar::zoom, 0.f, 100.f, "Zoom: %0.f");
 				ImGui::PopItemWidth();
 				ImGui::Checkbox("Allies", &Settings::Radar::allies);
 				ImGui::Checkbox("Defuser", &Settings::Radar::defuser);
@@ -763,7 +763,7 @@ void VisualsTab()
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-				ImGui::SliderInt("##HITMARKERDUR", &Settings::ESP::Hitmarker::duration, 250, 3000);
+				ImGui::SliderInt("##HITMARKERDUR", &Settings::ESP::Hitmarker::duration, 250, 3000, "Timeout: %0.f");
 				ImGui::PopItemWidth();
 
 				ImGui::PushItemWidth(-1);
@@ -861,7 +861,7 @@ void HvHTab()
 				ImGui::NextColumn();
 				{
 					ImGui::PushItemWidth(-1);
-						ImGui::SliderFloat("##EDGEDISTANCE", &Settings::AntiAim::HeadEdge::distance, 10, 30);
+						ImGui::SliderFloat("##EDGEDISTANCE", &Settings::AntiAim::HeadEdge::distance, 10, 30, "Distance: %0.f");
 					ImGui::PopItemWidth();
 				}
 				ImGui::Columns(1);
@@ -1172,7 +1172,7 @@ void MiscTab()
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-					ImGui::SliderInt("##FAKELAGAMOUNT", &Settings::FakeLag::value, 0, 16);
+					ImGui::SliderInt("##FAKELAGAMOUNT", &Settings::FakeLag::value, 0, 16, "Amount: %0.f");
 				ImGui::PopItemWidth();
 				ImGui::Checkbox("Show Ranks", &Settings::ShowRanks::enabled);
 				UI::KeyBindButton(&Settings::Airstuck::key);
