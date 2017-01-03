@@ -417,8 +417,12 @@ namespace Settings
 		namespace Hitmarker
 		{
 			extern bool enabled;
+			extern bool enemies;
+			extern bool allies;
 			extern ImColor color;
 			extern int duration;
+			extern int size;
+			extern int inner_gap;
 		}
 	}
 

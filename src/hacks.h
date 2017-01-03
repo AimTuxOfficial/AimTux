@@ -26,3 +26,4 @@
 #include "resolver.h"
 #include "nosky.h"
 #include "asuswalls.h"
+#include "hitmarkers.h"

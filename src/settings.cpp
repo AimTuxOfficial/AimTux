@@ -242,8 +242,12 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["ESP"]["Sounds"]["enabled"] = Settings::ESP::Sounds::enabled;
 	settings["ESP"]["Sounds"]["time"] = Settings::ESP::Sounds::time;
 	settings["ESP"]["Hitmarker"]["enabled"] = Settings::ESP::Hitmarker::enabled;
+	settings["ESP"]["Hitmarker"]["enemies"] = Settings::ESP::Hitmarker::enemies;
+	settings["ESP"]["Hitmarker"]["allies"] = Settings::ESP::Hitmarker::allies;
 	LoadUIColor(settings["ESP"]["Hitmarker"]["color"], Settings::ESP::Hitmarker::color);
 	settings["ESP"]["Hitmarker"]["duration"] = Settings::ESP::Hitmarker::duration;
+	settings["ESP"]["Hitmarker"]["size"] = Settings::ESP::Hitmarker::size;
+	settings["ESP"]["Hitmarker"]["inner_gap"] = Settings::ESP::Hitmarker::inner_gap;
 
 	settings["Dlights"]["enabled"] = Settings::Dlights::enabled;
 	settings["Dlights"]["radius"] = Settings::Dlights::radius;
@@ -494,8 +498,12 @@ void Settings::LoadConfig(std::string path)
 	GetBool(settings["ESP"]["Sounds"]["enabled"], &Settings::ESP::Sounds::enabled);
 	GetInt(settings["ESP"]["Sounds"]["time"], &Settings::ESP::Sounds::time);
 	GetBool(settings["ESP"]["Hitmarker"]["enabled"], &Settings::ESP::Hitmarker::enabled);
+	GetBool(settings["ESP"]["Hitmarker"]["enemies"], &Settings::ESP::Hitmarker::enemies);
+	GetBool(settings["ESP"]["Hitmarker"]["allies"], &Settings::ESP::Hitmarker::allies);
 	GetUIColor(settings["ESP"]["Hitmarker"]["color"], &Settings::ESP::Hitmarker::color);
 	GetInt(settings["ESP"]["Hitmarker"]["duration"], &Settings::ESP::Hitmarker::duration);
+	GetInt(settings["ESP"]["Hitmarker"]["size"], &Settings::ESP::Hitmarker::size);
+	GetInt(settings["ESP"]["Hitmarker"]["inner_gap"], &Settings::ESP::Hitmarker::inner_gap);
 
 	GetBool(settings["Dlights"]["enabled"], &Settings::Dlights::enabled);
 	GetFloat(settings["Dlights"]["radius"], &Settings::Dlights::radius);
