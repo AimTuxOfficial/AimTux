@@ -413,6 +413,13 @@ namespace Settings
 			extern bool enabled;
 			extern int time;
 		}
+
+		namespace Hitmarker
+		{
+			extern bool enabled;
+			extern ImColor color;
+			extern int duration;
+		}
 	}
 
 	namespace Dlights
