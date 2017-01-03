@@ -6,6 +6,7 @@ void Hooks::BeginFrame(void* thisptr, float frameTime)
 	ClanTagChanger::BeginFrame(frameTime);
 	NameChanger::BeginFrame(frameTime);
 	Spammer::BeginFrame(frameTime);
+	Radar::BeginFrame();
 
 	if (!engine->IsInGame())
 	{

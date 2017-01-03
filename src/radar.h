@@ -1,5 +1,6 @@
 #pragma once
 
+#include <set>
 #include "settings.h"
 #include "SDK/SDK.h"
 #include "interfaces.h"
@@ -14,4 +15,5 @@ namespace Radar
 		SHAPE_TRIANGLE_UPSIDEDOWN
 	};
 	void DrawWindow();
+	void BeginFrame();
 };

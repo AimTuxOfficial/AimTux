@@ -1,6 +1,7 @@
 #include "entity.h"
+#include "math.h"
 
-bool Entity::IsVisible(C_BasePlayer* player, int bone)
+bool Entity::IsVisible(C_BasePlayer* player, int bone, float fov)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
@@ -17,6 +18,13 @@ bool Entity::IsVisible(C_BasePlayer* player, int bone)
 
 	Vector e_vecHead = player->GetBonePosition(bone);
 	Vector p_vecHead = localplayer->GetEyePosition();
+
+	QAngle viewAngles;
+	engine->GetViewAngles(viewAngles);
+
+	// FIXME: scale fov by distance? its not really working that well...
+	if (Math::GetFov(viewAngles, Math::CalcAngle(p_vecHead, e_vecHead)) > fov)
+		return false;
 
 	Ray_t ray;
 	trace_t tr;
