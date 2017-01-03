@@ -11,7 +11,7 @@ bool Settings::Radar::visibility_check = false;
 
 std::set<int> visible_players;
 
-Vector2D WorldToRadar( const Vector location, const Vector origin, const QAngle angles, int width, float scale = 16.f)
+Vector2D WorldToRadar(const Vector location, const Vector origin, const QAngle angles, int width, float scale = 16.f)
 {
 	float x_diff = location.x - origin.x;
 	float y_diff = location.y - origin.y;
