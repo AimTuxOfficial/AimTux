@@ -99,6 +99,7 @@ struct COffsets
 		int m_iShotsFired;
 		int m_angEyeAngles[2];
 		int m_iAccount;
+		int m_totalHitsOnServer;
 		int m_ArmorValue;
 		int m_bHasDefuser;
 		int m_bIsDefusing;
@@ -110,7 +111,6 @@ struct COffsets
 		int m_flFlashDuration;
 		int m_flFlashMaxAlpha;
 		int m_flLowerBodyYawTarget;
-		int m_totalHitsOnServer;
 	} DT_CSPlayer;
 
 	struct

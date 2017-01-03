@@ -83,6 +83,7 @@ void Offsets::getOffsets()
 	offsets.DT_CSPlayer.m_angEyeAngles[0] = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_angEyeAngles[0]");
 	offsets.DT_CSPlayer.m_angEyeAngles[1] = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_angEyeAngles[1]");
 	offsets.DT_CSPlayer.m_iAccount = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_iAccount");
+	offsets.DT_CSPlayer.m_totalHitsOnServer = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_totalHitsOnServer");
 	offsets.DT_CSPlayer.m_ArmorValue = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_ArmorValue");
 	offsets.DT_CSPlayer.m_bHasDefuser = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_bHasDefuser");
 	offsets.DT_CSPlayer.m_bIsDefusing = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_bIsDefusing");
@@ -95,7 +96,6 @@ void Offsets::getOffsets()
 	offsets.DT_CSPlayer.m_flFlashDuration = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_flFlashDuration");
 	offsets.DT_CSPlayer.m_flFlashMaxAlpha = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_flFlashMaxAlpha");
 	offsets.DT_CSPlayer.m_flLowerBodyYawTarget = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_flLowerBodyYawTarget");
-	offsets.DT_CSPlayer.m_totalHitsOnServer = NetVarManager::getOffset(tables, "DT_CSPlayer", "m_totalHitsOnServer");
 
 	offsets.DT_BaseAttributableItem.m_iItemDefinitionIndex = NetVarManager::getOffset(tables, "DT_BaseAttributableItem", "m_iItemDefinitionIndex");
 	offsets.DT_BaseAttributableItem.m_iItemIDHigh = NetVarManager::getOffset(tables, "DT_BaseAttributableItem", "m_iItemIDHigh");
