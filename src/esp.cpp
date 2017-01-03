@@ -942,7 +942,7 @@ void ESP::DrawHitmarker()
 
 	int sides[4][2] = { {-1, -1}, {1, 1}, {-1, 1}, {1, -1} };
 	for (auto& it : sides)
-		Draw::Line(width/2 + (innerGap * it[0]), height/2 + (innerGap * it[1]), width/2 + (size * it[0]), height/2 + (size * it[1]), color);
+		Draw::Line(width / 2 + (innerGap * it[0]), height / 2 + (innerGap * it[1]), width / 2 + (size * it[0]), height / 2 + (size * it[1]), color);
 }
 
 void ESP::DrawGlow()
