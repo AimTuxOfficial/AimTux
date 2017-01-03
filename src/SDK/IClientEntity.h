@@ -195,6 +195,11 @@ public:
 		return *(int*)((uintptr_t)this + offsets.DT_CSPlayer.m_iAccount);
 	}
 
+	int GetHits()
+	{
+		return *(int*)((uintptr_t)this + offsets.DT_CSPlayer.m_totalHitsOnServer);
+	}
+
 	int GetArmor()
 	{
 		return *(int*)((uintptr_t)this + offsets.DT_CSPlayer.m_ArmorValue);

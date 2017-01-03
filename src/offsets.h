@@ -110,6 +110,7 @@ struct COffsets
 		int m_flFlashDuration;
 		int m_flFlashMaxAlpha;
 		int m_flLowerBodyYawTarget;
+		int m_totalHitsOnServer;
 	} DT_CSPlayer;
 
 	struct

@@ -74,6 +74,9 @@ ImColor Settings::ESP::FOVCrosshair::color = ImColor(180, 50, 50, 255);
 bool Settings::ESP::Skeleton::enabled = false;
 bool Settings::ESP::Sounds::enabled = false;
 int Settings::ESP::Sounds::time = 1000;
+bool Settings::ESP::Hitmarker::enabled = false;
+ImColor Settings::ESP::Hitmarker::color = ImColor(180, 50, 50, 255);
+int Settings::ESP::Hitmarker::duration = 2000;
 bool Settings::NoScopeBorder::enabled = false;
 
 struct Footstep
@@ -108,6 +111,9 @@ const char* ESP::Ranks[] = {
 		"Supreme Master First Class",
 		"The Global Elite"
 };
+
+int lastHits = 0;
+long lastHitmarkerTimestamp = 0;
 
 // credits to Casual_Hacker from UC for this method (I modified it a lil bit)
 float GetArmourHealth(float flDamage, int ArmorValue)
@@ -905,6 +911,40 @@ void ESP::DrawFOVCrosshair()
 	Draw::Circle(LOC(width / 2, height / 2), 20, circleRadius, Color::FromImColor(Settings::ESP::FOVCrosshair::color));
 }
 
+void ESP::DrawHitmarker()
+{
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer->GetAlive())
+		return;
+
+	long current = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+
+	if (localplayer->GetHits() > lastHits)
+	{
+		lastHitmarkerTimestamp = current;
+		lastHits = localplayer->GetHits();
+	}
+
+	int duration = Settings::ESP::Hitmarker::duration;
+
+	long diff = lastHitmarkerTimestamp + duration - current;
+	if (diff <= 0)
+		return;
+
+	int width, height;
+	engine->GetScreenSize(width, height);
+
+	Color color = Color::FromImColor(Settings::ESP::Hitmarker::color);
+	color.a = std::min(color.a, (int)(diff * color.a / duration * 2));
+
+	int size = 16;
+	int innerGap = 5;
+
+	int sides[4][2] = { {-1, -1}, {1, 1}, {-1, 1}, {1, -1} };
+	for (auto& it : sides)
+		Draw::Line(width/2 + (innerGap * it[0]), height/2 + (innerGap * it[1]), width/2 + (size * it[0]), height/2 + (size * it[1]), color);
+}
+
 void ESP::DrawGlow()
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
@@ -1066,6 +1106,8 @@ void ESP::Paint()
 	if (Settings::NoScopeBorder::enabled && localplayer->IsScoped())
 		ESP::DrawScope();
 
+	if (Settings::ESP::Hitmarker::enabled)
+		ESP::DrawHitmarker();
 }
 
 void ESP::BeginFrame(float frameTime)

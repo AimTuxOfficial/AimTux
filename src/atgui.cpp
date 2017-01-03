@@ -163,6 +163,7 @@ void ColorsWindow()
 			"UI Body",
 			"UI Font",
 			"FOV Circle",
+			"Hitmarker",
 			"ESP - Enemy",
 			"ESP - Team",
 			"ESP - Enemy Visible",
@@ -204,6 +205,7 @@ void ColorsWindow()
 			&Settings::UI::bodyColor,
 			&Settings::UI::fontColor,
 			&Settings::ESP::FOVCrosshair::color,
+			&Settings::ESP::Hitmarker::color,
 			&Settings::ESP::enemy_color,
 			&Settings::ESP::ally_color,
 			&Settings::ESP::enemy_visible_color,
@@ -672,6 +674,9 @@ void VisualsTab()
 				ImGui::Checkbox("Recoil Crosshair", &Settings::Recoilcrosshair::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Show a crosshair based on recoil");
+				ImGui::Checkbox("Hitmarker", &Settings::ESP::Hitmarker::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Notify when you hit another player");
 				ImGui::Checkbox("FOV Circle", &Settings::ESP::FOVCrosshair::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Show circle around aimbot FOV");
@@ -681,6 +686,9 @@ void VisualsTab()
 				ImGui::Checkbox("Only When Shooting", &Settings::Recoilcrosshair::showOnlyWhenShooting);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Only show recoil crosshair when shooting");
+				ImGui::PushItemWidth(-1);
+					ImGui::SliderInt("##HITMARKERDUR", &Settings::ESP::Hitmarker::duration, 250, 3000);
+				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
