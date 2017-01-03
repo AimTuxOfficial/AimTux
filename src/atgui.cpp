@@ -674,9 +674,6 @@ void VisualsTab()
 				ImGui::Checkbox("Recoil Crosshair", &Settings::Recoilcrosshair::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Show a crosshair based on recoil");
-				ImGui::Checkbox("Hitmarker", &Settings::ESP::Hitmarker::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Notify when you hit another player");
 				ImGui::Checkbox("FOV Circle", &Settings::ESP::FOVCrosshair::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Show circle around aimbot FOV");
@@ -686,9 +683,6 @@ void VisualsTab()
 				ImGui::Checkbox("Only When Shooting", &Settings::Recoilcrosshair::showOnlyWhenShooting);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Only show recoil crosshair when shooting");
-				ImGui::PushItemWidth(-1);
-					ImGui::SliderInt("##HITMARKERDUR", &Settings::ESP::Hitmarker::duration, 250, 3000);
-				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -754,6 +748,35 @@ void VisualsTab()
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
+
+			ImGui::Text("Hitmarkers");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Checkbox("Hitmarkers", &Settings::ESP::Hitmarker::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Notify when you hit another player");
+
+				ImGui::Checkbox("Enemies##HITMARKERS", &Settings::ESP::Hitmarker::enemies);
+				ImGui::Checkbox("Allies##HITMARKERS", &Settings::ESP::Hitmarker::allies);
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::PushItemWidth(-1);
+				ImGui::SliderInt("##HITMARKERDUR", &Settings::ESP::Hitmarker::duration, 250, 3000);
+				ImGui::PopItemWidth();
+
+				ImGui::PushItemWidth(-1);
+				ImGui::SliderInt("##HITMARKERSIZE", &Settings::ESP::Hitmarker::size, 1, 32, "Size: %0.f");
+				ImGui::PopItemWidth();
+
+				ImGui::PushItemWidth(-1);
+				ImGui::SliderInt("##HITMARKERGAP", &Settings::ESP::Hitmarker::inner_gap, 1, 16, "Gap: %0.f");
+				ImGui::PopItemWidth();
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+
 			ImGui::EndChild();
 		}
 	}

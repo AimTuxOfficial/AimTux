@@ -6,6 +6,7 @@ bool Hooks::FireEventClientSide(void* thisptr, IGameEvent* event)
 	Resolver::FireEventClientSide(event);
 	SkinChanger::FireEventClientSide(event);
 	Spammer::FireEventClientSide(event);
+	Hitmarkers::FireEventClientSide(event);
 
 	return gameEvents_vmt->GetOriginalMethod<FireEventClientSideFn>(10)(thisptr, event);
 }

@@ -14,6 +14,7 @@ void Hooks::Paint(void* thisptr, PaintMode_t mode)
 		Dlights::Paint();
 		ESP::Paint();
 		Recoilcrosshair::Paint();
+		Hitmarkers::Paint();
 
 		FinishDrawing(surface);
 	}
