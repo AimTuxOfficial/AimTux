@@ -204,48 +204,28 @@ ImColor ESP::GetESPPlayerColor(C_BasePlayer* player, bool visible)
 
 	ImColor playerColor;
 
-	// dont actually check for visibility since we only render our boxes when the player IS visible (so-called "legit" mode)
-	if (Settings::ESP::Filters::legit)
+	if (Settings::ESP::team_color_type == TeamColorType::RELATIVE)
 	{
-		if (Settings::ESP::team_color_type == TeamColorType::RELATIVE)
-		{
-			playerColor = player->GetTeam() != localplayer->GetTeam() ? Settings::ESP::enemy_visible_color : Settings::ESP::ally_visible_color;
-		}
-		else if (Settings::ESP::team_color_type == TeamColorType::ABSOLUTE)
-		{
-			if (player->GetTeam() == TEAM_TERRORIST)
-				playerColor = Settings::ESP::t_visible_color;
+		if (player->GetTeam() != localplayer->GetTeam())
+			playerColor = visible ? Settings::ESP::enemy_visible_color : Settings::ESP::enemy_color;
+		else
+			playerColor = visible ? Settings::ESP::ally_visible_color  : Settings::ESP::ally_color;
 
-			else if (player->GetTeam() == TEAM_COUNTER_TERRORIST)
-				playerColor = Settings::ESP::ct_visible_color;
-		}
 	}
-	// check for visibility check
-	else
+	else if (Settings::ESP::team_color_type == TeamColorType::ABSOLUTE)
 	{
-		if (Settings::ESP::team_color_type == TeamColorType::RELATIVE)
-		{
-			if (player->GetTeam() != localplayer->GetTeam())
-				playerColor = visible ? Settings::ESP::enemy_visible_color : Settings::ESP::enemy_color;
-			else
-				playerColor = visible ? Settings::ESP::ally_visible_color  : Settings::ESP::ally_color;
+		if (player->GetTeam() == TEAM_TERRORIST)
+			playerColor = visible ? Settings::ESP::t_visible_color : Settings::ESP::t_color;
 
-		}
-		else if (Settings::ESP::team_color_type == TeamColorType::ABSOLUTE)
-		{
-			if (player->GetTeam() == TEAM_TERRORIST)
-				playerColor = visible ? Settings::ESP::t_visible_color : Settings::ESP::t_color;
-
-			else if (player->GetTeam() == TEAM_COUNTER_TERRORIST)
-				playerColor = visible ? Settings::ESP::ct_visible_color : Settings::ESP::ct_color;
-		}
+		else if (player->GetTeam() == TEAM_COUNTER_TERRORIST)
+			playerColor = visible ? Settings::ESP::ct_visible_color : Settings::ESP::ct_color;
 	}
 
 	if (player->GetImmune())
 	{
-		playerColor.Value.x -= 0.5f;
-		playerColor.Value.y -= 0.5f;
-		playerColor.Value.z -= 0.5f;
+		playerColor.Value.x *= 0.45f;
+		playerColor.Value.y *= 0.45f;
+		playerColor.Value.z *= 0.45f;
 	}
 
 	return playerColor;

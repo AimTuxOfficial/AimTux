@@ -9,13 +9,14 @@ bool Settings::Radar::defuser = false;
 bool Settings::Radar::legit = false;
 bool Settings::Radar::visibility_check = false;
 
-Vector2D WorldToRadar( const Vector location, const Vector origin, const QAngle angles, int width, int scale = 16)
+std::set<int> visible_players;
+
+Vector2D WorldToRadar(const Vector location, const Vector origin, const QAngle angles, int width, float scale = 16.f)
 {
 	float x_diff = location.x - origin.x;
 	float y_diff = location.y - origin.y;
 
 	int iRadarRadius = width;
-	float fRange = scale * iRadarRadius;
 
 	float flOffset = atan(y_diff / x_diff);
 	flOffset *= 180;
@@ -39,20 +40,26 @@ Vector2D WorldToRadar( const Vector location, const Vector origin, const QAngle 
 	float xnew_diff = x_diff * cos(flOffset) - y_diff * sin(flOffset);
 	float ynew_diff = x_diff * sin(flOffset) + y_diff * cos(flOffset);
 
-	if (-1 * y_diff > fRange)
-	{
-		float flScale;
+	xnew_diff /= scale;
+	ynew_diff /= scale;
 
-		flScale = (-1 * y_diff) / fRange;
+	// clamp x & y
+	// FIXME: instead of using hardcoded "4" we should fix cliprect of the radar window
+	if ((iRadarRadius / 2) + (int) xnew_diff > iRadarRadius)
+		xnew_diff = iRadarRadius - 4;
+	else if ((iRadarRadius / 2) + (int) xnew_diff < 4)
+		xnew_diff = 4;
+	else
+		xnew_diff = (iRadarRadius / 2) + (int) xnew_diff;
 
-		xnew_diff /= flScale;
-		ynew_diff /= flScale;
-	}
+	if ((iRadarRadius / 2) + (int) ynew_diff > iRadarRadius)
+		ynew_diff = iRadarRadius;
+	else if ((iRadarRadius / 2) + (int) ynew_diff < 4)
+		ynew_diff = 0;
+	else
+		ynew_diff = (iRadarRadius / 2) + (int) ynew_diff;
 
-	xnew_diff /= scale * 2;
-	ynew_diff /= scale * 2;
-
-	return Vector2D((iRadarRadius / 2) + (int) xnew_diff, (iRadarRadius / 2) + (int) ynew_diff);
+	return Vector2D(xnew_diff, ynew_diff);
 }
 
 static void SquareConstraint(ImGuiSizeConstraintCallbackData *data)
@@ -112,7 +119,7 @@ void Radar::DrawWindow()
 
 			if (classId == CCSPlayer)
 			{
-				C_BasePlayer* player = (C_BasePlayer*) entitylist->GetClientEntity(i);
+				C_BasePlayer* player = (C_BasePlayer*) entity;
 
 				if (player == localplayer)
 					continue;
@@ -126,7 +133,7 @@ void Radar::DrawWindow()
 				if (player->GetTeam() != localplayer->GetTeam() && !Settings::Radar::enemies)
 					continue;
 
-				bool bIsVisible = player->GetTeam() == localplayer->GetTeam() || (Settings::Radar::visibility_check && (*player->GetSpotted() || Entity::IsVisible(player, BONE_HEAD)));
+				bool bIsVisible = player->GetTeam() == localplayer->GetTeam() || (Settings::Radar::visibility_check && (*player->GetSpotted() || std::find(visible_players.begin(), visible_players.end(), i) != visible_players.end()));
 				if (!bIsVisible && Settings::Radar::legit)
 					continue;
 
@@ -169,6 +176,9 @@ void Radar::DrawWindow()
 			}
 			else if (classId == CBaseAnimating)
 			{
+				if (!Settings::Radar::defuser)
+					continue;
+
 				if (localplayer->HasDefuser() || localplayer->GetTeam() != TEAM_COUNTER_TERRORIST)
 					continue;
 
@@ -187,15 +197,15 @@ void Radar::DrawWindow()
 											 color, 0.0f, 0);
 					break;
 				case EntityShape_t::SHAPE_TRIANGLE:
-					draw_list->AddTriangleFilled(ImVec2(winpos.x + screenpos.x, winpos.y + screenpos.y + 5.0f),
-												 ImVec2(winpos.x + screenpos.x + 5.0f, winpos.y + screenpos.y + 5.0f),
-												 ImVec2(winpos.x + screenpos.x + 2.5f, winpos.y + screenpos.y),
+					draw_list->AddTriangleFilled(ImVec2(winpos.x + screenpos.x, winpos.y + screenpos.y + 9.0f),
+												 ImVec2(winpos.x + screenpos.x + 9.0f, winpos.y + screenpos.y + 9.0f),
+												 ImVec2(winpos.x + screenpos.x + 5.f, winpos.y + screenpos.y),
 												 color);
 					break;
 				case EntityShape_t::SHAPE_TRIANGLE_UPSIDEDOWN:
 					draw_list->AddTriangleFilled(ImVec2(winpos.x + screenpos.x, winpos.y + screenpos.y),
-					                             ImVec2(winpos.x + screenpos.x + 5.0f, winpos.y + screenpos.y),
-					                             ImVec2(winpos.x + screenpos.x + 2.5f, winpos.y + screenpos.y + 5.0f),
+					                             ImVec2(winpos.x + screenpos.x + 9.0f, winpos.y + screenpos.y),
+					                             ImVec2(winpos.x + screenpos.x + 5.f, winpos.y + screenpos.y + 9.0f),
 					                             color);
 					break;
 			}
@@ -203,5 +213,33 @@ void Radar::DrawWindow()
 		}
 
 		ImGui::End();
+	}
+}
+
+void Radar::BeginFrame()
+{
+	if (!Settings::Radar::enabled)
+		return;
+
+	if (!engine->IsInGame())
+		return;
+
+	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer)
+		return;
+
+	for (int i = 1; i < engine->GetMaxClients(); i++)
+	{
+		C_BaseEntity* entity = entitylist->GetClientEntity(i);
+		if (!entity)
+			continue;
+
+		C_BasePlayer* player = (C_BasePlayer*) entity;
+
+		// we shouldn't see people behind us
+		if (Entity::IsVisible(player, BONE_HEAD, 55.f))
+			visible_players.insert(i);
+		else
+			visible_players.erase(i);
 	}
 }
