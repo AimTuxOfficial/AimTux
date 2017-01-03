@@ -43,21 +43,20 @@ Vector2D WorldToRadar(const Vector location, const Vector origin, const QAngle a
 	xnew_diff /= scale;
 	ynew_diff /= scale;
 
+	xnew_diff = (iRadarRadius / 2) + (int) xnew_diff;
+	ynew_diff = (iRadarRadius / 2) + (int) ynew_diff;
+
 	// clamp x & y
 	// FIXME: instead of using hardcoded "4" we should fix cliprect of the radar window
-	if ((iRadarRadius / 2) + (int) xnew_diff > iRadarRadius)
+	if (xnew_diff > iRadarRadius)
 		xnew_diff = iRadarRadius - 4;
-	else if ((iRadarRadius / 2) + (int) xnew_diff < 4)
+	else if (xnew_diff < 4)
 		xnew_diff = 4;
-	else
-		xnew_diff = (iRadarRadius / 2) + (int) xnew_diff;
 
-	if ((iRadarRadius / 2) + (int) ynew_diff > iRadarRadius)
+	if (ynew_diff> iRadarRadius)
 		ynew_diff = iRadarRadius;
-	else if ((iRadarRadius / 2) + (int) ynew_diff < 4)
+	else if (ynew_diff < 4)
 		ynew_diff = 0;
-	else
-		ynew_diff = (iRadarRadius / 2) + (int) ynew_diff;
 
 	return Vector2D(xnew_diff, ynew_diff);
 }
