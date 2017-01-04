@@ -501,6 +501,11 @@ namespace Settings
 		extern bool defuser;
 		extern bool legit;
 		extern bool visibility_check;
+
+		namespace InGame
+		{
+			extern bool enabled;
+		}
 	}
 
 	namespace Recoilcrosshair

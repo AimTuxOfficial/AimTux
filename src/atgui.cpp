@@ -732,10 +732,13 @@ void VisualsTab()
 			{
 				ImGui::Checkbox("Radar", &Settings::Radar::enabled);
 				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Shows players on radar");
+					ImGui::SetTooltip("Shows players on the custom radar");
 				ImGui::Checkbox("Enemies", &Settings::Radar::enemies);
 				ImGui::Checkbox("Bomb", &Settings::Radar::bomb);
 				ImGui::Checkbox("Legit", &Settings::Radar::legit);
+				ImGui::Checkbox("In-game Radar", &Settings::Radar::InGame::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Shows players on the in-game radar");
 			}
 			ImGui::NextColumn();
 			{

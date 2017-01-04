@@ -8,6 +8,7 @@ bool Settings::Radar::bomb = false;
 bool Settings::Radar::defuser = false;
 bool Settings::Radar::legit = false;
 bool Settings::Radar::visibility_check = false;
+bool Settings::Radar::InGame::enabled = false;
 
 std::set<int> visible_players;
 
@@ -218,9 +219,17 @@ void Radar::DrawWindow()
 	}
 }
 
+void Radar::InGameRadar(C_BasePlayer* player)
+{
+	if (!player->GetAlive() || player->GetDormant())
+		return;
+
+	*player->GetSpotted() = true;
+}
+
 void Radar::BeginFrame()
 {
-	if (!Settings::Radar::enabled)
+	if (!Settings::Radar::enabled && !Settings::Radar::InGame::enabled)
 		return;
 
 	if (!engine->IsInGame())
@@ -238,10 +247,16 @@ void Radar::BeginFrame()
 
 		C_BasePlayer* player = (C_BasePlayer*) entity;
 
-		// we shouldn't see people behind us
-		if (Entity::IsVisible(player, BONE_HEAD, 55.f))
-			visible_players.insert(i);
-		else
-			visible_players.erase(i);
+		if (Settings::Radar::InGame::enabled)
+			Radar::InGameRadar(player);
+
+		if (Settings::Radar::enabled)
+		{
+			// we shouldn't see people behind us
+			if (Entity::IsVisible(player, BONE_HEAD, 55.f))
+				visible_players.insert(i);
+			else
+				visible_players.erase(i);
+		}
 	}
 }
