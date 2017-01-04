@@ -515,6 +515,12 @@ namespace Settings
 		extern ButtonCode_t key;
 	}
 
+	namespace Autoblock
+	{
+		extern bool enabled;
+		extern ButtonCode_t key;
+	}
+
 	namespace Skinchanger
 	{
 		struct Skin

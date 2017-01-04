@@ -17,6 +17,7 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		ShowRanks::CreateMove(cmd);
 
 		PredictionSystem::StartPrediction(cmd);
+		Autoblock::CreateMove(cmd);
 		Aimbot::CreateMove(cmd);
 		Triggerbot::CreateMove(cmd);
 		AntiAim::CreateMove(cmd);

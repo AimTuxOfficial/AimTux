@@ -340,6 +340,9 @@ void Settings::LoadDefaultsOrSave(std::string path)
 
 	settings["NoScopeBorder"]["enabled"] = Settings::NoScopeBorder::enabled;
 
+	settings["Autoblock"]["enabled"] = Settings::Autoblock::enabled;
+	settings["Autoblock"]["key"] = Settings::Autoblock::key;
+
 	std::ofstream(path) << styledWriter.write(settings);
 }
 
@@ -620,6 +623,9 @@ void Settings::LoadConfig(std::string path)
 	GetUIColor(settings["ASUSWalls"]["color"], &Settings::ASUSWalls::color);
 
 	GetBool(settings["NoScopeBorder"]["enabled"], &Settings::NoScopeBorder::enabled);
+
+	GetBool(settings["Autoblock"]["enabled"], &Settings::Autoblock::enabled);
+	GetButtonCode(settings["Autoblock"]["key"], &Settings::Autoblock::key);
 }
 
 void Settings::LoadSettings()

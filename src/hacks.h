@@ -2,6 +2,7 @@
 #include "airstuck.h"
 #include "antiaim.h"
 #include "autoaccept.h"
+#include "autoblock.h"
 #include "autostrafe.h"
 #include "bhop.h"
 #include "chams.h"
