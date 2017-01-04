@@ -611,7 +611,7 @@ void ESP::DrawPlantedBomb(C_PlantedC4* bomb)
 		C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 		Vector vecOrigin = bomb->GetVecOrigin();
 
-		float flDistance = sqrtf(localplayer->GetEyePosition().DistToSqr(vecOrigin));
+		float flDistance = localplayer->GetEyePosition().DistTo(vecOrigin);
 
 		float a = 450.7f;
 		float b = 75.68f;

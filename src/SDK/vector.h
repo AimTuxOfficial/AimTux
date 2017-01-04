@@ -97,6 +97,7 @@ public:
 	}
 	Vector	Normalize();
 	float	NormalizeInPlace();
+	inline float	DistTo(const Vector &vOther) const;
 	inline float	DistToSqr(const Vector &vOther) const;
 	float	Dot(const Vector& vOther) const;
 	float	Length2D(void) const;
@@ -291,6 +292,16 @@ inline Vector CrossProduct(const Vector& a, const Vector& b)
 	return Vector(a.y*b.z - a.z*b.y, a.z*b.x - a.x*b.z, a.x*b.y - a.y*b.x);
 }
 //===============================================
+float Vector::DistTo(const Vector &vOther) const
+{
+	Vector delta;
+
+	delta.x = x - vOther.x;
+	delta.y = y - vOther.y;
+	delta.z = z - vOther.z;
+
+	return delta.Length();
+}
 float Vector::DistToSqr(const Vector &vOther) const
 {
 	Vector delta;
