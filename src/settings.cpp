@@ -283,6 +283,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Radar"]["allies"] = Settings::Radar::allies;
 	settings["Radar"]["legit"] = Settings::Radar::legit;
 	settings["Radar"]["visibility_check"] = Settings::Radar::visibility_check;
+	settings["Radar"]["InGame"]["enabled"] = Settings::Radar::InGame::enabled;
 
 	settings["Recoilcrosshair"]["enabled"] = Settings::Recoilcrosshair::enabled;
 
