@@ -15,5 +15,6 @@ namespace Radar
 		SHAPE_TRIANGLE_UPSIDEDOWN
 	};
 	void DrawWindow();
+	void InGameRadar(C_BasePlayer* player);
 	void BeginFrame();
 };

@@ -544,6 +544,7 @@ void Settings::LoadConfig(std::string path)
 	GetBool(settings["Radar"]["allies"], &Settings::Radar::allies);
 	GetBool(settings["Radar"]["legit"], &Settings::Radar::legit);
 	GetBool(settings["Radar"]["visibility_check"], &Settings::Radar::visibility_check);
+	GetBool(settings["Radar"]["InGame"]["enabled"], &Settings::Radar::InGame::enabled);
 
 	GetBool(settings["Recoilcrosshair"]["enabled"], &Settings::Recoilcrosshair::enabled);
 	GetBool(settings["Recoilcrosshair"]["showOnlyWhenShooting"], &Settings::Recoilcrosshair::showOnlyWhenShooting);
