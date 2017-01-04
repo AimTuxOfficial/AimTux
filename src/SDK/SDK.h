@@ -36,5 +36,6 @@
 #include "IPrediction.h"
 #include "ILauncherMgr.h"
 #include "CPlayerResource.h"
+#include "CGameRules.h"
 #include "IEngineVGui.h"
 #include "IEngineSound.h"

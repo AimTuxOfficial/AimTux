@@ -1,5 +1,6 @@
 #include "offsets.h"
 #include "netvarmanager.h"
+#include "SDK/SDK.h"
 
 COffsets offsets;
 
@@ -121,4 +122,84 @@ void Offsets::getOffsets()
 	offsets.DT_BaseCombatWeapon.m_bInReload = offsets.DT_BaseCombatWeapon.m_flNextPrimaryAttack + 113;
 
 	offsets.DT_DynamicProp.m_bShouldGlow = NetVarManager::getOffset(tables, "DT_DynamicProp", "m_bShouldGlow");
+
+	offsets.DT_CSGameRulesProxy.m_bBombPlanted = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_bBombPlanted");
+	offsets.DT_CSGameRulesProxy.m_bIsValveDS = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_bIsValveDS");
+
+	offsets.DT_CSGameRulesProxy.m_bFreezePeriod = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_bFreezePeriod");
+	offsets.DT_CSGameRulesProxy.m_bMatchWaitingForResume = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_bMatchWaitingForResume");
+	offsets.DT_CSGameRulesProxy.m_bWarmupPeriod = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_bWarmupPeriod");
+	offsets.DT_CSGameRulesProxy.m_fWarmupPeriodEnd = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_fWarmupPeriodEnd");
+	offsets.DT_CSGameRulesProxy.m_fWarmupPeriodStart = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_fWarmupPeriodStart");
+	offsets.DT_CSGameRulesProxy.m_bTerroristTimeOutActive = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_bTerroristTimeOutActive");
+	offsets.DT_CSGameRulesProxy.m_bCTTimeOutActive = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_bCTTimeOutActive");
+	offsets.DT_CSGameRulesProxy.m_flTerroristTimeOutRemaining = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_flTerroristTimeOutRemaining");
+	offsets.DT_CSGameRulesProxy.m_flCTTimeOutRemaining = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_flCTTimeOutRemaining");
+	offsets.DT_CSGameRulesProxy.m_nTerroristTimeOuts = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_nTerroristTimeOuts");
+	offsets.DT_CSGameRulesProxy.m_nCTTimeOuts = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_nCTTimeOuts");
+	offsets.DT_CSGameRulesProxy.m_iRoundTime = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_iRoundTime");
+	offsets.DT_CSGameRulesProxy.m_gamePhase = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_gamePhase");
+	offsets.DT_CSGameRulesProxy.m_totalRoundsPlayed = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_totalRoundsPlayed");
+	offsets.DT_CSGameRulesProxy.m_nOvertimePlaying = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_nOvertimePlaying");
+	offsets.DT_CSGameRulesProxy.m_timeUntilNextPhaseStarts = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_timeUntilNextPhaseStarts");
+	offsets.DT_CSGameRulesProxy.m_flCMMItemDropRevealStartTime = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_flCMMItemDropRevealStartTime");
+	offsets.DT_CSGameRulesProxy.m_flCMMItemDropRevealEndTime = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_flCMMItemDropRevealEndTime");
+	offsets.DT_CSGameRulesProxy.m_fRoundStartTime = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_fRoundStartTime");
+	offsets.DT_CSGameRulesProxy.m_bGameRestart = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_bGameRestart");
+	offsets.DT_CSGameRulesProxy.m_flRestartRoundTime = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_flRestartRoundTime");
+	offsets.DT_CSGameRulesProxy.m_flGameStartTime = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_flGameStartTime");
+	offsets.DT_CSGameRulesProxy.m_iHostagesRemaining = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_iHostagesRemaining");
+	offsets.DT_CSGameRulesProxy.m_bAnyHostageReached = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_bAnyHostageReached");
+	offsets.DT_CSGameRulesProxy.m_bMapHasBombTarget = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_bMapHasBombTarget");
+	offsets.DT_CSGameRulesProxy.m_bMapHasRescueZone = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_bMapHasRescueZone");
+	offsets.DT_CSGameRulesProxy.m_bMapHasBuyZone = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_bMapHasBuyZone");
+	offsets.DT_CSGameRulesProxy.m_bIsQueuedMatchmaking = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_bIsQueuedMatchmaking");
+	offsets.DT_CSGameRulesProxy.m_bIsValveDS = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_bIsValveDS");
+	offsets.DT_CSGameRulesProxy.m_bIsQuestEligible = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_bIsQuestEligible");
+	offsets.DT_CSGameRulesProxy.m_bLogoMap = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_bLogoMap");
+	offsets.DT_CSGameRulesProxy.m_iNumGunGameProgressiveWeaponsCT = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_iNumGunGameProgressiveWeaponsCT");
+	offsets.DT_CSGameRulesProxy.m_iNumGunGameProgressiveWeaponsT = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_iNumGunGameProgressiveWeaponsT");
+	offsets.DT_CSGameRulesProxy.m_iSpectatorSlotCount = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_iSpectatorSlotCount");
+	offsets.DT_CSGameRulesProxy.m_bBombDropped = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_bBombDropped");
+	offsets.DT_CSGameRulesProxy.m_bBombPlanted = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_bBombPlanted");
+	offsets.DT_CSGameRulesProxy.m_iRoundWinStatus = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_iRoundWinStatus");
+	offsets.DT_CSGameRulesProxy.m_eRoundWinReason = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_eRoundWinReason");
+	offsets.DT_CSGameRulesProxy.m_flDMBonusStartTime = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_flDMBonusStartTime");
+	offsets.DT_CSGameRulesProxy.m_flDMBonusTimeLength = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_flDMBonusTimeLength");
+	offsets.DT_CSGameRulesProxy.m_unDMBonusWeaponLoadoutSlot = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_unDMBonusWeaponLoadoutSlot");
+	offsets.DT_CSGameRulesProxy.m_bDMBonusActive = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_bDMBonusActive");
+	offsets.DT_CSGameRulesProxy.m_bTCantBuy = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_bTCantBuy");
+	offsets.DT_CSGameRulesProxy.m_bCTCantBuy = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_bCTCantBuy");
+	offsets.DT_CSGameRulesProxy.m_flGuardianBuyUntilTime = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_flGuardianBuyUntilTime");
+	offsets.DT_CSGameRulesProxy.m_iMatchStats_RoundResults = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_iMatchStats_RoundResults");
+	offsets.DT_CSGameRulesProxy.m_iMatchStats_PlayersAlive_T = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_iMatchStats_PlayersAlive_T");
+	offsets.DT_CSGameRulesProxy.m_iMatchStats_PlayersAlive_CT = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_iMatchStats_PlayersAlive_CT");
+	offsets.DT_CSGameRulesProxy.m_GGProgressiveWeaponOrderC = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_GGProgressiveWeaponOrderC");
+	offsets.DT_CSGameRulesProxy.m_GGProgressiveWeaponOrderT = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_GGProgressiveWeaponOrderT");
+	offsets.DT_CSGameRulesProxy.m_GGProgressiveWeaponKillUpgradeOrderCT = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_GGProgressiveWeaponKillUpgradeOrderCT");
+	offsets.DT_CSGameRulesProxy.m_GGProgressiveWeaponKillUpgradeOrderT = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_GGProgressiveWeaponKillUpgradeOrderT");
+	offsets.DT_CSGameRulesProxy.m_MatchDevice = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_MatchDevice");
+	offsets.DT_CSGameRulesProxy.m_bHasMatchStarted = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_bHasMatchStarted");
+	offsets.DT_CSGameRulesProxy.m_TeamRespawnWaveTimes = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_TeamRespawnWaveTimes");
+	offsets.DT_CSGameRulesProxy.m_flNextRespawnWave = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_flNextRespawnWave");
+	offsets.DT_CSGameRulesProxy.m_nNextMapInMapgroup = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_nNextMapInMapgroup");
+	offsets.DT_CSGameRulesProxy.m_nEndMatchMapGroupVoteOptions = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_nEndMatchMapGroupVoteOptions");
+	offsets.DT_CSGameRulesProxy.m_bIsDroppingItems = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_bIsDroppingItems");
+	offsets.DT_CSGameRulesProxy.m_iActiveAssassinationTargetMissionID = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_iActiveAssassinationTargetMissionID");
+	offsets.DT_CSGameRulesProxy.m_fMatchStartTime = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_fMatchStartTime");
+	offsets.DT_CSGameRulesProxy.m_szTournamentEventName = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_szTournamentEventName");
+	offsets.DT_CSGameRulesProxy.m_szTournamentEventStage = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_szTournamentEventStage");
+	offsets.DT_CSGameRulesProxy.m_szTournamentPredictionsTxt = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_szTournamentPredictionsTxt");
+	offsets.DT_CSGameRulesProxy.m_nTournamentPredictionsPct = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_nTournamentPredictionsPct");
+	offsets.DT_CSGameRulesProxy.m_szMatchStatTxt = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_szMatchStatTxt");
+	offsets.DT_CSGameRulesProxy.m_nGuardianModeWaveNumber = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_nGuardianModeWaveNumber");
+	offsets.DT_CSGameRulesProxy.m_nGuardianModeSpecialKillsRemaining = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_nGuardianModeSpecialKillsRemaining");
+	offsets.DT_CSGameRulesProxy.m_nGuardianModeSpecialWeaponNeeded = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_nGuardianModeSpecialWeaponNeeded");
+	offsets.DT_CSGameRulesProxy.m_nHalloweenMaskListSeed = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_nHalloweenMaskListSeed");
+	offsets.DT_CSGameRulesProxy.m_numGlobalGiftsGiven = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_numGlobalGiftsGiven");
+	offsets.DT_CSGameRulesProxy.m_numGlobalGifters = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_numGlobalGifters");
+	offsets.DT_CSGameRulesProxy.m_numGlobalGiftsPeriodSeconds = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_numGlobalGiftsPeriodSeconds");
+	offsets.DT_CSGameRulesProxy.m_arrFeaturedGiftersAccounts = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_arrFeaturedGiftersAccounts");
+	offsets.DT_CSGameRulesProxy.m_arrFeaturedGiftersGifts = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_arrFeaturedGiftersGifts");
+	offsets.DT_CSGameRulesProxy.m_arrTournamentActiveCasterAccounts = NetVarManager::getOffset(tables, "DT_CSGameRulesProxy", "m_arrTournamentActiveCasterAccounts");
 }

@@ -27,6 +27,7 @@ extern IMoveHelper* movehelper;
 extern CGlowObjectManager* glowmanager;
 extern ILauncherMgr* launchermgr;
 extern C_CSPlayerResource** csPlayerResource;
+extern C_GameRules** gameRules;
 extern IEngineVGui* enginevgui;
 extern IEngineSound* sound;
 
