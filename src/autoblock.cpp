@@ -25,7 +25,7 @@ void Autoblock::CreateMove(CUserCmd* cmd)
 			if (!entity->GetAlive() || entity->GetDormant() || entity == localplayer)
 				continue;
 
-			float dist = sqrtf(localplayer->GetVecOrigin().DistToSqr(entity->GetVecOrigin()));
+			float dist = localplayer->GetVecOrigin().DistTo(entity->GetVecOrigin());
 
 			if (dist < bestdist)
 			{
