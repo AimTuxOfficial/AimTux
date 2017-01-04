@@ -15,31 +15,31 @@ void Autoblock::CreateMove(CUserCmd* cmd)
 		float bestdist = 250.f;
 		int index = -1;
 
-		for (int i = 1; i < engine->GetMaxClients(); ++i)
+		for (int i = 1; i < engine->GetMaxClients(); i++)
 		{
 			C_BasePlayer* entity = (C_BasePlayer*) entitylist->GetClientEntity(i);
 
-			if(!entity)
+			if (!entity)
 				continue;
 
-			if(!entity->GetAlive() || entity->GetDormant() || entity == localplayer)
+			if (!entity->GetAlive() || entity->GetDormant() || entity == localplayer)
 				continue;
 
 			float dist = sqrtf(localplayer->GetVecOrigin().DistToSqr(entity->GetVecOrigin()));
 
-			if( dist < bestdist )
+			if (dist < bestdist)
 			{
 				bestdist = dist;
 				index = i;
 			}
 		}
  
-		if( index == -1 )
+		if (index == -1)
 			return;
 
 		C_BasePlayer* target = (C_BasePlayer*) entitylist->GetClientEntity(index);
 
-		if( !target )
+		if (!target)
 			return;
 
 		QAngle angles = Math::CalcAngle(localplayer->GetVecOrigin(), target->GetVecOrigin());
@@ -47,9 +47,9 @@ void Autoblock::CreateMove(CUserCmd* cmd)
 		angles.y -= localplayer->GetHeadRotation()->y;
 		Math::NormalizeAngles(angles);
 
-		if( angles.y < 0.0f )
+		if (angles.y < 0.0f)
 			cmd->sidemove = 450.f;
-		else if( angles.y > 0.0f )
+		else if (angles.y > 0.0f)
 			cmd->sidemove = -450.f;
 	}
 }
