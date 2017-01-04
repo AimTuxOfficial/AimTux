@@ -589,15 +589,17 @@ void ESP::DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info
 
 void ESP::DrawBomb(C_BaseCombatWeapon* bomb)
 {
-	Vector vOrig = bomb->GetVecOrigin();
-	int owner = bomb->GetOwner();
+	if (!(*gameRules) || !(*gameRules)->IsBombDropped())
+		return;
 
-	if (owner == -1 && !(vOrig.x == 0 && vOrig.y == 0 && vOrig.z == 0))
-		DrawEntity(bomb, "Bomb", Color::FromImColor(Settings::ESP::bomb_color));
+	DrawEntity(bomb, "Bomb", Color::FromImColor(Settings::ESP::bomb_color));
 }
 
 void ESP::DrawPlantedBomb(C_PlantedC4* bomb)
 {
+	if (!(*gameRules) || !(*gameRules)->IsBombPlanted())
+		return;
+
 	ImColor color = bomb->GetBombDefuser() != -1 || bomb->IsBombDefused() ? Settings::ESP::bomb_defusing_color : Settings::ESP::bomb_color;
 
 	float bombTimer = bomb->GetBombTime() - globalvars->curtime;

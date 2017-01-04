@@ -157,11 +157,7 @@ void Radar::DrawWindow()
 				if (!Settings::Radar::bomb)
 					continue;
 
-				C_BaseCombatWeapon* bomb = (C_BaseCombatWeapon*) entity;
-				Vector vOrig = bomb->GetVecOrigin();
-
-				int owner = bomb->GetOwner();
-				if (owner != -1 || (vOrig.x == 0 && vOrig.y == 0 && vOrig.z == 0))
+				if (!(*gameRules) || !(*gameRules)->IsBombDropped())
 					continue;
 
 				color = Settings::ESP::bomb_color;
@@ -170,6 +166,9 @@ void Radar::DrawWindow()
 			else if (classId == CPlantedC4)
 			{
 				if (!Settings::Radar::bomb)
+					continue;
+
+				if (!(*gameRules) || !(*gameRules)->IsBombPlanted())
 					continue;
 
 				C_PlantedC4* bomb = (C_PlantedC4*) entity;
