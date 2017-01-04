@@ -1163,6 +1163,10 @@ void MiscTab()
 				ImGui::Checkbox("AirStuck", &Settings::Airstuck::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Stops tickrate so you freeze in place");
+				ImGui::Checkbox("Autoblock", &Settings::Autoblock::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Allows you to block players from moving forwards by standing in front of them and mirroring their moves - great for griefing");
+
 #ifdef UNTRUSTED_SETTINGS
 				ImGui::Checkbox("Teleport", &Settings::Teleport::enabled);
 				if (ImGui::IsItemHovered())
@@ -1176,6 +1180,7 @@ void MiscTab()
 				ImGui::PopItemWidth();
 				ImGui::Checkbox("Show Ranks", &Settings::ShowRanks::enabled);
 				UI::KeyBindButton(&Settings::Airstuck::key);
+				UI::KeyBindButton(&Settings::Autoblock::key);
 #ifdef UNTRUSTED_SETTINGS
 				UI::KeyBindButton(&Settings::Teleport::key);
 #endif
