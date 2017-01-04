@@ -101,8 +101,7 @@ void Radar::DrawWindow()
 		engine->GetViewAngles(localplayer_angles);
 
 		// draw localplayer
-		if (localplayer->GetAlive() || (!localplayer->GetAlive() && (!localplayer->GetObserverTarget() || *localplayer->GetObserverMode() == OBS_MODE_ROAMING)))
-			draw_list->AddCircleFilled(ImVec2(winpos.x + winsize.x * 0.5, winpos.y + winsize.y * 0.5), 4.5f, ImColor(255, 255, 255, 255));
+		draw_list->AddCircleFilled(ImVec2(winpos.x + winsize.x * 0.5, winpos.y + winsize.y * 0.5), 4.5f, ImColor(255, 255, 255, 255));
 
 		for (int i = 1; i < entitylist->GetHighestEntityIndex(); i++)
 		{
@@ -134,6 +133,10 @@ void Radar::DrawWindow()
 
 				bool bIsVisible = player->GetTeam() == localplayer->GetTeam() || (Settings::Radar::visibility_check && (*player->GetSpotted() || std::find(visible_players.begin(), visible_players.end(), i) != visible_players.end()));
 				if (!bIsVisible && Settings::Radar::legit)
+					continue;
+
+				C_BasePlayer* observer_target = (C_BasePlayer*) entitylist->GetClientEntityFromHandle(localplayer->GetObserverTarget());
+				if (observer_target && player == observer_target && *localplayer->GetObserverMode() == OBS_MODE_IN_EYE)
 					continue;
 
 				color = ESP::GetESPPlayerColor(player, bIsVisible);
