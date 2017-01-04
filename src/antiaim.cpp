@@ -77,7 +77,7 @@ bool HasViableEnemy()
 	return false;
 }
 
-void DoAntiAimY(QAngle&  angle, bool bFlip)
+void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 {
 	int aa_type = bFlip ? Settings::AntiAim::Yaw::type : Settings::AntiAim::Yaw::type_fake;
 
@@ -87,32 +87,179 @@ void DoAntiAimY(QAngle&  angle, bool bFlip)
 	if (bFlip)
 		yFlip = !yFlip;
 
-	if (aa_type == SPIN_FAST || aa_type == SPIN_SLOW)
+	if (aa_type == AntiAimType_Y::SPIN_FAST || aa_type == AntiAimType_Y::SPIN_SLOW)
 	{
-		fYaw += aa_type == SPIN_FAST ? 40.0f : 5.0f;
+		fYaw += aa_type == AntiAimType_Y::SPIN_FAST ? 40.0f : 5.0f;
 
 		if (fYaw > 180.0f)
 			fYaw -= 360.0f;
 
 		angle.y = fYaw;
 	}
-	else if (aa_type == JITTER)
+	else if (aa_type == AntiAimType_Y::JITTER)
 		angle.y = yFlip ? 270.0f : 90.0f;
-	else if (aa_type == SIDE)
+	else if (aa_type == AntiAimType_Y::SIDE)
 		if (yFlip)
 			angle.y += 90.0f;
 		else
 			angle.y -= 90.0f;
-	else if (aa_type == BACKWARDS)
+	else if (aa_type == AntiAimType_Y::BACKWARDS)
 		angle.y -= 180.0f;
-	else if (aa_type == FORWARDS)
+	else if (aa_type == AntiAimType_Y::FORWARDS)
 		angle.y -= 0.0f;
-	else if (aa_type == LEFT)
+	else if (aa_type == AntiAimType_Y::LEFT)
 		angle.y += 90.0f;
-	else if (aa_type == RIGHT)
+	else if (aa_type == AntiAimType_Y::RIGHT)
 		angle.y -= 90.0f;
-	else if (aa_type == STATICAA)
+	else if (aa_type == AntiAimType_Y::STATICAA)
 		angle.y = 0.0f;
+#ifdef UNTRUSTED_SETTINGS
+	else if (aa_type == AntiAimType_Y::LISP)
+	{
+		clamp = false;
+
+		float temp = angle.y + 135.f;
+		if (temp < 45.f && temp >= 0.0f)
+			temp = angle.y - 90.f;
+		else if (temp > -45.f && temp < 0.0f)
+			temp = angle.y + 90.f;
+		else if (temp > 135.f)
+			temp = angle.y - 90.f;
+		else if (temp < -135.f)
+			temp = angle.y + 90.f;
+
+		temp += 1800000.f;
+		angle.y = temp;
+	}
+	else if (aa_type == AntiAimType_Y::LISP_SIDE)
+	{
+		clamp = false;
+
+		float temp = angle.y  + 90.f;
+		QAngle temp_qangle = QAngle(0.0f, temp, 0.0f);
+		Math::NormalizeAngles(temp_qangle);
+		temp = temp_qangle.y;
+
+		if (temp > -45.f)
+		{
+			if (temp < 0.0f)
+				temp = -90.f;
+			else if (temp < 45.f)
+				temp = 90.f;
+		}
+		temp += 1800000.f;
+		angle.y = temp;
+	}
+	else if (aa_type == AntiAimType_Y::LISP_JITTER)
+	{
+		clamp = false;
+
+		static int jittertimer = -1;
+		float temp = angle.y - 155.f;
+
+		if (jittertimer == 1)
+		{
+			temp = angle.y + 58.f;
+			temp += 1800000.f;
+		}
+
+		if (bSendPacket)
+		{
+			if (jittertimer >= 1)
+				jittertimer = -1;
+			jittertimer++;
+		}
+		angle.y = temp;
+	}
+	else if (aa_type == AntiAimType_Y::ANGEL_BACKWARD)
+	{
+		clamp = false;
+		angle.y += 36000180.f;
+	}
+	else if (aa_type == AntiAimType_Y::ANGEL_INVERSE)
+	{
+		clamp = false;
+		angle.y = 36000180.f;
+	}
+	else if (aa_type == AntiAimType_Y::ANGEL_SPIN)
+	{
+		clamp = false;
+
+		float factor = (globalvars->curtime * 5000.f);
+		angle.y = factor + 36000000.f;
+	}
+	else if (aa_type == AntiAimType_Y::ANGEL_FAKE_SPIN)
+	{
+		clamp = false;
+
+		if (command_number % 2)
+			angle.y += 36000180.f;
+
+		float factor = ( globalvars->curtime * 5000.0 );
+		angle.y = factor + 36000000.f;
+	}
+	else if (aa_type == AntiAimType_Y::ZERO_OUT_Y)
+	{
+		clamp = false;
+		angle.y = 0.0f;
+	}
+#endif
+}
+
+void DoAntiAimX(QAngle& angle, bool bFlip, bool& clamp)
+{
+	static float pDance = 0.0f;
+	int pitch_aa_type = Settings::AntiAim::Pitch::type;
+
+	if (pitch_aa_type == AntiAimType_X::STATIC_UP)
+		angle.x = -89.0f;
+	else if (pitch_aa_type == AntiAimType_X::STATIC_DOWN)
+		angle.x = 89.0f;
+	else if (pitch_aa_type == AntiAimType_X::DANCE)
+	{
+		pDance += 15.0f;
+
+		if (pDance > 100)
+			pDance = 0.0f;
+		else if (pDance > 50.f)
+			angle.x = 330.f;
+		else if (pDance < 50.f)
+			angle.x = 30.f;
+	}
+	else if (pitch_aa_type == AntiAimType_X::FRONT)
+		angle.x = 0.0f;
+#ifdef UNTRUSTED_SETTINGS
+	else if (pitch_aa_type == AntiAimType_X::STATIC_UP_FAKE)
+	{
+		angle.x = bFlip ? 89.0f : -89.0f;
+		CreateMove::SendPacket = bFlip;
+	}
+	else if (pitch_aa_type == AntiAimType_X::STATIC_DOWN_FAKE)
+	{
+		angle.x = bFlip ? -89.0f : 89.0f;
+		CreateMove::SendPacket = bFlip;
+	}
+	else if (pitch_aa_type == AntiAimType_X::LISP_DOWN)
+	{
+		clamp = false;
+		angle.x = 1800089.f;
+	}
+	else if (pitch_aa_type == AntiAimType_X::ANGEL_DOWN)
+	{
+		clamp = false;
+		angle.x = 36000088.f;
+	}
+	else if (pitch_aa_type == AntiAimType_X::ANGEL_UP)
+	{
+		clamp = false;
+		angle.x = 35999912.f;
+	}
+	else if (pitch_aa_type == AntiAimType_X::ZERO_OUT_X)
+	{
+		clamp = false;
+		angle.x = 0.0f;
+	}
+#endif
 }
 
 void AntiAim::CreateMove(CUserCmd* cmd)
@@ -142,7 +289,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 
 	if (localplayer->GetMoveType() == MOVETYPE_LADDER || localplayer->GetMoveType() == MOVETYPE_NOCLIP)
 		return;
-	
+
 	// AutoDisable checks
 
 	// Knife
@@ -156,13 +303,14 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 	bool edging_head = Settings::AntiAim::HeadEdge::enabled && GetBestHeadAngle(edge_angle);
 
 	static bool bFlip;
-	static float pDance = 0.0f;
 
 	bFlip = !bFlip;
 
+	bool should_clamp = true;
+
 	if (Settings::AntiAim::Yaw::enabled)
 	{
-		DoAntiAimY(angle, bFlip);
+		DoAntiAimY(angle, cmd->command_number, bFlip, should_clamp);
 		Math::NormalizeAngles(angle);
 		CreateMove::SendPacket = bFlip;
 		if (Settings::AntiAim::HeadEdge::enabled && edging_head && !bFlip)
@@ -171,41 +319,14 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 
 	if (Settings::AntiAim::Pitch::enabled)
 	{
-		int pitch_aa_type = Settings::AntiAim::Pitch::type;
-
-		if (pitch_aa_type == STATIC_UP)
-			angle.x = -89.0f;
-		else if (pitch_aa_type == STATIC_DOWN)
-			angle.x = 89.0f;
-		else if (pitch_aa_type == DANCE)
-		{
-			pDance += 15.0f;
-
-			if (pDance > 100)
-				pDance = 0.0f;
-			else if (pDance > 50.f)
-				angle.x = 330.f;
-			else if (pDance < 50.f)
-				angle.x = 30.f;
-		}
-		else if (pitch_aa_type == FRONT)
-			angle.x = 0.0f;
-#ifdef UNTRUSTED_SETTINGS
-		else if (pitch_aa_type == STATIC_UP_FAKE)
-		{
-			angle.x = bFlip ? 89.0f : -89.0f;
-			CreateMove::SendPacket = bFlip;
-		}
-		else if (pitch_aa_type == STATIC_DOWN_FAKE)
-		{
-			angle.x = bFlip ? -89.0f : 89.0f;
-			CreateMove::SendPacket = bFlip;
-		}
-#endif
+		DoAntiAimX(angle, bFlip, should_clamp);
 	}
 
-	Math::NormalizeAngles(angle);
-	Math::ClampAngles(angle);
+	if (should_clamp)
+	{
+		Math::NormalizeAngles(angle);
+		Math::ClampAngles(angle);
+	}
 
 	cmd->viewangles = angle;
 
