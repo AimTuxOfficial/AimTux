@@ -49,7 +49,15 @@ enum AntiAimType_Y : int
 	FORWARDS,
 	LEFT,
 	RIGHT,
-	STATICAA
+	STATICAA,
+	LISP,
+	LISP_SIDE,
+	LISP_JITTER,
+	ANGEL_BACKWARD,
+	ANGEL_INVERSE,
+	ANGEL_SPIN,
+	ANGEL_FAKE_SPIN,
+	ZERO_OUT_Y
 };
 
 enum AntiAimType_X : int
@@ -59,7 +67,11 @@ enum AntiAimType_X : int
 	DANCE,
 	FRONT,
 	STATIC_UP_FAKE,
-	STATIC_DOWN_FAKE
+	STATIC_DOWN_FAKE,
+	LISP_DOWN,
+	ANGEL_DOWN,
+	ANGEL_UP,
+	ZERO_OUT_X
 };
 
 enum ChamsType : int
