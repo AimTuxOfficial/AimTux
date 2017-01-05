@@ -635,6 +635,11 @@ namespace Settings
 		extern bool enabled;
 	}
 
+	namespace NoSmoke
+	{
+		extern bool enabled;
+	}
+
 	void LoadDefaultsOrSave(std::string path);
 	void LoadConfig(std::string path);
 	void LoadSettings();

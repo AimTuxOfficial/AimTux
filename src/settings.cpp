@@ -347,6 +347,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
 
 	settings["AutoDefuse"]["enabled"] = Settings::AutoDefuse::enabled;
 
+	settings["NoSmoke"]["enabled"] = Settings::NoSmoke::enabled;
+
 	std::ofstream(path) << styledWriter.write(settings);
 }
 
@@ -634,6 +636,8 @@ void Settings::LoadConfig(std::string path)
 	GetButtonCode(settings["Autoblock"]["key"], &Settings::Autoblock::key);
 
 	GetBool(settings["AutoDefuse"]["enabled"], &Settings::AutoDefuse::enabled);
+
+	GetBool(settings["NoSmoke"]["enabled"], &Settings::NoSmoke::enabled);
 }
 
 void Settings::LoadSettings()
