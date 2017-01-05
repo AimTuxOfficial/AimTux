@@ -11,7 +11,7 @@
 #include "SDK/SDK.h"
 #include "fonts.h"
 #include "draw.h"
-#include "skinchanger.h"
+#include "Hacks/skinchanger.h"
 #include "util.h"
 #include "util_items.h"
 #include "config.h"

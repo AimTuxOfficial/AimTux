@@ -2,7 +2,7 @@
 
 #include "../SDK/SDK.h"
 #include "../interfaces.h"
-#include "../hacks.h"
+#include "../Hacks/hacks.h"
 #include "../atgui.h"
 #include "../hooker.h"
 
