@@ -1,6 +1,7 @@
 #include "fovchanger.h"
 
 bool Settings::FOVChanger::enabled = false;
+bool Settings::FOVChanger::ignore_scope = true;
 float Settings::FOVChanger::value = 100.f;
 
 bool Settings::FOVChanger::viewmodel_enabled = false;
@@ -27,7 +28,7 @@ void FOVChanger::RenderView(CViewSetup& setup, CViewSetup& hudViewSetup, unsigne
 			return;
 	}
 
-	if (Settings::FOVChanger::enabled && !localplayer->IsScoped())
+	if (!(Settings::FOVChanger::enabled && Settings::FOVChanger::ignore_scope) || !localplayer->IsScoped())
 		setup.fov = Settings::FOVChanger::value;
 
 	if (Settings::FOVChanger::viewmodel_enabled)

@@ -1106,6 +1106,9 @@ void MiscTab()
 				ImGui::Checkbox("Viewmodel FOV", &Settings::FOVChanger::viewmodel_enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Change viewmodel FOV");
+				ImGui::Checkbox("Ignore Scope", &Settings::FOVChanger::ignore_scope);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Disable FOV Changer while scoping");
 			}
 			ImGui::NextColumn();
 			{
