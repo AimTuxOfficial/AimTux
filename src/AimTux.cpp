@@ -21,9 +21,10 @@ int __attribute__((constructor)) aimtux_init()
 	Hooker::HookRankReveal();
 	Hooker::HookSendClanTag();
 	Hooker::HookSendPacket();
+	Hooker::HookPrediction();
 	Hooker::HookIsReadyCallback();
 	Hooker::HookSurfaceDrawing();
-	Hooker::HookPrediction();
+	Hooker::HookForceFullUpdate();
 	Hooker::HookSwapWindow();
 	Hooker::HookPollEvent();
 

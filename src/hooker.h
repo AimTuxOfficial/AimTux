@@ -42,6 +42,12 @@
 #define CMATSYSTEMSURFACE_FINISHDRAWING_SIGNATURE "\x55\x31\xFF\x48\x89"
 #define CMATSYSTEMSURFACE_FINISHDRAWING_MASK "xxxxx"
 
+#define FORCEFULLUPDATE_SIGNATURE "\x55\x48\x89\xE5\x48\x89\x5D\xF0\x48\x89\xFB\x4C\x89\x65\xF8\x48\x83\xEC\x10\x49\x89\xF4\x83"
+#define FORCEFULLUPDATE_MASK "xxxxxxxxxxxxxxxxxxxxxxx"
+
+#define GETCLIENTSTATE_SIGNATURE "\x55\x48\x8D\x3D\x68\x01\xDC"
+#define GETCLIENTSTATE_MASK "xxxxxxx"
+
 #include <unordered_map>
 #include <sys/mman.h>
 #include <link.h>
@@ -67,6 +73,7 @@ namespace Hooker
 	void HookPrediction();
 	void HookIsReadyCallback();
 	void HookSurfaceDrawing();
+	void HookForceFullUpdate();
 	void HookSwapWindow();
 	void HookPollEvent();
 	void HookSDLInput();

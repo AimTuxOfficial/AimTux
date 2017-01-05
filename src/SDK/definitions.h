@@ -26,6 +26,9 @@ typedef ILauncherMgr* (*ILauncherMgrCreateFn) (void);
 typedef void (*StartDrawingFn) (void*);
 typedef void (*FinishDrawingFn) (void*);
 
+typedef void* (*GetClientStateFn) (void);
+typedef void (*ForceFullUpdateFn) (void*);
+
 struct WeaponInfo_t {
 	float m_flWeaponArmorRatio;
 	float m_flPenetration;

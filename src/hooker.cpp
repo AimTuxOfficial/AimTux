@@ -61,6 +61,9 @@ RecvVarProxyFn fnSequenceProxyFn;
 StartDrawingFn StartDrawing;
 FinishDrawingFn FinishDrawing;
 
+ForceFullUpdateFn ForceFullUpdate;
+GetClientStateFn GetClientState;
+
 std::unordered_map<const char*, uintptr_t> GetProcessLibraries()
 {
 	std::unordered_map<const char*, uintptr_t> modules;
@@ -213,6 +216,15 @@ void Hooker::HookSurfaceDrawing()
 
 	uintptr_t finish_func_address = FindPattern(GetLibraryAddress("vguimatsurface_client.so"), 0xFFFFFFFFF, (unsigned char*) CMATSYSTEMSURFACE_FINISHDRAWING_SIGNATURE, CMATSYSTEMSURFACE_FINISHDRAWING_MASK);
 	FinishDrawing = reinterpret_cast<FinishDrawingFn>(finish_func_address);
+}
+
+void Hooker::HookForceFullUpdate()
+{
+	uintptr_t forcefullupdate_func_address = FindPattern(GetLibraryAddress("engine_client.so"), 0xFFFFFFFFF, (unsigned char*) FORCEFULLUPDATE_SIGNATURE, FORCEFULLUPDATE_MASK);
+	ForceFullUpdate = reinterpret_cast<ForceFullUpdateFn>(forcefullupdate_func_address);
+
+	uintptr_t getclientstate_func_address = FindPattern(GetLibraryAddress("engine_client.so"), 0xFFFFFFFFF, (unsigned char*) GETCLIENTSTATE_SIGNATURE, GETCLIENTSTATE_MASK);
+	GetClientState = reinterpret_cast<GetClientStateFn>(getclientstate_func_address);
 }
 
 void Hooker::HookSwapWindow()
