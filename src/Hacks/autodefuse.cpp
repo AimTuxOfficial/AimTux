@@ -37,10 +37,10 @@ void AutoDefuse::CreateMove(CUserCmd *cmd)
 
 	float bombTimer = bomb->GetBombTime() - globalvars->curtime;
 
-	if (localplayer->HasDefuser() && bombTimer > 5.1f)
+	if (localplayer->HasDefuser() && bombTimer > 5.5f)
 		return;
 
-	if (!localplayer->HasDefuser() && bombTimer > 10.1f)
+	if (!localplayer->HasDefuser() && bombTimer > 10.5f)
 		return;
 
 	float distance = Math::GetDistance(localplayer->GetVecOrigin(), bomb->GetVecOrigin());
