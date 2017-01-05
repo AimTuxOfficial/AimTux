@@ -18,9 +18,6 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	if (!Settings::Triggerbot::enabled)
 		return;
 
-	if (!engine->IsInGame())
-		return;
-
 	if (!input->IsButtonDown(Settings::Triggerbot::key))
 		return;
 

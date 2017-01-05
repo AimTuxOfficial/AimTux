@@ -12,9 +12,6 @@ void FOVChanger::RenderView(CViewSetup& setup, CViewSetup& hudViewSetup, unsigne
 	if (!Settings::FOVChanger::enabled && !Settings::FOVChanger::viewmodel_enabled)
 			return;
 
-	if (!engine->IsInGame())
-		return;
-
 	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return;

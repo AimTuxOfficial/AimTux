@@ -8,9 +8,6 @@ void Teleport::CreateMove(CUserCmd *cmd)
 	if (!Settings::Teleport::enabled)
 		return;
 
-	if (!engine->IsInGame())
-		return;
-
 	if (!(*csGameRules) || (*csGameRules)->IsValveDS())
 		return;
 

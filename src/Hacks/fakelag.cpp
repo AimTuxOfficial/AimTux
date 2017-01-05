@@ -11,9 +11,6 @@ void FakeLag::CreateMove(CUserCmd* cmd)
 	if (!Settings::FakeLag::enabled)
 		return;
 
-	if (!engine->IsInGame())
-		return;
-
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer || !localplayer->GetAlive())
 		return;
