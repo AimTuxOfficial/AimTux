@@ -3,6 +3,7 @@
 #include "antiaim.h"
 #include "autoaccept.h"
 #include "autoblock.h"
+#include "autodefuse.h"
 #include "autostrafe.h"
 #include "bhop.h"
 #include "chams.h"

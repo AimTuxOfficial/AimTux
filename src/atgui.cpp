@@ -1187,6 +1187,7 @@ void MiscTab()
 				ImGui::Checkbox("Teleport", &Settings::Teleport::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Teleport to 0,0,0 on any map\n( Disabled on VALVE servers )");
+				ImGui::Checkbox("Auto Defuse", &Settings::AutoDefuse::enabled);
 			}
 			ImGui::NextColumn();
 			{
