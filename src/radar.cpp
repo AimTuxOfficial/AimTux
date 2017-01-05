@@ -19,7 +19,7 @@ Vector2D WorldToRadar(const Vector location, const Vector origin, const QAngle a
 
 	int iRadarRadius = width;
 
-	float flOffset = atan(y_diff / x_diff);
+	float flOffset = atanf(y_diff / x_diff);
 	flOffset *= 180;
 	flOffset /= M_PI;
 
@@ -30,7 +30,7 @@ Vector2D WorldToRadar(const Vector location, const Vector origin, const QAngle a
 	else if ((x_diff >= 0) && (y_diff < 0))
 		flOffset = 360 + flOffset;
 
-	y_diff = -1 * (sqrt((x_diff * x_diff) + (y_diff * y_diff)));
+	y_diff = -1 * (sqrtf((x_diff * x_diff) + (y_diff * y_diff)));
 	x_diff = 0;
 
 	flOffset = angles.y - flOffset;
@@ -38,8 +38,8 @@ Vector2D WorldToRadar(const Vector location, const Vector origin, const QAngle a
 	flOffset *= M_PI;
 	flOffset /= 180;
 
-	float xnew_diff = x_diff * cos(flOffset) - y_diff * sin(flOffset);
-	float ynew_diff = x_diff * sin(flOffset) + y_diff * cos(flOffset);
+	float xnew_diff = x_diff * cosf(flOffset) - y_diff * sinf(flOffset);
+	float ynew_diff = x_diff * sinf(flOffset) + y_diff * cosf(flOffset);
 
 	xnew_diff /= scale;
 	ynew_diff /= scale;
@@ -85,11 +85,11 @@ void Radar::DrawWindow()
 		ImVec2 winpos = ImGui::GetWindowPos();
 		ImVec2 winsize = ImGui::GetWindowSize();
 
-		draw_list->AddLine(ImVec2(winpos.x + winsize.x * 0.5, winpos.y), ImVec2(winpos.x + winsize.x * 0.5, winpos.y + winsize.y), ImColor(70,70,70, 255), 1.f);
-		draw_list->AddLine(ImVec2(winpos.x, winpos.y + winsize.y * 0.5 ), ImVec2(winpos.x + winsize.x, winpos.y + winsize.y * 0.5), ImColor(70,70,70, 255), 1.f);
+		draw_list->AddLine(ImVec2(winpos.x + winsize.x * 0.5f, winpos.y), ImVec2(winpos.x + winsize.x * 0.5f, winpos.y + winsize.y), ImColor(70,70,70, 255), 1.f);
+		draw_list->AddLine(ImVec2(winpos.x, winpos.y + winsize.y * 0.5f ), ImVec2(winpos.x + winsize.x, winpos.y + winsize.y * 0.5f), ImColor(70,70,70, 255), 1.f);
 
-		draw_list->AddLine(ImVec2(winpos.x + winsize.x * 0.5, winpos.y + winsize.y * 0.5 ), ImVec2(winpos.x, winpos.y), ImColor(90,90,90, 255), 1.f);
-		draw_list->AddLine(ImVec2(winpos.x + winsize.x * 0.5, winpos.y + winsize.y * 0.5 ), ImVec2(winpos.x + winsize.x, winpos.y), ImColor(90,90,90, 255), 1.f);
+		draw_list->AddLine(ImVec2(winpos.x + winsize.x * 0.5f, winpos.y + winsize.y * 0.5f), ImVec2(winpos.x, winpos.y), ImColor(90,90,90, 255), 1.f);
+		draw_list->AddLine(ImVec2(winpos.x + winsize.x * 0.5f, winpos.y + winsize.y * 0.5f), ImVec2(winpos.x + winsize.x, winpos.y), ImColor(90,90,90, 255), 1.f);
 
 		C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 		if (!localplayer)
@@ -102,7 +102,7 @@ void Radar::DrawWindow()
 		engine->GetViewAngles(localplayer_angles);
 
 		// draw localplayer
-		draw_list->AddCircleFilled(ImVec2(winpos.x + winsize.x * 0.5, winpos.y + winsize.y * 0.5), 4.5f, ImColor(255, 255, 255, 255));
+		draw_list->AddCircleFilled(ImVec2(winpos.x + winsize.x * 0.5f, winpos.y + winsize.y * 0.5f), 4.5f, ImColor(255, 255, 255, 255));
 
 		for (int i = 1; i < entitylist->GetHighestEntityIndex(); i++)
 		{
@@ -151,6 +151,29 @@ void Radar::DrawWindow()
 					shape = EntityShape_t::SHAPE_TRIANGLE;
 				else
 					shape = EntityShape_t::SHAPE_CIRCLE;
+
+				Vector forward;
+				Math::AngleVectors(*player->GetHeadRotation(), forward);
+				Vector dirArrowVec = playerPos + (forward * 8 * Settings::Radar::zoom);
+
+				float arrowWidth = 4.5f;
+				float arrowTheta = 45.f;
+
+				Vector2D dirArrowPos = WorldToRadar(dirArrowVec, localplayer->GetVecOrigin(), localplayer_angles, winsize.x, Settings::Radar::zoom);
+
+				Vector2D line = dirArrowPos - screenpos;
+				float length = sqrtf(powf(line.x, 2.f) + powf(line.y, 2.f));
+
+				Vector2D arrowBase = dirArrowPos - (arrowWidth / (2 * (tanf(arrowTheta) / 2) * length)) * line;
+
+				Vector2D normal = Vector2D(-line.y, line.x);
+				Vector2D left = arrowBase + arrowWidth / (2 * length) * normal;
+				Vector2D right = arrowBase + -arrowWidth / (2 * length) * normal;
+
+				draw_list->AddTriangleFilled(ImVec2(winpos.x + left.x, winpos.y + left.y),
+				                             ImVec2(winpos.x + dirArrowPos.x, winpos.y + dirArrowPos.y),
+				                             ImVec2(winpos.x + right.x, winpos.y + right.y),
+				                             ImColor(230, 230, 230));
 			}
 			else if (classId == CC4)
 			{
@@ -194,20 +217,20 @@ void Radar::DrawWindow()
 					draw_list->AddCircleFilled(ImVec2(winpos.x + screenpos.x, winpos.y + screenpos.y), 4.5f, color);
 					break;
 				case EntityShape_t::SHAPE_SQUARE:
-					draw_list->AddRectFilled(ImVec2(winpos.x + screenpos.x, winpos.y + screenpos.y),
-											 ImVec2(winpos.x + screenpos.x + 9.0f, winpos.y + screenpos.y + 9.0f),
+					draw_list->AddRectFilled(ImVec2(winpos.x + screenpos.x - 4.5f, winpos.y + screenpos.y - 4.5f),
+											 ImVec2(winpos.x + screenpos.x + 4.5f, winpos.y + screenpos.y + 4.5f),
 											 color, 0.0f, 0);
 					break;
 				case EntityShape_t::SHAPE_TRIANGLE:
-					draw_list->AddTriangleFilled(ImVec2(winpos.x + screenpos.x, winpos.y + screenpos.y + 9.0f),
-												 ImVec2(winpos.x + screenpos.x + 9.0f, winpos.y + screenpos.y + 9.0f),
-												 ImVec2(winpos.x + screenpos.x + 5.f, winpos.y + screenpos.y),
+					draw_list->AddTriangleFilled(ImVec2(winpos.x + screenpos.x - 4.5f, winpos.y + screenpos.y + 4.5f),
+												 ImVec2(winpos.x + screenpos.x + 4.5f, winpos.y + screenpos.y + 4.5f),
+												 ImVec2(winpos.x + screenpos.x, winpos.y + screenpos.y - 4.5f),
 												 color);
 					break;
 				case EntityShape_t::SHAPE_TRIANGLE_UPSIDEDOWN:
-					draw_list->AddTriangleFilled(ImVec2(winpos.x + screenpos.x, winpos.y + screenpos.y),
-					                             ImVec2(winpos.x + screenpos.x + 9.0f, winpos.y + screenpos.y),
-					                             ImVec2(winpos.x + screenpos.x + 5.f, winpos.y + screenpos.y + 9.0f),
+					draw_list->AddTriangleFilled(ImVec2(winpos.x + screenpos.x - 4.5f, winpos.y + screenpos.y - 4.5f),
+					                             ImVec2(winpos.x + screenpos.x + 4.5f, winpos.y + screenpos.y - 4.5f),
+					                             ImVec2(winpos.x + screenpos.x, winpos.y + screenpos.y + 4.5f),
 					                             color);
 					break;
 			}
