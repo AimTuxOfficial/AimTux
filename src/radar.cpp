@@ -171,8 +171,8 @@ void Radar::DrawWindow()
 				Vector2D right = arrowBase + -arrowWidth / (2 * length) * normal;
 
 				draw_list->AddTriangleFilled(ImVec2(winpos.x + left.x, winpos.y + left.y),
-				                             ImVec2(winpos.x + dirArrowPos.x, winpos.y + dirArrowPos.y),
 				                             ImVec2(winpos.x + right.x, winpos.y + right.y),
+				                             ImVec2(winpos.x + dirArrowPos.x, winpos.y + dirArrowPos.y),
 				                             ImColor(230, 230, 230));
 			}
 			else if (classId == CC4)
@@ -222,8 +222,8 @@ void Radar::DrawWindow()
 											 color, 0.0f, 0);
 					break;
 				case EntityShape_t::SHAPE_TRIANGLE:
-					draw_list->AddTriangleFilled(ImVec2(winpos.x + screenpos.x - 4.5f, winpos.y + screenpos.y + 4.5f),
-												 ImVec2(winpos.x + screenpos.x + 4.5f, winpos.y + screenpos.y + 4.5f),
+					draw_list->AddTriangleFilled(ImVec2(winpos.x + screenpos.x + 4.5f, winpos.y + screenpos.y + 4.5f),
+												 ImVec2(winpos.x + screenpos.x - 4.5f, winpos.y + screenpos.y + 4.5f),
 												 ImVec2(winpos.x + screenpos.x, winpos.y + screenpos.y - 4.5f),
 												 color);
 					break;
