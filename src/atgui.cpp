@@ -1169,12 +1169,9 @@ void MiscTab()
 				ImGui::Checkbox("Autoblock", &Settings::Autoblock::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Allows you to block players from moving forwards by standing in front of them and mirroring their moves - great for griefing");
-
-#ifdef UNTRUSTED_SETTINGS
 				ImGui::Checkbox("Teleport", &Settings::Teleport::enabled);
 				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Teleport to 0,0,0 on any map");
-#endif
+					ImGui::SetTooltip("Teleport to 0,0,0 on any map\n( Disabled on VALVE servers )");
 			}
 			ImGui::NextColumn();
 			{
