@@ -1196,9 +1196,7 @@ void MiscTab()
 				ImGui::Checkbox("Show Ranks", &Settings::ShowRanks::enabled);
 				UI::KeyBindButton(&Settings::Airstuck::key);
 				UI::KeyBindButton(&Settings::Autoblock::key);
-#ifdef UNTRUSTED_SETTINGS
 				UI::KeyBindButton(&Settings::Teleport::key);
-#endif
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
