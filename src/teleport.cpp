@@ -11,7 +11,7 @@ void Teleport::CreateMove(CUserCmd *cmd)
 	if (!engine->IsInGame())
 		return;
 
-	if (!(*gameRules) || (*gameRules)->IsValveDS())
+	if (!(*csGameRules) || (*csGameRules)->IsValveDS())
 		return;
 
 	if (!input->IsButtonDown(Settings::Teleport::key))

@@ -157,7 +157,7 @@ void Radar::DrawWindow()
 				if (!Settings::Radar::bomb)
 					continue;
 
-				if (!(*gameRules) || !(*gameRules)->IsBombDropped())
+				if (!(*csGameRules) || !(*csGameRules)->IsBombDropped())
 					continue;
 
 				color = Settings::ESP::bomb_color;
@@ -168,7 +168,7 @@ void Radar::DrawWindow()
 				if (!Settings::Radar::bomb)
 					continue;
 
-				if (!(*gameRules) || !(*gameRules)->IsBombPlanted())
+				if (!(*csGameRules) || !(*csGameRules)->IsBombPlanted())
 					continue;
 
 				C_PlantedC4* bomb = (C_PlantedC4*) entity;

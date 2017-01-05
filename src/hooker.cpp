@@ -25,7 +25,7 @@ IMoveHelper* movehelper = nullptr;
 ILauncherMgr* launchermgr = nullptr;
 CGlowObjectManager* glowmanager = nullptr;
 C_CSPlayerResource** csPlayerResource = nullptr;
-C_GameRules** gameRules = nullptr;
+C_CSGameRules** csGameRules = nullptr;
 IEngineVGui* enginevgui = nullptr;
 IEngineSound* sound = nullptr;
 
@@ -158,7 +158,7 @@ void Hooker::HookGameRules()
 {
 	uintptr_t instruction_addr = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) GAMERULES_SIGNATURE, GAMERULES_MASK);
 
-	gameRules = *reinterpret_cast<C_GameRules***>(GetAbsoluteAddress(instruction_addr, 3, 7));
+	csGameRules = *reinterpret_cast<C_CSGameRules***>(GetAbsoluteAddress(instruction_addr, 3, 7));
 }
 
 void Hooker::HookRankReveal()

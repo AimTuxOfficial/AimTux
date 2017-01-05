@@ -589,7 +589,7 @@ void ESP::DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info
 
 void ESP::DrawBomb(C_BaseCombatWeapon* bomb)
 {
-	if (!(*gameRules) || !(*gameRules)->IsBombDropped())
+	if (!(*csGameRules) || !(*csGameRules)->IsBombDropped())
 		return;
 
 	DrawEntity(bomb, "Bomb", Color::FromImColor(Settings::ESP::bomb_color));
@@ -597,7 +597,7 @@ void ESP::DrawBomb(C_BaseCombatWeapon* bomb)
 
 void ESP::DrawPlantedBomb(C_PlantedC4* bomb)
 {
-	if (!(*gameRules) || !(*gameRules)->IsBombPlanted())
+	if (!(*csGameRules) || !(*csGameRules)->IsBombPlanted())
 		return;
 
 	ImColor color = bomb->GetBombDefuser() != -1 || bomb->IsBombDefused() ? Settings::ESP::bomb_defusing_color : Settings::ESP::bomb_color;

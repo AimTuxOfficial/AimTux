@@ -1,6 +1,6 @@
 #pragma once
 
-class C_GameRules
+class C_CSGameRules
 {
 public:
 	bool IsValveDS()
