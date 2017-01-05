@@ -43,7 +43,6 @@ namespace ImGui
 void UI::SetVisible(bool visible)
 {
 	UI::isVisible = visible;
-	cvar->FindVar("cl_mouseenable")->SetValue(!UI::isVisible);
 }
 
 void UI::SetupColors()
