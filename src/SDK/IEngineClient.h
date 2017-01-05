@@ -26,68 +26,60 @@ public:
 	void GetScreenSize(int& width, int& height)
 	{
 		typedef void (* oGetScreenSize)(void*, int&, int&);
-		getvfunc<oGetScreenSize>(this, 5)(this, width, height);
+		return getvfunc<oGetScreenSize>(this, 5)(this, width, height);
 	}
 
 	bool GetPlayerInfo(int iIndex, player_info_t *pInfo)
 	{
 		typedef bool (* oGetPlayerInfo)(void*, int, player_info_t*);
-		getvfunc<oGetPlayerInfo>(this, 8)(this, iIndex, pInfo);
+		return getvfunc<oGetPlayerInfo>(this, 8)(this, iIndex, pInfo);
 	}
 
-	bool GetPlayerForUserID(int UserID)
+	int GetPlayerForUserID(int UserID)
 	{
-		typedef bool (* oGetPlayerForUserID)(void*, int);
-		getvfunc<oGetPlayerForUserID>(this, 9)(this, UserID);
+		typedef int (* oGetPlayerForUserID)(void*, int);
+		return getvfunc<oGetPlayerForUserID>(this, 9)(this, UserID);
 	}
 
 	int GetLocalPlayer()
 	{
 		typedef int (* oGetLocalPlayer)(void*);
-		getvfunc<oGetLocalPlayer>(this, 12)(this);
+		return getvfunc<oGetLocalPlayer>(this, 12)(this);
 	}
 
 	void GetViewAngles(QAngle& angle)
 	{
 		typedef void (* oGetViewAngles)(void*, QAngle&);
-		getvfunc<oGetViewAngles>(this, 18)(this, angle);
+		return getvfunc<oGetViewAngles>(this, 18)(this, angle);
 	}
 
 	void SetViewAngles(QAngle& angle)
 	{
 		typedef void (* oSetViewAngles)(void*, QAngle&);
-		getvfunc<oSetViewAngles>(this, 19)(this, angle);
+		return getvfunc<oSetViewAngles>(this, 19)(this, angle);
 	}
 
 	int GetMaxClients()
 	{
 		typedef int (* oGetMaxClients)(void*);
-		getvfunc<oGetMaxClients>(this, 20)(this);
+		return getvfunc<oGetMaxClients>(this, 20)(this);
 	}
 
 	bool IsInGame()
 	{
 		typedef bool (* oIsInGame)(void*);
-		getvfunc<oIsInGame>(this, 26)(this);
+		return getvfunc<oIsInGame>(this, 26)(this);
 	}
 
 	void ExecuteClientCmd(const char* szCmdString)
 	{
 		typedef void (* oExecuteClientCmd)(void*, const char*);
-		getvfunc<oExecuteClientCmd>(this, 108)(this, szCmdString);
+		return getvfunc<oExecuteClientCmd>(this, 108)(this, szCmdString);
 	}
 
 	void ClientCmd_Unrestricted(const char* szCmdString)
 	{
 		typedef void (* oClientCmd_Unrestricted)(void*, const char*);
-		getvfunc<oClientCmd_Unrestricted>(this, 113)(this, szCmdString);
-	}
-
-	void Print(const char* message)
-	{
-		char buffer[256];
-		sprintf (buffer, "echo %s", message);
-
-		ExecuteClientCmd(buffer);
+		return getvfunc<oClientCmd_Unrestricted>(this, 113)(this, szCmdString);
 	}
 };

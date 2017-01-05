@@ -1,8 +1,5 @@
 #pragma once
 
-#define CCSMODEMANAGER_INIT_SIGNATURE "\x48\x8D\x05\x00\x00\x00\x00\x48\x89\xE5\x48\x89\x05\x00\x00\x00\x00\xE8\x00\x00\x00\x00\x5D\x48"
-#define CCSMODEMANAGER_INIT_MASK "xxx????xxxxxx????x????xx"
-
 #define GLOWOBJECT_SIGNATURE "\xE8\x00\x00\x00\x00\x48\x8B\x3D\x00\x00\x00\x00\xBE\x01\x00\x00\x00\xC7"
 #define GLOWOBJECT_MASK "x????xxx????xxxxxx"
 
@@ -18,13 +15,47 @@
 #define BSENDPACKET_SIGNATURE "\x41\xBD\x01\x00\x00\x00\xE9\x2A\xFE"
 #define BSENDPACKET_MASK "xxx???xxx"
 
+#define PREDICTION_RANDOM_SEED_SIGNATURE "\x48\x8B\x05\x00\x00\x00\x00\xF3\x0F\x11\x45\xDC\xF3"
+#define PREDICTION_RANDOM_SEED_MASK "xxx????xxxxxx"
+
+#define CLIENT_MOVEHELPER_SIGNATURE "\x00\x48\x89\x3D\x00\x00\x00\x00\xC3"
+#define CLIENT_MOVEHELPER_MASK "xxxx????x"
+
+#define CLIENT_MOVEDATA_SIGNATURE "\x48\x8B\x0D\x00\x00\x00\x00\x4C\x89\xF2"
+#define CLIENT_MOVEDATA_MASK "xxx????xxx"
+
+#define ISREADY_CALLBACK_SIGNATURE "\x48\x83\x3D\x00\x00\x00\x00\x00\x55\x48\x89\xE5\x41"
+#define ISREADY_CALLBACK_MASK "xxx????xxxxxx"
+
+#define GETSDLMGR_SIGNATURE "\x55\x48\x89\xE5\x53\x48\x83\xEC\x18"
+#define GETSDLMGR_MASK "xxxxxxxxx"
+
+#define PLAYERRESOURCES_SIGNATURE "\x48\x8B\x05\x00\x00\x00\x00\x55\x48\x89\xE5\x48\x85\xC0\x74\x10\x48"
+#define PLAYERRESOURCES_MASK "xxx????xxxxxxxxxx"
+
+#define GAMERULES_SIGNATURE "\x48\x8B\x05\x00\x00\x00\x00\x48\x8B\x00\x0F\x84"
+#define GAMERULES_MASK "xxx????xx?xx"
+
+#define CMATSYSTEMSURFACE_STARTDRAWING_SIGNATURE "\x55\x48\x89\xE5\x53\x48\x89\xFB\x48\x83\xEC\x28\x80"
+#define CMATSYSTEMSURFACE_STARTDRAWING_MASK "xxxxxxxxxxxxx"
+
+#define CMATSYSTEMSURFACE_FINISHDRAWING_SIGNATURE "\x55\x31\xFF\x48\x89"
+#define CMATSYSTEMSURFACE_FINISHDRAWING_MASK "xxxxx"
+
+#define FORCEFULLUPDATE_SIGNATURE "\x55\x48\x89\xE5\x48\x89\x5D\xF0\x48\x89\xFB\x4C\x89\x65\xF8\x48\x83\xEC\x10\x49\x89\xF4\x83"
+#define FORCEFULLUPDATE_MASK "xxxxxxxxxxxxxxxxxxxxxxx"
+
+#define GETCLIENTSTATE_SIGNATURE "\x55\x48\x8D\x3D\x68\x01\xDC"
+#define GETCLIENTSTATE_MASK "xxxxxxx"
+
 #include <unordered_map>
 #include <sys/mman.h>
 #include <link.h>
-#include "patternfinder.h"
+#include "Utils/patternfinder.h"
 #include "SDK/SDK.h"
-#include "vmt.h"
-#include "util.h"
+#include "Utils/vmt.h"
+#include "Utils/util.h"
+#include "glhook.h"
 
 namespace Hooker
 {
@@ -33,9 +64,17 @@ namespace Hooker
 	void HookIClientMode();
 	void HookGlobalVars();
 	void HookGlowManager();
+	void HookPlayerResource();
+	void HookGameRules();
 	void HookRankReveal();
 	void HookSendClanTag();
 	void HookViewRender();
 	void HookSendPacket();
-	void UnhookSendPacket();
+	void HookPrediction();
+	void HookIsReadyCallback();
+	void HookSurfaceDrawing();
+	void HookForceFullUpdate();
+	void HookSwapWindow();
+	void HookPollEvent();
+	void HookSDLInput();
 }

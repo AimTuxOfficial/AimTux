@@ -50,37 +50,37 @@ public:
 	float GetFloat()
 	{
 		typedef float (* oGetFloat)(void*);
-		getvfunc<oGetFloat>(this, 15)(this);
+		return getvfunc<oGetFloat>(this, 15)(this);
 	}
 
 	int GetInt()
 	{
 		typedef int (* oGetInt)(void*);
-		getvfunc<oGetInt>(this, 16)(this);
+		return getvfunc<oGetInt>(this, 16)(this);
 	}
 
 	void SetValue(const char* value)
 	{
 		typedef void (* oSetValue)(void*, const char*);
-		getvfunc<oSetValue>(this, 17)(this, value);
+		return getvfunc<oSetValue>(this, 17)(this, value);
 	}
 
 	void SetValue(float value)
 	{
 		typedef void (* oSetValue)(void*, float);
-		getvfunc<oSetValue>(this, 18)(this, value);
+		return getvfunc<oSetValue>(this, 18)(this, value);
 	}
 
 	void SetValue(int value)
 	{
 		typedef void (* oSetValue)(void*, int);
-		getvfunc<oSetValue>(this, 19)(this, value);
+		return getvfunc<oSetValue>(this, 19)(this, value);
 	}
 
 	void SetValue(Color value)
 	{
 		typedef void (* oSetValue)(void*, Color);
-		getvfunc<oSetValue>(this, 20)(this, value);
+		return getvfunc<oSetValue>(this, 20)(this, value);
 	}
 
 	char pad_0x0000[0x4]; //0x0000
@@ -108,21 +108,21 @@ class ICvar
 public:
 	ConVar* FindVar(const char *var)
 	{
-		typedef void (* oFindVar)(void*, const char*);
-		getvfunc<oFindVar>(this, 15)(this, var);
+		typedef ConVar* (* oFindVar)(void*, const char*);
+		return getvfunc<oFindVar>(this, 15)(this, var);
 	}
 
 	template <typename... Values>
 	void ConsoleColorPrintf(const ColorRGBA& MsgColor, const char* szMsgFormat, Values... Parameters)
 	{
 		typedef void (* oConsoleColorPrintf)(void*, const ColorRGBA&, const char*, ...);
-		getvfunc<oConsoleColorPrintf>(this, 25)(this, MsgColor, szMsgFormat, Parameters...);
+		return getvfunc<oConsoleColorPrintf>(this, 25)(this, MsgColor, szMsgFormat, Parameters...);
 	}
 
 	template <typename... Values>
 	void ConsoleDPrintf(const char* szMsgFormat, Values... Parameters)
 	{
 		typedef void (* oConsoleDPrintf)(void*, const char*, ...);
-		getvfunc<oConsoleDPrintf>(this, 27)(this, szMsgFormat, Parameters...);
+		return getvfunc<oConsoleDPrintf>(this, 27)(this, szMsgFormat, Parameters...);
 	}
 };

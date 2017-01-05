@@ -3,11 +3,14 @@
 #include <cstdint>
 #include <dlfcn.h>
 #include "../offsets.h"
-#include "../pstring.h"
+#include "../Utils/pstring.h"
 
 #include "definitions.h"
 #include "common.h"
 #include "color.h"
+#include "checksum_md5.h"
+#include "CUtlMemory.h"
+#include "CUtlVector.h"
 #include "CEffects.h"
 #include "CGlobalVars.h"
 #include "IBaseClientDLL.h"
@@ -29,3 +32,10 @@
 #include "CGlowObjectManager.h"
 #include "IPhysicsSurfaceProps.h"
 #include "CViewRender.h"
+#include "IGameMovement.h"
+#include "IPrediction.h"
+#include "ILauncherMgr.h"
+#include "CPlayerResource.h"
+#include "CCSGameRules.h"
+#include "IEngineVGui.h"
+#include "IEngineSound.h"

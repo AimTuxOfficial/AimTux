@@ -4,72 +4,147 @@
 #include <zconf.h>
 #include <fstream>
 #include <vector>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <stdlib.h>
 #include "json/json.h"
 #include "SDK/SDK.h"
 #include "fonts.h"
-#include "draw.h"
-#include "skinchanger.h"
+#include "Utils/draw.h"
+#include "Hacks/skinchanger.h"
+#include "Utils/util.h"
+#include "Utils/util_items.h"
+#include "config.h"
+#include "atgui.h"
 
-enum TracerType : unsigned int
+enum TracerType : int
 {
 	BOTTOM,
 	CURSOR
 };
 
-enum AntiAimType_Y : unsigned int
+enum ClanTagType : int
 {
-	SPIN_FAST,
+	STATIC,
+	MARQUEE,
+	WORDS,
+	LETTERS
+};
+
+enum AutostrafeType : int
+{
+	AS_FORWARDS,
+	AS_BACKWARDS,
+	AS_LEFTSIDEWAYS,
+	AS_RIGHTSIDEWAYS
+};
+
+enum AntiAimType_Y : int
+{
 	SPIN_SLOW,
+	SPIN_FAST,
 	JITTER,
 	SIDE,
 	BACKWARDS,
-	FAKE4,
-	LISP
+	FORWARDS,
+	LEFT,
+	RIGHT,
+	STATICAA,
+	LISP,
+	LISP_SIDE,
+	LISP_JITTER,
+	ANGEL_BACKWARD,
+	ANGEL_INVERSE,
+	ANGEL_SPIN,
+	ANGEL_FAKE_SPIN,
+	ZERO_OUT_Y
 };
 
-enum AntiAimType_X : unsigned int
+enum AntiAimType_X : int
 {
 	STATIC_UP,
-	STATIC_DOWN
+	STATIC_DOWN,
+	DANCE,
+	FRONT,
+	STATIC_UP_FAKE,
+	STATIC_DOWN_FAKE,
+	LISP_DOWN,
+	ANGEL_DOWN,
+	ANGEL_UP,
+	ZERO_OUT_X
 };
 
-enum ChamsType : unsigned int
+enum ChamsType : int
 {
 	CHAMS,
-	CHAMS_FLAT
+	CHAMS_XQZ,
+	CHAMS_FLAT,
+	CHAMS_FLAT_XQZ
 };
 
-enum WallBoxType : unsigned int
+enum BoxType : int
 {
 	FLAT_2D,
-	BOX_3D
+	FRAME_2D
+};
+
+enum BarType : int
+{
+	VERTICAL,
+	HORIZONTAL,
+	HORIZONTAL_UP,
+	INTERWEBZ
+};
+
+enum BarColorType : int
+{
+	STATIC_COLOR,
+	HEALTH_BASED
+};
+
+enum TeamColorType : int
+{
+	ABSOLUTE,
+	RELATIVE
+};
+
+enum ArmsType : int
+{
+	DEFAULT,
+	RAINBOW,
+	WIREFRAME,
+	NONE
+};
+
+enum AimTargetType : int
+{
+	FOV,
+	DISTANCE,
+	HP
+};
+
+enum SpammerType : int
+{
+	SPAMMER_NONE,
+	SPAMMER_NORMAL,
+	SPAMMER_POSITIONS
 };
 
 namespace Settings
 {
 	namespace UI
 	{
-		extern Color mainColor;
-		extern Color bodyColor;
+		extern ImColor mainColor;
+		extern ImColor bodyColor;
+		extern ImColor fontColor;
 
 		namespace Fonts
 		{
-			namespace Title
-			{
-				extern char* family;
-				extern int size;
-			}
-
-			namespace Normal
-			{
-				extern char* family;
-				extern int size;
-			}
-
 			namespace ESP
 			{
 				extern char* family;
 				extern int size;
+				extern int flags;
 			}
 		}
 	}
@@ -79,9 +154,7 @@ namespace Settings
 		extern bool enabled;
 		extern bool silent;
 		extern bool friendly;
-		extern float fov;
-		extern float errorMargin;
-		extern unsigned int bone;
+		extern int bone;
 		extern ButtonCode_t aimkey;
 		extern bool aimkey_only;
 
@@ -90,24 +163,31 @@ namespace Settings
 			extern bool enabled;
 			extern float value;
 			extern float max;
-			
+
 			namespace Salting
 			{
 				extern bool enabled;
-				extern float percentage;
+				extern float multiplier;
 			}
+		}
+
+		namespace ErrorMargin
+		{
+			extern bool enabled;
+			extern float value;
 		}
 
 		namespace AutoAim
 		{
 			extern bool enabled;
+			extern float fov;
 		}
 
 		namespace AutoWall
 		{
 			extern bool enabled;
 			extern float value;
-			extern std::vector<Hitbox> bones;
+			extern bool bones[];
 		}
 
 		namespace AimStep
@@ -119,6 +199,7 @@ namespace Settings
 		namespace RCS
 		{
 			extern bool enabled;
+			extern bool always_on;
 			extern float value;
 		}
 
@@ -142,6 +223,16 @@ namespace Settings
 		{
 			extern bool enabled;
 		}
+
+		namespace NoShoot
+		{
+			extern bool enabled;
+		}
+
+		namespace IgnoreJump
+		{
+			extern bool enabled;
+		}
 	}
 
 	namespace Triggerbot
@@ -152,6 +243,7 @@ namespace Settings
 		namespace Filter
 		{
 			extern bool friendly;
+			extern bool walls;
 			extern bool head;
 			extern bool chest;
 			extern bool stomach;
@@ -162,56 +254,140 @@ namespace Settings
 		namespace Delay
 		{
 			extern bool enabled;
-			extern float value;
+			extern int value;
 		}
 	}
 
 	namespace AntiAim
 	{
-		extern bool enabled_Y;
-		extern bool enabled_X;
-		extern AntiAimType_Y type_Y;
-		extern AntiAimType_X type_X;
+		namespace AutoDisable
+		{
+			extern bool no_enemy;
+			extern bool knife_held;
+		}
+
+		namespace Yaw
+		{
+			extern bool enabled;
+			extern int type;
+			extern int type_fake;
+		}
+
+		namespace Pitch
+		{
+			extern bool enabled;
+			extern int type;
+		}
+
+		namespace HeadEdge
+		{
+			extern bool enabled;
+			extern float distance;
+		}
+	}
+
+	namespace Resolver
+	{
+		extern bool resolve_all;
 	}
 
 	namespace ESP
 	{
 		extern bool enabled;
-		extern bool visibility_check;
-		extern Color ally_color;
-		extern Color enemy_color;
-		extern Color enemy_visible_color;
-		extern Color bones_color;
-		extern Color bomb_color;
+		extern int team_color_type;
+		extern ImColor enemy_color;
+		extern ImColor ally_color;
+		extern ImColor enemy_visible_color;
+		extern ImColor ally_visible_color;
+		extern ImColor ct_color;
+		extern ImColor t_color;
+		extern ImColor ct_visible_color;
+		extern ImColor t_visible_color;
+		extern ImColor bomb_color;
+		extern ImColor bomb_defusing_color;
+		extern ImColor hostage_color;
+		extern ImColor defuser_color;
+		extern ImColor weapon_color;
+		extern ImColor chicken_color;
+		extern ImColor fish_color;
+		extern ImColor smoke_color;
+		extern ImColor decoy_color;
+		extern ImColor flashbang_color;
+		extern ImColor grenade_color;
+		extern ImColor molotov_color;
 
 		namespace Glow
 		{
 			extern bool enabled;
-			extern Color ally_color;
-			extern Color enemy_color;
-			extern Color enemy_visible_color;
-			extern Color weapon_color;
+			extern ImColor ally_color;
+			extern ImColor enemy_color;
+			extern ImColor enemy_visible_color;
+			extern ImColor weapon_color;
+			extern ImColor grenade_color;
+			extern ImColor defuser_color;
+			extern ImColor chicken_color;
 		}
 
-		namespace Tracer
+		namespace Filters
 		{
-			extern TracerType type;
-			extern bool enabled;
-		}
-
-		namespace Walls
-		{
-			extern bool enabled;
-			extern WallBoxType type;
+			extern bool legit;
+			extern bool visibility_check;
+			extern bool enemies;
+			extern bool allies;
+			extern bool bomb;
+			extern bool hostages;
+			extern bool defusers;
+			extern bool weapons;
+			extern bool chickens;
+			extern bool fishes;
+			extern bool throwables;
 		}
 
 		namespace Info
 		{
-			extern bool showName;
-			extern bool showHealth;
+			extern bool name;
+			extern bool clan;
+			extern bool steam_id;
+			extern bool rank;
+			extern bool health;
+			extern bool weapon;
+			extern bool scoped;
+			extern bool reloading;
+			extern bool flashed;
+			extern bool planting;
+			extern bool has_defuser;
+			extern bool defusing;
+			extern bool grabbing_hostage;
+			extern bool rescuing;
+			extern bool location;
 		}
 
-		namespace Bones
+		namespace Skeleton
+		{
+			extern bool enabled;
+			extern ImColor color;
+		}
+
+		namespace Boxes
+		{
+			extern bool enabled;
+			extern int type;
+		}
+
+		namespace Bars
+		{
+			extern bool enabled;
+			extern int type;
+			extern int color_type;
+		}
+
+		namespace Tracers
+		{
+			extern bool enabled;
+			extern int type;
+		}
+
+		namespace BulletTracers
 		{
 			extern bool enabled;
 		}
@@ -221,30 +397,44 @@ namespace Settings
 			extern bool enabled;
 		}
 
-		namespace Weapons
-		{
-			extern bool enabled;
-		}
-
 		namespace FOVCrosshair
 		{
 			extern bool enabled;
+			extern ImColor color;
 		}
 
 		namespace Chams
 		{
-			extern bool players;
-			extern bool visibility_check;
-			extern bool arms;
-			extern bool rainbow_arms;
-			extern bool wireframe_arms;
-			extern bool no_arms;
-			extern Color players_ally_color;
-			extern Color players_ally_visible_color;
-			extern Color players_enemy_color;
-			extern Color players_enemy_visible_color;
-			extern Color arms_color;
-			extern ChamsType type;
+			extern bool enabled;
+			extern ImColor ally_color;
+			extern ImColor ally_visible_color;
+			extern ImColor enemy_color;
+			extern ImColor enemy_visible_color;
+			extern int type;
+
+			namespace Arms
+			{
+				extern bool enabled;
+				extern ImColor color;
+				extern int type;
+			}
+		}
+
+		namespace Sounds
+		{
+			extern bool enabled;
+			extern int time;
+		}
+
+		namespace Hitmarker
+		{
+			extern bool enabled;
+			extern bool enemies;
+			extern bool allies;
+			extern ImColor color;
+			extern int duration;
+			extern int size;
+			extern int inner_gap;
 		}
 	}
 
@@ -252,26 +442,39 @@ namespace Settings
 	{
 		extern bool enabled;
 		extern float radius;
-		extern Color ally_color;
-		extern Color enemy_color;
 	}
 
 	namespace Spammer
 	{
+		extern int type;
+		extern bool say_team;
+
 		namespace KillSpammer
 		{
 			extern bool enabled;
+			extern bool say_team;
 			extern char* message;
+		}
+
+		namespace RadioSpammer
+		{
+			extern bool enabled;
+		}
+
+		namespace NormalSpammer
+		{
+			extern std::vector<std::string> messages;
 		}
 
 		namespace PositionSpammer
 		{
-			extern bool enabled;
-		}
-		
-		namespace NormalSpammer
-		{
-			extern bool enabled;
+			extern bool show_name;
+			extern bool show_weapon;
+			extern bool show_rank;
+			extern bool show_wins;
+			extern bool show_health;
+			extern bool show_money;
+			extern bool show_lastplace;
 		}
 	}
 
@@ -283,6 +486,7 @@ namespace Settings
 	namespace AutoStrafe
 	{
 		extern bool enabled;
+		extern int type;
 	}
 
 	namespace Noflash
@@ -297,19 +501,39 @@ namespace Settings
 		extern bool viewmodel_enabled;
 		extern float value;
 		extern float viewmodel_value;
+		extern bool ignore_scope;
 	}
 
 	namespace Radar
 	{
 		extern bool enabled;
+		extern float zoom;
+		extern bool enemies;
+		extern bool allies;
+		extern bool bomb;
+		extern bool defuser;
+		extern bool legit;
+		extern bool visibility_check;
+
+		namespace InGame
+		{
+			extern bool enabled;
+		}
 	}
 
 	namespace Recoilcrosshair
 	{
 		extern bool enabled;
+		extern bool showOnlyWhenShooting;
 	}
 
 	namespace Airstuck
+	{
+		extern bool enabled;
+		extern ButtonCode_t key;
+	}
+
+	namespace Autoblock
 	{
 		extern bool enabled;
 		extern ButtonCode_t key;
@@ -321,14 +545,16 @@ namespace Settings
 		{
 			int PaintKit;
 			int ItemDefinitionIndex;
+			int Seed;
 			float Wear;
 			int StatTrak;
 			std::string CustomName;
 			std::string Model;
 
-			Skin (int PaintKit, int ItemDefinitionIndex, float Wear, int StatTrak, std::string CustomName, std::string Model)
+			Skin (int PaintKit, int ItemDefinitionIndex, int Seed, float Wear, int StatTrak, std::string CustomName, std::string Model)
 			{
 				this->PaintKit = PaintKit;
+				this->Seed = Seed;
 				this->ItemDefinitionIndex = ItemDefinitionIndex;
 				this->Wear = Wear;
 				this->StatTrak = StatTrak;
@@ -355,15 +581,19 @@ namespace Settings
 
 	namespace ClanTagChanger
 	{
-		extern std::string value;
+		extern char* value;
 		extern bool animation;
+		extern int animation_speed;
 		extern bool enabled;
+		extern int type;
 	}
-	
-	namespace NameChanger
+
+	namespace View
 	{
-		extern bool enabled;
-		extern bool last_blank;
+		namespace NoPunch
+		{
+			extern bool enabled;
+		}
 	}
 
 	namespace Teleport
@@ -375,9 +605,38 @@ namespace Settings
 	namespace FakeLag
 	{
 		extern bool enabled;
-		extern float value;
+		extern int value;
 	}
 
-	void LoadDefaultsOrSave(const char* filename);
-	void LoadSettings(const char* filename);
+	namespace AutoAccept
+	{
+		extern bool enabled;
+	}
+
+	namespace NoSky
+	{
+		extern bool enabled;
+		extern ImColor color;
+	}
+
+	namespace ASUSWalls
+	{
+		extern bool enabled;
+		extern ImColor color;
+	}
+
+	namespace NoScopeBorder
+	{
+		extern bool enabled;
+	}
+
+	namespace AutoDefuse
+	{
+		extern bool enabled;
+	}
+
+	void LoadDefaultsOrSave(std::string path);
+	void LoadConfig(std::string path);
+	void LoadSettings();
+	void DeleteConfig(std::string path);
 }

@@ -465,21 +465,27 @@ private:
 class IVModelInfo
 {
 public:
+	model_t* GetModel(int index)
+	{
+		typedef model_t* (* oGetModel)(void*, int);
+		return getvfunc<oGetModel>(this, 2)(this, index);
+	}
+
 	int GetModelIndex(const char* Filename)
 	{
 		typedef int (* oGetModelIndex)(void*, const char*);
-		getvfunc<oGetModelIndex>(this, 3)(this, Filename);
+		return getvfunc<oGetModelIndex>(this, 3)(this, Filename);
 	}
 
 	const char* GetModelName(const model_t *model)
 	{
 		typedef const char* (* oGetModelName)(void*, const model_t*);
-		getvfunc<oGetModelName>(this, 4)(this, model);
+		return getvfunc<oGetModelName>(this, 4)(this, model);
 	}
 
 	studiohdr_t* GetStudioModel(const model_t* model)
 	{
 		typedef studiohdr_t* (* oGetStudioModel)(void*, const model_t*);
-		getvfunc<oGetStudioModel>(this, 31)(this, model);
+		return getvfunc<oGetStudioModel>(this, 31)(this, model);
 	}
 };
