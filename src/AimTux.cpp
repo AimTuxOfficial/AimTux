@@ -17,6 +17,7 @@ int __attribute__((constructor)) aimtux_init()
 	Hooker::HookGlobalVars();
 	Hooker::HookGlowManager();
 	Hooker::HookPlayerResource();
+	Hooker::HookGameRules();
 	Hooker::HookRankReveal();
 	Hooker::HookSendClanTag();
 	Hooker::HookSendPacket();
