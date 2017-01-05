@@ -492,7 +492,7 @@ void VisualsTab()
 	const char* BarTypes[] = { "Vertical", "Horizontal Below", "Horizontal Above", "Interwebz" };
 	const char* BarColorTypes[] = { "Static", "Health Based" };
 	const char* TeamColorTypes[] = { "Absolute", "Relative" };
-	const char* ChamsTypes[] = { "Normal", "Normal - XQZ", "Flat", "FLAT - XQZ" };
+	const char* ChamsTypes[] = { "Normal", "Normal - XQZ", "Flat", "Flat - XQZ" };
 	const char* ArmsTypes[] = { "Default", "Rainbow", "Wireframe", "None" };
 
 	ImGui::Checkbox("Enabled", &Settings::ESP::enabled);
