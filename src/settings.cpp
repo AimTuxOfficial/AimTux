@@ -293,6 +293,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["FOVChanger"]["value"] = Settings::FOVChanger::value;
 	settings["FOVChanger"]["viewmodel_enabled"] = Settings::FOVChanger::viewmodel_enabled;
 	settings["FOVChanger"]["viewmodel_value"] = Settings::FOVChanger::viewmodel_value;
+	settings["FOVChanger"]["ignore_scope"] = Settings::FOVChanger::ignore_scope;
 
 	settings["Airstuck"]["enabled"] = Settings::Airstuck::enabled;
 	settings["Airstuck"]["key"] = Util::GetButtonName(Settings::Airstuck::key);
@@ -554,6 +555,7 @@ void Settings::LoadConfig(std::string path)
 	GetFloat(settings["FOVChanger"]["value"], &Settings::FOVChanger::value);
 	GetBool(settings["FOVChanger"]["viewmodel_enabled"], &Settings::FOVChanger::viewmodel_enabled);
 	GetFloat(settings["FOVChanger"]["viewmodel_value"], &Settings::FOVChanger::viewmodel_value);
+	GetBool(settings["FOVChanger"]["ignore_scope"], &Settings::FOVChanger::ignore_scope);
 
 	GetBool(settings["Airstuck"]["enabled"], &Settings::Airstuck::enabled);
 	GetButtonCode(settings["Airstuck"]["key"], &Settings::Airstuck::key);

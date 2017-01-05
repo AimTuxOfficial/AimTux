@@ -501,6 +501,7 @@ namespace Settings
 		extern bool viewmodel_enabled;
 		extern float value;
 		extern float viewmodel_value;
+		extern bool ignore_scope;
 	}
 
 	namespace Radar
