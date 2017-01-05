@@ -33,11 +33,14 @@ std::vector<const char*> smoke_materials = {
 
 void NoSmoke::RenderSmokePreViewmodel(bool& draw_viewmodel)
 {
-	draw_viewmodel = !Settings::NoSmoke::enabled;
+	draw_viewmodel = !(Settings::ESP::enabled && Settings::NoSmoke::enabled);
 }
 
 void NoSmoke::FrameStageNotify(ClientFrameStage_t stage)
 {
+	if (!engine->IsInGame())
+		return;
+
 	if (stage != ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_END)
 		return;
 
