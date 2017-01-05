@@ -1,5 +1,5 @@
 #include "autowall.h"
-#include "../math.h"
+#include "../Utils/math.h"
 
 float Autowall::GetHitgroupDamageMultiplier(int iHitGroup)
 {

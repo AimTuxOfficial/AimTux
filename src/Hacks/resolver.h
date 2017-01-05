@@ -2,10 +2,10 @@
 
 #include "../settings.h"
 #include "../SDK/SDK.h"
-#include "../draw.h"
+#include "../Utils/draw.h"
 #include "../interfaces.h"
-#include "../pstring.h"
-#include "../entity.h"
+#include "../Utils/pstring.h"
+#include "../Utils/entity.h"
 
 struct PlayerAA
 {

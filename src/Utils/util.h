@@ -6,8 +6,8 @@
 #include <vector>
 #include <map>
 #include <algorithm>
-#include "SDK/SDK.h"
-#include "interfaces.h"
+#include "../SDK/SDK.h"
+#include "../interfaces.h"
 
 #define RandomInt(nMin, nMax) (rand() % (nMax - nMin + 1) + nMin)
 

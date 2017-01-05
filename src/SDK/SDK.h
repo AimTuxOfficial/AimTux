@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <dlfcn.h>
 #include "../offsets.h"
-#include "../pstring.h"
+#include "../Utils/pstring.h"
 
 #include "definitions.h"
 #include "common.h"

@@ -2,7 +2,7 @@
 #include <chrono>
 #include "esp.h"
 #include "../settings.h"
-#include "../skins.h"
+#include "../Utils/skins.h"
 
 bool Settings::ESP::enabled = true;
 int Settings::ESP::team_color_type = TeamColorType::RELATIVE;

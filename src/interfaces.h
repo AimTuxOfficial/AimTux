@@ -1,7 +1,7 @@
 #pragma once
 
 #include "SDK/SDK.h"
-#include "vmt.h"
+#include "Utils/vmt.h"
 
 extern IBaseClientDLL* client;
 extern ISurface* surface;

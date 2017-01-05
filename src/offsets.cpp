@@ -1,5 +1,5 @@
 #include "offsets.h"
-#include "netvarmanager.h"
+#include "Utils/netvarmanager.h"
 #include "SDK/SDK.h"
 
 COffsets offsets;

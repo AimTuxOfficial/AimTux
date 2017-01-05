@@ -6,7 +6,7 @@
 #include "ImGUI/imgui_impl_sdl.h"
 #include "settings.h"
 #include "Hacks/hacks.h"
-#include "skins.h"
+#include "Utils/skins.h"
 
 namespace UI
 {

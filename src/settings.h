@@ -10,10 +10,10 @@
 #include "json/json.h"
 #include "SDK/SDK.h"
 #include "fonts.h"
-#include "draw.h"
+#include "Utils/draw.h"
 #include "Hacks/skinchanger.h"
-#include "util.h"
-#include "util_items.h"
+#include "Utils/util.h"
+#include "Utils/util_items.h"
 #include "config.h"
 #include "atgui.h"
 

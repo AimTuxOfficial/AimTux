@@ -3,7 +3,7 @@
 #include <string>
 #include <map>
 #include <algorithm>
-#include "SDK/SDK.h"
+#include "../SDK/SDK.h"
 
 namespace Util
 {

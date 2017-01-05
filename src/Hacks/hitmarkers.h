@@ -1,9 +1,9 @@
 #pragma once
 
 #include "../SDK/SDK.h"
-#include "../draw.h"
+#include "../Utils/draw.h"
 #include "../interfaces.h"
-#include "../entity.h"
+#include "../Utils/entity.h"
 
 namespace Hitmarkers
 {

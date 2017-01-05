@@ -2,14 +2,14 @@
 
 #define LOC(x,y) Vector2D(x,y)
 
-#include "interfaces.h"
+#include "../interfaces.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
 #include <wchar.h>
-#include "fonts.h"
-#include "ImGUI/imgui.h"
+#include "../fonts.h"
+#include "../ImGUI/imgui.h"
 
 enum ImFontFlags
 {

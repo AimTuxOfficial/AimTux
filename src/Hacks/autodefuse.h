@@ -3,8 +3,8 @@
 #include "../settings.h"
 #include "../SDK/SDK.h"
 #include "../interfaces.h"
-#include "../entity.h"
-#include "../math.h"
+#include "../Utils/entity.h"
+#include "../Utils/math.h"
 
 namespace AutoDefuse
 {

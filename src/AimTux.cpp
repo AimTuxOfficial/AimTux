@@ -2,7 +2,7 @@
 
 #include "interfaces.h"
 #include "hooker.h"
-#include "netvarmanager.h"
+#include "Utils/netvarmanager.h"
 
 /* called when the library is loading */
 int __attribute__((constructor)) aimtux_init()

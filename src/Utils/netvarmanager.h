@@ -11,8 +11,8 @@
 #include <zconf.h>
 #include <fstream>
 
-#include "SDK/SDK.h"
-#include "interfaces.h"
+#include "../SDK/SDK.h"
+#include "../interfaces.h"
 
 namespace NetVarManager {
 	std::vector<RecvTable *> getTables();

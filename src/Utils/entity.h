@@ -1,8 +1,8 @@
 #pragma once
 
 #include <list>
-#include "SDK/SDK.h"
-#include "interfaces.h"
+#include "../SDK/SDK.h"
+#include "../interfaces.h"
 
 namespace Entity
 {

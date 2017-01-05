@@ -51,10 +51,10 @@
 #include <unordered_map>
 #include <sys/mman.h>
 #include <link.h>
-#include "patternfinder.h"
+#include "Utils/patternfinder.h"
 #include "SDK/SDK.h"
-#include "vmt.h"
-#include "util.h"
+#include "Utils/vmt.h"
+#include "Utils/util.h"
 #include "glhook.h"
 
 namespace Hooker

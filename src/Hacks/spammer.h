@@ -6,8 +6,8 @@
 #include <algorithm>
 #include "../interfaces.h"
 #include "../settings.h"
-#include "../pstring.h"
-#include "../util.h"
+#include "../Utils/pstring.h"
+#include "../Utils/util.h"
 
 namespace Spammer
 {

@@ -8,7 +8,7 @@
 #include "../Hooks/hooks.h"
 #include "../interfaces.h"
 #include "../settings.h"
-#include "../entity.h"
+#include "../Utils/entity.h"
 
 namespace Chams
 {

@@ -1,5 +1,5 @@
 #include "clantagchanger.h"
-#include "../util.h"
+#include "../Utils/util.h"
 
 char* Settings::ClanTagChanger::value = strdup("");
 bool Settings::ClanTagChanger::animation = false;
