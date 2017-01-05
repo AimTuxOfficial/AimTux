@@ -345,6 +345,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Autoblock"]["enabled"] = Settings::Autoblock::enabled;
 	settings["Autoblock"]["key"] = Settings::Autoblock::key;
 
+	settings["AutoDefuse"]["enabled"] = Settings::AutoDefuse::enabled;
+
 	std::ofstream(path) << styledWriter.write(settings);
 }
 
@@ -630,6 +632,8 @@ void Settings::LoadConfig(std::string path)
 
 	GetBool(settings["Autoblock"]["enabled"], &Settings::Autoblock::enabled);
 	GetButtonCode(settings["Autoblock"]["key"], &Settings::Autoblock::key);
+
+	GetBool(settings["AutoDefuse"]["enabled"], &Settings::AutoDefuse::enabled);
 }
 
 void Settings::LoadSettings()
