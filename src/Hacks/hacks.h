@@ -17,6 +17,7 @@
 #include "hitmarkers.h"
 #include "namechanger.h"
 #include "noflash.h"
+#include "nosmoke.h"
 #include "nosky.h"
 #include "predictionsystem.h"
 #include "radar.h"

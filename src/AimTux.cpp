@@ -49,6 +49,7 @@ int __attribute__((constructor)) aimtux_init()
 	gameEvents_vmt->ApplyVMT();
 
 	viewRender_vmt->HookVM((void*) Hooks::RenderView, 6);
+	viewRender_vmt->HookVM((void*) Hooks::RenderSmokePreViewmodel, 41);
 	viewRender_vmt->ApplyVMT();
 
 	inputInternal_vmt->HookVM((void*) Hooks::SetKeyCodeState, 92);

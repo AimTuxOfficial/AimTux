@@ -57,6 +57,7 @@ SendClanTagFn SendClanTag;
 IsReadyCallbackFn IsReadyCallback;
 
 RecvVarProxyFn fnSequenceProxyFn;
+RecvVarProxyFn fnSmokeEffectTickBeginProxyFn;
 
 StartDrawingFn StartDrawing;
 FinishDrawingFn FinishDrawing;

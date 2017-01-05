@@ -138,6 +138,12 @@ enum MaterialPropertyTypes_t
 class IMaterial
 {
 public:
+	const char* GetName()
+	{
+		typedef const char* (* oGetName)(void*);
+		return getvfunc<oGetName>(this, 0)(this);
+	}
+
 	const char* GetTextureGroupName()
 	{
 		typedef const char* (* oGetTextureGroupName)(void*);

@@ -708,6 +708,9 @@ void VisualsTab()
 				ImGui::Checkbox("No Sky", &Settings::NoSky::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Allows for the skybox to be colored or disabled");
+				ImGui::Checkbox("No Smoke", &Settings::NoSmoke::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Disables smoke rendering");
 			}
 			ImGui::NextColumn();
 			{
