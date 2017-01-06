@@ -137,7 +137,7 @@ void Radar::DrawWindow()
 					continue;
 
 				C_BasePlayer* observer_target = (C_BasePlayer*) entitylist->GetClientEntityFromHandle(localplayer->GetObserverTarget());
-				if (observer_target && player == observer_target && *localplayer->GetObserverMode() == OBS_MODE_IN_EYE)
+				if (observer_target && player == observer_target && (*localplayer->GetObserverMode() == OBS_MODE_IN_EYE || *localplayer->GetObserverMode() == OBS_MODE_CHASE))
 					continue;
 
 				color = ESP::GetESPPlayerColor(player, bIsVisible);
