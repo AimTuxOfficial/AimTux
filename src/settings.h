@@ -468,6 +468,7 @@ namespace Settings
 
 		namespace PositionSpammer
 		{
+			extern int team;
 			extern bool show_name;
 			extern bool show_weapon;
 			extern bool show_rank;

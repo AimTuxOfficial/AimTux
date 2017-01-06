@@ -14,6 +14,7 @@ std::vector<std::string> Settings::Spammer::NormalSpammer::messages = {
 		"Tux nutted but you keep sucken",
 		">tfw no vac on Linux"
 };
+int Settings::Spammer::PositionSpammer::team = 1;
 bool Settings::Spammer::PositionSpammer::show_name = true;
 bool Settings::Spammer::PositionSpammer::show_weapon = true;
 bool Settings::Spammer::PositionSpammer::show_rank = true;
@@ -128,8 +129,13 @@ void Spammer::BeginFrame(float frameTime)
 
 			if (!player
 				|| player->GetDormant()
-				|| !player->GetAlive()
-				|| player->GetTeam() == localplayer->GetTeam())
+				|| !player->GetAlive())
+				continue;
+
+			if (Settings::Spammer::PositionSpammer::team == 0 && player->GetTeam() != localplayer->GetTeam())
+				continue;
+
+			if (Settings::Spammer::PositionSpammer::team == 1 && player->GetTeam() == localplayer->GetTeam())
 				continue;
 
 			IEngineClient::player_info_t entityInformation;

@@ -976,6 +976,7 @@ void MiscTab()
 	const char* strafeTypes[] = { "Forwards", "Backwards", "Left", "Right" };
 	const char* animationTypes[] = { "Static", "Marquee", "Words", "Letters" };
 	const char* spammerTypes[] = { "None", "Normal", "Positions" };
+	const char* teams[] = { "Allies", "Enemies", "Both" };
 
 	ImGui::Columns(2, NULL, true);
 	{
@@ -1053,7 +1054,7 @@ void MiscTab()
 				if (Settings::Spammer::type == SpammerType::SPAMMER_NORMAL)
 					ImGui::SetNextWindowSize(ImVec2(565, 268), ImGuiSetCond_Always);
 				else if (Settings::Spammer::type == SpammerType::SPAMMER_POSITIONS)
-					ImGui::SetNextWindowSize(ImVec2(200, 180), ImGuiSetCond_Always);
+					ImGui::SetNextWindowSize(ImVec2(200, 240), ImGuiSetCond_Always);
 
 				if (Settings::Spammer::type != SpammerType::SPAMMER_NONE && ImGui::BeginPopup("options_spammer"))
 				{
@@ -1086,6 +1087,10 @@ void MiscTab()
 					}
 					else if (Settings::Spammer::type == SpammerType::SPAMMER_POSITIONS)
 					{
+						ImGui::PushItemWidth(185);
+							ImGui::Combo("###POSITIONSTEAM", &Settings::Spammer::PositionSpammer::team, teams, IM_ARRAYSIZE(teams));
+						ImGui::PopItemWidth();
+						ImGui::Separator();
 						ImGui::Checkbox("Show Name", &Settings::Spammer::PositionSpammer::show_name);
 						ImGui::Checkbox("Show Weapon", &Settings::Spammer::PositionSpammer::show_weapon);
 						ImGui::Checkbox("Show Rank", &Settings::Spammer::PositionSpammer::show_rank);
