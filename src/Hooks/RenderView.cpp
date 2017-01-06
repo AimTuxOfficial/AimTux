@@ -10,9 +10,3 @@ void Hooks::RenderView(void* thisptr, CViewSetup& setup, CViewSetup& hudViewSetu
 
 	viewRender_vmt->GetOriginalMethod<RenderViewFn>(6)(thisptr, setup, hudViewSetup, nClearFlags, whatToDraw);
 }
-
-void Hooks::RenderSmokePreViewmodel(void* thisptr, bool draw_viewmodel)
-{
-	if (!NoSmoke::RenderSmokePreViewmodel())
-		viewRender_vmt->GetOriginalMethod<RenderSmokePreViewmodelFn>(41)(thisptr, draw_viewmodel);
-}
