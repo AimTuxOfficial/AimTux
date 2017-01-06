@@ -561,7 +561,7 @@ void VisualsTab()
 				}
 				ImGui::NextColumn();
 				{
-					ImGui::Checkbox("Friendlies", &Settings::ESP::Filters::allies);
+					ImGui::Checkbox("Allies", &Settings::ESP::Filters::allies);
 					if (ImGui::IsItemHovered())
 						ImGui::SetTooltip("Show team mates");
 					ImGui::Checkbox("Fish", &Settings::ESP::Filters::fishes);
