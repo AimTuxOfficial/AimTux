@@ -37,6 +37,7 @@ ImColor Settings::ESP::Glow::defuser_color = ImColor(100, 100, 200, 200);
 ImColor Settings::ESP::Glow::chicken_color = ImColor(100, 200, 100, 200);
 bool Settings::ESP::Filters::legit = false;
 bool Settings::ESP::Filters::visibility_check = false;
+bool Settings::ESP::Filters::smoke_check = false;
 bool Settings::ESP::Filters::enemies = false;
 bool Settings::ESP::Filters::allies = false;
 bool Settings::ESP::Filters::bomb = false;
@@ -338,7 +339,7 @@ void ESP::DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info
 	bool bIsVisible = false;
 	if (Settings::ESP::Filters::visibility_check || Settings::ESP::Filters::legit)
 	{
-		bIsVisible = Entity::IsVisible(player, BONE_HEAD);
+		bIsVisible = Entity::IsVisible(player, BONE_HEAD, 180.f, Settings::ESP::Filters::smoke_check);
 		if (!bIsVisible && Settings::ESP::Filters::legit)
 			return;
 	}
@@ -800,7 +801,7 @@ void ESP::DrawTracer(C_BasePlayer* player)
 	else if (Settings::ESP::Tracers::type == TracerType::BOTTOM)
 		y = ScreenHeight;
 
-	bool bIsVisible = Entity::IsVisible(player, BONE_HEAD);
+	bool bIsVisible = Entity::IsVisible(player, BONE_HEAD, 180.f, Settings::ESP::Filters::smoke_check);
 	Draw::Line((int)(src.x), (int)(src.y), x, y, Color::FromImColor(GetESPPlayerColor(player, bIsVisible)));
 }
 
@@ -856,7 +857,7 @@ void ESP::DrawSounds()
 
 		bool bIsVisible = false;
 		if (Settings::ESP::Filters::visibility_check || Settings::ESP::Filters::legit)
-			bIsVisible = Entity::IsVisible(player, BONE_HEAD);
+			bIsVisible = Entity::IsVisible(player, BONE_HEAD, 180.f, Settings::ESP::Filters::smoke_check);
 
 		float percent = (float)diff / (float)Settings::ESP::Sounds::time;
 
