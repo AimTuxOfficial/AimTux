@@ -33,6 +33,7 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	long oldTimeStamp;
 
 	Vector traceStart, traceEnd;
+	trace_t tr;
 
 	QAngle viewAngles;
 	engine->GetViewAngles(viewAngles);
@@ -42,9 +43,6 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 
 	traceStart = localplayer->GetEyePosition();
 	traceEnd = traceStart + (traceEnd * 8192.0f);
-
-	Ray_t ray;
-	trace_t tr;
 
 	if (Settings::Triggerbot::Filters::walls)
 	{
@@ -56,6 +54,7 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	}
 	else
 	{
+		Ray_t ray;
 		ray.Init(traceStart, traceEnd);
 		CTraceFilter traceFilter;
 		traceFilter.pSkip = localplayer;
