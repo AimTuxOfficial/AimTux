@@ -47,7 +47,7 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	if (Settings::Triggerbot::Filters::walls)
 	{
 		Autowall::FireBulletData data;
-		if (Autowall::GetDamage(traceEnd, data) == 0.0f)
+		if (Autowall::GetDamage(traceEnd, !Settings::Triggerbot::Filters::allies, data) == 0.0f)
 			return;
 
 		tr = data.enter_trace;

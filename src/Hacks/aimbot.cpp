@@ -74,7 +74,7 @@ void GetBestBone(C_BasePlayer* player, float& best_damage, Bone& best_bone)
 			Vector vec_bone = player->GetBonePosition(bone);
 
 			Autowall::FireBulletData data;
-			float damage = Autowall::GetDamage(vec_bone, data);
+			float damage = Autowall::GetDamage(vec_bone, !Settings::Aimbot::friendly, data);
 
 			if (damage > best_damage)
 			{

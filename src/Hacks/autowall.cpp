@@ -24,14 +24,7 @@ float Autowall::GetHitgroupDamageMultiplier(int iHitGroup)
 void Autowall::ScaleDamage(int hitgroup, C_BasePlayer* enemy, float weapon_armor_ratio, float &current_damage)
 {
 	current_damage *= Autowall::GetHitgroupDamageMultiplier(hitgroup);
-	
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	if (!Settings::Aimbot::friendly && enemy->GetTeam() == localplayer->GetTeam())
-	{
-		current_damage = 0;
-		return;
-	}
-	
+
 	int armor = enemy->GetArmor();
 	int helmet = enemy->HasHelmet();
 
@@ -195,7 +188,7 @@ void TraceLine(Vector vecAbsStart, Vector vecAbsEnd, unsigned int mask, C_BasePl
 	trace->TraceRay(ray, mask, &filter, ptr);
 }
 
-bool Autowall::SimulateFireBullet(C_BaseCombatWeapon* pWeapon, FireBulletData &data)
+bool Autowall::SimulateFireBullet(C_BaseCombatWeapon* pWeapon, bool teamCheck, FireBulletData &data)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	WeaponInfo_t weaponData = pWeapon->GetWeaponData();
@@ -227,7 +220,12 @@ bool Autowall::SimulateFireBullet(C_BaseCombatWeapon* pWeapon, FireBulletData &d
 		{
 			data.trace_length += data.enter_trace.fraction * data.trace_length_remaining;
 			data.current_damage *= pow(weaponData.m_flRangeModifier, data.trace_length * 0.002);
-			ScaleDamage(data.enter_trace.hitgroup, (C_BasePlayer*) data.enter_trace.m_pEntityHit, weaponData.m_flWeaponArmorRatio, data.current_damage);
+
+			C_BasePlayer* player = (C_BasePlayer*) data.enter_trace.m_pEntityHit;
+			if (teamCheck && player->GetTeam() == localplayer->GetTeam())
+				return false;
+
+			ScaleDamage(data.enter_trace.hitgroup, player, weaponData.m_flWeaponArmorRatio, data.current_damage);
 
 			return true;
 		}
@@ -239,7 +237,7 @@ bool Autowall::SimulateFireBullet(C_BaseCombatWeapon* pWeapon, FireBulletData &d
 	return false;
 }
 
-float Autowall::GetDamage(const Vector& point, FireBulletData& fData)
+float Autowall::GetDamage(const Vector& point, bool teamCheck, FireBulletData& fData)
 {
 	float damage = 0.f;
 	Vector dst = point;
@@ -257,7 +255,7 @@ float Autowall::GetDamage(const Vector& point, FireBulletData& fData)
 	if (!active_weapon)
 		return -1.0f;
 
-	if (SimulateFireBullet(active_weapon, data))
+	if (SimulateFireBullet(active_weapon, teamCheck, data))
 		damage = data.current_damage;
 
 	fData = data;
