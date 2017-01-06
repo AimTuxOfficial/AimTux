@@ -84,15 +84,32 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	if (player->GetTeam() == localplayer->GetTeam() && !Settings::Triggerbot::Filters::allies)
 		return;
 
-	if (tr.hitgroup == HitGroups::HITGROUP_HEAD && !Settings::Triggerbot::Filters::head)
-		return;
-	else if (tr.hitgroup == HitGroups::HITGROUP_CHEST && !Settings::Triggerbot::Filters::chest)
-		return;
-	else if (tr.hitgroup == HitGroups::HITGROUP_STOMACH && !Settings::Triggerbot::Filters::stomach)
-		return;
-	else if ((tr.hitgroup == HitGroups::HITGROUP_LEFTARM || tr.hitgroup == HitGroups::HITGROUP_RIGHTARM) && !Settings::Triggerbot::Filters::arms)
-		return;
-	else if ((tr.hitgroup == HitGroups::HITGROUP_LEFTLEG || tr.hitgroup == HitGroups::HITGROUP_RIGHTLEG) && !Settings::Triggerbot::Filters::legs)
+	bool filter;
+
+	switch (tr.hitgroup)
+	{
+		case HitGroups::HITGROUP_HEAD:
+			filter = Settings::Triggerbot::Filters::head;
+			break;
+		case HitGroups::HITGROUP_CHEST:
+			filter = Settings::Triggerbot::Filters::chest;
+			break;
+		case HitGroups::HITGROUP_STOMACH:
+			filter = Settings::Triggerbot::Filters::stomach;
+			break;
+		case HitGroups::HITGROUP_LEFTARM:
+		case HitGroups::HITGROUP_RIGHTARM:
+			filter = Settings::Triggerbot::Filters::arms;
+			break;
+		case HitGroups::HITGROUP_LEFTLEG:
+		case HitGroups::HITGROUP_RIGHTLEG:
+			filter = Settings::Triggerbot::Filters::legs;
+			break;
+		default:
+			filter = false;
+	}
+
+	if (!filter)
 		return;
 
 	if (!Settings::Triggerbot::Filters::smoke && LineGoesThroughSmoke(tr.startpos, tr.endpos, 1))
