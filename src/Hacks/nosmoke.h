@@ -6,6 +6,6 @@
 
 namespace NoSmoke
 {
-	void RenderSmokePreViewmodel(bool& draw_viewmodel);
+	bool RenderSmokePreViewmodel();
 	void FrameStageNotify(ClientFrameStage_t stage);
 };

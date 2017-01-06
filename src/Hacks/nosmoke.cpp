@@ -31,9 +31,9 @@ std::vector<const char*> smoke_materials = {
 		"particle/vistasmokev1/vistasmokev4_nocull"
 };
 
-void NoSmoke::RenderSmokePreViewmodel(bool& draw_viewmodel)
+bool NoSmoke::RenderSmokePreViewmodel()
 {
-	draw_viewmodel = !(Settings::ESP::enabled && Settings::NoSmoke::enabled);
+	return Settings::ESP::enabled && Settings::NoSmoke::enabled;
 }
 
 void NoSmoke::FrameStageNotify(ClientFrameStage_t stage)
@@ -47,6 +47,6 @@ void NoSmoke::FrameStageNotify(ClientFrameStage_t stage)
 	for (auto material_name : smoke_materials)
 	{
 		IMaterial* mat = material->FindMaterial(material_name, TEXTURE_GROUP_OTHER);
-		mat->SetMaterialVarFlag(MATERIAL_VAR_NO_DRAW, Settings::NoSmoke::enabled);
+		mat->SetMaterialVarFlag(MATERIAL_VAR_NO_DRAW, Settings::ESP::enabled && Settings::NoSmoke::enabled);
 	}
 }
