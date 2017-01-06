@@ -185,7 +185,7 @@ public:
 		return *(int*)((uintptr_t)this + offsets.DT_CSPlayer.m_iShotsFired);
 	}
 
-	QAngle* GetHeadRotation()
+	QAngle* GeyEyeAngles()
 	{
 		return (QAngle*)((uintptr_t)this + offsets.DT_CSPlayer.m_angEyeAngles[0]);
 	}

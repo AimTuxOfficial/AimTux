@@ -44,7 +44,7 @@ void Autoblock::CreateMove(CUserCmd* cmd)
 
 		QAngle angles = Math::CalcAngle(localplayer->GetVecOrigin(), target->GetVecOrigin());
 
-		angles.y -= localplayer->GetHeadRotation()->y;
+		angles.y -= localplayer->GeyEyeAngles()->y;
 		Math::NormalizeAngles(angles);
 
 		if (angles.y < 0.0f)
