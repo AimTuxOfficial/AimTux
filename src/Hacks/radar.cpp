@@ -8,6 +8,7 @@ bool Settings::Radar::bomb = false;
 bool Settings::Radar::defuser = false;
 bool Settings::Radar::legit = false;
 bool Settings::Radar::visibility_check = false;
+bool Settings::Radar::smoke_check = false;
 bool Settings::Radar::InGame::enabled = false;
 
 std::set<int> visible_players;
@@ -275,7 +276,7 @@ void Radar::BeginFrame()
 		if (Settings::Radar::enabled)
 		{
 			// we shouldn't see people behind us
-			if (Entity::IsVisible(player, BONE_HEAD, 55.f))
+			if (Entity::IsVisible(player, BONE_HEAD, 55.f, Settings::Radar::smoke_check))
 				visible_players.insert(i);
 			else
 				visible_players.erase(i);

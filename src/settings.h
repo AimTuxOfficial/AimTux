@@ -233,6 +233,11 @@ namespace Settings
 		{
 			extern bool enabled;
 		}
+
+		namespace SmokeCheck
+		{
+			extern bool enabled;
+		}
 	}
 
 	namespace Triggerbot
@@ -245,7 +250,7 @@ namespace Settings
 			extern bool enemies;
 			extern bool allies;
 			extern bool walls;
-			extern bool smoke;
+			extern bool smoke_check;
 			extern bool head;
 			extern bool chest;
 			extern bool stomach;
@@ -334,6 +339,7 @@ namespace Settings
 		{
 			extern bool legit;
 			extern bool visibility_check;
+			extern bool smoke_check;
 			extern bool enemies;
 			extern bool allies;
 			extern bool bomb;
@@ -517,6 +523,7 @@ namespace Settings
 		extern bool defuser;
 		extern bool legit;
 		extern bool visibility_check;
+		extern bool smoke_check;
 
 		namespace InGame
 		{

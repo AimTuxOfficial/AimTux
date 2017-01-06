@@ -385,6 +385,9 @@ void AimbotTab()
 				ImGui::Checkbox("Silent Aim", &Settings::Aimbot::silent);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Prevents the camera from locking to an enemy, doesn't work for demos");
+				ImGui::Checkbox("Smoke Check", &Settings::Aimbot::SmokeCheck::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Ignore players that are in smoke");
 			}
 			ImGui::NextColumn();
 			{
@@ -471,9 +474,9 @@ void TriggerbotTab()
 				ImGui::Checkbox("Allies", &Settings::Triggerbot::Filters::allies);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Trigger on allies");
-				ImGui::Checkbox("Smoke", &Settings::Triggerbot::Filters::smoke);
+				ImGui::Checkbox("Smoke check", &Settings::Triggerbot::Filters::smoke_check);
 				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Trigger through smoke");
+					ImGui::SetTooltip("Don't shoot through smokes");
 				ImGui::Checkbox("Stomach", &Settings::Triggerbot::Filters::stomach);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Trigger on stomach");
@@ -564,6 +567,9 @@ void VisualsTab()
 					ImGui::Checkbox("Legit Mode", &Settings::ESP::Filters::legit);
 					if (ImGui::IsItemHovered())
 						ImGui::SetTooltip("Hide enemies behind walls");
+					ImGui::Checkbox("Smoke Check", &Settings::ESP::Filters::smoke_check);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Mark players behind smokes as invisible");
 				}
 				ImGui::NextColumn();
 				{
@@ -757,6 +763,7 @@ void VisualsTab()
 				ImGui::Checkbox("Allies", &Settings::Radar::allies);
 				ImGui::Checkbox("Defuser", &Settings::Radar::defuser);
 				ImGui::Checkbox("Visibility Check", &Settings::Radar::visibility_check);
+				ImGui::Checkbox("Smoke Check", &Settings::Radar::smoke_check);
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();

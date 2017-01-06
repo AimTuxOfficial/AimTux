@@ -1,7 +1,7 @@
 #include "entity.h"
 #include "math.h"
 
-bool Entity::IsVisible(C_BasePlayer* player, int bone, float fov)
+bool Entity::IsVisible(C_BasePlayer* player, int bone, float fov, bool smoke_check)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
@@ -32,6 +32,9 @@ bool Entity::IsVisible(C_BasePlayer* player, int bone, float fov)
 	CTraceFilter traceFilter;
 	traceFilter.pSkip = localplayer;
 	trace->TraceRay(ray, MASK_SHOT, &traceFilter, &tr);
+
+	if (smoke_check && LineGoesThroughSmoke(p_vecHead, e_vecHead, true))
+		return false;
 
 	return tr.m_pEntityHit == player;
 }

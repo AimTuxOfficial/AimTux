@@ -1,5 +1,6 @@
 #include "aimbot.h"
 #include "autowall.h"
+#include "../interfaces.h"
 #include <math.h>
 
 // Default aimbot settings
@@ -31,6 +32,7 @@ bool Settings::Aimbot::AutoCrouch::enabled = false;
 bool Settings::Aimbot::AutoStop::enabled = false;
 bool Settings::Aimbot::NoShoot::enabled = false;
 bool Settings::Aimbot::IgnoreJump::enabled = false;
+bool Settings::Aimbot::SmokeCheck::enabled = false;
 bool Settings::Aimbot::Smooth::Salting::enabled = false;
 float Settings::Aimbot::Smooth::Salting::multiplier = 0.0f;
 
@@ -516,26 +518,32 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 
 	Bone aw_bone;
 	C_BasePlayer* player = GetClosestPlayer(cmd, true, aw_bone);
-	if (player && Settings::Aimbot::AutoAim::enabled)
+
+	if (player)
 	{
-		if (cmd->buttons & IN_ATTACK && !Settings::Aimbot::aimkey_only)
-			shouldAim = true;
+		Vector e_vecHead = player->GetBonePosition(aw_bone);
+		Vector p_vecHead = localplayer->GetEyePosition();
 
-		if (input->IsButtonDown(Settings::Aimbot::aimkey))
-			shouldAim = true;
+		if (Settings::Aimbot::SmokeCheck::enabled && LineGoesThroughSmoke(p_vecHead, e_vecHead, true))
+			return;
 
-		if (shouldAim)
+		if (Settings::Aimbot::AutoAim::enabled)
 		{
-			Vector e_vecHead = player->GetBonePosition(aw_bone);
-			Vector p_vecHead = localplayer->GetEyePosition();
+			if (cmd->buttons & IN_ATTACK && !Settings::Aimbot::aimkey_only)
+				shouldAim = true;
 
-			angle = Math::CalcAngle(p_vecHead, e_vecHead);
+			if (input->IsButtonDown(Settings::Aimbot::aimkey))
+				shouldAim = true;
 
-			if (Settings::Aimbot::ErrorMargin::enabled)
-				ApplyErrorToAngle(&angle, Settings::Aimbot::ErrorMargin::value);
+			if (shouldAim)
+			{
+				angle = Math::CalcAngle(p_vecHead, e_vecHead);
+
+				if (Settings::Aimbot::ErrorMargin::enabled)
+					ApplyErrorToAngle(&angle, Settings::Aimbot::ErrorMargin::value);
+			}
 		}
 	}
-
 	Aimbot::AimStep(player, angle, cmd);
 	Aimbot::AutoCrouch(player, cmd);
 	Aimbot::AutoStop(player, oldForward, oldSideMove, cmd);

@@ -138,6 +138,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Aimbot"]["AutoCrouch"]["enabled"] = Settings::Aimbot::AutoCrouch::enabled;
 	settings["Aimbot"]["AutoStop"]["enabled"] = Settings::Aimbot::AutoStop::enabled;
 	settings["Aimbot"]["IgnoreJump"]["enabled"] = Settings::Aimbot::IgnoreJump::enabled;
+	settings["Aimbot"]["SmokeCheck"]["enabled"] = Settings::Aimbot::SmokeCheck::enabled;
 
 	settings["Resolver"]["resolve_all"] = Settings::Resolver::resolve_all;
 
@@ -146,7 +147,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Triggerbot"]["Filters"]["enemies"] = Settings::Triggerbot::Filters::enemies;
 	settings["Triggerbot"]["Filters"]["allies"] = Settings::Triggerbot::Filters::allies;
 	settings["Triggerbot"]["Filters"]["walls"] = Settings::Triggerbot::Filters::walls;
-	settings["Triggerbot"]["Filters"]["smoke"] = Settings::Triggerbot::Filters::smoke;
+	settings["Triggerbot"]["Filters"]["smoke_check"] = Settings::Triggerbot::Filters::smoke_check;
 	settings["Triggerbot"]["Filters"]["head"] = Settings::Triggerbot::Filters::head;
 	settings["Triggerbot"]["Filters"]["chest"] = Settings::Triggerbot::Filters::chest;
 	settings["Triggerbot"]["Filters"]["stomach"] = Settings::Triggerbot::Filters::stomach;
@@ -196,6 +197,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	LoadUIColor(settings["ESP"]["Glow"]["chicken_color"], Settings::ESP::Glow::chicken_color);
 	settings["ESP"]["Filters"]["legit"] = Settings::ESP::Filters::legit;
 	settings["ESP"]["Filters"]["visibility_check"] = Settings::ESP::Filters::visibility_check;
+	settings["ESP"]["Filters"]["smoke_check"] = Settings::ESP::Filters::smoke_check;
 	settings["ESP"]["Filters"]["enemies"] = Settings::ESP::Filters::enemies;
 	settings["ESP"]["Filters"]["allies"] = Settings::ESP::Filters::allies;
 	settings["ESP"]["Filters"]["bomb"] = Settings::ESP::Filters::bomb;
@@ -285,6 +287,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Radar"]["allies"] = Settings::Radar::allies;
 	settings["Radar"]["legit"] = Settings::Radar::legit;
 	settings["Radar"]["visibility_check"] = Settings::Radar::visibility_check;
+	settings["Radar"]["smoke_check"] = Settings::Radar::smoke_check;
 	settings["Radar"]["InGame"]["enabled"] = Settings::Radar::InGame::enabled;
 
 	settings["Recoilcrosshair"]["enabled"] = Settings::Recoilcrosshair::enabled;
@@ -405,6 +408,7 @@ void Settings::LoadConfig(std::string path)
 	GetBool(settings["Aimbot"]["AutoCrouch"]["enabled"], &Settings::Aimbot::AutoCrouch::enabled);
 	GetBool(settings["Aimbot"]["AutoStop"]["enabled"], &Settings::Aimbot::AutoStop::enabled);
 	GetBool(settings["Aimbot"]["IgnoreJump"]["enabled"], &Settings::Aimbot::IgnoreJump::enabled);
+	GetBool(settings["Aimbot"]["SmokeCheck"]["enabled"], &Settings::Aimbot::SmokeCheck::enabled);
 
 	GetBool(settings["Resolver"]["resolve_all"], &Settings::Resolver::resolve_all);
 
@@ -413,7 +417,7 @@ void Settings::LoadConfig(std::string path)
 	GetBool(settings["Triggerbot"]["Filters"]["enemies"], &Settings::Triggerbot::Filters::enemies);
 	GetBool(settings["Triggerbot"]["Filters"]["allies"], &Settings::Triggerbot::Filters::allies);
 	GetBool(settings["Triggerbot"]["Filters"]["walls"], &Settings::Triggerbot::Filters::walls);
-	GetBool(settings["Triggerbot"]["Filters"]["smoke"], &Settings::Triggerbot::Filters::smoke);
+	GetBool(settings["Triggerbot"]["Filters"]["smoke_check"], &Settings::Triggerbot::Filters::smoke_check);
 	GetBool(settings["Triggerbot"]["Filters"]["head"], &Settings::Triggerbot::Filters::head);
 	GetBool(settings["Triggerbot"]["Filters"]["chest"], &Settings::Triggerbot::Filters::chest);
 	GetBool(settings["Triggerbot"]["Filters"]["stomach"], &Settings::Triggerbot::Filters::stomach);
@@ -463,6 +467,7 @@ void Settings::LoadConfig(std::string path)
 	GetUIColor(settings["ESP"]["Glow"]["chicken_color"], &Settings::ESP::Glow::chicken_color);
 	GetBool(settings["ESP"]["Filters"]["legit"], &Settings::ESP::Filters::legit);
 	GetBool(settings["ESP"]["Filters"]["visibility_check"], &Settings::ESP::Filters::visibility_check);
+	GetBool(settings["ESP"]["Filters"]["smoke_check"], &Settings::ESP::Filters::smoke_check);
 	GetBool(settings["ESP"]["Filters"]["enemies"], &Settings::ESP::Filters::enemies);
 	GetBool(settings["ESP"]["Filters"]["allies"], &Settings::ESP::Filters::allies);
 	GetBool(settings["ESP"]["Filters"]["bomb"], &Settings::ESP::Filters::bomb);
@@ -554,6 +559,7 @@ void Settings::LoadConfig(std::string path)
 	GetBool(settings["Radar"]["allies"], &Settings::Radar::allies);
 	GetBool(settings["Radar"]["legit"], &Settings::Radar::legit);
 	GetBool(settings["Radar"]["visibility_check"], &Settings::Radar::visibility_check);
+	GetBool(settings["Radar"]["smoke_check"], &Settings::Radar::smoke_check);
 	GetBool(settings["Radar"]["InGame"]["enabled"], &Settings::Radar::InGame::enabled);
 
 	GetBool(settings["Recoilcrosshair"]["enabled"], &Settings::Recoilcrosshair::enabled);
