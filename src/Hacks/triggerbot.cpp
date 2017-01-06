@@ -2,13 +2,15 @@
 #include "autowall.h"
 
 bool Settings::Triggerbot::enabled = true;
-bool Settings::Triggerbot::Filter::friendly = false;
-bool Settings::Triggerbot::Filter::walls = false;
-bool Settings::Triggerbot::Filter::head = true;
-bool Settings::Triggerbot::Filter::chest = true;
-bool Settings::Triggerbot::Filter::stomach = true;
-bool Settings::Triggerbot::Filter::arms = true;
-bool Settings::Triggerbot::Filter::legs = true;
+bool Settings::Triggerbot::Filters::enemies = true;
+bool Settings::Triggerbot::Filters::allies = false;
+bool Settings::Triggerbot::Filters::walls = false;
+bool Settings::Triggerbot::Filters::smoke = false;
+bool Settings::Triggerbot::Filters::head = true;
+bool Settings::Triggerbot::Filters::chest = true;
+bool Settings::Triggerbot::Filters::stomach = true;
+bool Settings::Triggerbot::Filters::arms = true;
+bool Settings::Triggerbot::Filters::legs = true;
 bool Settings::Triggerbot::Delay::enabled = false;
 int Settings::Triggerbot::Delay::value = 250;
 ButtonCode_t Settings::Triggerbot::key = ButtonCode_t::KEY_LALT;
@@ -44,7 +46,7 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	Ray_t ray;
 	trace_t tr;
 
-	if (Settings::Triggerbot::Filter::walls)
+	if (Settings::Triggerbot::Filters::walls)
 	{
 		Autowall::FireBulletData data;
 		if (Autowall::GetDamage(traceEnd, data) == 0.0f)
@@ -76,17 +78,24 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 		|| player->GetImmune())
 		return;
 
-	if (player->GetTeam() == localplayer->GetTeam() && !Settings::Triggerbot::Filter::friendly)
+	if (player->GetTeam() != localplayer->GetTeam() && !Settings::Triggerbot::Filters::enemies)
 		return;
-	else if (tr.hitgroup == HitGroups::HITGROUP_HEAD && !Settings::Triggerbot::Filter::head)
+
+	if (player->GetTeam() == localplayer->GetTeam() && !Settings::Triggerbot::Filters::allies)
 		return;
-	else if (tr.hitgroup == HitGroups::HITGROUP_CHEST && !Settings::Triggerbot::Filter::chest)
+
+	if (tr.hitgroup == HitGroups::HITGROUP_HEAD && !Settings::Triggerbot::Filters::head)
 		return;
-	else if (tr.hitgroup == HitGroups::HITGROUP_STOMACH && !Settings::Triggerbot::Filter::stomach)
+	else if (tr.hitgroup == HitGroups::HITGROUP_CHEST && !Settings::Triggerbot::Filters::chest)
 		return;
-	else if ((tr.hitgroup == HitGroups::HITGROUP_LEFTARM || tr.hitgroup == HitGroups::HITGROUP_RIGHTARM) && !Settings::Triggerbot::Filter::arms)
+	else if (tr.hitgroup == HitGroups::HITGROUP_STOMACH && !Settings::Triggerbot::Filters::stomach)
 		return;
-	else if ((tr.hitgroup == HitGroups::HITGROUP_LEFTLEG || tr.hitgroup == HitGroups::HITGROUP_RIGHTLEG) && !Settings::Triggerbot::Filter::legs)
+	else if ((tr.hitgroup == HitGroups::HITGROUP_LEFTARM || tr.hitgroup == HitGroups::HITGROUP_RIGHTARM) && !Settings::Triggerbot::Filters::arms)
+		return;
+	else if ((tr.hitgroup == HitGroups::HITGROUP_LEFTLEG || tr.hitgroup == HitGroups::HITGROUP_RIGHTLEG) && !Settings::Triggerbot::Filters::legs)
+		return;
+
+	if (!Settings::Triggerbot::Filters::smoke && LineGoesThroughSmoke(tr.startpos, tr.endpos, 1))
 		return;
 
 	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());

@@ -240,10 +240,12 @@ namespace Settings
 		extern bool enabled;
 		extern ButtonCode_t key;
 
-		namespace Filter
+		namespace Filters
 		{
-			extern bool friendly;
+			extern bool enemies;
+			extern bool allies;
 			extern bool walls;
+			extern bool smoke;
 			extern bool head;
 			extern bool chest;
 			extern bool stomach;

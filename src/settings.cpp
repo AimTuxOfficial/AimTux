@@ -143,13 +143,15 @@ void Settings::LoadDefaultsOrSave(std::string path)
 
 	settings["Triggerbot"]["enabled"] = Settings::Triggerbot::enabled;
 	settings["Triggerbot"]["key"] = Util::GetButtonName(Settings::Triggerbot::key);
-	settings["Triggerbot"]["Filter"]["friendly"] = Settings::Triggerbot::Filter::friendly;
-	settings["Triggerbot"]["Filter"]["walls"] = Settings::Triggerbot::Filter::walls;
-	settings["Triggerbot"]["Filter"]["head"] = Settings::Triggerbot::Filter::head;
-	settings["Triggerbot"]["Filter"]["chest"] = Settings::Triggerbot::Filter::chest;
-	settings["Triggerbot"]["Filter"]["stomach"] = Settings::Triggerbot::Filter::stomach;
-	settings["Triggerbot"]["Filter"]["arms"] = Settings::Triggerbot::Filter::arms;
-	settings["Triggerbot"]["Filter"]["legs"] = Settings::Triggerbot::Filter::legs;
+	settings["Triggerbot"]["Filters"]["enemies"] = Settings::Triggerbot::Filters::enemies;
+	settings["Triggerbot"]["Filters"]["allies"] = Settings::Triggerbot::Filters::allies;
+	settings["Triggerbot"]["Filters"]["walls"] = Settings::Triggerbot::Filters::walls;
+	settings["Triggerbot"]["Filters"]["smoke"] = Settings::Triggerbot::Filters::smoke;
+	settings["Triggerbot"]["Filters"]["head"] = Settings::Triggerbot::Filters::head;
+	settings["Triggerbot"]["Filters"]["chest"] = Settings::Triggerbot::Filters::chest;
+	settings["Triggerbot"]["Filters"]["stomach"] = Settings::Triggerbot::Filters::stomach;
+	settings["Triggerbot"]["Filters"]["arms"] = Settings::Triggerbot::Filters::arms;
+	settings["Triggerbot"]["Filters"]["legs"] = Settings::Triggerbot::Filters::legs;
 	settings["Triggerbot"]["Delay"]["enabled"] = Settings::Triggerbot::Delay::enabled;
 	settings["Triggerbot"]["Delay"]["value"] = Settings::Triggerbot::Delay::value;
 
@@ -408,13 +410,15 @@ void Settings::LoadConfig(std::string path)
 
 	GetBool(settings["Triggerbot"]["enabled"], &Settings::Triggerbot::enabled);
 	GetButtonCode(settings["Triggerbot"]["key"], &Settings::Triggerbot::key);
-	GetBool(settings["Triggerbot"]["Filter"]["friendly"], &Settings::Triggerbot::Filter::friendly);
-	GetBool(settings["Triggerbot"]["Filter"]["walls"], &Settings::Triggerbot::Filter::walls);
-	GetBool(settings["Triggerbot"]["Filter"]["head"], &Settings::Triggerbot::Filter::head);
-	GetBool(settings["Triggerbot"]["Filter"]["chest"], &Settings::Triggerbot::Filter::chest);
-	GetBool(settings["Triggerbot"]["Filter"]["stomach"], &Settings::Triggerbot::Filter::stomach);
-	GetBool(settings["Triggerbot"]["Filter"]["arms"], &Settings::Triggerbot::Filter::arms);
-	GetBool(settings["Triggerbot"]["Filter"]["legs"], &Settings::Triggerbot::Filter::legs);
+	GetBool(settings["Triggerbot"]["Filters"]["enemies"], &Settings::Triggerbot::Filters::enemies);
+	GetBool(settings["Triggerbot"]["Filters"]["allies"], &Settings::Triggerbot::Filters::allies);
+	GetBool(settings["Triggerbot"]["Filters"]["walls"], &Settings::Triggerbot::Filters::walls);
+	GetBool(settings["Triggerbot"]["Filters"]["smoke"], &Settings::Triggerbot::Filters::smoke);
+	GetBool(settings["Triggerbot"]["Filters"]["head"], &Settings::Triggerbot::Filters::head);
+	GetBool(settings["Triggerbot"]["Filters"]["chest"], &Settings::Triggerbot::Filters::chest);
+	GetBool(settings["Triggerbot"]["Filters"]["stomach"], &Settings::Triggerbot::Filters::stomach);
+	GetBool(settings["Triggerbot"]["Filters"]["arms"], &Settings::Triggerbot::Filters::arms);
+	GetBool(settings["Triggerbot"]["Filters"]["legs"], &Settings::Triggerbot::Filters::legs);
 	GetBool(settings["Triggerbot"]["Delay"]["enabled"], &Settings::Triggerbot::Delay::enabled);
 	GetInt(settings["Triggerbot"]["Delay"]["value"], &Settings::Triggerbot::Delay::value);
 

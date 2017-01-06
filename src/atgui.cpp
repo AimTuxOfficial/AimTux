@@ -453,28 +453,34 @@ void TriggerbotTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::Checkbox("Friendly", &Settings::Triggerbot::Filter::friendly);
+				ImGui::Checkbox("Enemies", &Settings::Triggerbot::Filters::enemies);
 				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Trigger on friendlies");
-				ImGui::Checkbox("Walls", &Settings::Triggerbot::Filter::walls);
+					ImGui::SetTooltip("Trigger on enemies");
+				ImGui::Checkbox("Walls", &Settings::Triggerbot::Filters::walls);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Trigger through walls");
-				ImGui::Checkbox("Head", &Settings::Triggerbot::Filter::head);
+				ImGui::Checkbox("Head", &Settings::Triggerbot::Filters::head);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Trigger on head");
-				ImGui::Checkbox("Chest", &Settings::Triggerbot::Filter::chest);
+				ImGui::Checkbox("Chest", &Settings::Triggerbot::Filters::chest);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Trigger on chest");
 			}
 			ImGui::NextColumn();
 			{
-				ImGui::Checkbox("Stomach", &Settings::Triggerbot::Filter::stomach);
+				ImGui::Checkbox("Allies", &Settings::Triggerbot::Filters::allies);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger on allies");
+				ImGui::Checkbox("Smoke", &Settings::Triggerbot::Filters::smoke);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger through smoke");
+				ImGui::Checkbox("Stomach", &Settings::Triggerbot::Filters::stomach);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Trigger on stomach");
-				ImGui::Checkbox("Arms", &Settings::Triggerbot::Filter::arms);
+				ImGui::Checkbox("Arms", &Settings::Triggerbot::Filters::arms);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Trigger on arms");
-				ImGui::Checkbox("Legs", &Settings::Triggerbot::Filter::legs);
+				ImGui::Checkbox("Legs", &Settings::Triggerbot::Filters::legs);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Trigger on legs");
 			}
