@@ -5,7 +5,8 @@
 
 struct COffsets
 {
-	struct {
+	struct
+	{
 		std::ptrdiff_t m_Local;
 		std::ptrdiff_t m_aimPunchAngle;
 		std::ptrdiff_t m_viewPunchAngle;
