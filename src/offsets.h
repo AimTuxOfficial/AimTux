@@ -6,234 +6,234 @@
 struct COffsets
 {
 	struct {
-		ptrdiff_t m_Local;
-		ptrdiff_t m_aimPunchAngle;
-		ptrdiff_t m_viewPunchAngle;
-		ptrdiff_t m_vecViewOffset;
-		ptrdiff_t m_nTickBase;
-		ptrdiff_t m_vecVelocity;
-		ptrdiff_t m_iHealth;
-		ptrdiff_t m_lifeState;
-		ptrdiff_t m_fFlags;
-		ptrdiff_t m_iObserverMode;
-		ptrdiff_t m_hObserverTarget;
-		ptrdiff_t m_hViewModel;
-		ptrdiff_t m_szLastPlaceName;
+		std::ptrdiff_t m_Local;
+		std::ptrdiff_t m_aimPunchAngle;
+		std::ptrdiff_t m_viewPunchAngle;
+		std::ptrdiff_t m_vecViewOffset;
+		std::ptrdiff_t m_nTickBase;
+		std::ptrdiff_t m_vecVelocity;
+		std::ptrdiff_t m_iHealth;
+		std::ptrdiff_t m_lifeState;
+		std::ptrdiff_t m_fFlags;
+		std::ptrdiff_t m_iObserverMode;
+		std::ptrdiff_t m_hObserverTarget;
+		std::ptrdiff_t m_hViewModel;
+		std::ptrdiff_t m_szLastPlaceName;
 	} DT_BasePlayer;
 
 	struct
 	{
-		ptrdiff_t m_vecOrigin;
-		ptrdiff_t m_nRenderMode;
-		ptrdiff_t m_iTeamNum;
-		ptrdiff_t m_MoveType;
-		ptrdiff_t m_Collision;
-		ptrdiff_t m_bSpotted;
+		std::ptrdiff_t m_vecOrigin;
+		std::ptrdiff_t m_nRenderMode;
+		std::ptrdiff_t m_iTeamNum;
+		std::ptrdiff_t m_MoveType;
+		std::ptrdiff_t m_Collision;
+		std::ptrdiff_t m_bSpotted;
 	} DT_BaseEntity;
 
 	struct
 	{
-		ptrdiff_t m_hActiveWeapon;
-		ptrdiff_t m_hMyWeapons;
+		std::ptrdiff_t m_hActiveWeapon;
+		std::ptrdiff_t m_hMyWeapons;
 	} DT_BaseCombatCharacter;
 
 	struct
 	{
-		ptrdiff_t m_iPing;
-		ptrdiff_t m_iKills;
-		ptrdiff_t m_iAssists;
-		ptrdiff_t m_iDeaths;
-		ptrdiff_t m_bConnected;
-		ptrdiff_t m_iTeam;
-		ptrdiff_t m_iPendingTeam;
-		ptrdiff_t m_bAlive;
-		ptrdiff_t m_iHealth;
+		std::ptrdiff_t m_iPing;
+		std::ptrdiff_t m_iKills;
+		std::ptrdiff_t m_iAssists;
+		std::ptrdiff_t m_iDeaths;
+		std::ptrdiff_t m_bConnected;
+		std::ptrdiff_t m_iTeam;
+		std::ptrdiff_t m_iPendingTeam;
+		std::ptrdiff_t m_bAlive;
+		std::ptrdiff_t m_iHealth;
 	} DT_PlayerResource;
 
 	struct
 	{
-		ptrdiff_t m_iPlayerC4;
-		ptrdiff_t m_iPlayerVIP;
-		ptrdiff_t m_bHostageAlive;
-		ptrdiff_t m_isHostageFollowingSomeone;
-		ptrdiff_t m_iHostageEntityIDs;
-		ptrdiff_t m_bombsiteCenterB;
-		ptrdiff_t m_hostageRescueX;
-		ptrdiff_t m_hostageRescueY;
-		ptrdiff_t m_hostageRescueZ;
-		ptrdiff_t m_iMVPs;
-		ptrdiff_t m_iArmor;
-		ptrdiff_t m_bHasHelmet;
-		ptrdiff_t m_bHasDefuser;
-		ptrdiff_t m_iScore;
-		ptrdiff_t m_iCompetitiveRanking;
-		ptrdiff_t m_iCompetitiveWins;
-		ptrdiff_t m_iCompTeammateColor;
-		ptrdiff_t m_bControllingBot;
-		ptrdiff_t m_iControlledPlayer;
-		ptrdiff_t m_iControlledByPlayer;
-		ptrdiff_t m_iBotDifficulty;
-		ptrdiff_t m_szClan;
-		ptrdiff_t m_iTotalCashSpent;
-		ptrdiff_t m_iCashSpentThisRound;
-		ptrdiff_t m_nEndMatchNextMapVotes;
-		ptrdiff_t m_bEndMatchNextMapAllVoted;
-		ptrdiff_t m_nActiveCoinRank;
-		ptrdiff_t m_nMusicID;
-		ptrdiff_t m_nPersonaDataPublicLevel;
-		ptrdiff_t m_nPersonaDataPublicCommendsLeader;
-		ptrdiff_t m_nPersonaDataPublicCommendsTeacher;
-		ptrdiff_t m_nPersonaDataPublicCommendsFriendly;
+		std::ptrdiff_t m_iPlayerC4;
+		std::ptrdiff_t m_iPlayerVIP;
+		std::ptrdiff_t m_bHostageAlive;
+		std::ptrdiff_t m_isHostageFollowingSomeone;
+		std::ptrdiff_t m_iHostageEntityIDs;
+		std::ptrdiff_t m_bombsiteCenterB;
+		std::ptrdiff_t m_hostageRescueX;
+		std::ptrdiff_t m_hostageRescueY;
+		std::ptrdiff_t m_hostageRescueZ;
+		std::ptrdiff_t m_iMVPs;
+		std::ptrdiff_t m_iArmor;
+		std::ptrdiff_t m_bHasHelmet;
+		std::ptrdiff_t m_bHasDefuser;
+		std::ptrdiff_t m_iScore;
+		std::ptrdiff_t m_iCompetitiveRanking;
+		std::ptrdiff_t m_iCompetitiveWins;
+		std::ptrdiff_t m_iCompTeammateColor;
+		std::ptrdiff_t m_bControllingBot;
+		std::ptrdiff_t m_iControlledPlayer;
+		std::ptrdiff_t m_iControlledByPlayer;
+		std::ptrdiff_t m_iBotDifficulty;
+		std::ptrdiff_t m_szClan;
+		std::ptrdiff_t m_iTotalCashSpent;
+		std::ptrdiff_t m_iCashSpentThisRound;
+		std::ptrdiff_t m_nEndMatchNextMapVotes;
+		std::ptrdiff_t m_bEndMatchNextMapAllVoted;
+		std::ptrdiff_t m_nActiveCoinRank;
+		std::ptrdiff_t m_nMusicID;
+		std::ptrdiff_t m_nPersonaDataPublicLevel;
+		std::ptrdiff_t m_nPersonaDataPublicCommendsLeader;
+		std::ptrdiff_t m_nPersonaDataPublicCommendsTeacher;
+		std::ptrdiff_t m_nPersonaDataPublicCommendsFriendly;
 	} DT_CSPlayerResource;
 
 	struct
 	{
-		ptrdiff_t m_bBombTicking;
-		ptrdiff_t m_flC4Blow;
-		ptrdiff_t m_bBombDefused;
-		ptrdiff_t m_hBombDefuser;
+		std::ptrdiff_t m_bBombTicking;
+		std::ptrdiff_t m_flC4Blow;
+		std::ptrdiff_t m_bBombDefused;
+		std::ptrdiff_t m_hBombDefuser;
 	} DT_PlantedC4;
 
 	struct
 	{
-		ptrdiff_t m_iShotsFired;
-		ptrdiff_t m_angEyeAngles[2];
-		ptrdiff_t m_iAccount;
-		ptrdiff_t m_totalHitsOnServer;
-		ptrdiff_t m_ArmorValue;
-		ptrdiff_t m_bHasDefuser;
-		ptrdiff_t m_bIsDefusing;
-		ptrdiff_t m_bIsGrabbingHostage;
-		ptrdiff_t m_bIsScoped;
-		ptrdiff_t m_bGunGameImmunity;
-		ptrdiff_t m_bIsRescuing;
-		ptrdiff_t m_bHasHelmet;
-		ptrdiff_t m_flFlashDuration;
-		ptrdiff_t m_flFlashMaxAlpha;
-		ptrdiff_t m_flLowerBodyYawTarget;
+		std::ptrdiff_t m_iShotsFired;
+		std::ptrdiff_t m_angEyeAngles[2];
+		std::ptrdiff_t m_iAccount;
+		std::ptrdiff_t m_totalHitsOnServer;
+		std::ptrdiff_t m_ArmorValue;
+		std::ptrdiff_t m_bHasDefuser;
+		std::ptrdiff_t m_bIsDefusing;
+		std::ptrdiff_t m_bIsGrabbingHostage;
+		std::ptrdiff_t m_bIsScoped;
+		std::ptrdiff_t m_bGunGameImmunity;
+		std::ptrdiff_t m_bIsRescuing;
+		std::ptrdiff_t m_bHasHelmet;
+		std::ptrdiff_t m_flFlashDuration;
+		std::ptrdiff_t m_flFlashMaxAlpha;
+		std::ptrdiff_t m_flLowerBodyYawTarget;
 	} DT_CSPlayer;
 
 	struct
 	{
-		ptrdiff_t m_iItemDefinitionIndex;
-		ptrdiff_t m_iItemIDHigh;
-		ptrdiff_t m_iAccountID;
-		ptrdiff_t m_iEntityQuality;
-		ptrdiff_t m_szCustomName;
-		ptrdiff_t m_nFallbackPaintKit;
-		ptrdiff_t m_nFallbackSeed;
-		ptrdiff_t m_flFallbackWear;
-		ptrdiff_t m_nFallbackStatTrak;
+		std::ptrdiff_t m_iItemDefinitionIndex;
+		std::ptrdiff_t m_iItemIDHigh;
+		std::ptrdiff_t m_iAccountID;
+		std::ptrdiff_t m_iEntityQuality;
+		std::ptrdiff_t m_szCustomName;
+		std::ptrdiff_t m_nFallbackPaintKit;
+		std::ptrdiff_t m_nFallbackSeed;
+		std::ptrdiff_t m_flFallbackWear;
+		std::ptrdiff_t m_nFallbackStatTrak;
 	} DT_BaseAttributableItem;
 
 	struct
 	{
-		ptrdiff_t m_nModelIndex;
-		ptrdiff_t m_hWeapon;
-		ptrdiff_t m_hOwner;
+		std::ptrdiff_t m_nModelIndex;
+		std::ptrdiff_t m_hWeapon;
+		std::ptrdiff_t m_hOwner;
 	} DT_BaseViewModel;
 
 	struct
 	{
-		ptrdiff_t m_fAccuracyPenalty;
+		std::ptrdiff_t m_fAccuracyPenalty;
 	} DT_WeaponCSBase;
 
 	struct
 	{
-		ptrdiff_t m_bStartedArming;
+		std::ptrdiff_t m_bStartedArming;
 	} DT_WeaponC4;
 
 	struct
 	{
-		ptrdiff_t m_flNextPrimaryAttack;
-		ptrdiff_t m_hOwner;
-		ptrdiff_t m_iClip1;
-		ptrdiff_t m_bInReload;
+		std::ptrdiff_t m_flNextPrimaryAttack;
+		std::ptrdiff_t m_hOwner;
+		std::ptrdiff_t m_iClip1;
+		std::ptrdiff_t m_bInReload;
 	} DT_BaseCombatWeapon;
 
 	struct
 	{
-		ptrdiff_t m_bShouldGlow;
+		std::ptrdiff_t m_bShouldGlow;
 	} DT_DynamicProp;
 
 	struct
 	{
-		ptrdiff_t m_bFreezePeriod;
-		ptrdiff_t m_bMatchWaitingForResume;
-		ptrdiff_t m_bWarmupPeriod;
-		ptrdiff_t m_fWarmupPeriodEnd;
-		ptrdiff_t m_fWarmupPeriodStart;
-		ptrdiff_t m_bTerroristTimeOutActive;
-		ptrdiff_t m_bCTTimeOutActive;
-		ptrdiff_t m_flTerroristTimeOutRemaining;
-		ptrdiff_t m_flCTTimeOutRemaining;
-		ptrdiff_t m_nTerroristTimeOuts;
-		ptrdiff_t m_nCTTimeOuts;
-		ptrdiff_t m_iRoundTime;
-		ptrdiff_t m_gamePhase;
-		ptrdiff_t m_totalRoundsPlayed;
-		ptrdiff_t m_nOvertimePlaying;
-		ptrdiff_t m_timeUntilNextPhaseStarts;
-		ptrdiff_t m_flCMMItemDropRevealStartTime;
-		ptrdiff_t m_flCMMItemDropRevealEndTime;
-		ptrdiff_t m_fRoundStartTime;
-		ptrdiff_t m_bGameRestart;
-		ptrdiff_t m_flRestartRoundTime;
-		ptrdiff_t m_flGameStartTime;
-		ptrdiff_t m_iHostagesRemaining;
-		ptrdiff_t m_bAnyHostageReached;
-		ptrdiff_t m_bMapHasBombTarget;
-		ptrdiff_t m_bMapHasRescueZone;
-		ptrdiff_t m_bMapHasBuyZone;
-		ptrdiff_t m_bIsQueuedMatchmaking;
-		ptrdiff_t m_bIsValveDS;
-		ptrdiff_t m_bIsQuestEligible;
-		ptrdiff_t m_bLogoMap;
-		ptrdiff_t m_iNumGunGameProgressiveWeaponsCT;
-		ptrdiff_t m_iNumGunGameProgressiveWeaponsT;
-		ptrdiff_t m_iSpectatorSlotCount;
-		ptrdiff_t m_bBombDropped;
-		ptrdiff_t m_bBombPlanted;
-		ptrdiff_t m_iRoundWinStatus;
-		ptrdiff_t m_eRoundWinReason;
-		ptrdiff_t m_flDMBonusStartTime;
-		ptrdiff_t m_flDMBonusTimeLength;
-		ptrdiff_t m_unDMBonusWeaponLoadoutSlot;
-		ptrdiff_t m_bDMBonusActive;
-		ptrdiff_t m_bTCantBuy;
-		ptrdiff_t m_bCTCantBuy;
-		ptrdiff_t m_flGuardianBuyUntilTime;
-		ptrdiff_t m_iMatchStats_RoundResults;
-		ptrdiff_t m_iMatchStats_PlayersAlive_T;
-		ptrdiff_t m_iMatchStats_PlayersAlive_CT;
-		ptrdiff_t m_GGProgressiveWeaponOrderC;
-		ptrdiff_t m_GGProgressiveWeaponOrderT;
-		ptrdiff_t m_GGProgressiveWeaponKillUpgradeOrderCT;
-		ptrdiff_t m_GGProgressiveWeaponKillUpgradeOrderT;
-		ptrdiff_t m_MatchDevice;
-		ptrdiff_t m_bHasMatchStarted;
-		ptrdiff_t m_TeamRespawnWaveTimes;
-		ptrdiff_t m_flNextRespawnWave;
-		ptrdiff_t m_nNextMapInMapgroup;
-		ptrdiff_t m_nEndMatchMapGroupVoteOptions;
-		ptrdiff_t m_bIsDroppingItems;
-		ptrdiff_t m_iActiveAssassinationTargetMissionID;
-		ptrdiff_t m_fMatchStartTime;
-		ptrdiff_t m_szTournamentEventName;
-		ptrdiff_t m_szTournamentEventStage;
-		ptrdiff_t m_szTournamentPredictionsTxt;
-		ptrdiff_t m_nTournamentPredictionsPct;
-		ptrdiff_t m_szMatchStatTxt;
-		ptrdiff_t m_nGuardianModeWaveNumber;
-		ptrdiff_t m_nGuardianModeSpecialKillsRemaining;
-		ptrdiff_t m_nGuardianModeSpecialWeaponNeeded;
-		ptrdiff_t m_nHalloweenMaskListSeed;
-		ptrdiff_t m_numGlobalGiftsGiven;
-		ptrdiff_t m_numGlobalGifters;
-		ptrdiff_t m_numGlobalGiftsPeriodSeconds;
-		ptrdiff_t m_arrFeaturedGiftersAccounts;
-		ptrdiff_t m_arrFeaturedGiftersGifts;
-		ptrdiff_t m_arrTournamentActiveCasterAccounts;
+		std::ptrdiff_t m_bFreezePeriod;
+		std::ptrdiff_t m_bMatchWaitingForResume;
+		std::ptrdiff_t m_bWarmupPeriod;
+		std::ptrdiff_t m_fWarmupPeriodEnd;
+		std::ptrdiff_t m_fWarmupPeriodStart;
+		std::ptrdiff_t m_bTerroristTimeOutActive;
+		std::ptrdiff_t m_bCTTimeOutActive;
+		std::ptrdiff_t m_flTerroristTimeOutRemaining;
+		std::ptrdiff_t m_flCTTimeOutRemaining;
+		std::ptrdiff_t m_nTerroristTimeOuts;
+		std::ptrdiff_t m_nCTTimeOuts;
+		std::ptrdiff_t m_iRoundTime;
+		std::ptrdiff_t m_gamePhase;
+		std::ptrdiff_t m_totalRoundsPlayed;
+		std::ptrdiff_t m_nOvertimePlaying;
+		std::ptrdiff_t m_timeUntilNextPhaseStarts;
+		std::ptrdiff_t m_flCMMItemDropRevealStartTime;
+		std::ptrdiff_t m_flCMMItemDropRevealEndTime;
+		std::ptrdiff_t m_fRoundStartTime;
+		std::ptrdiff_t m_bGameRestart;
+		std::ptrdiff_t m_flRestartRoundTime;
+		std::ptrdiff_t m_flGameStartTime;
+		std::ptrdiff_t m_iHostagesRemaining;
+		std::ptrdiff_t m_bAnyHostageReached;
+		std::ptrdiff_t m_bMapHasBombTarget;
+		std::ptrdiff_t m_bMapHasRescueZone;
+		std::ptrdiff_t m_bMapHasBuyZone;
+		std::ptrdiff_t m_bIsQueuedMatchmaking;
+		std::ptrdiff_t m_bIsValveDS;
+		std::ptrdiff_t m_bIsQuestEligible;
+		std::ptrdiff_t m_bLogoMap;
+		std::ptrdiff_t m_iNumGunGameProgressiveWeaponsCT;
+		std::ptrdiff_t m_iNumGunGameProgressiveWeaponsT;
+		std::ptrdiff_t m_iSpectatorSlotCount;
+		std::ptrdiff_t m_bBombDropped;
+		std::ptrdiff_t m_bBombPlanted;
+		std::ptrdiff_t m_iRoundWinStatus;
+		std::ptrdiff_t m_eRoundWinReason;
+		std::ptrdiff_t m_flDMBonusStartTime;
+		std::ptrdiff_t m_flDMBonusTimeLength;
+		std::ptrdiff_t m_unDMBonusWeaponLoadoutSlot;
+		std::ptrdiff_t m_bDMBonusActive;
+		std::ptrdiff_t m_bTCantBuy;
+		std::ptrdiff_t m_bCTCantBuy;
+		std::ptrdiff_t m_flGuardianBuyUntilTime;
+		std::ptrdiff_t m_iMatchStats_RoundResults;
+		std::ptrdiff_t m_iMatchStats_PlayersAlive_T;
+		std::ptrdiff_t m_iMatchStats_PlayersAlive_CT;
+		std::ptrdiff_t m_GGProgressiveWeaponOrderC;
+		std::ptrdiff_t m_GGProgressiveWeaponOrderT;
+		std::ptrdiff_t m_GGProgressiveWeaponKillUpgradeOrderCT;
+		std::ptrdiff_t m_GGProgressiveWeaponKillUpgradeOrderT;
+		std::ptrdiff_t m_MatchDevice;
+		std::ptrdiff_t m_bHasMatchStarted;
+		std::ptrdiff_t m_TeamRespawnWaveTimes;
+		std::ptrdiff_t m_flNextRespawnWave;
+		std::ptrdiff_t m_nNextMapInMapgroup;
+		std::ptrdiff_t m_nEndMatchMapGroupVoteOptions;
+		std::ptrdiff_t m_bIsDroppingItems;
+		std::ptrdiff_t m_iActiveAssassinationTargetMissionID;
+		std::ptrdiff_t m_fMatchStartTime;
+		std::ptrdiff_t m_szTournamentEventName;
+		std::ptrdiff_t m_szTournamentEventStage;
+		std::ptrdiff_t m_szTournamentPredictionsTxt;
+		std::ptrdiff_t m_nTournamentPredictionsPct;
+		std::ptrdiff_t m_szMatchStatTxt;
+		std::ptrdiff_t m_nGuardianModeWaveNumber;
+		std::ptrdiff_t m_nGuardianModeSpecialKillsRemaining;
+		std::ptrdiff_t m_nGuardianModeSpecialWeaponNeeded;
+		std::ptrdiff_t m_nHalloweenMaskListSeed;
+		std::ptrdiff_t m_numGlobalGiftsGiven;
+		std::ptrdiff_t m_numGlobalGifters;
+		std::ptrdiff_t m_numGlobalGiftsPeriodSeconds;
+		std::ptrdiff_t m_arrFeaturedGiftersAccounts;
+		std::ptrdiff_t m_arrFeaturedGiftersGifts;
+		std::ptrdiff_t m_arrTournamentActiveCasterAccounts;
 	} DT_CSGameRulesProxy;
 };
 
