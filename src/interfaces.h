@@ -44,6 +44,8 @@ extern VMT* launchermgr_vmt;
 extern VMT* enginevgui_vmt;
 extern VMT* sound_vmt;
 
+extern LineGoesThroughSmokeFn LineGoesThroughSmoke;
+
 extern int* nPredictionRandomSeed;
 extern bool* bSendPacket;
 extern CMoveData* g_MoveData;

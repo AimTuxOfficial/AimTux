@@ -65,6 +65,8 @@ FinishDrawingFn FinishDrawing;
 ForceFullUpdateFn ForceFullUpdate;
 GetClientStateFn GetClientState;
 
+LineGoesThroughSmokeFn LineGoesThroughSmoke;
+
 std::unordered_map<const char*, uintptr_t> GetProcessLibraries()
 {
 	std::unordered_map<const char*, uintptr_t> modules;
@@ -226,6 +228,12 @@ void Hooker::HookForceFullUpdate()
 
 	uintptr_t getclientstate_func_address = FindPattern(GetLibraryAddress("engine_client.so"), 0xFFFFFFFFF, (unsigned char*) GETCLIENTSTATE_SIGNATURE, GETCLIENTSTATE_MASK);
 	GetClientState = reinterpret_cast<GetClientStateFn>(getclientstate_func_address);
+}
+
+void Hooker::HookLineGoesThroughSmoke()
+{
+	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) LINEGOESTHROUGHSMOKE_SIGNATURE, LINEGOESTHROUGHSMOKE_MASK);
+	LineGoesThroughSmoke = reinterpret_cast<LineGoesThroughSmokeFn>(func_address);
 }
 
 void Hooker::HookSwapWindow()

@@ -48,6 +48,9 @@
 #define GETCLIENTSTATE_SIGNATURE "\x55\x48\x8D\x3D\x68\x01\xDC"
 #define GETCLIENTSTATE_MASK "xxxxxxx"
 
+#define LINEGOESTHROUGHSMOKE_SIGNATURE "\x55\x40\x0F\xB6\xFF"
+#define LINEGOESTHROUGHSMOKE_MASK "xxxxx"
+
 #include <unordered_map>
 #include <sys/mman.h>
 #include <link.h>
@@ -74,6 +77,7 @@ namespace Hooker
 	void HookIsReadyCallback();
 	void HookSurfaceDrawing();
 	void HookForceFullUpdate();
+	void HookLineGoesThroughSmoke();
 	void HookSwapWindow();
 	void HookPollEvent();
 	void HookSDLInput();

@@ -25,9 +25,9 @@ typedef void (*IsReadyCallbackFn) (void*);
 typedef ILauncherMgr* (*ILauncherMgrCreateFn) (void);
 typedef void (*StartDrawingFn) (void*);
 typedef void (*FinishDrawingFn) (void*);
-
 typedef void* (*GetClientStateFn) (void);
 typedef void (*ForceFullUpdateFn) (void*);
+typedef bool (*LineGoesThroughSmokeFn) (Vector, Vector, int16_t);
 
 struct WeaponInfo_t {
 	float m_flWeaponArmorRatio;

@@ -25,6 +25,7 @@ int __attribute__((constructor)) aimtux_init()
 	Hooker::HookIsReadyCallback();
 	Hooker::HookSurfaceDrawing();
 	Hooker::HookForceFullUpdate();
+	Hooker::HookLineGoesThroughSmoke();
 	Hooker::HookSwapWindow();
 	Hooker::HookPollEvent();
 
