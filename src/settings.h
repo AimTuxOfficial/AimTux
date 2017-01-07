@@ -55,9 +55,7 @@ enum AntiAimType_Y : int
 	LISP_JITTER,
 	ANGEL_BACKWARD,
 	ANGEL_INVERSE,
-	ANGEL_SPIN,
-	ANGEL_FAKE_SPIN,
-	ZERO_OUT_Y
+	ANGEL_SPIN
 };
 
 enum AntiAimType_X : int
@@ -70,8 +68,7 @@ enum AntiAimType_X : int
 	STATIC_DOWN_FAKE,
 	LISP_DOWN,
 	ANGEL_DOWN,
-	ANGEL_UP,
-	ZERO_OUT_X
+	ANGEL_UP
 };
 
 enum ChamsType : int
