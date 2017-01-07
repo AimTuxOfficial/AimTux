@@ -561,6 +561,50 @@ void AimbotTab()
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
+			ImGui::Text("AutoWall");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Checkbox("Enabled", &Settings::Aimbot::AutoWall::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Shoots enemy through a wall if it does X amount of damage");
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::PushItemWidth(-1);
+					ImGui::SliderFloat("##AUTOWALLDMG", &Settings::Aimbot::AutoWall::value, 0, 100, "Min Damage: %f");
+				ImGui::PopItemWidth();
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::Text("AutoWall Target");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Checkbox("Head", &Settings::Aimbot::AutoWall::bones[HITBOX_HEAD]);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger on head");
+				ImGui::Checkbox("Neck", &Settings::Aimbot::AutoWall::bones[HITBOX_NECK]);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger on neck");
+				ImGui::Checkbox("Pelvis", &Settings::Aimbot::AutoWall::bones[HITBOX_PELVIS]);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger on pelvis");
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::Checkbox("Spine", &Settings::Aimbot::AutoWall::bones[HITBOX_SPINE]);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger on spine");
+				ImGui::Checkbox("Legs", &Settings::Aimbot::AutoWall::bones[HITBOX_LEGS]);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger on legs");
+				ImGui::Checkbox("Arms", &Settings::Aimbot::AutoWall::bones[HITBOX_ARMS]);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger on arms");
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
 			if (current_weapon > -1 && Settings::Aimbot::weapons.find(current_weapon) != Settings::Aimbot::weapons.end())
 				if (ImGui::Button("Clear Weapon Settings", ImVec2(-1, 0)))
 					Settings::Aimbot::weapons.erase(current_weapon);
@@ -983,7 +1027,7 @@ void HvHTab()
 		ImGui::BeginChild("HVH1", ImVec2(0, 0), true);
 		{
 			ImGui::Text("AntiAim");
-			ImGui::BeginChild("##ANTIAIM", ImVec2(0, ImGui::GetWindowSize().y / 2 + 30), true);
+			ImGui::BeginChild("##ANTIAIM", ImVec2(0, ImGui::GetWindowSize().y / 2 + 32), true);
 			{
 				ImGui::Checkbox("Yaw", &Settings::AntiAim::Yaw::enabled);
 				if (ImGui::IsItemHovered())
@@ -1072,16 +1116,6 @@ void HvHTab()
 					ImGui::PopItemWidth();
 				}
 				ImGui::Columns(1);
-				ImGui::Separator();
-				ImGui::Text("Resolver");
-				ImGui::Separator();
-				ImGui::NextColumn();
-				{
-					ImGui::Checkbox("Resolve All", &Settings::Resolver::resolve_all);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Resolves all players on the server");
-				}
-
 				ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(210, 85));
 					if (ImGui::BeginPopupModal("Error###UNTRUSTED_AA"))
 					{
@@ -1096,6 +1130,19 @@ void HvHTab()
 
 				ImGui::EndChild();
 			}
+			ImGui::EndChild();
+		}
+	}
+	ImGui::NextColumn();
+	{
+		ImGui::BeginChild("HVH2", ImVec2(0, 0), true);
+		{
+
+			ImGui::Text("Resolver");
+			ImGui::Separator();
+			ImGui::Checkbox("Resolve All", &Settings::Resolver::resolve_all);
+			if (ImGui::IsItemHovered())
+				ImGui::SetTooltip("Resolves all players on the server");
 			ImGui::Separator();
 			ImGui::Text("Movement");
 			ImGui::Separator();
@@ -1115,57 +1162,6 @@ void HvHTab()
 			ImGui::Separator();
 			ImGui::EndChild();
 		}
-	}
-	ImGui::NextColumn();
-	{
-		ImGui::BeginChild("HVH2", ImVec2(0, 0), true);
-		{
-			ImGui::Text("AutoWall");
-			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
-				{
-					ImGui::Checkbox("Enabled", &Settings::Aimbot::AutoWall::enabled);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Shoots enemy through a wall if it does X amount of damage");
-				}
-				ImGui::NextColumn();
-				{
-					ImGui::PushItemWidth(-1);
-						ImGui::SliderFloat("##AUTOWALLDMG", &Settings::Aimbot::AutoWall::value, 0, 100, "Min Damage: %f");
-					ImGui::PopItemWidth();
-				}
-				ImGui::Columns(1);
-				ImGui::Separator();
-				ImGui::Text("Target");
-				ImGui::Separator();
-				ImGui::Columns(2, NULL, true);
-				{
-					ImGui::Checkbox("Head", &Settings::Aimbot::AutoWall::bones[HITBOX_HEAD]);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Trigger on head");
-					ImGui::Checkbox("Neck", &Settings::Aimbot::AutoWall::bones[HITBOX_NECK]);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Trigger on neck");
-					ImGui::Checkbox("Pelvis", &Settings::Aimbot::AutoWall::bones[HITBOX_PELVIS]);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Trigger on pelvis");
-				}
-				ImGui::NextColumn();
-				{
-					ImGui::Checkbox("Spine", &Settings::Aimbot::AutoWall::bones[HITBOX_SPINE]);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Trigger on spine");
-					ImGui::Checkbox("Legs", &Settings::Aimbot::AutoWall::bones[HITBOX_LEGS]);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Trigger on legs");
-					ImGui::Checkbox("Arms", &Settings::Aimbot::AutoWall::bones[HITBOX_ARMS]);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Trigger on arms");
-				}
-				ImGui::Columns(1);
-				ImGui::Separator();
-			}
-			ImGui::EndChild();
 	}
 }
 
