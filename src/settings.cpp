@@ -107,38 +107,11 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["UI"]["Fonts"]["ESP"]["size"] = Settings::UI::Fonts::ESP::size;
 	settings["UI"]["Fonts"]["ESP"]["flags"] = Settings::UI::Fonts::ESP::flags;
 
-	settings["Aimbot"]["enabled"] = Settings::Aimbot::enabled;
-	settings["Aimbot"]["silent"] = Settings::Aimbot::silent;
-	settings["Aimbot"]["friendly"] = Settings::Aimbot::friendly;
-	settings["Aimbot"]["NoShoot"]["enabled"] = Settings::Aimbot::NoShoot::enabled;
-	settings["Aimbot"]["ErrorMargin"]["enabled"] = Settings::Aimbot::ErrorMargin::enabled;
-	settings["Aimbot"]["ErrorMargin"]["value"] = Settings::Aimbot::ErrorMargin::value;
-	settings["Aimbot"]["bone"] = Settings::Aimbot::bone;
-	settings["Aimbot"]["aimkey"] = Util::GetButtonName(Settings::Aimbot::aimkey);
-	settings["Aimbot"]["aimkey_only"] = Settings::Aimbot::aimkey_only;
-	settings["Aimbot"]["Smooth"]["enabled"] = Settings::Aimbot::Smooth::enabled;
-	settings["Aimbot"]["Smooth"]["value"] = Settings::Aimbot::Smooth::value;
-	settings["Aimbot"]["Smooth"]["Salting"]["enabled"] = Settings::Aimbot::Smooth::Salting::enabled;
-	settings["Aimbot"]["Smooth"]["Salting"]["multiplier"] = Settings::Aimbot::Smooth::Salting::multiplier;
-	settings["Aimbot"]["AutoAim"]["enabled"] = Settings::Aimbot::AutoAim::enabled;
-	settings["Aimbot"]["AutoAim"]["fov"] = Settings::Aimbot::AutoAim::fov;
 	settings["Aimbot"]["AutoWall"]["enabled"] = Settings::Aimbot::AutoWall::enabled;
 	settings["Aimbot"]["AutoWall"]["value"] = Settings::Aimbot::AutoWall::value;
 	settings["Aimbot"]["AutoWall"]["bones"] = Json::Value(Json::arrayValue);
 	for (int i = HITBOX_HEAD; i <= HITBOX_ARMS; i++)
 		settings["Aimbot"]["AutoWall"]["bones"][i] = Settings::Aimbot::AutoWall::bones[i];
-	settings["Aimbot"]["AimStep"]["enabled"] = Settings::Aimbot::AimStep::enabled;
-	settings["Aimbot"]["AimStep"]["value"] = Settings::Aimbot::AimStep::value;
-	settings["Aimbot"]["RCS"]["enabled"] = Settings::Aimbot::RCS::enabled;
-	settings["Aimbot"]["RCS"]["always_on"] = Settings::Aimbot::RCS::always_on;
-	settings["Aimbot"]["RCS"]["value"] = Settings::Aimbot::RCS::value;
-	settings["Aimbot"]["AutoPistol"]["enabled"] = Settings::Aimbot::AutoPistol::enabled;
-	settings["Aimbot"]["AutoShoot"]["enabled"] = Settings::Aimbot::AutoShoot::enabled;
-	settings["Aimbot"]["AutoShoot"]["autoscope"] = Settings::Aimbot::AutoShoot::autoscope;
-	settings["Aimbot"]["AutoCrouch"]["enabled"] = Settings::Aimbot::AutoCrouch::enabled;
-	settings["Aimbot"]["AutoStop"]["enabled"] = Settings::Aimbot::AutoStop::enabled;
-	settings["Aimbot"]["IgnoreJump"]["enabled"] = Settings::Aimbot::IgnoreJump::enabled;
-	settings["Aimbot"]["SmokeCheck"]["enabled"] = Settings::Aimbot::SmokeCheck::enabled;
 
 	for (auto i : Settings::Aimbot::weapons)
 	{
@@ -422,37 +395,10 @@ void Settings::LoadConfig(std::string path)
 
 	Fonts::SetupFonts();
 
-	GetBool(settings["Aimbot"]["enabled"], &Settings::Aimbot::enabled);
-	GetBool(settings["Aimbot"]["silent"], &Settings::Aimbot::silent);
-	GetBool(settings["Aimbot"]["friendly"], &Settings::Aimbot::friendly);
-	GetBool(settings["Aimbot"]["ErrorMargin"]["enabled"], &Settings::Aimbot::ErrorMargin::enabled);
-	GetFloat(settings["Aimbot"]["ErrorMargin"]["value"], &Settings::Aimbot::ErrorMargin::value);
-	GetBool(settings["Aimbot"]["NoShoot"]["enabled"], &Settings::Aimbot::NoShoot::enabled);
-	GetInt(settings["Aimbot"]["bone"], &Settings::Aimbot::bone);
-	GetButtonCode(settings["Aimbot"]["aimkey"], &Settings::Aimbot::aimkey);
-	GetBool(settings["Aimbot"]["aimkey_only"], &Settings::Aimbot::aimkey_only);
-	GetBool(settings["Aimbot"]["Smooth"]["enabled"], &Settings::Aimbot::Smooth::enabled);
-	GetFloat(settings["Aimbot"]["Smooth"]["value"], &Settings::Aimbot::Smooth::value);
-	GetBool(settings["Aimbot"]["Smooth"]["Salting"]["enabled"], &Settings::Aimbot::Smooth::Salting::enabled);
-	GetFloat(settings["Aimbot"]["Smooth"]["Salting"]["multiplier"], &Settings::Aimbot::Smooth::Salting::multiplier);
-	GetBool(settings["Aimbot"]["AutoAim"]["enabled"], &Settings::Aimbot::AutoAim::enabled);
-	GetFloat(settings["Aimbot"]["AutoAim"]["fov"], &Settings::Aimbot::AutoAim::fov);
 	GetBool(settings["Aimbot"]["AutoWall"]["enabled"], &Settings::Aimbot::AutoWall::enabled);
 	GetFloat(settings["Aimbot"]["AutoWall"]["value"], &Settings::Aimbot::AutoWall::value);
 	for (int i = HITBOX_HEAD; i <= HITBOX_ARMS; i++)
 		GetBool(settings["Aimbot"]["AutoWall"]["bones"][i], &Settings::Aimbot::AutoWall::bones[i]);
-	GetBool(settings["Aimbot"]["AimStep"]["enabled"], &Settings::Aimbot::AimStep::enabled);
-	GetFloat(settings["Aimbot"]["AimStep"]["value"], &Settings::Aimbot::AimStep::value);
-	GetBool(settings["Aimbot"]["RCS"]["enabled"], &Settings::Aimbot::RCS::enabled);
-	GetBool(settings["Aimbot"]["RCS"]["always_on"], &Settings::Aimbot::RCS::always_on);
-	GetFloat(settings["Aimbot"]["RCS"]["value"], &Settings::Aimbot::RCS::value);
-	GetBool(settings["Aimbot"]["AutoPistol"]["enabled"], &Settings::Aimbot::AutoPistol::enabled);
-	GetBool(settings["Aimbot"]["AutoShoot"]["enabled"], &Settings::Aimbot::AutoShoot::enabled);
-	GetBool(settings["Aimbot"]["AutoShoot"]["autoscope"], &Settings::Aimbot::AutoShoot::autoscope);
-	GetBool(settings["Aimbot"]["AutoCrouch"]["enabled"], &Settings::Aimbot::AutoCrouch::enabled);
-	GetBool(settings["Aimbot"]["AutoStop"]["enabled"], &Settings::Aimbot::AutoStop::enabled);
-	GetBool(settings["Aimbot"]["IgnoreJump"]["enabled"], &Settings::Aimbot::IgnoreJump::enabled);
-	GetBool(settings["Aimbot"]["SmokeCheck"]["enabled"], &Settings::Aimbot::SmokeCheck::enabled);
 
 	for (Json::ValueIterator itr = settings["Aimbot"]["weapons"].begin(); itr != settings["Aimbot"]["weapons"].end(); itr++)
 	{
@@ -504,7 +450,6 @@ void Settings::LoadConfig(std::string path)
 
 		Settings::Aimbot::weapons[weaponID] = weapon;
 	}
-
 
 	GetBool(settings["Resolver"]["resolve_all"], &Settings::Resolver::resolve_all);
 
