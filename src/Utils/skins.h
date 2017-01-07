@@ -1,6 +1,7 @@
 #pragma once
 
 static std::vector<std::pair<int, const char*>> guns = {
+		{ -1,								"<-Default->"},
 		{ WEAPON_AK47,				"AK-47" },
 		{ WEAPON_AUG,				"AUG" },
 		{ WEAPON_AWP,				"AWP" },

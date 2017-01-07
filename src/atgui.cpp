@@ -1533,6 +1533,8 @@ void SkinChangerWindow()
 				ImGui::ListBoxHeader("##GUNS", ImVec2(0, 300));
 					for (auto it : guns)
 					{
+						if (strcmp(it.second, "<-Default->") == 0)
+							continue;
 						if (!Util::Contains(Util::ToLower(std::string(filterGuns)), Util::ToLower(std::string(it.second))))
 							continue;
 						const bool item_selected = (it.first == current_weapon);
