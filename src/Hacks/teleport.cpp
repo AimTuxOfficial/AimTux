@@ -5,10 +5,10 @@ ButtonCode_t Settings::Teleport::key = ButtonCode_t::KEY_RALT;
 
 void Teleport::CreateMove(CUserCmd *cmd)
 {
-	if (!Settings::Teleport::enabled)
-		return;
+	if ((*csGameRules) && (*csGameRules)->IsValveDS())
+		Settings::Teleport::enabled = false;
 
-	if (!(*csGameRules) || (*csGameRules)->IsValveDS())
+	if (!Settings::Teleport::enabled)
 		return;
 
 	if (!input->IsButtonDown(Settings::Teleport::key))
