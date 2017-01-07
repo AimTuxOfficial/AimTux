@@ -113,7 +113,7 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 		angle.y -= 90.0f;
 	else if (aa_type == AntiAimType_Y::STATICAA)
 		angle.y = 0.0f;
-	else if (Settings::AntiAim::type_Y == LISP)
+	else if (aa_type == AntiAimType_Y::LISP)
 	{
 		if (!(cmd->buttons & IN_FORWARD && cmd->buttons & IN_BACK && cmd->buttons & IN_MOVELEFT && cmd->buttons & IN_MOVERIGHT && cmd->buttons & IN_JUMP))
 	{
