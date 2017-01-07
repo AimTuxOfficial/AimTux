@@ -533,6 +533,7 @@ namespace Settings
 		extern ImColor bomb_color;
 		extern ImColor bomb_defusing_color;
 		extern ImColor defuser_color;
+		extern float icons_scale;
 
 		namespace InGame
 		{
