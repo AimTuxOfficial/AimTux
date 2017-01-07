@@ -838,28 +838,14 @@ void VisualsTab()
 
 void HvHTab()
 {
-	const char* YTypes[] = { "SLOW SPIN", "FAST SPIN", "JITTER", "SIDE", "BACKWARDS", "FORWARDS", "LEFT", "RIGHT", "STATIC",
-#ifdef UNTRUSTED_SETTINGS
-			"LISP",
-			"LISP SIDE",
-			"LISP JITTER",
-			"ANGEL BACKWARDS",
-			"ANGEL INVERSE",
-			"ANGEL SPIN",
-			"ANGEL FAKE SPIN",
-			"ZERO OUT"
-#endif
+	const char* YTypes[] = {
+			"SLOW SPIN", "FAST SPIN", "JITTER", "SIDE", "BACKWARDS", "FORWARDS", "LEFT", "RIGHT", "STATIC", // safe
+			"LISP", "LISP SIDE", "LISP JITTER", "ANGEL BACKWARDS", "ANGEL INVERSE", "ANGEL SPIN", "ANGEL FAKE SPIN", "ZERO OUT" // untrusted
 	};
 
-	const char* XTypes[] = { "UP", "DOWN", "DANCE", "FRONT",
-#ifdef UNTRUSTED_SETTINGS
-			"FAKE UP",
-			"FAKE DOWN",
-			"LISP DOWN",
-			"ANGEL DOWN",
-			"ANGEL UP",
-			"ZERO OUT"
-#endif
+	const char* XTypes[] = {
+			"UP", "DOWN", "DANCE", "FRONT", // safe
+			"FAKE UP", "FAKE DOWN", "LISP DOWN", "ANGEL DOWN", "ANGEL UP", "ZERO OUT" // untrusted
 	};
 
 	ImGui::Columns(2, NULL, true);
@@ -883,8 +869,23 @@ void HvHTab()
 				ImGui::NextColumn();
 				{
 					ImGui::PushItemWidth(-1);
-						ImGui::Combo("##YFAKETYPE", &Settings::AntiAim::Yaw::type, YTypes, IM_ARRAYSIZE(YTypes));
-						ImGui::Combo("##YACTUALTYPE", &Settings::AntiAim::Yaw::type_fake, YTypes, IM_ARRAYSIZE(YTypes));
+						if (ImGui::Combo("##YFAKETYPE", &Settings::AntiAim::Yaw::type, YTypes, IM_ARRAYSIZE(YTypes)))
+						{
+							if (((*csGameRules) && (*csGameRules)->IsValveDS()) && Settings::AntiAim::Yaw::type > AntiAimType_Y::STATICAA)
+							{
+								Settings::AntiAim::Yaw::type = SPIN_SLOW;
+								ImGui::OpenPopup("Error###UNTRUSTED_AA");
+							}
+						}
+
+						if (ImGui::Combo("##YACTUALTYPE", &Settings::AntiAim::Yaw::type_fake, YTypes, IM_ARRAYSIZE(YTypes)))
+						{
+							if (((*csGameRules) && (*csGameRules)->IsValveDS()) && Settings::AntiAim::Yaw::type_fake > AntiAimType_Y::STATICAA)
+							{
+								Settings::AntiAim::Yaw::type_fake = SPIN_SLOW;
+								ImGui::OpenPopup("Error###UNTRUSTED_AA");
+							}
+						}
 					ImGui::PopItemWidth();
 				}
 				ImGui::Columns(1);
@@ -901,7 +902,14 @@ void HvHTab()
 				ImGui::NextColumn();
 				{
 					ImGui::PushItemWidth(-1);
-						ImGui::Combo("##XTYPE", &Settings::AntiAim::Pitch::type, XTypes, IM_ARRAYSIZE(XTypes));
+						if (ImGui::Combo("##XTYPE", &Settings::AntiAim::Pitch::type, XTypes, IM_ARRAYSIZE(XTypes)))
+						{
+							if (((*csGameRules) && (*csGameRules)->IsValveDS()) && Settings::AntiAim::Pitch::type > AntiAimType_X::FRONT)
+							{
+								Settings::AntiAim::Pitch::type = STATIC_UP;
+								ImGui::OpenPopup("Error###UNTRUSTED_AA");
+							}
+						}
 					ImGui::PopItemWidth();
 				}
 				ImGui::Columns(1);
@@ -943,6 +951,19 @@ void HvHTab()
 					if (ImGui::IsItemHovered())
 						ImGui::SetTooltip("Resolves all players on the server");
 				}
+
+				ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(210, 85));
+					if (ImGui::BeginPopupModal("Error###UNTRUSTED_AA"))
+					{
+						ImGui::Text("You cannot use this anti aim type on a VALVE server.");
+
+						if (ImGui::Button("OK"))
+							ImGui::CloseCurrentPopup();
+
+						ImGui::EndPopup();
+					}
+				ImGui::PopStyleVar();
+
 				ImGui::EndChild();
 			}
 			ImGui::Separator();

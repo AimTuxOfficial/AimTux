@@ -113,7 +113,6 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 		angle.y -= 90.0f;
 	else if (aa_type == AntiAimType_Y::STATICAA)
 		angle.y = 0.0f;
-#ifdef UNTRUSTED_SETTINGS
 	else if (aa_type == AntiAimType_Y::LISP)
 	{
 		clamp = false;
@@ -195,7 +194,7 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 		if (command_number % 2)
 			angle.y += 36000180.f;
 
-		float factor = ( globalvars->curtime * 5000.0 );
+		float factor = (globalvars->curtime * 5000.f);
 		angle.y = factor + 36000000.f;
 	}
 	else if (aa_type == AntiAimType_Y::ZERO_OUT_Y)
@@ -203,7 +202,6 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 		clamp = false;
 		angle.y = 0.0f;
 	}
-#endif
 }
 
 void DoAntiAimX(QAngle& angle, bool bFlip, bool& clamp)
@@ -228,7 +226,6 @@ void DoAntiAimX(QAngle& angle, bool bFlip, bool& clamp)
 	}
 	else if (pitch_aa_type == AntiAimType_X::FRONT)
 		angle.x = 0.0f;
-#ifdef UNTRUSTED_SETTINGS
 	else if (pitch_aa_type == AntiAimType_X::STATIC_UP_FAKE)
 	{
 		angle.x = bFlip ? 89.0f : -89.0f;
@@ -259,7 +256,6 @@ void DoAntiAimX(QAngle& angle, bool bFlip, bool& clamp)
 		clamp = false;
 		angle.x = 0.0f;
 	}
-#endif
 }
 
 void AntiAim::CreateMove(CUserCmd* cmd)
@@ -315,6 +311,18 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 	bFlip = !bFlip;
 
 	bool should_clamp = true;
+
+	if ((*csGameRules) && (*csGameRules)->IsValveDS())
+	{
+		if (Settings::AntiAim::Yaw::type > AntiAimType_Y::STATICAA)
+			Settings::AntiAim::Yaw::type = SPIN_SLOW;
+
+		if (Settings::AntiAim::Yaw::type_fake > AntiAimType_Y::STATICAA)
+			Settings::AntiAim::Yaw::type_fake = SPIN_SLOW;
+
+		if (Settings::AntiAim::Pitch::type > AntiAimType_X::FRONT)
+			Settings::AntiAim::Pitch::type = STATIC_UP;
+	}
 
 	if (Settings::AntiAim::Yaw::enabled)
 	{
