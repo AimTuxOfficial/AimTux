@@ -556,6 +556,9 @@ void AimbotTab()
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
+			if(current_weapon > -1)
+				if(ImGui::Button("Clear Weapon Settings"))
+					Settings::Aimbot::weapons.erase(current_weapon);
 			ImGui::EndChild();
 		}
 	}
