@@ -245,13 +245,13 @@ namespace Settings
 			float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmount;
 			bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check;
 
-			Weapon (bool enabled, bool silent, bool friendly, int bone, ButtonCode_t aimkey, bool aimkey_only,
-							bool smoothEnabled, float smoothValue, bool smoothSaltEnabled, float smoothSaltMultiplier,
-							bool errorMarginEnabled, float errorMarginValue,
-							bool autoAimEnabled, float autoAimValue, bool aimStepEnabled, float aimStepValue,
-							bool rcsEnabled, bool rcsAlways_on, float rcsFloat,
-							bool autoPistolEnabled, bool autoShootEnabled, bool autoScopeEnabled,
-							bool noShootEnabled, bool ignoreJumpEnabled, bool smoke_check)
+			Weapon(bool enabled, bool silent, bool friendly, int bone, ButtonCode_t aimkey, bool aimkey_only,
+				   bool smoothEnabled, float smoothValue, bool smoothSaltEnabled, float smoothSaltMultiplier,
+				   bool errorMarginEnabled, float errorMarginValue,
+				   bool autoAimEnabled, float autoAimValue, bool aimStepEnabled, float aimStepValue,
+				   bool rcsEnabled, bool rcsAlways_on, float rcsFloat,
+				   bool autoPistolEnabled, bool autoShootEnabled, bool autoScopeEnabled,
+				   bool noShootEnabled, bool ignoreJumpEnabled, bool smoke_check)
 			{
 				this->enabled = enabled;
 				this->silent = silent;
