@@ -284,7 +284,15 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 	if (!active_weapon)
 		return;
 
-	if (cmd->buttons & IN_USE || cmd->buttons & IN_ATTACK || active_weapon->IsGrenade())
+	if (active_weapon->IsGrenade())
+	{
+		C_BaseCSGrenade* csGrenade = (C_BaseCSGrenade*)active_weapon;
+
+		if (csGrenade->GetThrowTime() > 0.f)
+			return;
+	}
+
+	if (cmd->buttons & IN_USE || cmd->buttons & IN_ATTACK || cmd->buttons & IN_ATTACK2)
 		return;
 
 	if (localplayer->GetMoveType() == MOVETYPE_LADDER || localplayer->GetMoveType() == MOVETYPE_NOCLIP)

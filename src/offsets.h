@@ -146,6 +146,16 @@ struct COffsets
 
 	struct
 	{
+		std::ptrdiff_t m_bRedraw;
+		std::ptrdiff_t m_bIsHeldByPlayer;
+		std::ptrdiff_t m_bPinPulled;
+		std::ptrdiff_t m_fThrowTime;
+		std::ptrdiff_t m_bLoopingSoundPlaying;
+		std::ptrdiff_t m_flThrowStrength;
+	} DT_BaseCSGrenade;
+
+	struct
+	{
 		std::ptrdiff_t m_flNextPrimaryAttack;
 		std::ptrdiff_t m_hOwner;
 		std::ptrdiff_t m_iClip1;
