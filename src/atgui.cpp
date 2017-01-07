@@ -153,17 +153,6 @@ void SetupMainMenuBar()
 	}
 }
 
-extern ImColor enemy_color;
-extern ImColor enemy_visible_color;
-extern ImColor ally_color;
-extern ImColor ally_visible_color;
-extern ImColor bomb_color;
-extern ImColor defuser_color;
-extern ImColor t_color;
-extern ImColor t_visible_color;
-extern ImColor ct_color;
-extern ImColor ct_visible_color;
-
 void ColorsWindow()
 {
 	if (!showColorsWindow)
