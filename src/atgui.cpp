@@ -194,6 +194,35 @@ void updateWeaponSettings()
 	Settings::Aimbot::weapons[current_weapon] = settings;
 }
 
+void reloadWeaponSettings()
+{
+	enabled = Settings::Aimbot::weapons[current_weapon].enabled;
+	silent = Settings::Aimbot::weapons[current_weapon].silent;
+	friendly = Settings::Aimbot::weapons[current_weapon].friendly;
+	bone = Settings::Aimbot::weapons[current_weapon].bone;
+	aimkey = Settings::Aimbot::weapons[current_weapon].aimkey;
+	aimkey_only = Settings::Aimbot::weapons[current_weapon].aimkey_only;
+	smoothEnabled = Settings::Aimbot::weapons[current_weapon].smoothEnabled;
+	smoothValue = Settings::Aimbot::weapons[current_weapon].smoothAmount;
+	smoothSaltEnabled = Settings::Aimbot::weapons[current_weapon].smoothSaltEnabled;
+	smoothSaltMultiplier = Settings::Aimbot::weapons[current_weapon].smoothSaltMultiplier;
+	errorMarginEnabled = Settings::Aimbot::weapons[current_weapon].errorMarginEnabled;
+	errorMarginValue = Settings::Aimbot::weapons[current_weapon].errorMarginValue;
+	autoAimEnabled = Settings::Aimbot::weapons[current_weapon].autoAimEnabled;
+	autoAimValue = Settings::Aimbot::weapons[current_weapon].autoAimFov;
+	aimStepEnabled = Settings::Aimbot::weapons[current_weapon].aimStepEnabled;
+	aimStepValue = Settings::Aimbot::weapons[current_weapon].aimStepValue;
+	rcsEnabled = Settings::Aimbot::weapons[current_weapon].rcsEnabled;
+	rcsAlways_on = Settings::Aimbot::weapons[current_weapon].rcsAlways_on;
+	rcsFloat = Settings::Aimbot::weapons[current_weapon].rcsAmount;
+	autoPistolEnabled = Settings::Aimbot::weapons[current_weapon].autoPistolEnabled;
+	autoShootEnabled = Settings::Aimbot::weapons[current_weapon].autoShootEnabled;
+	autoScopeEnabled = Settings::Aimbot::weapons[current_weapon].autoScopeEnabled;
+	noShootEnabled = Settings::Aimbot::weapons[current_weapon].noShootEnabled;
+	ignoreJumpEnabled = Settings::Aimbot::weapons[current_weapon].ignoreJumpEnabled;
+	smoke_check = Settings::Aimbot::weapons[current_weapon].smoke_check;
+}
+
 void ColorsWindow()
 {
 	if (!showColorsWindow)
@@ -1725,6 +1754,7 @@ void ConfigWindow()
 				path << configItems[configItemCurrent] << "/config.json";
 
 				Settings::LoadConfig(path);
+				reloadWeaponSettings();
 			}
 		ImGui::PopItemWidth();
 
