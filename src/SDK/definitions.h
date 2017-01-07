@@ -1,8 +1,5 @@
 #pragma once
 
-// Uncomment this at your own risk.
-//#define UNTRUSTED_SETTINGS
-
 // Uncomment to enable buggy/experimental settings.
 //#define EXPERIMENTAL_SETTINGS
 
