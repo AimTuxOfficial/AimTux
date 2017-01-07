@@ -323,7 +323,7 @@ void AimbotTab()
 
 	const char* targets[] = { "PELVIS", "", "", "HIP", "LOWER SPINE", "MIDDLE SPINE", "UPPER SPINE", "NECK", "HEAD" };
 
-	if(ImGui::Checkbox("Enabled", &enabled))
+	if (ImGui::Checkbox("Enabled", &enabled))
 		Settings::Aimbot::weapons[current_weapon] = Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkey_only, smoothEnabled, smoothValue, smoothSaltEnabled, smoothSaltMultiplier, errorMarginEnabled, errorMarginValue, autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue, rcsEnabled, rcsAlways_on, rcsFloat, autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check);
 	ImGui::Separator();
 
@@ -382,7 +382,7 @@ void AimbotTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				if(ImGui::Checkbox("Friendly", &friendly))
+				if (ImGui::Checkbox("Friendly", &friendly))
 						Settings::Aimbot::weapons[current_weapon] = Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkey_only, smoothEnabled, smoothValue, smoothSaltEnabled, smoothSaltMultiplier, errorMarginEnabled, errorMarginValue, autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue, rcsEnabled, rcsAlways_on, rcsFloat, autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Whether to target friendlies");
@@ -390,7 +390,7 @@ void AimbotTab()
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-					if(ImGui::Combo("##AIMTARGET", &bone, targets, IM_ARRAYSIZE(targets)))
+					if (ImGui::Combo("##AIMTARGET", &bone, targets, IM_ARRAYSIZE(targets)))
 							Settings::Aimbot::weapons[current_weapon] = Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkey_only, smoothEnabled, smoothValue, smoothSaltEnabled, smoothSaltMultiplier, errorMarginEnabled, errorMarginValue, autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue, rcsEnabled, rcsAlways_on, rcsFloat, autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check);
 				ImGui::PopItemWidth();
 			}
@@ -400,15 +400,15 @@ void AimbotTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				if(ImGui::Checkbox("Auto Aim", &autoAimEnabled))
+				if (ImGui::Checkbox("Auto Aim", &autoAimEnabled))
 						Settings::Aimbot::weapons[current_weapon] = Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkey_only, smoothEnabled, smoothValue, smoothSaltEnabled, smoothSaltMultiplier, errorMarginEnabled, errorMarginValue, autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue, rcsEnabled, rcsAlways_on, rcsFloat, autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Locks onto enemies within a certain FOV amount");
-				if(ImGui::Checkbox("Recoil Control", &rcsEnabled))
+				if (ImGui::Checkbox("Recoil Control", &rcsEnabled))
 						Settings::Aimbot::weapons[current_weapon] = Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkey_only, smoothEnabled, smoothValue, smoothSaltEnabled, smoothSaltMultiplier, errorMarginEnabled, errorMarginValue, autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue, rcsEnabled, rcsAlways_on, rcsFloat, autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Automatically controls recoil");
-				if(ImGui::Checkbox("RCS Always on", &rcsAlways_on))
+				if (ImGui::Checkbox("RCS Always on", &rcsAlways_on))
 						Settings::Aimbot::weapons[current_weapon] = Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkey_only, smoothEnabled, smoothValue, smoothSaltEnabled, smoothSaltMultiplier, errorMarginEnabled, errorMarginValue, autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue, rcsEnabled, rcsAlways_on, rcsFloat, autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Whether Recoil Control always controls recoil (even when not aimbotting)");
@@ -416,9 +416,9 @@ void AimbotTab()
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-					if(ImGui::SliderFloat("##AA", &autoAimValue, 0, 180))
+					if (ImGui::SliderFloat("##AA", &autoAimValue, 0, 180))
 							Settings::Aimbot::weapons[current_weapon] = Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkey_only, smoothEnabled, smoothValue, smoothSaltEnabled, smoothSaltMultiplier, errorMarginEnabled, errorMarginValue, autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue, rcsEnabled, rcsAlways_on, rcsFloat, autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check);
-					if(ImGui::SliderFloat("##RCS", &rcsFloat, 0, 2))
+					if (ImGui::SliderFloat("##RCS", &rcsFloat, 0, 2))
 							Settings::Aimbot::weapons[current_weapon] = Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkey_only, smoothEnabled, smoothValue, smoothSaltEnabled, smoothSaltMultiplier, errorMarginEnabled, errorMarginValue, autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue, rcsEnabled, rcsAlways_on, rcsFloat, autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check);
 				ImGui::PopItemWidth();
 			}
@@ -428,15 +428,15 @@ void AimbotTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				if(ImGui::Checkbox("Smoothing", &smoothEnabled))
+				if (ImGui::Checkbox("Smoothing", &smoothEnabled))
 						Settings::Aimbot::weapons[current_weapon] = Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkey_only, smoothEnabled, smoothValue, smoothSaltEnabled, smoothSaltMultiplier, errorMarginEnabled, errorMarginValue, autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue, rcsEnabled, rcsAlways_on, rcsFloat, autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Smoothing reduces the aimbot \"snap\". 0 for full snap. 1 for full smoothing");
-				if(ImGui::Checkbox("Smooth Salting", &smoothSaltEnabled))
+				if (ImGui::Checkbox("Smooth Salting", &smoothSaltEnabled))
 						Settings::Aimbot::weapons[current_weapon] = Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkey_only, smoothEnabled, smoothValue, smoothSaltEnabled, smoothSaltMultiplier, errorMarginEnabled, errorMarginValue, autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue, rcsEnabled, rcsAlways_on, rcsFloat, autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Breaks the smoothing into smaller steps, high smooth + low salt is slightly stuttery");
-				if(ImGui::Checkbox("Error Margin", &errorMarginEnabled))
+				if (ImGui::Checkbox("Error Margin", &errorMarginEnabled))
 						Settings::Aimbot::weapons[current_weapon] = Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkey_only, smoothEnabled, smoothValue, smoothSaltEnabled, smoothSaltMultiplier, errorMarginEnabled, errorMarginValue, autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue, rcsEnabled, rcsAlways_on, rcsFloat, autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Adds a margin of error to the aim, it will be obvious what it does when using it");
@@ -444,11 +444,11 @@ void AimbotTab()
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-					if(ImGui::SliderFloat("##SMOOTH", &smoothValue, 0, 1))
+					if (ImGui::SliderFloat("##SMOOTH", &smoothValue, 0, 1))
 							Settings::Aimbot::weapons[current_weapon] = Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkey_only, smoothEnabled, smoothValue, smoothSaltEnabled, smoothSaltMultiplier, errorMarginEnabled, errorMarginValue, autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue, rcsEnabled, rcsAlways_on, rcsFloat, autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check);
-					if(ImGui::SliderFloat("##SALT", &smoothSaltMultiplier, 0, smoothValue))
+					if (ImGui::SliderFloat("##SALT", &smoothSaltMultiplier, 0, smoothValue))
 							Settings::Aimbot::weapons[current_weapon] = Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkey_only, smoothEnabled, smoothValue, smoothSaltEnabled, smoothSaltMultiplier, errorMarginEnabled, errorMarginValue, autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue, rcsEnabled, rcsAlways_on, rcsFloat, autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check);
-					if(ImGui::SliderFloat("##ERROR", &errorMarginValue, 0, 2))
+					if (ImGui::SliderFloat("##ERROR", &errorMarginValue, 0, 2))
 							Settings::Aimbot::weapons[current_weapon] = Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkey_only, smoothEnabled, smoothValue, smoothSaltEnabled, smoothSaltMultiplier, errorMarginEnabled, errorMarginValue, autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue, rcsEnabled, rcsAlways_on, rcsFloat, autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check);
 				ImGui::PopItemWidth();
 			}
@@ -465,14 +465,14 @@ void AimbotTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				if(ImGui::Checkbox("Enabled", &aimkey_only))
+				if (ImGui::Checkbox("Enabled", &aimkey_only))
 						Settings::Aimbot::weapons[current_weapon] = Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkey_only, smoothEnabled, smoothValue, smoothSaltEnabled, smoothSaltMultiplier, errorMarginEnabled, errorMarginValue, autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue, rcsEnabled, rcsAlways_on, rcsFloat, autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Enabling this means it you need to press a specific key to aimlock");
 			}
 			ImGui::NextColumn();
 			{
-				if(UI::KeyBindButton(&aimkey))
+				if (UI::KeyBindButton(&aimkey))
 						Settings::Aimbot::weapons[current_weapon] = Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkey_only, smoothEnabled, smoothValue, smoothSaltEnabled, smoothSaltMultiplier, errorMarginEnabled, errorMarginValue, autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue, rcsEnabled, rcsAlways_on, rcsFloat, autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check);
 			}
 			ImGui::Columns(1);
@@ -481,7 +481,7 @@ void AimbotTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				if(ImGui::Checkbox("Aim Step", &aimStepEnabled))
+				if (ImGui::Checkbox("Aim Step", &aimStepEnabled))
 						Settings::Aimbot::weapons[current_weapon] = Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkey_only, smoothEnabled, smoothValue, smoothSaltEnabled, smoothSaltMultiplier, errorMarginEnabled, errorMarginValue, autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue, rcsEnabled, rcsAlways_on, rcsFloat, autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Stops you getting VAC auth kicked in Casual / DM");
@@ -489,7 +489,7 @@ void AimbotTab()
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-					if(ImGui::SliderFloat("##STEP", &aimStepValue, 0, 100))
+					if (ImGui::SliderFloat("##STEP", &aimStepValue, 0, 100))
 							Settings::Aimbot::weapons[current_weapon] = Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkey_only, smoothEnabled, smoothValue, smoothSaltEnabled, smoothSaltMultiplier, errorMarginEnabled, errorMarginValue, autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue, rcsEnabled, rcsAlways_on, rcsFloat, autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check);
 				ImGui::PopItemWidth();
 			}
@@ -499,30 +499,30 @@ void AimbotTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				if(ImGui::Checkbox("Auto Pistol", &autoPistolEnabled))
+				if (ImGui::Checkbox("Auto Pistol", &autoPistolEnabled))
 						Settings::Aimbot::weapons[current_weapon] = Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkey_only, smoothEnabled, smoothValue, smoothSaltEnabled, smoothSaltMultiplier, errorMarginEnabled, errorMarginValue, autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue, rcsEnabled, rcsAlways_on, rcsFloat, autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Automatically shoots the pistol when holding fire");
-				if(ImGui::Checkbox("Auto Shoot", &autoShootEnabled))
+				if (ImGui::Checkbox("Auto Shoot", &autoShootEnabled))
 						Settings::Aimbot::weapons[current_weapon] = Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkey_only, smoothEnabled, smoothValue, smoothSaltEnabled, smoothSaltMultiplier, errorMarginEnabled, errorMarginValue, autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue, rcsEnabled, rcsAlways_on, rcsFloat, autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Automatically shoots when locking to an enemy");
-				if(ImGui::Checkbox("Silent Aim", &silent))
+				if (ImGui::Checkbox("Silent Aim", &silent))
 						Settings::Aimbot::weapons[current_weapon] = Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkey_only, smoothEnabled, smoothValue, smoothSaltEnabled, smoothSaltMultiplier, errorMarginEnabled, errorMarginValue, autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue, rcsEnabled, rcsAlways_on, rcsFloat, autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Prevents the camera from locking to an enemy, doesn't work for demos");
 			}
 			ImGui::NextColumn();
 			{
-				if(ImGui::Checkbox("No Shoot", &noShootEnabled))
+				if (ImGui::Checkbox("No Shoot", &noShootEnabled))
 						Settings::Aimbot::weapons[current_weapon] = Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkey_only, smoothEnabled, smoothValue, smoothSaltEnabled, smoothSaltMultiplier, errorMarginEnabled, errorMarginValue, autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue, rcsEnabled, rcsAlways_on, rcsFloat, autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Stops you shooting when locking to an enemy");
-				if(ImGui::Checkbox("Auto Scope", &autoScopeEnabled))
+				if (ImGui::Checkbox("Auto Scope", &autoScopeEnabled))
 						Settings::Aimbot::weapons[current_weapon] = Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkey_only, smoothEnabled, smoothValue, smoothSaltEnabled, smoothSaltMultiplier, errorMarginEnabled, errorMarginValue, autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue, rcsEnabled, rcsAlways_on, rcsFloat, autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Automatically scopes weapons that have them");
-				if(ImGui::Checkbox("Ignore Jump", &ignoreJumpEnabled))
+				if (ImGui::Checkbox("Ignore Jump", &ignoreJumpEnabled))
 						Settings::Aimbot::weapons[current_weapon] = Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkey_only, smoothEnabled, smoothValue, smoothSaltEnabled, smoothSaltMultiplier, errorMarginEnabled, errorMarginValue, autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue, rcsEnabled, rcsAlways_on, rcsFloat, autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Prevents you from aimbotting while jumping");
