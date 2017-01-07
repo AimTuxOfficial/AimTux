@@ -955,7 +955,7 @@ void HvHTab()
 				ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(210, 85));
 					if (ImGui::BeginPopupModal("Error###UNTRUSTED_AA"))
 					{
-						ImGui::Text("You cannot use this anti aim type on a VALVE server.");
+						ImGui::Text("You cannot use this antiaim type on a VALVE server.");
 
 						if (ImGui::Button("OK"))
 							ImGui::CloseCurrentPopup();
@@ -1292,7 +1292,7 @@ void MiscTab()
 			ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(210, 85));
 			if (ImGui::BeginPopupModal("Error###UNTRUSTED_FEATURE"))
 			{
-				ImGui::Text("You cannot use feature on a VALVE server.");
+				ImGui::Text("You cannot use this feature on a VALVE server.");
 
 				if (ImGui::Button("OK"))
 					ImGui::CloseCurrentPopup();
