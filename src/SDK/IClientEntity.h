@@ -810,3 +810,27 @@ public:
 		return (bool*)((uintptr_t)this + offsets.DT_DynamicProp.m_bShouldGlow);
 	}
 };
+
+class C_BaseCSGrenade : C_BaseCombatWeapon
+{
+public:
+	bool IsHeldByPlayer()
+	{
+		return *(bool*)((uintptr_t)this + offsets.DT_BaseCSGrenade.m_bPinPulled);
+	}
+
+	bool GetPinPulled()
+	{
+		return *(bool*)((uintptr_t)this + offsets.DT_BaseCSGrenade.m_bPinPulled);
+	}
+
+	float GetThrowTime()
+	{
+		return *(float*)((uintptr_t)this + offsets.DT_BaseCSGrenade.m_fThrowTime);
+	}
+
+	float GetThrowStrength()
+	{
+		return *(float*)((uintptr_t)this + offsets.DT_BaseCSGrenade.m_flThrowStrength);
+	}
+};
