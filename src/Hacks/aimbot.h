@@ -24,4 +24,5 @@ namespace Aimbot
 
 	void CreateMove(CUserCmd* cmd);
 	void FireEventClientSide(IGameEvent* event);
+	void UpdateValues();
 }
