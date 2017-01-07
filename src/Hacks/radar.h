@@ -14,6 +14,7 @@ namespace Radar
 		SHAPE_TRIANGLE,
 		SHAPE_TRIANGLE_UPSIDEDOWN
 	};
+	ImColor GetRadarPlayerColor(C_BasePlayer* player, bool visible);
 	void DrawWindow();
 	void InGameRadar(C_BasePlayer* player);
 	void BeginFrame();

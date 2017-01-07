@@ -524,6 +524,18 @@ namespace Settings
 		extern bool legit;
 		extern bool visibility_check;
 		extern bool smoke_check;
+		extern int team_color_type;
+		extern ImColor enemy_color;
+		extern ImColor enemy_visible_color;
+		extern ImColor ally_color;
+		extern ImColor ally_visible_color;
+		extern ImColor t_color;
+		extern ImColor t_visible_color;
+		extern ImColor ct_color;
+		extern ImColor ct_visible_color;
+		extern ImColor bomb_color;
+		extern ImColor bomb_defusing_color;
+		extern ImColor defuser_color;
 
 		namespace InGame
 		{

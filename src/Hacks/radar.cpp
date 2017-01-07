@@ -10,6 +10,18 @@ bool Settings::Radar::legit = false;
 bool Settings::Radar::visibility_check = false;
 bool Settings::Radar::smoke_check = false;
 bool Settings::Radar::InGame::enabled = false;
+int Settings::Radar::team_color_type = TeamColorType::RELATIVE;
+ImColor Settings::Radar::enemy_color = ImColor(192, 32, 32, 255);
+ImColor Settings::Radar::enemy_visible_color = ImColor(192, 32, 32, 255);
+ImColor Settings::Radar::ally_color = ImColor(32, 64, 192, 255);
+ImColor Settings::Radar::ally_visible_color = ImColor(32, 64, 192, 255);
+ImColor Settings::Radar::t_color = ImColor(192, 128, 64, 255);
+ImColor Settings::Radar::t_visible_color = ImColor(192, 128, 64, 255);
+ImColor Settings::Radar::ct_color = ImColor(64, 128, 192, 255);
+ImColor Settings::Radar::ct_visible_color = ImColor(64, 128, 192, 255);
+ImColor Settings::Radar::bomb_color = ImColor(192, 192, 64, 255);
+ImColor Settings::Radar::bomb_defusing_color = ImColor(192, 192, 64, 255);
+ImColor Settings::Radar::defuser_color = ImColor(32, 192, 192, 255);
 
 std::set<int> visible_players;
 
@@ -66,6 +78,32 @@ Vector2D WorldToRadar(const Vector location, const Vector origin, const QAngle a
 static void SquareConstraint(ImGuiSizeConstraintCallbackData *data)
 {
 	data->DesiredSize = ImVec2(std::max(data->DesiredSize.x, data->DesiredSize.y), std::max(data->DesiredSize.x, data->DesiredSize.y));
+}
+
+ImColor Radar::GetRadarPlayerColor(C_BasePlayer* player, bool visible)
+{
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer)
+		return ImColor(255, 255, 255, 255);
+
+	ImColor playerColor;
+
+	if (Settings::Radar::team_color_type == TeamColorType::RELATIVE)
+	{
+		if (player->GetTeam() != localplayer->GetTeam())
+			playerColor = visible ? Settings::Radar::enemy_visible_color : Settings::Radar::enemy_color;
+		else
+			playerColor = visible ? Settings::Radar::ally_visible_color  : Settings::Radar::ally_color;
+	}
+	else if (Settings::Radar::team_color_type == TeamColorType::ABSOLUTE)
+	{
+		if (player->GetTeam() == TEAM_TERRORIST)
+			playerColor = visible ? Settings::Radar::t_visible_color : Settings::Radar::t_color;
+		else if (player->GetTeam() == TEAM_COUNTER_TERRORIST)
+			playerColor = visible ? Settings::Radar::ct_visible_color : Settings::Radar::ct_color;
+	}
+
+	return playerColor;
 }
 
 void Radar::DrawWindow()
@@ -141,7 +179,7 @@ void Radar::DrawWindow()
 				if (observer_target && player == observer_target && (*localplayer->GetObserverMode() == OBS_MODE_IN_EYE || *localplayer->GetObserverMode() == OBS_MODE_CHASE))
 					continue;
 
-				color = ESP::GetESPPlayerColor(player, bIsVisible);
+				color = GetRadarPlayerColor(player, bIsVisible);
 
 				Vector localPos = localplayer->GetVecOrigin();
 				Vector playerPos = player->GetVecOrigin();
@@ -155,7 +193,7 @@ void Radar::DrawWindow()
 
 				Vector forward;
 				Math::AngleVectors(*player->GeyEyeAngles(), forward);
-				Vector dirArrowVec = playerPos + (forward * 8 * Settings::Radar::zoom);
+				Vector dirArrowVec = playerPos + (forward * Settings::Radar::zoom * 8);
 
 				float arrowWidth = 4.5f;
 				float arrowTheta = 45.f;
@@ -184,7 +222,7 @@ void Radar::DrawWindow()
 				if (!(*csGameRules) || !(*csGameRules)->IsBombDropped())
 					continue;
 
-				color = Settings::ESP::bomb_color;
+				color = Settings::Radar::bomb_color;
 				shape = EntityShape_t::SHAPE_SQUARE;
 			}
 			else if (classId == CPlantedC4)
@@ -197,7 +235,7 @@ void Radar::DrawWindow()
 
 				C_PlantedC4* bomb = (C_PlantedC4*) entity;
 
-				color = bomb->GetBombDefuser() != -1 || bomb->IsBombDefused() ? Settings::ESP::bomb_defusing_color : Settings::ESP::bomb_color;
+				color = bomb->GetBombDefuser() != -1 || bomb->IsBombDefused() ? Settings::Radar::bomb_defusing_color : Settings::Radar::bomb_color;
 				shape = EntityShape_t::SHAPE_SQUARE;
 			}
 			else if (classId == CBaseAnimating)
@@ -208,7 +246,7 @@ void Radar::DrawWindow()
 				if (localplayer->HasDefuser() || localplayer->GetTeam() != TEAM_COUNTER_TERRORIST)
 					continue;
 
-				color = Settings::ESP::defuser_color;
+				color = Settings::Radar::defuser_color;
 				shape = EntityShape_t::SHAPE_SQUARE;
 			}
 

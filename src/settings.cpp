@@ -289,6 +289,16 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Radar"]["visibility_check"] = Settings::Radar::visibility_check;
 	settings["Radar"]["smoke_check"] = Settings::Radar::smoke_check;
 	settings["Radar"]["InGame"]["enabled"] = Settings::Radar::InGame::enabled;
+	GetUIColor(settings["Radar"]["enemy_color"], &Settings::Radar::enemy_color);
+	GetUIColor(settings["Radar"]["enemy_visible_color"], &Settings::Radar::enemy_visible_color);
+	GetUIColor(settings["Radar"]["ally_color"], &Settings::Radar::ally_color);
+	GetUIColor(settings["Radar"]["ally_visible_color"], &Settings::Radar::ally_visible_color);
+	GetUIColor(settings["Radar"]["t_color"], &Settings::Radar::t_color);
+	GetUIColor(settings["Radar"]["t_visible_color"], &Settings::Radar::t_visible_color);
+	GetUIColor(settings["Radar"]["ct_color"], &Settings::Radar::ct_color);
+	GetUIColor(settings["Radar"]["ct_visible_color"], &Settings::Radar::ct_visible_color);
+	GetUIColor(settings["Radar"]["bomb_color"], &Settings::Radar::bomb_color);
+	GetUIColor(settings["Radar"]["bomb_defusing_color"], &Settings::Radar::bomb_defusing_color);
 
 	settings["Recoilcrosshair"]["enabled"] = Settings::Recoilcrosshair::enabled;
 
@@ -561,6 +571,16 @@ void Settings::LoadConfig(std::string path)
 	GetBool(settings["Radar"]["visibility_check"], &Settings::Radar::visibility_check);
 	GetBool(settings["Radar"]["smoke_check"], &Settings::Radar::smoke_check);
 	GetBool(settings["Radar"]["InGame"]["enabled"], &Settings::Radar::InGame::enabled);
+	LoadUIColor(settings["Radar"]["enemy_color"], Settings::Radar::enemy_color);
+	LoadUIColor(settings["Radar"]["enemy_visible_color"], Settings::Radar::enemy_visible_color);
+	LoadUIColor(settings["Radar"]["ally_color"], Settings::Radar::ally_color);
+	LoadUIColor(settings["Radar"]["ally_visible_color"], Settings::Radar::ally_visible_color);
+	LoadUIColor(settings["Radar"]["t_color"], Settings::Radar::t_color);
+	LoadUIColor(settings["Radar"]["t_visible_color"], Settings::Radar::t_visible_color);
+	LoadUIColor(settings["Radar"]["ct_color"], Settings::Radar::ct_color);
+	LoadUIColor(settings["Radar"]["ct_visible_color"], Settings::Radar::ct_visible_color);
+	LoadUIColor(settings["Radar"]["bomb_color"], Settings::Radar::bomb_color);
+	LoadUIColor(settings["Radar"]["bomb_defusing_color"], Settings::Radar::bomb_defusing_color);
 
 	GetBool(settings["Recoilcrosshair"]["enabled"], &Settings::Recoilcrosshair::enabled);
 	GetBool(settings["Recoilcrosshair"]["showOnlyWhenShooting"], &Settings::Recoilcrosshair::showOnlyWhenShooting);

@@ -153,6 +153,17 @@ void SetupMainMenuBar()
 	}
 }
 
+extern ImColor enemy_color;
+extern ImColor enemy_visible_color;
+extern ImColor ally_color;
+extern ImColor ally_visible_color;
+extern ImColor bomb_color;
+extern ImColor defuser_color;
+extern ImColor t_color;
+extern ImColor t_visible_color;
+extern ImColor ct_color;
+extern ImColor ct_visible_color;
+
 void ColorsWindow()
 {
 	if (!showColorsWindow)
@@ -189,6 +200,16 @@ void ColorsWindow()
 			"Chams - Team Visible",
 			"Chams - Enemy",
 			"Chams - Enemy Visible",
+			"Radar - Enemy",
+			"Radar - Team",
+			"Radar - Enemy Visible",
+			"Radar - Team Visible",
+			"Radar - CT",
+			"Radar - T",
+			"Radar - CT Visible",
+			"Radar - T Visible",
+			"Radar - Bomb",
+			"Radar - Bomb Defusing",
 			"Glow - Team",
 			"Glow - Enemy",
 			"Glow - Enemy Visible",
@@ -231,6 +252,16 @@ void ColorsWindow()
 			&Settings::ESP::Chams::ally_visible_color,
 			&Settings::ESP::Chams::enemy_color,
 			&Settings::ESP::Chams::enemy_visible_color,
+			&Settings::Radar::enemy_color,
+			&Settings::Radar::ally_color,
+			&Settings::Radar::enemy_visible_color,
+			&Settings::Radar::ally_visible_color,
+			&Settings::Radar::ct_color,
+			&Settings::Radar::t_color,
+			&Settings::Radar::ct_visible_color,
+			&Settings::Radar::t_visible_color,
+			&Settings::Radar::bomb_color,
+			&Settings::Radar::bomb_defusing_color,
 			&Settings::ESP::Glow::ally_color,
 			&Settings::ESP::Glow::enemy_color,
 			&Settings::ESP::Glow::enemy_visible_color,
@@ -754,6 +785,9 @@ void VisualsTab()
 				ImGui::Checkbox("In-game Radar", &Settings::Radar::InGame::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Shows players on the in-game radar");
+				ImGui::PushItemWidth(-1);
+					ImGui::Combo("##RADARTEAMCOLTYPE", &Settings::Radar::team_color_type, TeamColorTypes, IM_ARRAYSIZE(TeamColorTypes));
+				ImGui::PopItemWidth();
 			}
 			ImGui::NextColumn();
 			{
