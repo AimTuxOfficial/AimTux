@@ -587,7 +587,6 @@ void Aimbot::FireEventClientSide(IGameEvent* event)
 
 void Aimbot::UpdateValues()
 {
-
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer || !localplayer->GetAlive())
 		return;
@@ -596,62 +595,35 @@ void Aimbot::UpdateValues()
 	if (!active_weapon)
 		return;
 
-	if(Settings::Aimbot::weapons.find(*active_weapon->GetItemDefinitionIndex()) == Settings::Aimbot::weapons.end())
-	{
-		Settings::Aimbot::enabled = Settings::Aimbot::weapons[-1].enabled;
-		Settings::Aimbot::silent = Settings::Aimbot::weapons[-1].silent;
-		Settings::Aimbot::friendly = Settings::Aimbot::weapons[-1].friendly;
-		Settings::Aimbot::bone = Settings::Aimbot::weapons[-1].bone;
-		Settings::Aimbot::aimkey = Settings::Aimbot::weapons[-1].aimkey;
-		Settings::Aimbot::aimkey_only = Settings::Aimbot::weapons[-1].aimkey_only;
-		Settings::Aimbot::Smooth::enabled = Settings::Aimbot::weapons[-1].smoothEnabled;
-		Settings::Aimbot::Smooth::value = Settings::Aimbot::weapons[-1].smoothAmount;
-		Settings::Aimbot::ErrorMargin::enabled = Settings::Aimbot::weapons[-1].errorMarginEnabled;
-		Settings::Aimbot::ErrorMargin::value = Settings::Aimbot::weapons[-1].errorMarginValue;
-		Settings::Aimbot::AutoAim::enabled = Settings::Aimbot::weapons[-1].autoAimEnabled;
-		Settings::Aimbot::AutoAim::fov = Settings::Aimbot::weapons[-1].autoAimFov;
-		Settings::Aimbot::AimStep::enabled = Settings::Aimbot::weapons[-1].aimStepEnabled;
-		Settings::Aimbot::AimStep::value = Settings::Aimbot::weapons[-1].aimStepValue;
-		Settings::Aimbot::AutoPistol::enabled = Settings::Aimbot::weapons[-1].autoPistolEnabled;
-		Settings::Aimbot::AutoShoot::enabled = Settings::Aimbot::weapons[-1].autoShootEnabled;
-		Settings::Aimbot::AutoShoot::autoscope = Settings::Aimbot::weapons[-1].autoScopeEnabled;
-		Settings::Aimbot::RCS::enabled = Settings::Aimbot::weapons[-1].rcsEnabled;
-		Settings::Aimbot::RCS::always_on = Settings::Aimbot::weapons[-1].rcsAlways_on;
-		Settings::Aimbot::RCS::value = Settings::Aimbot::weapons[-1].rcsAmount;
-		Settings::Aimbot::NoShoot::enabled = Settings::Aimbot::weapons[-1].noShootEnabled;
-		Settings::Aimbot::IgnoreJump::enabled = Settings::Aimbot::weapons[-1].ignoreJumpEnabled;
-		Settings::Aimbot::Smooth::Salting::enabled = Settings::Aimbot::weapons[-1].smoothSaltEnabled;
-		Settings::Aimbot::Smooth::Salting::multiplier = Settings::Aimbot::weapons[-1].smoothSaltMultiplier;
-		Settings::Aimbot::SmokeCheck::enabled = Settings::Aimbot::weapons[-1].smoke_check;
-	}
-	else
-	{
-		Settings::Aimbot::Weapon currentWeaponSetting = Settings::Aimbot::weapons[*active_weapon->GetItemDefinitionIndex()];
+	int index = -1;
+	if (Settings::Aimbot::weapons.find(*active_weapon->GetItemDefinitionIndex()) != Settings::Aimbot::weapons.end())
+		index = *active_weapon->GetItemDefinitionIndex();
 
-		Settings::Aimbot::enabled = currentWeaponSetting.enabled;
-		Settings::Aimbot::silent = currentWeaponSetting.silent;
-		Settings::Aimbot::friendly = currentWeaponSetting.friendly;
-		Settings::Aimbot::bone = currentWeaponSetting.bone;
-		Settings::Aimbot::aimkey = currentWeaponSetting.aimkey;
-		Settings::Aimbot::aimkey_only = currentWeaponSetting.aimkey_only;
-		Settings::Aimbot::Smooth::enabled = currentWeaponSetting.smoothEnabled;
-		Settings::Aimbot::Smooth::value = currentWeaponSetting.smoothAmount;
-		Settings::Aimbot::ErrorMargin::enabled = currentWeaponSetting.errorMarginEnabled;
-		Settings::Aimbot::ErrorMargin::value = currentWeaponSetting.errorMarginValue;
-		Settings::Aimbot::AutoAim::enabled = currentWeaponSetting.autoAimEnabled;
-		Settings::Aimbot::AutoAim::fov = currentWeaponSetting.autoAimFov;
-		Settings::Aimbot::AimStep::enabled = currentWeaponSetting.aimStepEnabled;
-		Settings::Aimbot::AimStep::value = currentWeaponSetting.aimStepValue;
-		Settings::Aimbot::AutoPistol::enabled = currentWeaponSetting.autoPistolEnabled;
-		Settings::Aimbot::AutoShoot::enabled = currentWeaponSetting.autoShootEnabled;
-		Settings::Aimbot::AutoShoot::autoscope = currentWeaponSetting.autoScopeEnabled;
-		Settings::Aimbot::RCS::enabled = currentWeaponSetting.rcsEnabled;
-		Settings::Aimbot::RCS::always_on = currentWeaponSetting.rcsAlways_on;
-		Settings::Aimbot::RCS::value = currentWeaponSetting.rcsAmount;
-		Settings::Aimbot::NoShoot::enabled = currentWeaponSetting.noShootEnabled;
-		Settings::Aimbot::IgnoreJump::enabled = currentWeaponSetting.ignoreJumpEnabled;
-		Settings::Aimbot::Smooth::Salting::enabled = currentWeaponSetting.smoothSaltEnabled;
-		Settings::Aimbot::Smooth::Salting::multiplier = currentWeaponSetting.smoothSaltMultiplier;
-		Settings::Aimbot::SmokeCheck::enabled = currentWeaponSetting.smoke_check;
-	}
+	Settings::Aimbot::Weapon currentWeaponSetting = Settings::Aimbot::weapons[index];
+
+	Settings::Aimbot::enabled = currentWeaponSetting.enabled;
+	Settings::Aimbot::silent = currentWeaponSetting.silent;
+	Settings::Aimbot::friendly = currentWeaponSetting.friendly;
+	Settings::Aimbot::bone = currentWeaponSetting.bone;
+	Settings::Aimbot::aimkey = currentWeaponSetting.aimkey;
+	Settings::Aimbot::aimkey_only = currentWeaponSetting.aimkey_only;
+	Settings::Aimbot::Smooth::enabled = currentWeaponSetting.smoothEnabled;
+	Settings::Aimbot::Smooth::value = currentWeaponSetting.smoothAmount;
+	Settings::Aimbot::ErrorMargin::enabled = currentWeaponSetting.errorMarginEnabled;
+	Settings::Aimbot::ErrorMargin::value = currentWeaponSetting.errorMarginValue;
+	Settings::Aimbot::AutoAim::enabled = currentWeaponSetting.autoAimEnabled;
+	Settings::Aimbot::AutoAim::fov = currentWeaponSetting.autoAimFov;
+	Settings::Aimbot::AimStep::enabled = currentWeaponSetting.aimStepEnabled;
+	Settings::Aimbot::AimStep::value = currentWeaponSetting.aimStepValue;
+	Settings::Aimbot::AutoPistol::enabled = currentWeaponSetting.autoPistolEnabled;
+	Settings::Aimbot::AutoShoot::enabled = currentWeaponSetting.autoShootEnabled;
+	Settings::Aimbot::AutoShoot::autoscope = currentWeaponSetting.autoScopeEnabled;
+	Settings::Aimbot::RCS::enabled = currentWeaponSetting.rcsEnabled;
+	Settings::Aimbot::RCS::always_on = currentWeaponSetting.rcsAlways_on;
+	Settings::Aimbot::RCS::value = currentWeaponSetting.rcsAmount;
+	Settings::Aimbot::NoShoot::enabled = currentWeaponSetting.noShootEnabled;
+	Settings::Aimbot::IgnoreJump::enabled = currentWeaponSetting.ignoreJumpEnabled;
+	Settings::Aimbot::Smooth::Salting::enabled = currentWeaponSetting.smoothSaltEnabled;
+	Settings::Aimbot::Smooth::Salting::multiplier = currentWeaponSetting.smoothSaltMultiplier;
+	Settings::Aimbot::SmokeCheck::enabled = currentWeaponSetting.smoke_check;
 }
