@@ -22,6 +22,7 @@ ImColor Settings::Radar::ct_visible_color = ImColor(64, 128, 192, 255);
 ImColor Settings::Radar::bomb_color = ImColor(192, 192, 64, 255);
 ImColor Settings::Radar::bomb_defusing_color = ImColor(192, 192, 64, 255);
 ImColor Settings::Radar::defuser_color = ImColor(32, 192, 192, 255);
+float Settings::Radar::icons_scale = 4.5f;
 
 std::set<int> visible_players;
 
@@ -141,7 +142,9 @@ void Radar::DrawWindow()
 		engine->GetViewAngles(localplayer_angles);
 
 		// draw localplayer
-		draw_list->AddCircleFilled(ImVec2(winpos.x + winsize.x * 0.5f, winpos.y + winsize.y * 0.5f), 4.5f, ImColor(255, 255, 255, 255));
+		draw_list->AddCircleFilled(ImVec2(winpos.x + winsize.x * 0.5f, winpos.y + winsize.y * 0.5f), Settings::Radar::icons_scale, ImColor(255, 255, 255, 255));
+
+		float scale = Settings::Radar::icons_scale;
 
 		for (int i = 1; i < entitylist->GetHighestEntityIndex(); i++)
 		{
@@ -193,9 +196,9 @@ void Radar::DrawWindow()
 
 				Vector forward;
 				Math::AngleVectors(*player->GeyEyeAngles(), forward);
-				Vector dirArrowVec = playerPos + (forward * Settings::Radar::zoom * 8);
+				Vector dirArrowVec = playerPos + (forward * 2 * Settings::Radar::zoom * scale);
 
-				float arrowWidth = 4.5f;
+				float arrowWidth = scale;
 				float arrowTheta = 45.f;
 
 				Vector2D dirArrowPos = WorldToRadar(dirArrowVec, localplayer->GetVecOrigin(), localplayer_angles, winsize.x, Settings::Radar::zoom);
@@ -253,23 +256,23 @@ void Radar::DrawWindow()
 			switch (shape)
 			{
 				case EntityShape_t::SHAPE_CIRCLE:
-					draw_list->AddCircleFilled(ImVec2(winpos.x + screenpos.x, winpos.y + screenpos.y), 4.5f, color);
+					draw_list->AddCircleFilled(ImVec2(winpos.x + screenpos.x, winpos.y + screenpos.y), scale, color);
 					break;
 				case EntityShape_t::SHAPE_SQUARE:
-					draw_list->AddRectFilled(ImVec2(winpos.x + screenpos.x - 4.5f, winpos.y + screenpos.y - 4.5f),
-											 ImVec2(winpos.x + screenpos.x + 4.5f, winpos.y + screenpos.y + 4.5f),
+					draw_list->AddRectFilled(ImVec2(winpos.x + screenpos.x - scale, winpos.y + screenpos.y - scale),
+											 ImVec2(winpos.x + screenpos.x + scale, winpos.y + screenpos.y + scale),
 											 color, 0.0f, 0);
 					break;
 				case EntityShape_t::SHAPE_TRIANGLE:
-					draw_list->AddTriangleFilled(ImVec2(winpos.x + screenpos.x + 4.5f, winpos.y + screenpos.y + 4.5f),
-												 ImVec2(winpos.x + screenpos.x - 4.5f, winpos.y + screenpos.y + 4.5f),
-												 ImVec2(winpos.x + screenpos.x, winpos.y + screenpos.y - 4.5f),
+					draw_list->AddTriangleFilled(ImVec2(winpos.x + screenpos.x + scale, winpos.y + screenpos.y + scale),
+												 ImVec2(winpos.x + screenpos.x - scale, winpos.y + screenpos.y + scale),
+												 ImVec2(winpos.x + screenpos.x, winpos.y + screenpos.y - scale),
 												 color);
 					break;
 				case EntityShape_t::SHAPE_TRIANGLE_UPSIDEDOWN:
-					draw_list->AddTriangleFilled(ImVec2(winpos.x + screenpos.x - 4.5f, winpos.y + screenpos.y - 4.5f),
-					                             ImVec2(winpos.x + screenpos.x + 4.5f, winpos.y + screenpos.y - 4.5f),
-					                             ImVec2(winpos.x + screenpos.x, winpos.y + screenpos.y + 4.5f),
+					draw_list->AddTriangleFilled(ImVec2(winpos.x + screenpos.x - scale, winpos.y + screenpos.y - scale),
+					                             ImVec2(winpos.x + screenpos.x + scale, winpos.y + screenpos.y - scale),
+					                             ImVec2(winpos.x + screenpos.x, winpos.y + screenpos.y + scale),
 					                             color);
 					break;
 			}
