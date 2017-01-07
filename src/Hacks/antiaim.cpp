@@ -115,7 +115,7 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 		angle.y = 0.0f;
 	else if (aa_type == AntiAimType_Y::LISP)
 	{
-		if (bFlip)
+		if (yFlip)
 			angle.y += 323210000.0f;
 		else
 			angle.y -= 323210000.0f;
@@ -178,21 +178,6 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 		float factor = (globalvars->curtime * 5000.f);
 		angle.y = factor + 36000000.f;
 	}
-	else if (aa_type == AntiAimType_Y::ANGEL_FAKE_SPIN)
-	{
-		clamp = false;
-
-		if (command_number % 2)
-			angle.y += 36000180.f;
-
-		float factor = (globalvars->curtime * 5000.f);
-		angle.y = factor + 36000000.f;
-	}
-	else if (aa_type == AntiAimType_Y::ZERO_OUT_Y)
-	{
-		clamp = false;
-		angle.y = 0.0f;
-	}
 }
 
 void DoAntiAimX(QAngle& angle, bool bFlip, bool& clamp)
@@ -241,11 +226,6 @@ void DoAntiAimX(QAngle& angle, bool bFlip, bool& clamp)
 	{
 		clamp = false;
 		angle.x = 35999912.f;
-	}
-	else if (pitch_aa_type == AntiAimType_X::ZERO_OUT_X)
-	{
-		clamp = false;
-		angle.x = 0.0f;
 	}
 }
 
