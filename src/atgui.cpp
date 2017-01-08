@@ -510,8 +510,7 @@ void AimbotTab()
 			}
 			ImGui::NextColumn();
 			{
-				if (UI::KeyBindButton(&aimkey))
-					UI::updateWeaponSettings();
+				UI::KeyBindButton(&aimkey);
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
