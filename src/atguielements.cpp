@@ -1,6 +1,6 @@
 #include "atgui.h"
 
-bool UI::KeyBindButton(ButtonCode_t* key)
+void UI::KeyBindButton(ButtonCode_t* key)
 {
 	const char* text = input->ButtonCodeToString(*key);
 
