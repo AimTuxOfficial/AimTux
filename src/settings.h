@@ -14,6 +14,7 @@
 #include "Hacks/skinchanger.h"
 #include "Utils/util.h"
 #include "Utils/util_items.h"
+#include "Utils/util_sdk.h"
 #include "config.h"
 #include "atgui.h"
 

@@ -6,15 +6,11 @@
 #include <vector>
 #include <map>
 #include <algorithm>
-#include "../SDK/SDK.h"
-#include "../interfaces.h"
 
 #define RandomInt(nMin, nMax) (rand() % (nMax - nMin + 1) + nMin)
 
-namespace Util {
-	char GetButtonString(ButtonCode_t key);
-	std::string GetButtonName(ButtonCode_t buttonCode);
-	ButtonCode_t GetButtonCode(std::string buttonName);
+namespace Util
+{
 	std::string ReplaceString(std::string subject, const std::string& search, const std::string& replace);
 	void StdReplaceStr(std::string&, const std::string&, const std::string&);
 	const char* PadStringRight(std::string text, size_t value);
