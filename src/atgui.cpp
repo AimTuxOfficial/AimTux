@@ -953,16 +953,10 @@ void HvHTab()
 					{
 						ImGui::Text("You cannot use this antiaim type on a VALVE server.");
 
+						ImGui::Checkbox("This is not a VALVE server", &ValveDSCheck::forceUT);
+
 						if (ImGui::Button("OK"))
 							ImGui::CloseCurrentPopup();
-
-						ImGui::SameLine();
-
-						if (ImGui::Button("This is not a VALVE server"))
-						{
-							ValveDSCheck::forceUT = true;
-							ImGui::CloseCurrentPopup();
-						}
 
 						ImGui::EndPopup();
 					}
@@ -1298,16 +1292,10 @@ void MiscTab()
 			{
 				ImGui::Text("You cannot use this feature on a VALVE server.");
 
+				ImGui::Checkbox("This is not a VALVE server", &ValveDSCheck::forceUT);
+
 				if (ImGui::Button("OK"))
 					ImGui::CloseCurrentPopup();
-
-				ImGui::SameLine();
-
-				if (ImGui::Button("This is not a VALVE server"))
-				{
-					ValveDSCheck::forceUT = true;
-					ImGui::CloseCurrentPopup();
-				}
 
 				ImGui::EndPopup();
 			}
