@@ -82,7 +82,8 @@ enum ChamsType : int
 enum BoxType : int
 {
 	FLAT_2D,
-	FRAME_2D
+	FRAME_2D,
+	BOX_3D
 };
 
 enum BarType : int
