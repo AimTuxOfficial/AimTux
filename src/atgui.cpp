@@ -182,7 +182,7 @@ static bool smoke_check = Settings::Aimbot::weapons[current_weapon].smoke_check;
 static bool autoWallEnabled = Settings::Aimbot::weapons[current_weapon].autoWallEnabled;
 static float autoWallValue = Settings::Aimbot::weapons[current_weapon].autoWallValue;
 
-void updateWeaponSettings()
+void UI::updateWeaponSettings()
 {
 	Settings::Aimbot::Weapon settings =
 			Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkey_only,
@@ -360,7 +360,7 @@ void AimbotTab()
 	const char* targets[] = { "PELVIS", "", "", "HIP", "LOWER SPINE", "MIDDLE SPINE", "UPPER SPINE", "NECK", "HEAD" };
 
 	if (ImGui::Checkbox("Enabled", &enabled))
-	updateWeaponSettings();
+	UI::updateWeaponSettings();
 	ImGui::Separator();
 
 	ImGui::Columns(3, NULL, true);
@@ -421,7 +421,7 @@ void AimbotTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				if (ImGui::Checkbox("Friendly", &friendly))
-					updateWeaponSettings();
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Whether to target friendlies");
 			}
@@ -429,7 +429,7 @@ void AimbotTab()
 			{
 				ImGui::PushItemWidth(-1);
 					if (ImGui::Combo("##AIMTARGET", &bone, targets, IM_ARRAYSIZE(targets)))
-						updateWeaponSettings();
+						UI::updateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
@@ -439,15 +439,15 @@ void AimbotTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				if (ImGui::Checkbox("Auto Aim", &autoAimEnabled))
-					updateWeaponSettings();
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Locks onto enemies within a certain FOV amount");
 				if (ImGui::Checkbox("Recoil Control", &rcsEnabled))
-					updateWeaponSettings();
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Automatically controls recoil");
 				if (ImGui::Checkbox("RCS Always on", &rcsAlways_on))
-					updateWeaponSettings();
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Whether Recoil Control always controls recoil (even when not aimbotting)");
 			}
@@ -455,9 +455,9 @@ void AimbotTab()
 			{
 				ImGui::PushItemWidth(-1);
 					if (ImGui::SliderFloat("##AA", &autoAimValue, 0, 180))
-						updateWeaponSettings();
+						UI::updateWeaponSettings();
 					if (ImGui::SliderFloat("##RCS", &rcsFloat, 0, 2))
-						updateWeaponSettings();
+						UI::updateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
@@ -467,15 +467,15 @@ void AimbotTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				if (ImGui::Checkbox("Smoothing", &smoothEnabled))
-					updateWeaponSettings();
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Smoothing reduces the aimbot \"snap\". 0 for full snap. 1 for full smoothing");
 				if (ImGui::Checkbox("Smooth Salting", &smoothSaltEnabled))
-					updateWeaponSettings();
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Breaks the smoothing into smaller steps, high smooth + low salt is slightly stuttery");
 				if (ImGui::Checkbox("Error Margin", &errorMarginEnabled))
-					updateWeaponSettings();
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Adds a margin of error to the aim, it will be obvious what it does when using it");
 			}
@@ -483,11 +483,11 @@ void AimbotTab()
 			{
 				ImGui::PushItemWidth(-1);
 					if (ImGui::SliderFloat("##SMOOTH", &smoothValue, 0, 1))
-						updateWeaponSettings();
+						UI::updateWeaponSettings();
 					if (ImGui::SliderFloat("##SALT", &smoothSaltMultiplier, 0, smoothValue))
-						updateWeaponSettings();
+						UI::updateWeaponSettings();
 					if (ImGui::SliderFloat("##ERROR", &errorMarginValue, 0, 2))
-						updateWeaponSettings();
+						UI::updateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
@@ -504,14 +504,14 @@ void AimbotTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				if (ImGui::Checkbox("Enabled", &aimkey_only))
-					updateWeaponSettings();
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Enabling this means it you need to press a specific key to aimlock");
 			}
 			ImGui::NextColumn();
 			{
 				if (UI::KeyBindButton(&aimkey))
-					updateWeaponSettings();
+					UI::updateWeaponSettings();
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -520,7 +520,7 @@ void AimbotTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				if (ImGui::Checkbox("Aim Step", &aimStepEnabled))
-					updateWeaponSettings();
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Stops you getting VAC auth kicked in Casual / DM");
 			}
@@ -528,7 +528,7 @@ void AimbotTab()
 			{
 				ImGui::PushItemWidth(-1);
 					if (ImGui::SliderFloat("##STEP", &aimStepValue, 0, 100))
-						updateWeaponSettings();
+						UI::updateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
@@ -538,30 +538,30 @@ void AimbotTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				if (ImGui::Checkbox("Auto Pistol", &autoPistolEnabled))
-					updateWeaponSettings();
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Automatically shoots the pistol when holding fire");
 				if (ImGui::Checkbox("Auto Shoot", &autoShootEnabled))
-					updateWeaponSettings();
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Automatically shoots when locking to an enemy");
 				if (ImGui::Checkbox("Silent Aim", &silent))
-					updateWeaponSettings();
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Prevents the camera from locking to an enemy, doesn't work for demos");
 			}
 			ImGui::NextColumn();
 			{
 				if (ImGui::Checkbox("No Shoot", &noShootEnabled))
-					updateWeaponSettings();
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Stops you shooting when locking to an enemy");
 				if (ImGui::Checkbox("Auto Scope", &autoScopeEnabled))
-					updateWeaponSettings();
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Automatically scopes weapons that have them");
 				if (ImGui::Checkbox("Ignore Jump", &ignoreJumpEnabled))
-					updateWeaponSettings();
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Prevents you from aimbotting while jumping");
 			}

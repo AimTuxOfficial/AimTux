@@ -14,6 +14,7 @@ bool UI::KeyBindButton(ButtonCode_t* key)
 		SetKeyCodeState::shouldListen = true;
 		SetKeyCodeState::keyOutput = key;
 	}
+	UI::updateWeaponSettings();
 }
 
 bool UI::ColorPicker(float* col, bool alphabar)
