@@ -867,7 +867,7 @@ void HvHTab()
 					ImGui::PushItemWidth(-1);
 						if (ImGui::Combo("##YFAKETYPE", &Settings::AntiAim::Yaw::type, YTypes, IM_ARRAYSIZE(YTypes)))
 						{
-							if (((*csGameRules) && (*csGameRules)->IsValveDS()) && Settings::AntiAim::Yaw::type > AntiAimType_Y::STATICAA)
+							if (!ValveDSCheck::forceUT && ((*csGameRules) && (*csGameRules)->IsValveDS()) && Settings::AntiAim::Yaw::type > AntiAimType_Y::STATICAA)
 							{
 								Settings::AntiAim::Yaw::type = SPIN_SLOW;
 								ImGui::OpenPopup("Error###UNTRUSTED_AA");
@@ -876,7 +876,7 @@ void HvHTab()
 
 						if (ImGui::Combo("##YACTUALTYPE", &Settings::AntiAim::Yaw::type_fake, YTypes, IM_ARRAYSIZE(YTypes)))
 						{
-							if (((*csGameRules) && (*csGameRules)->IsValveDS()) && Settings::AntiAim::Yaw::type_fake > AntiAimType_Y::STATICAA)
+							if (!ValveDSCheck::forceUT && ((*csGameRules) && (*csGameRules)->IsValveDS()) && Settings::AntiAim::Yaw::type_fake > AntiAimType_Y::STATICAA)
 							{
 								Settings::AntiAim::Yaw::type_fake = SPIN_SLOW;
 								ImGui::OpenPopup("Error###UNTRUSTED_AA");
@@ -900,7 +900,7 @@ void HvHTab()
 					ImGui::PushItemWidth(-1);
 						if (ImGui::Combo("##XTYPE", &Settings::AntiAim::Pitch::type, XTypes, IM_ARRAYSIZE(XTypes)))
 						{
-							if (((*csGameRules) && (*csGameRules)->IsValveDS()) && Settings::AntiAim::Pitch::type > AntiAimType_X::FRONT)
+							if (!ValveDSCheck::forceUT && ((*csGameRules) && (*csGameRules)->IsValveDS()) && Settings::AntiAim::Pitch::type > AntiAimType_X::FRONT)
 							{
 								Settings::AntiAim::Pitch::type = STATIC_UP;
 								ImGui::OpenPopup("Error###UNTRUSTED_AA");
@@ -955,6 +955,14 @@ void HvHTab()
 
 						if (ImGui::Button("OK"))
 							ImGui::CloseCurrentPopup();
+
+						ImGui::SameLine();
+
+						if (ImGui::Button("This is not a VALVE server"))
+						{
+							ValveDSCheck::forceUT = true;
+							ImGui::CloseCurrentPopup();
+						}
 
 						ImGui::EndPopup();
 					}
@@ -1262,7 +1270,7 @@ void MiscTab()
 					ImGui::SetTooltip("Allows you to block players from moving forwards by standing in front of them and mirroring their moves - great for griefing");
 				if (ImGui::Checkbox("Teleport", &Settings::Teleport::enabled))
 				{
-					if (((*csGameRules) && (*csGameRules)->IsValveDS()) && Settings::Teleport::enabled)
+					if (!ValveDSCheck::forceUT && ((*csGameRules) && (*csGameRules)->IsValveDS()) && Settings::Teleport::enabled)
 					{
 						Settings::Teleport::enabled = false;
 						ImGui::OpenPopup("Error###UNTRUSTED_FEATURE");
@@ -1292,6 +1300,14 @@ void MiscTab()
 
 				if (ImGui::Button("OK"))
 					ImGui::CloseCurrentPopup();
+
+				ImGui::SameLine();
+
+				if (ImGui::Button("This is not a VALVE server"))
+				{
+					ValveDSCheck::forceUT = true;
+					ImGui::CloseCurrentPopup();
+				}
 
 				ImGui::EndPopup();
 			}

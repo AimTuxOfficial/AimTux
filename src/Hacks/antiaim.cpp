@@ -282,7 +282,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 
 	bool should_clamp = true;
 
-	if ((*csGameRules) && (*csGameRules)->IsValveDS())
+	if (!ValveDSCheck::forceUT && (*csGameRules) && (*csGameRules)->IsValveDS())
 	{
 		if (Settings::AntiAim::Yaw::type > AntiAimType_Y::STATICAA)
 			Settings::AntiAim::Yaw::type = SPIN_SLOW;
