@@ -117,7 +117,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 		weaponSetting["Silent"] = i.second.silent;
 		weaponSetting["Friendly"] = i.second.friendly;
 		weaponSetting["TargetBone"] = i.second.bone;
-		weaponSetting["AimKey"] = i.second.aimkey;
+		weaponSetting["AimKey"] = Util::GetButtonName(i.second.aimkey);
 		weaponSetting["AimKeyOnly"] = i.second.aimkey_only;
 		weaponSetting["Smooth"]["Enabled"] = i.second.smoothEnabled;
 		weaponSetting["Smooth"]["Amount"] = i.second.smoothAmount;
