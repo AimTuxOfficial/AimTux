@@ -816,7 +816,7 @@ class C_BaseCSGrenade : C_BaseCombatWeapon
 public:
 	bool IsHeldByPlayer()
 	{
-		return *(bool*)((uintptr_t)this + offsets.DT_BaseCSGrenade.m_bPinPulled);
+		return *(bool*)((uintptr_t)this + offsets.DT_BaseCSGrenade.m_bIsHeldByPlayer);
 	}
 
 	bool GetPinPulled()

@@ -707,7 +707,7 @@ void TriggerbotTab()
 
 void VisualsTab()
 {
-	const char* BoxTypes[] = { "Flat 2D", "Frame 2D" };
+	const char* BoxTypes[] = { "Flat 2D", "Frame 2D", "Box 3D" };
 	const char* TracerTypes[] = { "Bottom", "Cursor" };
 	const char* BarTypes[] = { "Vertical", "Horizontal Below", "Horizontal Above", "Interwebz" };
 	const char* BarColorTypes[] = { "Static", "Health Based" };
@@ -959,20 +959,22 @@ void VisualsTab()
 				ImGui::Checkbox("Radar", &Settings::Radar::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Shows players on the custom radar");
+				ImGui::PushItemWidth(-1);
+					ImGui::Combo("##RADARTEAMCOLTYPE", &Settings::Radar::team_color_type, TeamColorTypes, IM_ARRAYSIZE(TeamColorTypes));
+				ImGui::PopItemWidth();
 				ImGui::Checkbox("Enemies", &Settings::Radar::enemies);
 				ImGui::Checkbox("Bomb", &Settings::Radar::bomb);
 				ImGui::Checkbox("Legit", &Settings::Radar::legit);
 				ImGui::Checkbox("In-game Radar", &Settings::Radar::InGame::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Shows players on the in-game radar");
-				ImGui::PushItemWidth(-1);
-					ImGui::Combo("##RADARTEAMCOLTYPE", &Settings::Radar::team_color_type, TeamColorTypes, IM_ARRAYSIZE(TeamColorTypes));
-				ImGui::PopItemWidth();
+
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-				ImGui::SliderFloat("##RADARZOOM", &Settings::Radar::zoom, 0.f, 100.f, "Zoom: %0.f");
+					ImGui::SliderFloat("##RADARZOOM", &Settings::Radar::zoom, 0.f, 100.f, "Zoom: %0.f");
+					ImGui::SliderFloat("##RADARICONSSCALE", &Settings::Radar::icons_scale, 2, 16, "Icons Scale: %0.1f");
 				ImGui::PopItemWidth();
 				ImGui::Checkbox("Allies", &Settings::Radar::allies);
 				ImGui::Checkbox("Defuser", &Settings::Radar::defuser);
@@ -996,15 +998,9 @@ void VisualsTab()
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-				ImGui::SliderInt("##HITMARKERDUR", &Settings::ESP::Hitmarker::duration, 250, 3000, "Timeout: %0.f");
-				ImGui::PopItemWidth();
-
-				ImGui::PushItemWidth(-1);
-				ImGui::SliderInt("##HITMARKERSIZE", &Settings::ESP::Hitmarker::size, 1, 32, "Size: %0.f");
-				ImGui::PopItemWidth();
-
-				ImGui::PushItemWidth(-1);
-				ImGui::SliderInt("##HITMARKERGAP", &Settings::ESP::Hitmarker::inner_gap, 1, 16, "Gap: %0.f");
+					ImGui::SliderInt("##HITMARKERDUR", &Settings::ESP::Hitmarker::duration, 250, 3000, "Timeout: %0.f");
+					ImGui::SliderInt("##HITMARKERSIZE", &Settings::ESP::Hitmarker::size, 1, 32, "Size: %0.f");
+					ImGui::SliderInt("##HITMARKERGAP", &Settings::ESP::Hitmarker::inner_gap, 1, 16, "Gap: %0.f");
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
