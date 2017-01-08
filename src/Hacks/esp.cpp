@@ -226,7 +226,7 @@ ImColor ESP::GetESPPlayerColor(C_BasePlayer* player, bool visible)
 	return playerColor;
 }
 
-void ESP::DrawBox(Color color, int x, int y, int w, int h)
+void ESP::DrawBox(Color color, int x, int y, int w, int h, C_BaseEntity* entity)
 {
 	if (Settings::ESP::Boxes::type == BoxType::FRAME_2D)
 	{
@@ -310,6 +310,33 @@ void ESP::DrawBox(Color color, int x, int y, int w, int h)
 		// inner outline
 		Draw::Rectangle(x - 1, y - 1, x + w + 1, y + h + 1, Color(10, 10, 10, 190));
 	}
+	else if (Settings::ESP::Boxes::type == BoxType::BOX_3D)
+	{
+		Vector vOrigin = entity->GetVecOrigin();
+		Vector min = entity->GetCollideable()->OBBMins() + vOrigin;
+		Vector max = entity->GetCollideable()->OBBMaxs() + vOrigin;
+
+		Vector points[] = { Vector(min.x, min.y, min.z),
+		                    Vector(min.x, max.y, min.z),
+		                    Vector(max.x, max.y, min.z),
+		                    Vector(max.x, min.y, min.z),
+		                    Vector(min.x, min.y, max.z),
+		                    Vector(min.x, max.y, max.z),
+		                    Vector(max.x, max.y, max.z),
+		                    Vector(max.x, min.y, max.z) };
+
+		int edges[12][2] = { { 0, 1 }, { 1, 2 }, { 2, 3 }, { 3, 0 },
+		                     { 4, 5 }, { 5, 6 }, { 6, 7 }, { 7, 4 },
+		                     { 0, 4 }, { 1, 5 }, { 2, 6 }, { 3, 7 }, };
+
+		for (auto it : edges)
+		{
+			Vector p1, p2;
+			if (debugOverlay->ScreenPosition(points[it[0]], p1) || debugOverlay->ScreenPosition(points[it[1]], p2))
+				return;
+			Draw::Line(Vector2D(p1.x, p1.y), Vector2D(p2.x, p2.y), color);
+		}
+	}
 }
 
 void ESP::DrawEntity(C_BaseEntity* entity, const char* string, Color color)
@@ -317,7 +344,7 @@ void ESP::DrawEntity(C_BaseEntity* entity, const char* string, Color color)
 	int x, y, w, h;
 	if (GetBox(entity, x, y, w, h))
 	{
-		DrawBox(color, x, y, w, h);
+		DrawBox(color, x, y, w, h, entity);
 
 		Vector2D nameSize = Draw::GetTextSize(string, esp_font);
 		Draw::Text((int)(x + (w / 2) - (nameSize.x / 2)), y + h + 2, string, esp_font, Color(255, 255, 255, 255));
@@ -353,7 +380,7 @@ void ESP::DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info
 		return;
 
 	if (Settings::ESP::Boxes::enabled)
-		DrawBox(Color::FromImColor(playerColor), x, y, w, h);
+		DrawBox(Color::FromImColor(playerColor), x, y, w, h, player);
 
 	int boxSpacing = Settings::ESP::Boxes::enabled ? 3 : 0;
 	Vector2D barsSpacing = Vector2D(0, 0);

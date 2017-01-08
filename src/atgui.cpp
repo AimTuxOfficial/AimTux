@@ -527,7 +527,7 @@ void TriggerbotTab()
 
 void VisualsTab()
 {
-	const char* BoxTypes[] = { "Flat 2D", "Frame 2D" };
+	const char* BoxTypes[] = { "Flat 2D", "Frame 2D", "Box 3D" };
 	const char* TracerTypes[] = { "Bottom", "Cursor" };
 	const char* BarTypes[] = { "Vertical", "Horizontal Below", "Horizontal Above", "Interwebz" };
 	const char* BarColorTypes[] = { "Static", "Health Based" };
