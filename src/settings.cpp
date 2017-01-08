@@ -413,15 +413,12 @@ void Settings::LoadConfig(std::string path)
 			weaponID = Util::Items::GetItemIndex(weaponDataKey);
 		}
 
-		enum ButtonCode_t aimkey;
-		GetOrdinal<enum ButtonCode_t, Util::GetButtonCode>(weaponSetting["aimkey"], &aimkey);
-
 		Settings::Aimbot::Weapon weapon = Settings::Aimbot::Weapon(
 			weaponSetting["Enabled"].asBool(),
 			weaponSetting["Silent"].asBool(),
 			weaponSetting["Friendly"].asBool(),
 			weaponSetting["TargetBone"].asInt(),
-			aimkey,
+			Util::GetButtonCode(weaponSetting["AimKey"].asCString()),
 			weaponSetting["AimKeyOnly"].asBool(),
 			weaponSetting["Smooth"]["Enabled"].asBool(),
 			weaponSetting["Smooth"]["Amount"].asFloat(),
