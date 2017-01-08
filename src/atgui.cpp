@@ -179,6 +179,8 @@ static bool autoScopeEnabled = Settings::Aimbot::weapons[current_weapon].autoSco
 static bool noShootEnabled = Settings::Aimbot::weapons[current_weapon].noShootEnabled;
 static bool ignoreJumpEnabled = Settings::Aimbot::weapons[current_weapon].ignoreJumpEnabled;
 static bool smoke_check = Settings::Aimbot::weapons[current_weapon].smoke_check;
+static bool autoWallEnabled = Settings::Aimbot::weapons[current_weapon].autoWallEnabled;
+static float autoWallValue = Settings::Aimbot::weapons[current_weapon].autoWallValue;
 
 void updateWeaponSettings()
 {
@@ -189,7 +191,7 @@ void updateWeaponSettings()
 									 autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
 									 rcsEnabled, rcsAlways_on, rcsFloat,
 									 autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
-									 noShootEnabled, ignoreJumpEnabled, smoke_check);
+									 noShootEnabled, ignoreJumpEnabled, smoke_check, autoWallEnabled, autoWallValue);
 
 	Settings::Aimbot::weapons[current_weapon] = settings;
 }
@@ -221,6 +223,8 @@ void reloadWeaponSettings()
 	noShootEnabled = Settings::Aimbot::weapons[current_weapon].noShootEnabled;
 	ignoreJumpEnabled = Settings::Aimbot::weapons[current_weapon].ignoreJumpEnabled;
 	smoke_check = Settings::Aimbot::weapons[current_weapon].smoke_check;
+	autoWallEnabled = Settings::Aimbot::weapons[current_weapon].autoWallEnabled;
+	autoWallValue = Settings::Aimbot::weapons[current_weapon].autoWallValue;
 }
 
 void ColorsWindow()
@@ -400,6 +404,8 @@ void AimbotTab()
 						noShootEnabled = Settings::Aimbot::weapons[index].noShootEnabled;
 						ignoreJumpEnabled = Settings::Aimbot::weapons[index].ignoreJumpEnabled;
 						smoke_check = Settings::Aimbot::weapons[index].smoke_check;
+						autoWallEnabled = Settings::Aimbot::weapons[index].autoWallEnabled;
+						autoWallValue = Settings::Aimbot::weapons[index].autoWallValue;
 					}
 				ImGui::PopID();
 			}
@@ -565,14 +571,14 @@ void AimbotTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::Checkbox("Enabled", &Settings::Aimbot::AutoWall::enabled);
+				ImGui::Checkbox("Enabled", &autoWallEnabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Shoots enemy through a wall if it does X amount of damage");
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-					ImGui::SliderFloat("##AUTOWALLDMG", &Settings::Aimbot::AutoWall::value, 0, 100, "Min Damage: %f");
+					ImGui::SliderFloat("##AUTOWALLDMG", &autoWallValue, 0, 100, "Min Damage: %f");
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);

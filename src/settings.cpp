@@ -107,12 +107,6 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["UI"]["Fonts"]["ESP"]["size"] = Settings::UI::Fonts::ESP::size;
 	settings["UI"]["Fonts"]["ESP"]["flags"] = Settings::UI::Fonts::ESP::flags;
 
-	settings["Aimbot"]["AutoWall"]["enabled"] = Settings::Aimbot::AutoWall::enabled;
-	settings["Aimbot"]["AutoWall"]["value"] = Settings::Aimbot::AutoWall::value;
-	settings["Aimbot"]["AutoWall"]["bones"] = Json::Value(Json::arrayValue);
-	for (int i = HITBOX_HEAD; i <= HITBOX_ARMS; i++)
-		settings["Aimbot"]["AutoWall"]["bones"][i] = Settings::Aimbot::AutoWall::bones[i];
-
 	for (auto i : Settings::Aimbot::weapons)
 	{
 		// TODO this is kind of a hack and i'm too tired to find a better way to do this
@@ -144,8 +138,14 @@ void Settings::LoadDefaultsOrSave(std::string path)
 		weaponSetting["noShootEnabled"] = i.second.noShootEnabled;
 		weaponSetting["ignoreJumpEnabled"] = i.second.ignoreJumpEnabled;
 		weaponSetting["smoke_check"] = i.second.smoke_check;
+		weaponSetting["autoWallEnabled"] = i.second.autoWallEnabled;
+		weaponSetting["autoWallValue"] = i.second.autoWallValue;
 		#undef weaponSetting
 	}
+	settings["Aimbot"]["AutoWall"]["bones"] = Json::Value(Json::arrayValue);
+	for (int i = HITBOX_HEAD; i <= HITBOX_ARMS; i++)
+		settings["Aimbot"]["AutoWall"]["bones"][i] = Settings::Aimbot::AutoWall::bones[i];
+
 
 	settings["Resolver"]["resolve_all"] = Settings::Resolver::resolve_all;
 
@@ -395,11 +395,6 @@ void Settings::LoadConfig(std::string path)
 
 	Fonts::SetupFonts();
 
-	GetBool(settings["Aimbot"]["AutoWall"]["enabled"], &Settings::Aimbot::AutoWall::enabled);
-	GetFloat(settings["Aimbot"]["AutoWall"]["value"], &Settings::Aimbot::AutoWall::value);
-	for (int i = HITBOX_HEAD; i <= HITBOX_ARMS; i++)
-		GetBool(settings["Aimbot"]["AutoWall"]["bones"][i], &Settings::Aimbot::AutoWall::bones[i]);
-
 	for (Json::ValueIterator itr = settings["Aimbot"]["weapons"].begin(); itr != settings["Aimbot"]["weapons"].end(); itr++)
 	{
 		std::string weaponDataKey = itr.key().asString();
@@ -445,11 +440,15 @@ void Settings::LoadConfig(std::string path)
 			weaponSetting["autoScopeEnabled"].asBool(),
 			weaponSetting["noShootEnabled"].asBool(),
 			weaponSetting["ignoreJumpEnabled"].asBool(),
-			weaponSetting["smoke_check"].asBool()
+			weaponSetting["smoke_check"].asBool(),
+			weaponSetting["autoWallEnabled"].asBool(),
+			weaponSetting["autoWallValue"].asFloat()
 		);
 
 		Settings::Aimbot::weapons[weaponID] = weapon;
 	}
+	for (int i = HITBOX_HEAD; i <= HITBOX_ARMS; i++)
+		GetBool(settings["Aimbot"]["AutoWall"]["bones"][i], &Settings::Aimbot::AutoWall::bones[i]);
 
 	GetBool(settings["Resolver"]["resolve_all"], &Settings::Resolver::resolve_all);
 

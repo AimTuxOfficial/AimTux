@@ -53,9 +53,9 @@ std::unordered_map<int, std::vector<const char*>> hitboxes = {
 };
 
 std::unordered_map<int, Settings::Aimbot::Weapon> Settings::Aimbot::weapons = {
-		{ -1, Settings::Aimbot::Weapon(true, false, false, BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, false, 0.0f, false, 0.0f, true, 30.0f, false, 25.0f, false, false, 2.0f, false, false, false, false, false, false) },
-		{ WEAPON_AK47, Settings::Aimbot::Weapon(true, true, true, BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, true, 0.6f, false, 0.0f, false, 0.0f, true, 45.0f, false, 25.0f, true, false, 2.0f, true, false, false, false, false, false) },
-		{ WEAPON_AWP, Settings::Aimbot::Weapon(true, false, false, BONE_UPPER_SPINAL_COLUMN, ButtonCode_t::MOUSE_MIDDLE, false, false, 0.0f, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, true, false, 2.0f, false, false, true, false, false, false) },
+		{ -1, Settings::Aimbot::Weapon(true, false, false, BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, false, false, false, false, false, false, false, 10.0f) },
+		{ WEAPON_AK47, Settings::Aimbot::Weapon(true, true, true, BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, true, 0.6f, false, 0.0f, false, 0.0f, true, 45.0f, false, 25.0f, true, false, 2.0f, true, false, false, false, false, false, false, 10.0f) },
+		{ WEAPON_AWP, Settings::Aimbot::Weapon(true, false, false, BONE_UPPER_SPINAL_COLUMN, ButtonCode_t::MOUSE_MIDDLE, false, false, 0.0f, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, true, false, 2.0f, false, false, true, false, false, false, false, 10.0f) },
 };
 
 static void ApplyErrorToAngle(QAngle* angles, float margin)
@@ -626,4 +626,6 @@ void Aimbot::UpdateValues()
 	Settings::Aimbot::Smooth::Salting::enabled = currentWeaponSetting.smoothSaltEnabled;
 	Settings::Aimbot::Smooth::Salting::multiplier = currentWeaponSetting.smoothSaltMultiplier;
 	Settings::Aimbot::SmokeCheck::enabled = currentWeaponSetting.smoke_check;
+	Settings::Aimbot::AutoWall::enabled = currentWeaponSetting.autoWallEnabled;
+	Settings::Aimbot::AutoWall::value = currentWeaponSetting.autoWallValue;
 }
