@@ -10,8 +10,7 @@ void NameChanger::BeginFrame(float frameTime)
 	if (changes == -1)
 		return;
 
-	long currentTime_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-			std::chrono::system_clock::now().time_since_epoch()).count();
+	long currentTime_ms = Util::GetEpochTime();
 	static long timeStamp = currentTime_ms;
 
 	if (currentTime_ms - timeStamp < 150)

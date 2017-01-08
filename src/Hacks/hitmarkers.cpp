@@ -25,11 +25,9 @@ void Hitmarkers::Paint()
 	if (!localplayer->GetAlive())
 		return;
 
-	long current = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-
 	int duration = Settings::ESP::Hitmarker::duration;
 
-	long diff = lastHitmarkerTimestamp + duration - current;
+	long diff = lastHitmarkerTimestamp + duration - Util::GetEpochTime();
 	if (diff <= 0)
 		return;
 
@@ -80,5 +78,5 @@ void Hitmarkers::FireEventClientSide(IGameEvent* event)
 	if (hurt_player->GetTeam() != localplayer->GetTeam() && !Settings::ESP::Hitmarker::enemies)
 		return;
 
-	lastHitmarkerTimestamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+	lastHitmarkerTimestamp = Util::GetEpochTime();
 }
