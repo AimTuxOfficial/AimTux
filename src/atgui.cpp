@@ -1598,21 +1598,18 @@ void ConfigWindow()
 		ImGui::PopItemWidth();
 
 		ImGui::SameLine();
-		if (ImGui::Button("Add"))
+		if (ImGui::Button("Add") && strlen(buf) > 0)
 		{
-			if (strlen(buf) == 0)
-				return;
-
 			pstring path = GetConfigDirectory();
 			path << buf;
 
-			if (DoesFileExist(path.c_str()))
-				return;
+			if (!DoesFileExist(path.c_str()))
+			{
+				mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+				Settings::LoadDefaultsOrSave(path << "/config.json");
 
-			mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-			Settings::LoadDefaultsOrSave(path << "/config.json");
-
-			configItems = GetConfigs();
+				configItems = GetConfigs();
+			}
 		}
 
 		ImGui::PushItemWidth(178);
