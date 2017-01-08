@@ -19,5 +19,5 @@ namespace UI
 	bool ColorPicker(float* col, bool alphabar);
 	bool ColorPicker3(float col[3]);
 	bool ColorPicker4(float col[4]);
-	bool KeyBindButton(ButtonCode_t* key);
+	void KeyBindButton(ButtonCode_t* key);
 }
