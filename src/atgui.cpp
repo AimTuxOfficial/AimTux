@@ -360,7 +360,7 @@ void AimbotTab()
 	const char* targets[] = { "PELVIS", "", "", "HIP", "LOWER SPINE", "MIDDLE SPINE", "UPPER SPINE", "NECK", "HEAD" };
 
 	if (ImGui::Checkbox("Enabled", &enabled))
-	UI::updateWeaponSettings();
+		UI::updateWeaponSettings();
 	ImGui::Separator();
 
 	ImGui::Columns(3, NULL, true);

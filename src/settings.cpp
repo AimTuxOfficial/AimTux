@@ -113,33 +113,33 @@ void Settings::LoadDefaultsOrSave(std::string path)
 		// yes i tried defining a variable, skinSetting, and giving it the same value but woooooo operator overloading
 		// in C++ and weird shit
 		#define weaponSetting settings["Aimbot"]["weapons"][Util::Items::GetItemName((enum ItemDefinitionIndex) i.first)]
-		weaponSetting["enabled"] = i.second.enabled;
-		weaponSetting["silent"] = i.second.silent;
-		weaponSetting["friendly"] = i.second.friendly;
-		weaponSetting["bone"] = i.second.bone;
-		weaponSetting["aimkey"] = i.second.aimkey;
-		weaponSetting["aimkey_only"] = i.second.aimkey_only;
-		weaponSetting["smoothEnabled"] = i.second.smoothEnabled;
-		weaponSetting["smoothAmount"] = i.second.smoothAmount;
-		weaponSetting["smoothSaltEnabled"] = i.second.smoothSaltEnabled;
-		weaponSetting["smoothSaltMultiplier"] = i.second.smoothSaltMultiplier;
-		weaponSetting["errorMarginEnabled"] = i.second.errorMarginEnabled;
-		weaponSetting["errorMarginValue"] = i.second.errorMarginValue;
-		weaponSetting["autoAimEnabled"] = i.second.autoAimEnabled;
-		weaponSetting["autoAimFov"] = i.second.autoAimFov;
-		weaponSetting["aimStepEnabled"] = i.second.aimStepEnabled;
-		weaponSetting["aimStepAmount"] = i.second.aimStepValue;
-		weaponSetting["rcsEnabled"] = i.second.rcsEnabled;
-		weaponSetting["rcsAlways_on"] = i.second.rcsAlways_on;
-		weaponSetting["rcsAmount"] = i.second.rcsAmount;
-		weaponSetting["autoPistolEnabled"] = i.second.autoPistolEnabled;
-		weaponSetting["autoShootEnabled"] = i.second.autoShootEnabled;
-		weaponSetting["autoScopeEnabled"] = i.second.autoScopeEnabled;
-		weaponSetting["noShootEnabled"] = i.second.noShootEnabled;
-		weaponSetting["ignoreJumpEnabled"] = i.second.ignoreJumpEnabled;
-		weaponSetting["smoke_check"] = i.second.smoke_check;
-		weaponSetting["autoWallEnabled"] = i.second.autoWallEnabled;
-		weaponSetting["autoWallValue"] = i.second.autoWallValue;
+		weaponSetting["Enabled"] = i.second.enabled;
+		weaponSetting["Silent"] = i.second.silent;
+		weaponSetting["Friendly"] = i.second.friendly;
+		weaponSetting["TargetBone"] = i.second.bone;
+		weaponSetting["AimKey"] = i.second.aimkey;
+		weaponSetting["AimKeyOnly"] = i.second.aimkey_only;
+		weaponSetting["Smooth"]["Enabled"] = i.second.smoothEnabled;
+		weaponSetting["Smooth"]["Amount"] = i.second.smoothAmount;
+		weaponSetting["Smooth"]["Salting"]["Enabled"] = i.second.smoothSaltEnabled;
+		weaponSetting["Smooth"]["Salting"]["Multiplier"] = i.second.smoothSaltMultiplier;
+		weaponSetting["ErrorMargin"]["Enabled"] = i.second.errorMarginEnabled;
+		weaponSetting["ErrorMargin"]["Value"] = i.second.errorMarginValue;
+		weaponSetting["AutoAim"]["Enabled"] = i.second.autoAimEnabled;
+		weaponSetting["AutoAim"]["FOV"] = i.second.autoAimFov;
+		weaponSetting["AimStep"]["Enabled"] = i.second.aimStepEnabled;
+		weaponSetting["AimStep"]["Amount"] = i.second.aimStepValue;
+		weaponSetting["RCS"]["Enabled"] = i.second.rcsEnabled;
+		weaponSetting["RCS"]["AlwaysOn"] = i.second.rcsAlways_on;
+		weaponSetting["RCS"]["Amount"] = i.second.rcsAmount;
+		weaponSetting["AutoPistol"]["Enabled"] = i.second.autoPistolEnabled;
+		weaponSetting["AutoShoot"]["Enabled"] = i.second.autoShootEnabled;
+		weaponSetting["AutoScope"]["Enabled"] = i.second.autoScopeEnabled;
+		weaponSetting["NoShoot"]["Enabled"] = i.second.noShootEnabled;
+		weaponSetting["IgnoreJump"]["Enabled"] = i.second.ignoreJumpEnabled;
+		weaponSetting["SmokeCheck"]["Enabled"] = i.second.smoke_check;
+		weaponSetting["AutoWall"]["Enabled"] = i.second.autoWallEnabled;
+		weaponSetting["AutoWall"]["Value"] = i.second.autoWallValue;
 		#undef weaponSetting
 	}
 	settings["Aimbot"]["AutoWall"]["bones"] = Json::Value(Json::arrayValue);
@@ -417,33 +417,33 @@ void Settings::LoadConfig(std::string path)
 		GetOrdinal<enum ButtonCode_t, Util::GetButtonCode>(weaponSetting["aimkey"], &aimkey);
 
 		Settings::Aimbot::Weapon weapon = Settings::Aimbot::Weapon(
-			weaponSetting["enabled"].asBool(),
-			weaponSetting["silent"].asBool(),
-			weaponSetting["friendly"].asBool(),
-			weaponSetting["bone"].asInt(),
+			weaponSetting["Enabled"].asBool(),
+			weaponSetting["Silent"].asBool(),
+			weaponSetting["Friendly"].asBool(),
+			weaponSetting["TargetBone"].asInt(),
 			aimkey,
-			weaponSetting["aimkey_only"].asBool(),
-			weaponSetting["smoothEnabled"].asBool(),
-			weaponSetting["smoothAmount"].asFloat(),
-			weaponSetting["smoothSaltEnabled"].asBool(),
-			weaponSetting["smoothSaltMultiplier"].asFloat(),
-			weaponSetting["errorMarginEnabled"].asBool(),
-			weaponSetting["errorMarginValue"].asFloat(),
-			weaponSetting["autoAimEnabled"].asBool(),
-			weaponSetting["autoAimFov"].asFloat(),
-			weaponSetting["aimStepEnabled"].asBool(),
-			weaponSetting["aimStepAmount"].asFloat(),
-			weaponSetting["rcsEnabled"].asBool(),
-			weaponSetting["rcsAlways_on"].asBool(),
-			weaponSetting["rcsAmount"].asFloat(),
-			weaponSetting["autoPistolEnabled"].asBool(),
-			weaponSetting["autoShootEnabled"].asBool(),
-			weaponSetting["autoScopeEnabled"].asBool(),
-			weaponSetting["noShootEnabled"].asBool(),
-			weaponSetting["ignoreJumpEnabled"].asBool(),
-			weaponSetting["smoke_check"].asBool(),
-			weaponSetting["autoWallEnabled"].asBool(),
-			weaponSetting["autoWallValue"].asFloat()
+			weaponSetting["AimKeyOnly"].asBool(),
+			weaponSetting["Smooth"]["Enabled"].asBool(),
+			weaponSetting["Smooth"]["Amount"].asFloat(),
+			weaponSetting["Smooth"]["Salting"]["Enabled"].asBool(),
+			weaponSetting["Smooth"]["Salting"]["Multiplier"].asFloat(),
+			weaponSetting["ErrorMargin"]["Enabled"].asBool(),
+			weaponSetting["ErrorMargin"]["Value"].asFloat(),
+			weaponSetting["AutoAim"]["Enabled"].asBool(),
+			weaponSetting["AutoAim"]["FOV"].asFloat(),
+			weaponSetting["AimStep"]["Enabled"].asBool(),
+			weaponSetting["AimStep"]["Amount"].asFloat(),
+			weaponSetting["RCS"]["Enabled"].asBool(),
+			weaponSetting["RCS"]["AlwaysOn"].asBool(),
+			weaponSetting["RCS"]["Amount"].asFloat(),
+			weaponSetting["AutoPistol"]["Enabled"].asBool(),
+			weaponSetting["AutoShoot"]["Enabled"].asBool(),
+			weaponSetting["AutoScope"]["Enabled"].asBool(),
+			weaponSetting["NoShoot"]["Enabled"].asBool(),
+			weaponSetting["IgnoreJump"]["Enabled"].asBool(),
+			weaponSetting["SmokeCheck"]["Enabled"].asBool(),
+			weaponSetting["AutoWall"]["Enabled"].asBool(),
+			weaponSetting["AutoWall"]["Value"].asFloat()
 		);
 
 		Settings::Aimbot::weapons[weaponID] = weapon;
