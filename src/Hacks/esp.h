@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math.h>
 #include "../settings.h"
 #include "../SDK/SDK.h"
 #include "../Hooks/hooks.h"
@@ -7,7 +8,7 @@
 #include "../interfaces.h"
 #include "../Utils/pstring.h"
 #include "../Utils/entity.h"
-
+#include "../settings.h"
 namespace ESP
 {
 	extern const char* Ranks[];

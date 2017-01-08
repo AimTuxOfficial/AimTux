@@ -6,6 +6,7 @@
 #include <vector>
 #include <map>
 #include <algorithm>
+#include <chrono>
 
 #define RandomInt(nMin, nMax) (rand() % (nMax - nMin + 1) + nMin)
 
@@ -18,6 +19,7 @@ namespace Util
 	bool Contains(const std::string &word, const std::string &sentence);
 	std::string ToLower(std::string str);
 	std::string ToUpper(std::string str);
+	long GetEpochTime();
 
 	template <typename T>
 	T GetValueByKey(std::vector<std::pair<int, T>> vec, int key)
@@ -52,5 +54,4 @@ namespace Util
 
 		return result->second;
 	}
-
 }

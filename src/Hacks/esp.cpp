@@ -1,7 +1,4 @@
-#include <math.h>
-#include <chrono>
 #include "esp.h"
-#include "../settings.h"
 #include "../Utils/skins.h"
 
 bool Settings::ESP::enabled = true;
@@ -844,8 +841,7 @@ void ESP::CollectFootstep(int iEntIndex, const char *pSample)
 	footstep.entityId = iEntIndex;
 	footstep.position = entitylist->GetClientEntity(iEntIndex)->GetVecOrigin();
 
-	long current = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-	footstep.expiration = current + Settings::ESP::Sounds::time;
+	footstep.expiration = Util::GetEpochTime() + Settings::ESP::Sounds::time;
 
 	footsteps.push_back(footstep);
 }
@@ -854,8 +850,7 @@ void ESP::DrawSounds()
 {
 	for (unsigned int i = 0; i < footsteps.size(); i++)
 	{
-		long current = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-		long diff = footsteps[i].expiration - current;
+		long diff = footsteps[i].expiration - Util::GetEpochTime();
 
 		if (diff <= 0)
 		{
