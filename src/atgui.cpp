@@ -574,14 +574,16 @@ void AimbotTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::Checkbox("Enabled##AUTOWALL", &autoWallEnabled);
+				if (ImGui::Checkbox("Enabled##AUTOWALL", &autoWallEnabled))
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Shoots enemy through a wall if it does X amount of damage");
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-					ImGui::SliderFloat("##AUTOWALLDMG", &autoWallValue, 0, 100, "Min Damage: %f");
+					if (ImGui::SliderFloat("##AUTOWALLDMG", &autoWallValue, 0, 100, "Min Damage: %f"))
+						UI::updateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
