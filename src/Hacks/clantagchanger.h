@@ -10,9 +10,9 @@ namespace ClanTagChanger
 	struct Frame
 	{
 		int time;
-		std::string text;
+		std::wstring text;
 
-		Frame(std::string text, int time)
+		Frame(std::wstring text, int time)
 		{
 			this->text = text;
 			this->time = time;
@@ -54,9 +54,9 @@ namespace ClanTagChanger
 		}
 	};
 
-	Animation Marquee(std::string name, std::string text, int width = 15);
-	Animation Words(std::string name, std::string text);
-	Animation Letters(std::string name, std::string text);
+	Animation Marquee(std::string name, std::wstring text, int width = 15);
+	Animation Words(std::string name, std::wstring text);
+	Animation Letters(std::string name, std::wstring text);
 	extern std::vector<Animation> animations;
 	extern Animation* animation;
 	void UpdateClanTagCallback();
