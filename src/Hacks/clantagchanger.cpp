@@ -1,6 +1,4 @@
 #include "clantagchanger.h"
-#include <locale>
-#include <codecvt>
 
 char* Settings::ClanTagChanger::value = strdup("");
 bool Settings::ClanTagChanger::animation = false;
