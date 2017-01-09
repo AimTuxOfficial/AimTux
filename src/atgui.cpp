@@ -575,7 +575,7 @@ void AimbotTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::Checkbox("Enabled", &autoWallEnabled);
+				ImGui::Checkbox("Enabled##AUTOWALL", &autoWallEnabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Shoots enemy through a wall if it does X amount of damage");
 			}
