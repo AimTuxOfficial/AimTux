@@ -229,7 +229,6 @@ void reloadWeaponSettings()
 	smoke_check = Settings::Aimbot::weapons[index].smoke_check;
 	autoWallEnabled = Settings::Aimbot::weapons[index].autoWallEnabled;
 	autoWallValue = Settings::Aimbot::weapons[index].autoWallValue;
-	cvar->ConsoleColorPrintf(ColorRGBA(150, 255, 150), "%d.\n", aimkey);
 }
 
 void ColorsWindow()
