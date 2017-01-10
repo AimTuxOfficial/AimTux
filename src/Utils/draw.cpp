@@ -105,7 +105,7 @@ void Draw::TextW(Vector2D pos, const wchar_t* text, FONT font, Color col)
 
 void Draw::Text(int x, int y, const char* text, FONT font, Color col)
 {
-	std::wstring wc = Util::StringToWsting(text);
+	std::wstring wc = Util::StringToWstring(text);
 
 	surface->DrawSetTextPos(x, y);
 	surface->DrawSetTextFont(font);
@@ -125,7 +125,7 @@ void Draw::GetTextWSize(const wchar_t* text, FONT font, int& wide, int& tall)
 
 void Draw::GetTextSize(const char* text, FONT font, int& wide, int& tall)
 {
-	std::wstring wc = Util::StringToWsting(text);
+	std::wstring wc = Util::StringToWstring(text);
 
 	surface->GetTextSize(font, wc.c_str(), wide, tall);
 }
@@ -139,7 +139,7 @@ Vector2D Draw::GetTextWSize(const wchar_t* text, FONT font)
 
 Vector2D Draw::GetTextSize(const char* text, FONT font)
 {
-	std::wstring wc = Util::StringToWsting(text);
+	std::wstring wc = Util::StringToWstring(text);
 
 	int x_res, y_res;
 	surface->GetTextSize(font, wc.c_str(), x_res, y_res);

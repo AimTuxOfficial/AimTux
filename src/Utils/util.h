@@ -22,7 +22,7 @@ namespace Util
 	std::string ToLower(std::string str);
 	std::string ToUpper(std::string str);
 	std::string WstringToString(std::wstring wstr);
-	std::wstring StringToWsting(std::string str);
+	std::wstring StringToWstring(std::string str);
 
 	long GetEpochTime();
 
