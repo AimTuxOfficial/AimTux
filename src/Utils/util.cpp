@@ -67,6 +67,20 @@ std::string Util::ToUpper(std::string str)
 	return str;
 }
 
+std::string Util::WstringToString(std::wstring wstr)
+{
+	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
+
+	return converter.to_bytes(wstr);
+}
+
+std::wstring Util::StringToWsting(std::string str)
+{
+	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
+
+	return converter.from_bytes(str);
+}
+
 long Util::GetEpochTime()
 {
 	auto duration = std::chrono::system_clock::now().time_since_epoch();
