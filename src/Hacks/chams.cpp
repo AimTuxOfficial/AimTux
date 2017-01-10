@@ -82,6 +82,12 @@ void Chams::CreateMaterials()
 
 void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld)
 {
+	if (!engine->IsInGame ())
+	{
+		modelRender_vmt->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
+		return;
+	}
+	
 	if (!Settings::ESP::Chams::enabled)
 		return;
 
@@ -167,6 +173,9 @@ void DrawArms(const ModelRenderInfo_t &pInfo)
 
 void Chams::DrawModelExecute(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld)
 {
+	if (!engine->IsInGame ())
+		return;
+	
 	if (!Settings::ESP::enabled)
 		return;
 
