@@ -195,7 +195,7 @@ void Radar::DrawWindow()
 					shape = EntityShape_t::SHAPE_CIRCLE;
 
 				Vector forward;
-				Math::AngleVectors(*player->GeyEyeAngles(), forward);
+				Math::AngleVectors(*player->GetEyeAngles(), forward);
 				Vector dirArrowVec = playerPos + (forward * 2 * Settings::Radar::zoom * scale);
 
 				float arrowWidth = scale;

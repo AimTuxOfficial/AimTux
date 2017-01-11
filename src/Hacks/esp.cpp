@@ -790,7 +790,7 @@ void ESP::DrawBulletTrace(C_BasePlayer* player)
 	Ray_t ray;
 	CTraceFilter filter;
 
-	Math::AngleVectors(*player->GeyEyeAngles(), forward);
+	Math::AngleVectors(*player->GetEyeAngles(), forward);
 	filter.pSkip = player;
 	src3D = player->GetEyePosition();
 	dst3D = src3D + (forward * 8192);

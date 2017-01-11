@@ -34,9 +34,9 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 			if (!Settings::Resolver::resolve_all && std::find(Resolver::Players.begin(), Resolver::Players.end(), entityInformation.xuid) == Resolver::Players.end())
 				continue;
 
-			player_data.push_back(PlayerAA(player, *player->GeyEyeAngles()));
+			player_data.push_back(PlayerAA(player, *player->GetEyeAngles()));
 
-			player->GeyEyeAngles()->y = *player->GetLowerBodyYawTarget();
+			player->GetEyeAngles()->y = *player->GetLowerBodyYawTarget();
 		}
 	}
 	else if (stage == ClientFrameStage_t::FRAME_RENDER_END)
@@ -45,7 +45,7 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 		{
 			PlayerAA player_aa_data = player_data[i];
 
-			*player_aa_data.player->GeyEyeAngles() = player_aa_data.angle;
+			*player_aa_data.player->GetEyeAngles() = player_aa_data.angle;
 		}
 
 		player_data.clear();
