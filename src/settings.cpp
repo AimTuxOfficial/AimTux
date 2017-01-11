@@ -437,7 +437,6 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["Resolver"]["resolve_all"], &Settings::Resolver::resolve_all);
 
 	GetVal(settings["Triggerbot"]["enabled"], &Settings::Triggerbot::enabled);
-
 	GetButtonCode(settings["Triggerbot"]["key"], &Settings::Triggerbot::key);
 	GetVal(settings["Triggerbot"]["Filters"]["enemies"], &Settings::Triggerbot::Filters::enemies);
 	GetVal(settings["Triggerbot"]["Filters"]["allies"], &Settings::Triggerbot::Filters::allies);
