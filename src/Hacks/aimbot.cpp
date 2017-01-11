@@ -594,4 +594,7 @@ void Aimbot::UpdateValues()
 	Settings::Aimbot::SmokeCheck::enabled = currentWeaponSetting.smoke_check;
 	Settings::Aimbot::AutoWall::enabled = currentWeaponSetting.autoWallEnabled;
 	Settings::Aimbot::AutoWall::value = currentWeaponSetting.autoWallValue;
+
+	for (int i = HITBOX_HEAD; i <= HITBOX_ARMS; i++)
+		Settings::Aimbot::AutoWall::bones[i] = currentWeaponSetting.autoWallBones[i];
 }

@@ -117,15 +117,12 @@ void Settings::LoadDefaultsOrSave(std::string path)
 		weaponSetting["SmokeCheck"]["Enabled"] = i.second.smoke_check;
 		weaponSetting["AutoWall"]["Enabled"] = i.second.autoWallEnabled;
 		weaponSetting["AutoWall"]["Value"] = i.second.autoWallValue;
-		for (int bone = HITBOX_HEAD; bone <= HITBOX_ARMS; bone++) //
-			weaponSetting["AutoWall"]["bones"][bone] = i.second.autoWallBones[bone];
+
+		for (int bone = HITBOX_HEAD; bone <= HITBOX_ARMS; bone++)
+			weaponSetting["AutoWall"]["Bones"][bone] = i.second.autoWallBones[bone];
+
 		#undef weaponSetting
 	}
-
-	settings["Aimbot"]["AutoWall"]["bones"] = Json::Value(Json::arrayValue);
-	for (int i = HITBOX_HEAD; i <= HITBOX_ARMS; i++)
-		settings["Aimbot"]["AutoWall"]["bones"][i] = Settings::Aimbot::AutoWall::bones[i];
-
 
 	settings["Resolver"]["resolve_all"] = Settings::Resolver::resolve_all;
 
@@ -397,50 +394,45 @@ void Settings::LoadConfig(std::string path)
 		}
 
 		Settings::Aimbot::Weapon weapon;
+		bool autoWallBones[] = { true, false, false, false, false, false };
 
-			weapon = Settings::Aimbot::Weapon(
-				weaponSetting["Enabled"].asBool(),
-				weaponSetting["Silent"].asBool(),
-				weaponSetting["Friendly"].asBool(),
-				weaponSetting["TargetBone"].asInt(),
-				Util::GetButtonCode(weaponSetting["AimKey"].asCString()),
-				weaponSetting["AimKeyOnly"].asBool(),
-				weaponSetting["Smooth"]["Enabled"].asBool(),
-				weaponSetting["Smooth"]["Amount"].asFloat(),
-				weaponSetting["Smooth"]["Type"].asInt(),
-				weaponSetting["Smooth"]["Salting"]["Enabled"].asBool(),
-				weaponSetting["Smooth"]["Salting"]["Multiplier"].asFloat(),
-				weaponSetting["ErrorMargin"]["Enabled"].asBool(),
-				weaponSetting["ErrorMargin"]["Value"].asFloat(),
-				weaponSetting["AutoAim"]["Enabled"].asBool(),
-				weaponSetting["AutoAim"]["FOV"].asFloat(),
-				weaponSetting["AimStep"]["Enabled"].asBool(),
-				weaponSetting["AimStep"]["Amount"].asFloat(),
-				weaponSetting["RCS"]["Enabled"].asBool(),
-				weaponSetting["RCS"]["AlwaysOn"].asBool(),
-				weaponSetting["RCS"]["Amount"].asFloat(),
-				weaponSetting["AutoPistol"]["Enabled"].asBool(),
-				weaponSetting["AutoShoot"]["Enabled"].asBool(),
-				weaponSetting["AutoScope"]["Enabled"].asBool(),
-				weaponSetting["NoShoot"]["Enabled"].asBool(),
-				weaponSetting["IgnoreJump"]["Enabled"].asBool(),
-				weaponSetting["SmokeCheck"]["Enabled"].asBool(),
-				weaponSetting["AutoWall"]["Enabled"].asBool(),
-				weaponSetting["AutoWall"]["Value"].asFloat()
-			);
+		for (int bone = HITBOX_HEAD; bone <= HITBOX_ARMS; bone++)
+			autoWallBones[bone] = weaponSetting["AutoWall"]["Bones"][bone].asBool();
+
+		weapon = Settings::Aimbot::Weapon(
+			weaponSetting["Enabled"].asBool(),
+			weaponSetting["Silent"].asBool(),
+			weaponSetting["Friendly"].asBool(),
+			weaponSetting["TargetBone"].asInt(),
+			Util::GetButtonCode(weaponSetting["AimKey"].asCString()),
+			weaponSetting["AimKeyOnly"].asBool(),
+			weaponSetting["Smooth"]["Enabled"].asBool(),
+			weaponSetting["Smooth"]["Amount"].asFloat(),
+			weaponSetting["Smooth"]["Type"].asInt(),
+			weaponSetting["Smooth"]["Salting"]["Enabled"].asBool(),
+			weaponSetting["Smooth"]["Salting"]["Multiplier"].asFloat(),
+			weaponSetting["ErrorMargin"]["Enabled"].asBool(),
+			weaponSetting["ErrorMargin"]["Value"].asFloat(),
+			weaponSetting["AutoAim"]["Enabled"].asBool(),
+			weaponSetting["AutoAim"]["FOV"].asFloat(),
+			weaponSetting["AimStep"]["Enabled"].asBool(),
+			weaponSetting["AimStep"]["Amount"].asFloat(),
+			weaponSetting["RCS"]["Enabled"].asBool(),
+			weaponSetting["RCS"]["AlwaysOn"].asBool(),
+			weaponSetting["RCS"]["Amount"].asFloat(),
+			weaponSetting["AutoPistol"]["Enabled"].asBool(),
+			weaponSetting["AutoShoot"]["Enabled"].asBool(),
+			weaponSetting["AutoScope"]["Enabled"].asBool(),
+			weaponSetting["NoShoot"]["Enabled"].asBool(),
+			weaponSetting["IgnoreJump"]["Enabled"].asBool(),
+			weaponSetting["SmokeCheck"]["Enabled"].asBool(),
+			weaponSetting["AutoWall"]["Enabled"].asBool(),
+			weaponSetting["AutoWall"]["Value"].asFloat(),
+			autoWallBones
+		);
 
 		Settings::Aimbot::weapons[weaponID] = weapon;
 	}
-
-	for (int i = HITBOX_HEAD; i <= HITBOX_ARMS; i++)
-		GetVal(settings["Aimbot"]["AutoWall"]["bones"][i], &Settings::Aimbot::AutoWall::bones[i]);
-
-	GetVal(settings["Resolver"]["resolve_all"], &Settings::Resolver::resolve_all);
-
-	GetVal(settings["Triggerbot"]["enabled"], &Settings::Triggerbot::enabled);
-
-	for (int i = HITBOX_HEAD; i <= HITBOX_ARMS; i++)
-		GetVal(settings["Aimbot"]["AutoWall"]["bones"][i], &Settings::Aimbot::AutoWall::bones[i]);
 
 	GetVal(settings["Resolver"]["resolve_all"], &Settings::Resolver::resolve_all);
 

@@ -234,8 +234,9 @@ void reloadWeaponSettings()
 	smoke_check = Settings::Aimbot::weapons[index].smoke_check;
 	autoWallEnabled = Settings::Aimbot::weapons[index].autoWallEnabled;
 	autoWallValue = Settings::Aimbot::weapons[index].autoWallValue;
-	for (int i = HITBOX_HEAD; i <= HITBOX_ARMS; i++)
-		autoWallBones[i] = Settings::Aimbot::weapons[index].autoWallBones[i];
+
+	for (int bone = HITBOX_HEAD; bone <= HITBOX_ARMS; bone++)
+		autoWallBones[bone] = Settings::Aimbot::weapons[index].autoWallBones[bone];
 }
 
 void ColorsWindow()
@@ -419,8 +420,9 @@ void AimbotTab()
 						smoke_check = Settings::Aimbot::weapons[index].smoke_check;
 						autoWallEnabled = Settings::Aimbot::weapons[index].autoWallEnabled;
 						autoWallValue = Settings::Aimbot::weapons[index].autoWallValue;
-						for (int i = HITBOX_HEAD; i <= HITBOX_ARMS; i++)
-							autoWallBones[i] = Settings::Aimbot::weapons[index].autoWallBones[i];
+
+						for (int bone = HITBOX_HEAD; bone <= HITBOX_ARMS; bone++)
+							autoWallBones[bone] = Settings::Aimbot::weapons[index].autoWallBones[bone];
 					}
 				ImGui::PopID();
 			}
@@ -606,25 +608,31 @@ void AimbotTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::Checkbox("Head", &Settings::Aimbot::AutoWall::bones[HITBOX_HEAD]);
+				if (ImGui::Checkbox("Head", &autoWallBones[HITBOX_HEAD]))
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Trigger on head");
-				ImGui::Checkbox("Neck", &Settings::Aimbot::AutoWall::bones[HITBOX_NECK]);
+				if (ImGui::Checkbox("Neck", &autoWallBones[HITBOX_NECK]))
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Trigger on neck");
-				ImGui::Checkbox("Pelvis", &Settings::Aimbot::AutoWall::bones[HITBOX_PELVIS]);
+				if (ImGui::Checkbox("Pelvis", &autoWallBones[HITBOX_PELVIS]))
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Trigger on pelvis");
 			}
 			ImGui::NextColumn();
 			{
-				ImGui::Checkbox("Spine", &Settings::Aimbot::AutoWall::bones[HITBOX_SPINE]);
+				if (ImGui::Checkbox("Spine", &autoWallBones[HITBOX_SPINE]))
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Trigger on spine");
-				ImGui::Checkbox("Legs", &Settings::Aimbot::AutoWall::bones[HITBOX_LEGS]);
+				if (ImGui::Checkbox("Legs", &autoWallBones[HITBOX_LEGS]))
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Trigger on legs");
-				ImGui::Checkbox("Arms", &Settings::Aimbot::AutoWall::bones[HITBOX_ARMS]);
+				if (ImGui::Checkbox("Arms", &autoWallBones[HITBOX_ARMS]))
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Trigger on arms");
 			}

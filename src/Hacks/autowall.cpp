@@ -1,5 +1,4 @@
 #include "autowall.h"
-#include "../Utils/math.h"
 
 float Autowall::GetHitgroupDamageMultiplier(int iHitGroup)
 {
@@ -184,7 +183,7 @@ void TraceLine(Vector vecAbsStart, Vector vecAbsEnd, unsigned int mask, C_BasePl
 	ray.Init(vecAbsStart, vecAbsEnd);
 	CTraceFilter filter;
 	filter.pSkip = ignore;
-	
+
 	trace->TraceRay(ray, mask, &filter, ptr);
 }
 
