@@ -365,6 +365,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
 
 	settings["NoSmoke"]["enabled"] = Settings::NoSmoke::enabled;
 
+	settings["ScreenshotCleaner"]["enabled"] = Settings::ScreenshotCleaner::enabled;
+
 	std::ofstream(path) << styledWriter.write(settings);
 }
 
@@ -671,6 +673,8 @@ void Settings::LoadConfig(std::string path)
 	GetBool(settings["AutoDefuse"]["enabled"], &Settings::AutoDefuse::enabled);
 
 	GetBool(settings["NoSmoke"]["enabled"], &Settings::NoSmoke::enabled);
+
+	GetBool(settings["ScreenshotCleaner"]["enabled"], &Settings::ScreenshotCleaner::enabled);
 }
 
 void Settings::LoadSettings()
