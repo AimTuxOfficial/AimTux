@@ -293,9 +293,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 	}
 
 	if (Settings::AntiAim::Pitch::enabled)
-	{
 		DoAntiAimX(angle, bFlip, should_clamp);
-	}
 
 	if (should_clamp)
 	{
