@@ -31,7 +31,7 @@ sudo dnf install cmake gcc-c++ gdb git libstdc++-static mesa-libGL-devel SDL2-de
 
 __Gentoo:__
 ```bash
-sudo emerge cmake dev-vcs/git gdb libsdl2 mesa
+sudo emerge cmake dev-vcs/git gdb libsdl2 mesa xdotool
 ```
 
 To build AimTux, you require at least (`GCC / G++ v6`) otherwise it will error, to check your gcc / g++ version, run the command 
