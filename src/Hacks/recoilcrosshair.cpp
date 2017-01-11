@@ -22,7 +22,7 @@ void Recoilcrosshair::Paint()
 	if (!active_weapon || !active_weapon->IsAutomatic())
 		return;
 
-	QAngle punchAngle = localplayer->GetAimPunchAngle();
+	QAngle punchAngle = *localplayer->GetAimPunchAngle();
 
 	int ScreenWidth, ScreenHeight;
 	engine->GetScreenSize(ScreenWidth, ScreenHeight);

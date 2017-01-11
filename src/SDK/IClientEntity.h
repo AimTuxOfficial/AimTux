@@ -132,14 +132,9 @@ public:
 		return (QAngle*)((uintptr_t)this + offsets.DT_BasePlayer.m_viewPunchAngle);
 	}
 	
-	QAngle* GetAimPunchAngleP()
+	QAngle* GetAimPunchAngle()
 	{
 		return (QAngle*)((uintptr_t)this + offsets.DT_BasePlayer.m_aimPunchAngle);
-	}
-	
-	QAngle GetAimPunchAngle()
-	{
-		return *(QAngle*)((uintptr_t)this + offsets.DT_BasePlayer.m_aimPunchAngle);
 	}
 
 	Vector GetVecViewOffset()
