@@ -36,7 +36,7 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 
 	QAngle viewAngles;
 	engine->GetViewAngles(viewAngles);
-	QAngle viewAngles_rcs = viewAngles + localplayer->GetAimPunchAngle() * 2.0f;
+	QAngle viewAngles_rcs = viewAngles + *localplayer->GetAimPunchAngle() * 2.0f;
 
 	Math::AngleVectors(viewAngles_rcs, traceEnd);
 

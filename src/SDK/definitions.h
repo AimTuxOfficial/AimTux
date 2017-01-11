@@ -5,8 +5,9 @@
 
 /* generic constants */
 #define LIFE_ALIVE 0
-#define VPANEL unsigned long long
-typedef unsigned long long FONT;
+
+typedef unsigned long long VPANEL;
+typedef unsigned long long HFont;
 
 class IClientMode;
 class ILauncherMgr;

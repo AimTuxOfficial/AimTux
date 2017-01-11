@@ -74,7 +74,7 @@ std::string Util::WstringToString(std::wstring wstr)
 	return converter.to_bytes(wstr);
 }
 
-std::wstring Util::StringToWsting(std::string str)
+std::wstring Util::StringToWstring(std::string str)
 {
 	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
 

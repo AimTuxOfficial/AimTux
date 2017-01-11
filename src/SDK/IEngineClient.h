@@ -71,6 +71,12 @@ public:
 		return getvfunc<oIsInGame>(this, 26)(this);
 	}
 
+	bool IsTakingScreenshot()
+	{
+		typedef bool (* oIsTakingScreenshot)(void*);
+		return getvfunc<oIsTakingScreenshot>(this, 92)(this);
+	}
+
 	void ExecuteClientCmd(const char* szCmdString)
 	{
 		typedef void (* oExecuteClientCmd)(void*, const char*);

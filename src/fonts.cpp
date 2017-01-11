@@ -1,6 +1,6 @@
 #include "fonts.h"
 
-FONT esp_font = 0;
+HFont esp_font = 0;
 
 char* Settings::UI::Fonts::ESP::family = (char *) "Andale Mono";
 int Settings::UI::Fonts::ESP::size = 12;
