@@ -11,8 +11,8 @@ int Settings::Aimbot::bone = BONE_HEAD;
 ButtonCode_t Settings::Aimbot::aimkey = ButtonCode_t::MOUSE_MIDDLE;
 bool Settings::Aimbot::aimkey_only = false;
 bool Settings::Aimbot::Smooth::enabled = false;
-float Settings::Aimbot::Smooth::value = 1.0f;
-float Settings::Aimbot::Smooth::max = 1.0f;
+float Settings::Aimbot::Smooth::value = 0.5f;
+int Settings::Aimbot::Smooth::type = SmoothType::SLOW_END;
 bool Settings::Aimbot::ErrorMargin::enabled = false;
 float Settings::Aimbot::ErrorMargin::value = 0.0f;
 bool Settings::Aimbot::AutoAim::enabled = false;
@@ -268,7 +268,7 @@ void Aimbot::Smooth(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd)
 	if (Settings::Aimbot::silent)
 		return;
 
-	QAngle viewAngles;
+	QAngle viewAngles = QAngle(0.f, 0.f, 0.f);
 	engine->GetViewAngles(viewAngles);
 
 	QAngle delta = angle - viewAngles;
@@ -276,96 +276,63 @@ void Aimbot::Smooth(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd)
 
 	float smooth = powf(Settings::Aimbot::Smooth::value, 0.4f); // Makes more slider space for actual useful values
 
-	if (Settings::Aimbot::Smooth::Salting::enabled)
-	{
-		Salt(smooth);
-	}
-
-	// For convenience
-	// Because of the powf, when the slider is 0.02, the smooth value is 0.02^0.4 = ~0.21
-	if (Settings::Aimbot::Smooth::value < 0.02f)
-		smooth = 0.0f;
-
-	// When smooth is 1 it doesn't move at all, useless to have that on the slider
-	if (Settings::Aimbot::Smooth::value > 0.99f)
-		smooth = 0.99f;
-
-	QAngle toChange = delta - delta * smooth;
-	angle = viewAngles + toChange;
-}
-
-void Aimbot::ConstSpeedSmooth(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd)
-{
-	if (!Settings::Aimbot::Smooth::enabled)
-		return;
-
-	if (Settings::AntiAim::Pitch::enabled || Settings::AntiAim::Yaw::enabled)
-		return;
-
-	if (!shouldAim || !player)
-		return;
-
-	if (Settings::Aimbot::silent)
-		return;
-
-	QAngle viewAngles;
-	engine->GetViewAngles(viewAngles);
-
-	QAngle delta = angle - viewAngles;
-	Math::NormalizeAngles(delta);
-
-	float smooth = Settings::Aimbot::Smooth::value / Settings::Aimbot::Smooth::max;
+	smooth = std::min(0.99f, smooth);
 
 	if (Settings::Aimbot::Smooth::Salting::enabled)
 	{
 		Salt(smooth);
 	}
 
-	float slope = delta.y / delta.x;
+	QAngle toChange = QAngle(0.f, 0.f, 0.f);
 
-	/*
-	 * Will only happen if delta.x is really small, the limit as x-> 0 is infinity,
-	 * so estimate with a big ass number.
-	 */
-	if (slope != slope) // is NaN
-		slope = 9999999;
-
-	slope = fabs(slope);
-	float theta = atan(slope);
-
-	float changeFactor = Settings::Aimbot::Smooth::max - (smooth * Settings::Aimbot::Smooth::max);
-
-	float factorx = changeFactor * cos(theta);
-	float factory = changeFactor * sin(theta);
-
-	if (delta.x < 0.0f)
+	if (Settings::Aimbot::Smooth::type == SmoothType::SLOW_END)
 	{
-		if (factorx > fabs(delta.x))
-			factorx = fabs(delta.x);
-
-		angle.x = viewAngles.x - factorx;
+		toChange = delta - delta * smooth;
+		angle = viewAngles + toChange;
 	}
-	else
+	else if (Settings::Aimbot::Smooth::type == SmoothType::CONSTANT)
 	{
-		if (factorx > delta.x)
-			factorx = delta.x;
+		float slope = delta.y / delta.x;
 
-		angle.x = viewAngles.x + factorx;
-	}
+		if (slope != slope) // is NaN
+			slope = 9999999;
 
-	if (delta.y < 0.0f)
-	{
-		if (factory > fabs(delta.y))
-			factory = fabs(delta.y);
+		slope = fabs(slope);
+		float theta = atan(slope);
 
-		angle.y = viewAngles.y - factory;
-	}
-	else
-	{
-		if (factory > delta.y)
-			factory = delta.y;
+		float changeFactor = 1.f - smooth * 0.5f;
+		toChange.x = changeFactor * cos(theta);
+		toChange.y = changeFactor * sin(theta);
 
-		angle.y = viewAngles.y + factory;
+		if (delta.x < 0.0f)
+		{
+			if (toChange.x > fabs(delta.x))
+				toChange.x = fabs(delta.x);
+
+			angle.x = viewAngles.x - toChange.x;
+		}
+		else
+		{
+			if (toChange.x > delta.x)
+				toChange.x = delta.x;
+
+			angle.x = viewAngles.x + toChange.x;
+		}
+
+		if (delta.y < 0.0f)
+		{
+			if (toChange.y > fabs(delta.y))
+				toChange.y = fabs(delta.y);
+
+			angle.y = viewAngles.y - toChange.y;
+		}
+		else
+		{
+			if (toChange.y > delta.y)
+				toChange.y = delta.y;
+
+			angle.y = viewAngles.y + toChange.y;
+		}
 	}
 }
 

@@ -295,6 +295,7 @@ void ColorsWindow()
 void AimbotTab()
 {
 	const char* targets[] = { "PELVIS", "", "", "HIP", "LOWER SPINE", "MIDDLE SPINE", "UPPER SPINE", "NECK", "HEAD" };
+	const char* smoothTypes[] = { "Slow Near End", "Constant Speed" };
 
 	ImGui::Checkbox("Enabled", &Settings::Aimbot::enabled);
 	ImGui::Separator();
@@ -355,6 +356,9 @@ void AimbotTab()
 				ImGui::Checkbox("Error Margin", &Settings::Aimbot::ErrorMargin::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Adds a margin of error to the aim, it will be obvious what it does when using it");
+				ImGui::PushItemWidth(-1);
+					ImGui::Combo("##SMOOTHTYPE", &Settings::Aimbot::Smooth::type, smoothTypes, IM_ARRAYSIZE(smoothTypes));
+				ImGui::PopItemWidth();
 			}
 			ImGui::NextColumn();
 			{
