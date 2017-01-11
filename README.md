@@ -103,6 +103,9 @@ If you wish to unload the hack from the game, you can do so by entering the comm
 ```bash
 ./uload
 ```
+## Video Tutorial
+
+[![tutorial](https://img.youtube.com/vi/wlVtEY2tleM/0.jpg)](https://youtu.be/wlVtEY2tleM)
 
 ## Contributing to AimTux
 
