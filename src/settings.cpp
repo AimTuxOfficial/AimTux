@@ -342,7 +342,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["ClanTagChanger"]["animation_speed"] = Settings::ClanTagChanger::animation_speed;
 	settings["ClanTagChanger"]["type"] = Settings::ClanTagChanger::type;
 
-	settings["View"]["NoPunch"]["enabled"] = Settings::View::NoPunch::enabled;
+	settings["View"]["NoViewPunch"]["enabled"] = Settings::View::NoViewPunch::enabled;
+	settings["View"]["NoAimPunch"]["enabled"] = Settings::View::NoAimPunch::enabled;
 
 	settings["Teleport"]["enabled"] = Settings::Teleport::enabled;
 	settings["Teleport"]["key"] = Settings::Teleport::key;
@@ -652,7 +653,8 @@ void Settings::LoadConfig(std::string path)
 	GetInt(settings["ClanTagChanger"]["type"], &Settings::ClanTagChanger::type);
 	::ClanTagChanger::UpdateClanTagCallback();
 
-	GetBool(settings["View"]["NoPunch"]["enabled"], &Settings::View::NoPunch::enabled);
+	GetBool(settings["View"]["NoViewPunch"]["enabled"], &Settings::View::NoViewPunch::enabled);
+	GetBool(settings["View"]["NoAimPunch"]["enabled"], &Settings::View::NoAimPunch::enabled);
 
 	GetBool(settings["Teleport"]["enabled"], &Settings::Teleport::enabled);
 	GetButtonCode(settings["Teleport"]["key"], &Settings::Teleport::key);

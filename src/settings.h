@@ -618,7 +618,11 @@ namespace Settings
 
 	namespace View
 	{
-		namespace NoPunch
+		namespace NoAimPunch
+		{
+			extern bool enabled;
+		}
+		namespace NoViewPunch
 		{
 			extern bool enabled;
 		}

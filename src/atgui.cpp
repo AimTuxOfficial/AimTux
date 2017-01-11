@@ -751,7 +751,7 @@ void VisualsTab()
 				ImGui::Checkbox("Show Footsteps", &Settings::ESP::Sounds::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Shows you footsteps in 3D space");
-				ImGui::Checkbox("No View Punch", &Settings::View::NoPunch::enabled);
+				ImGui::Checkbox("No View Punch", &Settings::View::NoViewPunch::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Disables view punch when shooting");
 				ImGui::Checkbox("No Sky", &Settings::NoSky::enabled);
@@ -769,6 +769,9 @@ void VisualsTab()
 					ImGui::SliderFloat("##NOFLASHAMOUNT", &Settings::Noflash::value, 0, 255, "Amount: %0.f");
 					ImGui::SliderInt("##SOUNDSTIME", &Settings::ESP::Sounds::time, 250, 5000), "Timeout: %0.f";
 				ImGui::PopItemWidth();
+				ImGui::Checkbox("No Aim Punch", &Settings::View::NoAimPunch::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Disables aim punch when shooting");
 				ImGui::Checkbox("No Scope Border", &Settings::NoScopeBorder::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Disables black scope silhouette");
