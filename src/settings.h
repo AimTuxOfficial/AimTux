@@ -243,6 +243,61 @@ namespace Settings
 		{
 			extern bool enabled;
 		}
+
+		struct Weapon
+		{
+			bool enabled, silent, friendly;
+			int bone, smoothType;
+			ButtonCode_t aimkey;
+			bool aimkey_only, smoothEnabled, smoothSaltEnabled, errorMarginEnabled, autoAimEnabled, aimStepEnabled, rcsEnabled, rcsAlways_on;
+			float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmount, autoWallValue;
+			bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check, autoWallEnabled, autoWallBones[6];
+
+			Weapon(bool enabled, bool silent, bool friendly, int bone, ButtonCode_t aimkey, bool aimkey_only,
+				   bool smoothEnabled, float smoothValue, int smoothType, bool smoothSaltEnabled, float smoothSaltMultiplier,
+				   bool errorMarginEnabled, float errorMarginValue,
+				   bool autoAimEnabled, float autoAimValue, bool aimStepEnabled, float aimStepValue,
+				   bool rcsEnabled, bool rcsAlways_on, float rcsFloat,
+				   bool autoPistolEnabled, bool autoShootEnabled, bool autoScopeEnabled,
+				   bool noShootEnabled, bool ignoreJumpEnabled, bool smoke_check, bool autoWallEnabled, float autoWallValue, bool autoWallBones[6])
+			{
+				this->enabled = enabled;
+				this->silent = silent;
+				this->friendly = friendly;
+				this->bone = bone;
+				this->aimkey = aimkey;
+				this->aimkey_only = aimkey_only;
+				this->smoothEnabled = smoothEnabled;
+				this->smoothAmount = smoothValue;
+				this->smoothType = smoothType;
+				this->smoothSaltEnabled = smoothSaltEnabled;
+				this->smoothSaltMultiplier = smoothSaltMultiplier;
+				this->errorMarginEnabled = errorMarginEnabled;
+				this->errorMarginValue = errorMarginValue;
+				this->autoAimEnabled = autoAimEnabled;
+				this->autoAimFov = autoAimValue;
+				this->aimStepEnabled = aimStepEnabled;
+				this->aimStepValue = aimStepValue;
+				this->rcsEnabled = rcsEnabled;
+				this->rcsAlways_on = rcsAlways_on;
+				this->rcsAmount = rcsFloat;
+				this->autoPistolEnabled = autoPistolEnabled;
+				this->autoShootEnabled = autoShootEnabled;
+				this->autoScopeEnabled = autoScopeEnabled;
+				this->noShootEnabled = noShootEnabled;
+				this->ignoreJumpEnabled = ignoreJumpEnabled;
+				this->smoke_check = smoke_check;
+				this->autoWallEnabled = autoWallEnabled;
+				this->autoWallValue = autoWallValue;
+
+				for (int i = HITBOX_HEAD; i <= HITBOX_ARMS; i++)
+					this->autoWallBones[i] = autoWallBones[i];
+			}
+
+			Weapon() {};
+		};
+
+		extern std::unordered_map<int, Weapon> weapons;
 	}
 
 	namespace Triggerbot

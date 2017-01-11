@@ -155,16 +155,89 @@ void SetupMainMenuBar()
 	}
 }
 
-extern ImColor enemy_color;
-extern ImColor enemy_visible_color;
-extern ImColor ally_color;
-extern ImColor ally_visible_color;
-extern ImColor bomb_color;
-extern ImColor defuser_color;
-extern ImColor t_color;
-extern ImColor t_visible_color;
-extern ImColor ct_color;
-extern ImColor ct_visible_color;
+static int current_weapon = -1;
+static bool enabled = Settings::Aimbot::weapons[current_weapon].enabled;
+static bool silent = Settings::Aimbot::weapons[current_weapon].silent;
+static bool friendly = Settings::Aimbot::weapons[current_weapon].friendly;
+static int bone = Settings::Aimbot::weapons[current_weapon].bone;
+static ButtonCode_t aimkey = Settings::Aimbot::weapons[current_weapon].aimkey;
+static bool aimkey_only = Settings::Aimbot::weapons[current_weapon].aimkey_only;
+static bool smoothEnabled = Settings::Aimbot::weapons[current_weapon].smoothEnabled;
+static float smoothValue = Settings::Aimbot::weapons[current_weapon].smoothAmount;
+static int smoothType = Settings::Aimbot::weapons[current_weapon].smoothType;
+static bool smoothSaltEnabled = Settings::Aimbot::weapons[current_weapon].smoothSaltEnabled;
+static float smoothSaltMultiplier = Settings::Aimbot::weapons[current_weapon].smoothSaltMultiplier;
+static bool errorMarginEnabled = Settings::Aimbot::weapons[current_weapon].errorMarginEnabled;
+static float errorMarginValue = Settings::Aimbot::weapons[current_weapon].errorMarginValue;
+static bool autoAimEnabled = Settings::Aimbot::weapons[current_weapon].autoAimEnabled;
+static float autoAimValue = Settings::Aimbot::weapons[current_weapon].autoAimFov;
+static bool aimStepEnabled = Settings::Aimbot::weapons[current_weapon].aimStepEnabled;
+static float aimStepValue = Settings::Aimbot::weapons[current_weapon].aimStepValue;
+static bool rcsEnabled = Settings::Aimbot::weapons[current_weapon].rcsEnabled;
+static bool rcsAlways_on = Settings::Aimbot::weapons[current_weapon].rcsAlways_on;
+static float rcsFloat = Settings::Aimbot::weapons[current_weapon].rcsAmount;
+static bool autoPistolEnabled = Settings::Aimbot::weapons[current_weapon].autoPistolEnabled;
+static bool autoShootEnabled = Settings::Aimbot::weapons[current_weapon].autoShootEnabled;
+static bool autoScopeEnabled = Settings::Aimbot::weapons[current_weapon].autoScopeEnabled;
+static bool noShootEnabled = Settings::Aimbot::weapons[current_weapon].noShootEnabled;
+static bool ignoreJumpEnabled = Settings::Aimbot::weapons[current_weapon].ignoreJumpEnabled;
+static bool smoke_check = Settings::Aimbot::weapons[current_weapon].smoke_check;
+static bool autoWallEnabled = Settings::Aimbot::weapons[current_weapon].autoWallEnabled;
+static float autoWallValue = Settings::Aimbot::weapons[current_weapon].autoWallValue;
+static bool autoWallBones[] = { true, false, false, false, false, false };
+
+void UI::updateWeaponSettings()
+{
+	Settings::Aimbot::Weapon settings =
+			Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkey_only,
+									 smoothEnabled, smoothValue, smoothType, smoothSaltEnabled, smoothSaltMultiplier,
+									 errorMarginEnabled, errorMarginValue,
+									 autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
+									 rcsEnabled, rcsAlways_on, rcsFloat,
+									 autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
+									 noShootEnabled, ignoreJumpEnabled, smoke_check, autoWallEnabled, autoWallValue, autoWallBones);
+
+	Settings::Aimbot::weapons[current_weapon] = settings;
+}
+
+void reloadWeaponSettings()
+{
+	int index = -1;
+	if (Settings::Aimbot::weapons.find(current_weapon) != Settings::Aimbot::weapons.end())
+		index = current_weapon;
+
+	enabled = Settings::Aimbot::weapons[index].enabled;
+	silent = Settings::Aimbot::weapons[index].silent;
+	friendly = Settings::Aimbot::weapons[index].friendly;
+	bone = Settings::Aimbot::weapons[index].bone;
+	aimkey = Settings::Aimbot::weapons[index].aimkey;
+	aimkey_only = Settings::Aimbot::weapons[index].aimkey_only;
+	smoothEnabled = Settings::Aimbot::weapons[index].smoothEnabled;
+	smoothValue = Settings::Aimbot::weapons[index].smoothAmount;
+	smoothType = Settings::Aimbot::weapons[index].smoothType;
+	smoothSaltEnabled = Settings::Aimbot::weapons[index].smoothSaltEnabled;
+	smoothSaltMultiplier = Settings::Aimbot::weapons[index].smoothSaltMultiplier;
+	errorMarginEnabled = Settings::Aimbot::weapons[index].errorMarginEnabled;
+	errorMarginValue = Settings::Aimbot::weapons[index].errorMarginValue;
+	autoAimEnabled = Settings::Aimbot::weapons[index].autoAimEnabled;
+	autoAimValue = Settings::Aimbot::weapons[index].autoAimFov;
+	aimStepEnabled = Settings::Aimbot::weapons[index].aimStepEnabled;
+	aimStepValue = Settings::Aimbot::weapons[index].aimStepValue;
+	rcsEnabled = Settings::Aimbot::weapons[index].rcsEnabled;
+	rcsAlways_on = Settings::Aimbot::weapons[index].rcsAlways_on;
+	rcsFloat = Settings::Aimbot::weapons[index].rcsAmount;
+	autoPistolEnabled = Settings::Aimbot::weapons[index].autoPistolEnabled;
+	autoShootEnabled = Settings::Aimbot::weapons[index].autoShootEnabled;
+	autoScopeEnabled = Settings::Aimbot::weapons[index].autoScopeEnabled;
+	noShootEnabled = Settings::Aimbot::weapons[index].noShootEnabled;
+	ignoreJumpEnabled = Settings::Aimbot::weapons[index].ignoreJumpEnabled;
+	smoke_check = Settings::Aimbot::weapons[index].smoke_check;
+	autoWallEnabled = Settings::Aimbot::weapons[index].autoWallEnabled;
+	autoWallValue = Settings::Aimbot::weapons[index].autoWallValue;
+
+	for (int bone = HITBOX_HEAD; bone <= HITBOX_ARMS; bone++)
+		autoWallBones[bone] = Settings::Aimbot::weapons[index].autoWallBones[bone];
+}
 
 void ColorsWindow()
 {
@@ -299,25 +372,81 @@ void AimbotTab()
 	const char* targets[] = { "PELVIS", "", "", "HIP", "LOWER SPINE", "MIDDLE SPINE", "UPPER SPINE", "NECK", "HEAD" };
 	const char* smoothTypes[] = { "Slow Near End", "Constant Speed" };
 
-	ImGui::Checkbox("Enabled", &Settings::Aimbot::enabled);
+	if (ImGui::Checkbox("Enabled", &enabled))
+		UI::updateWeaponSettings();
 	ImGui::Separator();
 
-	ImGui::Columns(2, NULL, true);
+	ImGui::Columns(3, NULL, true);
 	{
+		ImGui::SetColumnOffset(1, 150);
+		ImGui::ListBoxHeader("##GUNS", ImVec2(-1, -1));
+			for (auto it : guns)
+			{
+				const bool item_selected = (it.first == current_weapon);
+				ImGui::PushID(it.first);
+					if (ImGui::Selectable(it.second, item_selected))
+					{
+						current_weapon = it.first;
+
+						int index = -1;
+						if (Settings::Aimbot::weapons.find(it.first) != Settings::Aimbot::weapons.end())
+							index = it.first;
+
+						enabled = Settings::Aimbot::weapons[index].enabled;
+						silent = Settings::Aimbot::weapons[index].silent;
+						friendly = Settings::Aimbot::weapons[index].friendly;
+						bone = Settings::Aimbot::weapons[index].bone;
+						aimkey = Settings::Aimbot::weapons[index].aimkey;
+						aimkey_only = Settings::Aimbot::weapons[index].aimkey_only;
+						smoothEnabled = Settings::Aimbot::weapons[index].smoothEnabled;
+						smoothValue = Settings::Aimbot::weapons[index].smoothAmount;
+						smoothType = Settings::Aimbot::weapons[index].smoothType;
+						smoothSaltEnabled = Settings::Aimbot::weapons[index].smoothSaltEnabled;
+						smoothSaltMultiplier = Settings::Aimbot::weapons[index].smoothSaltMultiplier;
+						errorMarginEnabled = Settings::Aimbot::weapons[index].errorMarginEnabled;
+						errorMarginValue = Settings::Aimbot::weapons[index].errorMarginValue;
+						autoAimEnabled = Settings::Aimbot::weapons[index].autoAimEnabled;
+						autoAimValue = Settings::Aimbot::weapons[index].autoAimFov;
+						aimStepEnabled = Settings::Aimbot::weapons[index].aimStepEnabled;
+						aimStepValue = Settings::Aimbot::weapons[index].aimStepValue;
+						rcsEnabled = Settings::Aimbot::weapons[index].rcsEnabled;
+						rcsAlways_on = Settings::Aimbot::weapons[index].rcsAlways_on;
+						rcsFloat = Settings::Aimbot::weapons[index].rcsAmount;
+						autoPistolEnabled = Settings::Aimbot::weapons[index].autoPistolEnabled;
+						autoShootEnabled = Settings::Aimbot::weapons[index].autoShootEnabled;
+						autoScopeEnabled = Settings::Aimbot::weapons[index].autoScopeEnabled;
+						noShootEnabled = Settings::Aimbot::weapons[index].noShootEnabled;
+						ignoreJumpEnabled = Settings::Aimbot::weapons[index].ignoreJumpEnabled;
+						smoke_check = Settings::Aimbot::weapons[index].smoke_check;
+						autoWallEnabled = Settings::Aimbot::weapons[index].autoWallEnabled;
+						autoWallValue = Settings::Aimbot::weapons[index].autoWallValue;
+
+						for (int bone = HITBOX_HEAD; bone <= HITBOX_ARMS; bone++)
+							autoWallBones[bone] = Settings::Aimbot::weapons[index].autoWallBones[bone];
+					}
+				ImGui::PopID();
+			}
+		ImGui::ListBoxFooter();
+	}
+	ImGui::NextColumn();
+	{
+		ImGui::SetColumnOffset(2, ImGui::GetWindowWidth() / 2 + 75);
 		ImGui::BeginChild("COL1", ImVec2(0, 0), true);
 		{
 			ImGui::Text("Target");
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::Checkbox("Friendly", &Settings::Aimbot::friendly);
+				if (ImGui::Checkbox("Friendly", &friendly))
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Whether to target friendlies");
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-					ImGui::Combo("##AIMTARGET", &Settings::Aimbot::bone, targets, IM_ARRAYSIZE(targets));
+					if (ImGui::Combo("##AIMTARGET", &bone, targets, IM_ARRAYSIZE(targets)))
+						UI::updateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
@@ -326,21 +455,26 @@ void AimbotTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::Checkbox("Auto Aim", &Settings::Aimbot::AutoAim::enabled);
+				if (ImGui::Checkbox("Auto Aim", &autoAimEnabled))
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Locks onto enemies within a certain FOV amount");
-				ImGui::Checkbox("Recoil Control", &Settings::Aimbot::RCS::enabled);
+				if (ImGui::Checkbox("Recoil Control", &rcsEnabled))
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Automatically controls recoil");
-				ImGui::Checkbox("RCS Always on", &Settings::Aimbot::RCS::always_on);
+				if (ImGui::Checkbox("RCS Always on", &rcsAlways_on))
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Whether Recoil Control always controls recoil (even when not aimbotting)");
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-					ImGui::SliderFloat("##AA", &Settings::Aimbot::AutoAim::fov, 0, 180);
-					ImGui::SliderFloat("##RCS", &Settings::Aimbot::RCS::value, 0, 2);
+					if (ImGui::SliderFloat("##AA", &autoAimValue, 0, 180))
+						UI::updateWeaponSettings();
+					if (ImGui::SliderFloat("##RCS", &rcsFloat, 0, 2))
+						UI::updateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
@@ -349,25 +483,31 @@ void AimbotTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::Checkbox("Smoothing", &Settings::Aimbot::Smooth::enabled);
+				if (ImGui::Checkbox("Smoothing", &smoothEnabled))
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Smoothing reduces the aimbot \"snap\". 0 for full snap. 1 for full smoothing");
-				ImGui::Checkbox("Smooth Salting", &Settings::Aimbot::Smooth::Salting::enabled);
+				if (ImGui::Checkbox("Smooth Salting", &smoothSaltEnabled))
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Breaks the smoothing into smaller steps, high smooth + low salt is slightly stuttery");
-				ImGui::Checkbox("Error Margin", &Settings::Aimbot::ErrorMargin::enabled);
+				if (ImGui::Checkbox("Error Margin", &errorMarginEnabled))
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Adds a margin of error to the aim, it will be obvious what it does when using it");
 				ImGui::PushItemWidth(-1);
-					ImGui::Combo("##SMOOTHTYPE", &Settings::Aimbot::Smooth::type, smoothTypes, IM_ARRAYSIZE(smoothTypes));
+					ImGui::Combo("##SMOOTHTYPE", &smoothType, smoothTypes, IM_ARRAYSIZE(smoothTypes));
 				ImGui::PopItemWidth();
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-					ImGui::SliderFloat("##SMOOTH", &Settings::Aimbot::Smooth::value, 0, 1);
-					ImGui::SliderFloat("##SALT", &Settings::Aimbot::Smooth::Salting::multiplier, 0, Settings::Aimbot::Smooth::value);
-					ImGui::SliderFloat("##ERROR", &Settings::Aimbot::ErrorMargin::value, 0, 2);
+					if (ImGui::SliderFloat("##SMOOTH", &smoothValue, 0, 1))
+						UI::updateWeaponSettings();
+					if (ImGui::SliderFloat("##SALT", &smoothSaltMultiplier, 0, smoothValue))
+						UI::updateWeaponSettings();
+					if (ImGui::SliderFloat("##ERROR", &errorMarginValue, 0, 2))
+						UI::updateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
@@ -383,13 +523,14 @@ void AimbotTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::Checkbox("Enabled", &Settings::Aimbot::aimkey_only);
+				if (ImGui::Checkbox("Enabled", &aimkey_only))
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Enabling this means it you need to press a specific key to aimlock");
 			}
 			ImGui::NextColumn();
 			{
-				UI::KeyBindButton(&Settings::Aimbot::aimkey);
+				UI::KeyBindButton(&aimkey);
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -397,14 +538,16 @@ void AimbotTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::Checkbox("Aim Step", &Settings::Aimbot::AimStep::enabled);
+				if (ImGui::Checkbox("Aim Step", &aimStepEnabled))
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Stops you getting VAC auth kicked in Casual / DM");
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-					ImGui::SliderFloat("##STEP", &Settings::Aimbot::AimStep::value, 0, 100);
+					if (ImGui::SliderFloat("##STEP", &aimStepValue, 0, 100))
+						UI::updateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
@@ -413,33 +556,91 @@ void AimbotTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::Checkbox("Auto Pistol", &Settings::Aimbot::AutoPistol::enabled);
+				if (ImGui::Checkbox("Auto Pistol", &autoPistolEnabled))
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Automatically shoots the pistol when holding fire");
-				ImGui::Checkbox("Auto Shoot", &Settings::Aimbot::AutoShoot::enabled);
+				if (ImGui::Checkbox("Auto Shoot", &autoShootEnabled))
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Automatically shoots when locking to an enemy");
-				ImGui::Checkbox("Silent Aim", &Settings::Aimbot::silent);
+				if (ImGui::Checkbox("Silent Aim", &silent))
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Prevents the camera from locking to an enemy, doesn't work for demos");
-				ImGui::Checkbox("Smoke Check", &Settings::Aimbot::SmokeCheck::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Ignore players that are in smoke");
 			}
 			ImGui::NextColumn();
 			{
-				ImGui::Checkbox("No Shoot", &Settings::Aimbot::NoShoot::enabled);
+				if (ImGui::Checkbox("No Shoot", &noShootEnabled))
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Stops you shooting when locking to an enemy");
-				ImGui::Checkbox("Auto Scope", &Settings::Aimbot::AutoShoot::autoscope);
+				if (ImGui::Checkbox("Auto Scope", &autoScopeEnabled))
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Automatically scopes weapons that have them");
-				ImGui::Checkbox("Ignore Jump", &Settings::Aimbot::IgnoreJump::enabled);
+				if (ImGui::Checkbox("Ignore Jump", &ignoreJumpEnabled))
+					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Prevents you from aimbotting while jumping");
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
+			ImGui::Text("AutoWall");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				if (ImGui::Checkbox("Enabled##AUTOWALL", &autoWallEnabled))
+					UI::updateWeaponSettings();
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Shoots enemy through a wall if it does X amount of damage");
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::PushItemWidth(-1);
+					if (ImGui::SliderFloat("##AUTOWALLDMG", &autoWallValue, 0, 100, "Min Damage: %f"))
+						UI::updateWeaponSettings();
+				ImGui::PopItemWidth();
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::Text("AutoWall Target");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				if (ImGui::Checkbox("Head", &autoWallBones[HITBOX_HEAD]))
+					UI::updateWeaponSettings();
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger on head");
+				if (ImGui::Checkbox("Neck", &autoWallBones[HITBOX_NECK]))
+					UI::updateWeaponSettings();
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger on neck");
+				if (ImGui::Checkbox("Pelvis", &autoWallBones[HITBOX_PELVIS]))
+					UI::updateWeaponSettings();
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger on pelvis");
+			}
+			ImGui::NextColumn();
+			{
+				if (ImGui::Checkbox("Spine", &autoWallBones[HITBOX_SPINE]))
+					UI::updateWeaponSettings();
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger on spine");
+				if (ImGui::Checkbox("Legs", &autoWallBones[HITBOX_LEGS]))
+					UI::updateWeaponSettings();
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger on legs");
+				if (ImGui::Checkbox("Arms", &autoWallBones[HITBOX_ARMS]))
+					UI::updateWeaponSettings();
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger on arms");
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			if (current_weapon > -1 && Settings::Aimbot::weapons.find(current_weapon) != Settings::Aimbot::weapons.end())
+				if (ImGui::Button("Clear Weapon Settings", ImVec2(-1, 0)))
+					Settings::Aimbot::weapons.erase(current_weapon);
 			ImGui::EndChild();
 		}
 	}
@@ -858,7 +1059,7 @@ void HvHTab()
 		ImGui::BeginChild("HVH1", ImVec2(0, 0), true);
 		{
 			ImGui::Text("AntiAim");
-			ImGui::BeginChild("##ANTIAIM", ImVec2(0, ImGui::GetWindowSize().y / 2 + 30), true);
+			ImGui::BeginChild("##ANTIAIM", ImVec2(0, ImGui::GetWindowSize().y / 2 + 32), true);
 			{
 				ImGui::Checkbox("Yaw", &Settings::AntiAim::Yaw::enabled);
 				if (ImGui::IsItemHovered())
@@ -947,16 +1148,6 @@ void HvHTab()
 					ImGui::PopItemWidth();
 				}
 				ImGui::Columns(1);
-				ImGui::Separator();
-				ImGui::Text("Resolver");
-				ImGui::Separator();
-				ImGui::NextColumn();
-				{
-					ImGui::Checkbox("Resolve All", &Settings::Resolver::resolve_all);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Resolves all players on the server");
-				}
-
 				ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(210, 85));
 					if (ImGui::BeginPopupModal("Error###UNTRUSTED_AA"))
 					{
@@ -973,6 +1164,19 @@ void HvHTab()
 
 				ImGui::EndChild();
 			}
+			ImGui::EndChild();
+		}
+	}
+	ImGui::NextColumn();
+	{
+		ImGui::BeginChild("HVH2", ImVec2(0, 0), true);
+		{
+
+			ImGui::Text("Resolver");
+			ImGui::Separator();
+			ImGui::Checkbox("Resolve All", &Settings::Resolver::resolve_all);
+			if (ImGui::IsItemHovered())
+				ImGui::SetTooltip("Resolves all players on the server");
 			ImGui::Separator();
 			ImGui::Text("Movement");
 			ImGui::Separator();
@@ -992,57 +1196,6 @@ void HvHTab()
 			ImGui::Separator();
 			ImGui::EndChild();
 		}
-	}
-	ImGui::NextColumn();
-	{
-		ImGui::BeginChild("HVH2", ImVec2(0, 0), true);
-		{
-			ImGui::Text("AutoWall");
-			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
-				{
-					ImGui::Checkbox("Enabled", &Settings::Aimbot::AutoWall::enabled);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Shoots enemy through a wall if it does X amount of damage");
-				}
-				ImGui::NextColumn();
-				{
-					ImGui::PushItemWidth(-1);
-						ImGui::SliderFloat("##AUTOWALLDMG", &Settings::Aimbot::AutoWall::value, 0, 100, "Min Damage: %f");
-					ImGui::PopItemWidth();
-				}
-				ImGui::Columns(1);
-				ImGui::Separator();
-				ImGui::Text("Target");
-				ImGui::Separator();
-				ImGui::Columns(2, NULL, true);
-				{
-					ImGui::Checkbox("Head", &Settings::Aimbot::AutoWall::bones[HITBOX_HEAD]);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Trigger on head");
-					ImGui::Checkbox("Neck", &Settings::Aimbot::AutoWall::bones[HITBOX_NECK]);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Trigger on neck");
-					ImGui::Checkbox("Pelvis", &Settings::Aimbot::AutoWall::bones[HITBOX_PELVIS]);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Trigger on pelvis");
-				}
-				ImGui::NextColumn();
-				{
-					ImGui::Checkbox("Spine", &Settings::Aimbot::AutoWall::bones[HITBOX_SPINE]);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Trigger on spine");
-					ImGui::Checkbox("Legs", &Settings::Aimbot::AutoWall::bones[HITBOX_LEGS]);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Trigger on legs");
-					ImGui::Checkbox("Arms", &Settings::Aimbot::AutoWall::bones[HITBOX_ARMS]);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Trigger on arms");
-				}
-				ImGui::Columns(1);
-				ImGui::Separator();
-			}
-			ImGui::EndChild();
 	}
 }
 
@@ -1421,6 +1574,8 @@ void SkinChangerWindow()
 				ImGui::ListBoxHeader("##GUNS", ImVec2(0, 300));
 					for (auto it : guns)
 					{
+						if (strcmp(it.second, "<-Default->") == 0)
+							continue;
 						if (!Util::Contains(Util::ToLower(std::string(filterGuns)), Util::ToLower(std::string(it.second))))
 							continue;
 						const bool item_selected = (it.first == current_weapon);
@@ -1629,6 +1784,7 @@ void ConfigWindow()
 				path << configItems[configItemCurrent] << "/config.json";
 
 				Settings::LoadConfig(path);
+				reloadWeaponSettings();
 			}
 		ImGui::PopItemWidth();
 
