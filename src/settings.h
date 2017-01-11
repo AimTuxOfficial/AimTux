@@ -18,6 +18,12 @@
 #include "config.h"
 #include "atgui.h"
 
+enum SmoothType : int
+{
+	SLOW_END,
+	CONSTANT
+};
+
 enum TracerType : int
 {
 	BOTTOM,
@@ -161,7 +167,7 @@ namespace Settings
 		{
 			extern bool enabled;
 			extern float value;
-			extern float max;
+			extern int type;
 
 			namespace Salting
 			{

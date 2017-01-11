@@ -14,7 +14,6 @@ namespace Aimbot
 	void RCS(QAngle& angle, C_BasePlayer* player, CUserCmd* cmd);
 	void AimStep(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd);
 	void Smooth(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd);
-	void ConstSpeedSmooth(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd);
 	void AutoCrouch(C_BasePlayer* player, CUserCmd* cmd);
 	void AutoStop(C_BasePlayer* player, float& forward, float& sideMove, CUserCmd* cmd);
 	void AutoPistol(C_BaseCombatWeapon* active_weapon, CUserCmd* cmd);
