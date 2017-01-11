@@ -1,6 +1,6 @@
 #include "skinchanger.h"
 
-bool Settings::Skinchanger::enabled = true;
+bool Settings::Skinchanger::enabled = false;
 std::unordered_map<int, Settings::Skinchanger::Skin> Settings::Skinchanger::skins = {
 		{ WEAPON_AWP, Settings::Skinchanger::Skin(344, -1, 0, 0.0005f, 1337, "AimTux", "") },
 		{ WEAPON_AK47, Settings::Skinchanger::Skin(524, -1, 0, 0.0005f, 1337, "AimTux", "") },

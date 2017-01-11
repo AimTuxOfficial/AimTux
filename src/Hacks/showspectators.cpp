@@ -1,6 +1,6 @@
 #include "showspectators.h"
 
-bool Settings::ShowSpectators::enabled = true;
+bool Settings::ShowSpectators::enabled = false;
 
 std::list<int> ShowSpectators::GetObservervators(int playerId)
 {

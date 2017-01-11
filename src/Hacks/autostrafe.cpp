@@ -1,6 +1,6 @@
 #include "autostrafe.h"
 
-bool Settings::AutoStrafe::enabled = true;
+bool Settings::AutoStrafe::enabled = false;
 int Settings::AutoStrafe::type = AS_FORWARDS;
 
 void AutoStrafe::CreateMove(CUserCmd* cmd)

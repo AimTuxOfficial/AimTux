@@ -1,6 +1,6 @@
 #include "bhop.h"
 
-bool Settings::BHop::enabled = true;
+bool Settings::BHop::enabled = false;
 
 void BHop::CreateMove(CUserCmd* cmd)
 {
