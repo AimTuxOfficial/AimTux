@@ -164,6 +164,7 @@ static ButtonCode_t aimkey = Settings::Aimbot::weapons[current_weapon].aimkey;
 static bool aimkey_only = Settings::Aimbot::weapons[current_weapon].aimkey_only;
 static bool smoothEnabled = Settings::Aimbot::weapons[current_weapon].smoothEnabled;
 static float smoothValue = Settings::Aimbot::weapons[current_weapon].smoothAmount;
+static int smoothType = Settings::Aimbot::weapons[current_weapon].smoothType;
 static bool smoothSaltEnabled = Settings::Aimbot::weapons[current_weapon].smoothSaltEnabled;
 static float smoothSaltMultiplier = Settings::Aimbot::weapons[current_weapon].smoothSaltMultiplier;
 static bool errorMarginEnabled = Settings::Aimbot::weapons[current_weapon].errorMarginEnabled;
@@ -188,7 +189,7 @@ void UI::updateWeaponSettings()
 {
 	Settings::Aimbot::Weapon settings =
 			Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkey_only,
-									 smoothEnabled, smoothValue, smoothSaltEnabled, smoothSaltMultiplier,
+									 smoothEnabled, smoothValue, smoothType, smoothSaltEnabled, smoothSaltMultiplier,
 									 errorMarginEnabled, errorMarginValue,
 									 autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
 									 rcsEnabled, rcsAlways_on, rcsFloat,
@@ -212,6 +213,7 @@ void reloadWeaponSettings()
 	aimkey_only = Settings::Aimbot::weapons[index].aimkey_only;
 	smoothEnabled = Settings::Aimbot::weapons[index].smoothEnabled;
 	smoothValue = Settings::Aimbot::weapons[index].smoothAmount;
+	smoothType = Settings::Aimbot::weapons[index].smoothType;
 	smoothSaltEnabled = Settings::Aimbot::weapons[index].smoothSaltEnabled;
 	smoothSaltMultiplier = Settings::Aimbot::weapons[index].smoothSaltMultiplier;
 	errorMarginEnabled = Settings::Aimbot::weapons[index].errorMarginEnabled;
@@ -394,6 +396,7 @@ void AimbotTab()
 						aimkey_only = Settings::Aimbot::weapons[index].aimkey_only;
 						smoothEnabled = Settings::Aimbot::weapons[index].smoothEnabled;
 						smoothValue = Settings::Aimbot::weapons[index].smoothAmount;
+						smoothType = Settings::Aimbot::weapons[index].smoothType;
 						smoothSaltEnabled = Settings::Aimbot::weapons[index].smoothSaltEnabled;
 						smoothSaltMultiplier = Settings::Aimbot::weapons[index].smoothSaltMultiplier;
 						errorMarginEnabled = Settings::Aimbot::weapons[index].errorMarginEnabled;
@@ -486,7 +489,7 @@ void AimbotTab()
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Adds a margin of error to the aim, it will be obvious what it does when using it");
 				ImGui::PushItemWidth(-1);
-					ImGui::Combo("##SMOOTHTYPE", &Settings::Aimbot::Smooth::type, smoothTypes, IM_ARRAYSIZE(smoothTypes));
+					ImGui::Combo("##SMOOTHTYPE", &smoothType, smoothTypes, IM_ARRAYSIZE(smoothTypes));
 				ImGui::PopItemWidth();
 			}
 			ImGui::NextColumn();

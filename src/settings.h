@@ -247,14 +247,14 @@ namespace Settings
 		struct Weapon
 		{
 			bool enabled, silent, friendly;
-			int bone;
+			int bone, smoothType;
 			ButtonCode_t aimkey;
 			bool aimkey_only, smoothEnabled, smoothSaltEnabled, errorMarginEnabled, autoAimEnabled, aimStepEnabled, rcsEnabled, rcsAlways_on;
 			float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmount, autoWallValue;
 			bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check, autoWallEnabled;
 
 			Weapon(bool enabled, bool silent, bool friendly, int bone, ButtonCode_t aimkey, bool aimkey_only,
-				   bool smoothEnabled, float smoothValue, bool smoothSaltEnabled, float smoothSaltMultiplier,
+				   bool smoothEnabled, float smoothValue, int smoothType, bool smoothSaltEnabled, float smoothSaltMultiplier,
 				   bool errorMarginEnabled, float errorMarginValue,
 				   bool autoAimEnabled, float autoAimValue, bool aimStepEnabled, float aimStepValue,
 				   bool rcsEnabled, bool rcsAlways_on, float rcsFloat,
@@ -269,6 +269,7 @@ namespace Settings
 				this->aimkey_only = aimkey_only;
 				this->smoothEnabled = smoothEnabled;
 				this->smoothAmount = smoothValue;
+				this->smoothType = smoothType;
 				this->smoothSaltEnabled = smoothSaltEnabled;
 				this->smoothSaltMultiplier = smoothSaltMultiplier;
 				this->errorMarginEnabled = errorMarginEnabled;
