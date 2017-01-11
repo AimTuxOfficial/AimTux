@@ -24,7 +24,7 @@ __Arch:__
 ```bash
 sudo pacman -S base-devel cmake gdb git sdl2
 ```
-__Fedora / openSUSE:__
+__Fedora:__
 ```bash
 sudo dnf install cmake gcc-c++ gdb git libstdc++-static mesa-libGL-devel SDL2-devel zlib-devel
 ```
