@@ -5,7 +5,7 @@
 #include <cstring>
 #include "settings.h"
 
-extern FONT esp_font;
+extern HFont esp_font;
 
 namespace Fonts
 {
