@@ -429,11 +429,11 @@ void Settings::LoadConfig(std::string path)
 	}
 
 	for (int i = HITBOX_HEAD; i <= HITBOX_ARMS; i++)
-		GetBool(settings["Aimbot"]["AutoWall"]["bones"][i], &Settings::Aimbot::AutoWall::bones[i]);
+		GetVal(settings["Aimbot"]["AutoWall"]["bones"][i], &Settings::Aimbot::AutoWall::bones[i]);
 
-	GetBool(settings["Resolver"]["resolve_all"], &Settings::Resolver::resolve_all);
+	GetVal(settings["Resolver"]["resolve_all"], &Settings::Resolver::resolve_all);
 
-	GetBool(settings["Triggerbot"]["enabled"], &Settings::Triggerbot::enabled);
+	GetVal(settings["Triggerbot"]["enabled"], &Settings::Triggerbot::enabled);
 
 	for (int i = HITBOX_HEAD; i <= HITBOX_ARMS; i++)
 		GetVal(settings["Aimbot"]["AutoWall"]["bones"][i], &Settings::Aimbot::AutoWall::bones[i]);
