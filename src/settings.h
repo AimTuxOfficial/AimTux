@@ -251,7 +251,7 @@ namespace Settings
 			ButtonCode_t aimkey;
 			bool aimkey_only, smoothEnabled, smoothSaltEnabled, errorMarginEnabled, autoAimEnabled, aimStepEnabled, rcsEnabled, rcsAlways_on;
 			float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmount, autoWallValue;
-			bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check, autoWallEnabled;
+			bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check, autoWallEnabled, autoWallBones[];
 
 			Weapon(bool enabled, bool silent, bool friendly, int bone, ButtonCode_t aimkey, bool aimkey_only,
 				   bool smoothEnabled, float smoothValue, int smoothType, bool smoothSaltEnabled, float smoothSaltMultiplier,
@@ -259,7 +259,7 @@ namespace Settings
 				   bool autoAimEnabled, float autoAimValue, bool aimStepEnabled, float aimStepValue,
 				   bool rcsEnabled, bool rcsAlways_on, float rcsFloat,
 				   bool autoPistolEnabled, bool autoShootEnabled, bool autoScopeEnabled,
-				   bool noShootEnabled, bool ignoreJumpEnabled, bool smoke_check, bool autoWallEnabled, float autoWallValue)
+				   bool noShootEnabled, bool ignoreJumpEnabled, bool smoke_check, bool autoWallEnabled, float autoWallValue, bool autoWallBones[])
 			{
 				this->enabled = enabled;
 				this->silent = silent;

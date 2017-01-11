@@ -184,6 +184,7 @@ static bool ignoreJumpEnabled = Settings::Aimbot::weapons[current_weapon].ignore
 static bool smoke_check = Settings::Aimbot::weapons[current_weapon].smoke_check;
 static bool autoWallEnabled = Settings::Aimbot::weapons[current_weapon].autoWallEnabled;
 static float autoWallValue = Settings::Aimbot::weapons[current_weapon].autoWallValue;
+static bool autoWallBones[] = { true, false, false, false, false, false };
 
 void UI::updateWeaponSettings()
 {
@@ -194,7 +195,7 @@ void UI::updateWeaponSettings()
 									 autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
 									 rcsEnabled, rcsAlways_on, rcsFloat,
 									 autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
-									 noShootEnabled, ignoreJumpEnabled, smoke_check, autoWallEnabled, autoWallValue);
+									 noShootEnabled, ignoreJumpEnabled, smoke_check, autoWallEnabled, autoWallValue, autoWallBones);
 
 	Settings::Aimbot::weapons[current_weapon] = settings;
 }
@@ -233,6 +234,8 @@ void reloadWeaponSettings()
 	smoke_check = Settings::Aimbot::weapons[index].smoke_check;
 	autoWallEnabled = Settings::Aimbot::weapons[index].autoWallEnabled;
 	autoWallValue = Settings::Aimbot::weapons[index].autoWallValue;
+	for (int i = HITBOX_HEAD; i <= HITBOX_ARMS; i++)
+		autoWallBones[i] = Settings::Aimbot::weapons[index].autoWallBones[i];
 }
 
 void ColorsWindow()
@@ -416,6 +419,8 @@ void AimbotTab()
 						smoke_check = Settings::Aimbot::weapons[index].smoke_check;
 						autoWallEnabled = Settings::Aimbot::weapons[index].autoWallEnabled;
 						autoWallValue = Settings::Aimbot::weapons[index].autoWallValue;
+						for (int i = HITBOX_HEAD; i <= HITBOX_ARMS; i++)
+							autoWallBones[i] = Settings::Aimbot::weapons[index].autoWallBones[i];
 					}
 				ImGui::PopID();
 			}

@@ -117,6 +117,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
 		weaponSetting["SmokeCheck"]["Enabled"] = i.second.smoke_check;
 		weaponSetting["AutoWall"]["Enabled"] = i.second.autoWallEnabled;
 		weaponSetting["AutoWall"]["Value"] = i.second.autoWallValue;
+		for (int bone = HITBOX_HEAD; bone <= HITBOX_ARMS; bone++) //
+			weaponSetting["AutoWall"]["bones"][bone] = i.second.autoWallBones[bone];
 		#undef weaponSetting
 	}
 
@@ -394,36 +396,38 @@ void Settings::LoadConfig(std::string path)
 			weaponID = Util::Items::GetItemIndex(weaponDataKey);
 		}
 
-		Settings::Aimbot::Weapon weapon = Settings::Aimbot::Weapon(
-			weaponSetting["Enabled"].asBool(),
-			weaponSetting["Silent"].asBool(),
-			weaponSetting["Friendly"].asBool(),
-			weaponSetting["TargetBone"].asInt(),
-			Util::GetButtonCode(weaponSetting["AimKey"].asCString()),
-			weaponSetting["AimKeyOnly"].asBool(),
-			weaponSetting["Smooth"]["Enabled"].asBool(),
-			weaponSetting["Smooth"]["Amount"].asFloat(),
-			weaponSetting["Smooth"]["Type"].asInt(),
-			weaponSetting["Smooth"]["Salting"]["Enabled"].asBool(),
-			weaponSetting["Smooth"]["Salting"]["Multiplier"].asFloat(),
-			weaponSetting["ErrorMargin"]["Enabled"].asBool(),
-			weaponSetting["ErrorMargin"]["Value"].asFloat(),
-			weaponSetting["AutoAim"]["Enabled"].asBool(),
-			weaponSetting["AutoAim"]["FOV"].asFloat(),
-			weaponSetting["AimStep"]["Enabled"].asBool(),
-			weaponSetting["AimStep"]["Amount"].asFloat(),
-			weaponSetting["RCS"]["Enabled"].asBool(),
-			weaponSetting["RCS"]["AlwaysOn"].asBool(),
-			weaponSetting["RCS"]["Amount"].asFloat(),
-			weaponSetting["AutoPistol"]["Enabled"].asBool(),
-			weaponSetting["AutoShoot"]["Enabled"].asBool(),
-			weaponSetting["AutoScope"]["Enabled"].asBool(),
-			weaponSetting["NoShoot"]["Enabled"].asBool(),
-			weaponSetting["IgnoreJump"]["Enabled"].asBool(),
-			weaponSetting["SmokeCheck"]["Enabled"].asBool(),
-			weaponSetting["AutoWall"]["Enabled"].asBool(),
-			weaponSetting["AutoWall"]["Value"].asFloat()
-		);
+		Settings::Aimbot::Weapon weapon;
+
+			weapon = Settings::Aimbot::Weapon(
+				weaponSetting["Enabled"].asBool(),
+				weaponSetting["Silent"].asBool(),
+				weaponSetting["Friendly"].asBool(),
+				weaponSetting["TargetBone"].asInt(),
+				Util::GetButtonCode(weaponSetting["AimKey"].asCString()),
+				weaponSetting["AimKeyOnly"].asBool(),
+				weaponSetting["Smooth"]["Enabled"].asBool(),
+				weaponSetting["Smooth"]["Amount"].asFloat(),
+				weaponSetting["Smooth"]["Type"].asInt(),
+				weaponSetting["Smooth"]["Salting"]["Enabled"].asBool(),
+				weaponSetting["Smooth"]["Salting"]["Multiplier"].asFloat(),
+				weaponSetting["ErrorMargin"]["Enabled"].asBool(),
+				weaponSetting["ErrorMargin"]["Value"].asFloat(),
+				weaponSetting["AutoAim"]["Enabled"].asBool(),
+				weaponSetting["AutoAim"]["FOV"].asFloat(),
+				weaponSetting["AimStep"]["Enabled"].asBool(),
+				weaponSetting["AimStep"]["Amount"].asFloat(),
+				weaponSetting["RCS"]["Enabled"].asBool(),
+				weaponSetting["RCS"]["AlwaysOn"].asBool(),
+				weaponSetting["RCS"]["Amount"].asFloat(),
+				weaponSetting["AutoPistol"]["Enabled"].asBool(),
+				weaponSetting["AutoShoot"]["Enabled"].asBool(),
+				weaponSetting["AutoScope"]["Enabled"].asBool(),
+				weaponSetting["NoShoot"]["Enabled"].asBool(),
+				weaponSetting["IgnoreJump"]["Enabled"].asBool(),
+				weaponSetting["SmokeCheck"]["Enabled"].asBool(),
+				weaponSetting["AutoWall"]["Enabled"].asBool(),
+				weaponSetting["AutoWall"]["Value"].asFloat()
+			);
 
 		Settings::Aimbot::weapons[weaponID] = weapon;
 	}
