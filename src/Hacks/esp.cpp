@@ -1,7 +1,7 @@
 #include "esp.h"
 #include "../Utils/skins.h"
 
-bool Settings::ESP::enabled = true;
+bool Settings::ESP::enabled = false;
 int Settings::ESP::team_color_type = TeamColorType::RELATIVE;
 ImColor Settings::ESP::enemy_color = ImColor(240, 60, 60, 255);
 ImColor Settings::ESP::enemy_visible_color = ImColor(240, 185, 60, 255);

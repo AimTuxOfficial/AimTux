@@ -1,7 +1,7 @@
 #include "triggerbot.h"
 #include "autowall.h"
 
-bool Settings::Triggerbot::enabled = true;
+bool Settings::Triggerbot::enabled = false;
 bool Settings::Triggerbot::Filters::enemies = true;
 bool Settings::Triggerbot::Filters::allies = false;
 bool Settings::Triggerbot::Filters::walls = false;

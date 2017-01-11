@@ -1,6 +1,6 @@
 #include "recoilcrosshair.h"
 
-bool Settings::Recoilcrosshair::enabled = true;
+bool Settings::Recoilcrosshair::enabled = false;
 bool Settings::Recoilcrosshair::showOnlyWhenShooting = false;
 
 void Recoilcrosshair::Paint()

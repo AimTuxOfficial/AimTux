@@ -1,6 +1,6 @@
 #include "noflash.h"
 
-bool Settings::Noflash::enabled = true;
+bool Settings::Noflash::enabled = false;
 float Settings::Noflash::value = 160.0f;
 
 void Noflash::FrameStageNotify(ClientFrameStage_t stage)
