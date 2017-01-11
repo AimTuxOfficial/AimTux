@@ -29,6 +29,11 @@ __Fedora:__
 sudo dnf install cmake gcc-c++ gdb git libstdc++-static mesa-libGL-devel SDL2-devel zlib-devel
 ```
 
+__Gentoo:__
+```bash
+sudo emerge cmake dev-vcs/git gdb libsdl2 mesa
+```
+
 ===================
 
 #### Download AimTux:
