@@ -2,6 +2,8 @@
 
 bool UI::isVisible = false;
 
+bool Settings::ScreenshotCleaner::enabled = false;
+
 ImColor Settings::UI::mainColor = ImColor(54, 54, 54, 255);
 ImColor Settings::UI::bodyColor = ImColor(24, 24, 24, 240);
 ImColor Settings::UI::fontColor = ImColor(255, 255, 255, 255);
@@ -362,6 +364,7 @@ void ColorsWindow()
 void AimbotTab()
 {
 	const char* targets[] = { "PELVIS", "", "", "HIP", "LOWER SPINE", "MIDDLE SPINE", "UPPER SPINE", "NECK", "HEAD" };
+	const char* smoothTypes[] = { "Slow Near End", "Constant Speed" };
 
 	if (ImGui::Checkbox("Enabled", &enabled))
 		UI::updateWeaponSettings();
@@ -482,6 +485,9 @@ void AimbotTab()
 					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Adds a margin of error to the aim, it will be obvious what it does when using it");
+				ImGui::PushItemWidth(-1);
+					ImGui::Combo("##SMOOTHTYPE", &Settings::Aimbot::Smooth::type, smoothTypes, IM_ARRAYSIZE(smoothTypes));
+				ImGui::PopItemWidth();
 			}
 			ImGui::NextColumn();
 			{
@@ -1420,6 +1426,7 @@ void MiscTab()
 				UI::KeyBindButton(&Settings::Airstuck::key);
 				UI::KeyBindButton(&Settings::Autoblock::key);
 				UI::KeyBindButton(&Settings::Teleport::key);
+				ImGui::Checkbox("Screenshot Cleaner", &Settings::ScreenshotCleaner::enabled);
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
