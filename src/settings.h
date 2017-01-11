@@ -622,6 +622,7 @@ namespace Settings
 		{
 			extern bool enabled;
 		}
+
 		namespace NoViewPunch
 		{
 			extern bool enabled;
