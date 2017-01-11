@@ -63,6 +63,18 @@ public:
 		typedef ClientClass* (* oGetClientClass)(void*);
 		return getvfunc<oGetClientClass>(this, 2)(this);
 	}
+
+	bool GetDormant()
+	{
+		typedef bool (* oGetDormant)(void*);
+		return getvfunc<oGetDormant>(this, 9)(this);
+	}
+
+	int GetIndex()
+	{
+		typedef int (* oGetIndex)(void*);
+		return getvfunc<oGetIndex>(this, 10)(this);
+	}
 };
 
 class IClientThinkable
@@ -75,11 +87,6 @@ class IClientEntity : public IClientUnknown, public IClientRenderable, public IC
 {
 public:
 	virtual ~IClientEntity() {};
-
-	int GetIndex()
-	{
-		return *(int*)((uintptr_t)this + 0x94);
-	}
 };
 
 class C_BaseEntity : public IClientEntity
@@ -268,11 +275,6 @@ public:
 	int* GetWeapons()
 	{
 		return (int*)((uintptr_t)this + offsets.DT_BaseCombatCharacter.m_hMyWeapons);
-	}
-
-	bool GetDormant()
-	{
-		return *(bool*)((uintptr_t)this + 0x121);
 	}
 
 	bool GetAlive()

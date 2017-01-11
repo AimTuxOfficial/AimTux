@@ -1,12 +1,13 @@
 #pragma once
 #include <cstring>
 
-struct interface_t
+typedef void* (*InstantiateInterfaceFn) ();
+
+struct InterfaceReg
 {
-	typedef void* (*InstantiateInterfaceFn)();
 	InstantiateInterfaceFn m_CreateFn;
 	const char *m_pName;
-	interface_t *m_pNext;
+	InterfaceReg *m_pNext;
 };
 
 inline void**& getvtable(void* inst, size_t offset = 0)
@@ -38,9 +39,9 @@ interface* GetInterface(const char* filename, const char* version, bool exact = 
 	if (!interfaces_sym)
 		return nullptr;
 
-	interface_t* interfaces = *reinterpret_cast<interface_t**>(interfaces_sym);
+	InterfaceReg* interfaces = *reinterpret_cast<InterfaceReg**>(interfaces_sym);
 
-	interface_t* cur_interface;
+	InterfaceReg* cur_interface;
 
 	for (cur_interface = interfaces; cur_interface; cur_interface = cur_interface->m_pNext)
 	{

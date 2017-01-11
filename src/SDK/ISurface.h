@@ -108,9 +108,9 @@ public:
 		return getvfunc<oCreateNewTextureID>(this, 43)(this, procedural);
 	}
 
-	unsigned long long CreateFont()
+	HFont CreateFont()
 	{
-		typedef unsigned long long (* oCreateFont)(void*);
+		typedef HFont (* oCreateFont)(void*);
 		return getvfunc<oCreateFont>(this, 71)(this);
 	}
 

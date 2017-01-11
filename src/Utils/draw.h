@@ -31,15 +31,15 @@ namespace Draw
 	void PolyLine(int* px, int* py, int num_points, Color col);
 	void PolyLine(Vertex_t* vertice, int num_points, Color col);
 	void TexturedPolygon(int n, Vertex_t* vertice, Color col);
-	void TextW(int x, int y, const wchar_t* text, FONT font, Color col);
-	void TextW(Vector2D pos, const wchar_t* text, FONT font, Color col);
-	void Text(int x, int y, const char* text, FONT font, Color col);
-	void Text(Vector2D pos, const char* text, FONT font, Color col);
-	void GetTextWSize(const wchar_t* text, FONT font, int& wide, int& tall);
-	void GetTextSize(const char* text, FONT font, int& wide, int& tall);
-	Vector2D GetTextWSize(const wchar_t* text, FONT font);
-	Vector2D GetTextSize(const char* text, FONT font);
-	FONT CreateFont(const char* fontName, int size, int flag = FONTFLAG_DROPSHADOW);
+	void TextW(int x, int y, const wchar_t* text, HFont font, Color col);
+	void TextW(Vector2D pos, const wchar_t* text, HFont font, Color col);
+	void Text(int x, int y, const char* text, HFont font, Color col);
+	void Text(Vector2D pos, const char* text, HFont font, Color col);
+	void GetTextWSize(const wchar_t* text, HFont font, int& wide, int& tall);
+	void GetTextSize(const char* text, HFont font, int& wide, int& tall);
+	Vector2D GetTextWSize(const wchar_t* text, HFont font);
+	Vector2D GetTextSize(const char* text, HFont font);
+	HFont CreateFont(const char* fontName, int size, int flag = FONTFLAG_DROPSHADOW);
 
 	// ImGui
 	void ImStart();

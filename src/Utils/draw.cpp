@@ -90,7 +90,7 @@ void Draw::TexturedPolygon(int n, Vertex_t* vertice, Color col)
 	surface->DrawTexturedPolygon(n, vertice);
 }
 
-void Draw::TextW(int x, int y, const wchar_t* text, FONT font, Color col)
+void Draw::TextW(int x, int y, const wchar_t* text, HFont font, Color col)
 {
 	surface->DrawSetTextPos(x, y);
 	surface->DrawSetTextFont(font);
@@ -98,15 +98,14 @@ void Draw::TextW(int x, int y, const wchar_t* text, FONT font, Color col)
 	surface->DrawPrintText(text, wcslen(text));
 }
 
-void Draw::TextW(Vector2D pos, const wchar_t* text, FONT font, Color col)
+void Draw::TextW(Vector2D pos, const wchar_t* text, HFont font, Color col)
 {
 	TextW(pos.x, pos.y, text, font, col);
 }
 
-void Draw::Text(int x, int y, const char* text, FONT font, Color col)
+void Draw::Text(int x, int y, const char* text, HFont font, Color col)
 {
-	std::wstring wc(strlen(text) + 1, L'#');
-	mbstowcs(&wc[0], text, strlen(text) + 1);
+	std::wstring wc = Util::StringToWstring(text);
 
 	surface->DrawSetTextPos(x, y);
 	surface->DrawSetTextFont(font);
@@ -114,44 +113,42 @@ void Draw::Text(int x, int y, const char* text, FONT font, Color col)
 	surface->DrawPrintText(wc.c_str(), wcslen(wc.c_str()));
 }
 
-void Draw::Text(Vector2D pos, const char* text, FONT font, Color col)
+void Draw::Text(Vector2D pos, const char* text, HFont font, Color col)
 {
 	Text(pos.x, pos.y, text, font, col);
 }
 
-void Draw::GetTextWSize(const wchar_t* text, FONT font, int& wide, int& tall)
+void Draw::GetTextWSize(const wchar_t* text, HFont font, int& wide, int& tall)
 {
 	surface->GetTextSize(font, text, wide, tall);
 }
 
-void Draw::GetTextSize(const char* text, FONT font, int& wide, int& tall)
+void Draw::GetTextSize(const char* text, HFont font, int& wide, int& tall)
 {
-	std::wstring wc(strlen(text) + 1, L'#');
-	mbstowcs(&wc[0], text, strlen(text) + 1);
+	std::wstring wc = Util::StringToWstring(text);
 
 	surface->GetTextSize(font, wc.c_str(), wide, tall);
 }
 
-Vector2D Draw::GetTextWSize(const wchar_t* text, FONT font)
+Vector2D Draw::GetTextWSize(const wchar_t* text, HFont font)
 {
 	int x_res, y_res;
 	surface->GetTextSize(font, text, x_res,y_res);
 	return Vector2D(x_res, y_res);
 }
 
-Vector2D Draw::GetTextSize(const char* text, FONT font)
+Vector2D Draw::GetTextSize(const char* text, HFont font)
 {
-	std::wstring wc(strlen(text) + 1, L'#');
-	mbstowcs(&wc[0], text, strlen(text) + 1);
+	std::wstring wc = Util::StringToWstring(text);
 
 	int x_res, y_res;
 	surface->GetTextSize(font, wc.c_str(), x_res, y_res);
 	return Vector2D(x_res, y_res);
 }
 
-FONT Draw::CreateFont(const char* fontName, int size, int flag)
+HFont Draw::CreateFont(const char* fontName, int size, int flag)
 {
-	FONT newFont = surface->CreateFont();
+	HFont newFont = surface->CreateFont();
 	surface->SetFontGlyphSet(newFont, fontName, size, 0, 0, 0, flag);
 	return newFont;
 }

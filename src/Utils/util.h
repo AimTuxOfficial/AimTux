@@ -7,6 +7,8 @@
 #include <map>
 #include <algorithm>
 #include <chrono>
+#include <locale>
+#include <codecvt>
 
 #define RandomInt(nMin, nMax) (rand() % (nMax - nMin + 1) + nMin)
 
@@ -19,6 +21,9 @@ namespace Util
 	bool Contains(const std::string &word, const std::string &sentence);
 	std::string ToLower(std::string str);
 	std::string ToUpper(std::string str);
+	std::string WstringToString(std::wstring wstr);
+	std::wstring StringToWstring(std::string str);
+
 	long GetEpochTime();
 
 	template <typename T>

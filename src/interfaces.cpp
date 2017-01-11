@@ -27,9 +27,9 @@ void Interfaces::dumpInterfaces()
 		if (!interfaces_sym)
 			continue;
 
-		interface_t* interfaces = *reinterpret_cast<interface_t**>(interfaces_sym);
+		InterfaceReg* interfaces = *reinterpret_cast<InterfaceReg**>(interfaces_sym);
 
-		interface_t* cur_interface;
+		InterfaceReg* cur_interface;
 
 		std::set<const char*> interface_name;
 
