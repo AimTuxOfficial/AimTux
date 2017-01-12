@@ -1750,7 +1750,7 @@ void ConfigWindow()
 	if (!showConfigWindow)
 		return;
 
-	ImGui::SetNextWindowSize(ImVec2(195, 250), ImGuiSetCond_Always);
+	ImGui::SetNextWindowSize(ImVec2(195, 260), ImGuiSetCond_Always);
 	if (ImGui::Begin("Configs", &showConfigWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoResize))
 	{
 		static std::vector<std::string> configItems = GetConfigs();
