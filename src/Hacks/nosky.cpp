@@ -39,8 +39,6 @@ void NoSky::FrameStageNotify(ClientFrameStage_t stage)
 		if (skyboxMaterials.find(i) == skyboxMaterials.end())
 			skyboxMaterials.emplace(i, ImColor());
 
-		cvar->ConsoleColorPrintf(ColorRGBA(150, 255, 150), "R: %f G: %f B: %f A: %f.\n", r, g, b, mat->GetAlphaModulation());
-
 		ImColor color = Settings::NoSky::enabled ? Settings::NoSky::color : ImColor(r, g, b, mat->GetAlphaModulation());
 
 		if (skyboxMaterials.at(i) != color)
