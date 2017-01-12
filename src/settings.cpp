@@ -376,6 +376,9 @@ void Settings::LoadConfig(std::string path)
 
 	Fonts::SetupFonts();
 
+	for (unsigned long i = 0; i < Settings::Aimbot::weapons.size(); i++)
+		Settings::Aimbot::weapons.erase(i);
+
 	for (Json::ValueIterator itr = settings["Aimbot"]["weapons"].begin(); itr != settings["Aimbot"]["weapons"].end(); itr++)
 	{
 		std::string weaponDataKey = itr.key().asString();
