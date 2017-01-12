@@ -1,10 +1,10 @@
 #!/bin/sh
 
 if [ ! -d ".git" ]; then
-	echo "please download AimTux with the command 'git clone https://github.com/McSwaggens/AimTux.git'"
+	echo "Please download AimTux with the command 'git clone https://github.com/McSwaggens/AimTux.git'"
 	exit
 fi
 
 git pull
 cmake .
-make -j4
+make -j 4
