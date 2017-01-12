@@ -7,4 +7,4 @@ fi
 
 git pull
 cmake .
-schedtool -B -n 10 -e ionice -n 7 make -j$(cat /proc/cpuinfo | grep "^processor" | wc -l) "$@"
+make -j$(cat /proc/cpuinfo | grep "^processor" | wc -l) "$@"
