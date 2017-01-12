@@ -179,4 +179,16 @@ public:
 		typedef void (* oSetMaterialVarFlag)(void*, MaterialVarFlags_t, bool);
 		return getvfunc<oSetMaterialVarFlag>(this, 29)(this, flag, on);
 	}
+
+	float GetAlphaModulation()
+	{
+		typedef float (* oGetAlphaModulation)(void*);
+		return getvfunc<oGetAlphaModulation>(this, 44)(this);
+	}
+
+	void GetColorModulate(float *r, float *g, float *b)
+	{
+		typedef void (* oGetColorModulate)(void*, float*, float*, float*);
+		return getvfunc<oGetColorModulate>(this, 45)(this, r, g, b);
+	}
 };

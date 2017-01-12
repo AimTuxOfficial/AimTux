@@ -17,7 +17,7 @@ void NoSky::FrameStageNotify(ClientFrameStage_t stage)
 				continue;
 
 			mat->ColorModulate(1, 1, 1);
-			mat->AlphaModulate(1);
+			mat->AlphaModulate(mat->GetAlphaModulation());
 		}
 
 		skyboxMaterials.clear();
@@ -29,6 +29,9 @@ void NoSky::FrameStageNotify(ClientFrameStage_t stage)
 	for (MaterialHandle_t i = material->FirstMaterial(); i != material->InvalidMaterial(); i = material->NextMaterial(i))
 	{
 		IMaterial *mat = material->GetMaterial(i);
+		float r, g, b;
+
+		mat->GetColorModulate(&r, &g, &b);
 
 		if (!mat || strcmp(mat->GetTextureGroupName(), TEXTURE_GROUP_SKYBOX) != 0)
 			continue;
@@ -36,7 +39,9 @@ void NoSky::FrameStageNotify(ClientFrameStage_t stage)
 		if (skyboxMaterials.find(i) == skyboxMaterials.end())
 			skyboxMaterials.emplace(i, ImColor());
 
-		ImColor color = Settings::NoSky::enabled ? Settings::NoSky::color: ImColor(255, 255, 255, 255);
+		cvar->ConsoleColorPrintf(ColorRGBA(150, 255, 150), "R: %f G: %f B: %f A: %f.\n", r, g, b, mat->GetAlphaModulation());
+
+		ImColor color = Settings::NoSky::enabled ? Settings::NoSky::color : ImColor(r, g, b, mat->GetAlphaModulation());
 
 		if (skyboxMaterials.at(i) != color)
 		{
