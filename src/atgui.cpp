@@ -602,6 +602,58 @@ void AimbotTab()
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
+			ImGui::Text("AutoWall");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				if (ImGui::Checkbox("Enabled##AUTOWALL", &autoWallEnabled))
+					UI::updateWeaponSettings();
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Shoots enemy through a wall if it does X amount of damage");
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::PushItemWidth(-1);
+					if (ImGui::SliderFloat("##AUTOWALLDMG", &autoWallValue, 0, 100, "Min Damage: %f"))
+						UI::updateWeaponSettings();
+				ImGui::PopItemWidth();
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::Text("AutoWall Target");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				if (ImGui::Checkbox("Head", &autoWallBones[HITBOX_HEAD]))
+					UI::updateWeaponSettings();
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger on head");
+				if (ImGui::Checkbox("Neck", &autoWallBones[HITBOX_NECK]))
+					UI::updateWeaponSettings();
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger on neck");
+				if (ImGui::Checkbox("Pelvis", &autoWallBones[HITBOX_PELVIS]))
+					UI::updateWeaponSettings();
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger on pelvis");
+			}
+			ImGui::NextColumn();
+			{
+				if (ImGui::Checkbox("Spine", &autoWallBones[HITBOX_SPINE]))
+					UI::updateWeaponSettings();
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger on spine");
+				if (ImGui::Checkbox("Legs", &autoWallBones[HITBOX_LEGS]))
+					UI::updateWeaponSettings();
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger on legs");
+				if (ImGui::Checkbox("Arms", &autoWallBones[HITBOX_ARMS]))
+					UI::updateWeaponSettings();
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger on arms");
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
 			if (current_weapon > -1 && Settings::Aimbot::weapons.find(current_weapon) != Settings::Aimbot::weapons.end())
 				if (ImGui::Button("Clear Weapon Settings", ImVec2(-1, 0)))
 					Settings::Aimbot::weapons.erase(current_weapon);
@@ -1135,58 +1187,7 @@ void HvHTab()
 	{
 		ImGui::BeginChild("HVH2", ImVec2(0, 0), true);
 		{
-			ImGui::Text("AutoWall");
-			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
-			{
-				if (ImGui::Checkbox("Enabled##AUTOWALL", &autoWallEnabled))
-					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Shoots enemy through a wall if it does X amount of damage");
-			}
-			ImGui::NextColumn();
-			{
-				ImGui::PushItemWidth(-1);
-				if (ImGui::SliderFloat("##AUTOWALLDMG", &autoWallValue, 0, 100, "Min Damage: %f"))
-					UI::updateWeaponSettings();
-				ImGui::PopItemWidth();
-			}
-			ImGui::Columns(1);
-			ImGui::Separator();
-			ImGui::Text("AutoWall Target");
-			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
-			{
-				if (ImGui::Checkbox("Head", &autoWallBones[HITBOX_HEAD]))
-					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Trigger on head");
-				if (ImGui::Checkbox("Neck", &autoWallBones[HITBOX_NECK]))
-					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Trigger on neck");
-				if (ImGui::Checkbox("Pelvis", &autoWallBones[HITBOX_PELVIS]))
-					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Trigger on pelvis");
-			}
-			ImGui::NextColumn();
-			{
-				if (ImGui::Checkbox("Spine", &autoWallBones[HITBOX_SPINE]))
-					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Trigger on spine");
-				if (ImGui::Checkbox("Legs", &autoWallBones[HITBOX_LEGS]))
-					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Trigger on legs");
-				if (ImGui::Checkbox("Arms", &autoWallBones[HITBOX_ARMS]))
-					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Trigger on arms");
-			}
-			ImGui::Columns(1);
-			ImGui::Separator();
+
 			ImGui::Text("Resolver");
 			ImGui::Separator();
 			ImGui::Checkbox("Resolve All", &Settings::Resolver::resolve_all);
