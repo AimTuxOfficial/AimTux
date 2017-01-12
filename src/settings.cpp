@@ -150,7 +150,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["AntiAim"]["AutoDisable"]["no_enemy"] = Settings::AntiAim::AutoDisable::no_enemy;
 	settings["AntiAim"]["AutoDisable"]["knife_held"] = Settings::AntiAim::AutoDisable::knife_held;
 
-	settings["ESP"]["enabled"], Settings::ESP::enabled;
+	settings["ESP"]["enabled"] = Settings::ESP::enabled;
 	LoadUIColor(settings["ESP"]["enemy_color"], Settings::ESP::enemy_color);
 	LoadUIColor(settings["ESP"]["enemy_visible_color"], Settings::ESP::enemy_visible_color);
 	LoadUIColor(settings["ESP"]["ally_color"], Settings::ESP::ally_color);
