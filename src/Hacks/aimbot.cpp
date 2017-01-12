@@ -544,7 +544,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 		Math::ClampAngles(angle);
 
 		if (Settings::Aimbot::faceit)
-			xdo_move_mouse_relative(xdo, (int) -((angle.x - oldAngle.x) / (m_pitch->GetFloat() * sensitivity->GetFloat())), (int) ((angle.y - oldAngle.y) / (m_yaw->GetFloat() * sensitivity->GetFloat())));
+			xdo_move_mouse_relative(xdo, (int) -((angle.y - oldAngle.y) / (m_pitch->GetFloat() * sensitivity->GetFloat())), (int) ((angle.x - oldAngle.x) / (m_yaw->GetFloat() * sensitivity->GetFloat())));
 		else
 			cmd->viewangles = angle;
 
