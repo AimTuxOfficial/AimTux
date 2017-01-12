@@ -35,8 +35,6 @@ bool Settings::Aimbot::IgnoreJump::enabled = false;
 bool Settings::Aimbot::SmokeCheck::enabled = false;
 bool Settings::Aimbot::Smooth::Salting::enabled = false;
 float Settings::Aimbot::Smooth::Salting::multiplier = 0.0f;
-int Aimbot::acc_num = 0, Aimbot::acc_denom = 0, Aimbot::threshold = 0;
-float Aimbot::systemSens = (Aimbot::acc_num / Aimbot::acc_denom) / (Aimbot::acc_num / Aimbot::acc_denom);
 
 bool Aimbot::AimStepInProgress = false;
 std::vector<int64_t> Aimbot::Friends = { };
@@ -546,14 +544,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 		Math::ClampAngles(angle);
 
 		if (Settings::Aimbot::faceit)
-		{
-			float deltaAngleX = angle.x - oldAngle.x;
-			float deltaAngleY = angle.y - oldAngle.y;
-			float pixelsX = cvar->FindVar("m_rawinput")->GetInt() == 1 ? deltaAngleX / (m_yaw->GetFloat() * sensitivity->GetFloat()) : deltaAngleX / (m_yaw->GetFloat() * sensitivity->GetFloat() * Aimbot::systemSens);
-			float pixelsY = cvar->FindVar("m_rawinput")->GetInt() == 1 ? deltaAngleY / (m_pitch->GetFloat() * sensitivity->GetFloat()) : deltaAngleY / (m_pitch->GetFloat() * sensitivity->GetFloat() * Aimbot::systemSens);
-
-			xdo_move_mouse_relative(xdo, (int) -pixelsY, (int) pixelsX);
-		}
+			xdo_move_mouse_relative(xdo, (int) -((angle.x - oldAngle.x) / (m_pitch->GetFloat() * sensitivity->GetFloat())), (int) ((angle.y - oldAngle.y) / (m_yaw->GetFloat() * sensitivity->GetFloat())));
 		else
 			cmd->viewangles = angle;
 
