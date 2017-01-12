@@ -84,6 +84,7 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 	static float fYaw = 0.0f;
 	static bool yFlip;
 	float temp;
+	float factor;
 	QAngle temp_qangle;
 
 	if (bFlip)
@@ -165,8 +166,11 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 			break;
 		case AntiAimType_Y::ANGEL_SPIN:
 			clamp = false;
-			float factor = (globalvars->curtime * 5000.0f);
+			factor = (globalvars->curtime * 5000.0f);
 			angle.y = factor + 36000000.0f;
+			break;
+		default:
+			angle.y -= 0.0f;
 			break;
 	}
 }
@@ -213,6 +217,9 @@ void DoAntiAimX(QAngle& angle, bool bFlip, bool& clamp)
 		case AntiAimType_X::ANGEL_UP:
 			clamp = false;
 			angle.x = 35999912.0f;
+			break;
+		default:
+			angle.x -= 0.0f;
 			break;
 	}
 }
