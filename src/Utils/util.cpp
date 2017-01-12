@@ -71,14 +71,32 @@ std::string Util::WstringToString(std::wstring wstr)
 {
 	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
 
-	return converter.to_bytes(wstr);
+	try
+	{
+		return converter.to_bytes(wstr);
+	}
+	catch (std::range_error)
+	{
+		std::stringstream s;
+		s << wstr.c_str();
+		return s.str();
+	}
 }
 
 std::wstring Util::StringToWstring(std::string str)
 {
 	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
 
-	return converter.from_bytes(str);
+	try
+	{
+		return converter.from_bytes(str);
+	}
+	catch (std::range_error)
+	{
+		std::wostringstream s;
+		s << str.c_str();
+		return s.str();
+	}
 }
 
 long Util::GetEpochTime()
