@@ -36,7 +36,7 @@ bool Settings::Aimbot::SmokeCheck::enabled = false;
 bool Settings::Aimbot::Smooth::Salting::enabled = false;
 float Settings::Aimbot::Smooth::Salting::multiplier = 0.0f;
 int Aimbot::acc_num = 0, Aimbot::acc_denom = 0, Aimbot::threshold = 0;
-float Aimbot::systemSens = Aimbot::acc_num / Aimbot::acc_denom;
+float Aimbot::systemSens = (Aimbot::acc_num / Aimbot::acc_denom) / (Aimbot::acc_num / Aimbot::acc_denom);
 
 bool Aimbot::AimStepInProgress = false;
 std::vector<int64_t> Aimbot::Friends = { };
