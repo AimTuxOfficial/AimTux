@@ -5,7 +5,6 @@
 bool Settings::Aimbot::enabled = false;
 bool Settings::Aimbot::silent = false;
 bool Settings::Aimbot::faceit = false;
-float Settings::Aimbot::system_sens = 1.0f; //xinput --list-props <ID> -> constant deceleration, ID=current mouse's ID
 bool Settings::Aimbot::friendly = false;
 int Settings::Aimbot::bone = BONE_HEAD;
 ButtonCode_t Settings::Aimbot::aimkey = ButtonCode_t::MOUSE_MIDDLE;
