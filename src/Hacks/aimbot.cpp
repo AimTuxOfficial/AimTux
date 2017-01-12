@@ -35,13 +35,21 @@ bool Settings::Aimbot::IgnoreJump::enabled = false;
 bool Settings::Aimbot::SmokeCheck::enabled = false;
 bool Settings::Aimbot::Smooth::Salting::enabled = false;
 float Settings::Aimbot::Smooth::Salting::multiplier = 0.0f;
+int Aimbot::acc_num = 0, Aimbot::acc_denom = 0, Aimbot::threshold = 0;
+float Aimbot::systemSens = Aimbot::acc_num / Aimbot::acc_denom;
 
 bool Aimbot::AimStepInProgress = false;
 std::vector<int64_t> Aimbot::Friends = { };
 
+static xdo_t *xdo = xdo_new(NULL);
+
 bool shouldAim;
 QAngle AimStepLastAngle;
 QAngle RCSLastPunch;
+
+ConVar* m_yaw = cvar->FindVar("m_yaw");
+ConVar* m_pitch = cvar->FindVar("m_pitch");
+ConVar* sensitivity = cvar->FindVar("sensitivity");
 
 std::unordered_map<int, std::vector<const char*>> hitboxes = {
 		{ HITBOX_HEAD, { "head_0" } },
@@ -526,22 +534,15 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 
 	if (Settings::Aimbot::faceit)
 	{
-		ConVar* m_yaw = cvar->FindVar("m_yaw");
-		ConVar* m_pitch = cvar->FindVar("m_pitch");
-		ConVar* sensitivity = cvar->FindVar("sensitivity");
-
 		float deltaAngleX = angle.x - oldAngle.x;
 		float deltaAngleY = angle.y - oldAngle.y;
-		float pixelsX = deltaAngleX / (m_yaw->GetFloat() * sensitivity->GetFloat() * Settings::Aimbot::system_sens);
-		float pixelsY = deltaAngleY / (m_pitch->GetFloat() * sensitivity->GetFloat() * Settings::Aimbot::system_sens);
+		float pixelsX = cvar->FindVar("m_rawinput")->GetInt() == 1 ? deltaAngleX / (m_yaw->GetFloat() * sensitivity->GetFloat()) : deltaAngleX / (m_yaw->GetFloat() * sensitivity->GetFloat() * Aimbot::systemSens);
+		float pixelsY = cvar->FindVar("m_rawinput")->GetInt() == 1 ? deltaAngleY / (m_pitch->GetFloat() * sensitivity->GetFloat()) : deltaAngleY / (m_pitch->GetFloat() * sensitivity->GetFloat() * Aimbot::systemSens);
 
-		static xdo_t *xdo = xdo_new(NULL);
 		xdo_move_mouse_relative(xdo, (int) -pixelsY, (int) pixelsX);
 	}
 	else
-	{
 		cmd->viewangles = angle;
-	}
 
 	Math::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);
 
