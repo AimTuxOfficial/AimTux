@@ -1,5 +1,6 @@
 *.o
 *.so
+*.swp
 .vscode/
 .idea/
 cmake-build-debug
