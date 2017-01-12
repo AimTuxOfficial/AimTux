@@ -496,7 +496,8 @@ void AimbotTab()
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Adds a margin of error to the aim, it will be obvious what it does when using it");
 				ImGui::PushItemWidth(-1);
-					ImGui::Combo("##SMOOTHTYPE", &smoothType, smoothTypes, IM_ARRAYSIZE(smoothTypes));
+					if(ImGui::Combo("##SMOOTHTYPE", &smoothType, smoothTypes, IM_ARRAYSIZE(smoothTypes)))
+						UI::updateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
 			ImGui::NextColumn();
