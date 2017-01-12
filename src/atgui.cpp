@@ -558,6 +558,7 @@ void AimbotTab()
 			{
 				switch (current_weapon)
 				{
+					case -1:
 					case WEAPON_DEAGLE:
 					case WEAPON_ELITE:
 					case WEAPON_FIVESEVEN:
