@@ -21,13 +21,7 @@ void NameChanger::BeginFrame(float frameTime)
 
 	if (changes >= 5)
 	{
-		std::string name = "\n";
-		char characters[3] = { '\n', '\0', '\t' };
-
-		for (int i = 0; i < 127; i++)
-			name += characters[RandomInt(0, 2)];
-
-		SetName(name.c_str());
+		SetName(Util::PadStringRight("\230AIMTUX.NET", strlen("\230AIMTUX.NET") + RandomInt(10, 50)));
 		changes = -1;
 
 		return;
