@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+if type -p lsb_release >/dev/null 2>&1; then
+	detect=( $(lsb_release -sirc) )
+
+	case "${detect}" in
+		"archlinux"|"Arch Linux"|"arch"|"Arch")
+			echo "Installing dependencies for Arch Linux"
+			sudo pacman -S base-devel cmake gdb git sdl2
+			;;
+		"Ubuntu"|"Debian")
+			echo "Installing dependencies for Ubuntu/Debian"
+			sudo apt-get install cmake g++ gdb git libsdl2-dev zlib1g-dev
+			;;
+		"Fedora")
+			echo "Installing dependencies for Fedora"
+			sudo dnf install cmake gcc-c++ gdb git libstdc++-static mesa-libGL-devel SDL2-devel zlib-devel
+			;;
+		"Gentoo")
+			echo "Installing dependencies for Gentoo"
+			sudo emerge cmake dev-vcs/git gdb libsdl2 mesa
+			;;
+	esac
+fi
