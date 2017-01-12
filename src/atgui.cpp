@@ -556,10 +556,25 @@ void AimbotTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				if (ImGui::Checkbox("Auto Pistol", &autoPistolEnabled))
-					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Automatically shoots the pistol when holding fire");
+				switch (current_weapon)
+				{
+					case WEAPON_DEAGLE:
+					case WEAPON_ELITE:
+					case WEAPON_FIVESEVEN:
+					case WEAPON_GLOCK:
+					case WEAPON_TEC9:
+					case WEAPON_HKP2000:
+					case WEAPON_USP_SILENCER:
+					case WEAPON_P250:
+					case WEAPON_CZ75A:
+					case WEAPON_REVOLVER:
+						if (ImGui::Checkbox("Auto Pistol", &autoPistolEnabled))
+							UI::updateWeaponSettings();
+						if (ImGui::IsItemHovered())
+							ImGui::SetTooltip("Automatically shoots the pistol when holding fire");
+						break;
+				}
+
 				if (ImGui::Checkbox("Auto Shoot", &autoShootEnabled))
 					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
