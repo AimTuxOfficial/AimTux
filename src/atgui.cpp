@@ -584,6 +584,10 @@ void AimbotTab()
 					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Prevents the camera from locking to an enemy, doesn't work for demos");
+				if(ImGui::Checkbox("Smoke Check", &smoke_check))
+					UI::updateWeaponSettings();
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Ignore players that are in smoke");
 			}
 			ImGui::NextColumn();
 			{
