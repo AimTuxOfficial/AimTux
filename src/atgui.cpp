@@ -378,13 +378,21 @@ void AimbotTab()
 
 	ImGui::Columns(3, NULL, true);
 	{
-		ImGui::SetColumnOffset(1, 150);
+		ImGui::SetColumnOffset(1, 200);
 		ImGui::ListBoxHeader("##GUNS", ImVec2(-1, -1));
 			for (auto it : guns)
 			{
 				const bool item_selected = (it.first == current_weapon);
 				ImGui::PushID(it.first);
-					if (ImGui::Selectable(it.second, item_selected))
+
+					char* formattedName;
+					char changeIndicator = ' ';
+					bool isChanged = Settings::Aimbot::weapons.find(it.first) != Settings::Aimbot::weapons.end();
+					if (it.first > -1 && isChanged)
+						changeIndicator = '*';
+					asprintf(&formattedName, "%c %s", changeIndicator, it.second);
+
+					if (ImGui::Selectable(formattedName, item_selected))
 					{
 						current_weapon = it.first;
 
