@@ -109,6 +109,9 @@ ImColor Radar::GetRadarPlayerColor(C_BasePlayer* player, bool visible)
 
 void Radar::DrawWindow()
 {
+	if (!Settings::ESP::enabled)
+		return;
+
 	if (!Settings::Radar::enabled)
 		return;
 
@@ -293,6 +296,9 @@ void Radar::InGameRadar(C_BasePlayer* player)
 
 void Radar::BeginFrame()
 {
+	if (!Settings::ESP::enabled)
+		return;
+
 	if (!Settings::Radar::enabled && !Settings::Radar::InGame::enabled)
 		return;
 
