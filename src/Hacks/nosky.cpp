@@ -35,10 +35,10 @@ void NoSky::FrameStageNotify(ClientFrameStage_t stage)
 		IMaterial *mat = material->GetMaterial(i);
 		float r, g, b;
 
-		mat->GetColorModulate(&r, &g, &b);
-
 		if (!mat || strcmp(mat->GetTextureGroupName(), TEXTURE_GROUP_SKYBOX) != 0)
 			continue;
+
+		mat->GetColorModulate(&r, &g, &b);
 
 		if (skyboxMaterials.find(i) == skyboxMaterials.end())
 			skyboxMaterials.emplace(i, ImColor());

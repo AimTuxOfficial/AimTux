@@ -36,10 +36,10 @@ void ASUSWalls::FrameStageNotify(ClientFrameStage_t stage)
 
 		float r, g, b;
 
-		mat->GetColorModulate(&r, &g, &b);
-
 		if (!mat || strcmp(mat->GetTextureGroupName(), TEXTURE_GROUP_WORLD) != 0)
 			continue;
+
+		mat->GetColorModulate(&r, &g, &b);
 
 		if (worldMaterials.find(i) == worldMaterials.end())
 			worldMaterials.emplace(i, ImColor());
