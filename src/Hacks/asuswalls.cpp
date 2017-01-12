@@ -16,8 +16,12 @@ void ASUSWalls::FrameStageNotify(ClientFrameStage_t stage)
 			if (!mat)
 				continue;
 
-			mat->ColorModulate(1, 1, 1);
-			mat->AlphaModulate(1);
+			float r, g, b;
+
+			mat->GetColorModulate(&r, &g, &b);
+
+			mat->ColorModulate(r, g, b);
+			mat->AlphaModulate(mat->GetAlphaModulation());
 		}
 
 		worldMaterials.clear();
@@ -30,13 +34,17 @@ void ASUSWalls::FrameStageNotify(ClientFrameStage_t stage)
 	{
 		IMaterial *mat = material->GetMaterial(i);
 
+		float r, g, b;
+
+		mat->GetColorModulate(&r, &g, &b);
+
 		if (!mat || strcmp(mat->GetTextureGroupName(), TEXTURE_GROUP_WORLD) != 0)
 			continue;
 
 		if (worldMaterials.find(i) == worldMaterials.end())
 			worldMaterials.emplace(i, ImColor());
 
-		ImColor color = Settings::ASUSWalls::enabled ? Settings::ASUSWalls::color: ImColor(255, 255, 255, 255);
+		ImColor color = Settings::ASUSWalls::enabled ? Settings::ASUSWalls::color: ImColor(r, g, b, mat->GetAlphaModulation());
 
 		if (worldMaterials.at(i) != color)
 		{

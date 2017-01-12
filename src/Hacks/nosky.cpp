@@ -16,7 +16,11 @@ void NoSky::FrameStageNotify(ClientFrameStage_t stage)
 			if (!mat)
 				continue;
 
-			mat->ColorModulate(1, 1, 1);
+			float r, g, b;
+
+			mat->GetColorModulate(&r, &g, &b);
+
+			mat->ColorModulate(r, g, b);
 			mat->AlphaModulate(mat->GetAlphaModulation());
 		}
 
