@@ -671,6 +671,12 @@ namespace Settings
 		extern int type;
 	}
 
+	namespace NameChanger
+	{
+		extern int color;
+		extern char* nickname;
+	}
+
 	namespace View
 	{
 		namespace NoAimPunch

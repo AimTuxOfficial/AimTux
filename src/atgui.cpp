@@ -15,8 +15,6 @@ bool showPlayerListWindow = false;
 
 #define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))
 
-static char* nickname = strdup("");
-
 namespace ImGui
 {
 	static auto vector_getter = [](void* vec, int idx, const char** out_text)
@@ -1194,7 +1192,6 @@ void HvHTab()
 
 						if (ImGui::Button("OK"))
 							ImGui::CloseCurrentPopup();
-
 						ImGui::EndPopup();
 					}
 				ImGui::PopStyleVar();
@@ -1240,7 +1237,8 @@ void MiscTab()
 {
 	const char* strafeTypes[] = { "Forwards", "Backwards", "Left", "Right" };
 	const char* animationTypes[] = { "Static", "Marquee", "Words", "Letters" };
-	const char* spammerTypes[] = { "None", "Normal", "Positions" };
+	const char* colorTypes[] = { "White", "Dark red", "Light purple", "Dark green", "Light green", "Green", "Light red", "Gray", "Yellow", "Light blue", "Blue", "Dark blue", "Gray_2", "Purple", "Red", "Orange" };
+       	const char* spammerTypes[] = { "None", "Normal", "Positions" };
 	const char* teams[] = { "Allies", "Enemies", "Both" };
 
 	ImGui::Columns(2, NULL, true);
@@ -1430,31 +1428,36 @@ void MiscTab()
 			ImGui::Text("Nickname");
 			ImGui::Separator();
 
-			ImGui::InputText("##NICKNAMETEXT", nickname, 127);
+			ImGui::InputText("##NICKNAMETEXT", Settings::NameChanger::nickname, 127);
 
 			ImGui::SameLine();
 			if (ImGui::Button("Set Nickname", ImVec2(-1, 0)))
-				NameChanger::SetName(nickname);
+				NameChanger::SetName(Settings::NameChanger::nickname);
 
-			if (ImGui::Button("No Name"))
-			{
-				NameChanger::changes = 0;
-				NameChanger::type = NC_NORMAL;
-			}
-
-			ImGui::SameLine();
-			if (ImGui::Button("Rainbow Name"))
-			{
-				NameChanger::changes = 0;
-				NameChanger::type = NC_RAINBOW;
-			}
-
-			ImGui::SameLine();
-			if (ImGui::Button("Solid Red Name"))
+			ImGui::Separator();
+			ImGui::PushItemWidth(-1);
+                        ImGui::Combo("##NAMECOLORTYPE", &Settings::NameChanger::color, colorTypes, IM_ARRAYSIZE(colorTypes));
+                        ImGui::PopItemWidth();
+			if (ImGui::Button("Set nickname with color"))
 			{
 				NameChanger::changes = 0;
 				NameChanger::type = NC_SOLID;
 			}
+
+			ImGui::SameLine();
+                        if (ImGui::Button("Rainbow Name"))
+                        {
+                                NameChanger::changes = 0;
+                                NameChanger::type = NC_RAINBOW;
+                        }
+
+			ImGui::SameLine();
+                        if (ImGui::Button("No Name"))
+                        {
+                                NameChanger::changes = 0;
+                                NameChanger::type = NC_NORMAL;
+                        }
+
 
 			ImGui::Separator();
 			ImGui::Text("Other");
@@ -1980,7 +1983,7 @@ void PlayerListWindow()
 					std::string name(entityInformation.name);
 					name = Util::PadStringRight(name, name.length() + 1);
 
-					nickname = strdup(name.c_str());
+					Settings::NameChanger::nickname = strdup(name.c_str());
 					NameChanger::SetName(Util::PadStringRight(name, name.length() + 1));
 				}
 
