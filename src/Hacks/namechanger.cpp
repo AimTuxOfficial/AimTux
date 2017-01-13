@@ -24,20 +24,20 @@ void NameChanger::BeginFrame(float frameTime)
 	{
 		/*
 			\x01 WHITE
-			\x02 RED
-			\x03 PURPLE
-			\x04 GREEN
+			\x02 DARK RED
+			\x03 LIGHT PURPLE
+			\x04 DARK GREEN
 			\x05 LIGHT GREEN
-			\x06 TURQUOISE
+			\x06 GREEN
 			\x07 LIGHT RED
 			\x08 GRAY
 			\x09 YELLOW
-			\x0A GRAY
-			\x0B LIGHT BLUE
-			\x0C GRAY (PURPLE FOR SPEC)
-			\x0D BLUE
-			\x0E PINK
-			\x0F DARK ORANGE
+			\x0A LIGHT BLUE
+			\x0B BLUE
+			\x0C DARK BLUE
+			\x0D GRAY
+			\x0E PURPLE
+			\x0F RED
 			\x10 ORANGE
 		*/
 
