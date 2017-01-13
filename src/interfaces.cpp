@@ -31,7 +31,7 @@ void Interfaces::dumpInterfaces()
 		}
 
 		dlclose(library);
-
+		
 		InterfaceReg* interfaces = *reinterpret_cast<InterfaceReg**>(interfaces_sym);
 
 		InterfaceReg* cur_interface;
