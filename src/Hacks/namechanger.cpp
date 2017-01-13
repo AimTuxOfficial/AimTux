@@ -40,7 +40,7 @@ void NameChanger::BeginFrame(float frameTime)
 			\x0F DARK ORANGE
 			\x10 ORANGE
 		*/
-		
+
 		switch (NameChanger::type)
 		{
 			case NC_NORMAL:

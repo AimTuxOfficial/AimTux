@@ -11,7 +11,6 @@ enum NC_Type
 
 namespace NameChanger
 {
-	
 	extern int changes;
 	extern NC_Type type;
 

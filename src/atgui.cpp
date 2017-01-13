@@ -1435,13 +1435,13 @@ void MiscTab()
 					ImGui::InputText("##NICKNAMETEXT", nickname, 127);
 				ImGui::PopItemWidth();
 			}
-			
+
 			// Barclay pls cleanup ~ Daniel
 			ImGui::NextColumn();
 			{
 				if (ImGui::Button("Set Nickname"))
 					NameChanger::SetName(nickname);
-				
+
 				ImGui::NextColumn();
 				if (ImGui::Button("No Name"))
 				{
