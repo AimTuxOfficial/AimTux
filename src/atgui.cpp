@@ -1,4 +1,5 @@
 #include "atgui.h"
+#include <algorithm>
 
 bool UI::isVisible = false;
 
@@ -1762,10 +1763,14 @@ void ConfigWindow()
 	if (ImGui::Begin("Configs", &showConfigWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoResize))
 	{
 		static std::vector<std::string> configItems = GetConfigs();
+		static bool resort = true;
 		static int configItemCurrent = -1;
 
 		if (ImGui::Button("Refresh"))
+		{
 			configItems = GetConfigs();
+			resort = true;
+		}
 
 		ImGui::SameLine();
 		if (ImGui::Button("Save"))
@@ -1791,6 +1796,7 @@ void ConfigWindow()
 
 				configItems = GetConfigs();
 				configItemCurrent = -1;
+				resort = true;
 			}
 		}
 
@@ -1811,9 +1817,17 @@ void ConfigWindow()
 				Settings::LoadDefaultsOrSave(path << "/config.json");
 
 				configItems = GetConfigs();
+				configItemCurrent = -1;
+				resort = true;
 			}
 		}
-
+		
+		if(resort)
+		{
+			std::sort(configItems.begin(), configItems.end());
+			resort = false;
+		}
+		
 		ImGui::PushItemWidth(178);
 			if (ImGui::ListBox("", &configItemCurrent, configItems, 7))
 			{
