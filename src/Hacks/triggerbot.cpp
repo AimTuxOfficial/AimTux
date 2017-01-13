@@ -122,10 +122,7 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	if (active_weapon->IsKnife() || active_weapon->GetAmmo() == 0)
 		return;
 
-	float nextPrimaryAttack = active_weapon->GetNextPrimaryAttack();
-	float tick = localplayer->GetTickBase() * globalvars->interval_per_tick;
-
-	if (nextPrimaryAttack > tick)
+	if (active_weapon->GetNextPrimaryAttack() > globalvars->curtime)
 	{
 		if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
 			cmd->buttons &= ~IN_ATTACK2;

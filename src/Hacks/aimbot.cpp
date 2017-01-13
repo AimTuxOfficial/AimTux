@@ -372,11 +372,7 @@ void Aimbot::AutoPistol(C_BaseCombatWeapon* active_weapon, CUserCmd* cmd)
 	if (!active_weapon || !active_weapon->IsPistol())
 		return;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	float nextPrimaryAttack = active_weapon->GetNextPrimaryAttack();
-	float tick = localplayer->GetTickBase() * globalvars->interval_per_tick;
-
-	if (nextPrimaryAttack < tick)
+	if (active_weapon->GetNextPrimaryAttack() < globalvars->curtime)
 		return;
 
 	if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
@@ -401,9 +397,8 @@ void Aimbot::AutoShoot(C_BasePlayer* player, C_BaseCombatWeapon* active_weapon, 
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
 	float nextPrimaryAttack = active_weapon->GetNextPrimaryAttack();
-	float tick = localplayer->GetTickBase() * globalvars->interval_per_tick;
 
-	if (nextPrimaryAttack > tick)
+	if (nextPrimaryAttack > globalvars->curtime)
 	{
 		if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
 			cmd->buttons &= ~IN_ATTACK2;
@@ -423,10 +418,6 @@ void Aimbot::AutoShoot(C_BasePlayer* player, C_BaseCombatWeapon* active_weapon, 
 
 void Aimbot::ShootCheck(C_BaseCombatWeapon* active_weapon, CUserCmd* cmd)
 {
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	float nextPrimaryAttack = active_weapon->GetNextPrimaryAttack();
-	float tick = localplayer->GetTickBase() * globalvars->interval_per_tick;
-
 	if (!Settings::AntiAim::Pitch::enabled && !Settings::AntiAim::Yaw::enabled)
 		return;
 
@@ -436,7 +427,7 @@ void Aimbot::ShootCheck(C_BaseCombatWeapon* active_weapon, CUserCmd* cmd)
 	if (!(cmd->buttons & IN_ATTACK))
 		return;
 
-	if (nextPrimaryAttack < tick)
+	if (active_weapon->GetNextPrimaryAttack() < globalvars->curtime)
 		return;
 
 	if (*active_weapon->GetItemDefinitionIndex() == WEAPON_C4)
