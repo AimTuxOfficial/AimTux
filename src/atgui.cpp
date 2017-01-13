@@ -1822,7 +1822,7 @@ void ConfigWindow()
 			}
 		}
 		
-		if(resort)
+		if (resort)
 		{
 			std::sort(configItems.begin(), configItems.end());
 			resort = false;
