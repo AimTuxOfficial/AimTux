@@ -371,6 +371,7 @@ void AimbotTab()
 {
 	const char* targets[] = { "PELVIS", "", "", "HIP", "LOWER SPINE", "MIDDLE SPINE", "UPPER SPINE", "NECK", "HEAD" };
 	const char* smoothTypes[] = { "Slow Near End", "Constant Speed" };
+	static char filterWeapons[32];
 
 	if (ImGui::Checkbox("Enabled", &enabled))
 		UI::updateWeaponSettings();
@@ -379,16 +380,23 @@ void AimbotTab()
 	ImGui::Columns(3, NULL, true);
 	{
 		ImGui::SetColumnOffset(1, 200);
+		ImGui::PushItemWidth(-1);
+			ImGui::InputText("##FILTERWEAPONS", filterWeapons, IM_ARRAYSIZE(filterWeapons));
+		ImGui::PopItemWidth();
 		ImGui::ListBoxHeader("##GUNS", ImVec2(-1, -1));
 			for (auto it : guns)
 			{
+				bool isDefault = it.first < 0;
+				if (!isDefault && !Util::Contains(Util::ToLower(std::string(filterWeapons)), Util::ToLower(std::string(it.second))))
+					continue;
+
 				const bool item_selected = (it.first == current_weapon);
 				ImGui::PushID(it.first);
 
 					char* formattedName;
 					char changeIndicator = ' ';
 					bool isChanged = Settings::Aimbot::weapons.find(it.first) != Settings::Aimbot::weapons.end();
-					if (it.first > -1 && isChanged)
+					if (!isDefault && isChanged)
 						changeIndicator = '*';
 					asprintf(&formattedName, "%c %s", changeIndicator, it.second);
 

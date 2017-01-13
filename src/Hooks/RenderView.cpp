@@ -4,7 +4,8 @@ float RenderView::currentFOV = 90.0f;
 
 void Hooks::RenderView(void* thisptr, CViewSetup& setup, CViewSetup& hudViewSetup, unsigned int nClearFlags, int whatToDraw)
 {
-	FOVChanger::RenderView(setup, hudViewSetup, nClearFlags, whatToDraw);
+	if (!Settings::ScreenshotCleaner::enabled || !engine->IsTakingScreenshot())
+		FOVChanger::RenderView(setup, hudViewSetup, nClearFlags, whatToDraw);
 
 	RenderView::currentFOV = setup.fov;
 
