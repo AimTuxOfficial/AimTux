@@ -1238,7 +1238,7 @@ void HvHTab()
 
 void MiscTab()
 {
-	const char* strafeTypes[] = { "Forwards", "Backwards", "Left", "Right" };
+	const char* strafeTypes[] = { "Forwards", "Backwards", "Left", "Right", "Rage" };
 	const char* animationTypes[] = { "Static", "Marquee", "Words", "Letters" };
 	const char* spammerTypes[] = { "None", "Normal", "Positions" };
 	const char* teams[] = { "Allies", "Enemies", "Both" };

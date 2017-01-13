@@ -43,7 +43,8 @@ enum AutostrafeType : int
 	AS_FORWARDS,
 	AS_BACKWARDS,
 	AS_LEFTSIDEWAYS,
-	AS_RIGHTSIDEWAYS
+	AS_RIGHTSIDEWAYS,
+	AS_RAGE
 };
 
 enum AntiAimType_Y : int

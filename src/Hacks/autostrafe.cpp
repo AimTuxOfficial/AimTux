@@ -3,22 +3,12 @@
 bool Settings::AutoStrafe::enabled = false;
 int Settings::AutoStrafe::type = AS_FORWARDS;
 
-void AutoStrafe::CreateMove(CUserCmd* cmd)
+void LegitStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 {
-	if (!Settings::AutoStrafe::enabled)
-		return;
-
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer)
-		return;
-
-	if (!localplayer->GetAlive())
-		return;
-
 	if (localplayer->GetFlags() & FL_ONGROUND)
 		return;
 
-	if (localplayer->GetMoveType() == MOVETYPE_LADDER || localplayer->GetMoveType() == MOVETYPE_NOCLIP)
+	if (cmd->buttons & IN_FORWARD || cmd->buttons & IN_BACK || cmd->buttons & IN_MOVELEFT || cmd->buttons & IN_MOVERIGHT)
 		return;
 
 	if (cmd->mousedx > 1 || cmd->mousedx < -1)
@@ -38,5 +28,88 @@ void AutoStrafe::CreateMove(CUserCmd* cmd)
 				cmd->forwardmove = cmd->mousedx < 0.f ? 450.f : -450.f;
 				break;
 		}
+	}
+}
+
+void RageStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
+{
+	bool bWASD = true;
+
+	if (cmd->buttons & IN_FORWARD || cmd->buttons & IN_BACK || cmd->buttons & IN_MOVELEFT || cmd->buttons & IN_MOVERIGHT)
+		bWASD = false;
+
+	static bool left_right;
+	bool forward_move = false;
+
+	if (localplayer->GetFlags() & FL_ONGROUND)
+	{
+		if (input->IsButtonDown(KEY_SPACE) && bWASD)
+			forward_move = true;
+	}
+	else
+	{
+		if (localplayer->GetFlags() & IN_JUMP)
+		{
+			cmd->buttons &= ~IN_JUMP;
+			forward_move = true;
+		}
+	}
+
+	if (forward_move && localplayer->GetVelocity().Length() <= 50.0f)
+		cmd->forwardmove = 800.0f;
+
+	float yaw_change = 0.0f;
+	if (localplayer->GetVelocity().Length() > 50.f)
+		yaw_change = 30.0f * fabsf(30.0f / localplayer->GetVelocity().Length());
+
+	QAngle angle = cmd->viewangles;
+
+	if (!(localplayer->GetFlags() & FL_ONGROUND) && bWASD)
+	{
+		if (left_right || cmd->mousedx > 1)
+		{
+			angle.y += yaw_change;
+			cmd->sidemove = 450.0f;
+		}
+		else if (!left_right || cmd->mousedx < 1)
+		{
+			angle.y -= yaw_change;
+			cmd->sidemove = -450.0f;
+		}
+
+		left_right = !left_right;
+	}
+
+	Math::NormalizeAngles(angle);
+	Math::ClampAngles(angle);
+	cmd->viewangles = angle;
+}
+
+void AutoStrafe::CreateMove(CUserCmd* cmd)
+{
+	if (!Settings::AutoStrafe::enabled)
+		return;
+
+	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer)
+		return;
+
+	if (!localplayer->GetAlive())
+		return;
+
+	if (localplayer->GetMoveType() == MOVETYPE_LADDER || localplayer->GetMoveType() == MOVETYPE_NOCLIP)
+		return;
+
+	switch (Settings::AutoStrafe::type)
+	{
+		case AS_FORWARDS:
+		case AS_BACKWARDS:
+		case AS_LEFTSIDEWAYS:
+		case AS_RIGHTSIDEWAYS:
+			LegitStrafe(localplayer, cmd);
+			break;
+		case AS_RAGE:
+			RageStrafe(localplayer, cmd);
+			break;
 	}
 }
