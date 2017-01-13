@@ -82,6 +82,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["UI"]["Fonts"]["ESP"]["family"] = Settings::UI::Fonts::ESP::family;
 	settings["UI"]["Fonts"]["ESP"]["size"] = Settings::UI::Fonts::ESP::size;
 	settings["UI"]["Fonts"]["ESP"]["flags"] = Settings::UI::Fonts::ESP::flags;
+	settings["Aimbot"]["default_override"] = Settings::Aimbot::default_override;
 
 	for (auto i : Settings::Aimbot::weapons)
 	{
@@ -376,6 +377,7 @@ void Settings::LoadConfig(std::string path)
 
 	Fonts::SetupFonts();
 
+	GetVal(settings["Aimbot"]["default_override"], &Settings::Aimbot::default_override);
 	Settings::Aimbot::weapons.clear();
 
 	for (Json::ValueIterator itr = settings["Aimbot"]["weapons"].begin(); itr != settings["Aimbot"]["weapons"].end(); itr++)

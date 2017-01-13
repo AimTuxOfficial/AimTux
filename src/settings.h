@@ -162,6 +162,7 @@ namespace Settings
 		extern int bone;
 		extern ButtonCode_t aimkey;
 		extern bool aimkey_only;
+		extern bool default_override;
 
 		namespace Smooth
 		{
