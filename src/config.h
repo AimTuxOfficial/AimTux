@@ -6,6 +6,7 @@
 #include <dirent.h>
 #include <sys/stat.h>
 #include <vector>
+#include <algorithm>
 #include "Utils/pstring.h"
 
 bool DoesFileExist(const char* path);

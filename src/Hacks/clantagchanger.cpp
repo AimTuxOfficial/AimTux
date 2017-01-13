@@ -65,8 +65,7 @@ void ClanTagChanger::UpdateClanTagCallback()
 {
 	if (strlen(Settings::ClanTagChanger::value) > 0 && Settings::ClanTagChanger::type > STATIC)
 	{
-		std::wstring wc(strlen(Settings::ClanTagChanger::value) + 1, L'#');
-		mbstowcs(&wc[0], Settings::ClanTagChanger::value, strlen(Settings::ClanTagChanger::value) + 1);
+		std::wstring wc = Util::StringToWstring(Settings::ClanTagChanger::value);
 
 		switch (Settings::ClanTagChanger::type)
 		{
