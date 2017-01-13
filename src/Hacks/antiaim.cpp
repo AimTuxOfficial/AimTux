@@ -95,7 +95,7 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 		case AntiAimType_Y::SPIN_FAST:
 		case AntiAimType_Y::SPIN_SLOW:
 			fYaw += aa_type == AntiAimType_Y::SPIN_FAST ? 100.0f : 10.0f;
-			if(fYaw > 180.0f)
+			if (fYaw > 180.0f)
 				angle.y -= 360.0f;
 			angle.y = fYaw;
 			break;
