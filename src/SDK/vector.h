@@ -15,6 +15,8 @@
 
 #define M_PI_F		((float)(M_PI))	// Shouldn't collide with anything.
 
+#define M_PHI		1.61803398874989484820 // golden ratio
+
 // NJS: Inlined to prevent floats from being autopromoted to doubles, as with the old system.
 #ifndef RAD2DEG
 #define RAD2DEG( x  )  ( (float)(x) * (float)(180.f / M_PI_F) )
