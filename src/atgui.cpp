@@ -1,5 +1,4 @@
 #include "atgui.h"
-#include <algorithm>
 
 bool UI::isVisible = false;
 
@@ -1821,13 +1820,13 @@ void ConfigWindow()
 				resort = true;
 			}
 		}
-		
+
 		if (resort)
 		{
 			std::sort(configItems.begin(), configItems.end());
 			resort = false;
 		}
-		
+
 		ImGui::PushItemWidth(178);
 			if (ImGui::ListBox("", &configItemCurrent, configItems, 7))
 			{
