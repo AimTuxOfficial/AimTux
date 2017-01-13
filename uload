@@ -9,7 +9,6 @@ sudo gdb -n -q -batch \
     -ex "set \$library = \$dlopen(\"$(pwd)/libAimTux.so\", 6)" \
     -ex "call \$dlclose(\$library)" \
     -ex "call \$dlclose(\$library)" \
-    -ex "call \$dlclose(\$library)" \
     -ex "detach" \
     -ex "quit"
 fi
