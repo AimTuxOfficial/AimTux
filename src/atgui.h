@@ -1,7 +1,6 @@
 #pragma once
 
 #include <list>
-#include <algorithm>
 #include "ImGUI/imgui.h"
 #include "ImGUI/imgui_internal.h"
 #include "ImGUI/imgui_impl_sdl.h"

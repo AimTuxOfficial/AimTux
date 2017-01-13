@@ -78,5 +78,7 @@ std::vector<std::string> GetConfigs()
 	for (auto config = vConfigs.begin(); config != vConfigs.end(); config++)
 		configs.push_back(config->name);
 
+	std::sort(configs.begin(), configs.end());
+
 	return configs;
 }
