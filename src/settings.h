@@ -669,6 +669,8 @@ namespace Settings
 		extern int animation_speed;
 		extern bool enabled;
 		extern int type;
+		extern int color;
+		extern char* nickname;
 	}
 
 	namespace View

@@ -2,6 +2,9 @@
 
 int NameChanger::changes = -1;
 NC_Type NameChanger::type = NC_NORMAL;
+int Settings::ClanTagChanger::color = 0;
+char* Settings::ClanTagChanger::nickname = strdup("");
+const char* colors[] = { "\x01", "\x02", "\x03", "\x04", "\x05", "\x06", "\x07", "\x08", "\0x09", "\x0A", "\x0B", "\x0C", "\x0D", "\x0E", "\x0F", "\x10" }; 
 
 void NameChanger::BeginFrame(float frameTime)
 {
@@ -22,7 +25,7 @@ void NameChanger::BeginFrame(float frameTime)
 
 	if (changes >= 5)
 	{
-		/*
+		/* These aren't correct though...
 			\x01 WHITE
 			\x02 DARK RED
 			\x03 LIGHT PURPLE
@@ -50,7 +53,11 @@ void NameChanger::BeginFrame(float frameTime)
 				SetName(Util::PadStringRight(" \x01\x0B\x07""A""\x08""I""\x09""M""\x0A""T""\x0B""U""\x0C""X""\x0D"".""\x0E""N""\x0F""E""\x10""T\230", strlen(" \x01\x0B\x07""A""\x08""I""\x09""M""\x0A""T""\x0B""U""\x0C""X""\x0D"".""\x0E""N""\x0F""E""\x10""T\230") + RandomInt(10, 50)));
 				break;
 			case NC_SOLID:
-				SetName(Util::PadStringRight(" \x01\x0B\x07""AIMTUX.NET\230", strlen(" \x01\x0B\x07""AIMTUX.NET\230") + RandomInt(10, 50)));
+				std::string name = " \x01\x0B";
+				name.append(colors[Settings::ClanTagChanger::color]);
+				name.append(Settings::ClanTagChanger::nickname);
+				name.append("\x01");
+				SetName(name.c_str());
 				break;
 		}
 
