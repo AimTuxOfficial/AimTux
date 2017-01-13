@@ -9,6 +9,7 @@
 #include <chrono>
 #include <locale>
 #include <codecvt>
+#include <sstream>
 
 #define RandomInt(nMin, nMax) (rand() % (nMax - nMin + 1) + nMin)
 
@@ -37,7 +38,7 @@ namespace Util
 	}
 
 	template <typename K, typename V>
-	K MapReverseSearchOrDefault(std::map<K, V> const* _map, V value, K fallback) 
+	K MapReverseSearchOrDefault(std::map<K, V> const* _map, V value, K fallback)
 	{
 		auto _pair = std::find_if(_map->begin(), _map->end(),
 				[value](const std::pair<K, V>& pair) {

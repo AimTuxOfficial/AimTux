@@ -2,8 +2,10 @@
 
 bool Settings::NoSky::enabled = false;
 ImColor Settings::NoSky::color = ImColor(0, 0, 0, 255);
+float r1 = 0.0f, g1 = 0.0f, b1 = 0.0f, a1 = 0.0f;
 
 std::unordered_map<MaterialHandle_t, ImColor> skyboxMaterials;
+std::unordered_map<MaterialHandle_t, ImColor> skyboxMaterials2;
 
 void NoSky::FrameStageNotify(ClientFrameStage_t stage)
 {
@@ -16,15 +18,15 @@ void NoSky::FrameStageNotify(ClientFrameStage_t stage)
 			if (!mat)
 				continue;
 
-			float r, g, b;
+			mat->GetColorModulate(&r1, &g1, &b1);
+			a1 = mat->GetAlphaModulation();
 
-			mat->GetColorModulate(&r, &g, &b);
-
-			mat->ColorModulate(r, g, b);
-			mat->AlphaModulate(mat->GetAlphaModulation());
+			mat->ColorModulate(r1, g1, b1);
+			mat->AlphaModulate(a1);
 		}
 
 		skyboxMaterials.clear();
+		skyboxMaterials2.clear();
 	}
 	
 	if (stage != ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_END)
@@ -33,17 +35,19 @@ void NoSky::FrameStageNotify(ClientFrameStage_t stage)
 	for (MaterialHandle_t i = material->FirstMaterial(); i != material->InvalidMaterial(); i = material->NextMaterial(i))
 	{
 		IMaterial *mat = material->GetMaterial(i);
-		float r, g, b;
 
 		if (!mat || strcmp(mat->GetTextureGroupName(), TEXTURE_GROUP_SKYBOX) != 0)
 			continue;
 
-		mat->GetColorModulate(&r, &g, &b);
-
 		if (skyboxMaterials.find(i) == skyboxMaterials.end())
-			skyboxMaterials.emplace(i, ImColor());
+		{
+			mat->GetColorModulate(&r1, &g1, &b1);
+			a1 = mat->GetAlphaModulation();
+			skyboxMaterials.emplace(i, ImColor(r1, g1, b1, a1));
+			skyboxMaterials2.emplace(i, ImColor(r1, g1, b1, a1));
+		}
 
-		ImColor color = Settings::NoSky::enabled ? Settings::NoSky::color : ImColor(r, g, b, mat->GetAlphaModulation());
+		ImColor color = Settings::NoSky::enabled ? Settings::NoSky::color : skyboxMaterials2.find(i)->second;
 
 		if (skyboxMaterials.at(i) != color)
 		{

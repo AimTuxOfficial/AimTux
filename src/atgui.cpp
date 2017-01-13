@@ -378,13 +378,21 @@ void AimbotTab()
 
 	ImGui::Columns(3, NULL, true);
 	{
-		ImGui::SetColumnOffset(1, 150);
+		ImGui::SetColumnOffset(1, 200);
 		ImGui::ListBoxHeader("##GUNS", ImVec2(-1, -1));
 			for (auto it : guns)
 			{
 				const bool item_selected = (it.first == current_weapon);
 				ImGui::PushID(it.first);
-					if (ImGui::Selectable(it.second, item_selected))
+
+					char* formattedName;
+					char changeIndicator = ' ';
+					bool isChanged = Settings::Aimbot::weapons.find(it.first) != Settings::Aimbot::weapons.end();
+					if (it.first > -1 && isChanged)
+						changeIndicator = '*';
+					asprintf(&formattedName, "%c %s", changeIndicator, it.second);
+
+					if (ImGui::Selectable(formattedName, item_selected))
 					{
 						current_weapon = it.first;
 
@@ -496,7 +504,8 @@ void AimbotTab()
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Adds a margin of error to the aim, it will be obvious what it does when using it");
 				ImGui::PushItemWidth(-1);
-					ImGui::Combo("##SMOOTHTYPE", &smoothType, smoothTypes, IM_ARRAYSIZE(smoothTypes));
+					if(ImGui::Combo("##SMOOTHTYPE", &smoothType, smoothTypes, IM_ARRAYSIZE(smoothTypes)))
+						UI::updateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
 			ImGui::NextColumn();
@@ -556,10 +565,26 @@ void AimbotTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				if (ImGui::Checkbox("Auto Pistol", &autoPistolEnabled))
-					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Automatically shoots the pistol when holding fire");
+				switch (current_weapon)
+				{
+					case -1:
+					case WEAPON_DEAGLE:
+					case WEAPON_ELITE:
+					case WEAPON_FIVESEVEN:
+					case WEAPON_GLOCK:
+					case WEAPON_TEC9:
+					case WEAPON_HKP2000:
+					case WEAPON_USP_SILENCER:
+					case WEAPON_P250:
+					case WEAPON_CZ75A:
+					case WEAPON_REVOLVER:
+						if (ImGui::Checkbox("Auto Pistol", &autoPistolEnabled))
+							UI::updateWeaponSettings();
+						if (ImGui::IsItemHovered())
+							ImGui::SetTooltip("Automatically shoots the pistol when holding fire");
+						break;
+				}
+
 				if (ImGui::Checkbox("Auto Shoot", &autoShootEnabled))
 					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
@@ -568,6 +593,10 @@ void AimbotTab()
 					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Prevents the camera from locking to an enemy, doesn't work for demos");
+				if(ImGui::Checkbox("Smoke Check", &smoke_check))
+					UI::updateWeaponSettings();
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Ignore players that are in smoke");
 			}
 			ImGui::NextColumn();
 			{
@@ -583,6 +612,58 @@ void AimbotTab()
 					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Prevents you from aimbotting while jumping");
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::Text("AutoWall");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				if (ImGui::Checkbox("Enabled##AUTOWALL", &autoWallEnabled))
+					UI::updateWeaponSettings();
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Shoots enemy through a wall if it does X amount of damage");
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::PushItemWidth(-1);
+					if (ImGui::SliderFloat("##AUTOWALLDMG", &autoWallValue, 0, 100, "Min Damage: %f"))
+						UI::updateWeaponSettings();
+				ImGui::PopItemWidth();
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::Text("AutoWall Target");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				if (ImGui::Checkbox("Head", &autoWallBones[HITBOX_HEAD]))
+					UI::updateWeaponSettings();
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger on head");
+				if (ImGui::Checkbox("Neck", &autoWallBones[HITBOX_NECK]))
+					UI::updateWeaponSettings();
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger on neck");
+				if (ImGui::Checkbox("Pelvis", &autoWallBones[HITBOX_PELVIS]))
+					UI::updateWeaponSettings();
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger on pelvis");
+			}
+			ImGui::NextColumn();
+			{
+				if (ImGui::Checkbox("Spine", &autoWallBones[HITBOX_SPINE]))
+					UI::updateWeaponSettings();
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger on spine");
+				if (ImGui::Checkbox("Legs", &autoWallBones[HITBOX_LEGS]))
+					UI::updateWeaponSettings();
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger on legs");
+				if (ImGui::Checkbox("Arms", &autoWallBones[HITBOX_ARMS]))
+					UI::updateWeaponSettings();
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Trigger on arms");
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -1119,58 +1200,7 @@ void HvHTab()
 	{
 		ImGui::BeginChild("HVH2", ImVec2(0, 0), true);
 		{
-			ImGui::Text("AutoWall");
-			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
-			{
-				if (ImGui::Checkbox("Enabled##AUTOWALL", &autoWallEnabled))
-					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Shoots enemy through a wall if it does X amount of damage");
-			}
-			ImGui::NextColumn();
-			{
-				ImGui::PushItemWidth(-1);
-				if (ImGui::SliderFloat("##AUTOWALLDMG", &autoWallValue, 0, 100, "Min Damage: %f"))
-					UI::updateWeaponSettings();
-				ImGui::PopItemWidth();
-			}
-			ImGui::Columns(1);
-			ImGui::Separator();
-			ImGui::Text("AutoWall Target");
-			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
-			{
-				if (ImGui::Checkbox("Head", &autoWallBones[HITBOX_HEAD]))
-					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Trigger on head");
-				if (ImGui::Checkbox("Neck", &autoWallBones[HITBOX_NECK]))
-					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Trigger on neck");
-				if (ImGui::Checkbox("Pelvis", &autoWallBones[HITBOX_PELVIS]))
-					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Trigger on pelvis");
-			}
-			ImGui::NextColumn();
-			{
-				if (ImGui::Checkbox("Spine", &autoWallBones[HITBOX_SPINE]))
-					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Trigger on spine");
-				if (ImGui::Checkbox("Legs", &autoWallBones[HITBOX_LEGS]))
-					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Trigger on legs");
-				if (ImGui::Checkbox("Arms", &autoWallBones[HITBOX_ARMS]))
-					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Trigger on arms");
-			}
-			ImGui::Columns(1);
-			ImGui::Separator();
+
 			ImGui::Text("Resolver");
 			ImGui::Separator();
 			ImGui::Checkbox("Resolve All", &Settings::Resolver::resolve_all);
@@ -1720,7 +1750,7 @@ void ConfigWindow()
 	if (!showConfigWindow)
 		return;
 
-	ImGui::SetNextWindowSize(ImVec2(195, 250), ImGuiSetCond_Always);
+	ImGui::SetNextWindowSize(ImVec2(195, 260), ImGuiSetCond_Always);
 	if (ImGui::Begin("Configs", &showConfigWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoResize))
 	{
 		static std::vector<std::string> configItems = GetConfigs();
