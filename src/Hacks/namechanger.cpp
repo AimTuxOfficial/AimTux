@@ -1,6 +1,7 @@
 #include "namechanger.h"
 
 int NameChanger::changes = -1;
+NC_Type NameChanger::type = NC_NORMAL;
 
 void NameChanger::BeginFrame(float frameTime)
 {
@@ -21,7 +22,38 @@ void NameChanger::BeginFrame(float frameTime)
 
 	if (changes >= 5)
 	{
-		SetName(Util::PadStringRight("\230AIMTUX.NET", strlen("\230AIMTUX.NET") + RandomInt(10, 50)));
+		/*
+			\x01 WHITE
+			\x02 RED
+			\x03 PURPLE
+			\x04 GREEN
+			\x05 LIGHT GREEN
+			\x06 TURQUOISE
+			\x07 LIGHT RED
+			\x08 GRAY
+			\x09 YELLOW
+			\x0A GRAY
+			\x0B LIGHT BLUE
+			\x0C GRAY (PURPLE FOR SPEC)
+			\x0D BLUE
+			\x0E PINK
+			\x0F DARK ORANGE
+			\x10 ORANGE
+		*/
+
+		switch (NameChanger::type)
+		{
+			case NC_NORMAL:
+				SetName(Util::PadStringRight("\230AIMTUX.NET", strlen("\230AIMTUX.NET") + RandomInt(10, 50)));
+				break;
+			case NC_RAINBOW:
+				SetName(Util::PadStringRight(" \x01\x0B\x07""A""\x08""I""\x09""M""\x0A""T""\x0B""U""\x0C""X""\x0D"".""\x0E""N""\x0F""E""\x10""T\230", strlen(" \x01\x0B\x07""A""\x08""I""\x09""M""\x0A""T""\x0B""U""\x0C""X""\x0D"".""\x0E""N""\x0F""E""\x10""T\230") + RandomInt(10, 50)));
+				break;
+			case NC_SOLID:
+				SetName(Util::PadStringRight(" \x01\x0B\x07""AIMTUX.NET\230", strlen(" \x01\x0B\x07""AIMTUX.NET\230") + RandomInt(10, 50)));
+				break;
+		}
+
 		changes = -1;
 
 		return;

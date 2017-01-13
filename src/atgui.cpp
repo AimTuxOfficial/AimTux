@@ -371,6 +371,7 @@ void AimbotTab()
 {
 	const char* targets[] = { "PELVIS", "", "", "HIP", "LOWER SPINE", "MIDDLE SPINE", "UPPER SPINE", "NECK", "HEAD" };
 	const char* smoothTypes[] = { "Slow Near End", "Constant Speed" };
+	static char filterWeapons[32];
 
 	if (ImGui::Checkbox("Enabled", &enabled))
 		UI::updateWeaponSettings();
@@ -379,16 +380,23 @@ void AimbotTab()
 	ImGui::Columns(3, NULL, true);
 	{
 		ImGui::SetColumnOffset(1, 200);
+		ImGui::PushItemWidth(-1);
+			ImGui::InputText("##FILTERWEAPONS", filterWeapons, IM_ARRAYSIZE(filterWeapons));
+		ImGui::PopItemWidth();
 		ImGui::ListBoxHeader("##GUNS", ImVec2(-1, -1));
 			for (auto it : guns)
 			{
+				bool isDefault = it.first < 0;
+				if (!isDefault && !Util::Contains(Util::ToLower(std::string(filterWeapons)), Util::ToLower(std::string(it.second))))
+					continue;
+
 				const bool item_selected = (it.first == current_weapon);
 				ImGui::PushID(it.first);
 
 					char* formattedName;
 					char changeIndicator = ' ';
 					bool isChanged = Settings::Aimbot::weapons.find(it.first) != Settings::Aimbot::weapons.end();
-					if (it.first > -1 && isChanged)
+					if (!isDefault && isChanged)
 						changeIndicator = '*';
 					asprintf(&formattedName, "%c %s", changeIndicator, it.second);
 
@@ -512,7 +520,7 @@ void AimbotTab()
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Adds a margin of error to the aim, it will be obvious what it does when using it");
 				ImGui::PushItemWidth(-1);
-					if(ImGui::Combo("##SMOOTHTYPE", &smoothType, smoothTypes, IM_ARRAYSIZE(smoothTypes)))
+					if (ImGui::Combo("##SMOOTHTYPE", &smoothType, smoothTypes, IM_ARRAYSIZE(smoothTypes)))
 						UI::updateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
@@ -601,7 +609,7 @@ void AimbotTab()
 					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Prevents the camera from locking to an enemy, doesn't work for demos");
-				if(ImGui::Checkbox("Smoke Check", &smoke_check))
+				if (ImGui::Checkbox("Smoke Check", &smoke_check))
 					UI::updateWeaponSettings();
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Ignore players that are in smoke");
@@ -1429,21 +1437,33 @@ void MiscTab()
 			ImGui::Separator();
 			ImGui::Text("Nickname");
 			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
+
+			ImGui::InputText("##NICKNAMETEXT", nickname, 127);
+
+			ImGui::SameLine();
+			if (ImGui::Button("Set Nickname", ImVec2(-1, 0)))
+				NameChanger::SetName(nickname);
+
+			if (ImGui::Button("No Name"))
 			{
-				ImGui::PushItemWidth(-1);
-					ImGui::InputText("##NICKNAMETEXT", nickname, 127);
-				ImGui::PopItemWidth();
+				NameChanger::changes = 0;
+				NameChanger::type = NC_NORMAL;
 			}
-			ImGui::NextColumn();
+
+			ImGui::SameLine();
+			if (ImGui::Button("Rainbow Name"))
 			{
-				if (ImGui::Button("Set Nickname"))
-					NameChanger::SetName(nickname);
-				ImGui::SameLine();
-				if (ImGui::Button("No Name", ImVec2(-1, 0)))
-					NameChanger::changes = 0;
+				NameChanger::changes = 0;
+				NameChanger::type = NC_RAINBOW;
 			}
-			ImGui::Columns(1);
+
+			ImGui::SameLine();
+			if (ImGui::Button("Solid Red Name"))
+			{
+				NameChanger::changes = 0;
+				NameChanger::type = NC_SOLID;
+			}
+
 			ImGui::Separator();
 			ImGui::Text("Other");
 			ImGui::Separator();
@@ -1811,6 +1831,7 @@ void ConfigWindow()
 				Settings::LoadDefaultsOrSave(path << "/config.json");
 
 				configItems = GetConfigs();
+				configItemCurrent = -1;
 			}
 		}
 

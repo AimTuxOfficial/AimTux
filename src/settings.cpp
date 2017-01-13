@@ -378,7 +378,10 @@ void Settings::LoadConfig(std::string path)
 	Fonts::SetupFonts();
 
 	GetVal(settings["Aimbot"]["default_override"], &Settings::Aimbot::default_override);
-	Settings::Aimbot::weapons.clear();
+  
+	Settings::Aimbot::weapons = {
+			{ -1, Settings::Aimbot::Weapon(false, false, false, BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, false, false, false, false, false, false, false, 10.0f, &Settings::Aimbot::AutoWall::bones[0]) },
+	};
 
 	for (Json::ValueIterator itr = settings["Aimbot"]["weapons"].begin(); itr != settings["Aimbot"]["weapons"].end(); itr++)
 	{

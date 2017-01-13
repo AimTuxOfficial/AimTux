@@ -37,7 +37,12 @@ interface* GetInterface(const char* filename, const char* version, bool exact = 
 	void* interfaces_sym = dlsym(library, "s_pInterfaceRegs");
 
 	if (!interfaces_sym)
+	{
+		dlclose(library);
 		return nullptr;
+	}
+
+	dlclose(library);
 
 	InterfaceReg* interfaces = *reinterpret_cast<InterfaceReg**>(interfaces_sym);
 
