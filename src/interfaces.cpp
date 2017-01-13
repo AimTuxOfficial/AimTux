@@ -24,7 +24,8 @@ void Interfaces::dumpInterfaces()
 
 		void* interfaces_sym = dlsym(library, "s_pInterfaceRegs");
 
-		if (!interfaces_sym) {
+		if (!interfaces_sym)
+		{
 			dlclose(library);
 			continue;
 		}
