@@ -2,8 +2,8 @@
 
 int NameChanger::changes = -1;
 NC_Type NameChanger::type = NC_NORMAL;
-int Settings::NameChanger::color = 0;
-char* Settings::NameChanger::nickname = strdup("");
+int Settings::ClanTagChanger::color = 0;
+char* Settings::ClanTagChanger::nickname = strdup("");
 const char* colors[] = { "\x01", "\x02", "\x03", "\x04", "\x05", "\x06", "\x07", "\x08", "\0x09", "\x0A", "\x0B", "\x0C", "\x0D", "\x0E", "\x0F", "\x10" }; 
 
 void NameChanger::BeginFrame(float frameTime)
@@ -54,8 +54,8 @@ void NameChanger::BeginFrame(float frameTime)
 				break;
 			case NC_SOLID:
 				std::string name = " \x01\x0B";
-				name.append(colors[Settings::NameChanger::color]);
-				name.append(Settings::NameChanger::nickname);
+				name.append(colors[Settings::ClanTagChanger::color]);
+				name.append(Settings::ClanTagChanger::nickname);
 				name.append("\x01");
 				SetName(name.c_str());
 				break;
