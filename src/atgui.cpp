@@ -1429,39 +1429,33 @@ void MiscTab()
 			ImGui::Separator();
 			ImGui::Text("Nickname");
 			ImGui::Separator();
-			ImGui::Columns(3, NULL, true);
+
+			ImGui::InputText("##NICKNAMETEXT", nickname, 127);
+
+			ImGui::SameLine();
+			if (ImGui::Button("Set Nickname", ImVec2(-1, 0)))
+				NameChanger::SetName(nickname);
+
+			if (ImGui::Button("No Name"))
 			{
-				ImGui::PushItemWidth(-1);
-					ImGui::InputText("##NICKNAMETEXT", nickname, 127);
-				ImGui::PopItemWidth();
+				NameChanger::changes = 0;
+				NameChanger::type = NC_NORMAL;
 			}
 
-			// Barclay pls cleanup ~ Daniel
-			ImGui::NextColumn();
+			ImGui::SameLine();
+			if (ImGui::Button("Rainbow Name"))
 			{
-				if (ImGui::Button("Set Nickname"))
-					NameChanger::SetName(nickname);
-
-				ImGui::NextColumn();
-				if (ImGui::Button("No Name"))
-				{
-					NameChanger::changes = 0;
-					NameChanger::type = NC_NORMAL;
-				}
-				ImGui::SameLine();
-				if (ImGui::Button("Rainbow Name"))
-				{
-					NameChanger::changes = 0;
-					NameChanger::type = NC_RAINBOW;
-				}
-				ImGui::SameLine();
-				if (ImGui::Button("Solid Red Name"))
-				{
-					NameChanger::changes = 0;
-					NameChanger::type = NC_SOLID;
-				}
+				NameChanger::changes = 0;
+				NameChanger::type = NC_RAINBOW;
 			}
-			ImGui::Columns(1);
+
+			ImGui::SameLine();
+			if (ImGui::Button("Solid Red Name"))
+			{
+				NameChanger::changes = 0;
+				NameChanger::type = NC_SOLID;
+			}
+
 			ImGui::Separator();
 			ImGui::Text("Other");
 			ImGui::Separator();
