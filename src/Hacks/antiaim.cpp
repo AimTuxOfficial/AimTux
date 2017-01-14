@@ -79,7 +79,7 @@ bool HasViableEnemy()
 
 void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 {
-	int aa_type = bFlip ? Settings::AntiAim::Yaw::type : Settings::AntiAim::Yaw::type_fake;
+	int aa_type = bFlip ? Settings::AntiAim::Yaw::type_fake : Settings::AntiAim::Yaw::type;
 
 	static bool yFlip;
 	float temp;
