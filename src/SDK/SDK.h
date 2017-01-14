@@ -39,3 +39,4 @@
 #include "CCSGameRules.h"
 #include "IEngineVGui.h"
 #include "IEngineSound.h"
+#include "KeyValues.h"

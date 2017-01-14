@@ -26,10 +26,10 @@ int __attribute__((constructor)) aimtux_init()
 	Hooker::HookSurfaceDrawing();
 	Hooker::HookForceFullUpdate();
 	Hooker::HookLineGoesThroughSmoke();
+	Hooker::HookInitKeyValues();
+	Hooker::HookLoadFromBuffer();
 	Hooker::HookSwapWindow();
 	Hooker::HookPollEvent();
-
-	Chams::CreateMaterials();
 
 	cvar->ConsoleColorPrintf(ColorRGBA(150, 255, 150), "AimTux was successfully injected.\n");
 

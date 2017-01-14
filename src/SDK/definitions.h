@@ -11,6 +11,7 @@ typedef unsigned long long HFont;
 
 class IClientMode;
 class ILauncherMgr;
+class KeyValues;
 struct CGlowObjectManager;
 
 /* function prototypes */
@@ -26,6 +27,8 @@ typedef void (*FinishDrawingFn) (void*);
 typedef void* (*GetClientStateFn) (void);
 typedef void (*ForceFullUpdateFn) (void*);
 typedef bool (*LineGoesThroughSmokeFn) (Vector, Vector, int16_t);
+typedef void (*InitKeyValuesFn) (KeyValues*, const char*);
+typedef void (*LoadFromBufferFn) (KeyValues*, const char*, const char*, void*, const char*, void*);
 
 struct WeaponInfo_t {
 	float m_flWeaponArmorRatio;

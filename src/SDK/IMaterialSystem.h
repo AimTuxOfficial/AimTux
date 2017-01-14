@@ -2,10 +2,18 @@
 
 typedef unsigned short MaterialHandle_t;
 
+class KeyValues;
+
 class IMaterialSystem
 {
 public:
-	IMaterial* FindMaterial(char const *pMaterialName, const char *pTextureGroupName, bool complain = true, const char *pComplainPrefix = NULL)
+	IMaterial* CreateMaterial(const char* pMaterialName, KeyValues* pVMTKeyValues)
+	{
+		typedef IMaterial* (* oCreateMaterial)(void*, const char*, KeyValues*);
+		return getvfunc<oCreateMaterial>(this, 83)(this, pMaterialName, pVMTKeyValues);
+	}
+
+	IMaterial* FindMaterial(char const* pMaterialName, const char* pTextureGroupName, bool complain = true, const char* pComplainPrefix = NULL)
 	{
 		typedef IMaterial* (* oFindMaterial)(void*, char const*, const char*, bool, const char*);
 		return getvfunc<oFindMaterial>(this, 84)(this, pMaterialName, pTextureGroupName, complain, pComplainPrefix);

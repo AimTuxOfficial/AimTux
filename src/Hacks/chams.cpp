@@ -12,73 +12,11 @@ int Settings::ESP::Chams::type = CHAMS;
 
 float rainbowHue;
 
-void Chams::CreateMaterials()
-{
-	char cwd[1024];
-	std::stringstream chams;
-	std::stringstream chamsIgnorez;
-	std::stringstream chamsFlat;
-	std::stringstream chamsFlatIgnorez;
-	char* chamsPath;
-	char* chamsArmsPath;
-	char* chamsIgnorezPath;
-	char* chamsFlatPath;
-	char* chamsFlatIgnorezPath;
-
-	chams << "\"VertexLitGeneric\"\n"
-	"{\n"
-	"\t\"$basetexture\" \"VGUI/white_additive\"\n"
-	"\t\"$ignorez\" \"0\"\n"
-	"\t\"$nofog\" \"1\"\n"
-	"\t\"$model\" \"1\"\n"
-	"\t\"$nocull\" \"1\"\n"
-	"\t\"$halflambert\" \"1\"\n"
-	"}\n" << std::flush;
-
-	chamsIgnorez << "\"VertexLitGeneric\"\n"
-	"{\n"
-	"\t\"$basetexture\" \"VGUI/white_additive\"\n"
-	"\t\"$ignorez\" \"1\"\n"
-	"\t\"$nofog\" \"1\"\n"
-	"\t\"$model\" \"1\"\n"
-	"\t\"$nocull\" \"1\"\n"
-	"\t\"$halflambert\" \"1\"\n"
-	"}\n" << std::flush;
-
-	chamsFlat << "\"UnlitGeneric\"\n"
-	"{\n"
-	"\t\"$basetexture\" \"VGUI/white_additive\"\n"
-	"\t\"$ignorez\" \"0\"\n"
-	"\t\"$nofog\" \"1\"\n"
-	"\t\"$model\" \"1\"\n"
-	"\t\"$nocull\" \"1\"\n"
-	"\t\"$halflambert\" \"1\"\n"
-	"}\n" << std::flush;
-
-	chamsFlatIgnorez << "\"UnlitGeneric\"\n"
-	"{\n"
-	"\t\"$basetexture\" \"VGUI/white_additive\"\n"
-	"\t\"$ignorez\" \"1\"\n"
-	"\t\"$nofog\" \"1\"\n"
-	"\t\"$model\" \"1\"\n"
-	"\t\"$nocull\" \"1\"\n"
-	"\t\"$halflambert\" \"1\"\n"
-	"}\n" << std::flush;
-
-	getcwd(cwd, sizeof(cwd));
-
-	asprintf(&chamsPath, "%s/csgo/materials/aimtux_chams.vmt", cwd);
-	asprintf(&chamsArmsPath, "%s/csgo/materials/aimtux_chams_arms.vmt", cwd);
-	asprintf(&chamsIgnorezPath, "%s/csgo/materials/aimtux_chamsIgnorez.vmt", cwd);
-	asprintf(&chamsFlatPath, "%s/csgo/materials/aimtux_chamsFlat.vmt", cwd);
-	asprintf(&chamsFlatIgnorezPath, "%s/csgo/materials/aimtux_chamsFlatIgnorez.vmt", cwd);
-
-	std::ofstream(chamsPath) << chams.str();
-	std::ofstream(chamsArmsPath) << chams.str();
-	std::ofstream(chamsIgnorezPath) << chamsIgnorez.str();
-	std::ofstream(chamsFlatPath) << chamsFlat.str();
-	std::ofstream(chamsFlatIgnorezPath) << chamsFlatIgnorez.str();
-}
+IMaterial* materialChams;
+IMaterial* materialChamsIgnorez;
+IMaterial* materialChamsFlat;
+IMaterial* materialChamsFlatIgnorez;
+IMaterial* materialChamsArms;
 
 void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld)
 {
@@ -103,13 +41,13 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 	{
 		case CHAMS:
 		case CHAMS_XQZ:
-			visible_material = material->FindMaterial("aimtux_chams", TEXTURE_GROUP_MODEL);
-			hidden_material = material->FindMaterial("aimtux_chamsIgnorez", TEXTURE_GROUP_MODEL);
+			visible_material = materialChams;
+			hidden_material = materialChamsIgnorez;
 			break;
 		case CHAMS_FLAT:
 		case CHAMS_FLAT_XQZ:
-			visible_material = material->FindMaterial("aimtux_chamsFlat", TEXTURE_GROUP_MODEL);
-			hidden_material = material->FindMaterial("aimtux_chamsFlatIgnorez", TEXTURE_GROUP_MODEL);
+			visible_material = materialChamsFlat;
+			hidden_material = materialChamsFlatIgnorez;
 			break;
 	}
 
@@ -145,7 +83,12 @@ void DrawArms(const ModelRenderInfo_t &pInfo)
 		return;
 
 	std::string modelName = modelInfo->GetModelName(pInfo.pModel);
-	IMaterial *mat = material->FindMaterial(Settings::ESP::Chams::Arms::enabled ? "aimtux_chams_arms" : modelName.c_str(), TEXTURE_GROUP_MODEL);
+	IMaterial *mat;
+
+	if (Settings::ESP::Chams::Arms::enabled)
+		mat = materialChamsArms;
+	else
+		mat = material->FindMaterial(modelName.c_str(), TEXTURE_GROUP_MODEL);
 
 	switch (Settings::ESP::Chams::Arms::type)
 	{
@@ -169,12 +112,23 @@ void Chams::DrawModelExecute(void* thisptr, void* context, void *state, const Mo
 {
 	if (!engine->IsInGame())
 		return;
-	
+
 	if (!Settings::ESP::enabled)
 		return;
 
 	if (!pInfo.pModel)
 		return;
+
+	static bool materialsCreated = false;
+	if (!materialsCreated)
+	{
+		materialChams = Util::CreateMaterial("VertexLitGeneric", "VGUI/white_additive", false, true, true, true, true);
+		materialChamsIgnorez = Util::CreateMaterial("VertexLitGeneric", "VGUI/white_additive", true, true, true, true, true);
+		materialChamsFlat = Util::CreateMaterial("UnlitGeneric", "VGUI/white_additive", false, true, true, true, true);
+		materialChamsFlatIgnorez = Util::CreateMaterial("UnlitGeneric", "VGUI/white_additive", true, true, true, true, true);
+		materialChamsArms = Util::CreateMaterial("VertexLitGeneric", "VGUI/white_additive", false, true, true, true, true);
+		materialsCreated = true;
+	}
 
 	std::string modelName = modelInfo->GetModelName(pInfo.pModel);
 
