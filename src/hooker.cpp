@@ -65,6 +65,8 @@ ForceFullUpdateFn ForceFullUpdate;
 GetClientStateFn GetClientState;
 
 LineGoesThroughSmokeFn LineGoesThroughSmoke;
+InitKeyValuesFn InitKeyValues;
+LoadFromBufferFn LoadFromBuffer;
 
 std::unordered_map<const char*, uintptr_t> GetProcessLibraries()
 {
@@ -233,6 +235,18 @@ void Hooker::HookLineGoesThroughSmoke()
 {
 	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) LINEGOESTHROUGHSMOKE_SIGNATURE, LINEGOESTHROUGHSMOKE_MASK);
 	LineGoesThroughSmoke = reinterpret_cast<LineGoesThroughSmokeFn>(func_address);
+}
+
+void Hooker::HookInitKeyValues()
+{
+	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) INITKEVALUES_SIGNATURE, INITKEVALUES_MASK);
+	InitKeyValues = reinterpret_cast<InitKeyValuesFn>(func_address);
+}
+
+void Hooker::HookLoadFromBuffer()
+{
+	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) LOADFROMBUFFER_SIGNATURE, LOADFROMBUFFER_MASK);
+	LoadFromBuffer = reinterpret_cast<LoadFromBufferFn>(func_address);
 }
 
 void Hooker::HookSwapWindow()

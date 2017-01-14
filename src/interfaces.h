@@ -45,6 +45,8 @@ extern VMT* enginevgui_vmt;
 extern VMT* sound_vmt;
 
 extern LineGoesThroughSmokeFn LineGoesThroughSmoke;
+extern InitKeyValuesFn InitKeyValues;
+extern LoadFromBufferFn LoadFromBuffer;
 
 extern int* nPredictionRandomSeed;
 extern bool* bSendPacket;

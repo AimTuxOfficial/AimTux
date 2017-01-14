@@ -51,6 +51,12 @@
 #define LINEGOESTHROUGHSMOKE_SIGNATURE "\x55\x40\x0F\xB6\xFF"
 #define LINEGOESTHROUGHSMOKE_MASK "xxxxx"
 
+#define INITKEVALUES_SIGNATURE "\x81\x27\x00\x00\x00\xFF\x55\x48\x89\xE5\x5D"
+#define INITKEVALUES_MASK "xx???xxxxxx"
+
+#define LOADFROMBUFFER_SIGNATURE "\x55\x48\x89\xE5\x48\x89\x5D\xD8\x48\x89\xD3\x4C\x89\x65\xE0\x4D\x89\xCC"
+#define LOADFROMBUFFER_MASK "xxxxxxxxxxxxxxxxxx%"
+
 #include <unordered_map>
 #include <sys/mman.h>
 #include <link.h>
@@ -78,6 +84,8 @@ namespace Hooker
 	void HookSurfaceDrawing();
 	void HookForceFullUpdate();
 	void HookLineGoesThroughSmoke();
+	void HookInitKeyValues();
+	void HookLoadFromBuffer();
 	void HookSwapWindow();
 	void HookPollEvent();
 	void HookSDLInput();
