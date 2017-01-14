@@ -571,7 +571,7 @@ void ESP::DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info
 	if (Settings::ESP::Info::reloading && active_weapon && active_weapon->GetInReload())
 		stringsToShow.push_back("Reloading");
 
-	if (Settings::ESP::Info::flashed && player->GetFlashDuration() > 0.01f)
+	if (Settings::ESP::Info::flashed && player->GetFlashBangTime() - globalvars->curtime > 2.0f)
 		stringsToShow.push_back("Flashed");
 
 	if (Settings::ESP::Info::planting && Entity::IsPlanting(player))

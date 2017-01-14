@@ -131,7 +131,7 @@ public:
 	{
 		return (QAngle*)((uintptr_t)this + offsets.DT_BasePlayer.m_viewPunchAngle);
 	}
-	
+
 	QAngle* GetAimPunchAngle()
 	{
 		return (QAngle*)((uintptr_t)this + offsets.DT_BasePlayer.m_aimPunchAngle);
@@ -245,6 +245,11 @@ public:
 	int HasHelmet()
 	{
 		return *(int*)((uintptr_t)this + offsets.DT_CSPlayer.m_bHasHelmet);
+	}
+
+	float GetFlashBangTime()
+	{
+		return *(float*)((uintptr_t)this + 0xABE4);
 	}
 
 	float GetFlashDuration()
