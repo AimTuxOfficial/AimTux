@@ -81,10 +81,9 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 {
 	int aa_type = bFlip ? Settings::AntiAim::Yaw::type : Settings::AntiAim::Yaw::type_fake;
 
-	static float fYaw = 0.0f;
 	static bool yFlip;
 	float temp;
-	float factor;
+	double factor;
 	QAngle temp_qangle;
 
 	if (bFlip)
@@ -93,11 +92,13 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 	switch (aa_type)
 	{
 		case AntiAimType_Y::SPIN_FAST:
+			factor =  360.0 / M_PHI;
+			factor *= 25;
+			angle.y = fmod(globalvars->curtime * factor, 360.0);
+			break;
 		case AntiAimType_Y::SPIN_SLOW:
-			fYaw += aa_type == AntiAimType_Y::SPIN_FAST ? 100.0f : 10.0f;
-			if (fYaw > 180.0f)
-				angle.y -= 360.0f;
-			angle.y = fYaw;
+			factor =  360.0 / M_PHI;
+			angle.y = fmod(globalvars->curtime * factor, 360.0);
 			break;
 		case AntiAimType_Y::JITTER:
 			yFlip ? angle.y -= 90.0f : angle.y -= 270.0f;
