@@ -75,5 +75,5 @@ IMaterial* Util::CreateMaterial(std::string type, std::string texture, bool igno
 	InitKeyValues(keyValues, type.c_str());
 	LoadFromBuffer(keyValues, materialName.c_str(), materialData.str().c_str(), nullptr, NULL, nullptr);
 
-	return material->CreateMaterial(materialName.c_str(), keyValues);;
+	return material->CreateMaterial(materialName.c_str(), keyValues);
 }
