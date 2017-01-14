@@ -1,0 +1,12 @@
+#!/bin/sh
+# credits: aixxe @ aixxe.net
+if grep -q /usr/lib/libAimTux.so /proc/$(pidof csgo_linux64)/maps; then
+  exit
+fi
+
+sudo gdb -n -q -batch \
+  -ex "attach $(pidof csgo_linux64)" \
+  -ex "set \$dlopen = (void*(*)(char*, int)) dlopen" \
+  -ex "call \$dlopen(\"/usr/lib/libAimTux.so\", 1)" \
+  -ex "detach" \
+  -ex "quit"
