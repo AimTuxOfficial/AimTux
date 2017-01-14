@@ -55,7 +55,7 @@
 #define INITKEVALUES_MASK "xx???xxxxxx"
 
 #define LOADFROMBUFFER_SIGNATURE "\x55\x48\x89\xE5\x48\x89\x5D\xD8\x48\x89\xD3\x4C\x89\x65\xE0\x4D\x89\xCC"
-#define LOADFROMBUFFER_MASK "xxxxxxxxxxxxxxxxxx%"
+#define LOADFROMBUFFER_MASK "xxxxxxxxxxxxxxxxxx"
 
 #include <unordered_map>
 #include <sys/mman.h>
