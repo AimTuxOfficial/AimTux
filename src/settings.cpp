@@ -126,6 +126,10 @@ void Settings::LoadDefaultsOrSave(std::string path)
 		#undef weaponSetting
 	}
 
+	settings["Aimbot"]["AutoStop"]["enabled"] = Settings::Aimbot::AutoStop::enabled;
+
+	settings["Aimbot"]["AutoCrouch"]["enabled"] = Settings::Aimbot::AutoCrouch::enabled;
+
 	settings["Resolver"]["resolve_all"] = Settings::Resolver::resolve_all;
 
 	settings["Triggerbot"]["enabled"] = Settings::Triggerbot::enabled;
@@ -440,6 +444,10 @@ void Settings::LoadConfig(std::string path)
 
 		Settings::Aimbot::weapons[weaponID] = weapon;
 	}
+
+	GetVal(settings["Aimbot"]["AutoStop"]["enabled"], &Settings::Aimbot::AutoStop::enabled);
+
+	GetVal(settings["Aimbot"]["AutoCrouch"]["enabled"], &Settings::Aimbot::AutoCrouch::enabled);
 
 	GetVal(settings["Resolver"]["resolve_all"], &Settings::Resolver::resolve_all);
 
