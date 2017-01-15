@@ -435,7 +435,7 @@ void Settings::LoadConfig(std::string path)
 			weaponSetting["AutoWall"]["Enabled"].asBool(),
 			weaponSetting["AutoWall"]["Value"].asFloat(),
 			autoWallBones,
-		    weaponSetting["AutoAim"]["RealDistance"].asBool()
+			weaponSetting["AutoAim"]["RealDistance"].asBool()
 		);
 
 		Settings::Aimbot::weapons[weaponID] = weapon;
