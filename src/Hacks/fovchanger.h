@@ -5,5 +5,6 @@
 
 namespace FOVChanger
 {
-	void RenderView(CViewSetup& setup, CViewSetup& hudViewSetup, unsigned int nClearFlags, int whatToDraw);
+	void OverrideView(CViewSetup* pSetup);
+	void GetViewModelFOV(float& fov);
 };

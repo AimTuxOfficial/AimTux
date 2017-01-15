@@ -903,7 +903,7 @@ void ESP::DrawFOVCrosshair()
 	engine->GetScreenSize(width, height);
 
 	float radAimbotFov = (float)(Settings::Aimbot::AutoAim::fov * M_PI / 180);
-	float radViewFov = (float)(RenderView::currentFOV * M_PI / 180);
+	float radViewFov = (float)(OverrideView::currentFOV * M_PI / 180);
 
 	float circleRadius = tanf(radAimbotFov / 2) / tanf(radViewFov / 2) * width;
 

@@ -43,13 +43,14 @@ int __attribute__((constructor)) aimtux_init()
 	modelRender_vmt->HookVM((void*) Hooks::DrawModelExecute, 21);
 	modelRender_vmt->ApplyVMT();
 
+	clientMode_vmt->HookVM((void*) Hooks::OverrideView, 19);
 	clientMode_vmt->HookVM((void*) Hooks::CreateMove, 25);
+	clientMode_vmt->HookVM((void*) Hooks::GetViewModelFOV, 36);
 	clientMode_vmt->ApplyVMT();
 
 	gameEvents_vmt->HookVM((void*) Hooks::FireEventClientSide, 10);
 	gameEvents_vmt->ApplyVMT();
 
-	viewRender_vmt->HookVM((void*) Hooks::RenderView, 6);
 	viewRender_vmt->HookVM((void*) Hooks::RenderSmokePreViewmodel, 41);
 	viewRender_vmt->ApplyVMT();
 

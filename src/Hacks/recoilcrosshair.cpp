@@ -29,8 +29,8 @@ void Recoilcrosshair::Paint()
 
 	int x = (int) (ScreenWidth * 0.5f);
 	int y = (int) (ScreenHeight * 0.5f);
-	int dx = ScreenWidth / RenderView::currentFOV;
-	int dy = ScreenHeight / RenderView::currentFOV;
+	int dx = ScreenWidth / OverrideView::currentFOV;
+	int dy = ScreenHeight / OverrideView::currentFOV;
 
 	int crosshairX = (int) (x - (dx * punchAngle.y));
 	int crosshairY = (int) (y + (dy * punchAngle.x));
