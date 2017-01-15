@@ -20,7 +20,7 @@ void NameChanger::BeginFrame(float frameTime)
 	timeStamp = currentTime_ms;
 	changes++;
 
-	if (changes >= 5)
+	if (changes >= 4)
 	{
 		/*
 			\x01 WHITE
