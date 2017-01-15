@@ -429,7 +429,11 @@ void Aimbot::AutoShoot(C_BasePlayer* player, C_BaseCombatWeapon* active_weapon, 
 	if (Settings::Aimbot::AimStep::enabled && Aimbot::AimStepInProgress)
 		return;
 
-	if (!player || !active_weapon || active_weapon->GetCSWpnData()->GetWeaponType() == WEAPONTYPE_PISTOL || active_weapon->GetAmmo() == 0)
+	if (!player || !active_weapon || active_weapon->GetAmmo() == 0)
+		return;
+
+	CSWeaponType weaponType = active_weapon->GetCSWpnData()->GetWeaponType();
+	if (weaponType == WEAPONTYPE_KNIFE || weaponType == WEAPONTYPE_C4 || weaponType == WEAPONTYPE_GRENADE)
 		return;
 
 	if (cmd->buttons & IN_USE)
