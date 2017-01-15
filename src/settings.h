@@ -126,6 +126,7 @@ enum AimTargetType : int
 {
 	FOV,
 	DISTANCE,
+	REAL_DISTANCE,
 	HP
 };
 
@@ -187,6 +188,7 @@ namespace Settings
 		{
 			extern bool enabled;
 			extern float fov;
+			extern bool real_distance;
 		}
 
 		namespace AutoWall
@@ -252,7 +254,7 @@ namespace Settings
 			ButtonCode_t aimkey;
 			bool aimkey_only, smoothEnabled, smoothSaltEnabled, errorMarginEnabled, autoAimEnabled, aimStepEnabled, rcsEnabled, rcsAlways_on;
 			float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmount, autoWallValue;
-			bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check, autoWallEnabled, autoWallBones[6];
+			bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check, autoWallEnabled, autoWallBones[6], autoAimRealDistance;
 
 			Weapon(bool enabled, bool silent, bool friendly, int bone, ButtonCode_t aimkey, bool aimkey_only,
 				   bool smoothEnabled, float smoothValue, int smoothType, bool smoothSaltEnabled, float smoothSaltMultiplier,
@@ -260,7 +262,7 @@ namespace Settings
 				   bool autoAimEnabled, float autoAimValue, bool aimStepEnabled, float aimStepValue,
 				   bool rcsEnabled, bool rcsAlways_on, float rcsFloat,
 				   bool autoPistolEnabled, bool autoShootEnabled, bool autoScopeEnabled,
-				   bool noShootEnabled, bool ignoreJumpEnabled, bool smoke_check, bool autoWallEnabled, float autoWallValue, bool autoWallBones[6])
+				   bool noShootEnabled, bool ignoreJumpEnabled, bool smoke_check, bool autoWallEnabled, float autoWallValue, bool autoWallBones[6], bool autoAimRealDistance)
 			{
 				this->enabled = enabled;
 				this->silent = silent;
@@ -293,6 +295,8 @@ namespace Settings
 
 				for (int i = HITBOX_HEAD; i <= HITBOX_ARMS; i++)
 					this->autoWallBones[i] = autoWallBones[i];
+
+				this->autoAimRealDistance = autoAimRealDistance;
 			}
 
 			Weapon() {};
