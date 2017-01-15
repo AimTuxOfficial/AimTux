@@ -165,9 +165,6 @@ void Hooker::HookGameRules()
 	uintptr_t instruction_addr = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) GAMERULES_SIGNATURE, GAMERULES_MASK);
 
 	csGameRules = *reinterpret_cast<C_CSGameRules***>(GetAbsoluteAddress(instruction_addr, 3, 7));
-
-	uintptr_t func_address = FindPattern(Hooker::GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) GETCSWPNDATA_SIGNATURE, GETCSWPNDATA_MASK);
-	GetCSWpnData_address = reinterpret_cast<uintptr_t*>(func_address);
 }
 
 void Hooker::HookRankReveal()
@@ -252,6 +249,12 @@ void Hooker::HookLoadFromBuffer()
 {
 	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) LOADFROMBUFFER_SIGNATURE, LOADFROMBUFFER_MASK);
 	LoadFromBuffer = reinterpret_cast<LoadFromBufferFn>(func_address);
+}
+
+void Hooker::HookGetCSWpnData()
+{
+	uintptr_t func_address = FindPattern(Hooker::GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) GETCSWPNDATA_SIGNATURE, GETCSWPNDATA_MASK);
+	GetCSWpnData_address = reinterpret_cast<uintptr_t*>(func_address);
 }
 
 void Hooker::HookSwapWindow()

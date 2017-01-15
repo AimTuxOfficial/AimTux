@@ -28,6 +28,7 @@ int __attribute__((constructor)) aimtux_init()
 	Hooker::HookLineGoesThroughSmoke();
 	Hooker::HookInitKeyValues();
 	Hooker::HookLoadFromBuffer();
+	Hooker::HookGetCSWpnData();
 	Hooker::HookSwapWindow();
 	Hooker::HookPollEvent();
 

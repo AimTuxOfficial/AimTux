@@ -91,6 +91,7 @@ namespace Hooker
 	void HookLineGoesThroughSmoke();
 	void HookInitKeyValues();
 	void HookLoadFromBuffer();
+	void HookGetCSWpnData();
 	void HookSwapWindow();
 	void HookPollEvent();
 	void HookSDLInput();
