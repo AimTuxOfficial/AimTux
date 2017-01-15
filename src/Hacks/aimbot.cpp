@@ -17,6 +17,7 @@ bool Settings::Aimbot::ErrorMargin::enabled = false;
 float Settings::Aimbot::ErrorMargin::value = 0.0f;
 bool Settings::Aimbot::AutoAim::enabled = false;
 float Settings::Aimbot::AutoAim::fov = 180.0f;
+bool Settings::Aimbot::AutoAim::real_distance = false;
 bool Settings::Aimbot::AutoWall::enabled = false;
 float Settings::Aimbot::AutoWall::value = 10.0f;
 bool Settings::Aimbot::AutoWall::bones[] = { true, false, false, false, false, false };
@@ -53,7 +54,7 @@ std::unordered_map<int, std::vector<const char*>> hitboxes = {
 };
 
 std::unordered_map<int, Settings::Aimbot::Weapon> Settings::Aimbot::weapons = {
-		{ -1, Settings::Aimbot::Weapon(false, false, false, BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, false, false, false, false, false, false, false, 10.0f, &Settings::Aimbot::AutoWall::bones[0]) },
+		{ -1, Settings::Aimbot::Weapon(false, false, false, BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, false, false, false, false, false, false, false, 10.0f, &Settings::Aimbot::AutoWall::bones[0], false) },
 };
 
 static void ApplyErrorToAngle(QAngle* angles, float margin)
@@ -91,8 +92,41 @@ void GetBestBone(C_BasePlayer* player, float& best_damage, Bone& best_bone)
 	}
 }
 
+float GetRealDistanceFOV(float distance, QAngle angle, CUserCmd* cmd)
+{
+	/*    n
+	    w + e
+	      s        'real distance'
+	                      |
+	   a point -> x --..  v
+	              |     ''-- x <- a guy
+	              |          /
+	             |         /
+	             |       /
+	            | <------------ both of these lines are the same length
+	            |    /      /
+	           |   / <-----'
+	           | /
+	          o
+	     localplayer
+	*/
+
+	Vector aimingAt;
+	Math::AngleVectors(cmd->viewangles, aimingAt);
+	aimingAt *= distance;
+
+	Vector aimAt;
+	Math::AngleVectors(angle, aimAt);
+	aimAt *= distance;
+
+	return Math::GetDistance(aimingAt, aimAt);
+}
+
 C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& best_bone, AimTargetType aimTargetType = AimTargetType::FOV)
 {
+	if (Settings::Aimbot::AutoAim::real_distance)
+		aimTargetType = AimTargetType::REAL_DISTANCE;
+
 	best_bone = static_cast<Bone>(Settings::Aimbot::bone);
 
 	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
@@ -100,6 +134,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& best_bone, Aim
 
 	// TODO Change the big value with a distance/fov slider
 	float best_fov = Settings::Aimbot::AutoAim::fov;
+	float best_real_distance = Settings::Aimbot::AutoAim::fov * 5.f;
 	float best_distance = 999999999.0f;
 	int best_hp = 100;
 	float best_damage = 0;
@@ -133,14 +168,18 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& best_bone, Aim
 		QAngle viewAngles;
 		engine->GetViewAngles(viewAngles);
 
-		float fov = Math::GetFov(viewAngles, Math::CalcAngle(p_vecHead, e_vecHead));
 		float distance = Math::GetDistance(p_vecHead, e_vecHead);
+		float fov = Math::GetFov(viewAngles, Math::CalcAngle(p_vecHead, e_vecHead));
+		float real_distance = GetRealDistanceFOV(distance, Math::CalcAngle(p_vecHead, e_vecHead), cmd);
 		int hp = player->GetHealth();
 
 		if (aimTargetType == AimTargetType::DISTANCE && distance > best_distance)
 			continue;
 
 		if (aimTargetType == AimTargetType::FOV && fov > best_fov)
+			continue;
+
+		if (aimTargetType == AimTargetType::REAL_DISTANCE && real_distance > best_real_distance)
 			continue;
 
 		if (aimTargetType == AimTargetType::HP && hp > best_hp)
@@ -166,6 +205,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& best_bone, Aim
 		{
 			closestEntity = player;
 			best_fov = fov;
+			best_real_distance = real_distance;
 			best_distance = distance;
 			best_hp = hp;
 		}
@@ -592,4 +632,6 @@ void Aimbot::UpdateValues()
 
 	for (int i = HITBOX_HEAD; i <= HITBOX_ARMS; i++)
 		Settings::Aimbot::AutoWall::bones[i] = currentWeaponSetting.autoWallBones[i];
+
+	Settings::Aimbot::AutoAim::real_distance = currentWeaponSetting.autoAimRealDistance;
 }
