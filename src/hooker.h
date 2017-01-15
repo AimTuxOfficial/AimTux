@@ -68,6 +68,8 @@
 
 namespace Hooker
 {
+	std::unordered_map<const char*, uintptr_t> GetProcessLibraries();
+	uintptr_t GetLibraryAddress(const char* moduleName);
 	void HookInterfaces();
 	void HookVMethods();
 	void HookIClientMode();
