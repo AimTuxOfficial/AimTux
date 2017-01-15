@@ -373,22 +373,6 @@ public:
 	{
 		return (int*)((uintptr_t)this + offsets.DT_BaseAttributableItem.m_iAccountID);
 	}
-
-	bool CanScope()
-	{
-		switch (*this->GetItemDefinitionIndex())
-		{
-			case WEAPON_AUG:
-			case WEAPON_AWP:
-			case WEAPON_G3SG1:
-			case WEAPON_SCAR20:
-			case WEAPON_SG556:
-			case WEAPON_SSG08:
-				return true;
-			default:
-				return false;
-		}
-	}
 };
 
 class C_BaseViewModel: public C_BaseEntity
@@ -441,6 +425,11 @@ public:
 	float GetRangeModifier()
 	{
 		return *(float*)((uintptr_t)this + 0x84C);
+	}
+
+	int GetZoomLevels()
+	{
+		return *(int*)((uintptr_t)this + 0xE88);
 	}
 };
 
