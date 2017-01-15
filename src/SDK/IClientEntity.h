@@ -394,31 +394,6 @@ public:
 		}
 	}
 
-	bool IsAutomatic()
-	{
-		switch (*this->GetItemDefinitionIndex())
-		{
-			case WEAPON_AK47:
-			case WEAPON_AUG:
-			case WEAPON_FAMAS:
-			case WEAPON_GALILAR:
-			case WEAPON_M249:
-			case WEAPON_M4A1:
-			case WEAPON_M4A1_SILENCER:
-			case WEAPON_MAC10:
-			case WEAPON_P90:
-			case WEAPON_UMP45:
-			case WEAPON_BIZON:
-			case WEAPON_NEGEV:
-			case WEAPON_MP7:
-			case WEAPON_MP9:
-			case WEAPON_SG556:
-				return true;
-			default:
-				return false;
-		}
-	}
-
 	bool IsKnife()
 	{
 		switch (*this->GetItemDefinitionIndex())
@@ -496,6 +471,11 @@ public:
 class CCSWeaponInfo
 {
 public:
+	bool IsFullAuto()
+	{
+		return *(bool*)((uintptr_t)this + 0x820);
+	}
+
 	float GetWeaponArmorRatio()
 	{
 		return *(float*)((uintptr_t)this + 0x82C);
