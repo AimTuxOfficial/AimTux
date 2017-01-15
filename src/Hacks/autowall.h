@@ -20,7 +20,7 @@ namespace Autowall
 
 	float GetDamage(const Vector& vecPoint, bool teamCheck, FireBulletData& fData);
 	bool SimulateFireBullet(C_BaseCombatWeapon* pWeapon, bool teamCheck, FireBulletData &data);
-	bool HandleBulletPenetration(WeaponInfo_t wpn_data, FireBulletData &data);
+	bool HandleBulletPenetration(CCSWeaponInfo* weaponInfo, FireBulletData &data);
 	bool TraceToExit(Vector &end, trace_t *enter_trace, Vector start, Vector dir, trace_t *exit_trace);
 	bool DidHitNonWorldEntity(C_BasePlayer* player);
 	void ScaleDamage(int hitgroup, C_BasePlayer* enemy, float weapon_armor_ratio, float &current_damage);

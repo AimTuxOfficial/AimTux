@@ -30,14 +30,6 @@ typedef bool (*LineGoesThroughSmokeFn) (Vector, Vector, int16_t);
 typedef void (*InitKeyValuesFn) (KeyValues*, const char*);
 typedef void (*LoadFromBufferFn) (KeyValues*, const char*, const char*, void*, const char*, void*);
 
-struct WeaponInfo_t {
-	float m_flWeaponArmorRatio;
-	float m_flPenetration;
-	int m_iDamage;
-	float m_flRange;
-	float m_flRangeModifier;
-};
-
 enum TeamID: int
 {
 	TEAM_UNASSIGNED,

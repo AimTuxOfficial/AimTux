@@ -46,6 +46,8 @@ bool* bSendPacket = nullptr;
 int* nPredictionRandomSeed = nullptr;
 CMoveData* g_MoveData = nullptr;
 
+uintptr_t* GetCSWpnData_address = nullptr;
+
 uintptr_t original_swap_window;
 uintptr_t* swap_window_jump_address = nullptr;
 
@@ -163,6 +165,9 @@ void Hooker::HookGameRules()
 	uintptr_t instruction_addr = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) GAMERULES_SIGNATURE, GAMERULES_MASK);
 
 	csGameRules = *reinterpret_cast<C_CSGameRules***>(GetAbsoluteAddress(instruction_addr, 3, 7));
+
+	uintptr_t func_address = FindPattern(Hooker::GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) GETCSWPNDATA_SIGNATURE, GETCSWPNDATA_MASK);
+	GetCSWpnData_address = reinterpret_cast<uintptr_t*>(func_address);
 }
 
 void Hooker::HookRankReveal()
