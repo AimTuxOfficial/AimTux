@@ -68,7 +68,7 @@ LineGoesThroughSmokeFn LineGoesThroughSmoke;
 InitKeyValuesFn InitKeyValues;
 LoadFromBufferFn LoadFromBuffer;
 
-std::unordered_map<const char*, uintptr_t> GetProcessLibraries()
+std::unordered_map<const char*, uintptr_t> Hooker::GetProcessLibraries()
 {
 	std::unordered_map<const char*, uintptr_t> modules;
 
@@ -80,7 +80,7 @@ std::unordered_map<const char*, uintptr_t> GetProcessLibraries()
 	return modules;
 }
 
-uintptr_t GetLibraryAddress(const char* moduleName)
+uintptr_t Hooker::GetLibraryAddress(const char* moduleName)
 {
 	std::unordered_map<const char*, uintptr_t> modules = GetProcessLibraries();
 
