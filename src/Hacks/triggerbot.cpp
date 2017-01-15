@@ -119,7 +119,7 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 
 	timeStamp = oldTimeStamp;
 
-	if (active_weapon->IsKnife() || active_weapon->GetAmmo() == 0)
+	if (active_weapon->GetCSWpnData()->GetWeaponType() == WEAPONTYPE_KNIFE || active_weapon->GetAmmo() == 0)
 		return;
 
 	if (active_weapon->GetNextPrimaryAttack() > globalvars->curtime)

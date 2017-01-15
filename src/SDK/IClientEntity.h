@@ -374,64 +374,6 @@ public:
 		return (int*)((uintptr_t)this + offsets.DT_BaseAttributableItem.m_iAccountID);
 	}
 
-	bool IsPistol()
-	{
-		switch (*this->GetItemDefinitionIndex())
-		{
-			case WEAPON_DEAGLE:
-			case WEAPON_ELITE:
-			case WEAPON_FIVESEVEN:
-			case WEAPON_GLOCK:
-			case WEAPON_TEC9:
-			case WEAPON_HKP2000:
-			case WEAPON_USP_SILENCER:
-			case WEAPON_P250:
-			case WEAPON_CZ75A:
-			case WEAPON_REVOLVER:
-				return true;
-			default:
-				return false;
-		}
-	}
-
-	bool IsKnife()
-	{
-		switch (*this->GetItemDefinitionIndex())
-		{
-			case WEAPON_KNIFE:
-			case WEAPON_KNIFE_T:
-			case WEAPON_KNIFE_GUT:
-			case WEAPON_KNIFE_FLIP:
-			case WEAPON_KNIFE_BAYONET:
-			case WEAPON_KNIFE_M9_BAYONET:
-			case WEAPON_KNIFE_KARAMBIT:
-			case WEAPON_KNIFE_TACTICAL:
-			case WEAPON_KNIFE_BUTTERFLY:
-			case WEAPON_KNIFE_SURVIVAL_BOWIE:
-			case WEAPON_KNIFE_FALCHION:
-			case WEAPON_KNIFE_PUSH:
-				return true;
-			default:
-				return false;
-		}
-	}
-
-	bool IsGrenade()
-	{
-		switch (*this->GetItemDefinitionIndex())
-		{
-			case WEAPON_SMOKEGRENADE:
-			case WEAPON_HEGRENADE:
-			case WEAPON_INCGRENADE:
-			case WEAPON_FLASHBANG:
-			case WEAPON_MOLOTOV:
-			case WEAPON_DECOY:
-				return true;
-			default:
-				return false;
-		}
-	}
-
 	bool IsBomb()
 	{
 		return *this->GetItemDefinitionIndex() == WEAPON_C4;
@@ -471,6 +413,11 @@ public:
 class CCSWeaponInfo
 {
 public:
+	CSWeaponType GetWeaponType()
+	{
+		return *(CSWeaponType*)((uintptr_t)this + 0x814);
+	}
+
 	bool IsFullAuto()
 	{
 		return *(bool*)((uintptr_t)this + 0x820);

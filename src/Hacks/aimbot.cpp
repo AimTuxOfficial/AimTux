@@ -369,7 +369,7 @@ void Aimbot::AutoPistol(C_BaseCombatWeapon* active_weapon, CUserCmd* cmd)
 	if (!Settings::Aimbot::AutoPistol::enabled)
 		return;
 
-	if (!active_weapon || !active_weapon->IsPistol())
+	if (!active_weapon || active_weapon->GetCSWpnData()->GetWeaponType() != WEAPONTYPE_PISTOL)
 		return;
 
 	if (active_weapon->GetNextPrimaryAttack() < globalvars->curtime)
@@ -389,7 +389,7 @@ void Aimbot::AutoShoot(C_BasePlayer* player, C_BaseCombatWeapon* active_weapon, 
 	if (Settings::Aimbot::AimStep::enabled && Aimbot::AimStepInProgress)
 		return;
 
-	if (!player || !active_weapon || active_weapon->IsKnife() || active_weapon->GetAmmo() == 0)
+	if (!player || !active_weapon || active_weapon->GetCSWpnData()->GetWeaponType() == WEAPONTYPE_PISTOL || active_weapon->GetAmmo() == 0)
 		return;
 
 	if (cmd->buttons & IN_USE)
@@ -477,7 +477,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 		return;
 
 	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
-	if (!active_weapon || active_weapon->GetInReload() || active_weapon->IsGrenade() || active_weapon->IsKnife() || active_weapon->IsBomb())
+	if (!active_weapon || active_weapon->GetInReload() || active_weapon->IsBomb() || active_weapon->GetCSWpnData()->GetWeaponType() == WEAPONTYPE_GRENADE || active_weapon->GetCSWpnData()->GetWeaponType() == WEAPONTYPE_PISTOL)
 		return;
 
 	Bone aw_bone;

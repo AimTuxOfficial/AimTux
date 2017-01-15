@@ -445,6 +445,21 @@ enum HitGroups: int
 	HITGROUP_GEAR
 };
 
+enum CSWeaponType: int
+{
+	WEAPONTYPE_KNIFE = 0,
+	WEAPONTYPE_PISTOL,
+	WEAPONTYPE_SUBMACHINEGUN,
+	WEAPONTYPE_RIFLE,
+	WEAPONTYPE_SHOTGUN,
+	WEAPONTYPE_SNIPER_RIFLE,
+	WEAPONTYPE_MACHINEGUN,
+	WEAPONTYPE_C4,
+	WEAPONTYPE_GRENADE,
+	WEAPONTYPE_UNKNOWN
+
+};
+
 #define FL_ONGROUND				(1<<0)	// At rest / on the ground
 #define FL_DUCKING				(1<<1)	// Player flag -- Player is fully crouched
 #define FL_WATERJUMP			(1<<2)	// player jumping out of water

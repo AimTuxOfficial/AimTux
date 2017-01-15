@@ -19,7 +19,7 @@ void Recoilcrosshair::Paint()
 		return;
 
 	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
-	if (!active_weapon || !active_weapon->GetCSWpnData()->IsFullAuto())
+	if (!active_weapon || active_weapon->GetCSWpnData()->GetWeaponType() != WEAPONTYPE_RIFLE)
 		return;
 
 	QAngle punchAngle = *localplayer->GetAimPunchAngle();
