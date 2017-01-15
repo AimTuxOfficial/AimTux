@@ -374,11 +374,6 @@ public:
 		return (int*)((uintptr_t)this + offsets.DT_BaseAttributableItem.m_iAccountID);
 	}
 
-	bool IsBomb()
-	{
-		return *this->GetItemDefinitionIndex() == WEAPON_C4;
-	}
-
 	bool CanScope()
 	{
 		switch (*this->GetItemDefinitionIndex())

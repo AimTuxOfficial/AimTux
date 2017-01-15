@@ -477,7 +477,11 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 		return;
 
 	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
-	if (!active_weapon || active_weapon->GetInReload() || active_weapon->IsBomb() || active_weapon->GetCSWpnData()->GetWeaponType() == WEAPONTYPE_GRENADE || active_weapon->GetCSWpnData()->GetWeaponType() == WEAPONTYPE_PISTOL)
+	if (!active_weapon || active_weapon->GetInReload())
+		return;
+
+	CSWeaponType weaponType = active_weapon->GetCSWpnData()->GetWeaponType();
+	if (weaponType == WEAPONTYPE_C4 || weaponType == WEAPONTYPE_GRENADE || weaponType == WEAPONTYPE_KNIFE)
 		return;
 
 	Bone aw_bone;
