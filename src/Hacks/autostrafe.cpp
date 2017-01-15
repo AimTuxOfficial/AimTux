@@ -62,6 +62,10 @@ void RageStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 	if (localplayer->GetVelocity().Length() > 50.f)
 		yaw_change = 30.0f * fabsf(30.0f / localplayer->GetVelocity().Length());
 
+	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+	if (active_weapon && !active_weapon->GetAmmo() == 0 && cmd->buttons & IN_ATTACK)
+		yaw_change = 0.0f;
+
 	QAngle angle = cmd->viewangles;
 
 	if (!(localplayer->GetFlags() & FL_ONGROUND) && bWASD)
