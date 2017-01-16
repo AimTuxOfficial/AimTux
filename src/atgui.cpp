@@ -1493,7 +1493,7 @@ void MiscTab()
 					}
 				}
 				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Teleport to (0, 0, 0) on any map");
+					ImGui::SetTooltip("Teleport to (0, 0) on any map");
 				ImGui::Checkbox("Auto Defuse", &Settings::AutoDefuse::enabled);
 			}
 			ImGui::NextColumn();
