@@ -253,7 +253,7 @@ void Hooker::HookLoadFromBuffer()
 
 void Hooker::HookGetCSWpnData()
 {
-	uintptr_t func_address = FindPattern(Hooker::GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) GETCSWPNDATA_SIGNATURE, GETCSWPNDATA_MASK);
+	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) GETCSWPNDATA_SIGNATURE, GETCSWPNDATA_MASK);
 	GetCSWpnData_address = reinterpret_cast<uintptr_t*>(func_address);
 }
 
