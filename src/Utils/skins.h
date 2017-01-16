@@ -1,54 +1,11 @@
 #pragma once
 
-static std::vector<std::pair<int, const char*>> guns = {
-		{ -1,					"<-Default->"},
-		{ WEAPON_AK47,				"AK-47" },
-		{ WEAPON_AUG,				"AUG" },
-		{ WEAPON_AWP,				"AWP" },
-		{ WEAPON_CZ75A,				"CZ-75" },
-		{ WEAPON_DEAGLE,			"Deagle" },
-		{ WEAPON_ELITE,				"Dual Berettas" },
-		{ WEAPON_FAMAS,				"Famas" },
-		{ WEAPON_FIVESEVEN, 		"Five-SeveN" },
-		{ WEAPON_GALILAR,			"Galil AR" },
-		{ WEAPON_G3SG1,				"G3SG1" },
-		{ WEAPON_GLOCK,				"Glock" },
-		{ WEAPON_M249,				"M249" },
-		{ WEAPON_M4A1_SILENCER, 	"M4A1-S" },
-		{ WEAPON_M4A1,				"M4A4" },
-		{ WEAPON_MAC10,				"MAC-10" },
-		{ WEAPON_MAG7,				"MAG-7" },
-		{ WEAPON_MP7,				"MP7" },
-		{ WEAPON_MP9,				"MP9" },
-		{ WEAPON_NEGEV,				"Negev" },
-		{ WEAPON_NOVA,				"Nova" },
-		{ WEAPON_HKP2000,			"P2000" },
-		{ WEAPON_P250,				"P250" },
-		{ WEAPON_P90,				"P90" },
-		{ WEAPON_BIZON,				"PP-19 Bizon" },
-		{ WEAPON_REVOLVER,			"Revolver" },
-		{ WEAPON_SAWEDOFF,			"Sawed-Off" },
-		{ WEAPON_SCAR20,			"SCAR-20" },
-		{ WEAPON_SG556,				"SG553" },
-		{ WEAPON_SSG08,				"SSG08" },
-		{ WEAPON_TEC9,				"Tec-9" },
-		{ WEAPON_UMP45,				"UMP-45" },
-		{ WEAPON_USP_SILENCER,		"USP-S" },
-		{ WEAPON_XM1014,			"XM1014" },
-};
+#include "util.h"
+#include "../SDK/SDK.h"
+#include "../interfaces.h"
 
-static std::vector<std::pair<int, const char*>> knives = {
-		{ 0,  "Bayonet" },
-		{ 5,  "Flip" },
-		{ 6,  "Gut" },
-		{ 7,  "Karambit" },
-		{ 8,  "M9 Bayonet" },
-		{ 9,  "Huntsman" },
-		{ 12, "Falchion" },
-		{ 14, "Bowie" },
-		{ 15, "Butterfly" },
-		{ 16, "Shadow Daggers" },
-};
+extern std::vector<std::pair<int, const char*>> guns;
+extern std::vector<std::pair<int, const char*>> knives;
 
 static std::vector<std::pair<int, const char*>> weapon_skins = {
 		{ 0,   "<-Default->" },
@@ -601,3 +558,8 @@ static std::vector<std::pair<int, const char*>> weapon_skins = {
 		{ 517, "Yorick" },
 		{ 187, "Zirka" },
 };
+
+namespace Skins
+{
+	void Localize();
+}

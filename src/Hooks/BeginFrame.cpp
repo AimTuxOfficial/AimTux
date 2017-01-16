@@ -14,5 +14,7 @@ void Hooks::BeginFrame(void* thisptr, float frameTime)
 		*bSendPacket = CreateMove::SendPacket;
 	}
 
+	Skins::Localize();
+
 	return material_vmt->GetOriginalMethod<BeginFrameFn>(42)(thisptr, frameTime);
 }
