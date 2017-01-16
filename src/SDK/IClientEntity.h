@@ -371,6 +371,18 @@ public:
 	{
 		return (int*)((uintptr_t)this + offsets.DT_BaseAttributableItem.m_iAccountID);
 	}
+	
+	float GetInaccuracy()
+	{
+		typedef float (* oGetIndex)(void*);
+		return getvfunc<oGetIndex>(this, 478)(this);
+	}
+	
+	float GetSpread()
+	{
+		typedef float (* oGetIndex)(void*);
+		return getvfunc<oGetIndex>(this, 479)(this);
+	}
 
 	bool IsPistol()
 	{
