@@ -29,6 +29,7 @@ C_CSGameRules** csGameRules = nullptr;
 IEngineVGui* enginevgui = nullptr;
 IEngineSound* sound = nullptr;
 ILocalize* localize = nullptr;
+ICommandLine* commandline = nullptr;
 
 VMT* panel_vmt = nullptr;
 VMT* client_vmt = nullptr;
@@ -117,6 +118,7 @@ void Hooker::FindInterfaces()
 	enginevgui = GetInterface<IEngineVGui>("./bin/linux64/engine_client.so", "VEngineVGui");
 	sound = GetInterface<IEngineSound>("./bin/linux64/engine_client.so", "IEngineSoundClient");
 	localize = GetInterface<ILocalize>("./bin/linux64/localize_client.so", "Localize_");
+	commandline = Util::GetNextFunction<CommandLineFn>("./bin/linux64/libtier0_client.so", "CommandLine")();
 
 }
 

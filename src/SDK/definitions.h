@@ -29,6 +29,7 @@ typedef void (*ForceFullUpdateFn) (void*);
 typedef bool (*LineGoesThroughSmokeFn) (Vector, Vector, int16_t);
 typedef void (*InitKeyValuesFn) (KeyValues*, const char*);
 typedef void (*LoadFromBufferFn) (KeyValues*, const char*, const char*, void*, const char*, void*);
+typedef ICommandLine* (*CommandLineFn) (void);
 
 enum TeamID: int
 {

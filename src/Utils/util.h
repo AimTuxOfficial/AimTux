@@ -60,4 +60,14 @@ namespace Util
 
 		return result->second;
 	}
+
+	template <typename T>
+	T GetNextFunction(const char* filename, const char* symbol)
+	{
+		void* handle = dlopen(filename, RTLD_NOW);
+		T result = reinterpret_cast<T>(dlsym(handle, symbol));
+		dlclose(handle);
+
+		return result;
+	};
 }
