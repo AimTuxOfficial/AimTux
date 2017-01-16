@@ -1260,9 +1260,22 @@ void MiscTab()
 		{
 			ImGui::Text("Movement");
 			ImGui::Separator();
+
 			ImGui::Checkbox("Bunny Hop", &Settings::BHop::enabled);
 			if (ImGui::IsItemHovered())
 				ImGui::SetTooltip("Auto bunny hop");
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Checkbox("Edge Jump", &Settings::EdgeJump::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Jumps off the edges");
+			}
+			ImGui::NextColumn();
+			{
+				UI::KeyBindButton(&Settings::EdgeJump::key);
+			}
+			ImGui::Columns(1);
+
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
