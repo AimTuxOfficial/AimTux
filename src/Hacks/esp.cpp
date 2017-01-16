@@ -669,15 +669,8 @@ void ESP::DrawDroppedWeapons(C_BaseCombatWeapon* weapon)
 	if (owner > -1 || (vOrig.x == 0 && vOrig.y == 0 && vOrig.z == 0))
 		return;
 
-	std::string modelName = std::string(Util::GetValueByKey(guns, *weapon->GetItemDefinitionIndex()));
-	if (modelName == "")
-	{
-		modelName = std::string(weapon->GetClientClass()->m_pNetworkName);
-		if (strstr(modelName.c_str(), "Weapon"))
-			modelName = modelName.substr(7, modelName.length() - 7);
-		else
-			modelName = modelName.substr(1, modelName.length() - 1);
-	}
+	const char* szPrintName = weapon->GetCSWpnData()->szPrintName;
+	std::string modelName = Util::WstringToString(localize->FindSafe(szPrintName));
 
 	if (weapon->GetAmmo() > 0)
 	{

@@ -389,7 +389,22 @@ public:
 	}
 };
 
-class CCSWeaponInfo
+class FileWeaponInfo_t
+{
+public:
+	FileWeaponInfo_t();
+
+	// Each game can override this to get whatever values it wants from the script.
+	virtual void Parse(KeyValues *pKeyValuesData, const char *szWeaponName);
+
+	bool bParsedScript;
+	bool bLoadedHudElements;
+
+	char szClassName[80];
+	char szPrintName[80];
+};
+
+class CCSWeaponInfo : public FileWeaponInfo_t
 {
 public:
 	CSWeaponType GetWeaponType()
