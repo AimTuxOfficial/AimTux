@@ -21,7 +21,7 @@ struct Vertex_t {
 
 typedef Vertex_t FontVertex_t;
 
-class ISurface
+class ISurface : public IAppSystem
 {
 public:
 	void DrawSetColor(int r, int g, int b, int a)

@@ -103,7 +103,7 @@ public:
 	void* fnChangeCallback; //0x0044
 };
 
-class ICvar
+class ICvar : public IAppSystem
 {
 public:
 	ConVar* FindVar(const char *var)

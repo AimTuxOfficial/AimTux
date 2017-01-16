@@ -2,8 +2,8 @@
 
 struct AppSystemInfo_t
 {
-	const char *m_pModuleName;
-	const char *m_pInterfaceName;
+	const char* m_pModuleName;
+	const char* m_pInterfaceName;
 };
 
 enum InitReturnVal_t
@@ -34,7 +34,7 @@ public:
 
 	// Here's where systems can access other interfaces implemented by this object
 	// Returns NULL if it doesn't implement the requested interface
-	virtual void *QueryInterface(const char *pInterfaceName) = 0;
+	virtual void* QueryInterface(const char* pInterfaceName) = 0;
 
 	// Init, shutdown
 	virtual InitReturnVal_t Init() = 0;
@@ -42,13 +42,13 @@ public:
 	virtual void Shutdown() = 0;
 
 	// Returns all dependent libraries
-	virtual const AppSystemInfo_t *GetDependencies() = 0;
+	virtual const AppSystemInfo_t* GetDependencies() = 0;
 
 	// Returns the tier
 	virtual AppSystemTier_t GetTier() = 0;
 
 	// Reconnect to a particular interface
-	virtual void Reconnect(CreateInterfaceFn factory, const char *pInterfaceName) = 0;
+	virtual void Reconnect(CreateInterfaceFn factory, const char* pInterfaceName) = 0;
 
 	// Returns whether or not the app system is a singleton
 	virtual bool IsSingleton() = 0;
