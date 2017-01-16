@@ -69,3 +69,13 @@ inline uintptr_t GetAbsoluteAddress(uintptr_t instruction_ptr, int offset, int s
 {
 	return instruction_ptr + *reinterpret_cast<uint32_t*>(instruction_ptr + offset) + size;
 };
+
+template <typename T>
+T GetSymbolAddress(const char* filename, const char* symbol)
+{
+	void* handle = dlopen(filename, RTLD_NOW);
+	T result = reinterpret_cast<T>(dlsym(handle, symbol));
+	dlclose(handle);
+
+	return result;
+};

@@ -31,6 +31,7 @@ extern C_CSGameRules** csGameRules;
 extern IEngineVGui* enginevgui;
 extern IEngineSound* sound;
 extern ILocalize* localize;
+extern ICommandLine* commandline;
 
 extern VMT* panel_vmt;
 extern VMT* client_vmt;

@@ -42,3 +42,4 @@
 #include "IEngineVGui.h"
 #include "IEngineSound.h"
 #include "KeyValues.h"
+#include "ICommandLine.h"
