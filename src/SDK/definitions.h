@@ -11,6 +11,7 @@ typedef unsigned long long HFont;
 
 class IClientMode;
 class ILauncherMgr;
+class ICommandLine;
 class KeyValues;
 struct CGlowObjectManager;
 
