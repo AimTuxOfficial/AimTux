@@ -30,6 +30,8 @@ int __attribute__((constructor)) aimtux_init()
 	Hooker::HookLoadFromBuffer();
 	Hooker::HookSwapWindow();
 	Hooker::HookPollEvent();
+	
+	Resolver::HookProxies();
 
 	cvar->ConsoleColorPrintf(ColorRGBA(150, 255, 150), "AimTux was successfully injected.\n");
 
