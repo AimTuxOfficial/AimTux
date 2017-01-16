@@ -3,7 +3,8 @@
 class IEngineClient
 {
 public:
-	typedef struct player_info_s {
+	typedef struct player_info_s
+	{
 		int64_t __pad0;
 		union {
 			int64_t xuid;

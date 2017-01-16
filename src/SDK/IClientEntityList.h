@@ -1,6 +1,7 @@
 #pragma once
 
-class IClientEntityList {
+class IClientEntityList
+{
 public:
 	C_BaseEntity* GetClientEntity(int index)
 	{

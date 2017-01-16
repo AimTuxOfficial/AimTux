@@ -4,7 +4,8 @@
 #define END_OF_FREE_LIST -1
 #define ENTRY_IN_USE -2
 
-struct GlowObjectDefinition_t {
+struct GlowObjectDefinition_t
+{
 	C_BaseEntity* m_pEntity;
 	float m_flGlowColor[3];
 	float m_flGlowAlpha;
@@ -26,9 +27,11 @@ struct GlowObjectDefinition_t {
 	}
 };
 
-class CGlowObjectManager {
+class CGlowObjectManager
+{
 public:
-	int RegisterGlowObject(C_BaseEntity* entity) {
+	int RegisterGlowObject(C_BaseEntity* entity)
+	{
 		// FIXME: No remaining slots, see issue #158.
 		if (m_nFirstFreeSlot == END_OF_FREE_LIST)
 			return -1;
@@ -47,13 +50,15 @@ public:
 		return index;
 	}
 
-	void UnregisterGlowObject(int index) {
+	void UnregisterGlowObject(int index)
+	{
 		m_GlowObjectDefinitions[index].m_nNextFreeSlot = m_nFirstFreeSlot;
 		m_GlowObjectDefinitions[index].m_pEntity = NULL;
 		m_nFirstFreeSlot = index;
 	}
 
-	bool HasGlowEffect(C_BaseEntity* entity) {
+	bool HasGlowEffect(C_BaseEntity* entity)
+	{
 		for (int i = 0; i < m_GlowObjectDefinitions.Count(); ++i) {
 			if (!m_GlowObjectDefinitions[i].IsUnused() && m_GlowObjectDefinitions[i].m_pEntity == entity) {
 				return true;

@@ -1,6 +1,7 @@
 #pragma once
 
-struct Vertex_t {
+struct Vertex_t
+{
 	Vector2D m_Position;
 	Vector2D m_TexCoord;
 

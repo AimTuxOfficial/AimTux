@@ -6,7 +6,8 @@ struct mstudioseqdesc_t;
 struct mstudiobodyparts_t;
 struct mstudiotexture_t;
 
-class RadianEuler {
+class RadianEuler
+{
 public:
 	inline RadianEuler(void) { }
 

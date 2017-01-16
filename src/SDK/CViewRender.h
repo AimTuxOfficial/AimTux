@@ -1,6 +1,7 @@
 #pragma once
 
-struct CViewSetup {
+struct CViewSetup
+{
 	int x;
 	int m_nUnscaledX;
 	int y;
@@ -13,4 +14,6 @@ struct CViewSetup {
 	float fovViewmodel;
 };
 
-class CViewRender {};
+class CViewRender
+{
+};

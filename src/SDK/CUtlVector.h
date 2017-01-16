@@ -1,14 +1,17 @@
 #pragma once
 
-template <class T, class A = CUtlMemory<T>> class CUtlVector {
+template <class T, class A = CUtlMemory<T>> class CUtlVector
+{
 	typedef A CAllocator;
 
 	public:
-		T& operator[](int i) {
+		T& operator[](int i)
+		{
 			return m_Memory[i];
 		}
 
-		int Count() const {
+		int Count() const
+		{
 			return m_Size;
 		}
 	protected:

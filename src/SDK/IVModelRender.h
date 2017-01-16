@@ -2,7 +2,8 @@
 
 typedef unsigned short ModelInstanceHandle_t;
 
-struct model_t {
+struct model_t
+{
 	char name[255];
 };
 

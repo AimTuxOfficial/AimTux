@@ -1,8 +1,10 @@
 #pragma once
 
-template <class T, class I = int> class CUtlMemory {
+template <class T, class I = int> class CUtlMemory
+{
 	public:
-		T& operator[](I i) {
+		T& operator[](I i)
+		{
 			return m_pMemory[i];
 		}
 	protected:
