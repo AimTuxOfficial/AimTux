@@ -22,6 +22,15 @@ enum MoveType_t
 	MOVETYPE_MAX_BITS = 4
 };
 
+enum DataUpdateType_t
+{
+	DATA_UPDATE_CREATED = 0,
+//	DATA_UPDATE_ENTERED_PVS,
+	DATA_UPDATE_DATATABLE_CHANGED,
+//	DATA_UPDATE_LEFT_PVS,
+//	DATA_UPDATE_DESTROYED,
+};
+
 class ICollideable
 {
 public:
@@ -66,6 +75,12 @@ public:
 		return getvfunc<oGetClientClass>(this, 2)(this);
 	}
 
+	void PreDataUpdate(DataUpdateType_t updateType) // Could be wrong
+	{
+		typedef void (* oPreDataUpdate)(void*, DataUpdateType_t);
+		return getvfunc<oPreDataUpdate>(this, 6)(this, updateType);
+	}
+
 	bool GetDormant()
 	{
 		typedef bool (* oGetDormant)(void*);
@@ -94,6 +109,13 @@ public:
 class C_BaseEntity : public IClientEntity
 {
 public:
+
+	void SetModelIndex(int index)
+	{
+		typedef void (* oSetModelIndex)(void*, int);
+		return getvfunc<oSetModelIndex>(this, 78)(this, index);
+	}
+
 	int* GetModelIndex()
 	{
 		return (int*)((uintptr_t)this + offsets.DT_BaseViewModel.m_nModelIndex);
