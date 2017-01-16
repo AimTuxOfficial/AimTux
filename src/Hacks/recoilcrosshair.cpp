@@ -5,6 +5,9 @@ bool Settings::Recoilcrosshair::showOnlyWhenShooting = false;
 
 void Recoilcrosshair::Paint()
 {
+	if (!Settings::ESP::enabled)
+		return;
+
 	if (!Settings::Recoilcrosshair::enabled)
 		return;
 
