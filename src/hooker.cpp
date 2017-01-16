@@ -94,7 +94,7 @@ uintptr_t Hooker::GetLibraryAddress(const char* moduleName)
 	return 0;
 }
 
-void Hooker::HookInterfaces()
+void Hooker::FindInterfaces()
 {
 	client = GetInterface<IBaseClientDLL>("./csgo/bin/linux64/client_client.so", "VClient");
 	engine = GetInterface<IEngineClient>("./bin/linux64/engine_client.so", "VEngineClient");
@@ -117,9 +117,10 @@ void Hooker::HookInterfaces()
 	enginevgui = GetInterface<IEngineVGui>("./bin/linux64/engine_client.so", "VEngineVGui");
 	sound = GetInterface<IEngineSound>("./bin/linux64/engine_client.so", "IEngineSoundClient");
 	localize = GetInterface<ILocalize>("./bin/linux64/localize_client.so", "Localize_");
+
 }
 
-void Hooker::HookVMethods()
+void Hooker::InitializeVMHooks()
 {
 	panel_vmt = new VMT(panel);
 	client_vmt = new VMT(client);
@@ -134,7 +135,7 @@ void Hooker::HookVMethods()
 	sound_vmt = new VMT(sound);
 }
 
-void Hooker::HookIClientMode()
+void Hooker::FindIClientMode()
 {
 	uintptr_t hudprocessinput = reinterpret_cast<uintptr_t>(getvtable(client)[10]);
 	GetClientModeFn GetClientMode = reinterpret_cast<GetClientModeFn>(GetAbsoluteAddress(hudprocessinput + 11, 1, 5));
@@ -142,55 +143,55 @@ void Hooker::HookIClientMode()
 	clientMode_vmt = new VMT(GetClientMode());
 }
 
-void Hooker::HookGlobalVars()
+void Hooker::FindGlobalVars()
 {
 	uintptr_t hudupdate = reinterpret_cast<uintptr_t>(getvtable(client)[11]);
 	globalvars = *reinterpret_cast<CGlobalVars**>(GetAbsoluteAddress(hudupdate + 13, 3, 7));
 }
 
-void Hooker::HookGlowManager()
+void Hooker::FindGlowManager()
 {
 	uintptr_t instruction_addr = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) GLOWOBJECT_SIGNATURE, GLOWOBJECT_MASK);
 
 	glowmanager = reinterpret_cast<GlowObjectManagerFn>(GetAbsoluteAddress(instruction_addr, 1, 5))();
 }
 
-void Hooker::HookPlayerResource()
+void Hooker::FindPlayerResource()
 {
 	uintptr_t instruction_addr = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) PLAYERRESOURCES_SIGNATURE, PLAYERRESOURCES_MASK);
 
 	csPlayerResource = reinterpret_cast<C_CSPlayerResource**>(GetAbsoluteAddress(instruction_addr, 3, 7));
 }
 
-void Hooker::HookGameRules()
+void Hooker::FindGameRules()
 {
 	uintptr_t instruction_addr = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) GAMERULES_SIGNATURE, GAMERULES_MASK);
 
 	csGameRules = *reinterpret_cast<C_CSGameRules***>(GetAbsoluteAddress(instruction_addr, 3, 7));
 }
 
-void Hooker::HookRankReveal()
+void Hooker::FindRankReveal()
 {
 	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) MSGFUNC_SERVERRANKREVEALALL_SIGNATURE, MSGFUNC_SERVERRANKREVEALALL_MASK);
 
 	MsgFunc_ServerRankRevealAll = reinterpret_cast<MsgFunc_ServerRankRevealAllFn>(func_address);
 }
 
-void Hooker::HookSendClanTag()
+void Hooker::FindSendClanTag()
 {
 	uintptr_t func_address = FindPattern(GetLibraryAddress("engine_client.so"), 0xFFFFFFFFF, (unsigned char*) SENDCLANTAG_SIGNATURE, SENDCLANTAG_MASK);
 
 	SendClanTag = reinterpret_cast<SendClanTagFn>(func_address);
 }
 
-void Hooker::HookViewRender()
+void Hooker::FindViewRender()
 {
 	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) VIEWRENDER_SIGNATURE, VIEWRENDER_MASK);
 
 	viewrender = reinterpret_cast<CViewRender*>(GetAbsoluteAddress(func_address + 14, 3, 7));
 }
 
-void Hooker::HookSendPacket()
+void Hooker::FindSendPacket()
 {
 	uintptr_t bool_address = FindPattern(GetLibraryAddress("engine_client.so"), 0xFFFFFFFFF, (unsigned char*) BSENDPACKET_SIGNATURE, BSENDPACKET_MASK);
 	bool_address = GetAbsoluteAddress(bool_address, 2, 1);
@@ -199,7 +200,7 @@ void Hooker::HookSendPacket()
 	Util::ProtectAddr(bSendPacket, PROT_READ | PROT_WRITE | PROT_EXEC);
 }
 
-void Hooker::HookPrediction()
+void Hooker::FindPrediction()
 {
 	uintptr_t seed_instruction_addr = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) PREDICTION_RANDOM_SEED_SIGNATURE, PREDICTION_RANDOM_SEED_MASK);
 	uintptr_t helper_instruction_addr = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) CLIENT_MOVEHELPER_SIGNATURE, CLIENT_MOVEHELPER_MASK);
@@ -210,14 +211,14 @@ void Hooker::HookPrediction()
 	g_MoveData = **reinterpret_cast<CMoveData***>(GetAbsoluteAddress(movedata_instruction_addr, 3, 7));
 }
 
-void Hooker::HookIsReadyCallback()
+void Hooker::FindIsReadyCallback()
 {
 	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) ISREADY_CALLBACK_SIGNATURE, ISREADY_CALLBACK_MASK);
 
 	IsReadyCallback = reinterpret_cast<IsReadyCallbackFn>(func_address);
 }
 
-void Hooker::HookSurfaceDrawing()
+void Hooker::FindSurfaceDrawing()
 {
 	uintptr_t start_func_address = FindPattern(GetLibraryAddress("vguimatsurface_client.so"), 0xFFFFFFFFF, (unsigned char*) CMATSYSTEMSURFACE_STARTDRAWING_SIGNATURE, CMATSYSTEMSURFACE_STARTDRAWING_MASK);
 	StartDrawing = reinterpret_cast<StartDrawingFn>(start_func_address);
@@ -226,7 +227,7 @@ void Hooker::HookSurfaceDrawing()
 	FinishDrawing = reinterpret_cast<FinishDrawingFn>(finish_func_address);
 }
 
-void Hooker::HookForceFullUpdate()
+void Hooker::FindForceFullUpdate()
 {
 	uintptr_t forcefullupdate_func_address = FindPattern(GetLibraryAddress("engine_client.so"), 0xFFFFFFFFF, (unsigned char*) FORCEFULLUPDATE_SIGNATURE, FORCEFULLUPDATE_MASK);
 	ForceFullUpdate = reinterpret_cast<ForceFullUpdateFn>(forcefullupdate_func_address);
@@ -235,25 +236,25 @@ void Hooker::HookForceFullUpdate()
 	GetClientState = reinterpret_cast<GetClientStateFn>(getclientstate_func_address);
 }
 
-void Hooker::HookLineGoesThroughSmoke()
+void Hooker::FindLineGoesThroughSmoke()
 {
 	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) LINEGOESTHROUGHSMOKE_SIGNATURE, LINEGOESTHROUGHSMOKE_MASK);
 	LineGoesThroughSmoke = reinterpret_cast<LineGoesThroughSmokeFn>(func_address);
 }
 
-void Hooker::HookInitKeyValues()
+void Hooker::FindInitKeyValues()
 {
 	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) INITKEVALUES_SIGNATURE, INITKEVALUES_MASK);
 	InitKeyValues = reinterpret_cast<InitKeyValuesFn>(func_address);
 }
 
-void Hooker::HookLoadFromBuffer()
+void Hooker::FindLoadFromBuffer()
 {
 	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) LOADFROMBUFFER_SIGNATURE, LOADFROMBUFFER_MASK);
 	LoadFromBuffer = reinterpret_cast<LoadFromBufferFn>(func_address);
 }
 
-void Hooker::HookGetCSWpnData()
+void Hooker::FindGetCSWpnData()
 {
 	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) GETCSWPNDATA_SIGNATURE, GETCSWPNDATA_MASK);
 	GetCSWpnData_address = reinterpret_cast<uintptr_t*>(func_address);
@@ -275,7 +276,7 @@ void Hooker::HookPollEvent()
 	*pollevent_jump_address = reinterpret_cast<uintptr_t>(&SDL2::PollEvent);
 }
 
-void Hooker::HookSDLInput()
+void Hooker::FindSDLInput()
 {
 	uintptr_t func_address = FindPattern(GetLibraryAddress("launcher_client.so"), 0xFFFFFFFFF, (unsigned char*) GETSDLMGR_SIGNATURE, GETSDLMGR_MASK);
 

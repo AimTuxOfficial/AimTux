@@ -9,26 +9,26 @@ int __attribute__((constructor)) aimtux_init()
 {
 	Interfaces::dumpInterfaces();
 
-	Hooker::HookInterfaces();
-	Hooker::HookViewRender();
-	Hooker::HookSDLInput();
-	Hooker::HookVMethods();
-	Hooker::HookIClientMode();
-	Hooker::HookGlobalVars();
-	Hooker::HookGlowManager();
-	Hooker::HookPlayerResource();
-	Hooker::HookGameRules();
-	Hooker::HookRankReveal();
-	Hooker::HookSendClanTag();
-	Hooker::HookSendPacket();
-	Hooker::HookPrediction();
-	Hooker::HookIsReadyCallback();
-	Hooker::HookSurfaceDrawing();
-	Hooker::HookForceFullUpdate();
-	Hooker::HookLineGoesThroughSmoke();
-	Hooker::HookInitKeyValues();
-	Hooker::HookLoadFromBuffer();
-	Hooker::HookGetCSWpnData();
+	Hooker::FindInterfaces();
+	Hooker::FindViewRender();
+	Hooker::FindSDLInput();
+	Hooker::InitializeVMHooks();
+	Hooker::FindIClientMode();
+	Hooker::FindGlobalVars();
+	Hooker::FindGlowManager();
+	Hooker::FindPlayerResource();
+	Hooker::FindGameRules();
+	Hooker::FindRankReveal();
+	Hooker::FindSendClanTag();
+	Hooker::FindSendPacket();
+	Hooker::FindPrediction();
+	Hooker::FindIsReadyCallback();
+	Hooker::FindSurfaceDrawing();
+	Hooker::FindForceFullUpdate();
+	Hooker::FindLineGoesThroughSmoke();
+	Hooker::FindInitKeyValues();
+	Hooker::FindLoadFromBuffer();
+	Hooker::FindGetCSWpnData();
 	Hooker::HookSwapWindow();
 	Hooker::HookPollEvent();
 
