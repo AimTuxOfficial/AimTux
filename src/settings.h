@@ -738,6 +738,12 @@ namespace Settings
 		extern bool enabled;
 	}
 
+	namespace EdgeJump
+	{
+		extern bool enabled;
+		extern ButtonCode_t key;
+	}
+
 	void LoadDefaultsOrSave(std::string path);
 	void LoadConfig(std::string path);
 	void LoadSettings();

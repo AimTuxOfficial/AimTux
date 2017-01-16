@@ -359,6 +359,9 @@ void Settings::LoadDefaultsOrSave(std::string path)
 
 	settings["ScreenshotCleaner"]["enabled"] = Settings::ScreenshotCleaner::enabled;
 
+	settings["EdgeJump"]["enabled"] = Settings::EdgeJump::enabled;
+	settings["EdgeJump"]["key"] = Util::GetButtonName(Settings::EdgeJump::key);
+
 	std::ofstream(path) << styledWriter.write(settings);
 }
 
@@ -704,6 +707,9 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["NoSmoke"]["enabled"], &Settings::NoSmoke::enabled);
 
 	GetVal(settings["ScreenshotCleaner"]["enabled"], &Settings::ScreenshotCleaner::enabled);
+
+	GetVal(settings["EdgeJump"]["enabled"], &Settings::EdgeJump::enabled);
+	GetButtonCode(settings["EdgeJump"]["key"], &Settings::EdgeJump::key);
 }
 
 void Settings::LoadSettings()
