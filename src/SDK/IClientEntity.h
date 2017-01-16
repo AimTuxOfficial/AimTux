@@ -431,6 +431,8 @@ public:
 	{
 		return *(int*)((uintptr_t)this + 0xE88);
 	}
+
+
 };
 
 class C_BaseCombatWeapon: public C_BaseAttributableItem

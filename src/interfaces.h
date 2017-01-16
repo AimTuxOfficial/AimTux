@@ -30,6 +30,7 @@ extern C_CSPlayerResource** csPlayerResource;
 extern C_CSGameRules** csGameRules;
 extern IEngineVGui* enginevgui;
 extern IEngineSound* sound;
+extern ILocalize* localize;
 
 extern VMT* panel_vmt;
 extern VMT* client_vmt;

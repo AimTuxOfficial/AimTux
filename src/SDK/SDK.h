@@ -29,6 +29,8 @@
 #include "IClientMode.h"
 #include "ICvar.h"
 #include "IGameEvent.h"
+#include "IAppSystem.h"
+#include "ILocalize.h"
 #include "CGlowObjectManager.h"
 #include "IPhysicsSurfaceProps.h"
 #include "CViewRender.h"
