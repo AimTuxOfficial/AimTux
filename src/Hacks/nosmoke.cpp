@@ -31,7 +31,7 @@ std::vector<const char*> smoke_materials = {
 		"particle/vistasmokev1/vistasmokev4_nocull"
 };
 
-bool NoSmoke::RenderSmokePreViewmodel()
+bool NoSmoke::RenderSmokePostViewmodel()
 {
 	return Settings::ESP::enabled && Settings::NoSmoke::enabled;
 }

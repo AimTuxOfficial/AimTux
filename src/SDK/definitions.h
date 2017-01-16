@@ -30,14 +30,6 @@ typedef bool (*LineGoesThroughSmokeFn) (Vector, Vector, int16_t);
 typedef void (*InitKeyValuesFn) (KeyValues*, const char*);
 typedef void (*LoadFromBufferFn) (KeyValues*, const char*, const char*, void*, const char*, void*);
 
-struct WeaponInfo_t {
-	float m_flWeaponArmorRatio;
-	float m_flPenetration;
-	int m_iDamage;
-	float m_flRange;
-	float m_flRangeModifier;
-};
-
 enum TeamID: int
 {
 	TEAM_UNASSIGNED,
@@ -451,6 +443,21 @@ enum HitGroups: int
 	HITGROUP_LEFTLEG,
 	HITGROUP_RIGHTLEG,
 	HITGROUP_GEAR
+};
+
+enum CSWeaponType: int
+{
+	WEAPONTYPE_KNIFE = 0,
+	WEAPONTYPE_PISTOL,
+	WEAPONTYPE_SUBMACHINEGUN,
+	WEAPONTYPE_RIFLE,
+	WEAPONTYPE_SHOTGUN,
+	WEAPONTYPE_SNIPER_RIFLE,
+	WEAPONTYPE_MACHINEGUN,
+	WEAPONTYPE_C4,
+	WEAPONTYPE_GRENADE,
+	WEAPONTYPE_UNKNOWN
+
 };
 
 #define FL_ONGROUND				(1<<0)	// At rest / on the ground

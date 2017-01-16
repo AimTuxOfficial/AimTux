@@ -2,6 +2,8 @@
 
 #include "vector.h"
 
+extern uintptr_t* GetCSWpnData_address;
+
 enum MoveType_t
 {
 	MOVETYPE_NONE = 0,
@@ -489,7 +491,8 @@ public:
 	}
 };
 
-class C_BaseViewModel: public C_BaseEntity {
+class C_BaseViewModel: public C_BaseEntity
+{
 public:
 	int GetWeapon()
 	{
@@ -499,6 +502,65 @@ public:
 	int GetOwner()
 	{
 		return *(int*)((uintptr_t)this + offsets.DT_BaseViewModel.m_hOwner);
+	}
+};
+
+class FileWeaponInfo_t
+{
+public:
+	FileWeaponInfo_t();
+
+	// Each game can override this to get whatever values it wants from the script.
+	virtual void Parse(KeyValues *pKeyValuesData, const char *szWeaponName);
+
+	bool bParsedScript;
+	bool bLoadedHudElements;
+
+	char szClassName[80];
+	char szPrintName[80];
+};
+
+class CCSWeaponInfo : public FileWeaponInfo_t
+{
+public:
+	CSWeaponType GetWeaponType()
+	{
+		return *(CSWeaponType*)((uintptr_t)this + 0x814);
+	}
+
+	bool IsFullAuto()
+	{
+		return *(bool*)((uintptr_t)this + 0x820);
+	}
+
+	float GetWeaponArmorRatio()
+	{
+		return *(float*)((uintptr_t)this + 0x82C);
+	}
+
+	float GetPenetration()
+	{
+		return *(float*)((uintptr_t)this + 0x840);
+	}
+
+	int GetDamage()
+	{
+		return *(int*)((uintptr_t)this + 0x844);
+	}
+
+	float GetRange()
+	{
+		return *(float*)((uintptr_t)this + 0x848);
+	}
+
+	float GetRangeModifier()
+	{
+		return *(float*)((uintptr_t)this + 0x84C);
+	}
+
+	int GetZoomLevels()
+	{
+		return *(int*)((uintptr_t)this + 0xE88);
 	}
 };
 
@@ -530,285 +592,10 @@ public:
 		return *(float*)((uintptr_t)this + offsets.DT_WeaponCSBase.m_fAccuracyPenalty);
 	}
 
-	WeaponInfo_t GetWeaponData()
+	CCSWeaponInfo* GetCSWpnData()
 	{
-		WeaponInfo_t weaponInfo;
-
-		switch (*this->GetItemDefinitionIndex())
-		{
-			case WEAPON_TASER:
-				weaponInfo.m_flWeaponArmorRatio = 2;
-				weaponInfo.m_flPenetration = 0;
-				weaponInfo.m_iDamage = 500;
-				weaponInfo.m_flRange = 190;
-				weaponInfo.m_flRangeModifier = 0.0049;
-				break;
-			case WEAPON_XM1014:
-				weaponInfo.m_flWeaponArmorRatio = 1.6;
-				weaponInfo.m_flPenetration = 1;
-				weaponInfo.m_iDamage = 20;
-				weaponInfo.m_flRange = 3000;
-				weaponInfo.m_flRangeModifier = 0.70;
-				break;
-			case WEAPON_AWP:
-				weaponInfo.m_flWeaponArmorRatio = 1.95;
-				weaponInfo.m_flPenetration = 2.5;
-				weaponInfo.m_iDamage = 115;
-				weaponInfo.m_flRange = 8192;
-				weaponInfo.m_flRangeModifier = 0.99;
-				break;
-			case WEAPON_FLASHBANG:
-				weaponInfo.m_flWeaponArmorRatio = 1;
-				weaponInfo.m_flPenetration = 1;
-				weaponInfo.m_iDamage = 50;
-				weaponInfo.m_flRange = 4096;
-				weaponInfo.m_flRangeModifier = 0.99;
-				break;
-			case WEAPON_MAG7:
-				weaponInfo.m_flWeaponArmorRatio = 1.5;
-				weaponInfo.m_flPenetration = 1;
-				weaponInfo.m_iDamage = 30;
-				weaponInfo.m_flRange = 1400;
-				weaponInfo.m_flRangeModifier = 0.45;
-				break;
-			case WEAPON_FAMAS:
-				weaponInfo.m_flWeaponArmorRatio = 1.4;
-				weaponInfo.m_flPenetration = 2;
-				weaponInfo.m_iDamage = 30;
-				weaponInfo.m_flRange = 8192;
-				weaponInfo.m_flRangeModifier = 0.96;
-				break;
-			case WEAPON_NEGEV:
-				weaponInfo.m_flWeaponArmorRatio = 1.5;
-				weaponInfo.m_flPenetration = 2;
-				weaponInfo.m_iDamage = 35;
-				weaponInfo.m_flRange = 8192;
-				weaponInfo.m_flRangeModifier = 0.97;
-				break;
-			case WEAPON_M4A1:
-			case WEAPON_M4A1_SILENCER:
-				weaponInfo.m_flWeaponArmorRatio = 1.4;
-				weaponInfo.m_flPenetration = 2;
-				weaponInfo.m_iDamage = 33;
-				weaponInfo.m_flRange = 8192;
-				weaponInfo.m_flRangeModifier = 0.97;
-				break;
-			case WEAPON_UMP45:
-				weaponInfo.m_flWeaponArmorRatio = 1.3;
-				weaponInfo.m_flPenetration = 1;
-				weaponInfo.m_iDamage = 35;
-				weaponInfo.m_flRange = 3700;
-				weaponInfo.m_flRangeModifier = 0.85;
-				break;
-			case WEAPON_DEAGLE:
-			case WEAPON_REVOLVER:
-				weaponInfo.m_flWeaponArmorRatio = 1.864;
-				weaponInfo.m_flPenetration = 2;
-				weaponInfo.m_iDamage = 63;
-				weaponInfo.m_flRange = 4096;
-				weaponInfo.m_flRangeModifier = 0.81;
-				break;
-			case WEAPON_SSG08:
-				weaponInfo.m_flWeaponArmorRatio = 1.7;
-				weaponInfo.m_flPenetration = 2.5;
-				weaponInfo.m_iDamage = 88;
-				weaponInfo.m_flRange = 8192;
-				weaponInfo.m_flRangeModifier = 0.98;
-				break;
-			case WEAPON_DECOY:
-				weaponInfo.m_flWeaponArmorRatio = 1;
-				weaponInfo.m_flPenetration = 1;
-				weaponInfo.m_iDamage = 50;
-				weaponInfo.m_flRange = 4096;
-				weaponInfo.m_flRangeModifier = 0.99;
-				break;
-			case WEAPON_P90:
-				weaponInfo.m_flWeaponArmorRatio = 1.38;
-				weaponInfo.m_flPenetration = 1;
-				weaponInfo.m_iDamage = 26;
-				weaponInfo.m_flRange = 3700;
-				weaponInfo.m_flRangeModifier = 0.86;
-				break;
-			case WEAPON_MOLOTOV:
-				weaponInfo.m_flWeaponArmorRatio = 1.8;
-				weaponInfo.m_flPenetration = 1;
-				weaponInfo.m_iDamage = 40;
-				weaponInfo.m_flRange = 4096;
-				weaponInfo.m_flRangeModifier = 0.99;
-				break;
-			case WEAPON_MP7:
-				weaponInfo.m_flWeaponArmorRatio = 1.25;
-				weaponInfo.m_flPenetration = 1;
-				weaponInfo.m_iDamage = 29;
-				weaponInfo.m_flRange = 3600;
-				weaponInfo.m_flRangeModifier = 0.85;
-				break;
-			case WEAPON_BIZON:
-				weaponInfo.m_flWeaponArmorRatio = 1.15;
-				weaponInfo.m_flPenetration = 1;
-				weaponInfo.m_iDamage = 27;
-				weaponInfo.m_flRange = 3600;
-				weaponInfo.m_flRangeModifier = 0.80;
-				break;
-			case WEAPON_MAC10:
-				weaponInfo.m_flWeaponArmorRatio = 1.15;
-				weaponInfo.m_flPenetration = 1;
-				weaponInfo.m_iDamage = 29;
-				weaponInfo.m_flRange = 3600;
-				weaponInfo.m_flRangeModifier = 0.80;
-				break;
-			case WEAPON_AK47:
-				weaponInfo.m_flWeaponArmorRatio = 1.55;
-				weaponInfo.m_flPenetration = 2;
-				weaponInfo.m_iDamage = 36;
-				weaponInfo.m_flRange = 8192;
-				weaponInfo.m_flRangeModifier = 0.98;
-				break;
-			case WEAPON_KNIFE:
-				weaponInfo.m_flWeaponArmorRatio = 1.7;
-				weaponInfo.m_flPenetration = 1;
-				weaponInfo.m_iDamage = 50;
-				weaponInfo.m_flRange = 4096;
-				weaponInfo.m_flRangeModifier = 0.99;
-				break;
-			case WEAPON_FIVESEVEN:
-				weaponInfo.m_flWeaponArmorRatio = 1.823;
-				weaponInfo.m_flPenetration = 1;
-				weaponInfo.m_iDamage = 32;
-				weaponInfo.m_flRange = 4096;
-				weaponInfo.m_flRangeModifier = 0.81;
-				break;
-			case WEAPON_HKP2000:
-			case WEAPON_USP_SILENCER:
-				weaponInfo.m_flWeaponArmorRatio = 1.01;
-				weaponInfo.m_flPenetration = 1;
-				weaponInfo.m_iDamage = 35;
-				weaponInfo.m_flRange = 4096;
-				weaponInfo.m_flRangeModifier = 0.91;
-				break;
-			case WEAPON_SMOKEGRENADE:
-				weaponInfo.m_flWeaponArmorRatio = 1.0;
-				weaponInfo.m_flPenetration = 0;
-				weaponInfo.m_iDamage = 50;
-				weaponInfo.m_flRange = 4096;
-				weaponInfo.m_flRangeModifier = 0.99;
-				break;
-			case WEAPON_M249:
-				weaponInfo.m_flWeaponArmorRatio = 1.6;
-				weaponInfo.m_flPenetration = 2;
-				weaponInfo.m_iDamage = 32;
-				weaponInfo.m_flRange = 8192;
-				weaponInfo.m_flRangeModifier = 0.97;
-				break;
-			case WEAPON_ELITE:
-				weaponInfo.m_flWeaponArmorRatio = 1.15;
-				weaponInfo.m_flPenetration = 1;
-				weaponInfo.m_iDamage = 38;
-				weaponInfo.m_flRange = 4096;
-				weaponInfo.m_flRangeModifier = 0.79;
-				break;
-			case WEAPON_INCGRENADE:
-				weaponInfo.m_flWeaponArmorRatio = 1.475;
-				weaponInfo.m_flPenetration = 1;
-				weaponInfo.m_iDamage = 40;
-				weaponInfo.m_flRange = 4096;
-				weaponInfo.m_flRangeModifier = 0.99;
-				break;
-			case WEAPON_GLOCK:
-				weaponInfo.m_flWeaponArmorRatio = 0.94;
-				weaponInfo.m_flPenetration = 1;
-				weaponInfo.m_iDamage = 28;
-				weaponInfo.m_flRange = 4096;
-				weaponInfo.m_flRangeModifier = 0.9;
-				break;
-			case WEAPON_C4:
-				weaponInfo.m_flWeaponArmorRatio = 1.0;
-				weaponInfo.m_flPenetration = 1;
-				weaponInfo.m_iDamage = 50;
-				weaponInfo.m_flRange = 4096;
-				weaponInfo.m_flRangeModifier = 0.99;
-				break;
-			case WEAPON_TEC9:
-				weaponInfo.m_flWeaponArmorRatio = 1.812;
-				weaponInfo.m_flPenetration = 1;
-				weaponInfo.m_iDamage = 33;
-				weaponInfo.m_flRange = 4096;
-				weaponInfo.m_flRangeModifier = 0.79;
-				break;
-			case WEAPON_SAWEDOFF:
-				weaponInfo.m_flWeaponArmorRatio = 1.5;
-				weaponInfo.m_flPenetration = 1;
-				weaponInfo.m_iDamage = 32;
-				weaponInfo.m_flRange = 650;
-				weaponInfo.m_flRangeModifier = 0.45;
-				break;
-			case WEAPON_SCAR20:
-				weaponInfo.m_flWeaponArmorRatio = 1.65;
-				weaponInfo.m_flPenetration = 2.5;
-				weaponInfo.m_iDamage = 80;
-				weaponInfo.m_flRange = 8192;
-				weaponInfo.m_flRangeModifier = 0.98;
-				break;
-			case WEAPON_SG556:
-				weaponInfo.m_flWeaponArmorRatio = 2.0;
-				weaponInfo.m_flPenetration = 2;
-				weaponInfo.m_iDamage = 30;
-				weaponInfo.m_flRange = 8192;
-				weaponInfo.m_flRangeModifier = 0.98;
-				break;
-			case WEAPON_NOVA:
-				weaponInfo.m_flWeaponArmorRatio = 1.0;
-				weaponInfo.m_flPenetration = 0;
-				weaponInfo.m_iDamage = 26;
-				weaponInfo.m_flRange = 3000;
-				weaponInfo.m_flRangeModifier = 0.70;
-				break;
-			case WEAPON_GALILAR:
-				weaponInfo.m_flWeaponArmorRatio = 1.55;
-				weaponInfo.m_flPenetration = 2;
-				weaponInfo.m_iDamage = 30;
-				weaponInfo.m_flRange = 8192;
-				weaponInfo.m_flRangeModifier = 0.98;
-				break;
-			case WEAPON_MP9:
-				weaponInfo.m_flWeaponArmorRatio = 1.20;
-				weaponInfo.m_flPenetration = 1;
-				weaponInfo.m_iDamage = 26;
-				weaponInfo.m_flRange = 3600;
-				weaponInfo.m_flRangeModifier = 0.87;
-				break;
-			case WEAPON_AUG:
-				weaponInfo.m_flWeaponArmorRatio = 1.8;
-				weaponInfo.m_flPenetration = 2;
-				weaponInfo.m_iDamage = 28;
-				weaponInfo.m_flRange = 8192;
-				weaponInfo.m_flRangeModifier = 0.98;
-				break;
-			case WEAPON_HEGRENADE:
-				weaponInfo.m_flWeaponArmorRatio = 1.2;
-				weaponInfo.m_iDamage = 99;
-				weaponInfo.m_flPenetration = 1;
-				weaponInfo.m_flRange = 350;
-				weaponInfo.m_flRangeModifier = 0.99;
-				break;
-			case WEAPON_P250:
-			case WEAPON_CZ75A:
-				weaponInfo.m_flWeaponArmorRatio = 1.553;
-				weaponInfo.m_flPenetration = 1;
-				weaponInfo.m_iDamage = 35;
-				weaponInfo.m_flRange = 4096;
-				weaponInfo.m_flRangeModifier = 0.85;
-				break;
-			case WEAPON_G3SG1:
-				weaponInfo.m_flWeaponArmorRatio = 1.65;
-				weaponInfo.m_flPenetration = 2.5;
-				weaponInfo.m_iDamage = 80;
-				weaponInfo.m_flRange = 8192;
-				weaponInfo.m_flRangeModifier = 0.98;
-				break;
-		}
-
-		return weaponInfo;
+		typedef CCSWeaponInfo* (* oGetCSWpnData) (void*);
+		return reinterpret_cast<oGetCSWpnData>(GetCSWpnData_address)(this);
 	}
 };
 

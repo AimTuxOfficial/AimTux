@@ -5,6 +5,9 @@ bool Settings::Recoilcrosshair::showOnlyWhenShooting = false;
 
 void Recoilcrosshair::Paint()
 {
+	if (!Settings::ESP::enabled)
+		return;
+
 	if (!Settings::Recoilcrosshair::enabled)
 		return;
 
@@ -19,7 +22,7 @@ void Recoilcrosshair::Paint()
 		return;
 
 	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
-	if (!active_weapon || !active_weapon->IsAutomatic())
+	if (!active_weapon || active_weapon->GetCSWpnData()->GetWeaponType() != WEAPONTYPE_RIFLE)
 		return;
 
 	QAngle punchAngle = *localplayer->GetAimPunchAngle();
@@ -29,8 +32,8 @@ void Recoilcrosshair::Paint()
 
 	int x = (int) (ScreenWidth * 0.5f);
 	int y = (int) (ScreenHeight * 0.5f);
-	int dx = ScreenWidth / RenderView::currentFOV;
-	int dy = ScreenHeight / RenderView::currentFOV;
+	int dx = ScreenWidth / OverrideView::currentFOV;
+	int dy = ScreenHeight / OverrideView::currentFOV;
 
 	int crosshairX = (int) (x - (dx * punchAngle.y));
 	int crosshairY = (int) (y + (dy * punchAngle.x));

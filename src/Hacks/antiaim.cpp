@@ -79,7 +79,7 @@ bool HasViableEnemy()
 
 void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 {
-	int aa_type = bFlip ? Settings::AntiAim::Yaw::type : Settings::AntiAim::Yaw::type_fake;
+	int aa_type = bFlip ? Settings::AntiAim::Yaw::type_fake : Settings::AntiAim::Yaw::type;
 
 	static bool yFlip;
 	float temp;
@@ -247,7 +247,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 	if (!active_weapon)
 		return;
 
-	if (active_weapon->IsGrenade())
+	if (active_weapon->GetCSWpnData()->GetWeaponType() == WEAPONTYPE_GRENADE)
 	{
 		C_BaseCSGrenade* csGrenade = (C_BaseCSGrenade*)active_weapon;
 
@@ -264,7 +264,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 	// AutoDisable checks
 
 	// Knife
-	if (Settings::AntiAim::AutoDisable::knife_held && localplayer->GetAlive() && active_weapon->IsKnife())
+	if (Settings::AntiAim::AutoDisable::knife_held && localplayer->GetAlive() && active_weapon->GetCSWpnData()->GetWeaponType() == WEAPONTYPE_KNIFE)
 		return;
 
 	if (Settings::AntiAim::AutoDisable::no_enemy && localplayer->GetAlive() && !HasViableEnemy())

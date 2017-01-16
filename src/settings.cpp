@@ -121,8 +121,14 @@ void Settings::LoadDefaultsOrSave(std::string path)
 		for (int bone = HITBOX_HEAD; bone <= HITBOX_ARMS; bone++)
 			weaponSetting["AutoWall"]["Bones"][bone] = i.second.autoWallBones[bone];
 
+		weaponSetting["AutoAim"]["RealDistance"] = i.second.autoAimRealDistance;
+
 		#undef weaponSetting
 	}
+
+	settings["Aimbot"]["AutoStop"]["enabled"] = Settings::Aimbot::AutoStop::enabled;
+
+	settings["Aimbot"]["AutoCrouch"]["enabled"] = Settings::Aimbot::AutoCrouch::enabled;
 
 	settings["Resolver"]["resolve_all"] = Settings::Resolver::resolve_all;
 
@@ -332,6 +338,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Teleport"]["key"] = Settings::Teleport::key;
 
 	settings["FakeLag"]["enabled"] = Settings::FakeLag::enabled;
+	settings["FakeLag"]["value"] = Settings::FakeLag::value;
 
 	settings["AutoAccept"]["enabled"] = Settings::AutoAccept::enabled;
 
@@ -351,6 +358,9 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["NoSmoke"]["enabled"] = Settings::NoSmoke::enabled;
 
 	settings["ScreenshotCleaner"]["enabled"] = Settings::ScreenshotCleaner::enabled;
+
+	settings["EdgeJump"]["enabled"] = Settings::EdgeJump::enabled;
+	settings["EdgeJump"]["key"] = Util::GetButtonName(Settings::EdgeJump::key);
 
 	std::ofstream(path) << styledWriter.write(settings);
 }
@@ -377,7 +387,7 @@ void Settings::LoadConfig(std::string path)
 	Fonts::SetupFonts();
 
 	Settings::Aimbot::weapons = {
-			{ -1, Settings::Aimbot::Weapon(false, false, false, BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, false, false, false, false, false, false, false, 10.0f, &Settings::Aimbot::AutoWall::bones[0]) },
+			{ -1, Settings::Aimbot::Weapon(false, false, false, BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, false, false, false, false, false, false, false, 10.0f, &Settings::Aimbot::AutoWall::bones[0], false) },
 	};
 
 	for (Json::ValueIterator itr = settings["Aimbot"]["weapons"].begin(); itr != settings["Aimbot"]["weapons"].end(); itr++)
@@ -432,11 +442,16 @@ void Settings::LoadConfig(std::string path)
 			weaponSetting["SmokeCheck"]["Enabled"].asBool(),
 			weaponSetting["AutoWall"]["Enabled"].asBool(),
 			weaponSetting["AutoWall"]["Value"].asFloat(),
-			autoWallBones
+			autoWallBones,
+			weaponSetting["AutoAim"]["RealDistance"].asBool()
 		);
 
 		Settings::Aimbot::weapons[weaponID] = weapon;
 	}
+
+	GetVal(settings["Aimbot"]["AutoStop"]["enabled"], &Settings::Aimbot::AutoStop::enabled);
+
+	GetVal(settings["Aimbot"]["AutoCrouch"]["enabled"], &Settings::Aimbot::AutoCrouch::enabled);
 
 	GetVal(settings["Resolver"]["resolve_all"], &Settings::Resolver::resolve_all);
 
@@ -672,6 +687,7 @@ void Settings::LoadConfig(std::string path)
 	GetButtonCode(settings["Teleport"]["key"], &Settings::Teleport::key);
 
 	GetVal(settings["FakeLag"]["enabled"], &Settings::FakeLag::enabled);
+	GetVal(settings["FakeLag"]["value"], &Settings::FakeLag::value);
 
 	GetVal(settings["AutoAccept"]["enabled"], &Settings::AutoAccept::enabled);
 
@@ -691,6 +707,9 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["NoSmoke"]["enabled"], &Settings::NoSmoke::enabled);
 
 	GetVal(settings["ScreenshotCleaner"]["enabled"], &Settings::ScreenshotCleaner::enabled);
+
+	GetVal(settings["EdgeJump"]["enabled"], &Settings::EdgeJump::enabled);
+	GetButtonCode(settings["EdgeJump"]["key"], &Settings::EdgeJump::key);
 }
 
 void Settings::LoadSettings()

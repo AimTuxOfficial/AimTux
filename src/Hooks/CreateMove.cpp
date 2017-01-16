@@ -16,6 +16,7 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		Chams::CreateMove(cmd);
 		ShowRanks::CreateMove(cmd);
 		AutoDefuse::CreateMove(cmd);
+		EdgeJump::PrePredictionCreateMove(cmd);
 
 		PredictionSystem::StartPrediction(cmd);
 		Autoblock::CreateMove(cmd);
@@ -26,6 +27,8 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		Teleport::CreateMove(cmd);
 		FakeLag::CreateMove(cmd);
 		PredictionSystem::EndPrediction();
+
+		EdgeJump::PostPredictionCreateMove(cmd);
 	}
 
 	return false;

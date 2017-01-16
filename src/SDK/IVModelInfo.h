@@ -483,6 +483,12 @@ public:
 		return getvfunc<oGetModelName>(this, 4)(this, model);
 	}
 
+	void GetModelMaterials(const model_t *model, int count, IMaterial** ppMaterial)
+	{
+		typedef studiohdr_t* (* oGetModelMaterials)(void*, const model_t*, int, IMaterial**);
+		getvfunc<oGetModelMaterials>(this, 18)(this, model, count, ppMaterial);
+	}
+
 	studiohdr_t* GetStudioModel(const model_t* model)
 	{
 		typedef studiohdr_t* (* oGetStudioModel)(void*, const model_t*);

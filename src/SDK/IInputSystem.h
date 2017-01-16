@@ -247,7 +247,8 @@ enum MouseCodeState_t
 	BUTTON_DOUBLECLICKED,
 };
 
-struct CUserCmd {
+struct CUserCmd
+{
 	virtual ~CUserCmd() {};
 	int command_number;
 	int tick_count;
@@ -268,7 +269,7 @@ struct CUserCmd {
 	Vector headoffset;
 };
 
-class IInputSystem
+class IInputSystem : public IAppSystem
 {
 public:
 	void EnableInput(bool bEnable)

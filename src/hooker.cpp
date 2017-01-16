@@ -28,6 +28,7 @@ C_CSPlayerResource** csPlayerResource = nullptr;
 C_CSGameRules** csGameRules = nullptr;
 IEngineVGui* enginevgui = nullptr;
 IEngineSound* sound = nullptr;
+ILocalize* localize = nullptr;
 
 VMT* panel_vmt = nullptr;
 VMT* client_vmt = nullptr;
@@ -45,6 +46,8 @@ VMT* sound_vmt = nullptr;
 bool* bSendPacket = nullptr;
 int* nPredictionRandomSeed = nullptr;
 CMoveData* g_MoveData = nullptr;
+
+uintptr_t* GetCSWpnData_address = nullptr;
 
 uintptr_t original_swap_window;
 uintptr_t* swap_window_jump_address = nullptr;
@@ -68,7 +71,7 @@ LineGoesThroughSmokeFn LineGoesThroughSmoke;
 InitKeyValuesFn InitKeyValues;
 LoadFromBufferFn LoadFromBuffer;
 
-std::unordered_map<const char*, uintptr_t> GetProcessLibraries()
+std::unordered_map<const char*, uintptr_t> Hooker::GetProcessLibraries()
 {
 	std::unordered_map<const char*, uintptr_t> modules;
 
@@ -80,7 +83,7 @@ std::unordered_map<const char*, uintptr_t> GetProcessLibraries()
 	return modules;
 }
 
-uintptr_t GetLibraryAddress(const char* moduleName)
+uintptr_t Hooker::GetLibraryAddress(const char* moduleName)
 {
 	std::unordered_map<const char*, uintptr_t> modules = GetProcessLibraries();
 
@@ -113,6 +116,7 @@ void Hooker::HookInterfaces()
 	gamemovement = GetInterface<IGameMovement>("./csgo/bin/linux64/client_client.so", "GameMovement");
 	enginevgui = GetInterface<IEngineVGui>("./bin/linux64/engine_client.so", "VEngineVGui");
 	sound = GetInterface<IEngineSound>("./bin/linux64/engine_client.so", "IEngineSoundClient");
+	localize = GetInterface<ILocalize>("./bin/linux64/localize_client.so", "Localize_");
 }
 
 void Hooker::HookVMethods()
@@ -247,6 +251,12 @@ void Hooker::HookLoadFromBuffer()
 {
 	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) LOADFROMBUFFER_SIGNATURE, LOADFROMBUFFER_MASK);
 	LoadFromBuffer = reinterpret_cast<LoadFromBufferFn>(func_address);
+}
+
+void Hooker::HookGetCSWpnData()
+{
+	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) GETCSWPNDATA_SIGNATURE, GETCSWPNDATA_MASK);
+	GetCSWpnData_address = reinterpret_cast<uintptr_t*>(func_address);
 }
 
 void Hooker::HookSwapWindow()

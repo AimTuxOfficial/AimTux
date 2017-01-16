@@ -185,6 +185,7 @@ static bool smoke_check = false;
 static bool autoWallEnabled = false;
 static float autoWallValue = 10.0f;
 static bool autoWallBones[] = { true, false, false, false, false, false };
+static bool autoAimRealDistance;
 
 void UI::updateWeaponSettings()
 {
@@ -195,7 +196,7 @@ void UI::updateWeaponSettings()
 									 autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
 									 rcsEnabled, rcsAlways_on, rcsFloat,
 									 autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
-									 noShootEnabled, ignoreJumpEnabled, smoke_check, autoWallEnabled, autoWallValue, autoWallBones);
+									 noShootEnabled, ignoreJumpEnabled, smoke_check, autoWallEnabled, autoWallValue, autoWallBones, autoAimRealDistance);
 
 	Settings::Aimbot::weapons[current_weapon] = settings;
 }
@@ -237,6 +238,8 @@ void reloadWeaponSettings()
 
 	for (int bone = HITBOX_HEAD; bone <= HITBOX_ARMS; bone++)
 		autoWallBones[bone] = Settings::Aimbot::weapons[index].autoWallBones[bone];
+
+	autoAimRealDistance = Settings::Aimbot::weapons[index].autoAimRealDistance;
 }
 
 void ColorsWindow()
@@ -441,6 +444,8 @@ void AimbotTab()
 
 						for (int bone = HITBOX_HEAD; bone <= HITBOX_ARMS; bone++)
 							autoWallBones[bone] = Settings::Aimbot::weapons[index].autoWallBones[bone];
+
+						autoAimRealDistance = Settings::Aimbot::weapons[index].autoAimRealDistance;
 					}
 				ImGui::PopID();
 			}
@@ -494,6 +499,10 @@ void AimbotTab()
 					if (ImGui::SliderFloat("##RCS", &rcsFloat, 0, 2))
 						UI::updateWeaponSettings();
 				ImGui::PopItemWidth();
+				if (ImGui::Checkbox("Distance-Based FOV", &autoAimRealDistance))
+					UI::updateWeaponSettings();
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Takes perspective into account when calculating FOV");
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -1114,20 +1123,20 @@ void HvHTab()
 				ImGui::NextColumn();
 				{
 					ImGui::PushItemWidth(-1);
-						if (ImGui::Combo("##YFAKETYPE", &Settings::AntiAim::Yaw::type, YTypes, IM_ARRAYSIZE(YTypes)))
-						{
-							if (!ValveDSCheck::forceUT && ((*csGameRules) && (*csGameRules)->IsValveDS()) && Settings::AntiAim::Yaw::type > AntiAimType_Y::STATICAA)
-							{
-								Settings::AntiAim::Yaw::type = SPIN_SLOW;
-								ImGui::OpenPopup("Error###UNTRUSTED_AA");
-							}
-						}
-
-						if (ImGui::Combo("##YACTUALTYPE", &Settings::AntiAim::Yaw::type_fake, YTypes, IM_ARRAYSIZE(YTypes)))
+						if (ImGui::Combo("##YFAKETYPE", &Settings::AntiAim::Yaw::type_fake, YTypes, IM_ARRAYSIZE(YTypes)))
 						{
 							if (!ValveDSCheck::forceUT && ((*csGameRules) && (*csGameRules)->IsValveDS()) && Settings::AntiAim::Yaw::type_fake > AntiAimType_Y::STATICAA)
 							{
 								Settings::AntiAim::Yaw::type_fake = SPIN_SLOW;
+								ImGui::OpenPopup("Error###UNTRUSTED_AA");
+							}
+						}
+
+						if (ImGui::Combo("##YACTUALTYPE", &Settings::AntiAim::Yaw::type, YTypes, IM_ARRAYSIZE(YTypes)))
+						{
+							if (!ValveDSCheck::forceUT && ((*csGameRules) && (*csGameRules)->IsValveDS()) && Settings::AntiAim::Yaw::type > AntiAimType_Y::STATICAA)
+							{
+								Settings::AntiAim::Yaw::type = SPIN_SLOW;
 								ImGui::OpenPopup("Error###UNTRUSTED_AA");
 							}
 						}
@@ -1251,9 +1260,22 @@ void MiscTab()
 		{
 			ImGui::Text("Movement");
 			ImGui::Separator();
+
 			ImGui::Checkbox("Bunny Hop", &Settings::BHop::enabled);
 			if (ImGui::IsItemHovered())
 				ImGui::SetTooltip("Auto bunny hop");
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Checkbox("Edge Jump", &Settings::EdgeJump::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Jumps off the edges");
+			}
+			ImGui::NextColumn();
+			{
+				UI::KeyBindButton(&Settings::EdgeJump::key);
+			}
+			ImGui::Columns(1);
+
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
@@ -1484,7 +1506,7 @@ void MiscTab()
 					}
 				}
 				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Teleport to (0, 0, 0) on any map");
+					ImGui::SetTooltip("Teleport to (0, 0) on any map");
 				ImGui::Checkbox("Auto Defuse", &Settings::AutoDefuse::enabled);
 			}
 			ImGui::NextColumn();

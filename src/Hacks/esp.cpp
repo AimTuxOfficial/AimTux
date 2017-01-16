@@ -669,15 +669,8 @@ void ESP::DrawDroppedWeapons(C_BaseCombatWeapon* weapon)
 	if (owner > -1 || (vOrig.x == 0 && vOrig.y == 0 && vOrig.z == 0))
 		return;
 
-	std::string modelName = std::string(Util::GetValueByKey(guns, *weapon->GetItemDefinitionIndex()));
-	if (modelName == "")
-	{
-		modelName = std::string(weapon->GetClientClass()->m_pNetworkName);
-		if (strstr(modelName.c_str(), "Weapon"))
-			modelName = modelName.substr(7, modelName.length() - 7);
-		else
-			modelName = modelName.substr(1, modelName.length() - 1);
-	}
+	const char* szPrintName = weapon->GetCSWpnData()->szPrintName;
+	std::string modelName = Util::WstringToString(localize->FindSafe(szPrintName));
 
 	if (weapon->GetAmmo() > 0)
 	{
@@ -715,41 +708,51 @@ void ESP::DrawThrowable(C_BaseEntity* throwable, ClientClass* client)
 	if (!hdr)
 		return;
 
-	// smokes have "thrown" suffix, other nades have "dropped" suffix
 	if (!strstr(hdr->name, "thrown") && !strstr(hdr->name, "dropped"))
 		return;
 
 	ImColor nadeColor = ImColor(255, 255, 255, 255);
 	std::string nadeName = "Unknown Grenade";
-	if (strstr(hdr->name, "flash"))
+
+	IMaterial* mats[32];
+	modelInfo->GetModelMaterials(nadeModel, hdr->numtextures, mats);
+
+	for (int i = 0; i < hdr->numtextures; i++)
 	{
-		nadeName = "Flashbang";
-		nadeColor = Settings::ESP::flashbang_color;
-	}
-	else if (strstr(hdr->name, "molotov"))
-	{
-		nadeName = "Molotov";
-		nadeColor = Settings::ESP::molotov_color;
-	}
-	else if (strstr(hdr->name, "incendiarygrenade"))
-	{
-		nadeName = "Incendiary Grenade";
-		nadeColor = Settings::ESP::molotov_color;
-	}
-	else if (strstr(hdr->name, "fraggrenade"))
-	{
-		nadeName = "Grenade";
-		nadeColor = Settings::ESP::grenade_color;
-	}
-	else if (strstr(hdr->name, "smoke"))
-	{
-		nadeName = "Smoke";
-		nadeColor = Settings::ESP::smoke_color;
-	}
-	else if (strstr(hdr->name, "decoy"))
-	{
-		nadeName = "Decoy";
-		nadeColor = Settings::ESP::decoy_color;
+		IMaterial *mat = mats[i];
+		if (!mat)
+			continue;
+
+		if (strstr(mat->GetName(), "flashbang"))
+		{
+			nadeName = "Flashbang";
+			nadeColor = Settings::ESP::flashbang_color;
+			break;
+		}
+		else if (strstr(mat->GetName(), "m67_grenade") || strstr(mat->GetName(), "hegrenade"))
+		{
+			nadeName = "HE Grenade";
+			nadeColor = Settings::ESP::grenade_color;
+			break;
+		}
+		else if (strstr(mat->GetName(), "smoke"))
+		{
+			nadeName = "Smoke";
+			nadeColor = Settings::ESP::smoke_color;
+			break;
+		}
+		else if (strstr(mat->GetName(), "decoy"))
+		{
+			nadeName = "Decoy";
+			nadeColor = Settings::ESP::decoy_color;
+			break;
+		}
+		else if (strstr(mat->GetName(), "incendiary") || strstr(mat->GetName(), "molotov"))
+		{
+			nadeName = "Molotov";
+			nadeColor = Settings::ESP::molotov_color;
+			break;
+		}
 	}
 
 	DrawEntity(throwable, nadeName.c_str(), Color::FromImColor(nadeColor));
@@ -903,7 +906,7 @@ void ESP::DrawFOVCrosshair()
 	engine->GetScreenSize(width, height);
 
 	float radAimbotFov = (float)(Settings::Aimbot::AutoAim::fov * M_PI / 180);
-	float radViewFov = (float)(RenderView::currentFOV * M_PI / 180);
+	float radViewFov = (float)(OverrideView::currentFOV * M_PI / 180);
 
 	float circleRadius = tanf(radAimbotFov / 2) / tanf(radViewFov / 2) * width;
 

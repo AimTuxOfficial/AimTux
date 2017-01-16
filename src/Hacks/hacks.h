@@ -11,6 +11,7 @@
 #include "clantagchanger.h"
 #include "customglow.h"
 #include "dlights.h"
+#include "edgejump.h"
 #include "esp.h"
 #include "fakelag.h"
 #include "fovchanger.h"

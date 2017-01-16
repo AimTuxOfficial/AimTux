@@ -4,7 +4,7 @@ typedef unsigned short MaterialHandle_t;
 
 class KeyValues;
 
-class IMaterialSystem
+class IMaterialSystem : public IAppSystem
 {
 public:
 	IMaterial* CreateMaterial(const char* pMaterialName, KeyValues* pVMTKeyValues)

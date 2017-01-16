@@ -72,7 +72,8 @@ struct surfacedata_t
 	surfacesoundhandles_t soundhandles;
 };
 
-class IPhysicsSurfaceProps {
+class IPhysicsSurfaceProps
+{
 public:
 	virtual ~IPhysicsSurfaceProps(void) {}
 
