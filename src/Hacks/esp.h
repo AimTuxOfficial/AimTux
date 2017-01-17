@@ -39,4 +39,5 @@ namespace ESP
 	bool PrePaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force);
 	void Paint();
 	void EmitSound(int iEntIndex, const char *pSample);
+	void CreateMove(CUserCmd* cmd);
 }
