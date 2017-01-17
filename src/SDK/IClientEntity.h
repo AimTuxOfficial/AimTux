@@ -409,49 +409,6 @@ public:
 	}
 };
 
-class C_EconWearable: public C_BaseEntity
-{
-	int* GetItemDefinitionIndex()
-	{
-		return (int*)((uintptr_t)this + offsets.DT_WearableItem.m_iItemDefinitionIndex);
-	}
-
-	int* GetItemIDHigh()
-	{
-		return (int*)((uintptr_t)this + offsets.DT_WearableItem.m_iItemIDHigh);
-	}
-
-	int* GetEntityQuality()
-	{
-		return (int*)((uintptr_t)this + offsets.DT_WearableItem.m_iEntityQuality);
-	}
-
-	int* GetFallbackPaintKit()
-	{
-		return (int*)((uintptr_t)this + offsets.DT_WearableItem.m_nFallbackPaintKit);
-	}
-
-	int* GetFallbackSeed()
-	{
-		return (int*)((uintptr_t)this + offsets.DT_WearableItem.m_nFallbackSeed);
-	}
-
-	float* GetFallbackWear()
-	{
-		return (float*)((uintptr_t)this + offsets.DT_WearableItem.m_flFallbackWear);
-	}
-
-	int* GetFallbackStatTrak()
-	{
-		return (int*)((uintptr_t)this + offsets.DT_WearableItem.m_nFallbackStatTrak);
-	}
-
-	int* GetAccountID()
-	{
-		return (int*)((uintptr_t)this + offsets.DT_WearableItem.m_iAccountID);
-	}
-};
-
 class C_BaseViewModel: public C_BaseEntity
 {
 public:

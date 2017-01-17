@@ -129,18 +129,6 @@ struct COffsets
 
 	struct
 	{
-		std::ptrdiff_t m_iItemDefinitionIndex;
-		std::ptrdiff_t m_iItemIDHigh;
-		std::ptrdiff_t m_iAccountID;
-		std::ptrdiff_t m_iEntityQuality;
-		std::ptrdiff_t m_nFallbackPaintKit;
-		std::ptrdiff_t m_nFallbackSeed;
-		std::ptrdiff_t m_flFallbackWear;
-		std::ptrdiff_t m_nFallbackStatTrak;
-	} DT_WearableItem;
-
-	struct
-	{
 		std::ptrdiff_t m_nModelIndex;
 		std::ptrdiff_t m_hWeapon;
 		std::ptrdiff_t m_hOwner;

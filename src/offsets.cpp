@@ -107,15 +107,6 @@ void Offsets::getOffsets()
 	offsets.DT_BaseAttributableItem.m_flFallbackWear = NetVarManager::getOffset(tables, "DT_BaseAttributableItem", "m_flFallbackWear");
 	offsets.DT_BaseAttributableItem.m_nFallbackStatTrak = NetVarManager::getOffset(tables, "DT_BaseAttributableItem", "m_nFallbackStatTrak");
 
-	offsets.DT_WearableItem.m_iItemDefinitionIndex = NetVarManager::getOffset(tables, "DT_WearableItem", "m_iItemDefinitionIndex");
-	offsets.DT_WearableItem.m_iItemIDHigh = NetVarManager::getOffset(tables, "DT_WearableItem", "m_iItemIDHigh");
-	offsets.DT_WearableItem.m_iAccountID = NetVarManager::getOffset(tables, "DT_WearableItem", "m_iAccountID");
-	offsets.DT_WearableItem.m_iEntityQuality = NetVarManager::getOffset(tables, "DT_WearableItem", "m_iEntityQuality");
-	offsets.DT_WearableItem.m_nFallbackPaintKit = NetVarManager::getOffset(tables, "DT_WearableItem", "m_nFallbackPaintKit");
-	offsets.DT_WearableItem.m_nFallbackSeed = NetVarManager::getOffset(tables, "DT_WearableItem", "m_nFallbackSeed");
-	offsets.DT_WearableItem.m_flFallbackWear = NetVarManager::getOffset(tables, "DT_WearableItem", "m_flFallbackWear");
-	offsets.DT_WearableItem.m_nFallbackStatTrak = NetVarManager::getOffset(tables, "DT_WearableItem", "m_nFallbackStatTrak");
-
 	offsets.DT_BaseViewModel.m_nModelIndex = NetVarManager::getOffset(tables, "DT_BaseViewModel", "m_nModelIndex");
 	offsets.DT_BaseViewModel.m_hWeapon = NetVarManager::getOffset(tables, "DT_BaseViewModel", "m_hWeapon");
 	offsets.DT_BaseViewModel.m_hOwner = NetVarManager::getOffset(tables, "DT_BaseViewModel", "m_hOwner");
