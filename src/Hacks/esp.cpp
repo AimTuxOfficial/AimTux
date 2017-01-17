@@ -937,8 +937,6 @@ void ESP::DrawFOVCrosshair()
 		ray.Init(src3D, dst3D);
 		trace->TraceRay(ray, MASK_SHOT, &filter, &tr);
 
-		Vector aimingAt = tr.endpos;
-
 		QAngle leftViewAngles = QAngle(angles.x, angles.y - 90.f, 0.f);
 		Math::ClampAngles(leftViewAngles);
 		Math::AngleVectors(leftViewAngles, forward);
@@ -946,11 +944,11 @@ void ESP::DrawFOVCrosshair()
 
 		Vector maxAimAt = tr.endpos + forward;
 
-		Vector center2D, max2D;
-		if (debugOverlay->ScreenPosition(aimingAt, center2D) || debugOverlay->ScreenPosition(maxAimAt, max2D))
+		Vector max2D;
+		if (debugOverlay->ScreenPosition(maxAimAt, max2D))
 			return;
 
-		circleRadius = fabsf(center2D.x - max2D.x);
+		circleRadius = fabsf(width / 2 - max2D.x);
 	}
 	else
 	{
