@@ -784,7 +784,7 @@ void VisualsTab()
 {
 	const char* BoxTypes[] = { "Flat 2D", "Frame 2D", "Box 3D" };
 	const char* TracerTypes[] = { "Bottom", "Cursor" };
-	const char* BarTypes[] = { "Vertical", "Horizontal Below", "Horizontal Above", "Interwebz" };
+	const char* BarTypes[] = { "Vertical Left", "Vertical Right", "Horizontal Below", "Horizontal Above", "Interwebz" };
 	const char* BarColorTypes[] = { "Static", "Health Based" };
 	const char* TeamColorTypes[] = { "Absolute", "Relative" };
 	const char* ChamsTypes[] = { "Normal", "Normal - XQZ", "Flat", "Flat - XQZ" };

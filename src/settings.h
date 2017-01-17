@@ -97,9 +97,10 @@ enum BoxType : int
 enum BarType : int
 {
 	VERTICAL,
+	VERTICAL_RIGHT,
 	HORIZONTAL,
 	HORIZONTAL_UP,
-	INTERWEBZ
+	INTERWEBZ,
 };
 
 enum BarColorType : int
