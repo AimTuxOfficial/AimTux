@@ -81,6 +81,7 @@ struct Footstep
 	Vector position;
 };
 
+QAngle viewangles_backup;
 std::vector<Footstep> footsteps;
 
 const char* ESP::Ranks[] = {
@@ -916,10 +917,46 @@ void ESP::DrawFOVCrosshair()
 	int width, height;
 	engine->GetScreenSize(width, height);
 
-	float radAimbotFov = (float)(Settings::Aimbot::AutoAim::fov * M_PI / 180);
 	float radViewFov = (float)(OverrideView::currentFOV * M_PI / 180);
 
-	float circleRadius = tanf(radAimbotFov / 2) / tanf(radViewFov / 2) * width;
+	float circleRadius;
+	if (Settings::Aimbot::AutoAim::real_distance)
+	{
+		Vector src3D, dst3D, forward;
+		trace_t tr;
+		Ray_t ray;
+		CTraceFilter filter;
+
+		QAngle angles = viewangles_backup;
+
+		Math::AngleVectors(angles, forward);
+		filter.pSkip = localplayer;
+		src3D = localplayer->GetEyePosition();
+		dst3D = src3D + (forward * 8192);
+
+		ray.Init(src3D, dst3D);
+		trace->TraceRay(ray, MASK_SHOT, &filter, &tr);
+
+		Vector aimingAt = tr.endpos;
+
+		QAngle leftViewAngles = QAngle(angles.x, angles.y - 90.f, 0.f);
+		Math::ClampAngles(leftViewAngles);
+		Math::AngleVectors(leftViewAngles, forward);
+		forward *= Settings::Aimbot::AutoAim::fov * 5.f;
+
+		Vector maxAimAt = tr.endpos + forward;
+
+		Vector center2D, max2D;
+		if (debugOverlay->ScreenPosition(aimingAt, center2D) || debugOverlay->ScreenPosition(maxAimAt, max2D))
+			return;
+
+		circleRadius = fabsf(center2D.x - max2D.x);
+	}
+	else
+	{
+		float radAimbotFov = (float)(Settings::Aimbot::AutoAim::fov * M_PI / 180);
+		circleRadius = tanf(radAimbotFov / 2) / tanf(radViewFov / 2) * width;
+	}
 
 	Draw::Circle(LOC(width / 2, height / 2), 20, circleRadius, Color::FromImColor(Settings::ESP::FOVCrosshair::color));
 }
@@ -1122,4 +1159,9 @@ void ESP::DrawScope()
 
 	Draw::Line(0, height * 0.5, width, height * 0.5, Color(0, 0, 0, 255));
 	Draw::Line(width * 0.5, 0, width * 0.5, height, Color(0, 0, 0, 255));
+}
+
+void ESP::CreateMove(CUserCmd* cmd)
+{
+	viewangles_backup = cmd->viewangles;
 }
