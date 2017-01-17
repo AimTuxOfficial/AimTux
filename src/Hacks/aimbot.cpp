@@ -185,7 +185,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& best_bone, Aim
 		if (aimTargetType == AimTargetType::HP && hp > best_hp)
 			continue;
 
-		if (visible && !Entity::IsVisible(player, Settings::Aimbot::bone) && !Settings::Aimbot::AutoWall::enabled)
+		if (visible && !Settings::Aimbot::AutoWall::enabled && !Entity::IsVisible(player, Settings::Aimbot::bone))
 			continue;
 
 		if (Settings::Aimbot::AutoWall::enabled)
