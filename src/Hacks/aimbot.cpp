@@ -332,52 +332,15 @@ void Aimbot::Smooth(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd)
 	if (Settings::Aimbot::Smooth::type == SmoothType::SLOW_END)
 	{
 		toChange = delta - delta * smooth;
-		angle = viewAngles + toChange;
 	}
 	else if (Settings::Aimbot::Smooth::type == SmoothType::CONSTANT)
 	{
-		float slope = delta.y / delta.x;
-
-		if (slope != slope) // is NaN
-			slope = 9999999;
-
-		slope = fabs(slope);
-		float theta = atan(slope);
-
-		float changeFactor = 1.f - smooth * 0.5f;
-		toChange.x = changeFactor * cos(theta);
-		toChange.y = changeFactor * sin(theta);
-
-		if (delta.x < 0.0f)
-		{
-			if (toChange.x > fabs(delta.x))
-				toChange.x = fabs(delta.x);
-
-			angle.x = viewAngles.x - toChange.x;
-		}
-		else
-		{
-			if (toChange.x > delta.x)
-				toChange.x = delta.x;
-
-			angle.x = viewAngles.x + toChange.x;
-		}
-
-		if (delta.y < 0.0f)
-		{
-			if (toChange.y > fabs(delta.y))
-				toChange.y = fabs(delta.y);
-
-			angle.y = viewAngles.y - toChange.y;
-		}
-		else
-		{
-			if (toChange.y > delta.y)
-				toChange.y = delta.y;
-
-			angle.y = viewAngles.y + toChange.y;
-		}
+		float coeff = fabsf(smooth - 1.f) / delta.Length() * 4.f;
+		coeff = std::min(1.f, coeff);
+		toChange = (delta * coeff);
 	}
+
+	angle = viewAngles + toChange;
 }
 
 void Aimbot::AutoCrouch(C_BasePlayer* player, CUserCmd* cmd)
