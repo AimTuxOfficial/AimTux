@@ -392,6 +392,8 @@ namespace Settings
 		namespace Glow
 		{
 			extern bool enabled;
+			extern bool key_enabled;
+			extern ButtonCode_t key;
 			extern ImColor ally_color;
 			extern ImColor enemy_color;
 			extern ImColor enemy_visible_color;

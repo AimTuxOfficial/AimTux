@@ -178,6 +178,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	LoadUIColor(settings["ESP"]["grenade_color"], Settings::ESP::grenade_color);
 	LoadUIColor(settings["ESP"]["molotov_color"], Settings::ESP::molotov_color);
 	settings["ESP"]["Glow"]["enabled"] = Settings::ESP::Glow::enabled;
+	settings["ESP"]["Glow"]["key_enabled"] = Settings::ESP::Glow::key_enabled;
+	settings["ESP"]["Glow"]["key"] = Util::GetButtonName(Settings::ESP::Glow::key);
 	LoadUIColor(settings["ESP"]["Glow"]["ally_color"], Settings::ESP::Glow::ally_color);
 	LoadUIColor(settings["ESP"]["Glow"]["enemy_color"], Settings::ESP::Glow::enemy_color);
 	LoadUIColor(settings["ESP"]["Glow"]["enemy_visible_color"], Settings::ESP::Glow::enemy_visible_color);
@@ -501,6 +503,8 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["ESP"]["grenade_color"], &Settings::ESP::grenade_color);
 	GetVal(settings["ESP"]["molotov_color"], &Settings::ESP::molotov_color);
 	GetVal(settings["ESP"]["Glow"]["enabled"], &Settings::ESP::Glow::enabled);
+	GetVal(settings["ESP"]["Glow"]["key_enabled"], &Settings::ESP::Glow::key_enabled);
+	GetButtonCode(settings["ESP"]["Glow"]["key"], &Settings::ESP::Glow::key);
 	GetVal(settings["ESP"]["Glow"]["ally_color"], &Settings::ESP::Glow::ally_color);
 	GetVal(settings["ESP"]["Glow"]["enemy_color"], &Settings::ESP::Glow::enemy_color);
 	GetVal(settings["ESP"]["Glow"]["enemy_visible_color"], &Settings::ESP::Glow::enemy_visible_color);
