@@ -13,6 +13,8 @@ namespace ESP
 {
 	extern const char* Ranks[];
 
+	Color GetHealthColor(int hp);
+	Color GetHealthColor(C_BasePlayer* player);
 	bool GetBox(C_BaseEntity* entity, int& x, int& y, int& w, int& h);
 	ImColor GetESPPlayerColor(C_BasePlayer* player, bool visible);
 	void DrawBox(Color color, int x, int y, int w, int h, C_BaseEntity* entity);

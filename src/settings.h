@@ -388,6 +388,14 @@ namespace Settings
 		extern ImColor flashbang_color;
 		extern ImColor grenade_color;
 		extern ImColor molotov_color;
+		extern bool hp_enemy_color;
+		extern bool hp_ally_color;
+		extern bool hp_enemy_visible_color;
+		extern bool hp_ally_visible_color;
+		extern bool hp_ct_color;
+		extern bool hp_t_color;
+		extern bool hp_ct_visible_color;
+		extern bool hp_t_visible_color;
 
 		namespace Glow
 		{
@@ -399,6 +407,9 @@ namespace Settings
 			extern ImColor grenade_color;
 			extern ImColor defuser_color;
 			extern ImColor chicken_color;
+			extern bool hp_ally_color;
+			extern bool hp_enemy_color;
+			extern bool hp_enemy_visible_color;
 		}
 
 		namespace Filters
@@ -485,6 +496,10 @@ namespace Settings
 			extern ImColor enemy_color;
 			extern ImColor enemy_visible_color;
 			extern int type;
+			extern bool hp_ally_color;
+			extern bool hp_ally_visible_color;
+			extern bool hp_enemy_color;
+			extern bool hp_enemy_visible_color;
 
 			namespace Arms
 			{
@@ -603,6 +618,14 @@ namespace Settings
 		extern ImColor bomb_defusing_color;
 		extern ImColor defuser_color;
 		extern float icons_scale;
+		extern bool hp_enemy_color;
+		extern bool hp_enemy_visible_color;
+		extern bool hp_ally_color;
+		extern bool hp_ally_visible_color;
+		extern bool hp_t_color;
+		extern bool hp_t_visible_color;
+		extern bool hp_ct_color;
+		extern bool hp_ct_visible_color;
 
 		namespace InGame
 		{
