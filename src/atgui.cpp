@@ -353,20 +353,77 @@ void ColorsWindow()
 			&Settings::ASUSWalls::color,
 	};
 
+	bool* healthColor[] = {
+			nullptr, // UI Main
+			nullptr, // UI Body
+			nullptr, // UI Font
+			nullptr, // FOV Circle
+			nullptr, // Hitmarker
+			&Settings::ESP::hp_enemy_color, // ESP - Enemy
+			&Settings::ESP::hp_ally_color, // ESP - Team
+			&Settings::ESP::hp_enemy_visible_color, // ESP - Enemy Visible
+			&Settings::ESP::hp_ally_visible_color, // ESP - Team Visible
+			&Settings::ESP::hp_ct_color, // ESP - CT
+			&Settings::ESP::hp_t_color, // ESP - T
+			&Settings::ESP::hp_ct_visible_color, // ESP - CT Visible
+			&Settings::ESP::hp_t_visible_color, // ESP - T Visible
+			nullptr, // ESP - Bomb
+			nullptr, // ESP - Bomb Defusing
+			nullptr, // ESP - Hostage
+			nullptr, // ESP - Defuser
+			nullptr, // ESP - Weapon
+			nullptr, // ESP - Chicken
+			nullptr, // ESP - Fish
+			nullptr, // ESP - Smoke
+			nullptr, // ESP - Decoy
+			nullptr, // ESP - Flashbang
+			nullptr, // ESP - Grenade
+			nullptr, // ESP - Molotov
+			nullptr, // ESP - Skeleton
+			&Settings::ESP::Chams::hp_ally_color, // Chams - Team
+			&Settings::ESP::Chams::hp_ally_visible_color, // Chams - Team Visible
+			&Settings::ESP::Chams::hp_enemy_color, // Chams - Enemy
+			&Settings::ESP::Chams::hp_enemy_visible_color, // Chams - Enemy Visible
+			nullptr, // Chams - Arms
+			&Settings::Radar::hp_enemy_color, // Radar - Enemy
+			&Settings::Radar::hp_ally_color, // Radar - Team
+			&Settings::Radar::hp_enemy_visible_color, // Radar - Enemy Visible
+			&Settings::Radar::hp_ally_visible_color, // Radar - Team Visible
+			&Settings::Radar::hp_ct_color, // Radar - CT
+			&Settings::Radar::hp_t_color, // Radar - T
+			&Settings::Radar::hp_ct_visible_color, // Radar - CT Visible
+			&Settings::Radar::hp_t_visible_color, // Radar - T Visible
+			nullptr, // Radar - Bomb
+			nullptr, // Radar - Bomb Defusing
+			&Settings::ESP::Glow::hp_ally_color, // Glow - Team
+			&Settings::ESP::Glow::hp_enemy_color, // Glow - Enemy
+			&Settings::ESP::Glow::hp_enemy_visible_color, // Glow - Enemy Visible
+			nullptr, // Glow - Weapon
+			nullptr, // Glow - Grenade
+			nullptr, // Glow - Defuser
+			nullptr, // Glow - Chicken
+			nullptr, // Sky
+			nullptr, // Walls
+	};
+
 	static int colorSelected = 0;
 
-	ImGui::SetNextWindowSize(ImVec2(540, 270), ImGuiSetCond_Always);
+	ImGui::SetNextWindowSize(ImVec2(540, 295), ImGuiSetCond_Always);
 	if (ImGui::Begin("Colors", &showColorsWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoResize))
 	{
 		ImGui::Columns(2, NULL, true);
 		{
 			ImGui::PushItemWidth(-1);
-				ImGui::ListBox("##COLORSELECTION", &colorSelected, colorSelection, IM_ARRAYSIZE(colorSelection), 10);
+				ImGui::ListBox("##COLORSELECTION", &colorSelected, colorSelection, IM_ARRAYSIZE(colorSelection), 11);
 			ImGui::PopItemWidth();
 		}
 		ImGui::NextColumn();
 		{
 			UI::ColorPicker4((float *)colors[colorSelected]);
+			if (healthColor[colorSelected])
+				ImGui::Checkbox("Health-Based Color", healthColor[colorSelected]);
+			if (ImGui::IsItemHovered())
+				ImGui::SetTooltip("Takes color from entity health, i.e. 100 - green, 50 - yellow");
 		}
 		ImGui::End();
 	}

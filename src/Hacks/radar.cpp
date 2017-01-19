@@ -22,6 +22,14 @@ ImColor Settings::Radar::ct_visible_color = ImColor(64, 128, 192, 255);
 ImColor Settings::Radar::bomb_color = ImColor(192, 192, 64, 255);
 ImColor Settings::Radar::bomb_defusing_color = ImColor(192, 192, 64, 255);
 ImColor Settings::Radar::defuser_color = ImColor(32, 192, 192, 255);
+bool Settings::Radar::hp_enemy_color = false;
+bool Settings::Radar::hp_enemy_visible_color = false;
+bool Settings::Radar::hp_ally_color = false;
+bool Settings::Radar::hp_ally_visible_color = false;
+bool Settings::Radar::hp_t_color = false;
+bool Settings::Radar::hp_t_visible_color = false;
+bool Settings::Radar::hp_ct_color = false;
+bool Settings::Radar::hp_ct_visible_color = false;
 float Settings::Radar::icons_scale = 4.5f;
 
 std::set<int> visible_players;
@@ -92,16 +100,36 @@ ImColor Radar::GetRadarPlayerColor(C_BasePlayer* player, bool visible)
 	if (Settings::Radar::team_color_type == TeamColorType::RELATIVE)
 	{
 		if (player->GetTeam() != localplayer->GetTeam())
-			playerColor = visible ? Settings::Radar::enemy_visible_color : Settings::Radar::enemy_color;
+		{
+			if (visible)
+				playerColor = Settings::Radar::hp_enemy_visible_color ? Color::ToImColor(ESP::GetHealthColor(player)) : Settings::Radar::enemy_visible_color;
+			else
+				playerColor = Settings::Radar::hp_enemy_color ? Color::ToImColor(ESP::GetHealthColor(player)) : Settings::Radar::enemy_color;
+		}
 		else
-			playerColor = visible ? Settings::Radar::ally_visible_color  : Settings::Radar::ally_color;
+		{
+			if (visible)
+				playerColor = Settings::Radar::hp_ally_visible_color ? Color::ToImColor(ESP::GetHealthColor(player)) : Settings::Radar::ally_visible_color;
+			else
+				playerColor = Settings::Radar::hp_ally_color ? Color::ToImColor(ESP::GetHealthColor(player)) : Settings::Radar::ally_color;
+		}
 	}
 	else if (Settings::Radar::team_color_type == TeamColorType::ABSOLUTE)
 	{
 		if (player->GetTeam() == TEAM_TERRORIST)
-			playerColor = visible ? Settings::Radar::t_visible_color : Settings::Radar::t_color;
+		{
+			if (visible)
+				playerColor = Settings::Radar::hp_t_visible_color ? Color::ToImColor(ESP::GetHealthColor(player)) : Settings::Radar::t_visible_color;
+			else
+				playerColor = Settings::Radar::hp_t_color ? Color::ToImColor(ESP::GetHealthColor(player)) : Settings::Radar::t_color;
+		}
 		else if (player->GetTeam() == TEAM_COUNTER_TERRORIST)
-			playerColor = visible ? Settings::Radar::ct_visible_color : Settings::Radar::ct_color;
+		{
+			if (visible)
+				playerColor = Settings::Radar::hp_ct_visible_color ? Color::ToImColor(ESP::GetHealthColor(player)) : Settings::Radar::ct_visible_color;
+			else
+				playerColor = Settings::Radar::hp_ct_color ? Color::ToImColor(ESP::GetHealthColor(player)) : Settings::Radar::ct_color;
+		}
 	}
 
 	return playerColor;

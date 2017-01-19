@@ -119,5 +119,15 @@ struct Color
 		);
 	}
 
+	static ImColor ToImColor(Color color)
+	{
+		return ImColor(
+				color.r / 255.f,
+				color.g / 255.f,
+				color.b / 255.f,
+				color.a / 255.f
+		);
+	}
+
 	//TODO: Add operator overloads
 };
