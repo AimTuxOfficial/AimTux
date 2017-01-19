@@ -116,6 +116,8 @@ Each config.json is stored in a seperately named folder (The name you see in-gam
 
 To add a config, create a folder inside of the `~/.configs/AimTux` folder with a name of your choice, and paste the `config.json` inside of that folder.
 
+To see hidden folders inside your home folder, press CTRL+H when using a file manager.
+
 ## Contributing to AimTux
 
 If you wish to contribute code to this opensource project, please keep some things mind before creating a *pull request*:
