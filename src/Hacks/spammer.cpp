@@ -115,7 +115,7 @@ void Spammer::BeginFrame(float frameTime)
 	}
 	else if (Settings::Spammer::type == SpammerType::SPAMMER_POSITIONS)
 	{
-		C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+		C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 		static int lastId = 1;
 
 		for (int i = lastId; i < engine->GetMaxClients(); i++)

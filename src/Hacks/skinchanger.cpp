@@ -101,7 +101,7 @@ void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 			return;
 
 		/* get our player entity */
-		C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+		C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 		if (!localplayer || !localplayer->GetAlive())
 			return;
 
@@ -117,7 +117,7 @@ void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 			if (weapons[i] == -1)
 				continue;
 
-			C_BaseAttributableItem* weapon = (C_BaseAttributableItem*)entitylist->GetClientEntity(weapons[i] & 0xFFF);
+			C_BaseAttributableItem* weapon = (C_BaseAttributableItem*) entitylist->GetClientEntity(weapons[i] & 0xFFF);
 
 			/* check if the weapon pointer is invalid */
 			if (!weapon)
@@ -162,11 +162,11 @@ void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 		}
 
 		/* viewmodel replacements */
-		C_BaseViewModel* viewmodel = (C_BaseViewModel*)entitylist->GetClientEntityFromHandle(localplayer->GetViewModel());
+		C_BaseViewModel* viewmodel = (C_BaseViewModel*) entitylist->GetClientEntityFromHandle(localplayer->GetViewModel());
 		if (!viewmodel)
 			return;
 
-		C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+		C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
 		if (!active_weapon)
 			return;
 
@@ -220,11 +220,11 @@ void SkinChanger::SetViewModelSequence(const CRecvProxyData *pDataConst, void *p
 	CRecvProxyData* pData = const_cast<CRecvProxyData*>(pDataConst);
 
 	// Confirm that we are replacing our view model and not someone elses.
-	C_BaseViewModel* pViewModel = (C_BaseViewModel*)pStruct;
+	C_BaseViewModel* pViewModel = (C_BaseViewModel*) pStruct;
 
 	if (pViewModel)
 	{
-		IClientEntity* pOwner = (IClientEntity*)entitylist->GetClientEntity(pViewModel->GetOwner() & 0xFFF);
+		IClientEntity* pOwner = (IClientEntity*) entitylist->GetClientEntity(pViewModel->GetOwner() & 0xFFF);
 
 		// Compare the owner entity of this view model to the local player entity.
 		if (pOwner && pOwner->GetIndex() == engine->GetLocalPlayer())

@@ -7,7 +7,7 @@ void CustomGlow::FrameStageNotify(ClientFrameStage_t stage)
 	// Skip reserved slots that are guaranteed to be managed by the engine.
 	for (int i = 64; i < entitylist->GetHighestEntityIndex(); i++)
 	{
-		C_BaseEntity* entity = reinterpret_cast<C_BaseEntity*>(entitylist->GetClientEntity(i));
+		C_BaseEntity* entity = entitylist->GetClientEntity(i);
 
 		// Register custom entities into the glow object definitions array.
 		if (engine->IsInGame() && entity && entity->GetClientClass()->m_ClassID == CBaseAnimating)

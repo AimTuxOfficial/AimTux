@@ -191,7 +191,7 @@ bool ESP::GetBox(C_BaseEntity *entity, int &x, int &y, int &w, int &h)
 
 ImColor ESP::GetESPPlayerColor(C_BasePlayer* player, bool visible)
 {
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return ImColor(255, 255, 255, 255);
 
@@ -351,7 +351,7 @@ void ESP::DrawEntity(C_BaseEntity* entity, const char* string, Color color)
 
 void ESP::DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info_t player_info)
 {
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return;
 
@@ -544,7 +544,7 @@ void ESP::DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info
 		}
 	}
 
-	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(player->GetActiveWeapon());
+	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(player->GetActiveWeapon());
 
 	// health
 	if (Settings::ESP::Info::health)
@@ -647,7 +647,7 @@ void ESP::DrawPlantedBomb(C_PlantedC4* bomb)
 	}
 	else
 	{
-		C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+		C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 		Vector vecOrigin = bomb->GetVecOrigin();
 
 		float flDistance = localplayer->GetEyePosition().DistTo(vecOrigin);
@@ -878,7 +878,7 @@ void ESP::DrawSounds()
 		if (debugOverlay->ScreenPosition(footsteps[i].position, pos2d))
 			continue;
 
-		C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+		C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 		if (!localplayer)
 			continue;
 
@@ -910,7 +910,7 @@ void ESP::DrawSounds()
 
 void ESP::DrawFOVCrosshair()
 {
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer->GetAlive())
 		return;
 
@@ -961,7 +961,7 @@ void ESP::DrawFOVCrosshair()
 
 void ESP::DrawGlow()
 {
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return;
 
@@ -1049,7 +1049,7 @@ void ESP::Paint()
 	if (!engine->IsInGame())
 		return;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return;
 
@@ -1076,17 +1076,17 @@ void ESP::Paint()
 		}
 		if ((client->m_ClassID != CBaseWeaponWorldModel && (strstr(client->m_pNetworkName, "Weapon") || client->m_ClassID == CDEagle || client->m_ClassID == CAK47)) && Settings::ESP::Filters::weapons)
 		{
-			C_BaseCombatWeapon* weapon = (C_BaseCombatWeapon*)entity;
+			C_BaseCombatWeapon* weapon = (C_BaseCombatWeapon*) entity;
 			DrawDroppedWeapons(weapon);
 		}
 		else if (client->m_ClassID == CC4 && Settings::ESP::Filters::bomb)
 		{
-			C_BaseCombatWeapon* bomb = (C_BaseCombatWeapon*)entity;
+			C_BaseCombatWeapon* bomb = (C_BaseCombatWeapon*) entity;
 			DrawBomb(bomb);
 		}
 		else if (client->m_ClassID == CPlantedC4 && Settings::ESP::Filters::bomb)
 		{
-			C_PlantedC4* pC4 = (C_PlantedC4*)entity;
+			C_PlantedC4* pC4 = (C_PlantedC4*) entity;
 			DrawPlantedBomb(pC4);
 		}
 		else if (client->m_ClassID == CHostage && Settings::ESP::Filters::hostages)
@@ -1141,11 +1141,11 @@ void ESP::EmitSound(int iEntIndex, const char *pSample)
 
 void ESP::DrawScope()
 {
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return;
 
-	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
 	if (!active_weapon)
 		return;
 

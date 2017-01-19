@@ -23,7 +23,7 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	if (!input->IsButtonDown(Settings::Triggerbot::key))
 		return;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer || !localplayer->GetAlive())
 		return;
 

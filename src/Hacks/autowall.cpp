@@ -111,7 +111,7 @@ bool Autowall::HandleBulletPenetration(CCSWeaponInfo* weaponInfo, FireBulletData
 {
 	surfacedata_t *enter_surface_data = physics->GetSurfaceData(data.enter_trace.surface.surfaceProps);
 	int enter_material = enter_surface_data->game.material;
-	float enter_surf_penetration_mod = *(float*)((uint8_t*)enter_surface_data + 76);
+	float enter_surf_penetration_mod = *(float*)((uint8_t*) enter_surface_data + 76);
 
 	data.trace_length += data.enter_trace.fraction * data.trace_length_remaining;
 	data.current_damage *= pow(weaponInfo->GetRangeModifier(), (data.trace_length * 0.002));
@@ -130,7 +130,7 @@ bool Autowall::HandleBulletPenetration(CCSWeaponInfo* weaponInfo, FireBulletData
 	surfacedata_t *exit_surface_data = physics->GetSurfaceData(trace_exit.surface.surfaceProps);
 	int exit_material = exit_surface_data->game.material;
 
-	float exit_surf_penetration_mod = *(float*)((uint8_t*)exit_surface_data + 76);
+	float exit_surf_penetration_mod = *(float*)((uint8_t*) exit_surface_data + 76);
 	float final_damage_modifier = 0.16f;
 	float combined_penetration_modifier = 0.0f;
 
@@ -189,7 +189,7 @@ void TraceLine(Vector vecAbsStart, Vector vecAbsEnd, unsigned int mask, C_BasePl
 
 bool Autowall::SimulateFireBullet(C_BaseCombatWeapon* pWeapon, bool teamCheck, FireBulletData &data)
 {
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 	CCSWeaponInfo* weaponInfo = pWeapon->GetCSWpnData();
 
 	data.penetrate_count = 4;
@@ -240,7 +240,7 @@ float Autowall::GetDamage(const Vector& point, bool teamCheck, FireBulletData& f
 {
 	float damage = 0.f;
 	Vector dst = point;
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 	FireBulletData data;
 	data.src = localplayer->GetEyePosition();
 	data.filter.pSkip = localplayer;
@@ -250,7 +250,7 @@ float Autowall::GetDamage(const Vector& point, bool teamCheck, FireBulletData& f
 
 	data.direction.NormalizeInPlace();
 
-	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
 	if (!active_weapon)
 		return -1.0f;
 

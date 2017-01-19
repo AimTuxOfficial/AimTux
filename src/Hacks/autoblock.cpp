@@ -3,7 +3,6 @@
 bool Settings::Autoblock::enabled = false;
 ButtonCode_t Settings::Autoblock::key = ButtonCode_t::KEY_6;
 
-//Thanks teamgamerfood!
 void Autoblock::CreateMove(CUserCmd* cmd)
 {
 	if (!Settings::Autoblock::enabled)
@@ -11,7 +10,7 @@ void Autoblock::CreateMove(CUserCmd* cmd)
 
 	if (input->IsButtonDown(Settings::Autoblock::key))
 	{
-		C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+		C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 		float bestdist = 250.f;
 		int index = -1;
 
@@ -33,7 +32,7 @@ void Autoblock::CreateMove(CUserCmd* cmd)
 				index = i;
 			}
 		}
- 
+
 		if (index == -1)
 			return;
 

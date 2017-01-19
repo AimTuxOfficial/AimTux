@@ -83,7 +83,7 @@ static void SquareConstraint(ImGuiSizeConstraintCallbackData *data)
 
 ImColor Radar::GetRadarPlayerColor(C_BasePlayer* player, bool visible)
 {
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return ImColor(255, 255, 255, 255);
 

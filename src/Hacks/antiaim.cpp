@@ -17,7 +17,7 @@ float Distance(Vector a, Vector b)
 
 bool AntiAim::GetBestHeadAngle(QAngle& angle)
 {
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 
 	Vector position = localplayer->GetVecOrigin() + localplayer->GetVecViewOffset();
 
@@ -51,7 +51,7 @@ bool AntiAim::GetBestHeadAngle(QAngle& angle)
 
 bool HasViableEnemy()
 {
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 
 	for (int i = 1; i < engine->GetMaxClients(); ++i)
 	{
@@ -239,17 +239,17 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 
 	QAngle angle = cmd->viewangles;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return;
 
-	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
 	if (!active_weapon)
 		return;
 
 	if (active_weapon->GetCSWpnData()->GetWeaponType() == WEAPONTYPE_GRENADE)
 	{
-		C_BaseCSGrenade* csGrenade = (C_BaseCSGrenade*)active_weapon;
+		C_BaseCSGrenade* csGrenade = (C_BaseCSGrenade*) active_weapon;
 
 		if (csGrenade->GetThrowTime() > 0.f)
 			return;

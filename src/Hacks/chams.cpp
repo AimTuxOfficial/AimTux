@@ -23,7 +23,7 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 	if (!Settings::ESP::Chams::enabled)
 		return;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return;
 

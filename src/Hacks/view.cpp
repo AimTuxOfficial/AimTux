@@ -17,7 +17,7 @@ void View::FrameStageNotify(ClientFrameStage_t stage)
 	if (stage != FRAME_RENDER_START)
 		return;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 
 	if (Settings::View::NoAimPunch::enabled)
 	{
@@ -57,7 +57,7 @@ void View::PostFrameStageNotify(ClientFrameStage_t stage)
 	if (stage != FRAME_RENDER_START)
 		return;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 
 	if (Settings::View::NoAimPunch::enabled)
 	{

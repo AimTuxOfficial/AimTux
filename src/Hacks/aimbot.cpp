@@ -129,7 +129,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& best_bone, Aim
 
 	best_bone = static_cast<Bone>(Settings::Aimbot::bone);
 
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 	C_BasePlayer* closestEntity = NULL;
 
 	// TODO Change the big value with a distance/fov slider
@@ -222,7 +222,7 @@ void Aimbot::RCS(QAngle& angle, C_BasePlayer* player, CUserCmd* cmd)
 	if (!(cmd->buttons & IN_ATTACK))
 		return;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 	QAngle CurrentPunch = *localplayer->GetAimPunchAngle();
 	bool isSilent = Settings::Aimbot::silent;
 	bool hasTarget = Settings::Aimbot::AutoAim::enabled && player && shouldAim;
@@ -402,7 +402,7 @@ void Aimbot::AutoShoot(C_BasePlayer* player, C_BaseCombatWeapon* active_weapon, 
 	if (cmd->buttons & IN_USE)
 		return;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 	float nextPrimaryAttack = active_weapon->GetNextPrimaryAttack();
 
 	if (nextPrimaryAttack > globalvars->curtime)
@@ -476,14 +476,14 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 
 	shouldAim = Settings::Aimbot::AutoShoot::enabled;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer || !localplayer->GetAlive())
 		return;
 
 	if (Settings::Aimbot::IgnoreJump::enabled && !(localplayer->GetFlags() & FL_ONGROUND))
 		return;
 
-	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
 	if (!active_weapon || active_weapon->GetInReload())
 		return;
 
@@ -557,11 +557,11 @@ void Aimbot::FireEventClientSide(IGameEvent* event)
 
 void Aimbot::UpdateValues()
 {
-	C_BasePlayer* localplayer = (C_BasePlayer*)entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer || !localplayer->GetAlive())
 		return;
 
-	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
 	if (!active_weapon)
 		return;
 
