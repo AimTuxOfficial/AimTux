@@ -113,13 +113,16 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	if (Settings::Triggerbot::Filters::smoke_check && LineGoesThroughSmoke(tr.startpos, tr.endpos, 1))
 		return;
 
-	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
-	if (!active_weapon)
+	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+	if (!active_weapon || active_weapon->GetAmmo() == 0)
 		return;
 
-	timeStamp = oldTimeStamp;
+	int itemDefinitionIndex = *active_weapon->GetItemDefinitionIndex();
+	if (itemDefinitionIndex == WEAPON_KNIFE || itemDefinitionIndex >= WEAPON_KNIFE_BAYONET)
+		return;
 
-	if (active_weapon->GetCSWpnData()->GetWeaponType() == WEAPONTYPE_KNIFE || active_weapon->GetAmmo() == 0)
+	CSWeaponType weaponType = active_weapon->GetCSWpnData()->GetWeaponType();
+	if (weaponType == WEAPONTYPE_C4 || weaponType == WEAPONTYPE_GRENADE)
 		return;
 
 	if (active_weapon->GetNextPrimaryAttack() > globalvars->curtime)
@@ -131,8 +134,11 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	}
 	else
 	{
-		if (Settings::Triggerbot::Delay::enabled && currentTime_ms - timeStamp < Settings::Triggerbot::Delay::value)
+		if (Settings::Triggerbot::Delay::enabled && currentTime_ms - oldTimeStamp < Settings::Triggerbot::Delay::value)
+		{
+			timeStamp = oldTimeStamp;
 			return;
+		}
 
 		if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
 			cmd->buttons |= IN_ATTACK2;
