@@ -115,9 +115,9 @@ If you wish to contribute code to this opensource project, please keep some thin
 
 ## Screenshots
 
-![menu](http://i.imgur.com/SD7x7w2.png)
-![skins](http://i.imgur.com/NTMy3EI.png)
-![esp_chams](http://i.imgur.com/r8fk1Rt.jpg)
+![menu](http://aimtux.net/images/screenshot1.png)
+![skins](http://aimtux.net/images/screenshot2.png)
+![esp_chams](http://aimtux.net/images/screenshot3.jpeg)
 
 ## Credits
 Special thanks to [@aixxe](http://www.github.com/aixxe/) ([aixxe.net](http://www.aixxe.net)) for the skin changer and with the initial project, as well as helping this project with source code (Available on [@aixxe's](http://www.github.com/aixxe/) github page.)
