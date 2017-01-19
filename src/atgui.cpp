@@ -421,9 +421,11 @@ void ColorsWindow()
 		{
 			UI::ColorPicker4((float *)colors[colorSelected]);
 			if (healthColor[colorSelected])
+			{
 				ImGui::Checkbox("Health-Based Color", healthColor[colorSelected]);
-			if (ImGui::IsItemHovered())
-				ImGui::SetTooltip("Takes color from entity health, i.e. 100 - green, 50 - yellow");
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Takes color from entity health, i.e. 100 - green, 50 - yellow");
+			}
 		}
 		ImGui::End();
 	}
