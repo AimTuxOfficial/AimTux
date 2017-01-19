@@ -104,6 +104,18 @@ If you wish to unload the hack from the game, you can do so by entering the comm
 ./uload
 ```
 
+## Configs
+
+Configs are stored in a hidden directory in your home folder. Specifically 
+
+```
+~/.configs/AimTux
+```
+
+Each config.json is stored in a seperately named folder (The name you see in-game, in the config window). 
+
+To add a config, create a folder inside of the `~/.configs/AimTux` folder with a name of your choice, and paste the `config.json` inside of that folder.
+
 ## Contributing to AimTux
 
 If you wish to contribute code to this opensource project, please keep some things mind before creating a *pull request*:
