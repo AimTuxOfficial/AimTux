@@ -793,7 +793,7 @@ void ESP::DrawSkeleton(C_BasePlayer* player)
 			if (debugOverlay->ScreenPosition(Vector(pBoneToWorldOut[pBone->parent][0][3], pBoneToWorldOut[pBone->parent][1][3], pBoneToWorldOut[pBone->parent][2][3]), vBonePos2))
 				continue;
 
-			Draw::Line(LOC(vBonePos1.x, vBonePos1.y), LOC(vBonePos2.x, vBonePos2.y), Color::FromImColor(Settings::ESP::Skeleton::color));
+			Draw::Line(Vector2D(vBonePos1.x, vBonePos1.y), Vector2D(vBonePos2.x, vBonePos2.y), Color::FromImColor(Settings::ESP::Skeleton::color));
 		}
 	}
 }
@@ -956,7 +956,7 @@ void ESP::DrawFOVCrosshair()
 		circleRadius = tanf(radAimbotFov / 2) / tanf(radViewFov / 2) * width;
 	}
 
-	Draw::Circle(LOC(width / 2, height / 2), 20, circleRadius, Color::FromImColor(Settings::ESP::FOVCrosshair::color));
+	Draw::Circle(Vector2D(width / 2, height / 2), 20, circleRadius, Color::FromImColor(Settings::ESP::FOVCrosshair::color));
 }
 
 void ESP::DrawGlow()

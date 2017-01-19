@@ -39,11 +39,11 @@ void Recoilcrosshair::Paint()
 	int crosshairY = (int) (y + (dy * punchAngle.x));
 
 	// outline horizontal
-	Draw::FilledRectangle(LOC(crosshairX - 4, crosshairY - 1), LOC(crosshairX + 5, crosshairY + 2), Color(0, 0, 0, 170));
+	Draw::FilledRectangle(Vector2D(crosshairX - 4, crosshairY - 1), Vector2D(crosshairX + 5, crosshairY + 2), Color(0, 0, 0, 170));
 	// outline vertical
-	Draw::FilledRectangle(LOC(crosshairX - 1, crosshairY - 4), LOC(crosshairX + 2, crosshairY + 5), Color(0, 0, 0, 170));
+	Draw::FilledRectangle(Vector2D(crosshairX - 1, crosshairY - 4), Vector2D(crosshairX + 2, crosshairY + 5), Color(0, 0, 0, 170));
 	// line horizontal
-	Draw::Line(LOC(crosshairX - 3, crosshairY), LOC(crosshairX + 4, crosshairY), Color(255, 255, 255, 255));
+	Draw::Line(Vector2D(crosshairX - 3, crosshairY), Vector2D(crosshairX + 4, crosshairY), Color(255, 255, 255, 255));
 	// line vertical
-	Draw::Line(LOC(crosshairX, crosshairY + 3), LOC(crosshairX, crosshairY - 4), Color(255, 255, 255, 255));
+	Draw::Line(Vector2D(crosshairX, crosshairY + 3), Vector2D(crosshairX, crosshairY - 4), Color(255, 255, 255, 255));
 }
