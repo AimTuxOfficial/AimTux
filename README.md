@@ -1,4 +1,4 @@
-![banner](http://i.imgur.com/MfuCMwC.png)
+![banner](http://aimtux.net/images/banner.png)
 
 ===================
 
@@ -88,7 +88,7 @@ if you see `$1 = (void *) 0x0`, the `.so` file either couldn't be found or somet
 
 Now, go back into csgo, if you're in the main menu of the game you should see the AimTux banner in the top left like so:
 
-![this](http://i.imgur.com/I2NSAia.png)
+![this](http://aimtux.net/images/screenshot4.png)
 
 ## Using the hack
 
