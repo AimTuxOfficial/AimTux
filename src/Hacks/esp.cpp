@@ -957,9 +957,7 @@ void ESP::DrawFOVCrosshair()
 	int width, height;
 	engine->GetScreenSize(width, height);
 
-	float radViewFov = (float)(OverrideView::currentFOV * M_PI / 180);
-
-	float circleRadius;
+	float radius;
 	if (Settings::Aimbot::AutoAim::real_distance)
 	{
 		Vector src3D, dst3D, forward;
@@ -968,7 +966,6 @@ void ESP::DrawFOVCrosshair()
 		CTraceFilter filter;
 
 		QAngle angles = viewangles_backup;
-
 		Math::AngleVectors(angles, forward);
 		filter.pSkip = localplayer;
 		src3D = localplayer->GetEyePosition();
@@ -978,7 +975,7 @@ void ESP::DrawFOVCrosshair()
 		trace->TraceRay(ray, MASK_SHOT, &filter, &tr);
 
 		QAngle leftViewAngles = QAngle(angles.x, angles.y - 90.f, 0.f);
-		Math::ClampAngles(leftViewAngles);
+		Math::NormalizeAngles(leftViewAngles);
 		Math::AngleVectors(leftViewAngles, forward);
 		forward *= Settings::Aimbot::AutoAim::fov * 5.f;
 
@@ -988,15 +985,16 @@ void ESP::DrawFOVCrosshair()
 		if (debugOverlay->ScreenPosition(maxAimAt, max2D))
 			return;
 
-		circleRadius = fabsf(width / 2 - max2D.x);
+		radius = fabsf(width / 2 - max2D.x);
 	}
 	else
 	{
-		float radAimbotFov = (float)(Settings::Aimbot::AutoAim::fov * M_PI / 180);
-		circleRadius = tanf(radAimbotFov / 2) / tanf(radViewFov / 2) * width;
+		float aimbotFov = Settings::Aimbot::AutoAim::fov;
+		float fov = OverrideView::currentFOV;
+		radius = tanf(DEG2RAD(aimbotFov) / 2) / tanf(DEG2RAD(fov) / 2) * width;
 	}
 
-	Draw::Circle(Vector2D(width / 2, height / 2), 20, circleRadius, Color::FromImColor(Settings::ESP::FOVCrosshair::color));
+	Draw::Circle(Vector2D(width / 2, height / 2), 20, radius, Color::FromImColor(Settings::ESP::FOVCrosshair::color));
 }
 
 void ESP::DrawGlow()
