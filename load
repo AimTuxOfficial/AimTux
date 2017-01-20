@@ -1,5 +1,11 @@
 #!/bin/sh
 
+if [ ! -d ".git" ]; then
+        echo "We have detected that you downloaded aimtux-master.zip through the GitHub website. Please download AimTux with the 
+command 'git clone 
+https://github.com/McSwaggens/AimTux.git' instead, allowing you to update with the ./update command."
+fi
+
 #Credit: Aixxe @ aixxe.net
 if grep -q libAimTux.so /proc/$(pidof csgo_linux64)/maps; then
   exit
