@@ -1,0 +1,10 @@
+#!/bin/sh
+
+if [ ! -d ".git" ]; then
+	echo "Please download AimTux with the command 'git clone https://github.com/McSwaggens/AimTux.git'"
+	exit
+fi
+
+git pull
+cmake .
+make -j$(cat /proc/cpuinfo | grep "^processor" | wc -l) "$@"

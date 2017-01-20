@@ -6,7 +6,8 @@ struct mstudioseqdesc_t;
 struct mstudiobodyparts_t;
 struct mstudiotexture_t;
 
-class RadianEuler {
+class RadianEuler
+{
 public:
 	inline RadianEuler(void) { }
 
@@ -468,24 +469,30 @@ public:
 	model_t* GetModel(int index)
 	{
 		typedef model_t* (* oGetModel)(void*, int);
-		getvfunc<oGetModel>(this, 2)(this, index);
+		return getvfunc<oGetModel>(this, 2)(this, index);
 	}
 
 	int GetModelIndex(const char* Filename)
 	{
 		typedef int (* oGetModelIndex)(void*, const char*);
-		getvfunc<oGetModelIndex>(this, 3)(this, Filename);
+		return getvfunc<oGetModelIndex>(this, 3)(this, Filename);
 	}
 
 	const char* GetModelName(const model_t *model)
 	{
 		typedef const char* (* oGetModelName)(void*, const model_t*);
-		getvfunc<oGetModelName>(this, 4)(this, model);
+		return getvfunc<oGetModelName>(this, 4)(this, model);
+	}
+
+	void GetModelMaterials(const model_t *model, int count, IMaterial** ppMaterial)
+	{
+		typedef studiohdr_t* (* oGetModelMaterials)(void*, const model_t*, int, IMaterial**);
+		getvfunc<oGetModelMaterials>(this, 18)(this, model, count, ppMaterial);
 	}
 
 	studiohdr_t* GetStudioModel(const model_t* model)
 	{
 		typedef studiohdr_t* (* oGetStudioModel)(void*, const model_t*);
-		getvfunc<oGetStudioModel>(this, 31)(this, model);
+		return getvfunc<oGetStudioModel>(this, 31)(this, model);
 	}
 };

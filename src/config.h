@@ -6,7 +6,8 @@
 #include <dirent.h>
 #include <sys/stat.h>
 #include <vector>
-#include "pstring.h"
+#include <algorithm>
+#include "Utils/pstring.h"
 
 bool DoesFileExist(const char* path);
 bool DoesDirectoryExist(const char* path);
@@ -17,8 +18,9 @@ struct Config
 	std::string path;
 
 	Config(const char* name, const char* path);
-
-	std::string GetMainConfigFile();
 };
 
 std::vector<Config> GetConfigs(const char* directory);
+
+pstring GetConfigDirectory();
+std::vector<std::string> GetConfigs();

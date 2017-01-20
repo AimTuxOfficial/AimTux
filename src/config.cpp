@@ -26,14 +26,6 @@ bool DoesConform(const char* config_path)
 	return DoesFileExist(path.c_str());
 }
 
-std::string Config::GetMainConfigFile()
-{
-	pstring path;
-	path << this->path << "/config.json";
-
-	return path;
-}
-
 std::vector<Config> GetConfigs(const char* directory)
 {
 	std::vector<Config> configs;
@@ -57,6 +49,36 @@ std::vector<Config> GetConfigs(const char* directory)
 			}
 		}
 	}
+
+	return configs;
+}
+
+pstring GetConfigDirectory()
+{
+	pstring directory = getenv("HOME");
+	directory << "/.config";
+
+	if (!DoesDirectoryExist(directory.c_str()))
+		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+
+	directory << "/AimTux/";
+
+	if (!DoesDirectoryExist(directory.c_str()))
+		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+
+	return directory;
+}
+
+std::vector<std::string> GetConfigs()
+{
+	pstring configDirectory = GetConfigDirectory();
+	std::vector<Config> vConfigs = GetConfigs(configDirectory.c_str());
+	std::vector<std::string> configs;
+
+	for (auto config = vConfigs.begin(); config != vConfigs.end(); config++)
+		configs.push_back(config->name);
+
+	std::sort(configs.begin(), configs.end());
 
 	return configs;
 }

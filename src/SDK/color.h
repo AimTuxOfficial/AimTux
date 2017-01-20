@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../ImGUI/imgui.h"
+
 struct Color
 {
 	int r;
@@ -30,7 +32,7 @@ struct Color
 		this->b = b;
 		this->a = a;
 	}
-	
+
 	Color operator / (float div)
 	{
 		Color color = *this;
@@ -39,7 +41,7 @@ struct Color
 		color.b = color.b / div;
 		return color;
 	}
-	
+
 	Color& operator /= (float div)
 	{
 		Color& color = *this;
@@ -105,6 +107,26 @@ struct Color
 					(unsigned char)(q * 255)
 			);
 		}
+	}
+
+	static Color FromImColor(ImColor color)
+	{
+		return Color(
+				(int)(color.Value.x * 255),
+				(int)(color.Value.y * 255),
+				(int)(color.Value.z * 255),
+				(int)(color.Value.w * 255)
+		);
+	}
+
+	static ImColor ToImColor(Color color)
+	{
+		return ImColor(
+				color.r / 255.f,
+				color.g / 255.f,
+				color.b / 255.f,
+				color.a / 255.f
+		);
 	}
 
 	//TODO: Add operator overloads

@@ -1,17 +1,24 @@
 #pragma once
 
-#include "UI/stdui.h"
+#include <list>
+#include "ImGUI/imgui.h"
+#include "ImGUI/imgui_internal.h"
+#include "ImGUI/imgui_impl_sdl.h"
+#include "settings.h"
+#include "Hacks/hacks.h"
+#include "Utils/skins.h"
 
-#include "PANELS/aimbot_panel.h"
-#include "PANELS/triggerbot_panel.h"
-#include "PANELS/visuals_panel.h"
-#include "PANELS/hvh_panel.h"
-#include "PANELS/misc_panel.h"
-#include "WINDOWS/main_window.h"
-#include "WINDOWS/popup_window.h"
-#include "PANELS/skinchanger_panel.h"
-#include "PANELS/config_panel.h"
+namespace UI
+{
+	extern bool isVisible;
 
-extern MainWindow* main_window;
-
-void SetupUI();
+	void SetVisible(bool visible);
+	void SwapWindow();
+	void SetupColors();
+	void SetupWindows();
+	bool ColorPicker(float* col, bool alphabar);
+	bool ColorPicker3(float col[3]);
+	bool ColorPicker4(float col[4]);
+	void KeyBindButton(ButtonCode_t* key);
+	void updateWeaponSettings();
+}

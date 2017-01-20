@@ -15,18 +15,21 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		AutoStrafe::CreateMove(cmd);
 		Chams::CreateMove(cmd);
 		ShowRanks::CreateMove(cmd);
-		ClanTagChanger::CreateMove(cmd);
-		Spammer::CreateMove(cmd);
-		NameChanger::CreateMove(cmd);
+		AutoDefuse::CreateMove(cmd);
+		EdgeJump::PrePredictionCreateMove(cmd);
 
 		PredictionSystem::StartPrediction(cmd);
+		Autoblock::CreateMove(cmd);
 		Aimbot::CreateMove(cmd);
 		Triggerbot::CreateMove(cmd);
 		AntiAim::CreateMove(cmd);
 		Airstuck::CreateMove(cmd);
 		Teleport::CreateMove(cmd);
 		FakeLag::CreateMove(cmd);
+		ESP::CreateMove(cmd);
 		PredictionSystem::EndPrediction();
+
+		EdgeJump::PostPredictionCreateMove(cmd);
 	}
 
 	return false;

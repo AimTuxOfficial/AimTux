@@ -138,21 +138,57 @@ enum MaterialPropertyTypes_t
 class IMaterial
 {
 public:
+	const char* GetName()
+	{
+		typedef const char* (* oGetName)(void*);
+		return getvfunc<oGetName>(this, 0)(this);
+	}
+
+	const char* GetTextureGroupName()
+	{
+		typedef const char* (* oGetTextureGroupName)(void*);
+		return getvfunc<oGetTextureGroupName>(this, 1)(this);
+	}
+
 	void AlphaModulate(float alpha)
 	{
 		typedef void (* oAlphaModulate)(void*, float);
-		getvfunc<oAlphaModulate>(this, 27)(this, alpha);
+		return getvfunc<oAlphaModulate>(this, 27)(this, alpha);
 	}
 
 	void ColorModulate(float r, float g, float b)
 	{
 		typedef void (* oColorModulate)(void*, float, float, float);
-		getvfunc<oColorModulate>(this, 28)(this, r, g, b);
+		return getvfunc<oColorModulate>(this, 28)(this, r, g, b);
+	}
+
+	void ColorModulate(Color color)
+	{
+		typedef void (* oColorModulate)(void*, float, float, float);
+		return getvfunc<oColorModulate>(this, 28)(this, color.r / 255.0f, color.g / 255.0f, color.b / 255.0f);
+	}
+
+	void ColorModulate(ImColor color)
+	{
+		typedef void (* oColorModulate)(void*, float, float, float);
+		return getvfunc<oColorModulate>(this, 28)(this, color.Value.x, color.Value.y, color.Value.z);
 	}
 
 	void SetMaterialVarFlag(MaterialVarFlags_t flag, bool on)
 	{
 		typedef void (* oSetMaterialVarFlag)(void*, MaterialVarFlags_t, bool);
-		getvfunc<oSetMaterialVarFlag>(this, 29)(this, flag, on);
+		return getvfunc<oSetMaterialVarFlag>(this, 29)(this, flag, on);
+	}
+
+	float GetAlphaModulation()
+	{
+		typedef float (* oGetAlphaModulation)(void*);
+		return getvfunc<oGetAlphaModulation>(this, 44)(this);
+	}
+
+	void GetColorModulate(float *r, float *g, float *b)
+	{
+		typedef void (* oGetColorModulate)(void*, float*, float*, float*);
+		return getvfunc<oGetColorModulate>(this, 45)(this, r, g, b);
 	}
 };

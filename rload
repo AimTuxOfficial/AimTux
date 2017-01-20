@@ -2,5 +2,5 @@
 
 sudo ./uload
 cmake .
-make -j 12
+make -j$(cat /proc/cpuinfo | grep "^processor" | wc -l) "$@"
 sudo ./load

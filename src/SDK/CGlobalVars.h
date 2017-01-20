@@ -1,6 +1,7 @@
 #pragma once
 
-class CGlobalVars {
+class CGlobalVars
+{
 public:
 	float realtime;
 	int framecount;
