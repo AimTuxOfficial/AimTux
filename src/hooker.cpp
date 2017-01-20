@@ -234,7 +234,8 @@ void Hooker::FindForceFullUpdate()
 	uintptr_t forcefullupdate_func_address = FindPattern(GetLibraryAddress("engine_client.so"), 0xFFFFFFFFF, (unsigned char*) FORCEFULLUPDATE_SIGNATURE, FORCEFULLUPDATE_MASK);
 	ForceFullUpdate = reinterpret_cast<ForceFullUpdateFn>(forcefullupdate_func_address);
 
-	uintptr_t getclientstate_func_address = FindPattern(GetLibraryAddress("engine_client.so"), 0xFFFFFFFFF, (unsigned char*) GETCLIENTSTATE_SIGNATURE, GETCLIENTSTATE_MASK);
+	uintptr_t getclientstate_instruction_address = FindPattern(GetLibraryAddress("engine_client.so"), 0xFFFFFFFFF, (unsigned char*) GETCLIENTSTATE_SIGNATURE, GETCLIENTSTATE_MASK);
+	uintptr_t getclientstate_func_address = GetAbsoluteAddress(getclientstate_instruction_address, 1, 5);
 	GetClientState = reinterpret_cast<GetClientStateFn>(getclientstate_func_address);
 }
 
