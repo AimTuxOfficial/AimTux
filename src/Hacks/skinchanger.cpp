@@ -182,7 +182,7 @@ void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 
 	if (SkinChanger::ForceFullUpdate)
 	{
-		::ForceFullUpdate(GetClientState());
+		//::ForceFullUpdate(GetClientState());
 		SkinChanger::ForceFullUpdate = false;
 	}
 }
