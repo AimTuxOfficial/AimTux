@@ -34,9 +34,7 @@ __Gentoo:__
 sudo emerge cmake dev-vcs/git gdb libsdl2 mesa
 ```
 
-===================
-
-#### Download AimTux:
+## Download AimTux:
 
 ```bash
 git clone https://github.com/McSwaggens/AimTux
