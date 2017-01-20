@@ -104,6 +104,20 @@ If you wish to unload the hack from the game, you can do so by entering the comm
 ./uload
 ```
 
+## Updating AimTux
+
+We add and improve and fix things almost every day with AimTux, we don't have a fixed release schedule, we just add things to it when they're ready. Because of this AimTux will need to update a lot.
+
+If you don't update once a day then I recommend at LEAST update once a week, and ALWAYS update after a CSGO update, just to make sure we fix anything that's broken.
+
+We provide a script included in the AimTux folder that updates AimTux for you, to use it, just run:
+
+```
+./update
+```
+
+And it will download and compile without any effort. Once it's done. Happy hacking!
+
 ## Configs
 
 Configs are stored in a hidden directory in your home folder. Specifically 

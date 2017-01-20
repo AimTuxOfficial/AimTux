@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ ! -d ".git" ]; then
-	echo "Please download AimTux with the command 'git clone https://github.com/McSwaggens/AimTux.git'"
+	echo "You have downloaded aimtux-master.zip from the GitHub website. This is the WRONG way to download AimTux. Please download AimTux with the command 'git clone https://github.com/McSwaggens/AimTux.git'"
 	exit
 fi
 
