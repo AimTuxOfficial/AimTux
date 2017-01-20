@@ -20,8 +20,12 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	if (!Settings::Triggerbot::enabled)
 		return;
 
+	static long buttonPressTime;
 	if (!input->IsButtonDown(Settings::Triggerbot::key))
+	{
+		buttonPressTime = 0;
 		return;
+	}
 
 	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer || !localplayer->GetAlive())
@@ -30,6 +34,13 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	long currentTime_ms = Util::GetEpochTime();
 	static long timeStamp = currentTime_ms;
 	long oldTimeStamp;
+
+	static bool shouldFreeze;
+	if (buttonPressTime == 0)
+	{
+		shouldFreeze = true;
+		buttonPressTime = currentTime_ms;
+	}
 
 	Vector traceStart, traceEnd;
 	trace_t tr;
@@ -43,12 +54,13 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	traceStart = localplayer->GetEyePosition();
 	traceEnd = traceStart + (traceEnd * 8192.0f);
 
+	bool filter;
+
 	if (Settings::Triggerbot::Filters::walls)
 	{
 		Autowall::FireBulletData data;
 		if (Autowall::GetDamage(traceEnd, !Settings::Triggerbot::Filters::allies, data) == 0.0f)
-			return;
-
+			filter = false;
 		tr = data.enter_trace;
 	}
 	else
@@ -63,26 +75,20 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	oldTimeStamp = timeStamp;
 	timeStamp = currentTime_ms;
 
+	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+
 	C_BasePlayer* player = (C_BasePlayer*) tr.m_pEntityHit;
-	if (!player)
+	if (!player && *active_weapon->GetItemDefinitionIndex() != WEAPON_REVOLVER)
 		return;
 
-	if (player->GetClientClass()->m_ClassID != CCSPlayer)
+	if (player->GetClientClass()->m_ClassID != CCSPlayer && *active_weapon->GetItemDefinitionIndex() != WEAPON_REVOLVER)
 		return;
 
-	if (player == localplayer
+	if ((player == localplayer
 		|| player->GetDormant()
 		|| !player->GetAlive()
-		|| player->GetImmune())
+		|| player->GetImmune()) && *active_weapon->GetItemDefinitionIndex() != WEAPON_REVOLVER)
 		return;
-
-	if (player->GetTeam() != localplayer->GetTeam() && !Settings::Triggerbot::Filters::enemies)
-		return;
-
-	if (player->GetTeam() == localplayer->GetTeam() && !Settings::Triggerbot::Filters::allies)
-		return;
-
-	bool filter;
 
 	switch (tr.hitgroup)
 	{
@@ -107,13 +113,30 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 			filter = false;
 	}
 
-	if (!filter)
-		return;
+	if (player->GetTeam() != localplayer->GetTeam() && !Settings::Triggerbot::Filters::enemies)
+		filter = false;
+
+	if (player->GetTeam() == localplayer->GetTeam() && !Settings::Triggerbot::Filters::allies)
+		filter = false;
 
 	if (Settings::Triggerbot::Filters::smoke_check && LineGoesThroughSmoke(tr.startpos, tr.endpos, 1))
+		filter = false;
+
+	shouldFreeze = !filter;
+
+	if (!filter && *active_weapon->GetItemDefinitionIndex() != WEAPON_REVOLVER)
 		return;
 
-	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+	if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
+	{
+		if (currentTime_ms - buttonPressTime > 420 && shouldFreeze) //AirStuck right before the revolver shoots
+			cmd->tick_count = 16777216;
+		else
+			cmd->buttons |= IN_ATTACK;
+		if (!shouldFreeze)
+			buttonPressTime = 0;
+	}
+
 	if (!active_weapon || active_weapon->GetAmmo() == 0)
 		return;
 
@@ -126,24 +149,16 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 		return;
 
 	if (active_weapon->GetNextPrimaryAttack() > globalvars->curtime)
-	{
-		if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
-			cmd->buttons &= ~IN_ATTACK2;
-		else
-			cmd->buttons &= ~IN_ATTACK;
-	}
-	else
+		cmd->buttons &= ~IN_ATTACK;
+
+	else if (*active_weapon->GetItemDefinitionIndex() != WEAPON_REVOLVER)
 	{
 		if (Settings::Triggerbot::Delay::enabled && currentTime_ms - oldTimeStamp < Settings::Triggerbot::Delay::value)
 		{
 			timeStamp = oldTimeStamp;
 			return;
 		}
-
-		if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
-			cmd->buttons |= IN_ATTACK2;
-		else
-			cmd->buttons |= IN_ATTACK;
+		cmd->buttons |= IN_ATTACK;
 	}
 
 	timeStamp = currentTime_ms;
