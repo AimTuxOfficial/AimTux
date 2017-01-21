@@ -34,35 +34,7 @@ __Gentoo:__
 sudo emerge cmake dev-vcs/git gdb libsdl2 mesa
 ```
 
-## Ubuntu / Debian Users
-
-On older builds of Ubuntu / Debian, GCC/G++ won't be up to date and so your "make" process will error.
-
-To ensure you're using the latest version of GCC to be able to use AimTux, use the commands below.
-
-__Ubuntu__
-```bash
-sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-sudo apt-get update
-sudo apt-get install gcc-6 g++-6
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6
-```
-
-__Debian__
-
-Add debian testing repo to your apt sources by creating a file on ```/etc/apt/sources.list.d``` folder containing the line ```deb http://ftp.us.debian.org/debian testing main contrib non-free```
-
-Instruct debian to use testing sources on certain packages by creating a file on ```/etc/apt/preferences.d``` containing the following:
-```
-Package: *
-Pin: release a=testing
-Pin-Priority: 100
-```
-You can replace the * by the package name that you want to install from testing (in this case would be gcc), but with Pin-Priority: 100, testing packages will be installed only if explicitly told to apt-get
-
-Update apt database: ```sudo apt-get update```
-
-Install gcc from testing: ```sudo apt-get install -t testing gcc g++```
+If your compiler (`g++`) is out of date please follow [this](https://github.com/McSwaggens/AimTux/wiki/Updating-your-compiler) wiki page for a solution.
 
 ===================
 
