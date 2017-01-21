@@ -62,7 +62,7 @@ You can replace the * by the package name that you want to install from testing 
 
 Update apt database: ```sudo apt-get update```
 
-Install gcc from testing: ```sudo apt-get install -t testing gcc```
+Install gcc from testing: ```sudo apt-get install -t testing gcc g++```
 
 ===================
 
