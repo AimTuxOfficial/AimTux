@@ -3,7 +3,7 @@
 bool Settings::ESP::Hitmarker::enabled = false;
 bool Settings::ESP::Hitmarker::enemies = false;
 bool Settings::ESP::Hitmarker::allies = false;
-ImColor Settings::ESP::Hitmarker::color = ImColor(180, 50, 50, 255);
+ImColor Settings::ESP::Hitmarker::color = ImColor(240, 10, 10, 255);
 int Settings::ESP::Hitmarker::duration = 2000;
 int Settings::ESP::Hitmarker::size = 16;
 int Settings::ESP::Hitmarker::inner_gap = 5;
@@ -77,7 +77,7 @@ void Hitmarkers::Paint()
 	}
 }
 
-void Hitmarkers::FireEventClientSide(IGameEvent* event)
+void Hitmarkers::FireEvent(IGameEvent* event, bool bDontBroadcast)
 {
 	if (!Settings::ESP::Hitmarker::enabled)
 		return;

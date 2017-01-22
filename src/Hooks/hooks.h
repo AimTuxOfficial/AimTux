@@ -10,6 +10,7 @@ typedef void (*FrameStageNotifyFn) (void*, int);
 typedef void (*PaintTraverseFn) (void*, VPANEL, bool, bool);
 typedef void (*DrawModelExecuteFn) (void*, void*, void*, const ModelRenderInfo_t&, matrix3x4_t*);
 typedef bool (*CreateMoveFn) (void*, float, CUserCmd*);
+typedef bool (*FireEventFn) (void*, IGameEvent*, bool);
 typedef bool (*FireEventClientSideFn) (void*, IGameEvent*);
 typedef int (*IN_KeyEventFn) (void*, int, int, const char*);
 typedef void (*RenderViewFn) (void*, CViewSetup&, CViewSetup&, unsigned int, int);
@@ -32,6 +33,7 @@ namespace Hooks
 	void FrameStageNotify(void* thisptr, ClientFrameStage_t stage);
 	void DrawModelExecute(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld);
 	bool CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd);
+	bool FireEvent(void* thisptr, IGameEvent* event, bool bDontBroadcast);
 	bool FireEventClientSide(void* thisptr, IGameEvent* event);
 	int IN_KeyEvent(void* thisptr, int eventcode, int keynum, const char* currentbinding);
 	void RenderView(void* thisptr, CViewSetup& setup, CViewSetup& hudViewSetup, unsigned int nClearFlags, int whatToDraw);
