@@ -1521,7 +1521,10 @@ void MiscTab()
 			ImGui::SameLine();
 			if (ImGui::Button("Set Nickname", ImVec2(-1, 0)))
 				NameChanger::SetName(nickname);
-
+			if (ImGui::CheckBox("Infinite Tab Changes"))
+			{
+				NameChanger::SetName("\n\xAD\xAD\xAD");
+			}
 			if (ImGui::Button("No Name"))
 			{
 				NameChanger::changes = 0;
