@@ -1131,6 +1131,9 @@ void VisualsTab()
 
 				ImGui::Checkbox("Enemies##HITMARKERS", &Settings::ESP::Hitmarker::enemies);
 				ImGui::Checkbox("Allies##HITMARKERS", &Settings::ESP::Hitmarker::allies);
+				ImGui::Checkbox("Damage##HITMARKERS", &Settings::ESP::Hitmarker::Damage::enabled);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Show dealt damage next to the hitmarker");
 			}
 			ImGui::NextColumn();
 			{
