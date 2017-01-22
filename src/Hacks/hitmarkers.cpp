@@ -63,7 +63,7 @@ void Hitmarkers::Paint()
 
 		Vector2D pos = Vector2D(
 				width / 2 + Settings::ESP::Hitmarker::size + 4,
-		        height / 2 - Settings::ESP::Hitmarker::size - textHeight * i + 4
+				height / 2 - Settings::ESP::Hitmarker::size - textHeight * i + 4
 		);
 
 		char* buff;
