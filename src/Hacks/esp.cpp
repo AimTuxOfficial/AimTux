@@ -594,24 +594,14 @@ void ESP::DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info
 	}
 
 	// weapon
-	if (Settings::ESP::Info::weapon)
+	if (Settings::ESP::Info::weapon && active_weapon)
 	{
-		if (active_weapon)
-		{
-			std::string modelName = std::string(Util::GetValueByKey(guns, *active_weapon->GetItemDefinitionIndex()));
-			if (modelName == "")
-			{
-				modelName = std::string(active_weapon->GetClientClass()->m_pNetworkName);
-				if (strstr(modelName.c_str(), "Weapon"))
-					modelName = modelName.substr(7, modelName.length() - 7);
-				else
-					modelName = modelName.substr(1, modelName.length() - 1);
-			}
-			int offset = (int)(Settings::ESP::Bars::type == BarType::HORIZONTAL || Settings::ESP::Bars::type == BarType::INTERWEBZ ? boxSpacing + barsSpacing.y + 1 : 0);
+		const char* szPrintName = active_weapon->GetCSWpnData()->szPrintName;
+		std::string modelName = Util::WstringToString(localize->FindSafe(szPrintName));
+		int offset = (int)(Settings::ESP::Bars::type == BarType::HORIZONTAL || Settings::ESP::Bars::type == BarType::INTERWEBZ ? boxSpacing + barsSpacing.y + 1 : 0);
 
-			Vector2D weaponTextSize = Draw::GetTextSize(modelName.c_str(), esp_font);
-			Draw::Text((int)(x + (w / 2) - (weaponTextSize.x / 2)), y + h + offset, modelName.c_str(), esp_font, Color(255, 255, 255));
-		}
+		Vector2D weaponTextSize = Draw::GetTextSize(modelName.c_str(), esp_font);
+		Draw::Text((int)(x + (w / 2) - (weaponTextSize.x / 2)), y + h + offset, modelName.c_str(), esp_font, Color(255, 255, 255));
 	}
 
 	// draw info
