@@ -257,6 +257,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["ESP"]["Hitmarker"]["duration"] = Settings::ESP::Hitmarker::duration;
 	settings["ESP"]["Hitmarker"]["size"] = Settings::ESP::Hitmarker::size;
 	settings["ESP"]["Hitmarker"]["inner_gap"] = Settings::ESP::Hitmarker::inner_gap;
+	settings["ESP"]["Hitmarker"]["Damage"]["enabled"] = Settings::ESP::Hitmarker::Damage::enabled;
 
 	settings["Dlights"]["enabled"] = Settings::Dlights::enabled;
 	settings["Dlights"]["radius"] = Settings::Dlights::radius;
@@ -603,6 +604,7 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["ESP"]["Hitmarker"]["duration"], &Settings::ESP::Hitmarker::duration);
 	GetVal(settings["ESP"]["Hitmarker"]["size"], &Settings::ESP::Hitmarker::size);
 	GetVal(settings["ESP"]["Hitmarker"]["inner_gap"], &Settings::ESP::Hitmarker::inner_gap);
+	GetVal(settings["ESP"]["Hitmarker"]["Damage"]["enabled"], &Settings::ESP::Hitmarker::Damage::enabled);
 
 	GetVal(settings["Dlights"]["enabled"], &Settings::Dlights::enabled);
 	GetVal(settings["Dlights"]["radius"], &Settings::Dlights::radius);

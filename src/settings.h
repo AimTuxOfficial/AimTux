@@ -524,6 +524,11 @@ namespace Settings
 			extern int duration;
 			extern int size;
 			extern int inner_gap;
+
+			namespace Damage
+			{
+				extern bool enabled;
+			}
 		}
 	}
 
