@@ -1495,7 +1495,7 @@ void MiscTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::PushItemWidth(-1);
-					if (ImGui::InputText("##CLANTAGTEXT", Settings::ClanTagChanger::value, 30))
+					if (ImGui::InputText("##CLANTAG", Settings::ClanTagChanger::value, 30))
 						ClanTagChanger::UpdateClanTagCallback();
 				ImGui::PopItemWidth();
 
@@ -1516,12 +1516,17 @@ void MiscTab()
 			ImGui::Text("Nickname");
 			ImGui::Separator();
 
-			ImGui::InputText("##NICKNAMETEXT", nickname, 127);
+			ImGui::InputText("##NICKNAME", nickname, 127);
 
 			ImGui::SameLine();
 			if (ImGui::Button("Set Nickname", ImVec2(-1, 0)))
 				NameChanger::SetName(nickname);
 
+			if (ImGui::Button("Glitch Name"))
+				NameChanger::SetName("\n\xAD\xAD\xAD");
+			if (ImGui::IsItemHovered())
+				ImGui::SetTooltip("Allows you to change your name an infinite amount of times and doesn't show in server message");
+			ImGui::SameLine();
 			if (ImGui::Button("No Name"))
 			{
 				NameChanger::changes = 0;
