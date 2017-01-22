@@ -50,7 +50,7 @@ void Hitmarkers::Paint()
 
 	float textHeight = Draw::GetTextSize("[cool]", esp_font).y;
 
-	for (int i = 0; i < damages.size(); i++)
+	for (unsigned int i = 0; i < damages.size(); i++)
 	{
 		long timestamp = damages[i].second;
 		long hitDiff = timestamp + duration - now;
