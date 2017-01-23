@@ -582,6 +582,7 @@ namespace Settings
 	{
 		extern bool enabled;
 		extern int type;
+		extern bool silent;
 	}
 
 	namespace Noflash
