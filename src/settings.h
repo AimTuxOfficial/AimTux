@@ -773,6 +773,12 @@ namespace Settings
 		extern ButtonCode_t key;
 	}
 
+	namespace NameStealer
+	{
+		extern bool enabled;
+		extern int team;
+	}
+
 	void LoadDefaultsOrSave(std::string path);
 	void LoadConfig(std::string path);
 	void LoadSettings();

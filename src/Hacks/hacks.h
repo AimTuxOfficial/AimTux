@@ -17,6 +17,7 @@
 #include "fovchanger.h"
 #include "hitmarkers.h"
 #include "namechanger.h"
+#include "namestealer.h"
 #include "noflash.h"
 #include "nosmoke.h"
 #include "nosky.h"

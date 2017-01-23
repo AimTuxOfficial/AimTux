@@ -386,6 +386,9 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["EdgeJump"]["enabled"] = Settings::EdgeJump::enabled;
 	settings["EdgeJump"]["key"] = Util::GetButtonName(Settings::EdgeJump::key);
 
+	settings["NameStealer"]["enabled"] = Settings::NameStealer::enabled;
+	settings["NameStealer"]["team"] = Settings::NameStealer::team;
+
 	std::ofstream(path) << styledWriter.write(settings);
 }
 
@@ -758,6 +761,9 @@ void Settings::LoadConfig(std::string path)
 
 	GetVal(settings["EdgeJump"]["enabled"], &Settings::EdgeJump::enabled);
 	GetButtonCode(settings["EdgeJump"]["key"], &Settings::EdgeJump::key);
+
+	GetVal(settings["NameStealer"]["enabled"], &Settings::NameStealer::enabled);
+	GetVal(settings["NameStealer"]["team"], &Settings::NameStealer::team);
 }
 
 void Settings::LoadSettings()

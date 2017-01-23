@@ -1547,6 +1547,10 @@ void MiscTab()
 				NameChanger::type = NC_SOLID;
 			}
 
+			ImGui::Checkbox("Name Stealer", &Settings::NameStealer::enabled);
+			ImGui::SameLine();
+			ImGui::Combo("", &Settings::NameStealer::team, teams, IM_ARRAYSIZE(teams));
+
 			ImGui::Separator();
 			ImGui::Text("Other");
 			ImGui::Separator();
