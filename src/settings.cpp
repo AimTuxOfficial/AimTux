@@ -283,6 +283,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 
 	settings["AutoStrafe"]["enabled"] = Settings::AutoStrafe::enabled;
 	settings["AutoStrafe"]["type"] = Settings::AutoStrafe::type;
+	settings["AutoStrafe"]["silent"] = Settings::AutoStrafe::silent;
 
 	settings["Noflash"]["enabled"] = Settings::Noflash::enabled;
 	settings["Noflash"]["value"] = Settings::Noflash::value;
@@ -635,6 +636,7 @@ void Settings::LoadConfig(std::string path)
 
 	GetVal(settings["AutoStrafe"]["enabled"], &Settings::AutoStrafe::enabled);
 	GetVal(settings["AutoStrafe"]["type"], &Settings::AutoStrafe::type);
+	GetVal(settings["AutoStrafe"]["silent"], &Settings::AutoStrafe::silent);
 
 	GetVal(settings["Noflash"]["enabled"], &Settings::Noflash::enabled);
 	GetVal(settings["Noflash"]["value"], &Settings::Noflash::value);
