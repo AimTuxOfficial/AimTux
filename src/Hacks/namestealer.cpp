@@ -28,7 +28,7 @@ void NameStealer::BeginFrame(float frameTime)
 		entityId++;
 
 		if (entityId >= engine->GetMaxClients())
-			entityId = -1;
+			entityId = 0;
 
 		if (entityId == 0)
 		{
