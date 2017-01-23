@@ -2,6 +2,7 @@
 
 bool Settings::AutoStrafe::enabled = false;
 int Settings::AutoStrafe::type = AS_FORWARDS;
+bool Settings::AutoStrafe::visible = true;
 
 void LegitStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 {
