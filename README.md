@@ -94,7 +94,7 @@ Now, go back into csgo, if you're in the main menu of the game you should see th
 
 ## Using the hack
 
-Now that AimTux has been injected into the game, press the **insert** key on your keyboard to open the hack menu (**Fn + Delete** if you're using a laptop).
+Now that AimTux has been injected into the game, press <kbd>Insert</kbd> on your keyboard to open the hack menu (<kbd>FN</kbd>+<kbd>Delete</kbd> if you're using a laptop).
 
 If you want to change skins, create and load configs or open the player list, you can find those buttons at the top of the screen.
 
@@ -108,17 +108,17 @@ If you wish to unload the hack from the game, you can do so by entering the comm
 
 ## Updating AimTux
 
-We add and improve and fix things almost every day with AimTux, we don't have a fixed release schedule, we just add things to it when they're ready. Because of this AimTux will need to update a lot.
+We add and improve and fix things almost every day with AimTux. We don't have a fixed release schedule, we just add things to it when they're ready. Because of this, AimTux will need to update a lot.
 
-If you don't update once a day then I recommend at LEAST update once a week, and ALWAYS update after a CSGO update, just to make sure we fix anything that's broken.
+If you don't update once a day then we recommend at LEAST update once a week, and ALWAYS update after a CSGO update, just to make sure we fix anything that's broken.
 
-We provide a script included in the AimTux folder that updates AimTux for you, to use it, just run:
+We provide a script included in the AimTux folder that updates AimTux for you. To use it, just run:
 
 ```
 ./update
 ```
 
-And it will download and compile without any effort. Once it's done. Happy hacking!
+And it will download and compile without any effort. Once it's done, happy hacking!
 
 ## Configs
 
@@ -128,11 +128,11 @@ Configs are stored in a hidden directory in your home folder. Specifically
 ~/.configs/AimTux
 ```
 
-Each config.json is stored in a seperately named folder (The name you see in-game, in the config window). 
+Each `config.json` is stored in a seperately named folder (The name you see in-game, in the config window). 
 
 To add a config, create a folder inside of the `~/.configs/AimTux` folder with a name of your choice, and paste the `config.json` inside of that folder.
 
-To see hidden folders inside your home folder, press CTRL+H when using a file manager.
+To see hidden folders inside your home folder, press <kbd>CTRL</kbd>+<kbd>H</kbd> when using a file manager.
 
 ## Contributing to AimTux
 
