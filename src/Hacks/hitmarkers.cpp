@@ -3,11 +3,14 @@
 bool Settings::ESP::Hitmarker::enabled = false;
 bool Settings::ESP::Hitmarker::enemies = false;
 bool Settings::ESP::Hitmarker::allies = false;
-ImColor Settings::ESP::Hitmarker::color = ImColor(180, 50, 50, 255);
+ImColor Settings::ESP::Hitmarker::color = ImColor(240, 10, 10, 255);
 int Settings::ESP::Hitmarker::duration = 2000;
 int Settings::ESP::Hitmarker::size = 16;
 int Settings::ESP::Hitmarker::inner_gap = 5;
+bool Settings::ESP::Hitmarker::Damage::enabled = false;
 
+// int - damage dealt, long - timestamp
+std::vector<std::pair<int, long>> damages;
 long lastHitmarkerTimestamp = 0;
 
 void Hitmarkers::Paint()
@@ -26,8 +29,9 @@ void Hitmarkers::Paint()
 		return;
 
 	int duration = Settings::ESP::Hitmarker::duration;
+	long now = Util::GetEpochTime();
 
-	long diff = lastHitmarkerTimestamp + duration - Util::GetEpochTime();
+	long diff = lastHitmarkerTimestamp + duration - now;
 	if (diff <= 0)
 		return;
 
@@ -41,12 +45,44 @@ void Hitmarkers::Paint()
 	for (auto& it : sides)
 		Draw::Line(width / 2 + (Settings::ESP::Hitmarker::inner_gap * it[0]), height / 2 + (Settings::ESP::Hitmarker::inner_gap * it[1]), width / 2 + (Settings::ESP::Hitmarker::size * it[0]), height / 2 + (Settings::ESP::Hitmarker::size * it[1]), color);
 
-	// TODO: draw given damage string next to the hitmarker?
+	if (!Settings::ESP::Hitmarker::Damage::enabled)
+		return;
+
+	float textHeight = Draw::GetTextSize("[cool]", esp_font).y;
+
+	for (unsigned int i = 0; i < damages.size(); i++)
+	{
+		long timestamp = damages[i].second;
+		long hitDiff = timestamp + duration - now;
+
+		if (hitDiff <= 0)
+		{
+			damages.erase(damages.begin() + i);
+			continue;
+		}
+
+		Vector2D pos = Vector2D(
+				width / 2 + Settings::ESP::Hitmarker::size + 4,
+				height / 2 - Settings::ESP::Hitmarker::size - textHeight * i + 4
+		);
+
+		char* buff;
+		int damage = damages[i].first;
+		asprintf(&buff, "-%d", damage);
+
+		color.a = Color::FromImColor(Settings::ESP::Hitmarker::color).a;
+		color.a = std::min(color.a, (int)(hitDiff * color.a / duration * 2));
+
+		Draw::Text(pos, buff, esp_font, color);
+	}
 }
 
-void Hitmarkers::FireEventClientSide(IGameEvent* event)
+void Hitmarkers::FireEvent(IGameEvent* event, bool bDontBroadcast)
 {
-	if (!event)
+	if (!Settings::ESP::Hitmarker::enabled)
+		return;
+
+	if (!engine->IsInGame())
 		return;
 
 	if (strcmp(event->GetName(), "player_hurt") != 0)
@@ -76,5 +112,7 @@ void Hitmarkers::FireEventClientSide(IGameEvent* event)
 	if (hurt_player->GetTeam() != localplayer->GetTeam() && !Settings::ESP::Hitmarker::enemies)
 		return;
 
-	lastHitmarkerTimestamp = Util::GetEpochTime();
+	long now = Util::GetEpochTime();
+	lastHitmarkerTimestamp = now;
+	damages.insert(damages.begin(), std::pair<int, long>(event->GetInt("dmg_health"), now));
 }

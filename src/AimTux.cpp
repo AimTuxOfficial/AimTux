@@ -49,6 +49,7 @@ int __attribute__((constructor)) aimtux_init()
 	clientMode_vmt->HookVM((void*) Hooks::GetViewModelFOV, 36);
 	clientMode_vmt->ApplyVMT();
 
+	gameEvents_vmt->HookVM((void*) Hooks::FireEvent, 9);
 	gameEvents_vmt->HookVM((void*) Hooks::FireEventClientSide, 10);
 	gameEvents_vmt->ApplyVMT();
 
