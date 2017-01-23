@@ -1351,6 +1351,14 @@ void MiscTab()
 					ImGui::Combo("##STRAFETYPE", &Settings::AutoStrafe::type, strafeTypes, IM_ARRAYSIZE(strafeTypes));
 				ImGui::PopItemWidth();
 			}
+
+			if (Settings::AutoStrafe::type == AS_RAGE)
+			{
+				ImGui::Checkbox("Silent", &Settings::AutoStrafe::silent);
+				if (ImGui::IsItemHovered())
+					ImGui::SetTooltip("Strafes won't be visible for spectators");
+			}
+
 			ImGui::Columns(1);
 			ImGui::Separator();
 			ImGui::Text("Spammer");
