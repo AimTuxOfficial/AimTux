@@ -77,7 +77,7 @@ void Hitmarkers::Paint()
 	}
 }
 
-void Hitmarkers::FireEvent(IGameEvent* event, bool bDontBroadcast)
+void Hitmarkers::FireGameEvent(IGameEvent* event)
 {
 	if (!Settings::ESP::Hitmarker::enabled)
 		return;
