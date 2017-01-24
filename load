@@ -4,6 +4,21 @@ if [ ! -d ".git" ]; then
   echo "We have detected that you have downloaded aimtux-master.zip from the GitHub website. This is the WRONG way to download AimTux. Please download AimTux with the command 'git clone https://github.com/McSwaggens/AimTux.git'"
 fi
 
+UPSTREAM=${1:-'@{u}'}
+LOCAL=$(git rev-parse @)
+REMOTE=$(git rev-parse "$UPSTREAM")
+BASE=$(git merge-base @ "$UPSTREAM")
+
+if [ $LOCAL = $REMOTE ]; then
+    echo "AimTux is up to date."
+elif [ $LOCAL = $BASE ]; then
+    echo "AimTux has an update available. Please use ./update to update your client."
+elif [ $REMOTE = $BASE ]; then
+    echo "Your AimTux is different from the official AimTux repository. If this is unintentional, please use ./update to get a clean version of AimTux."
+else
+    echo "Diverged"
+fi
+
 #Credit: Aixxe @ aixxe.net
 if grep -q libAimTux.so /proc/$(pidof csgo_linux64)/maps; then
   exit
