@@ -18,7 +18,11 @@ public:
 
 	void FireGameEvent(IGameEvent* event)
 	{
+		Aimbot::FireGameEvent(event);
 		Hitmarkers::FireGameEvent(event);
+		Resolver::FireGameEvent(event);
+		Spammer::FireGameEvent(event);
+		ValveDSCheck::FireGameEvent(event);
 	}
 
 	int GetEventDebugID() override

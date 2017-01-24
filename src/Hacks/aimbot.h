@@ -22,6 +22,6 @@ namespace Aimbot
 	void NoShoot(C_BaseCombatWeapon* active_weapon, C_BasePlayer* player, CUserCmd* cmd);
 
 	void CreateMove(CUserCmd* cmd);
-	void FireEventClientSide(IGameEvent* event);
+	void FireGameEvent(IGameEvent* event);
 	void UpdateValues();
 }
