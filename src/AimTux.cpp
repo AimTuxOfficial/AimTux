@@ -3,6 +3,9 @@
 #include "interfaces.h"
 #include "hooker.h"
 #include "Utils/netvarmanager.h"
+#include "EventListener.h"
+
+EventListener* eventListener = nullptr;
 
 /* called when the library is loading */
 int __attribute__((constructor)) aimtux_init()
@@ -77,6 +80,8 @@ int __attribute__((constructor)) aimtux_init()
 	sound_vmt->HookVM((void*) Hooks::EmitSound2, 6);
 	sound_vmt->ApplyVMT();
 
+	eventListener = new EventListener({ "player_hurt" });
+
 	SkinChanger::HookCBaseViewModel();
 
 	NetVarManager::dumpNetvars();
@@ -108,6 +113,8 @@ void __attribute__((destructor)) aimtux_shutdown()
 	launchermgr_vmt->ReleaseVMT();
 	enginevgui_vmt->ReleaseVMT();
 	sound_vmt->ReleaseVMT();
+
+	delete eventListener;
 
 	SkinChanger::UnhookCBaseViewModel();
 

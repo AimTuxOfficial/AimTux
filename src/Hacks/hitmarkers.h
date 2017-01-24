@@ -8,5 +8,5 @@
 namespace Hitmarkers
 {
 	void Paint();
-	void FireEvent(IGameEvent* event, bool bDontBroadcast);
+	void FireGameEvent(IGameEvent* event);
 }
