@@ -1528,7 +1528,7 @@ void MiscTab()
 
 			ImGui::SameLine();
 			if (ImGui::Button("Set Nickname", ImVec2(-1, 0)))
-				NameChanger::SetName(nickname);
+				NameChanger::SetName(strdup(nickname));
 
 			if (ImGui::Button("Glitch Name"))
 				NameChanger::SetName("\n\xAD\xAD\xAD");
