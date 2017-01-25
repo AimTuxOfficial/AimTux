@@ -1,5 +1,6 @@
 #pragma once
 
+#include "imgui_freetype.h"
 #include <GL/gl.h>
 #include <SDL2/SDL.h>
 
