@@ -84,6 +84,7 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 	static bool yFlip;
 	float temp;
 	double factor;
+	float trigger;
 	QAngle temp_qangle;
 
 	if (bFlip)
@@ -120,6 +121,26 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 			break;
 		case AntiAimType_Y::STATICAA:
 			angle.y = 0.0f;
+			break;
+		case AntiAimType_Y::STATICJITTER:
+			trigger += 15.0f;
+
+			if(trigger > 50.0f)
+				angle.y = 150.0f;
+			else angle.y = -150.0f;
+
+			if(trigger > 100.0f)
+				trigger = 0.0f;
+			break;
+		case AntiAimType_Y::STATICSMALLJITTER:
+			trigger += 15.0f;
+
+			if (trigger > 50.0f)
+				angle.y = -30.f;
+			else angle.y = 30.0f;
+
+			if (trigger > 100.0f)
+				trigger = 0.0f;
 			break;
 		case AntiAimType_Y::LISP:
 			clamp = false;
