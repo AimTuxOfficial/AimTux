@@ -1545,6 +1545,7 @@ void MiscTab()
 			if (ImGui::Button("Rainbow Name"))
 			{
 				NameChanger::changes = 0;
+				NameChanger::origName = NameChanger::GetName();
 				NameChanger::type = NC_RAINBOW;
 			}
 
@@ -1552,6 +1553,7 @@ void MiscTab()
 			if (ImGui::Button("Solid Red Name"))
 			{
 				NameChanger::changes = 0;
+				NameChanger::origName = NameChanger::GetName();
 				NameChanger::type = NC_SOLID;
 			}
 
