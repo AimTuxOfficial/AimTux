@@ -84,7 +84,7 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 	static bool yFlip;
 	float temp;
 	double factor;
-	float trigger;
+	static float trigger;
 	QAngle temp_qangle;
 
 	if (bFlip)
