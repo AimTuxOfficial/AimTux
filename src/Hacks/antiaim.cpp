@@ -124,20 +124,14 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 			break;
 		case AntiAimType_Y::STATICJITTER:
 			trigger += 15.0f;
+			angle.y = trigger > 50.0f ? 150.0f : -150.0f;
 
-			if(trigger > 50.0f)
-				angle.y = 150.0f;
-			else angle.y = -150.0f;
-
-			if(trigger > 100.0f)
+			if (trigger > 100.0f)
 				trigger = 0.0f;
 			break;
 		case AntiAimType_Y::STATICSMALLJITTER:
 			trigger += 15.0f;
-
-			if (trigger > 50.0f)
-				angle.y = -30.f;
-			else angle.y = 30.0f;
+			angle.y = trigger > 50.0f ? -30.0f : 30.0f;
 
 			if (trigger > 100.0f)
 				trigger = 0.0f;
