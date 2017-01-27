@@ -1,7 +1,27 @@
 #!/bin/sh
 
+RCol='\e[0m'    # Text Reset
+Gre='\e[0;32m';
+Red='\e[0;31m';
+
 if [ ! -d ".git" ]; then
-  echo "We have detected that you have downloaded aimtux-master.zip from the GitHub website. This is the WRONG way to download AimTux. Please download AimTux with the command 'git clone https://github.com/McSwaggens/AimTux.git'"
+  /bin/echo -e "${Red}We have detected that you have downloaded aimtux-master.zip from the GitHub website. This is the WRONG way to download AimTux. Please download AimTux with the command 'git clone https://github.com/McSwaggens/AimTux.git'${RCol}"
+fi
+
+git fetch;
+UPSTREAM=${1:-'@{u}'}
+LOCAL=$(git rev-parse @)
+REMOTE=$(git rev-parse "$UPSTREAM")
+BASE=$(git merge-base @ "$UPSTREAM")
+
+if [ $LOCAL = $REMOTE ]; then
+    /bin/echo -e "${Gre}AimTux is up to date.${RCol}"
+elif [ $LOCAL = $BASE ]; then
+    /bin/echo -e "${Red}AimTux has an update available. Please use ./update to update your client.${RCol}"
+elif [ $REMOTE = $BASE ]; then
+    /bin/echo -e "${Red}Your AimTux is different from the official AimTux repository. If this is unintentional, please use ./update to get a clean version of AimTux.${RCol}"
+else
+    /bin/echo -e "${Red}Diverged${RCol}"
 fi
 
 #Credit: Aixxe @ aixxe.net
