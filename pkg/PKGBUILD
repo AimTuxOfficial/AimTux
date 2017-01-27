@@ -29,8 +29,8 @@ build() {
 package() {
 	install -Dm755 aimtux-load "$pkgdir"/usr/bin/aimtux-load
 	install -Dm755 aimtux-uload "$pkgdir"/usr/bin/aimtux-uload
-
-    cd "${_pkgname}"
+	
+	cd "${_pkgname}"
 	make DESTDIR="$pkgdir/"
 	install -Dm755 libAimTux.so "$pkgdir"/usr/lib/libAimTux.so
 }
