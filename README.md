@@ -41,7 +41,7 @@ If your compiler (`g++`) is out of date please follow [this](https://github.com/
 #### Download AimTux:
 
 ```bash
-git clone https://github.com/AimTuxOfficial/AimTux
+git clone --recursive https://github.com/AimTuxOfficial/AimTux
 ```
 
 ```bash

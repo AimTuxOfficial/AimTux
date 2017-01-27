@@ -6,5 +6,6 @@ if [ ! -d ".git" ]; then
 fi
 
 git pull
+git submodule update --init --recursive --remote
 cmake .
 make -j$(cat /proc/cpuinfo | grep "^processor" | wc -l) "$@"
