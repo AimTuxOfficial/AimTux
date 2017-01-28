@@ -32,7 +32,7 @@ void NameStealer::BeginFrame(float frameTime)
 
 		if (entityId == 0)
 		{
-			NameChanger::SetName(Util::PadStringRight("\n\xAD\xAD\xAD", 127));
+			NameChanger::SetName("\n\xAD\xAD\xAD");
 
 			timeStamp = currentTime_ms;
 
@@ -53,7 +53,7 @@ void NameStealer::BeginFrame(float frameTime)
 			if (entityInformation.ishltv)
 				return;
 
-			NameChanger::SetName(Util::PadStringRight(entityInformation.name, 127));
+			NameChanger::SetName(Util::PadStringRight(entityInformation.name, strlen(entityInformation.name) + 1));
 
 			timeStamp = currentTime_ms;
 
