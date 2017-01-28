@@ -15,7 +15,7 @@ public:
 		};
 		char name[128];
 		int userid;
-		char guid[128];
+		char guid[33];
 		unsigned int friendsid;
 		char friendsname[128];
 		bool fakeplayer;
