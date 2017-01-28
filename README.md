@@ -120,6 +120,10 @@ We provide a script included in the AimTux folder that updates AimTux for you. T
 
 And it will download and compile without any effort. Once it's done, happy hacking!
 
+## Video Tutorial for dummies
+
+![tutorial](https://www.youtube.com/watch?v=bkEj57BviM8)
+
 ## Configs
 
 Configs are stored in a hidden directory in your home folder. Specifically 
