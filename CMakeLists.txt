@@ -22,6 +22,7 @@ set(CMAKE_BUILD_TYPE Debug)
 
 file(GLOB_RECURSE SOURCE_FILES src/*.cpp)
 EXCLUDE_FILES_FROM_DIR_IN_LIST("${SOURCE_FILES}" "src/ImGUI/examples/" FALSE)
+EXCLUDE_FILES_FROM_DIR_IN_LIST("${SOURCE_FILES}" "src/ImGUI/extra_fonts" FALSE)
 
 add_library(AimTux SHARED ${SOURCE_FILES})
 target_link_libraries(AimTux SDL2 GL dl)
