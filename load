@@ -32,7 +32,7 @@ sudo gdb -n -q -batch \
 
 last_line="${input##*$'\n'}"
 
-if [ "$last_line" != "\$1 == (void *) 0x*" ]
+if [ "$last_line" != "\$1 = (void *) 0x0" ]
 then
 
 	echo -e "\e[32mSuccessfully injected!"
