@@ -296,10 +296,10 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 
 	if (!ValveDSCheck::forceUT && (*csGameRules) && (*csGameRules)->IsValveDS())
 	{
-		if (Settings::AntiAim::Yaw::type > AntiAimType_Y::STATICAA)
+		if (Settings::AntiAim::Yaw::type > AntiAimType_Y::STATICSMALLJITTER)
 			Settings::AntiAim::Yaw::type = SPIN_SLOW;
 
-		if (Settings::AntiAim::Yaw::type_fake > AntiAimType_Y::STATICAA)
+		if (Settings::AntiAim::Yaw::type_fake > AntiAimType_Y::STATICSMALLJITTER)
 			Settings::AntiAim::Yaw::type_fake = SPIN_SLOW;
 
 		if (Settings::AntiAim::Pitch::type > AntiAimType_X::FRONT)
