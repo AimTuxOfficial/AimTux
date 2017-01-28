@@ -24,26 +24,16 @@ void Autowall::ScaleDamage(int hitgroup, C_BasePlayer* enemy, float weapon_armor
 {
 	current_damage *= Autowall::GetHitgroupDamageMultiplier(hitgroup);
 
-	int armor = enemy->GetArmor();
-	int helmet = enemy->HasHelmet();
-
-	if (armor > 0)
+	if (enemy->GetArmor() > 0)
 	{
 		if (hitgroup == HITGROUP_HEAD)
 		{
-			if (helmet)
-				current_damage *= (weapon_armor_ratio * .5f);
+			if (enemy->HasHelmet())
+				current_damage *= weapon_armor_ratio * 0.5f;
 		}
 		else
-		{
-			current_damage *= (weapon_armor_ratio * .5f);
-		}
+			current_damage *= weapon_armor_ratio * 0.5f;
 	}
-}
-
-bool Autowall::DidHitNonWorldEntity(C_BasePlayer* player)
-{
-	return player && player == entitylist->GetClientEntity(0);
 }
 
 bool Autowall::TraceToExit(Vector &end, trace_t *enter_trace, Vector start, Vector dir, trace_t *exit_trace)
@@ -57,7 +47,7 @@ bool Autowall::TraceToExit(Vector &end, trace_t *enter_trace, Vector start, Vect
 
 		auto point_contents = trace->GetPointContents(end, MASK_SHOT_HULL | CONTENTS_HITBOX, NULL);
 
-		if (point_contents & MASK_SHOT_HULL && (!(point_contents & CONTENTS_HITBOX)))
+		if (point_contents & MASK_SHOT_HULL && !(point_contents & CONTENTS_HITBOX))
 			continue;
 
 		auto new_end = end - (dir * 4.0f);
@@ -69,8 +59,10 @@ bool Autowall::TraceToExit(Vector &end, trace_t *enter_trace, Vector start, Vect
 		if (exit_trace->startsolid && exit_trace->surface.flags & SURF_HITBOX)
 		{
 			ray.Init(end, start);
+			
 			CTraceFilter filter;
 			filter.pSkip = exit_trace->m_pEntityHit;
+			
 			trace->TraceRay(ray, 0x600400B, &filter, exit_trace);
 
 			if ((exit_trace->fraction < 1.0f || exit_trace->allsolid) && !exit_trace->startsolid)
@@ -86,14 +78,14 @@ bool Autowall::TraceToExit(Vector &end, trace_t *enter_trace, Vector start, Vect
 		{
 			if (exit_trace->m_pEntityHit)
 			{
-				if (Autowall::DidHitNonWorldEntity((C_BasePlayer*) enter_trace->m_pEntityHit))
+				if (enter_trace->m_pEntityHit && enter_trace->m_pEntityHit == entitylist->GetClientEntity(0))
 					return true;
 			}
 
 			continue;
 		}
 
-		if (((exit_trace->surface.flags >> 7) & 1) && !((enter_trace->surface.flags >> 7) & 1))
+		if (exit_trace->surface.flags >> 7 & 1 && !(enter_trace->surface.flags >> 7 & 1))
 			continue;
 
 		if (exit_trace->plane.normal.Dot(dir) <= 1.0f)
@@ -104,6 +96,7 @@ bool Autowall::TraceToExit(Vector &end, trace_t *enter_trace, Vector start, Vect
 			return true;
 		}
 	}
+	
 	return false;
 }
 
@@ -114,9 +107,9 @@ bool Autowall::HandleBulletPenetration(CCSWeaponInfo* weaponInfo, FireBulletData
 	float enter_surf_penetration_mod = *(float*)((uint8_t*) enter_surface_data + 76);
 
 	data.trace_length += data.enter_trace.fraction * data.trace_length_remaining;
-	data.current_damage *= powf(weaponInfo->GetRangeModifier(), (data.trace_length * 0.002f));
+	data.current_damage *= powf(weaponInfo->GetRangeModifier(), data.trace_length * 0.002f);
 
-	if ((data.trace_length > 3000.f) || (enter_surf_penetration_mod < 0.1f))
+	if (data.trace_length > 3000.f || enter_surf_penetration_mod < 0.1f)
 		data.penetrate_count = 0;
 
 	if (data.penetrate_count <= 0)
@@ -124,6 +117,7 @@ bool Autowall::HandleBulletPenetration(CCSWeaponInfo* weaponInfo, FireBulletData
 
 	Vector dummy;
 	trace_t trace_exit;
+	
 	if (!TraceToExit(dummy, &data.enter_trace, data.enter_trace.endpos, data.direction, &trace_exit))
 		return false;
 
@@ -134,15 +128,13 @@ bool Autowall::HandleBulletPenetration(CCSWeaponInfo* weaponInfo, FireBulletData
 	float final_damage_modifier = 0.16f;
 	float combined_penetration_modifier = 0.0f;
 
-	if (((data.enter_trace.contents & CONTENTS_GRATE) != 0) || (enter_material == 89) || (enter_material == 71))
+	if ((data.enter_trace.contents & CONTENTS_GRATE) != 0 || enter_material == 89 || enter_material == 71)
 	{
 		combined_penetration_modifier = 3.0f;
 		final_damage_modifier = 0.05f;
 	}
 	else
-	{
 		combined_penetration_modifier = (enter_surf_penetration_mod + exit_surf_penetration_mod) * 0.5f;
-	}
 
 	if (enter_material == exit_material)
 	{
@@ -196,7 +188,7 @@ bool Autowall::SimulateFireBullet(C_BaseCombatWeapon* pWeapon, bool teamCheck, F
 	data.trace_length = 0.0f;
 	data.current_damage = (float) weaponInfo->GetDamage();
 
-	while ((data.penetrate_count > 0) && (data.current_damage >= 1.0f))
+	while (data.penetrate_count > 0 && data.current_damage >= 1.0f)
 	{
 		data.trace_length_remaining = weaponInfo->GetRange() - data.trace_length;
 
@@ -215,7 +207,7 @@ bool Autowall::SimulateFireBullet(C_BaseCombatWeapon* pWeapon, bool teamCheck, F
 		if (data.enter_trace.fraction == 1.0f)
 			break;
 
-		if ((data.enter_trace.hitgroup <= 7) && (data.enter_trace.hitgroup > 0))
+		if (data.enter_trace.hitgroup <= 7 && data.enter_trace.hitgroup > 0)
 		{
 			data.trace_length += data.enter_trace.fraction * data.trace_length_remaining;
 			data.current_damage *= powf(weaponInfo->GetRangeModifier(), data.trace_length * 0.002f);
