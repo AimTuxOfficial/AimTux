@@ -92,7 +92,7 @@ const char* KnifeToName(int id)
 
 void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 {
-	if (Settings::Skinchanger::enabled)
+	if (Settings::Skinchanger::enabled && ModSupport::current_mod != ModType::CSCO)
 	{
 		if (!engine->IsInGame())
 			return;
@@ -189,7 +189,7 @@ void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 
 void SkinChanger::FireEventClientSide(IGameEvent* event)
 {
-	if (!Settings::Skinchanger::enabled)
+	if (!Settings::Skinchanger::enabled || ModSupport::current_mod == ModType::CSCO)
 		return;
 
 	if (!engine->IsInGame())
@@ -216,6 +216,9 @@ void SkinChanger::FireEventClientSide(IGameEvent* event)
 
 void SkinChanger::SetViewModelSequence(const CRecvProxyData *pDataConst, void *pStruct, void *pOut)
 {
+	if (ModSupport::current_mod == ModType::CSCO)
+		return;
+
 	// Make the incoming data editable.
 	CRecvProxyData* pData = const_cast<CRecvProxyData*>(pDataConst);
 
@@ -322,6 +325,9 @@ void SkinChanger::SetViewModelSequence(const CRecvProxyData *pDataConst, void *p
 
 void SkinChanger::HookCBaseViewModel()
 {
+	if (ModSupport::current_mod == ModType::CSCO)
+		return;
+
 	for (ClientClass* pClass = client->GetAllClasses(); pClass; pClass = pClass->m_pNext)
 	{
 		if (strcmp(pClass->m_pNetworkName, "CBaseViewModel") == 0)
@@ -352,6 +358,9 @@ void SkinChanger::HookCBaseViewModel()
 
 void SkinChanger::UnhookCBaseViewModel()
 {
+	if (ModSupport::current_mod == ModType::CSCO)
+		return;
+
 	for (ClientClass* pClass = client->GetAllClasses(); pClass; pClass = pClass->m_pNext)
 	{
 		if (strcmp(pClass->m_pNetworkName, "CBaseViewModel") == 0)

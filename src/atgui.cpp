@@ -136,8 +136,11 @@ void SetupMainMenuBar()
 		ImGui::Selectable("Main Window", &showMainWindow, 0, ImVec2(ImGui::CalcTextSize("Main Window", NULL, true).x, 0.0f));
 		ImGui::SameLine();
 
-		ImGui::Selectable("Skin Changer Window", &showSkinChangerWindow, 0, ImVec2(ImGui::CalcTextSize("Skin Changer Window", NULL, true).x, 0.0f));
-		ImGui::SameLine();
+        if (ModSupport::current_mod != ModType::CSCO)
+        {
+            ImGui::Selectable("Skin Changer Window", &showSkinChangerWindow, 0, ImVec2(ImGui::CalcTextSize("Skin Changer Window", NULL, true).x, 0.0f));
+            ImGui::SameLine();
+        }
 
 		ImGui::Selectable("Config Window", &showConfigWindow, 0, ImVec2(ImGui::CalcTextSize("Config Window", NULL, true).x, 0.0f));
 		ImGui::SameLine();
@@ -2137,9 +2140,12 @@ void UI::SetupWindows()
 			MainWindow();
 		ImGui::PopStyleVar();
 
-		ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(640, 695));
-			SkinChangerWindow();
-		ImGui::PopStyleVar();
+        if (ModSupport::current_mod != ModType::CSCO)
+        {
+            ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(640, 695));
+            SkinChangerWindow();
+            ImGui::PopStyleVar();
+        }
 
 		ConfigWindow();
 		ColorsWindow();

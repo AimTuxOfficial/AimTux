@@ -2,6 +2,7 @@
 
 #include "interfaces.h"
 #include "hooker.h"
+#include "modsupport.h"
 #include "Utils/netvarmanager.h"
 #include "EventListener.h"
 
@@ -36,6 +37,8 @@ int __attribute__((constructor)) aimtux_init()
 	Hooker::HookPollEvent();
 
 	cvar->ConsoleColorPrintf(ColorRGBA(150, 255, 150), "AimTux was successfully injected.\n");
+
+    ModSupport::OnInit();
 
 	client_vmt->HookVM((void*) Hooks::IN_KeyEvent, 20);
 	client_vmt->HookVM((void*) Hooks::FrameStageNotify, 36);

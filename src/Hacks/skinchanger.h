@@ -3,6 +3,7 @@
 #include "../SDK/SDK.h"
 #include "../interfaces.h"
 #include "../settings.h"
+#include "../modsupport.h"
 
 extern ForceFullUpdateFn ForceFullUpdate;
 extern GetClientStateFn GetClientState;

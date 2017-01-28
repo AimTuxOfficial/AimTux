@@ -57,6 +57,8 @@ std::unordered_map<int, Settings::Aimbot::Weapon> Settings::Aimbot::weapons = {
 		{ -1, Settings::Aimbot::Weapon(false, false, false, BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, false, false, false, false, false, false, false, 10.0f, &Settings::Aimbot::AutoWall::bones[0], false) },
 };
 
+static const char* targets[] = { "pelvis", "", "", "spine_0", "spine_1", "spine_2", "spine_3", "neck_0", "head_0" };
+
 static void ApplyErrorToAngle(QAngle* angles, float margin)
 {
 	QAngle error;
@@ -153,6 +155,8 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& best_bone, Aim
 			|| player->GetImmune())
 			continue;
 
+		best_bone = static_cast<Bone>(Entity::GetBoneByName(player, targets[Settings::Aimbot::bone]));
+
 		if (!Settings::Aimbot::friendly && player->GetTeam() == localplayer->GetTeam())
 			continue;
 
@@ -210,6 +214,8 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& best_bone, Aim
 			best_hp = hp;
 		}
 	}
+
+
 
 	return closestEntity;
 }
