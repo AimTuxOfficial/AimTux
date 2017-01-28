@@ -122,7 +122,7 @@ And it will download and compile without any effort. Once it's done, happy hacki
 
 ## Video Tutorial for dummies
 
-![tutorial](https://www.youtube.com/watch?v=bkEj57BviM8)
+[![tutorial](http://img.youtube.com/vi/bkEj57BviM8/0.jpg)](https://www.youtube.com/watch?v=bkEj57BviM8)
 
 ## Configs
 
