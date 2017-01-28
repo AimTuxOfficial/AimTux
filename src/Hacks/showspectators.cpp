@@ -71,7 +71,7 @@ void ShowSpectators::DrawWindow()
 			IEngineClient::player_info_t entityInformation;
 			engine->GetPlayerInfo(playerId, &entityInformation);
 
-			if (strcmp(entityInformation.guid, "BOT") == 0)
+			if (entityInformation.fakeplayer)
 				continue;
 
 			ImGui::Separator();
