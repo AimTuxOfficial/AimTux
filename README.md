@@ -15,23 +15,10 @@ AimTux is a fully featured internal hack for *CounterStrike : Global Offensive* 
 
 **Note:** _Do NOT download or compile as the root user_
 
-#### Download the dependencies required to build AimTux:
-__Ubuntu-Based / Debian:__
-```bash
-sudo apt-get install cmake g++ gdb git libsdl2-dev zlib1g-dev
-```
-__Arch:__
-```bash
-sudo pacman -S base-devel cmake gdb git sdl2
-```
-__Fedora:__
-```bash
-sudo dnf install cmake gcc-c++ gdb git libstdc++-static mesa-libGL-devel SDL2-devel zlib-devel
-```
+#### Install the required dependencies:
 
-__Gentoo:__
 ```bash
-sudo emerge cmake dev-vcs/git gdb libsdl2 mesa
+./dep-install
 ```
 
 If your compiler (`g++`) is out of date please follow [this](https://github.com/AimTuxOfficial/AimTux/wiki/Updating-your-compiler) wiki page for a solution. (`-std=c++14` error).
@@ -84,7 +71,7 @@ You might be prompted to enter in your password, this is because the injection s
 
 You should see a lot of text being printed out, most of which is not important,
 
-If you see something like`$1 = (void *) 0x3690fa00` (yours will be different) it means that the injection was successfull.
+If you see something like `$1 = (void *) 0x3690fa00` (yours will be different) it means that the injection was successfull.
 However,
 if you see `$1 = (void *) 0x0`, the `.so` file either couldn't be found or something has gone wrong.
 
