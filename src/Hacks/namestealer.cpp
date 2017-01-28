@@ -50,6 +50,9 @@ void NameStealer::BeginFrame(float frameTime)
 			IEngineClient::player_info_t entityInformation;
 			engine->GetPlayerInfo(entityId, &entityInformation);
 
+			if (entityInformation.ishltv)
+				return;
+
 			NameChanger::SetName(Util::PadStringRight(entityInformation.name, strlen(entityInformation.name) + 1));
 
 			timeStamp = currentTime_ms;

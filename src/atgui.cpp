@@ -1281,7 +1281,6 @@ void HvHTab()
 	{
 		ImGui::BeginChild("HVH2", ImVec2(0, 0), true);
 		{
-
 			ImGui::Text("Resolver");
 			ImGui::Separator();
 			ImGui::Checkbox("Resolve All", &Settings::Resolver::resolve_all);
@@ -2033,6 +2032,9 @@ void PlayerListWindow()
 
 					IEngineClient::player_info_t entityInformation;
 					engine->GetPlayerInfo(it, &entityInformation);
+
+					if (entityInformation.ishltv)
+						continue;
 
 					ImGui::Separator();
 
