@@ -34,14 +34,14 @@ __Gentoo:__
 sudo emerge cmake dev-vcs/git gdb libsdl2 mesa
 ```
 
-If your compiler (`g++`) is out of date please follow [this](https://github.com/McSwaggens/AimTux/wiki/Updating-your-compiler) wiki page for a solution.
+If your compiler (`g++`) is out of date please follow [this](https://github.com/AimTuxOfficial/AimTux/wiki/Updating-your-compiler) wiki page for a solution. (`-std=c++14` error).
 
 ===================
 
 #### Download AimTux:
 
 ```bash
-git clone https://github.com/McSwaggens/AimTux
+git clone --recursive https://github.com/AimTuxOfficial/AimTux
 ```
 
 ```bash
@@ -137,8 +137,7 @@ To see hidden folders inside your home folder, press <kbd>CTRL</kbd>+<kbd>H</kbd
 ## Contributing to AimTux
 
 If you wish to contribute code to this opensource project, please keep some things mind before creating a *pull request*:
- - Make sure you're using tabs instead of spaces.
- - Curly braces are to be placed on a new line.
+ - Make sure you're using the correct [code style](https://github.com/AimTuxOfficial/AimTux/wiki/Code-Style).
  - Make sure your commits are clean and straight forward ( no junk commits )
  - Explain what you've done in your pull request.
 

@@ -1,7 +1,73 @@
 #include "namechanger.h"
 
+char* NameChanger::origName = strdup("");
 int NameChanger::changes = -1;
 NC_Type NameChanger::type = NC_NORMAL;
+
+enum Colors
+{
+	WHITE = 1,
+	DARK_RED,
+	LIGHT_PURPLE,
+	DARK_GREEN,
+	LIGHT_GREEN,
+	GREEN,
+	LIGHT_RED,
+	GRAY,
+	YELLOW,
+	LIGHT_BLUE,
+	BLUE,
+	DARK_BLUE,
+	DARK_GRAY,
+	PURPLE,
+	RED,
+	ORANGE,
+};
+
+char* NameChanger::GetName()
+{
+	IEngineClient::player_info_t playerInfo;
+	engine->GetPlayerInfo(engine->GetLocalPlayer(), &playerInfo);
+	char* buff;
+	asprintf(&buff, "%s", playerInfo.name);
+	return buff;
+}
+
+const char* Rainbowify(char* name)
+{
+	std::string base = " \x01\x0B";
+	std::vector<char> rainbow = {
+			(char)(Colors::RED),
+			(char)(Colors::ORANGE),
+			(char)(Colors::YELLOW),
+			(char)(Colors::GREEN),
+			(char)(Colors::BLUE),
+			(char)(Colors::PURPLE),
+	};
+
+	unsigned int color = 0;
+	for (char* it = name; *it; it++)
+	{
+		if (color > rainbow.size() - 1)
+			color = 0;
+		base.push_back(rainbow[color]);
+		base.push_back(*it);
+		color++;
+	}
+
+	base.append("\230");
+	return base.c_str();
+}
+
+const char* Colorize(char* name, int color = Colors::LIGHT_RED)
+{
+	// TODO: Add color customization
+	std::string res = " \x01\x0B";
+	res += (char)(color);
+	res.append(name);
+	res.append("\230");
+	return res.c_str();
+}
 
 void NameChanger::BeginFrame(float frameTime)
 {
@@ -22,35 +88,16 @@ void NameChanger::BeginFrame(float frameTime)
 
 	if (changes >= 5)
 	{
-		/*
-			\x01 WHITE
-			\x02 DARK RED
-			\x03 LIGHT PURPLE
-			\x04 DARK GREEN
-			\x05 LIGHT GREEN
-			\x06 GREEN
-			\x07 LIGHT RED
-			\x08 GRAY
-			\x09 YELLOW
-			\x0A LIGHT BLUE
-			\x0B BLUE
-			\x0C DARK BLUE
-			\x0D GRAY
-			\x0E PURPLE
-			\x0F RED
-			\x10 ORANGE
-		*/
-
 		switch (NameChanger::type)
 		{
 			case NC_NORMAL:
 				SetName(Util::PadStringRight("\230AIMTUX.NET", strlen("\230AIMTUX.NET") + RandomInt(10, 50)));
 				break;
 			case NC_RAINBOW:
-				SetName(Util::PadStringRight(" \x01\x0B\x07""A""\x08""I""\x09""M""\x0A""T""\x0B""U""\x0C""X""\x0D"".""\x0E""N""\x0F""E""\x10""T\230", strlen(" \x01\x0B\x07""A""\x08""I""\x09""M""\x0A""T""\x0B""U""\x0C""X""\x0D"".""\x0E""N""\x0F""E""\x10""T\230") + RandomInt(10, 50)));
+				SetName(Util::PadStringRight(Rainbowify(origName), strlen(origName) + RandomInt(10, 50)));
 				break;
 			case NC_SOLID:
-				SetName(Util::PadStringRight(" \x01\x0B\x07""AIMTUX.NET\230", strlen(" \x01\x0B\x07""AIMTUX.NET\230") + RandomInt(10, 50)));
+				SetName(Util::PadStringRight(Colorize(origName), strlen(origName) + RandomInt(10, 50)));
 				break;
 		}
 

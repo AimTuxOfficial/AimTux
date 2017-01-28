@@ -541,7 +541,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	}
 }
 
-void Aimbot::FireEventClientSide(IGameEvent* event)
+void Aimbot::FireGameEvent(IGameEvent* event)
 {
 	if (!event)
 		return;

@@ -2,7 +2,7 @@
 
 bool ValveDSCheck::forceUT = false;
 
-void ValveDSCheck::FireEventClientSide(IGameEvent* event)
+void ValveDSCheck::FireGameEvent(IGameEvent* event)
 {
 	if (!event)
 		return;

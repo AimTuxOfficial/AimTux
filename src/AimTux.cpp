@@ -80,7 +80,7 @@ int __attribute__((constructor)) aimtux_init()
 	sound_vmt->HookVM((void*) Hooks::EmitSound2, 6);
 	sound_vmt->ApplyVMT();
 
-	eventListener = new EventListener({ "player_hurt" });
+	eventListener = new EventListener({ "cs_game_disconnected", "player_connect_full", "player_death", "player_hurt" });
 
 	SkinChanger::HookCBaseViewModel();
 

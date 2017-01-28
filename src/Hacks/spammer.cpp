@@ -200,7 +200,7 @@ void Spammer::BeginFrame(float frameTime)
 }
 
 
-void Spammer::FireEventClientSide(IGameEvent* event)
+void Spammer::FireGameEvent(IGameEvent* event)
 {
 	if (!Settings::Spammer::KillSpammer::enabled)
 		return;

@@ -111,7 +111,7 @@ void ClanTagChanger::BeginFrame(float frameTime)
 		ClanTagChanger::animation->NextFrame();
 	}
 
-	std::string ctWithEscapesProcessed = std::string(Settings::ClanTagChanger::value);
+	std::string ctWithEscapesProcessed = std::string(strdup(Settings::ClanTagChanger::value));
 	Util::StdReplaceStr(ctWithEscapesProcessed, "\\n", "\n"); // compute time impact? also, referential so i assume RAII builtin cleans it up...
 
 	if (Settings::ClanTagChanger::type == STATIC)

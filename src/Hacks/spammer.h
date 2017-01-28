@@ -11,5 +11,5 @@
 namespace Spammer
 {
 	void BeginFrame(float frameTime);
-	void FireEventClientSide(IGameEvent* event);
+	void FireGameEvent(IGameEvent* event);
 }

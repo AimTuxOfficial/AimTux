@@ -25,5 +25,5 @@ namespace Resolver
 
 	void FrameStageNotify(ClientFrameStage_t stage);
 	void PostFrameStageNotify(ClientFrameStage_t stage);
-	void FireEventClientSide(IGameEvent* event);
+	void FireGameEvent(IGameEvent* event);
 }

@@ -56,7 +56,7 @@ void Resolver::PostFrameStageNotify(ClientFrameStage_t stage)
 {
 }
 
-void Resolver::FireEventClientSide(IGameEvent* event)
+void Resolver::FireGameEvent(IGameEvent* event)
 {
 	if (!event)
 		return;
