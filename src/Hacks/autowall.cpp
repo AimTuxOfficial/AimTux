@@ -114,7 +114,7 @@ bool Autowall::HandleBulletPenetration(CCSWeaponInfo* weaponInfo, FireBulletData
 	float enter_surf_penetration_mod = *(float*)((uint8_t*) enter_surface_data + 76);
 
 	data.trace_length += data.enter_trace.fraction * data.trace_length_remaining;
-	data.current_damage *= pow(weaponInfo->GetRangeModifier(), (data.trace_length * 0.002));
+	data.current_damage *= powf(weaponInfo->GetRangeModifier(), (data.trace_length * 0.002f));
 
 	if ((data.trace_length > 3000.f) || (enter_surf_penetration_mod < 0.1f))
 		data.penetrate_count = 0;
@@ -218,7 +218,7 @@ bool Autowall::SimulateFireBullet(C_BaseCombatWeapon* pWeapon, bool teamCheck, F
 		if ((data.enter_trace.hitgroup <= 7) && (data.enter_trace.hitgroup > 0))
 		{
 			data.trace_length += data.enter_trace.fraction * data.trace_length_remaining;
-			data.current_damage *= pow(weaponInfo->GetRangeModifier(), data.trace_length * 0.002);
+			data.current_damage *= powf(weaponInfo->GetRangeModifier(), data.trace_length * 0.002f);
 
 			C_BasePlayer* player = (C_BasePlayer*) data.enter_trace.m_pEntityHit;
 			if (teamCheck && player->GetTeam() == localplayer->GetTeam())
