@@ -8,7 +8,7 @@ void Autoblock::CreateMove(CUserCmd* cmd)
 	if (!Settings::Autoblock::enabled)
 		return;
 
-	if (input->IsButtonDown(Settings::Autoblock::key))
+	if (inputSystem->IsButtonDown(Settings::Autoblock::key))
 	{
 		C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 		float bestdist = 250.f;

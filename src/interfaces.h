@@ -13,7 +13,7 @@ extern IVModelInfo* modelInfo;
 extern IVModelRender* modelRender;
 extern IClientMode* clientMode;
 extern IEngineTrace* trace;
-extern IInputSystem* input;
+extern IInputSystem* inputSystem;
 extern IInputInternal* inputInternal;
 extern IMaterialSystem* material;
 extern ICvar* cvar;

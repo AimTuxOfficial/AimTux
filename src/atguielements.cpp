@@ -2,7 +2,7 @@
 
 void UI::KeyBindButton(ButtonCode_t* key)
 {
-	const char* text = input->ButtonCodeToString(*key);
+	const char* text = inputSystem->ButtonCodeToString(*key);
 
 	if (SetKeyCodeState::shouldListen && SetKeyCodeState::keyOutput == key)
 		text = "-- press a key --";

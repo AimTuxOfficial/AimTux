@@ -10,7 +10,7 @@ void EdgeJump::PrePredictionCreateMove(CUserCmd* cmd)
 	if (!Settings::EdgeJump::enabled)
 		return;
 
-	if (!input->IsButtonDown(Settings::EdgeJump::key))
+	if (!inputSystem->IsButtonDown(Settings::EdgeJump::key))
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
@@ -28,7 +28,7 @@ void EdgeJump::PostPredictionCreateMove(CUserCmd* cmd)
 	if (!Settings::EdgeJump::enabled)
 		return;
 
-	if (!input->IsButtonDown(Settings::EdgeJump::key))
+	if (!inputSystem->IsButtonDown(Settings::EdgeJump::key))
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());

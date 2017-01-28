@@ -10,7 +10,7 @@ IVModelInfo* modelInfo = nullptr;
 IVModelRender* modelRender = nullptr;
 IClientMode* clientMode = nullptr;
 IEngineTrace* trace = nullptr;
-IInputSystem* input = nullptr;
+IInputSystem* inputSystem = nullptr;
 IInputInternal* inputInternal = nullptr;
 IMaterialSystem* material = nullptr;
 ICvar* cvar = nullptr;
@@ -106,7 +106,7 @@ void Hooker::FindInterfaces()
 	modelInfo = GetInterface<IVModelInfo>("./bin/linux64/engine_client.so", "VModelInfoClient");
 	modelRender = GetInterface<IVModelRender>("./bin/linux64/engine_client.so", "VEngineModel");
 	trace = GetInterface<IEngineTrace>("./bin/linux64/engine_client.so", "EngineTraceClient");
-	input = GetInterface<IInputSystem>("./bin/linux64/inputsystem_client.so", "InputSystemVersion");
+	inputSystem = GetInterface<IInputSystem>("./bin/linux64/inputsystem_client.so", "InputSystemVersion");
 	inputInternal = GetInterface<IInputInternal>("./bin/linux64/vgui2_client.so", "VGUI_InputInternal");
 	material = GetInterface<IMaterialSystem>("./bin/linux64/materialsystem_client.so", "VMaterialSystem");
 	cvar = GetInterface<ICvar>("./bin/linux64/materialsystem_client.so", "VEngineCvar");

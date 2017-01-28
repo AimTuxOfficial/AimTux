@@ -44,7 +44,7 @@ void RageStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 
 	if (localplayer->GetFlags() & FL_ONGROUND)
 	{
-		if (input->IsButtonDown(KEY_SPACE) && bWASD)
+		if (inputSystem->IsButtonDown(KEY_SPACE) && bWASD)
 			forward_move = true;
 	}
 	else
