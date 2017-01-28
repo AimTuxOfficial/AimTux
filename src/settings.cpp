@@ -363,6 +363,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Teleport"]["key"] = Settings::Teleport::key;
 
 	settings["FakeLag"]["enabled"] = Settings::FakeLag::enabled;
+	settings["FakeLag"]["adaptive"] = Settings::FakeLag::adaptive;
 	settings["FakeLag"]["value"] = Settings::FakeLag::value;
 
 	settings["AutoAccept"]["enabled"] = Settings::AutoAccept::enabled;
@@ -740,6 +741,7 @@ void Settings::LoadConfig(std::string path)
 	GetButtonCode(settings["Teleport"]["key"], &Settings::Teleport::key);
 
 	GetVal(settings["FakeLag"]["enabled"], &Settings::FakeLag::enabled);
+	GetVal(settings["FakeLag"]["adaptive"], &Settings::FakeLag::adaptive);
 	GetVal(settings["FakeLag"]["value"], &Settings::FakeLag::value);
 
 	GetVal(settings["AutoAccept"]["enabled"], &Settings::AutoAccept::enabled);
