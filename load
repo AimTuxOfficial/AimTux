@@ -1,7 +1,16 @@
 #!/bin/sh
 
+
+csgo_pid=$(pidof csgo_linux64)
+if [ "$csgo_pid" == "" ]
+then
+	echo -e "\e[31mCSGO needs to be open before you can inject..."
+
+	exit
+fi
+
 if [ ! -d ".git" ]; then
-  echo "We have detected that you have downloaded aimtux-master.zip from the GitHub website. This is the WRONG way to download AimTux. Please download AimTux with the command 'git clone https://github.com/AimTuxOfficial/AimTux.git'"
+  echo "We have detected that you have downloaded aimtux-master.zip from the GitHub website. This is the WRONG way to download AimTux. Please download AimTux with the command 'git clone https://github.com/McSwaggens/AimTux.git'"
 fi
 
 #Credit: Aixxe @ aixxe.net
