@@ -6,12 +6,30 @@ fi
 
 #Credit: Aixxe @ aixxe.net
 if grep -q libAimTux.so /proc/$(pidof csgo_linux64)/maps; then
-  exit
+	echo -e "\e[33mAimTux is already injected... Aborting..."
+	exit
 fi
 
+
+input="$(
 sudo gdb -n -q -batch \
   -ex "attach $(pidof csgo_linux64)" \
   -ex "set \$dlopen = (void*(*)(char*, int)) dlopen" \
   -ex "call \$dlopen(\"$(pwd)/libAimTux.so\", 1)" \
   -ex "detach" \
   -ex "quit"
+)"
+
+
+last_line="${input##*$'\n'}"
+
+if [ "$last_line" != "\$1 == (void *) 0x*" ]
+then
+
+	echo -e "\e[32mSuccessfully injected!"
+
+else
+	echo -e "\e[31mInjection failed, make sure you've compiled..."
+fi
+
+
