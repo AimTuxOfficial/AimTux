@@ -2140,12 +2140,12 @@ void UI::SetupWindows()
 			MainWindow();
 		ImGui::PopStyleVar();
 
-        if (ModSupport::current_mod != ModType::CSCO)
-        {
-            ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(640, 695));
-            SkinChangerWindow();
-            ImGui::PopStyleVar();
-        }
+		if (ModSupport::current_mod != ModType::CSCO)
+		{
+			ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(640, 695));
+			SkinChangerWindow();
+			ImGui::PopStyleVar();
+		}
 
 		ConfigWindow();
 		ColorsWindow();

@@ -215,8 +215,6 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& best_bone, Aim
 		}
 	}
 
-
-
 	return closestEntity;
 }
 

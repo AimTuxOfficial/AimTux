@@ -38,7 +38,7 @@ int __attribute__((constructor)) aimtux_init()
 
 	cvar->ConsoleColorPrintf(ColorRGBA(150, 255, 150), "AimTux was successfully injected.\n");
 
-    ModSupport::OnInit();
+	ModSupport::OnInit();
 
 	client_vmt->HookVM((void*) Hooks::IN_KeyEvent, 20);
 	client_vmt->HookVM((void*) Hooks::FrameStageNotify, 36);

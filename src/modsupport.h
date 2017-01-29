@@ -4,12 +4,12 @@
 
 enum ModType : int
 {
-    NO_MOD,
-    CSCO
+	NO_MOD,
+	CSCO
 };
 
 namespace ModSupport
 {
-    extern ModType current_mod;
-    void OnInit();
+	extern ModType current_mod;
+	void OnInit();
 }
