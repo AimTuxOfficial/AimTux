@@ -201,7 +201,7 @@ void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 			*viewmodel->GetModelIndex() = modelInfo->GetModelIndex(currentSkin.Model.c_str());
 	}
 
-	if(Settings::Skinchanger::Gloves::enabled && ModSupport::current_mod != ModType::CSCO)
+	if (Settings::Skinchanger::Gloves::enabled && ModSupport::current_mod != ModType::CSCO)
 	{
 		if (!engine->IsInGame())
 			return;
@@ -214,37 +214,48 @@ void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 		if (!localplayer || !localplayer->GetAlive())
 			return;
 
-		if(!entitylist->GetClientEntityFromHandle((void*)localplayer->GetWearables())) // Needs to be from Handle, otherwise it returns for CWorld because CEconWearable is not already in the Enum
+		if (!entitylist->GetClientEntityFromHandle((void*) localplayer->GetWearables()))
 		{
-			for (ClientClass* pClass = client->GetAllClasses(); pClass; pClass = pClass->m_pNext) // Cycles through classes.
-				if (pClass->m_ClassID == EClassIds::CEconWearable) // Stops until the class is CEconWearable
-				{
-					int iEntry = (entitylist->GetHighestEntityIndex() + 1), iSerial = RandomInt(0x0, 0xFFF); // Gets last entityindex entry and just adds 1 | Random Serial.
-					pClass->m_pCreateFn(iEntry, iSerial); // Creates the entity, adds it to the enum of Entities.
-					localplayer->GetWearables()[0] = iEntry | (iSerial << 16); // Assigns Wearable[0] (gloves) with the entry value and serial.
-					break; // Exit for loop, as we've created our entity.
-				}
+			for (ClientClass* pClass = client->GetAllClasses(); pClass; pClass = pClass->m_pNext)
+			{
+				if (pClass->m_ClassID != EClassIds::CEconWearable)
+					continue;
+
+				// Gets last entityindex entry and just add 1 | Random Serial.
+				int iEntry = (entitylist->GetHighestEntityIndex() + 1), iSerial = RandomInt(0x0, 0xFFF);
+
+				// Create the entity, adds it to the enum of Entities.
+				pClass->m_pCreateFn(iEntry, iSerial);
+
+				// Assign Wearable[0] (gloves) with the entry value and serial.
+				localplayer->GetWearables()[0] = iEntry | (iSerial << 16);
+
+				break;
+			}
 		}
 
-		C_BaseAttributableItem* glove = (C_BaseAttributableItem*)entitylist->GetClientEntity(localplayer->GetWearables()[0] & 0xFFF); //We can use this without FromHandle JUUUST to make sure we set the right wearable.
-		if (!glove) // Redundancy
+		C_BaseAttributableItem* glove = (C_BaseAttributableItem*) entitylist->GetClientEntity(localplayer->GetWearables()[0] & 0xFFF);
+		if (!glove)
 			return;
 
 		IEngineClient::player_info_t localplayer_info;
 		engine->GetPlayerInfo(engine->GetLocalPlayer(), &localplayer_info);
 
-		Settings::Skinchanger::Skin currentSkin = Settings::Skinchanger::skins[ItemDefinitionIndex::GLOVE_CT_SIDE]; // Have to use  this because there is no preset ItemDefinitionIndex
+		// Have to use  this because there is no preset ItemDefinitionIndex
+		Settings::Skinchanger::Skin currentSkin = Settings::Skinchanger::skins[ItemDefinitionIndex::GLOVE_CT_SIDE];
 
-		if(*glove->GetFallbackPaintKit() == currentSkin.PaintKit && *glove->GetItemDefinitionIndex() == currentSkin._ItemDefinitionIndex && *glove->GetFallbackWear() == currentSkin.Wear)
+		if (*glove->GetFallbackPaintKit() == currentSkin.PaintKit &&
+				*glove->GetItemDefinitionIndex() == currentSkin._ItemDefinitionIndex &&
+				*glove->GetFallbackWear() == currentSkin.Wear)
 			return;
 
-		if(currentSkin.PaintKit != -1)
+		if (currentSkin.PaintKit != -1)
 			*glove->GetFallbackPaintKit() = currentSkin.PaintKit;
 
-		if(currentSkin._ItemDefinitionIndex != ItemDefinitionIndex::INVALID)
+		if (currentSkin._ItemDefinitionIndex != ItemDefinitionIndex::INVALID)
 			*glove->GetItemDefinitionIndex() = currentSkin._ItemDefinitionIndex;
 
-		if(currentSkin.Wear != -1)
+		if (currentSkin.Wear != -1)
 			*glove->GetFallbackWear() = currentSkin.Wear;
 
 		*glove->GetFallbackSeed() = 0;
@@ -252,8 +263,9 @@ void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 		*glove->GetEntityQuality() = 4;
 		*glove->GetItemIDHigh() = -1;
 		*glove->GetAccountID() = localplayer_info.xuidlow;
-		glove->SetModelIndex(modelInfo->GetModelIndex(GetModelByItemIndex(*glove->GetItemDefinitionIndex()))); // Set the model.
-		glove->GetNetworkable()->PreDataUpdate(DATA_UPDATE_CREATED); // Tell the game that we've created everything.
+
+		glove->SetModelIndex(modelInfo->GetModelIndex(GetModelByItemIndex(*glove->GetItemDefinitionIndex())));
+		glove->GetNetworkable()->PreDataUpdate(DATA_UPDATE_CREATED);
 	}
 
 	if (SkinChanger::ForceFullUpdate)
