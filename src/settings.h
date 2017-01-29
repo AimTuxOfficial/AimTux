@@ -687,6 +687,12 @@ namespace Settings
 		};
 
 		extern bool enabled;
+
+		namespace Gloves
+		{
+			extern bool enabled;
+		}
+
 		extern std::unordered_map<ItemDefinitionIndex, Skin> skins;
 	}
 

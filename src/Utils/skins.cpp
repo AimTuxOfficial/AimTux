@@ -601,6 +601,42 @@ std::vector<std::pair<int, const char*>> weapon_skins = {
 		{ 638, "#PaintKit_cu_wp_sawedoff_Tag" },
 };
 
+std::vector<std::pair<int, const char*>> glove_skins = {
+		{ 10006, "#PaintKit_bloodhound_black_silver_tag" },
+		{ 10007, "#PaintKit_bloodhound_snakeskin_brass_tag" },
+		{ 10008, "#PaintKit_bloodhound_metallic_tag" },
+		{ 10009, "#PaintKit_handwrap_leathery_tag" },
+		{ 10010, "#PaintKit_handwrap_camo_grey_tag" },
+		{ 10013, "#PaintKit_slick_black_tag" },
+		{ 10015, "#PaintKit_slick_military_tag" },
+		{ 10016, "#PaintKit_slick_red_tag" },
+		{ 10018, "#PaintKit_sporty_light_blue_tag" },
+		{ 10019, "#PaintKit_sporty_military_tag" },
+		{ 10021, "#PaintKit_handwrap_red_slaughter_tag" },
+		{ 10024, "#PaintKit_motorcycle_basic_black_tag" },
+		{ 10026, "#PaintKit_motorcycle_mint_triangle_tag" },
+		{ 10027, "#PaintKit_motorcycle_mono_boom_tag" },
+		{ 10028, "#PaintKit_motorcycle_triangle_blue_tag" },
+		{ 10030, "#PaintKit_specialist_ddpat_green_camo_tag" },
+		{ 10033, "#PaintKit_specialist_kimono_diamonds_red_tag" },
+		{ 10034, "#PaintKit_specialist_emerald_web_tag" },
+		{ 10035, "#PaintKit_specialist_white_orange_grey_tag" },
+		{ 10036, "#PaintKit_handwrap_fabric_orange_camo_tag" },
+		{ 10037, "#PaintKit_sporty_purple_tag" },
+		{ 10038, "#PaintKit_sporty_green_tag" },
+		{ 10039, "#PaintKit_bloodhound_guerrilla_tag" },
+		{ 10040, "#PaintKit_slick_snakeskin_yellow_tag" },
+};
+
+std::vector<std::pair<int, const char*>> gloves {
+		{ (int) ItemDefinitionIndex::GLOVE_STUDDED_BLOODHOUND, "#CSGO_Wearable_t_studdedgloves"},
+		{ (int) ItemDefinitionIndex::GLOVE_SPORTY, "#CSGO_Wearable_v_sporty_glove"},
+		{ (int) ItemDefinitionIndex::GLOVE_SLICK, "#CSGO_Wearable_v_slick_glove"},
+		{ (int) ItemDefinitionIndex::GLOVE_LEATHER_WRAP, "#CSGO_Wearable_v_leather_handwrap"},
+		{ (int) ItemDefinitionIndex::GLOVE_MOTORCYCLE, "#CSGO_Wearable_v_motorcycle_glove"},
+		{ (int) ItemDefinitionIndex::GLOVE_SPECIALIST, "#CSGO_Wearable_v_specialist_glove"},
+};
+
 void LocalizeGuns()
 {
 	int index = -1;
@@ -665,6 +701,54 @@ void LocalizeSkins()
 	});
 }
 
+void LocalizeGloves()
+{
+	int index = -1;
+
+	for (auto it : gloves)
+	{
+		index++;
+
+		if (it.first == -1)
+			continue;
+
+		std::string localized = Util::WstringToString(localize->FindSafe(it.second));
+		gloves[index] = { it.first, strdup(localized.c_str()) };
+	}
+}
+
+void LocalizeGloveSkins()
+{
+	int index = -1;
+
+	for (auto it : glove_skins)
+	{
+		index++;
+
+		if (it.first == -1)
+			continue;
+
+		std::string localized = Util::WstringToString(localize->FindSafe(it.second));
+		glove_skins[index] = { it.first, strdup(localized.c_str()) };
+	}
+
+	std::sort(glove_skins.begin(), glove_skins.end(), [](auto &left, auto &right) {
+		std::size_t leftIter = 0, rightIter = 0;
+		std::size_t leftSize = strlen(left.second), rightSize = strlen(right.second);
+
+		while (leftIter != leftSize && rightIter != rightSize)
+		{
+			if (left.second[leftIter] != right.second[rightIter])
+				return left.second[leftIter] < right.second[rightIter];
+
+			++leftIter;
+			++rightIter;
+		}
+
+		return leftSize < rightSize;
+	});
+}
+
 void Skins::Localize()
 {
 	static bool isLocalized = false;
@@ -677,6 +761,8 @@ void Skins::Localize()
 	LocalizeGuns();
 	LocalizeKnives();
 	LocalizeSkins();
+	LocalizeGloves();
+	LocalizeGloveSkins();
 
 	isLocalized = true;
 }

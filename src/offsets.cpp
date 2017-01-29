@@ -30,6 +30,7 @@ void Offsets::getOffsets()
 
 	offsets.DT_BaseCombatCharacter.m_hActiveWeapon = NetVarManager::getOffset(tables, "DT_BaseCombatCharacter", "m_hActiveWeapon");
 	offsets.DT_BaseCombatCharacter.m_hMyWeapons = NetVarManager::getOffset(tables, "DT_BaseCombatCharacter", "m_hMyWeapons") / 2;
+	offsets.DT_BaseCombatCharacter.m_hMyWearables = NetVarManager::getOffset(tables, "DT_BaseCombatCharacter", "m_hMyWearables");
 
 	offsets.DT_PlayerResource.m_iPing = NetVarManager::getOffset(tables, "DT_PlayerResource", "m_iPing");
 	offsets.DT_PlayerResource.m_iKills = NetVarManager::getOffset(tables, "DT_PlayerResource", "m_iKills");

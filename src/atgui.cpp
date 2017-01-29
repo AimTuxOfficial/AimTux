@@ -1706,179 +1706,314 @@ void MainWindow()
 	}
 }
 
+void WeaponSkinChanger()
+{
+	static int current_weapon = 7;
+	static int current_weapon_skin = Settings::Skinchanger::skins[(ItemDefinitionIndex) current_weapon].PaintKit;
+	static float weaponWear = 0.005f;
+	static int weaponSkinSeed = -1;
+	static int weaponStatTrak = -1;
+	static char weaponName[18];
+	static char filterSkins[32];
+	static char filterGuns[32];
+	static int isCT = 1;
+
+	if (ImGui::Checkbox("Enabled", &Settings::Skinchanger::enabled))
+		SkinChanger::ForceFullUpdate = true;
+
+	ImGui::Separator();
+
+	ImGui::Columns(2);
+	ImGui::Text("Guns"); ImGui::NextColumn();
+	ImGui::Text("Skins");
+	ImGui::Columns(1);
+	ImGui::Separator();
+
+	ImGui::Columns(2, NULL, false);
+		ImGui::PushItemWidth(-1);
+			ImGui::InputText("##FilterGuns", filterGuns, IM_ARRAYSIZE(filterGuns));
+			ImGui::ListBoxHeader("##GUNS", ImVec2(0, 300));
+				for (auto it : guns)
+				{
+					if (strcmp(it.second, "<-Default->") == 0)
+						continue;
+					if (!Util::Contains(Util::ToLower(std::string(filterGuns)), Util::ToLower(std::string(it.second))))
+						continue;
+					const bool item_selected = (it.first == current_weapon);
+					ImGui::PushID(it.first);
+						if (ImGui::Selectable(it.second, item_selected))
+						{
+							current_weapon = it.first;
+
+							auto keyExists = Settings::Skinchanger::skins.find((ItemDefinitionIndex) it.first);
+							if (keyExists == Settings::Skinchanger::skins.end())
+								current_weapon_skin = -1;
+							else
+								current_weapon_skin = Settings::Skinchanger::skins[(ItemDefinitionIndex) it.first].PaintKit;
+						}
+					ImGui::PopID();
+				}
+			ImGui::ListBoxFooter();
+		ImGui::PopItemWidth();
+	ImGui::NextColumn();
+	ImGui::PushItemWidth(-1);
+		ImGui::InputText("##FilterSkins", filterSkins, IM_ARRAYSIZE(filterSkins));
+		ImGui::ListBoxHeader("##SKINS", ImVec2(0, 300));
+			for (auto it : weapon_skins)
+			{
+				if (!Util::Contains(Util::ToLower(std::string(filterSkins)), Util::ToLower(std::string(it.second))))
+					continue;
+				const bool item_selected = (it.first == current_weapon_skin);
+				ImGui::PushID(it.first);
+					if (ImGui::Selectable(it.second, item_selected))
+						current_weapon_skin = it.first;
+				ImGui::PopID();
+			}
+		ImGui::ListBoxFooter();
+	ImGui::PopItemWidth();
+	ImGui::Columns(1);
+	ImGui::Separator();
+	ImGui::Columns(2, NULL, true);
+	ImGui::Text("Knife"); ImGui::NextColumn();
+	ImGui::Text("Other");
+	ImGui::Columns(1);
+	ImGui::Separator();
+	ImGui::Columns(3, NULL, false);
+	ImGui::SetColumnOffset(1, ImGui::GetWindowWidth() / 2 - 60);
+		ImGui::ListBoxHeader("##KNIVES", ImVec2(-1, -1));
+			for (auto knife : knives)
+			{
+				const bool item_selected = (((int) ItemDefinitionIndex::WEAPON_KNIFE_BAYONET + knife.first) == current_weapon);
+				ImGui::PushID(knife.first);
+				if (ImGui::Selectable(knife.second, item_selected))
+				{
+					current_weapon = ((int) ItemDefinitionIndex::WEAPON_KNIFE_BAYONET + knife.first);
+					current_weapon_skin = Settings::Skinchanger::skins[isCT > 0 ? ItemDefinitionIndex::WEAPON_KNIFE : ItemDefinitionIndex::WEAPON_KNIFE_T].PaintKit;
+				}
+				ImGui::PopID();
+			}
+		ImGui::ListBoxFooter();
+	ImGui::NextColumn();
+	ImGui::SetColumnOffset(2, ImGui::GetWindowWidth() / 2 - 4);
+		ImGui::RadioButton("CT", &isCT, 1);
+		ImGui::RadioButton("T", &isCT, 0);
+	ImGui::NextColumn();
+	ImGui::BeginChild("Other", ImVec2(-1, -1), true);
+	{
+		ImGui::InputInt("Skin ID", &current_weapon_skin);
+		ImGui::SliderFloat("Wear", &weaponWear, 0.005f, 1.0f);
+		ImGui::InputInt("Seed", &weaponSkinSeed);
+		ImGui::InputInt("StatTrak", &weaponStatTrak);
+		ImGui::InputText("Name", weaponName, IM_ARRAYSIZE(weaponName));
+		ImGui::Separator();
+		if (ImGui::Button("Load", ImVec2(-1, 0)))
+		{
+			Settings::Skinchanger::Skin skin;
+			if (current_weapon >= (int) ItemDefinitionIndex::WEAPON_KNIFE_BAYONET)
+			{
+				skin = Settings::Skinchanger::skins[isCT == 1 ? ItemDefinitionIndex::WEAPON_KNIFE : ItemDefinitionIndex::WEAPON_KNIFE_T];
+				current_weapon = (int) skin._ItemDefinitionIndex;
+			}
+			else
+			{
+				auto keyExists = Settings::Skinchanger::skins.find((ItemDefinitionIndex) current_weapon);
+				if (keyExists == Settings::Skinchanger::skins.end())
+					skin = Settings::Skinchanger::Skin(current_weapon, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "");
+				else
+					skin = Settings::Skinchanger::skins[(ItemDefinitionIndex) current_weapon];
+			}
+
+			current_weapon_skin = skin.PaintKit;
+			weaponSkinSeed = skin.Seed;
+			weaponWear = skin.Wear;
+			weaponStatTrak = skin.StatTrak;
+			std::fill(std::begin(weaponName), std::end(weaponName), 0);
+			std::copy(std::begin(skin.CustomName), std::end(skin.CustomName), std::begin(weaponName));
+		}
+		if (ImGui::Button("Apply", ImVec2(-1, 0)))
+		{
+			if (current_weapon >= (int) ItemDefinitionIndex::WEAPON_KNIFE_BAYONET)
+			{
+				Settings::Skinchanger::skins[ItemDefinitionIndex::WEAPON_KNIFE_FLIP] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_flip.mdl");
+				Settings::Skinchanger::skins[ItemDefinitionIndex::WEAPON_KNIFE_GUT] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_gut.mdl");
+				Settings::Skinchanger::skins[ItemDefinitionIndex::WEAPON_KNIFE_BAYONET] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_bayonet.mdl");
+				Settings::Skinchanger::skins[ItemDefinitionIndex::WEAPON_KNIFE_M9_BAYONET] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_m9_bay.mdl");
+				Settings::Skinchanger::skins[ItemDefinitionIndex::WEAPON_KNIFE_KARAMBIT] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_karam.mdl");
+				Settings::Skinchanger::skins[ItemDefinitionIndex::WEAPON_KNIFE_TACTICAL] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_tactical.mdl");
+				Settings::Skinchanger::skins[ItemDefinitionIndex::WEAPON_KNIFE_BUTTERFLY] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_butterfly.mdl");
+				Settings::Skinchanger::skins[ItemDefinitionIndex::WEAPON_KNIFE_SURVIVAL_BOWIE] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_survival_bowie.mdl");
+				Settings::Skinchanger::skins[ItemDefinitionIndex::WEAPON_KNIFE_FALCHION] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_falchion_advanced.mdl");
+				Settings::Skinchanger::skins[ItemDefinitionIndex::WEAPON_KNIFE_PUSH] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_push.mdl");
+
+				Settings::Skinchanger::skins[isCT > 0 ? ItemDefinitionIndex::WEAPON_KNIFE : ItemDefinitionIndex::WEAPON_KNIFE_T] = Settings::Skinchanger::Skin(
+						current_weapon_skin == 0 ? -1 : current_weapon_skin,
+						(ItemDefinitionIndex) current_weapon,
+						weaponSkinSeed,
+						weaponWear,
+						weaponStatTrak,
+						weaponName,
+						""
+				);
+			}
+			else
+			{
+				Settings::Skinchanger::skins[(ItemDefinitionIndex) current_weapon] = Settings::Skinchanger::Skin(
+						current_weapon_skin == 0 ? -1 : current_weapon_skin,
+						(ItemDefinitionIndex) current_weapon,
+						weaponSkinSeed,
+						weaponWear,
+						weaponStatTrak,
+						weaponName,
+						""
+				);
+			}
+
+			SkinChanger::ForceFullUpdate = true;
+		}
+		ImGui::Separator();
+		ImGui::EndChild();
+	}
+}
+
+void GloveSkinChanger()
+{
+	static int current_glove = (int) ItemDefinitionIndex::GLOVE_STUDDED_BLOODHOUND;
+	static int current_glove_skin = Settings::Skinchanger::skins[(ItemDefinitionIndex) current_glove].PaintKit;
+	static float gloveWear = 0.005f;
+	static char filterGloves[32];
+	static char filterGloveSkins[32];
+
+	if (ImGui::Checkbox("Enabled", &Settings::Skinchanger::Gloves::enabled))
+		SkinChanger::ForceFullUpdate = true;
+
+	ImGui::Separator();
+
+	ImGui::Columns(2);
+	ImGui::Text("Glove Model");
+	ImGui::NextColumn();
+	ImGui::Text("Glove Skin");
+	ImGui::Columns(1);
+	ImGui::Separator();
+
+	ImGui::Columns(2, NULL, false);
+		ImGui::PushItemWidth(-1);
+			ImGui::InputText("##FilterGloves", filterGloves, IM_ARRAYSIZE(filterGloves));
+			ImGui::ListBoxHeader("##GLOVES", ImVec2(-1, 300));
+				for (auto glove : gloves)
+				{
+					if (!Util::Contains(Util::ToLower(std::string(filterGloves)), Util::ToLower(std::string(glove.second))))
+						continue;
+					const bool item_selected = (glove.first == current_glove);
+					ImGui::PushID(glove.first);
+						if (ImGui::Selectable(glove.second, item_selected))
+						{
+							current_glove = glove.first;
+							current_glove_skin = Settings::Skinchanger::skins[ItemDefinitionIndex::GLOVE_CT_SIDE].PaintKit;
+						}
+					ImGui::PopID();
+				}
+			ImGui::ListBoxFooter();
+		ImGui::PopItemWidth();
+	ImGui::NextColumn();
+		ImGui::PushItemWidth(-1);
+			ImGui::InputText("##FilterGloveSkins", filterGloveSkins, IM_ARRAYSIZE(filterGloveSkins));
+			ImGui::ListBoxHeader("##GLOVESKINS", ImVec2(-1, 300));
+				for (auto it : glove_skins)
+				{
+					if (!Util::Contains(Util::ToLower(std::string(filterGloveSkins)), Util::ToLower(std::string(it.second))))
+						continue;
+					const bool item_selected = (it.first == current_glove_skin);
+					ImGui::PushID(it.first);
+						if (ImGui::Selectable(it.second, item_selected))
+							current_glove_skin = it.first;
+					ImGui::PopID();
+				}
+			ImGui::ListBoxFooter();
+		ImGui::PopItemWidth();
+	ImGui::Columns(1);
+	ImGui::Separator();
+	ImGui::Columns(2);
+		ImGui::SliderFloat("Wear", &gloveWear, 0.005f, 1.0f);
+	ImGui::NextColumn();
+		if (ImGui::Button("Apply", ImVec2(-1, 0)))
+		{
+			Settings::Skinchanger::skins[ItemDefinitionIndex::GLOVE_STUDDED_BLOODHOUND] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_models/arms/glove_bloodhound/v_glove_bloodhound.mdl");
+			Settings::Skinchanger::skins[ItemDefinitionIndex::GLOVE_SPORTY] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_models/arms/glove_sporty/v_glove_sporty.mdl");
+			Settings::Skinchanger::skins[ItemDefinitionIndex::GLOVE_SLICK] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_models/arms/glove_slick/v_glove_slick.mdl");
+			Settings::Skinchanger::skins[ItemDefinitionIndex::GLOVE_LEATHER_WRAP] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_models/arms/glove_handwrap_leathery/v_glove_handwrap_leathery.mdl");
+			Settings::Skinchanger::skins[ItemDefinitionIndex::GLOVE_MOTORCYCLE] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_models/arms/glove_motorcycle/v_glove_motorcycle.mdl");
+			Settings::Skinchanger::skins[ItemDefinitionIndex::GLOVE_SPECIALIST] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_models/arms/glove_specialist/v_glove_specialist.mdl");
+
+			Settings::Skinchanger::skins[ItemDefinitionIndex::GLOVE_CT_SIDE] = Settings::Skinchanger::Skin(
+					current_glove_skin == 0 ? -1 : current_glove_skin,
+					(ItemDefinitionIndex) current_glove,
+					-1,
+					gloveWear,
+					-1,
+					"",
+					""
+			);
+
+			SkinChanger::ForceFullUpdate = true;
+		}
+	ImGui::Columns(1);
+	ImGui::Separator();
+}
+
 void SkinChangerWindow()
 {
 	if (!showSkinChangerWindow)
 		return;
 
-	ImGui::SetNextWindowSize(ImVec2(640, 695), ImGuiSetCond_FirstUseEver);
+	static int page = 0;
+	ImGui::SetNextWindowSize(ImVec2(640, 725), ImGuiSetCond_FirstUseEver);
 	if (ImGui::Begin("Skin Changer", &showSkinChangerWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
 	{
-		static int current_weapon = 7;
-		static int current_weapon_skin = Settings::Skinchanger::skins[(ItemDefinitionIndex) current_weapon].PaintKit;
-		static float weaponWear = 0.005f;
-		static int weaponSkinSeed = -1;
-		static int weaponStatTrak = -1;
-		static char weaponName[18];
-		static char filterSkins[32];
-		static char filterGuns[32];
-		static int isCT = 1;
+		const char* tabs[] = {
+				"Weapons",
+				"Gloves",
+		};
+		int tabs_size = sizeof(tabs) / sizeof(tabs[0]);
 
-		if (ImGui::Checkbox("Enabled", &Settings::Skinchanger::enabled))
-			SkinChanger::ForceFullUpdate = true;
-
-		ImGui::Separator();
-
-		ImGui::Columns(2);
-		ImGui::Text("Guns"); ImGui::NextColumn();
-		ImGui::Text("Skins");
-		ImGui::Columns(1);
-		ImGui::Separator();
-
-		ImGui::Columns(2, NULL, false);
-			ImGui::PushItemWidth(-1);
-				ImGui::InputText("##FilterGuns", filterGuns, IM_ARRAYSIZE(filterGuns));
-				ImGui::ListBoxHeader("##GUNS", ImVec2(0, 300));
-					for (auto it : guns)
-					{
-						if (strcmp(it.second, "<-Default->") == 0)
-							continue;
-						if (!Util::Contains(Util::ToLower(std::string(filterGuns)), Util::ToLower(std::string(it.second))))
-							continue;
-						const bool item_selected = (it.first == current_weapon);
-						ImGui::PushID(it.first);
-							if (ImGui::Selectable(it.second, item_selected))
-							{
-								current_weapon = it.first;
-
-								auto keyExists = Settings::Skinchanger::skins.find((ItemDefinitionIndex) it.first);
-								if (keyExists == Settings::Skinchanger::skins.end())
-									current_weapon_skin = -1;
-								else
-									current_weapon_skin = Settings::Skinchanger::skins[(ItemDefinitionIndex) it.first].PaintKit;
-							}
-						ImGui::PopID();
-					}
-				ImGui::ListBoxFooter();
-			ImGui::PopItemWidth();
-		ImGui::NextColumn();
-		ImGui::PushItemWidth(-1);
-			ImGui::InputText("##FilterSkins", filterSkins, IM_ARRAYSIZE(filterSkins));
-			ImGui::ListBoxHeader("##SKINS", ImVec2(0, 300));
-				for (auto it : weapon_skins)
-				{
-					if (!Util::Contains(Util::ToLower(std::string(filterSkins)), Util::ToLower(std::string(it.second))))
-						continue;
-					const bool item_selected = (it.first == current_weapon_skin);
-					ImGui::PushID(it.first);
-						if (ImGui::Selectable(it.second, item_selected))
-							current_weapon_skin = it.first;
-					ImGui::PopID();
-				}
-			ImGui::ListBoxFooter();
-		ImGui::PopItemWidth();
-		ImGui::Columns(1);
-		ImGui::Separator();
-		ImGui::Columns(2, NULL, true);
-		ImGui::Text("Knife"); ImGui::NextColumn();
-		ImGui::Text("Other");
-		ImGui::Columns(1);
-		ImGui::Separator();
-		ImGui::Columns(3, NULL, false);
-		ImGui::SetColumnOffset(1, ImGui::GetWindowWidth() / 2 - 60);
-			ImGui::ListBoxHeader("##KNIVES", ImVec2(-1, -1));
-				for (auto knife : knives)
-				{
-					const bool item_selected = (((int) ItemDefinitionIndex::WEAPON_KNIFE_BAYONET + knife.first) == current_weapon);
-					ImGui::PushID(knife.first);
-					if (ImGui::Selectable(knife.second, item_selected))
-					{
-						current_weapon = ((int) ItemDefinitionIndex::WEAPON_KNIFE_BAYONET + knife.first);
-						current_weapon_skin = Settings::Skinchanger::skins[isCT > 0 ? ItemDefinitionIndex::WEAPON_KNIFE : ItemDefinitionIndex::WEAPON_KNIFE_T].PaintKit;
-					}
-					ImGui::PopID();
-				}
-			ImGui::ListBoxFooter();
-		ImGui::NextColumn();
-		ImGui::SetColumnOffset(2, ImGui::GetWindowWidth() / 2 - 4);
-			ImGui::RadioButton("CT", &isCT, 1);
-			ImGui::RadioButton("T", &isCT, 0);
-		ImGui::NextColumn();
-		ImGui::BeginChild("Other", ImVec2(-1, -1), true);
+		for (int i = 0; i < tabs_size; i++)
 		{
-			ImGui::InputInt("Skin ID", &current_weapon_skin);
-			ImGui::SliderFloat("Wear", &weaponWear, 0.005f, 1.0f);
-			ImGui::InputInt("Seed", &weaponSkinSeed);
-			ImGui::InputInt("StatTrak", &weaponStatTrak);
-			ImGui::InputText("Name", weaponName, IM_ARRAYSIZE(weaponName));
-			ImGui::Separator();
-			if (ImGui::Button("Load", ImVec2(-1, 0)))
-			{
-				Settings::Skinchanger::Skin skin;
-				if (current_weapon >= (int) ItemDefinitionIndex::WEAPON_KNIFE_BAYONET)
-				{
-					skin = Settings::Skinchanger::skins[isCT == 1 ? ItemDefinitionIndex::WEAPON_KNIFE : ItemDefinitionIndex::WEAPON_KNIFE_T];
-					current_weapon = (int) skin._ItemDefinitionIndex;
-				}
-				else
-				{
-					auto keyExists = Settings::Skinchanger::skins.find((ItemDefinitionIndex) current_weapon);
-					if (keyExists == Settings::Skinchanger::skins.end())
-						skin = Settings::Skinchanger::Skin(current_weapon, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "");
-					else
-						skin = Settings::Skinchanger::skins[(ItemDefinitionIndex) current_weapon];
-				}
+			ImVec2 windowSize = ImGui::GetWindowSize();
+			int width = windowSize.x / tabs_size - 9;
 
-				current_weapon_skin = skin.PaintKit;
-				weaponSkinSeed = skin.Seed;
-				weaponWear = skin.Wear;
-				weaponStatTrak = skin.StatTrak;
-				std::fill(std::begin(weaponName), std::end(weaponName), 0);
-				std::copy(std::begin(skin.CustomName), std::end(skin.CustomName), std::begin(weaponName));
-			}
-			if (ImGui::Button("Apply", ImVec2(-1, 0)))
-			{
-				if (current_weapon >= (int) ItemDefinitionIndex::WEAPON_KNIFE_BAYONET)
-				{
-					Settings::Skinchanger::skins[ItemDefinitionIndex::WEAPON_KNIFE_FLIP] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_flip.mdl");
-					Settings::Skinchanger::skins[ItemDefinitionIndex::WEAPON_KNIFE_GUT] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_gut.mdl");
-					Settings::Skinchanger::skins[ItemDefinitionIndex::WEAPON_KNIFE_BAYONET] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_bayonet.mdl");
-					Settings::Skinchanger::skins[ItemDefinitionIndex::WEAPON_KNIFE_M9_BAYONET] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_m9_bay.mdl");
-					Settings::Skinchanger::skins[ItemDefinitionIndex::WEAPON_KNIFE_KARAMBIT] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_karam.mdl");
-					Settings::Skinchanger::skins[ItemDefinitionIndex::WEAPON_KNIFE_TACTICAL] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_tactical.mdl");
-					Settings::Skinchanger::skins[ItemDefinitionIndex::WEAPON_KNIFE_BUTTERFLY] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_butterfly.mdl");
-					Settings::Skinchanger::skins[ItemDefinitionIndex::WEAPON_KNIFE_SURVIVAL_BOWIE] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_survival_bowie.mdl");
-					Settings::Skinchanger::skins[ItemDefinitionIndex::WEAPON_KNIFE_FALCHION] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_falchion_advanced.mdl");
-					Settings::Skinchanger::skins[ItemDefinitionIndex::WEAPON_KNIFE_PUSH] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_push.mdl");
+			int distance;
+			if (i == page)
+				distance = 0;
+			else
+				distance = i > page ? i - page : page - i;
 
-					Settings::Skinchanger::skins[isCT > 0 ? ItemDefinitionIndex::WEAPON_KNIFE : ItemDefinitionIndex::WEAPON_KNIFE_T] = Settings::Skinchanger::Skin(
-							current_weapon_skin == 0 ? -1 : current_weapon_skin,
-							(ItemDefinitionIndex) current_weapon,
-							weaponSkinSeed,
-							weaponWear,
-							weaponStatTrak,
-							weaponName,
-							""
-					);
-				}
-				else
-				{
-					Settings::Skinchanger::skins[(ItemDefinitionIndex) current_weapon] = Settings::Skinchanger::Skin(
-							current_weapon_skin == 0 ? -1 : current_weapon_skin,
-							(ItemDefinitionIndex) current_weapon,
-							weaponSkinSeed,
-							weaponWear,
-							weaponStatTrak,
-							weaponName,
-							""
-					);
-				}
+			ImGui::GetStyle().Colors[ImGuiCol_Button] = ImVec4(
+					Settings::UI::mainColor.Value.x - (distance * 0.06f),
+					Settings::UI::mainColor.Value.y - (distance * 0.06f),
+					Settings::UI::mainColor.Value.z - (distance * 0.06f),
+					Settings::UI::mainColor.Value.w
+			);
 
-				SkinChanger::ForceFullUpdate = true;
-			}
-			ImGui::Separator();
-			ImGui::EndChild();
+			if (ImGui::Button(tabs[i], ImVec2(width, 0)))
+				page = i;
+
+			ImGui::GetStyle().Colors[ImGuiCol_Button] = Settings::UI::mainColor;
+
+			if (i < tabs_size - 1)
+				ImGui::SameLine();
 		}
+
+		ImGui::Separator();
+
+		switch(page)
+		{
+			case 0:
+				WeaponSkinChanger();
+				break;
+			case 1:
+				GloveSkinChanger();
+				break;
+		}
+
 		ImGui::End();
 	}
 }
