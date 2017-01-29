@@ -1,3 +1,5 @@
+#include <iomanip>
+
 #include "esp.h"
 #include "../Utils/skins.h"
 
@@ -670,10 +672,10 @@ void ESP::DrawPlantedBomb(C_PlantedC4* bomb)
 	ImColor color = bomb->GetBombDefuser() != -1 || bomb->IsBombDefused() ? Settings::ESP::bomb_defusing_color : Settings::ESP::bomb_color;
 
 	float bombTimer = bomb->GetBombTime() - globalvars->curtime;
-	std::string displayText;
+	std::stringstream displayText;
 	if (bomb->IsBombDefused() || !bomb->IsBombTicking() || bombTimer <= 0.f)
 	{
-			displayText = "Bomb";
+			displayText << "Bomb";
 	}
 	else
 	{
@@ -690,12 +692,10 @@ void ESP::DrawPlantedBomb(C_PlantedC4* bomb)
 
 		float damage = std::max((int)ceilf(GetArmourHealth(flDamage, localplayer->GetArmor())), 0);
 
-		char* buffer;
-		asprintf(&buffer, "Bomb: %.1f, damage: %d", bombTimer, (int) damage);
-		displayText = std::string(buffer);
+		displayText << "Bomb: " << std::fixed << std::showpoint << std::setprecision(1) << bombTimer << ", damage: " << (int) damage;
 	}
 
-	DrawEntity(bomb, displayText.c_str(), Color::FromImColor(color));
+	DrawEntity(bomb, displayText.str().c_str(), Color::FromImColor(color));
 }
 
 void ESP::DrawDefuseKit(C_BaseEntity* defuser)

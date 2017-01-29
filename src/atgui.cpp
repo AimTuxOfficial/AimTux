@@ -460,14 +460,14 @@ void AimbotTab()
 				const bool item_selected = (it.first == (int)  current_weapon);
 				ImGui::PushID(it.first);
 
-					char* formattedName;
+					std::string formattedName;
 					char changeIndicator = ' ';
 					bool isChanged = Settings::Aimbot::weapons.find((ItemDefinitionIndex) it.first) != Settings::Aimbot::weapons.end();
 					if (!isDefault && isChanged)
 						changeIndicator = '*';
-					asprintf(&formattedName, "%c %s", changeIndicator, it.second);
+					formattedName = changeIndicator + std::string(it.second);
 
-					if (ImGui::Selectable(formattedName, item_selected))
+					if (ImGui::Selectable(formattedName.c_str(), item_selected))
 					{
 						current_weapon = (ItemDefinitionIndex ) it.first;
 
@@ -2170,8 +2170,7 @@ void PlayerListWindow()
 
 				for (auto it : players[(TeamID) team])
 				{
-					char* id;
-					asprintf(&id, "%d", it);
+					std::string id = std::to_string(it);
 
 					IEngineClient::player_info_t entityInformation;
 					engine->GetPlayerInfo(it, &entityInformation);
@@ -2181,7 +2180,7 @@ void PlayerListWindow()
 
 					ImGui::Separator();
 
-					if (ImGui::Selectable(id, it == currentPlayer, ImGuiSelectableFlags_SpanAllColumns))
+					if (ImGui::Selectable(id.c_str(), it == currentPlayer, ImGuiSelectableFlags_SpanAllColumns))
 						currentPlayer = it;
 					ImGui::NextColumn();
 

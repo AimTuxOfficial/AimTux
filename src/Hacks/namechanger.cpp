@@ -1,6 +1,6 @@
 #include "namechanger.h"
 
-char* NameChanger::origName = strdup("");
+std::string NameChanger::origName = "";
 int NameChanger::changes = -1;
 NC_Type NameChanger::type = NC_NORMAL;
 
@@ -24,16 +24,14 @@ enum class Colors
 	ORANGE,
 };
 
-char* NameChanger::GetName()
+std::string NameChanger::GetName()
 {
 	IEngineClient::player_info_t playerInfo;
 	engine->GetPlayerInfo(engine->GetLocalPlayer(), &playerInfo);
-	char* buff;
-	asprintf(&buff, "%s", playerInfo.name);
-	return buff;
+	return std::string(playerInfo.name);
 }
 
-const char* Rainbowify(char* name)
+std::string Rainbowify(const std::string& name)
 {
 	std::string base = " \x01\x0B";
 	std::vector<char> rainbow = {
@@ -45,28 +43,28 @@ const char* Rainbowify(char* name)
 			(char)(Colors::PURPLE),
 	};
 
-	unsigned int color = 0;
-	for (char* it = name; *it; it++)
+	size_t color = 0;
+	for (char c : name)
 	{
 		if (color > rainbow.size() - 1)
 			color = 0;
 		base.push_back(rainbow[color]);
-		base.push_back(*it);
+		base.push_back(c);
 		color++;
 	}
 
 	base.append("\230");
-	return base.c_str();
+	return base;
 }
 
-const char* Colorize(char* name, Colors color = Colors::LIGHT_RED)
+std::string Colorize(const std::string& name, Colors color = Colors::LIGHT_RED)
 {
 	// TODO: Add color customization
 	std::string res = " \x01\x0B";
 	res += (char)(color);
 	res.append(name);
 	res.append("\230");
-	return res.c_str();
+	return res;
 }
 
 void NameChanger::BeginFrame(float frameTime)
@@ -94,10 +92,10 @@ void NameChanger::BeginFrame(float frameTime)
 				SetName(Util::PadStringRight("\230AIMTUX.NET", strlen("\230AIMTUX.NET") + RandomInt(10, 50)));
 				break;
 			case NC_RAINBOW:
-				SetName(Util::PadStringRight(Rainbowify(origName), strlen(origName) + RandomInt(10, 50)));
+				SetName(Util::PadStringRight(Rainbowify(origName), origName.size() + RandomInt(10, 50)));
 				break;
 			case NC_SOLID:
-				SetName(Util::PadStringRight(Colorize(origName), strlen(origName) + RandomInt(10, 50)));
+				SetName(Util::PadStringRight(Colorize(origName), origName.size() + RandomInt(10, 50)));
 				break;
 		}
 

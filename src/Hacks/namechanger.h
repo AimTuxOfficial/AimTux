@@ -13,9 +13,9 @@ namespace NameChanger
 {
 	extern int changes;
 	extern NC_Type type;
-	extern char* origName;
+	extern std::string origName;
 
-	char* GetName();
+	std::string GetName();
 	void BeginFrame(float frameTime);
 	void SetName(const char* name);
 };
