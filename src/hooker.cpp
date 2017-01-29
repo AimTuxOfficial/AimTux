@@ -144,7 +144,8 @@ void Hooker::FindIClientMode()
 	uintptr_t hudprocessinput = reinterpret_cast<uintptr_t>(getvtable(client)[10]);
 	GetClientModeFn GetClientMode = reinterpret_cast<GetClientModeFn>(GetAbsoluteAddress(hudprocessinput + 11, 1, 5));
 
-	clientMode_vmt = new VMT(GetClientMode());
+	clientMode = GetClientMode();
+	clientMode_vmt = new VMT(clientMode);
 }
 
 void Hooker::FindGlobalVars()
