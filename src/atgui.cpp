@@ -1830,7 +1830,7 @@ void WeaponSkinChanger()
 			std::fill(std::begin(weaponName), std::end(weaponName), 0);
 			std::copy(std::begin(skin.CustomName), std::end(skin.CustomName), std::begin(weaponName));
 		}
-		if (ImGui::Button("Apply", ImVec2(-1, 0)))
+		if (ImGui::Button("Apply##Weapons", ImVec2(-1, 0)))
 		{
 			if (current_weapon >= (int) ItemDefinitionIndex::WEAPON_KNIFE_BAYONET)
 			{
@@ -1935,7 +1935,7 @@ void GloveSkinChanger()
 	ImGui::Columns(2);
 		ImGui::SliderFloat("Wear", &gloveWear, 0.005f, 1.0f);
 	ImGui::NextColumn();
-		if (ImGui::Button("Apply", ImVec2(-1, 0)))
+		if (ImGui::Button("Apply##Gloves", ImVec2(-1, 0)))
 		{
 			Settings::Skinchanger::skins[ItemDefinitionIndex::GLOVE_STUDDED_BLOODHOUND] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_models/arms/glove_bloodhound/v_glove_bloodhound.mdl");
 			Settings::Skinchanger::skins[ItemDefinitionIndex::GLOVE_SPORTY] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_models/arms/glove_sporty/v_glove_sporty.mdl");
