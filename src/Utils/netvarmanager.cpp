@@ -129,8 +129,7 @@ void NetVarManager::dumpNetvars()
 
 	getcwd(cwd, sizeof(cwd));
 
-	char* netvarsPath;
-	asprintf(&netvarsPath, "%s/netvars.txt", cwd);
+	std::string netvarsPath = std::string(cwd) + "/netvars.txt";
 
 	std::ofstream(netvarsPath) << ss.str();
 }

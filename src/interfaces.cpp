@@ -54,8 +54,7 @@ void Interfaces::dumpInterfaces()
 
 	getcwd(cwd, sizeof(cwd));
 
-	char* interfacesPath;
-	asprintf(&interfacesPath, "%s/interfaces.txt", cwd);
+	std::string interfacesPath = std::string(cwd) + "/interfaces.txt";
 
 	std::ofstream(interfacesPath) << ss.str();
 }

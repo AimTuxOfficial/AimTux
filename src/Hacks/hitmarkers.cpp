@@ -66,14 +66,13 @@ void Hitmarkers::Paint()
 				height / 2 - Settings::ESP::Hitmarker::size - textHeight * i + 4
 		);
 
-		char* buff;
 		int damage = damages[i].first;
-		asprintf(&buff, "-%d", damage);
+		std::string damageStr = '-' + std::to_string(damage);
 
 		color.a = Color::FromImColor(Settings::ESP::Hitmarker::color).a;
 		color.a = std::min(color.a, (int)(hitDiff * color.a / duration * 2));
 
-		Draw::Text(pos, buff, esp_font, color);
+		Draw::Text(pos, damageStr.c_str(), esp_font, color);
 	}
 }
 
