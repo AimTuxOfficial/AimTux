@@ -2,7 +2,6 @@
 
 void Hooks::BeginFrame(void* thisptr, float frameTime)
 {
-	ESP::BeginFrame(frameTime);
 	ClanTagChanger::BeginFrame(frameTime);
 	NameChanger::BeginFrame(frameTime);
 	NameStealer::BeginFrame(frameTime);
