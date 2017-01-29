@@ -518,6 +518,14 @@ void AimbotTab()
 		ImGui::SetColumnOffset(2, ImGui::GetWindowWidth() / 2 + 75);
 		ImGui::BeginChild("COL1", ImVec2(0, 0), true);
 		{
+			if(current_weapon == -1)
+			{
+				ImGui::Text("Override");
+				ImGui::Separator();
+				ImGui::Checkbox("Override Weapons", &Settings::Aimbot::default_override);
+				ImGui::Separator();
+			}
+
 			ImGui::Text("Target");
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);

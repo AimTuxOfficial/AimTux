@@ -5,6 +5,7 @@
 
 // Default aimbot settings
 bool Settings::Aimbot::enabled = false;
+bool Settings::Aimbot::default_override = false;
 bool Settings::Aimbot::silent = false;
 bool Settings::Aimbot::friendly = false;
 int Settings::Aimbot::bone = BONE_HEAD;
@@ -570,7 +571,7 @@ void Aimbot::UpdateValues()
 		return;
 
 	int index = -1;
-	if (Settings::Aimbot::weapons.find(*active_weapon->GetItemDefinitionIndex()) != Settings::Aimbot::weapons.end())
+	if (Settings::Aimbot::weapons.find(*active_weapon->GetItemDefinitionIndex()) != Settings::Aimbot::weapons.end() && !Settings::Aimbot::default_override)
 		index = *active_weapon->GetItemDefinitionIndex();
 
 	Settings::Aimbot::Weapon currentWeaponSetting = Settings::Aimbot::weapons[index];
