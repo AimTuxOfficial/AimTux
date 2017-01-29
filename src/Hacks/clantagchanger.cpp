@@ -78,6 +78,8 @@ void ClanTagChanger::UpdateClanTagCallback()
 			case ClanTagType::LETTERS:
 				*ClanTagChanger::animation = ClanTagChanger::Letters("CUSTOM", wc);
 				break;
+			default:
+				break;
 		}
 
 		return;
