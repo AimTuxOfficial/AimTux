@@ -84,9 +84,7 @@ You might be prompted to enter in your password, this is because the injection s
 
 You should see a lot of text being printed out, most of which is not important,
 
-If you see something like`$1 = (void *) 0x3690fa00` (yours will be different) it means that the injection was successfull.
-However,
-if you see `$1 = (void *) 0x0`, the `.so` file either couldn't be found or something has gone wrong.
+If the injection was successfull you'll see a message at the bottom saying `Successfully injected!`, however, if the message says `Injection failed`, then you've most likely done something wrong.
 
 Now, go back into csgo, if you're in the main menu of the game you should see the AimTux banner in the top left like so:
 
