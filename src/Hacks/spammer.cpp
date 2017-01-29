@@ -1,6 +1,6 @@
 #include "spammer.h"
 
-int Settings::Spammer::type = SpammerType::SPAMMER_NONE;
+SpammerType Settings::Spammer::type = SpammerType::SPAMMER_NONE;
 bool Settings::Spammer::say_team = false;
 bool Settings::Spammer::KillSpammer::enabled = false;
 bool Settings::Spammer::KillSpammer::say_team = false;
@@ -142,7 +142,7 @@ void Spammer::BeginFrame(float frameTime)
 
 			C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(player->GetActiveWeapon());
 
-			std::string modelName = Util::GetValueByKey(guns, *active_weapon->GetItemDefinitionIndex());
+			std::string modelName = Util::GetValueByKey(guns, (int) *active_weapon->GetItemDefinitionIndex());
 			if (modelName == "")
 			{
 				modelName = std::string(active_weapon->GetClientClass()->m_pNetworkName);

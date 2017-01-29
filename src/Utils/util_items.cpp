@@ -4,11 +4,9 @@ namespace Util
 {
 	namespace Items
 	{
-		const enum ItemDefinitionIndex _invalid_item = (enum ItemDefinitionIndex) -1;
-
-		using i = enum ItemDefinitionIndex;
-		const std::map<std::string, enum ItemDefinitionIndex> ItemNames = {
-			{ "ITEM_INVALID",					_invalid_item },	 // Convention (see config file)
+		using i = ItemDefinitionIndex;
+		const std::map<std::string, ItemDefinitionIndex> ItemNames = {
+			{ "ITEM_INVALID",					i::INVALID },	 // Convention (see config file)
 			{ "WEAPON_DEAGLE",					i::WEAPON_DEAGLE },
 			{ "WEAPON_ELITE",					i::WEAPON_ELITE },
 			{ "WEAPON_FIVESEVEN",				i::WEAPON_FIVESEVEN },
@@ -66,12 +64,12 @@ namespace Util
 
 		std::string GetItemName(const enum ItemDefinitionIndex index)
 		{
-			return Util::MapReverseSearchOrDefault<std::string, enum ItemDefinitionIndex>(&ItemNames, index, "ITEM_INVALID");
+			return Util::MapReverseSearchOrDefault<std::string, ItemDefinitionIndex>(&ItemNames, index, "ITEM_INVALID");
 		}
 
-		enum ItemDefinitionIndex GetItemIndex(const std::string itemName)
+		ItemDefinitionIndex GetItemIndex(const std::string itemName)
 		{
-			return Util::MapSearchOrDefault<std::string, enum ItemDefinitionIndex>(&ItemNames, itemName, _invalid_item);
+			return Util::MapSearchOrDefault<std::string, ItemDefinitionIndex>(&ItemNames, itemName, ItemDefinitionIndex::INVALID);
 		}
 	}
 }

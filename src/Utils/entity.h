@@ -6,7 +6,7 @@
 
 namespace Entity
 {
-	bool IsVisible(C_BasePlayer* player, int bone, float fov = 180.f, bool smoke_check = false);
+	bool IsVisible(C_BasePlayer* player, Bone bone, float fov = 180.f, bool smoke_check = false);
 	bool IsPlanting(C_BasePlayer* player);
-	int GetBoneByName(C_BasePlayer* player, const char* boneName);
+	Bone GetBoneByName(C_BasePlayer* player, const char* boneName);
 }

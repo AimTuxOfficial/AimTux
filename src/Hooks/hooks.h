@@ -6,7 +6,7 @@
 #include "../atgui.h"
 #include "../hooker.h"
 
-typedef void (*FrameStageNotifyFn) (void*, int);
+typedef void (*FrameStageNotifyFn) (void*, ClientFrameStage_t);
 typedef void (*PaintTraverseFn) (void*, VPANEL, bool, bool);
 typedef void (*DrawModelExecuteFn) (void*, void*, void*, const ModelRenderInfo_t&, matrix3x4_t*);
 typedef bool (*CreateMoveFn) (void*, float, CUserCmd*);

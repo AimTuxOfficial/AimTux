@@ -18,19 +18,19 @@
 #include "config.h"
 #include "atgui.h"
 
-enum SmoothType : int
+enum class SmoothType : int
 {
 	SLOW_END,
 	CONSTANT
 };
 
-enum TracerType : int
+enum class  TracerType : int
 {
 	BOTTOM,
 	CURSOR
 };
 
-enum ClanTagType : int
+enum class ClanTagType : int
 {
 	STATIC,
 	MARQUEE,
@@ -38,7 +38,7 @@ enum ClanTagType : int
 	LETTERS
 };
 
-enum AutostrafeType : int
+enum class AutostrafeType : int
 {
 	AS_FORWARDS,
 	AS_BACKWARDS,
@@ -47,7 +47,7 @@ enum AutostrafeType : int
 	AS_RAGE
 };
 
-enum AntiAimType_Y : int
+enum class AntiAimType_Y : int
 {
 	SPIN_SLOW,
 	SPIN_FAST,
@@ -68,7 +68,7 @@ enum AntiAimType_Y : int
 	ANGEL_SPIN
 };
 
-enum AntiAimType_X : int
+enum class AntiAimType_X : int
 {
 	STATIC_UP,
 	STATIC_DOWN,
@@ -81,7 +81,7 @@ enum AntiAimType_X : int
 	ANGEL_UP
 };
 
-enum ChamsType : int
+enum class ChamsType : int
 {
 	CHAMS,
 	CHAMS_XQZ,
@@ -89,14 +89,14 @@ enum ChamsType : int
 	CHAMS_FLAT_XQZ
 };
 
-enum BoxType : int
+enum class BoxType : int
 {
 	FLAT_2D,
 	FRAME_2D,
 	BOX_3D
 };
 
-enum BarType : int
+enum class BarType : int
 {
 	VERTICAL,
 	VERTICAL_RIGHT,
@@ -105,19 +105,19 @@ enum BarType : int
 	INTERWEBZ,
 };
 
-enum BarColorType : int
+enum class BarColorType : int
 {
 	STATIC_COLOR,
 	HEALTH_BASED
 };
 
-enum TeamColorType : int
+enum class TeamColorType : int
 {
 	ABSOLUTE,
 	RELATIVE
 };
 
-enum ArmsType : int
+enum class ArmsType : int
 {
 	DEFAULT,
 	RAINBOW,
@@ -125,7 +125,7 @@ enum ArmsType : int
 	NONE
 };
 
-enum AimTargetType : int
+enum class AimTargetType : int
 {
 	FOV,
 	DISTANCE,
@@ -133,7 +133,7 @@ enum AimTargetType : int
 	HP
 };
 
-enum SpammerType : int
+enum class SpammerType : int
 {
 	SPAMMER_NONE,
 	SPAMMER_NORMAL,
@@ -164,7 +164,7 @@ namespace Settings
 		extern bool enabled;
 		extern bool silent;
 		extern bool friendly;
-		extern int bone;
+		extern Bone bone;
 		extern ButtonCode_t aimkey;
 		extern bool aimkey_only;
 
@@ -172,7 +172,7 @@ namespace Settings
 		{
 			extern bool enabled;
 			extern float value;
-			extern int type;
+			extern SmoothType type;
 
 			namespace Salting
 			{
@@ -253,14 +253,15 @@ namespace Settings
 		struct Weapon
 		{
 			bool enabled, silent, friendly;
-			int bone, smoothType;
+			Bone bone;
+			SmoothType smoothType;
 			ButtonCode_t aimkey;
 			bool aimkey_only, smoothEnabled, smoothSaltEnabled, errorMarginEnabled, autoAimEnabled, aimStepEnabled, rcsEnabled, rcsAlways_on;
 			float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmount, autoWallValue;
 			bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smoke_check, autoWallEnabled, autoWallBones[6], autoAimRealDistance;
 
-			Weapon(bool enabled, bool silent, bool friendly, int bone, ButtonCode_t aimkey, bool aimkey_only,
-				   bool smoothEnabled, float smoothValue, int smoothType, bool smoothSaltEnabled, float smoothSaltMultiplier,
+			Weapon(bool enabled, bool silent, bool friendly, Bone bone, ButtonCode_t aimkey, bool aimkey_only,
+				   bool smoothEnabled, float smoothValue, SmoothType smoothType, bool smoothSaltEnabled, float smoothSaltMultiplier,
 				   bool errorMarginEnabled, float errorMarginValue,
 				   bool autoAimEnabled, float autoAimValue, bool aimStepEnabled, float aimStepValue,
 				   bool rcsEnabled, bool rcsAlways_on, float rcsFloat,
@@ -296,7 +297,7 @@ namespace Settings
 				this->autoWallEnabled = autoWallEnabled;
 				this->autoWallValue = autoWallValue;
 
-				for (int i = HITBOX_HEAD; i <= HITBOX_ARMS; i++)
+				for (int i = (int) Hitbox::HITBOX_HEAD; i <= (int) Hitbox::HITBOX_ARMS; i++)
 					this->autoWallBones[i] = autoWallBones[i];
 
 				this->autoAimRealDistance = autoAimRealDistance;
@@ -305,7 +306,7 @@ namespace Settings
 			Weapon() {};
 		};
 
-		extern std::unordered_map<int, Weapon> weapons;
+		extern std::unordered_map<ItemDefinitionIndex, Weapon> weapons;
 	}
 
 	namespace Triggerbot
@@ -344,14 +345,14 @@ namespace Settings
 		namespace Yaw
 		{
 			extern bool enabled;
-			extern int type;
-			extern int type_fake;
+			extern AntiAimType_Y type;
+			extern AntiAimType_Y type_fake;
 		}
 
 		namespace Pitch
 		{
 			extern bool enabled;
-			extern int type;
+			extern AntiAimType_X type;
 		}
 
 		namespace HeadEdge
@@ -369,7 +370,7 @@ namespace Settings
 	namespace ESP
 	{
 		extern bool enabled;
-		extern int team_color_type;
+		extern TeamColorType team_color_type;
 		extern ImColor enemy_color;
 		extern ImColor ally_color;
 		extern ImColor enemy_visible_color;
@@ -458,20 +459,20 @@ namespace Settings
 		namespace Boxes
 		{
 			extern bool enabled;
-			extern int type;
+			extern BoxType type;
 		}
 
 		namespace Bars
 		{
 			extern bool enabled;
-			extern int type;
-			extern int color_type;
+			extern BarType type;
+			extern BarColorType color_type;
 		}
 
 		namespace Tracers
 		{
 			extern bool enabled;
-			extern int type;
+			extern TracerType type;
 		}
 
 		namespace BulletTracers
@@ -497,7 +498,7 @@ namespace Settings
 			extern ImColor ally_visible_color;
 			extern ImColor enemy_color;
 			extern ImColor enemy_visible_color;
-			extern int type;
+			extern ChamsType type;
 			extern bool hp_ally_color;
 			extern bool hp_ally_visible_color;
 			extern bool hp_enemy_color;
@@ -507,7 +508,7 @@ namespace Settings
 			{
 				extern bool enabled;
 				extern ImColor color;
-				extern int type;
+				extern ArmsType type;
 			}
 		}
 
@@ -542,7 +543,7 @@ namespace Settings
 
 	namespace Spammer
 	{
-		extern int type;
+		extern SpammerType type;
 		extern bool say_team;
 
 		namespace KillSpammer
@@ -583,7 +584,7 @@ namespace Settings
 	namespace AutoStrafe
 	{
 		extern bool enabled;
-		extern int type;
+		extern AutostrafeType type;
 		extern bool silent;
 	}
 
@@ -613,7 +614,7 @@ namespace Settings
 		extern bool legit;
 		extern bool visibility_check;
 		extern bool smoke_check;
-		extern int team_color_type;
+		extern TeamColorType team_color_type;
 		extern ImColor enemy_color;
 		extern ImColor enemy_visible_color;
 		extern ImColor ally_color;
@@ -664,18 +665,18 @@ namespace Settings
 		struct Skin
 		{
 			int PaintKit;
-			int ItemDefinitionIndex;
+			ItemDefinitionIndex _ItemDefinitionIndex;
 			int Seed;
 			float Wear;
 			int StatTrak;
 			std::string CustomName;
 			std::string Model;
 
-			Skin (int PaintKit, int ItemDefinitionIndex, int Seed, float Wear, int StatTrak, std::string CustomName, std::string Model)
+			Skin (int PaintKit, ItemDefinitionIndex _ItemDefinitionIndex, int Seed, float Wear, int StatTrak, std::string CustomName, std::string Model)
 			{
 				this->PaintKit = PaintKit;
 				this->Seed = Seed;
-				this->ItemDefinitionIndex = ItemDefinitionIndex;
+				this->_ItemDefinitionIndex = _ItemDefinitionIndex;
 				this->Wear = Wear;
 				this->StatTrak = StatTrak;
 				this->CustomName = CustomName;
@@ -686,7 +687,7 @@ namespace Settings
 		};
 
 		extern bool enabled;
-		extern std::unordered_map<int, Skin> skins;
+		extern std::unordered_map<ItemDefinitionIndex, Skin> skins;
 	}
 
 	namespace ShowRanks
@@ -705,7 +706,7 @@ namespace Settings
 		extern bool animation;
 		extern int animation_speed;
 		extern bool enabled;
-		extern int type;
+		extern ClanTagType type;
 	}
 
 	namespace View

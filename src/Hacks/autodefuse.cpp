@@ -11,7 +11,7 @@ void AutoDefuse::CreateMove(CUserCmd *cmd)
 	if (!localplayer || !localplayer->GetAlive())
 		return;
 
-	if (localplayer->GetTeam() != TEAM_COUNTER_TERRORIST)
+	if (localplayer->GetTeam() != TeamID::TEAM_COUNTER_TERRORIST)
 		return;
 
 	if (!(*csGameRules) || !(*csGameRules)->IsBombPlanted())
@@ -25,7 +25,7 @@ void AutoDefuse::CreateMove(CUserCmd *cmd)
 		if (!entity)
 			continue;
 
-		if (entity->GetClientClass()->m_ClassID == CPlantedC4)
+		if (entity->GetClientClass()->m_ClassID == EClassIds::CPlantedC4)
 		{
 			bomb = (C_PlantedC4*) entity;
 			break;

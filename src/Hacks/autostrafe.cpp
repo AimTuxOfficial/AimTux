@@ -1,7 +1,7 @@
 #include "autostrafe.h"
 
 bool Settings::AutoStrafe::enabled = false;
-int Settings::AutoStrafe::type = AS_FORWARDS;
+AutostrafeType Settings::AutoStrafe::type = AutostrafeType::AS_FORWARDS;
 bool Settings::AutoStrafe::silent = true;
 
 void LegitStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
@@ -16,16 +16,16 @@ void LegitStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 	{
 		switch (Settings::AutoStrafe::type)
 		{
-			case AS_FORWARDS:
+			case AutostrafeType::AS_FORWARDS:
 				cmd->sidemove = cmd->mousedx < 0.f ? -450.f : 450.f;
 				break;
-			case AS_BACKWARDS:
+			case AutostrafeType::AS_BACKWARDS:
 				cmd->sidemove = cmd->mousedx < 0.f ? 450.f : -450.f;
 				break;
-			case AS_LEFTSIDEWAYS:
+			case AutostrafeType::AS_LEFTSIDEWAYS:
 				cmd->forwardmove = cmd->mousedx < 0.f ? -450.f : 450.f;
 				break;
-			case AS_RIGHTSIDEWAYS:
+			case AutostrafeType::AS_RIGHTSIDEWAYS:
 				cmd->forwardmove = cmd->mousedx < 0.f ? 450.f : -450.f;
 				break;
 		}
@@ -112,13 +112,13 @@ void AutoStrafe::CreateMove(CUserCmd* cmd)
 
 	switch (Settings::AutoStrafe::type)
 	{
-		case AS_FORWARDS:
-		case AS_BACKWARDS:
-		case AS_LEFTSIDEWAYS:
-		case AS_RIGHTSIDEWAYS:
+		case AutostrafeType::AS_FORWARDS:
+		case AutostrafeType::AS_BACKWARDS:
+		case AutostrafeType::AS_LEFTSIDEWAYS:
+		case AutostrafeType::AS_RIGHTSIDEWAYS:
 			LegitStrafe(localplayer, cmd);
 			break;
-		case AS_RAGE:
+		case AutostrafeType::AS_RAGE:
 			RageStrafe(localplayer, cmd);
 			break;
 	}

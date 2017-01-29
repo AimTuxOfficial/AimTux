@@ -14,7 +14,7 @@ void View::FrameStageNotify(ClientFrameStage_t stage)
 	if (!engine->IsInGame())
 		return;
 
-	if (stage != FRAME_RENDER_START)
+	if (stage != ClientFrameStage_t::FRAME_RENDER_START)
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
@@ -54,7 +54,7 @@ void View::PostFrameStageNotify(ClientFrameStage_t stage)
 	if (!engine->IsInGame())
 		return;
 
-	if (stage != FRAME_RENDER_START)
+	if (stage != ClientFrameStage_t::FRAME_RENDER_START)
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());

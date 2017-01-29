@@ -67,7 +67,7 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	if (!player)
 		return;
 
-	if (player->GetClientClass()->m_ClassID != CCSPlayer)
+	if (player->GetClientClass()->m_ClassID != EClassIds::CCSPlayer)
 		return;
 
 	if (player == localplayer
@@ -117,17 +117,17 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	if (!active_weapon || active_weapon->GetAmmo() == 0)
 		return;
 
-	int itemDefinitionIndex = *active_weapon->GetItemDefinitionIndex();
-	if (itemDefinitionIndex == WEAPON_KNIFE || itemDefinitionIndex >= WEAPON_KNIFE_BAYONET)
+	ItemDefinitionIndex itemDefinitionIndex = *active_weapon->GetItemDefinitionIndex();
+	if (itemDefinitionIndex == ItemDefinitionIndex::WEAPON_KNIFE || itemDefinitionIndex >= ItemDefinitionIndex::WEAPON_KNIFE_BAYONET)
 		return;
 
 	CSWeaponType weaponType = active_weapon->GetCSWpnData()->GetWeaponType();
-	if (weaponType == WEAPONTYPE_C4 || weaponType == WEAPONTYPE_GRENADE)
+	if (weaponType == CSWeaponType::WEAPONTYPE_C4 || weaponType == CSWeaponType::WEAPONTYPE_GRENADE)
 		return;
 
 	if (active_weapon->GetNextPrimaryAttack() > globalvars->curtime)
 	{
-		if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
+		if (*active_weapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
 			cmd->buttons &= ~IN_ATTACK2;
 		else
 			cmd->buttons &= ~IN_ATTACK;
@@ -140,7 +140,7 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 			return;
 		}
 
-		if (*active_weapon->GetItemDefinitionIndex() == WEAPON_REVOLVER)
+		if (*active_weapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
 			cmd->buttons |= IN_ATTACK2;
 		else
 			cmd->buttons |= IN_ATTACK;

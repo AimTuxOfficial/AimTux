@@ -4,7 +4,7 @@ char* NameChanger::origName = strdup("");
 int NameChanger::changes = -1;
 NC_Type NameChanger::type = NC_NORMAL;
 
-enum Colors
+enum class Colors
 {
 	WHITE = 1,
 	DARK_RED,
@@ -59,7 +59,7 @@ const char* Rainbowify(char* name)
 	return base.c_str();
 }
 
-const char* Colorize(char* name, int color = Colors::LIGHT_RED)
+const char* Colorize(char* name, Colors color = Colors::LIGHT_RED)
 {
 	// TODO: Add color customization
 	std::string res = " \x01\x0B";

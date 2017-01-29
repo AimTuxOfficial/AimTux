@@ -30,9 +30,9 @@ public:
 		return *(bool*)((uintptr_t)this + offsets.DT_PlayerResource.m_bConnected + index);
 	}
 
-	int GetTeam(int index)
+	TeamID GetTeam(int index)
 	{
-		return *(int*)((uintptr_t)this + offsets.DT_PlayerResource.m_iTeam + index * 4);
+		return *(TeamID*)((uintptr_t)this + offsets.DT_PlayerResource.m_iTeam + index * 4);
 	}
 
 	int GetPendingTeam(int index)

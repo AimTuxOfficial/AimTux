@@ -2,7 +2,7 @@
 #include "../Utils/skins.h"
 
 bool Settings::ESP::enabled = false;
-int Settings::ESP::team_color_type = TeamColorType::RELATIVE;
+TeamColorType Settings::ESP::team_color_type = TeamColorType::RELATIVE;
 ImColor Settings::ESP::enemy_color = ImColor(240, 60, 60, 255);
 ImColor Settings::ESP::enemy_visible_color = ImColor(240, 185, 60, 255);
 ImColor Settings::ESP::ally_color = ImColor(60, 60, 240, 255);
@@ -71,12 +71,12 @@ bool Settings::ESP::Info::grabbing_hostage = false;
 bool Settings::ESP::Info::rescuing = false;
 bool Settings::ESP::Info::location = false;
 bool Settings::ESP::Boxes::enabled = false;
-int Settings::ESP::Boxes::type = BoxType::FRAME_2D;
+BoxType Settings::ESP::Boxes::type = BoxType::FRAME_2D;
 bool Settings::ESP::Bars::enabled = false;
-int Settings::ESP::Bars::color_type = BarColorType::HEALTH_BASED;
-int Settings::ESP::Bars::type = BarType::HORIZONTAL;
+BarColorType Settings::ESP::Bars::color_type = BarColorType::HEALTH_BASED;
+BarType Settings::ESP::Bars::type = BarType::HORIZONTAL;
 bool Settings::ESP::Tracers::enabled = false;
-int Settings::ESP::Tracers::type = TracerType::BOTTOM;
+TracerType Settings::ESP::Tracers::type = TracerType::BOTTOM;
 bool Settings::ESP::BulletTracers::enabled = false;
 bool Settings::ESP::FOVCrosshair::enabled = false;
 ImColor Settings::ESP::FOVCrosshair::color = ImColor(180, 50, 50, 255);
@@ -245,14 +245,14 @@ ImColor ESP::GetESPPlayerColor(C_BasePlayer* player, bool visible)
 	}
 	else if (Settings::ESP::team_color_type == TeamColorType::ABSOLUTE)
 	{
-		if (player->GetTeam() == TEAM_TERRORIST)
+		if (player->GetTeam() == TeamID::TEAM_TERRORIST)
 		{
 			if (visible)
 				playerColor = Settings::ESP::hp_t_visible_color ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::t_visible_color;
 			else
 				playerColor = Settings::ESP::hp_t_color ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::t_color;
 		}
-		else if (player->GetTeam() == TEAM_COUNTER_TERRORIST)
+		else if (player->GetTeam() == TeamID::TEAM_COUNTER_TERRORIST)
 		{
 			if (visible)
 				playerColor = Settings::ESP::hp_ct_visible_color ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::ct_visible_color;
@@ -411,7 +411,7 @@ void ESP::DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info
 	bool bIsVisible = false;
 	if (Settings::ESP::Filters::visibility_check || Settings::ESP::Filters::legit)
 	{
-		bIsVisible = Entity::IsVisible(player, BONE_HEAD, 180.f, Settings::ESP::Filters::smoke_check);
+		bIsVisible = Entity::IsVisible(player, Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smoke_check);
 		if (!bIsVisible && Settings::ESP::Filters::legit)
 			return;
 	}
@@ -870,7 +870,7 @@ void ESP::DrawTracer(C_BasePlayer* player)
 	else if (Settings::ESP::Tracers::type == TracerType::BOTTOM)
 		y = ScreenHeight;
 
-	bool bIsVisible = Entity::IsVisible(player, BONE_HEAD, 180.f, Settings::ESP::Filters::smoke_check);
+	bool bIsVisible = Entity::IsVisible(player, Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smoke_check);
 	Draw::Line((int)(src.x), (int)(src.y), x, y, Color::FromImColor(GetESPPlayerColor(player, bIsVisible)));
 }
 
@@ -924,7 +924,7 @@ void ESP::DrawSounds()
 
 		bool bIsVisible = false;
 		if (Settings::ESP::Filters::visibility_check || Settings::ESP::Filters::legit)
-			bIsVisible = Entity::IsVisible(player, BONE_HEAD, 180.f, Settings::ESP::Filters::smoke_check);
+			bIsVisible = Entity::IsVisible(player, Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smoke_check);
 
 		float percent = (float)diff / (float)Settings::ESP::Sounds::time;
 
@@ -1004,7 +1004,7 @@ void ESP::DrawGlow()
 		ClientClass* client = glow_object.m_pEntity->GetClientClass();
 		bool should_glow = true;
 
-		if (client->m_ClassID == CCSPlayer)
+		if (client->m_ClassID == EClassIds::CCSPlayer)
 		{
 			C_BasePlayer* player = (C_BasePlayer*) glow_object.m_pEntity;
 
@@ -1015,7 +1015,7 @@ void ESP::DrawGlow()
 
 			if (glow_object.m_pEntity->GetTeam() != localplayer->GetTeam())
 			{
-				if (Entity::IsVisible(player, BONE_HEAD))
+				if (Entity::IsVisible(player, Bone::BONE_HEAD))
 					color = Settings::ESP::Glow::hp_enemy_visible_color ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::Glow::enemy_visible_color;
 				else
 					color = Settings::ESP::Glow::hp_enemy_color ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::Glow::enemy_color;
@@ -1023,24 +1023,24 @@ void ESP::DrawGlow()
 			else
 				color = Settings::ESP::Glow::hp_ally_color ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::Glow::ally_color;
 		}
-		else if (client->m_ClassID != CBaseWeaponWorldModel &&
-				 (strstr(client->m_pNetworkName, "Weapon") || client->m_ClassID == CDEagle || client->m_ClassID == CAK47))
+		else if (client->m_ClassID != EClassIds::CBaseWeaponWorldModel &&
+				 (strstr(client->m_pNetworkName, "Weapon") || client->m_ClassID == EClassIds::CDEagle || client->m_ClassID == EClassIds::CAK47))
 		{
 			color = Settings::ESP::Glow::weapon_color;
 		}
-		else if (client->m_ClassID == CBaseCSGrenadeProjectile || client->m_ClassID == CDecoyProjectile ||
-				 client->m_ClassID == CMolotovProjectile || client->m_ClassID == CSmokeGrenadeProjectile)
+		else if (client->m_ClassID == EClassIds::CBaseCSGrenadeProjectile || client->m_ClassID == EClassIds::CDecoyProjectile ||
+				 client->m_ClassID == EClassIds::CMolotovProjectile || client->m_ClassID == EClassIds::CSmokeGrenadeProjectile)
 		{
 			color = Settings::ESP::Glow::grenade_color;
 		}
-		else if (client->m_ClassID == CBaseAnimating)
+		else if (client->m_ClassID == EClassIds::CBaseAnimating)
 		{
 			color = Settings::ESP::Glow::defuser_color;
 
-			if (localplayer->HasDefuser() || localplayer->GetTeam() == TEAM_TERRORIST)
+			if (localplayer->HasDefuser() || localplayer->GetTeam() == TeamID::TEAM_TERRORIST)
 				should_glow = false;
 		}
-		else if (client->m_ClassID == CChicken)
+		else if (client->m_ClassID == EClassIds::CChicken)
 		{
 			color = Settings::ESP::Glow::chicken_color;
 
@@ -1087,7 +1087,7 @@ void ESP::Paint()
 
 		ClientClass* client = entity->GetClientClass();
 
-		if (client->m_ClassID == CCSPlayer && (Settings::ESP::Filters::enemies || Settings::ESP::Filters::allies))
+		if (client->m_ClassID == EClassIds::CCSPlayer && (Settings::ESP::Filters::enemies || Settings::ESP::Filters::allies))
 		{
 			C_BasePlayer* player = (C_BasePlayer*) entity;
 
@@ -1100,34 +1100,34 @@ void ESP::Paint()
 			if (engine->GetPlayerInfo(i, &playerInfo))
 				DrawPlayer(i, player, playerInfo);
 		}
-		if ((client->m_ClassID != CBaseWeaponWorldModel && (strstr(client->m_pNetworkName, "Weapon") || client->m_ClassID == CDEagle || client->m_ClassID == CAK47)) && Settings::ESP::Filters::weapons)
+		if ((client->m_ClassID != EClassIds::CBaseWeaponWorldModel && (strstr(client->m_pNetworkName, "Weapon") || client->m_ClassID == EClassIds::CDEagle || client->m_ClassID == EClassIds::CAK47)) && Settings::ESP::Filters::weapons)
 		{
 			C_BaseCombatWeapon* weapon = (C_BaseCombatWeapon*) entity;
 			DrawDroppedWeapons(weapon);
 		}
-		else if (client->m_ClassID == CC4 && Settings::ESP::Filters::bomb)
+		else if (client->m_ClassID == EClassIds::CC4 && Settings::ESP::Filters::bomb)
 		{
 			C_BaseCombatWeapon* bomb = (C_BaseCombatWeapon*) entity;
 			DrawBomb(bomb);
 		}
-		else if (client->m_ClassID == CPlantedC4 && Settings::ESP::Filters::bomb)
+		else if (client->m_ClassID == EClassIds::CPlantedC4 && Settings::ESP::Filters::bomb)
 		{
 			C_PlantedC4* pC4 = (C_PlantedC4*) entity;
 			DrawPlantedBomb(pC4);
 		}
-		else if (client->m_ClassID == CHostage && Settings::ESP::Filters::hostages)
+		else if (client->m_ClassID == EClassIds::CHostage && Settings::ESP::Filters::hostages)
 		{
 			DrawHostage(entity);
 		}
-		else if (client->m_ClassID == CBaseAnimating && Settings::ESP::Filters::defusers)
+		else if (client->m_ClassID == EClassIds::CBaseAnimating && Settings::ESP::Filters::defusers)
 		{
 			DrawDefuseKit(entity);
 		}
-		else if (client->m_ClassID == CChicken && Settings::ESP::Filters::chickens)
+		else if (client->m_ClassID == EClassIds::CChicken && Settings::ESP::Filters::chickens)
 		{
 			DrawChicken(entity);
 		}
-		else if (client->m_ClassID == CFish && Settings::ESP::Filters::fishes)
+		else if (client->m_ClassID == EClassIds::CFish && Settings::ESP::Filters::fishes)
 		{
 			DrawFish(entity);
 		}
@@ -1175,7 +1175,7 @@ void ESP::DrawScope()
 	if (!active_weapon)
 		return;
 
-	if (*active_weapon->GetItemDefinitionIndex() == WEAPON_SG556 || *active_weapon->GetItemDefinitionIndex() == WEAPON_AUG)
+	if (*active_weapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_SG556 || *active_weapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_AUG)
 		return;
 
 	int width, height;

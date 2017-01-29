@@ -10,7 +10,7 @@ bool Settings::Radar::legit = false;
 bool Settings::Radar::visibility_check = false;
 bool Settings::Radar::smoke_check = false;
 bool Settings::Radar::InGame::enabled = false;
-int Settings::Radar::team_color_type = TeamColorType::RELATIVE;
+TeamColorType Settings::Radar::team_color_type = TeamColorType::RELATIVE;
 ImColor Settings::Radar::enemy_color = ImColor(192, 32, 32, 255);
 ImColor Settings::Radar::enemy_visible_color = ImColor(192, 32, 32, 255);
 ImColor Settings::Radar::ally_color = ImColor(32, 64, 192, 255);
@@ -116,14 +116,14 @@ ImColor Radar::GetRadarPlayerColor(C_BasePlayer* player, bool visible)
 	}
 	else if (Settings::Radar::team_color_type == TeamColorType::ABSOLUTE)
 	{
-		if (player->GetTeam() == TEAM_TERRORIST)
+		if (player->GetTeam() == TeamID::TEAM_TERRORIST)
 		{
 			if (visible)
 				playerColor = Settings::Radar::hp_t_visible_color ? Color::ToImColor(ESP::GetHealthColor(player)) : Settings::Radar::t_visible_color;
 			else
 				playerColor = Settings::Radar::hp_t_color ? Color::ToImColor(ESP::GetHealthColor(player)) : Settings::Radar::t_color;
 		}
-		else if (player->GetTeam() == TEAM_COUNTER_TERRORIST)
+		else if (player->GetTeam() == TeamID::TEAM_COUNTER_TERRORIST)
 		{
 			if (visible)
 				playerColor = Settings::Radar::hp_ct_visible_color ? Color::ToImColor(ESP::GetHealthColor(player)) : Settings::Radar::ct_visible_color;
@@ -184,12 +184,12 @@ void Radar::DrawWindow()
 				continue;
 
 			Vector2D screenpos = WorldToRadar(entity->GetVecOrigin(), localplayer->GetVecOrigin(), localplayer_angles, winsize.x, Settings::Radar::zoom);
-			int classId = entity->GetClientClass()->m_ClassID;
+			EClassIds classId = entity->GetClientClass()->m_ClassID;
 
 			ImColor color;
 			int shape = -1;
 
-			if (classId == CCSPlayer)
+			if (classId == EClassIds::CCSPlayer)
 			{
 				C_BasePlayer* player = (C_BasePlayer*) entity;
 
@@ -210,7 +210,7 @@ void Radar::DrawWindow()
 					continue;
 
 				C_BasePlayer* observer_target = (C_BasePlayer*) entitylist->GetClientEntityFromHandle(localplayer->GetObserverTarget());
-				if (observer_target && player == observer_target && (*localplayer->GetObserverMode() == OBS_MODE_IN_EYE || *localplayer->GetObserverMode() == OBS_MODE_CHASE))
+				if (observer_target && player == observer_target && (*localplayer->GetObserverMode() == ObserverMode_t::OBS_MODE_IN_EYE || *localplayer->GetObserverMode() == ObserverMode_t::OBS_MODE_CHASE))
 					continue;
 
 				color = GetRadarPlayerColor(player, bIsVisible);
@@ -248,7 +248,7 @@ void Radar::DrawWindow()
 				                             ImVec2(winpos.x + dirArrowPos.x, winpos.y + dirArrowPos.y),
 				                             ImColor(230, 230, 230));
 			}
-			else if (classId == CC4)
+			else if (classId == EClassIds::CC4)
 			{
 				if (!Settings::Radar::bomb)
 					continue;
@@ -259,7 +259,7 @@ void Radar::DrawWindow()
 				color = Settings::Radar::bomb_color;
 				shape = EntityShape_t::SHAPE_SQUARE;
 			}
-			else if (classId == CPlantedC4)
+			else if (classId == EClassIds::CPlantedC4)
 			{
 				if (!Settings::Radar::bomb)
 					continue;
@@ -272,12 +272,12 @@ void Radar::DrawWindow()
 				color = bomb->GetBombDefuser() != -1 || bomb->IsBombDefused() ? Settings::Radar::bomb_defusing_color : Settings::Radar::bomb_color;
 				shape = EntityShape_t::SHAPE_SQUARE;
 			}
-			else if (classId == CBaseAnimating)
+			else if (classId == EClassIds::CBaseAnimating)
 			{
 				if (!Settings::Radar::defuser)
 					continue;
 
-				if (localplayer->HasDefuser() || localplayer->GetTeam() != TEAM_COUNTER_TERRORIST)
+				if (localplayer->HasDefuser() || localplayer->GetTeam() != TeamID::TEAM_COUNTER_TERRORIST)
 					continue;
 
 				color = Settings::Radar::defuser_color;
@@ -351,7 +351,7 @@ void Radar::BeginFrame()
 		if (Settings::Radar::enabled)
 		{
 			// we shouldn't see people behind us
-			if (Entity::IsVisible(player, BONE_HEAD, 55.f, Settings::Radar::smoke_check))
+			if (Entity::IsVisible(player, Bone::BONE_HEAD, 55.f, Settings::Radar::smoke_check))
 				visible_players.insert(i);
 			else
 				visible_players.erase(i);

@@ -1,32 +1,32 @@
 #include "autowall.h"
 
-float Autowall::GetHitgroupDamageMultiplier(int iHitGroup)
+float Autowall::GetHitgroupDamageMultiplier(HitGroups iHitGroup)
 {
 	switch (iHitGroup)
 	{
-		case HITGROUP_HEAD:
+		case HitGroups::HITGROUP_HEAD:
 			return 4.0f;
-		case HITGROUP_CHEST:
-		case HITGROUP_LEFTARM:
-		case HITGROUP_RIGHTARM:
+		case HitGroups::HITGROUP_CHEST:
+		case HitGroups::HITGROUP_LEFTARM:
+		case HitGroups::HITGROUP_RIGHTARM:
 			return 1.0f;
-		case HITGROUP_STOMACH:
+		case HitGroups::HITGROUP_STOMACH:
 			return 1.25f;
-		case HITGROUP_LEFTLEG:
-		case HITGROUP_RIGHTLEG:
+		case HitGroups::HITGROUP_LEFTLEG:
+		case HitGroups::HITGROUP_RIGHTLEG:
 			return 0.75f;
 		default:
 			return 1.0f;
 	}
 }
 
-void Autowall::ScaleDamage(int hitgroup, C_BasePlayer* enemy, float weapon_armor_ratio, float &current_damage)
+void Autowall::ScaleDamage(HitGroups hitgroup, C_BasePlayer* enemy, float weapon_armor_ratio, float &current_damage)
 {
 	current_damage *= Autowall::GetHitgroupDamageMultiplier(hitgroup);
 
 	if (enemy->GetArmor() > 0)
 	{
-		if (hitgroup == HITGROUP_HEAD)
+		if (hitgroup == HitGroups::HITGROUP_HEAD)
 		{
 			if (enemy->HasHelmet())
 				current_damage *= weapon_armor_ratio * 0.5f;
@@ -207,7 +207,7 @@ bool Autowall::SimulateFireBullet(C_BaseCombatWeapon* pWeapon, bool teamCheck, F
 		if (data.enter_trace.fraction == 1.0f)
 			break;
 
-		if (data.enter_trace.hitgroup <= 7 && data.enter_trace.hitgroup > 0)
+		if (data.enter_trace.hitgroup <= HitGroups::HITGROUP_RIGHTLEG && data.enter_trace.hitgroup > HitGroups::HITGROUP_GENERIC)
 		{
 			data.trace_length += data.enter_trace.fraction * data.trace_length_remaining;
 			data.current_damage *= powf(weaponInfo->GetRangeModifier(), data.trace_length * 0.002f);
