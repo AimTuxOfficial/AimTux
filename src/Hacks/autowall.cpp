@@ -59,10 +59,10 @@ bool Autowall::TraceToExit(Vector &end, trace_t *enter_trace, Vector start, Vect
 		if (exit_trace->startsolid && exit_trace->surface.flags & SURF_HITBOX)
 		{
 			ray.Init(end, start);
-			
+
 			CTraceFilter filter;
 			filter.pSkip = exit_trace->m_pEntityHit;
-			
+
 			trace->TraceRay(ray, 0x600400B, &filter, exit_trace);
 
 			if ((exit_trace->fraction < 1.0f || exit_trace->allsolid) && !exit_trace->startsolid)
@@ -96,7 +96,7 @@ bool Autowall::TraceToExit(Vector &end, trace_t *enter_trace, Vector start, Vect
 			return true;
 		}
 	}
-	
+
 	return false;
 }
 
@@ -117,7 +117,7 @@ bool Autowall::HandleBulletPenetration(CCSWeaponInfo* weaponInfo, FireBulletData
 
 	Vector dummy;
 	trace_t trace_exit;
-	
+
 	if (!TraceToExit(dummy, &data.enter_trace, data.enter_trace.endpos, data.direction, &trace_exit))
 		return false;
 
