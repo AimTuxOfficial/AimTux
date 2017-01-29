@@ -1605,12 +1605,12 @@ void MiscTab()
 				ImGui::Checkbox("Show Ranks", &Settings::ShowRanks::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Displays competitive rank of all players in the scoreboard next to their name during a competitive match");
-				UI::KeyBindButton(&Settings::Airstuck::key);
-				UI::KeyBindButton(&Settings::Autoblock::key);
-				UI::KeyBindButton(&Settings::Teleport::key);
 				ImGui::Checkbox("Screenshot Cleaner", &Settings::ScreenshotCleaner::enabled);
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Prevents AimTux visuals from appearing in screenshots taken");
+				UI::KeyBindButton(&Settings::Airstuck::key);
+				UI::KeyBindButton(&Settings::Autoblock::key);
+				UI::KeyBindButton(&Settings::Teleport::key);
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
