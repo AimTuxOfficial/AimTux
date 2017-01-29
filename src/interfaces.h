@@ -32,6 +32,7 @@ extern IEngineVGui* enginevgui;
 extern IEngineSound* sound;
 extern ILocalize* localize;
 extern ICommandLine* commandline;
+extern CInput* input;
 
 extern VMT* panel_vmt;
 extern VMT* client_vmt;

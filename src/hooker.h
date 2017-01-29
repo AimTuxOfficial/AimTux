@@ -77,6 +77,7 @@ namespace Hooker
 	void InitializeVMHooks();
 	void FindIClientMode();
 	void FindGlobalVars();
+	void FindCInput();
 	void FindGlowManager();
 	void FindPlayerResource();
 	void FindGameRules();

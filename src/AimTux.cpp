@@ -19,6 +19,7 @@ int __attribute__((constructor)) aimtux_init()
 	Hooker::InitializeVMHooks();
 	Hooker::FindIClientMode();
 	Hooker::FindGlobalVars();
+	Hooker::FindCInput();
 	Hooker::FindGlowManager();
 	Hooker::FindPlayerResource();
 	Hooker::FindGameRules();

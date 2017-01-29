@@ -13,6 +13,7 @@
 #include "CUtlVector.h"
 #include "CEffects.h"
 #include "CGlobalVars.h"
+#include "CInput.h"
 #include "IAppSystem.h"
 #include "IBaseClientDLL.h"
 #include "IInputSystem.h"
