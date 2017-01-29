@@ -9,5 +9,5 @@ void Hooks::OverrideView(void* thisptr, CViewSetup* pSetup)
 
 	OverrideView::currentFOV = pSetup->fov;
 
-	clientMode_vmt->GetOriginalMethod<OverrideViewFn>(18)(thisptr, pSetup);
+	clientMode_vmt->GetOriginalMethod<OverrideViewFn>(19)(thisptr, pSetup);
 }
