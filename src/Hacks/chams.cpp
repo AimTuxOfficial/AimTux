@@ -53,6 +53,8 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 			visible_material = materialChamsFlat;
 			hidden_material = materialChamsFlatIgnorez;
 			break;
+		default:
+			break;
 	}
 
 	visible_material->AlphaModulate(1.0f);
@@ -100,6 +102,8 @@ void DrawArms(const ModelRenderInfo_t &pInfo)
 
 	switch (Settings::ESP::Chams::Arms::type)
 	{
+		default:
+			break;
 		case ArmsType::DEFAULT:
 			mat->AlphaModulate(1.0f);
 			mat->ColorModulate(Settings::ESP::Chams::Arms::color);

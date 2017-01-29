@@ -664,6 +664,8 @@ void AimbotTab()
 						if (ImGui::IsItemHovered())
 							ImGui::SetTooltip("Automatically shoots the pistol when holding fire");
 						break;
+					default:
+						break;
 				}
 
 				if (ImGui::Checkbox("Auto Shoot", &autoShootEnabled))

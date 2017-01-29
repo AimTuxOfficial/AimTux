@@ -99,6 +99,8 @@ void ShowSpectators::DrawWindow()
 				case ObserverMode_t::OBS_MODE_FIXED:
 					ImGui::Text("Fixed");
 					break;
+				default:
+					break;
 			}
 			ImGui::NextColumn();
 		}

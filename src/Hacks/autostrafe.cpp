@@ -28,6 +28,8 @@ void LegitStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 			case AutostrafeType::AS_RIGHTSIDEWAYS:
 				cmd->forwardmove = cmd->mousedx < 0.f ? 450.f : -450.f;
 				break;
+			default:
+				break;
 		}
 	}
 }
