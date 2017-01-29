@@ -1,20 +1,18 @@
 #!/bin/sh
 
-set -e
-
 csgo_pid=$(pidof csgo_linux64)
 if [ -z "$csgo_pid" ]; then
-    echo -e "\e[31mCSGO needs to be open before you can inject...\e[0m"
+    /bin/echo -e "\e[31mCSGO needs to be open before you can inject...\e[0m"
     exit 1
 fi
 
 if [ ! -d ".git" ]; then
-    echo "We have detected that you have downloaded aimtux-master.zip from the GitHub website. This is the WRONG way to download AimTux. Please download AimTux with the command 'git clone --recursive https://github.com/AimTuxOfficial/AimTux'"
+    /bin/echo "We have detected that you have downloaded aimtux-master.zip from the GitHub website. This is the WRONG way to download AimTux. Please download AimTux with the command 'git clone --recursive https://github.com/AimTuxOfficial/AimTux'"
 fi
 
 #Credit: Aixxe @ aixxe.net
 if grep -q libAimTux.so /proc/$csgo_pid/maps; then
-    echo -e "\e[33mAimTux is already injected... Aborting...\e[0m"
+    /bin/echo -e "\e[33mAimTux is already injected... Aborting...\e[0m"
     exit
 fi
 
@@ -30,7 +28,7 @@ sudo gdb -n -q -batch \
 last_line="${input##*$'\n'}"
 
 if [ "$last_line" != "\$1 = (void *) 0x0" ]; then
-    echo -e "\e[32mSuccessfully injected!\e[0m"
+    /bin/echo -e "\e[32mSuccessfully injected!\e[0m"
 else
-    echo -e "\e[31mInjection failed, make sure you've compiled...\e[0m"
+    /bin/echo -e "\e[31mInjection failed, make sure you've compiled...\e[0m"
 fi
