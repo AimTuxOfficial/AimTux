@@ -1718,7 +1718,7 @@ void WeaponSkinChanger()
 	static char filterGuns[32];
 	static int isCT = 1;
 
-	if (ImGui::Checkbox("Enabled", &Settings::Skinchanger::enabled))
+	if (ImGui::Checkbox("Enabled##WeaponSkins", &Settings::Skinchanger::enabled))
 		SkinChanger::ForceFullUpdate = true;
 
 	ImGui::Separator();
@@ -1883,7 +1883,7 @@ void GloveSkinChanger()
 	static char filterGloves[32];
 	static char filterGloveSkins[32];
 
-	if (ImGui::Checkbox("Enabled", &Settings::Skinchanger::Gloves::enabled))
+	if (ImGui::Checkbox("Enabled##GloveSkins", &Settings::Skinchanger::Gloves::enabled))
 		SkinChanger::ForceFullUpdate = true;
 
 	ImGui::Separator();
@@ -1945,7 +1945,7 @@ void GloveSkinChanger()
 			Settings::Skinchanger::skins[ItemDefinitionIndex::GLOVE_SPECIALIST] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_models/arms/glove_specialist/v_glove_specialist.mdl");
 
 			Settings::Skinchanger::skins[ItemDefinitionIndex::GLOVE_CT_SIDE] = Settings::Skinchanger::Skin(
-					current_glove_skin == 0 ? -1 : current_glove_skin,
+					current_glove_skin,
 					(ItemDefinitionIndex) current_glove,
 					-1,
 					gloveWear,

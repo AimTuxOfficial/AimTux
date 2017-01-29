@@ -244,29 +244,30 @@ void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 		// Have to use  this because there is no preset ItemDefinitionIndex
 		Settings::Skinchanger::Skin currentSkin = Settings::Skinchanger::skins[ItemDefinitionIndex::GLOVE_CT_SIDE];
 
-		if (*glove->GetFallbackPaintKit() == currentSkin.PaintKit &&
-				*glove->GetItemDefinitionIndex() == currentSkin._ItemDefinitionIndex &&
-				*glove->GetFallbackWear() == currentSkin.Wear)
-			return;
+		if (*glove->GetFallbackPaintKit() != currentSkin.PaintKit &&
+				*glove->GetItemDefinitionIndex() != currentSkin._ItemDefinitionIndex &&
+				*glove->GetFallbackWear() != currentSkin.Wear)
+		{
 
-		if (currentSkin.PaintKit != -1)
-			*glove->GetFallbackPaintKit() = currentSkin.PaintKit;
+			if (currentSkin.PaintKit != -1)
+				*glove->GetFallbackPaintKit() = currentSkin.PaintKit;
 
-		if (currentSkin._ItemDefinitionIndex != ItemDefinitionIndex::INVALID)
-			*glove->GetItemDefinitionIndex() = currentSkin._ItemDefinitionIndex;
+			if (currentSkin._ItemDefinitionIndex != ItemDefinitionIndex::INVALID)
+				*glove->GetItemDefinitionIndex() = currentSkin._ItemDefinitionIndex;
 
-		if (currentSkin.Wear != -1)
-			*glove->GetFallbackWear() = currentSkin.Wear;
+			if (currentSkin.Wear != -1)
+				*glove->GetFallbackWear() = currentSkin.Wear;
 
-		*glove->GetFallbackSeed() = 0;
-		*glove->GetFallbackStatTrak() = -1;
-		*glove->GetEntityQuality() = 4;
-		*glove->GetItemIDHigh() = -1;
-		*glove->GetAccountID() = localplayer_info.xuidlow;
+			*glove->GetFallbackSeed() = 0;
+			*glove->GetFallbackStatTrak() = -1;
+			*glove->GetEntityQuality() = 4;
+			*glove->GetItemIDHigh() = -1;
+			*glove->GetAccountID() = localplayer_info.xuidlow;
 
-		glove->SetModelIndex(modelInfo->GetModelIndex(GetModelByItemIndex(*glove->GetItemDefinitionIndex())));
-		glove->GetNetworkable()->PreDataUpdate(DATA_UPDATE_CREATED);
-		glove->GetNetworkable()->PreDataUpdate(DATA_UPDATE_CREATED); // Duplicating it for a reason.
+			glove->SetModelIndex(modelInfo->GetModelIndex(GetModelByItemIndex(*glove->GetItemDefinitionIndex())));
+			glove->GetNetworkable()->PreDataUpdate(DATA_UPDATE_CREATED);
+			glove->GetNetworkable()->PreDataUpdate(DATA_UPDATE_CREATED); // Duplicating it for a reason.
+		}
 	}
 
 	if (SkinChanger::ForceFullUpdate)
