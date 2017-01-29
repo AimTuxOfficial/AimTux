@@ -63,7 +63,7 @@ struct ClientClass
 	char *m_pNetworkName;
 	RecvTable *m_pRecvTable;
 	ClientClass *m_pNext;
-	int m_ClassID;
+	EClassIds m_ClassID;
 };
 
 class IBaseClientDLL

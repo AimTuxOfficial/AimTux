@@ -37,7 +37,7 @@ namespace Draw
 	void GetTextSize(const char* text, HFont font, int& wide, int& tall);
 	Vector2D GetTextWSize(const wchar_t* text, HFont font);
 	Vector2D GetTextSize(const char* text, HFont font);
-	HFont CreateFont(const char* fontName, int size, int flag = FONTFLAG_DROPSHADOW);
+	HFont CreateFont(const char* fontName, int size, int flag = (int)FontFlags::FONTFLAG_DROPSHADOW);
 
 	// ImGui
 	void ImStart();

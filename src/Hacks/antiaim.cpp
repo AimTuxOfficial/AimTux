@@ -2,9 +2,9 @@
 
 bool Settings::AntiAim::Yaw::enabled = false;
 bool Settings::AntiAim::Pitch::enabled = false;
-int Settings::AntiAim::Yaw::type = SPIN_FAST;
-int Settings::AntiAim::Yaw::type_fake = SPIN_FAST;
-int Settings::AntiAim::Pitch::type = STATIC_DOWN;
+AntiAimType_Y Settings::AntiAim::Yaw::type = AntiAimType_Y::SPIN_FAST;
+AntiAimType_Y Settings::AntiAim::Yaw::type_fake = AntiAimType_Y::SPIN_FAST;
+AntiAimType_X Settings::AntiAim::Pitch::type = AntiAimType_X::STATIC_DOWN;
 bool Settings::AntiAim::HeadEdge::enabled = false;
 float Settings::AntiAim::HeadEdge::distance = 25.0f;
 bool Settings::AntiAim::AutoDisable::no_enemy = false;
@@ -79,7 +79,7 @@ bool HasViableEnemy()
 
 void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 {
-	int aa_type = bFlip ? Settings::AntiAim::Yaw::type_fake : Settings::AntiAim::Yaw::type;
+	AntiAimType_Y aa_type = bFlip ? Settings::AntiAim::Yaw::type_fake : Settings::AntiAim::Yaw::type;
 
 	static bool yFlip;
 	float temp;
@@ -194,7 +194,7 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 void DoAntiAimX(QAngle& angle, bool bFlip, bool& clamp)
 {
 	static float pDance = 0.0f;
-	int aa_type = Settings::AntiAim::Pitch::type;
+	AntiAimType_X aa_type = Settings::AntiAim::Pitch::type;
 
 	switch (aa_type)
 	{
@@ -262,7 +262,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 	if (!active_weapon)
 		return;
 
-	if (active_weapon->GetCSWpnData()->GetWeaponType() == WEAPONTYPE_GRENADE)
+	if (active_weapon->GetCSWpnData()->GetWeaponType() == CSWeaponType::WEAPONTYPE_GRENADE)
 	{
 		C_BaseCSGrenade* csGrenade = (C_BaseCSGrenade*) active_weapon;
 
@@ -279,7 +279,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 	// AutoDisable checks
 
 	// Knife
-	if (Settings::AntiAim::AutoDisable::knife_held && localplayer->GetAlive() && active_weapon->GetCSWpnData()->GetWeaponType() == WEAPONTYPE_KNIFE)
+	if (Settings::AntiAim::AutoDisable::knife_held && localplayer->GetAlive() && active_weapon->GetCSWpnData()->GetWeaponType() == CSWeaponType::WEAPONTYPE_KNIFE)
 		return;
 
 	if (Settings::AntiAim::AutoDisable::no_enemy && localplayer->GetAlive() && !HasViableEnemy())
@@ -297,13 +297,13 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 	if (!ValveDSCheck::forceUT && (*csGameRules) && (*csGameRules)->IsValveDS())
 	{
 		if (Settings::AntiAim::Yaw::type >= AntiAimType_Y::LISP)
-			Settings::AntiAim::Yaw::type = SPIN_SLOW;
+			Settings::AntiAim::Yaw::type = AntiAimType_Y::SPIN_SLOW;
 
 		if (Settings::AntiAim::Yaw::type_fake >= AntiAimType_Y::LISP)
-			Settings::AntiAim::Yaw::type_fake = SPIN_SLOW;
+			Settings::AntiAim::Yaw::type_fake = AntiAimType_Y::SPIN_SLOW;
 
 		if (Settings::AntiAim::Pitch::type >= AntiAimType_X::STATIC_UP_FAKE)
-			Settings::AntiAim::Pitch::type = STATIC_UP;
+			Settings::AntiAim::Pitch::type = AntiAimType_X::STATIC_UP;
 	}
 
 	if (Settings::AntiAim::Yaw::enabled)

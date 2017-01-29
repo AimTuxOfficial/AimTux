@@ -2,7 +2,7 @@
 
 #include "interfaces.h"
 
-enum ModType : int
+enum class ModType : int
 {
 	NO_MOD,
 	CSCO

@@ -32,7 +32,7 @@ typedef void (*InitKeyValuesFn) (KeyValues*, const char*);
 typedef void (*LoadFromBufferFn) (KeyValues*, const char*, const char*, void*, const char*, void*);
 typedef ICommandLine* (*CommandLineFn) (void);
 
-enum TeamID: int
+enum class TeamID : int
 {
 	TEAM_UNASSIGNED,
 	TEAM_SPECTATOR,
@@ -40,14 +40,14 @@ enum TeamID: int
 	TEAM_COUNTER_TERRORIST,
 };
 
-enum class FontFeature: int
+enum class FontFeature : int
 {
 	FONT_FEATURE_ANTIALIASED_FONTS = 1,
 	FONT_FEATURE_DROPSHADOW_FONTS = 2,
 	FONT_FEATURE_OUTLINE_FONTS = 6
 };
 
-enum FontFlags: int
+enum class FontFlags : int
 {
 	FONTFLAG_NONE = 0,
 	FONTFLAG_ITALIC = 0x1,
@@ -64,7 +64,7 @@ enum FontFlags: int
 	FONTFLAG_BITMAP = 0x800,
 };
 
-enum FontDrawType_t: int
+enum class FontDrawType_t : int
 {
 	// Use the "additive" value from the scheme file
 	FONT_DRAW_DEFAULT = 0,
@@ -76,7 +76,7 @@ enum FontDrawType_t: int
 	FONT_DRAW_TYPE_COUNT = 2,
 };
 
-enum ClientFrameStage_t: int
+enum class ClientFrameStage_t : int
 {
 	FRAME_UNDEFINED = -1,
 	FRAME_START,
@@ -88,7 +88,7 @@ enum ClientFrameStage_t: int
 	FRAME_RENDER_END
 };
 
-enum ObserverMode_t: int
+enum class ObserverMode_t : int
 {
 	OBS_MODE_NONE = 0,
 	OBS_MODE_DEATHCAM = 1,
@@ -99,8 +99,9 @@ enum ObserverMode_t: int
 	OBS_MODE_ROAMING = 6
 };
 
-enum ItemDefinitionIndex: int
+enum class ItemDefinitionIndex : int
 {
+	INVALID = -1,
 	WEAPON_DEAGLE = 1,
 	WEAPON_ELITE = 2,
 	WEAPON_FIVESEVEN = 3,
@@ -156,7 +157,7 @@ enum ItemDefinitionIndex: int
 	WEAPON_KNIFE_PUSH = 516
 };
 
-enum EClassIds: int
+enum class EClassIds : int
 {
 	CAI_BaseNPC = 0,
 	CAK47,
@@ -411,8 +412,9 @@ enum EClassIds: int
 	SporeTrail
 };
 
-enum Bone: int
+enum class Bone : int
 {
+	INVALID = -1,
 	BONE_PELVIS = 0,
 	LEAN_ROOT,
 	CAM_DRIVER,
@@ -424,7 +426,7 @@ enum Bone: int
 	BONE_HEAD,
 };
 
-enum Hitbox: int
+enum class Hitbox : int
 {
 	HITBOX_HEAD = 0,
 	HITBOX_NECK,
@@ -434,7 +436,7 @@ enum Hitbox: int
 	HITBOX_ARMS,
 };
 
-enum HitGroups: int
+enum class HitGroups : int
 {
 	HITGROUP_GENERIC = 0,
 	HITGROUP_HEAD,
@@ -447,7 +449,7 @@ enum HitGroups: int
 	HITGROUP_GEAR
 };
 
-enum CSWeaponType: int
+enum class CSWeaponType : int
 {
 	WEAPONTYPE_KNIFE = 0,
 	WEAPONTYPE_PISTOL,

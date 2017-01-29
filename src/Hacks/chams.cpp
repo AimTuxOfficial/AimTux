@@ -2,7 +2,7 @@
 
 bool Settings::ESP::Chams::enabled = false;
 bool Settings::ESP::Chams::Arms::enabled = false;
-int Settings::ESP::Chams::Arms::type = DEFAULT;
+ArmsType Settings::ESP::Chams::Arms::type = ArmsType::DEFAULT;
 ImColor Settings::ESP::Chams::ally_color = ImColor(7, 98, 168, 255);
 ImColor Settings::ESP::Chams::ally_visible_color = ImColor(40, 52, 138, 255);
 ImColor Settings::ESP::Chams::enemy_color = ImColor(243, 24, 28, 255);
@@ -12,7 +12,7 @@ bool Settings::ESP::Chams::hp_ally_visible_color = false;
 bool Settings::ESP::Chams::hp_enemy_color = false;
 bool Settings::ESP::Chams::hp_enemy_visible_color = false;
 ImColor Settings::ESP::Chams::Arms::color = ImColor(117, 43, 73, 255);
-int Settings::ESP::Chams::type = CHAMS;
+ChamsType Settings::ESP::Chams::type = ChamsType::CHAMS;
 
 float rainbowHue;
 
@@ -43,13 +43,13 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 
 	switch (Settings::ESP::Chams::type)
 	{
-		case CHAMS:
-		case CHAMS_XQZ:
+		case ChamsType::CHAMS:
+		case ChamsType::CHAMS_XQZ:
 			visible_material = materialChams;
 			hidden_material = materialChamsIgnorez;
 			break;
-		case CHAMS_FLAT:
-		case CHAMS_FLAT_XQZ:
+		case ChamsType::CHAMS_FLAT:
+		case ChamsType::CHAMS_FLAT_XQZ:
 			visible_material = materialChamsFlat;
 			hidden_material = materialChamsFlatIgnorez;
 			break;
@@ -75,7 +75,7 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 	else
 		return;
 
-	if (!Settings::ESP::Filters::legit && (Settings::ESP::Chams::type == CHAMS_XQZ || Settings::ESP::Chams::type == CHAMS_FLAT_XQZ))
+	if (!Settings::ESP::Filters::legit && (Settings::ESP::Chams::type == ChamsType::CHAMS_XQZ || Settings::ESP::Chams::type == ChamsType::CHAMS_FLAT_XQZ))
 	{
 		modelRender->ForcedMaterialOverride(hidden_material);
 		modelRender_vmt->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
@@ -100,19 +100,19 @@ void DrawArms(const ModelRenderInfo_t &pInfo)
 
 	switch (Settings::ESP::Chams::Arms::type)
 	{
-		case DEFAULT:
+		case ArmsType::DEFAULT:
 			mat->AlphaModulate(1.0f);
 			mat->ColorModulate(Settings::ESP::Chams::Arms::color);
 			break;
-		case RAINBOW:
+		case ArmsType::RAINBOW:
 			Color color = Color::FromHSB(rainbowHue, 1.0f, 1.0f);
 			mat->AlphaModulate(1.0f);
 			mat->ColorModulate(color);
 			break;
 	}
 
-	mat->SetMaterialVarFlag(MATERIAL_VAR_WIREFRAME, Settings::ESP::Chams::Arms::type == WIREFRAME);
-	mat->SetMaterialVarFlag(MATERIAL_VAR_NO_DRAW, Settings::ESP::Chams::Arms::type == NONE);
+	mat->SetMaterialVarFlag(MATERIAL_VAR_WIREFRAME, Settings::ESP::Chams::Arms::type == ArmsType::WIREFRAME);
+	mat->SetMaterialVarFlag(MATERIAL_VAR_NO_DRAW, Settings::ESP::Chams::Arms::type == ArmsType::NONE);
 	modelRender->ForcedMaterialOverride(mat);
 }
 

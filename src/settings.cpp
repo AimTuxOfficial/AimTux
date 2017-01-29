@@ -92,12 +92,12 @@ void Settings::LoadDefaultsOrSave(std::string path)
 		weaponSetting["Enabled"] = i.second.enabled;
 		weaponSetting["Silent"] = i.second.silent;
 		weaponSetting["Friendly"] = i.second.friendly;
-		weaponSetting["TargetBone"] = i.second.bone;
+		weaponSetting["TargetBone"] = (int) i.second.bone;
 		weaponSetting["AimKey"] = Util::GetButtonName(i.second.aimkey);
 		weaponSetting["AimKeyOnly"] = i.second.aimkey_only;
 		weaponSetting["Smooth"]["Enabled"] = i.second.smoothEnabled;
 		weaponSetting["Smooth"]["Amount"] = i.second.smoothAmount;
-		weaponSetting["Smooth"]["Type"] = i.second.smoothType;
+		weaponSetting["Smooth"]["Type"] = (int) i.second.smoothType;
 		weaponSetting["Smooth"]["Salting"]["Enabled"] = i.second.smoothSaltEnabled;
 		weaponSetting["Smooth"]["Salting"]["Multiplier"] = i.second.smoothSaltMultiplier;
 		weaponSetting["ErrorMargin"]["Enabled"] = i.second.errorMarginEnabled;
@@ -118,7 +118,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 		weaponSetting["AutoWall"]["Enabled"] = i.second.autoWallEnabled;
 		weaponSetting["AutoWall"]["Value"] = i.second.autoWallValue;
 
-		for (int bone = HITBOX_HEAD; bone <= HITBOX_ARMS; bone++)
+		for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
 			weaponSetting["AutoWall"]["Bones"][bone] = i.second.autoWallBones[bone];
 
 		weaponSetting["AutoAim"]["RealDistance"] = i.second.autoAimRealDistance;
@@ -147,10 +147,10 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Triggerbot"]["Delay"]["value"] = Settings::Triggerbot::Delay::value;
 
 	settings["AntiAim"]["Yaw"]["enabled"] = Settings::AntiAim::Yaw::enabled;
-	settings["AntiAim"]["Yaw"]["type"] = Settings::AntiAim::Yaw::type;
-	settings["AntiAim"]["Yaw"]["type_fake"] = Settings::AntiAim::Yaw::type_fake;
+	settings["AntiAim"]["Yaw"]["type"] = (int) Settings::AntiAim::Yaw::type;
+	settings["AntiAim"]["Yaw"]["type_fake"] = (int) Settings::AntiAim::Yaw::type_fake;
 	settings["AntiAim"]["Pitch"]["enabled"] = Settings::AntiAim::Pitch::enabled;
-	settings["AntiAim"]["Pitch"]["type"] = Settings::AntiAim::Pitch::type;
+	settings["AntiAim"]["Pitch"]["type"] = (int) Settings::AntiAim::Pitch::type;
 	settings["AntiAim"]["HeadEdge"]["enabled"] = Settings::AntiAim::HeadEdge::enabled;
 	settings["AntiAim"]["HeadEdge"]["distance"] = Settings::AntiAim::HeadEdge::distance;
 	settings["AntiAim"]["AutoDisable"]["no_enemy"] = Settings::AntiAim::AutoDisable::no_enemy;
@@ -224,19 +224,19 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["ESP"]["Info"]["rescuing"] = Settings::ESP::Info::rescuing;
 	settings["ESP"]["Info"]["location"] = Settings::ESP::Info::location;
 	settings["ESP"]["Boxes"]["enabled"] = Settings::ESP::Boxes::enabled;
-	settings["ESP"]["Boxes"]["type"] = Settings::ESP::Boxes::type;
+	settings["ESP"]["Boxes"]["type"] = (int) Settings::ESP::Boxes::type;
 	settings["ESP"]["Skeleton"]["enabled"] = Settings::ESP::Skeleton::enabled;
 	LoadUIColor(settings["ESP"]["Skeleton"]["color"], Settings::ESP::Skeleton::color);
 	settings["ESP"]["Bars"]["enabled"] = Settings::ESP::Bars::enabled;
-	settings["ESP"]["Bars"]["color_type"] = Settings::ESP::Bars::color_type;
-	settings["ESP"]["Bars"]["type"] = Settings::ESP::Bars::type;
+	settings["ESP"]["Bars"]["color_type"] = (int) Settings::ESP::Bars::color_type;
+	settings["ESP"]["Bars"]["type"] = (int) Settings::ESP::Bars::type;
 	settings["ESP"]["Tracers"]["enabled"] = Settings::ESP::Tracers::enabled;
-	settings["ESP"]["Tracers"]["type"] = Settings::ESP::Tracers::type;
+	settings["ESP"]["Tracers"]["type"] = (int) Settings::ESP::Tracers::type;
 	settings["ESP"]["BulletTracers"]["enabled"] = Settings::ESP::BulletTracers::enabled;
 	settings["ESP"]["FOVCrosshair"]["enabled"] = Settings::ESP::FOVCrosshair::enabled;
 	LoadUIColor(settings["ESP"]["FOVCrosshair"]["color"], Settings::ESP::FOVCrosshair::color);
 	settings["ESP"]["Chams"]["Arms"]["enabled"] = Settings::ESP::Chams::Arms::enabled;
-	settings["ESP"]["Chams"]["Arms"]["type"] = Settings::ESP::Chams::Arms::type;
+	settings["ESP"]["Chams"]["Arms"]["type"] = (int) Settings::ESP::Chams::Arms::type;
 	LoadUIColor(settings["ESP"]["Chams"]["Arms"]["color"], Settings::ESP::Chams::Arms::color);
 	LoadUIColor(settings["ESP"]["Chams"]["players_ally_color"], Settings::ESP::Chams::ally_color);
 	LoadUIColor(settings["ESP"]["Chams"]["players_ally_visible_color"], Settings::ESP::Chams::ally_visible_color);
@@ -246,7 +246,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["ESP"]["Chams"]["hp_ally_visible_color"] = Settings::ESP::Chams::hp_ally_visible_color;
 	settings["ESP"]["Chams"]["hp_enemy_color"] = Settings::ESP::Chams::hp_enemy_color;
 	settings["ESP"]["Chams"]["hp_enemy_visible_color"] = Settings::ESP::Chams::hp_enemy_visible_color;
-	settings["ESP"]["Chams"]["type"] = Settings::ESP::Chams::type;
+	settings["ESP"]["Chams"]["type"] = (int) Settings::ESP::Chams::type;
 	settings["ESP"]["Chams"]["enabled"] = Settings::ESP::Chams::enabled;
 	settings["ESP"]["Sounds"]["enabled"] = Settings::ESP::Sounds::enabled;
 	settings["ESP"]["Sounds"]["time"] = Settings::ESP::Sounds::time;
@@ -262,7 +262,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Dlights"]["enabled"] = Settings::Dlights::enabled;
 	settings["Dlights"]["radius"] = Settings::Dlights::radius;
 
-	settings["Spammer"]["spammer_type"] = Settings::Spammer::type;
+	settings["Spammer"]["spammer_type"] = (int) Settings::Spammer::type;
 	settings["Spammer"]["say_team"] = Settings::Spammer::say_team;
 	settings["Spammer"]["KillSpammer"]["enabled"] = Settings::Spammer::KillSpammer::enabled;
 	settings["Spammer"]["KillSpammer"]["say_team"] = Settings::Spammer::KillSpammer::say_team;
@@ -282,7 +282,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["BHop"]["enabled"] = Settings::BHop::enabled;
 
 	settings["AutoStrafe"]["enabled"] = Settings::AutoStrafe::enabled;
-	settings["AutoStrafe"]["type"] = Settings::AutoStrafe::type;
+	settings["AutoStrafe"]["type"] = (int) Settings::AutoStrafe::type;
 	settings["AutoStrafe"]["silent"] = Settings::AutoStrafe::silent;
 
 	settings["Noflash"]["enabled"] = Settings::Noflash::enabled;
@@ -337,7 +337,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 		// in C++ and weird shit
 		#define skinSetting settings["Skinchanger"]["skins"][Util::Items::GetItemName((enum ItemDefinitionIndex) i.first)]
 		skinSetting["PaintKit"] = i.second.PaintKit;
-		skinSetting["ItemDefinitionIndex"] = Util::Items::GetItemName((enum ItemDefinitionIndex) i.second.ItemDefinitionIndex);
+		skinSetting["ItemDefinitionIndex"] = Util::Items::GetItemName(i.second._ItemDefinitionIndex);
 		skinSetting["Seed"] = i.second.Seed;
 		skinSetting["Wear"] = i.second.Wear;
 		skinSetting["StatTrak"] = i.second.StatTrak;
@@ -354,7 +354,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["ClanTagChanger"]["enabled"] = Settings::ClanTagChanger::enabled;
 	settings["ClanTagChanger"]["animation"] = Settings::ClanTagChanger::animation;
 	settings["ClanTagChanger"]["animation_speed"] = Settings::ClanTagChanger::animation_speed;
-	settings["ClanTagChanger"]["type"] = Settings::ClanTagChanger::type;
+	settings["ClanTagChanger"]["type"] = (int) Settings::ClanTagChanger::type;
 
 	settings["View"]["NoViewPunch"]["enabled"] = Settings::View::NoViewPunch::enabled;
 	settings["View"]["NoAimPunch"]["enabled"] = Settings::View::NoAimPunch::enabled;
@@ -416,7 +416,7 @@ void Settings::LoadConfig(std::string path)
 	Fonts::SetupFonts();
 
 	Settings::Aimbot::weapons = {
-			{ -1, Settings::Aimbot::Weapon(false, false, false, BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, false, false, false, false, false, false, false, 10.0f, &Settings::Aimbot::AutoWall::bones[0], false) },
+			{ ItemDefinitionIndex::INVALID, Settings::Aimbot::Weapon(false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, false, false, false, false, false, false, false, 10.0f, &Settings::Aimbot::AutoWall::bones[0], false) },
 	};
 
 	for (Json::ValueIterator itr = settings["Aimbot"]["weapons"].begin(); itr != settings["Aimbot"]["weapons"].end(); itr++)
@@ -426,10 +426,10 @@ void Settings::LoadConfig(std::string path)
 
 		// XXX Using exception handling to deal with this is stupid, but I don't care to find a better solution
 		// XXX We can't use GetOrdinal() since the key type is a string...
-		int weaponID;
+		ItemDefinitionIndex weaponID;
 		try
 		{
-			weaponID = std::stoi(weaponDataKey);
+			weaponID = (ItemDefinitionIndex) std::stoi(weaponDataKey);
 		}
 		catch (std::invalid_argument) // Not a number
 		{
@@ -439,19 +439,19 @@ void Settings::LoadConfig(std::string path)
 		Settings::Aimbot::Weapon weapon;
 		bool autoWallBones[] = { true, false, false, false, false, false };
 
-		for (int bone = HITBOX_HEAD; bone <= HITBOX_ARMS; bone++)
+		for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
 			autoWallBones[bone] = weaponSetting["AutoWall"]["Bones"][bone].asBool();
 
 		weapon = Settings::Aimbot::Weapon(
 			weaponSetting["Enabled"].asBool(),
 			weaponSetting["Silent"].asBool(),
 			weaponSetting["Friendly"].asBool(),
-			weaponSetting["TargetBone"].asInt(),
+			(Bone) weaponSetting["TargetBone"].asInt(),
 			Util::GetButtonCode(weaponSetting["AimKey"].asCString()),
 			weaponSetting["AimKeyOnly"].asBool(),
 			weaponSetting["Smooth"]["Enabled"].asBool(),
 			weaponSetting["Smooth"]["Amount"].asFloat(),
-			weaponSetting["Smooth"]["Type"].asInt(),
+			(SmoothType) weaponSetting["Smooth"]["Type"].asInt(),
 			weaponSetting["Smooth"]["Salting"]["Enabled"].asBool(),
 			weaponSetting["Smooth"]["Salting"]["Multiplier"].asFloat(),
 			weaponSetting["ErrorMargin"]["Enabled"].asBool(),
@@ -499,10 +499,10 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["Triggerbot"]["Delay"]["value"], &Settings::Triggerbot::Delay::value);
 
 	GetVal(settings["AntiAim"]["Yaw"]["enabled"], &Settings::AntiAim::Yaw::enabled);
-	GetVal(settings["AntiAim"]["Yaw"]["type"], &Settings::AntiAim::Yaw::type);
-	GetVal(settings["AntiAim"]["Yaw"]["type_fake"], &Settings::AntiAim::Yaw::type_fake);
+	GetVal(settings["AntiAim"]["Yaw"]["type"], (int*)& Settings::AntiAim::Yaw::type);
+	GetVal(settings["AntiAim"]["Yaw"]["type_fake"], (int*)& Settings::AntiAim::Yaw::type_fake);
 	GetVal(settings["AntiAim"]["Pitch"]["enabled"], &Settings::AntiAim::Pitch::enabled);
-	GetVal(settings["AntiAim"]["Pitch"]["type"], &Settings::AntiAim::Pitch::type);
+	GetVal(settings["AntiAim"]["Pitch"]["type"], (int*)& Settings::AntiAim::Pitch::type);
 	GetVal(settings["AntiAim"]["HeadEdge"]["enabled"], &Settings::AntiAim::HeadEdge::enabled);
 	GetVal(settings["AntiAim"]["HeadEdge"]["distance"], &Settings::AntiAim::HeadEdge::distance);
 	GetVal(settings["AntiAim"]["AutoDisable"]["knife_held"], &Settings::AntiAim::AutoDisable::knife_held);
@@ -576,19 +576,19 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["ESP"]["Info"]["rescuing"], &Settings::ESP::Info::rescuing);
 	GetVal(settings["ESP"]["Info"]["location"], &Settings::ESP::Info::location);
 	GetVal(settings["ESP"]["Boxes"]["enabled"], &Settings::ESP::Boxes::enabled);
-	GetVal(settings["ESP"]["Boxes"]["type"], &Settings::ESP::Boxes::type);
+	GetVal(settings["ESP"]["Boxes"]["type"], (int*)& Settings::ESP::Boxes::type);
 	GetVal(settings["ESP"]["Skeleton"]["enabled"], &Settings::ESP::Skeleton::enabled);
 	GetVal(settings["ESP"]["Skeleton"]["color"], &Settings::ESP::Skeleton::color);
 	GetVal(settings["ESP"]["Bars"]["enabled"], &Settings::ESP::Bars::enabled);
-	GetVal(settings["ESP"]["Bars"]["color_type"], &Settings::ESP::Bars::color_type);
-	GetVal(settings["ESP"]["Bars"]["type"], &Settings::ESP::Bars::type);
+	GetVal(settings["ESP"]["Bars"]["color_type"], (int*)& Settings::ESP::Bars::color_type);
+	GetVal(settings["ESP"]["Bars"]["type"], (int*)& Settings::ESP::Bars::type);
 	GetVal(settings["ESP"]["Tracers"]["enabled"], &Settings::ESP::Tracers::enabled);
-	GetVal(settings["ESP"]["Tracers"]["type"], &Settings::ESP::Tracers::type);
+	GetVal(settings["ESP"]["Tracers"]["type"], (int*)& Settings::ESP::Tracers::type);
 	GetVal(settings["ESP"]["BulletTracers"]["enabled"], &Settings::ESP::BulletTracers::enabled);
 	GetVal(settings["ESP"]["FOVCrosshair"]["enabled"], &Settings::ESP::FOVCrosshair::enabled);
 	GetVal(settings["ESP"]["FOVCrosshair"]["color"], &Settings::ESP::FOVCrosshair::color);
 	GetVal(settings["ESP"]["Chams"]["Arms"]["enabled"], &Settings::ESP::Chams::Arms::enabled);
-	GetVal(settings["ESP"]["Chams"]["Arms"]["type"], &Settings::ESP::Chams::Arms::type);
+	GetVal(settings["ESP"]["Chams"]["Arms"]["type"], (int*)& Settings::ESP::Chams::Arms::type);
 	GetVal(settings["ESP"]["Chams"]["Arms"]["color"], &Settings::ESP::Chams::Arms::color);
 	GetVal(settings["ESP"]["Chams"]["players_ally_color"], &Settings::ESP::Chams::ally_color);
 	GetVal(settings["ESP"]["Chams"]["players_ally_visible_color"], &Settings::ESP::Chams::ally_visible_color);
@@ -598,7 +598,7 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["ESP"]["Chams"]["hp_players_ally_visible_color"], &Settings::ESP::Chams::hp_ally_visible_color);
 	GetVal(settings["ESP"]["Chams"]["hp_players_enemy_color"], &Settings::ESP::Chams::hp_enemy_color);
 	GetVal(settings["ESP"]["Chams"]["hp_players_enemy_visible_color"], &Settings::ESP::Chams::hp_enemy_visible_color);
-	GetVal(settings["ESP"]["Chams"]["type"], &Settings::ESP::Chams::type);
+	GetVal(settings["ESP"]["Chams"]["type"], (int*)& Settings::ESP::Chams::type);
 	GetVal(settings["ESP"]["Chams"]["enabled"], &Settings::ESP::Chams::enabled);
 	GetVal(settings["ESP"]["Sounds"]["enabled"], &Settings::ESP::Sounds::enabled);
 	GetVal(settings["ESP"]["Sounds"]["time"], &Settings::ESP::Sounds::time);
@@ -614,7 +614,7 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["Dlights"]["enabled"], &Settings::Dlights::enabled);
 	GetVal(settings["Dlights"]["radius"], &Settings::Dlights::radius);
 
-	GetVal(settings["Spammer"]["spammer_type"], &Settings::Spammer::type);
+	GetVal(settings["Spammer"]["spammer_type"], (int*)& Settings::Spammer::type);
 	GetVal(settings["Spammer"]["say_team"], &Settings::Spammer::say_team);
 	GetVal(settings["Spammer"]["KillSpammer"]["enabled"], &Settings::Spammer::KillSpammer::enabled);
 	GetVal(settings["Spammer"]["KillSpammer"]["say_team"], &Settings::Spammer::KillSpammer::say_team);
@@ -636,7 +636,7 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["BHop"]["enabled"], &Settings::BHop::enabled);
 
 	GetVal(settings["AutoStrafe"]["enabled"], &Settings::AutoStrafe::enabled);
-	GetVal(settings["AutoStrafe"]["type"], &Settings::AutoStrafe::type);
+	GetVal(settings["AutoStrafe"]["type"], (int*)& Settings::AutoStrafe::type);
 	GetVal(settings["AutoStrafe"]["silent"], &Settings::AutoStrafe::silent);
 
 	GetVal(settings["Noflash"]["enabled"], &Settings::Noflash::enabled);
@@ -693,18 +693,18 @@ void Settings::LoadConfig(std::string path)
 
 		// XXX Using exception handling to deal with this is stupid, but I don't care to find a better solution
 		// XXX We can't use GetOrdinal() since the key type is a string...
-		int weaponID;
+		ItemDefinitionIndex weaponID;
 		try
 		{
-			weaponID = std::stoi(skinDataKey);
+			weaponID = (ItemDefinitionIndex) std::stoi(skinDataKey);
 		}
 		catch (std::invalid_argument) // Not a number
 		{
 			weaponID = Util::Items::GetItemIndex(skinDataKey);
 		}
 
-		enum ItemDefinitionIndex defIndex;
-		GetOrdinal<enum ItemDefinitionIndex, Util::Items::GetItemIndex>(skinSetting["ItemDefinitionIndex"], &defIndex);
+		ItemDefinitionIndex defIndex;
+		GetOrdinal<ItemDefinitionIndex, Util::Items::GetItemIndex>(skinSetting["ItemDefinitionIndex"], &defIndex);
 
 		Settings::Skinchanger::Skin skin = Settings::Skinchanger::Skin(
 				skinSetting["PaintKit"].asInt(),
@@ -731,7 +731,7 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["ClanTagChanger"]["enabled"], &Settings::ClanTagChanger::enabled);
 	GetVal(settings["ClanTagChanger"]["animation"], &Settings::ClanTagChanger::animation);
 	GetVal(settings["ClanTagChanger"]["animation_speed"], &Settings::ClanTagChanger::animation_speed);
-	GetVal(settings["ClanTagChanger"]["type"], &Settings::ClanTagChanger::type);
+	GetVal(settings["ClanTagChanger"]["type"], (int*)& Settings::ClanTagChanger::type);
 	::ClanTagChanger::UpdateClanTagCallback();
 
 	GetVal(settings["View"]["NoViewPunch"]["enabled"], &Settings::View::NoViewPunch::enabled);

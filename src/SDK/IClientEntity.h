@@ -121,9 +121,9 @@ public:
 		return (int*)((uintptr_t)this + offsets.DT_BaseViewModel.m_nModelIndex);
 	}
 
-	int GetTeam()
+	TeamID GetTeam()
 	{
-		return *(int*)((uintptr_t)this + offsets.DT_BaseEntity.m_iTeamNum);
+		return *(TeamID*)((uintptr_t)this + offsets.DT_BaseEntity.m_iTeamNum);
 	}
 
 	Vector GetVecOrigin()
@@ -191,9 +191,9 @@ public:
 		return *(int*)((uintptr_t)this + offsets.DT_BasePlayer.m_fFlags);
 	}
 
-	int* GetObserverMode()
+	ObserverMode_t* GetObserverMode()
 	{
-		return (int*)((uintptr_t)this + offsets.DT_BasePlayer.m_iObserverMode);
+		return (ObserverMode_t*)((uintptr_t)this + offsets.DT_BasePlayer.m_iObserverMode);
 	}
 
 	void* GetObserverTarget()
@@ -351,9 +351,9 @@ public:
 class C_BaseAttributableItem : public C_BaseEntity
 {
 public:
-	int* GetItemDefinitionIndex()
+	ItemDefinitionIndex* GetItemDefinitionIndex()
 	{
-		return (int*)((uintptr_t)this + offsets.DT_BaseAttributableItem.m_iItemDefinitionIndex);
+		return (ItemDefinitionIndex*)((uintptr_t)this + offsets.DT_BaseAttributableItem.m_iItemDefinitionIndex);
 	}
 
 	int* GetItemIDHigh()
