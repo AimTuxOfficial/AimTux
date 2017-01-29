@@ -25,10 +25,7 @@ enum MoveType_t
 enum DataUpdateType_t
 {
 	DATA_UPDATE_CREATED = 0,
-//	DATA_UPDATE_ENTERED_PVS,
 	DATA_UPDATE_DATATABLE_CHANGED,
-//	DATA_UPDATE_LEFT_PVS,
-//	DATA_UPDATE_DESTROYED,
 };
 
 class ICollideable
@@ -110,10 +107,15 @@ class C_BaseEntity : public IClientEntity
 {
 public:
 
+	IClientNetworkable* GetNetworkable()
+	{
+		return (IClientNetworkable*)((uintptr_t)this + 0x10);
+	}
+
 	void SetModelIndex(int index)
 	{
 		typedef void (* oSetModelIndex)(void*, int);
-		return getvfunc<oSetModelIndex>(this, 78)(this, index);
+		return getvfunc<oSetModelIndex>(this, 111)(this, index);
 	}
 
 	int* GetModelIndex()
@@ -299,6 +301,11 @@ public:
 	int* GetWeapons()
 	{
 		return (int*)((uintptr_t)this + offsets.DT_BaseCombatCharacter.m_hMyWeapons);
+	}
+
+	int* GetWearables()
+	{
+		return (int*)((uintptr_t)this + offsets.DT_BaseCombatCharacter.m_hMyWearables);
 	}
 
 	bool GetAlive()

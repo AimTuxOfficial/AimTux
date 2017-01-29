@@ -330,6 +330,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Airstuck"]["key"] = Util::GetButtonName(Settings::Airstuck::key);
 
 	settings["Skinchanger"]["enabled"] = Settings::Skinchanger::enabled;
+	settings["Skinchanger"]["Gloves"]["enabled"] = Settings::Skinchanger::Gloves::enabled;
+
 	for (auto i : Settings::Skinchanger::skins)
 	{
 		// TODO this is kind of a hack and i'm too tired to find a better way to do this
@@ -722,6 +724,7 @@ void Settings::LoadConfig(std::string path)
 	SkinChanger::ForceFullUpdate = true;
 
 	GetVal(settings["Skinchanger"]["enabled"], &Settings::Skinchanger::enabled);
+	GetVal(settings["Skinchanger"]["Gloves"]["enabled"], &Settings::Skinchanger::Gloves::enabled);
 
 	GetVal(settings["ShowRanks"]["enabled"], &Settings::ShowRanks::enabled);
 

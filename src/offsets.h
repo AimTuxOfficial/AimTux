@@ -36,6 +36,7 @@ struct COffsets
 	{
 		std::ptrdiff_t m_hActiveWeapon;
 		std::ptrdiff_t m_hMyWeapons;
+		std::ptrdiff_t m_hMyWearables;
 	} DT_BaseCombatCharacter;
 
 	struct

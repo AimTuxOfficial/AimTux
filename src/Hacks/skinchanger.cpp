@@ -1,6 +1,7 @@
 #include "skinchanger.h"
 
 bool Settings::Skinchanger::enabled = false;
+bool Settings::Skinchanger::Gloves::enabled = false;
 std::unordered_map<ItemDefinitionIndex, Settings::Skinchanger::Skin> Settings::Skinchanger::skins = {
 		{ ItemDefinitionIndex::WEAPON_AWP, Settings::Skinchanger::Skin(344, ItemDefinitionIndex::INVALID, 0, 0.0005f, 1337, "AimTux", "") },
 		{ ItemDefinitionIndex::WEAPON_AK47, Settings::Skinchanger::Skin(524, ItemDefinitionIndex::INVALID, 0, 0.0005f, 1337, "AimTux", "") },
@@ -25,7 +26,15 @@ std::unordered_map<ItemDefinitionIndex, Settings::Skinchanger::Skin> Settings::S
 		{ ItemDefinitionIndex::WEAPON_KNIFE_BUTTERFLY, Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_butterfly.mdl") },
 		{ ItemDefinitionIndex::WEAPON_KNIFE_SURVIVAL_BOWIE, Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_survival_bowie.mdl") },
 		{ ItemDefinitionIndex::WEAPON_KNIFE_FALCHION, Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_falchion_advanced.mdl") },
-		{ ItemDefinitionIndex::WEAPON_KNIFE_PUSH, Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_push.mdl") }
+		{ ItemDefinitionIndex::WEAPON_KNIFE_PUSH, Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_push.mdl") },
+		{ ItemDefinitionIndex::GLOVE_T_SIDE, Settings::Skinchanger::Skin(10007, ItemDefinitionIndex::GLOVE_STUDDED_BLOODHOUND, -1, 0.0005f, -1, "", "")},
+		{ ItemDefinitionIndex::GLOVE_CT_SIDE, Settings::Skinchanger::Skin(10007, ItemDefinitionIndex::GLOVE_STUDDED_BLOODHOUND, -1, 0.0005f, -1, "", "")},
+		{ ItemDefinitionIndex::GLOVE_STUDDED_BLOODHOUND, Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_models/arms/glove_bloodhound/v_glove_bloodhound.mdl")},
+		{ ItemDefinitionIndex::GLOVE_SPORTY, Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_models/arms/glove_sporty/v_glove_sporty.mdl")},
+		{ ItemDefinitionIndex::GLOVE_SLICK, Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_models/arms/glove_slick/v_glove_slick.mdl")},
+		{ ItemDefinitionIndex::GLOVE_LEATHER_WRAP, Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_models/arms/glove_handwrap_leathery/v_glove_handwrap_leathery.mdl")},
+		{ ItemDefinitionIndex::GLOVE_MOTORCYCLE, Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_models/arms/glove_motorcycle/v_glove_motorcycle.mdl")},
+		{ ItemDefinitionIndex::GLOVE_SPECIALIST, Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_models/arms/glove_specialist/v_glove_specialist.mdl")},
 };
 
 bool SkinChanger::ForceFullUpdate = true;
@@ -54,6 +63,18 @@ const char* GetModelByItemIndex(ItemDefinitionIndex id)
 			return "models/weapons/v_knife_falchion_advanced.mdl";
 		case ItemDefinitionIndex::WEAPON_KNIFE_PUSH:
 			return "models/weapons/v_knife_push.mdl";
+		case ItemDefinitionIndex::GLOVE_STUDDED_BLOODHOUND:
+			return "models/weapons/v_models/arms/glove_bloodhound/v_glove_bloodhound.mdl";
+		case ItemDefinitionIndex::GLOVE_SPORTY:
+			return "models/weapons/v_models/arms/glove_sporty/v_glove_sporty.mdl";
+		case ItemDefinitionIndex::GLOVE_SLICK:
+			return "models/weapons/v_models/arms/glove_slick/v_glove_slick.mdl";
+		case ItemDefinitionIndex::GLOVE_LEATHER_WRAP:
+			return "models/weapons/v_models/arms/glove_handwrap_leathery/v_glove_handwrap_leathery.mdl";
+		case ItemDefinitionIndex::GLOVE_MOTORCYCLE:
+			return "models/weapons/v_models/arms/glove_motorcycle/v_glove_motorcycle.mdl";
+		case ItemDefinitionIndex::GLOVE_SPECIALIST:
+			return "models/weapons/v_models/arms/glove_specialist/v_glove_specialist.mdl";
 		default:
 			return NULL;
 	}
@@ -178,6 +199,61 @@ void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 
 		if (currentSkin.Model != "")
 			*viewmodel->GetModelIndex() = modelInfo->GetModelIndex(currentSkin.Model.c_str());
+	}
+
+	if(Settings::Skinchanger::Gloves::enabled && ModSupport::current_mod != ModType::CSCO)
+	{
+		if (!engine->IsInGame())
+			return;
+
+		if (stage != ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_START)
+			return;
+
+		/* get our player entity */
+		C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+		if (!localplayer || !localplayer->GetAlive())
+			return;
+
+		if(!entitylist->GetClientEntityFromHandle((void*)localplayer->GetWearables())) // Needs to be from Handle, otherwise it returns for CWorld because CEconWearable is not already in the Enum
+		{
+			for (ClientClass* pClass = client->GetAllClasses(); pClass; pClass = pClass->m_pNext) // Cycles through classes.
+				if (pClass->m_ClassID == EClassIds::CEconWearable) // Stops until the class is CEconWearable
+				{
+					int iEntry = (entitylist->GetHighestEntityIndex() + 1), iSerial = RandomInt(0x0, 0xFFF); // Gets last entityindex entry and just adds 1 | Random Serial.
+					pClass->m_pCreateFn(iEntry, iSerial); // Creates the entity, adds it to the enum of Entities.
+					localplayer->GetWearables()[0] = iEntry | (iSerial << 16); // Assigns Wearable[0] (gloves) with the entry value and serial.
+					break; // Exit for loop, as we've created our entity.
+				}
+		}
+
+		C_BaseAttributableItem* glove = (C_BaseAttributableItem*)entitylist->GetClientEntity(localplayer->GetWearables()[0] & 0xFFF); //We can use this without FromHandle JUUUST to make sure we set the right wearable.
+		if (!glove) // Redundancy
+			return;
+
+		IEngineClient::player_info_t localplayer_info;
+		engine->GetPlayerInfo(engine->GetLocalPlayer(), &localplayer_info);
+
+		Settings::Skinchanger::Skin currentSkin = Settings::Skinchanger::skins[ItemDefinitionIndex::GLOVE_CT_SIDE]; // Have to use  this because there is no preset ItemDefinitionIndex
+
+		if(*glove->GetFallbackPaintKit() == currentSkin.PaintKit && *glove->GetItemDefinitionIndex() == currentSkin._ItemDefinitionIndex && *glove->GetFallbackWear() == currentSkin.Wear)
+			return;
+
+		if(currentSkin.PaintKit != -1)
+			*glove->GetFallbackPaintKit() = currentSkin.PaintKit;
+
+		if(currentSkin._ItemDefinitionIndex != ItemDefinitionIndex::INVALID)
+			*glove->GetItemDefinitionIndex() = currentSkin._ItemDefinitionIndex;
+
+		if(currentSkin.Wear != -1)
+			*glove->GetFallbackWear() = currentSkin.Wear;
+
+		*glove->GetFallbackSeed() = 0;
+		*glove->GetFallbackStatTrak() = -1;
+		*glove->GetEntityQuality() = 4;
+		*glove->GetItemIDHigh() = -1;
+		*glove->GetAccountID() = localplayer_info.xuidlow;
+		glove->SetModelIndex(modelInfo->GetModelIndex(GetModelByItemIndex(*glove->GetItemDefinitionIndex()))); // Set the model.
+		glove->GetNetworkable()->PreDataUpdate(DATA_UPDATE_CREATED); // Tell the game that we've created everything.
 	}
 
 	if (SkinChanger::ForceFullUpdate)
