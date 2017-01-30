@@ -158,6 +158,12 @@ void SetupMainMenuBar()
 	}
 }
 
+inline void SetTooltip(const char* text)
+{
+	if (ImGui::IsItemHovered())
+		ImGui::SetTooltip(text);
+}
+
 static ItemDefinitionIndex current_weapon = ItemDefinitionIndex::INVALID;
 static bool enabled = false;
 static bool silent = false;
@@ -426,8 +432,7 @@ void ColorsWindow()
 			if (healthColor[colorSelected])
 			{
 				ImGui::Checkbox("Health-Based Color", healthColor[colorSelected]);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Takes color from entity health, i.e. 100 - green, 50 - yellow");
+				SetTooltip("Takes color from entity health, i.e. 100 - green, 50 - yellow");
 			}
 		}
 		ImGui::End();
@@ -524,8 +529,7 @@ void AimbotTab()
 			{
 				if (ImGui::Checkbox("Friendly", &friendly))
 					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Whether to target friendlies");
+				SetTooltip("Whether to target friendlies");
 			}
 			ImGui::NextColumn();
 			{
@@ -542,16 +546,13 @@ void AimbotTab()
 			{
 				if (ImGui::Checkbox("Auto Aim", &autoAimEnabled))
 					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Locks onto enemies within a certain FOV amount");
+				SetTooltip("Locks onto enemies within a certain FOV amount");
 				if (ImGui::Checkbox("Recoil Control", &rcsEnabled))
 					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Automatically controls recoil");
+				SetTooltip("Automatically controls recoil");
 				if (ImGui::Checkbox("RCS Always on", &rcsAlways_on))
 					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Whether Recoil Control always controls recoil (even when not aimbotting)");
+				SetTooltip("Whether Recoil Control always controls recoil (even when not aimbotting)");
 			}
 			ImGui::NextColumn();
 			{
@@ -563,8 +564,7 @@ void AimbotTab()
 				ImGui::PopItemWidth();
 				if (ImGui::Checkbox("Distance-Based FOV", &autoAimRealDistance))
 					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Takes perspective into account when calculating FOV");
+				SetTooltip("Takes perspective into account when calculating FOV");
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -574,16 +574,13 @@ void AimbotTab()
 			{
 				if (ImGui::Checkbox("Smoothing", &smoothEnabled))
 					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Smoothing reduces the aimbot \"snap\". 0 for full snap. 1 for full smoothing");
+				SetTooltip("Smoothing reduces the aimbot \"snap\". 0 for full snap. 1 for full smoothing");
 				if (ImGui::Checkbox("Smooth Salting", &smoothSaltEnabled))
 					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Breaks the smoothing into smaller steps, high smooth + low salt is slightly stuttery");
+				SetTooltip("Breaks the smoothing into smaller steps, high smooth + low salt is slightly stuttery");
 				if (ImGui::Checkbox("Error Margin", &errorMarginEnabled))
 					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Adds a margin of error to the aim, it will be obvious what it does when using it");
+				SetTooltip("Adds a margin of error to the aim, it will be obvious what it does when using it");
 				ImGui::PushItemWidth(-1);
 					if (ImGui::Combo("##SMOOTHTYPE", (int*)& smoothType, smoothTypes, IM_ARRAYSIZE(smoothTypes)))
 						UI::updateWeaponSettings();
@@ -615,8 +612,7 @@ void AimbotTab()
 			{
 				if (ImGui::Checkbox("Enabled", &aimkey_only))
 					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Enabling this means it you need to press a specific key to aimlock");
+				SetTooltip("Enabling this means it you need to press a specific key to aimlock");
 			}
 			ImGui::NextColumn();
 			{
@@ -630,8 +626,7 @@ void AimbotTab()
 			{
 				if (ImGui::Checkbox("Aim Step", &aimStepEnabled))
 					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Stops you getting VAC auth kicked in Casual / DM");
+				SetTooltip("Stops you getting VAC auth kicked in Casual / DM");
 			}
 			ImGui::NextColumn();
 			{
@@ -661,8 +656,7 @@ void AimbotTab()
 					case ItemDefinitionIndex::WEAPON_REVOLVER:
 						if (ImGui::Checkbox("Auto Pistol", &autoPistolEnabled))
 							UI::updateWeaponSettings();
-						if (ImGui::IsItemHovered())
-							ImGui::SetTooltip("Automatically shoots the pistol when holding fire");
+						SetTooltip("Automatically shoots the pistol when holding fire");
 						break;
 					default:
 						break;
@@ -670,31 +664,25 @@ void AimbotTab()
 
 				if (ImGui::Checkbox("Auto Shoot", &autoShootEnabled))
 					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Automatically shoots when locking to an enemy");
+				SetTooltip("Automatically shoots when locking to an enemy");
 				if (ImGui::Checkbox("Silent Aim", &silent))
 					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Prevents the camera from locking to an enemy, doesn't work for demos");
+				SetTooltip("Prevents the camera from locking to an enemy, doesn't work for demos");
 				if (ImGui::Checkbox("Smoke Check", &smoke_check))
 					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Ignore players that are in smoke");
+				SetTooltip("Ignore players that are in smoke");
 			}
 			ImGui::NextColumn();
 			{
 				if (ImGui::Checkbox("No Shoot", &noShootEnabled))
 					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Stops you shooting when locking to an enemy");
+				SetTooltip("Stops you shooting when locking to an enemy");
 				if (ImGui::Checkbox("Auto Scope", &autoScopeEnabled))
 					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Automatically scopes weapons that have them");
+				SetTooltip("Automatically scopes weapons that have them");
 				if (ImGui::Checkbox("Ignore Jump", &ignoreJumpEnabled))
 					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Prevents you from aimbotting while jumping");
+				SetTooltip("Prevents you from aimbotting while jumping");
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -704,8 +692,7 @@ void AimbotTab()
 			{
 				if (ImGui::Checkbox("Enabled##AUTOWALL", &autoWallEnabled))
 					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Shoots enemy through a wall if it does X amount of damage");
+				SetTooltip("Shoots enemy through a wall if it does X amount of damage");
 			}
 			ImGui::NextColumn();
 			{
@@ -722,31 +709,25 @@ void AimbotTab()
 			{
 				if (ImGui::Checkbox("Head", &autoWallBones[(int) Hitbox::HITBOX_HEAD]))
 					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Trigger on head");
+				SetTooltip("Trigger on head");
 				if (ImGui::Checkbox("Neck", &autoWallBones[(int) Hitbox::HITBOX_NECK]))
 					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Trigger on neck");
+				SetTooltip("Trigger on neck");
 				if (ImGui::Checkbox("Pelvis", &autoWallBones[(int) Hitbox::HITBOX_PELVIS]))
 					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Trigger on pelvis");
+				SetTooltip("Trigger on pelvis");
 			}
 			ImGui::NextColumn();
 			{
 				if (ImGui::Checkbox("Spine", &autoWallBones[(int) Hitbox::HITBOX_SPINE]))
 					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Trigger on spine");
+				SetTooltip("Trigger on spine");
 				if (ImGui::Checkbox("Legs", &autoWallBones[(int) Hitbox::HITBOX_LEGS]))
 					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Trigger on legs");
+				SetTooltip("Trigger on legs");
 				if (ImGui::Checkbox("Arms", &autoWallBones[(int) Hitbox::HITBOX_ARMS]))
 					UI::updateWeaponSettings();
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Trigger on arms");
+				SetTooltip("Trigger on arms");
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -784,8 +765,7 @@ void TriggerbotTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("Enabled", &Settings::Triggerbot::Delay::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Adds a delay to the Triggerbot");
+				SetTooltip("Adds a delay to the Triggerbot");
 			}
 			ImGui::NextColumn();
 			{
@@ -807,35 +787,26 @@ void TriggerbotTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("Enemies", &Settings::Triggerbot::Filters::enemies);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Trigger on enemies");
+				SetTooltip("Trigger on enemies");
 				ImGui::Checkbox("Walls", &Settings::Triggerbot::Filters::walls);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Trigger through walls");
+				SetTooltip("Trigger through walls");
 				ImGui::Checkbox("Head", &Settings::Triggerbot::Filters::head);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Trigger on head");
+				SetTooltip("Trigger on head");
 				ImGui::Checkbox("Chest", &Settings::Triggerbot::Filters::chest);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Trigger on chest");
+				SetTooltip("Trigger on chest");
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::Checkbox("Allies", &Settings::Triggerbot::Filters::allies);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Trigger on allies");
+				SetTooltip("Trigger on allies");
 				ImGui::Checkbox("Smoke check", &Settings::Triggerbot::Filters::smoke_check);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Don't shoot through smokes");
+				SetTooltip("Don't shoot through smokes");
 				ImGui::Checkbox("Stomach", &Settings::Triggerbot::Filters::stomach);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Trigger on stomach");
+				SetTooltip("Trigger on stomach");
 				ImGui::Checkbox("Arms", &Settings::Triggerbot::Filters::arms);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Trigger on arms");
+				SetTooltip("Trigger on arms");
 				ImGui::Checkbox("Legs", &Settings::Triggerbot::Filters::legs);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Trigger on legs");
+				SetTooltip("Trigger on legs");
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -868,25 +839,20 @@ void VisualsTab()
 				ImGui::Columns(2, NULL, true);
 				{
 					ImGui::Checkbox("Outline Box", &Settings::ESP::Boxes::enabled);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Outline players with a box");
+					SetTooltip("Outline players with a box");
 					ImGui::Checkbox("Chams", &Settings::ESP::Chams::enabled);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Change players' model texture");
+					SetTooltip("Change players' model texture");
 					ImGui::Checkbox("Health", &Settings::ESP::Bars::enabled);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Show a players health with a bar");
+					SetTooltip("Show a players health with a bar");
 					ImGui::Checkbox("Tracers", &Settings::ESP::Tracers::enabled);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Draws a line to each player");
+					SetTooltip("Draws a line to each player");
 					ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
 					ImGui::Text("Bar Color");
 					ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
 					ImGui::Text("Team Color");
 					ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
 					ImGui::Checkbox("Bullet Tracers", &Settings::ESP::BulletTracers::enabled);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Adds a line showing where a player is aiming");
+					SetTooltip("Adds a line showing where a player is aiming");
 				}
 				ImGui::NextColumn();
 				{
@@ -899,8 +865,7 @@ void VisualsTab()
 						ImGui::Combo("##TEAMCOLTYPE", (int*)& Settings::ESP::team_color_type, TeamColorTypes, IM_ARRAYSIZE(TeamColorTypes));
 					ImGui::PopItemWidth();
 					ImGui::Checkbox("Skeleton", &Settings::ESP::Skeleton::enabled);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Show a players skeleton");
+					SetTooltip("Show a players skeleton");
 				}
 				ImGui::Columns(1);
 				ImGui::Separator();
@@ -909,29 +874,22 @@ void VisualsTab()
 				ImGui::Columns(2, NULL, true);
 				{
 					ImGui::Checkbox("Enemies", &Settings::ESP::Filters::enemies);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Show enemies");
+					SetTooltip("Show enemies");
 					ImGui::Checkbox("Chickens", &Settings::ESP::Filters::chickens);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Show chickens");
+					SetTooltip("Show chickens");
 					ImGui::Checkbox("Legit Mode", &Settings::ESP::Filters::legit);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Hide enemies behind walls");
+					SetTooltip("Hide enemies behind walls");
 					ImGui::Checkbox("Smoke Check", &Settings::ESP::Filters::smoke_check);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Mark players behind smokes as invisible");
+					SetTooltip("Mark players behind smokes as invisible");
 				}
 				ImGui::NextColumn();
 				{
 					ImGui::Checkbox("Allies", &Settings::ESP::Filters::allies);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Show team mates");
+					SetTooltip("Show team mates");
 					ImGui::Checkbox("Fish", &Settings::ESP::Filters::fishes);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Show fish");
+					SetTooltip("Show fish");
 					ImGui::Checkbox("Visiblity Check", &Settings::ESP::Filters::visibility_check);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Change color of outlined box based on whether you see them");
+					SetTooltip("Change color of outlined box based on whether you see them");
 				}
 				ImGui::Columns(1);
 				ImGui::Separator();
@@ -940,55 +898,40 @@ void VisualsTab()
 				ImGui::Columns(2, NULL, true);
 				{
 					ImGui::Checkbox("Clan", &Settings::ESP::Info::clan);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Show clan");
+					SetTooltip("Show clan");
 					ImGui::Checkbox("Rank", &Settings::ESP::Info::rank);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Show rank");
+					SetTooltip("Show rank");
 					ImGui::PushID(1);
 						ImGui::Checkbox("Health", &Settings::ESP::Info::health);
-						if (ImGui::IsItemHovered())
-							ImGui::SetTooltip("Show health");
+						SetTooltip("Show health");
 					ImGui::PopID();
 					ImGui::Checkbox("Scoped", &Settings::ESP::Info::scoped);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Show whether they are scoped");
+					SetTooltip("Show whether they are scoped");
 					ImGui::Checkbox("Flashed", &Settings::ESP::Info::flashed);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Show whether they are flashed");
+					SetTooltip("Show whether they are flashed");
 					ImGui::Checkbox("Defuse Kit", &Settings::ESP::Info::has_defuser);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Show whether they have a defuse kit");
+					SetTooltip("Show whether they have a defuse kit");
 					ImGui::Checkbox("Grabbing Hostage", &Settings::ESP::Info::grabbing_hostage);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Show whether they are grabbing a hostage");
+					SetTooltip("Show whether they are grabbing a hostage");
 					ImGui::Checkbox("Location", &Settings::ESP::Info::location);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Show location");
+					SetTooltip("Show location");
 				}
 				ImGui::NextColumn();
 				{
 					ImGui::Checkbox("Name", &Settings::ESP::Info::name);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Show name");
+					SetTooltip("Show name");
 					ImGui::Checkbox("Steam ID", &Settings::ESP::Info::steam_id);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Show Steam ID");
+					SetTooltip("Show Steam ID");
 					ImGui::Checkbox("Weapon", &Settings::ESP::Info::weapon);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Show held weapon");
+					SetTooltip("Show held weapon");
 					ImGui::Checkbox("Reloading", &Settings::ESP::Info::reloading);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Show whether they are reloading");
+					SetTooltip("Show whether they are reloading");
 					ImGui::Checkbox("Planting", &Settings::ESP::Info::planting);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Show whether they are planting");
+					SetTooltip("Show whether they are planting");
 					ImGui::Checkbox("Defusing", &Settings::ESP::Info::defusing);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Show whether they are defusing");
+					SetTooltip("Show whether they are defusing");
 					ImGui::Checkbox("Rescuing Hostage", &Settings::ESP::Info::rescuing);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Show whether they are rescuing a hostage");
+					SetTooltip("Show whether they are rescuing a hostage");
 				}
 
 				ImGui::Columns(1);
@@ -998,26 +941,20 @@ void VisualsTab()
 				ImGui::Columns(2, NULL, true);
 				{
 					ImGui::Checkbox("Weapons", &Settings::ESP::Filters::weapons);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Show weapons on floor");
+					SetTooltip("Show weapons on floor");
 					ImGui::Checkbox("Throwables", &Settings::ESP::Filters::throwables);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Show throwables");
+					SetTooltip("Show throwables");
 					ImGui::Checkbox("Entity Glow", &Settings::ESP::Glow::enabled);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Show a glow around entities");
+					SetTooltip("Show a glow around entities");
 				}
 				ImGui::NextColumn();
 				{
 					ImGui::Checkbox("Bomb", &Settings::ESP::Filters::bomb);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Show bomb when planted");
+					SetTooltip("Show bomb when planted");
 					ImGui::Checkbox("Defuse Kits", &Settings::ESP::Filters::defusers);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Show defuse kits on floor");
+					SetTooltip("Show defuse kits on floor");
 					ImGui::Checkbox("Hostages", &Settings::ESP::Filters::hostages);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Show hostages");
+					SetTooltip("Show hostages");
 				}
 				ImGui::Columns(1);
 				ImGui::EndChild();
@@ -1034,17 +971,14 @@ void VisualsTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("Recoil Crosshair", &Settings::Recoilcrosshair::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Show a crosshair based on recoil");
+				SetTooltip("Show a crosshair based on recoil");
 				ImGui::Checkbox("FOV Circle", &Settings::ESP::FOVCrosshair::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Show circle around aimbot FOV");
+				SetTooltip("Show circle around aimbot FOV");
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::Checkbox("Only When Shooting", &Settings::Recoilcrosshair::showOnlyWhenShooting);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Only show recoil crosshair when shooting");
+				SetTooltip("Only show recoil crosshair when shooting");
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -1053,26 +987,19 @@ void VisualsTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("Arms", &Settings::ESP::Chams::Arms::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Apply chams to arms");
+				SetTooltip("Apply chams to arms");
 				ImGui::Checkbox("Dlights", &Settings::Dlights::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Adds a light source to players");
+				SetTooltip("Adds a light source to players");
 				ImGui::Checkbox("No Flash", &Settings::Noflash::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Hide flashbang effect");
+				SetTooltip("Hide flashbang effect");
 				ImGui::Checkbox("Show Footsteps", &Settings::ESP::Sounds::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Shows you footsteps in 3D space");
+				SetTooltip("Shows you footsteps in 3D space");
 				ImGui::Checkbox("No View Punch", &Settings::View::NoViewPunch::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Disables view punch when shooting");
+				SetTooltip("Disables view punch when shooting");
 				ImGui::Checkbox("No Sky", &Settings::NoSky::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Allows for the skybox to be colored or disabled");
+				SetTooltip("Allows for the skybox to be colored or disabled");
 				ImGui::Checkbox("No Smoke", &Settings::NoSmoke::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Disables smoke rendering");
+				SetTooltip("Disables smoke rendering");
 			}
 			ImGui::NextColumn();
 			{
@@ -1083,14 +1010,11 @@ void VisualsTab()
 					ImGui::SliderInt("##SOUNDSTIME", &Settings::ESP::Sounds::time, 250, 5000), "Timeout: %0.f";
 				ImGui::PopItemWidth();
 				ImGui::Checkbox("No Aim Punch", &Settings::View::NoAimPunch::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Disables aim punch when shooting");
+				SetTooltip("Disables aim punch when shooting");
 				ImGui::Checkbox("No Scope Border", &Settings::NoScopeBorder::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Disables black scope silhouette");
+				SetTooltip("Disables black scope silhouette");
 				ImGui::Checkbox("ASUS Walls", &Settings::ASUSWalls::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Makes wall textures transparent");
+				SetTooltip("Makes wall textures transparent");
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -1099,8 +1023,7 @@ void VisualsTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("Radar", &Settings::Radar::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Shows players on the custom radar");
+				SetTooltip("Shows players on the custom radar");
 				ImGui::PushItemWidth(-1);
 					ImGui::Combo("##RADARTEAMCOLTYPE", (int*)& Settings::Radar::team_color_type, TeamColorTypes, IM_ARRAYSIZE(TeamColorTypes));
 				ImGui::PopItemWidth();
@@ -1108,8 +1031,7 @@ void VisualsTab()
 				ImGui::Checkbox("Bomb", &Settings::Radar::bomb);
 				ImGui::Checkbox("Legit", &Settings::Radar::legit);
 				ImGui::Checkbox("In-game Radar", &Settings::Radar::InGame::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Shows players on the in-game radar");
+				SetTooltip("Shows players on the in-game radar");
 
 			}
 			ImGui::NextColumn();
@@ -1131,14 +1053,12 @@ void VisualsTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("Hitmarkers", &Settings::ESP::Hitmarker::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Notify when you hit another player");
+				SetTooltip("Notify when you hit another player");
 
 				ImGui::Checkbox("Enemies##HITMARKERS", &Settings::ESP::Hitmarker::enemies);
 				ImGui::Checkbox("Allies##HITMARKERS", &Settings::ESP::Hitmarker::allies);
 				ImGui::Checkbox("Damage##HITMARKERS", &Settings::ESP::Hitmarker::Damage::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Show dealt damage next to the hitmarker");
+				SetTooltip("Show dealt damage next to the hitmarker");
 			}
 			ImGui::NextColumn();
 			{
@@ -1177,8 +1097,7 @@ void HvHTab()
 			ImGui::BeginChild("##ANTIAIM", ImVec2(0, ImGui::GetWindowSize().y / 2 + 32), true);
 			{
 				ImGui::Checkbox("Yaw", &Settings::AntiAim::Yaw::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Enables Yaw AntiAim");
+				SetTooltip("Enables Yaw AntiAim");
 				ImGui::Separator();
 				ImGui::Columns(2, NULL, true);
 				{
@@ -1212,8 +1131,7 @@ void HvHTab()
 				ImGui::Columns(1);
 				ImGui::Separator();
 				ImGui::Checkbox("Pitch", &Settings::AntiAim::Pitch::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Enables Pitch AntiAim");
+				SetTooltip("Enables Pitch AntiAim");
 				ImGui::Separator();
 				ImGui::Columns(2, NULL, true);
 				{
@@ -1238,13 +1156,11 @@ void HvHTab()
 				ImGui::Text("Disable");
 				ImGui::Separator();
 				ImGui::Checkbox("Knife", &Settings::AntiAim::AutoDisable::knife_held);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Stops your antiaim while you have your knife out.");
+				SetTooltip("Stops your antiaim while you have your knife out.");
 				ImGui::NextColumn();
 
 				ImGui::Checkbox("No Enemy", &Settings::AntiAim::AutoDisable::no_enemy);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Stops your antiaim when there are no enemies visible.");
+				SetTooltip("Stops your antiaim when there are no enemies visible.");
 
 				ImGui::Columns(1);
 				ImGui::Separator();
@@ -1253,8 +1169,7 @@ void HvHTab()
 				ImGui::Columns(2, NULL, true);
 				{
 					ImGui::Checkbox("Enabled", &Settings::AntiAim::HeadEdge::enabled);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Aims your head into the closest wall");
+					SetTooltip("Aims your head into the closest wall");
 				}
 				ImGui::NextColumn();
 				{
@@ -1289,22 +1204,19 @@ void HvHTab()
 			ImGui::Text("Resolver");
 			ImGui::Separator();
 			ImGui::Checkbox("Resolve All", &Settings::Resolver::resolve_all);
-			if (ImGui::IsItemHovered())
-				ImGui::SetTooltip("Resolves all players on the server");
+			SetTooltip("Resolves all players on the server");
 			ImGui::Separator();
 			ImGui::Text("Movement");
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("Auto Crouch", &Settings::Aimbot::AutoCrouch::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Auto crouch when an enemy is in sight");
+				SetTooltip("Auto crouch when an enemy is in sight");
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::Checkbox("Auto Stop", &Settings::Aimbot::AutoStop::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Auto stop when an enemy is in sight");
+				SetTooltip("Auto stop when an enemy is in sight");
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -1328,13 +1240,11 @@ void MiscTab()
 			ImGui::Separator();
 
 			ImGui::Checkbox("Bunny Hop", &Settings::BHop::enabled);
-			if (ImGui::IsItemHovered())
-				ImGui::SetTooltip("Auto bunny hop");
+			SetTooltip("Auto bunny hop");
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("Edge Jump", &Settings::EdgeJump::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Jumps off the edges");
+				SetTooltip("Jumps off the edges");
 			}
 			ImGui::NextColumn();
 			{
@@ -1346,8 +1256,7 @@ void MiscTab()
 			ImGui::Columns(2, NULL, true);
 			{
 					ImGui::Checkbox("Auto Strafe", &Settings::AutoStrafe::enabled);
-					if (ImGui::IsItemHovered())
-						ImGui::SetTooltip("Auto strafe when bunny hopping");
+					SetTooltip("Auto strafe when bunny hopping");
 			}
 			ImGui::NextColumn();
 			{
@@ -1359,8 +1268,7 @@ void MiscTab()
 			if (Settings::AutoStrafe::type == AutostrafeType::AS_RAGE)
 			{
 				ImGui::Checkbox("Silent", &Settings::AutoStrafe::silent);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Strafes won't be visible for spectators");
+				SetTooltip("Strafes won't be visible for spectators");
 			}
 
 			ImGui::Columns(1);
@@ -1371,14 +1279,12 @@ void MiscTab()
 			ImGui::Columns(3, NULL, true);
 			{
 				ImGui::Checkbox("Kill Messages", &Settings::Spammer::KillSpammer::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Spams a kill message when killing an enemy");
+				SetTooltip("Spams a kill message when killing an enemy");
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::Checkbox("Team Chat###SAY_TEAM1", &Settings::Spammer::KillSpammer::say_team);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Only show kill message in team chat");
+				SetTooltip("Only show kill message in team chat");
 			}
 			ImGui::NextColumn();
 			{
@@ -1406,8 +1312,7 @@ void MiscTab()
 			ImGui::NextColumn();
 			{
 				ImGui::Checkbox("Team Chat###SAY_TEAM2", &Settings::Spammer::say_team);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Only spam messages in team chat");
+				SetTooltip("Only spam messages in team chat");
 			}
 			ImGui::NextColumn();
 			{
@@ -1473,14 +1378,11 @@ void MiscTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("FOV", &Settings::FOVChanger::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Change camera FOV");
+				SetTooltip("Change camera FOV");
 				ImGui::Checkbox("Viewmodel FOV", &Settings::FOVChanger::viewmodel_enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Change viewmodel FOV");
+				SetTooltip("Change viewmodel FOV");
 				ImGui::Checkbox("Ignore Scope", &Settings::FOVChanger::ignore_scope);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Disable FOV Changer while scoping");
+				SetTooltip("Disable FOV Changer while scoping");
 			}
 			ImGui::NextColumn();
 			{
@@ -1501,8 +1403,7 @@ void MiscTab()
 			ImGui::Text("Clantag");
 			ImGui::Separator();
 			ImGui::Checkbox("Enabled", &Settings::ClanTagChanger::enabled);
-			if (ImGui::IsItemHovered())
-				ImGui::SetTooltip("Display a custom clantag");
+			SetTooltip("Display a custom clantag");
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
@@ -1536,8 +1437,7 @@ void MiscTab()
 
 			if (ImGui::Button("Glitch Name"))
 				NameChanger::SetName("\n\xAD\xAD\xAD");
-			if (ImGui::IsItemHovered())
-				ImGui::SetTooltip("Allows you to change your name an infinite amount of times and doesn't show in server message");
+			SetTooltip("Allows you to change your name an infinite amount of times and doesn't show in server message");
 			ImGui::SameLine();
 			if (ImGui::Button("No Name"))
 			{
@@ -1571,20 +1471,15 @@ void MiscTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("Fake Lag", &Settings::FakeLag::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Chokes packets so it appears you're lagging");
+				SetTooltip("Chokes packets so it appears you're lagging");
 				ImGui::Checkbox("Adaptive Fake Lag", &Settings::FakeLag::adaptive);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Uses dynamic choke value based on your velocity");
+				SetTooltip("Uses dynamic choke value based on your velocity");
 				ImGui::Checkbox("Auto Accept", &Settings::AutoAccept::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Auto accept games when in MM queue");
+				SetTooltip("Auto accept games when in MM queue");
 				ImGui::Checkbox("AirStuck", &Settings::Airstuck::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Stops tickrate so you freeze in place");
+				SetTooltip("Stops tickrate so you freeze in place");
 				ImGui::Checkbox("Autoblock", &Settings::Autoblock::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Allows you to block players from moving forwards by standing in front of them and mirroring their moves - great for griefing");
+				SetTooltip("Allows you to block players from moving forwards by standing in front of them and mirroring their moves - great for griefing");
 				if (ImGui::Checkbox("Teleport", &Settings::Teleport::enabled))
 				{
 					if (!ValveDSCheck::forceUT && ((*csGameRules) && (*csGameRules)->IsValveDS()) && Settings::Teleport::enabled)
@@ -1593,11 +1488,9 @@ void MiscTab()
 						ImGui::OpenPopup("Error###UNTRUSTED_FEATURE");
 					}
 				}
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Teleport to (0, 0) on any map");
+				SetTooltip("Teleport to (0, 0) on any map");
 				ImGui::Checkbox("Auto Defuse", &Settings::AutoDefuse::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Will automatically defuse the bomb with 0.5 seconds remaining - starts at 5.5 seconds until explosion with kit and 10.5 without");
+				SetTooltip("Will automatically defuse the bomb with 0.5 seconds remaining - starts at 5.5 seconds until explosion with kit and 10.5 without");
 			}
 			ImGui::NextColumn();
 			{
@@ -1605,11 +1498,9 @@ void MiscTab()
 					ImGui::SliderInt("##FAKELAGAMOUNT", &Settings::FakeLag::value, 0, 16, "Amount: %0.f");
 				ImGui::PopItemWidth();
 				ImGui::Checkbox("Show Ranks", &Settings::ShowRanks::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Displays competitive rank of all players in the scoreboard next to their name during a competitive match");
+				SetTooltip("Displays competitive rank of all players in the scoreboard next to their name during a competitive match");
 				ImGui::Checkbox("Screenshot Cleaner", &Settings::ScreenshotCleaner::enabled);
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Prevents AimTux visuals from appearing in screenshots taken");
+				SetTooltip("Prevents AimTux visuals from appearing in screenshots taken");
 				UI::KeyBindButton(&Settings::Airstuck::key);
 				UI::KeyBindButton(&Settings::Autoblock::key);
 				UI::KeyBindButton(&Settings::Teleport::key);
