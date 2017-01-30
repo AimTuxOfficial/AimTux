@@ -34,9 +34,9 @@ void Dlights::Paint()
 			return;
 
 		bool bIsVisible = false;
-		if (Settings::ESP::Filters::visibility_check || Settings::ESP::Filters::legit)
+		if (Settings::ESP::Filters::visibilityCheck || Settings::ESP::Filters::legit)
 		{
-			bIsVisible = Entity::IsVisible(player, Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smoke_check);
+			bIsVisible = Entity::IsVisible(player, Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck);
 			if (!bIsVisible && Settings::ESP::Filters::legit)
 				continue;
 		}

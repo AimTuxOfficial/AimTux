@@ -172,7 +172,7 @@ void Spammer::BeginFrame(float frameTime)
 				str << modelName << " | ";
 
 			if (Settings::Spammer::PositionSpammer::show_rank)
-				str << ESP::Ranks[*(*csPlayerResource)->GetCompetitiveRanking(i)] << " | ";
+				str << ESP::ranks[*(*csPlayerResource)->GetCompetitiveRanking(i)] << " | ";
 
 			if (Settings::Spammer::PositionSpammer::show_wins)
 				str << *(*csPlayerResource)->GetCompetitiveWins(i) << " wins | ";

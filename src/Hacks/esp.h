@@ -11,7 +11,7 @@
 #include "../settings.h"
 namespace ESP
 {
-	extern const char* Ranks[];
+	extern const char* ranks[];
 
 	Color GetHealthColor(int hp);
 	Color GetHealthColor(C_BasePlayer* player);

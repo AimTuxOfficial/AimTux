@@ -315,31 +315,31 @@ void ColorsWindow()
 			&Settings::UI::fontColor,
 			&Settings::ESP::FOVCrosshair::color,
 			&Settings::ESP::Hitmarker::color,
-			&Settings::ESP::enemy_color,
-			&Settings::ESP::ally_color,
-			&Settings::ESP::enemy_visible_color,
-			&Settings::ESP::ally_visible_color,
-			&Settings::ESP::ct_color,
-			&Settings::ESP::t_color,
-			&Settings::ESP::ct_visible_color,
-			&Settings::ESP::t_visible_color,
-			&Settings::ESP::bomb_color,
-			&Settings::ESP::bomb_defusing_color,
-			&Settings::ESP::hostage_color,
-			&Settings::ESP::defuser_color,
-			&Settings::ESP::weapon_color,
-			&Settings::ESP::chicken_color,
-			&Settings::ESP::fish_color,
-			&Settings::ESP::smoke_color,
-			&Settings::ESP::decoy_color,
-			&Settings::ESP::flashbang_color,
-			&Settings::ESP::grenade_color,
-			&Settings::ESP::molotov_color,
+			&Settings::ESP::enemyColor,
+			&Settings::ESP::allyColor,
+			&Settings::ESP::enemyVisibleColor,
+			&Settings::ESP::allyVisibleColor,
+			&Settings::ESP::ctColor,
+			&Settings::ESP::tColor,
+			&Settings::ESP::ctVisibleColor,
+			&Settings::ESP::tVisibleColor,
+			&Settings::ESP::bombColor,
+			&Settings::ESP::bombDefusingColor,
+			&Settings::ESP::hostageColor,
+			&Settings::ESP::defuserColor,
+			&Settings::ESP::weaponColor,
+			&Settings::ESP::chickenColor,
+			&Settings::ESP::fishColor,
+			&Settings::ESP::smokeColor,
+			&Settings::ESP::decoyColor,
+			&Settings::ESP::flashbangColor,
+			&Settings::ESP::grenadeColor,
+			&Settings::ESP::molotovColor,
 			&Settings::ESP::Skeleton::color,
-			&Settings::ESP::Chams::ally_color,
-			&Settings::ESP::Chams::ally_visible_color,
-			&Settings::ESP::Chams::enemy_color,
-			&Settings::ESP::Chams::enemy_visible_color,
+			&Settings::ESP::Chams::allyColor,
+			&Settings::ESP::Chams::allyVisibleColor,
+			&Settings::ESP::Chams::enemyColor,
+			&Settings::ESP::Chams::enemyVisibleColor,
 			&Settings::ESP::Chams::Arms::color,
 			&Settings::Radar::enemy_color,
 			&Settings::Radar::ally_color,
@@ -351,13 +351,13 @@ void ColorsWindow()
 			&Settings::Radar::t_visible_color,
 			&Settings::Radar::bomb_color,
 			&Settings::Radar::bomb_defusing_color,
-			&Settings::ESP::Glow::ally_color,
-			&Settings::ESP::Glow::enemy_color,
-			&Settings::ESP::Glow::enemy_visible_color,
-			&Settings::ESP::Glow::weapon_color,
-			&Settings::ESP::Glow::grenade_color,
-			&Settings::ESP::Glow::defuser_color,
-			&Settings::ESP::Glow::chicken_color,
+			&Settings::ESP::Glow::allyColor,
+			&Settings::ESP::Glow::enemyColor,
+			&Settings::ESP::Glow::enemyVisibleColor,
+			&Settings::ESP::Glow::weaponColor,
+			&Settings::ESP::Glow::grenadeColor,
+			&Settings::ESP::Glow::defuserColor,
+			&Settings::ESP::Glow::chickenColor,
 			&Settings::NoSky::color,
 			&Settings::ASUSWalls::color,
 	};
@@ -368,14 +368,14 @@ void ColorsWindow()
 			nullptr, // UI Font
 			nullptr, // FOV Circle
 			nullptr, // Hitmarker
-			&Settings::ESP::hp_enemy_color, // ESP - Enemy
-			&Settings::ESP::hp_ally_color, // ESP - Team
-			&Settings::ESP::hp_enemy_visible_color, // ESP - Enemy Visible
-			&Settings::ESP::hp_ally_visible_color, // ESP - Team Visible
-			&Settings::ESP::hp_ct_color, // ESP - CT
-			&Settings::ESP::hp_t_color, // ESP - T
-			&Settings::ESP::hp_ct_visible_color, // ESP - CT Visible
-			&Settings::ESP::hp_t_visible_color, // ESP - T Visible
+			&Settings::ESP::hpEnemyColor, // ESP - Enemy
+			&Settings::ESP::hpAllyColor, // ESP - Team
+			&Settings::ESP::hpEnemyVisibleColor, // ESP - Enemy Visible
+			&Settings::ESP::hpAllyVisibleColor, // ESP - Team Visible
+			&Settings::ESP::hpCtColor, // ESP - CT
+			&Settings::ESP::hpTColor, // ESP - T
+			&Settings::ESP::hpCtVisibleColor, // ESP - CT Visible
+			&Settings::ESP::hpTVisibleColor, // ESP - T Visible
 			nullptr, // ESP - Bomb
 			nullptr, // ESP - Bomb Defusing
 			nullptr, // ESP - Hostage
@@ -389,10 +389,10 @@ void ColorsWindow()
 			nullptr, // ESP - Grenade
 			nullptr, // ESP - Molotov
 			nullptr, // ESP - Skeleton
-			&Settings::ESP::Chams::hp_ally_color, // Chams - Team
-			&Settings::ESP::Chams::hp_ally_visible_color, // Chams - Team Visible
-			&Settings::ESP::Chams::hp_enemy_color, // Chams - Enemy
-			&Settings::ESP::Chams::hp_enemy_visible_color, // Chams - Enemy Visible
+			&Settings::ESP::Chams::hpAllyColor, // Chams - Team
+			&Settings::ESP::Chams::hpAllyVisibleColor, // Chams - Team Visible
+			&Settings::ESP::Chams::hpEnemyColor, // Chams - Enemy
+			&Settings::ESP::Chams::hpEnemyVisibleColor, // Chams - Enemy Visible
 			nullptr, // Chams - Arms
 			&Settings::Radar::hp_enemy_color, // Radar - Enemy
 			&Settings::Radar::hp_ally_color, // Radar - Team
@@ -404,9 +404,9 @@ void ColorsWindow()
 			&Settings::Radar::hp_t_visible_color, // Radar - T Visible
 			nullptr, // Radar - Bomb
 			nullptr, // Radar - Bomb Defusing
-			&Settings::ESP::Glow::hp_ally_color, // Glow - Team
-			&Settings::ESP::Glow::hp_enemy_color, // Glow - Enemy
-			&Settings::ESP::Glow::hp_enemy_visible_color, // Glow - Enemy Visible
+			&Settings::ESP::Glow::hpAllyColor, // Glow - Team
+			&Settings::ESP::Glow::hpEnemyColor, // Glow - Enemy
+			&Settings::ESP::Glow::hpEnemyVisibleColor, // Glow - Enemy Visible
 			nullptr, // Glow - Weapon
 			nullptr, // Glow - Grenade
 			nullptr, // Glow - Defuser
@@ -863,7 +863,7 @@ void VisualsTab()
 						ImGui::Combo("##CHAMSTYPE", (int*)& Settings::ESP::Chams::type, ChamsTypes, IM_ARRAYSIZE(ChamsTypes));
 						ImGui::Combo("##BARTYPE", (int*)& Settings::ESP::Bars::type, BarTypes, IM_ARRAYSIZE(BarTypes));
 						ImGui::Combo("##TRACERTYPE", (int*)& Settings::ESP::Tracers::type, TracerTypes, IM_ARRAYSIZE(TracerTypes));
-						ImGui::Combo("##BARCOLTYPE", (int*)& Settings::ESP::Bars::color_type, BarColorTypes, IM_ARRAYSIZE(BarColorTypes));
+						ImGui::Combo("##BARCOLTYPE", (int*)& Settings::ESP::Bars::colorType, BarColorTypes, IM_ARRAYSIZE(BarColorTypes));
 						ImGui::Combo("##TEAMCOLTYPE", (int*)& Settings::ESP::team_color_type, TeamColorTypes, IM_ARRAYSIZE(TeamColorTypes));
 					ImGui::PopItemWidth();
 					ImGui::Checkbox("Skeleton", &Settings::ESP::Skeleton::enabled);
@@ -884,7 +884,7 @@ void VisualsTab()
 					SetTooltip("Show chickens");
 					ImGui::Checkbox("Legit Mode", &Settings::ESP::Filters::legit);
 					SetTooltip("Hide enemies behind walls");
-					ImGui::Checkbox("Smoke Check", &Settings::ESP::Filters::smoke_check);
+					ImGui::Checkbox("Smoke Check", &Settings::ESP::Filters::smokeCheck);
 					SetTooltip("Mark players behind smokes as invisible");
 				}
 				ImGui::NextColumn();
@@ -893,7 +893,7 @@ void VisualsTab()
 					SetTooltip("Show team mates");
 					ImGui::Checkbox("Fish", &Settings::ESP::Filters::fishes);
 					SetTooltip("Show fish");
-					ImGui::Checkbox("Visiblity Check", &Settings::ESP::Filters::visibility_check);
+					ImGui::Checkbox("Visiblity Check", &Settings::ESP::Filters::visibilityCheck);
 					SetTooltip("Change color of outlined box based on whether you see them");
 				}
 				ImGui::Columns(1);
@@ -914,9 +914,9 @@ void VisualsTab()
 					SetTooltip("Show whether they are scoped");
 					ImGui::Checkbox("Flashed", &Settings::ESP::Info::flashed);
 					SetTooltip("Show whether they are flashed");
-					ImGui::Checkbox("Defuse Kit", &Settings::ESP::Info::has_defuser);
+					ImGui::Checkbox("Defuse Kit", &Settings::ESP::Info::hasDefuser);
 					SetTooltip("Show whether they have a defuse kit");
-					ImGui::Checkbox("Grabbing Hostage", &Settings::ESP::Info::grabbing_hostage);
+					ImGui::Checkbox("Grabbing Hostage", &Settings::ESP::Info::grabbingHostage);
 					SetTooltip("Show whether they are grabbing a hostage");
 					ImGui::Checkbox("Location", &Settings::ESP::Info::location);
 					SetTooltip("Show location");
@@ -925,7 +925,7 @@ void VisualsTab()
 				{
 					ImGui::Checkbox("Name", &Settings::ESP::Info::name);
 					SetTooltip("Show name");
-					ImGui::Checkbox("Steam ID", &Settings::ESP::Info::steam_id);
+					ImGui::Checkbox("Steam ID", &Settings::ESP::Info::steamId);
 					SetTooltip("Show Steam ID");
 					ImGui::Checkbox("Weapon", &Settings::ESP::Info::weapon);
 					SetTooltip("Show held weapon");
@@ -1070,7 +1070,7 @@ void VisualsTab()
 				ImGui::PushItemWidth(-1);
 					ImGui::SliderInt("##HITMARKERDUR", &Settings::ESP::Hitmarker::duration, 250, 3000, "Timeout: %0.f");
 					ImGui::SliderInt("##HITMARKERSIZE", &Settings::ESP::Hitmarker::size, 1, 32, "Size: %0.f");
-					ImGui::SliderInt("##HITMARKERGAP", &Settings::ESP::Hitmarker::inner_gap, 1, 16, "Gap: %0.f");
+					ImGui::SliderInt("##HITMARKERGAP", &Settings::ESP::Hitmarker::innerGap, 1, 16, "Gap: %0.f");
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
@@ -2136,7 +2136,7 @@ void PlayerListWindow()
 					ImGui::Text("%s", (*csPlayerResource)->GetClan(it));
 					ImGui::NextColumn();
 
-					ImGui::Text("%s", ESP::Ranks[*(*csPlayerResource)->GetCompetitiveRanking(it)]);
+					ImGui::Text("%s", ESP::ranks[*(*csPlayerResource)->GetCompetitiveRanking(it)]);
 					ImGui::NextColumn();
 
 					ImGui::Text("%d", *(*csPlayerResource)->GetCompetitiveWins(it));

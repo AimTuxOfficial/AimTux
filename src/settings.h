@@ -371,55 +371,55 @@ namespace Settings
 	{
 		extern bool enabled;
 		extern TeamColorType team_color_type;
-		extern ImColor enemy_color;
-		extern ImColor ally_color;
-		extern ImColor enemy_visible_color;
-		extern ImColor ally_visible_color;
-		extern ImColor ct_color;
-		extern ImColor t_color;
-		extern ImColor ct_visible_color;
-		extern ImColor t_visible_color;
-		extern ImColor bomb_color;
-		extern ImColor bomb_defusing_color;
-		extern ImColor hostage_color;
-		extern ImColor defuser_color;
-		extern ImColor weapon_color;
-		extern ImColor chicken_color;
-		extern ImColor fish_color;
-		extern ImColor smoke_color;
-		extern ImColor decoy_color;
-		extern ImColor flashbang_color;
-		extern ImColor grenade_color;
-		extern ImColor molotov_color;
-		extern bool hp_enemy_color;
-		extern bool hp_ally_color;
-		extern bool hp_enemy_visible_color;
-		extern bool hp_ally_visible_color;
-		extern bool hp_ct_color;
-		extern bool hp_t_color;
-		extern bool hp_ct_visible_color;
-		extern bool hp_t_visible_color;
+		extern ImColor enemyColor;
+		extern ImColor allyColor;
+		extern ImColor enemyVisibleColor;
+		extern ImColor allyVisibleColor;
+		extern ImColor ctColor;
+		extern ImColor tColor;
+		extern ImColor ctVisibleColor;
+		extern ImColor tVisibleColor;
+		extern ImColor bombColor;
+		extern ImColor bombDefusingColor;
+		extern ImColor hostageColor;
+		extern ImColor defuserColor;
+		extern ImColor weaponColor;
+		extern ImColor chickenColor;
+		extern ImColor fishColor;
+		extern ImColor smokeColor;
+		extern ImColor decoyColor;
+		extern ImColor flashbangColor;
+		extern ImColor grenadeColor;
+		extern ImColor molotovColor;
+		extern bool hpEnemyColor;
+		extern bool hpAllyColor;
+		extern bool hpEnemyVisibleColor;
+		extern bool hpAllyVisibleColor;
+		extern bool hpCtColor;
+		extern bool hpTColor;
+		extern bool hpCtVisibleColor;
+		extern bool hpTVisibleColor;
 
 		namespace Glow
 		{
 			extern bool enabled;
-			extern ImColor ally_color;
-			extern ImColor enemy_color;
-			extern ImColor enemy_visible_color;
-			extern ImColor weapon_color;
-			extern ImColor grenade_color;
-			extern ImColor defuser_color;
-			extern ImColor chicken_color;
-			extern bool hp_ally_color;
-			extern bool hp_enemy_color;
-			extern bool hp_enemy_visible_color;
+			extern ImColor allyColor;
+			extern ImColor enemyColor;
+			extern ImColor enemyVisibleColor;
+			extern ImColor weaponColor;
+			extern ImColor grenadeColor;
+			extern ImColor defuserColor;
+			extern ImColor chickenColor;
+			extern bool hpAllyColor;
+			extern bool hpEnemyColor;
+			extern bool hpEnemyVisibleColor;
 		}
 
 		namespace Filters
 		{
 			extern bool legit;
-			extern bool visibility_check;
-			extern bool smoke_check;
+			extern bool visibilityCheck;
+			extern bool smokeCheck;
 			extern bool enemies;
 			extern bool allies;
 			extern bool bomb;
@@ -435,7 +435,7 @@ namespace Settings
 		{
 			extern bool name;
 			extern bool clan;
-			extern bool steam_id;
+			extern bool steamId;
 			extern bool rank;
 			extern bool health;
 			extern bool weapon;
@@ -443,9 +443,9 @@ namespace Settings
 			extern bool reloading;
 			extern bool flashed;
 			extern bool planting;
-			extern bool has_defuser;
+			extern bool hasDefuser;
 			extern bool defusing;
-			extern bool grabbing_hostage;
+			extern bool grabbingHostage;
 			extern bool rescuing;
 			extern bool location;
 		}
@@ -466,7 +466,7 @@ namespace Settings
 		{
 			extern bool enabled;
 			extern BarType type;
-			extern BarColorType color_type;
+			extern BarColorType colorType;
 		}
 
 		namespace Tracers
@@ -494,15 +494,15 @@ namespace Settings
 		namespace Chams
 		{
 			extern bool enabled;
-			extern ImColor ally_color;
-			extern ImColor ally_visible_color;
-			extern ImColor enemy_color;
-			extern ImColor enemy_visible_color;
+			extern ImColor allyColor;
+			extern ImColor allyVisibleColor;
+			extern ImColor enemyColor;
+			extern ImColor enemyVisibleColor;
 			extern ChamsType type;
-			extern bool hp_ally_color;
-			extern bool hp_ally_visible_color;
-			extern bool hp_enemy_color;
-			extern bool hp_enemy_visible_color;
+			extern bool hpAllyColor;
+			extern bool hpAllyVisibleColor;
+			extern bool hpEnemyColor;
+			extern bool hpEnemyVisibleColor;
 
 			namespace Arms
 			{
@@ -526,7 +526,7 @@ namespace Settings
 			extern ImColor color;
 			extern int duration;
 			extern int size;
-			extern int inner_gap;
+			extern int innerGap;
 
 			namespace Damage
 			{

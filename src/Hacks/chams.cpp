@@ -3,14 +3,14 @@
 bool Settings::ESP::Chams::enabled = false;
 bool Settings::ESP::Chams::Arms::enabled = false;
 ArmsType Settings::ESP::Chams::Arms::type = ArmsType::DEFAULT;
-ImColor Settings::ESP::Chams::ally_color = ImColor(7, 98, 168, 255);
-ImColor Settings::ESP::Chams::ally_visible_color = ImColor(40, 52, 138, 255);
-ImColor Settings::ESP::Chams::enemy_color = ImColor(243, 24, 28, 255);
-ImColor Settings::ESP::Chams::enemy_visible_color = ImColor(243, 159, 20, 255);
-bool Settings::ESP::Chams::hp_ally_color = false;
-bool Settings::ESP::Chams::hp_ally_visible_color = false;
-bool Settings::ESP::Chams::hp_enemy_color = false;
-bool Settings::ESP::Chams::hp_enemy_visible_color = false;
+ImColor Settings::ESP::Chams::allyColor = ImColor(7, 98, 168, 255);
+ImColor Settings::ESP::Chams::allyVisibleColor = ImColor(40, 52, 138, 255);
+ImColor Settings::ESP::Chams::enemyColor = ImColor(243, 24, 28, 255);
+ImColor Settings::ESP::Chams::enemyVisibleColor = ImColor(243, 159, 20, 255);
+bool Settings::ESP::Chams::hpAllyColor = false;
+bool Settings::ESP::Chams::hpAllyVisibleColor = false;
+bool Settings::ESP::Chams::hpEnemyColor = false;
+bool Settings::ESP::Chams::hpEnemyVisibleColor = false;
 ImColor Settings::ESP::Chams::Arms::color = ImColor(117, 43, 73, 255);
 ChamsType Settings::ESP::Chams::type = ChamsType::CHAMS;
 
@@ -62,15 +62,15 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 
 	if (Settings::ESP::Filters::allies && entity->GetTeam() == localplayer->GetTeam())
 	{
-		Color visColor = Settings::ESP::Chams::hp_ally_visible_color ? ESP::GetHealthColor(entity) : Color::FromImColor(Settings::ESP::Chams::ally_visible_color);
-		Color color = Settings::ESP::Chams::hp_ally_color ? ESP::GetHealthColor(entity) : Color::FromImColor(Settings::ESP::Chams::ally_color);
+		Color visColor = Settings::ESP::Chams::hpAllyVisibleColor ? ESP::GetHealthColor(entity) : Color::FromImColor(Settings::ESP::Chams::allyVisibleColor);
+		Color color = Settings::ESP::Chams::hpAllyColor ? ESP::GetHealthColor(entity) : Color::FromImColor(Settings::ESP::Chams::allyColor);
 		visible_material->ColorModulate(visColor);
 		hidden_material->ColorModulate(color);
 	}
 	else if (Settings::ESP::Filters::enemies && entity->GetTeam() != localplayer->GetTeam())
 	{
-		Color visColor = Settings::ESP::Chams::hp_enemy_visible_color ? ESP::GetHealthColor(entity) : Color::FromImColor(Settings::ESP::Chams::enemy_visible_color);
-		Color color = Settings::ESP::Chams::hp_enemy_color ? ESP::GetHealthColor(entity) : Color::FromImColor(Settings::ESP::Chams::enemy_color);
+		Color visColor = Settings::ESP::Chams::hpEnemyVisibleColor ? ESP::GetHealthColor(entity) : Color::FromImColor(Settings::ESP::Chams::enemyVisibleColor);
+		Color color = Settings::ESP::Chams::hpEnemyColor ? ESP::GetHealthColor(entity) : Color::FromImColor(Settings::ESP::Chams::enemyColor);
 		visible_material->ColorModulate(visColor);
 		hidden_material->ColorModulate(color);
 	}
