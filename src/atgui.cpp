@@ -161,7 +161,7 @@ void SetupMainMenuBar()
 inline void SetTooltip(const char* text)
 {
 	if (ImGui::IsItemHovered())
-		ImGui::SetTooltip(text);
+		ImGui::SetTooltip("%s", text);
 }
 
 static ItemDefinitionIndex current_weapon = ItemDefinitionIndex::INVALID;
