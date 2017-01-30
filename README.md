@@ -16,10 +16,21 @@ AimTux is a fully featured internal hack for *CounterStrike : Global Offensive* 
 **Note:** _Do NOT download or compile as the root user_
 
 #### Download the dependencies required to build AimTux:
+
+=================
+
 __Ubuntu-Based / Debian:__
 ```bash
 sudo apt-get install cmake g++ gdb git libsdl2-dev zlib1g-dev
 ```
+To build AimTux, you require at least (`GCC / G++ v6`) otherwise it will give a massive amount of errors, this seems to happen on Ubuntu / Debian based distro's because they don't ship the latest gcc / g++ by default, to check your gcc / g++ version, run the command 
+`
+gcc -v
+`
+and it will tell you on the bottom line the version, if it is not at least v6.0, you will need to follow [this](https://github.com/AimTuxOfficial/AimTux/wiki/Updating-your-compiler) wiki page on how to update.
+
+==================
+
 __Arch:__
 ```bash
 sudo pacman -S base-devel cmake gdb git sdl2
@@ -33,12 +44,6 @@ __Gentoo:__
 ```bash
 sudo emerge cmake dev-vcs/git gdb libsdl2 mesa
 ```
-
-To build AimTux, you require at least (`GCC / G++ v6`) otherwise it will error, to check your gcc / g++ version, run the command 
-`
-gcc -v
-`
-and it will tell you on the bottom line the version, if it is not at least v6.0, you will need to follow [this](https://github.com/AimTuxOfficial/AimTux/wiki/Updating-your-compiler) wiki page on how to update.
 
 ===================
 
