@@ -72,6 +72,12 @@ public:
 		return getvfunc<oGetClientClass>(this, 2)(this);
 	}
 
+	void Release()
+	{
+		typedef void (* oRelease)(void*);
+		return getvfunc<oRelease>(this, 1)(this);
+	}
+
 	void PreDataUpdate(DataUpdateType_t updateType) // Could be wrong
 	{
 		typedef void (* oPreDataUpdate)(void*, DataUpdateType_t);
@@ -88,6 +94,12 @@ public:
 	{
 		typedef int (* oGetIndex)(void*);
 		return getvfunc<oGetIndex>(this, 10)(this);
+	}
+
+	void SetDestroyedOnRecreateEntities()
+	{
+		typedef void (* oSetDestroyedOnRecreateEntities)(void*);
+		return getvfunc<oSetDestroyedOnRecreateEntities>(this, 13)(this);
 	}
 };
 

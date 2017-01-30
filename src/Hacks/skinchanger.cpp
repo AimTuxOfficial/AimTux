@@ -211,61 +211,73 @@ void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 
 		/* get our player entity */
 		C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
-		if (!localplayer || !localplayer->GetAlive())
+		if (!localplayer)
 			return;
 
-		if (!entitylist->GetClientEntityFromHandle((void*) localplayer->GetWearables()))
+		if(!localplayer->GetAlive())
 		{
-			for (ClientClass* pClass = client->GetAllClasses(); pClass; pClass = pClass->m_pNext)
-			{
-				if (pClass->m_ClassID != EClassIds::CEconWearable)
-					continue;
+			C_BaseAttributableItem* glove = (C_BaseAttributableItem*) entitylist->GetClientEntity(localplayer->GetWearables()[0] & 0xFFF);
+			if (!glove)
+				return;
 
-				// Gets last entityindex entry and just add 1 | Random Serial.
-				int iEntry = (entitylist->GetHighestEntityIndex() + 1), iSerial = RandomInt(0x0, 0xFFF);
-
-				// Create the entity, adds it to the enum of Entities.
-				pClass->m_pCreateFn(iEntry, iSerial);
-
-				// Assign Wearable[0] (gloves) with the entry value and serial.
-				localplayer->GetWearables()[0] = iEntry | (iSerial << 16);
-
-				break;
-			}
+			glove->GetNetworkable()->SetDestroyedOnRecreateEntities();
+			glove->GetNetworkable()->Release();
 		}
-
-		C_BaseAttributableItem* glove = (C_BaseAttributableItem*) entitylist->GetClientEntity(localplayer->GetWearables()[0] & 0xFFF);
-		if (!glove)
-			return;
-
-		IEngineClient::player_info_t localplayer_info;
-		engine->GetPlayerInfo(engine->GetLocalPlayer(), &localplayer_info);
-
-		// Have to use  this because there is no preset ItemDefinitionIndex
-		Settings::Skinchanger::Skin currentSkin = Settings::Skinchanger::skins[ItemDefinitionIndex::GLOVE_CT_SIDE];
-
-		if (*glove->GetFallbackPaintKit() != currentSkin.PaintKit &&
-				*glove->GetItemDefinitionIndex() != currentSkin._ItemDefinitionIndex &&
-				*glove->GetFallbackWear() != currentSkin.Wear)
+		else
 		{
+			if (!entitylist->GetClientEntityFromHandle((void*) localplayer->GetWearables()))
+			{
+				for (ClientClass* pClass = client->GetAllClasses(); pClass; pClass = pClass->m_pNext)
+				{
+					if (pClass->m_ClassID != EClassIds::CEconWearable)
+						continue;
 
-			if (currentSkin.PaintKit != -1)
-				*glove->GetFallbackPaintKit() = currentSkin.PaintKit;
+					// Gets last entityindex entry and just add 1 | Random Serial.
+					int iEntry = (entitylist->GetHighestEntityIndex() + 1), iSerial = RandomInt(0x0, 0xFFF);
 
-			if (currentSkin._ItemDefinitionIndex != ItemDefinitionIndex::INVALID)
-				*glove->GetItemDefinitionIndex() = currentSkin._ItemDefinitionIndex;
+					// Create the entity, adds it to the enum of Entities.
+					pClass->m_pCreateFn(iEntry, iSerial);
 
-			if (currentSkin.Wear != -1)
-				*glove->GetFallbackWear() = currentSkin.Wear;
+					// Assign Wearable[0] (gloves) with the entry value and serial.
+					localplayer->GetWearables()[0] = iEntry | (iSerial << 16);
 
-			*glove->GetFallbackSeed() = 0;
-			*glove->GetFallbackStatTrak() = -1;
-			*glove->GetEntityQuality() = 4;
-			*glove->GetItemIDHigh() = -1;
-			*glove->GetAccountID() = localplayer_info.xuidlow;
+					break;
+				}
+			}
 
-			glove->SetModelIndex(modelInfo->GetModelIndex(GetModelByItemIndex(*glove->GetItemDefinitionIndex())));
-			glove->GetNetworkable()->PreDataUpdate(DATA_UPDATE_CREATED);
+			C_BaseAttributableItem* glove = (C_BaseAttributableItem*) entitylist->GetClientEntity(localplayer->GetWearables()[0] & 0xFFF);
+			if (!glove)
+				return;
+
+			IEngineClient::player_info_t localplayer_info;
+			engine->GetPlayerInfo(engine->GetLocalPlayer(), &localplayer_info);
+
+			// Have to use  this because there is no preset ItemDefinitionIndex
+			Settings::Skinchanger::Skin currentSkin = Settings::Skinchanger::skins[ItemDefinitionIndex::GLOVE_CT_SIDE];
+
+			if (*glove->GetFallbackPaintKit() != currentSkin.PaintKit &&
+					*glove->GetItemDefinitionIndex() != currentSkin._ItemDefinitionIndex &&
+					*glove->GetFallbackWear() != currentSkin.Wear)
+			{
+
+				if (currentSkin.PaintKit != -1)
+					*glove->GetFallbackPaintKit() = currentSkin.PaintKit;
+
+				if (currentSkin._ItemDefinitionIndex != ItemDefinitionIndex::INVALID)
+					*glove->GetItemDefinitionIndex() = currentSkin._ItemDefinitionIndex;
+
+				if (currentSkin.Wear != -1)
+					*glove->GetFallbackWear() = currentSkin.Wear;
+
+				*glove->GetFallbackSeed() = 0;
+				*glove->GetFallbackStatTrak() = -1;
+				*glove->GetEntityQuality() = 4;
+				*glove->GetItemIDHigh() = -1;
+				*glove->GetAccountID() = localplayer_info.xuidlow;
+
+				glove->SetModelIndex(modelInfo->GetModelIndex(GetModelByItemIndex(*glove->GetItemDefinitionIndex())));
+				glove->GetNetworkable()->PreDataUpdate(DATA_UPDATE_CREATED);
+			}
 		}
 	}
 
