@@ -266,7 +266,6 @@ void SkinChanger::FrameStageNotify(ClientFrameStage_t stage)
 
 			glove->SetModelIndex(modelInfo->GetModelIndex(GetModelByItemIndex(*glove->GetItemDefinitionIndex())));
 			glove->GetNetworkable()->PreDataUpdate(DATA_UPDATE_CREATED);
-			glove->GetNetworkable()->PreDataUpdate(DATA_UPDATE_CREATED); // Duplicating it for a reason.
 		}
 	}
 
