@@ -3,12 +3,12 @@
 bool Settings::AntiAim::Yaw::enabled = false;
 bool Settings::AntiAim::Pitch::enabled = false;
 AntiAimType_Y Settings::AntiAim::Yaw::type = AntiAimType_Y::SPIN_FAST;
-AntiAimType_Y Settings::AntiAim::Yaw::type_fake = AntiAimType_Y::SPIN_FAST;
+AntiAimType_Y Settings::AntiAim::Yaw::typeFake = AntiAimType_Y::SPIN_FAST;
 AntiAimType_X Settings::AntiAim::Pitch::type = AntiAimType_X::STATIC_DOWN;
 bool Settings::AntiAim::HeadEdge::enabled = false;
 float Settings::AntiAim::HeadEdge::distance = 25.0f;
-bool Settings::AntiAim::AutoDisable::no_enemy = false;
-bool Settings::AntiAim::AutoDisable::knife_held = false;
+bool Settings::AntiAim::AutoDisable::noEnemy = false;
+bool Settings::AntiAim::AutoDisable::knifeHeld = false;
 
 float Distance(Vector a, Vector b)
 {
@@ -79,7 +79,7 @@ bool HasViableEnemy()
 
 void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 {
-	AntiAimType_Y aa_type = bFlip ? Settings::AntiAim::Yaw::type_fake : Settings::AntiAim::Yaw::type;
+	AntiAimType_Y aa_type = bFlip ? Settings::AntiAim::Yaw::typeFake : Settings::AntiAim::Yaw::type;
 
 	static bool yFlip;
 	float temp;
@@ -279,10 +279,10 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 	// AutoDisable checks
 
 	// Knife
-	if (Settings::AntiAim::AutoDisable::knife_held && localplayer->GetAlive() && active_weapon->GetCSWpnData()->GetWeaponType() == CSWeaponType::WEAPONTYPE_KNIFE)
+	if (Settings::AntiAim::AutoDisable::knifeHeld && localplayer->GetAlive() && active_weapon->GetCSWpnData()->GetWeaponType() == CSWeaponType::WEAPONTYPE_KNIFE)
 		return;
 
-	if (Settings::AntiAim::AutoDisable::no_enemy && localplayer->GetAlive() && !HasViableEnemy())
+	if (Settings::AntiAim::AutoDisable::noEnemy && localplayer->GetAlive() && !HasViableEnemy())
 		return;
 
 	QAngle edge_angle = angle;
@@ -299,8 +299,8 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 		if (Settings::AntiAim::Yaw::type >= AntiAimType_Y::LISP)
 			Settings::AntiAim::Yaw::type = AntiAimType_Y::SPIN_SLOW;
 
-		if (Settings::AntiAim::Yaw::type_fake >= AntiAimType_Y::LISP)
-			Settings::AntiAim::Yaw::type_fake = AntiAimType_Y::SPIN_SLOW;
+		if (Settings::AntiAim::Yaw::typeFake >= AntiAimType_Y::LISP)
+			Settings::AntiAim::Yaw::typeFake = AntiAimType_Y::SPIN_SLOW;
 
 		if (Settings::AntiAim::Pitch::type >= AntiAimType_X::STATIC_UP_FAKE)
 			Settings::AntiAim::Pitch::type = AntiAimType_X::STATIC_UP;

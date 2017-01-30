@@ -341,16 +341,16 @@ void ColorsWindow()
 			&Settings::ESP::Chams::enemyColor,
 			&Settings::ESP::Chams::enemyVisibleColor,
 			&Settings::ESP::Chams::Arms::color,
-			&Settings::Radar::enemy_color,
-			&Settings::Radar::ally_color,
-			&Settings::Radar::enemy_visible_color,
-			&Settings::Radar::ally_visible_color,
-			&Settings::Radar::ct_color,
-			&Settings::Radar::t_color,
-			&Settings::Radar::ct_visible_color,
-			&Settings::Radar::t_visible_color,
-			&Settings::Radar::bomb_color,
-			&Settings::Radar::bomb_defusing_color,
+			&Settings::Radar::enemyColor,
+			&Settings::Radar::allyColor,
+			&Settings::Radar::enemyVisibleColor,
+			&Settings::Radar::allyVisibleColor,
+			&Settings::Radar::ctColor,
+			&Settings::Radar::tColor,
+			&Settings::Radar::ctVisibleColor,
+			&Settings::Radar::tVisibleColor,
+			&Settings::Radar::bombColor,
+			&Settings::Radar::bombDefusingColor,
 			&Settings::ESP::Glow::allyColor,
 			&Settings::ESP::Glow::enemyColor,
 			&Settings::ESP::Glow::enemyVisibleColor,
@@ -394,14 +394,14 @@ void ColorsWindow()
 			&Settings::ESP::Chams::hpEnemyColor, // Chams - Enemy
 			&Settings::ESP::Chams::hpEnemyVisibleColor, // Chams - Enemy Visible
 			nullptr, // Chams - Arms
-			&Settings::Radar::hp_enemy_color, // Radar - Enemy
-			&Settings::Radar::hp_ally_color, // Radar - Team
-			&Settings::Radar::hp_enemy_visible_color, // Radar - Enemy Visible
-			&Settings::Radar::hp_ally_visible_color, // Radar - Team Visible
-			&Settings::Radar::hp_ct_color, // Radar - CT
-			&Settings::Radar::hp_t_color, // Radar - T
-			&Settings::Radar::hp_ct_visible_color, // Radar - CT Visible
-			&Settings::Radar::hp_t_visible_color, // Radar - T Visible
+			&Settings::Radar::hpEnemyColor, // Radar - Enemy
+			&Settings::Radar::hpAllyColor, // Radar - Team
+			&Settings::Radar::hpEnemyVisibleColor, // Radar - Enemy Visible
+			&Settings::Radar::hpAllyVisibleColor, // Radar - Team Visible
+			&Settings::Radar::hpCtColor, // Radar - CT
+			&Settings::Radar::hpTColor, // Radar - T
+			&Settings::Radar::hpCtVisibleColor, // Radar - CT Visible
+			&Settings::Radar::hpTVisibleColor, // Radar - T Visible
 			nullptr, // Radar - Bomb
 			nullptr, // Radar - Bomb Defusing
 			&Settings::ESP::Glow::hpAllyColor, // Glow - Team
@@ -799,7 +799,7 @@ void TriggerbotTab()
 			{
 				ImGui::Checkbox("Allies", &Settings::Triggerbot::Filters::allies);
 				SetTooltip("Trigger on allies");
-				ImGui::Checkbox("Smoke check", &Settings::Triggerbot::Filters::smoke_check);
+				ImGui::Checkbox("Smoke check", &Settings::Triggerbot::Filters::smokeCheck);
 				SetTooltip("Don't shoot through smokes");
 				ImGui::Checkbox("Stomach", &Settings::Triggerbot::Filters::stomach);
 				SetTooltip("Trigger on stomach");
@@ -1043,12 +1043,12 @@ void VisualsTab()
 			{
 				ImGui::PushItemWidth(-1);
 					ImGui::SliderFloat("##RADARZOOM", &Settings::Radar::zoom, 0.f, 100.f, "Zoom: %0.f");
-					ImGui::SliderFloat("##RADARICONSSCALE", &Settings::Radar::icons_scale, 2, 16, "Icons Scale: %0.1f");
+					ImGui::SliderFloat("##RADARICONSSCALE", &Settings::Radar::iconsScale, 2, 16, "Icons Scale: %0.1f");
 				ImGui::PopItemWidth();
 				ImGui::Checkbox("Allies", &Settings::Radar::allies);
 				ImGui::Checkbox("Defuser", &Settings::Radar::defuser);
-				ImGui::Checkbox("Visibility Check", &Settings::Radar::visibility_check);
-				ImGui::Checkbox("Smoke Check", &Settings::Radar::smoke_check);
+				ImGui::Checkbox("Visibility Check", &Settings::Radar::visibilityCheck);
+				ImGui::Checkbox("Smoke Check", &Settings::Radar::smokeCheck);
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -1114,11 +1114,11 @@ void HvHTab()
 				ImGui::NextColumn();
 				{
 					ImGui::PushItemWidth(-1);
-						if (ImGui::Combo("##YFAKETYPE", (int*)& Settings::AntiAim::Yaw::type_fake, YTypes, IM_ARRAYSIZE(YTypes)))
+						if (ImGui::Combo("##YFAKETYPE", (int*)& Settings::AntiAim::Yaw::typeFake, YTypes, IM_ARRAYSIZE(YTypes)))
 						{
-							if (!ValveDSCheck::forceUT && ((*csGameRules) && (*csGameRules)->IsValveDS()) && Settings::AntiAim::Yaw::type_fake >= AntiAimType_Y::LISP)
+							if (!ValveDSCheck::forceUT && ((*csGameRules) && (*csGameRules)->IsValveDS()) && Settings::AntiAim::Yaw::typeFake >= AntiAimType_Y::LISP)
 							{
-								Settings::AntiAim::Yaw::type_fake = AntiAimType_Y::SPIN_SLOW;
+								Settings::AntiAim::Yaw::typeFake = AntiAimType_Y::SPIN_SLOW;
 								ImGui::OpenPopup("Error###UNTRUSTED_AA");
 							}
 						}
@@ -1160,11 +1160,11 @@ void HvHTab()
 				ImGui::Separator();
 				ImGui::Text("Disable");
 				ImGui::Separator();
-				ImGui::Checkbox("Knife", &Settings::AntiAim::AutoDisable::knife_held);
+				ImGui::Checkbox("Knife", &Settings::AntiAim::AutoDisable::knifeHeld);
 				SetTooltip("Stops your antiaim while you have your knife out.");
 				ImGui::NextColumn();
 
-				ImGui::Checkbox("No Enemy", &Settings::AntiAim::AutoDisable::no_enemy);
+				ImGui::Checkbox("No Enemy", &Settings::AntiAim::AutoDisable::noEnemy);
 				SetTooltip("Stops your antiaim when there are no enemies visible.");
 
 				ImGui::Columns(1);
@@ -1208,7 +1208,7 @@ void HvHTab()
 		{
 			ImGui::Text("Resolver");
 			ImGui::Separator();
-			ImGui::Checkbox("Resolve All", &Settings::Resolver::resolve_all);
+			ImGui::Checkbox("Resolve All", &Settings::Resolver::resolveAll);
 			SetTooltip("Resolves all players on the server");
 			ImGui::Separator();
 			ImGui::Text("Movement");
@@ -1288,7 +1288,7 @@ void MiscTab()
 			}
 			ImGui::NextColumn();
 			{
-				ImGui::Checkbox("Team Chat###SAY_TEAM1", &Settings::Spammer::KillSpammer::say_team);
+				ImGui::Checkbox("Team Chat###SAY_TEAM1", &Settings::Spammer::KillSpammer::sayTeam);
 				SetTooltip("Only show kill message in team chat");
 			}
 			ImGui::NextColumn();
@@ -1364,13 +1364,13 @@ void MiscTab()
 							ImGui::Combo("###POSITIONSTEAM", &Settings::Spammer::PositionSpammer::team, teams, IM_ARRAYSIZE(teams));
 						ImGui::PopItemWidth();
 						ImGui::Separator();
-						ImGui::Checkbox("Show Name", &Settings::Spammer::PositionSpammer::show_name);
-						ImGui::Checkbox("Show Weapon", &Settings::Spammer::PositionSpammer::show_weapon);
-						ImGui::Checkbox("Show Rank", &Settings::Spammer::PositionSpammer::show_rank);
-						ImGui::Checkbox("Show Wins", &Settings::Spammer::PositionSpammer::show_wins);
-						ImGui::Checkbox("Show Health", &Settings::Spammer::PositionSpammer::show_health);
-						ImGui::Checkbox("Show Money", &Settings::Spammer::PositionSpammer::show_money);
-						ImGui::Checkbox("Show Last Place", &Settings::Spammer::PositionSpammer::show_lastplace);
+						ImGui::Checkbox("Show Name", &Settings::Spammer::PositionSpammer::showName);
+						ImGui::Checkbox("Show Weapon", &Settings::Spammer::PositionSpammer::showWeapon);
+						ImGui::Checkbox("Show Rank", &Settings::Spammer::PositionSpammer::showRank);
+						ImGui::Checkbox("Show Wins", &Settings::Spammer::PositionSpammer::showWins);
+						ImGui::Checkbox("Show Health", &Settings::Spammer::PositionSpammer::showHealth);
+						ImGui::Checkbox("Show Money", &Settings::Spammer::PositionSpammer::showMoney);
+						ImGui::Checkbox("Show Last Place", &Settings::Spammer::PositionSpammer::showLastplace);
 					}
 
 					ImGui::EndPopup();
@@ -1384,16 +1384,16 @@ void MiscTab()
 			{
 				ImGui::Checkbox("FOV", &Settings::FOVChanger::enabled);
 				SetTooltip("Change camera FOV");
-				ImGui::Checkbox("Viewmodel FOV", &Settings::FOVChanger::viewmodel_enabled);
+				ImGui::Checkbox("Viewmodel FOV", &Settings::FOVChanger::viewmodelEnabled);
 				SetTooltip("Change viewmodel FOV");
-				ImGui::Checkbox("Ignore Scope", &Settings::FOVChanger::ignore_scope);
+				ImGui::Checkbox("Ignore Scope", &Settings::FOVChanger::ignoreScope);
 				SetTooltip("Disable FOV Changer while scoping");
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
 					ImGui::SliderFloat("##FOVAMOUNT", &Settings::FOVChanger::value, 0, 180);
-					ImGui::SliderFloat("##MODELFOVAMOUNT", &Settings::FOVChanger::viewmodel_value, 0, 360);
+					ImGui::SliderFloat("##MODELFOVAMOUNT", &Settings::FOVChanger::viewmodelValue, 0, 360);
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
@@ -1425,7 +1425,7 @@ void MiscTab()
 				ImGui::PushItemWidth(-1);
 					if (ImGui::Combo("##ANIMATIONTYPE", (int*)& Settings::ClanTagChanger::type, animationTypes, IM_ARRAYSIZE(animationTypes)))
 						ClanTagChanger::UpdateClanTagCallback();
-					if (ImGui::SliderInt("##ANIMATIONSPEED", &Settings::ClanTagChanger::animation_speed, 0, 2000))
+					if (ImGui::SliderInt("##ANIMATIONSPEED", &Settings::ClanTagChanger::animationSpeed, 0, 2000))
 						ClanTagChanger::UpdateClanTagCallback();
 				ImGui::PopItemWidth();
 			}

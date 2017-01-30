@@ -1,6 +1,6 @@
 #include "resolver.h"
 
-bool Settings::Resolver::resolve_all = false;
+bool Settings::Resolver::resolveAll = false;
 std::vector<int64_t> Resolver::Players = { };
 
 std::vector<PlayerAA> player_data;
@@ -31,7 +31,7 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 			IEngineClient::player_info_t entityInformation;
 			engine->GetPlayerInfo(i, &entityInformation);
 
-			if (!Settings::Resolver::resolve_all && std::find(Resolver::Players.begin(), Resolver::Players.end(), entityInformation.xuid) == Resolver::Players.end())
+			if (!Settings::Resolver::resolveAll && std::find(Resolver::Players.begin(), Resolver::Players.end(), entityInformation.xuid) == Resolver::Players.end())
 				continue;
 
 			player_data.push_back(PlayerAA(player, *player->GetEyeAngles()));

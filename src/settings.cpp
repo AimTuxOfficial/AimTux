@@ -130,14 +130,14 @@ void Settings::LoadDefaultsOrSave(std::string path)
 
 	settings["Aimbot"]["AutoCrouch"]["enabled"] = Settings::Aimbot::AutoCrouch::enabled;
 
-	settings["Resolver"]["resolve_all"] = Settings::Resolver::resolve_all;
+	settings["Resolver"]["resolve_all"] = Settings::Resolver::resolveAll;
 
 	settings["Triggerbot"]["enabled"] = Settings::Triggerbot::enabled;
 	settings["Triggerbot"]["key"] = Util::GetButtonName(Settings::Triggerbot::key);
 	settings["Triggerbot"]["Filters"]["enemies"] = Settings::Triggerbot::Filters::enemies;
 	settings["Triggerbot"]["Filters"]["allies"] = Settings::Triggerbot::Filters::allies;
 	settings["Triggerbot"]["Filters"]["walls"] = Settings::Triggerbot::Filters::walls;
-	settings["Triggerbot"]["Filters"]["smoke_check"] = Settings::Triggerbot::Filters::smoke_check;
+	settings["Triggerbot"]["Filters"]["smoke_check"] = Settings::Triggerbot::Filters::smokeCheck;
 	settings["Triggerbot"]["Filters"]["head"] = Settings::Triggerbot::Filters::head;
 	settings["Triggerbot"]["Filters"]["chest"] = Settings::Triggerbot::Filters::chest;
 	settings["Triggerbot"]["Filters"]["stomach"] = Settings::Triggerbot::Filters::stomach;
@@ -148,13 +148,13 @@ void Settings::LoadDefaultsOrSave(std::string path)
 
 	settings["AntiAim"]["Yaw"]["enabled"] = Settings::AntiAim::Yaw::enabled;
 	settings["AntiAim"]["Yaw"]["type"] = (int) Settings::AntiAim::Yaw::type;
-	settings["AntiAim"]["Yaw"]["type_fake"] = (int) Settings::AntiAim::Yaw::type_fake;
+	settings["AntiAim"]["Yaw"]["type_fake"] = (int) Settings::AntiAim::Yaw::typeFake;
 	settings["AntiAim"]["Pitch"]["enabled"] = Settings::AntiAim::Pitch::enabled;
 	settings["AntiAim"]["Pitch"]["type"] = (int) Settings::AntiAim::Pitch::type;
 	settings["AntiAim"]["HeadEdge"]["enabled"] = Settings::AntiAim::HeadEdge::enabled;
 	settings["AntiAim"]["HeadEdge"]["distance"] = Settings::AntiAim::HeadEdge::distance;
-	settings["AntiAim"]["AutoDisable"]["no_enemy"] = Settings::AntiAim::AutoDisable::no_enemy;
-	settings["AntiAim"]["AutoDisable"]["knife_held"] = Settings::AntiAim::AutoDisable::knife_held;
+	settings["AntiAim"]["AutoDisable"]["no_enemy"] = Settings::AntiAim::AutoDisable::noEnemy;
+	settings["AntiAim"]["AutoDisable"]["knife_held"] = Settings::AntiAim::AutoDisable::knifeHeld;
 
 	settings["ESP"]["enabled"] = Settings::ESP::enabled;
 	LoadUIColor(settings["ESP"]["enemy_color"], Settings::ESP::enemyColor);
@@ -267,19 +267,19 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Spammer"]["spammer_type"] = (int) Settings::Spammer::type;
 	settings["Spammer"]["say_team"] = Settings::Spammer::say_team;
 	settings["Spammer"]["KillSpammer"]["enabled"] = Settings::Spammer::KillSpammer::enabled;
-	settings["Spammer"]["KillSpammer"]["say_team"] = Settings::Spammer::KillSpammer::say_team;
+	settings["Spammer"]["KillSpammer"]["say_team"] = Settings::Spammer::KillSpammer::sayTeam;
 	settings["Spammer"]["KillSpammer"]["message"] = Settings::Spammer::KillSpammer::message;
 	Json::Value messages;
 	for (auto it : Settings::Spammer::NormalSpammer::messages)
 		messages.append(it);
 	settings["Spammer"]["NormalSpammer"]["messages"] = messages;
-	settings["Spammer"]["PositionSpammer"]["show_name"] = Settings::Spammer::PositionSpammer::show_name;
-	settings["Spammer"]["PositionSpammer"]["show_weapon"] = Settings::Spammer::PositionSpammer::show_weapon;
-	settings["Spammer"]["PositionSpammer"]["show_rank"] = Settings::Spammer::PositionSpammer::show_rank;
-	settings["Spammer"]["PositionSpammer"]["show_wins"] = Settings::Spammer::PositionSpammer::show_wins;
-	settings["Spammer"]["PositionSpammer"]["show_health"] = Settings::Spammer::PositionSpammer::show_health;
-	settings["Spammer"]["PositionSpammer"]["show_money"] = Settings::Spammer::PositionSpammer::show_money;
-	settings["Spammer"]["PositionSpammer"]["show_lastplace"] = Settings::Spammer::PositionSpammer::show_lastplace;
+	settings["Spammer"]["PositionSpammer"]["show_name"] = Settings::Spammer::PositionSpammer::showName;
+	settings["Spammer"]["PositionSpammer"]["show_weapon"] = Settings::Spammer::PositionSpammer::showWeapon;
+	settings["Spammer"]["PositionSpammer"]["show_rank"] = Settings::Spammer::PositionSpammer::showRank;
+	settings["Spammer"]["PositionSpammer"]["show_wins"] = Settings::Spammer::PositionSpammer::showWins;
+	settings["Spammer"]["PositionSpammer"]["show_health"] = Settings::Spammer::PositionSpammer::showHealth;
+	settings["Spammer"]["PositionSpammer"]["show_money"] = Settings::Spammer::PositionSpammer::showMoney;
+	settings["Spammer"]["PositionSpammer"]["show_lastplace"] = Settings::Spammer::PositionSpammer::showLastplace;
 
 	settings["BHop"]["enabled"] = Settings::BHop::enabled;
 
@@ -295,28 +295,28 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Radar"]["enemies"] = Settings::Radar::enemies;
 	settings["Radar"]["allies"] = Settings::Radar::allies;
 	settings["Radar"]["legit"] = Settings::Radar::legit;
-	settings["Radar"]["visibility_check"] = Settings::Radar::visibility_check;
-	settings["Radar"]["smoke_check"] = Settings::Radar::smoke_check;
+	settings["Radar"]["visibility_check"] = Settings::Radar::visibilityCheck;
+	settings["Radar"]["smoke_check"] = Settings::Radar::smokeCheck;
 	settings["Radar"]["InGame"]["enabled"] = Settings::Radar::InGame::enabled;
-	LoadUIColor(settings["Radar"]["enemy_color"], Settings::Radar::enemy_color);
-	LoadUIColor(settings["Radar"]["enemy_visible_color"], Settings::Radar::enemy_visible_color);
-	LoadUIColor(settings["Radar"]["ally_color"], Settings::Radar::ally_color);
-	LoadUIColor(settings["Radar"]["ally_visible_color"], Settings::Radar::ally_visible_color);
-	LoadUIColor(settings["Radar"]["t_color"], Settings::Radar::t_color);
-	LoadUIColor(settings["Radar"]["t_visible_color"], Settings::Radar::t_visible_color);
-	LoadUIColor(settings["Radar"]["ct_color"], Settings::Radar::ct_color);
-	LoadUIColor(settings["Radar"]["ct_visible_color"], Settings::Radar::ct_visible_color);
-	LoadUIColor(settings["Radar"]["bomb_color"], Settings::Radar::bomb_color);
-	LoadUIColor(settings["Radar"]["bomb_defusing_color"], Settings::Radar::bomb_defusing_color);
-	settings["Radar"]["hp_enemy_color"] = Settings::Radar::hp_enemy_color;
-	settings["Radar"]["hp_ally_color"] = Settings::Radar::hp_ally_color;
-	settings["Radar"]["hp_enemy_visible_color"] = Settings::Radar::hp_enemy_visible_color;
-	settings["Radar"]["hp_ally_visible_color"] = Settings::Radar::hp_ally_visible_color;
-	settings["Radar"]["hp_ct_color"] = Settings::Radar::hp_ct_color;
-	settings["Radar"]["hp_t_color"] = Settings::Radar::hp_t_color;
-	settings["Radar"]["hp_ct_visible_color"] = Settings::Radar::hp_ct_visible_color;
-	settings["Radar"]["hp_t_visible_color"] = Settings::Radar::hp_t_visible_color;
-	settings["Radar"]["icons_scale"] = Settings::Radar::icons_scale;
+	LoadUIColor(settings["Radar"]["enemy_color"], Settings::Radar::enemyColor);
+	LoadUIColor(settings["Radar"]["enemy_visible_color"], Settings::Radar::enemyVisibleColor);
+	LoadUIColor(settings["Radar"]["ally_color"], Settings::Radar::allyColor);
+	LoadUIColor(settings["Radar"]["ally_visible_color"], Settings::Radar::allyVisibleColor);
+	LoadUIColor(settings["Radar"]["t_color"], Settings::Radar::tColor);
+	LoadUIColor(settings["Radar"]["t_visible_color"], Settings::Radar::tVisibleColor);
+	LoadUIColor(settings["Radar"]["ct_color"], Settings::Radar::ctColor);
+	LoadUIColor(settings["Radar"]["ct_visible_color"], Settings::Radar::ctVisibleColor);
+	LoadUIColor(settings["Radar"]["bomb_color"], Settings::Radar::bombColor);
+	LoadUIColor(settings["Radar"]["bomb_defusing_color"], Settings::Radar::bombDefusingColor);
+	settings["Radar"]["hp_enemy_color"] = Settings::Radar::hpEnemyColor;
+	settings["Radar"]["hp_ally_color"] = Settings::Radar::hpAllyColor;
+	settings["Radar"]["hp_enemy_visible_color"] = Settings::Radar::hpEnemyVisibleColor;
+	settings["Radar"]["hp_ally_visible_color"] = Settings::Radar::hpAllyVisibleColor;
+	settings["Radar"]["hp_ct_color"] = Settings::Radar::hpCtColor;
+	settings["Radar"]["hp_t_color"] = Settings::Radar::hpTColor;
+	settings["Radar"]["hp_ct_visible_color"] = Settings::Radar::hpCtVisibleColor;
+	settings["Radar"]["hp_t_visible_color"] = Settings::Radar::hpTVisibleColor;
+	settings["Radar"]["icons_scale"] = Settings::Radar::iconsScale;
 
 	settings["Recoilcrosshair"]["enabled"] = Settings::Recoilcrosshair::enabled;
 
@@ -324,9 +324,9 @@ void Settings::LoadDefaultsOrSave(std::string path)
 
 	settings["FOVChanger"]["enabled"] = Settings::FOVChanger::enabled;
 	settings["FOVChanger"]["value"] = Settings::FOVChanger::value;
-	settings["FOVChanger"]["viewmodel_enabled"] = Settings::FOVChanger::viewmodel_enabled;
-	settings["FOVChanger"]["viewmodel_value"] = Settings::FOVChanger::viewmodel_value;
-	settings["FOVChanger"]["ignore_scope"] = Settings::FOVChanger::ignore_scope;
+	settings["FOVChanger"]["viewmodel_enabled"] = Settings::FOVChanger::viewmodelEnabled;
+	settings["FOVChanger"]["viewmodel_value"] = Settings::FOVChanger::viewmodelValue;
+	settings["FOVChanger"]["ignore_scope"] = Settings::FOVChanger::ignoreScope;
 
 	settings["Airstuck"]["enabled"] = Settings::Airstuck::enabled;
 	settings["Airstuck"]["key"] = Util::GetButtonName(Settings::Airstuck::key);
@@ -355,7 +355,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["ClanTagChanger"]["value"] = Settings::ClanTagChanger::value;
 	settings["ClanTagChanger"]["enabled"] = Settings::ClanTagChanger::enabled;
 	settings["ClanTagChanger"]["animation"] = Settings::ClanTagChanger::animation;
-	settings["ClanTagChanger"]["animation_speed"] = Settings::ClanTagChanger::animation_speed;
+	settings["ClanTagChanger"]["animation_speed"] = Settings::ClanTagChanger::animationSpeed;
 	settings["ClanTagChanger"]["type"] = (int) Settings::ClanTagChanger::type;
 
 	settings["View"]["NoViewPunch"]["enabled"] = Settings::View::NoViewPunch::enabled;
@@ -404,8 +404,8 @@ void Settings::LoadConfig(std::string path)
 	}
 
 	Json::Value settings;
-	std::ifstream config_doc(path, std::ifstream::binary);
-	config_doc >> settings;
+	std::ifstream configDoc(path, std::ifstream::binary);
+	configDoc >> settings;
 
 	GetVal(settings["UI"]["mainColor"], &Settings::UI::mainColor);
 	GetVal(settings["UI"]["bodyColor"], &Settings::UI::bodyColor);
@@ -483,14 +483,14 @@ void Settings::LoadConfig(std::string path)
 
 	GetVal(settings["Aimbot"]["AutoCrouch"]["enabled"], &Settings::Aimbot::AutoCrouch::enabled);
 
-	GetVal(settings["Resolver"]["resolve_all"], &Settings::Resolver::resolve_all);
+	GetVal(settings["Resolver"]["resolve_all"], &Settings::Resolver::resolveAll);
 
 	GetVal(settings["Triggerbot"]["enabled"], &Settings::Triggerbot::enabled);
 	GetButtonCode(settings["Triggerbot"]["key"], &Settings::Triggerbot::key);
 	GetVal(settings["Triggerbot"]["Filters"]["enemies"], &Settings::Triggerbot::Filters::enemies);
 	GetVal(settings["Triggerbot"]["Filters"]["allies"], &Settings::Triggerbot::Filters::allies);
 	GetVal(settings["Triggerbot"]["Filters"]["walls"], &Settings::Triggerbot::Filters::walls);
-	GetVal(settings["Triggerbot"]["Filters"]["smoke_check"], &Settings::Triggerbot::Filters::smoke_check);
+	GetVal(settings["Triggerbot"]["Filters"]["smoke_check"], &Settings::Triggerbot::Filters::smokeCheck);
 	GetVal(settings["Triggerbot"]["Filters"]["head"], &Settings::Triggerbot::Filters::head);
 	GetVal(settings["Triggerbot"]["Filters"]["chest"], &Settings::Triggerbot::Filters::chest);
 	GetVal(settings["Triggerbot"]["Filters"]["stomach"], &Settings::Triggerbot::Filters::stomach);
@@ -501,13 +501,13 @@ void Settings::LoadConfig(std::string path)
 
 	GetVal(settings["AntiAim"]["Yaw"]["enabled"], &Settings::AntiAim::Yaw::enabled);
 	GetVal(settings["AntiAim"]["Yaw"]["type"], (int*)& Settings::AntiAim::Yaw::type);
-	GetVal(settings["AntiAim"]["Yaw"]["type_fake"], (int*)& Settings::AntiAim::Yaw::type_fake);
+	GetVal(settings["AntiAim"]["Yaw"]["type_fake"], (int*)& Settings::AntiAim::Yaw::typeFake);
 	GetVal(settings["AntiAim"]["Pitch"]["enabled"], &Settings::AntiAim::Pitch::enabled);
 	GetVal(settings["AntiAim"]["Pitch"]["type"], (int*)& Settings::AntiAim::Pitch::type);
 	GetVal(settings["AntiAim"]["HeadEdge"]["enabled"], &Settings::AntiAim::HeadEdge::enabled);
 	GetVal(settings["AntiAim"]["HeadEdge"]["distance"], &Settings::AntiAim::HeadEdge::distance);
-	GetVal(settings["AntiAim"]["AutoDisable"]["knife_held"], &Settings::AntiAim::AutoDisable::knife_held);
-	GetVal(settings["AntiAim"]["AutoDisable"]["no_enemy"], &Settings::AntiAim::AutoDisable::no_enemy);
+	GetVal(settings["AntiAim"]["AutoDisable"]["knife_held"], &Settings::AntiAim::AutoDisable::knifeHeld);
+	GetVal(settings["AntiAim"]["AutoDisable"]["no_enemy"], &Settings::AntiAim::AutoDisable::noEnemy);
 
 	GetVal(settings["ESP"]["enabled"], &Settings::ESP::enabled);
 	GetVal(settings["ESP"]["enemy_color"], &Settings::ESP::enemyColor);
@@ -620,7 +620,7 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["Spammer"]["spammer_type"], (int*)& Settings::Spammer::type);
 	GetVal(settings["Spammer"]["say_team"], &Settings::Spammer::say_team);
 	GetVal(settings["Spammer"]["KillSpammer"]["enabled"], &Settings::Spammer::KillSpammer::enabled);
-	GetVal(settings["Spammer"]["KillSpammer"]["say_team"], &Settings::Spammer::KillSpammer::say_team);
+	GetVal(settings["Spammer"]["KillSpammer"]["say_team"], &Settings::Spammer::KillSpammer::sayTeam);
 	GetVal(settings["Spammer"]["KillSpammer"]["message"], &Settings::Spammer::KillSpammer::message);
 	if (!settings["Spammer"]["NormalSpammer"]["messages"].isNull())
 	{
@@ -628,13 +628,13 @@ void Settings::LoadConfig(std::string path)
 		for (const Json::Value& message : settings["Spammer"]["NormalSpammer"]["messages"])
 			Settings::Spammer::NormalSpammer::messages.push_back(message.asString());
 	}
-	GetVal(settings["Spammer"]["PositionSpammer"]["show_name"], &Settings::Spammer::PositionSpammer::show_name);
-	GetVal(settings["Spammer"]["PositionSpammer"]["show_weapon"], &Settings::Spammer::PositionSpammer::show_weapon);
-	GetVal(settings["Spammer"]["PositionSpammer"]["show_rank"], &Settings::Spammer::PositionSpammer::show_rank);
-	GetVal(settings["Spammer"]["PositionSpammer"]["show_wins"], &Settings::Spammer::PositionSpammer::show_wins);
-	GetVal(settings["Spammer"]["PositionSpammer"]["show_health"], &Settings::Spammer::PositionSpammer::show_health);
-	GetVal(settings["Spammer"]["PositionSpammer"]["show_money"], &Settings::Spammer::PositionSpammer::show_money);
-	GetVal(settings["Spammer"]["PositionSpammer"]["show_lastplace"], &Settings::Spammer::PositionSpammer::show_lastplace);
+	GetVal(settings["Spammer"]["PositionSpammer"]["show_name"], &Settings::Spammer::PositionSpammer::showName);
+	GetVal(settings["Spammer"]["PositionSpammer"]["show_weapon"], &Settings::Spammer::PositionSpammer::showWeapon);
+	GetVal(settings["Spammer"]["PositionSpammer"]["show_rank"], &Settings::Spammer::PositionSpammer::showRank);
+	GetVal(settings["Spammer"]["PositionSpammer"]["show_wins"], &Settings::Spammer::PositionSpammer::showWins);
+	GetVal(settings["Spammer"]["PositionSpammer"]["show_health"], &Settings::Spammer::PositionSpammer::showHealth);
+	GetVal(settings["Spammer"]["PositionSpammer"]["show_money"], &Settings::Spammer::PositionSpammer::showMoney);
+	GetVal(settings["Spammer"]["PositionSpammer"]["show_lastplace"], &Settings::Spammer::PositionSpammer::showLastplace);
 
 	GetVal(settings["BHop"]["enabled"], &Settings::BHop::enabled);
 
@@ -650,28 +650,28 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["Radar"]["enemies"], &Settings::Radar::enemies);
 	GetVal(settings["Radar"]["allies"], &Settings::Radar::allies);
 	GetVal(settings["Radar"]["legit"], &Settings::Radar::legit);
-	GetVal(settings["Radar"]["visibility_check"], &Settings::Radar::visibility_check);
-	GetVal(settings["Radar"]["smoke_check"], &Settings::Radar::smoke_check);
+	GetVal(settings["Radar"]["visibility_check"], &Settings::Radar::visibilityCheck);
+	GetVal(settings["Radar"]["smoke_check"], &Settings::Radar::smokeCheck);
 	GetVal(settings["Radar"]["InGame"]["enabled"], &Settings::Radar::InGame::enabled);
-	GetVal(settings["Radar"]["enemy_color"], &Settings::Radar::enemy_color);
-	GetVal(settings["Radar"]["enemy_visible_color"], &Settings::Radar::enemy_visible_color);
-	GetVal(settings["Radar"]["ally_color"], &Settings::Radar::ally_color);
-	GetVal(settings["Radar"]["ally_visible_color"], &Settings::Radar::ally_visible_color);
-	GetVal(settings["Radar"]["t_color"], &Settings::Radar::t_color);
-	GetVal(settings["Radar"]["t_visible_color"], &Settings::Radar::t_visible_color);
-	GetVal(settings["Radar"]["ct_color"], &Settings::Radar::ct_color);
-	GetVal(settings["Radar"]["ct_visible_color"], &Settings::Radar::ct_visible_color);
-	GetVal(settings["Radar"]["hp_enemy_color"], &Settings::Radar::hp_enemy_color);
-	GetVal(settings["Radar"]["hp_enemy_visible_color"], &Settings::Radar::hp_enemy_visible_color);
-	GetVal(settings["Radar"]["hp_ally_color"], &Settings::Radar::hp_ally_color);
-	GetVal(settings["Radar"]["hp_ally_visible_color"], &Settings::Radar::hp_ally_visible_color);
-	GetVal(settings["Radar"]["hp_t_color"], &Settings::Radar::hp_t_color);
-	GetVal(settings["Radar"]["hp_t_visible_color"], &Settings::Radar::hp_t_visible_color);
-	GetVal(settings["Radar"]["hp_ct_color"], &Settings::Radar::hp_ct_color);
-	GetVal(settings["Radar"]["hp_ct_visible_color"], &Settings::Radar::hp_ct_visible_color);
-	GetVal(settings["Radar"]["bomb_color"], &Settings::Radar::bomb_color);
-	GetVal(settings["Radar"]["bomb_defusing_color"], &Settings::Radar::bomb_defusing_color);
-	GetVal(settings["Radar"]["icons_scale"], &Settings::Radar::icons_scale);
+	GetVal(settings["Radar"]["enemy_color"], &Settings::Radar::enemyColor);
+	GetVal(settings["Radar"]["enemy_visible_color"], &Settings::Radar::enemyVisibleColor);
+	GetVal(settings["Radar"]["ally_color"], &Settings::Radar::allyColor);
+	GetVal(settings["Radar"]["ally_visible_color"], &Settings::Radar::allyVisibleColor);
+	GetVal(settings["Radar"]["t_color"], &Settings::Radar::tColor);
+	GetVal(settings["Radar"]["t_visible_color"], &Settings::Radar::tVisibleColor);
+	GetVal(settings["Radar"]["ct_color"], &Settings::Radar::ctColor);
+	GetVal(settings["Radar"]["ct_visible_color"], &Settings::Radar::ctVisibleColor);
+	GetVal(settings["Radar"]["hp_enemy_color"], &Settings::Radar::hpEnemyColor);
+	GetVal(settings["Radar"]["hp_enemy_visible_color"], &Settings::Radar::hpEnemyVisibleColor);
+	GetVal(settings["Radar"]["hp_ally_color"], &Settings::Radar::hpAllyColor);
+	GetVal(settings["Radar"]["hp_ally_visible_color"], &Settings::Radar::hpAllyVisibleColor);
+	GetVal(settings["Radar"]["hp_t_color"], &Settings::Radar::hpTColor);
+	GetVal(settings["Radar"]["hp_t_visible_color"], &Settings::Radar::hpTVisibleColor);
+	GetVal(settings["Radar"]["hp_ct_color"], &Settings::Radar::hpCtColor);
+	GetVal(settings["Radar"]["hp_ct_visible_color"], &Settings::Radar::hpCtVisibleColor);
+	GetVal(settings["Radar"]["bomb_color"], &Settings::Radar::bombColor);
+	GetVal(settings["Radar"]["bomb_defusing_color"], &Settings::Radar::bombDefusingColor);
+	GetVal(settings["Radar"]["icons_scale"], &Settings::Radar::iconsScale);
 
 
 	GetVal(settings["Recoilcrosshair"]["enabled"], &Settings::Recoilcrosshair::enabled);
@@ -679,9 +679,9 @@ void Settings::LoadConfig(std::string path)
 
 	GetVal(settings["FOVChanger"]["enabled"], &Settings::FOVChanger::enabled);
 	GetVal(settings["FOVChanger"]["value"], &Settings::FOVChanger::value);
-	GetVal(settings["FOVChanger"]["viewmodel_enabled"], &Settings::FOVChanger::viewmodel_enabled);
-	GetVal(settings["FOVChanger"]["viewmodel_value"], &Settings::FOVChanger::viewmodel_value);
-	GetVal(settings["FOVChanger"]["ignore_scope"], &Settings::FOVChanger::ignore_scope);
+	GetVal(settings["FOVChanger"]["viewmodel_enabled"], &Settings::FOVChanger::viewmodelEnabled);
+	GetVal(settings["FOVChanger"]["viewmodel_value"], &Settings::FOVChanger::viewmodelValue);
+	GetVal(settings["FOVChanger"]["ignore_scope"], &Settings::FOVChanger::ignoreScope);
 
 	GetVal(settings["Airstuck"]["enabled"], &Settings::Airstuck::enabled);
 	GetButtonCode(settings["Airstuck"]["key"], &Settings::Airstuck::key);
@@ -738,7 +738,7 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["ClanTagChanger"]["value"], &Settings::ClanTagChanger::value);
 	GetVal(settings["ClanTagChanger"]["enabled"], &Settings::ClanTagChanger::enabled);
 	GetVal(settings["ClanTagChanger"]["animation"], &Settings::ClanTagChanger::animation);
-	GetVal(settings["ClanTagChanger"]["animation_speed"], &Settings::ClanTagChanger::animation_speed);
+	GetVal(settings["ClanTagChanger"]["animation_speed"], &Settings::ClanTagChanger::animationSpeed);
 	GetVal(settings["ClanTagChanger"]["type"], (int*)& Settings::ClanTagChanger::type);
 	::ClanTagChanger::UpdateClanTagCallback();
 

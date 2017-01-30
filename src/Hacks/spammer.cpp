@@ -3,7 +3,7 @@
 SpammerType Settings::Spammer::type = SpammerType::SPAMMER_NONE;
 bool Settings::Spammer::say_team = false;
 bool Settings::Spammer::KillSpammer::enabled = false;
-bool Settings::Spammer::KillSpammer::say_team = false;
+bool Settings::Spammer::KillSpammer::sayTeam = false;
 char* Settings::Spammer::KillSpammer::message = strdup("$nick just got OWNED by AimTux!!");
 bool Settings::Spammer::RadioSpammer::enabled = false;
 std::vector<std::string> Settings::Spammer::NormalSpammer::messages = {
@@ -15,13 +15,13 @@ std::vector<std::string> Settings::Spammer::NormalSpammer::messages = {
 		">tfw no vac on Linux"
 };
 int Settings::Spammer::PositionSpammer::team = 1;
-bool Settings::Spammer::PositionSpammer::show_name = true;
-bool Settings::Spammer::PositionSpammer::show_weapon = true;
-bool Settings::Spammer::PositionSpammer::show_rank = true;
-bool Settings::Spammer::PositionSpammer::show_wins = true;
-bool Settings::Spammer::PositionSpammer::show_health = true;
-bool Settings::Spammer::PositionSpammer::show_money = true;
-bool Settings::Spammer::PositionSpammer::show_lastplace = true;
+bool Settings::Spammer::PositionSpammer::showName = true;
+bool Settings::Spammer::PositionSpammer::showWeapon = true;
+bool Settings::Spammer::PositionSpammer::showRank = true;
+bool Settings::Spammer::PositionSpammer::showWins = true;
+bool Settings::Spammer::PositionSpammer::showHealth = true;
+bool Settings::Spammer::PositionSpammer::showMoney = true;
+bool Settings::Spammer::PositionSpammer::showLastplace = true;
 
 std::vector<int> killedPlayerQueue;
 
@@ -54,7 +54,7 @@ void Spammer::BeginFrame(float frameTime)
 
 		// Construct a command with our message
 		pstring str;
-		str << (Settings::Spammer::KillSpammer::say_team ? "say_team" : "say");
+		str << (Settings::Spammer::KillSpammer::sayTeam ? "say_team" : "say");
 		str << " \"" << Util::ReplaceString(Settings::Spammer::KillSpammer::message, "$nick", dead_player_name) << "\"";
 
 		// Execute our constructed command
@@ -165,25 +165,25 @@ void Spammer::BeginFrame(float frameTime)
 			pstring str;
 			str << (Settings::Spammer::say_team ? "say_team" : "say") << " \"";
 
-			if (Settings::Spammer::PositionSpammer::show_name)
+			if (Settings::Spammer::PositionSpammer::showName)
 				str << player_name << " | ";
 
-			if (Settings::Spammer::PositionSpammer::show_weapon)
+			if (Settings::Spammer::PositionSpammer::showWeapon)
 				str << modelName << " | ";
 
-			if (Settings::Spammer::PositionSpammer::show_rank)
+			if (Settings::Spammer::PositionSpammer::showRank)
 				str << ESP::ranks[*(*csPlayerResource)->GetCompetitiveRanking(i)] << " | ";
 
-			if (Settings::Spammer::PositionSpammer::show_wins)
+			if (Settings::Spammer::PositionSpammer::showWins)
 				str << *(*csPlayerResource)->GetCompetitiveWins(i) << " wins | ";
 
-			if (Settings::Spammer::PositionSpammer::show_health)
+			if (Settings::Spammer::PositionSpammer::showHealth)
 				str << player->GetHealth() << "HP | ";
 
-			if (Settings::Spammer::PositionSpammer::show_money)
+			if (Settings::Spammer::PositionSpammer::showMoney)
 				str << "$" << player->GetMoney() << " | ";
 
-			if (Settings::Spammer::PositionSpammer::show_lastplace)
+			if (Settings::Spammer::PositionSpammer::showLastplace)
 				str << player->GetLastPlaceName();
 
 			str << "\"";

@@ -319,7 +319,7 @@ namespace Settings
 			extern bool enemies;
 			extern bool allies;
 			extern bool walls;
-			extern bool smoke_check;
+			extern bool smokeCheck;
 			extern bool head;
 			extern bool chest;
 			extern bool stomach;
@@ -338,15 +338,15 @@ namespace Settings
 	{
 		namespace AutoDisable
 		{
-			extern bool no_enemy;
-			extern bool knife_held;
+			extern bool noEnemy;
+			extern bool knifeHeld;
 		}
 
 		namespace Yaw
 		{
 			extern bool enabled;
 			extern AntiAimType_Y type;
-			extern AntiAimType_Y type_fake;
+			extern AntiAimType_Y typeFake;
 		}
 
 		namespace Pitch
@@ -364,7 +364,7 @@ namespace Settings
 
 	namespace Resolver
 	{
-		extern bool resolve_all;
+		extern bool resolveAll;
 	}
 
 	namespace ESP
@@ -555,7 +555,7 @@ namespace Settings
 		namespace KillSpammer
 		{
 			extern bool enabled;
-			extern bool say_team;
+			extern bool sayTeam;
 			extern char* message;
 		}
 
@@ -572,13 +572,13 @@ namespace Settings
 		namespace PositionSpammer
 		{
 			extern int team;
-			extern bool show_name;
-			extern bool show_weapon;
-			extern bool show_rank;
-			extern bool show_wins;
-			extern bool show_health;
-			extern bool show_money;
-			extern bool show_lastplace;
+			extern bool showName;
+			extern bool showWeapon;
+			extern bool showRank;
+			extern bool showWins;
+			extern bool showHealth;
+			extern bool showMoney;
+			extern bool showLastplace;
 		}
 	}
 
@@ -603,10 +603,10 @@ namespace Settings
 	namespace FOVChanger
 	{
 		extern bool enabled;
-		extern bool viewmodel_enabled;
+		extern bool viewmodelEnabled;
 		extern float value;
-		extern float viewmodel_value;
-		extern bool ignore_scope;
+		extern float viewmodelValue;
+		extern bool ignoreScope;
 	}
 
 	namespace Radar
@@ -618,29 +618,29 @@ namespace Settings
 		extern bool bomb;
 		extern bool defuser;
 		extern bool legit;
-		extern bool visibility_check;
-		extern bool smoke_check;
+		extern bool visibilityCheck;
+		extern bool smokeCheck;
 		extern TeamColorType team_color_type;
-		extern ImColor enemy_color;
-		extern ImColor enemy_visible_color;
-		extern ImColor ally_color;
-		extern ImColor ally_visible_color;
-		extern ImColor t_color;
-		extern ImColor t_visible_color;
-		extern ImColor ct_color;
-		extern ImColor ct_visible_color;
-		extern ImColor bomb_color;
-		extern ImColor bomb_defusing_color;
+		extern ImColor enemyColor;
+		extern ImColor enemyVisibleColor;
+		extern ImColor allyColor;
+		extern ImColor allyVisibleColor;
+		extern ImColor tColor;
+		extern ImColor tVisibleColor;
+		extern ImColor ctColor;
+		extern ImColor ctVisibleColor;
+		extern ImColor bombColor;
+		extern ImColor bombDefusingColor;
 		extern ImColor defuser_color;
-		extern float icons_scale;
-		extern bool hp_enemy_color;
-		extern bool hp_enemy_visible_color;
-		extern bool hp_ally_color;
-		extern bool hp_ally_visible_color;
-		extern bool hp_t_color;
-		extern bool hp_t_visible_color;
-		extern bool hp_ct_color;
-		extern bool hp_ct_visible_color;
+		extern float iconsScale;
+		extern bool hpEnemyColor;
+		extern bool hpEnemyVisibleColor;
+		extern bool hpAllyColor;
+		extern bool hpAllyVisibleColor;
+		extern bool hpTColor;
+		extern bool hpTVisibleColor;
+		extern bool hpCtColor;
+		extern bool hpCtVisibleColor;
 
 		namespace InGame
 		{
@@ -692,7 +692,7 @@ namespace Settings
 	{
 		extern char* value;
 		extern bool animation;
-		extern int animation_speed;
+		extern int animationSpeed;
 		extern bool enabled;
 		extern ClanTagType type;
 	}

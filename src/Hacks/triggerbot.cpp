@@ -5,7 +5,7 @@ bool Settings::Triggerbot::enabled = false;
 bool Settings::Triggerbot::Filters::enemies = true;
 bool Settings::Triggerbot::Filters::allies = false;
 bool Settings::Triggerbot::Filters::walls = false;
-bool Settings::Triggerbot::Filters::smoke_check = false;
+bool Settings::Triggerbot::Filters::smokeCheck = false;
 bool Settings::Triggerbot::Filters::head = true;
 bool Settings::Triggerbot::Filters::chest = true;
 bool Settings::Triggerbot::Filters::stomach = true;
@@ -110,7 +110,7 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	if (!filter)
 		return;
 
-	if (Settings::Triggerbot::Filters::smoke_check && LineGoesThroughSmoke(tr.startpos, tr.endpos, 1))
+	if (Settings::Triggerbot::Filters::smokeCheck && LineGoesThroughSmoke(tr.startpos, tr.endpos, 1))
 		return;
 
 	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
