@@ -34,7 +34,11 @@ __Gentoo:__
 sudo emerge cmake dev-vcs/git gdb libsdl2 mesa
 ```
 
-If your compiler (`g++`) is out of date please follow [this](https://github.com/AimTuxOfficial/AimTux/wiki/Updating-your-compiler) wiki page for a solution. (`-std=c++14` error).
+To build AimTux, you require at least (`GCC / G++ v6`) otherwise it will error, to check your gcc / g++ version, run the command 
+`
+gcc -v
+`
+and it will tell you on the bottom line the version, if it is not at least v6.0, you will need to follow [this](https://github.com/AimTuxOfficial/AimTux/wiki/Updating-your-compiler) wiki page on how to update.
 
 ===================
 
