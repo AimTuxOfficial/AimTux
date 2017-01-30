@@ -35,6 +35,8 @@ bool Settings::ESP::hp_ct_visible_color = false;
 bool Settings::ESP::hp_t_visible_color = false;
 ImColor Settings::ESP::Skeleton::color = ImColor(255, 255, 255, 255);
 bool Settings::ESP::Glow::enabled = false;
+bool Settings::ESP::Glow::key_enabled = false;
+ButtonCode_t Settings::ESP::Glow::key = ButtonCode_t::KEY_CAPSLOCK;
 ImColor Settings::ESP::Glow::ally_color = ImColor(0, 50, 200, 200);
 ImColor Settings::ESP::Glow::enemy_color = ImColor(200, 0, 50, 200);
 ImColor Settings::ESP::Glow::enemy_visible_color = ImColor(200, 200, 50, 200);
@@ -992,6 +994,10 @@ void ESP::DrawGlow()
 	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return;
+
+	if (Settings::ESP::Glow::key_enabled)
+		if(!input->IsButtonDown(Settings::ESP::Glow::key)) 
+			return;
 
 	for (int i = 0; i < glowmanager->m_GlowObjectDefinitions.Count(); i++)
 	{

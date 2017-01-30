@@ -1006,6 +1006,10 @@ void VisualsTab()
 					ImGui::Checkbox("Entity Glow", &Settings::ESP::Glow::enabled);
 					if (ImGui::IsItemHovered())
 						ImGui::SetTooltip("Show a glow around entities");
+					ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
+					ImGui::Checkbox("Glow key", &Settings::ESP::Glow::key_enabled);
+					if (ImGui::IsItemHovered())
+						ImGui::SetTooltip("Activate keybind for Glow around entities");
 				}
 				ImGui::NextColumn();
 				{
@@ -1018,6 +1022,7 @@ void VisualsTab()
 					ImGui::Checkbox("Hostages", &Settings::ESP::Filters::hostages);
 					if (ImGui::IsItemHovered())
 						ImGui::SetTooltip("Show hostages");
+					UI::KeyBindButton(&Settings::ESP::Glow::key);
 				}
 				ImGui::Columns(1);
 				ImGui::EndChild();
