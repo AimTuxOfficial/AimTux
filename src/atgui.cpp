@@ -1922,6 +1922,58 @@ void GloveSkinChanger()
 				{
 					if (!Util::Contains(Util::ToLower(std::string(filterGloveSkins)), Util::ToLower(std::string(it.second))))
 						continue;
+
+					// if(current_glove == (int) ItemDefinitionIndex::GLOVE_STUDDED_BLOODHOUND && )
+					// 	continue;
+
+					switch (current_glove)
+					{
+						case (int) ItemDefinitionIndex::GLOVE_STUDDED_BLOODHOUND:
+							if(!Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_bloodhound_black_silver_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_bloodhound_snakeskin_brass_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_bloodhound_metallic_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_bloodhound_guerrilla_tag"))), Util::ToLower(std::string(it.second))))
+							continue;
+							break;
+						case (int) ItemDefinitionIndex::GLOVE_SPORTY:
+							if(!Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_sporty_light_blue_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_sporty_military_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_sporty_purple_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_sporty_green_tag"))), Util::ToLower(std::string(it.second))))
+							continue;
+							break;
+						case (int) ItemDefinitionIndex::GLOVE_SLICK:
+							if(!Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_slick_black_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_slick_military_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_slick_red_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_slick_snakeskin_yellow_tag"))), Util::ToLower(std::string(it.second))))
+							continue;
+							break;
+						case (int) ItemDefinitionIndex::GLOVE_LEATHER_WRAP:
+							if(!Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_handwrap_leathery_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_handwrap_camo_grey_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_handwrap_red_slaughter_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_handwrap_fabric_orange_camo_tag"))), Util::ToLower(std::string(it.second))))
+							continue;
+							break;
+						case (int) ItemDefinitionIndex::GLOVE_MOTORCYCLE:
+							if(!Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_motorcycle_basic_black_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_motorcycle_mint_triangle_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_motorcycle_mono_boom_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_motorcycle_triangle_blue_tag"))), Util::ToLower(std::string(it.second))))
+							continue;
+							break;
+						case (int) ItemDefinitionIndex::GLOVE_SPECIALIST:
+							if(!Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_specialist_ddpat_green_camo_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_specialist_kimono_diamonds_red_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_specialist_emerald_web_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_specialist_white_orange_grey_tag"))), Util::ToLower(std::string(it.second))))
+							continue;
+							break;
+						default:
+							break;
+					}
+
 					const bool item_selected = (it.first == current_glove_skin);
 					ImGui::PushID(it.first);
 						if (ImGui::Selectable(it.second, item_selected))
