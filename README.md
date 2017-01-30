@@ -17,8 +17,6 @@ AimTux is a fully featured internal hack for *CounterStrike : Global Offensive* 
 
 #### Download the dependencies required to build AimTux:
 
-=================
-
 __Ubuntu-Based / Debian:__
 ```bash
 sudo apt-get install cmake g++ gdb git libsdl2-dev zlib1g-dev
