@@ -66,19 +66,19 @@ class IClientNetworkable
 public:
 	virtual ~IClientNetworkable() {};
 
-	ClientClass* GetClientClass()
-	{
-		typedef ClientClass* (* oGetClientClass)(void*);
-		return getvfunc<oGetClientClass>(this, 2)(this);
-	}
-
 	void Release()
 	{
 		typedef void (* oRelease)(void*);
 		return getvfunc<oRelease>(this, 1)(this);
 	}
 
-	void PreDataUpdate(DataUpdateType_t updateType) // Could be wrong
+	ClientClass* GetClientClass()
+	{
+		typedef ClientClass* (* oGetClientClass)(void*);
+		return getvfunc<oGetClientClass>(this, 2)(this);
+	}
+
+	void PreDataUpdate(DataUpdateType_t updateType)
 	{
 		typedef void (* oPreDataUpdate)(void*, DataUpdateType_t);
 		return getvfunc<oPreDataUpdate>(this, 6)(this, updateType);
