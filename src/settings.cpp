@@ -94,7 +94,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 		weaponSetting["Friendly"] = i.second.friendly;
 		weaponSetting["TargetBone"] = (int) i.second.bone;
 		weaponSetting["AimKey"] = Util::GetButtonName(i.second.aimkey);
-		weaponSetting["AimKeyOnly"] = i.second.aimkey_only;
+		weaponSetting["AimKeyOnly"] = i.second.aimkeyOnly;
 		weaponSetting["Smooth"]["Enabled"] = i.second.smoothEnabled;
 		weaponSetting["Smooth"]["Amount"] = i.second.smoothAmount;
 		weaponSetting["Smooth"]["Type"] = (int) i.second.smoothType;
@@ -107,14 +107,14 @@ void Settings::LoadDefaultsOrSave(std::string path)
 		weaponSetting["AimStep"]["Enabled"] = i.second.aimStepEnabled;
 		weaponSetting["AimStep"]["Amount"] = i.second.aimStepValue;
 		weaponSetting["RCS"]["Enabled"] = i.second.rcsEnabled;
-		weaponSetting["RCS"]["AlwaysOn"] = i.second.rcsAlways_on;
+		weaponSetting["RCS"]["AlwaysOn"] = i.second.rcsAlwaysOn;
 		weaponSetting["RCS"]["Amount"] = i.second.rcsAmount;
 		weaponSetting["AutoPistol"]["Enabled"] = i.second.autoPistolEnabled;
 		weaponSetting["AutoShoot"]["Enabled"] = i.second.autoShootEnabled;
 		weaponSetting["AutoScope"]["Enabled"] = i.second.autoScopeEnabled;
 		weaponSetting["NoShoot"]["Enabled"] = i.second.noShootEnabled;
 		weaponSetting["IgnoreJump"]["Enabled"] = i.second.ignoreJumpEnabled;
-		weaponSetting["SmokeCheck"]["Enabled"] = i.second.smoke_check;
+		weaponSetting["SmokeCheck"]["Enabled"] = i.second.smokeCheck;
 		weaponSetting["AutoWall"]["Enabled"] = i.second.autoWallEnabled;
 		weaponSetting["AutoWall"]["Value"] = i.second.autoWallValue;
 

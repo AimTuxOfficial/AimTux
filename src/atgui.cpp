@@ -164,13 +164,13 @@ inline void SetTooltip(const char* text)
 		ImGui::SetTooltip("%s", text);
 }
 
-static ItemDefinitionIndex current_weapon = ItemDefinitionIndex::INVALID;
+static ItemDefinitionIndex currentWeapon = ItemDefinitionIndex::INVALID;
 static bool enabled = false;
 static bool silent = false;
 static bool friendly = false;
 static Bone bone = Bone::BONE_HEAD;
 static ButtonCode_t aimkey = ButtonCode_t::MOUSE_MIDDLE;
-static bool aimkey_only = false;
+static bool aimkeyOnly = false;
 static bool smoothEnabled = false;
 static float smoothValue = 0.5f;
 static SmoothType smoothType = SmoothType::SLOW_END;
@@ -183,14 +183,14 @@ static float autoAimValue = 180.0f;
 static bool aimStepEnabled = false;
 static float aimStepValue = 25.0f;
 static bool rcsEnabled = false;
-static bool rcsAlways_on = false;
+static bool rcsAlwaysOn = false;
 static float rcsFloat = false;
 static bool autoPistolEnabled = false;
 static bool autoShootEnabled = false;
 static bool autoScopeEnabled = false;
 static bool noShootEnabled = false;
 static bool ignoreJumpEnabled = false;
-static bool smoke_check = false;
+static bool smokeCheck = false;
 static bool autoWallEnabled = false;
 static float autoWallValue = 10.0f;
 static bool autoWallBones[] = { true, false, false, false, false, false };
@@ -199,29 +199,29 @@ static bool autoAimRealDistance = false;
 void UI::updateWeaponSettings()
 {
 	Settings::Aimbot::Weapon settings =
-			Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkey_only,
+			Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkeyOnly,
 									 smoothEnabled, smoothValue, smoothType, smoothSaltEnabled, smoothSaltMultiplier,
 									 errorMarginEnabled, errorMarginValue,
 									 autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
-									 rcsEnabled, rcsAlways_on, rcsFloat,
+									 rcsEnabled, rcsAlwaysOn, rcsFloat,
 									 autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
-									 noShootEnabled, ignoreJumpEnabled, smoke_check, autoWallEnabled, autoWallValue, autoWallBones, autoAimRealDistance);
+									 noShootEnabled, ignoreJumpEnabled, smokeCheck, autoWallEnabled, autoWallValue, autoWallBones, autoAimRealDistance);
 
-	Settings::Aimbot::weapons[(ItemDefinitionIndex )current_weapon] = settings;
+	Settings::Aimbot::weapons[currentWeapon] = settings;
 }
 
 void reloadWeaponSettings()
 {
 	ItemDefinitionIndex index = ItemDefinitionIndex::INVALID;
-	if (Settings::Aimbot::weapons.find(current_weapon) != Settings::Aimbot::weapons.end())
-		index = current_weapon;
+	if (Settings::Aimbot::weapons.find(currentWeapon) != Settings::Aimbot::weapons.end())
+		index = currentWeapon;
 
 	enabled = Settings::Aimbot::weapons[index].enabled;
 	silent = Settings::Aimbot::weapons[index].silent;
 	friendly = Settings::Aimbot::weapons[index].friendly;
 	bone = Settings::Aimbot::weapons[index].bone;
 	aimkey = Settings::Aimbot::weapons[index].aimkey;
-	aimkey_only = Settings::Aimbot::weapons[index].aimkey_only;
+	aimkeyOnly = Settings::Aimbot::weapons[index].aimkeyOnly;
 	smoothEnabled = Settings::Aimbot::weapons[index].smoothEnabled;
 	smoothValue = Settings::Aimbot::weapons[index].smoothAmount;
 	smoothType = Settings::Aimbot::weapons[index].smoothType;
@@ -234,14 +234,14 @@ void reloadWeaponSettings()
 	aimStepEnabled = Settings::Aimbot::weapons[index].aimStepEnabled;
 	aimStepValue = Settings::Aimbot::weapons[index].aimStepValue;
 	rcsEnabled = Settings::Aimbot::weapons[index].rcsEnabled;
-	rcsAlways_on = Settings::Aimbot::weapons[index].rcsAlways_on;
+	rcsAlwaysOn = Settings::Aimbot::weapons[index].rcsAlwaysOn;
 	rcsFloat = Settings::Aimbot::weapons[index].rcsAmount;
 	autoPistolEnabled = Settings::Aimbot::weapons[index].autoPistolEnabled;
 	autoShootEnabled = Settings::Aimbot::weapons[index].autoShootEnabled;
 	autoScopeEnabled = Settings::Aimbot::weapons[index].autoScopeEnabled;
 	noShootEnabled = Settings::Aimbot::weapons[index].noShootEnabled;
 	ignoreJumpEnabled = Settings::Aimbot::weapons[index].ignoreJumpEnabled;
-	smoke_check = Settings::Aimbot::weapons[index].smoke_check;
+	smokeCheck = Settings::Aimbot::weapons[index].smokeCheck;
 	autoWallEnabled = Settings::Aimbot::weapons[index].autoWallEnabled;
 	autoWallValue = Settings::Aimbot::weapons[index].autoWallValue;
 
@@ -462,7 +462,7 @@ void AimbotTab()
 				if (!isDefault && !Util::Contains(Util::ToLower(std::string(filterWeapons)), Util::ToLower(std::string(it.second))))
 					continue;
 
-				const bool item_selected = (it.first == (int) current_weapon);
+				const bool item_selected = (it.first == (int) currentWeapon);
 				ImGui::PushID(it.first);
 
 					std::string formattedName;
@@ -474,7 +474,7 @@ void AimbotTab()
 
 					if (ImGui::Selectable(formattedName.c_str(), item_selected))
 					{
-						current_weapon = (ItemDefinitionIndex ) it.first;
+						currentWeapon = (ItemDefinitionIndex ) it.first;
 
 						ItemDefinitionIndex index = ItemDefinitionIndex::INVALID;
 						if (Settings::Aimbot::weapons.find((ItemDefinitionIndex) it.first) != Settings::Aimbot::weapons.end())
@@ -485,7 +485,7 @@ void AimbotTab()
 						friendly = Settings::Aimbot::weapons[index].friendly;
 						bone = Settings::Aimbot::weapons[index].bone;
 						aimkey = Settings::Aimbot::weapons[index].aimkey;
-						aimkey_only = Settings::Aimbot::weapons[index].aimkey_only;
+						aimkeyOnly = Settings::Aimbot::weapons[index].aimkeyOnly;
 						smoothEnabled = Settings::Aimbot::weapons[index].smoothEnabled;
 						smoothValue = Settings::Aimbot::weapons[index].smoothAmount;
 						smoothType = Settings::Aimbot::weapons[index].smoothType;
@@ -498,14 +498,14 @@ void AimbotTab()
 						aimStepEnabled = Settings::Aimbot::weapons[index].aimStepEnabled;
 						aimStepValue = Settings::Aimbot::weapons[index].aimStepValue;
 						rcsEnabled = Settings::Aimbot::weapons[index].rcsEnabled;
-						rcsAlways_on = Settings::Aimbot::weapons[index].rcsAlways_on;
+						rcsAlwaysOn = Settings::Aimbot::weapons[index].rcsAlwaysOn;
 						rcsFloat = Settings::Aimbot::weapons[index].rcsAmount;
 						autoPistolEnabled = Settings::Aimbot::weapons[index].autoPistolEnabled;
 						autoShootEnabled = Settings::Aimbot::weapons[index].autoShootEnabled;
 						autoScopeEnabled = Settings::Aimbot::weapons[index].autoScopeEnabled;
 						noShootEnabled = Settings::Aimbot::weapons[index].noShootEnabled;
 						ignoreJumpEnabled = Settings::Aimbot::weapons[index].ignoreJumpEnabled;
-						smoke_check = Settings::Aimbot::weapons[index].smoke_check;
+						smokeCheck = Settings::Aimbot::weapons[index].smokeCheck;
 						autoWallEnabled = Settings::Aimbot::weapons[index].autoWallEnabled;
 						autoWallValue = Settings::Aimbot::weapons[index].autoWallValue;
 
@@ -550,7 +550,7 @@ void AimbotTab()
 				if (ImGui::Checkbox("Recoil Control", &rcsEnabled))
 					UI::updateWeaponSettings();
 				SetTooltip("Automatically controls recoil");
-				if (ImGui::Checkbox("RCS Always on", &rcsAlways_on))
+				if (ImGui::Checkbox("RCS Always on", &rcsAlwaysOn))
 					UI::updateWeaponSettings();
 				SetTooltip("Whether Recoil Control always controls recoil (even when not aimbotting)");
 			}
@@ -610,7 +610,7 @@ void AimbotTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				if (ImGui::Checkbox("Enabled", &aimkey_only))
+				if (ImGui::Checkbox("Enabled", &aimkeyOnly))
 					UI::updateWeaponSettings();
 				SetTooltip("Enabling this means it you need to press a specific key to aimlock");
 			}
@@ -641,7 +641,7 @@ void AimbotTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				switch (current_weapon)
+				switch (currentWeapon)
 				{
 					case ItemDefinitionIndex::INVALID:
 					case ItemDefinitionIndex::WEAPON_DEAGLE:
@@ -668,7 +668,7 @@ void AimbotTab()
 				if (ImGui::Checkbox("Silent Aim", &silent))
 					UI::updateWeaponSettings();
 				SetTooltip("Prevents the camera from locking to an enemy, doesn't work for demos");
-				if (ImGui::Checkbox("Smoke Check", &smoke_check))
+				if (ImGui::Checkbox("Smoke Check", &smokeCheck))
 					UI::updateWeaponSettings();
 				SetTooltip("Ignore players that are in smoke");
 			}
@@ -731,9 +731,9 @@ void AimbotTab()
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
-			if (current_weapon > ItemDefinitionIndex::INVALID && Settings::Aimbot::weapons.find(current_weapon) != Settings::Aimbot::weapons.end())
+			if (currentWeapon > ItemDefinitionIndex::INVALID && Settings::Aimbot::weapons.find(currentWeapon) != Settings::Aimbot::weapons.end())
 				if (ImGui::Button("Clear Weapon Settings", ImVec2(-1, 0)))
-					Settings::Aimbot::weapons.erase(current_weapon);
+					Settings::Aimbot::weapons.erase(currentWeapon);
 			ImGui::EndChild();
 		}
 	}

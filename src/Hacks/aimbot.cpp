@@ -580,7 +580,7 @@ void Aimbot::UpdateValues()
 	Settings::Aimbot::friendly = currentWeaponSetting.friendly;
 	Settings::Aimbot::bone = currentWeaponSetting.bone;
 	Settings::Aimbot::aimkey = currentWeaponSetting.aimkey;
-	Settings::Aimbot::aimkey_only = currentWeaponSetting.aimkey_only;
+	Settings::Aimbot::aimkey_only = currentWeaponSetting.aimkeyOnly;
 	Settings::Aimbot::Smooth::enabled = currentWeaponSetting.smoothEnabled;
 	Settings::Aimbot::Smooth::value = currentWeaponSetting.smoothAmount;
 	Settings::Aimbot::Smooth::type = currentWeaponSetting.smoothType;
@@ -594,13 +594,13 @@ void Aimbot::UpdateValues()
 	Settings::Aimbot::AutoShoot::enabled = currentWeaponSetting.autoShootEnabled;
 	Settings::Aimbot::AutoShoot::autoscope = currentWeaponSetting.autoScopeEnabled;
 	Settings::Aimbot::RCS::enabled = currentWeaponSetting.rcsEnabled;
-	Settings::Aimbot::RCS::always_on = currentWeaponSetting.rcsAlways_on;
+	Settings::Aimbot::RCS::always_on = currentWeaponSetting.rcsAlwaysOn;
 	Settings::Aimbot::RCS::value = currentWeaponSetting.rcsAmount;
 	Settings::Aimbot::NoShoot::enabled = currentWeaponSetting.noShootEnabled;
 	Settings::Aimbot::IgnoreJump::enabled = currentWeaponSetting.ignoreJumpEnabled;
 	Settings::Aimbot::Smooth::Salting::enabled = currentWeaponSetting.smoothSaltEnabled;
 	Settings::Aimbot::Smooth::Salting::multiplier = currentWeaponSetting.smoothSaltMultiplier;
-	Settings::Aimbot::SmokeCheck::enabled = currentWeaponSetting.smoke_check;
+	Settings::Aimbot::SmokeCheck::enabled = currentWeaponSetting.smokeCheck;
 	Settings::Aimbot::AutoWall::enabled = currentWeaponSetting.autoWallEnabled;
 	Settings::Aimbot::AutoWall::value = currentWeaponSetting.autoWallValue;
 
