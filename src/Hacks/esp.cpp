@@ -890,7 +890,7 @@ void ESP::DrawHeaddot(C_BasePlayer* player)
 	if (Settings::ESP::Filters::visibility_check || Settings::ESP::Filters::legit)
 		bIsVisible = Entity::IsVisible(player, Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smoke_check);
 
-	Draw::FilledRectangle(Vector2D(sHead.x-size, sHead.y-size), Vector2D(sHead.x+size,sHead.y+size), Color::FromImColor(GetESPPlayerColor(player, bIsVisible)));
+	Draw::FilledRectangle(Vector2D(sHead.x - size, sHead.y - size), Vector2D(sHead.x + size, sHead. y + size), Color::FromImColor(GetESPPlayerColor(player, bIsVisible)));
 }
 
 void ESP::CollectFootstep(int iEntIndex, const char *pSample)
