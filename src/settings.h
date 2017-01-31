@@ -713,7 +713,6 @@ namespace Settings
 	namespace FakeLag
 	{
 		extern bool enabled;
-		extern bool adaptive;
 		extern int value;
 	}
 

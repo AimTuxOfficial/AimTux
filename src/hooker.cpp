@@ -67,7 +67,6 @@ RecvVarProxyFn fnSequenceProxyFn;
 StartDrawingFn StartDrawing;
 FinishDrawingFn FinishDrawing;
 
-ForceFullUpdateFn ForceFullUpdate;
 GetClientStateFn GetClientState;
 
 LineGoesThroughSmokeFn LineGoesThroughSmoke;
@@ -238,14 +237,10 @@ void Hooker::FindSurfaceDrawing()
 	FinishDrawing = reinterpret_cast<FinishDrawingFn>(finish_func_address);
 }
 
-void Hooker::FindForceFullUpdate()
+void Hooker::FindClientStateFn()
 {
-	uintptr_t forcefullupdate_func_address = FindPattern(GetLibraryAddress("engine_client.so"), 0xFFFFFFFFF, (unsigned char*) FORCEFULLUPDATE_SIGNATURE, FORCEFULLUPDATE_MASK);
-	ForceFullUpdate = reinterpret_cast<ForceFullUpdateFn>(forcefullupdate_func_address);
-
-	uintptr_t getclientstate_instruction_address = FindPattern(GetLibraryAddress("engine_client.so"), 0xFFFFFFFFF, (unsigned char*) GETCLIENTSTATE_SIGNATURE, GETCLIENTSTATE_MASK);
-	uintptr_t getclientstate_func_address = GetAbsoluteAddress(getclientstate_instruction_address, 1, 5);
-	GetClientState = reinterpret_cast<GetClientStateFn>(getclientstate_func_address);
+	uintptr_t GetLocalPlayer = reinterpret_cast<uintptr_t>(getvtable(engine)[12]);
+	GetClientState = reinterpret_cast<GetClientStateFn>(GetAbsoluteAddress(GetLocalPlayer + 9, 1, 5));
 }
 
 void Hooker::FindLineGoesThroughSmoke()

@@ -5,7 +5,6 @@
 #include "../settings.h"
 #include "../modsupport.h"
 
-extern ForceFullUpdateFn ForceFullUpdate;
 extern GetClientStateFn GetClientState;
 
 namespace SkinChanger
