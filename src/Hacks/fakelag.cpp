@@ -36,10 +36,10 @@ void FakeLag::CreateMove(CUserCmd* cmd)
 			ConVar* sv_maxspeed = cvar->FindVar("sv_maxspeed");
 			float maxVel = sv_maxspeed->GetFloat();
 
-			CreateMove::SendPacket = ticks < ticksMax * (curVel / maxVel);
+			CreateMove::SendPacket = ticks < 16 * (curVel / maxVel);
 		}
 		else
-			CreateMove::SendPacket = ticks < ticksMax - (ticksMax - Settings::FakeLag::value);
+			CreateMove::SendPacket = ticks < 16 - Settings::FakeLag::value;
 	}
 
 	ticks++;
