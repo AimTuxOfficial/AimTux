@@ -1784,17 +1784,20 @@ void GloveSkinChanger()
 		ImGui::PushItemWidth(-1);
 			ImGui::InputText("##FilterGloves", filterGloves, IM_ARRAYSIZE(filterGloves));
 			ImGui::ListBoxHeader("##GLOVES", ImVec2(-1, 300));
-				for (auto glove : gloves)
+
+				for (auto glove : ItemDefinitionIndexMap)
 				{
-					if (!Util::Contains(Util::ToLower(std::string(filterGloves)), Util::ToLower(std::string(glove.second))))
+					if (!Util::Contains(Util::ToLower(std::string(filterGloves)), Util::ToLower(std::string(glove.second.displayName))) || glove.first < ItemDefinitionIndex::GLOVE_STUDDED_BLOODHOUND)
 						continue;
-					const bool item_selected = (glove.first == current_glove);
-					ImGui::PushID(glove.first);
-						if (ImGui::Selectable(glove.second, item_selected))
-						{
-							current_glove = glove.first;
-							current_glove_skin = Settings::Skinchanger::skins.at(ItemDefinitionIndex::GLOVE_T_SIDE).fallbackPaintKit;
-						}
+					if(glove.first == ItemDefinitionIndex::GLOVE_CT_SIDE || glove.first == ItemDefinitionIndex::GLOVE_T_SIDE)
+						continue;
+					const bool item_selected = ((int)glove.first == current_glove);
+					ImGui::PushID((int)glove.first);
+					if (ImGui::Selectable(Util::WstringToString(localize->FindSafe(Util::Items::GetItemDisplayName(glove.first).c_str())).c_str(), item_selected))
+					{
+						current_glove = (int)glove.first;
+						current_glove_skin = Settings::Skinchanger::skins.at(ItemDefinitionIndex::GLOVE_T_SIDE).fallbackPaintKit;
+					}
 					ImGui::PopID();
 				}
 			ImGui::ListBoxFooter();

@@ -336,8 +336,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	{
 		const AttribItem_t& skin = item.second;
 
-		#define skinSetting settings["Skinchanger"]["skins"][Util::Items::GetNewItemName(item.first)]
-		skinSetting["ItemDefinitionIndex"] = Util::Items::GetNewItemName(skin.itemDefinitionIndex);
+		#define skinSetting settings["Skinchanger"]["skins"][Util::Items::GetItemEntityName(item.first)]
+		skinSetting["ItemDefinitionIndex"] = Util::Items::GetItemEntityName(skin.itemDefinitionIndex);
 		skinSetting["PaintKit"] = skin.fallbackPaintKit;
 		skinSetting["Wear"] = skin.fallbackWear;
 		skinSetting["Seed"] = skin.fallbackSeed;

@@ -55,11 +55,11 @@ void SkinChanger::FrameStageNotifyWeapons(ClientFrameStage_t stage)
 
 			const AttribItem_t &currentSkin = Settings::Skinchanger::skins.at(*weapon->GetItemDefinitionIndex());
 
-			if (currentSkin.itemDefinitionIndex != ItemDefinitionIndex::INVALID && ItemDefinitionIndexNew.find(currentSkin.itemDefinitionIndex) != ItemDefinitionIndexNew.end())
+			if (currentSkin.itemDefinitionIndex != ItemDefinitionIndex::INVALID && ItemDefinitionIndexMap.find(currentSkin.itemDefinitionIndex) != ItemDefinitionIndexMap.end())
 			{
 				*weapon->GetModelIndex() = modelInfo->GetModelIndex(
-						ItemDefinitionIndexNew.at(currentSkin.itemDefinitionIndex).entityModel);
-				if (ItemDefinitionIndexNew.find(*weapon->GetItemDefinitionIndex()) != ItemDefinitionIndexNew.end())
+						ItemDefinitionIndexMap.at(currentSkin.itemDefinitionIndex).entityModel);
+				if (ItemDefinitionIndexMap.find(*weapon->GetItemDefinitionIndex()) != ItemDefinitionIndexMap.end())
 					*weapon->GetItemDefinitionIndex() = currentSkin.itemDefinitionIndex;
 			}
 
@@ -93,9 +93,9 @@ void SkinChanger::FrameStageNotifyWeapons(ClientFrameStage_t stage)
 		if (!active_weapon)
 			return;
 
-		if (ItemDefinitionIndexNew.find(*active_weapon->GetItemDefinitionIndex()) != ItemDefinitionIndexNew.end())
+		if (ItemDefinitionIndexMap.find(*active_weapon->GetItemDefinitionIndex()) != ItemDefinitionIndexMap.end())
 		{
-			const DefItem_t &override_weapon = ItemDefinitionIndexNew.at(*active_weapon->GetItemDefinitionIndex());
+			const DefItem_t &override_weapon = ItemDefinitionIndexMap.at(*active_weapon->GetItemDefinitionIndex());
 			*viewmodel->GetModelIndex() = modelInfo->GetModelIndex(override_weapon.entityModel);
 		}
 	}
@@ -155,10 +155,10 @@ void SkinChanger::FrameStageNotifyGloves(ClientFrameStage_t stage)
 			{
 				const AttribItem_t &currentSkin = Settings::Skinchanger::skins.at(ItemDefinitionIndex::GLOVE_T_SIDE);
 
-				if (currentSkin.itemDefinitionIndex != ItemDefinitionIndex::INVALID && ItemDefinitionIndexNew.find(currentSkin.itemDefinitionIndex) != ItemDefinitionIndexNew.end())
+				if (currentSkin.itemDefinitionIndex != ItemDefinitionIndex::INVALID && ItemDefinitionIndexMap.find(currentSkin.itemDefinitionIndex) != ItemDefinitionIndexMap.end())
 				{
-					glove->SetModelIndex(modelInfo->GetModelIndex(ItemDefinitionIndexNew.at(currentSkin.itemDefinitionIndex).entityModel));
-					if (ItemDefinitionIndexNew.find(ItemDefinitionIndex::GLOVE_T_SIDE) != ItemDefinitionIndexNew.end())
+					glove->SetModelIndex(modelInfo->GetModelIndex(ItemDefinitionIndexMap.at(currentSkin.itemDefinitionIndex).entityModel));
+					if (ItemDefinitionIndexMap.find(ItemDefinitionIndex::GLOVE_T_SIDE) != ItemDefinitionIndexMap.end())
 						*glove->GetItemDefinitionIndex() = currentSkin.itemDefinitionIndex;
 				}
 

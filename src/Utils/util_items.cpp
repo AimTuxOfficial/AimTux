@@ -77,10 +77,18 @@ namespace Util
 			return Util::MapReverseSearchOrDefault<std::string, ItemDefinitionIndex>(&ItemNames, index, "ITEM_INVALID");
 		}
 
-		std::string GetNewItemName(ItemDefinitionIndex index)
+		std::string GetItemEntityName(ItemDefinitionIndex index)
 		{
-			if (ItemDefinitionIndexNew.find(index) != ItemDefinitionIndexNew.end())
-				return ItemDefinitionIndexNew.at(index).entityName;
+			if (ItemDefinitionIndexMap.find(index) != ItemDefinitionIndexMap.end())
+				return ItemDefinitionIndexMap.at(index).entityName;
+			else
+				return "INVALID";
+		}
+
+		std::string GetItemDisplayName(ItemDefinitionIndex index)
+		{
+			if (ItemDefinitionIndexMap.find(index) != ItemDefinitionIndexMap.end())
+				return ItemDefinitionIndexMap.at(index).displayName;
 			else
 				return "INVALID";
 		}
