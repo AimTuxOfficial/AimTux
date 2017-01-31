@@ -194,61 +194,61 @@ static bool smoke_check = false;
 static bool autoWallEnabled = false;
 static float autoWallValue = 10.0f;
 static bool autoWallBones[] = { true, false, false, false, false, false };
-static bool autoAimRealDistance;
+static bool autoAimRealDistance = false;
 
 void UI::updateWeaponSettings()
 {
-	Settings::Aimbot::Weapon settings =
-			Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkey_only,
-									 smoothEnabled, smoothValue, smoothType, smoothSaltEnabled, smoothSaltMultiplier,
-									 errorMarginEnabled, errorMarginValue,
-									 autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
-									 rcsEnabled, rcsAlways_on, rcsFloat,
-									 autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
-									 noShootEnabled, ignoreJumpEnabled, smoke_check, autoWallEnabled, autoWallValue, autoWallBones, autoAimRealDistance);
+    Settings::Aimbot::Weapon settings =
+            Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkey_only,
+                                     smoothEnabled, smoothValue, smoothType, smoothSaltEnabled, smoothSaltMultiplier,
+                                     errorMarginEnabled, errorMarginValue,
+                                     autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
+                                     rcsEnabled, rcsAlways_on, rcsFloat,
+                                     autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
+                                     noShootEnabled, ignoreJumpEnabled, smoke_check, autoWallEnabled, autoWallValue, autoWallBones, autoAimRealDistance);
 
-	Settings::Aimbot::weapons[current_weapon] = settings;
+    Settings::Aimbot::weapons[(ItemDefinitionIndex )current_weapon] = settings;
 }
 
 void reloadWeaponSettings()
 {
-	ItemDefinitionIndex index = ItemDefinitionIndex::INVALID;
-	if (Settings::Aimbot::weapons.find(current_weapon) != Settings::Aimbot::weapons.end())
-		index = current_weapon;
+    ItemDefinitionIndex index = ItemDefinitionIndex::INVALID;
+    if (Settings::Aimbot::weapons.find(current_weapon) != Settings::Aimbot::weapons.end())
+        index = current_weapon;
 
-	enabled = Settings::Aimbot::weapons[index].enabled;
-	silent = Settings::Aimbot::weapons[index].silent;
-	friendly = Settings::Aimbot::weapons[index].friendly;
-	bone = Settings::Aimbot::weapons[index].bone;
-	aimkey = Settings::Aimbot::weapons[index].aimkey;
-	aimkey_only = Settings::Aimbot::weapons[index].aimkey_only;
-	smoothEnabled = Settings::Aimbot::weapons[index].smoothEnabled;
-	smoothValue = Settings::Aimbot::weapons[index].smoothAmount;
-	smoothType = Settings::Aimbot::weapons[index].smoothType;
-	smoothSaltEnabled = Settings::Aimbot::weapons[index].smoothSaltEnabled;
-	smoothSaltMultiplier = Settings::Aimbot::weapons[index].smoothSaltMultiplier;
-	errorMarginEnabled = Settings::Aimbot::weapons[index].errorMarginEnabled;
-	errorMarginValue = Settings::Aimbot::weapons[index].errorMarginValue;
-	autoAimEnabled = Settings::Aimbot::weapons[index].autoAimEnabled;
-	autoAimValue = Settings::Aimbot::weapons[index].autoAimFov;
-	aimStepEnabled = Settings::Aimbot::weapons[index].aimStepEnabled;
-	aimStepValue = Settings::Aimbot::weapons[index].aimStepValue;
-	rcsEnabled = Settings::Aimbot::weapons[index].rcsEnabled;
-	rcsAlways_on = Settings::Aimbot::weapons[index].rcsAlways_on;
-	rcsFloat = Settings::Aimbot::weapons[index].rcsAmount;
-	autoPistolEnabled = Settings::Aimbot::weapons[index].autoPistolEnabled;
-	autoShootEnabled = Settings::Aimbot::weapons[index].autoShootEnabled;
-	autoScopeEnabled = Settings::Aimbot::weapons[index].autoScopeEnabled;
-	noShootEnabled = Settings::Aimbot::weapons[index].noShootEnabled;
-	ignoreJumpEnabled = Settings::Aimbot::weapons[index].ignoreJumpEnabled;
-	smoke_check = Settings::Aimbot::weapons[index].smoke_check;
-	autoWallEnabled = Settings::Aimbot::weapons[index].autoWallEnabled;
-	autoWallValue = Settings::Aimbot::weapons[index].autoWallValue;
+    enabled = Settings::Aimbot::weapons[index].enabled;
+    silent = Settings::Aimbot::weapons[index].silent;
+    friendly = Settings::Aimbot::weapons[index].friendly;
+    bone = Settings::Aimbot::weapons[index].bone;
+    aimkey = Settings::Aimbot::weapons[index].aimkey;
+    aimkey_only = Settings::Aimbot::weapons[index].aimkey_only;
+    smoothEnabled = Settings::Aimbot::weapons[index].smoothEnabled;
+    smoothValue = Settings::Aimbot::weapons[index].smoothAmount;
+    smoothType = Settings::Aimbot::weapons[index].smoothType;
+    smoothSaltEnabled = Settings::Aimbot::weapons[index].smoothSaltEnabled;
+    smoothSaltMultiplier = Settings::Aimbot::weapons[index].smoothSaltMultiplier;
+    errorMarginEnabled = Settings::Aimbot::weapons[index].errorMarginEnabled;
+    errorMarginValue = Settings::Aimbot::weapons[index].errorMarginValue;
+    autoAimEnabled = Settings::Aimbot::weapons[index].autoAimEnabled;
+    autoAimValue = Settings::Aimbot::weapons[index].autoAimFov;
+    aimStepEnabled = Settings::Aimbot::weapons[index].aimStepEnabled;
+    aimStepValue = Settings::Aimbot::weapons[index].aimStepValue;
+    rcsEnabled = Settings::Aimbot::weapons[index].rcsEnabled;
+    rcsAlways_on = Settings::Aimbot::weapons[index].rcsAlways_on;
+    rcsFloat = Settings::Aimbot::weapons[index].rcsAmount;
+    autoPistolEnabled = Settings::Aimbot::weapons[index].autoPistolEnabled;
+    autoShootEnabled = Settings::Aimbot::weapons[index].autoShootEnabled;
+    autoScopeEnabled = Settings::Aimbot::weapons[index].autoScopeEnabled;
+    noShootEnabled = Settings::Aimbot::weapons[index].noShootEnabled;
+    ignoreJumpEnabled = Settings::Aimbot::weapons[index].ignoreJumpEnabled;
+    smoke_check = Settings::Aimbot::weapons[index].smoke_check;
+    autoWallEnabled = Settings::Aimbot::weapons[index].autoWallEnabled;
+    autoWallValue = Settings::Aimbot::weapons[index].autoWallValue;
 
-	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
-		autoWallBones[bone] = Settings::Aimbot::weapons[index].autoWallBones[bone];
+    for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
+        autoWallBones[bone] = Settings::Aimbot::weapons[index].autoWallBones[bone];
 
-	autoAimRealDistance = Settings::Aimbot::weapons[index].autoAimRealDistance;
+    autoAimRealDistance = Settings::Aimbot::weapons[index].autoAimRealDistance;
 }
 
 void ColorsWindow()
@@ -465,55 +465,55 @@ void AimbotTab()
 				const bool item_selected = (it.first == (int)  current_weapon);
 				ImGui::PushID(it.first);
 
-					std::string formattedName;
-					char changeIndicator = ' ';
-					bool isChanged = Settings::Aimbot::weapons.find((ItemDefinitionIndex) it.first) != Settings::Aimbot::weapons.end();
-					if (!isDefault && isChanged)
-						changeIndicator = '*';
-					formattedName = changeIndicator + std::string(it.second);
+                    std::string formattedName;
+                    char changeIndicator = ' ';
+                    bool isChanged = Settings::Aimbot::weapons.find((ItemDefinitionIndex) it.first) != Settings::Aimbot::weapons.end();
+                    if (!isDefault && isChanged)
+                        changeIndicator = '*';
+                    formattedName = changeIndicator + std::string(it.second);
 
-					if (ImGui::Selectable(formattedName.c_str(), item_selected))
-					{
-						current_weapon = (ItemDefinitionIndex ) it.first;
+                    if (ImGui::Selectable(formattedName.c_str(), item_selected))
+                    {
+                        current_weapon = (ItemDefinitionIndex ) it.first;
 
-						ItemDefinitionIndex index = ItemDefinitionIndex::INVALID;
-						if (Settings::Aimbot::weapons.find((ItemDefinitionIndex) it.first) != Settings::Aimbot::weapons.end())
-							index = (ItemDefinitionIndex) it.first;
+                        ItemDefinitionIndex index = ItemDefinitionIndex::INVALID;
+                        if (Settings::Aimbot::weapons.find((ItemDefinitionIndex) it.first) != Settings::Aimbot::weapons.end())
+                            index = (ItemDefinitionIndex) it.first;
 
-						enabled = Settings::Aimbot::weapons[index].enabled;
-						silent = Settings::Aimbot::weapons[index].silent;
-						friendly = Settings::Aimbot::weapons[index].friendly;
-						bone = Settings::Aimbot::weapons[index].bone;
-						aimkey = Settings::Aimbot::weapons[index].aimkey;
-						aimkey_only = Settings::Aimbot::weapons[index].aimkey_only;
-						smoothEnabled = Settings::Aimbot::weapons[index].smoothEnabled;
-						smoothValue = Settings::Aimbot::weapons[index].smoothAmount;
-						smoothType = Settings::Aimbot::weapons[index].smoothType;
-						smoothSaltEnabled = Settings::Aimbot::weapons[index].smoothSaltEnabled;
-						smoothSaltMultiplier = Settings::Aimbot::weapons[index].smoothSaltMultiplier;
-						errorMarginEnabled = Settings::Aimbot::weapons[index].errorMarginEnabled;
-						errorMarginValue = Settings::Aimbot::weapons[index].errorMarginValue;
-						autoAimEnabled = Settings::Aimbot::weapons[index].autoAimEnabled;
-						autoAimValue = Settings::Aimbot::weapons[index].autoAimFov;
-						aimStepEnabled = Settings::Aimbot::weapons[index].aimStepEnabled;
-						aimStepValue = Settings::Aimbot::weapons[index].aimStepValue;
-						rcsEnabled = Settings::Aimbot::weapons[index].rcsEnabled;
-						rcsAlways_on = Settings::Aimbot::weapons[index].rcsAlways_on;
-						rcsFloat = Settings::Aimbot::weapons[index].rcsAmount;
-						autoPistolEnabled = Settings::Aimbot::weapons[index].autoPistolEnabled;
-						autoShootEnabled = Settings::Aimbot::weapons[index].autoShootEnabled;
-						autoScopeEnabled = Settings::Aimbot::weapons[index].autoScopeEnabled;
-						noShootEnabled = Settings::Aimbot::weapons[index].noShootEnabled;
-						ignoreJumpEnabled = Settings::Aimbot::weapons[index].ignoreJumpEnabled;
-						smoke_check = Settings::Aimbot::weapons[index].smoke_check;
-						autoWallEnabled = Settings::Aimbot::weapons[index].autoWallEnabled;
-						autoWallValue = Settings::Aimbot::weapons[index].autoWallValue;
+                        enabled = Settings::Aimbot::weapons[index].enabled;
+                        silent = Settings::Aimbot::weapons[index].silent;
+                        friendly = Settings::Aimbot::weapons[index].friendly;
+                        bone = Settings::Aimbot::weapons[index].bone;
+                        aimkey = Settings::Aimbot::weapons[index].aimkey;
+                        aimkey_only = Settings::Aimbot::weapons[index].aimkey_only;
+                        smoothEnabled = Settings::Aimbot::weapons[index].smoothEnabled;
+                        smoothValue = Settings::Aimbot::weapons[index].smoothAmount;
+                        smoothType = Settings::Aimbot::weapons[index].smoothType;
+                        smoothSaltEnabled = Settings::Aimbot::weapons[index].smoothSaltEnabled;
+                        smoothSaltMultiplier = Settings::Aimbot::weapons[index].smoothSaltMultiplier;
+                        errorMarginEnabled = Settings::Aimbot::weapons[index].errorMarginEnabled;
+                        errorMarginValue = Settings::Aimbot::weapons[index].errorMarginValue;
+                        autoAimEnabled = Settings::Aimbot::weapons[index].autoAimEnabled;
+                        autoAimValue = Settings::Aimbot::weapons[index].autoAimFov;
+                        aimStepEnabled = Settings::Aimbot::weapons[index].aimStepEnabled;
+                        aimStepValue = Settings::Aimbot::weapons[index].aimStepValue;
+                        rcsEnabled = Settings::Aimbot::weapons[index].rcsEnabled;
+                        rcsAlways_on = Settings::Aimbot::weapons[index].rcsAlways_on;
+                        rcsFloat = Settings::Aimbot::weapons[index].rcsAmount;
+                        autoPistolEnabled = Settings::Aimbot::weapons[index].autoPistolEnabled;
+                        autoShootEnabled = Settings::Aimbot::weapons[index].autoShootEnabled;
+                        autoScopeEnabled = Settings::Aimbot::weapons[index].autoScopeEnabled;
+                        noShootEnabled = Settings::Aimbot::weapons[index].noShootEnabled;
+                        ignoreJumpEnabled = Settings::Aimbot::weapons[index].ignoreJumpEnabled;
+                        smoke_check = Settings::Aimbot::weapons[index].smoke_check;
+                        autoWallEnabled = Settings::Aimbot::weapons[index].autoWallEnabled;
+                        autoWallValue = Settings::Aimbot::weapons[index].autoWallValue;
 
-						for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
-							autoWallBones[bone] = Settings::Aimbot::weapons[index].autoWallBones[bone];
+                        for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
+                            autoWallBones[bone] = Settings::Aimbot::weapons[index].autoWallBones[bone];
 
-						autoAimRealDistance = Settings::Aimbot::weapons[index].autoAimRealDistance;
-					}
+                        autoAimRealDistance = Settings::Aimbot::weapons[index].autoAimRealDistance;
+                    }
 				ImGui::PopID();
 			}
 		ImGui::ListBoxFooter();
@@ -643,17 +643,17 @@ void AimbotTab()
 			{
 				switch (current_weapon)
 				{
-					case ItemDefinitionIndex::INVALID:
-					case ItemDefinitionIndex::WEAPON_DEAGLE:
-					case ItemDefinitionIndex::WEAPON_ELITE:
-					case ItemDefinitionIndex::WEAPON_FIVESEVEN:
-					case ItemDefinitionIndex::WEAPON_GLOCK:
-					case ItemDefinitionIndex::WEAPON_TEC9:
-					case ItemDefinitionIndex::WEAPON_HKP2000:
-					case ItemDefinitionIndex::WEAPON_USP_SILENCER:
-					case ItemDefinitionIndex::WEAPON_P250:
-					case ItemDefinitionIndex::WEAPON_CZ75A:
-					case ItemDefinitionIndex::WEAPON_REVOLVER:
+                    case ItemDefinitionIndex::INVALID:
+                    case ItemDefinitionIndex::WEAPON_DEAGLE:
+                    case ItemDefinitionIndex::WEAPON_ELITE:
+                    case ItemDefinitionIndex::WEAPON_FIVESEVEN:
+                    case ItemDefinitionIndex::WEAPON_GLOCK:
+                    case ItemDefinitionIndex::WEAPON_TEC9:
+                    case ItemDefinitionIndex::WEAPON_HKP2000:
+                    case ItemDefinitionIndex::WEAPON_USP_SILENCER:
+                    case ItemDefinitionIndex::WEAPON_P250:
+                    case ItemDefinitionIndex::WEAPON_CZ75A:
+                    case ItemDefinitionIndex::WEAPON_REVOLVER:
 						if (ImGui::Checkbox("Auto Pistol", &autoPistolEnabled))
 							UI::updateWeaponSettings();
 						SetTooltip("Automatically shoots the pistol when holding fire");
@@ -733,7 +733,7 @@ void AimbotTab()
 			ImGui::Separator();
 			if (current_weapon > ItemDefinitionIndex::INVALID && Settings::Aimbot::weapons.find(current_weapon) != Settings::Aimbot::weapons.end())
 				if (ImGui::Button("Clear Weapon Settings", ImVec2(-1, 0)))
-					Settings::Aimbot::weapons.erase(current_weapon);
+                    Settings::Aimbot::weapons.erase(current_weapon);
 			ImGui::EndChild();
 		}
 	}
@@ -1592,7 +1592,6 @@ void MainWindow()
 				MiscTab();
 				break;
 		}
-
 		ImGui::End();
 	}
 }
@@ -1600,7 +1599,7 @@ void MainWindow()
 void WeaponSkinChanger()
 {
 	static int current_weapon = 7;
-	static int current_weapon_skin = Settings::Skinchanger::skins[(ItemDefinitionIndex) current_weapon].PaintKit;
+	static int current_weapon_skin = Settings::Skinchanger::skins.find(current_weapon) != Settings::Skinchanger::skins.end() ? Settings::Skinchanger::skins.at(current_weapon).fallbackPaintKit : -1;
 	static float weaponWear = 0.005f;
 	static int weaponSkinSeed = -1;
 	static int weaponStatTrak = -1;
@@ -1608,6 +1607,7 @@ void WeaponSkinChanger()
 	static char filterSkins[32];
 	static char filterGuns[32];
 	static int isCT = 1;
+
 
 	if (ImGui::Checkbox("Enabled##WeaponSkins", &Settings::Skinchanger::enabled))
 		SkinChanger::ForceFullUpdate = true;
@@ -1636,11 +1636,11 @@ void WeaponSkinChanger()
 						{
 							current_weapon = it.first;
 
-							auto keyExists = Settings::Skinchanger::skins.find((ItemDefinitionIndex) it.first);
+							auto keyExists = Settings::Skinchanger::skins.find(it.first);
 							if (keyExists == Settings::Skinchanger::skins.end())
 								current_weapon_skin = -1;
 							else
-								current_weapon_skin = Settings::Skinchanger::skins[(ItemDefinitionIndex) it.first].PaintKit;
+								current_weapon_skin = Settings::Skinchanger::skins.at(it.first).fallbackPaintKit;
 						}
 					ImGui::PopID();
 				}
@@ -1674,12 +1674,12 @@ void WeaponSkinChanger()
 		ImGui::ListBoxHeader("##KNIVES", ImVec2(-1, -1));
 			for (auto knife : knives)
 			{
-				const bool item_selected = (((int) ItemDefinitionIndex::WEAPON_KNIFE_BAYONET + knife.first) == current_weapon);
+				const bool item_selected = ((500 + knife.first) == current_weapon);
 				ImGui::PushID(knife.first);
 				if (ImGui::Selectable(knife.second, item_selected))
 				{
-					current_weapon = ((int) ItemDefinitionIndex::WEAPON_KNIFE_BAYONET + knife.first);
-					current_weapon_skin = Settings::Skinchanger::skins[isCT > 0 ? ItemDefinitionIndex::WEAPON_KNIFE : ItemDefinitionIndex::WEAPON_KNIFE_T].PaintKit;
+					current_weapon = (500 + knife.first);
+					current_weapon_skin = Settings::Skinchanger::skins.at(isCT > 0 ? 42 : 59).fallbackPaintKit;
 				}
 				ImGui::PopID();
 			}
@@ -1699,64 +1699,61 @@ void WeaponSkinChanger()
 		ImGui::Separator();
 		if (ImGui::Button("Load", ImVec2(-1, 0)))
 		{
-			Settings::Skinchanger::Skin skin;
-			if (current_weapon >= (int) ItemDefinitionIndex::WEAPON_KNIFE_BAYONET)
+			AttribItem_t skin = { -1, -1, -1, -1, -1, -1, ""};
+			if (current_weapon >= 500)
 			{
-				skin = Settings::Skinchanger::skins[isCT == 1 ? ItemDefinitionIndex::WEAPON_KNIFE : ItemDefinitionIndex::WEAPON_KNIFE_T];
-				current_weapon = (int) skin._ItemDefinitionIndex;
+				if (Settings::Skinchanger::skins.find(current_weapon) == Settings::Skinchanger::skins.end())
+					Settings::Skinchanger::skins[isCT == 1 ? 42 : 59] = AttribItem_t();
+
+				skin = Settings::Skinchanger::skins.at(isCT == 1 ? 42 : 59);
+				current_weapon = skin.itemDefinitionIndex;
 			}
 			else
 			{
-				auto keyExists = Settings::Skinchanger::skins.find((ItemDefinitionIndex) current_weapon);
-				if (keyExists == Settings::Skinchanger::skins.end())
-					skin = Settings::Skinchanger::Skin(current_weapon, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "");
+				if (Settings::Skinchanger::skins.find(current_weapon) == Settings::Skinchanger::skins.end())
+					skin = {current_weapon, -1, -1, -1, -1, -1, ""};
 				else
-					skin = Settings::Skinchanger::skins[(ItemDefinitionIndex) current_weapon];
+					skin = Settings::Skinchanger::skins.at(current_weapon);
 			}
 
-			current_weapon_skin = skin.PaintKit;
-			weaponSkinSeed = skin.Seed;
-			weaponWear = skin.Wear;
-			weaponStatTrak = skin.StatTrak;
+			current_weapon_skin = skin.fallbackPaintKit;
+			weaponSkinSeed = skin.fallbackSeed;
+			weaponWear = skin.fallbackWear;
+			weaponStatTrak = skin.fallbackStatTrak;
 			std::fill(std::begin(weaponName), std::end(weaponName), 0);
-			std::copy(std::begin(skin.CustomName), std::end(skin.CustomName), std::begin(weaponName));
+			std::copy(std::begin(skin.customName), std::end(skin.customName), std::begin(weaponName));
 		}
 		if (ImGui::Button("Apply##Weapons", ImVec2(-1, 0)))
 		{
-			if (current_weapon >= (int) ItemDefinitionIndex::WEAPON_KNIFE_BAYONET)
+			if (current_weapon >= 500)
 			{
-				Settings::Skinchanger::skins[ItemDefinitionIndex::WEAPON_KNIFE_FLIP] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_flip.mdl");
-				Settings::Skinchanger::skins[ItemDefinitionIndex::WEAPON_KNIFE_GUT] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_gut.mdl");
-				Settings::Skinchanger::skins[ItemDefinitionIndex::WEAPON_KNIFE_BAYONET] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_bayonet.mdl");
-				Settings::Skinchanger::skins[ItemDefinitionIndex::WEAPON_KNIFE_M9_BAYONET] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_m9_bay.mdl");
-				Settings::Skinchanger::skins[ItemDefinitionIndex::WEAPON_KNIFE_KARAMBIT] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_karam.mdl");
-				Settings::Skinchanger::skins[ItemDefinitionIndex::WEAPON_KNIFE_TACTICAL] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_tactical.mdl");
-				Settings::Skinchanger::skins[ItemDefinitionIndex::WEAPON_KNIFE_BUTTERFLY] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_butterfly.mdl");
-				Settings::Skinchanger::skins[ItemDefinitionIndex::WEAPON_KNIFE_SURVIVAL_BOWIE] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_survival_bowie.mdl");
-				Settings::Skinchanger::skins[ItemDefinitionIndex::WEAPON_KNIFE_FALCHION] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_falchion_advanced.mdl");
-				Settings::Skinchanger::skins[ItemDefinitionIndex::WEAPON_KNIFE_PUSH] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_knife_push.mdl");
+				if (Settings::Skinchanger::skins.find(current_weapon) == Settings::Skinchanger::skins.end())
+					Settings::Skinchanger::skins[current_weapon] = AttribItem_t();
 
-				Settings::Skinchanger::skins[isCT > 0 ? ItemDefinitionIndex::WEAPON_KNIFE : ItemDefinitionIndex::WEAPON_KNIFE_T] = Settings::Skinchanger::Skin(
+				Settings::Skinchanger::skins.at(isCT > 0 ? 42 : 59) = {
+						current_weapon,
 						current_weapon_skin == 0 ? -1 : current_weapon_skin,
-						(ItemDefinitionIndex) current_weapon,
-						weaponSkinSeed,
 						weaponWear,
+						weaponSkinSeed,
 						weaponStatTrak,
-						weaponName,
-						""
-				);
+						-1,
+						weaponName
+				};
 			}
 			else
 			{
-				Settings::Skinchanger::skins[(ItemDefinitionIndex) current_weapon] = Settings::Skinchanger::Skin(
+				if (Settings::Skinchanger::skins.find(current_weapon) == Settings::Skinchanger::skins.end())
+					Settings::Skinchanger::skins[current_weapon] = AttribItem_t();
+
+				Settings::Skinchanger::skins.at(current_weapon) = {
+						current_weapon,
 						current_weapon_skin == 0 ? -1 : current_weapon_skin,
-						(ItemDefinitionIndex) current_weapon,
-						weaponSkinSeed,
 						weaponWear,
+						weaponSkinSeed,
 						weaponStatTrak,
-						weaponName,
-						""
-				);
+						-1,
+						weaponName
+				};
 			}
 
 			SkinChanger::ForceFullUpdate = true;
@@ -1768,8 +1765,8 @@ void WeaponSkinChanger()
 
 void GloveSkinChanger()
 {
-	static int current_glove = (int) ItemDefinitionIndex::GLOVE_STUDDED_BLOODHOUND;
-	static int current_glove_skin = Settings::Skinchanger::skins[(ItemDefinitionIndex) current_glove].PaintKit;
+	static int current_glove = 5027;
+	static int current_glove_skin = Settings::Skinchanger::skins.find(5028) != Settings::Skinchanger::skins.end() ? Settings::Skinchanger::skins.at(5028).fallbackPaintKit : 10006;
 	static float gloveWear = 0.005f;
 	static char filterGloves[32];
 	static char filterGloveSkins[32];
@@ -1799,7 +1796,7 @@ void GloveSkinChanger()
 						if (ImGui::Selectable(glove.second, item_selected))
 						{
 							current_glove = glove.first;
-							current_glove_skin = Settings::Skinchanger::skins[ItemDefinitionIndex::GLOVE_CT_SIDE].PaintKit;
+							current_glove_skin = Settings::Skinchanger::skins.at(5028).fallbackPaintKit;
 						}
 					ImGui::PopID();
 				}
@@ -1814,47 +1811,44 @@ void GloveSkinChanger()
 					if (!Util::Contains(Util::ToLower(std::string(filterGloveSkins)), Util::ToLower(std::string(it.second))))
 						continue;
 
-					// if(current_glove == (int) ItemDefinitionIndex::GLOVE_STUDDED_BLOODHOUND && )
-					// 	continue;
-
 					switch (current_glove)
 					{
-						case (int) ItemDefinitionIndex::GLOVE_STUDDED_BLOODHOUND:
+						case 5027:
 							if(!Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_bloodhound_black_silver_tag"))), Util::ToLower(std::string(it.second))) &&
 								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_bloodhound_snakeskin_brass_tag"))), Util::ToLower(std::string(it.second))) &&
 								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_bloodhound_metallic_tag"))), Util::ToLower(std::string(it.second))) &&
 								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_bloodhound_guerrilla_tag"))), Util::ToLower(std::string(it.second))))
 							continue;
 							break;
-						case (int) ItemDefinitionIndex::GLOVE_SPORTY:
+						case 5030:
 							if(!Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_sporty_light_blue_tag"))), Util::ToLower(std::string(it.second))) &&
 								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_sporty_military_tag"))), Util::ToLower(std::string(it.second))) &&
 								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_sporty_purple_tag"))), Util::ToLower(std::string(it.second))) &&
 								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_sporty_green_tag"))), Util::ToLower(std::string(it.second))))
 							continue;
 							break;
-						case (int) ItemDefinitionIndex::GLOVE_SLICK:
+						case 5031:
 							if(!Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_slick_black_tag"))), Util::ToLower(std::string(it.second))) &&
 								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_slick_military_tag"))), Util::ToLower(std::string(it.second))) &&
 								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_slick_red_tag"))), Util::ToLower(std::string(it.second))) &&
 								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_slick_snakeskin_yellow_tag"))), Util::ToLower(std::string(it.second))))
 							continue;
 							break;
-						case (int) ItemDefinitionIndex::GLOVE_LEATHER_WRAP:
+						case 5032:
 							if(!Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_handwrap_leathery_tag"))), Util::ToLower(std::string(it.second))) &&
 								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_handwrap_camo_grey_tag"))), Util::ToLower(std::string(it.second))) &&
 								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_handwrap_red_slaughter_tag"))), Util::ToLower(std::string(it.second))) &&
 								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_handwrap_fabric_orange_camo_tag"))), Util::ToLower(std::string(it.second))))
 							continue;
 							break;
-						case (int) ItemDefinitionIndex::GLOVE_MOTORCYCLE:
+						case 5033:
 							if(!Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_motorcycle_basic_black_tag"))), Util::ToLower(std::string(it.second))) &&
 								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_motorcycle_mint_triangle_tag"))), Util::ToLower(std::string(it.second))) &&
 								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_motorcycle_mono_boom_tag"))), Util::ToLower(std::string(it.second))) &&
 								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_motorcycle_triangle_blue_tag"))), Util::ToLower(std::string(it.second))))
 							continue;
 							break;
-						case (int) ItemDefinitionIndex::GLOVE_SPECIALIST:
+						case 5034:
 							if(!Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_specialist_ddpat_green_camo_tag"))), Util::ToLower(std::string(it.second))) &&
 								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_specialist_kimono_diamonds_red_tag"))), Util::ToLower(std::string(it.second))) &&
 								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_specialist_emerald_web_tag"))), Util::ToLower(std::string(it.second))) &&
@@ -1880,22 +1874,18 @@ void GloveSkinChanger()
 	ImGui::NextColumn();
 		if (ImGui::Button("Apply##Gloves", ImVec2(-1, 0)))
 		{
-			Settings::Skinchanger::skins[ItemDefinitionIndex::GLOVE_STUDDED_BLOODHOUND] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_models/arms/glove_bloodhound/v_glove_bloodhound.mdl");
-			Settings::Skinchanger::skins[ItemDefinitionIndex::GLOVE_SPORTY] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_models/arms/glove_sporty/v_glove_sporty.mdl");
-			Settings::Skinchanger::skins[ItemDefinitionIndex::GLOVE_SLICK] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_models/arms/glove_slick/v_glove_slick.mdl");
-			Settings::Skinchanger::skins[ItemDefinitionIndex::GLOVE_LEATHER_WRAP] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_models/arms/glove_handwrap_leathery/v_glove_handwrap_leathery.mdl");
-			Settings::Skinchanger::skins[ItemDefinitionIndex::GLOVE_MOTORCYCLE] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_models/arms/glove_motorcycle/v_glove_motorcycle.mdl");
-			Settings::Skinchanger::skins[ItemDefinitionIndex::GLOVE_SPECIALIST] = Settings::Skinchanger::Skin(-1, ItemDefinitionIndex::INVALID, -1, -1, -1, "", "models/weapons/v_models/arms/glove_specialist/v_glove_specialist.mdl");
+			if (Settings::Skinchanger::skins.find(5028) == Settings::Skinchanger::skins.end())
+				Settings::Skinchanger::skins[5028] = AttribItem_t();
 
-			Settings::Skinchanger::skins[ItemDefinitionIndex::GLOVE_CT_SIDE] = Settings::Skinchanger::Skin(
+			Settings::Skinchanger::skins.at(5028) = {
+					current_glove,
 					current_glove_skin,
-					(ItemDefinitionIndex) current_glove,
-					-1,
 					gloveWear,
 					-1,
-					"",
+					-1,
+					-1,
 					""
-			);
+			};
 
 			SkinChanger::ForceFullUpdate = true;
 		}

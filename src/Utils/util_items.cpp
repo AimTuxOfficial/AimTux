@@ -1,4 +1,5 @@
 #include "util_items.h"
+#include "skins.h"
 
 namespace Util
 {
@@ -60,20 +61,28 @@ namespace Util
 			{ "WEAPON_KNIFE_SURVIVAL_BOWIE",	i::WEAPON_KNIFE_SURVIVAL_BOWIE },
 			{ "WEAPON_KNIFE_BUTTERFLY",			i::WEAPON_KNIFE_BUTTERFLY },
 			{ "WEAPON_KNIFE_PUSH",				i::WEAPON_KNIFE_PUSH },
-			{ "GLOVE_STUDDED_BLOODHOUND",	i::GLOVE_STUDDED_BLOODHOUND},
-			{ "GLOVE_CT_SIDE",	i::GLOVE_CT_SIDE},
-			{ "GLOVE_T_SIDE",	i::GLOVE_T_SIDE},
-			{ "GLOVE_SPORTY",	i::GLOVE_SPORTY},
-			{ "GLOVE_SLICK",	i::GLOVE_SLICK},
-			{ "GLOVE_LEATHER_WRAP",	i::GLOVE_LEATHER_WRAP},
-			{ "GLOVE_MOTORCYCLE",	i::GLOVE_MOTORCYCLE},
-			{ "GLOVE_SPECIALIST",	i::GLOVE_SPECIALIST},
+			{ "studded_bloodhound_gloves",		i::GLOVE_STUDDED_BLOODHOUND},
+			{ "ct_gloves",						i::GLOVE_CT_SIDE},
+			{ "t_gloves",						i::GLOVE_T_SIDE},
+			{ "sporty_gloves",					i::GLOVE_SPORTY},
+			{ "slick_gloves",					i::GLOVE_SLICK},
+			{ "leather_handwraps",				i::GLOVE_LEATHER_WRAP},
+			{ "motorcycle_gloves",				i::GLOVE_MOTORCYCLE},
+			{ "specialist_gloves",				i::GLOVE_SPECIALIST},
 
 		};  // ItemNames
 
 		std::string GetItemName(const enum ItemDefinitionIndex index)
 		{
 			return Util::MapReverseSearchOrDefault<std::string, ItemDefinitionIndex>(&ItemNames, index, "ITEM_INVALID");
+		}
+
+		std::string GetNewItemName(size_t index)
+		{
+			if (ItemDefinitionIndexNew.find(index) != ItemDefinitionIndexNew.end())
+				return ItemDefinitionIndexNew.at(index).entityName;
+			else
+				return "INVALID";
 		}
 
 		ItemDefinitionIndex GetItemIndex(const std::string itemName)

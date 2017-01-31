@@ -370,9 +370,9 @@ public:
 class C_BaseAttributableItem : public C_BaseEntity
 {
 public:
-	ItemDefinitionIndex* GetItemDefinitionIndex()
+	unsigned int* GetItemDefinitionIndex()
 	{
-		return (ItemDefinitionIndex*)((uintptr_t)this + offsets.DT_BaseAttributableItem.m_iItemDefinitionIndex);
+		return (unsigned int*)((uintptr_t)this + offsets.DT_BaseAttributableItem.m_iItemDefinitionIndex);
 	}
 
 	int* GetItemIDHigh()

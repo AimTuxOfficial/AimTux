@@ -306,7 +306,7 @@ namespace Settings
 			Weapon() {};
 		};
 
-		extern std::unordered_map<ItemDefinitionIndex, Weapon> weapons;
+		extern std::unordered_map<ItemDefinitionIndex, Settings::Aimbot::Weapon> weapons;
 	}
 
 	namespace Triggerbot
@@ -662,30 +662,6 @@ namespace Settings
 
 	namespace Skinchanger
 	{
-		struct Skin
-		{
-			int PaintKit;
-			ItemDefinitionIndex _ItemDefinitionIndex;
-			int Seed;
-			float Wear;
-			int StatTrak;
-			std::string CustomName;
-			std::string Model;
-
-			Skin (int PaintKit, ItemDefinitionIndex _ItemDefinitionIndex, int Seed, float Wear, int StatTrak, std::string CustomName, std::string Model)
-			{
-				this->PaintKit = PaintKit;
-				this->Seed = Seed;
-				this->_ItemDefinitionIndex = _ItemDefinitionIndex;
-				this->Wear = Wear;
-				this->StatTrak = StatTrak;
-				this->CustomName = CustomName;
-				this->Model = Model;
-			}
-
-			Skin() { };
-		};
-
 		extern bool enabled;
 
 		namespace Gloves
@@ -693,7 +669,7 @@ namespace Settings
 			extern bool enabled;
 		}
 
-		extern std::unordered_map<ItemDefinitionIndex, Skin> skins;
+		extern std::unordered_map<size_t, AttribItem_t> skins;
 	}
 
 	namespace ShowRanks

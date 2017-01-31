@@ -3,6 +3,8 @@
 // Uncomment to enable buggy/experimental settings.
 //#define EXPERIMENTAL_SETTINGS
 
+#include <unordered_map>
+
 /* generic constants */
 #define LIFE_ALIVE 0
 
@@ -470,6 +472,111 @@ enum class CSWeaponType : int
 	WEAPONTYPE_GRENADE,
 	WEAPONTYPE_UNKNOWN
 
+};
+
+struct DefItem_t
+{
+	DefItem_t(const char* displayName,
+			  const char* entityName,
+			  const char* entityModel,
+			  const char* killIcon = nullptr)
+	{
+		this->displayName = displayName;
+		this->entityName = entityName;
+		this->entityModel = entityModel;
+		this->killIcon = killIcon;
+	}
+
+	const char* displayName = nullptr;
+	const char* entityName = nullptr;
+	const char* entityModel = nullptr;
+	const char* killIcon = nullptr;
+};
+
+struct AttribItem_t
+{
+	void Reset()
+	{
+		this->entityQuality = -1;
+		this->fallbackSeed = -1;
+		this->fallbackPaintKit = -1;
+		this->fallbackStatTrak = -1;
+		this->fallbackStatTrak = -1;
+		this->itemDefinitionIndex = -1;
+		this->customName = "";
+	}
+
+	int itemDefinitionIndex = -1;
+	int fallbackPaintKit = -1;
+	float fallbackWear = -1;
+	int fallbackSeed = -1;
+	int fallbackStatTrak = -1;
+	int entityQuality = -1;
+	std::string customName;
+};
+
+const std::unordered_map<size_t, DefItem_t> ItemDefinitionIndexNew = {
+		{1, {"#SFUI_WPNHUD_DesertEagle", "WEAPON_DEAGLE", "models/weapons/v_pist_deagle.mdl", "deagle"}},
+		{2, {"#SFUI_WPNHUD_Elites", "WEAPON_ELITE", "models/weapons/v_pist_elite.mdl", "elite"}},
+		{3, {"#SFUI_WPNHUD_FiveSeven", "WEAPON_FIVESEVEN", "models/weapons/v_pist_fiveseven.mdl", "fiveseven"}},
+		{4, {"#SFUI_WPNHUD_Glock18", "WEAPON_GLOCK", "models/weapons/v_pist_glock18.mdl", "glock"}},
+		{7, {"#SFUI_WPNHUD_AK47", "WEAPON_AK47", "models/weapons/v_rif_ak47.mdl", "ak47"}},
+		{8, {"#SFUI_WPNHUD_Aug", "WEAPON_AUG", "models/weapons/v_rif_aug.mdl", "aug"}},
+		{9, {"#SFUI_WPNHUD_AWP", "WEAPON_AWP", "models/weapons/v_snip_awp.mdl", "awp"}},
+		{10, {"#SFUI_WPNHUD_Famas", "WEAPON_FAMAS", "models/weapons/v_rif_famas.mdl", "famas"}},
+		{11, {"#SFUI_WPNHUD_G3SG1", "WEAPON_G3SG1", "models/weapons/v_snip_g3sg1.mdl", "g3sg1"}},
+		{13, {"#SFUI_WPNHUD_GalilAR", "WEAPON_GALILAR", "models/weapons/v_rif_galilar.mdl", "galilar"}},
+		{14, {"#SFUI_WPNHUD_M249", "WEAPON_M249", "models/weapons/v_mach_m249para.mdl", "m249"}},
+		{16, {"#SFUI_WPNHUD_M4A1", "WEAPON_M4A1", "models/weapons/v_rif_m4a1.mdl", "m4a1"}},
+		{17, {"#SFUI_WPNHUD_MAC10", "WEAPON_MAC10", "models/weapons/v_smg_mac10.mdl", "mac10"}},
+		{19, {"#SFUI_WPNHUD_P90", "WEAPON_P90", "models/weapons/v_smg_p90.mdl", "p90"}},
+		{24, {"#SFUI_WPNHUD_UMP45", "WEAPON_UMP45", "models/weapons/v_smg_ump45.mdl", "ump45"}},
+		{25, {"#SFUI_WPNHUD_xm1014", "WEAPON_XM1014", "models/weapons/v_shot_xm1014.mdl", "xm1014"}},
+		{26, {"#SFUI_WPNHUD_Bizon", "WEAPON_BIZON", "models/weapons/v_smg_bizon.mdl", "bizon"}},
+		{27, {"#SFUI_WPNHUD_Mag7", "WEAPON_MAG7", "models/weapons/v_shot_mag7.mdl", "mag7"}},
+		{28, {"#SFUI_WPNHUD_Negev", "WEAPON_NEGEV", "models/weapons/v_mach_negev.mdl", "negev"}},
+		{29, {"#SFUI_WPNHUD_Sawedoff", "WEAPON_SAWEDOFF", "models/weapons/v_shot_sawedoff.mdl", "sawedoff"}},
+		{30, {"#SFUI_WPNHUD_Tec9", "WEAPON_TEC9", "models/weapons/v_pist_tec9.mdl", "tec9"}},
+		{31, {"#SFUI_WPNHUD_Taser", "WEAPON_TASER", "models/weapons/v_eq_taser.mdl", "taser"}},
+		{32, {"#SFUI_WPNHUD_HKP2000", "WEAPON_HKP2000", "models/weapons/v_pist_hkp2000.mdl", "hkp2000"}},
+		{33, {"#SFUI_WPNHUD_MP7", "WEAPON_MP7", "models/weapons/v_smg_mp7.mdl", "mp7"}},
+		{34, {"#SFUI_WPNHUD_MP9", "WEAPON_MP9", "models/weapons/v_smg_mp9.mdl", "mp9"}},
+		{35, {"#SFUI_WPNHUD_Nova", "WEAPON_NOVA", "models/weapons/v_shot_nova.mdl", "nova"}},
+		{36, {"#SFUI_WPNHUD_P250", "WEAPON_P250", "models/weapons/v_pist_p250.mdl", "p250"}},
+		{38, {"#SFUI_WPNHUD_SCAR20", "WEAPON_SCAR20", "models/weapons/v_snip_scar20.mdl", "scar20"}},
+		{39, {"#SFUI_WPNHUD_SG556", "WEAPON_SG556", "models/weapons/v_rif_sg556.mdl", "sg556"}},
+		{40, {"#SFUI_WPNHUD_SSG08", "WEAPON_SSG08", "models/weapons/v_snip_ssg08.mdl", "ssg08"}},
+		{42, {"#SFUI_WPNHUD_Knife", "WEAPON_KNIFE", "models/weapons/v_knife_default_ct.mdl", "knife_default_ct"}},
+		{43, {"#SFUI_WPNHUD_FLASHBANG", "WEAPON_FLASHBANG", "models/weapons/v_eq_flashbang.mdl", "flashbang"}},
+		{44, {"#SFUI_WPNHUD_HE_Grenade", "WEAPON_HEGRENADE", "models/weapons/v_eq_fraggrenade.mdl", "hegrenade"}},
+		{45, {"#SFUI_WPNHUD_Smoke_Grenade", "WEAPON_SMOKEGRENADE", "models/weapons/v_eq_smokegrenade.mdl", "smokegrenade"}},
+		{46, {"#SFUI_WPNHUD_MOLOTOV", "WEAPON_MOLOTOV", "models/weapons/v_eq_molotov.mdl", "inferno"}},
+		{47, {"#SFUI_WPNHUD_DECOY", "WEAPON_DECOY", "models/weapons/v_eq_decoy.mdl", "decoy"}},
+		{48, {"#SFUI_WPNHUD_IncGrenade", "WEAPON_INCGRENADE", "models/weapons/v_eq_incendiarygrenade.mdl", "inferno"}},
+		{49, {"#SFUI_WPNHUD_C4", "WEAPON_C4", "models/weapons/v_ied.mdl"}},
+		{59, {"#SFUI_WPNHUD_Knife", "WEAPON_KNIFE_T", "models/weapons/v_knife_default_t.mdl", "knife_t"}},
+		{60, {"#SFUI_WPNHUD_M4_SILENCER", "WEAPON_M4A1_SILENCER", "models/weapons/v_rif_m4a1_s.mdl", "m4a1_silencer"}},
+		{61, {"#SFUI_WPNHUD_USP_SILENCER", "WEAPON_USP_SILENCER", "models/weapons/v_pist_223.mdl", "usp_silencer"}},
+		{63, {"#SFUI_WPNHUD_CZ75", "WEAPON_CZ75A", "models/weapons/v_pist_cz_75.mdl", "cz75a"}},
+		{64, {"#SFUI_WPNHUD_REVOLVER", "WEAPON_REVOLVER", "models/weapons/v_pist_revolver.mdl", "revolver"}},
+		{500, {"#SFUI_WPNHUD_KnifeBayonet", "WEAPON_KNIFE_BAYONET", "models/weapons/v_knife_bayonet.mdl", "bayonet"}},
+		{505, {"#SFUI_WPNHUD_KnifeFlip", "WEAPON_KNIFE_FLIP", "models/weapons/v_knife_flip.mdl", "knife_flip"}},
+		{506, {"#SFUI_WPNHUD_KnifeGut", "WEAPON_KNIFE_GUT", "models/weapons/v_knife_gut.mdl", "knife_gut"}},
+		{507, {"#SFUI_WPNHUD_KnifeKaram", "WEAPON_KNIFE_KARAMBIT", "models/weapons/v_knife_karam.mdl", "knife_karambit"}},
+		{508, {"#SFUI_WPNHUD_KnifeM9", "WEAPON_KNIFE_M9_BAYONET", "models/weapons/v_knife_m9_bay.mdl", "knife_m9_bayonet"}},
+		{509, {"#SFUI_WPNHUD_KnifeTactical", "WEAPON_KNIFE_TACTICAL", "models/weapons/v_knife_tactical.mdl", "knife_tactical"}},
+		{512, {"#SFUI_WPNHUD_knife_falchion_advanced", "WEAPON_KNIFE_FALCHION", "models/weapons/v_knife_falchion_advanced.mdl", "knife_falchion"}},
+		{514, {"#SFUI_WPNHUD_knife_survival_bowie", "WEAPON_KNIFE_SURVIVAL_BOWIE", "models/weapons/v_knife_survival_bowie.mdl", "knife_survival_bowie"}},
+		{515, {"#SFUI_WPNHUD_Knife_Butterfly", "WEAPON_KNIFE_BUTTERFLY", "models/weapons/v_knife_butterfly.mdl", "knife_butterfly"}},
+		{516, {"#SFUI_WPNHUD_knife_push", "WEAPON_KNIFE_PUSH", "models/weapons/v_knife_push.mdl", "knife_push"}},
+		{5027, {"#CSGO_Wearable_t_studdedgloves", "studded_bloodhound_gloves", "models/weapons/v_models/arms/glove_bloodhound/v_glove_bloodhound.mdl"}},
+		{5028, {"#CSGO_Wearable_t_defaultgloves", "t_gloves", "models/weapons/v_models/arms/glove_fingerless/v_glove_fingerless.mdl"}},
+		{5029, {"#CSGO_Wearable_ct_defaultgloves", "ct_gloves", "models/weapons/v_models/arms/glove_hardknuckle/v_glove_hardknuckle.mdl"}},
+		{5030, {"#CSGO_Wearable_v_sporty_glove", "sporty_gloves", "models/weapons/v_models/arms/glove_sporty/v_glove_sporty.mdl"}},
+		{5031, {"#CSGO_Wearable_v_slick_glove", "slick_gloves", "models/weapons/v_models/arms/glove_slick/v_glove_slick.mdl"}},
+		{5032, {"#CSGO_Wearable_v_leather_handwrap", "leather_handwraps", "models/weapons/v_models/arms/glove_handwrap_leathery/v_glove_handwrap_leathery.mdl"}},
+		{5033, {"#CSGO_Wearable_v_motorcycle_glove", "motorcycle_gloves", "models/weapons/v_models/arms/glove_motorcycle/v_glove_motorcycle.mdl"}},
+		{5034, {"#CSGO_Wearable_v_specialist_glove", "specialist_gloves", "models/weapons/v_models/arms/glove_specialist/v_glove_specialist.mdl"}}
 };
 
 #define FL_ONGROUND				(1<<0)	// At rest / on the ground

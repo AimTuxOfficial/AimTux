@@ -766,3 +766,11 @@ void Skins::Localize()
 
 	isLocalized = true;
 }
+
+AttribItem_t& Skins::GetSkinConfig(size_t item_definition_index) {
+	// Create a new item at the specified index if none exist.
+	if (Settings::Skinchanger::skins.find(item_definition_index) == Settings::Skinchanger::skins.end())
+		Settings::Skinchanger::skins[item_definition_index] = AttribItem_t();
+
+	return Settings::Skinchanger::skins.at(item_definition_index);
+}

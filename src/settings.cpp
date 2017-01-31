@@ -332,19 +332,17 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Skinchanger"]["enabled"] = Settings::Skinchanger::enabled;
 	settings["Skinchanger"]["Gloves"]["enabled"] = Settings::Skinchanger::Gloves::enabled;
 
-	for (auto i : Settings::Skinchanger::skins)
+	for (const auto& item: Settings::Skinchanger::skins)
 	{
-		// TODO this is kind of a hack and i'm too tired to find a better way to do this
-		// yes i tried defining a variable, skinSetting, and giving it the same value but woooooo operator overloading
-		// in C++ and weird shit
-		#define skinSetting settings["Skinchanger"]["skins"][Util::Items::GetItemName((enum ItemDefinitionIndex) i.first)]
-		skinSetting["PaintKit"] = i.second.PaintKit;
-		skinSetting["ItemDefinitionIndex"] = Util::Items::GetItemName(i.second._ItemDefinitionIndex);
-		skinSetting["Seed"] = i.second.Seed;
-		skinSetting["Wear"] = i.second.Wear;
-		skinSetting["StatTrak"] = i.second.StatTrak;
-		skinSetting["CustomName"] = i.second.CustomName;
-		skinSetting["Model"] = i.second.Model;
+		const AttribItem_t& skin = item.second;
+
+		#define skinSetting settings["Skinchanger"]["skins"][Util::Items::GetNewItemName(item.first)]
+		skinSetting["ItemDefinitionIndex"] = Util::Items::GetNewItemName(skin.itemDefinitionIndex);
+		skinSetting["PaintKit"] = skin.fallbackPaintKit;
+		skinSetting["Wear"] = skin.fallbackWear;
+		skinSetting["Seed"] = skin.fallbackSeed;
+		skinSetting["StatTrak"] = skin.fallbackStatTrak;
+		skinSetting["CustomName"] = skin.customName;
 		#undef skinSetting
 	}
 
@@ -445,36 +443,36 @@ void Settings::LoadConfig(std::string path)
 			autoWallBones[bone] = weaponSetting["AutoWall"]["Bones"][bone].asBool();
 
 		weapon = Settings::Aimbot::Weapon(
-			weaponSetting["Enabled"].asBool(),
-			weaponSetting["Silent"].asBool(),
-			weaponSetting["Friendly"].asBool(),
-			(Bone) weaponSetting["TargetBone"].asInt(),
-			Util::GetButtonCode(weaponSetting["AimKey"].asCString()),
-			weaponSetting["AimKeyOnly"].asBool(),
-			weaponSetting["Smooth"]["Enabled"].asBool(),
-			weaponSetting["Smooth"]["Amount"].asFloat(),
-			(SmoothType) weaponSetting["Smooth"]["Type"].asInt(),
-			weaponSetting["Smooth"]["Salting"]["Enabled"].asBool(),
-			weaponSetting["Smooth"]["Salting"]["Multiplier"].asFloat(),
-			weaponSetting["ErrorMargin"]["Enabled"].asBool(),
-			weaponSetting["ErrorMargin"]["Value"].asFloat(),
-			weaponSetting["AutoAim"]["Enabled"].asBool(),
-			weaponSetting["AutoAim"]["FOV"].asFloat(),
-			weaponSetting["AimStep"]["Enabled"].asBool(),
-			weaponSetting["AimStep"]["Amount"].asFloat(),
-			weaponSetting["RCS"]["Enabled"].asBool(),
-			weaponSetting["RCS"]["AlwaysOn"].asBool(),
-			weaponSetting["RCS"]["Amount"].asFloat(),
-			weaponSetting["AutoPistol"]["Enabled"].asBool(),
-			weaponSetting["AutoShoot"]["Enabled"].asBool(),
-			weaponSetting["AutoScope"]["Enabled"].asBool(),
-			weaponSetting["NoShoot"]["Enabled"].asBool(),
-			weaponSetting["IgnoreJump"]["Enabled"].asBool(),
-			weaponSetting["SmokeCheck"]["Enabled"].asBool(),
-			weaponSetting["AutoWall"]["Enabled"].asBool(),
-			weaponSetting["AutoWall"]["Value"].asFloat(),
-			autoWallBones,
-			weaponSetting["AutoAim"]["RealDistance"].asBool()
+				weaponSetting["Enabled"].asBool(),
+				weaponSetting["Silent"].asBool(),
+				weaponSetting["Friendly"].asBool(),
+				(Bone) weaponSetting["TargetBone"].asInt(),
+				Util::GetButtonCode(weaponSetting["AimKey"].asCString()),
+				weaponSetting["AimKeyOnly"].asBool(),
+				weaponSetting["Smooth"]["Enabled"].asBool(),
+				weaponSetting["Smooth"]["Amount"].asFloat(),
+				(SmoothType) weaponSetting["Smooth"]["Type"].asInt(),
+				weaponSetting["Smooth"]["Salting"]["Enabled"].asBool(),
+				weaponSetting["Smooth"]["Salting"]["Multiplier"].asFloat(),
+				weaponSetting["ErrorMargin"]["Enabled"].asBool(),
+				weaponSetting["ErrorMargin"]["Value"].asFloat(),
+				weaponSetting["AutoAim"]["Enabled"].asBool(),
+				weaponSetting["AutoAim"]["FOV"].asFloat(),
+				weaponSetting["AimStep"]["Enabled"].asBool(),
+				weaponSetting["AimStep"]["Amount"].asFloat(),
+				weaponSetting["RCS"]["Enabled"].asBool(),
+				weaponSetting["RCS"]["AlwaysOn"].asBool(),
+				weaponSetting["RCS"]["Amount"].asFloat(),
+				weaponSetting["AutoPistol"]["Enabled"].asBool(),
+				weaponSetting["AutoShoot"]["Enabled"].asBool(),
+				weaponSetting["AutoScope"]["Enabled"].asBool(),
+				weaponSetting["NoShoot"]["Enabled"].asBool(),
+				weaponSetting["IgnoreJump"]["Enabled"].asBool(),
+				weaponSetting["SmokeCheck"]["Enabled"].asBool(),
+				weaponSetting["AutoWall"]["Enabled"].asBool(),
+				weaponSetting["AutoWall"]["Value"].asFloat(),
+				autoWallBones,
+				weaponSetting["AutoAim"]["RealDistance"].asBool()
 		);
 
 		Settings::Aimbot::weapons[weaponID] = weapon;
@@ -695,30 +693,31 @@ void Settings::LoadConfig(std::string path)
 
 		// XXX Using exception handling to deal with this is stupid, but I don't care to find a better solution
 		// XXX We can't use GetOrdinal() since the key type is a string...
-		ItemDefinitionIndex weaponID;
-		try
-		{
-			weaponID = (ItemDefinitionIndex) std::stoi(skinDataKey);
-		}
-		catch (std::invalid_argument) // Not a number
-		{
-			weaponID = Util::Items::GetItemIndex(skinDataKey);
+		unsigned int weaponID;
+
+		try {
+			weaponID = std::stoi(skinDataKey);
+		}catch(std::invalid_argument){
+			weaponID = (int)Util::Items::GetItemIndex(skinDataKey);
 		}
 
-		ItemDefinitionIndex defIndex;
-		GetOrdinal<ItemDefinitionIndex, Util::Items::GetItemIndex>(skinSetting["ItemDefinitionIndex"], &defIndex);
+		int defIndex;
+		GetOrdinal<ItemDefinitionIndex, Util::Items::GetItemIndex>(skinSetting["ItemDefinitionIndex"], (ItemDefinitionIndex *)&defIndex);
 
-		Settings::Skinchanger::Skin skin = Settings::Skinchanger::Skin(
-				skinSetting["PaintKit"].asInt(),
+		if (Settings::Skinchanger::skins.find(weaponID) == Settings::Skinchanger::skins.end())
+			Settings::Skinchanger::skins[weaponID] = AttribItem_t();
+
+		AttribItem_t skin = {
 				defIndex,
-				skinSetting["Seed"].asInt(),
+				skinSetting["PaintKit"].asInt(),
 				skinSetting["Wear"].asFloat(),
+				skinSetting["Seed"].asInt(),
 				skinSetting["StatTrak"].asInt(),
+				-1,
 				skinSetting["CustomName"].asString(),
-				skinSetting["Model"].asString()
-		);
+		};
 
-		Settings::Skinchanger::skins[weaponID] = skin;
+		Settings::Skinchanger::skins.at(weaponID) = skin;
 	}
 
 	SkinChanger::ForceFullUpdate = true;
