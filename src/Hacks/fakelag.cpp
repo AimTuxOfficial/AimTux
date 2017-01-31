@@ -1,7 +1,6 @@
 #include "fakelag.h"
 
 bool Settings::FakeLag::enabled = false;
-bool Settings::FakeLag::adaptive = false;
 int Settings::FakeLag::value = 5;
 
 static int ticks = 0;
@@ -29,17 +28,7 @@ void FakeLag::CreateMove(CUserCmd* cmd)
 	}
 	else
 	{
-		if (Settings::FakeLag::adaptive)
-		{
-			float curVel = localplayer->GetVelocity().Length2D();
-
-			ConVar* sv_maxspeed = cvar->FindVar("sv_maxspeed");
-			float maxVel = sv_maxspeed->GetFloat();
-
-			CreateMove::SendPacket = ticks < 16 * (curVel / maxVel);
-		}
-		else
-			CreateMove::SendPacket = ticks < 16 - Settings::FakeLag::value;
+		CreateMove::SendPacket = ticks < 16 - Settings::FakeLag::value;
 	}
 
 	ticks++;
