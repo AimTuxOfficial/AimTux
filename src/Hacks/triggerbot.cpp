@@ -117,8 +117,8 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	if (!active_weapon || active_weapon->GetAmmo() == 0)
 		return;
 
-	unsigned int itemDefinitionIndex = *active_weapon->GetItemDefinitionIndex();
-	if (itemDefinitionIndex == 42 || itemDefinitionIndex == 59 || itemDefinitionIndex >= 500)
+	ItemDefinitionIndex itemDefinitionIndex = *active_weapon->GetItemDefinitionIndex();
+	if (itemDefinitionIndex == ItemDefinitionIndex::WEAPON_KNIFE || itemDefinitionIndex >= ItemDefinitionIndex::WEAPON_KNIFE_BAYONET)
 		return;
 
 	CSWeaponType weaponType = active_weapon->GetCSWpnData()->GetWeaponType();
@@ -127,7 +127,7 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 
 	if (active_weapon->GetNextPrimaryAttack() > globalvars->curtime)
 	{
-		if (*active_weapon->GetItemDefinitionIndex() == 64)
+		if (*active_weapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
 			cmd->buttons &= ~IN_ATTACK2;
 		else
 			cmd->buttons &= ~IN_ATTACK;
@@ -140,7 +140,7 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 			return;
 		}
 
-		if (*active_weapon->GetItemDefinitionIndex() == 64)
+		if (*active_weapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
 			cmd->buttons |= IN_ATTACK2;
 		else
 			cmd->buttons |= IN_ATTACK;

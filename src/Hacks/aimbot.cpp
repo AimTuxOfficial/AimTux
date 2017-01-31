@@ -54,7 +54,7 @@ std::unordered_map<Hitbox, std::vector<const char*>> hitboxes = {
 };
 
 std::unordered_map<ItemDefinitionIndex, Settings::Aimbot::Weapon> Settings::Aimbot::weapons = {
-		{ ItemDefinitionIndex::INVALID, {false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, false, false, false, false, false, false, false, 10.0f, &Settings::Aimbot::AutoWall::bones[0], false} },
+		{ ItemDefinitionIndex::INVALID, { false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, false, false, false, false, false, false, false, 10.0f, &Settings::Aimbot::AutoWall::bones[0], false } },
 };
 
 static const char* targets[] = { "pelvis", "", "", "spine_0", "spine_1", "spine_2", "spine_3", "neck_0", "head_0" };
@@ -382,7 +382,7 @@ void Aimbot::AutoPistol(C_BaseCombatWeapon* active_weapon, CUserCmd* cmd)
 	if (active_weapon->GetNextPrimaryAttack() < globalvars->curtime)
 		return;
 
-	if (*active_weapon->GetItemDefinitionIndex() == 64)
+	if (*active_weapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
 		cmd->buttons &= ~IN_ATTACK2;
 	else
 		cmd->buttons &= ~IN_ATTACK;
@@ -411,7 +411,7 @@ void Aimbot::AutoShoot(C_BasePlayer* player, C_BaseCombatWeapon* active_weapon, 
 
 	if (nextPrimaryAttack > globalvars->curtime)
 	{
-		if (*active_weapon->GetItemDefinitionIndex() == 64)
+		if (*active_weapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
 			cmd->buttons &= ~IN_ATTACK2;
 		else
 			cmd->buttons &= ~IN_ATTACK;
@@ -420,7 +420,7 @@ void Aimbot::AutoShoot(C_BasePlayer* player, C_BaseCombatWeapon* active_weapon, 
 	{
 		if (Settings::Aimbot::AutoShoot::autoscope && active_weapon->GetCSWpnData()->GetZoomLevels() > 0 && !localplayer->IsScoped())
 			cmd->buttons |= IN_ATTACK2;
-		else if (*active_weapon->GetItemDefinitionIndex() == 64)
+		else if (*active_weapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
 			cmd->buttons |= IN_ATTACK2;
 		else
 			cmd->buttons |= IN_ATTACK;
@@ -441,10 +441,10 @@ void Aimbot::ShootCheck(C_BaseCombatWeapon* active_weapon, CUserCmd* cmd)
 	if (active_weapon->GetNextPrimaryAttack() < globalvars->curtime)
 		return;
 
-	if (*active_weapon->GetItemDefinitionIndex() == 49)
+	if (*active_weapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_C4)
 		return;
 
-	if (*active_weapon->GetItemDefinitionIndex() == 64)
+	if (*active_weapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
 		cmd->buttons &= ~IN_ATTACK2;
 	else
 		cmd->buttons &= ~IN_ATTACK;
@@ -454,10 +454,10 @@ void Aimbot::NoShoot(C_BaseCombatWeapon* active_weapon, C_BasePlayer* player, CU
 {
 	if (player && Settings::Aimbot::NoShoot::enabled)
 	{
-		if (*active_weapon->GetItemDefinitionIndex() == 49)
+		if (*active_weapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_C4)
 			return;
 
-		if (*active_weapon->GetItemDefinitionIndex() == 64)
+		if (*active_weapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
 			cmd->buttons &= ~IN_ATTACK2;
 		else
 			cmd->buttons &= ~IN_ATTACK;
@@ -570,8 +570,8 @@ void Aimbot::UpdateValues()
 		return;
 
 	ItemDefinitionIndex index = ItemDefinitionIndex::INVALID;
-	if (Settings::Aimbot::weapons.find((ItemDefinitionIndex )*active_weapon->GetItemDefinitionIndex()) != Settings::Aimbot::weapons.end())
-		index = (ItemDefinitionIndex )*active_weapon->GetItemDefinitionIndex();
+	if (Settings::Aimbot::weapons.find(*active_weapon->GetItemDefinitionIndex()) != Settings::Aimbot::weapons.end())
+		index = *active_weapon->GetItemDefinitionIndex();
 
 	Settings::Aimbot::Weapon currentWeaponSetting = Settings::Aimbot::weapons[index];
 
@@ -608,5 +608,4 @@ void Aimbot::UpdateValues()
 		Settings::Aimbot::AutoWall::bones[i] = currentWeaponSetting.autoWallBones[i];
 
 	Settings::Aimbot::AutoAim::real_distance = currentWeaponSetting.autoAimRealDistance;
-
 }

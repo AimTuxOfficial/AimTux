@@ -694,17 +694,20 @@ void Settings::LoadConfig(std::string path)
 		// XXX We can't use GetOrdinal() since the key type is a string...
 		unsigned int weaponID;
 
-		try {
+		try
+		{
 			weaponID = std::stoi(skinDataKey);
-		}catch(std::invalid_argument){
-			weaponID = (int)Util::Items::GetItemIndex(skinDataKey);
+		}
+		catch(std::invalid_argument)
+		{
+			weaponID = (int) Util::Items::GetItemIndex(skinDataKey);
 		}
 
-		int defIndex;
-		GetOrdinal<ItemDefinitionIndex, Util::Items::GetItemIndex>(skinSetting["ItemDefinitionIndex"], (ItemDefinitionIndex *)&defIndex);
+		ItemDefinitionIndex defIndex;
+		GetOrdinal<ItemDefinitionIndex, Util::Items::GetItemIndex>(skinSetting["ItemDefinitionIndex"], &defIndex);
 
-		if (Settings::Skinchanger::skins.find(weaponID) == Settings::Skinchanger::skins.end())
-			Settings::Skinchanger::skins[weaponID] = AttribItem_t();
+		if (Settings::Skinchanger::skins.find((ItemDefinitionIndex) weaponID) == Settings::Skinchanger::skins.end())
+			Settings::Skinchanger::skins[(ItemDefinitionIndex) weaponID] = AttribItem_t();
 
 		AttribItem_t skin = {
 				defIndex,
@@ -716,7 +719,7 @@ void Settings::LoadConfig(std::string path)
 				skinSetting["CustomName"].asString(),
 		};
 
-		Settings::Skinchanger::skins.at(weaponID) = skin;
+		Settings::Skinchanger::skins.at((ItemDefinitionIndex) weaponID) = skin;
 	}
 
 	SkinChanger::ForceFullUpdate = true;

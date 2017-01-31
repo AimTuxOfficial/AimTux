@@ -1175,7 +1175,7 @@ void ESP::DrawScope()
 	if (!active_weapon)
 		return;
 
-	if (*active_weapon->GetItemDefinitionIndex() == 39 || *active_weapon->GetItemDefinitionIndex() == 8)
+	if (*active_weapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_SG556 || *active_weapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_AUG)
 		return;
 
 	int width, height;

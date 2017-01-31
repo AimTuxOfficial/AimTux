@@ -15,5 +15,5 @@ namespace Skins
 {
 	void Localize();
 
-	AttribItem_t& GetSkinConfig(size_t item_definition_index);
+	AttribItem_t& GetSkinConfig(ItemDefinitionIndex itemDefinitionIndex);
 }

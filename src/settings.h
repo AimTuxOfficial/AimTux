@@ -669,7 +669,7 @@ namespace Settings
 			extern bool enabled;
 		}
 
-		extern std::unordered_map<size_t, AttribItem_t> skins;
+		extern std::unordered_map<ItemDefinitionIndex, AttribItem_t> skins;
 	}
 
 	namespace ShowRanks

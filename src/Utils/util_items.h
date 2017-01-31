@@ -22,6 +22,6 @@ namespace Util
 		 */
 		std::string GetItemName(const enum ItemDefinitionIndex);
 
-		std::string GetNewItemName(size_t index);
+		std::string GetNewItemName(ItemDefinitionIndex index);
 	}
 }
