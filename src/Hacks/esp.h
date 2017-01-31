@@ -31,6 +31,7 @@ namespace ESP
 	void DrawSkeleton(C_BasePlayer* player);
 	void DrawBulletTrace(C_BasePlayer* player);
 	void DrawTracer(C_BasePlayer* player);
+	void DrawHeaddot(C_BasePlayer* player);
 	void CollectFootstep(int iEntIndex, const char *pSample);
 	void DrawSounds();
 	void DrawFOVCrosshair();
