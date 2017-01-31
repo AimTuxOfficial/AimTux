@@ -656,7 +656,7 @@ void ESP::DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info
 
 	if (Settings::ESP::Tracers::enabled)
 		DrawTracer(player);
-	
+
 	if (Settings::ESP::Headdot::enabled)
 		DrawHeaddot(player);
 }
