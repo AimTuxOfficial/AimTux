@@ -42,12 +42,6 @@
 #define CMATSYSTEMSURFACE_FINISHDRAWING_SIGNATURE "\x55\x31\xFF\x48\x89"
 #define CMATSYSTEMSURFACE_FINISHDRAWING_MASK "xxxxx"
 
-#define FORCEFULLUPDATE_SIGNATURE "\x55\x48\x89\xE5\x48\x89\x5D\xF0\x48\x89\xFB\x4C\x89\x65\xF8\x48\x83\xEC\x10\x49\x89\xF4\x83"
-#define FORCEFULLUPDATE_MASK "xxxxxxxxxxxxxxxxxxxxxxx"
-
-#define GETCLIENTSTATE_SIGNATURE "\xE8\x00\x00\x00\x00\x5D\x83\xB8"
-#define GETCLIENTSTATE_MASK "x????xxx"
-
 #define LINEGOESTHROUGHSMOKE_SIGNATURE "\x55\x40\x0F\xB6\xFF"
 #define LINEGOESTHROUGHSMOKE_MASK "xxxxx"
 
@@ -88,7 +82,7 @@ namespace Hooker
 	void FindPrediction();
 	void FindIsReadyCallback();
 	void FindSurfaceDrawing();
-	void FindForceFullUpdate();
+	void FindClientStateFn();
 	void FindLineGoesThroughSmoke();
 	void FindInitKeyValues();
 	void FindLoadFromBuffer();
