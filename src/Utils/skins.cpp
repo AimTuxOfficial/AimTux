@@ -37,19 +37,6 @@ std::vector<std::pair<int, const char*>> guns = {
 		{ (int) ItemDefinitionIndex::WEAPON_XM1014, "#SFUI_WPNHUD_xm1014" },
 };
 
-std::vector<std::pair<int, const char*>> knives = {
-		{ 0, "#SFUI_WPNHUD_KnifeBayonet" },
-		{ 5, "#SFUI_WPNHUD_KnifeFlip" },
-		{ 6, "#SFUI_WPNHUD_KnifeGut" },
-		{ 7, "#SFUI_WPNHUD_KnifeKaram" },
-		{ 8, "#SFUI_WPNHUD_KnifeM9" },
-		{ 9, "#SFUI_WPNHUD_KnifeTactical" },
-		{ 12, "#SFUI_WPNHUD_knife_falchion_advanced" },
-		{ 14, "#SFUI_WPNHUD_knife_survival_bowie" },
-		{ 15, "#SFUI_WPNHUD_Knife_Butterfly" },
-		{ 16, "#SFUI_WPNHUD_knife_push" },
-};
-
 std::vector<std::pair<int, const char*>> weapon_skins = {
 		{ 2, "#PaintKit_so_olive_Tag" },
 		{ 3, "#PaintKit_so_red_Tag" },
@@ -628,15 +615,6 @@ std::vector<std::pair<int, const char*>> glove_skins = {
 		{ 10040, "#PaintKit_slick_snakeskin_yellow_tag" },
 };
 
-std::vector<std::pair<int, const char*>> gloves {
-		{ (int) ItemDefinitionIndex::GLOVE_STUDDED_BLOODHOUND, "#CSGO_Wearable_t_studdedgloves"},
-		{ (int) ItemDefinitionIndex::GLOVE_SPORTY, "#CSGO_Wearable_v_sporty_glove"},
-		{ (int) ItemDefinitionIndex::GLOVE_SLICK, "#CSGO_Wearable_v_slick_glove"},
-		{ (int) ItemDefinitionIndex::GLOVE_LEATHER_WRAP, "#CSGO_Wearable_v_leather_handwrap"},
-		{ (int) ItemDefinitionIndex::GLOVE_MOTORCYCLE, "#CSGO_Wearable_v_motorcycle_glove"},
-		{ (int) ItemDefinitionIndex::GLOVE_SPECIALIST, "#CSGO_Wearable_v_specialist_glove"},
-};
-
 void LocalizeGuns()
 {
 	int index = -1;
@@ -650,22 +628,6 @@ void LocalizeGuns()
 
 		std::string localized = Util::WstringToString(localize->FindSafe(it.second));
 		guns[index] = { it.first, strdup(localized.c_str()) };
-	}
-}
-
-void LocalizeKnives()
-{
-	int index = -1;
-
-	for (auto it : knives)
-	{
-		index++;
-
-		if (it.first == -1)
-			continue;
-
-		std::string localized = Util::WstringToString(localize->FindSafe(it.second));
-		knives[index] = { it.first, strdup(localized.c_str()) };
 	}
 }
 
@@ -699,22 +661,6 @@ void LocalizeSkins()
 
 		return leftSize < rightSize;
 	});
-}
-
-void LocalizeGloves()
-{
-	int index = -1;
-
-	for (auto it : gloves)
-	{
-		index++;
-
-		if (it.first == -1)
-			continue;
-
-		std::string localized = Util::WstringToString(localize->FindSafe(it.second));
-		gloves[index] = { it.first, strdup(localized.c_str()) };
-	}
 }
 
 void LocalizeGloveSkins()
@@ -759,9 +705,7 @@ void Skins::Localize()
 		return;
 
 	LocalizeGuns();
-	LocalizeKnives();
 	LocalizeSkins();
-	LocalizeGloves();
 	LocalizeGloveSkins();
 
 	isLocalized = true;
