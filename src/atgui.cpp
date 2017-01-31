@@ -1794,7 +1794,7 @@ void GloveSkinChanger()
 				{
 					if (!Util::Contains(Util::ToLower(std::string(filterGloves)), Util::ToLower(std::string(glove.second.displayName))) || glove.first < ItemDefinitionIndex::GLOVE_STUDDED_BLOODHOUND)
 						continue;
-					if(glove.first == ItemDefinitionIndex::GLOVE_CT_SIDE || glove.first == ItemDefinitionIndex::GLOVE_T_SIDE)
+					if (glove.first == ItemDefinitionIndex::GLOVE_CT_SIDE || glove.first == ItemDefinitionIndex::GLOVE_T_SIDE)
 						continue;
 					const bool item_selected = ((int)glove.first == current_glove);
 					ImGui::PushID((int)glove.first);
