@@ -534,7 +534,7 @@ namespace Settings
 			}
 		}
 
- 		namespace Headdot
+		namespace Headdot
 		{
 			extern bool enabled;
 			extern float size;
