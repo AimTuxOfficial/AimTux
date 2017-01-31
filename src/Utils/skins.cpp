@@ -701,7 +701,7 @@ void Skins::Localize()
 	if (isLocalized)
 		return;
 
-	if (guns.size() == 0 || knives.size() == 0 || weapon_skins.size() == 0)
+	if (guns.size() == 0 || weapon_skins.size() == 0)
 		return;
 
 	LocalizeGuns();
