@@ -533,6 +533,12 @@ namespace Settings
 				extern bool enabled;
 			}
 		}
+
+		namespace Headdot
+		{
+			extern bool enabled;
+			extern float size;
+		}
 	}
 
 	namespace Dlights

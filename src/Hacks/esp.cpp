@@ -86,6 +86,8 @@ bool Settings::ESP::Skeleton::enabled = false;
 bool Settings::ESP::Sounds::enabled = false;
 int Settings::ESP::Sounds::time = 1000;
 bool Settings::NoScopeBorder::enabled = false;
+bool Settings::ESP::Headdot::enabled = false;
+float Settings::ESP::Headdot::size = 2;
 
 struct Footstep
 {
@@ -654,6 +656,9 @@ void ESP::DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info
 
 	if (Settings::ESP::Tracers::enabled)
 		DrawTracer(player);
+
+	if (Settings::ESP::Headdot::enabled)
+		DrawHeaddot(player);
 }
 
 void ESP::DrawBomb(C_BaseCombatWeapon* bomb)
@@ -872,6 +877,20 @@ void ESP::DrawTracer(C_BasePlayer* player)
 
 	bool bIsVisible = Entity::IsVisible(player, Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smoke_check);
 	Draw::Line((int)(src.x), (int)(src.y), x, y, Color::FromImColor(GetESPPlayerColor(player, bIsVisible)));
+}
+
+void ESP::DrawHeaddot(C_BasePlayer* player)
+{
+	Vector sHead;
+	Vector pHead = player->GetBonePosition((int) Bone::BONE_HEAD);
+	debugOverlay->ScreenPosition(Vector(pHead.x, pHead.y, pHead.z), sHead);
+	float size = Settings::ESP::Headdot::size;
+
+	bool bIsVisible = false;
+	if (Settings::ESP::Filters::visibility_check || Settings::ESP::Filters::legit)
+		bIsVisible = Entity::IsVisible(player, Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smoke_check);
+
+	Draw::FilledRectangle(Vector2D(sHead.x - size, sHead.y - size), Vector2D(sHead.x + size, sHead. y + size), Color::FromImColor(GetESPPlayerColor(player, bIsVisible)));
 }
 
 void ESP::CollectFootstep(int iEntIndex, const char *pSample)
