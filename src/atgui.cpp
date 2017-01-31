@@ -631,7 +631,7 @@ void AimbotTab()
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-					if (ImGui::SliderFloat("##STEP", &aimStepValue, 0, 100))
+					if (ImGui::SliderFloat("##STEP", &aimStepValue, 0, 45))
 						UI::updateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
@@ -1626,23 +1626,27 @@ void WeaponSkinChanger()
 		ImGui::PushItemWidth(-1);
 			ImGui::InputText("##FilterGuns", filterGuns, IM_ARRAYSIZE(filterGuns));
 			ImGui::ListBoxHeader("##GUNS", ImVec2(0, 300));
-				for (auto it : guns)
+				for (auto it : ItemDefinitionIndexMap)
 				{
-					if (strcmp(it.second, "<-Default->") == 0)
+					if (!Util::Contains(Util::ToLower(std::string(filterGuns)), Util::ToLower(Util::WstringToString(localize->FindSafe(Util::Items::GetItemDisplayName(it.first).c_str())))))
 						continue;
-					if (!Util::Contains(Util::ToLower(std::string(filterGuns)), Util::ToLower(std::string(it.second))))
+					if (it.first >= ItemDefinitionIndex::WEAPON_KNIFE_BAYONET ||
+                        it.first == ItemDefinitionIndex::WEAPON_KNIFE ||
+                        it.first == ItemDefinitionIndex::WEAPON_KNIFE_T ||
+                        (it.first >= ItemDefinitionIndex::WEAPON_FLASHBANG && it.first <= ItemDefinitionIndex::WEAPON_C4))
 						continue;
-					const bool item_selected = (it.first == current_weapon);
-					ImGui::PushID(it.first);
-						if (ImGui::Selectable(it.second, item_selected))
-						{
-							current_weapon = it.first;
 
-							auto keyExists = Settings::Skinchanger::skins.find((ItemDefinitionIndex) it.first);
+					const bool item_selected = ((int)it.first == current_weapon);
+					ImGui::PushID((int)it.first);
+						if (ImGui::Selectable(Util::WstringToString(localize->FindSafe(Util::Items::GetItemDisplayName(it.first).c_str())).c_str(), item_selected))
+						{
+							current_weapon = (int)it.first;
+
+							auto keyExists = Settings::Skinchanger::skins.find(it.first);
 							if (keyExists == Settings::Skinchanger::skins.end())
 								current_weapon_skin = -1;
 							else
-								current_weapon_skin = Settings::Skinchanger::skins.at((ItemDefinitionIndex) it.first).fallbackPaintKit;
+								current_weapon_skin = Settings::Skinchanger::skins.at(it.first).fallbackPaintKit;
 						}
 					ImGui::PopID();
 				}
@@ -1674,13 +1678,15 @@ void WeaponSkinChanger()
 	ImGui::Columns(3, NULL, false);
 	ImGui::SetColumnOffset(1, ImGui::GetWindowWidth() / 2 - 60);
 		ImGui::ListBoxHeader("##KNIVES", ImVec2(-1, -1));
-			for (auto knife : knives)
+			for (auto knife : ItemDefinitionIndexMap)
 			{
-				const bool item_selected = ((500 + knife.first) == current_weapon);
-				ImGui::PushID(knife.first);
-				if (ImGui::Selectable(knife.second, item_selected))
+				if(knife.first < ItemDefinitionIndex::WEAPON_KNIFE_BAYONET || knife.first > ItemDefinitionIndex::WEAPON_KNIFE_PUSH)
+					continue;
+				const bool item_selected = ((int) knife.first == current_weapon);
+				ImGui::PushID((int)knife.first);
+				if (ImGui::Selectable(Util::WstringToString(localize->FindSafe(Util::Items::GetItemDisplayName(knife.first).c_str())).c_str(), item_selected))
 				{
-					current_weapon = (500 + knife.first);
+					current_weapon = (int)knife.first;
 					current_weapon_skin = Settings::Skinchanger::skins.at(isCT == 1 ? ItemDefinitionIndex::WEAPON_KNIFE : ItemDefinitionIndex::WEAPON_KNIFE_T).fallbackPaintKit;
 				}
 				ImGui::PopID();
@@ -1789,7 +1795,6 @@ void GloveSkinChanger()
 		ImGui::PushItemWidth(-1);
 			ImGui::InputText("##FilterGloves", filterGloves, IM_ARRAYSIZE(filterGloves));
 			ImGui::ListBoxHeader("##GLOVES", ImVec2(-1, 300));
-
 				for (auto glove : ItemDefinitionIndexMap)
 				{
 					if (!Util::Contains(Util::ToLower(std::string(filterGloves)), Util::ToLower(std::string(glove.second.displayName))) || glove.first < ItemDefinitionIndex::GLOVE_STUDDED_BLOODHOUND)
