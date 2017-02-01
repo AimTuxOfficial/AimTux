@@ -116,7 +116,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
 		weaponSetting["AimStep"]["Amount"] = i.second.aimStepValue;
 		weaponSetting["RCS"]["Enabled"] = i.second.rcsEnabled;
 		weaponSetting["RCS"]["AlwaysOn"] = i.second.rcsAlwaysOn;
-		weaponSetting["RCS"]["Amount"] = i.second.rcsAmount;
+		weaponSetting["RCS"]["AmountX"] = i.second.rcsAmountX;
+		weaponSetting["RCS"]["rcsAmountY"] = i.second.rcsAmountY;
 		weaponSetting["AutoPistol"]["Enabled"] = i.second.autoPistolEnabled;
 		weaponSetting["AutoShoot"]["Enabled"] = i.second.autoShootEnabled;
 		weaponSetting["AutoScope"]["Enabled"] = i.second.autoScopeEnabled;
@@ -425,7 +426,7 @@ void Settings::LoadConfig(std::string path)
 	Fonts::SetupFonts();
 
 	Settings::Aimbot::weapons = {
-			{ ItemDefinitionIndex::INVALID, Settings::Aimbot::Weapon(false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, false, false, false, false, false, false, false, 10.0f, &Settings::Aimbot::AutoWall::bones[0], false) },
+			{ ItemDefinitionIndex::INVALID, Settings::Aimbot::Weapon(false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f, false, false, false, false, false, false, false, 10.0f, &Settings::Aimbot::AutoWall::bones[0], false) },
 	};
 
 	for (Json::ValueIterator itr = settings["Aimbot"]["weapons"].begin(); itr != settings["Aimbot"]["weapons"].end(); itr++)
@@ -471,7 +472,8 @@ void Settings::LoadConfig(std::string path)
 				weaponSetting["AimStep"]["Amount"].asFloat(),
 				weaponSetting["RCS"]["Enabled"].asBool(),
 				weaponSetting["RCS"]["AlwaysOn"].asBool(),
-				weaponSetting["RCS"]["Amount"].asFloat(),
+				weaponSetting["RCS"]["AmountX"].asFloat(),
+				weaponSetting["RCS"]["AmountY"].asFloat(),
 				weaponSetting["AutoPistol"]["Enabled"].asBool(),
 				weaponSetting["AutoShoot"]["Enabled"].asBool(),
 				weaponSetting["AutoScope"]["Enabled"].asBool(),

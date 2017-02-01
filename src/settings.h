@@ -211,7 +211,8 @@ namespace Settings
 		{
 			extern bool enabled;
 			extern bool always_on;
-			extern float value;
+			extern float valueX;
+			extern float valueY;
 		}
 
 		namespace AutoPistol
@@ -257,14 +258,14 @@ namespace Settings
 			SmoothType smoothType;
 			ButtonCode_t aimkey;
 			bool aimkeyOnly, smoothEnabled, smoothSaltEnabled, errorMarginEnabled, autoAimEnabled, aimStepEnabled, rcsEnabled, rcsAlwaysOn;
-			float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmount, autoWallValue;
+			float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmountX, rcsAmountY, autoWallValue;
 			bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smokeCheck, autoWallEnabled, autoWallBones[6], autoAimRealDistance;
 
 			Weapon(bool _enabled, bool _silent, bool _friendly, Bone _bone, ButtonCode_t _aimkey, bool _aimkeyOnly,
 				   bool _smoothEnabled, float _smoothValue, SmoothType _smoothType, bool _smoothSaltEnabled, float _smoothSaltMultiplier,
 				   bool _errorMarginEnabled, float _errorMarginValue,
 				   bool _autoAimEnabled, float _autoAimValue, bool _aimStepEnabled, float _aimStepValue,
-				   bool _rcsEnabled, bool _rcsAlwaysOn, float _rcsFloat,
+				   bool _rcsEnabled, bool _rcsAlwaysOn, float _rcsAmountX, float _rcsAmountY,
 				   bool _autoPistolEnabled, bool _autoShootEnabled, bool _autoScopeEnabled,
 				   bool _noShootEnabled, bool _ignoreJumpEnabled, bool _smokeCheck, bool _autoWallEnabled, float _autoWallValue, bool _autoWallBones[6], bool _autoAimRealDistance)
 			{
@@ -287,7 +288,8 @@ namespace Settings
 				this->aimStepValue = _aimStepValue;
 				this->rcsEnabled = _rcsEnabled;
 				this->rcsAlwaysOn = _rcsAlwaysOn;
-				this->rcsAmount = _rcsFloat;
+				this->rcsAmountX = _rcsAmountX;
+				this->rcsAmountY = _rcsAmountY;
 				this->autoPistolEnabled = _autoPistolEnabled;
 				this->autoShootEnabled = _autoShootEnabled;
 				this->autoScopeEnabled = _autoScopeEnabled;

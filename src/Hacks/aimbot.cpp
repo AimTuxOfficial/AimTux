@@ -28,7 +28,8 @@ bool Settings::Aimbot::AutoShoot::enabled = false;
 bool Settings::Aimbot::AutoShoot::autoscope = false;
 bool Settings::Aimbot::RCS::enabled = false;
 bool Settings::Aimbot::RCS::always_on = false;
-float Settings::Aimbot::RCS::value = 2.0f;
+float Settings::Aimbot::RCS::valueX = 2.0f;
+float Settings::Aimbot::RCS::valueY = 2.0f;
 bool Settings::Aimbot::AutoCrouch::enabled = false;
 bool Settings::Aimbot::AutoStop::enabled = false;
 bool Settings::Aimbot::NoShoot::enabled = false;
@@ -54,7 +55,7 @@ std::unordered_map<Hitbox, std::vector<const char*>> hitboxes = {
 };
 
 std::unordered_map<ItemDefinitionIndex, Settings::Aimbot::Weapon> Settings::Aimbot::weapons = {
-		{ ItemDefinitionIndex::INVALID, { false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, false, false, false, false, false, false, false, 10.0f, &Settings::Aimbot::AutoWall::bones[0], false } },
+		{ ItemDefinitionIndex::INVALID, { false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f, false, false, false, false, false, false, false, 10.0f, &Settings::Aimbot::AutoWall::bones[0], false } },
 };
 
 static const char* targets[] = { "pelvis", "", "", "spine_0", "spine_1", "spine_2", "spine_3", "neck_0", "head_0" };
@@ -236,13 +237,15 @@ void Aimbot::RCS(QAngle& angle, C_BasePlayer* player, CUserCmd* cmd)
 
 	if (isSilent || hasTarget)
 	{
-		angle -= CurrentPunch * Settings::Aimbot::RCS::value;
+		angle.x -= CurrentPunch.x * Settings::Aimbot::RCS::valueX;
+		angle.y -= CurrentPunch.y * Settings::Aimbot::RCS::valueY;
 	}
 	else if (localplayer->GetShotsFired() > 1)
 	{
 		QAngle NewPunch = { CurrentPunch.x - RCSLastPunch.x, CurrentPunch.y - RCSLastPunch.y, 0 };
 
-		angle -= NewPunch * Settings::Aimbot::RCS::value;
+		angle.x -= NewPunch.x * Settings::Aimbot::RCS::valueX;
+		angle.y -= NewPunch.y * Settings::Aimbot::RCS::valueY;
 	}
 
 	RCSLastPunch = CurrentPunch;
@@ -595,7 +598,8 @@ void Aimbot::UpdateValues()
 	Settings::Aimbot::AutoShoot::autoscope = currentWeaponSetting.autoScopeEnabled;
 	Settings::Aimbot::RCS::enabled = currentWeaponSetting.rcsEnabled;
 	Settings::Aimbot::RCS::always_on = currentWeaponSetting.rcsAlwaysOn;
-	Settings::Aimbot::RCS::value = currentWeaponSetting.rcsAmount;
+	Settings::Aimbot::RCS::valueX = currentWeaponSetting.rcsAmountX;
+	Settings::Aimbot::RCS::valueY = currentWeaponSetting.rcsAmountY;
 	Settings::Aimbot::NoShoot::enabled = currentWeaponSetting.noShootEnabled;
 	Settings::Aimbot::IgnoreJump::enabled = currentWeaponSetting.ignoreJumpEnabled;
 	Settings::Aimbot::Smooth::Salting::enabled = currentWeaponSetting.smoothSaltEnabled;

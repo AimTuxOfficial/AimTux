@@ -184,7 +184,8 @@ static bool aimStepEnabled = false;
 static float aimStepValue = 25.0f;
 static bool rcsEnabled = false;
 static bool rcsAlwaysOn = false;
-static float rcsFloat = false;
+static float rcsAmountX = 2.0f;
+static float rcsAmountY = 2.0f;
 static bool autoPistolEnabled = false;
 static bool autoShootEnabled = false;
 static bool autoScopeEnabled = false;
@@ -203,7 +204,7 @@ void UI::UpdateWeaponSettings()
 									 smoothEnabled, smoothValue, smoothType, smoothSaltEnabled, smoothSaltMultiplier,
 									 errorMarginEnabled, errorMarginValue,
 									 autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
-									 rcsEnabled, rcsAlwaysOn, rcsFloat,
+									 rcsEnabled, rcsAlwaysOn, rcsAmountX, rcsAmountY,
 									 autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
 									 noShootEnabled, ignoreJumpEnabled, smokeCheck, autoWallEnabled, autoWallValue, autoWallBones, autoAimRealDistance);
 
@@ -235,7 +236,8 @@ void ReloadWeaponSettings()
 	aimStepValue = Settings::Aimbot::weapons[index].aimStepValue;
 	rcsEnabled = Settings::Aimbot::weapons[index].rcsEnabled;
 	rcsAlwaysOn = Settings::Aimbot::weapons[index].rcsAlwaysOn;
-	rcsFloat = Settings::Aimbot::weapons[index].rcsAmount;
+	rcsAmountX = Settings::Aimbot::weapons[index].rcsAmountX;
+	rcsAmountY = Settings::Aimbot::weapons[index].rcsAmountY;
 	autoPistolEnabled = Settings::Aimbot::weapons[index].autoPistolEnabled;
 	autoShootEnabled = Settings::Aimbot::weapons[index].autoShootEnabled;
 	autoScopeEnabled = Settings::Aimbot::weapons[index].autoScopeEnabled;
@@ -499,7 +501,8 @@ void AimbotTab()
 						aimStepValue = Settings::Aimbot::weapons[index].aimStepValue;
 						rcsEnabled = Settings::Aimbot::weapons[index].rcsEnabled;
 						rcsAlwaysOn = Settings::Aimbot::weapons[index].rcsAlwaysOn;
-						rcsFloat = Settings::Aimbot::weapons[index].rcsAmount;
+						rcsAmountX = Settings::Aimbot::weapons[index].rcsAmountX;
+						rcsAmountY = Settings::Aimbot::weapons[index].rcsAmountY;
 						autoPistolEnabled = Settings::Aimbot::weapons[index].autoPistolEnabled;
 						autoShootEnabled = Settings::Aimbot::weapons[index].autoShootEnabled;
 						autoScopeEnabled = Settings::Aimbot::weapons[index].autoScopeEnabled;
@@ -559,7 +562,9 @@ void AimbotTab()
 				ImGui::PushItemWidth(-1);
 					if (ImGui::SliderFloat("##AA", &autoAimValue, 0, 180))
 						UI::UpdateWeaponSettings();
-					if (ImGui::SliderFloat("##RCS", &rcsFloat, 0, 2))
+					if (ImGui::SliderFloat("##RCSX", &rcsAmountX, 0, 2, "X: %0.3f"))
+						UI::UpdateWeaponSettings();
+					if (ImGui::SliderFloat("##RCSY", &rcsAmountY, 0, 2, "Y: %0.3f"))
 						UI::UpdateWeaponSettings();
 				ImGui::PopItemWidth();
 				if (ImGui::Checkbox("Distance-Based FOV", &autoAimRealDistance))
