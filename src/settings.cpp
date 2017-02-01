@@ -426,7 +426,7 @@ void Settings::LoadConfig(std::string path)
 	Fonts::SetupFonts();
 
 	Settings::Aimbot::weapons = {
-			{ ItemDefinitionIndex::INVALID, Settings::Aimbot::Weapon(false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f, false, false, false, false, false, false, false, 10.0f, &Settings::Aimbot::AutoWall::bones[0], false) },
+			{ ItemDefinitionIndex::INVALID, { false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f, false, false, false, false, false, false, false, 10.0f, false} },
 	};
 
 	for (Json::ValueIterator itr = settings["Aimbot"]["weapons"].begin(); itr != settings["Aimbot"]["weapons"].end(); itr++)
@@ -446,13 +446,10 @@ void Settings::LoadConfig(std::string path)
 			weaponID = Util::Items::GetItemIndex(weaponDataKey);
 		}
 
-		Settings::Aimbot::Weapon weapon;
-		bool autoWallBones[] = { true, false, false, false, false, false };
+		if (Settings::Aimbot::weapons.find(weaponID) == Settings::Aimbot::weapons.end())
+			Settings::Aimbot::weapons[weaponID] = AimbotWeapon_t();
 
-		for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
-			autoWallBones[bone] = weaponSetting["AutoWall"]["Bones"][bone].asBool();
-
-		weapon = Settings::Aimbot::Weapon(
+		AimbotWeapon_t weapon = {
 				weaponSetting["Enabled"].asBool(),
 				weaponSetting["Silent"].asBool(),
 				weaponSetting["Friendly"].asBool(),
@@ -482,11 +479,13 @@ void Settings::LoadConfig(std::string path)
 				weaponSetting["SmokeCheck"]["Enabled"].asBool(),
 				weaponSetting["AutoWall"]["Enabled"].asBool(),
 				weaponSetting["AutoWall"]["Value"].asFloat(),
-				autoWallBones,
 				weaponSetting["AutoAim"]["RealDistance"].asBool()
-		);
+		};
 
-		Settings::Aimbot::weapons[weaponID] = weapon;
+		for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
+			weapon.autoWallBones[bone] = weaponSetting["AutoWall"]["Bones"][bone].asBool();
+
+		Settings::Aimbot::weapons.at(weaponID) = weapon;
 	}
 
 	GetVal(settings["Aimbot"]["AutoStop"]["enabled"], &Settings::Aimbot::AutoStop::enabled);

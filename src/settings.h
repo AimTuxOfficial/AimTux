@@ -140,6 +140,67 @@ enum class SpammerType : int
 	SPAMMER_POSITIONS
 };
 
+struct AimbotWeapon_t
+{
+	bool enabled, silent, friendly;
+	Bone bone;
+	SmoothType smoothType;
+	ButtonCode_t aimkey;
+	bool aimkeyOnly, smoothEnabled, smoothSaltEnabled, errorMarginEnabled, autoAimEnabled, aimStepEnabled, rcsEnabled, rcsAlwaysOn;
+	float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmountX, rcsAmountY, autoWallValue;
+	bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smokeCheck, autoWallEnabled, autoWallBones[6], autoAimRealDistance;
+
+	AimbotWeapon_t(bool _enabled, bool _silent, bool _friendly, Bone _bone, ButtonCode_t _aimkey, bool _aimkeyOnly,
+		   bool _smoothEnabled, float _smoothValue, SmoothType _smoothType, bool _smoothSaltEnabled, float _smoothSaltMultiplier,
+		   bool _errorMarginEnabled, float _errorMarginValue,
+		   bool _autoAimEnabled, float _autoAimValue, bool _aimStepEnabled, float _aimStepValue,
+		   bool _rcsEnabled, bool _rcsAlwaysOn, float _rcsAmountX, float _rcsAmountY,
+		   bool _autoPistolEnabled, bool _autoShootEnabled, bool _autoScopeEnabled,
+		   bool _noShootEnabled, bool _ignoreJumpEnabled, bool _smokeCheck, bool _autoWallEnabled, float _autoWallValue, bool _autoAimRealDistance, bool _autoWallBones[6] = nullptr)
+	{
+		this->enabled = _enabled;
+		this->silent = _silent;
+		this->friendly = _friendly;
+		this->bone = _bone;
+		this->aimkey = _aimkey;
+		this->aimkeyOnly = _aimkeyOnly;
+		this->smoothEnabled = _smoothEnabled;
+		this->smoothAmount = _smoothValue;
+		this->smoothType = _smoothType;
+		this->smoothSaltEnabled = _smoothSaltEnabled;
+		this->smoothSaltMultiplier = _smoothSaltMultiplier;
+		this->errorMarginEnabled = _errorMarginEnabled;
+		this->errorMarginValue = _errorMarginValue;
+		this->autoAimEnabled = _autoAimEnabled;
+		this->autoAimFov = _autoAimValue;
+		this->aimStepEnabled = _aimStepEnabled;
+		this->aimStepValue = _aimStepValue;
+		this->rcsEnabled = _rcsEnabled;
+		this->rcsAlwaysOn = _rcsAlwaysOn;
+		this->rcsAmountX = _rcsAmountX;
+		this->rcsAmountY = _rcsAmountY;
+		this->autoPistolEnabled = _autoPistolEnabled;
+		this->autoShootEnabled = _autoShootEnabled;
+		this->autoScopeEnabled = _autoScopeEnabled;
+		this->noShootEnabled = _noShootEnabled;
+		this->ignoreJumpEnabled = _ignoreJumpEnabled;
+		this->smokeCheck = _smokeCheck;
+		this->autoWallEnabled = _autoWallEnabled;
+		this->autoWallValue = _autoWallValue;
+
+		if(_autoWallBones != nullptr)
+			for (int i = (int) Hitbox::HITBOX_HEAD; i <= (int) Hitbox::HITBOX_ARMS; i++)
+				this->autoWallBones[i] = _autoWallBones[i];
+		else
+			for (int i = (int) Hitbox::HITBOX_HEAD; i <= (int) Hitbox::HITBOX_ARMS; i++)
+				this->autoWallBones[i] = false;
+
+		this->autoAimRealDistance = _autoAimRealDistance;
+	}
+
+	AimbotWeapon_t() {};
+};
+
 namespace Settings
 {
 	namespace UI
@@ -251,64 +312,7 @@ namespace Settings
 			extern bool enabled;
 		}
 
-		struct Weapon
-		{
-			bool enabled, silent, friendly;
-			Bone bone;
-			SmoothType smoothType;
-			ButtonCode_t aimkey;
-			bool aimkeyOnly, smoothEnabled, smoothSaltEnabled, errorMarginEnabled, autoAimEnabled, aimStepEnabled, rcsEnabled, rcsAlwaysOn;
-			float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmountX, rcsAmountY, autoWallValue;
-			bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smokeCheck, autoWallEnabled, autoWallBones[6], autoAimRealDistance;
-
-			Weapon(bool _enabled, bool _silent, bool _friendly, Bone _bone, ButtonCode_t _aimkey, bool _aimkeyOnly,
-				   bool _smoothEnabled, float _smoothValue, SmoothType _smoothType, bool _smoothSaltEnabled, float _smoothSaltMultiplier,
-				   bool _errorMarginEnabled, float _errorMarginValue,
-				   bool _autoAimEnabled, float _autoAimValue, bool _aimStepEnabled, float _aimStepValue,
-				   bool _rcsEnabled, bool _rcsAlwaysOn, float _rcsAmountX, float _rcsAmountY,
-				   bool _autoPistolEnabled, bool _autoShootEnabled, bool _autoScopeEnabled,
-				   bool _noShootEnabled, bool _ignoreJumpEnabled, bool _smokeCheck, bool _autoWallEnabled, float _autoWallValue, bool _autoWallBones[6], bool _autoAimRealDistance)
-			{
-				this->enabled = _enabled;
-				this->silent = _silent;
-				this->friendly = _friendly;
-				this->bone = _bone;
-				this->aimkey = _aimkey;
-				this->aimkeyOnly = _aimkeyOnly;
-				this->smoothEnabled = _smoothEnabled;
-				this->smoothAmount = _smoothValue;
-				this->smoothType = _smoothType;
-				this->smoothSaltEnabled = _smoothSaltEnabled;
-				this->smoothSaltMultiplier = _smoothSaltMultiplier;
-				this->errorMarginEnabled = _errorMarginEnabled;
-				this->errorMarginValue = _errorMarginValue;
-				this->autoAimEnabled = _autoAimEnabled;
-				this->autoAimFov = _autoAimValue;
-				this->aimStepEnabled = _aimStepEnabled;
-				this->aimStepValue = _aimStepValue;
-				this->rcsEnabled = _rcsEnabled;
-				this->rcsAlwaysOn = _rcsAlwaysOn;
-				this->rcsAmountX = _rcsAmountX;
-				this->rcsAmountY = _rcsAmountY;
-				this->autoPistolEnabled = _autoPistolEnabled;
-				this->autoShootEnabled = _autoShootEnabled;
-				this->autoScopeEnabled = _autoScopeEnabled;
-				this->noShootEnabled = _noShootEnabled;
-				this->ignoreJumpEnabled = _ignoreJumpEnabled;
-				this->smokeCheck = _smokeCheck;
-				this->autoWallEnabled = _autoWallEnabled;
-				this->autoWallValue = _autoWallValue;
-
-				for (int i = (int) Hitbox::HITBOX_HEAD; i <= (int) Hitbox::HITBOX_ARMS; i++)
-					this->autoWallBones[i] = _autoWallBones[i];
-
-				this->autoAimRealDistance = _autoAimRealDistance;
-			}
-
-			Weapon() {};
-		};
-
-		extern std::unordered_map<ItemDefinitionIndex, Settings::Aimbot::Weapon> weapons;
+		extern std::unordered_map<ItemDefinitionIndex, AimbotWeapon_t> weapons;
 	}
 
 	namespace Triggerbot

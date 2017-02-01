@@ -199,16 +199,22 @@ static bool autoAimRealDistance = false;
 
 void UI::UpdateWeaponSettings()
 {
-	Settings::Aimbot::Weapon settings =
-			Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkeyOnly,
+	if (Settings::Aimbot::weapons.find(currentWeapon) == Settings::Aimbot::weapons.end())
+		Settings::Aimbot::weapons[currentWeapon] = AimbotWeapon_t();
+
+	AimbotWeapon_t settings =
+			{enabled, silent, friendly, bone, aimkey, aimkeyOnly,
 									 smoothEnabled, smoothValue, smoothType, smoothSaltEnabled, smoothSaltMultiplier,
 									 errorMarginEnabled, errorMarginValue,
 									 autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
 									 rcsEnabled, rcsAlwaysOn, rcsAmountX, rcsAmountY,
 									 autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
-									 noShootEnabled, ignoreJumpEnabled, smokeCheck, autoWallEnabled, autoWallValue, autoWallBones, autoAimRealDistance);
+									 noShootEnabled, ignoreJumpEnabled, smokeCheck, autoWallEnabled, autoWallValue, autoAimRealDistance};
 
-	Settings::Aimbot::weapons[currentWeapon] = settings;
+	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
+		settings.autoWallBones[bone] = autoWallBones[bone];
+
+	Settings::Aimbot::weapons.at(currentWeapon) = settings;
 }
 
 void ReloadWeaponSettings()
@@ -217,40 +223,39 @@ void ReloadWeaponSettings()
 	if (Settings::Aimbot::weapons.find(currentWeapon) != Settings::Aimbot::weapons.end())
 		index = currentWeapon;
 
-	enabled = Settings::Aimbot::weapons[index].enabled;
-	silent = Settings::Aimbot::weapons[index].silent;
-	friendly = Settings::Aimbot::weapons[index].friendly;
-	bone = Settings::Aimbot::weapons[index].bone;
-	aimkey = Settings::Aimbot::weapons[index].aimkey;
-	aimkeyOnly = Settings::Aimbot::weapons[index].aimkeyOnly;
-	smoothEnabled = Settings::Aimbot::weapons[index].smoothEnabled;
-	smoothValue = Settings::Aimbot::weapons[index].smoothAmount;
-	smoothType = Settings::Aimbot::weapons[index].smoothType;
-	smoothSaltEnabled = Settings::Aimbot::weapons[index].smoothSaltEnabled;
-	smoothSaltMultiplier = Settings::Aimbot::weapons[index].smoothSaltMultiplier;
-	errorMarginEnabled = Settings::Aimbot::weapons[index].errorMarginEnabled;
-	errorMarginValue = Settings::Aimbot::weapons[index].errorMarginValue;
-	autoAimEnabled = Settings::Aimbot::weapons[index].autoAimEnabled;
-	autoAimValue = Settings::Aimbot::weapons[index].autoAimFov;
-	aimStepEnabled = Settings::Aimbot::weapons[index].aimStepEnabled;
-	aimStepValue = Settings::Aimbot::weapons[index].aimStepValue;
-	rcsEnabled = Settings::Aimbot::weapons[index].rcsEnabled;
-	rcsAlwaysOn = Settings::Aimbot::weapons[index].rcsAlwaysOn;
-	rcsAmountX = Settings::Aimbot::weapons[index].rcsAmountX;
-	rcsAmountY = Settings::Aimbot::weapons[index].rcsAmountY;
-	autoPistolEnabled = Settings::Aimbot::weapons[index].autoPistolEnabled;
-	autoShootEnabled = Settings::Aimbot::weapons[index].autoShootEnabled;
-	autoScopeEnabled = Settings::Aimbot::weapons[index].autoScopeEnabled;
-	noShootEnabled = Settings::Aimbot::weapons[index].noShootEnabled;
-	ignoreJumpEnabled = Settings::Aimbot::weapons[index].ignoreJumpEnabled;
-	smokeCheck = Settings::Aimbot::weapons[index].smokeCheck;
-	autoWallEnabled = Settings::Aimbot::weapons[index].autoWallEnabled;
-	autoWallValue = Settings::Aimbot::weapons[index].autoWallValue;
+	enabled = Settings::Aimbot::weapons.at(index).enabled;
+	silent = Settings::Aimbot::weapons.at(index).silent;
+	friendly = Settings::Aimbot::weapons.at(index).friendly;
+	bone = Settings::Aimbot::weapons.at(index).bone;
+	aimkey = Settings::Aimbot::weapons.at(index).aimkey;
+	aimkeyOnly = Settings::Aimbot::weapons.at(index).aimkeyOnly;
+	smoothEnabled = Settings::Aimbot::weapons.at(index).smoothEnabled;
+	smoothValue = Settings::Aimbot::weapons.at(index).smoothAmount;
+	smoothType = Settings::Aimbot::weapons.at(index).smoothType;
+	smoothSaltEnabled = Settings::Aimbot::weapons.at(index).smoothSaltEnabled;
+	smoothSaltMultiplier = Settings::Aimbot::weapons.at(index).smoothSaltMultiplier;
+	errorMarginEnabled = Settings::Aimbot::weapons.at(index).errorMarginEnabled;
+	errorMarginValue = Settings::Aimbot::weapons.at(index).errorMarginValue;
+	autoAimEnabled = Settings::Aimbot::weapons.at(index).autoAimEnabled;
+	autoAimValue = Settings::Aimbot::weapons.at(index).autoAimFov;
+	aimStepEnabled = Settings::Aimbot::weapons.at(index).aimStepEnabled;
+	aimStepValue = Settings::Aimbot::weapons.at(index).aimStepValue;
+	rcsEnabled = Settings::Aimbot::weapons.at(index).rcsEnabled;
+	rcsAlwaysOn = Settings::Aimbot::weapons.at(index).rcsAlwaysOn;
+	rcsAmountX = Settings::Aimbot::weapons.at(index).rcsAmountX;
+	rcsAmountY = Settings::Aimbot::weapons.at(index).rcsAmountY;
+	autoPistolEnabled = Settings::Aimbot::weapons.at(index).autoPistolEnabled;
+	autoShootEnabled = Settings::Aimbot::weapons.at(index).autoShootEnabled;
+	autoScopeEnabled = Settings::Aimbot::weapons.at(index).autoScopeEnabled;
+	noShootEnabled = Settings::Aimbot::weapons.at(index).noShootEnabled;
+	ignoreJumpEnabled = Settings::Aimbot::weapons.at(index).ignoreJumpEnabled;
+	smokeCheck = Settings::Aimbot::weapons.at(index).smokeCheck;
+	autoWallEnabled = Settings::Aimbot::weapons.at(index).autoWallEnabled;
+	autoWallValue = Settings::Aimbot::weapons.at(index).autoWallValue;
+	autoAimRealDistance = Settings::Aimbot::weapons.at(index).autoAimRealDistance;
 
 	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
-		autoWallBones[bone] = Settings::Aimbot::weapons[index].autoWallBones[bone];
-
-	autoAimRealDistance = Settings::Aimbot::weapons[index].autoAimRealDistance;
+		autoWallBones[bone] = Settings::Aimbot::weapons.at(index).autoWallBones[bone];
 }
 
 void ColorsWindow()
