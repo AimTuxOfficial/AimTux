@@ -701,7 +701,7 @@ void Skins::Localize()
 	if (isLocalized)
 		return;
 
-	if (guns.size() == 0 || weapon_skins.size() == 0)
+	if (guns.size() == 0 || weaponSkins.size() == 0)
 		return;
 
 	LocalizeGuns();
@@ -713,7 +713,6 @@ void Skins::Localize()
 
 AttribItem_t& Skins::GetSkinConfig(ItemDefinitionIndex itemDefinitionIndex)
 {
-	// Create a new item at the specified index if none exist.
 	if (Settings::Skinchanger::skins.find(itemDefinitionIndex) == Settings::Skinchanger::skins.end())
 		Settings::Skinchanger::skins[itemDefinitionIndex] = AttribItem_t();
 
