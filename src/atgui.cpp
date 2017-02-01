@@ -1792,7 +1792,7 @@ void GloveSkinChanger()
 					if (ImGui::Selectable(Util::WstringToString(localize->FindSafe(Util::Items::GetItemDisplayName(glove.first).c_str())).c_str(), item_selected))
 					{
 						currentGlove = (int)glove.first;
-						currentGloveSkin = Settings::Skinchanger::skins.at(ItemDefinitionIndex::GLOVE_T_SIDE).fallbackPaintKit;
+						currentGloveSkin = Settings::Skinchanger::skins.find(ItemDefinitionIndex::GLOVE_T_SIDE) == Settings::Skinchanger::skins.end() ? Settings::Skinchanger::skins.at(ItemDefinitionIndex::GLOVE_T_SIDE).fallbackPaintKit : 10006;
 					}
 					ImGui::PopID();
 				}
