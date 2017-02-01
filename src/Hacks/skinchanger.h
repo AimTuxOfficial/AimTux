@@ -7,6 +7,8 @@
 
 extern GetClientStateFn GetClientState;
 
+extern std::unordered_map<std::string, std::string> killIcons;
+
 namespace SkinChanger
 {
 	extern bool ForceFullUpdate;

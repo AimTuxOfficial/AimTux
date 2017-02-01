@@ -3,8 +3,6 @@
 bool Settings::Skinchanger::enabled = false;
 bool Settings::Skinchanger::Gloves::enabled = false;
 
-std::unordered_map<std::string, std::string> killIcon;
-
 std::unordered_map<ItemDefinitionIndex, AttribItem_t> Settings::Skinchanger::skins = {
 		{ ItemDefinitionIndex::WEAPON_AK47 /*WeaponID*/, { ItemDefinitionIndex::INVALID /*itemDefinitionIndex*/, 524 /*fallbackPaintKit*/, 0.0005f /*fallbackWear*/, -1 /*fallbackSeed*/, 1337/*fallbackStatTrak*/, -1/*fallbackEntityQuality*/, "TestTux"/*customName*/ } },
 		{ ItemDefinitionIndex::WEAPON_G3SG1, { ItemDefinitionIndex::INVALID, 344, 0.0005f, -1, 1337, -1, "AimTux Best Tux" } },
@@ -14,12 +12,9 @@ std::unordered_map<ItemDefinitionIndex, AttribItem_t> Settings::Skinchanger::ski
 		{ ItemDefinitionIndex::GLOVE_T_SIDE, { ItemDefinitionIndex::GLOVE_STUDDED_BLOODHOUND, 10006, 0.0005f, -1, -1, -1, "" } },
 };
 
-bool SkinChanger::ForceFullUpdate = true;
+std::unordered_map<std::string, std::string> killIcons = {};
 
-void SetKillIconOverride(std::string original_weapon, std::string override_weapon)
-{
-	killIcon[original_weapon] = override_weapon;
-}
+bool SkinChanger::ForceFullUpdate = true;
 
 void SkinChanger::FrameStageNotifyWeapons(ClientFrameStage_t stage)
 {
@@ -57,10 +52,12 @@ void SkinChanger::FrameStageNotifyWeapons(ClientFrameStage_t stage)
 
 			if (currentSkin.itemDefinitionIndex != ItemDefinitionIndex::INVALID && ItemDefinitionIndexMap.find(currentSkin.itemDefinitionIndex) != ItemDefinitionIndexMap.end())
 			{
-				*weapon->GetModelIndex() = modelInfo->GetModelIndex(
-						ItemDefinitionIndexMap.at(currentSkin.itemDefinitionIndex).entityModel);
+				*weapon->GetModelIndex() = modelInfo->GetModelIndex(ItemDefinitionIndexMap.at(currentSkin.itemDefinitionIndex).entityModel);
 				if (ItemDefinitionIndexMap.find(*weapon->GetItemDefinitionIndex()) != ItemDefinitionIndexMap.end())
+				{
+					killIcons[ItemDefinitionIndexMap.at(*weapon->GetItemDefinitionIndex()).killIcon] = ItemDefinitionIndexMap.at(currentSkin.itemDefinitionIndex).killIcon;
 					*weapon->GetItemDefinitionIndex() = currentSkin.itemDefinitionIndex;
+				}
 			}
 
 			if (currentSkin.fallbackPaintKit != -1)
@@ -199,8 +196,7 @@ void SkinChanger::FireEventClientSide(IGameEvent* event)
 
 	std::string weapon = event->GetString("weapon");
 
-	if (killIcon.find(weapon) != killIcon.end())
-		event->SetString("weapon", killIcon.at(weapon).c_str());
+	event->SetString("weapon", killIcons.find(weapon) != killIcons.end() ? killIcons.at(weapon).c_str() : weapon.c_str());
 }
 
 void SkinChanger::SetViewModelSequence(const CRecvProxyData *pDataConst, void *pStruct, void *pOut)
