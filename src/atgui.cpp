@@ -202,14 +202,14 @@ void UI::UpdateWeaponSettings()
 	if (Settings::Aimbot::weapons.find(currentWeapon) == Settings::Aimbot::weapons.end())
 		Settings::Aimbot::weapons[currentWeapon] = AimbotWeapon_t();
 
-	AimbotWeapon_t settings =
-			{enabled, silent, friendly, bone, aimkey, aimkeyOnly,
-									 smoothEnabled, smoothValue, smoothType, smoothSaltEnabled, smoothSaltMultiplier,
-									 errorMarginEnabled, errorMarginValue,
-									 autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
-									 rcsEnabled, rcsAlwaysOn, rcsAmountX, rcsAmountY,
-									 autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
-									 noShootEnabled, ignoreJumpEnabled, smokeCheck, autoWallEnabled, autoWallValue, autoAimRealDistance};
+	AimbotWeapon_t settings = {enabled, silent, friendly, bone, aimkey, aimkeyOnly,
+							   smoothEnabled, smoothValue, smoothType, smoothSaltEnabled, smoothSaltMultiplier,
+							   errorMarginEnabled, errorMarginValue,
+							   autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
+							   rcsEnabled, rcsAlwaysOn, rcsAmountX, rcsAmountY,
+							   autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
+							   noShootEnabled, ignoreJumpEnabled, smokeCheck, autoWallEnabled, autoWallValue, autoAimRealDistance
+	};
 
 	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
 		settings.autoWallBones[bone] = autoWallBones[bone];
@@ -463,25 +463,30 @@ void AimbotTab()
 			ImGui::InputText("##FILTERWEAPONS", filterWeapons, IM_ARRAYSIZE(filterWeapons));
 		ImGui::PopItemWidth();
 		ImGui::ListBoxHeader("##GUNS", ImVec2(-1, -1));
-			for (auto it : guns)
+			for (auto it : ItemDefinitionIndexMap)
 			{
-				bool isDefault = it.first < 0;
-				if (!isDefault && !Util::Contains(Util::ToLower(std::string(filterWeapons)), Util::ToLower(std::string(it.second))))
+				bool isDefault = (int) it.first < 0;
+				if (!isDefault && !Util::Contains(Util::ToLower(std::string(filterWeapons)), Util::ToLower(Util::WstringToString(localize->FindSafe(Util::Items::GetItemDisplayName(it.first).c_str())))))
 					continue;
 
-				const bool item_selected = (it.first == (int) currentWeapon);
-				ImGui::PushID(it.first);
+				if (it.first >= ItemDefinitionIndex::WEAPON_KNIFE_BAYONET ||
+					it.first == ItemDefinitionIndex::WEAPON_KNIFE ||
+					it.first == ItemDefinitionIndex::WEAPON_KNIFE_T ||
+					(it.first >= ItemDefinitionIndex::WEAPON_FLASHBANG && it.first <= ItemDefinitionIndex::WEAPON_C4))
+					continue;
 
+				const bool item_selected = ((int)it.first == (int) currentWeapon);
+				ImGui::PushID((int)it.first);
 					std::string formattedName;
 					char changeIndicator = ' ';
-					bool isChanged = Settings::Aimbot::weapons.find((ItemDefinitionIndex) it.first) != Settings::Aimbot::weapons.end();
+					bool isChanged = Settings::Aimbot::weapons.find(it.first) != Settings::Aimbot::weapons.end();
 					if (!isDefault && isChanged)
 						changeIndicator = '*';
-					formattedName = changeIndicator + std::string(it.second);
+					formattedName = changeIndicator + (isDefault ? Util::Items::GetItemDisplayName(it.first).c_str() : std::string(Util::WstringToString(localize->FindSafe(Util::Items::GetItemDisplayName(it.first).c_str()))));
 
 					if (ImGui::Selectable(formattedName.c_str(), item_selected))
 					{
-						currentWeapon = (ItemDefinitionIndex) it.first;
+						currentWeapon = it.first;
 						ReloadWeaponSettings();
 					}
 				ImGui::PopID();
@@ -1605,7 +1610,8 @@ void WeaponSkinChanger()
 				{
 					if (!Util::Contains(Util::ToLower(std::string(filterGuns)), Util::ToLower(Util::WstringToString(localize->FindSafe(Util::Items::GetItemDisplayName(it.first).c_str())))))
 						continue;
-					if (it.first >= ItemDefinitionIndex::WEAPON_KNIFE_BAYONET ||
+					if (it.first == ItemDefinitionIndex ::INVALID ||
+						it.first >= ItemDefinitionIndex::WEAPON_KNIFE_BAYONET ||
 						it.first == ItemDefinitionIndex::WEAPON_KNIFE ||
 						it.first == ItemDefinitionIndex::WEAPON_KNIFE_T ||
 						(it.first >= ItemDefinitionIndex::WEAPON_FLASHBANG && it.first <= ItemDefinitionIndex::WEAPON_C4))

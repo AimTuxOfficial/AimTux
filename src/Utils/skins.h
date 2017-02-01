@@ -5,7 +5,6 @@
 #include "../interfaces.h"
 #include "../settings.h"
 
-extern std::vector<std::pair<int, const char*>> guns;
 extern std::vector<std::pair<int, const char*>> weaponSkins;
 extern std::vector<std::pair<int, const char*>> gloveSkins;
 
@@ -19,6 +18,4 @@ extern int filterSpecialist[4];
 namespace Skins
 {
 	void Localize();
-
-	AttribItem_t& GetSkinConfig(ItemDefinitionIndex itemDefinitionIndex);
 }

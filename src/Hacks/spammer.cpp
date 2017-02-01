@@ -142,7 +142,7 @@ void Spammer::BeginFrame(float frameTime)
 
 			C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(player->GetActiveWeapon());
 
-			std::string modelName = Util::GetValueByKey(guns, (int) *activeWeapon->GetItemDefinitionIndex());
+			std::string modelName = Util::Items::GetItemDisplayName(*activeWeapon->GetItemDefinitionIndex());
 			if (modelName == "")
 			{
 				modelName = std::string(activeWeapon->GetClientClass()->m_pNetworkName);

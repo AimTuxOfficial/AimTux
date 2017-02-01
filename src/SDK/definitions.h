@@ -516,6 +516,7 @@ struct AttribItem_t
 };
 
 const std::unordered_map<ItemDefinitionIndex, DefItem_t> ItemDefinitionIndexMap = {
+		{ ItemDefinitionIndex::INVALID, {"<-Default->", "", "", ""} },
 		{ ItemDefinitionIndex::WEAPON_DEAGLE, { "#SFUI_WPNHUD_DesertEagle", "WEAPON_DEAGLE", "models/weapons/v_pist_deagle.mdl", "deagle" } },
 		{ ItemDefinitionIndex::WEAPON_ELITE, { "#SFUI_WPNHUD_Elites", "WEAPON_ELITE", "models/weapons/v_pist_elite.mdl", "elite" } },
 		{ ItemDefinitionIndex::WEAPON_FIVESEVEN, { "#SFUI_WPNHUD_FiveSeven", "WEAPON_FIVESEVEN", "models/weapons/v_pist_fiveseven.mdl", "fiveseven" } },
