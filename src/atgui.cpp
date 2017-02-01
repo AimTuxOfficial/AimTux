@@ -869,7 +869,7 @@ void VisualsTab()
 					ImGui::Checkbox("Skeleton", &Settings::ESP::Skeleton::enabled);
 					SetTooltip("Show a players skeleton");
 					ImGui::PushItemWidth(-1);
-						ImGui::SliderFloat("##HDOTSIZE", &Settings::ESP::Headdot::size, 1.f, 5.f, "Zoom: %0.f");
+						ImGui::SliderFloat("##HDOTSIZE", &Settings::ESP::Headdot::size, 1.f, 5.f, "Size: %0.f");
 					ImGui::PopItemWidth();
 				}
 				ImGui::Columns(1);

@@ -881,16 +881,16 @@ void ESP::DrawTracer(C_BasePlayer* player)
 
 void ESP::DrawHeaddot(C_BasePlayer* player)
 {
-	Vector sHead;
-	Vector pHead = player->GetBonePosition((int) Bone::BONE_HEAD);
-	debugOverlay->ScreenPosition(Vector(pHead.x, pHead.y, pHead.z), sHead);
-	float size = Settings::ESP::Headdot::size;
+	Vector head2D;
+	Vector head3D = player->GetBonePosition((int) Bone::BONE_HEAD);
+	if (debugOverlay->ScreenPosition(Vector(head3D.x, head3D.y, head3D.z), head2D))
+		return;
 
 	bool bIsVisible = false;
 	if (Settings::ESP::Filters::visibilityCheck || Settings::ESP::Filters::legit)
 		bIsVisible = Entity::IsVisible(player, Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck);
 
-	Draw::FilledRectangle(Vector2D(sHead.x - size, sHead.y - size), Vector2D(sHead.x + size, sHead. y + size), Color::FromImColor(GetESPPlayerColor(player, bIsVisible)));
+	Draw::FilledCircle(Vector2D(head2D.x, head2D.y), 10, Settings::ESP::Headdot::size, Color::FromImColor(GetESPPlayerColor(player, bIsVisible)));
 }
 
 void ESP::CollectFootstep(int iEntIndex, const char *pSample)
