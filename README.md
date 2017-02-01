@@ -17,43 +17,15 @@ AimTux is a fully featured internal hack for *CounterStrike : Global Offensive* 
 
 #### Download the dependencies required to build AimTux:
 
-__Ubuntu-Based:__
+__Ubuntu-Based / Debian:__
 ```bash
 sudo apt-get install cmake g++ gdb git libsdl2-dev zlib1g-dev
-
-sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-
-sudo apt-get update
-
-sudo apt-get install gcc-6 g++-6
-
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6
-
 ```
-
-__Debian__
-```bash
-sudo apt-get install cmake g++ gdb git libsdl2-dev zlib1g-dev
-
-```
-
-Add debian testing repo to your apt sources by creating a file on `/etc/apt/sources.list.d` folder containing the line 
-
-`deb http://ftp.us.debian.org/debian testing main contrib non-free`
-
-Instruct debian to use testing sources on certain packages by creating a file on /etc/apt/preferences.d containing the following:
-
+To build AimTux, you require at least (`GCC / G++ v6`) otherwise it will give a massive amount of errors, this seems to happen on Ubuntu / Debian based distro's because they don't ship the latest gcc / g++ by default, to check your gcc / g++ version, run the command 
 `
-Package: *
-Pin: release a=testing
-Pin-Priority: 100
+gcc -v
 `
-
-You can replace the * by the package name that you want to install from testing (in this case would be gcc), but with Pin-Priority: 100, testing packages will be installed only if explicitly told to apt-get
-
-Update apt database: `sudo apt-get update`
-
-Install gcc from testing: `sudo apt-get install -t testing gcc g++`
+and it will tell you on the bottom line the version, if it is not at least v6.0, you will need to follow [this](https://github.com/AimTuxOfficial/AimTux/wiki/Updating-your-compiler) wiki page on how to update.
 
 ==================
 
