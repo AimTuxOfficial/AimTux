@@ -643,10 +643,10 @@ void LocalizeWeaponSkins()
 			continue;
 
 		std::string localized = Util::WstringToString(localize->FindSafe(it.second));
-		weapon_skins[index] = { it.first, strdup(localized.c_str()) };
+		weaponSkins[index] = { it.first, strdup(localized.c_str()) };
 	}
 
-	std::sort(weapon_skins.begin(), weapon_skins.end(), [](auto &left, auto &right) {
+	std::sort(weaponSkins.begin(), weaponSkins.end(), [](auto &left, auto &right) {
 		std::size_t leftIter = 0, rightIter = 0;
 		std::size_t leftSize = strlen(left.second), rightSize = strlen(right.second);
 
