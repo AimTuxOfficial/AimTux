@@ -82,6 +82,8 @@ TracerType Settings::ESP::Tracers::type = TracerType::BOTTOM;
 bool Settings::ESP::BulletTracers::enabled = false;
 bool Settings::ESP::FOVCrosshair::enabled = false;
 ImColor Settings::ESP::FOVCrosshair::color = ImColor(180, 50, 50, 255);
+bool Settings::ESP::RifleCrosshair::enabled = false;
+ImColor Settings::ESP::RifleCrosshair::color = ImColor(255, 255, 255, 255);
 bool Settings::ESP::Skeleton::enabled = false;
 bool Settings::ESP::Sounds::enabled = false;
 int Settings::ESP::Sounds::time = 1000;
@@ -1006,6 +1008,40 @@ void ESP::DrawFOVCrosshair()
 	Draw::Circle(Vector2D(width / 2, height / 2), 20, radius, Color::FromImColor(Settings::ESP::FOVCrosshair::color));
 }
 
+void ESP::DrawRifleCrosshair()
+{
+	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer->GetAlive())
+		return;
+
+	int width, height;
+	engine->GetScreenSize(width, height);
+
+	if (Settings::ESP::RifleCrosshair::enabled)
+	{
+		C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+		if (!active_weapon) 
+			return;
+		CSWeaponType weaponType = active_weapon->GetCSWpnData()->GetWeaponType();
+		if (weaponType == CSWeaponType::WEAPONTYPE_SNIPER_RIFLE) {
+			int ScreenWidth, ScreenHeight;
+			engine->GetScreenSize(ScreenWidth, ScreenHeight);
+			int x = (int) (ScreenWidth/2);
+			int y = (int) (ScreenHeight/2);
+			
+			Color crosscolor = Color::FromImColor(Settings::ESP::RifleCrosshair::color);
+			// outline horizontal
+			Draw::FilledRectangle(Vector2D(x - 4, y - 1), Vector2D(x + 5, y + 2), Color(0, 0, 0, 170));
+			// outline vertical
+			Draw::FilledRectangle(Vector2D(x - 1, y - 4), Vector2D(x + 2, y + 5), Color(0, 0, 0, 170));
+			// line horizontal
+			Draw::Line(Vector2D(x - 3, y), Vector2D(x + 4, y), crosscolor);
+			// line vertical
+			Draw::Line(Vector2D(x, y + 3), Vector2D(x, y - 4), crosscolor);
+		}
+	}
+}
+
 void ESP::DrawGlow()
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
@@ -1161,6 +1197,9 @@ void ESP::Paint()
 
 	if (Settings::ESP::FOVCrosshair::enabled)
 		ESP::DrawFOVCrosshair();
+	
+	if (Settings::ESP::RifleCrosshair::enabled)
+		ESP::DrawRifleCrosshair();
 
 	if (Settings::NoScopeBorder::enabled && localplayer->IsScoped())
 		ESP::DrawScope();

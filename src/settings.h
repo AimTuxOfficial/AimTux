@@ -490,6 +490,12 @@ namespace Settings
 			extern bool enabled;
 			extern ImColor color;
 		}
+		
+		namespace RifleCrosshair
+		{
+			extern bool enabled;
+			extern ImColor color;
+		}
 
 		namespace Chams
 		{
@@ -690,7 +696,7 @@ namespace Settings
 
 	namespace ClanTagChanger
 	{
-		extern char value[30];
+		extern char* value;
 		extern bool animation;
 		extern int animationSpeed;
 		extern bool enabled;
