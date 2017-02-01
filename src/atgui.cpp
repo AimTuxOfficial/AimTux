@@ -1479,6 +1479,8 @@ void MiscTab()
 				SetTooltip("Chokes packets so it appears you're lagging");
 				ImGui::Checkbox("Auto Accept", &Settings::AutoAccept::enabled);
 				SetTooltip("Auto accept games when in MM queue");
+				ImGui::Checkbox("Auto Defuse", &Settings::AutoDefuse::enabled);
+				SetTooltip("Will automatically defuse the bomb with 0.5 seconds remaining - starts at 5.5 seconds until explosion with kit and 10.5 without");
 				ImGui::Checkbox("AirStuck", &Settings::Airstuck::enabled);
 				SetTooltip("Stops tickrate so you freeze in place");
 				ImGui::Checkbox("Autoblock", &Settings::Autoblock::enabled);
@@ -1492,8 +1494,6 @@ void MiscTab()
 					}
 				}
 				SetTooltip("Teleport to (0, 0) on any map");
-				ImGui::Checkbox("Auto Defuse", &Settings::AutoDefuse::enabled);
-				SetTooltip("Will automatically defuse the bomb with 0.5 seconds remaining - starts at 5.5 seconds until explosion with kit and 10.5 without");
 			}
 			ImGui::NextColumn();
 			{
