@@ -251,7 +251,7 @@ struct COffsets
 
 namespace Offsets
 {
-	void getOffsets();
+	void GetOffsets();
 }
 
 extern COffsets offsets;
