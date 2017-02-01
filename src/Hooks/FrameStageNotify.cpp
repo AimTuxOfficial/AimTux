@@ -12,10 +12,10 @@ void Hooks::FrameStageNotify(void* thisptr, ClientFrameStage_t stage)
 	ASUSWalls::FrameStageNotify(stage);
 	NoSmoke::FrameStageNotify(stage);
 
-	if (SkinChanger::ForceFullUpdate)
+	if (SkinChanger::forceFullUpdate)
 	{
 		GetClientState(-1)->m_nDeltaTick = -1;
-		SkinChanger::ForceFullUpdate = false;
+		SkinChanger::forceFullUpdate = false;
 	}
 
 	client_vmt->GetOriginalMethod<FrameStageNotifyFn>(36)(thisptr, stage);

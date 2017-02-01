@@ -11,7 +11,7 @@ extern std::unordered_map<std::string, std::string> killIcons;
 
 namespace SkinChanger
 {
-	extern bool ForceFullUpdate;
+	extern bool forceFullUpdate;
 
 	void FrameStageNotifyWeapons(ClientFrameStage_t stage);
 	void FrameStageNotifyGloves(ClientFrameStage_t stage);

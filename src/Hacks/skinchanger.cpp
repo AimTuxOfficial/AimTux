@@ -14,7 +14,7 @@ std::unordered_map<ItemDefinitionIndex, AttribItem_t> Settings::Skinchanger::ski
 
 std::unordered_map<std::string, std::string> killIcons = {};
 
-bool SkinChanger::ForceFullUpdate = true;
+bool SkinChanger::forceFullUpdate = true;
 
 void SkinChanger::FrameStageNotifyWeapons(ClientFrameStage_t stage)
 {
@@ -26,7 +26,7 @@ void SkinChanger::FrameStageNotifyWeapons(ClientFrameStage_t stage)
 		if (stage != ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_START)
 			return;
 
-		C_BasePlayer *localplayer = (C_BasePlayer *) entitylist->GetClientEntity(engine->GetLocalPlayer());
+		C_BasePlayer* localplayer = (C_BasePlayer *) entitylist->GetClientEntity(engine->GetLocalPlayer());
 		if (!localplayer || !localplayer->GetAlive())
 			return;
 

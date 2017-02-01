@@ -1612,7 +1612,7 @@ void WeaponSkinChanger()
 	static int isCT = 1;
 
 	if (ImGui::Checkbox("Enabled##WeaponSkins", &Settings::Skinchanger::enabled))
-		SkinChanger::ForceFullUpdate = true;
+		SkinChanger::forceFullUpdate = true;
 
 	ImGui::Separator();
 
@@ -1631,9 +1631,9 @@ void WeaponSkinChanger()
 					if (!Util::Contains(Util::ToLower(std::string(filterGuns)), Util::ToLower(Util::WstringToString(localize->FindSafe(Util::Items::GetItemDisplayName(it.first).c_str())))))
 						continue;
 					if (it.first >= ItemDefinitionIndex::WEAPON_KNIFE_BAYONET ||
-                        it.first == ItemDefinitionIndex::WEAPON_KNIFE ||
-                        it.first == ItemDefinitionIndex::WEAPON_KNIFE_T ||
-                        (it.first >= ItemDefinitionIndex::WEAPON_FLASHBANG && it.first <= ItemDefinitionIndex::WEAPON_C4))
+						it.first == ItemDefinitionIndex::WEAPON_KNIFE ||
+						it.first == ItemDefinitionIndex::WEAPON_KNIFE_T ||
+						(it.first >= ItemDefinitionIndex::WEAPON_FLASHBANG && it.first <= ItemDefinitionIndex::WEAPON_C4))
 						continue;
 
 					const bool item_selected = ((int)it.first == currentWeapon);
@@ -1764,7 +1764,7 @@ void WeaponSkinChanger()
 				};
 			}
 
-			SkinChanger::ForceFullUpdate = true;
+			SkinChanger::forceFullUpdate = true;
 		}
 		ImGui::Separator();
 		ImGui::EndChild();
@@ -1780,7 +1780,7 @@ void GloveSkinChanger()
 	static char filterGloveSkins[32];
 
 	if (ImGui::Checkbox("Enabled##GloveSkins", &Settings::Skinchanger::Gloves::enabled))
-		SkinChanger::ForceFullUpdate = true;
+		SkinChanger::forceFullUpdate = true;
 
 	ImGui::Separator();
 
@@ -1896,7 +1896,7 @@ void GloveSkinChanger()
 					""
 			};
 
-			SkinChanger::ForceFullUpdate = true;
+			SkinChanger::forceFullUpdate = true;
 		}
 	ImGui::Columns(1);
 	ImGui::Separator();

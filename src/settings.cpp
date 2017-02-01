@@ -734,7 +734,7 @@ void Settings::LoadConfig(std::string path)
 		Settings::Skinchanger::skins.at((ItemDefinitionIndex) weaponID) = skin;
 	}
 
-	SkinChanger::ForceFullUpdate = true;
+	SkinChanger::forceFullUpdate = true;
 
 	GetVal(settings["Skinchanger"]["enabled"], &Settings::Skinchanger::enabled);
 	GetVal(settings["Skinchanger"]["Gloves"]["enabled"], &Settings::Skinchanger::Gloves::enabled);
