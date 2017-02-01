@@ -824,6 +824,7 @@ void VisualsTab()
 	const char* TeamColorTypes[] = { "Absolute", "Relative" };
 	const char* ChamsTypes[] = { "Normal", "Normal - XQZ", "Flat", "Flat - XQZ" };
 	const char* ArmsTypes[] = { "Default", "Rainbow", "Wireframe", "None" };
+	const char* HeaddotTypes[] = { "Circle", "Filled Rectangle", "Rectangle" };
 
 	ImGui::Checkbox("Enabled", &Settings::ESP::enabled);
 	ImGui::Separator();
@@ -870,6 +871,7 @@ void VisualsTab()
 					SetTooltip("Show a players skeleton");
 					ImGui::PushItemWidth(-1);
 						ImGui::SliderFloat("##HDOTSIZE", &Settings::ESP::Headdot::size, 1.f, 5.f, "Zoom: %0.f");
+						ImGui::Combo("##HDOTTYPE", (int*)& Settings::ESP::Headdot::type, HeaddotTypes, IM_ARRAYSIZE(HeaddotTypes));
 					ImGui::PopItemWidth();
 				}
 				ImGui::Columns(1);
