@@ -15,7 +15,7 @@ bool showPlayerListWindow = false;
 
 #define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))
 
-static char nickname[127] = "";
+static char* nickname = strdup("");
 
 namespace ImGui
 {
@@ -1443,7 +1443,7 @@ void MiscTab()
 
 			ImGui::SameLine();
 			if (ImGui::Button("Set Nickname", ImVec2(-1, 0)))
-				NameChanger::SetName(std::string(nickname).c_str());
+				NameChanger::SetName(strdup(nickname));
 
 			if (ImGui::Button("Glitch Name"))
 				NameChanger::SetName("\n\xAD\xAD\xAD");
@@ -1484,8 +1484,6 @@ void MiscTab()
 				SetTooltip("Chokes packets so it appears you're lagging");
 				ImGui::Checkbox("Auto Accept", &Settings::AutoAccept::enabled);
 				SetTooltip("Auto accept games when in MM queue");
-				ImGui::Checkbox("Auto Defuse", &Settings::AutoDefuse::enabled);
-				SetTooltip("Will automatically defuse the bomb with 0.5 seconds remaining - starts at 5.5 seconds until explosion with kit and 10.5 without");
 				ImGui::Checkbox("AirStuck", &Settings::Airstuck::enabled);
 				SetTooltip("Stops tickrate so you freeze in place");
 				ImGui::Checkbox("Autoblock", &Settings::Autoblock::enabled);
@@ -1499,6 +1497,8 @@ void MiscTab()
 					}
 				}
 				SetTooltip("Teleport to (0, 0) on any map");
+				ImGui::Checkbox("Auto Defuse", &Settings::AutoDefuse::enabled);
+				SetTooltip("Will automatically defuse the bomb with 0.5 seconds remaining - starts at 5.5 seconds until explosion with kit and 10.5 without");
 			}
 			ImGui::NextColumn();
 			{
@@ -1606,8 +1606,8 @@ void MainWindow()
 
 void WeaponSkinChanger()
 {
-	static int currentWeapon = 7;
-	static int currentWeaponSkin = Settings::Skinchanger::skins.find((ItemDefinitionIndex) currentWeapon) != Settings::Skinchanger::skins.end() ? Settings::Skinchanger::skins.at((ItemDefinitionIndex) currentWeapon).fallbackPaintKit : -1;
+	static int current_weapon = 7;
+	static int current_weapon_skin = Settings::Skinchanger::skins.find((ItemDefinitionIndex) current_weapon) != Settings::Skinchanger::skins.end() ? Settings::Skinchanger::skins.at((ItemDefinitionIndex) current_weapon).fallbackPaintKit : -1;
 	static float weaponWear = 0.005f;
 	static int weaponSkinSeed = -1;
 	static int weaponStatTrak = -1;
@@ -1641,17 +1641,17 @@ void WeaponSkinChanger()
                         (it.first >= ItemDefinitionIndex::WEAPON_FLASHBANG && it.first <= ItemDefinitionIndex::WEAPON_C4))
 						continue;
 
-					const bool item_selected = ((int)it.first == currentWeapon);
+					const bool item_selected = ((int)it.first == current_weapon);
 					ImGui::PushID((int)it.first);
 						if (ImGui::Selectable(Util::WstringToString(localize->FindSafe(Util::Items::GetItemDisplayName(it.first).c_str())).c_str(), item_selected))
 						{
-							currentWeapon = (int)it.first;
+							current_weapon = (int)it.first;
 
 							auto keyExists = Settings::Skinchanger::skins.find(it.first);
 							if (keyExists == Settings::Skinchanger::skins.end())
-								currentWeaponSkin = -1;
+								current_weapon_skin = -1;
 							else
-								currentWeaponSkin = Settings::Skinchanger::skins.at(it.first).fallbackPaintKit;
+								current_weapon_skin = Settings::Skinchanger::skins.at(it.first).fallbackPaintKit;
 						}
 					ImGui::PopID();
 				}
@@ -1665,10 +1665,10 @@ void WeaponSkinChanger()
 			{
 				if (!Util::Contains(Util::ToLower(std::string(filterSkins)), Util::ToLower(std::string(it.second))))
 					continue;
-				const bool item_selected = (it.first == currentWeaponSkin);
+				const bool item_selected = (it.first == current_weapon_skin);
 				ImGui::PushID(it.first);
 					if (ImGui::Selectable(it.second, item_selected))
-						currentWeaponSkin = it.first;
+						current_weapon_skin = it.first;
 				ImGui::PopID();
 			}
 		ImGui::ListBoxFooter();
@@ -1687,12 +1687,12 @@ void WeaponSkinChanger()
 			{
 				if(knife.first < ItemDefinitionIndex::WEAPON_KNIFE_BAYONET || knife.first > ItemDefinitionIndex::WEAPON_KNIFE_PUSH)
 					continue;
-				const bool item_selected = ((int) knife.first == currentWeapon);
+				const bool item_selected = ((int) knife.first == current_weapon);
 				ImGui::PushID((int)knife.first);
 				if (ImGui::Selectable(Util::WstringToString(localize->FindSafe(Util::Items::GetItemDisplayName(knife.first).c_str())).c_str(), item_selected))
 				{
-					currentWeapon = (int)knife.first;
-					currentWeaponSkin = Settings::Skinchanger::skins.at(isCT == 1 ? ItemDefinitionIndex::WEAPON_KNIFE : ItemDefinitionIndex::WEAPON_KNIFE_T).fallbackPaintKit;
+					current_weapon = (int)knife.first;
+					current_weapon_skin = Settings::Skinchanger::skins.at(isCT == 1 ? ItemDefinitionIndex::WEAPON_KNIFE : ItemDefinitionIndex::WEAPON_KNIFE_T).fallbackPaintKit;
 				}
 				ImGui::PopID();
 			}
@@ -1704,7 +1704,7 @@ void WeaponSkinChanger()
 	ImGui::NextColumn();
 	ImGui::BeginChild("Other", ImVec2(-1, -1), true);
 	{
-		ImGui::InputInt("Skin ID", &currentWeaponSkin);
+		ImGui::InputInt("Skin ID", &current_weapon_skin);
 		ImGui::SliderFloat("Wear", &weaponWear, 0.005f, 1.0f);
 		ImGui::InputInt("Seed", &weaponSkinSeed);
 		ImGui::InputInt("StatTrak", &weaponStatTrak);
@@ -1713,23 +1713,23 @@ void WeaponSkinChanger()
 		if (ImGui::Button("Load", ImVec2(-1, 0)))
 		{
 			AttribItem_t skin = { ItemDefinitionIndex::INVALID, -1, -1, -1, -1, -1, ""};
-			if (currentWeapon >= (int) ItemDefinitionIndex::WEAPON_KNIFE_BAYONET)
+			if (current_weapon >= (int) ItemDefinitionIndex::WEAPON_KNIFE_BAYONET)
 			{
-				if (Settings::Skinchanger::skins.find((ItemDefinitionIndex) currentWeapon) == Settings::Skinchanger::skins.end())
+				if (Settings::Skinchanger::skins.find((ItemDefinitionIndex) current_weapon) == Settings::Skinchanger::skins.end())
 					Settings::Skinchanger::skins[isCT == 1 ? ItemDefinitionIndex::WEAPON_KNIFE : ItemDefinitionIndex::WEAPON_KNIFE_T] = AttribItem_t();
 
 				skin = Settings::Skinchanger::skins.at(isCT == 1 ? ItemDefinitionIndex::WEAPON_KNIFE : ItemDefinitionIndex::WEAPON_KNIFE_T);
-				currentWeapon = (int) skin.itemDefinitionIndex;
+				current_weapon = (int) skin.itemDefinitionIndex;
 			}
 			else
 			{
-				if (Settings::Skinchanger::skins.find((ItemDefinitionIndex) currentWeapon) == Settings::Skinchanger::skins.end())
-					skin = { (ItemDefinitionIndex) currentWeapon, -1, -1, -1, -1, -1, "" };
+				if (Settings::Skinchanger::skins.find((ItemDefinitionIndex) current_weapon) == Settings::Skinchanger::skins.end())
+					skin = { (ItemDefinitionIndex) current_weapon, -1, -1, -1, -1, -1, "" };
 				else
-					skin = Settings::Skinchanger::skins.at((ItemDefinitionIndex) currentWeapon);
+					skin = Settings::Skinchanger::skins.at((ItemDefinitionIndex) current_weapon);
 			}
 
-			currentWeaponSkin = skin.fallbackPaintKit;
+			current_weapon_skin = skin.fallbackPaintKit;
 			weaponSkinSeed = skin.fallbackSeed;
 			weaponWear = skin.fallbackWear;
 			weaponStatTrak = skin.fallbackStatTrak;
@@ -1738,14 +1738,14 @@ void WeaponSkinChanger()
 		}
 		if (ImGui::Button("Apply##Weapons", ImVec2(-1, 0)))
 		{
-			if (currentWeapon >= (int) ItemDefinitionIndex::WEAPON_KNIFE_BAYONET)
+			if (current_weapon >= (int) ItemDefinitionIndex::WEAPON_KNIFE_BAYONET)
 			{
-				if (Settings::Skinchanger::skins.find((ItemDefinitionIndex) currentWeapon) == Settings::Skinchanger::skins.end())
-					Settings::Skinchanger::skins[(ItemDefinitionIndex) currentWeapon] = AttribItem_t();
+				if (Settings::Skinchanger::skins.find((ItemDefinitionIndex) current_weapon) == Settings::Skinchanger::skins.end())
+					Settings::Skinchanger::skins[(ItemDefinitionIndex) current_weapon] = AttribItem_t();
 
 				Settings::Skinchanger::skins.at(isCT == 1 ? ItemDefinitionIndex::WEAPON_KNIFE : ItemDefinitionIndex::WEAPON_KNIFE_T) = {
-						(ItemDefinitionIndex) currentWeapon,
-						currentWeaponSkin == 0 ? -1 : currentWeaponSkin,
+						(ItemDefinitionIndex) current_weapon,
+						current_weapon_skin == 0 ? -1 : current_weapon_skin,
 						weaponWear,
 						weaponSkinSeed,
 						weaponStatTrak,
@@ -1755,12 +1755,12 @@ void WeaponSkinChanger()
 			}
 			else
 			{
-				if (Settings::Skinchanger::skins.find((ItemDefinitionIndex) currentWeapon) == Settings::Skinchanger::skins.end())
-					Settings::Skinchanger::skins[(ItemDefinitionIndex) currentWeapon] = AttribItem_t();
+				if (Settings::Skinchanger::skins.find((ItemDefinitionIndex) current_weapon) == Settings::Skinchanger::skins.end())
+					Settings::Skinchanger::skins[(ItemDefinitionIndex) current_weapon] = AttribItem_t();
 
-				Settings::Skinchanger::skins.at((ItemDefinitionIndex) currentWeapon) = {
-						(ItemDefinitionIndex) currentWeapon,
-						currentWeaponSkin == 0 ? -1 : currentWeaponSkin,
+				Settings::Skinchanger::skins.at((ItemDefinitionIndex) current_weapon) = {
+						(ItemDefinitionIndex) current_weapon,
+						current_weapon_skin == 0 ? -1 : current_weapon_skin,
 						weaponWear,
 						weaponSkinSeed,
 						weaponStatTrak,
@@ -1829,50 +1829,51 @@ void GloveSkinChanger()
 					switch (currentGlove)
 					{
 						case (int) ItemDefinitionIndex::GLOVE_STUDDED_BLOODHOUND:
-							if(it.first != filterBloodhound[0] &&
-							   it.first != filterBloodhound[1] &&
-							   it.first != filterBloodhound[2] &&
-							   it.first != filterBloodhound[3])
-								continue;
+							if (!Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_bloodhound_black_silver_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_bloodhound_snakeskin_brass_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_bloodhound_metallic_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_bloodhound_guerrilla_tag"))), Util::ToLower(std::string(it.second))))
+							continue;
 							break;
 						case (int) ItemDefinitionIndex::GLOVE_SPORTY:
-							if(it.first != filterSporty[0] &&
-							   it.first != filterSporty[1] &&
-							   it.first != filterSporty[2] &&
-							   it.first != filterSporty[3])
-								continue;
+							if (!Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_sporty_light_blue_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_sporty_military_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_sporty_purple_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_sporty_green_tag"))), Util::ToLower(std::string(it.second))))
+							continue;
 							break;
 						case (int) ItemDefinitionIndex::GLOVE_SLICK:
-							if(it.first != filterSlick[0] &&
-							   it.first != filterSlick[1] &&
-							   it.first != filterSlick[2] &&
-							   it.first != filterSlick[3])
-								continue;
+							if (!Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_slick_black_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_slick_military_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_slick_red_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_slick_snakeskin_yellow_tag"))), Util::ToLower(std::string(it.second))))
+							continue;
 							break;
 						case (int) ItemDefinitionIndex::GLOVE_LEATHER_WRAP:
-							if(it.first != filterWrap[0] &&
-							   it.first != filterWrap[1] &&
-							   it.first != filterWrap[2] &&
-							   it.first != filterWrap[3])
-								continue;
+							if (!Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_handwrap_leathery_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_handwrap_camo_grey_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_handwrap_red_slaughter_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_handwrap_fabric_orange_camo_tag"))), Util::ToLower(std::string(it.second))))
+							continue;
 							break;
 						case (int) ItemDefinitionIndex::GLOVE_MOTORCYCLE:
-							if(it.first != filterMoto[0] &&
-							   it.first != filterMoto[1] &&
-							   it.first != filterMoto[2] &&
-							   it.first != filterMoto[3])
-								continue;
+							if (!Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_motorcycle_basic_black_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_motorcycle_mint_triangle_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_motorcycle_mono_boom_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_motorcycle_triangle_blue_tag"))), Util::ToLower(std::string(it.second))))
+							continue;
 							break;
 						case (int) ItemDefinitionIndex::GLOVE_SPECIALIST:
-							if(it.first != filterSpecialist[0] &&
-							   it.first != filterSpecialist[1] &&
-							   it.first != filterSpecialist[2] &&
-							   it.first != filterSpecialist[3])
-								continue;
+							if (!Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_specialist_ddpat_green_camo_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_specialist_kimono_diamonds_red_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_specialist_emerald_web_tag"))), Util::ToLower(std::string(it.second))) &&
+								 !Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_specialist_white_orange_grey_tag"))), Util::ToLower(std::string(it.second))))
+							continue;
 							break;
 						default:
 							break;
 					}
+
 					const bool itemSelected = (it.first == currentGloveSkin);
 					ImGui::PushID(it.first);
 						if (ImGui::Selectable(it.second, itemSelected))
@@ -2182,7 +2183,7 @@ void PlayerListWindow()
 					std::string name(entityInformation.name);
 					name = Util::PadStringRight(name, name.length() + 1);
 
-					strcpy(nickname, name.c_str());
+					nickname = strdup(name.c_str());
 					NameChanger::SetName(Util::PadStringRight(name, name.length() + 1));
 				}
 
@@ -2190,7 +2191,7 @@ void PlayerListWindow()
 				if (strlen(clanTag) > 0 && ImGui::Button("Steal clan tag"))
 				{
 					Settings::ClanTagChanger::enabled = true;
-					strcpy(Settings::ClanTagChanger::value, clanTag);
+					Settings::ClanTagChanger::value = strdup(clanTag);
 					Settings::ClanTagChanger::type = ClanTagType::STATIC;
 
 					ClanTagChanger::UpdateClanTagCallback();
