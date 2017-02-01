@@ -615,6 +615,48 @@ std::vector<std::pair<int, const char*>> gloveSkins = {
 		{ 10040, "#PaintKit_slick_snakeskin_yellow_tag" },
 };
 
+int filterBloodhound[4] = {
+		10006,
+		10007,
+		10008,
+		10039,
+};
+
+int filterSporty[4] = {
+		10018,
+		10019,
+		10037,
+		10038,
+};
+
+int filterSlick[4] = {
+		10013,
+		10015,
+		10016,
+		10040,
+};
+
+int  filterWrap[4] = {
+		10009,
+		10010,
+		10021,
+		10036,
+};
+
+int  filterMoto[4] = {
+		10024,
+		10026,
+		10027,
+		10028,
+};
+
+int filterSpecialist[4] = {
+		10030,
+		10033,
+		10034,
+		10035,
+};
+
 void LocalizeGuns()
 {
 	int index = -1;
