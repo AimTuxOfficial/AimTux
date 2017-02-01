@@ -56,8 +56,6 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 			visible_material = materialChamsFlat;
 			hidden_material = materialChamsFlatIgnorez;
 			break;
-		default:
-			break;
 	}
 
 	visible_material->AlphaModulate(1.0f);
@@ -67,6 +65,7 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 	{
 		Color visColor = Settings::ESP::Chams::hpAllyVisibleColor ? ESP::GetHealthColor(entity) : Color::FromImColor(Settings::ESP::Chams::allyVisibleColor);
 		Color color = Settings::ESP::Chams::hpAllyColor ? ESP::GetHealthColor(entity) : Color::FromImColor(Settings::ESP::Chams::allyColor);
+
 		visible_material->ColorModulate(visColor);
 		hidden_material->ColorModulate(color);
 	}
@@ -74,11 +73,14 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 	{
 		Color visColor = Settings::ESP::Chams::hpEnemyVisibleColor ? ESP::GetHealthColor(entity) : Color::FromImColor(Settings::ESP::Chams::enemyVisibleColor);
 		Color color = Settings::ESP::Chams::hpEnemyColor ? ESP::GetHealthColor(entity) : Color::FromImColor(Settings::ESP::Chams::enemyColor);
+
 		visible_material->ColorModulate(visColor);
 		hidden_material->ColorModulate(color);
 	}
 	else
+	{
 		return;
+	}
 
 	if (!Settings::ESP::Filters::legit && (Settings::ESP::Chams::type == ChamsType::CHAMS_XQZ || Settings::ESP::Chams::type == ChamsType::CHAMS_FLAT_XQZ))
 	{
@@ -96,11 +98,9 @@ void DrawWeapon(const ModelRenderInfo_t& pInfo)
 		return;
 
 	std::string modelName = modelInfo->GetModelName(pInfo.pModel);
-	IMaterial* mat;
+	IMaterial* mat = materialChamsWeapons;
 
-	if (Settings::ESP::Chams::Weapon::enabled)
-		mat = materialChamsWeapons;
-	else
+	if (!Settings::ESP::Chams::Weapon::enabled)
 		mat = material->FindMaterial(modelName.c_str(), TEXTURE_GROUP_MODEL);
 
 	mat->AlphaModulate(1.0f);
@@ -115,11 +115,9 @@ void DrawArms(const ModelRenderInfo_t& pInfo)
 		return;
 
 	std::string modelName = modelInfo->GetModelName(pInfo.pModel);
-	IMaterial* mat;
+	IMaterial* mat = materialChamsArms;
 
-	if (Settings::ESP::Chams::Arms::enabled)
-		mat = materialChamsArms;
-	else
+	if (!Settings::ESP::Chams::Arms::enabled)
 		mat = material->FindMaterial(modelName.c_str(), TEXTURE_GROUP_MODEL);
 
 	switch (Settings::ESP::Chams::Arms::type)
@@ -173,7 +171,6 @@ void Chams::DrawModelExecute(void* thisptr, void* context, void *state, const Mo
 		DrawArms(pInfo);
 	else if (modelName.find("weapon") != std::string::npos)
 		DrawWeapon(pInfo);
-	
 }
 
 void Chams::CreateMove(CUserCmd* cmd)
