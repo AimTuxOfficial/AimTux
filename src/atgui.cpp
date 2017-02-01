@@ -283,6 +283,7 @@ void ColorsWindow()
 			"ESP - Grenade",
 			"ESP - Molotov",
 			"ESP - Skeleton",
+			"ESP - Headdot",
 			"Chams - Team",
 			"Chams - Team Visible",
 			"Chams - Enemy",
@@ -336,6 +337,10 @@ void ColorsWindow()
 			&Settings::ESP::grenade_color,
 			&Settings::ESP::molotov_color,
 			&Settings::ESP::Skeleton::color,
+			&Settings::ESP::Headdot::ally_color,
+			&Settings::ESP::Headdot::ally_visible_color,
+			&Settings::ESP::Headdot::enemy_color,
+			&Settings::ESP::Headdot::enemy_visible_color,
 			&Settings::ESP::Chams::ally_color,
 			&Settings::ESP::Chams::ally_visible_color,
 			&Settings::ESP::Chams::enemy_color,
@@ -389,6 +394,10 @@ void ColorsWindow()
 			nullptr, // ESP - Grenade
 			nullptr, // ESP - Molotov
 			nullptr, // ESP - Skeleton
+			&Settings::ESP::Headdot::hp_ally_color, // Headdot - Team
+			&Settings::ESP::Headdot::hp_ally_visible_color, // Headdot - Team Visible
+			&Settings::ESP::Headdot::hp_enemy_color, // Headdot - Enemy
+			&Settings::ESP::Headdot::hp_enemy_visible_color, // Headdot - Enemy Visible
 			&Settings::ESP::Chams::hp_ally_color, // Chams - Team
 			&Settings::ESP::Chams::hp_ally_visible_color, // Chams - Team Visible
 			&Settings::ESP::Chams::hp_enemy_color, // Chams - Enemy
@@ -824,6 +833,7 @@ void VisualsTab()
 	const char* TeamColorTypes[] = { "Absolute", "Relative" };
 	const char* ChamsTypes[] = { "Normal", "Normal - XQZ", "Flat", "Flat - XQZ" };
 	const char* ArmsTypes[] = { "Default", "Rainbow", "Wireframe", "None" };
+	const char* HeaddotTypes[] = { "Circle", "Filled Rectangle", "Rectangle" };
 
 	ImGui::Checkbox("Enabled", &Settings::ESP::enabled);
 	ImGui::Separator();
@@ -870,6 +880,7 @@ void VisualsTab()
 					SetTooltip("Show a players skeleton");
 					ImGui::PushItemWidth(-1);
 						ImGui::SliderFloat("##HDOTSIZE", &Settings::ESP::Headdot::size, 1.f, 5.f, "Zoom: %0.f");
+						ImGui::Combo("##HDOTTYPE", (int*)& Settings::ESP::Headdot::type, HeaddotTypes, IM_ARRAYSIZE(HeaddotTypes));
 					ImGui::PopItemWidth();
 				}
 				ImGui::Columns(1);
