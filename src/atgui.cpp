@@ -476,46 +476,8 @@ void AimbotTab()
 
 					if (ImGui::Selectable(formattedName.c_str(), item_selected))
 					{
-						currentWeapon = (ItemDefinitionIndex ) it.first;
-
-						ItemDefinitionIndex index = ItemDefinitionIndex::INVALID;
-						if (Settings::Aimbot::weapons.find((ItemDefinitionIndex) it.first) != Settings::Aimbot::weapons.end())
-							index = (ItemDefinitionIndex) it.first;
-
-						enabled = Settings::Aimbot::weapons[index].enabled;
-						silent = Settings::Aimbot::weapons[index].silent;
-						friendly = Settings::Aimbot::weapons[index].friendly;
-						bone = Settings::Aimbot::weapons[index].bone;
-						aimkey = Settings::Aimbot::weapons[index].aimkey;
-						aimkeyOnly = Settings::Aimbot::weapons[index].aimkeyOnly;
-						smoothEnabled = Settings::Aimbot::weapons[index].smoothEnabled;
-						smoothValue = Settings::Aimbot::weapons[index].smoothAmount;
-						smoothType = Settings::Aimbot::weapons[index].smoothType;
-						smoothSaltEnabled = Settings::Aimbot::weapons[index].smoothSaltEnabled;
-						smoothSaltMultiplier = Settings::Aimbot::weapons[index].smoothSaltMultiplier;
-						errorMarginEnabled = Settings::Aimbot::weapons[index].errorMarginEnabled;
-						errorMarginValue = Settings::Aimbot::weapons[index].errorMarginValue;
-						autoAimEnabled = Settings::Aimbot::weapons[index].autoAimEnabled;
-						autoAimValue = Settings::Aimbot::weapons[index].autoAimFov;
-						aimStepEnabled = Settings::Aimbot::weapons[index].aimStepEnabled;
-						aimStepValue = Settings::Aimbot::weapons[index].aimStepValue;
-						rcsEnabled = Settings::Aimbot::weapons[index].rcsEnabled;
-						rcsAlwaysOn = Settings::Aimbot::weapons[index].rcsAlwaysOn;
-						rcsAmountX = Settings::Aimbot::weapons[index].rcsAmountX;
-						rcsAmountY = Settings::Aimbot::weapons[index].rcsAmountY;
-						autoPistolEnabled = Settings::Aimbot::weapons[index].autoPistolEnabled;
-						autoShootEnabled = Settings::Aimbot::weapons[index].autoShootEnabled;
-						autoScopeEnabled = Settings::Aimbot::weapons[index].autoScopeEnabled;
-						noShootEnabled = Settings::Aimbot::weapons[index].noShootEnabled;
-						ignoreJumpEnabled = Settings::Aimbot::weapons[index].ignoreJumpEnabled;
-						smokeCheck = Settings::Aimbot::weapons[index].smokeCheck;
-						autoWallEnabled = Settings::Aimbot::weapons[index].autoWallEnabled;
-						autoWallValue = Settings::Aimbot::weapons[index].autoWallValue;
-
-						for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
-							autoWallBones[bone] = Settings::Aimbot::weapons[index].autoWallBones[bone];
-
-						autoAimRealDistance = Settings::Aimbot::weapons[index].autoAimRealDistance;
+						currentWeapon = (ItemDefinitionIndex) it.first;
+						ReloadWeaponSettings();
 					}
 				ImGui::PopID();
 			}
@@ -738,7 +700,10 @@ void AimbotTab()
 			ImGui::Separator();
 			if (currentWeapon > ItemDefinitionIndex::INVALID && Settings::Aimbot::weapons.find(currentWeapon) != Settings::Aimbot::weapons.end())
 				if (ImGui::Button("Clear Weapon Settings", ImVec2(-1, 0)))
+				{
 					Settings::Aimbot::weapons.erase(currentWeapon);
+					ReloadWeaponSettings();
+				}
 			ImGui::EndChild();
 		}
 	}
