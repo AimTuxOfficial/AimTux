@@ -283,7 +283,6 @@ void ColorsWindow()
 			"ESP - Grenade",
 			"ESP - Molotov",
 			"ESP - Skeleton",
-			"ESP - Headdot",
 			"Chams - Team",
 			"Chams - Team Visible",
 			"Chams - Enemy",
@@ -337,10 +336,6 @@ void ColorsWindow()
 			&Settings::ESP::grenade_color,
 			&Settings::ESP::molotov_color,
 			&Settings::ESP::Skeleton::color,
-			&Settings::ESP::Headdot::ally_color,
-			&Settings::ESP::Headdot::ally_visible_color,
-			&Settings::ESP::Headdot::enemy_color,
-			&Settings::ESP::Headdot::enemy_visible_color,
 			&Settings::ESP::Chams::ally_color,
 			&Settings::ESP::Chams::ally_visible_color,
 			&Settings::ESP::Chams::enemy_color,
@@ -394,10 +389,6 @@ void ColorsWindow()
 			nullptr, // ESP - Grenade
 			nullptr, // ESP - Molotov
 			nullptr, // ESP - Skeleton
-			nullptr, // Headdot - Team
-			nullptr, // Headdot - Team Visible
-			nullptr, // Headdot - Enemy
-			nullptr, // Headdot - Enemy Visible
 			&Settings::ESP::Chams::hp_ally_color, // Chams - Team
 			&Settings::ESP::Chams::hp_ally_visible_color, // Chams - Team Visible
 			&Settings::ESP::Chams::hp_enemy_color, // Chams - Enemy
