@@ -34,18 +34,18 @@ extern ILocalize* localize;
 extern ICommandLine* commandline;
 extern CInput* input;
 
-extern VMT* panel_vmt;
-extern VMT* client_vmt;
-extern VMT* modelRender_vmt;
-extern VMT* clientMode_vmt;
-extern VMT* gameEvents_vmt;
-extern VMT* viewRender_vmt;
-extern VMT* inputInternal_vmt;
-extern VMT* material_vmt;
-extern VMT* surface_vmt;
-extern VMT* launchermgr_vmt;
-extern VMT* enginevgui_vmt;
-extern VMT* sound_vmt;
+extern VMT* panelVMT;
+extern VMT* clientVMT;
+extern VMT* modelRenderVMT;
+extern VMT* clientModeVMT;
+extern VMT* gameEventsVMT;
+extern VMT* viewRenderVMT;
+extern VMT* inputInternalVMT;
+extern VMT* materialVMT;
+extern VMT* surfaceVMT;
+extern VMT* launchermgrVMT;
+extern VMT* enginevguiVMT;
+extern VMT* soundVMT;
 
 extern LineGoesThroughSmokeFn LineGoesThroughSmoke;
 extern InitKeyValuesFn InitKeyValues;
@@ -63,5 +63,6 @@ extern uintptr_t* pollevent_jump_address;
 
 namespace Interfaces
 {
-	void dumpInterfaces();
+	void FindInterfaces();
+	void DumpInterfaces();
 }

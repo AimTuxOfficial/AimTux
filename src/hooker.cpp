@@ -33,18 +33,18 @@ ICommandLine* commandline = nullptr;
 
 CInput* input = nullptr;
 
-VMT* panel_vmt = nullptr;
-VMT* client_vmt = nullptr;
-VMT* modelRender_vmt = nullptr;
-VMT* clientMode_vmt = nullptr;
-VMT* gameEvents_vmt = nullptr;
-VMT* viewRender_vmt = nullptr;
-VMT* inputInternal_vmt = nullptr;
-VMT* material_vmt = nullptr;
-VMT* surface_vmt = nullptr;
-VMT* launchermgr_vmt = nullptr;
-VMT* enginevgui_vmt = nullptr;
-VMT* sound_vmt = nullptr;
+VMT* panelVMT = nullptr;
+VMT* clientVMT = nullptr;
+VMT* modelRenderVMT = nullptr;
+VMT* clientModeVMT = nullptr;
+VMT* gameEventsVMT = nullptr;
+VMT* viewRenderVMT = nullptr;
+VMT* inputInternalVMT = nullptr;
+VMT* materialVMT = nullptr;
+VMT* surfaceVMT = nullptr;
+VMT* launchermgrVMT = nullptr;
+VMT* enginevguiVMT = nullptr;
+VMT* soundVMT = nullptr;
 
 bool* bSendPacket = nullptr;
 int* nPredictionRandomSeed = nullptr;
@@ -96,46 +96,19 @@ uintptr_t Hooker::GetLibraryAddress(const char* moduleName)
 	return 0;
 }
 
-void Hooker::FindInterfaces()
-{
-	client = GetInterface<IBaseClientDLL>("./csgo/bin/linux64/client_client.so", "VClient");
-	engine = GetInterface<IEngineClient>("./bin/linux64/engine_client.so", "VEngineClient");
-	entitylist = GetInterface<IClientEntityList>("./csgo/bin/linux64/client_client.so", "VClientEntityList");
-	surface = GetInterface<ISurface>("./bin/linux64/vguimatsurface_client.so", "VGUI_Surface");
-	panel = GetInterface<IVPanel>("./bin/linux64/vgui2_client.so", "VGUI_Panel");
-	debugOverlay = GetInterface<IVDebugOverlay>("./bin/linux64/engine_client.so", "VDebugOverlay");
-	modelInfo = GetInterface<IVModelInfo>("./bin/linux64/engine_client.so", "VModelInfoClient");
-	modelRender = GetInterface<IVModelRender>("./bin/linux64/engine_client.so", "VEngineModel");
-	trace = GetInterface<IEngineTrace>("./bin/linux64/engine_client.so", "EngineTraceClient");
-	inputSystem = GetInterface<IInputSystem>("./bin/linux64/inputsystem_client.so", "InputSystemVersion");
-	inputInternal = GetInterface<IInputInternal>("./bin/linux64/vgui2_client.so", "VGUI_InputInternal");
-	material = GetInterface<IMaterialSystem>("./bin/linux64/materialsystem_client.so", "VMaterialSystem");
-	cvar = GetInterface<ICvar>("./bin/linux64/materialsystem_client.so", "VEngineCvar");
-	effects = GetInterface<CEffects>("./bin/linux64/engine_client.so", "VEngineEffects");
-	gameevents = GetInterface<IGameEventManager2>("./bin/linux64/engine_client.so", "GAMEEVENTSMANAGER002", true);
-	physics = GetInterface<IPhysicsSurfaceProps>("./bin/linux64/vphysics_client.so", "VPhysicsSurfaceProps");
-	prediction = GetInterface<IPrediction>("./csgo/bin/linux64/client_client.so", "VClientPrediction");
-	gamemovement = GetInterface<IGameMovement>("./csgo/bin/linux64/client_client.so", "GameMovement");
-	enginevgui = GetInterface<IEngineVGui>("./bin/linux64/engine_client.so", "VEngineVGui");
-	sound = GetInterface<IEngineSound>("./bin/linux64/engine_client.so", "IEngineSoundClient");
-	localize = GetInterface<ILocalize>("./bin/linux64/localize_client.so", "Localize_");
-	commandline = GetSymbolAddress<CommandLineFn>("./bin/linux64/libtier0_client.so", "CommandLine")();
-
-}
-
 void Hooker::InitializeVMHooks()
 {
-	panel_vmt = new VMT(panel);
-	client_vmt = new VMT(client);
-	modelRender_vmt = new VMT(modelRender);
-	gameEvents_vmt = new VMT(gameevents);
-	viewRender_vmt = new VMT(viewrender);
-	inputInternal_vmt = new VMT(inputInternal);
-	material_vmt = new VMT(material);
-	surface_vmt = new VMT(surface);
-	launchermgr_vmt = new VMT(launchermgr);
-	enginevgui_vmt = new VMT(enginevgui);
-	sound_vmt = new VMT(sound);
+	panelVMT = new VMT(panel);
+	clientVMT = new VMT(client);
+	modelRenderVMT = new VMT(modelRender);
+	gameEventsVMT = new VMT(gameevents);
+	viewRenderVMT = new VMT(viewrender);
+	inputInternalVMT = new VMT(inputInternal);
+	materialVMT = new VMT(material);
+	surfaceVMT = new VMT(surface);
+	launchermgrVMT = new VMT(launchermgr);
+	enginevguiVMT = new VMT(enginevgui);
+	soundVMT = new VMT(sound);
 }
 
 void Hooker::FindIClientMode()
@@ -144,7 +117,7 @@ void Hooker::FindIClientMode()
 	GetClientModeFn GetClientMode = reinterpret_cast<GetClientModeFn>(GetAbsoluteAddress(hudprocessinput + 11, 1, 5));
 
 	clientMode = GetClientMode();
-	clientMode_vmt = new VMT(clientMode);
+	clientModeVMT = new VMT(clientMode);
 }
 
 void Hooker::FindGlobalVars()

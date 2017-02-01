@@ -4,7 +4,7 @@ bool CreateMove::SendPacket = true;
 
 bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 {
-	clientMode_vmt->GetOriginalMethod<CreateMoveFn>(25)(thisptr, flInputSampleTime, cmd);
+	clientModeVMT->GetOriginalMethod<CreateMoveFn>(25)(thisptr, flInputSampleTime, cmd);
 
 	if (cmd && cmd->command_number)
 	{

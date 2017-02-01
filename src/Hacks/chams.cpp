@@ -80,11 +80,11 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 	if (!Settings::ESP::Filters::legit && (Settings::ESP::Chams::type == ChamsType::CHAMS_XQZ || Settings::ESP::Chams::type == ChamsType::CHAMS_FLAT_XQZ))
 	{
 		modelRender->ForcedMaterialOverride(hidden_material);
-		modelRender_vmt->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
+		modelRenderVMT->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
 	}
 
 	modelRender->ForcedMaterialOverride(visible_material);
-	modelRender_vmt->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
+	modelRenderVMT->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
 }
 
 void DrawArms(const ModelRenderInfo_t &pInfo)
