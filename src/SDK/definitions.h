@@ -22,7 +22,7 @@ struct CGlowObjectManager;
 typedef void* (*CreateInterfaceFn) (const char*, int*);
 typedef IClientMode* (*GetClientModeFn) (void);
 typedef CGlowObjectManager* (*GlowObjectManagerFn) (void);
-typedef bool (*msgfuncServerRankRevealAllFn) (float*);
+typedef bool (*MsgFunc_ServerRankRevealAllFn) (float*);
 typedef void (*SendClanTagFn) (const char*, const char*);
 typedef void (*IsReadyCallbackFn) (void*);
 typedef ILauncherMgr* (*ILauncherMgrCreateFn) (void);

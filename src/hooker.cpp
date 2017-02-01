@@ -25,7 +25,7 @@ uintptr_t* swapWindowJumpAddress = nullptr;
 uintptr_t oPollEvent;
 uintptr_t* polleventJumpAddress = nullptr;
 
-msgfuncServerRankRevealAllFn msgfuncServerRankRevealAll;
+MsgFunc_ServerRankRevealAllFn MsgFunc_ServerRankRevealAll;
 SendClanTagFn SendClanTag;
 IsReadyCallbackFn IsReadyCallback;
 
@@ -124,7 +124,7 @@ void Hooker::FindRankReveal()
 {
 	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) MSGFUNC_SERVERRANKREVEALALL_SIGNATURE, MSGFUNC_SERVERRANKREVEALALL_MASK);
 
-	msgfuncServerRankRevealAll = reinterpret_cast<msgfuncServerRankRevealAllFn>(func_address);
+	MsgFunc_ServerRankRevealAll = reinterpret_cast<MsgFunc_ServerRankRevealAllFn>(func_address);
 }
 
 void Hooker::FindSendClanTag()

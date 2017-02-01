@@ -9,4 +9,4 @@ namespace ShowRanks
 	void CreateMove(CUserCmd* cmd);
 }
 
-extern msgfuncServerRankRevealAllFn msgfuncServerRankRevealAll;
+extern MsgFunc_ServerRankRevealAllFn MsgFunc_ServerRankRevealAll;

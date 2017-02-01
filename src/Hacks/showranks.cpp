@@ -10,6 +10,6 @@ void ShowRanks::CreateMove(CUserCmd* cmd)
 	if (cmd->buttons & IN_SCORE)
 	{
 		float input[3] = { 0.f };
-		msgfuncServerRankRevealAll(input);
+		MsgFunc_ServerRankRevealAll(input);
 	}
 }
