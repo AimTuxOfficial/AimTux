@@ -21,11 +21,10 @@ __Ubuntu-Based / Debian:__
 ```bash
 sudo apt-get install cmake g++ gdb git libsdl2-dev zlib1g-dev
 ```
-To build AimTux, you require at least (`GCC / G++ v6`) otherwise it will give a massive amount of errors, this seems to happen on Ubuntu / Debian based distro's because they don't ship the latest gcc / g++ by default, to check your gcc / g++ version, run the command 
-`
-gcc -v
-`
-and it will tell you on the bottom line the version, if it is not at least v6.0, you will need to follow [this](https://github.com/AimTuxOfficial/AimTux/wiki/Updating-your-compiler) wiki page on how to update.
+
+If you're having problems compiling make sure you've got the latest version of `g++`.
+
+[How to update g++](https://github.com/AimTuxOfficial/AimTux/wiki/Updating-your-compiler)
 
 ==================
 
