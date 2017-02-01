@@ -86,13 +86,13 @@ void SkinChanger::FrameStageNotifyWeapons(ClientFrameStage_t stage)
 		if (!viewmodel)
 			return;
 
-		C_BaseCombatWeapon *active_weapon = (C_BaseCombatWeapon *) entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
-		if (!active_weapon)
+		C_BaseCombatWeapon *activeWeapon = (C_BaseCombatWeapon *) entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+		if (!activeWeapon)
 			return;
 
-		if (ItemDefinitionIndexMap.find(*active_weapon->GetItemDefinitionIndex()) != ItemDefinitionIndexMap.end())
+		if (ItemDefinitionIndexMap.find(*activeWeapon->GetItemDefinitionIndex()) != ItemDefinitionIndexMap.end())
 		{
-			const DefItem_t &override_weapon = ItemDefinitionIndexMap.at(*active_weapon->GetItemDefinitionIndex());
+			const DefItem_t &override_weapon = ItemDefinitionIndexMap.at(*activeWeapon->GetItemDefinitionIndex());
 			*viewmodel->GetModelIndex() = modelInfo->GetModelIndex(override_weapon.entityModel);
 		}
 	}

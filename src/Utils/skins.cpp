@@ -588,7 +588,7 @@ std::vector<std::pair<int, const char*>> weapon_skins = {
 		{ 638, "#PaintKit_cu_wp_sawedoff_Tag" },
 };
 
-std::vector<std::pair<int, const char*>> glove_skins = {
+std::vector<std::pair<int, const char*>> gloveSkins = {
 		{ 10006, "#PaintKit_bloodhound_black_silver_tag" },
 		{ 10007, "#PaintKit_bloodhound_snakeskin_brass_tag" },
 		{ 10008, "#PaintKit_bloodhound_metallic_tag" },
@@ -667,7 +667,7 @@ void LocalizeGloveSkins()
 {
 	int index = -1;
 
-	for (auto it : glove_skins)
+	for (auto it : gloveSkins)
 	{
 		index++;
 
@@ -675,10 +675,10 @@ void LocalizeGloveSkins()
 			continue;
 
 		std::string localized = Util::WstringToString(localize->FindSafe(it.second));
-		glove_skins[index] = { it.first, strdup(localized.c_str()) };
+		gloveSkins[index] = { it.first, strdup(localized.c_str()) };
 	}
 
-	std::sort(glove_skins.begin(), glove_skins.end(), [](auto &left, auto &right) {
+	std::sort(gloveSkins.begin(), gloveSkins.end(), [](auto &left, auto &right) {
 		std::size_t leftIter = 0, rightIter = 0;
 		std::size_t leftSize = strlen(left.second), rightSize = strlen(right.second);
 

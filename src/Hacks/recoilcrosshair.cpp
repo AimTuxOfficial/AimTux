@@ -21,11 +21,11 @@ void Recoilcrosshair::Paint()
 	if (localplayer->GetShotsFired() < 1 && Settings::Recoilcrosshair::showOnlyWhenShooting)
 		return;
 
-	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
-	if (!active_weapon)
+	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+	if (!activeWeapon)
 		return;
 
-	CSWeaponType weaponType = active_weapon->GetCSWpnData()->GetWeaponType();
+	CSWeaponType weaponType = activeWeapon->GetCSWpnData()->GetWeaponType();
 	if (weaponType != CSWeaponType::WEAPONTYPE_RIFLE && weaponType != CSWeaponType::WEAPONTYPE_SUBMACHINEGUN && weaponType != CSWeaponType::WEAPONTYPE_MACHINEGUN)
 		return;
 

@@ -41,18 +41,18 @@ bool Entity::IsVisible(C_BasePlayer* player, Bone bone, float fov, bool smoke_ch
 
 bool Entity::IsPlanting(C_BasePlayer* player)
 {
-	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(player->GetActiveWeapon());
-	if (!active_weapon)
+	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(player->GetActiveWeapon());
+	if (!activeWeapon)
 		return false;
 
-	ClientClass* clientClass = active_weapon->GetClientClass();
+	ClientClass* clientClass = activeWeapon->GetClientClass();
 	if (!clientClass)
 		return false;
 
 	if (clientClass->m_ClassID != EClassIds::CC4)
 		return false;
 
-	return ((C_WeaponC4*)active_weapon)->GetStartedArming();
+	return ((C_WeaponC4*)activeWeapon)->GetStartedArming();
 }
 
 Bone Entity::GetBoneByName(C_BasePlayer* player, const char* boneName)

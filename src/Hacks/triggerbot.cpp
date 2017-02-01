@@ -113,21 +113,21 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	if (Settings::Triggerbot::Filters::smokeCheck && LineGoesThroughSmoke(tr.startpos, tr.endpos, 1))
 		return;
 
-	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
-	if (!active_weapon || active_weapon->GetAmmo() == 0)
+	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+	if (!activeWeapon || activeWeapon->GetAmmo() == 0)
 		return;
 
-	ItemDefinitionIndex itemDefinitionIndex = *active_weapon->GetItemDefinitionIndex();
+	ItemDefinitionIndex itemDefinitionIndex = *activeWeapon->GetItemDefinitionIndex();
 	if (itemDefinitionIndex == ItemDefinitionIndex::WEAPON_KNIFE || itemDefinitionIndex >= ItemDefinitionIndex::WEAPON_KNIFE_BAYONET)
 		return;
 
-	CSWeaponType weaponType = active_weapon->GetCSWpnData()->GetWeaponType();
+	CSWeaponType weaponType = activeWeapon->GetCSWpnData()->GetWeaponType();
 	if (weaponType == CSWeaponType::WEAPONTYPE_C4 || weaponType == CSWeaponType::WEAPONTYPE_GRENADE)
 		return;
 
-	if (active_weapon->GetNextPrimaryAttack() > globalvars->curtime)
+	if (activeWeapon->GetNextPrimaryAttack() > globalvars->curtime)
 	{
-		if (*active_weapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
+		if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
 			cmd->buttons &= ~IN_ATTACK2;
 		else
 			cmd->buttons &= ~IN_ATTACK;
@@ -140,7 +140,7 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 			return;
 		}
 
-		if (*active_weapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
+		if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
 			cmd->buttons |= IN_ATTACK2;
 		else
 			cmd->buttons |= IN_ATTACK;

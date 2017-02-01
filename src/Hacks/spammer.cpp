@@ -140,12 +140,12 @@ void Spammer::BeginFrame(float frameTime)
 			IEngineClient::player_info_t entityInformation;
 			engine->GetPlayerInfo(i, &entityInformation);
 
-			C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(player->GetActiveWeapon());
+			C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(player->GetActiveWeapon());
 
-			std::string modelName = Util::GetValueByKey(guns, (int) *active_weapon->GetItemDefinitionIndex());
+			std::string modelName = Util::GetValueByKey(guns, (int) *activeWeapon->GetItemDefinitionIndex());
 			if (modelName == "")
 			{
-				modelName = std::string(active_weapon->GetClientClass()->m_pNetworkName);
+				modelName = std::string(activeWeapon->GetClientClass()->m_pNetworkName);
 				if (strstr(modelName.c_str(), "Weapon"))
 					modelName = modelName.substr(7, modelName.length() - 7);
 				else

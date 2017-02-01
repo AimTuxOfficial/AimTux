@@ -166,7 +166,7 @@ namespace Settings
 		extern bool friendly;
 		extern Bone bone;
 		extern ButtonCode_t aimkey;
-		extern bool aimkey_only;
+		extern bool aimkeyOnly;
 
 		namespace Smooth
 		{
@@ -191,7 +191,7 @@ namespace Settings
 		{
 			extern bool enabled;
 			extern float fov;
-			extern bool real_distance;
+			extern bool realDistance;
 		}
 
 		namespace AutoWall
@@ -370,7 +370,7 @@ namespace Settings
 	namespace ESP
 	{
 		extern bool enabled;
-		extern TeamColorType team_color_type;
+		extern TeamColorType teamColorType;
 		extern ImColor enemyColor;
 		extern ImColor allyColor;
 		extern ImColor enemyVisibleColor;

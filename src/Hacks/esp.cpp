@@ -4,7 +4,7 @@
 #include "../Utils/skins.h"
 
 bool Settings::ESP::enabled = false;
-TeamColorType Settings::ESP::team_color_type = TeamColorType::RELATIVE;
+TeamColorType Settings::ESP::teamColorType = TeamColorType::RELATIVE;
 ImColor Settings::ESP::enemyColor = ImColor(240, 60, 60, 255);
 ImColor Settings::ESP::enemyVisibleColor = ImColor(240, 185, 60, 255);
 ImColor Settings::ESP::allyColor = ImColor(60, 60, 240, 255);
@@ -230,7 +230,7 @@ ImColor ESP::GetESPPlayerColor(C_BasePlayer* player, bool visible)
 
 	ImColor playerColor;
 
-	if (Settings::ESP::team_color_type == TeamColorType::RELATIVE)
+	if (Settings::ESP::teamColorType == TeamColorType::RELATIVE)
 	{
 		if (player->GetTeam() != localplayer->GetTeam())
 		{
@@ -247,7 +247,7 @@ ImColor ESP::GetESPPlayerColor(C_BasePlayer* player, bool visible)
 				playerColor = Settings::ESP::hpAllyColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::allyColor;
 		}
 	}
-	else if (Settings::ESP::team_color_type == TeamColorType::ABSOLUTE)
+	else if (Settings::ESP::teamColorType == TeamColorType::ABSOLUTE)
 	{
 		if (player->GetTeam() == TeamID::TEAM_TERRORIST)
 		{
@@ -588,7 +588,7 @@ void ESP::DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info
 		}
 	}
 
-	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(player->GetActiveWeapon());
+	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(player->GetActiveWeapon());
 
 	// health
 	if (Settings::ESP::Info::health)
@@ -598,9 +598,9 @@ void ESP::DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info
 	}
 
 	// weapon
-	if (Settings::ESP::Info::weapon && active_weapon)
+	if (Settings::ESP::Info::weapon && activeWeapon)
 	{
-		const char* szPrintName = active_weapon->GetCSWpnData()->szPrintName;
+		const char* szPrintName = activeWeapon->GetCSWpnData()->szPrintName;
 		std::string modelName = Util::WstringToString(localize->FindSafe(szPrintName));
 		int offset = (int)(Settings::ESP::Bars::type == BarType::HORIZONTAL || Settings::ESP::Bars::type == BarType::INTERWEBZ ? boxSpacing + barsSpacing.y + 1 : 0);
 
@@ -614,7 +614,7 @@ void ESP::DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info
 	if (Settings::ESP::Info::scoped && player->IsScoped())
 		stringsToShow.push_back("Scoped");
 
-	if (Settings::ESP::Info::reloading && active_weapon && active_weapon->GetInReload())
+	if (Settings::ESP::Info::reloading && activeWeapon && activeWeapon->GetInReload())
 		stringsToShow.push_back("Reloading");
 
 	if (Settings::ESP::Info::flashed && player->GetFlashBangTime() - globalvars->curtime > 2.0f)
@@ -887,8 +887,8 @@ void ESP::DrawHeaddot(C_BasePlayer* player)
 	float size = Settings::ESP::Headdot::size;
 
 	bool bIsVisible = false;
-	if (Settings::ESP::Filters::visibility_check || Settings::ESP::Filters::legit)
-		bIsVisible = Entity::IsVisible(player, Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smoke_check);
+	if (Settings::ESP::Filters::visibilityCheck || Settings::ESP::Filters::legit)
+		bIsVisible = Entity::IsVisible(player, Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck);
 
 	Draw::FilledRectangle(Vector2D(sHead.x - size, sHead.y - size), Vector2D(sHead.x + size, sHead. y + size), Color::FromImColor(GetESPPlayerColor(player, bIsVisible)));
 }
@@ -967,7 +967,7 @@ void ESP::DrawFOVCrosshair()
 	engine->GetScreenSize(width, height);
 
 	float radius;
-	if (Settings::Aimbot::AutoAim::real_distance)
+	if (Settings::Aimbot::AutoAim::realDistance)
 	{
 		Vector src3D, dst3D, forward;
 		trace_t tr;
@@ -1190,11 +1190,11 @@ void ESP::DrawScope()
 	if (!localplayer)
 		return;
 
-	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
-	if (!active_weapon)
+	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+	if (!activeWeapon)
 		return;
 
-	if (*active_weapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_SG556 || *active_weapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_AUG)
+	if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_SG556 || *activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_AUG)
 		return;
 
 	int width, height;

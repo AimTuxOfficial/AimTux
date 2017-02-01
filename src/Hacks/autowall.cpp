@@ -242,11 +242,11 @@ float Autowall::GetDamage(const Vector& point, bool teamCheck, FireBulletData& f
 
 	data.direction.NormalizeInPlace();
 
-	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
-	if (!active_weapon)
+	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+	if (!activeWeapon)
 		return -1.0f;
 
-	if (SimulateFireBullet(active_weapon, teamCheck, data))
+	if (SimulateFireBullet(activeWeapon, teamCheck, data))
 		damage = data.current_damage;
 
 	fData = data;

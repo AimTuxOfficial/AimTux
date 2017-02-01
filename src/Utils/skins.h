@@ -7,7 +7,7 @@
 
 extern std::vector<std::pair<int, const char*>> guns;
 extern std::vector<std::pair<int, const char*>> weapon_skins;
-extern std::vector<std::pair<int, const char*>> glove_skins;
+extern std::vector<std::pair<int, const char*>> gloveSkins;
 
 namespace Skins
 {

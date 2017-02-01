@@ -196,7 +196,7 @@ static float autoWallValue = 10.0f;
 static bool autoWallBones[] = { true, false, false, false, false, false };
 static bool autoAimRealDistance = false;
 
-void UI::updateWeaponSettings()
+void UI::UpdateWeaponSettings()
 {
 	Settings::Aimbot::Weapon settings =
 			Settings::Aimbot::Weapon(enabled, silent, friendly, bone, aimkey, aimkeyOnly,
@@ -210,7 +210,7 @@ void UI::updateWeaponSettings()
 	Settings::Aimbot::weapons[currentWeapon] = settings;
 }
 
-void reloadWeaponSettings()
+void ReloadWeaponSettings()
 {
 	ItemDefinitionIndex index = ItemDefinitionIndex::INVALID;
 	if (Settings::Aimbot::weapons.find(currentWeapon) != Settings::Aimbot::weapons.end())
@@ -446,7 +446,7 @@ void AimbotTab()
 	static char filterWeapons[32];
 
 	if (ImGui::Checkbox("Enabled", &enabled))
-		UI::updateWeaponSettings();
+		UI::UpdateWeaponSettings();
 	ImGui::Separator();
 
 	ImGui::Columns(3, NULL, true);
@@ -528,14 +528,14 @@ void AimbotTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				if (ImGui::Checkbox("Friendly", &friendly))
-					UI::updateWeaponSettings();
+					UI::UpdateWeaponSettings();
 				SetTooltip("Whether to target friendlies");
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
 					if (ImGui::Combo("##AIMTARGET", (int*)& bone, targets, IM_ARRAYSIZE(targets)))
-						UI::updateWeaponSettings();
+						UI::UpdateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
@@ -545,25 +545,25 @@ void AimbotTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				if (ImGui::Checkbox("Auto Aim", &autoAimEnabled))
-					UI::updateWeaponSettings();
+					UI::UpdateWeaponSettings();
 				SetTooltip("Locks onto enemies within a certain FOV amount");
 				if (ImGui::Checkbox("Recoil Control", &rcsEnabled))
-					UI::updateWeaponSettings();
+					UI::UpdateWeaponSettings();
 				SetTooltip("Automatically controls recoil");
 				if (ImGui::Checkbox("RCS Always on", &rcsAlwaysOn))
-					UI::updateWeaponSettings();
+					UI::UpdateWeaponSettings();
 				SetTooltip("Whether Recoil Control always controls recoil (even when not aimbotting)");
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
 					if (ImGui::SliderFloat("##AA", &autoAimValue, 0, 180))
-						UI::updateWeaponSettings();
+						UI::UpdateWeaponSettings();
 					if (ImGui::SliderFloat("##RCS", &rcsFloat, 0, 2))
-						UI::updateWeaponSettings();
+						UI::UpdateWeaponSettings();
 				ImGui::PopItemWidth();
 				if (ImGui::Checkbox("Distance-Based FOV", &autoAimRealDistance))
-					UI::updateWeaponSettings();
+					UI::UpdateWeaponSettings();
 				SetTooltip("Takes perspective into account when calculating FOV");
 			}
 			ImGui::Columns(1);
@@ -573,28 +573,28 @@ void AimbotTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				if (ImGui::Checkbox("Smoothing", &smoothEnabled))
-					UI::updateWeaponSettings();
+					UI::UpdateWeaponSettings();
 				SetTooltip("Smoothing reduces the aimbot \"snap\". 0 for full snap. 1 for full smoothing");
 				if (ImGui::Checkbox("Smooth Salting", &smoothSaltEnabled))
-					UI::updateWeaponSettings();
+					UI::UpdateWeaponSettings();
 				SetTooltip("Breaks the smoothing into smaller steps, high smooth + low salt is slightly stuttery");
 				if (ImGui::Checkbox("Error Margin", &errorMarginEnabled))
-					UI::updateWeaponSettings();
+					UI::UpdateWeaponSettings();
 				SetTooltip("Adds a margin of error to the aim, it will be obvious what it does when using it");
 				ImGui::PushItemWidth(-1);
 					if (ImGui::Combo("##SMOOTHTYPE", (int*)& smoothType, smoothTypes, IM_ARRAYSIZE(smoothTypes)))
-						UI::updateWeaponSettings();
+						UI::UpdateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
 					if (ImGui::SliderFloat("##SMOOTH", &smoothValue, 0, 1))
-						UI::updateWeaponSettings();
+						UI::UpdateWeaponSettings();
 					if (ImGui::SliderFloat("##SALT", &smoothSaltMultiplier, 0, smoothValue))
-						UI::updateWeaponSettings();
+						UI::UpdateWeaponSettings();
 					if (ImGui::SliderFloat("##ERROR", &errorMarginValue, 0, 2))
-						UI::updateWeaponSettings();
+						UI::UpdateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
@@ -611,7 +611,7 @@ void AimbotTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				if (ImGui::Checkbox("Enabled", &aimkeyOnly))
-					UI::updateWeaponSettings();
+					UI::UpdateWeaponSettings();
 				SetTooltip("Enabling this means it you need to press a specific key to aimlock");
 			}
 			ImGui::NextColumn();
@@ -625,14 +625,14 @@ void AimbotTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				if (ImGui::Checkbox("Aim Step", &aimStepEnabled))
-					UI::updateWeaponSettings();
+					UI::UpdateWeaponSettings();
 				SetTooltip("Stops you getting VAC auth kicked in Casual / DM");
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
 					if (ImGui::SliderFloat("##STEP", &aimStepValue, 0, 45))
-						UI::updateWeaponSettings();
+						UI::UpdateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
@@ -655,7 +655,7 @@ void AimbotTab()
 					case ItemDefinitionIndex::WEAPON_CZ75A:
 					case ItemDefinitionIndex::WEAPON_REVOLVER:
 						if (ImGui::Checkbox("Auto Pistol", &autoPistolEnabled))
-							UI::updateWeaponSettings();
+							UI::UpdateWeaponSettings();
 						SetTooltip("Automatically shoots the pistol when holding fire");
 						break;
 					default:
@@ -663,25 +663,25 @@ void AimbotTab()
 				}
 
 				if (ImGui::Checkbox("Auto Shoot", &autoShootEnabled))
-					UI::updateWeaponSettings();
+					UI::UpdateWeaponSettings();
 				SetTooltip("Automatically shoots when locking to an enemy");
 				if (ImGui::Checkbox("Silent Aim", &silent))
-					UI::updateWeaponSettings();
+					UI::UpdateWeaponSettings();
 				SetTooltip("Prevents the camera from locking to an enemy, doesn't work for demos");
 				if (ImGui::Checkbox("Smoke Check", &smokeCheck))
-					UI::updateWeaponSettings();
+					UI::UpdateWeaponSettings();
 				SetTooltip("Ignore players that are in smoke");
 			}
 			ImGui::NextColumn();
 			{
 				if (ImGui::Checkbox("No Shoot", &noShootEnabled))
-					UI::updateWeaponSettings();
+					UI::UpdateWeaponSettings();
 				SetTooltip("Stops you shooting when locking to an enemy");
 				if (ImGui::Checkbox("Auto Scope", &autoScopeEnabled))
-					UI::updateWeaponSettings();
+					UI::UpdateWeaponSettings();
 				SetTooltip("Automatically scopes weapons that have them");
 				if (ImGui::Checkbox("Ignore Jump", &ignoreJumpEnabled))
-					UI::updateWeaponSettings();
+					UI::UpdateWeaponSettings();
 				SetTooltip("Prevents you from aimbotting while jumping");
 			}
 			ImGui::Columns(1);
@@ -691,14 +691,14 @@ void AimbotTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				if (ImGui::Checkbox("Enabled##AUTOWALL", &autoWallEnabled))
-					UI::updateWeaponSettings();
+					UI::UpdateWeaponSettings();
 				SetTooltip("Shoots enemy through a wall if it does X amount of damage");
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
 					if (ImGui::SliderFloat("##AUTOWALLDMG", &autoWallValue, 0, 100, "Min Damage: %f"))
-						UI::updateWeaponSettings();
+						UI::UpdateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
@@ -708,25 +708,25 @@ void AimbotTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				if (ImGui::Checkbox("Head", &autoWallBones[(int) Hitbox::HITBOX_HEAD]))
-					UI::updateWeaponSettings();
+					UI::UpdateWeaponSettings();
 				SetTooltip("Trigger on head");
 				if (ImGui::Checkbox("Neck", &autoWallBones[(int) Hitbox::HITBOX_NECK]))
-					UI::updateWeaponSettings();
+					UI::UpdateWeaponSettings();
 				SetTooltip("Trigger on neck");
 				if (ImGui::Checkbox("Pelvis", &autoWallBones[(int) Hitbox::HITBOX_PELVIS]))
-					UI::updateWeaponSettings();
+					UI::UpdateWeaponSettings();
 				SetTooltip("Trigger on pelvis");
 			}
 			ImGui::NextColumn();
 			{
 				if (ImGui::Checkbox("Spine", &autoWallBones[(int) Hitbox::HITBOX_SPINE]))
-					UI::updateWeaponSettings();
+					UI::UpdateWeaponSettings();
 				SetTooltip("Trigger on spine");
 				if (ImGui::Checkbox("Legs", &autoWallBones[(int) Hitbox::HITBOX_LEGS]))
-					UI::updateWeaponSettings();
+					UI::UpdateWeaponSettings();
 				SetTooltip("Trigger on legs");
 				if (ImGui::Checkbox("Arms", &autoWallBones[(int) Hitbox::HITBOX_ARMS]))
-					UI::updateWeaponSettings();
+					UI::UpdateWeaponSettings();
 				SetTooltip("Trigger on arms");
 			}
 			ImGui::Columns(1);
@@ -864,7 +864,7 @@ void VisualsTab()
 						ImGui::Combo("##BARTYPE", (int*)& Settings::ESP::Bars::type, BarTypes, IM_ARRAYSIZE(BarTypes));
 						ImGui::Combo("##TRACERTYPE", (int*)& Settings::ESP::Tracers::type, TracerTypes, IM_ARRAYSIZE(TracerTypes));
 						ImGui::Combo("##BARCOLTYPE", (int*)& Settings::ESP::Bars::colorType, BarColorTypes, IM_ARRAYSIZE(BarColorTypes));
-						ImGui::Combo("##TEAMCOLTYPE", (int*)& Settings::ESP::team_color_type, TeamColorTypes, IM_ARRAYSIZE(TeamColorTypes));
+						ImGui::Combo("##TEAMCOLTYPE", (int*)& Settings::ESP::teamColorType, TeamColorTypes, IM_ARRAYSIZE(TeamColorTypes));
 					ImGui::PopItemWidth();
 					ImGui::Checkbox("Skeleton", &Settings::ESP::Skeleton::enabled);
 					SetTooltip("Show a players skeleton");
@@ -1084,12 +1084,12 @@ void VisualsTab()
 
 void HvHTab()
 {
-	const char* YTypes[] = {
+	const char* yTypes[] = {
 			"SLOW SPIN", "FAST SPIN", "JITTER", "SIDE", "BACKWARDS", "FORWARDS", "LEFT", "RIGHT", "STATIC", "STATIC JITTER", "STATIC SMALL JITTER", // safe
 			"LISP", "LISP SIDE", "LISP JITTER", "ANGEL BACKWARDS", "ANGEL INVERSE", "ANGEL SPIN" // untrusted
 	};
 
-	const char* XTypes[] = {
+	const char* xTypes[] = {
 			"UP", "DOWN", "DANCE", "FRONT", // safe
 			"FAKE UP", "FAKE DOWN", "LISP DOWN", "ANGEL DOWN", "ANGEL UP" // untrusted
 	};
@@ -1114,7 +1114,7 @@ void HvHTab()
 				ImGui::NextColumn();
 				{
 					ImGui::PushItemWidth(-1);
-						if (ImGui::Combo("##YFAKETYPE", (int*)& Settings::AntiAim::Yaw::typeFake, YTypes, IM_ARRAYSIZE(YTypes)))
+						if (ImGui::Combo("##YFAKETYPE", (int*)& Settings::AntiAim::Yaw::typeFake, yTypes, IM_ARRAYSIZE(yTypes)))
 						{
 							if (!ValveDSCheck::forceUT && ((*csGameRules) && (*csGameRules)->IsValveDS()) && Settings::AntiAim::Yaw::typeFake >= AntiAimType_Y::LISP)
 							{
@@ -1123,7 +1123,7 @@ void HvHTab()
 							}
 						}
 
-						if (ImGui::Combo("##YACTUALTYPE", (int*)& Settings::AntiAim::Yaw::type, YTypes, IM_ARRAYSIZE(YTypes)))
+						if (ImGui::Combo("##YACTUALTYPE", (int*)& Settings::AntiAim::Yaw::type, yTypes, IM_ARRAYSIZE(yTypes)))
 						{
 							if (!ValveDSCheck::forceUT && ((*csGameRules) && (*csGameRules)->IsValveDS()) && Settings::AntiAim::Yaw::type >= AntiAimType_Y::LISP)
 							{
@@ -1146,7 +1146,7 @@ void HvHTab()
 				ImGui::NextColumn();
 				{
 					ImGui::PushItemWidth(-1);
-						if (ImGui::Combo("##XTYPE", (int*)& Settings::AntiAim::Pitch::type, XTypes, IM_ARRAYSIZE(XTypes)))
+						if (ImGui::Combo("##XTYPE", (int*)& Settings::AntiAim::Pitch::type, xTypes, IM_ARRAYSIZE(xTypes)))
 						{
 							if (!ValveDSCheck::forceUT && ((*csGameRules) && (*csGameRules)->IsValveDS()) && Settings::AntiAim::Pitch::type >= AntiAimType_X::STATIC_UP_FAKE)
 							{
@@ -1773,8 +1773,8 @@ void WeaponSkinChanger()
 
 void GloveSkinChanger()
 {
-	static int current_glove = (int) ItemDefinitionIndex::GLOVE_STUDDED_BLOODHOUND;
-	static int current_glove_skin = Settings::Skinchanger::skins.find(ItemDefinitionIndex::GLOVE_T_SIDE) != Settings::Skinchanger::skins.end() ? Settings::Skinchanger::skins.at(ItemDefinitionIndex::GLOVE_T_SIDE).fallbackPaintKit : 10006;
+	static int currentGlove = (int) ItemDefinitionIndex::GLOVE_STUDDED_BLOODHOUND;
+	static int currentGloveSkin = Settings::Skinchanger::skins.find(ItemDefinitionIndex::GLOVE_T_SIDE) != Settings::Skinchanger::skins.end() ? Settings::Skinchanger::skins.at(ItemDefinitionIndex::GLOVE_T_SIDE).fallbackPaintKit : 10006;
 	static float gloveWear = 0.005f;
 	static char filterGloves[32];
 	static char filterGloveSkins[32];
@@ -1801,12 +1801,12 @@ void GloveSkinChanger()
 						continue;
 					if (glove.first == ItemDefinitionIndex::GLOVE_CT_SIDE || glove.first == ItemDefinitionIndex::GLOVE_T_SIDE)
 						continue;
-					const bool item_selected = ((int)glove.first == current_glove);
+					const bool item_selected = ((int)glove.first == currentGlove);
 					ImGui::PushID((int)glove.first);
 					if (ImGui::Selectable(Util::WstringToString(localize->FindSafe(Util::Items::GetItemDisplayName(glove.first).c_str())).c_str(), item_selected))
 					{
-						current_glove = (int)glove.first;
-						current_glove_skin = Settings::Skinchanger::skins.at(ItemDefinitionIndex::GLOVE_T_SIDE).fallbackPaintKit;
+						currentGlove = (int)glove.first;
+						currentGloveSkin = Settings::Skinchanger::skins.at(ItemDefinitionIndex::GLOVE_T_SIDE).fallbackPaintKit;
 					}
 					ImGui::PopID();
 				}
@@ -1816,12 +1816,12 @@ void GloveSkinChanger()
 		ImGui::PushItemWidth(-1);
 			ImGui::InputText("##FilterGloveSkins", filterGloveSkins, IM_ARRAYSIZE(filterGloveSkins));
 			ImGui::ListBoxHeader("##GLOVESKINS", ImVec2(-1, 300));
-				for (auto it : glove_skins)
+				for (auto it : gloveSkins)
 				{
 					if (!Util::Contains(Util::ToLower(std::string(filterGloveSkins)), Util::ToLower(std::string(it.second))))
 						continue;
 
-					switch (current_glove)
+					switch (currentGlove)
 					{
 						case (int) ItemDefinitionIndex::GLOVE_STUDDED_BLOODHOUND:
 							if (!Util::Contains(Util::ToLower(Util::WstringToString(localize->FindSafe("#PaintKit_bloodhound_black_silver_tag"))), Util::ToLower(std::string(it.second))) &&
@@ -1869,10 +1869,10 @@ void GloveSkinChanger()
 							break;
 					}
 
-					const bool item_selected = (it.first == current_glove_skin);
+					const bool itemSelected = (it.first == currentGloveSkin);
 					ImGui::PushID(it.first);
-						if (ImGui::Selectable(it.second, item_selected))
-							current_glove_skin = it.first;
+						if (ImGui::Selectable(it.second, itemSelected))
+							currentGloveSkin = it.first;
 					ImGui::PopID();
 				}
 			ImGui::ListBoxFooter();
@@ -1888,8 +1888,8 @@ void GloveSkinChanger()
 				Settings::Skinchanger::skins[ItemDefinitionIndex::GLOVE_T_SIDE] = AttribItem_t();
 
 			Settings::Skinchanger::skins.at(ItemDefinitionIndex::GLOVE_T_SIDE) = {
-					(ItemDefinitionIndex) current_glove,
-					current_glove_skin,
+					(ItemDefinitionIndex) currentGlove,
+					currentGloveSkin,
 					gloveWear,
 					-1,
 					-1,
@@ -2030,7 +2030,7 @@ void ConfigWindow()
 				path << configItems[configItemCurrent] << "/config.json";
 
 				Settings::LoadConfig(path);
-				reloadWeaponSettings();
+				ReloadWeaponSettings();
 			}
 		ImGui::PopItemWidth();
 
@@ -2153,13 +2153,13 @@ void PlayerListWindow()
 
 			ImGui::Columns(2);
 			{
-				bool isFriendly = std::find(Aimbot::Friends.begin(), Aimbot::Friends.end(), entityInformation.xuid) != Aimbot::Friends.end();
+				bool isFriendly = std::find(Aimbot::friends.begin(), Aimbot::friends.end(), entityInformation.xuid) != Aimbot::friends.end();
 				if (ImGui::Checkbox("Friend", &isFriendly))
 				{
 					if (isFriendly)
-						Aimbot::Friends.push_back(entityInformation.xuid);
+						Aimbot::friends.push_back(entityInformation.xuid);
 					else
-						Aimbot::Friends.erase(std::find(Aimbot::Friends.begin(), Aimbot::Friends.end(), entityInformation.xuid));
+						Aimbot::friends.erase(std::find(Aimbot::friends.begin(), Aimbot::friends.end(), entityInformation.xuid));
 				}
 
 				bool shouldResolve = std::find(Resolver::Players.begin(), Resolver::Players.end(), entityInformation.xuid) != Resolver::Players.end();

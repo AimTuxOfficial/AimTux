@@ -67,7 +67,7 @@ bool HasViableEnemy()
 		IEngineClient::player_info_t entityInformation;
 		engine->GetPlayerInfo(i, &entityInformation);
 
-		if (std::find(Aimbot::Friends.begin(), Aimbot::Friends.end(), entityInformation.xuid) != Aimbot::Friends.end())
+		if (std::find(Aimbot::friends.begin(), Aimbot::friends.end(), entityInformation.xuid) != Aimbot::friends.end())
 			continue;
 
 		if (Settings::Aimbot::friendly || entity->GetTeam() != localplayer->GetTeam())
@@ -258,13 +258,13 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 	if (!localplayer)
 		return;
 
-	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
-	if (!active_weapon)
+	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+	if (!activeWeapon)
 		return;
 
-	if (active_weapon->GetCSWpnData()->GetWeaponType() == CSWeaponType::WEAPONTYPE_GRENADE)
+	if (activeWeapon->GetCSWpnData()->GetWeaponType() == CSWeaponType::WEAPONTYPE_GRENADE)
 	{
-		C_BaseCSGrenade* csGrenade = (C_BaseCSGrenade*) active_weapon;
+		C_BaseCSGrenade* csGrenade = (C_BaseCSGrenade*) activeWeapon;
 
 		if (csGrenade->GetThrowTime() > 0.f)
 			return;
@@ -279,7 +279,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 	// AutoDisable checks
 
 	// Knife
-	if (Settings::AntiAim::AutoDisable::knifeHeld && localplayer->GetAlive() && active_weapon->GetCSWpnData()->GetWeaponType() == CSWeaponType::WEAPONTYPE_KNIFE)
+	if (Settings::AntiAim::AutoDisable::knifeHeld && localplayer->GetAlive() && activeWeapon->GetCSWpnData()->GetWeaponType() == CSWeaponType::WEAPONTYPE_KNIFE)
 		return;
 
 	if (Settings::AntiAim::AutoDisable::noEnemy && localplayer->GetAlive() && !HasViableEnemy())
