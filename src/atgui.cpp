@@ -15,7 +15,7 @@ bool showPlayerListWindow = false;
 
 #define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))
 
-static char* nickname = strdup("");
+static char nickname[127] = "";
 
 namespace ImGui
 {
@@ -1438,7 +1438,7 @@ void MiscTab()
 
 			ImGui::SameLine();
 			if (ImGui::Button("Set Nickname", ImVec2(-1, 0)))
-				NameChanger::SetName(strdup(nickname));
+				NameChanger::SetName(std::string(nickname).c_str());
 
 			if (ImGui::Button("Glitch Name"))
 				NameChanger::SetName("\n\xAD\xAD\xAD");
@@ -2178,7 +2178,7 @@ void PlayerListWindow()
 					std::string name(entityInformation.name);
 					name = Util::PadStringRight(name, name.length() + 1);
 
-					nickname = strdup(name.c_str());
+					strcpy(nickname, name.c_str());
 					NameChanger::SetName(Util::PadStringRight(name, name.length() + 1));
 				}
 
@@ -2186,7 +2186,7 @@ void PlayerListWindow()
 				if (strlen(clanTag) > 0 && ImGui::Button("Steal clan tag"))
 				{
 					Settings::ClanTagChanger::enabled = true;
-					Settings::ClanTagChanger::value = strdup(clanTag);
+					strcpy(Settings::ClanTagChanger::value, clanTag);
 					Settings::ClanTagChanger::type = ClanTagType::STATIC;
 
 					ClanTagChanger::UpdateClanTagCallback();
