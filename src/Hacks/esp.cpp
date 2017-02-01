@@ -894,13 +894,13 @@ void ESP::DrawHeaddot(C_BasePlayer* player)
 	switch (Settings::ESP::Headdot::type)
 	{
 		case HeaddotType::HD_CIRCLE:
-			Draw::Circle(Vector2D(sHead.x, sHead.y), 360.f, size*2, Color::FromImColor(GetESPPlayerColor(player, bIsVisible)));
+			Draw::Circle(Vector2D(sHead.x, sHead.y), 360.f, size * 2, Color::FromImColor(GetESPPlayerColor(player, bIsVisible)));
 			break;
 		case HeaddotType::HD_FILLEDRECT:
-			Draw::FilledRectangle(Vector2D(sHead.x-size, sHead.y-size), Vector2D(sHead.x+size,sHead.y+size), Color::FromImColor(GetESPPlayerColor(player, bIsVisible)));
+			Draw::FilledRectangle(Vector2D(sHead.x - size, sHead.y - size), Vector2D(sHead.x + size, sHead.y + size), Color::FromImColor(GetESPPlayerColor(player, bIsVisible)));
 			break;
 		case HeaddotType::HD_RECT:
-			Draw::Rectangle(Vector2D(sHead.x-size, sHead.y-size), Vector2D(sHead.x+size,sHead.y+size), Color::FromImColor(GetESPPlayerColor(player, bIsVisible)));
+			Draw::Rectangle(Vector2D(sHead.x - size, sHead.y - size), Vector2D(sHead.x + size, sHead.y + size), Color::FromImColor(GetESPPlayerColor(player, bIsVisible)));
 			break;
 	}
 }
