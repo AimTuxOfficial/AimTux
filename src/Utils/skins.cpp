@@ -37,7 +37,7 @@ std::vector<std::pair<int, const char*>> guns = {
 		{ (int) ItemDefinitionIndex::WEAPON_XM1014, "#SFUI_WPNHUD_xm1014" },
 };
 
-std::vector<std::pair<int, const char*>> weapon_skins = {
+std::vector<std::pair<int, const char*>> weaponSkins = {
 		{ 2, "#PaintKit_so_olive_Tag" },
 		{ 3, "#PaintKit_so_red_Tag" },
 		{ 5, "#PaintKit_hy_ddpat_Tag" },
@@ -631,11 +631,11 @@ void LocalizeGuns()
 	}
 }
 
-void LocalizeSkins()
+void LocalizeWeaponSkins()
 {
 	int index = -1;
 
-	for (auto it : weapon_skins)
+	for (auto it : weaponSkins)
 	{
 		index++;
 
@@ -643,10 +643,10 @@ void LocalizeSkins()
 			continue;
 
 		std::string localized = Util::WstringToString(localize->FindSafe(it.second));
-		weapon_skins[index] = { it.first, strdup(localized.c_str()) };
+		weaponSkins[index] = { it.first, strdup(localized.c_str()) };
 	}
 
-	std::sort(weapon_skins.begin(), weapon_skins.end(), [](auto &left, auto &right) {
+	std::sort(weaponSkins.begin(), weaponSkins.end(), [](auto &left, auto &right) {
 		std::size_t leftIter = 0, rightIter = 0;
 		std::size_t leftSize = strlen(left.second), rightSize = strlen(right.second);
 
@@ -701,11 +701,11 @@ void Skins::Localize()
 	if (isLocalized)
 		return;
 
-	if (guns.size() == 0 || weapon_skins.size() == 0)
+	if (guns.size() == 0 || weaponSkins.size() == 0)
 		return;
 
 	LocalizeGuns();
-	LocalizeSkins();
+	LocalizeWeaponSkins();
 	LocalizeGloveSkins();
 
 	isLocalized = true;
@@ -713,7 +713,6 @@ void Skins::Localize()
 
 AttribItem_t& Skins::GetSkinConfig(ItemDefinitionIndex itemDefinitionIndex)
 {
-	// Create a new item at the specified index if none exist.
 	if (Settings::Skinchanger::skins.find(itemDefinitionIndex) == Settings::Skinchanger::skins.end())
 		Settings::Skinchanger::skins[itemDefinitionIndex] = AttribItem_t();
 
