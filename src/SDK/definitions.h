@@ -4,6 +4,7 @@
 //#define EXPERIMENTAL_SETTINGS
 
 #include <unordered_map>
+#include <map>
 
 /* generic constants */
 #define LIFE_ALIVE 0
@@ -515,7 +516,7 @@ struct AttribItem_t
 	std::string customName;
 };
 
-const std::unordered_map<ItemDefinitionIndex, DefItem_t> ItemDefinitionIndexMap = {
+const std::map<ItemDefinitionIndex, DefItem_t> ItemDefinitionIndexMap = {
 		{ ItemDefinitionIndex::INVALID, {"<-Default->", "", "", ""} },
 		{ ItemDefinitionIndex::WEAPON_DEAGLE, { "#SFUI_WPNHUD_DesertEagle", "WEAPON_DEAGLE", "models/weapons/v_pist_deagle.mdl", "deagle" } },
 		{ ItemDefinitionIndex::WEAPON_ELITE, { "#SFUI_WPNHUD_Elites", "WEAPON_ELITE", "models/weapons/v_pist_elite.mdl", "elite" } },
