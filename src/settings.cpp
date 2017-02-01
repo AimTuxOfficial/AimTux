@@ -117,7 +117,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 		weaponSetting["RCS"]["Enabled"] = i.second.rcsEnabled;
 		weaponSetting["RCS"]["AlwaysOn"] = i.second.rcsAlwaysOn;
 		weaponSetting["RCS"]["AmountX"] = i.second.rcsAmountX;
-		weaponSetting["RCS"]["rcsAmountY"] = i.second.rcsAmountY;
+		weaponSetting["RCS"]["AmountY"] = i.second.rcsAmountY;
 		weaponSetting["AutoPistol"]["Enabled"] = i.second.autoPistolEnabled;
 		weaponSetting["AutoShoot"]["Enabled"] = i.second.autoShootEnabled;
 		weaponSetting["AutoScope"]["Enabled"] = i.second.autoScopeEnabled;
