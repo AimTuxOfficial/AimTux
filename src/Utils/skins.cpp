@@ -37,7 +37,7 @@ std::vector<std::pair<int, const char*>> guns = {
 		{ (int) ItemDefinitionIndex::WEAPON_XM1014, "#SFUI_WPNHUD_xm1014" },
 };
 
-std::vector<std::pair<int, const char*>> weapon_skins = {
+std::vector<std::pair<int, const char*>> weaponSkins = {
 		{ 2, "#PaintKit_so_olive_Tag" },
 		{ 3, "#PaintKit_so_red_Tag" },
 		{ 5, "#PaintKit_hy_ddpat_Tag" },
@@ -631,11 +631,11 @@ void LocalizeGuns()
 	}
 }
 
-void LocalizeSkins()
+void LocalizeWeaponSkins()
 {
 	int index = -1;
 
-	for (auto it : weapon_skins)
+	for (auto it : weaponSkins)
 	{
 		index++;
 
@@ -705,7 +705,7 @@ void Skins::Localize()
 		return;
 
 	LocalizeGuns();
-	LocalizeSkins();
+	LocalizeWeaponSkins();
 	LocalizeGloveSkins();
 
 	isLocalized = true;
