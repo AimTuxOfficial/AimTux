@@ -14,7 +14,8 @@
 #include "../SDK/SDK.h"
 #include "../interfaces.h"
 
-namespace NetVarManager {
+namespace NetVarManager
+{
 	std::vector<RecvTable*> GetTables();
 	RecvTable* GetTable(std::vector<RecvTable*> tables, const char* tableName);
 	int GetOffset(std::vector<RecvTable*> tables, const char* tableName, const char *propName);
