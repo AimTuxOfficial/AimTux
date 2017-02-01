@@ -88,6 +88,7 @@ int Settings::ESP::Sounds::time = 1000;
 bool Settings::NoScopeBorder::enabled = false;
 bool Settings::ESP::Headdot::enabled = false;
 float Settings::ESP::Headdot::size = 2;
+HeaddotType Settings::ESP::Headdot::type = HeaddotType::HD_CIRCLE;
 
 struct Footstep
 {
@@ -890,7 +891,18 @@ void ESP::DrawHeaddot(C_BasePlayer* player)
 	if (Settings::ESP::Filters::visibility_check || Settings::ESP::Filters::legit)
 		bIsVisible = Entity::IsVisible(player, Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smoke_check);
 
-	Draw::FilledRectangle(Vector2D(sHead.x - size, sHead.y - size), Vector2D(sHead.x + size, sHead. y + size), Color::FromImColor(GetESPPlayerColor(player, bIsVisible)));
+	switch (Settings::ESP::Headdot::type)
+	{
+		case HeaddotType::HD_CIRCLE:
+			Draw::Circle(Vector2D(sHead.x, sHead.y), 360.f, size*2, Color::FromImColor(GetESPPlayerColor(player, bIsVisible)));
+			break;
+		case HeaddotType::HD_FILLEDRECT:
+			Draw::FilledRectangle(Vector2D(sHead.x-size, sHead.y-size), Vector2D(sHead.x+size,sHead.y+size), Color::FromImColor(GetESPPlayerColor(player, bIsVisible)));
+			break;
+		case HeaddotType::HD_RECT:
+			Draw::Rectangle(Vector2D(sHead.x-size, sHead.y-size), Vector2D(sHead.x+size,sHead.y+size), Color::FromImColor(GetESPPlayerColor(player, bIsVisible)));
+			break;
+	}
 }
 
 void ESP::CollectFootstep(int iEntIndex, const char *pSample)
