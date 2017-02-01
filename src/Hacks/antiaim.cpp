@@ -17,7 +17,7 @@ float Distance(Vector a, Vector b)
 
 bool AntiAim::GetBestHeadAngle(QAngle& angle)
 {
-	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 
 	Vector position = localplayer->GetVecOrigin() + localplayer->GetVecViewOffset();
 
@@ -51,11 +51,11 @@ bool AntiAim::GetBestHeadAngle(QAngle& angle)
 
 bool HasViableEnemy()
 {
-	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 
 	for (int i = 1; i < engine->GetMaxClients(); ++i)
 	{
-		C_BasePlayer* entity = (C_BasePlayer*) entitylist->GetClientEntity(i);
+		C_BasePlayer* entity = (C_BasePlayer*) entityList->GetClientEntity(i);
 
 		if (!entity
 			|| entity == localplayer
@@ -95,11 +95,11 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 		case AntiAimType_Y::SPIN_FAST:
 			factor =  360.0 / M_PHI;
 			factor *= 25;
-			angle.y = fmod(globalvars->curtime * factor, 360.0);
+			angle.y = fmod(globalVars->curtime * factor, 360.0);
 			break;
 		case AntiAimType_Y::SPIN_SLOW:
 			factor =  360.0 / M_PHI;
-			angle.y = fmod(globalvars->curtime * factor, 360.0);
+			angle.y = fmod(globalVars->curtime * factor, 360.0);
 			break;
 		case AntiAimType_Y::JITTER:
 			yFlip ? angle.y -= 90.0f : angle.y -= 270.0f;
@@ -182,7 +182,7 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 			break;
 		case AntiAimType_Y::ANGEL_SPIN:
 			clamp = false;
-			factor = (globalvars->curtime * 5000.0f);
+			factor = (globalVars->curtime * 5000.0f);
 			angle.y = factor + 36000000.0f;
 			break;
 		default:
@@ -254,11 +254,11 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 
 	QAngle angle = cmd->viewangles;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return;
 
-	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
 	if (!activeWeapon)
 		return;
 

@@ -5,7 +5,7 @@ extern FinishDrawingFn FinishDrawing;
 
 void Hooks::Paint(void* thisptr, PaintMode_t mode)
 {
-	enginevguiVMT->GetOriginalMethod<PaintFn>(15)(thisptr, mode);
+	engineVGuiVMT->GetOriginalMethod<PaintFn>(15)(thisptr, mode);
 
 	if (Settings::ScreenshotCleaner::enabled && engine->IsTakingScreenshot())
 		return;

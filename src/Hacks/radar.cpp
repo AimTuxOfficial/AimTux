@@ -91,7 +91,7 @@ static void SquareConstraint(ImGuiSizeConstraintCallbackData *data)
 
 ImColor Radar::GetRadarPlayerColor(C_BasePlayer* player, bool visible)
 {
-	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return ImColor(255, 255, 255, 255);
 
@@ -162,7 +162,7 @@ void Radar::DrawWindow()
 		draw_list->AddLine(ImVec2(winpos.x + winsize.x * 0.5f, winpos.y + winsize.y * 0.5f), ImVec2(winpos.x, winpos.y), ImColor(90,90,90, 255), 1.f);
 		draw_list->AddLine(ImVec2(winpos.x + winsize.x * 0.5f, winpos.y + winsize.y * 0.5f), ImVec2(winpos.x + winsize.x, winpos.y), ImColor(90,90,90, 255), 1.f);
 
-		C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+		C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 		if (!localplayer)
 		{
 			ImGui::End();
@@ -177,9 +177,9 @@ void Radar::DrawWindow()
 
 		float scale = Settings::Radar::iconsScale;
 
-		for (int i = 1; i < entitylist->GetHighestEntityIndex(); i++)
+		for (int i = 1; i < entityList->GetHighestEntityIndex(); i++)
 		{
-			C_BaseEntity* entity = entitylist->GetClientEntity(i);
+			C_BaseEntity* entity = entityList->GetClientEntity(i);
 			if (!entity)
 				continue;
 
@@ -209,7 +209,7 @@ void Radar::DrawWindow()
 				if (!bIsVisible && Settings::Radar::legit)
 					continue;
 
-				C_BasePlayer* observer_target = (C_BasePlayer*) entitylist->GetClientEntityFromHandle(localplayer->GetObserverTarget());
+				C_BasePlayer* observer_target = (C_BasePlayer*) entityList->GetClientEntityFromHandle(localplayer->GetObserverTarget());
 				if (observer_target && player == observer_target && (*localplayer->GetObserverMode() == ObserverMode_t::OBS_MODE_IN_EYE || *localplayer->GetObserverMode() == ObserverMode_t::OBS_MODE_CHASE))
 					continue;
 
@@ -333,13 +333,13 @@ void Radar::BeginFrame()
 	if (!engine->IsInGame())
 		return;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return;
 
 	for (int i = 1; i < engine->GetMaxClients(); i++)
 	{
-		C_BaseEntity* entity = entitylist->GetClientEntity(i);
+		C_BaseEntity* entity = entityList->GetClientEntity(i);
 		if (!entity)
 			continue;
 

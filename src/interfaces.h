@@ -1,13 +1,19 @@
 #pragma once
 
+#include <unordered_map>
+#include <sys/mman.h>
+#include <link.h>
+#include <fstream>
+#include "Utils/patternfinder.h"
 #include "SDK/SDK.h"
 #include "Utils/vmt.h"
+#include "Utils/util.h"
 
 extern IBaseClientDLL* client;
 extern ISurface* surface;
 extern IVPanel* panel;
 extern IEngineClient* engine;
-extern IClientEntityList* entitylist;
+extern IClientEntityList* entityList;
 extern IVDebugOverlay* debugOverlay;
 extern IVModelInfo* modelInfo;
 extern IVModelRender* modelRender;
@@ -17,18 +23,19 @@ extern IInputSystem* inputSystem;
 extern IInputInternal* inputInternal;
 extern IMaterialSystem* material;
 extern ICvar* cvar;
-extern CGlobalVars* globalvars;
+extern CGlobalVars* globalVars;
 extern CEffects* effects;
-extern IGameEventManager2* gameevents;
+extern IGameEventManager2* gameEvents;
 extern IPhysicsSurfaceProps* physics;
+extern CViewRender* viewRender;
 extern IPrediction* prediction;
-extern IGameMovement* gamemovement;
-extern IMoveHelper* movehelper;
-extern CGlowObjectManager* glowmanager;
-extern ILauncherMgr* launchermgr;
+extern IGameMovement* gameMovement;
+extern IMoveHelper* moveHelper;
+extern CGlowObjectManager* glowManager;
+extern ILauncherMgr* launcherMgr;
 extern C_CSPlayerResource** csPlayerResource;
 extern C_CSGameRules** csGameRules;
-extern IEngineVGui* enginevgui;
+extern IEngineVGui* engineVGui;
 extern IEngineSound* sound;
 extern ILocalize* localize;
 extern ICommandLine* commandline;
@@ -43,8 +50,8 @@ extern VMT* viewRenderVMT;
 extern VMT* inputInternalVMT;
 extern VMT* materialVMT;
 extern VMT* surfaceVMT;
-extern VMT* launchermgrVMT;
-extern VMT* enginevguiVMT;
+extern VMT* launcherMgrVMT;
+extern VMT* engineVGuiVMT;
 extern VMT* soundVMT;
 
 extern LineGoesThroughSmokeFn LineGoesThroughSmoke;

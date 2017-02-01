@@ -1,13 +1,44 @@
 #include <unordered_map>
 #include <set>
 #include "interfaces.h"
-#include "hooker.h"
+
+IBaseClientDLL* client = nullptr;
+ISurface* surface = nullptr;
+IVPanel* panel = nullptr;
+IEngineClient* engine = nullptr;
+IClientEntityList* entityList = nullptr;
+IVDebugOverlay* debugOverlay = nullptr;
+IVModelInfo* modelInfo = nullptr;
+IVModelRender* modelRender = nullptr;
+IClientMode* clientMode = nullptr;
+IEngineTrace* trace = nullptr;
+IInputSystem* inputSystem = nullptr;
+IInputInternal* inputInternal = nullptr;
+IMaterialSystem* material = nullptr;
+ICvar* cvar = nullptr;
+CGlobalVars* globalVars = nullptr;
+CEffects* effects = nullptr;
+IGameEventManager2* gameEvents = nullptr;
+IPhysicsSurfaceProps* physics = nullptr;
+CViewRender* viewRender = nullptr;
+IPrediction* prediction = nullptr;
+IGameMovement* gameMovement = nullptr;
+IMoveHelper* moveHelper = nullptr;
+ILauncherMgr* launcherMgr = nullptr;
+CGlowObjectManager* glowManager = nullptr;
+C_CSPlayerResource** csPlayerResource = nullptr;
+C_CSGameRules** csGameRules = nullptr;
+IEngineVGui* engineVGui = nullptr;
+IEngineSound* sound = nullptr;
+ILocalize* localize = nullptr;
+ICommandLine* commandline = nullptr;
+CInput* input = nullptr;
 
 void Interfaces::FindInterfaces()
 {
 	client = GetInterface<IBaseClientDLL>("./csgo/bin/linux64/client_client.so", "VClient");
 	engine = GetInterface<IEngineClient>("./bin/linux64/engine_client.so", "VEngineClient");
-	entitylist = GetInterface<IClientEntityList>("./csgo/bin/linux64/client_client.so", "VClientEntityList");
+	entityList = GetInterface<IClientEntityList>("./csgo/bin/linux64/client_client.so", "VClientEntityList");
 	surface = GetInterface<ISurface>("./bin/linux64/vguimatsurface_client.so", "VGUI_Surface");
 	panel = GetInterface<IVPanel>("./bin/linux64/vgui2_client.so", "VGUI_Panel");
 	debugOverlay = GetInterface<IVDebugOverlay>("./bin/linux64/engine_client.so", "VDebugOverlay");
@@ -19,11 +50,11 @@ void Interfaces::FindInterfaces()
 	material = GetInterface<IMaterialSystem>("./bin/linux64/materialsystem_client.so", "VMaterialSystem");
 	cvar = GetInterface<ICvar>("./bin/linux64/materialsystem_client.so", "VEngineCvar");
 	effects = GetInterface<CEffects>("./bin/linux64/engine_client.so", "VEngineEffects");
-	gameevents = GetInterface<IGameEventManager2>("./bin/linux64/engine_client.so", "GAMEEVENTSMANAGER002", true);
+	gameEvents = GetInterface<IGameEventManager2>("./bin/linux64/engine_client.so", "GAMEEVENTSMANAGER002", true);
 	physics = GetInterface<IPhysicsSurfaceProps>("./bin/linux64/vphysics_client.so", "VPhysicsSurfaceProps");
 	prediction = GetInterface<IPrediction>("./csgo/bin/linux64/client_client.so", "VClientPrediction");
-	gamemovement = GetInterface<IGameMovement>("./csgo/bin/linux64/client_client.so", "GameMovement");
-	enginevgui = GetInterface<IEngineVGui>("./bin/linux64/engine_client.so", "VEngineVGui");
+	gameMovement = GetInterface<IGameMovement>("./csgo/bin/linux64/client_client.so", "GameMovement");
+	engineVGui = GetInterface<IEngineVGui>("./bin/linux64/engine_client.so", "VEngineVGui");
 	sound = GetInterface<IEngineSound>("./bin/linux64/engine_client.so", "IEngineSoundClient");
 	localize = GetInterface<ILocalize>("./bin/linux64/localize_client.so", "Localize_");
 	commandline = GetSymbolAddress<CommandLineFn>("./bin/linux64/libtier0_client.so", "CommandLine")();

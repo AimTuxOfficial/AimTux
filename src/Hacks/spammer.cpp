@@ -115,12 +115,12 @@ void Spammer::BeginFrame(float frameTime)
 	}
 	else if (Settings::Spammer::type == SpammerType::SPAMMER_POSITIONS)
 	{
-		C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+		C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 		static int lastId = 1;
 
 		for (int i = lastId; i < engine->GetMaxClients(); i++)
 		{
-			C_BasePlayer* player = (C_BasePlayer*) entitylist->GetClientEntity(i);
+			C_BasePlayer* player = (C_BasePlayer*) entityList->GetClientEntity(i);
 
 			lastId++;
 			if (lastId == engine->GetMaxClients())
@@ -140,7 +140,7 @@ void Spammer::BeginFrame(float frameTime)
 			IEngineClient::player_info_t entityInformation;
 			engine->GetPlayerInfo(i, &entityInformation);
 
-			C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(player->GetActiveWeapon());
+			C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(player->GetActiveWeapon());
 
 			std::string modelName = Util::GetValueByKey(guns, (int) *activeWeapon->GetItemDefinitionIndex());
 			if (modelName == "")

@@ -3,14 +3,14 @@
 
 bool Entity::IsVisible(C_BasePlayer* player, Bone bone, float fov, bool smoke_check)
 {
-	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return true;
 
 	if (!localplayer->GetAlive())
 	{
 		if (*localplayer->GetObserverMode() == ObserverMode_t::OBS_MODE_IN_EYE && localplayer->GetObserverTarget())
-			localplayer = (C_BasePlayer*) entitylist->GetClientEntityFromHandle(localplayer->GetObserverTarget());
+			localplayer = (C_BasePlayer*) entityList->GetClientEntityFromHandle(localplayer->GetObserverTarget());
 
 		if (!localplayer)
 			return true;
@@ -41,7 +41,7 @@ bool Entity::IsVisible(C_BasePlayer* player, Bone bone, float fov, bool smoke_ch
 
 bool Entity::IsPlanting(C_BasePlayer* player)
 {
-	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(player->GetActiveWeapon());
+	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*)entityList->GetClientEntityFromHandle(player->GetActiveWeapon());
 	if (!activeWeapon)
 		return false;
 

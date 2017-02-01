@@ -26,7 +26,7 @@ void SkinChanger::FrameStageNotifyWeapons(ClientFrameStage_t stage)
 		if (stage != ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_START)
 			return;
 
-		C_BasePlayer* localplayer = (C_BasePlayer *) entitylist->GetClientEntity(engine->GetLocalPlayer());
+		C_BasePlayer* localplayer = (C_BasePlayer *) entityList->GetClientEntity(engine->GetLocalPlayer());
 		if (!localplayer || !localplayer->GetAlive())
 			return;
 
@@ -39,7 +39,7 @@ void SkinChanger::FrameStageNotifyWeapons(ClientFrameStage_t stage)
 			if (localplayer->GetWeapons()[i] == -1)
 				continue;
 
-			C_BaseAttributableItem *weapon = (C_BaseAttributableItem *) entitylist->GetClientEntity(localplayer->GetWeapons()[i] & 0xFFF);
+			C_BaseAttributableItem *weapon = (C_BaseAttributableItem *) entityList->GetClientEntity(localplayer->GetWeapons()[i] & 0xFFF);
 
 			if (!weapon)
 				continue;
@@ -82,11 +82,11 @@ void SkinChanger::FrameStageNotifyWeapons(ClientFrameStage_t stage)
 			*weapon->GetAccountID() = localplayer_info.xuidlow;
 		}
 
-		C_BaseViewModel *viewmodel = (C_BaseViewModel *) entitylist->GetClientEntityFromHandle(localplayer->GetViewModel());
+		C_BaseViewModel *viewmodel = (C_BaseViewModel *) entityList->GetClientEntityFromHandle(localplayer->GetViewModel());
 		if (!viewmodel)
 			return;
 
-		C_BaseCombatWeapon *activeWeapon = (C_BaseCombatWeapon *) entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+		C_BaseCombatWeapon *activeWeapon = (C_BaseCombatWeapon *) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
 		if (!activeWeapon)
 			return;
 
@@ -108,7 +108,7 @@ void SkinChanger::FrameStageNotifyGloves(ClientFrameStage_t stage)
 		if (stage != ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_START)
 			return;
 
-		C_BasePlayer *localplayer = (C_BasePlayer *) entitylist->GetClientEntity(engine->GetLocalPlayer());
+		C_BasePlayer *localplayer = (C_BasePlayer *) entityList->GetClientEntity(engine->GetLocalPlayer());
 		if (!localplayer)
 			return;
 
@@ -118,7 +118,7 @@ void SkinChanger::FrameStageNotifyGloves(ClientFrameStage_t stage)
 
 		if (!localplayer->GetAlive())
 		{
-			C_BaseAttributableItem *glove = (C_BaseAttributableItem *) entitylist->GetClientEntity(localplayer->GetWearables()[0] & 0xFFF);
+			C_BaseAttributableItem *glove = (C_BaseAttributableItem *) entityList->GetClientEntity(localplayer->GetWearables()[0] & 0xFFF);
 			if (!glove)
 				return;
 
@@ -127,14 +127,14 @@ void SkinChanger::FrameStageNotifyGloves(ClientFrameStage_t stage)
 		}
 		else
 		{
-			if (!entitylist->GetClientEntityFromHandle((void *) localplayer->GetWearables()))
+			if (!entityList->GetClientEntityFromHandle((void *) localplayer->GetWearables()))
 			{
 				for (ClientClass *pClass = client->GetAllClasses(); pClass; pClass = pClass->m_pNext)
 				{
 					if (pClass->m_ClassID != EClassIds::CEconWearable)
 						continue;
 
-					int entry = (entitylist->GetHighestEntityIndex() + 1), serial = RandomInt(0x0, 0xFFF);
+					int entry = (entityList->GetHighestEntityIndex() + 1), serial = RandomInt(0x0, 0xFFF);
 
 					pClass->m_pCreateFn(entry, serial);
 
@@ -144,7 +144,7 @@ void SkinChanger::FrameStageNotifyGloves(ClientFrameStage_t stage)
 				}
 			}
 
-			C_BaseAttributableItem *glove = (C_BaseAttributableItem *) entitylist->GetClientEntity(localplayer->GetWearables()[0] & 0xFFF);
+			C_BaseAttributableItem *glove = (C_BaseAttributableItem *) entityList->GetClientEntity(localplayer->GetWearables()[0] & 0xFFF);
 			if (!glove)
 				return;
 
@@ -212,7 +212,7 @@ void SkinChanger::SetViewModelSequence(const CRecvProxyData *pDataConst, void *p
 
 	if (pViewModel)
 	{
-		IClientEntity* pOwner = (IClientEntity*) entitylist->GetClientEntity(pViewModel->GetOwner() & 0xFFF);
+		IClientEntity* pOwner = (IClientEntity*) entityList->GetClientEntity(pViewModel->GetOwner() & 0xFFF);
 
 		// Compare the owner entity of this view model to the local player entity.
 		if (pOwner && pOwner->GetIndex() == engine->GetLocalPlayer())

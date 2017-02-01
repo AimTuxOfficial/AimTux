@@ -224,7 +224,7 @@ bool ESP::GetBox(C_BaseEntity *entity, int &x, int &y, int &w, int &h)
 
 ImColor ESP::GetESPPlayerColor(C_BasePlayer* player, bool visible)
 {
-	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return ImColor(255, 255, 255, 255);
 
@@ -402,7 +402,7 @@ void ESP::DrawEntity(C_BaseEntity* entity, const char* string, Color color)
 
 void ESP::DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info_t player_info)
 {
-	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return;
 
@@ -588,7 +588,7 @@ void ESP::DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info
 		}
 	}
 
-	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(player->GetActiveWeapon());
+	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(player->GetActiveWeapon());
 
 	// health
 	if (Settings::ESP::Info::health)
@@ -617,7 +617,7 @@ void ESP::DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info
 	if (Settings::ESP::Info::reloading && activeWeapon && activeWeapon->GetInReload())
 		stringsToShow.push_back("Reloading");
 
-	if (Settings::ESP::Info::flashed && player->GetFlashBangTime() - globalvars->curtime > 2.0f)
+	if (Settings::ESP::Info::flashed && player->GetFlashBangTime() - globalVars->curtime > 2.0f)
 		stringsToShow.push_back("Flashed");
 
 	if (Settings::ESP::Info::planting && Entity::IsPlanting(player))
@@ -676,7 +676,7 @@ void ESP::DrawPlantedBomb(C_PlantedC4* bomb)
 
 	ImColor color = bomb->GetBombDefuser() != -1 || bomb->IsBombDefused() ? Settings::ESP::bombDefusingColor : Settings::ESP::bombColor;
 
-	float bombTimer = bomb->GetBombTime() - globalvars->curtime;
+	float bombTimer = bomb->GetBombTime() - globalVars->curtime;
 	std::stringstream displayText;
 	if (bomb->IsBombDefused() || !bomb->IsBombTicking() || bombTimer <= 0.f)
 	{
@@ -684,7 +684,7 @@ void ESP::DrawPlantedBomb(C_PlantedC4* bomb)
 	}
 	else
 	{
-		C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+		C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 		Vector vecOrigin = bomb->GetVecOrigin();
 
 		float flDistance = localplayer->GetEyePosition().DistTo(vecOrigin);
@@ -903,7 +903,7 @@ void ESP::CollectFootstep(int iEntIndex, const char *pSample)
 
 	Footstep footstep;
 	footstep.entityId = iEntIndex;
-	footstep.position = entitylist->GetClientEntity(iEntIndex)->GetVecOrigin();
+	footstep.position = entityList->GetClientEntity(iEntIndex)->GetVecOrigin();
 
 	footstep.expiration = Util::GetEpochTime() + Settings::ESP::Sounds::time;
 
@@ -927,11 +927,11 @@ void ESP::DrawSounds()
 		if (debugOverlay->ScreenPosition(footsteps[i].position, pos2d))
 			continue;
 
-		C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+		C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 		if (!localplayer)
 			continue;
 
-		C_BasePlayer* player = (C_BasePlayer*) entitylist->GetClientEntity(footsteps[i].entityId);
+		C_BasePlayer* player = (C_BasePlayer*) entityList->GetClientEntity(footsteps[i].entityId);
 		if (!player)
 			continue;
 
@@ -959,7 +959,7 @@ void ESP::DrawSounds()
 
 void ESP::DrawFOVCrosshair()
 {
-	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer->GetAlive())
 		return;
 
@@ -1008,13 +1008,13 @@ void ESP::DrawFOVCrosshair()
 
 void ESP::DrawGlow()
 {
-	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return;
 
-	for (int i = 0; i < glowmanager->m_GlowObjectDefinitions.Count(); i++)
+	for (int i = 0; i < glowManager->m_GlowObjectDefinitions.Count(); i++)
 	{
-		GlowObjectDefinition_t& glow_object = glowmanager->m_GlowObjectDefinitions[i];
+		GlowObjectDefinition_t& glow_object = glowManager->m_GlowObjectDefinitions[i];
 
 		if (glow_object.IsUnused() || !glow_object.m_pEntity)
 			continue;
@@ -1094,13 +1094,13 @@ void ESP::Paint()
 	if (!engine->IsInGame())
 		return;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return;
 
-	for (int i = 1; i < entitylist->GetHighestEntityIndex(); i++)
+	for (int i = 1; i < entityList->GetHighestEntityIndex(); i++)
 	{
-		C_BaseEntity* entity = entitylist->GetClientEntity(i);
+		C_BaseEntity* entity = entityList->GetClientEntity(i);
 		if (!entity)
 			continue;
 
@@ -1186,11 +1186,11 @@ void ESP::EmitSound(int iEntIndex, const char *pSample)
 
 void ESP::DrawScope()
 {
-	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return;
 
-	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
 	if (!activeWeapon)
 		return;
 

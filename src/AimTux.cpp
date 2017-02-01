@@ -74,11 +74,11 @@ int __attribute__((constructor)) aimtux_init()
 	surfaceVMT->HookVM((void*) Hooks::OnScreenSizeChanged, 116);
 	surfaceVMT->ApplyVMT();
 
-	launchermgrVMT->HookVM((void*) Hooks::PumpWindowsMessageLoop, 19);
-	launchermgrVMT->ApplyVMT();
+	launcherMgrVMT->HookVM((void*) Hooks::PumpWindowsMessageLoop, 19);
+	launcherMgrVMT->ApplyVMT();
 
-	enginevguiVMT->HookVM((void*) Hooks::Paint, 15);
-	enginevguiVMT->ApplyVMT();
+	engineVGuiVMT->HookVM((void*) Hooks::Paint, 15);
+	engineVGuiVMT->ApplyVMT();
 
 	soundVMT->HookVM((void*) Hooks::EmitSound1, 5);
 	soundVMT->HookVM((void*) Hooks::EmitSound2, 6);
@@ -114,8 +114,8 @@ void __attribute__((destructor)) aimtux_shutdown()
 	inputInternalVMT->ReleaseVMT();
 	materialVMT->ReleaseVMT();
 	surfaceVMT->ReleaseVMT();
-	launchermgrVMT->ReleaseVMT();
-	enginevguiVMT->ReleaseVMT();
+	launcherMgrVMT->ReleaseVMT();
+	engineVGuiVMT->ReleaseVMT();
 	soundVMT->ReleaseVMT();
 
 	delete eventListener;

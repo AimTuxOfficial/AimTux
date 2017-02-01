@@ -7,7 +7,7 @@ void AutoDefuse::CreateMove(CUserCmd *cmd)
 	if (!Settings::AutoDefuse::enabled)
 		return;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer || !localplayer->GetAlive())
 		return;
 
@@ -19,9 +19,9 @@ void AutoDefuse::CreateMove(CUserCmd *cmd)
 
 	C_PlantedC4* bomb = nullptr;
 
-	for (int i = 1; i < entitylist->GetHighestEntityIndex(); i++)
+	for (int i = 1; i < entityList->GetHighestEntityIndex(); i++)
 	{
-		C_BaseEntity* entity = entitylist->GetClientEntity(i);
+		C_BaseEntity* entity = entityList->GetClientEntity(i);
 		if (!entity)
 			continue;
 
@@ -35,7 +35,7 @@ void AutoDefuse::CreateMove(CUserCmd *cmd)
 	if (!bomb || bomb->IsBombDefused())
 		return;
 
-	float bombTimer = bomb->GetBombTime() - globalvars->curtime;
+	float bombTimer = bomb->GetBombTime() - globalVars->curtime;
 
 	if (localplayer->HasDefuser() && bombTimer > 5.5f)
 		return;

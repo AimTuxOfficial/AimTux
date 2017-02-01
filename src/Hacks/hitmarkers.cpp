@@ -21,7 +21,7 @@ void Hitmarkers::Paint()
 	if (!engine->IsInGame())
 		return;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return;
 
@@ -97,11 +97,11 @@ void Hitmarkers::FireGameEvent(IGameEvent* event)
 	if (engine->GetPlayerForUserID(attacker_id) != engine->GetLocalPlayer())
 		return;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return;
 
-	C_BasePlayer* hurt_player = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetPlayerForUserID(hurt_player_id));
+	C_BasePlayer* hurt_player = (C_BasePlayer*) entityList->GetClientEntity(engine->GetPlayerForUserID(hurt_player_id));
 	if (!hurt_player)
 		return;
 

@@ -65,7 +65,7 @@ void RageStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 	if (localplayer->GetVelocity().Length() > 50.f)
 		yaw_change = 30.0f * fabsf(30.0f / localplayer->GetVelocity().Length());
 
-	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
 	if (activeWeapon && !activeWeapon->GetAmmo() == 0 && cmd->buttons & IN_ATTACK)
 		yaw_change = 0.0f;
 
@@ -102,7 +102,7 @@ void AutoStrafe::CreateMove(CUserCmd* cmd)
 	if (!Settings::AutoStrafe::enabled)
 		return;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return;
 

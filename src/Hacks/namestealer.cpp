@@ -17,7 +17,7 @@ void NameStealer::BeginFrame(float frameTime)
 	if (currentTime_ms - timeStamp < 350)
 		return;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return;
 

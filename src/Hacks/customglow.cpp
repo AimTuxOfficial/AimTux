@@ -5,16 +5,16 @@ std::vector<std::pair<int, int>> custom_glow_entities;
 void CustomGlow::FrameStageNotify(ClientFrameStage_t stage)
 {
 	// Skip reserved slots that are guaranteed to be managed by the engine.
-	for (int i = 64; i < entitylist->GetHighestEntityIndex(); i++)
+	for (int i = 64; i < entityList->GetHighestEntityIndex(); i++)
 	{
-		C_BaseEntity* entity = entitylist->GetClientEntity(i);
+		C_BaseEntity* entity = entityList->GetClientEntity(i);
 
 		// Register custom entities into the glow object definitions array.
 		if (engine->IsInGame() && entity && entity->GetClientClass()->m_ClassID == EClassIds::CBaseAnimating)
 		{
-			if (!glowmanager->HasGlowEffect(entity))
+			if (!glowManager->HasGlowEffect(entity))
 			{
-				int array_index = glowmanager->RegisterGlowObject(entity);
+				int array_index = glowManager->RegisterGlowObject(entity);
 
 				if (array_index != -1)
 					custom_glow_entities.emplace_back(i, array_index);
@@ -31,7 +31,7 @@ void CustomGlow::FrameStageNotify(ClientFrameStage_t stage)
 
 			if (iterator != custom_glow_entities.end())
 			{
-				glowmanager->UnregisterGlowObject(iterator->second);
+				glowManager->UnregisterGlowObject(iterator->second);
 				custom_glow_entities.erase(iterator);
 			}
 		}

@@ -14,13 +14,13 @@ void Dlights::Paint()
 	if (!engine->IsInGame())
 		return;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return;
 
 	for (int i = 1; i < engine->GetMaxClients(); ++i)
 	{
-		C_BasePlayer *player = (C_BasePlayer*) entitylist->GetClientEntity(i);
+		C_BasePlayer *player = (C_BasePlayer*) entityList->GetClientEntity(i);
 		if (!player)
 			continue;
 
@@ -53,7 +53,7 @@ void Dlights::Paint()
 		dLight->m_Direction = player->GetVecOrigin();
 		dLight->origin = player->GetVecOrigin();
 		dLight->radius = Settings::Dlights::radius;
-		dLight->die = globalvars->curtime + 0.1f;
+		dLight->die = globalVars->curtime + 0.1f;
 		dLight->decay = 20.0f;
 	}
 }

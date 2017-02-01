@@ -12,14 +12,14 @@ void FOVChanger::OverrideView(CViewSetup* pSetup)
 	if (!Settings::FOVChanger::enabled && !Settings::FOVChanger::viewmodelEnabled)
 		return;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return;
 
 	if (!localplayer->GetAlive())
 	{
 		if (*localplayer->GetObserverMode() == ObserverMode_t::OBS_MODE_IN_EYE && localplayer->GetObserverTarget())
-			localplayer = (C_BasePlayer*) entitylist->GetClientEntityFromHandle(localplayer->GetObserverTarget());
+			localplayer = (C_BasePlayer*) entityList->GetClientEntityFromHandle(localplayer->GetObserverTarget());
 
 		if (!localplayer)
 			return;
@@ -34,14 +34,14 @@ void FOVChanger::GetViewModelFOV(float& fov)
 	if (!Settings::FOVChanger::enabled && !Settings::FOVChanger::viewmodelEnabled)
 		return;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return;
 
 	if (!localplayer->GetAlive())
 	{
 		if (*localplayer->GetObserverMode() == ObserverMode_t::OBS_MODE_IN_EYE && localplayer->GetObserverTarget())
-			localplayer = (C_BasePlayer*) entitylist->GetClientEntityFromHandle(localplayer->GetObserverTarget());
+			localplayer = (C_BasePlayer*) entityList->GetClientEntityFromHandle(localplayer->GetObserverTarget());
 
 		if (!localplayer)
 			return;

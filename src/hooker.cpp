@@ -1,37 +1,8 @@
 #include "hooker.h"
 
-IBaseClientDLL* client = nullptr;
-ISurface* surface = nullptr;
-IVPanel* panel = nullptr;
-IEngineClient* engine = nullptr;
-IClientEntityList* entitylist = nullptr;
-IVDebugOverlay* debugOverlay = nullptr;
-IVModelInfo* modelInfo = nullptr;
-IVModelRender* modelRender = nullptr;
-IClientMode* clientMode = nullptr;
-IEngineTrace* trace = nullptr;
-IInputSystem* inputSystem = nullptr;
-IInputInternal* inputInternal = nullptr;
-IMaterialSystem* material = nullptr;
-ICvar* cvar = nullptr;
-CGlobalVars* globalvars = nullptr;
-CEffects* effects = nullptr;
-IGameEventManager2* gameevents = nullptr;
-IPhysicsSurfaceProps* physics = nullptr;
-CViewRender* viewrender = nullptr;
-IPrediction* prediction = nullptr;
-IGameMovement* gamemovement = nullptr;
-IMoveHelper* movehelper = nullptr;
-ILauncherMgr* launchermgr = nullptr;
-CGlowObjectManager* glowmanager = nullptr;
-C_CSPlayerResource** csPlayerResource = nullptr;
-C_CSGameRules** csGameRules = nullptr;
-IEngineVGui* enginevgui = nullptr;
-IEngineSound* sound = nullptr;
-ILocalize* localize = nullptr;
-ICommandLine* commandline = nullptr;
-
-CInput* input = nullptr;
+bool* bSendPacket = nullptr;
+int* nPredictionRandomSeed = nullptr;
+CMoveData* g_MoveData = nullptr;
 
 VMT* panelVMT = nullptr;
 VMT* clientVMT = nullptr;
@@ -42,13 +13,9 @@ VMT* viewRenderVMT = nullptr;
 VMT* inputInternalVMT = nullptr;
 VMT* materialVMT = nullptr;
 VMT* surfaceVMT = nullptr;
-VMT* launchermgrVMT = nullptr;
-VMT* enginevguiVMT = nullptr;
+VMT* launcherMgrVMT = nullptr;
+VMT* engineVGuiVMT = nullptr;
 VMT* soundVMT = nullptr;
-
-bool* bSendPacket = nullptr;
-int* nPredictionRandomSeed = nullptr;
-CMoveData* g_MoveData = nullptr;
 
 uintptr_t* GetCSWpnData_address = nullptr;
 
@@ -101,13 +68,13 @@ void Hooker::InitializeVMHooks()
 	panelVMT = new VMT(panel);
 	clientVMT = new VMT(client);
 	modelRenderVMT = new VMT(modelRender);
-	gameEventsVMT = new VMT(gameevents);
-	viewRenderVMT = new VMT(viewrender);
+	gameEventsVMT = new VMT(gameEvents);
+	viewRenderVMT = new VMT(viewRender);
 	inputInternalVMT = new VMT(inputInternal);
 	materialVMT = new VMT(material);
 	surfaceVMT = new VMT(surface);
-	launchermgrVMT = new VMT(launchermgr);
-	enginevguiVMT = new VMT(enginevgui);
+	launcherMgrVMT = new VMT(launcherMgr);
+	engineVGuiVMT = new VMT(engineVGui);
 	soundVMT = new VMT(sound);
 }
 
@@ -123,7 +90,7 @@ void Hooker::FindIClientMode()
 void Hooker::FindGlobalVars()
 {
 	uintptr_t HudUpdate = reinterpret_cast<uintptr_t>(getvtable(client)[11]);
-	globalvars = *reinterpret_cast<CGlobalVars**>(GetAbsoluteAddress(HudUpdate + 13, 3, 7));
+	globalVars = *reinterpret_cast<CGlobalVars**>(GetAbsoluteAddress(HudUpdate + 13, 3, 7));
 }
 
 void Hooker::FindCInput()
@@ -136,7 +103,7 @@ void Hooker::FindGlowManager()
 {
 	uintptr_t instruction_addr = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) GLOWOBJECT_SIGNATURE, GLOWOBJECT_MASK);
 
-	glowmanager = reinterpret_cast<GlowObjectManagerFn>(GetAbsoluteAddress(instruction_addr, 1, 5))();
+	glowManager = reinterpret_cast<GlowObjectManagerFn>(GetAbsoluteAddress(instruction_addr, 1, 5))();
 }
 
 void Hooker::FindPlayerResource()
@@ -171,7 +138,7 @@ void Hooker::FindViewRender()
 {
 	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) VIEWRENDER_SIGNATURE, VIEWRENDER_MASK);
 
-	viewrender = reinterpret_cast<CViewRender*>(GetAbsoluteAddress(func_address + 14, 3, 7));
+	viewRender = reinterpret_cast<CViewRender*>(GetAbsoluteAddress(func_address + 14, 3, 7));
 }
 
 void Hooker::FindSendPacket()
@@ -190,7 +157,7 @@ void Hooker::FindPrediction()
 	uintptr_t movedata_instruction_addr = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) CLIENT_MOVEDATA_SIGNATURE, CLIENT_MOVEDATA_MASK);
 
 	nPredictionRandomSeed = *reinterpret_cast<int**>(GetAbsoluteAddress(seed_instruction_addr, 3, 7));
-	movehelper = *reinterpret_cast<IMoveHelper**>(GetAbsoluteAddress(helper_instruction_addr + 1, 3, 7));
+	moveHelper = *reinterpret_cast<IMoveHelper**>(GetAbsoluteAddress(helper_instruction_addr + 1, 3, 7));
 	g_MoveData = **reinterpret_cast<CMoveData***>(GetAbsoluteAddress(movedata_instruction_addr, 3, 7));
 }
 
@@ -260,5 +227,5 @@ void Hooker::FindSDLInput()
 {
 	uintptr_t func_address = FindPattern(GetLibraryAddress("launcher_client.so"), 0xFFFFFFFFF, (unsigned char*) GETSDLMGR_SIGNATURE, GETSDLMGR_MASK);
 
-	launchermgr = reinterpret_cast<ILauncherMgrCreateFn>(func_address)();
+	launcherMgr = reinterpret_cast<ILauncherMgrCreateFn>(func_address)();
 }

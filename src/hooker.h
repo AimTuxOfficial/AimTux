@@ -62,6 +62,7 @@
 #include "Utils/vmt.h"
 #include "Utils/util.h"
 #include "glhook.h"
+#include "interfaces.h"
 
 namespace Hooker
 {
