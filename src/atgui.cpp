@@ -528,9 +528,6 @@ void AimbotTab()
 				if (ImGui::Checkbox("Recoil Control", &rcsEnabled))
 					UI::UpdateWeaponSettings();
 				SetTooltip("Automatically controls recoil");
-				if (ImGui::Checkbox("RCS Always on", &rcsAlwaysOn))
-					UI::UpdateWeaponSettings();
-				SetTooltip("Whether Recoil Control always controls recoil (even when not aimbotting)");
 				if (ImGui::Checkbox("Distance-Based FOV", &autoAimRealDistance))
 					UI::UpdateWeaponSettings();
 				SetTooltip("Takes perspective into account when calculating FOV");
@@ -540,11 +537,24 @@ void AimbotTab()
 				ImGui::PushItemWidth(-1);
 					if (ImGui::SliderFloat("##AA", &autoAimValue, 0, 180))
 						UI::UpdateWeaponSettings();
-					if (ImGui::SliderFloat("##RCSX", &rcsAmountX, 0, 2, "X: %0.3f"))
-						UI::UpdateWeaponSettings();
-					if (ImGui::SliderFloat("##RCSY", &rcsAmountY, 0, 2, "Y: %0.3f"))
-						UI::UpdateWeaponSettings();
 				ImGui::PopItemWidth();
+				if (ImGui::Button("RCS Settings", ImVec2(-1, 0)))
+					ImGui::OpenPopup("optionRCSAmount");
+				ImGui::SetNextWindowSize(ImVec2(200, 100), ImGuiSetCond_Always);
+				if (ImGui::BeginPopup("optionRCSAmount"))
+				{
+					ImGui::PushItemWidth(-1);
+						if (ImGui::Checkbox("RCS Always on", &rcsAlwaysOn))
+							UI::UpdateWeaponSettings();
+						SetTooltip("Whether Recoil Control always controls recoil (even when not aimbotting)");
+						if (ImGui::SliderFloat("##RCSX", &rcsAmountX, 0, 2, "X: %0.3f"))
+							UI::UpdateWeaponSettings();
+						if (ImGui::SliderFloat("##RCSY", &rcsAmountY, 0, 2, "Y: %0.3f"))
+							UI::UpdateWeaponSettings();
+					ImGui::PopItemWidth();
+
+					ImGui::EndPopup();
+				}
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
