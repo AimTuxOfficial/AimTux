@@ -4,7 +4,7 @@ SDL_GLContext aimtux_context = nullptr;
 
 void SDL2::SwapWindow(SDL_Window* window)
 {
-	static SDL_GL_SwapWindow_t oSDL_GL_SwapWindow = reinterpret_cast<SDL_GL_SwapWindow_t>(original_swap_window);
+	static SDL_GL_SwapWindow_t oSDL_GL_SwapWindow = reinterpret_cast<SDL_GL_SwapWindow_t>(oSwapWindow);
 
 	static SDL_GLContext original_context = SDL_GL_GetCurrentContext();
 
@@ -82,14 +82,14 @@ void SDL2::SwapWindow(SDL_Window* window)
 
 void SDL2::UnhookWindow()
 {
-	*swap_window_jump_address = original_swap_window;
+	*swapWindowJumpAddress = oSwapWindow;
 
 	SDL_GL_DeleteContext(aimtux_context);
 }
 
 int SDL2::PollEvent(SDL_Event* event)
 {
-	static SDL_PollEvent_t oSDL_PollEvent = reinterpret_cast<SDL_PollEvent_t>(original_pollevent);
+	static SDL_PollEvent_t oSDL_PollEvent = reinterpret_cast<SDL_PollEvent_t>(oPollEvent);
 
 	if (event->key.keysym.sym == SDLK_INSERT && event->type == SDL_KEYDOWN)
 		UI::SetVisible(!UI::isVisible);
@@ -99,5 +99,5 @@ int SDL2::PollEvent(SDL_Event* event)
 
 void SDL2::UnhookPollEvent()
 {
-	*pollevent_jump_address = original_pollevent;
+	*polleventJumpAddress = oPollEvent;
 }

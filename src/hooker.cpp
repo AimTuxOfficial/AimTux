@@ -19,13 +19,13 @@ VMT* soundVMT = nullptr;
 
 uintptr_t* GetCSWpnData_address = nullptr;
 
-uintptr_t original_swap_window;
-uintptr_t* swap_window_jump_address = nullptr;
+uintptr_t oSwapWindow;
+uintptr_t* swapWindowJumpAddress = nullptr;
 
-uintptr_t original_pollevent;
-uintptr_t* pollevent_jump_address = nullptr;
+uintptr_t oPollEvent;
+uintptr_t* polleventJumpAddress = nullptr;
 
-MsgFunc_ServerRankRevealAllFn MsgFunc_ServerRankRevealAll;
+msgfuncServerRankRevealAllFn msgfuncServerRankRevealAll;
 SendClanTagFn SendClanTag;
 IsReadyCallbackFn IsReadyCallback;
 
@@ -124,7 +124,7 @@ void Hooker::FindRankReveal()
 {
 	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) MSGFUNC_SERVERRANKREVEALALL_SIGNATURE, MSGFUNC_SERVERRANKREVEALALL_MASK);
 
-	MsgFunc_ServerRankRevealAll = reinterpret_cast<MsgFunc_ServerRankRevealAllFn>(func_address);
+	msgfuncServerRankRevealAll = reinterpret_cast<msgfuncServerRankRevealAllFn>(func_address);
 }
 
 void Hooker::FindSendClanTag()
@@ -209,18 +209,18 @@ void Hooker::FindGetCSWpnData()
 
 void Hooker::HookSwapWindow()
 {
-	uintptr_t swapwindow_fn = reinterpret_cast<uintptr_t>(dlsym(RTLD_NEXT, "SDL_GL_SwapWindow"));
-	swap_window_jump_address = reinterpret_cast<uintptr_t*>(GetAbsoluteAddress(swapwindow_fn, 3, 7));
-	original_swap_window = *swap_window_jump_address;
-	*swap_window_jump_address = reinterpret_cast<uintptr_t>(&SDL2::SwapWindow);
+	uintptr_t swapwindowFn = reinterpret_cast<uintptr_t>(dlsym(RTLD_NEXT, "SDL_GL_SwapWindow"));
+	swapWindowJumpAddress = reinterpret_cast<uintptr_t*>(GetAbsoluteAddress(swapwindowFn, 3, 7));
+	oSwapWindow = *swapWindowJumpAddress;
+	*swapWindowJumpAddress = reinterpret_cast<uintptr_t>(&SDL2::SwapWindow);
 }
 
 void Hooker::HookPollEvent()
 {
-	uintptr_t pollevent_fn = reinterpret_cast<uintptr_t>(dlsym(RTLD_NEXT, "SDL_PollEvent"));
-	pollevent_jump_address = reinterpret_cast<uintptr_t*>(GetAbsoluteAddress(pollevent_fn, 3, 7));
-	original_pollevent = *pollevent_jump_address;
-	*pollevent_jump_address = reinterpret_cast<uintptr_t>(&SDL2::PollEvent);
+	uintptr_t polleventFn = reinterpret_cast<uintptr_t>(dlsym(RTLD_NEXT, "SDL_PollEvent"));
+	polleventJumpAddress = reinterpret_cast<uintptr_t*>(GetAbsoluteAddress(polleventFn, 3, 7));
+	oPollEvent = *polleventJumpAddress;
+	*polleventJumpAddress = reinterpret_cast<uintptr_t>(&SDL2::PollEvent);
 }
 
 void Hooker::FindSDLInput()
