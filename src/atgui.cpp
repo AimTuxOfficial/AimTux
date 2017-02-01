@@ -295,6 +295,7 @@ void ColorsWindow()
 			"Chams - Enemy",
 			"Chams - Enemy Visible",
 			"Chams - Arms",
+			"Chams - Weapon",
 			"Radar - Enemy",
 			"Radar - Team",
 			"Radar - Enemy Visible",
@@ -348,6 +349,7 @@ void ColorsWindow()
 			&Settings::ESP::Chams::enemyColor,
 			&Settings::ESP::Chams::enemyVisibleColor,
 			&Settings::ESP::Chams::Arms::color,
+			&Settings::ESP::Chams::Weapon::color,
 			&Settings::Radar::enemyColor,
 			&Settings::Radar::allyColor,
 			&Settings::Radar::enemyVisibleColor,
@@ -401,6 +403,7 @@ void ColorsWindow()
 			&Settings::ESP::Chams::hpEnemyColor, // Chams - Enemy
 			&Settings::ESP::Chams::hpEnemyVisibleColor, // Chams - Enemy Visible
 			nullptr, // Chams - Arms
+			nullptr, // Chams - Weapons
 			&Settings::Radar::hpEnemyColor, // Radar - Enemy
 			&Settings::Radar::hpAllyColor, // Radar - Team
 			&Settings::Radar::hpEnemyVisibleColor, // Radar - Enemy Visible
@@ -973,6 +976,8 @@ void VisualsTab()
 			{
 				ImGui::Checkbox("Arms", &Settings::ESP::Chams::Arms::enabled);
 				SetTooltip("Apply chams to arms");
+				ImGui::Checkbox("Weapons", &Settings::ESP::Chams::Weapon::enabled);
+				SetTooltip("Apply chams to weapons");
 				ImGui::Checkbox("Dlights", &Settings::Dlights::enabled);
 				SetTooltip("Adds a light source to players");
 				ImGui::Checkbox("No Flash", &Settings::Noflash::enabled);

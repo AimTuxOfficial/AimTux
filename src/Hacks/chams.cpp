@@ -2,6 +2,7 @@
 
 bool Settings::ESP::Chams::enabled = false;
 bool Settings::ESP::Chams::Arms::enabled = false;
+bool Settings::ESP::Chams::Weapon::enabled = false;
 ArmsType Settings::ESP::Chams::Arms::type = ArmsType::DEFAULT;
 ImColor Settings::ESP::Chams::allyColor = ImColor(7, 98, 168, 255);
 ImColor Settings::ESP::Chams::allyVisibleColor = ImColor(40, 52, 138, 255);
@@ -12,6 +13,7 @@ bool Settings::ESP::Chams::hpAllyVisibleColor = false;
 bool Settings::ESP::Chams::hpEnemyColor = false;
 bool Settings::ESP::Chams::hpEnemyVisibleColor = false;
 ImColor Settings::ESP::Chams::Arms::color = ImColor(117, 43, 73, 255);
+ImColor Settings::ESP::Chams::Weapon::color = ImColor(255, 255, 255, 255);
 ChamsType Settings::ESP::Chams::type = ChamsType::CHAMS;
 
 float rainbowHue;
@@ -21,6 +23,7 @@ IMaterial* materialChamsIgnorez;
 IMaterial* materialChamsFlat;
 IMaterial* materialChamsFlatIgnorez;
 IMaterial* materialChamsArms;
+IMaterial* materialChamsWeapons;
 
 void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t* pCustomBoneToWorld)
 {
@@ -87,7 +90,26 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 	modelRenderVMT->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
 }
 
-void DrawArms(const ModelRenderInfo_t &pInfo)
+void DrawWeapon(const ModelRenderInfo_t& pInfo)
+{
+	if (!Settings::ESP::Chams::Weapon::enabled)
+		return;
+
+	std::string modelName = modelInfo->GetModelName(pInfo.pModel);
+	IMaterial* mat;
+
+	if (Settings::ESP::Chams::Weapon::enabled)
+		mat = materialChamsWeapons;
+	else
+		mat = material->FindMaterial(modelName.c_str(), TEXTURE_GROUP_MODEL);
+
+	mat->AlphaModulate(1.0f);
+	mat->ColorModulate(Settings::ESP::Chams::Weapon::color);
+
+	modelRender->ForcedMaterialOverride(mat);
+}
+
+void DrawArms(const ModelRenderInfo_t& pInfo)
 {
 	if (!Settings::ESP::Chams::Arms::enabled)
 		return;
@@ -139,6 +161,7 @@ void Chams::DrawModelExecute(void* thisptr, void* context, void *state, const Mo
 		materialChamsFlat = Util::CreateMaterial("UnlitGeneric", "VGUI/white_additive", false, true, true, true, true);
 		materialChamsFlatIgnorez = Util::CreateMaterial("UnlitGeneric", "VGUI/white_additive", true, true, true, true, true);
 		materialChamsArms = Util::CreateMaterial("VertexLitGeneric", "VGUI/white_additive", false, true, true, true, true);
+		materialChamsWeapons = Util::CreateMaterial("VertexLitGeneric", "VGUI/white_additive", false, true, true, true, true);
 		materialsCreated = true;
 	}
 
@@ -148,6 +171,9 @@ void Chams::DrawModelExecute(void* thisptr, void* context, void *state, const Mo
 		DrawPlayer(thisptr, context, state, pInfo, pCustomBoneToWorld);
 	else if (modelName.find("arms") != std::string::npos)
 		DrawArms(pInfo);
+	else if (modelName.find("weapon") != std::string::npos)
+		DrawWeapon(pInfo);
+	
 }
 
 void Chams::CreateMove(CUserCmd* cmd)
