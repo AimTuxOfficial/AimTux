@@ -1656,7 +1656,7 @@ void WeaponSkinChanger()
 	ImGui::PushItemWidth(-1);
 		ImGui::InputText("##FilterSkins", filterSkins, IM_ARRAYSIZE(filterSkins));
 		ImGui::ListBoxHeader("##SKINS", ImVec2(0, 300));
-			for (auto it : weapon_skins)
+			for (auto it : weaponSkins)
 			{
 				if (!Util::Contains(Util::ToLower(std::string(filterSkins)), Util::ToLower(std::string(it.second))))
 					continue;
