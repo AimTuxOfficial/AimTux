@@ -246,6 +246,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	LoadUIColor(settings["ESP"]["FOVCrosshair"]["color"], Settings::ESP::FOVCrosshair::color);
 	settings["ESP"]["Chams"]["Arms"]["enabled"] = Settings::ESP::Chams::Arms::enabled;
 	settings["ESP"]["Chams"]["Arms"]["type"] = (int) Settings::ESP::Chams::Arms::type;
+	settings["ESP"]["Chams"]["Weapon"]["enabled"] = Settings::ESP::Chams::Weapon::enabled;
+	LoadUIColor(settings["ESP"]["Chams"]["Weapon"]["color"], Settings::ESP::Chams::Weapon::color);
 	LoadUIColor(settings["ESP"]["Chams"]["Arms"]["color"], Settings::ESP::Chams::Arms::color);
 	LoadUIColor(settings["ESP"]["Chams"]["players_ally_color"], Settings::ESP::Chams::allyColor);
 	LoadUIColor(settings["ESP"]["Chams"]["players_ally_visible_color"], Settings::ESP::Chams::allyVisibleColor);
@@ -600,6 +602,8 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["ESP"]["Chams"]["Arms"]["enabled"], &Settings::ESP::Chams::Arms::enabled);
 	GetVal(settings["ESP"]["Chams"]["Arms"]["type"], (int*)& Settings::ESP::Chams::Arms::type);
 	GetVal(settings["ESP"]["Chams"]["Arms"]["color"], &Settings::ESP::Chams::Arms::color);
+	GetVal(settings["ESP"]["Chams"]["Weapon"]["enabled"], &Settings::ESP::Chams::Weapon::enabled);
+	GetVal(settings["ESP"]["Chams"]["Weapon"]["color"], &Settings::ESP::Chams::Weapon::color);
 	GetVal(settings["ESP"]["Chams"]["players_ally_color"], &Settings::ESP::Chams::allyColor);
 	GetVal(settings["ESP"]["Chams"]["players_ally_visible_color"], &Settings::ESP::Chams::allyVisibleColor);
 	GetVal(settings["ESP"]["Chams"]["players_enemy_color"], &Settings::ESP::Chams::enemyColor);
