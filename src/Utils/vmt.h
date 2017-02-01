@@ -2,7 +2,6 @@
 
 #include <cstdint>
 #include <cstddef>
-#include <cstring>
 
 class VMT
 {
@@ -14,7 +13,7 @@ public:
 
 	uintptr_t* original_vmt = nullptr;
 
-	unsigned int methodCount = 0;
+	uint32_t methodCount = 0;
 
 	VMT(void* interface)
 	{
