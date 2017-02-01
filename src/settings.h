@@ -490,6 +490,12 @@ namespace Settings
 			extern bool enabled;
 			extern ImColor color;
 		}
+		
+		namespace RifleCrosshair
+		{
+			extern bool enabled;
+			extern ImColor color;
+		}
 
 		namespace Chams
 		{
