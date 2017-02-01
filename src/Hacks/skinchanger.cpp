@@ -26,7 +26,7 @@ void SkinChanger::FrameStageNotifyWeapons(ClientFrameStage_t stage)
 		if (stage != ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_START)
 			return;
 
-		C_BasePlayer* localplayer = (C_BasePlayer *) entityList->GetClientEntity(engine->GetLocalPlayer());
+		C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 		if (!localplayer || !localplayer->GetAlive())
 			return;
 
@@ -39,7 +39,7 @@ void SkinChanger::FrameStageNotifyWeapons(ClientFrameStage_t stage)
 			if (localplayer->GetWeapons()[i] == -1)
 				continue;
 
-			C_BaseAttributableItem *weapon = (C_BaseAttributableItem *) entityList->GetClientEntity(localplayer->GetWeapons()[i] & 0xFFF);
+			C_BaseAttributableItem* weapon = (C_BaseAttributableItem* ) entityList->GetClientEntity(localplayer->GetWeapons()[i] & 0xFFF);
 
 			if (!weapon)
 				continue;
@@ -108,7 +108,7 @@ void SkinChanger::FrameStageNotifyGloves(ClientFrameStage_t stage)
 		if (stage != ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_START)
 			return;
 
-		C_BasePlayer *localplayer = (C_BasePlayer *) entityList->GetClientEntity(engine->GetLocalPlayer());
+		C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 		if (!localplayer)
 			return;
 
@@ -118,7 +118,7 @@ void SkinChanger::FrameStageNotifyGloves(ClientFrameStage_t stage)
 
 		if (!localplayer->GetAlive())
 		{
-			C_BaseAttributableItem *glove = (C_BaseAttributableItem *) entityList->GetClientEntity(localplayer->GetWearables()[0] & 0xFFF);
+			C_BaseAttributableItem* glove = (C_BaseAttributableItem* ) entityList->GetClientEntity(localplayer->GetWearables()[0] & 0xFFF);
 			if (!glove)
 				return;
 
@@ -144,7 +144,7 @@ void SkinChanger::FrameStageNotifyGloves(ClientFrameStage_t stage)
 				}
 			}
 
-			C_BaseAttributableItem *glove = (C_BaseAttributableItem *) entityList->GetClientEntity(localplayer->GetWearables()[0] & 0xFFF);
+			C_BaseAttributableItem* glove = (C_BaseAttributableItem* ) entityList->GetClientEntity(localplayer->GetWearables()[0] & 0xFFF);
 			if (!glove)
 				return;
 

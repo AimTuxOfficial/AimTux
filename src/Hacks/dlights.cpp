@@ -20,7 +20,7 @@ void Dlights::Paint()
 
 	for (int i = 1; i < engine->GetMaxClients(); ++i)
 	{
-		C_BasePlayer *player = (C_BasePlayer*) entityList->GetClientEntity(i);
+		C_BasePlayer* player = (C_BasePlayer*) entityList->GetClientEntity(i);
 		if (!player)
 			continue;
 

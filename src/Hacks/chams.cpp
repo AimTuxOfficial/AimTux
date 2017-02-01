@@ -22,7 +22,7 @@ IMaterial* materialChamsFlat;
 IMaterial* materialChamsFlatIgnorez;
 IMaterial* materialChamsArms;
 
-void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld)
+void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t* pCustomBoneToWorld)
 {
 	if (!Settings::ESP::Chams::enabled)
 		return;
@@ -38,8 +38,8 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 		|| !entity->GetAlive())
 		return;
 
-	IMaterial *visible_material;
-	IMaterial *hidden_material;
+	IMaterial* visible_material;
+	IMaterial* hidden_material;
 
 	switch (Settings::ESP::Chams::type)
 	{
@@ -93,7 +93,7 @@ void DrawArms(const ModelRenderInfo_t &pInfo)
 		return;
 
 	std::string modelName = modelInfo->GetModelName(pInfo.pModel);
-	IMaterial *mat;
+	IMaterial* mat;
 
 	if (Settings::ESP::Chams::Arms::enabled)
 		mat = materialChamsArms;
@@ -120,7 +120,7 @@ void DrawArms(const ModelRenderInfo_t &pInfo)
 	modelRender->ForcedMaterialOverride(mat);
 }
 
-void Chams::DrawModelExecute(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld)
+void Chams::DrawModelExecute(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t* pCustomBoneToWorld)
 {
 	if (!engine->IsInGame())
 		return;

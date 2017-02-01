@@ -766,7 +766,7 @@ void ESP::DrawThrowable(C_BaseEntity* throwable, ClientClass* client)
 
 	for (int i = 0; i < hdr->numtextures; i++)
 	{
-		IMaterial *mat = mats[i];
+		IMaterial* mat = mats[i];
 		if (!mat)
 			continue;
 
@@ -1166,7 +1166,7 @@ void ESP::Paint()
 		ESP::DrawScope();
 }
 
-void ESP::DrawModelExecute(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld)
+void ESP::DrawModelExecute(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t* pCustomBoneToWorld)
 {
 	if (!Settings::ESP::enabled)
 		return;
