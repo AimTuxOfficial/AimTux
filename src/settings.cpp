@@ -116,7 +116,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 		weaponSetting["AimStep"]["Amount"] = i.second.aimStepValue;
 		weaponSetting["RCS"]["Enabled"] = i.second.rcsEnabled;
 		weaponSetting["RCS"]["AlwaysOn"] = i.second.rcsAlwaysOn;
-		weaponSetting["RCS"]["AmountX"] = i.second.rcsAmountX;
+		weaponSetting["RCS"]["rcsAmountX"] = i.second.rcsAmountX;
 		weaponSetting["RCS"]["rcsAmountY"] = i.second.rcsAmountY;
 		weaponSetting["AutoPistol"]["Enabled"] = i.second.autoPistolEnabled;
 		weaponSetting["AutoShoot"]["Enabled"] = i.second.autoShootEnabled;
@@ -472,8 +472,8 @@ void Settings::LoadConfig(std::string path)
 				weaponSetting["AimStep"]["Amount"].asFloat(),
 				weaponSetting["RCS"]["Enabled"].asBool(),
 				weaponSetting["RCS"]["AlwaysOn"].asBool(),
-				weaponSetting["RCS"]["AmountX"].asFloat(),
-				weaponSetting["RCS"]["AmountY"].asFloat(),
+				weaponSetting["RCS"]["rcsAmountX"].asFloat(),
+				weaponSetting["RCS"]["rcsAmountY"].asFloat(),
 				weaponSetting["AutoPistol"]["Enabled"].asBool(),
 				weaponSetting["AutoShoot"]["Enabled"].asBool(),
 				weaponSetting["AutoScope"]["Enabled"].asBool(),
