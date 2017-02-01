@@ -243,6 +243,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["ESP"]["BulletTracers"]["enabled"] = Settings::ESP::BulletTracers::enabled;
 	settings["ESP"]["FOVCrosshair"]["enabled"] = Settings::ESP::FOVCrosshair::enabled;
 	LoadUIColor(settings["ESP"]["FOVCrosshair"]["color"], Settings::ESP::FOVCrosshair::color);
+	settings["ESP"]["RifleCrosshair"]["enabled"] = Settings::ESP::RifleCrosshair::enabled;
+	LoadUIColor(settings["ESP"]["RifleCrosshair"]["color"], Settings::ESP::RifleCrosshair::color);
 	settings["ESP"]["Chams"]["Arms"]["enabled"] = Settings::ESP::Chams::Arms::enabled;
 	settings["ESP"]["Chams"]["Arms"]["type"] = (int) Settings::ESP::Chams::Arms::type;
 	LoadUIColor(settings["ESP"]["Chams"]["Arms"]["color"], Settings::ESP::Chams::Arms::color);
@@ -596,6 +598,8 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["ESP"]["BulletTracers"]["enabled"], &Settings::ESP::BulletTracers::enabled);
 	GetVal(settings["ESP"]["FOVCrosshair"]["enabled"], &Settings::ESP::FOVCrosshair::enabled);
 	GetVal(settings["ESP"]["FOVCrosshair"]["color"], &Settings::ESP::FOVCrosshair::color);
+	GetVal(settings["ESP"]["RifleCrosshair"]["enabled"], &Settings::ESP::RifleCrosshair::enabled);
+	GetVal(settings["ESP"]["RifleCrosshair"]["color"], &Settings::ESP::RifleCrosshair::color);
 	GetVal(settings["ESP"]["Chams"]["Arms"]["enabled"], &Settings::ESP::Chams::Arms::enabled);
 	GetVal(settings["ESP"]["Chams"]["Arms"]["type"], (int*)& Settings::ESP::Chams::Arms::type);
 	GetVal(settings["ESP"]["Chams"]["Arms"]["color"], &Settings::ESP::Chams::Arms::color);

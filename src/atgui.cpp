@@ -261,6 +261,7 @@ void ColorsWindow()
 			"UI Body",
 			"UI Font",
 			"FOV Circle",
+			"Rifle Crosshair",
 			"Hitmarker",
 			"ESP - Enemy",
 			"ESP - Team",
@@ -314,6 +315,7 @@ void ColorsWindow()
 			&Settings::UI::bodyColor,
 			&Settings::UI::fontColor,
 			&Settings::ESP::FOVCrosshair::color,
+			&Settings::ESP::RifleCrosshair::color,
 			&Settings::ESP::Hitmarker::color,
 			&Settings::ESP::enemyColor,
 			&Settings::ESP::allyColor,
@@ -367,6 +369,7 @@ void ColorsWindow()
 			nullptr, // UI Body
 			nullptr, // UI Font
 			nullptr, // FOV Circle
+			nullptr, // Rifle Crosshair
 			nullptr, // Hitmarker
 			&Settings::ESP::hpEnemyColor, // ESP - Enemy
 			&Settings::ESP::hpAllyColor, // ESP - Team
@@ -984,6 +987,8 @@ void VisualsTab()
 			{
 				ImGui::Checkbox("Only When Shooting", &Settings::Recoilcrosshair::showOnlyWhenShooting);
 				SetTooltip("Only show recoil crosshair when shooting");
+				ImGui::Checkbox("Rifle Crosshair", &Settings::ESP::RifleCrosshair::enabled);
+				SetTooltip("Show a Crosshair if you use a Sniper Rifle");
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
