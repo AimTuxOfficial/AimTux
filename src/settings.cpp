@@ -43,6 +43,14 @@ void GetVal(Json::Value &config, char** setting)
 	*setting = strdup(config.asCString());
 }
 
+void GetVal(Json::Value &config, char* setting)
+{
+	if (config.isNull())
+		return;
+
+	strcpy(setting, config.asCString());
+}
+
 template <typename Ord, Ord (*lookupFunction)(std::string)>
 void GetOrdinal(Json::Value& config, Ord* setting)
 {
@@ -735,7 +743,7 @@ void Settings::LoadConfig(std::string path)
 
 	GetVal(settings["ShowSpectators"]["enabled"], &Settings::ShowSpectators::enabled);
 
-	GetVal(settings["ClanTagChanger"]["value"], &Settings::ClanTagChanger::value);
+	GetVal(settings["ClanTagChanger"]["value"], (char *)& Settings::ClanTagChanger::value);
 	GetVal(settings["ClanTagChanger"]["enabled"], &Settings::ClanTagChanger::enabled);
 	GetVal(settings["ClanTagChanger"]["animation"], &Settings::ClanTagChanger::animation);
 	GetVal(settings["ClanTagChanger"]["animation_speed"], &Settings::ClanTagChanger::animationSpeed);

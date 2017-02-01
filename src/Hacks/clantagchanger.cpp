@@ -1,6 +1,6 @@
 #include "clantagchanger.h"
 
-char* Settings::ClanTagChanger::value = strdup("");
+char Settings::ClanTagChanger::value[30] = "";
 bool Settings::ClanTagChanger::animation = false;
 int Settings::ClanTagChanger::animationSpeed = 650;
 bool Settings::ClanTagChanger::enabled = false; // TODO find a way to go back to the "official" clan tag for the player? -- Save the current clan tag, before editing, then restore it later
@@ -113,7 +113,7 @@ void ClanTagChanger::BeginFrame(float frameTime)
 		ClanTagChanger::animation->NextFrame();
 	}
 
-	std::string ctWithEscapesProcessed = std::string(strdup(Settings::ClanTagChanger::value));
+	std::string ctWithEscapesProcessed = std::string(Settings::ClanTagChanger::value);
 	Util::StdReplaceStr(ctWithEscapesProcessed, "\\n", "\n"); // compute time impact? also, referential so i assume RAII builtin cleans it up...
 
 	if (Settings::ClanTagChanger::type == ClanTagType::STATIC)

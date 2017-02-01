@@ -690,7 +690,7 @@ namespace Settings
 
 	namespace ClanTagChanger
 	{
-		extern char* value;
+		extern char value[30];
 		extern bool animation;
 		extern int animationSpeed;
 		extern bool enabled;
