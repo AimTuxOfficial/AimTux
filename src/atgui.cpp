@@ -1680,7 +1680,7 @@ void WeaponSkinChanger()
 		ImGui::ListBoxHeader("##KNIVES", ImVec2(-1, -1));
 			for (auto knife : ItemDefinitionIndexMap)
 			{
-				if(knife.first < ItemDefinitionIndex::WEAPON_KNIFE_BAYONET || knife.first > ItemDefinitionIndex::WEAPON_KNIFE_PUSH)
+				if (knife.first < ItemDefinitionIndex::WEAPON_KNIFE_BAYONET || knife.first > ItemDefinitionIndex::WEAPON_KNIFE_PUSH)
 					continue;
 				const bool item_selected = ((int) knife.first == currentWeapon);
 				ImGui::PushID((int)knife.first);
@@ -1824,42 +1824,42 @@ void GloveSkinChanger()
 					switch (currentGlove)
 					{
 						case (int) ItemDefinitionIndex::GLOVE_STUDDED_BLOODHOUND:
-							if(it.first != filterBloodhound[0] &&
+							if (it.first != filterBloodhound[0] &&
 							   it.first != filterBloodhound[1] &&
 							   it.first != filterBloodhound[2] &&
 							   it.first != filterBloodhound[3])
 								continue;
 							break;
 						case (int) ItemDefinitionIndex::GLOVE_SPORTY:
-							if(it.first != filterSporty[0] &&
+							if (it.first != filterSporty[0] &&
 							   it.first != filterSporty[1] &&
 							   it.first != filterSporty[2] &&
 							   it.first != filterSporty[3])
 								continue;
 							break;
 						case (int) ItemDefinitionIndex::GLOVE_SLICK:
-							if(it.first != filterSlick[0] &&
+							if (it.first != filterSlick[0] &&
 							   it.first != filterSlick[1] &&
 							   it.first != filterSlick[2] &&
 							   it.first != filterSlick[3])
 								continue;
 							break;
 						case (int) ItemDefinitionIndex::GLOVE_LEATHER_WRAP:
-							if(it.first != filterWrap[0] &&
+							if (it.first != filterWrap[0] &&
 							   it.first != filterWrap[1] &&
 							   it.first != filterWrap[2] &&
 							   it.first != filterWrap[3])
 								continue;
 							break;
 						case (int) ItemDefinitionIndex::GLOVE_MOTORCYCLE:
-							if(it.first != filterMoto[0] &&
+							if (it.first != filterMoto[0] &&
 							   it.first != filterMoto[1] &&
 							   it.first != filterMoto[2] &&
 							   it.first != filterMoto[3])
 								continue;
 							break;
 						case (int) ItemDefinitionIndex::GLOVE_SPECIALIST:
-							if(it.first != filterSpecialist[0] &&
+							if (it.first != filterSpecialist[0] &&
 							   it.first != filterSpecialist[1] &&
 							   it.first != filterSpecialist[2] &&
 							   it.first != filterSpecialist[3])
