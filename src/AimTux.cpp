@@ -88,8 +88,8 @@ int __attribute__((constructor)) aimtux_init()
 
 	SkinChanger::HookCBaseViewModel();
 
-	NetVarManager::dumpNetvars();
-	Offsets::getOffsets();
+	NetVarManager::DumpNetvars();
+	Offsets::GetOffsets();
 
 	Fonts::SetupFonts();
 
