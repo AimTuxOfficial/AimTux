@@ -125,6 +125,13 @@ enum class ArmsType : int
 	NONE
 };
 
+enum class HeaddotType : int
+{
+	HD_CIRCLE,
+	HD_FILLEDRECT,
+	HD_RECT
+};
+
 enum class AimTargetType : int
 {
 	FOV,
@@ -538,6 +545,7 @@ namespace Settings
 		{
 			extern bool enabled;
 			extern float size;
+			extern HeaddotType type;
 		}
 	}
 
