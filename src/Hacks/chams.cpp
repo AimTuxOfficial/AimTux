@@ -38,8 +38,8 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 		|| !entity->GetAlive())
 		return;
 
-	IMaterial *visible_material;
-	IMaterial *hidden_material;
+	IMaterial* visible_material;
+	IMaterial* hidden_material;
 
 	switch (Settings::ESP::Chams::type)
 	{
@@ -93,7 +93,7 @@ void DrawArms(const ModelRenderInfo_t &pInfo)
 		return;
 
 	std::string modelName = modelInfo->GetModelName(pInfo.pModel);
-	IMaterial *mat;
+	IMaterial* mat;
 
 	if (Settings::ESP::Chams::Arms::enabled)
 		mat = materialChamsArms;

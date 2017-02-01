@@ -33,7 +33,7 @@ struct ModelRenderInfo_t
 class IVModelRender
 {
 public:
-	void ForcedMaterialOverride(IMaterial *mat)
+	void ForcedMaterialOverride(IMaterial* mat)
 	{
 		typedef void (* oForcedMaterialOverride)(void*, IMaterial*, int, int);
 		return getvfunc<oForcedMaterialOverride>(this, 1)(this, mat, 0, 0);

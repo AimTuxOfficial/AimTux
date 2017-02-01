@@ -766,7 +766,7 @@ void ESP::DrawThrowable(C_BaseEntity* throwable, ClientClass* client)
 
 	for (int i = 0; i < hdr->numtextures; i++)
 	{
-		IMaterial *mat = mats[i];
+		IMaterial* mat = mats[i];
 		if (!mat)
 			continue;
 

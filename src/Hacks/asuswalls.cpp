@@ -13,7 +13,7 @@ void ASUSWalls::FrameStageNotify(ClientFrameStage_t stage)
 	{
 		for (const auto& it : worldMaterials)
 		{
-			IMaterial *mat = material->GetMaterial(it.first);
+			IMaterial* mat = material->GetMaterial(it.first);
 
 			if (!mat)
 				continue;
@@ -34,7 +34,7 @@ void ASUSWalls::FrameStageNotify(ClientFrameStage_t stage)
 
 	for (MaterialHandle_t i = material->FirstMaterial(); i != material->InvalidMaterial(); i = material->NextMaterial(i))
 	{
-		IMaterial *mat = material->GetMaterial(i);
+		IMaterial* mat = material->GetMaterial(i);
 
 		if (!mat || strcmp(mat->GetTextureGroupName(), TEXTURE_GROUP_WORLD) != 0)
 			continue;
