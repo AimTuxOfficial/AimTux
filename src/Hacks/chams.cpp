@@ -22,7 +22,7 @@ IMaterial* materialChamsFlat;
 IMaterial* materialChamsFlatIgnorez;
 IMaterial* materialChamsArms;
 
-void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld)
+void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t* pCustomBoneToWorld)
 {
 	if (!Settings::ESP::Chams::enabled)
 		return;
@@ -120,7 +120,7 @@ void DrawArms(const ModelRenderInfo_t &pInfo)
 	modelRender->ForcedMaterialOverride(mat);
 }
 
-void Chams::DrawModelExecute(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld)
+void Chams::DrawModelExecute(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t* pCustomBoneToWorld)
 {
 	if (!engine->IsInGame())
 		return;

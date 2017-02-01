@@ -31,7 +31,7 @@ namespace Hooks
 {
 	void PaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool allow_force);
 	void FrameStageNotify(void* thisptr, ClientFrameStage_t stage);
-	void DrawModelExecute(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld);
+	void DrawModelExecute(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t* pCustomBoneToWorld);
 	bool CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd);
 	bool FireEvent(void* thisptr, IGameEvent* event, bool bDontBroadcast);
 	bool FireEventClientSide(void* thisptr, IGameEvent* event);
