@@ -1,23 +1,19 @@
 #pragma once
 
+class CBaseHandle;
+
 class IClientEntityList
 {
 public:
-	C_BaseEntity* GetClientEntity(int index)
-	{
-		typedef C_BaseEntity* (* oGetClientEntity)(void*, int);
-		return getvfunc<oGetClientEntity>(this, 3)(this, index);
-	}
-
-	C_BaseEntity* GetClientEntityFromHandle(void* handle)
-	{
-		typedef C_BaseEntity* (* oGetClientEntityFromHandle)(void*, void*);
-		return getvfunc<oGetClientEntityFromHandle>(this, 4)(this, handle);
-	}
-
-	int GetHighestEntityIndex()
-	{
-		typedef int (* oGetHighestEntityIndex)(void*);
-		return getvfunc<oGetHighestEntityIndex>(this, 6)(this);
-	}
+	virtual IClientNetworkable* GetClientNetworkable(int entindex) = 0;
+	virtual IClientNetworkable* GetClientNetworkableFromHandle(CBaseHandle handle) = 0;
+	virtual IClientUnknown* GetClientUnknownFromHandle(CBaseHandle handle) = 0;
+	// FIXME: GetClientEntity should return an IClientEntity pointer.
+	virtual C_BaseEntity* GetClientEntity(int entindex) = 0;
+	// FIXME: GetClientEntityFromHandle should accept a CBaseHandle.
+	virtual IClientEntity* GetClientEntityFromHandle(void* handle) = 0;
+	virtual int NumberOfEntities(bool include_non_networkable) = 0;
+	virtual int GetHighestEntityIndex(void) = 0;
+	virtual void SetMaxEntities(int max_entities) = 0;
+	virtual int GetMaxEntities() = 0;
 };
