@@ -14,6 +14,8 @@ std::unordered_map<ItemDefinitionIndex, AttribItem_t> Settings::Skinchanger::ski
 
 std::unordered_map<std::string, std::string> killIcons = {};
 
+std::unique_ptr<RecvPropHook> SkinChanger::sequenceHook;
+
 bool SkinChanger::forceFullUpdate = true;
 
 void SkinChanger::FrameStageNotifyWeapons(ClientFrameStage_t stage)
@@ -305,67 +307,8 @@ void SkinChanger::SetViewModelSequence(const CRecvProxyData *pDataConst, void *p
 	}
 
 	// Call original function with the modified data.
+	if (!fnSequenceProxyFn)
+		fnSequenceProxyFn = sequenceHook->GetOriginalFunction();
+	
 	fnSequenceProxyFn(pData, pStruct, pOut);
-}
-
-void SkinChanger::HookCBaseViewModel()
-{
-	if (ModSupport::current_mod == ModType::CSCO)
-		return;
-
-	for (ClientClass* pClass = client->GetAllClasses(); pClass; pClass = pClass->m_pNext)
-	{
-		if (strcmp(pClass->m_pNetworkName, "CBaseViewModel") == 0)
-		{
-			// Search for the 'm_nModelIndex' property.
-			RecvTable* pClassTable = pClass->m_pRecvTable;
-
-			for (int nIndex = 0; nIndex < pClassTable->m_nProps; nIndex++)
-			{
-				RecvProp* pProp = &pClassTable->m_pProps[nIndex];
-
-				if (!pProp || strcmp(pProp->m_pVarName, "m_nSequence") != 0)
-					continue;
-
-				// Store the original proxy function.
-				fnSequenceProxyFn = pProp->m_ProxyFn;
-
-				// Replace the proxy function with our sequence changer.
-				pProp->m_ProxyFn = (RecvVarProxyFn)SetViewModelSequence;
-
-				break;
-			}
-
-			break;
-		}
-	}
-}
-
-void SkinChanger::UnhookCBaseViewModel()
-{
-	if (ModSupport::current_mod == ModType::CSCO)
-		return;
-
-	for (ClientClass* pClass = client->GetAllClasses(); pClass; pClass = pClass->m_pNext)
-	{
-		if (strcmp(pClass->m_pNetworkName, "CBaseViewModel") == 0)
-		{
-			// Search for the 'm_nModelIndex' property.
-			RecvTable* pClassTable = pClass->m_pRecvTable;
-
-			for (int nIndex = 0; nIndex < pClassTable->m_nProps; nIndex++)
-			{
-				RecvProp* pProp = &pClassTable->m_pProps[nIndex];
-
-				if (!pProp || strcmp(pProp->m_pVarName, "m_nSequence") != 0)
-					continue;
-
-				pProp->m_ProxyFn = fnSequenceProxyFn;
-
-				break;
-			}
-
-			break;
-		}
-	}
 }

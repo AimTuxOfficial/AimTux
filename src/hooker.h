@@ -54,10 +54,12 @@
 #define GETCSWPNDATA_SIGNATURE "\x55\x48\x89\xE5\x0F\xB7\xBF\xD4\x3A"
 #define GETCSWPNDATA_MASK "xxxxxxxxx"
 
+#include <memory>
 #include <unordered_map>
 #include <sys/mman.h>
 #include <link.h>
 #include "Utils/patternfinder.h"
+#include "Utils/recvproxyhook.h"
 #include "SDK/SDK.h"
 #include "Utils/vmt.h"
 #include "Utils/util.h"
@@ -69,6 +71,7 @@ namespace Hooker
 	std::unordered_map<const char*, uintptr_t> GetProcessLibraries();
 	uintptr_t GetLibraryAddress(const char* moduleName);
 	void InitializeVMHooks();
+	bool HookRecvProp(const char* className, const char* propertyName, std::unique_ptr<RecvPropHook>& recvPropHook);
 	void FindIClientMode();
 	void FindGlobalVars();
 	void FindCInput();

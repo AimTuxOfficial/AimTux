@@ -78,6 +78,34 @@ void Hooker::InitializeVMHooks()
 	soundVMT = new VMT(sound);
 }
 
+bool Hooker::HookRecvProp(const char* className, const char* propertyName, std::unique_ptr<RecvPropHook>& recvPropHook)
+{
+	// FIXME: Does not search recursively.. yet.
+	for (ClientClass* pClass = client->GetAllClasses(); pClass; pClass = pClass->m_pNext)
+	{
+		if (strcmp(pClass->m_pNetworkName, className) == 0)
+		{
+			RecvTable* pClassTable = pClass->m_pRecvTable;
+
+			for (int nIndex = 0; nIndex < pClassTable->m_nProps; nIndex++)
+			{
+				RecvProp* pProp = &pClassTable->m_pProps[nIndex];
+
+				if (!pProp || strcmp(pProp->m_pVarName, propertyName) != 0)
+					continue;
+
+				recvPropHook = std::make_unique<RecvPropHook>(pProp);
+
+				return true;
+			}
+
+			break;
+		}
+	}
+
+	return false;
+}
+
 void Hooker::FindIClientMode()
 {
 	uintptr_t hudprocessinput = reinterpret_cast<uintptr_t>(getvtable(client)[10]);

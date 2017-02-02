@@ -84,7 +84,10 @@ int __attribute__((constructor)) aimtux_init()
 
 	eventListener = new EventListener({ "cs_game_disconnected", "player_connect_full", "player_death", "player_hurt" });
 
-	SkinChanger::HookCBaseViewModel();
+	if (ModSupport::current_mod != ModType::CSCO && Hooker::HookRecvProp("CBaseViewModel", "m_nSequence", SkinChanger::sequenceHook))
+	{
+		SkinChanger::sequenceHook->SetProxyFunction((RecvVarProxyFn) SkinChanger::SetViewModelSequence);
+	}
 
 	NetVarManager::DumpNetvars();
 	Offsets::GetOffsets();
@@ -117,8 +120,6 @@ void __attribute__((destructor)) aimtux_shutdown()
 	soundVMT->ReleaseVMT();
 
 	delete eventListener;
-
-	SkinChanger::UnhookCBaseViewModel();
 
 	*bSendPacket = true;
 
