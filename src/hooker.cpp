@@ -251,7 +251,7 @@ void Hooker::FindLineGoesThroughSmoke()
 
 void Hooker::FindInitKeyValues()
 {
-	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) INITKEVALUES_SIGNATURE, INITKEVALUES_MASK);
+	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) INITKEYVALUES_SIGNATURE, INITKEYVALUES_MASK);
 	InitKeyValues = reinterpret_cast<InitKeyValuesFn>(func_address);
 }
 
