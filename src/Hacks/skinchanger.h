@@ -5,7 +5,7 @@
 #include "../settings.h"
 #include "../modsupport.h"
 
-extern GetClientStateFn GetClientState;
+extern GetLocalClientFn GetLocalClient;
 
 extern std::unordered_map<std::string, std::string> killIcons;
 

@@ -27,7 +27,7 @@ int __attribute__((constructor)) aimtux_init()
 	Hooker::FindPrediction();
 	Hooker::FindIsReadyCallback();
 	Hooker::FindSurfaceDrawing();
-	Hooker::FindClientStateFn();
+	Hooker::FindGetLocalClient();
 	Hooker::FindLineGoesThroughSmoke();
 	Hooker::FindInitKeyValues();
 	Hooker::FindLoadFromBuffer();

@@ -44,4 +44,4 @@
 #include "IEngineSound.h"
 #include "KeyValues.h"
 #include "ICommandLine.h"
-#include "CBaseClient.h"
+#include "CBaseClientState.h"

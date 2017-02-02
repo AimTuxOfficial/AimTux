@@ -1,6 +1,6 @@
 #pragma once
 
-class CBaseClient
+class CBaseClientState
 {
 public:
 	char _pad0[0x1FC];

@@ -34,7 +34,7 @@ RecvVarProxyFn fnSequenceProxyFn;
 StartDrawingFn StartDrawing;
 FinishDrawingFn FinishDrawing;
 
-GetClientStateFn GetClientState;
+GetLocalClientFn GetLocalClient;
 
 LineGoesThroughSmokeFn LineGoesThroughSmoke;
 InitKeyValuesFn InitKeyValues;
@@ -177,10 +177,10 @@ void Hooker::FindSurfaceDrawing()
 	FinishDrawing = reinterpret_cast<FinishDrawingFn>(finish_func_address);
 }
 
-void Hooker::FindClientStateFn()
+void Hooker::FindGetLocalClient()
 {
 	uintptr_t GetLocalPlayer = reinterpret_cast<uintptr_t>(getvtable(engine)[12]);
-	GetClientState = reinterpret_cast<GetClientStateFn>(GetAbsoluteAddress(GetLocalPlayer + 9, 1, 5));
+	GetLocalClient = reinterpret_cast<GetLocalClientFn>(GetAbsoluteAddress(GetLocalPlayer + 9, 1, 5));
 }
 
 void Hooker::FindLineGoesThroughSmoke()

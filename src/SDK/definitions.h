@@ -16,7 +16,7 @@ class IClientMode;
 class ILauncherMgr;
 class ICommandLine;
 class KeyValues;
-class CBaseClient;
+class CBaseClientState;
 struct CGlowObjectManager;
 
 /* function prototypes */
@@ -29,7 +29,7 @@ typedef void (*IsReadyCallbackFn) (void*);
 typedef ILauncherMgr* (*ILauncherMgrCreateFn) (void);
 typedef void (*StartDrawingFn) (void*);
 typedef void (*FinishDrawingFn) (void*);
-typedef CBaseClient* (*GetClientStateFn) (unsigned int);
+typedef CBaseClientState* (*GetLocalClientFn) (int);
 typedef bool (*LineGoesThroughSmokeFn) (Vector, Vector, int16_t);
 typedef void (*InitKeyValuesFn) (KeyValues*, const char*);
 typedef void (*LoadFromBufferFn) (KeyValues*, const char*, const char*, void*, const char*, void*);

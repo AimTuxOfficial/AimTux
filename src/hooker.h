@@ -82,7 +82,7 @@ namespace Hooker
 	void FindPrediction();
 	void FindIsReadyCallback();
 	void FindSurfaceDrawing();
-	void FindClientStateFn();
+	void FindGetLocalClient();
 	void FindLineGoesThroughSmoke();
 	void FindInitKeyValues();
 	void FindLoadFromBuffer();

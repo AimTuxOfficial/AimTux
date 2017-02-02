@@ -14,7 +14,7 @@ void Hooks::FrameStageNotify(void* thisptr, ClientFrameStage_t stage)
 
 	if (SkinChanger::forceFullUpdate)
 	{
-		GetClientState(-1)->m_nDeltaTick = -1;
+		GetLocalClient(-1)->m_nDeltaTick = -1;
 		SkinChanger::forceFullUpdate = false;
 	}
 
