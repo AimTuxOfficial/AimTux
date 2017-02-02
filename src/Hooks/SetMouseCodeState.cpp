@@ -6,8 +6,8 @@ void Hooks::SetMouseCodeState(void* thisptr, ButtonCode_t code, MouseCodeState_t
 	{
 		SetKeyCodeState::shouldListen = false;
 		*SetKeyCodeState::keyOutput = code;
-		UI::updateWeaponSettings();
+		UI::UpdateWeaponSettings();
 	}
 
-	inputInternal_vmt->GetOriginalMethod<SetMouseCodeStateFn>(93)(thisptr, code, state);
+	inputInternalVMT->GetOriginalMethod<SetMouseCodeStateFn>(93)(thisptr, code, state);
 }

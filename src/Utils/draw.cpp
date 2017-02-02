@@ -12,6 +12,17 @@ void Draw::Circle(Vector2D position, float points, float radius, Color color)
 	}
 }
 
+void Draw::FilledCircle(Vector2D position, float points, float radius, Color color)
+{
+	std::vector<Vertex_t> vertices;
+	float step = (float)M_PI * 2.0f / points;
+
+	for (float a = 0; a < (M_PI * 2.0f); a += step)
+		vertices.push_back(Vertex_t(Vector2D(radius * cosf(a) + position.x, radius * sinf(a) + position.y)));
+
+	Draw::TexturedPolygon((int) points, vertices.data(), color);
+}
+
 void Draw::Circle3D(Vector position, float points, float radius, Color color)
 {
 	float step = (float)M_PI * 2.0f / points;

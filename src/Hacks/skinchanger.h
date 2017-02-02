@@ -7,11 +7,14 @@
 
 extern GetClientStateFn GetClientState;
 
+extern std::unordered_map<std::string, std::string> killIcons;
+
 namespace SkinChanger
 {
-	extern bool ForceFullUpdate;
+	extern bool forceFullUpdate;
 
-	void FrameStageNotify(ClientFrameStage_t stage);
+	void FrameStageNotifyWeapons(ClientFrameStage_t stage);
+	void FrameStageNotifyGloves(ClientFrameStage_t stage);
 	void FireEventClientSide(IGameEvent* event);
 	void SetViewModelSequence(const CRecvProxyData *pDataConst, void *pStruct, void *pOut);
 	void HookCBaseViewModel();

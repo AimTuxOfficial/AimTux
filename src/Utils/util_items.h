@@ -21,5 +21,9 @@ namespace Util
 		 * using an internal map
 		 */
 		std::string GetItemName(const enum ItemDefinitionIndex);
+
+		std::string GetItemEntityName(ItemDefinitionIndex index);
+
+		std::string GetItemDisplayName(ItemDefinitionIndex index);
 	}
 }

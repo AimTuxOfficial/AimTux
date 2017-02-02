@@ -3,14 +3,14 @@
 
 bool Entity::IsVisible(C_BasePlayer* player, Bone bone, float fov, bool smoke_check)
 {
-	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return true;
 
 	if (!localplayer->GetAlive())
 	{
 		if (*localplayer->GetObserverMode() == ObserverMode_t::OBS_MODE_IN_EYE && localplayer->GetObserverTarget())
-			localplayer = (C_BasePlayer*) entitylist->GetClientEntityFromHandle(localplayer->GetObserverTarget());
+			localplayer = (C_BasePlayer*) entityList->GetClientEntityFromHandle(localplayer->GetObserverTarget());
 
 		if (!localplayer)
 			return true;
@@ -41,18 +41,18 @@ bool Entity::IsVisible(C_BasePlayer* player, Bone bone, float fov, bool smoke_ch
 
 bool Entity::IsPlanting(C_BasePlayer* player)
 {
-	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*)entitylist->GetClientEntityFromHandle(player->GetActiveWeapon());
-	if (!active_weapon)
+	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*)entityList->GetClientEntityFromHandle(player->GetActiveWeapon());
+	if (!activeWeapon)
 		return false;
 
-	ClientClass* clientClass = active_weapon->GetClientClass();
+	ClientClass* clientClass = activeWeapon->GetClientClass();
 	if (!clientClass)
 		return false;
 
 	if (clientClass->m_ClassID != EClassIds::CC4)
 		return false;
 
-	return ((C_WeaponC4*)active_weapon)->GetStartedArming();
+	return ((C_WeaponC4*)activeWeapon)->GetStartedArming();
 }
 
 Bone Entity::GetBoneByName(C_BasePlayer* player, const char* boneName)

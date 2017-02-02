@@ -5,33 +5,33 @@ float m_flOldFrametime;
 
 void PredictionSystem::StartPrediction(CUserCmd* cmd)
 {
-	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 
 	*nPredictionRandomSeed = MD5_PseudoRandom(cmd->command_number) & 0x7FFFFFFF;
 
-	m_flOldCurtime = globalvars->curtime;
-	m_flOldFrametime = globalvars->frametime;
+	m_flOldCurtime = globalVars->curtime;
+	m_flOldFrametime = globalVars->frametime;
 
-	globalvars->curtime = localplayer->GetTickBase() * globalvars->interval_per_tick;
-	globalvars->frametime = globalvars->interval_per_tick;
+	globalVars->curtime = localplayer->GetTickBase() * globalVars->interval_per_tick;
+	globalVars->frametime = globalVars->interval_per_tick;
 
-	gamemovement->StartTrackPredictionErrors(localplayer);
+	gameMovement->StartTrackPredictionErrors(localplayer);
 
-	movehelper->SetHost(localplayer);
-	prediction->SetupMove(localplayer, cmd, movehelper, g_MoveData);
-	gamemovement->ProcessMovement(localplayer, g_MoveData);
+	moveHelper->SetHost(localplayer);
+	prediction->SetupMove(localplayer, cmd, moveHelper, g_MoveData);
+	gameMovement->ProcessMovement(localplayer, g_MoveData);
 	prediction->FinishMove(localplayer, cmd, g_MoveData);
 }
 
 void PredictionSystem::EndPrediction()
 {
-	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 
-	gamemovement->FinishTrackPredictionErrors(localplayer);
-	movehelper->SetHost(0);
+	gameMovement->FinishTrackPredictionErrors(localplayer);
+	moveHelper->SetHost(0);
 
 	*nPredictionRandomSeed = -1;
 
-	globalvars->curtime = m_flOldCurtime;
-	globalvars->frametime = m_flOldFrametime;
+	globalVars->curtime = m_flOldCurtime;
+	globalVars->frametime = m_flOldFrametime;
 }

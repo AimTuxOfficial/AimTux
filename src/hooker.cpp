@@ -1,62 +1,29 @@
 #include "hooker.h"
 
-IBaseClientDLL* client = nullptr;
-ISurface* surface = nullptr;
-IVPanel* panel = nullptr;
-IEngineClient* engine = nullptr;
-IClientEntityList* entitylist = nullptr;
-IVDebugOverlay* debugOverlay = nullptr;
-IVModelInfo* modelInfo = nullptr;
-IVModelRender* modelRender = nullptr;
-IClientMode* clientMode = nullptr;
-IEngineTrace* trace = nullptr;
-IInputSystem* inputSystem = nullptr;
-IInputInternal* inputInternal = nullptr;
-IMaterialSystem* material = nullptr;
-ICvar* cvar = nullptr;
-CGlobalVars* globalvars = nullptr;
-CEffects* effects = nullptr;
-IGameEventManager2* gameevents = nullptr;
-IPhysicsSurfaceProps* physics = nullptr;
-CViewRender* viewrender = nullptr;
-IPrediction* prediction = nullptr;
-IGameMovement* gamemovement = nullptr;
-IMoveHelper* movehelper = nullptr;
-ILauncherMgr* launchermgr = nullptr;
-CGlowObjectManager* glowmanager = nullptr;
-C_CSPlayerResource** csPlayerResource = nullptr;
-C_CSGameRules** csGameRules = nullptr;
-IEngineVGui* enginevgui = nullptr;
-IEngineSound* sound = nullptr;
-ILocalize* localize = nullptr;
-ICommandLine* commandline = nullptr;
-
-CInput* input = nullptr;
-
-VMT* panel_vmt = nullptr;
-VMT* client_vmt = nullptr;
-VMT* modelRender_vmt = nullptr;
-VMT* clientMode_vmt = nullptr;
-VMT* gameEvents_vmt = nullptr;
-VMT* viewRender_vmt = nullptr;
-VMT* inputInternal_vmt = nullptr;
-VMT* material_vmt = nullptr;
-VMT* surface_vmt = nullptr;
-VMT* launchermgr_vmt = nullptr;
-VMT* enginevgui_vmt = nullptr;
-VMT* sound_vmt = nullptr;
-
 bool* bSendPacket = nullptr;
 int* nPredictionRandomSeed = nullptr;
 CMoveData* g_MoveData = nullptr;
 
+VMT* panelVMT = nullptr;
+VMT* clientVMT = nullptr;
+VMT* modelRenderVMT = nullptr;
+VMT* clientModeVMT = nullptr;
+VMT* gameEventsVMT = nullptr;
+VMT* viewRenderVMT = nullptr;
+VMT* inputInternalVMT = nullptr;
+VMT* materialVMT = nullptr;
+VMT* surfaceVMT = nullptr;
+VMT* launcherMgrVMT = nullptr;
+VMT* engineVGuiVMT = nullptr;
+VMT* soundVMT = nullptr;
+
 uintptr_t* GetCSWpnData_address = nullptr;
 
-uintptr_t original_swap_window;
-uintptr_t* swap_window_jump_address = nullptr;
+uintptr_t oSwapWindow;
+uintptr_t* swapWindowJumpAddress = nullptr;
 
-uintptr_t original_pollevent;
-uintptr_t* pollevent_jump_address = nullptr;
+uintptr_t oPollEvent;
+uintptr_t* polleventJumpAddress = nullptr;
 
 MsgFunc_ServerRankRevealAllFn MsgFunc_ServerRankRevealAll;
 SendClanTagFn SendClanTag;
@@ -96,46 +63,19 @@ uintptr_t Hooker::GetLibraryAddress(const char* moduleName)
 	return 0;
 }
 
-void Hooker::FindInterfaces()
-{
-	client = GetInterface<IBaseClientDLL>("./csgo/bin/linux64/client_client.so", "VClient");
-	engine = GetInterface<IEngineClient>("./bin/linux64/engine_client.so", "VEngineClient");
-	entitylist = GetInterface<IClientEntityList>("./csgo/bin/linux64/client_client.so", "VClientEntityList");
-	surface = GetInterface<ISurface>("./bin/linux64/vguimatsurface_client.so", "VGUI_Surface");
-	panel = GetInterface<IVPanel>("./bin/linux64/vgui2_client.so", "VGUI_Panel");
-	debugOverlay = GetInterface<IVDebugOverlay>("./bin/linux64/engine_client.so", "VDebugOverlay");
-	modelInfo = GetInterface<IVModelInfo>("./bin/linux64/engine_client.so", "VModelInfoClient");
-	modelRender = GetInterface<IVModelRender>("./bin/linux64/engine_client.so", "VEngineModel");
-	trace = GetInterface<IEngineTrace>("./bin/linux64/engine_client.so", "EngineTraceClient");
-	inputSystem = GetInterface<IInputSystem>("./bin/linux64/inputsystem_client.so", "InputSystemVersion");
-	inputInternal = GetInterface<IInputInternal>("./bin/linux64/vgui2_client.so", "VGUI_InputInternal");
-	material = GetInterface<IMaterialSystem>("./bin/linux64/materialsystem_client.so", "VMaterialSystem");
-	cvar = GetInterface<ICvar>("./bin/linux64/materialsystem_client.so", "VEngineCvar");
-	effects = GetInterface<CEffects>("./bin/linux64/engine_client.so", "VEngineEffects");
-	gameevents = GetInterface<IGameEventManager2>("./bin/linux64/engine_client.so", "GAMEEVENTSMANAGER002", true);
-	physics = GetInterface<IPhysicsSurfaceProps>("./bin/linux64/vphysics_client.so", "VPhysicsSurfaceProps");
-	prediction = GetInterface<IPrediction>("./csgo/bin/linux64/client_client.so", "VClientPrediction");
-	gamemovement = GetInterface<IGameMovement>("./csgo/bin/linux64/client_client.so", "GameMovement");
-	enginevgui = GetInterface<IEngineVGui>("./bin/linux64/engine_client.so", "VEngineVGui");
-	sound = GetInterface<IEngineSound>("./bin/linux64/engine_client.so", "IEngineSoundClient");
-	localize = GetInterface<ILocalize>("./bin/linux64/localize_client.so", "Localize_");
-	commandline = GetSymbolAddress<CommandLineFn>("./bin/linux64/libtier0_client.so", "CommandLine")();
-
-}
-
 void Hooker::InitializeVMHooks()
 {
-	panel_vmt = new VMT(panel);
-	client_vmt = new VMT(client);
-	modelRender_vmt = new VMT(modelRender);
-	gameEvents_vmt = new VMT(gameevents);
-	viewRender_vmt = new VMT(viewrender);
-	inputInternal_vmt = new VMT(inputInternal);
-	material_vmt = new VMT(material);
-	surface_vmt = new VMT(surface);
-	launchermgr_vmt = new VMT(launchermgr);
-	enginevgui_vmt = new VMT(enginevgui);
-	sound_vmt = new VMT(sound);
+	panelVMT = new VMT(panel);
+	clientVMT = new VMT(client);
+	modelRenderVMT = new VMT(modelRender);
+	gameEventsVMT = new VMT(gameEvents);
+	viewRenderVMT = new VMT(viewRender);
+	inputInternalVMT = new VMT(inputInternal);
+	materialVMT = new VMT(material);
+	surfaceVMT = new VMT(surface);
+	launcherMgrVMT = new VMT(launcherMgr);
+	engineVGuiVMT = new VMT(engineVGui);
+	soundVMT = new VMT(sound);
 }
 
 void Hooker::FindIClientMode()
@@ -144,13 +84,13 @@ void Hooker::FindIClientMode()
 	GetClientModeFn GetClientMode = reinterpret_cast<GetClientModeFn>(GetAbsoluteAddress(hudprocessinput + 11, 1, 5));
 
 	clientMode = GetClientMode();
-	clientMode_vmt = new VMT(clientMode);
+	clientModeVMT = new VMT(clientMode);
 }
 
 void Hooker::FindGlobalVars()
 {
 	uintptr_t HudUpdate = reinterpret_cast<uintptr_t>(getvtable(client)[11]);
-	globalvars = *reinterpret_cast<CGlobalVars**>(GetAbsoluteAddress(HudUpdate + 13, 3, 7));
+	globalVars = *reinterpret_cast<CGlobalVars**>(GetAbsoluteAddress(HudUpdate + 13, 3, 7));
 }
 
 void Hooker::FindCInput()
@@ -163,7 +103,7 @@ void Hooker::FindGlowManager()
 {
 	uintptr_t instruction_addr = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) GLOWOBJECT_SIGNATURE, GLOWOBJECT_MASK);
 
-	glowmanager = reinterpret_cast<GlowObjectManagerFn>(GetAbsoluteAddress(instruction_addr, 1, 5))();
+	glowManager = reinterpret_cast<GlowObjectManagerFn>(GetAbsoluteAddress(instruction_addr, 1, 5))();
 }
 
 void Hooker::FindPlayerResource()
@@ -198,7 +138,7 @@ void Hooker::FindViewRender()
 {
 	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) VIEWRENDER_SIGNATURE, VIEWRENDER_MASK);
 
-	viewrender = reinterpret_cast<CViewRender*>(GetAbsoluteAddress(func_address + 14, 3, 7));
+	viewRender = reinterpret_cast<CViewRender*>(GetAbsoluteAddress(func_address + 14, 3, 7));
 }
 
 void Hooker::FindSendPacket()
@@ -217,7 +157,7 @@ void Hooker::FindPrediction()
 	uintptr_t movedata_instruction_addr = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) CLIENT_MOVEDATA_SIGNATURE, CLIENT_MOVEDATA_MASK);
 
 	nPredictionRandomSeed = *reinterpret_cast<int**>(GetAbsoluteAddress(seed_instruction_addr, 3, 7));
-	movehelper = *reinterpret_cast<IMoveHelper**>(GetAbsoluteAddress(helper_instruction_addr + 1, 3, 7));
+	moveHelper = *reinterpret_cast<IMoveHelper**>(GetAbsoluteAddress(helper_instruction_addr + 1, 3, 7));
 	g_MoveData = **reinterpret_cast<CMoveData***>(GetAbsoluteAddress(movedata_instruction_addr, 3, 7));
 }
 
@@ -269,23 +209,23 @@ void Hooker::FindGetCSWpnData()
 
 void Hooker::HookSwapWindow()
 {
-	uintptr_t swapwindow_fn = reinterpret_cast<uintptr_t>(dlsym(RTLD_NEXT, "SDL_GL_SwapWindow"));
-	swap_window_jump_address = reinterpret_cast<uintptr_t*>(GetAbsoluteAddress(swapwindow_fn, 3, 7));
-	original_swap_window = *swap_window_jump_address;
-	*swap_window_jump_address = reinterpret_cast<uintptr_t>(&SDL2::SwapWindow);
+	uintptr_t swapwindowFn = reinterpret_cast<uintptr_t>(dlsym(RTLD_NEXT, "SDL_GL_SwapWindow"));
+	swapWindowJumpAddress = reinterpret_cast<uintptr_t*>(GetAbsoluteAddress(swapwindowFn, 3, 7));
+	oSwapWindow = *swapWindowJumpAddress;
+	*swapWindowJumpAddress = reinterpret_cast<uintptr_t>(&SDL2::SwapWindow);
 }
 
 void Hooker::HookPollEvent()
 {
-	uintptr_t pollevent_fn = reinterpret_cast<uintptr_t>(dlsym(RTLD_NEXT, "SDL_PollEvent"));
-	pollevent_jump_address = reinterpret_cast<uintptr_t*>(GetAbsoluteAddress(pollevent_fn, 3, 7));
-	original_pollevent = *pollevent_jump_address;
-	*pollevent_jump_address = reinterpret_cast<uintptr_t>(&SDL2::PollEvent);
+	uintptr_t polleventFn = reinterpret_cast<uintptr_t>(dlsym(RTLD_NEXT, "SDL_PollEvent"));
+	polleventJumpAddress = reinterpret_cast<uintptr_t*>(GetAbsoluteAddress(polleventFn, 3, 7));
+	oPollEvent = *polleventJumpAddress;
+	*polleventJumpAddress = reinterpret_cast<uintptr_t>(&SDL2::PollEvent);
 }
 
 void Hooker::FindSDLInput()
 {
 	uintptr_t func_address = FindPattern(GetLibraryAddress("launcher_client.so"), 0xFFFFFFFFF, (unsigned char*) GETSDLMGR_SIGNATURE, GETSDLMGR_MASK);
 
-	launchermgr = reinterpret_cast<ILauncherMgrCreateFn>(func_address)();
+	launcherMgr = reinterpret_cast<ILauncherMgrCreateFn>(func_address)();
 }

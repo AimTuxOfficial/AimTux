@@ -62,12 +62,12 @@
 #include "Utils/vmt.h"
 #include "Utils/util.h"
 #include "glhook.h"
+#include "interfaces.h"
 
 namespace Hooker
 {
 	std::unordered_map<const char*, uintptr_t> GetProcessLibraries();
 	uintptr_t GetLibraryAddress(const char* moduleName);
-	void FindInterfaces();
 	void InitializeVMHooks();
 	void FindIClientMode();
 	void FindGlobalVars();

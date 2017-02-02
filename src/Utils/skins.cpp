@@ -1,56 +1,6 @@
 #include "skins.h"
 
-std::vector<std::pair<int, const char*>> guns = {
-		{ (int) ItemDefinitionIndex::INVALID, "<-Default->"},
-		{ (int) ItemDefinitionIndex::WEAPON_AK47, "#SFUI_WPNHUD_AK47" },
-		{ (int) ItemDefinitionIndex::WEAPON_AUG, "#SFUI_WPNHUD_Aug" },
-		{ (int) ItemDefinitionIndex::WEAPON_AWP, "#SFUI_WPNHUD_AWP" },
-		{ (int) ItemDefinitionIndex::WEAPON_CZ75A, "#SFUI_WPNHUD_CZ75" },
-		{ (int) ItemDefinitionIndex::WEAPON_DEAGLE, "#SFUI_WPNHUD_DesertEagle" },
-		{ (int) ItemDefinitionIndex::WEAPON_ELITE, "#SFUI_WPNHUD_Elites" },
-		{ (int) ItemDefinitionIndex::WEAPON_FAMAS, "#SFUI_WPNHUD_Famas" },
-		{ (int) ItemDefinitionIndex::WEAPON_FIVESEVEN, "#SFUI_WPNHUD_FiveSeven" },
-		{ (int) ItemDefinitionIndex::WEAPON_GALILAR, "#SFUI_WPNHUD_GalilAR" },
-		{ (int) ItemDefinitionIndex::WEAPON_G3SG1, "#SFUI_WPNHUD_G3SG1" },
-		{ (int) ItemDefinitionIndex::WEAPON_GLOCK, "#SFUI_WPNHUD_Glock18" },
-		{ (int) ItemDefinitionIndex::WEAPON_M249, "#SFUI_WPNHUD_M249" },
-		{ (int) ItemDefinitionIndex::WEAPON_M4A1_SILENCER, "#SFUI_WPNHUD_M4_SILENCER" },
-		{ (int) ItemDefinitionIndex::WEAPON_M4A1, "#SFUI_WPNHUD_M4A1" },
-		{ (int) ItemDefinitionIndex::WEAPON_MAC10, "#SFUI_WPNHUD_MAC10" },
-		{ (int) ItemDefinitionIndex::WEAPON_MAG7, "#SFUI_WPNHUD_Mag7" },
-		{ (int) ItemDefinitionIndex::WEAPON_MP7, "#SFUI_WPNHUD_MP7" },
-		{ (int) ItemDefinitionIndex::WEAPON_MP9, "#SFUI_WPNHUD_MP9" },
-		{ (int) ItemDefinitionIndex::WEAPON_NEGEV, "#SFUI_WPNHUD_Negev" },
-		{ (int) ItemDefinitionIndex::WEAPON_NOVA, "#SFUI_WPNHUD_Nova" },
-		{ (int) ItemDefinitionIndex::WEAPON_HKP2000, "#SFUI_WPNHUD_HKP2000" },
-		{ (int) ItemDefinitionIndex::WEAPON_P250, "#SFUI_WPNHUD_P250" },
-		{ (int) ItemDefinitionIndex::WEAPON_P90, "#SFUI_WPNHUD_P90" },
-		{ (int) ItemDefinitionIndex::WEAPON_BIZON, "#SFUI_WPNHUD_Bizon" },
-		{ (int) ItemDefinitionIndex::WEAPON_REVOLVER, "#SFUI_WPNHUD_REVOLVER" },
-		{ (int) ItemDefinitionIndex::WEAPON_SAWEDOFF, "#SFUI_WPNHUD_Sawedoff" },
-		{ (int) ItemDefinitionIndex::WEAPON_SCAR20, "#SFUI_WPNHUD_SCAR20" },
-		{ (int) ItemDefinitionIndex::WEAPON_SG556, "#SFUI_WPNHUD_SG556" },
-		{ (int) ItemDefinitionIndex::WEAPON_SSG08, "#SFUI_WPNHUD_SSG08" },
-		{ (int) ItemDefinitionIndex::WEAPON_TEC9, "#SFUI_WPNHUD_Tec9" },
-		{ (int) ItemDefinitionIndex::WEAPON_UMP45, "#SFUI_WPNHUD_UMP45" },
-		{ (int) ItemDefinitionIndex::WEAPON_USP_SILENCER, "#SFUI_WPNHUD_USP_SILENCER" },
-		{ (int) ItemDefinitionIndex::WEAPON_XM1014, "#SFUI_WPNHUD_xm1014" },
-};
-
-std::vector<std::pair<int, const char*>> knives = {
-		{ 0, "#SFUI_WPNHUD_KnifeBayonet" },
-		{ 5, "#SFUI_WPNHUD_KnifeFlip" },
-		{ 6, "#SFUI_WPNHUD_KnifeGut" },
-		{ 7, "#SFUI_WPNHUD_KnifeKaram" },
-		{ 8, "#SFUI_WPNHUD_KnifeM9" },
-		{ 9, "#SFUI_WPNHUD_KnifeTactical" },
-		{ 12, "#SFUI_WPNHUD_knife_falchion_advanced" },
-		{ 14, "#SFUI_WPNHUD_knife_survival_bowie" },
-		{ 15, "#SFUI_WPNHUD_Knife_Butterfly" },
-		{ 16, "#SFUI_WPNHUD_knife_push" },
-};
-
-std::vector<std::pair<int, const char*>> weapon_skins = {
+std::vector<std::pair<int, const char*>> weaponSkins = {
 		{ 2, "#PaintKit_so_olive_Tag" },
 		{ 3, "#PaintKit_so_red_Tag" },
 		{ 5, "#PaintKit_hy_ddpat_Tag" },
@@ -601,7 +551,7 @@ std::vector<std::pair<int, const char*>> weapon_skins = {
 		{ 638, "#PaintKit_cu_wp_sawedoff_Tag" },
 };
 
-std::vector<std::pair<int, const char*>> glove_skins = {
+std::vector<std::pair<int, const char*>> gloveSkins = {
 		{ 10006, "#PaintKit_bloodhound_black_silver_tag" },
 		{ 10007, "#PaintKit_bloodhound_snakeskin_brass_tag" },
 		{ 10008, "#PaintKit_bloodhound_metallic_tag" },
@@ -628,36 +578,53 @@ std::vector<std::pair<int, const char*>> glove_skins = {
 		{ 10040, "#PaintKit_slick_snakeskin_yellow_tag" },
 };
 
-std::vector<std::pair<int, const char*>> gloves {
-		{ (int) ItemDefinitionIndex::GLOVE_STUDDED_BLOODHOUND, "#CSGO_Wearable_t_studdedgloves"},
-		{ (int) ItemDefinitionIndex::GLOVE_SPORTY, "#CSGO_Wearable_v_sporty_glove"},
-		{ (int) ItemDefinitionIndex::GLOVE_SLICK, "#CSGO_Wearable_v_slick_glove"},
-		{ (int) ItemDefinitionIndex::GLOVE_LEATHER_WRAP, "#CSGO_Wearable_v_leather_handwrap"},
-		{ (int) ItemDefinitionIndex::GLOVE_MOTORCYCLE, "#CSGO_Wearable_v_motorcycle_glove"},
-		{ (int) ItemDefinitionIndex::GLOVE_SPECIALIST, "#CSGO_Wearable_v_specialist_glove"},
+int filterBloodhound[4] = {
+		10006,
+		10007,
+		10008,
+		10039,
 };
 
-void LocalizeGuns()
+int filterSporty[4] = {
+		10018,
+		10019,
+		10037,
+		10038,
+};
+
+int filterSlick[4] = {
+		10013,
+		10015,
+		10016,
+		10040,
+};
+
+int  filterWrap[4] = {
+		10009,
+		10010,
+		10021,
+		10036,
+};
+
+int  filterMoto[4] = {
+		10024,
+		10026,
+		10027,
+		10028,
+};
+
+int filterSpecialist[4] = {
+		10030,
+		10033,
+		10034,
+		10035,
+};
+
+void LocalizeWeaponSkins()
 {
 	int index = -1;
 
-	for (auto it : guns)
-	{
-		index++;
-
-		if (it.first == (int) ItemDefinitionIndex::INVALID)
-			continue;
-
-		std::string localized = Util::WstringToString(localize->FindSafe(it.second));
-		guns[index] = { it.first, strdup(localized.c_str()) };
-	}
-}
-
-void LocalizeKnives()
-{
-	int index = -1;
-
-	for (auto it : knives)
+	for (auto it : weaponSkins)
 	{
 		index++;
 
@@ -665,26 +632,10 @@ void LocalizeKnives()
 			continue;
 
 		std::string localized = Util::WstringToString(localize->FindSafe(it.second));
-		knives[index] = { it.first, strdup(localized.c_str()) };
-	}
-}
-
-void LocalizeSkins()
-{
-	int index = -1;
-
-	for (auto it : weapon_skins)
-	{
-		index++;
-
-		if (it.first == -1)
-			continue;
-
-		std::string localized = Util::WstringToString(localize->FindSafe(it.second));
-		weapon_skins[index] = { it.first, strdup(localized.c_str()) };
+		weaponSkins[index] = { it.first, strdup(localized.c_str()) };
 	}
 
-	std::sort(weapon_skins.begin(), weapon_skins.end(), [](auto &left, auto &right) {
+	std::sort(weaponSkins.begin(), weaponSkins.end(), [](auto &left, auto &right) {
 		std::size_t leftIter = 0, rightIter = 0;
 		std::size_t leftSize = strlen(left.second), rightSize = strlen(right.second);
 
@@ -701,27 +652,11 @@ void LocalizeSkins()
 	});
 }
 
-void LocalizeGloves()
-{
-	int index = -1;
-
-	for (auto it : gloves)
-	{
-		index++;
-
-		if (it.first == -1)
-			continue;
-
-		std::string localized = Util::WstringToString(localize->FindSafe(it.second));
-		gloves[index] = { it.first, strdup(localized.c_str()) };
-	}
-}
-
 void LocalizeGloveSkins()
 {
 	int index = -1;
 
-	for (auto it : glove_skins)
+	for (auto it : gloveSkins)
 	{
 		index++;
 
@@ -729,10 +664,10 @@ void LocalizeGloveSkins()
 			continue;
 
 		std::string localized = Util::WstringToString(localize->FindSafe(it.second));
-		glove_skins[index] = { it.first, strdup(localized.c_str()) };
+		gloveSkins[index] = { it.first, strdup(localized.c_str()) };
 	}
 
-	std::sort(glove_skins.begin(), glove_skins.end(), [](auto &left, auto &right) {
+	std::sort(gloveSkins.begin(), gloveSkins.end(), [](auto &left, auto &right) {
 		std::size_t leftIter = 0, rightIter = 0;
 		std::size_t leftSize = strlen(left.second), rightSize = strlen(right.second);
 
@@ -755,13 +690,10 @@ void Skins::Localize()
 	if (isLocalized)
 		return;
 
-	if (guns.size() == 0 || knives.size() == 0 || weapon_skins.size() == 0)
+	if (weaponSkins.size() == 0)
 		return;
 
-	LocalizeGuns();
-	LocalizeKnives();
-	LocalizeSkins();
-	LocalizeGloves();
+	LocalizeWeaponSkins();
 	LocalizeGloveSkins();
 
 	isLocalized = true;

@@ -9,13 +9,13 @@ std::list<int> ShowSpectators::GetObservervators(int playerId)
 	if (!engine->IsInGame())
 		return list;
 
-	C_BasePlayer* player = (C_BasePlayer*) entitylist->GetClientEntity(playerId);
+	C_BasePlayer* player = (C_BasePlayer*) entityList->GetClientEntity(playerId);
 	if (!player)
 		return list;
 
 	if (!player->GetAlive())
 	{
-		C_BasePlayer* observerTarget = (C_BasePlayer*) entitylist->GetClientEntityFromHandle(player->GetObserverTarget());
+		C_BasePlayer* observerTarget = (C_BasePlayer*) entityList->GetClientEntityFromHandle(player->GetObserverTarget());
 		if (!observerTarget)
 			return list;
 
@@ -24,14 +24,14 @@ std::list<int> ShowSpectators::GetObservervators(int playerId)
 
 	for (int i = 1; i < engine->GetMaxClients(); i++)
 	{
-		C_BasePlayer* pPlayer = (C_BasePlayer*) entitylist->GetClientEntity(i);
+		C_BasePlayer* pPlayer = (C_BasePlayer*) entityList->GetClientEntity(i);
 		if (!pPlayer)
 			continue;
 
 		if (pPlayer->GetDormant() || pPlayer->GetAlive())
 			continue;
 
-		C_BasePlayer* target = (C_BasePlayer*) entitylist->GetClientEntityFromHandle(pPlayer->GetObserverTarget());
+		C_BasePlayer* target = (C_BasePlayer*) entityList->GetClientEntityFromHandle(pPlayer->GetObserverTarget());
 		if (player != target)
 			continue;
 
@@ -66,7 +66,7 @@ void ShowSpectators::DrawWindow()
 			if (playerId == engine->GetLocalPlayer())
 				continue;
 
-			C_BasePlayer* player = (C_BasePlayer*) entitylist->GetClientEntity(playerId);
+			C_BasePlayer* player = (C_BasePlayer*) entityList->GetClientEntity(playerId);
 
 			IEngineClient::player_info_t entityInformation;
 			engine->GetPlayerInfo(playerId, &entityInformation);

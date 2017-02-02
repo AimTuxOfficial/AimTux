@@ -10,13 +10,13 @@ void Autoblock::CreateMove(CUserCmd* cmd)
 
 	if (inputSystem->IsButtonDown(Settings::Autoblock::key))
 	{
-		C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+		C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 		float bestdist = 250.f;
 		int index = -1;
 
 		for (int i = 1; i < engine->GetMaxClients(); i++)
 		{
-			C_BasePlayer* entity = (C_BasePlayer*) entitylist->GetClientEntity(i);
+			C_BasePlayer* entity = (C_BasePlayer*) entityList->GetClientEntity(i);
 
 			if (!entity)
 				continue;
@@ -36,7 +36,7 @@ void Autoblock::CreateMove(CUserCmd* cmd)
 		if (index == -1)
 			return;
 
-		C_BasePlayer* target = (C_BasePlayer*) entitylist->GetClientEntity(index);
+		C_BasePlayer* target = (C_BasePlayer*) entityList->GetClientEntity(index);
 
 		if (!target)
 			return;

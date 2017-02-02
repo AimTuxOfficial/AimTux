@@ -11,7 +11,7 @@
 #include "../settings.h"
 namespace ESP
 {
-	extern const char* Ranks[];
+	extern const char* ranks[];
 
 	Color GetHealthColor(int hp);
 	Color GetHealthColor(C_BasePlayer* player);
@@ -31,13 +31,14 @@ namespace ESP
 	void DrawSkeleton(C_BasePlayer* player);
 	void DrawBulletTrace(C_BasePlayer* player);
 	void DrawTracer(C_BasePlayer* player);
+	void DrawHeaddot(C_BasePlayer* player);
 	void CollectFootstep(int iEntIndex, const char *pSample);
 	void DrawSounds();
 	void DrawFOVCrosshair();
 	void DrawGlow();
 	void DrawScope();
 
-	void DrawModelExecute(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld);
+	void DrawModelExecute(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t* pCustomBoneToWorld);
 	bool PrePaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force);
 	void Paint();
 	void EmitSound(int iEntIndex, const char *pSample);

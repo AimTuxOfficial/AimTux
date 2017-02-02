@@ -78,7 +78,7 @@ bool Autowall::TraceToExit(Vector &end, trace_t *enter_trace, Vector start, Vect
 		{
 			if (exit_trace->m_pEntityHit)
 			{
-				if (enter_trace->m_pEntityHit && enter_trace->m_pEntityHit == entitylist->GetClientEntity(0))
+				if (enter_trace->m_pEntityHit && enter_trace->m_pEntityHit == entityList->GetClientEntity(0))
 					return true;
 			}
 
@@ -181,7 +181,7 @@ void TraceLine(Vector vecAbsStart, Vector vecAbsEnd, unsigned int mask, C_BasePl
 
 bool Autowall::SimulateFireBullet(C_BaseCombatWeapon* pWeapon, bool teamCheck, FireBulletData &data)
 {
-	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	CCSWeaponInfo* weaponInfo = pWeapon->GetCSWpnData();
 
 	data.penetrate_count = 4;
@@ -232,7 +232,7 @@ float Autowall::GetDamage(const Vector& point, bool teamCheck, FireBulletData& f
 {
 	float damage = 0.f;
 	Vector dst = point;
-	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	FireBulletData data;
 	data.src = localplayer->GetEyePosition();
 	data.filter.pSkip = localplayer;
@@ -242,11 +242,11 @@ float Autowall::GetDamage(const Vector& point, bool teamCheck, FireBulletData& f
 
 	data.direction.NormalizeInPlace();
 
-	C_BaseCombatWeapon* active_weapon = (C_BaseCombatWeapon*) entitylist->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
-	if (!active_weapon)
+	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+	if (!activeWeapon)
 		return -1.0f;
 
-	if (SimulateFireBullet(active_weapon, teamCheck, data))
+	if (SimulateFireBullet(activeWeapon, teamCheck, data))
 		damage = data.current_damage;
 
 	fData = data;

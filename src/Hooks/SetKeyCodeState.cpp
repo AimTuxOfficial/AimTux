@@ -9,8 +9,8 @@ void Hooks::SetKeyCodeState(void* thisptr, ButtonCode_t code, bool bPressed)
 	{
 		SetKeyCodeState::shouldListen = false;
 		*SetKeyCodeState::keyOutput = code;
-		UI::updateWeaponSettings();
+		UI::UpdateWeaponSettings();
 	}
 
-	inputInternal_vmt->GetOriginalMethod<SetKeyCodeStateFn>(92)(thisptr, code, bPressed);
+	inputInternalVMT->GetOriginalMethod<SetKeyCodeStateFn>(92)(thisptr, code, bPressed);
 }

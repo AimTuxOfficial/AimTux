@@ -64,7 +64,7 @@ struct ClientClass
 	void *m_pCreateEventFn;
 	char *m_pNetworkName;
 	RecvTable *m_pRecvTable;
-	ClientClass *m_pNext;
+	ClientClass* m_pNext;
 	EClassIds m_ClassID;
 };
 

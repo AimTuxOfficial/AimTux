@@ -6,14 +6,12 @@ public:
 	EventListener(std::vector<const char*> events)
 	{
 		for (auto& it : events)
-		{
-			gameevents->AddListener(this, it, false);
-		}
+			gameEvents->AddListener(this, it, false);
 	}
 
 	~EventListener()
 	{
-		gameevents->RemoveListener(this);
+		gameEvents->RemoveListener(this);
 	}
 
 	void FireGameEvent(IGameEvent* event)

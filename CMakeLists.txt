@@ -1,6 +1,14 @@
 cmake_minimum_required(VERSION 2.8)
 project(AimTux)
 
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 6.0)
+        message(FATAL_ERROR "Your GCC seems outdated. Go to https://github.com/AimTuxOfficial/AimTux/wiki/Updating-your-compiler for further instructions.")
+    endif()
+else()
+    message(FATAL_ERROR "You must have GCC >= 6.0 installed in order to compile AimTux. Go to https://github.com/AimTuxOfficial/AimTux/wiki/Updating-your-compiler for further instructions.")
+endif()
+
 FUNCTION (EXCLUDE_FILES_FROM_DIR_IN_LIST _InFileList _excludeDirName _verbose)
     foreach (ITR ${_InFileList})
         if ("${_verbose}")

@@ -6,7 +6,7 @@ bool Settings::ESP::Hitmarker::allies = false;
 ImColor Settings::ESP::Hitmarker::color = ImColor(240, 10, 10, 255);
 int Settings::ESP::Hitmarker::duration = 2000;
 int Settings::ESP::Hitmarker::size = 16;
-int Settings::ESP::Hitmarker::inner_gap = 5;
+int Settings::ESP::Hitmarker::innerGap = 5;
 bool Settings::ESP::Hitmarker::Damage::enabled = false;
 
 // int - damage dealt, long - timestamp
@@ -21,7 +21,7 @@ void Hitmarkers::Paint()
 	if (!engine->IsInGame())
 		return;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return;
 
@@ -43,7 +43,7 @@ void Hitmarkers::Paint()
 
 	int sides[4][2] = { {-1, -1}, {1, 1}, {-1, 1}, {1, -1} };
 	for (auto& it : sides)
-		Draw::Line(width / 2 + (Settings::ESP::Hitmarker::inner_gap * it[0]), height / 2 + (Settings::ESP::Hitmarker::inner_gap * it[1]), width / 2 + (Settings::ESP::Hitmarker::size * it[0]), height / 2 + (Settings::ESP::Hitmarker::size * it[1]), color);
+		Draw::Line(width / 2 + (Settings::ESP::Hitmarker::innerGap * it[0]), height / 2 + (Settings::ESP::Hitmarker::innerGap * it[1]), width / 2 + (Settings::ESP::Hitmarker::size * it[0]), height / 2 + (Settings::ESP::Hitmarker::size * it[1]), color);
 
 	if (!Settings::ESP::Hitmarker::Damage::enabled)
 		return;
@@ -97,11 +97,11 @@ void Hitmarkers::FireGameEvent(IGameEvent* event)
 	if (engine->GetPlayerForUserID(attacker_id) != engine->GetLocalPlayer())
 		return;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetLocalPlayer());
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return;
 
-	C_BasePlayer* hurt_player = (C_BasePlayer*) entitylist->GetClientEntity(engine->GetPlayerForUserID(hurt_player_id));
+	C_BasePlayer* hurt_player = (C_BasePlayer*) entityList->GetClientEntity(engine->GetPlayerForUserID(hurt_player_id));
 	if (!hurt_player)
 		return;
 

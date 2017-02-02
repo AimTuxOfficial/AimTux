@@ -3,7 +3,8 @@
 void Hooks::FrameStageNotify(void* thisptr, ClientFrameStage_t stage)
 {
 	CustomGlow::FrameStageNotify(stage);
-	SkinChanger::FrameStageNotify(stage);
+	SkinChanger::FrameStageNotifyWeapons(stage);
+	SkinChanger::FrameStageNotifyGloves(stage);
 	Noflash::FrameStageNotify(stage);
 	View::FrameStageNotify(stage);
 	Resolver::FrameStageNotify(stage);
@@ -11,7 +12,13 @@ void Hooks::FrameStageNotify(void* thisptr, ClientFrameStage_t stage)
 	ASUSWalls::FrameStageNotify(stage);
 	NoSmoke::FrameStageNotify(stage);
 
-	client_vmt->GetOriginalMethod<FrameStageNotifyFn>(36)(thisptr, stage);
+	if (SkinChanger::forceFullUpdate)
+	{
+		GetClientState(-1)->m_nDeltaTick = -1;
+		SkinChanger::forceFullUpdate = false;
+	}
+
+	clientVMT->GetOriginalMethod<FrameStageNotifyFn>(36)(thisptr, stage);
 
 	Resolver::PostFrameStageNotify(stage);
 	View::PostFrameStageNotify(stage);

@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "interfaces.h"
 #include "hooker.h"
 #include "modsupport.h"
@@ -11,9 +9,9 @@ EventListener* eventListener = nullptr;
 /* called when the library is loading */
 int __attribute__((constructor)) aimtux_init()
 {
-	Interfaces::dumpInterfaces();
+	Interfaces::FindInterfaces();
+	Interfaces::DumpInterfaces();
 
-	Hooker::FindInterfaces();
 	Hooker::FindViewRender();
 	Hooker::FindSDLInput();
 	Hooker::InitializeVMHooks();
@@ -41,55 +39,55 @@ int __attribute__((constructor)) aimtux_init()
 
 	ModSupport::OnInit();
 
-	client_vmt->HookVM((void*) Hooks::IN_KeyEvent, 20);
-	client_vmt->HookVM((void*) Hooks::FrameStageNotify, 36);
-	client_vmt->ApplyVMT();
+	clientVMT->HookVM((void*) Hooks::IN_KeyEvent, 20);
+	clientVMT->HookVM((void*) Hooks::FrameStageNotify, 36);
+	clientVMT->ApplyVMT();
 
-	panel_vmt->HookVM((void*) Hooks::PaintTraverse, 42);
-	panel_vmt->ApplyVMT();
+	panelVMT->HookVM((void*) Hooks::PaintTraverse, 42);
+	panelVMT->ApplyVMT();
 
-	modelRender_vmt->HookVM((void*) Hooks::DrawModelExecute, 21);
-	modelRender_vmt->ApplyVMT();
+	modelRenderVMT->HookVM((void*) Hooks::DrawModelExecute, 21);
+	modelRenderVMT->ApplyVMT();
 
-	clientMode_vmt->HookVM((void*) Hooks::OverrideView, 19);
-	clientMode_vmt->HookVM((void*) Hooks::CreateMove, 25);
-	clientMode_vmt->HookVM((void*) Hooks::GetViewModelFOV, 36);
-	clientMode_vmt->ApplyVMT();
+	clientModeVMT->HookVM((void*) Hooks::OverrideView, 19);
+	clientModeVMT->HookVM((void*) Hooks::CreateMove, 25);
+	clientModeVMT->HookVM((void*) Hooks::GetViewModelFOV, 36);
+	clientModeVMT->ApplyVMT();
 
-	gameEvents_vmt->HookVM((void*) Hooks::FireEvent, 9);
-	gameEvents_vmt->HookVM((void*) Hooks::FireEventClientSide, 10);
-	gameEvents_vmt->ApplyVMT();
+	gameEventsVMT->HookVM((void*) Hooks::FireEvent, 9);
+	gameEventsVMT->HookVM((void*) Hooks::FireEventClientSide, 10);
+	gameEventsVMT->ApplyVMT();
 
-	viewRender_vmt->HookVM((void*) Hooks::RenderSmokePostViewmodel, 41);
-	viewRender_vmt->ApplyVMT();
+	viewRenderVMT->HookVM((void*) Hooks::RenderSmokePostViewmodel, 41);
+	viewRenderVMT->ApplyVMT();
 
-	inputInternal_vmt->HookVM((void*) Hooks::SetKeyCodeState, 92);
-	inputInternal_vmt->HookVM((void*) Hooks::SetMouseCodeState, 93);
-	inputInternal_vmt->ApplyVMT();
+	inputInternalVMT->HookVM((void*) Hooks::SetKeyCodeState, 92);
+	inputInternalVMT->HookVM((void*) Hooks::SetMouseCodeState, 93);
+	inputInternalVMT->ApplyVMT();
 
-	material_vmt->HookVM((void*) Hooks::BeginFrame, 42);
-	material_vmt->ApplyVMT();
+	materialVMT->HookVM((void*) Hooks::BeginFrame, 42);
+	materialVMT->ApplyVMT();
 
-	surface_vmt->HookVM((void*) Hooks::PlaySound, 82);
-	surface_vmt->HookVM((void*) Hooks::OnScreenSizeChanged, 116);
-	surface_vmt->ApplyVMT();
+	surfaceVMT->HookVM((void*) Hooks::PlaySound, 82);
+	surfaceVMT->HookVM((void*) Hooks::OnScreenSizeChanged, 116);
+	surfaceVMT->ApplyVMT();
 
-	launchermgr_vmt->HookVM((void*) Hooks::PumpWindowsMessageLoop, 19);
-	launchermgr_vmt->ApplyVMT();
+	launcherMgrVMT->HookVM((void*) Hooks::PumpWindowsMessageLoop, 19);
+	launcherMgrVMT->ApplyVMT();
 
-	enginevgui_vmt->HookVM((void*) Hooks::Paint, 15);
-	enginevgui_vmt->ApplyVMT();
+	engineVGuiVMT->HookVM((void*) Hooks::Paint, 15);
+	engineVGuiVMT->ApplyVMT();
 
-	sound_vmt->HookVM((void*) Hooks::EmitSound1, 5);
-	sound_vmt->HookVM((void*) Hooks::EmitSound2, 6);
-	sound_vmt->ApplyVMT();
+	soundVMT->HookVM((void*) Hooks::EmitSound1, 5);
+	soundVMT->HookVM((void*) Hooks::EmitSound2, 6);
+	soundVMT->ApplyVMT();
 
 	eventListener = new EventListener({ "cs_game_disconnected", "player_connect_full", "player_death", "player_hurt" });
 
 	SkinChanger::HookCBaseViewModel();
 
-	NetVarManager::dumpNetvars();
-	Offsets::getOffsets();
+	NetVarManager::DumpNetvars();
+	Offsets::GetOffsets();
 
 	Fonts::SetupFonts();
 
@@ -105,18 +103,18 @@ void __attribute__((destructor)) aimtux_shutdown()
 	SDL2::UnhookWindow();
 	SDL2::UnhookPollEvent();
 
-	client_vmt->ReleaseVMT();
-	panel_vmt->ReleaseVMT();
-	modelRender_vmt->ReleaseVMT();
-	clientMode_vmt->ReleaseVMT();
-	gameEvents_vmt->ReleaseVMT();
-	viewRender_vmt->ReleaseVMT();
-	inputInternal_vmt->ReleaseVMT();
-	material_vmt->ReleaseVMT();
-	surface_vmt->ReleaseVMT();
-	launchermgr_vmt->ReleaseVMT();
-	enginevgui_vmt->ReleaseVMT();
-	sound_vmt->ReleaseVMT();
+	clientVMT->ReleaseVMT();
+	panelVMT->ReleaseVMT();
+	modelRenderVMT->ReleaseVMT();
+	clientModeVMT->ReleaseVMT();
+	gameEventsVMT->ReleaseVMT();
+	viewRenderVMT->ReleaseVMT();
+	inputInternalVMT->ReleaseVMT();
+	materialVMT->ReleaseVMT();
+	surfaceVMT->ReleaseVMT();
+	launcherMgrVMT->ReleaseVMT();
+	engineVGuiVMT->ReleaseVMT();
+	soundVMT->ReleaseVMT();
 
 	delete eventListener;
 

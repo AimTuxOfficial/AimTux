@@ -16,5 +16,5 @@ void Hooks::BeginFrame(void* thisptr, float frameTime)
 
 	Skins::Localize();
 
-	return material_vmt->GetOriginalMethod<BeginFrameFn>(42)(thisptr, frameTime);
+	return materialVMT->GetOriginalMethod<BeginFrameFn>(42)(thisptr, frameTime);
 }
