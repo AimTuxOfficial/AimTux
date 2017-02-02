@@ -10,8 +10,9 @@ license=("GPL2")
 depends=("gdb" "sudo" "procps-ng")
 makedepends=("git" "cmake" "make" "gcc" "sdl2")
 install="${_pkgname}.install"
-source=("${_pkgname}::git+${url}.git" "aimtux-load" "aimtux-uload")
+source=("${_pkgname}::git+${url}.git" "git://github.com/AimTuxOfficial/imgui.git" "aimtux-load" "aimtux-uload")
 sha256sums=('SKIP'
+            'SKIP'
             '5ac2581c29337a1a56bbef703d674ac359652d13ecd50975a63256b4d47d322c'
             'd9eb70f4a48ca3d8ab77dcac4fcbbe3044f37f00bed6251408320da4384d45f2')
 
@@ -22,6 +23,11 @@ pkgver() {
 
 build() {
 	cd "${_pkgname}"
+
+	git submodule init
+	git config submodule.ImGUI.url "${_pkgname}/src/ImgGUI"
+	git submodule update	
+
 	cmake .
 	make
 }
