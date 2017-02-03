@@ -749,7 +749,7 @@ void VisualsTab()
 					ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
 					ImGui::Checkbox("Bullet Tracers", &Settings::ESP::BulletTracers::enabled);
 					SetTooltip("Adds a line showing where a player is aiming");
-					ImGui::Checkbox("Headdot", &Settings::ESP::Headdot::enabled);
+					ImGui::Checkbox("Head Dot", &Settings::ESP::HeadDot::enabled);
 					SetTooltip("Adds a Dot on the Head of a player");
 				}
 				ImGui::NextColumn();
@@ -765,7 +765,7 @@ void VisualsTab()
 					ImGui::Checkbox("Skeleton", &Settings::ESP::Skeleton::enabled);
 					SetTooltip("Show a players skeleton");
 					ImGui::PushItemWidth(-1);
-						ImGui::SliderFloat("##HDOTSIZE", &Settings::ESP::Headdot::size, 1.f, 5.f, "Size: %0.f");
+						ImGui::SliderFloat("##HDOTSIZE", &Settings::ESP::HeadDot::size, 1.f, 10.f, "Size: %0.3f");
 					ImGui::PopItemWidth();
 				}
 				ImGui::Columns(1);

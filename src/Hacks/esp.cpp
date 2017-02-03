@@ -86,8 +86,8 @@ bool Settings::ESP::Skeleton::enabled = false;
 bool Settings::ESP::Sounds::enabled = false;
 int Settings::ESP::Sounds::time = 1000;
 bool Settings::NoScopeBorder::enabled = false;
-bool Settings::ESP::Headdot::enabled = false;
-float Settings::ESP::Headdot::size = 2;
+bool Settings::ESP::HeadDot::enabled = false;
+float Settings::ESP::HeadDot::size = 2.f;
 
 struct Footstep
 {
@@ -657,7 +657,7 @@ void ESP::DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info
 	if (Settings::ESP::Tracers::enabled)
 		DrawTracer(player);
 
-	if (Settings::ESP::Headdot::enabled)
+	if (Settings::ESP::HeadDot::enabled)
 		DrawHeaddot(player);
 }
 
@@ -890,7 +890,7 @@ void ESP::DrawHeaddot(C_BasePlayer* player)
 	if (Settings::ESP::Filters::visibilityCheck || Settings::ESP::Filters::legit)
 		bIsVisible = Entity::IsVisible(player, Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck);
 
-	Draw::FilledCircle(Vector2D(head2D.x, head2D.y), 10, Settings::ESP::Headdot::size, Color::FromImColor(GetESPPlayerColor(player, bIsVisible)));
+	Draw::FilledCircle(Vector2D(head2D.x, head2D.y), 10, Settings::ESP::HeadDot::size, Color::FromImColor(GetESPPlayerColor(player, bIsVisible)));
 }
 
 void ESP::CollectFootstep(int iEntIndex, const char *pSample)
