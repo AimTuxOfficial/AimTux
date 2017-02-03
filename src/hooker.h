@@ -54,6 +54,9 @@
 #define GETCSWPNDATA_SIGNATURE "\x55\x48\x89\xE5\x0F\xB7\xBF\xD4\x3A"
 #define GETCSWPNDATA_MASK "xxxxxxxxx"
 
+#define CROSSHAIRWEAPONTYPECHECK_SIGNATURE "\x83\xF8\x05\x0F\x84\x00\x00\x00\x00\x49\x8B\x07"
+#define CROSSHAIRWEAPONTYPECHECK_MASK "xxxxx????xxx"
+
 #include <memory>
 #include <unordered_map>
 #include <sys/mman.h>
@@ -90,6 +93,7 @@ namespace Hooker
 	void FindInitKeyValues();
 	void FindLoadFromBuffer();
 	void FindGetCSWpnData();
+	void FindCrosshairWeaponTypeCheck();
 	void HookSwapWindow();
 	void HookPollEvent();
 	void FindSDLInput();

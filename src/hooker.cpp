@@ -3,6 +3,7 @@
 bool* bSendPacket = nullptr;
 int* nPredictionRandomSeed = nullptr;
 CMoveData* g_MoveData = nullptr;
+uint8_t* CrosshairWeaponTypeCheck = nullptr;
 
 VMT* panelVMT = nullptr;
 VMT* clientVMT = nullptr;
@@ -233,6 +234,14 @@ void Hooker::FindGetCSWpnData()
 {
 	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) GETCSWPNDATA_SIGNATURE, GETCSWPNDATA_MASK);
 	GetCSWpnData_address = reinterpret_cast<uintptr_t*>(func_address);
+}
+
+void Hooker::FindCrosshairWeaponTypeCheck()
+{
+	uintptr_t byte_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) CROSSHAIRWEAPONTYPECHECK_SIGNATURE, CROSSHAIRWEAPONTYPECHECK_MASK);
+
+	CrosshairWeaponTypeCheck = reinterpret_cast<uint8_t*>(byte_address + 2);
+	Util::ProtectAddr(CrosshairWeaponTypeCheck, PROT_READ | PROT_WRITE | PROT_EXEC);
 }
 
 void Hooker::HookSwapWindow()
