@@ -35,6 +35,7 @@ namespace ESP
 	void CollectFootstep(int iEntIndex, const char *pSample);
 	void DrawSounds();
 	void DrawFOVCrosshair();
+	void DrawRifleCrosshair();
 	void DrawGlow();
 	void DrawScope();
 
