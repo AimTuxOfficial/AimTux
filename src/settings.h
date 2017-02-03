@@ -756,6 +756,11 @@ namespace Settings
 		extern bool enabled;
 	}
 
+	namespace SniperCrosshair
+	{
+		extern bool enabled;
+	}
+
 	namespace AutoDefuse
 	{
 		extern bool enabled;

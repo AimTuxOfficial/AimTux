@@ -61,6 +61,7 @@ extern LoadFromBufferFn LoadFromBuffer;
 extern int* nPredictionRandomSeed;
 extern bool* bSendPacket;
 extern CMoveData* g_MoveData;
+extern uint8_t* CrosshairWeaponTypeCheck;
 
 extern uintptr_t oSwapWindow;
 extern uintptr_t* swapWindowJumpAddress;
