@@ -516,7 +516,7 @@ namespace Settings
 				extern ImColor color;
 				extern ArmsType type;
 			}
-			
+
 			namespace Weapon
 			{
 				extern bool enabled;
@@ -680,14 +680,18 @@ namespace Settings
 
 	namespace Skinchanger
 	{
-		extern bool enabled;
-
-		namespace Gloves
+		namespace Skins
 		{
 			extern bool enabled;
 		}
 
-		extern std::unordered_map<ItemDefinitionIndex, AttribItem_t> skins;
+		namespace Models
+		{
+			extern bool enabled;
+		}
+
+		extern std::unordered_map<ItemDefinitionIndex, AttribItem_t> skinsCT;
+		extern std::unordered_map<ItemDefinitionIndex, AttribItem_t> skinsT;
 	}
 
 	namespace ShowRanks

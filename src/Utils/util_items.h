@@ -25,5 +25,9 @@ namespace Util
 		std::string GetItemEntityName(ItemDefinitionIndex index);
 
 		std::string GetItemDisplayName(ItemDefinitionIndex index);
+
+		bool isKnife(ItemDefinitionIndex index);
+		bool isUtility(ItemDefinitionIndex index);
+		bool isGlove(ItemDefinitionIndex index);
 	}
 }
