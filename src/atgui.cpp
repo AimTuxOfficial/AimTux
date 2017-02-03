@@ -263,167 +263,70 @@ void ColorsWindow()
 	if (!showColorsWindow)
 		return;
 
-	const char* colorSelection[] = {
-			"UI Main",
-			"UI Body",
-			"UI Font",
-			"FOV Circle",
-			"Hitmarker",
-			"ESP - Enemy",
-			"ESP - Team",
-			"ESP - Enemy Visible",
-			"ESP - Team Visible",
-			"ESP - CT",
-			"ESP - T",
-			"ESP - CT Visible",
-			"ESP - T Visible",
-			"ESP - Bomb",
-			"ESP - Bomb Defusing",
-			"ESP - Hostage",
-			"ESP - Defuser",
-			"ESP - Weapon",
-			"ESP - Chicken",
-			"ESP - Fish",
-			"ESP - Smoke",
-			"ESP - Decoy",
-			"ESP - Flashbang",
-			"ESP - Grenade",
-			"ESP - Molotov",
-			"ESP - Skeleton",
-			"Chams - Team",
-			"Chams - Team Visible",
-			"Chams - Enemy",
-			"Chams - Enemy Visible",
-			"Chams - Arms",
-			"Chams - Weapon",
-			"Radar - Enemy",
-			"Radar - Team",
-			"Radar - Enemy Visible",
-			"Radar - Team Visible",
-			"Radar - CT",
-			"Radar - T",
-			"Radar - CT Visible",
-			"Radar - T Visible",
-			"Radar - Bomb",
-			"Radar - Bomb Defusing",
-			"Glow - Team",
-			"Glow - Enemy",
-			"Glow - Enemy Visible",
-			"Glow - Weapon",
-			"Glow - Grenade",
-			"Glow - Defuser",
-			"Glow - Chicken",
-			"Sky",
-			"Walls",
+	struct ColorProperty
+	{
+		const char* name;
+		ImColor* ptr;
+		bool* hpPtr;
 	};
 
-	ImColor* colors[] = {
-			&Settings::UI::mainColor,
-			&Settings::UI::bodyColor,
-			&Settings::UI::fontColor,
-			&Settings::ESP::FOVCrosshair::color,
-			&Settings::ESP::Hitmarker::color,
-			&Settings::ESP::enemyColor,
-			&Settings::ESP::allyColor,
-			&Settings::ESP::enemyVisibleColor,
-			&Settings::ESP::allyVisibleColor,
-			&Settings::ESP::ctColor,
-			&Settings::ESP::tColor,
-			&Settings::ESP::ctVisibleColor,
-			&Settings::ESP::tVisibleColor,
-			&Settings::ESP::bombColor,
-			&Settings::ESP::bombDefusingColor,
-			&Settings::ESP::hostageColor,
-			&Settings::ESP::defuserColor,
-			&Settings::ESP::weaponColor,
-			&Settings::ESP::chickenColor,
-			&Settings::ESP::fishColor,
-			&Settings::ESP::smokeColor,
-			&Settings::ESP::decoyColor,
-			&Settings::ESP::flashbangColor,
-			&Settings::ESP::grenadeColor,
-			&Settings::ESP::molotovColor,
-			&Settings::ESP::Skeleton::color,
-			&Settings::ESP::Chams::allyColor,
-			&Settings::ESP::Chams::allyVisibleColor,
-			&Settings::ESP::Chams::enemyColor,
-			&Settings::ESP::Chams::enemyVisibleColor,
-			&Settings::ESP::Chams::Arms::color,
-			&Settings::ESP::Chams::Weapon::color,
-			&Settings::Radar::enemyColor,
-			&Settings::Radar::allyColor,
-			&Settings::Radar::enemyVisibleColor,
-			&Settings::Radar::allyVisibleColor,
-			&Settings::Radar::ctColor,
-			&Settings::Radar::tColor,
-			&Settings::Radar::ctVisibleColor,
-			&Settings::Radar::tVisibleColor,
-			&Settings::Radar::bombColor,
-			&Settings::Radar::bombDefusingColor,
-			&Settings::ESP::Glow::allyColor,
-			&Settings::ESP::Glow::enemyColor,
-			&Settings::ESP::Glow::enemyVisibleColor,
-			&Settings::ESP::Glow::weaponColor,
-			&Settings::ESP::Glow::grenadeColor,
-			&Settings::ESP::Glow::defuserColor,
-			&Settings::ESP::Glow::chickenColor,
-			&Settings::NoSky::color,
-			&Settings::ASUSWalls::color,
+	ColorProperty colors[] = {
+			{ "UI Main",               &Settings::UI::mainColor,                 nullptr },
+			{ "UI Body",               &Settings::UI::bodyColor,                 nullptr },
+			{ "UI Font",               &Settings::UI::fontColor,                 nullptr },
+			{ "FOV Circle",            &Settings::ESP::FOVCrosshair::color,      nullptr },
+			{ "Hitmarker",             &Settings::ESP::Hitmarker::color,         nullptr },
+			{ "ESP - Enemy",           &Settings::ESP::enemyColor,               &Settings::ESP::hpEnemyColor },
+			{ "ESP - Team",            &Settings::ESP::allyColor,                &Settings::ESP::hpAllyColor },
+			{ "ESP - Enemy Visible",   &Settings::ESP::enemyVisibleColor,        &Settings::ESP::hpEnemyVisibleColor },
+			{ "ESP - Team Visible",    &Settings::ESP::allyVisibleColor,         &Settings::ESP::hpAllyVisibleColor },
+			{ "ESP - CT",              &Settings::ESP::ctColor,                  &Settings::ESP::hpCtColor },
+			{ "ESP - T",               &Settings::ESP::tColor,                   &Settings::ESP::hpTColor },
+			{ "ESP - CT Visible",      &Settings::ESP::ctVisibleColor,           &Settings::ESP::hpCtVisibleColor },
+			{ "ESP - T Visible",       &Settings::ESP::tVisibleColor,            &Settings::ESP::hpTVisibleColor },
+			{ "ESP - Bomb",            &Settings::ESP::bombColor,                nullptr },
+			{ "ESP - Bomb Defusing",   &Settings::ESP::bombDefusingColor,        nullptr },
+			{ "ESP - Hostage",         &Settings::ESP::hostageColor,             nullptr },
+			{ "ESP - Defuser",         &Settings::ESP::defuserColor,             nullptr },
+			{ "ESP - Weapon",          &Settings::ESP::weaponColor,              nullptr },
+			{ "ESP - Chicken",         &Settings::ESP::chickenColor,             nullptr },
+			{ "ESP - Fish",            &Settings::ESP::fishColor,                nullptr },
+			{ "ESP - Smoke",           &Settings::ESP::smokeColor,               nullptr },
+			{ "ESP - Decoy",           &Settings::ESP::decoyColor,               nullptr },
+			{ "ESP - Flashbang",       &Settings::ESP::flashbangColor,           nullptr },
+			{ "ESP - Grenade",         &Settings::ESP::grenadeColor,             nullptr },
+			{ "ESP - Molotov",         &Settings::ESP::molotovColor,             nullptr },
+			{ "ESP - Skeleton",        &Settings::ESP::Skeleton::color,          nullptr },
+			{ "Chams - Team",          &Settings::ESP::Chams::allyColor,         &Settings::ESP::Chams::hpAllyColor },
+			{ "Chams - Team Visible",  &Settings::ESP::Chams::allyVisibleColor,  &Settings::ESP::Chams::hpAllyVisibleColor },
+			{ "Chams - Enemy",         &Settings::ESP::Chams::enemyColor,        &Settings::ESP::Chams::hpEnemyColor },
+			{ "Chams - Enemy Visible", &Settings::ESP::Chams::enemyVisibleColor, &Settings::ESP::Chams::hpEnemyVisibleColor },
+			{ "Chams - Arms",          &Settings::ESP::Chams::Arms::color,       nullptr },
+			{ "Chams - Weapon",        &Settings::ESP::Chams::Weapon::color,     nullptr },
+			{ "Radar - Enemy",         &Settings::Radar::enemyColor,             &Settings::Radar::hpEnemyColor },
+			{ "Radar - Team",          &Settings::Radar::allyColor,              &Settings::Radar::hpAllyColor },
+			{ "Radar - Enemy Visible", &Settings::Radar::enemyVisibleColor,      &Settings::Radar::hpEnemyVisibleColor },
+			{ "Radar - Team Visible",  &Settings::Radar::allyVisibleColor,       &Settings::Radar::hpAllyVisibleColor },
+			{ "Radar - CT",            &Settings::Radar::ctColor,                &Settings::Radar::hpCtColor },
+			{ "Radar - T",             &Settings::Radar::tColor,                 &Settings::Radar::hpTColor },
+			{ "Radar - CT Visible",    &Settings::Radar::ctVisibleColor,         &Settings::Radar::hpCtVisibleColor },
+			{ "Radar - T Visible",     &Settings::Radar::tVisibleColor,          &Settings::Radar::hpTVisibleColor },
+			{ "Radar - Bomb",          &Settings::Radar::bombColor,              nullptr },
+			{ "Radar - Bomb Defusing", &Settings::Radar::bombDefusingColor,      nullptr },
+			{ "Glow - Team",           &Settings::ESP::Glow::allyColor,          &Settings::ESP::Glow::hpAllyColor },
+			{ "Glow - Enemy",          &Settings::ESP::Glow::enemyColor,         &Settings::ESP::Glow::hpEnemyColor },
+			{ "Glow - Enemy Visible",  &Settings::ESP::Glow::enemyVisibleColor,  &Settings::ESP::Glow::hpEnemyVisibleColor },
+			{ "Glow - Weapon",         &Settings::ESP::Glow::weaponColor,        nullptr },
+			{ "Glow - Grenade",        &Settings::ESP::Glow::grenadeColor,       nullptr },
+			{ "Glow - Defuser",        &Settings::ESP::Glow::defuserColor,       nullptr },
+			{ "Glow - Chicken",        &Settings::ESP::Glow::chickenColor,       nullptr },
+			{ "Sky",                   &Settings::NoSky::color,                  nullptr },
+			{ "Walls",                 &Settings::ASUSWalls::color,              nullptr },
 	};
 
-	bool* healthColor[] = {
-			nullptr, // UI Main
-			nullptr, // UI Body
-			nullptr, // UI Font
-			nullptr, // FOV Circle
-			nullptr, // Hitmarker
-			&Settings::ESP::hpEnemyColor, // ESP - Enemy
-			&Settings::ESP::hpAllyColor, // ESP - Team
-			&Settings::ESP::hpEnemyVisibleColor, // ESP - Enemy Visible
-			&Settings::ESP::hpAllyVisibleColor, // ESP - Team Visible
-			&Settings::ESP::hpCtColor, // ESP - CT
-			&Settings::ESP::hpTColor, // ESP - T
-			&Settings::ESP::hpCtVisibleColor, // ESP - CT Visible
-			&Settings::ESP::hpTVisibleColor, // ESP - T Visible
-			nullptr, // ESP - Bomb
-			nullptr, // ESP - Bomb Defusing
-			nullptr, // ESP - Hostage
-			nullptr, // ESP - Defuser
-			nullptr, // ESP - Weapon
-			nullptr, // ESP - Chicken
-			nullptr, // ESP - Fish
-			nullptr, // ESP - Smoke
-			nullptr, // ESP - Decoy
-			nullptr, // ESP - Flashbang
-			nullptr, // ESP - Grenade
-			nullptr, // ESP - Molotov
-			nullptr, // ESP - Skeleton
-			&Settings::ESP::Chams::hpAllyColor, // Chams - Team
-			&Settings::ESP::Chams::hpAllyVisibleColor, // Chams - Team Visible
-			&Settings::ESP::Chams::hpEnemyColor, // Chams - Enemy
-			&Settings::ESP::Chams::hpEnemyVisibleColor, // Chams - Enemy Visible
-			nullptr, // Chams - Arms
-			nullptr, // Chams - Weapons
-			&Settings::Radar::hpEnemyColor, // Radar - Enemy
-			&Settings::Radar::hpAllyColor, // Radar - Team
-			&Settings::Radar::hpEnemyVisibleColor, // Radar - Enemy Visible
-			&Settings::Radar::hpAllyVisibleColor, // Radar - Team Visible
-			&Settings::Radar::hpCtColor, // Radar - CT
-			&Settings::Radar::hpTColor, // Radar - T
-			&Settings::Radar::hpCtVisibleColor, // Radar - CT Visible
-			&Settings::Radar::hpTVisibleColor, // Radar - T Visible
-			nullptr, // Radar - Bomb
-			nullptr, // Radar - Bomb Defusing
-			&Settings::ESP::Glow::hpAllyColor, // Glow - Team
-			&Settings::ESP::Glow::hpEnemyColor, // Glow - Enemy
-			&Settings::ESP::Glow::hpEnemyVisibleColor, // Glow - Enemy Visible
-			nullptr, // Glow - Weapon
-			nullptr, // Glow - Grenade
-			nullptr, // Glow - Defuser
-			nullptr, // Glow - Chicken
-			nullptr, // Sky
-			nullptr, // Walls
-	};
+	const char* colorNames[IM_ARRAYSIZE(colors)];
+	for (int i = 0; i < IM_ARRAYSIZE(colors); i++)
+		colorNames[i] = colors[i].name;
 
 	static int colorSelected = 0;
 
@@ -433,15 +336,15 @@ void ColorsWindow()
 		ImGui::Columns(2, NULL, true);
 		{
 			ImGui::PushItemWidth(-1);
-				ImGui::ListBox("##COLORSELECTION", &colorSelected, colorSelection, IM_ARRAYSIZE(colorSelection), 11);
+				ImGui::ListBox("##COLORSELECTION", &colorSelected, colorNames, IM_ARRAYSIZE(colorNames), 11);
 			ImGui::PopItemWidth();
 		}
 		ImGui::NextColumn();
 		{
-			UI::ColorPicker4((float *)colors[colorSelected]);
-			if (healthColor[colorSelected])
+			UI::ColorPicker4((float *)colors[colorSelected].ptr);
+			if (colors[colorSelected].hpPtr)
 			{
-				ImGui::Checkbox("Health-Based Color", healthColor[colorSelected]);
+				ImGui::Checkbox("Health-Based Color", colors[colorSelected].hpPtr);
 				SetTooltip("Takes color from entity health, i.e. 100 - green, 50 - yellow");
 			}
 		}
