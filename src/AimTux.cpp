@@ -129,9 +129,13 @@ void __attribute__((destructor)) aimtux_shutdown()
 
 	*bSendPacket = true;
 	*CrosshairWeaponTypeCheck = 5;
-
 	*CamThinkSvCheatsCheck = 0x74;
 	*(CamThinkSvCheatsCheck + 0x1) = 0x64;
+
+	Util::ProtectAddr(bSendPacket, PROT_READ | PROT_EXEC);
+	Util::ProtectAddr(CrosshairWeaponTypeCheck, PROT_READ | PROT_EXEC);
+	for (ptrdiff_t off = 0; off < 0x2; off++)
+		Util::ProtectAddr(CamThinkSvCheatsCheck + off, PROT_READ | PROT_EXEC);
 
 	cvar->ConsoleColorPrintf(ColorRGBA(255, 150, 150), "AimTux has been unloaded successfully.\n");
 }
