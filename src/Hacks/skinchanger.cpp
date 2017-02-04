@@ -135,11 +135,9 @@ void SkinChanger::FrameStageNotifyModels(ClientFrameStage_t stage)
 					if (pClass->m_ClassID != EClassIds::CEconWearable)
 						continue;
 
-					int entry = (entityList->GetHighestEntityIndex() + 1), serial = RandomInt(0x0, 0xFFF);
-
-					pClass->m_pCreateFn(entry, serial);
-
-					localplayer->GetWearables()[0] = entry | (serial << 16);
+					int entry = (entityList->GetHighestEntityI
+	if (!engine->IsInGame())
+		return;serial << 16);
 
 					break;
 				}
@@ -361,9 +359,6 @@ void SkinChanger::FireEventClientSide(IGameEvent* event)
 void SkinChanger::FireGameEvent(IGameEvent* event)
 {
 	if (!Settings::Skinchanger::Models::enabled || ModSupport::current_mod == ModType::CSCO)
-		return;
-
-	if (!engine->IsInGame())
 		return;
 
 	if (!event || strcmp(event->GetName(), "switch_team") != 0)
