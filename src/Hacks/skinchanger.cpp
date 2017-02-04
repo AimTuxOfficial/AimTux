@@ -135,9 +135,11 @@ void SkinChanger::FrameStageNotifyModels(ClientFrameStage_t stage)
 					if (pClass->m_ClassID != EClassIds::CEconWearable)
 						continue;
 
-					int entry = (entityList->GetHighestEntityI
-	if (!engine->IsInGame())
-		return;serial << 16);
+					int entry = (entityList->GetHighestEntityIndex() + 1), serial = RandomInt(0x0, 0xFFF);
+
+					pClass->m_pCreateFn(entry, serial);
+
+					localplayer->GetWearables()[0] = entry | (serial << 16);
 
 					break;
 				}
