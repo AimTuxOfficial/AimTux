@@ -42,27 +42,38 @@ LineGoesThroughSmokeFn LineGoesThroughSmoke;
 InitKeyValuesFn InitKeyValues;
 LoadFromBufferFn LoadFromBuffer;
 
-std::unordered_map<const char*, uintptr_t> Hooker::GetProcessLibraries()
-{
-	std::unordered_map<const char*, uintptr_t> modules;
+std::vector<dlinfo_t> libraries;
 
-	dl_iterate_phdr([](struct dl_phdr_info* info, size_t size, void* data) {
-		reinterpret_cast<std::unordered_map<const char*, uintptr_t>*>(data)->insert({ info->dlpi_name, reinterpret_cast<uintptr_t>(info->dlpi_addr + info->dlpi_phdr[0].p_vaddr) });
-		return 0;
-	}, &modules);
+// taken form aixxe's cstrike-basehook-linux
+bool Hooker::GetLibraryInformation(const char* library, uintptr_t* address, size_t* size) {
+	if (libraries.size() == 0) {
+		dl_iterate_phdr([] (struct dl_phdr_info* info, size_t, void*) {
+			dlinfo_t library_info = {};
 
-	return modules;
-}
+			library_info.library = info->dlpi_name;
+			library_info.address = info->dlpi_addr + info->dlpi_phdr[0].p_vaddr;
+			library_info.size = info->dlpi_phdr[0].p_memsz;
 
-uintptr_t Hooker::GetLibraryAddress(const char* moduleName)
-{
-	std::unordered_map<const char*, uintptr_t> modules = GetProcessLibraries();
+			libraries.push_back(library_info);
 
-	for (auto module : modules)
-		if (strcasestr(module.first, moduleName))
-			return module.second;
+			return 0;
+		}, nullptr);
+	}
 
-	return 0;
+	for (const dlinfo_t& current: libraries) {
+		if (!strcasestr(current.library, library))
+			continue;
+
+		if (address)
+			*address = current.address;
+
+		if (size)
+			*size = current.size;
+
+		return true;
+	}
+
+	return false;
 }
 
 void Hooker::InitializeVMHooks()
@@ -131,49 +142,49 @@ void Hooker::FindCInput()
 
 void Hooker::FindGlowManager()
 {
-	uintptr_t instruction_addr = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) GLOWOBJECT_SIGNATURE, GLOWOBJECT_MASK);
+	uintptr_t instruction_addr = PatternFinder::FindPatternInModule("client_client.so", (unsigned char*) GLOWOBJECT_SIGNATURE, GLOWOBJECT_MASK);
 
 	glowManager = reinterpret_cast<GlowObjectManagerFn>(GetAbsoluteAddress(instruction_addr, 1, 5))();
 }
 
 void Hooker::FindPlayerResource()
 {
-	uintptr_t instruction_addr = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) PLAYERRESOURCES_SIGNATURE, PLAYERRESOURCES_MASK);
+	uintptr_t instruction_addr = PatternFinder::FindPatternInModule("client_client.so", (unsigned char*) PLAYERRESOURCES_SIGNATURE, PLAYERRESOURCES_MASK);
 
 	csPlayerResource = reinterpret_cast<C_CSPlayerResource**>(GetAbsoluteAddress(instruction_addr, 3, 7));
 }
 
 void Hooker::FindGameRules()
 {
-	uintptr_t instruction_addr = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) GAMERULES_SIGNATURE, GAMERULES_MASK);
+	uintptr_t instruction_addr = PatternFinder::FindPatternInModule("client_client.so", (unsigned char*) GAMERULES_SIGNATURE, GAMERULES_MASK);
 
 	csGameRules = *reinterpret_cast<C_CSGameRules***>(GetAbsoluteAddress(instruction_addr, 3, 7));
 }
 
 void Hooker::FindRankReveal()
 {
-	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) MSGFUNC_SERVERRANKREVEALALL_SIGNATURE, MSGFUNC_SERVERRANKREVEALALL_MASK);
+	uintptr_t func_address = PatternFinder::FindPatternInModule("client_client.so", (unsigned char*) MSGFUNC_SERVERRANKREVEALALL_SIGNATURE, MSGFUNC_SERVERRANKREVEALALL_MASK);
 
 	MsgFunc_ServerRankRevealAll = reinterpret_cast<MsgFunc_ServerRankRevealAllFn>(func_address);
 }
 
 void Hooker::FindSendClanTag()
 {
-	uintptr_t func_address = FindPattern(GetLibraryAddress("engine_client.so"), 0xFFFFFFFFF, (unsigned char*) SENDCLANTAG_SIGNATURE, SENDCLANTAG_MASK);
+	uintptr_t func_address = PatternFinder::FindPatternInModule("engine_client.so", (unsigned char*) SENDCLANTAG_SIGNATURE, SENDCLANTAG_MASK);
 
 	SendClanTag = reinterpret_cast<SendClanTagFn>(func_address);
 }
 
 void Hooker::FindViewRender()
 {
-	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) VIEWRENDER_SIGNATURE, VIEWRENDER_MASK);
+	uintptr_t func_address = PatternFinder::FindPatternInModule("client_client.so", (unsigned char*) VIEWRENDER_SIGNATURE, VIEWRENDER_MASK);
 
 	viewRender = reinterpret_cast<CViewRender*>(GetAbsoluteAddress(func_address + 14, 3, 7));
 }
 
 void Hooker::FindSendPacket()
 {
-	uintptr_t bool_address = FindPattern(GetLibraryAddress("engine_client.so"), 0xFFFFFFFFF, (unsigned char*) BSENDPACKET_SIGNATURE, BSENDPACKET_MASK);
+	uintptr_t bool_address = PatternFinder::FindPatternInModule("engine_client.so", (unsigned char*) BSENDPACKET_SIGNATURE, BSENDPACKET_MASK);
 	bool_address = GetAbsoluteAddress(bool_address, 2, 1);
 
 	bSendPacket = reinterpret_cast<bool*>(bool_address);
@@ -182,9 +193,9 @@ void Hooker::FindSendPacket()
 
 void Hooker::FindPrediction()
 {
-	uintptr_t seed_instruction_addr = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) PREDICTION_RANDOM_SEED_SIGNATURE, PREDICTION_RANDOM_SEED_MASK);
-	uintptr_t helper_instruction_addr = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) CLIENT_MOVEHELPER_SIGNATURE, CLIENT_MOVEHELPER_MASK);
-	uintptr_t movedata_instruction_addr = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) CLIENT_MOVEDATA_SIGNATURE, CLIENT_MOVEDATA_MASK);
+	uintptr_t seed_instruction_addr = PatternFinder::FindPatternInModule("client_client.so", (unsigned char*) PREDICTION_RANDOM_SEED_SIGNATURE, PREDICTION_RANDOM_SEED_MASK);
+	uintptr_t helper_instruction_addr = PatternFinder::FindPatternInModule("client_client.so", (unsigned char*) CLIENT_MOVEHELPER_SIGNATURE, CLIENT_MOVEHELPER_MASK);
+	uintptr_t movedata_instruction_addr = PatternFinder::FindPatternInModule("client_client.so", (unsigned char*) CLIENT_MOVEDATA_SIGNATURE, CLIENT_MOVEDATA_MASK);
 
 	nPredictionRandomSeed = *reinterpret_cast<int**>(GetAbsoluteAddress(seed_instruction_addr, 3, 7));
 	moveHelper = *reinterpret_cast<IMoveHelper**>(GetAbsoluteAddress(helper_instruction_addr + 1, 3, 7));
@@ -193,17 +204,17 @@ void Hooker::FindPrediction()
 
 void Hooker::FindIsReadyCallback()
 {
-	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) ISREADY_CALLBACK_SIGNATURE, ISREADY_CALLBACK_MASK);
+	uintptr_t func_address = PatternFinder::FindPatternInModule("client_client.so", (unsigned char*) ISREADY_CALLBACK_SIGNATURE, ISREADY_CALLBACK_MASK);
 
 	IsReadyCallback = reinterpret_cast<IsReadyCallbackFn>(func_address);
 }
 
 void Hooker::FindSurfaceDrawing()
 {
-	uintptr_t start_func_address = FindPattern(GetLibraryAddress("vguimatsurface_client.so"), 0xFFFFFFFFF, (unsigned char*) CMATSYSTEMSURFACE_STARTDRAWING_SIGNATURE, CMATSYSTEMSURFACE_STARTDRAWING_MASK);
+	uintptr_t start_func_address = PatternFinder::FindPatternInModule("vguimatsurface_client.so", (unsigned char*) CMATSYSTEMSURFACE_STARTDRAWING_SIGNATURE, CMATSYSTEMSURFACE_STARTDRAWING_MASK);
 	StartDrawing = reinterpret_cast<StartDrawingFn>(start_func_address);
 
-	uintptr_t finish_func_address = FindPattern(GetLibraryAddress("vguimatsurface_client.so"), 0xFFFFFFFFF, (unsigned char*) CMATSYSTEMSURFACE_FINISHDRAWING_SIGNATURE, CMATSYSTEMSURFACE_FINISHDRAWING_MASK);
+	uintptr_t finish_func_address = PatternFinder::FindPatternInModule("vguimatsurface_client.so", (unsigned char*) CMATSYSTEMSURFACE_FINISHDRAWING_SIGNATURE, CMATSYSTEMSURFACE_FINISHDRAWING_MASK);
 	FinishDrawing = reinterpret_cast<FinishDrawingFn>(finish_func_address);
 }
 
@@ -215,31 +226,31 @@ void Hooker::FindGetLocalClient()
 
 void Hooker::FindLineGoesThroughSmoke()
 {
-	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) LINEGOESTHROUGHSMOKE_SIGNATURE, LINEGOESTHROUGHSMOKE_MASK);
+	uintptr_t func_address = PatternFinder::FindPatternInModule("client_client.so", (unsigned char*) LINEGOESTHROUGHSMOKE_SIGNATURE, LINEGOESTHROUGHSMOKE_MASK);
 	LineGoesThroughSmoke = reinterpret_cast<LineGoesThroughSmokeFn>(func_address);
 }
 
 void Hooker::FindInitKeyValues()
 {
-	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) INITKEYVALUES_SIGNATURE, INITKEYVALUES_MASK);
+	uintptr_t func_address = PatternFinder::FindPatternInModule("client_client.so", (unsigned char*) INITKEYVALUES_SIGNATURE, INITKEYVALUES_MASK);
 	InitKeyValues = reinterpret_cast<InitKeyValuesFn>(func_address);
 }
 
 void Hooker::FindLoadFromBuffer()
 {
-	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) LOADFROMBUFFER_SIGNATURE, LOADFROMBUFFER_MASK);
+	uintptr_t func_address = PatternFinder::FindPatternInModule("client_client.so", (unsigned char*) LOADFROMBUFFER_SIGNATURE, LOADFROMBUFFER_MASK);
 	LoadFromBuffer = reinterpret_cast<LoadFromBufferFn>(func_address);
 }
 
 void Hooker::FindGetCSWpnData()
 {
-	uintptr_t func_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) GETCSWPNDATA_SIGNATURE, GETCSWPNDATA_MASK);
+	uintptr_t func_address = PatternFinder::FindPatternInModule("client_client.so", (unsigned char*) GETCSWPNDATA_SIGNATURE, GETCSWPNDATA_MASK);
 	GetCSWpnData_address = reinterpret_cast<uintptr_t*>(func_address);
 }
 
 void Hooker::FindCrosshairWeaponTypeCheck()
 {
-	uintptr_t byte_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) CROSSHAIRWEAPONTYPECHECK_SIGNATURE, CROSSHAIRWEAPONTYPECHECK_MASK);
+	uintptr_t byte_address = PatternFinder::FindPatternInModule("client_client.so", (unsigned char*) CROSSHAIRWEAPONTYPECHECK_SIGNATURE, CROSSHAIRWEAPONTYPECHECK_MASK);
 
 	CrosshairWeaponTypeCheck = reinterpret_cast<uint8_t*>(byte_address + 2);
 	Util::ProtectAddr(CrosshairWeaponTypeCheck, PROT_READ | PROT_WRITE | PROT_EXEC);
@@ -247,7 +258,7 @@ void Hooker::FindCrosshairWeaponTypeCheck()
 
 void Hooker::FindCamThinkSvCheatsCheck()
 {
-	uintptr_t byte_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) CAMTHINK_SVCHEATSCHECK_SIGNATURE, CAMTHINK_SVCHEATSCHECK_MASK);
+	uintptr_t byte_address = PatternFinder::FindPatternInModule("client_client.so", (unsigned char*) CAMTHINK_SVCHEATSCHECK_SIGNATURE, CAMTHINK_SVCHEATSCHECK_MASK);
 
 	CamThinkSvCheatsCheck = reinterpret_cast<uint8_t*>(byte_address);
 
@@ -273,7 +284,7 @@ void Hooker::HookPollEvent()
 
 void Hooker::FindSDLInput()
 {
-	uintptr_t func_address = FindPattern(GetLibraryAddress("launcher_client.so"), 0xFFFFFFFFF, (unsigned char*) GETSDLMGR_SIGNATURE, GETSDLMGR_MASK);
+	uintptr_t func_address = PatternFinder::FindPatternInModule("launcher_client.so", (unsigned char*) GETSDLMGR_SIGNATURE, GETSDLMGR_MASK);
 
 	launcherMgr = reinterpret_cast<ILauncherMgrCreateFn>(func_address)();
 }
