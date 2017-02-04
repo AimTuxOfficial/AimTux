@@ -104,6 +104,12 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 		return;
 	}
 
+	if (entity->GetImmune())
+	{
+		visible_material->AlphaModulate(0.5f);
+		hidden_material->AlphaModulate(0.5f);
+	}
+
 	if (!Settings::ESP::Filters::legit && (Settings::ESP::Chams::type == ChamsType::CHAMS_XQZ || Settings::ESP::Chams::type == ChamsType::CHAMS_FLAT_XQZ))
 	{
 		modelRender->ForcedMaterialOverride(hidden_material);
