@@ -394,7 +394,7 @@ void SkinsTab()
 				if (Settings::Skinchanger::skinsCT.find((ItemDefinitionIndex)modelCT) == Settings::Skinchanger::skinsCT.end())
 					Settings::Skinchanger::skinsCT[(ItemDefinitionIndex)modelCT] = AttribItem_t();
 
-				Settings::Skinchanger::skinsCT.at((ItemDefinitionIndex)modelCT) = { ItemDefinitionIndex::INVALID, modelSkinCT, 0.0005f, -1, -1, -1, ""};
+				Settings::Skinchanger::skinsCT.at((ItemDefinitionIndex)modelCT) = { ItemDefinitionIndex::INVALID, modelSkinCT, skinWearCT, skinSeedT, skinStatTrakCT, -1, skinNameCT};
 
 				SkinChanger::forceFullUpdate = true;
 			}
@@ -434,7 +434,7 @@ void SkinsTab()
 				if (Settings::Skinchanger::skinsT.find((ItemDefinitionIndex)modelT) == Settings::Skinchanger::skinsT.end())
 					Settings::Skinchanger::skinsT[(ItemDefinitionIndex)modelT] = AttribItem_t();
 
-				Settings::Skinchanger::skinsT.at((ItemDefinitionIndex)modelT) = { ItemDefinitionIndex::INVALID, modelSkinT, 0.0005f, -1, -1, -1, ""};
+				Settings::Skinchanger::skinsT.at((ItemDefinitionIndex)modelT) = { ItemDefinitionIndex::INVALID, modelSkinT, skinWearT, skinSeedT, skinStatTrakT, -1, skinNameT};
 
 				SkinChanger::forceFullUpdate = true;
 			}
