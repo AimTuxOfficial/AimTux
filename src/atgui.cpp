@@ -284,6 +284,7 @@ void ColorsWindow()
 			{ "ESP - T", &Settings::ESP::tColor, &Settings::ESP::hpTColor },
 			{ "ESP - CT Visible", &Settings::ESP::ctVisibleColor, &Settings::ESP::hpCtVisibleColor },
 			{ "ESP - T Visible", &Settings::ESP::tVisibleColor, &Settings::ESP::hpTVisibleColor },
+			{ "ESP - LocalPlayer", &Settings::ESP::localplayerColor, &Settings::ESP::hpLocalplayerColor },
 			{ "ESP - Bomb", &Settings::ESP::bombColor, nullptr },
 			{ "ESP - Bomb Defusing", &Settings::ESP::bombDefusingColor, nullptr },
 			{ "ESP - Hostage", &Settings::ESP::hostageColor, nullptr },
@@ -301,6 +302,7 @@ void ColorsWindow()
 			{ "Chams - Team Visible", &Settings::ESP::Chams::allyVisibleColor, &Settings::ESP::Chams::hpAllyVisibleColor },
 			{ "Chams - Enemy", &Settings::ESP::Chams::enemyColor, &Settings::ESP::Chams::hpEnemyColor },
 			{ "Chams - Enemy Visible", &Settings::ESP::Chams::enemyVisibleColor, &Settings::ESP::Chams::hpEnemyVisibleColor },
+			{ "Chams - LocalPlayer", &Settings::ESP::Chams::localplayerColor, &Settings::ESP::Chams::hpLocalplayerColor },
 			{ "Chams - Arms", &Settings::ESP::Chams::Arms::color, nullptr },
 			{ "Chams - Weapon", &Settings::ESP::Chams::Weapon::color, nullptr },
 			{ "Radar - Enemy", &Settings::Radar::enemyColor, &Settings::Radar::hpEnemyColor },
@@ -316,6 +318,7 @@ void ColorsWindow()
 			{ "Glow - Team", &Settings::ESP::Glow::allyColor, &Settings::ESP::Glow::hpAllyColor },
 			{ "Glow - Enemy", &Settings::ESP::Glow::enemyColor, &Settings::ESP::Glow::hpEnemyColor },
 			{ "Glow - Enemy Visible", &Settings::ESP::Glow::enemyVisibleColor, &Settings::ESP::Glow::hpEnemyVisibleColor },
+			{ "Glow - LocalPlayer", &Settings::ESP::Glow::localplayerColor, &Settings::ESP::Glow::hpLocalplayerColor },
 			{ "Glow - Weapon", &Settings::ESP::Glow::weaponColor, nullptr },
 			{ "Glow - Grenade", &Settings::ESP::Glow::grenadeColor, nullptr },
 			{ "Glow - Defuser", &Settings::ESP::Glow::defuserColor, nullptr },
@@ -778,10 +781,10 @@ void VisualsTab()
 					SetTooltip("Show enemies");
 					ImGui::Checkbox("Chickens", &Settings::ESP::Filters::chickens);
 					SetTooltip("Show chickens");
+					ImGui::Checkbox("LocalPlayer", &Settings::ESP::Filters::localplayer);
+					SetTooltip("Show localplayer");
 					ImGui::Checkbox("Legit Mode", &Settings::ESP::Filters::legit);
 					SetTooltip("Hide enemies behind walls");
-					ImGui::Checkbox("Smoke Check", &Settings::ESP::Filters::smokeCheck);
-					SetTooltip("Mark players behind smokes as invisible");
 				}
 				ImGui::NextColumn();
 				{
@@ -789,6 +792,8 @@ void VisualsTab()
 					SetTooltip("Show team mates");
 					ImGui::Checkbox("Fish", &Settings::ESP::Filters::fishes);
 					SetTooltip("Show fish");
+					ImGui::Checkbox("Smoke Check", &Settings::ESP::Filters::smokeCheck);
+					SetTooltip("Mark players behind smokes as invisible");
 					ImGui::Checkbox("Visiblity Check", &Settings::ESP::Filters::visibilityCheck);
 					SetTooltip("Change color of outlined box based on whether you see them");
 				}
@@ -1292,6 +1297,21 @@ void MiscTab()
 				ImGui::PushItemWidth(-1);
 					ImGui::SliderFloat("##FOVAMOUNT", &Settings::FOVChanger::value, 0, 180);
 					ImGui::SliderFloat("##MODELFOVAMOUNT", &Settings::FOVChanger::viewmodelValue, 0, 360);
+				ImGui::PopItemWidth();
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::Text("Third Person");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Checkbox("Enabled", &Settings::ThirdPerson::enabled);
+				SetTooltip("Switches from first-person perspective to third-person perspective.");
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::PushItemWidth(-1);
+				ImGui::SliderFloat("##TPCAMOFFSET", &Settings::ThirdPerson::distance, 0.f, 230.f, "Camera Offset: %0.f");
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);

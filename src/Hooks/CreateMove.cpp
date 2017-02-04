@@ -1,6 +1,7 @@
 #include "hooks.h"
 
 bool CreateMove::SendPacket = true;
+QAngle CreateMove::lastTickViewAngles = QAngle(0, 0, 0);
 
 bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 {
@@ -30,6 +31,8 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		PredictionSystem::EndPrediction();
 
 		EdgeJump::PostPredictionCreateMove(cmd);
+
+		CreateMove::lastTickViewAngles = cmd->viewangles;
 	}
 
 	return false;

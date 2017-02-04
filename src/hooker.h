@@ -57,6 +57,9 @@
 #define CROSSHAIRWEAPONTYPECHECK_SIGNATURE "\x83\xF8\x05\x0F\x84\x00\x00\x00\x00\x49\x8B\x07"
 #define CROSSHAIRWEAPONTYPECHECK_MASK "xxxxx????xxx"
 
+#define CAMTHINK_SVCHEATSCHECK_SIGNATURE "\x74\x00\x49\x83\x00\x00\x00\x00\x00\x00\x00\x0F\x84\x00\x00\x00\x00\x49\x8B"
+#define CAMTHINK_SVCHEATSCHECK_MASK "x?xx??????xxx????xx"
+
 #include <memory>
 #include <unordered_map>
 #include <sys/mman.h>
@@ -94,6 +97,7 @@ namespace Hooker
 	void FindLoadFromBuffer();
 	void FindGetCSWpnData();
 	void FindCrosshairWeaponTypeCheck();
+	void FindCamThinkSvCheatsCheck();
 	void HookSwapWindow();
 	void HookPollEvent();
 	void FindSDLInput();

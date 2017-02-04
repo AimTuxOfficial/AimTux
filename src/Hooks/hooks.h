@@ -54,6 +54,7 @@ namespace Hooks
 namespace CreateMove
 {
 	extern bool SendPacket;
+	extern QAngle lastTickViewAngles;
 }
 
 namespace OverrideView

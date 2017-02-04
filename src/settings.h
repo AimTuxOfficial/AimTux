@@ -398,6 +398,7 @@ namespace Settings
 		extern ImColor flashbangColor;
 		extern ImColor grenadeColor;
 		extern ImColor molotovColor;
+		extern ImColor localplayerColor;
 		extern bool hpEnemyColor;
 		extern bool hpAllyColor;
 		extern bool hpEnemyVisibleColor;
@@ -406,6 +407,7 @@ namespace Settings
 		extern bool hpTColor;
 		extern bool hpCtVisibleColor;
 		extern bool hpTVisibleColor;
+		extern bool hpLocalplayerColor;
 
 		namespace Glow
 		{
@@ -417,9 +419,11 @@ namespace Settings
 			extern ImColor grenadeColor;
 			extern ImColor defuserColor;
 			extern ImColor chickenColor;
+			extern ImColor localplayerColor;
 			extern bool hpAllyColor;
 			extern bool hpEnemyColor;
 			extern bool hpEnemyVisibleColor;
+			extern bool hpLocalplayerColor;
 		}
 
 		namespace Filters
@@ -436,6 +440,7 @@ namespace Settings
 			extern bool chickens;
 			extern bool fishes;
 			extern bool throwables;
+			extern bool localplayer;
 		}
 
 		namespace Info
@@ -505,11 +510,13 @@ namespace Settings
 			extern ImColor allyVisibleColor;
 			extern ImColor enemyColor;
 			extern ImColor enemyVisibleColor;
+			extern ImColor localplayerColor;
 			extern ChamsType type;
 			extern bool hpAllyColor;
 			extern bool hpAllyVisibleColor;
 			extern bool hpEnemyColor;
 			extern bool hpEnemyVisibleColor;
+			extern bool hpLocalplayerColor;
 
 			namespace Arms
 			{
@@ -787,6 +794,12 @@ namespace Settings
 	{
 		extern bool enabled;
 		extern int team;
+	}
+
+	namespace ThirdPerson
+	{
+		extern bool enabled;
+		extern float distance;
 	}
 
 	void LoadDefaultsOrSave(std::string path);

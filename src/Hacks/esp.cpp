@@ -13,6 +13,7 @@ ImColor Settings::ESP::tColor = ImColor(240, 60, 60, 255);
 ImColor Settings::ESP::tVisibleColor = ImColor(240, 185, 60, 255);
 ImColor Settings::ESP::ctColor = ImColor(60, 60, 240, 255);
 ImColor Settings::ESP::ctVisibleColor = ImColor(60, 185, 240, 255);
+ImColor Settings::ESP::localplayerColor = ImColor(117, 43, 73, 255);
 ImColor Settings::ESP::bombColor = ImColor(242, 48, 193, 255);
 ImColor Settings::ESP::bombDefusingColor = ImColor(100, 48, 242, 255);
 ImColor Settings::ESP::hostageColor = ImColor(242, 48, 193, 255);
@@ -33,11 +34,13 @@ bool Settings::ESP::hpCtColor = false;
 bool Settings::ESP::hpTColor = false;
 bool Settings::ESP::hpCtVisibleColor = false;
 bool Settings::ESP::hpTVisibleColor = false;
+bool Settings::ESP::hpLocalplayerColor = false;
 ImColor Settings::ESP::Skeleton::color = ImColor(255, 255, 255, 255);
 bool Settings::ESP::Glow::enabled = false;
 ImColor Settings::ESP::Glow::allyColor = ImColor(0, 50, 200, 200);
 ImColor Settings::ESP::Glow::enemyColor = ImColor(200, 0, 50, 200);
 ImColor Settings::ESP::Glow::enemyVisibleColor = ImColor(200, 200, 50, 200);
+ImColor Settings::ESP::Glow::localplayerColor = ImColor(117, 43, 73, 200);
 ImColor Settings::ESP::Glow::weaponColor = ImColor(200, 0, 50, 200);
 ImColor Settings::ESP::Glow::grenadeColor = ImColor(200, 0, 50, 200);
 ImColor Settings::ESP::Glow::defuserColor = ImColor(100, 100, 200, 200);
@@ -45,6 +48,7 @@ ImColor Settings::ESP::Glow::chickenColor = ImColor(100, 200, 100, 200);
 bool Settings::ESP::Glow::hpAllyColor = false;
 bool Settings::ESP::Glow::hpEnemyColor = false;
 bool Settings::ESP::Glow::hpEnemyVisibleColor = false;
+bool Settings::ESP::Glow::hpLocalplayerColor = false;
 bool Settings::ESP::Filters::legit = false;
 bool Settings::ESP::Filters::visibilityCheck = false;
 bool Settings::ESP::Filters::smokeCheck = false;
@@ -57,6 +61,7 @@ bool Settings::ESP::Filters::weapons = false;
 bool Settings::ESP::Filters::chickens = false;
 bool Settings::ESP::Filters::fishes = false;
 bool Settings::ESP::Filters::throwables = false;
+bool Settings::ESP::Filters::localplayer = false;
 bool Settings::ESP::Info::name = false;
 bool Settings::ESP::Info::clan = false;
 bool Settings::ESP::Info::steamId = false;
@@ -230,38 +235,45 @@ ImColor ESP::GetESPPlayerColor(C_BasePlayer* player, bool visible)
 
 	ImColor playerColor;
 
-	if (Settings::ESP::teamColorType == TeamColorType::RELATIVE)
+	if (player == localplayer)
 	{
-		if (player->GetTeam() != localplayer->GetTeam())
-		{
-			if (visible)
-				playerColor = Settings::ESP::hpEnemyVisibleColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::enemyVisibleColor;
-			else
-				playerColor = Settings::ESP::hpEnemyColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::enemyColor;
-		}
-		else
-		{
-			if (visible)
-				playerColor = Settings::ESP::hpAllyVisibleColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::allyVisibleColor;
-			else
-				playerColor = Settings::ESP::hpAllyColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::allyColor;
-		}
+		playerColor = Settings::ESP::hpLocalplayerColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::localplayerColor;
 	}
-	else if (Settings::ESP::teamColorType == TeamColorType::ABSOLUTE)
+	else
 	{
-		if (player->GetTeam() == TeamID::TEAM_TERRORIST)
+		if (Settings::ESP::teamColorType == TeamColorType::RELATIVE)
 		{
-			if (visible)
-				playerColor = Settings::ESP::hpTVisibleColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::tVisibleColor;
+			if (player->GetTeam() != localplayer->GetTeam())
+			{
+				if (visible)
+					playerColor = Settings::ESP::hpEnemyVisibleColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::enemyVisibleColor;
+				else
+					playerColor = Settings::ESP::hpEnemyColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::enemyColor;
+			}
 			else
-				playerColor = Settings::ESP::hpTColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::tColor;
+			{
+				if (visible)
+					playerColor = Settings::ESP::hpAllyVisibleColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::allyVisibleColor;
+				else
+					playerColor = Settings::ESP::hpAllyColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::allyColor;
+			}
 		}
-		else if (player->GetTeam() == TeamID::TEAM_COUNTER_TERRORIST)
+		else if (Settings::ESP::teamColorType == TeamColorType::ABSOLUTE)
 		{
-			if (visible)
-				playerColor = Settings::ESP::hpCtVisibleColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::ctVisibleColor;
-			else
-				playerColor = Settings::ESP::hpCtColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::ctColor;
+			if (player->GetTeam() == TeamID::TEAM_TERRORIST)
+			{
+				if (visible)
+					playerColor = Settings::ESP::hpTVisibleColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::tVisibleColor;
+				else
+					playerColor = Settings::ESP::hpTColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::tColor;
+			}
+			else if (player->GetTeam() == TeamID::TEAM_COUNTER_TERRORIST)
+			{
+				if (visible)
+					playerColor = Settings::ESP::hpCtVisibleColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::ctVisibleColor;
+				else
+					playerColor = Settings::ESP::hpCtColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::ctColor;
+			}
 		}
 	}
 
@@ -406,10 +418,13 @@ void ESP::DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info
 	if (!localplayer)
 		return;
 
+	if (player == localplayer && !Settings::ESP::Filters::localplayer)
+		return;
+
 	if (player->GetTeam() != localplayer->GetTeam() && !Settings::ESP::Filters::enemies)
 		return;
 
-	if (player->GetTeam() == localplayer->GetTeam() && !Settings::ESP::Filters::allies)
+	if (player != localplayer && player->GetTeam() == localplayer->GetTeam() && !Settings::ESP::Filters::allies)
 		return;
 
 	bool bIsVisible = false;
@@ -654,7 +669,7 @@ void ESP::DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info
 	if (Settings::ESP::BulletTracers::enabled)
 		DrawBulletTrace(player);
 
-	if (Settings::ESP::Tracers::enabled)
+	if (Settings::ESP::Tracers::enabled && player != localplayer)
 		DrawTracer(player);
 
 	if (Settings::ESP::HeadDot::enabled)
@@ -1027,20 +1042,25 @@ void ESP::DrawGlow()
 		{
 			C_BasePlayer* player = (C_BasePlayer*) glow_object.m_pEntity;
 
-			if (player == localplayer
-				|| player->GetDormant()
-				|| !player->GetAlive())
+			if (player->GetDormant() || !player->GetAlive())
 				continue;
 
-			if (glow_object.m_pEntity->GetTeam() != localplayer->GetTeam())
+			if (player == localplayer)
 			{
-				if (Entity::IsVisible(player, Bone::BONE_HEAD))
-					color = Settings::ESP::Glow::hpEnemyVisibleColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::Glow::enemyVisibleColor;
-				else
-					color = Settings::ESP::Glow::hpEnemyColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::Glow::enemyColor;
+				color = Settings::ESP::Glow::hpLocalplayerColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::Glow::localplayerColor;
 			}
 			else
-				color = Settings::ESP::Glow::hpAllyColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::Glow::allyColor;
+			{
+				if (glow_object.m_pEntity->GetTeam() != localplayer->GetTeam())
+				{
+					if (Entity::IsVisible(player, Bone::BONE_HEAD))
+						color = Settings::ESP::Glow::hpEnemyVisibleColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::Glow::enemyVisibleColor;
+					else
+						color = Settings::ESP::Glow::hpEnemyColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::Glow::enemyColor;
+				}
+				else
+					color = Settings::ESP::Glow::hpAllyColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::Glow::allyColor;
+			}
 		}
 		else if (client->m_ClassID != EClassIds::CBaseWeaponWorldModel &&
 				 (strstr(client->m_pNetworkName, "Weapon") || client->m_ClassID == EClassIds::CDEagle || client->m_ClassID == EClassIds::CAK47))
@@ -1106,13 +1126,11 @@ void ESP::Paint()
 
 		ClientClass* client = entity->GetClientClass();
 
-		if (client->m_ClassID == EClassIds::CCSPlayer && (Settings::ESP::Filters::enemies || Settings::ESP::Filters::allies))
+		if (client->m_ClassID == EClassIds::CCSPlayer && (Settings::ESP::Filters::enemies || Settings::ESP::Filters::allies || (Settings::ESP::Filters::localplayer && Settings::ThirdPerson::enabled)))
 		{
 			C_BasePlayer* player = (C_BasePlayer*) entity;
 
-			if (player == localplayer
-				|| player->GetDormant()
-				|| !player->GetAlive())
+			if (player->GetDormant() || !player->GetAlive())
 				continue;
 
 			IEngineClient::player_info_t playerInfo;

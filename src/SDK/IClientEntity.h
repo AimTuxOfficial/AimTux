@@ -341,6 +341,11 @@ public:
 
 		return Vector(hitbox[0][3], hitbox[1][3], hitbox[2][3]);
 	}
+
+	QAngle* GetVAngles()
+	{
+		return (QAngle*)((uintptr_t)this + offsets.DT_BasePlayer.deadflag + 0x4);
+	}
 };
 
 class C_PlantedC4 : public C_BaseEntity

@@ -4,6 +4,7 @@ bool* bSendPacket = nullptr;
 int* nPredictionRandomSeed = nullptr;
 CMoveData* g_MoveData = nullptr;
 uint8_t* CrosshairWeaponTypeCheck = nullptr;
+uint8_t* CamThinkSvCheatsCheck = nullptr;
 
 VMT* panelVMT = nullptr;
 VMT* clientVMT = nullptr;
@@ -242,6 +243,16 @@ void Hooker::FindCrosshairWeaponTypeCheck()
 
 	CrosshairWeaponTypeCheck = reinterpret_cast<uint8_t*>(byte_address + 2);
 	Util::ProtectAddr(CrosshairWeaponTypeCheck, PROT_READ | PROT_WRITE | PROT_EXEC);
+}
+
+void Hooker::FindCamThinkSvCheatsCheck()
+{
+	uintptr_t byte_address = FindPattern(GetLibraryAddress("client_client.so"), 0xFFFFFFFFF, (unsigned char*) CAMTHINK_SVCHEATSCHECK_SIGNATURE, CAMTHINK_SVCHEATSCHECK_MASK);
+
+	CamThinkSvCheatsCheck = reinterpret_cast<uint8_t*>(byte_address);
+
+	for (ptrdiff_t off = 0; off < 0x2; off++)
+		Util::ProtectAddr(CamThinkSvCheatsCheck + off, PROT_READ | PROT_WRITE | PROT_EXEC);
 }
 
 void Hooker::HookSwapWindow()

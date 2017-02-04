@@ -20,6 +20,7 @@ struct COffsets
 		std::ptrdiff_t m_hObserverTarget;
 		std::ptrdiff_t m_hViewModel;
 		std::ptrdiff_t m_szLastPlaceName;
+		std::ptrdiff_t deadflag;
 	} DT_BasePlayer;
 
 	struct

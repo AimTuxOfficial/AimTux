@@ -33,6 +33,7 @@ int __attribute__((constructor)) aimtux_init()
 	Hooker::FindLoadFromBuffer();
 	Hooker::FindGetCSWpnData();
 	Hooker::FindCrosshairWeaponTypeCheck();
+	Hooker::FindCamThinkSvCheatsCheck();
 	Hooker::HookSwapWindow();
 	Hooker::HookPollEvent();
 
@@ -120,10 +121,17 @@ void __attribute__((destructor)) aimtux_shutdown()
 	engineVGuiVMT->ReleaseVMT();
 	soundVMT->ReleaseVMT();
 
+	input->m_fCameraInThirdPerson = false;
+	input->m_vecCameraOffset.z = 30.f;
+	GetLocalClient(-1)->m_nDeltaTick = -1;
+
 	delete eventListener;
 
 	*bSendPacket = true;
 	*CrosshairWeaponTypeCheck = 5;
+
+	*CamThinkSvCheatsCheck = 0x74;
+	*(CamThinkSvCheatsCheck + 0x1) = 0x64;
 
 	cvar->ConsoleColorPrintf(ColorRGBA(255, 150, 150), "AimTux has been unloaded successfully.\n");
 }
