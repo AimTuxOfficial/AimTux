@@ -1212,6 +1212,8 @@ void MiscTab()
 
 			ImGui::Columns(1);
 			ImGui::Checkbox("Radio Commands", &Settings::Spammer::RadioSpammer::enabled);
+			ImGui::Checkbox("Timeout Vote", &Settings::Spammer::TimeoutSpammer::enabled);
+			SetTooltip("Blocks other votes from starting. Three people using this feature will continuously block votes.");
 
 			ImGui::Columns(3, NULL, true);
 			{
