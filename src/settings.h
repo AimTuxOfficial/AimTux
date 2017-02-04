@@ -584,6 +584,11 @@ namespace Settings
 			extern bool enabled;
 		}
 
+		namespace TimeoutSpammer
+		{
+			extern bool enabled;
+		}
+
 		namespace NormalSpammer
 		{
 			extern std::vector<std::string> messages;
