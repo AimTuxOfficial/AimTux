@@ -21,7 +21,8 @@
 enum class SmoothType : int
 {
 	SLOW_END,
-	CONSTANT
+	CONSTANT,
+	FAST_END
 };
 
 enum class  TracerType : int

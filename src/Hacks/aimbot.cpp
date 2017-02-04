@@ -330,21 +330,23 @@ void Aimbot::Smooth(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd)
 	smooth = std::min(0.99f, smooth);
 
 	if (Settings::Aimbot::Smooth::Salting::enabled)
-	{
 		Salt(smooth);
-	}
 
-	QAngle toChange = QAngle(0.f, 0.f, 0.f);
+	QAngle toChange = QAngle();
 
-	if (Settings::Aimbot::Smooth::type == SmoothType::SLOW_END)
-	{
+	int type = (int) Settings::Aimbot::Smooth::type;
+
+	if (type == (int) SmoothType::SLOW_END)
 		toChange = delta - delta * smooth;
-	}
-	else if (Settings::Aimbot::Smooth::type == SmoothType::CONSTANT)
+	else if (type == (int) SmoothType::CONSTANT || type == (int) SmoothType::FAST_END)
 	{
-		float coeff = fabsf(smooth - 1.f) / delta.Length() * 4.f;
+		float coeff = (1.0f - smooth) / delta.Length() * 4.f;
+
+		if (type == (int) SmoothType::FAST_END)
+			coeff = powf(coeff, 2.f) * 10.f;
+
 		coeff = std::min(1.f, coeff);
-		toChange = (delta * coeff);
+		toChange = delta * coeff;
 	}
 
 	angle = viewAngles + toChange;
