@@ -72,10 +72,16 @@
 #include "glhook.h"
 #include "interfaces.h"
 
+struct dlinfo_t
+{
+	const char* library = nullptr;
+	uintptr_t address = 0;
+	size_t size = 0;
+};
+
 namespace Hooker
 {
-	std::unordered_map<const char*, uintptr_t> GetProcessLibraries();
-	uintptr_t GetLibraryAddress(const char* moduleName);
+	bool GetLibraryInformation(const char* library, uintptr_t* address, size_t* size);
 	void InitializeVMHooks();
 	bool HookRecvProp(const char* className, const char* propertyName, std::unique_ptr<RecvPropHook>& recvPropHook);
 	void FindIClientMode();
