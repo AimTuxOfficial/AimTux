@@ -37,11 +37,8 @@ void ThirdPerson::FrameStageNotify(ClientFrameStage_t stage)
 		return;
 
 	input->m_fCameraInThirdPerson = Settings::ThirdPerson::enabled && localplayer->GetAlive();
+	input->m_vecCameraOffset.z = Settings::ThirdPerson::enabled ? Settings::ThirdPerson::distance : 150.f;
 
 	if (Settings::ThirdPerson::enabled)
-	{
-		input->m_vecCameraOffset.z = Settings::ThirdPerson::distance;
-
 		*localplayer->GetVAngles() = CreateMove::lastTickViewAngles;
-	}
 }

@@ -1311,7 +1311,7 @@ void MiscTab()
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-				ImGui::SliderFloat("##TPCAMOFFSET", &Settings::ThirdPerson::distance, 0.f, 230.f, "Camera Offset: %0.f");
+				ImGui::SliderFloat("##TPCAMOFFSET", &Settings::ThirdPerson::distance, 0.f, 500.f, "Camera Offset: %0.f");
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);

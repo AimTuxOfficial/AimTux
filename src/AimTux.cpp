@@ -122,7 +122,7 @@ void __attribute__((destructor)) aimtux_shutdown()
 	soundVMT->ReleaseVMT();
 
 	input->m_fCameraInThirdPerson = false;
-	input->m_vecCameraOffset.z = 30.f;
+	input->m_vecCameraOffset.z = 150.f;
 	GetLocalClient(-1)->m_nDeltaTick = -1;
 
 	delete eventListener;
