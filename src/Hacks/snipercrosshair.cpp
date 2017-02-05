@@ -11,5 +11,14 @@ void SniperCrosshair::BeginFrame()
 	if (!localplayer)
 		return;
 
+	if (!localplayer->GetAlive())
+	{
+		C_BasePlayer* observerTarget = (C_BasePlayer*) entityList->GetClientEntityFromHandle(localplayer->GetObserverTarget());
+		if (!observerTarget)
+			return;
+
+		localplayer = observerTarget;
+	}
+
 	*CrosshairWeaponTypeCheck = Settings::SniperCrosshair::enabled && !localplayer->IsScoped() ? 255 : 5;
 }
