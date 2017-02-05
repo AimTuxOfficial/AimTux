@@ -143,14 +143,6 @@ void Spammer::BeginFrame(float frameTime)
 			C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(player->GetActiveWeapon());
 
 			std::string modelName = Util::Items::GetItemDisplayName(*activeWeapon->GetItemDefinitionIndex());
-			if (modelName == "")
-			{
-				modelName = std::string(activeWeapon->GetClientClass()->m_pNetworkName);
-				if (strstr(modelName.c_str(), "Weapon"))
-					modelName = modelName.substr(7, modelName.length() - 7);
-				else
-					modelName = modelName.substr(1, modelName.length() - 1);
-			}
 
 			// Prepare player's nickname without ';' & '"' characters
 			// as they might cause user to execute a command.
@@ -169,7 +161,7 @@ void Spammer::BeginFrame(float frameTime)
 				str << player_name << " | ";
 
 			if (Settings::Spammer::PositionSpammer::showWeapon)
-				str << modelName << " | ";
+				str << Util::WstringToString(localize->FindSafe(modelName.c_str())) << " | ";
 
 			if (Settings::Spammer::PositionSpammer::showRank)
 				str << ESP::ranks[*(*csPlayerResource)->GetCompetitiveRanking(i)] << " | ";
