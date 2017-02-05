@@ -894,14 +894,14 @@ void VisualsTab()
 			{
 				ImGui::Checkbox("Arms", &Settings::ESP::Chams::Arms::enabled);
 				SetTooltip("Apply chams to arms");
-				ImGui::Checkbox("Weapons", &Settings::ESP::Chams::Weapon::enabled);
-				SetTooltip("Apply chams to weapons");
 				ImGui::Checkbox("Dlights", &Settings::Dlights::enabled);
 				SetTooltip("Adds a light source to players");
 				ImGui::Checkbox("No Flash", &Settings::Noflash::enabled);
 				SetTooltip("Hide flashbang effect");
 				ImGui::Checkbox("Show Footsteps", &Settings::ESP::Sounds::enabled);
 				SetTooltip("Shows you footsteps in 3D space");
+				ImGui::Checkbox("Weapons", &Settings::ESP::Chams::Weapon::enabled);
+				SetTooltip("Apply chams to weapons");
 				ImGui::Checkbox("No View Punch", &Settings::View::NoViewPunch::enabled);
 				SetTooltip("Disables view punch when shooting");
 				ImGui::Checkbox("No Sky", &Settings::NoSky::enabled);
