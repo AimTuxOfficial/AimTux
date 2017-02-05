@@ -29,23 +29,19 @@ void ThirdPerson::FrameStageNotify(ClientFrameStage_t stage)
 	if (!engine->IsInGame())
 		return;
 
+	if (stage != ClientFrameStage_t::FRAME_RENDER_START)
+		return;
+
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
 		return;
 
-	if (stage == ClientFrameStage_t::FRAME_RENDER_START)
+	input->m_fCameraInThirdPerson = Settings::ThirdPerson::enabled && localplayer->GetAlive();
+
+	if (Settings::ThirdPerson::enabled)
 	{
-		input->m_fCameraInThirdPerson = Settings::ThirdPerson::enabled && localplayer->GetAlive();
+		input->m_vecCameraOffset.z = Settings::ThirdPerson::distance;
 
-		if (Settings::ThirdPerson::enabled)
-		{
-			QAngle viewAngles;
-			engine->GetViewAngles(viewAngles);
-
-			input->m_vecCameraOffset.z = Settings::ThirdPerson::distance;
-
-			*localplayer->GetVAngles() = CreateMove::lastTickViewAngles;
-		}
-
+		*localplayer->GetVAngles() = CreateMove::lastTickViewAngles;
 	}
 }
