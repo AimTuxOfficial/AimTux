@@ -12,25 +12,25 @@ void LegitStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 	if (cmd->buttons & IN_FORWARD || cmd->buttons & IN_BACK || cmd->buttons & IN_MOVELEFT || cmd->buttons & IN_MOVERIGHT)
 		return;
 
-	if (cmd->mousedx > 1 || cmd->mousedx < -1)
+	if (cmd->mousedx <= 1 && cmd->mousedx >= -1)
+		return;
+
+	switch (Settings::AutoStrafe::type)
 	{
-		switch (Settings::AutoStrafe::type)
-		{
-			case AutostrafeType::AS_FORWARDS:
-				cmd->sidemove = cmd->mousedx < 0.f ? -450.f : 450.f;
-				break;
-			case AutostrafeType::AS_BACKWARDS:
-				cmd->sidemove = cmd->mousedx < 0.f ? 450.f : -450.f;
-				break;
-			case AutostrafeType::AS_LEFTSIDEWAYS:
-				cmd->forwardmove = cmd->mousedx < 0.f ? -450.f : 450.f;
-				break;
-			case AutostrafeType::AS_RIGHTSIDEWAYS:
-				cmd->forwardmove = cmd->mousedx < 0.f ? 450.f : -450.f;
-				break;
-			default:
-				break;
-		}
+		case AutostrafeType::AS_FORWARDS:
+			cmd->sidemove = cmd->mousedx < 0.f ? -450.f : 450.f;
+			break;
+		case AutostrafeType::AS_BACKWARDS:
+			cmd->sidemove = cmd->mousedx < 0.f ? 450.f : -450.f;
+			break;
+		case AutostrafeType::AS_LEFTSIDEWAYS:
+			cmd->forwardmove = cmd->mousedx < 0.f ? -450.f : 450.f;
+			break;
+		case AutostrafeType::AS_RIGHTSIDEWAYS:
+			cmd->forwardmove = cmd->mousedx < 0.f ? 450.f : -450.f;
+			break;
+		default:
+			break;
 	}
 }
 

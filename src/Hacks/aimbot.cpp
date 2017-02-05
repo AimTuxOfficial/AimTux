@@ -538,16 +538,16 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	Aimbot::ShootCheck(activeWeapon, cmd);
 	Aimbot::NoShoot(activeWeapon, player, cmd);
 
-	if (angle != cmd->viewangles)
-	{
-		Math::NormalizeAngles(angle);
-		Math::ClampAngles(angle);
-		cmd->viewangles = angle;
-		Math::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);
+	if (angle == cmd->viewangles)
+		return;
 
-		if (!Settings::Aimbot::silent)
-			engine->SetViewAngles(cmd->viewangles);
-	}
+	Math::NormalizeAngles(angle);
+	Math::ClampAngles(angle);
+	cmd->viewangles = angle;
+	Math::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);
+
+	if (!Settings::Aimbot::silent)
+		engine->SetViewAngles(cmd->viewangles);
 }
 
 void Aimbot::FireGameEvent(IGameEvent* event)
@@ -555,13 +555,13 @@ void Aimbot::FireGameEvent(IGameEvent* event)
 	if (!event)
 		return;
 
-	if (strcmp(event->GetName(), "player_connect_full") == 0 || strcmp(event->GetName(), "cs_game_disconnected") == 0)
-	{
-		if (event->GetInt("userid") && engine->GetPlayerForUserID(event->GetInt("userid")) != engine->GetLocalPlayer())
-			return;
+	if (strcmp(event->GetName(), "player_connect_full") != 0 && strcmp(event->GetName(), "cs_game_disconnected") != 0)
+		return;
 
-		Aimbot::friends.clear();
-	}
+	if (event->GetInt("userid") && engine->GetPlayerForUserID(event->GetInt("userid")) != engine->GetLocalPlayer())
+		return;
+
+	Aimbot::friends.clear();
 }
 
 void Aimbot::UpdateValues()
