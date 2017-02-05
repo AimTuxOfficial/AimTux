@@ -349,7 +349,7 @@ void Radar::BeginFrame()
 			Radar::InGameRadar(player);
 
 		if (!Settings::Radar::enabled)
-			return;
+			continue;
 
 		// we shouldn't see people behind us
 		if (Entity::IsVisible(player, Bone::BONE_HEAD, 55.f, Settings::Radar::smokeCheck))
