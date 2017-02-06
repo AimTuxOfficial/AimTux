@@ -584,7 +584,7 @@ void AimbotTab()
 					UI::UpdateWeaponSettings();
 				SetTooltip("Prevents you from aimbotting while jumping");
 			}
-			
+
 			ImGui::Columns(1);
 			ImGui::Separator();
 			ImGui::Text("AutoSlow");
@@ -602,7 +602,7 @@ void AimbotTab()
 						UI::UpdateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
-			
+
 			ImGui::Columns(1);
 			ImGui::Separator();
 			ImGui::Text("AutoWall");

@@ -370,12 +370,12 @@ void Aimbot::AutoSlow(C_BasePlayer* player, float& forward, float& sideMove, flo
 
 	if (!player)
 		return;
-	
+
 	float nextPrimaryAttack = active_weapon->GetNextPrimaryAttack();
-	
+
 	if (nextPrimaryAttack > globalVars->curtime)
 		return;
-	
+
 	if (bestDamage > Settings::Aimbot::AutoSlow::minDamage)
 	{
 		forward *= 0.2f;
@@ -548,8 +548,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	Aimbot::NoShoot(activeWeapon, player, cmd);
 
 	Math::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);
-	
-	
+
 	if (angle == cmd->viewangles)
 		return;
 

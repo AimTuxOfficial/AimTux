@@ -527,7 +527,7 @@ namespace Settings
 				extern ImColor color;
 				extern ArmsType type;
 			}
-			
+
 			namespace Weapon
 			{
 				extern bool enabled;
