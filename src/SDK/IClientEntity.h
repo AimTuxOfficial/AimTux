@@ -422,14 +422,8 @@ public:
 
 	float GetInaccuracy()
 	{
-		typedef float (* oGetIndex)(void*);
-		return getvfunc<oGetIndex>(this, 478)(this);
-	}
-
-	float GetSpread()
-	{
-		typedef float (* oGetIndex)(void*);
-		return getvfunc<oGetIndex>(this, 479)(this);
+		typedef float (* oGetInaccuracy)(void*);
+		return getvfunc<oGetInaccuracy>(this, 552)(this);
 	}
 };
 
@@ -498,6 +492,11 @@ public:
 	float GetRangeModifier()
 	{
 		return *(float*)((uintptr_t)this + 0x84C);
+	}
+
+	float GetSpread()
+	{
+		return *(float*)((uintptr_t)this + 0x9FC);
 	}
 
 	int GetZoomLevels()
