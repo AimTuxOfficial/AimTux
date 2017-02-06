@@ -196,6 +196,8 @@ static bool autoWallEnabled = false;
 static float autoWallValue = 10.0f;
 static bool autoWallBones[] = { true, false, false, false, false, false };
 static bool autoAimRealDistance = false;
+static bool autoSlow = false;
+static float autoSlowMinDamage = 5.0f;
 
 void UI::UpdateWeaponSettings()
 {
@@ -208,7 +210,7 @@ void UI::UpdateWeaponSettings()
 							   autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
 							   rcsEnabled, rcsAlwaysOn, rcsAmountX, rcsAmountY,
 							   autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
-							   noShootEnabled, ignoreJumpEnabled, smokeCheck, autoWallEnabled, autoWallValue, autoAimRealDistance
+							   noShootEnabled, ignoreJumpEnabled, smokeCheck, autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, autoSlowMinDamage
 	};
 
 	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
@@ -253,6 +255,8 @@ void ReloadWeaponSettings()
 	autoWallEnabled = Settings::Aimbot::weapons.at(index).autoWallEnabled;
 	autoWallValue = Settings::Aimbot::weapons.at(index).autoWallValue;
 	autoAimRealDistance = Settings::Aimbot::weapons.at(index).autoAimRealDistance;
+	autoSlow = Settings::Aimbot::weapons.at(index).autoSlow;
+	autoSlowMinDamage = Settings::Aimbot::weapons.at(index).autoSlowMinDamage;
 
 	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
 		autoWallBones[bone] = Settings::Aimbot::weapons.at(index).autoWallBones[bone];
@@ -580,6 +584,25 @@ void AimbotTab()
 					UI::UpdateWeaponSettings();
 				SetTooltip("Prevents you from aimbotting while jumping");
 			}
+			
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::Text("AutoSlow");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				if (ImGui::Checkbox("Enabled##AUTOSLOW", &autoSlow))
+					UI::UpdateWeaponSettings();
+				SetTooltip("Automatically slows your movement speed when an enemy is shootable");
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::PushItemWidth(-1);
+					if (ImGui::SliderFloat("##AUTOSLOWMINDAMAGE", &autoSlowMinDamage, 0, 100, "Min Damage: %f"))
+						UI::UpdateWeaponSettings();
+				ImGui::PopItemWidth();
+			}
+			
 			ImGui::Columns(1);
 			ImGui::Separator();
 			ImGui::Text("AutoWall");
