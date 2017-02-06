@@ -41,10 +41,15 @@ void NameStealer::BeginFrame(float frameTime)
 
 		if ((*csPlayerResource) && (*csPlayerResource)->GetConnected(entityId))
 		{
-			if (Settings::NameStealer::team == 0 && (*csPlayerResource)->GetTeam(entityId) != localplayer->GetTeam())
+			int team = (*csPlayerResource)->GetTeam(entityId);
+
+			if (team != TEAM_TERRORIST && team != TEAM_COUNTER_TERRORIST)
 				return;
 
-			if (Settings::NameStealer::team == 1 && (*csPlayerResource)->GetTeam(entityId) == localplayer->GetTeam())
+			if (Settings::NameStealer::team == 0 && team != localplayer->GetTeam())
+				return;
+
+			if (Settings::NameStealer::team == 1 && team == localplayer->GetTeam())
 				return;
 
 			IEngineClient::player_info_t entityInformation;
