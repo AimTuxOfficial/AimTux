@@ -31,7 +31,6 @@ bool Settings::Aimbot::RCS::always_on = false;
 float Settings::Aimbot::RCS::valueX = 2.0f;
 float Settings::Aimbot::RCS::valueY = 2.0f;
 bool Settings::Aimbot::AutoCrouch::enabled = false;
-bool Settings::Aimbot::AutoStop::enabled = false;
 bool Settings::Aimbot::NoShoot::enabled = false;
 bool Settings::Aimbot::IgnoreJump::enabled = false;
 bool Settings::Aimbot::SmokeCheck::enabled = false;
@@ -366,8 +365,6 @@ void Aimbot::AutoCrouch(C_BasePlayer* player, CUserCmd* cmd)
 
 void Aimbot::AutoSlow(C_BasePlayer* player, float& forward, float& sideMove, float& bestDamage, C_BaseCombatWeapon* active_weapon, CUserCmd* cmd)
 {
-	cvar->ConsoleDPrintf("enabled: %s minDamage: %f\n", Settings::Aimbot::AutoSlow::enabled?"TRUE":"FALSE", bestDamage);
-	
 	if (!Settings::Aimbot::AutoSlow::enabled)
 		return;
 

@@ -1144,11 +1144,6 @@ void HvHTab()
 				ImGui::Checkbox("Auto Crouch", &Settings::Aimbot::AutoCrouch::enabled);
 				SetTooltip("Auto crouch when an enemy is in sight");
 			}
-			ImGui::NextColumn();
-			{
-				ImGui::Checkbox("Auto Stop", &Settings::Aimbot::AutoStop::enabled);
-				SetTooltip("Auto stop when an enemy is in sight");
-			}
 			ImGui::Columns(1);
 			ImGui::Separator();
 			ImGui::EndChild();
