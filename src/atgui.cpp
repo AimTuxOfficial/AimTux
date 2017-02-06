@@ -1404,7 +1404,8 @@ void MiscTab()
 
 			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::Checkbox("Name Stealer", &Settings::NameStealer::enabled);
+				if (ImGui::Checkbox("Name Stealer", &Settings::NameStealer::enabled))
+					NameStealer::entityId = -1;
 			}
 			ImGui::NextColumn();
 			{
