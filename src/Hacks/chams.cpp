@@ -71,7 +71,6 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 	visible_material->AlphaModulate(1.0f);
 	hidden_material->AlphaModulate(1.0f);
 
-
 	if (entity == localplayer)
 	{
 		Color visColor = Settings::ESP::Chams::hpLocalplayerColor ? ESP::GetHealthColor(entity) : Color::FromImColor(Settings::ESP::Chams::localplayerColor);
