@@ -2,26 +2,25 @@
 
 std::string NameChanger::origName = "";
 int NameChanger::changes = -1;
-NC_Type NameChanger::type = NC_NORMAL;
-
-enum class Colors
-{
-	WHITE = 1,
-	DARK_RED,
-	LIGHT_PURPLE,
-	DARK_GREEN,
-	LIGHT_GREEN,
-	GREEN,
-	LIGHT_RED,
-	GRAY,
-	YELLOW,
-	LIGHT_BLUE,
-	BLUE,
-	DARK_BLUE,
-	DARK_GRAY,
-	PURPLE,
-	RED,
-	ORANGE,
+NameChanger::NC_Type NameChanger::type = NC_Type::NC_NORMAL;
+NameChanger::Colors NameChanger::color = Colors::LIGHT_RED;
+std::vector<std::pair<NameChanger::Colors, const char*>> NameChanger::colors = {
+		{ NameChanger::Colors::WHITE, "White" },
+		{ NameChanger::Colors::DARK_RED, "Dark Red" },
+		{ NameChanger::Colors::LIGHT_PURPLE, "Light Purple" },
+		{ NameChanger::Colors::DARK_GREEN, "Dark Green" },
+		{ NameChanger::Colors::LIGHT_GREEN, "Light Green" },
+		{ NameChanger::Colors::GREEN, "Green" },
+		{ NameChanger::Colors::LIGHT_RED, "Light Red" },
+		{ NameChanger::Colors::GRAY, "Gray" },
+		{ NameChanger::Colors::YELLOW, "Yellow" },
+		{ NameChanger::Colors::LIGHT_BLUE, "Light Blue" },
+		{ NameChanger::Colors::BLUE, "Blue" },
+		{ NameChanger::Colors::DARK_BLUE, "Dark Blue" },
+		{ NameChanger::Colors::DARK_GRAY, "Dark Gray" },
+		{ NameChanger::Colors::PURPLE, "Purple" },
+		{ NameChanger::Colors::RED, "Red" },
+		{ NameChanger::Colors::ORANGE, "Orange" },
 };
 
 std::string NameChanger::GetName()
@@ -35,12 +34,12 @@ std::string Rainbowify(const std::string& name)
 {
 	std::string base = " \x01\x0B";
 	std::vector<char> rainbow = {
-			(char)(Colors::RED),
-			(char)(Colors::ORANGE),
-			(char)(Colors::YELLOW),
-			(char)(Colors::GREEN),
-			(char)(Colors::BLUE),
-			(char)(Colors::PURPLE),
+			(char)(NameChanger::Colors::RED),
+			(char)(NameChanger::Colors::ORANGE),
+			(char)(NameChanger::Colors::YELLOW),
+			(char)(NameChanger::Colors::GREEN),
+			(char)(NameChanger::Colors::BLUE),
+			(char)(NameChanger::Colors::PURPLE),
 	};
 
 	size_t color = 0;
@@ -57,9 +56,8 @@ std::string Rainbowify(const std::string& name)
 	return base;
 }
 
-std::string Colorize(const std::string& name, Colors color = Colors::LIGHT_RED)
+std::string Colorize(const std::string& name, NameChanger::Colors color = NameChanger::Colors::LIGHT_RED)
 {
-	// TODO: Add color customization
 	std::string res = " \x01\x0B";
 	res += (char)(color);
 	res.append(name);
@@ -88,14 +86,14 @@ void NameChanger::BeginFrame(float frameTime)
 	{
 		switch (NameChanger::type)
 		{
-			case NC_NORMAL:
+			case NC_Type::NC_NORMAL:
 				SetName(Util::PadStringRight("\230AIMTUX.NET", strlen("\230AIMTUX.NET") + RandomInt(10, 50)));
 				break;
-			case NC_RAINBOW:
+			case NC_Type::NC_RAINBOW:
 				SetName(Util::PadStringRight(Rainbowify(origName), origName.size() + RandomInt(10, 50)));
 				break;
-			case NC_SOLID:
-				SetName(Util::PadStringRight(Colorize(origName), origName.size() + RandomInt(10, 50)));
+			case NC_Type::NC_SOLID:
+				SetName(Util::PadStringRight(Colorize(origName, NameChanger::color), origName.size() + RandomInt(10, 50)));
 				break;
 		}
 
@@ -112,4 +110,12 @@ void NameChanger::SetName(const char* name)
 	ConVar* cvar_name = cvar->FindVar("name");
 	*(int*)((uintptr_t)&cvar_name->fnChangeCallback + 0x15) = 0;
 	cvar_name->SetValue(name);
+}
+
+void NameChanger::InitColorChange(NameChanger::NC_Type type, NameChanger::Colors color /*= NameChanger::Colors::LIGHT_RED*/)
+{
+	NameChanger::changes = 0;
+	NameChanger::origName = NameChanger::GetName();
+	NameChanger::type = type;
+	NameChanger::color = color;
 }

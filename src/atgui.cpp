@@ -1383,25 +1383,29 @@ void MiscTab()
 			if (ImGui::Button("No Name"))
 			{
 				NameChanger::changes = 0;
-				NameChanger::type = NC_NORMAL;
+				NameChanger::type = NameChanger::NC_Type::NC_NORMAL;
 			}
 
 			ImGui::SameLine();
 			if (ImGui::Button("Rainbow Name"))
-			{
-				NameChanger::changes = 0;
-				NameChanger::origName = NameChanger::GetName();
-				NameChanger::type = NC_RAINBOW;
-			}
+				NameChanger::InitColorChange(NameChanger::NC_Type::NC_RAINBOW);
 
 			ImGui::SameLine();
-			if (ImGui::Button("Solid Red Name"))
+			if (ImGui::Button("Colorize Name", ImVec2(-1, 0)))
+				ImGui::OpenPopup("optionColorizeName");
+			ImGui::SetNextWindowSize(ImVec2(150, 300), ImGuiSetCond_Always);
+			if (ImGui::BeginPopup("optionColorizeName"))
 			{
-				NameChanger::changes = 0;
-				NameChanger::origName = NameChanger::GetName();
-				NameChanger::type = NC_SOLID;
-			}
+				ImGui::PushItemWidth(-1);
+				for (auto& it : NameChanger::colors)
+				{
+					if (ImGui::Button(it.second, ImVec2(-1, 0)))
+						NameChanger::InitColorChange(NameChanger::NC_Type::NC_SOLID, it.first);
+				}
+				ImGui::PopItemWidth();
 
+				ImGui::EndPopup();
+			}
 			ImGui::Columns(2, NULL, true);
 			{
 				if (ImGui::Checkbox("Name Stealer", &Settings::NameStealer::enabled))
