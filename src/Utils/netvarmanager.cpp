@@ -133,3 +133,16 @@ void NetVarManager::DumpNetvars()
 
 	std::ofstream(netvarsPath) << ss.str();
 }
+
+
+bool NetVarManager::HookProp(const char* tableName, const char* propName, RecvVarProxyFn f)
+{
+	RecvProp* recvProp = 0;
+	NetVarManager::GetProp(NetVarManager::GetTables(), tableName, propName, &recvProp);
+	if (!recvProp)
+		return false;
+
+	recvProp->m_ProxyFn = f;
+
+	return true;
+}

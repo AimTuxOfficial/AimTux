@@ -22,5 +22,6 @@ namespace NetVarManager
 	int GetProp(std::vector<RecvTable*> tables, const char* tableName, const char* propName, RecvProp** prop = 0);
 	int GetProp(std::vector<RecvTable*> tables, RecvTable* recvTable, const char* propName, RecvProp** prop = 0);
 	std::string DumpTable(RecvTable* table, int depth);
+	bool HookProp(const char* tableName, const char* propName, RecvVarProxyFn f);
 	void DumpNetvars();
 }
