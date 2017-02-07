@@ -1,11 +1,11 @@
-#!/bin/sh
-
+#!/bin/bash
+dir_name=${PWD##*/}
 if [ ! -d ".git" ]; then
-  echo "We have detected that you have downloaded aimtux-master.zip from the GitHub website. This is the WRONG way to download AimTux. Please download AimTux with the command 'git clone https://github.com/AimTuxOfficial/AimTux.git'"
-  exit
+  cd ../ && rm -rf ./$dir_name && git clone --recursive https://github.com/AimTuxOfficial/AimTux $dir_name && bash ./$dir_name/update
+else
+  git pull
+  git submodule update --init --recursive --remote
+  cmake .
+  make -j$(cat /proc/cpuinfo | grep "^processor" | wc -l) "$@"
 fi
 
-git pull
-git submodule update --init --recursive --remote
-cmake .
-make -j$(cat /proc/cpuinfo | grep "^processor" | wc -l) "$@"
