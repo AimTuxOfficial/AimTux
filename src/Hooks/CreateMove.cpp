@@ -32,7 +32,8 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 
 		EdgeJump::PostPredictionCreateMove(cmd);
 
-		CreateMove::lastTickViewAngles = cmd->viewangles;
+		if (CreateMove::SendPacket)
+			CreateMove::lastTickViewAngles = cmd->viewangles;
 	}
 
 	return false;
