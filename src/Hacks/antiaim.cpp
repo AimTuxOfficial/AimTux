@@ -245,7 +245,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 	if (!Settings::AntiAim::Yaw::enabled && !Settings::AntiAim::Pitch::enabled)
 		return;
 
-	if (Settings::Aimbot::AimStep::enabled && Aimbot::AimStepInProgress)
+	if (Settings::Aimbot::AimStep::enabled && Aimbot::aimStepInProgress)
 		return;
 
 	QAngle oldAngle = cmd->viewangles;

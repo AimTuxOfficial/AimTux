@@ -39,7 +39,7 @@ float Settings::Aimbot::Smooth::Salting::multiplier = 0.0f;
 bool Settings::Aimbot::AutoSlow::enabled = false;
 float Settings::Aimbot::AutoSlow::minDamage = 5.0f;
 
-bool Aimbot::AimStepInProgress = false;
+bool Aimbot::aimStepInProgress = false;
 std::vector<int64_t> Aimbot::friends = { };
 
 bool shouldAim;
@@ -265,7 +265,7 @@ void Aimbot::AimStep(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd)
 	if (!shouldAim)
 		return;
 
-	if (!Aimbot::AimStepInProgress)
+	if (!Aimbot::aimStepInProgress)
 		AimStepLastAngle = cmd->viewangles;
 
 	if (!player)
@@ -276,9 +276,9 @@ void Aimbot::AimStep(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd)
 	Vector pVecHead = localplayer->GetEyePosition();
 	float fov = Math::GetFov(AimStepLastAngle, Math::CalcAngle(pVecHead, eVecHead));
 
-	Aimbot::AimStepInProgress = fov > Settings::Aimbot::AimStep::value;
+	Aimbot::aimStepInProgress = fov > Settings::Aimbot::AimStep::value;
 
-	if (!Aimbot::AimStepInProgress)
+	if (!Aimbot::aimStepInProgress)
 		return;
 
 	QAngle AimStepDelta = AimStepLastAngle - angle;
@@ -406,7 +406,7 @@ void Aimbot::AutoShoot(C_BasePlayer* player, C_BaseCombatWeapon* activeWeapon, C
 	if (!Settings::Aimbot::AutoShoot::enabled)
 		return;
 
-	if (Settings::Aimbot::AimStep::enabled && Aimbot::AimStepInProgress)
+	if (Settings::Aimbot::AimStep::enabled && Aimbot::aimStepInProgress)
 		return;
 
 	if (!player || !activeWeapon || activeWeapon->GetAmmo() == 0)
