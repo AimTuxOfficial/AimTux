@@ -12,8 +12,8 @@ void Hooks::BeginFrame(void* thisptr, float frameTime)
 
 	if (!engine->IsInGame())
 	{
-		CreateMove::SendPacket = true;
-		*bSendPacket = CreateMove::SendPacket;
+		CreateMove::sendPacket = true;
+		*bSendPacket = CreateMove::sendPacket;
 	}
 
 	Skins::Localize();
