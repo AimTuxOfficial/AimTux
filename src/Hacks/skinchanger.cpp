@@ -3,7 +3,7 @@
 bool Settings::Skinchanger::enabled = false;
 bool Settings::Skinchanger::Gloves::enabled = false;
 
-std::unordered_map<ItemDefinitionIndex, AttribItem_t> Settings::Skinchanger::skins = {
+std::unordered_map<ItemDefinitionIndex, AttribItem_t, Util::IntHash<ItemDefinitionIndex>> Settings::Skinchanger::skins = {
 		{ ItemDefinitionIndex::WEAPON_AK47 /*WeaponID*/, { ItemDefinitionIndex::INVALID /*itemDefinitionIndex*/, 524 /*fallbackPaintKit*/, 0.0005f /*fallbackWear*/, -1 /*fallbackSeed*/, 1337/*fallbackStatTrak*/, -1/*fallbackEntityQuality*/, "TestTux"/*customName*/ } },
 		{ ItemDefinitionIndex::WEAPON_G3SG1, { ItemDefinitionIndex::INVALID, 344, 0.0005f, -1, 1337, -1, "AimTux Best Tux" } },
 		{ ItemDefinitionIndex::WEAPON_GLOCK, { ItemDefinitionIndex::INVALID, 524, 0.0005f, -1, 1337, -1, "AimTux Best Tux" } },
@@ -309,6 +309,6 @@ void SkinChanger::SetViewModelSequence(const CRecvProxyData *pDataConst, void *p
 	// Call original function with the modified data.
 	if (!fnSequenceProxyFn)
 		fnSequenceProxyFn = sequenceHook->GetOriginalFunction();
-	
+
 	fnSequenceProxyFn(pData, pStruct, pOut);
 }

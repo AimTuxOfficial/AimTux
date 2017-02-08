@@ -46,7 +46,7 @@ bool shouldAim;
 QAngle AimStepLastAngle;
 QAngle RCSLastPunch;
 
-std::unordered_map<Hitbox, std::vector<const char*>> hitboxes = {
+std::unordered_map<Hitbox, std::vector<const char*>, Util::IntHash<Hitbox>> hitboxes = {
 		{ Hitbox::HITBOX_HEAD, { "head_0" } },
 		{ Hitbox::HITBOX_NECK, { "neck_0" } },
 		{ Hitbox::HITBOX_PELVIS, { "pelvis" } },
@@ -55,7 +55,7 @@ std::unordered_map<Hitbox, std::vector<const char*>> hitboxes = {
 		{ Hitbox::HITBOX_ARMS, { "hand_L", "hand_R", "arm_upper_L", "arm_lower_L", "arm_upper_R", "arm_lower_R" } },
 };
 
-std::unordered_map<ItemDefinitionIndex, AimbotWeapon_t> Settings::Aimbot::weapons = {
+std::unordered_map<ItemDefinitionIndex, AimbotWeapon_t, Util::IntHash<ItemDefinitionIndex>> Settings::Aimbot::weapons = {
 		{ ItemDefinitionIndex::INVALID, { false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f, false, false, false, false, false, false, false, 10.0f, false, false, 5.0f } },
 };
 
@@ -73,7 +73,7 @@ void GetBestBone(C_BasePlayer* player, float& bestDamage, Bone& bestBone)
 {
 	bestBone = Bone::BONE_HEAD;
 
-	for (std::unordered_map<Hitbox, std::vector<const char*>>::iterator it = hitboxes.begin(); it != hitboxes.end(); it++)
+	for (std::unordered_map<Hitbox, std::vector<const char*>, Util::IntHash<Hitbox>>::iterator it = hitboxes.begin(); it != hitboxes.end(); it++)
 	{
 		if (!Settings::Aimbot::AutoWall::bones[(int) it->first])
 			continue;

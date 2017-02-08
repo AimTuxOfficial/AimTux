@@ -60,4 +60,13 @@ namespace Util
 
 		return result->second;
 	}
+
+	template<typename T>
+	struct IntHash
+	{
+		size_t operator()(const T& t) const noexcept
+		{
+			return std::hash<int>()((int) t);
+		}
+	};
 }

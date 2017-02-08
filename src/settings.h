@@ -316,7 +316,7 @@ namespace Settings
 			extern bool enabled;
 		}
 
-		extern std::unordered_map<ItemDefinitionIndex, AimbotWeapon_t> weapons;
+		extern std::unordered_map<ItemDefinitionIndex, AimbotWeapon_t, Util::IntHash<ItemDefinitionIndex>> weapons;
 	}
 
 	namespace Triggerbot
@@ -698,7 +698,7 @@ namespace Settings
 			extern bool enabled;
 		}
 
-		extern std::unordered_map<ItemDefinitionIndex, AttribItem_t> skins;
+		extern std::unordered_map<ItemDefinitionIndex, AttribItem_t, Util::IntHash<ItemDefinitionIndex>> skins;
 	}
 
 	namespace ShowRanks

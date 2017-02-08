@@ -2023,7 +2023,7 @@ void PlayerListWindow()
 			ImGui::Text("Wins");
 			ImGui::NextColumn();
 
-			std::unordered_map<TeamID, std::vector<int>> players = {
+			std::unordered_map<TeamID, std::vector<int>, Util::IntHash<TeamID>> players = {
 					{ TeamID::TEAM_UNASSIGNED, { } },
 					{ TeamID::TEAM_SPECTATOR, { } },
 					{ TeamID::TEAM_TERRORIST, { } },
