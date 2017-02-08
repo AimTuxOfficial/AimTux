@@ -69,32 +69,33 @@ void RageStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 	if (activeWeapon && !activeWeapon->GetAmmo() == 0 && cmd->buttons & IN_ATTACK)
 		yaw_change = 0.0f;
 
-	QAngle angle = cmd->viewangles;
+	QAngle viewAngles;
+	engine->GetViewAngles(viewAngles);
 
 	if (!(localplayer->GetFlags() & FL_ONGROUND) && bWASD)
 	{
 		if (left_right || cmd->mousedx > 1)
 		{
-			angle.y += yaw_change;
+			viewAngles.y += yaw_change;
 			cmd->sidemove = 450.0f;
 		}
 		else if (!left_right || cmd->mousedx < 1)
 		{
-			angle.y -= yaw_change;
+			viewAngles.y -= yaw_change;
 			cmd->sidemove = -450.0f;
 		}
 
 		left_right = !left_right;
 	}
 
-	Math::NormalizeAngles(angle);
-	Math::ClampAngles(angle);
+	Math::NormalizeAngles(viewAngles);
+	Math::ClampAngles(viewAngles);
 
 	Vector moveold(cmd->forwardmove, cmd->sidemove, 0.0f);
-	Math::CorrectMovement(angle, cmd, moveold.x, moveold.y);
+	Math::CorrectMovement(viewAngles, cmd, moveold.x, moveold.y);
 
 	if (!Settings::AutoStrafe::silent)
-		cmd->viewangles = angle;
+		cmd->viewangles = viewAngles;
 }
 
 void AutoStrafe::CreateMove(CUserCmd* cmd)
