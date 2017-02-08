@@ -36,29 +36,10 @@ void LegitStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 
 void RageStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 {
-	bool bWASD = true;
+	static bool leftRight;
+	bool inMove = cmd->buttons & IN_FORWARD || cmd->buttons & IN_BACK || cmd->buttons & IN_MOVELEFT || cmd->buttons & IN_MOVERIGHT;
 
-	if (cmd->buttons & IN_FORWARD || cmd->buttons & IN_BACK || cmd->buttons & IN_MOVELEFT || cmd->buttons & IN_MOVERIGHT)
-		bWASD = false;
-
-	static bool left_right;
-	bool forward_move = false;
-
-	if (localplayer->GetFlags() & FL_ONGROUND)
-	{
-		if (inputSystem->IsButtonDown(KEY_SPACE) && bWASD)
-			forward_move = true;
-	}
-	else
-	{
-		if (localplayer->GetFlags() & IN_JUMP)
-		{
-			cmd->buttons &= ~IN_JUMP;
-			forward_move = true;
-		}
-	}
-
-	if (forward_move && localplayer->GetVelocity().Length() <= 50.0f)
+	if (cmd->buttons & IN_FORWARD && localplayer->GetVelocity().Length() <= 50.0f)
 		cmd->forwardmove = 450.0f;
 
 	float yaw_change = 0.0f;
@@ -72,20 +53,20 @@ void RageStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 	QAngle viewAngles;
 	engine->GetViewAngles(viewAngles);
 
-	if (!(localplayer->GetFlags() & FL_ONGROUND) && bWASD)
+	if (!(localplayer->GetFlags() & FL_ONGROUND) && !inMove)
 	{
-		if (left_right || cmd->mousedx > 1)
+		if (leftRight || cmd->mousedx > 1)
 		{
 			viewAngles.y += yaw_change;
 			cmd->sidemove = 450.0f;
 		}
-		else if (!left_right || cmd->mousedx < 1)
+		else if (!leftRight || cmd->mousedx < 1)
 		{
 			viewAngles.y -= yaw_change;
 			cmd->sidemove = -450.0f;
 		}
 
-		left_right = !left_right;
+		leftRight = !leftRight;
 	}
 
 	Math::NormalizeAngles(viewAngles);
