@@ -547,7 +547,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	Aimbot::ShootCheck(activeWeapon, cmd);
 	Aimbot::NoShoot(activeWeapon, player, cmd);
 
-	Math::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);
+	
 
 	if (angle == cmd->viewangles)
 		return;
@@ -555,6 +555,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	Math::NormalizeAngles(angle);
 	Math::ClampAngles(angle);
 	cmd->viewangles = angle;
+  Math::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);
 
 	if (!Settings::Aimbot::silent)
 		engine->SetViewAngles(cmd->viewangles);
