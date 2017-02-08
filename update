@@ -1,7 +1,19 @@
 #!/bin/bash
-dir_name=${PWD##*/}
+dir_name=${PWD}
 if [ ! -d ".git" ]; then
-  cd ../ && rm -rf ./$dir_name && git clone --recursive https://github.com/AimTuxOfficial/AimTux $dir_name && bash ./$dir_name/update
+  echo "We have detected that you have downloaded aimtux-master.zip from the GitHub website. This is the WRONG way to download AimTux."
+  read -p "Would you like to delete $dir_name and clone the git repository in place ? (y/n)?" choice
+  case "$choice" in 
+    y|Y )
+      cd ../ && rm -rf $dir_name && git clone --recursive https://github.com/AimTuxOfficial/AimTux
+      ;;
+    n|N )
+      echo "Aborting ..."
+      ;;
+    * )
+      echo "Wrong choice"
+      ;;
+  esac
 else
   git pull
   git submodule update --init --recursive --remote
