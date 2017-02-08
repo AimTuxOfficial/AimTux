@@ -311,7 +311,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 		DoAntiAimY(angle, cmd->command_number, bFlip, should_clamp);
 		Math::NormalizeAngles(angle);
 		if (!Settings::FakeLag::enabled)
-			CreateMove::sendPacket = bFlip;
+			CreateMove::sendPacket = !bFlip;
 		if (Settings::AntiAim::HeadEdge::enabled && edging_head && !bFlip)
 			angle.y = edge_angle.y;
 	}
