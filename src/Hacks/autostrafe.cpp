@@ -59,7 +59,7 @@ void RageStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 	}
 
 	if (forward_move && localplayer->GetVelocity().Length() <= 50.0f)
-		cmd->forwardmove = 800.0f;
+		cmd->forwardmove = 450.0f;
 
 	float yaw_change = 0.0f;
 	if (localplayer->GetVelocity().Length() > 50.f)
