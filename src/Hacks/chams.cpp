@@ -75,9 +75,7 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 	{
 		Color visColor = Settings::ESP::Chams::hpLocalplayerColor ? ESP::GetHealthColor(entity) : Color::FromImColor(Settings::ESP::Chams::localplayerColor);
 		Color color = visColor;
-		color.r *= 0.45f;
-		color.g *= 0.45f;
-		color.b *= 0.45f;
+		color *= 0.45f;
 
 		visible_material->ColorModulate(visColor);
 		hidden_material->ColorModulate(color);
