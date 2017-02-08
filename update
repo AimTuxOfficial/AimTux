@@ -1,6 +1,6 @@
 #!/bin/bash
 if [ ! -d ".git" ]; then
-    echo "We have detected that you have downloaded aimtux-master.zip from the GitHub website. This is the WRONG way to download AimTux. Please download AimTux with the command 'git clone https://github.com/AimTuxOfficial/AimTux.git'"
+    echo "We have detected that you have downloaded aimtux-master.zip from the GitHub website. This is the WRONG way to download AimTux. Please download AimTux with the command 'git clone --recursive https://github.com/AimTuxOfficial/AimTux.git'"
     exit
 else
     git pull
@@ -8,4 +8,3 @@ else
     cmake .
     make -j$(cat /proc/cpuinfo | grep "^processor" | wc -l) "$@"
 fi
-
