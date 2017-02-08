@@ -716,6 +716,8 @@ void TriggerbotTab()
 				SetTooltip("Trigger on head");
 				ImGui::Checkbox("Chest", &Settings::Triggerbot::Filters::chest);
 				SetTooltip("Trigger on chest");
+				ImGui::Checkbox("Legs", &Settings::Triggerbot::Filters::legs);
+				SetTooltip("Trigger on legs");
 			}
 			ImGui::NextColumn();
 			{
@@ -727,8 +729,6 @@ void TriggerbotTab()
 				SetTooltip("Trigger on stomach");
 				ImGui::Checkbox("Arms", &Settings::Triggerbot::Filters::arms);
 				SetTooltip("Trigger on arms");
-				ImGui::Checkbox("Legs", &Settings::Triggerbot::Filters::legs);
-				SetTooltip("Trigger on legs");
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -923,10 +923,10 @@ void VisualsTab()
 				SetTooltip("Hide flashbang effect");
 				ImGui::Checkbox("Show Footsteps", &Settings::ESP::Sounds::enabled);
 				SetTooltip("Shows you footsteps in 3D space");
-				ImGui::Checkbox("Weapons", &Settings::ESP::Chams::Weapon::enabled);
-				SetTooltip("Apply chams to weapons");
 				ImGui::Checkbox("No View Punch", &Settings::View::NoViewPunch::enabled);
 				SetTooltip("Disables view punch when shooting");
+				ImGui::Checkbox("Weapons", &Settings::ESP::Chams::Weapon::enabled);
+				SetTooltip("Apply chams to weapons");
 				ImGui::Checkbox("No Sky", &Settings::NoSky::enabled);
 				SetTooltip("Allows for the skybox to be colored or disabled");
 				ImGui::Checkbox("No Smoke", &Settings::NoSmoke::enabled);
@@ -942,10 +942,10 @@ void VisualsTab()
 				ImGui::PopItemWidth();
 				ImGui::Checkbox("No Aim Punch", &Settings::View::NoAimPunch::enabled);
 				SetTooltip("Disables aim punch when shooting");
-				ImGui::Checkbox("No Scope Border", &Settings::NoScopeBorder::enabled);
-				SetTooltip("Disables black scope silhouette");
 				ImGui::Checkbox("ASUS Walls", &Settings::ASUSWalls::enabled);
 				SetTooltip("Makes wall textures transparent");
+				ImGui::Checkbox("No Scope Border", &Settings::NoScopeBorder::enabled);
+				SetTooltip("Disables black scope silhouette");
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -1088,8 +1088,6 @@ void HvHTab()
 				ImGui::Separator();
 				ImGui::Checkbox("Knife", &Settings::AntiAim::AutoDisable::knifeHeld);
 				SetTooltip("Stops your antiaim while you have your knife out.");
-				ImGui::NextColumn();
-
 				ImGui::Checkbox("No Enemy", &Settings::AntiAim::AutoDisable::noEnemy);
 				SetTooltip("Stops your antiaim when there are no enemies visible.");
 
@@ -1138,14 +1136,8 @@ void HvHTab()
 			SetTooltip("Resolves all players on the server");
 			ImGui::Separator();
 			ImGui::Text("Movement");
-			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
-			{
-				ImGui::Checkbox("Auto Crouch", &Settings::Aimbot::AutoCrouch::enabled);
-				SetTooltip("Auto crouch when an enemy is in sight");
-			}
-			ImGui::Columns(1);
-			ImGui::Separator();
+			ImGui::Checkbox("Auto Crouch", &Settings::Aimbot::AutoCrouch::enabled);
+			SetTooltip("Auto crouch when an enemy is in sight");
 			ImGui::EndChild();
 		}
 	}
