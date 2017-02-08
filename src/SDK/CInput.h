@@ -1,4 +1,5 @@
-class CInput {
+class CInput
+{
 public:
 	char _pad0[0xAC];
 	bool m_fCameraInterceptingMouse;
