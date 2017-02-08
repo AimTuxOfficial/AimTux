@@ -16,6 +16,7 @@
 #include "fakelag.h"
 #include "fovchanger.h"
 #include "hitmarkers.h"
+#include "jumpthrow.h"
 #include "namechanger.h"
 #include "namestealer.h"
 #include "noflash.h"

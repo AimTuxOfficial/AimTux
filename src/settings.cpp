@@ -415,6 +415,9 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["ThirdPerson"]["enabled"] = Settings::ThirdPerson::enabled;
 	settings["ThirdPerson"]["distance"] = Settings::ThirdPerson::distance;
 
+	settings["JumpThrow"]["enabled"] = Settings::JumpThrow::enabled;
+	settings["JumpThrow"]["key"] = Util::GetButtonName(Settings::JumpThrow::key);
+
 	std::ofstream(path) << styledWriter.write(settings);
 }
 
@@ -812,6 +815,9 @@ void Settings::LoadConfig(std::string path)
 
 	GetVal(settings["ThirdPerson"]["enabled"], &Settings::ThirdPerson::enabled);
 	GetVal(settings["ThirdPerson"]["distance"], &Settings::ThirdPerson::distance);
+
+	GetVal(settings["JumpThrow"]["enabled"], &Settings::JumpThrow::enabled);
+	GetButtonCode(settings["JumpThrow"]["key"], &Settings::JumpThrow::key);
 }
 
 void Settings::LoadSettings()
