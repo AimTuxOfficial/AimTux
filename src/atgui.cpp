@@ -1433,6 +1433,8 @@ void MiscTab()
 					}
 				}
 				SetTooltip("Teleport to (0, 0) on any map");
+				ImGui::Checkbox("Jump Throw", &Settings::JumpThrow::enabled);
+				SetTooltip("Hold to prime grenade, release to perform perfect jump throw. Good for executing map smokes.");
 				ImGui::Checkbox("Sniper Crosshair", &Settings::SniperCrosshair::enabled);
 				SetTooltip("Enables the the crosshair with sniper rifles");
 			}
@@ -1448,6 +1450,7 @@ void MiscTab()
 				UI::KeyBindButton(&Settings::Airstuck::key);
 				UI::KeyBindButton(&Settings::Autoblock::key);
 				UI::KeyBindButton(&Settings::Teleport::key);
+				UI::KeyBindButton(&Settings::JumpThrow::key);
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
