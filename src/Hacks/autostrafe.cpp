@@ -91,8 +91,7 @@ void RageStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 	Math::NormalizeAngles(viewAngles);
 	Math::ClampAngles(viewAngles);
 
-	Vector moveold(cmd->forwardmove, cmd->sidemove, 0.0f);
-	Math::CorrectMovement(viewAngles, cmd, moveold.x, moveold.y);
+	Math::CorrectMovement(viewAngles, cmd, cmd->forwardmove, cmd->sidemove);
 
 	if (!Settings::AutoStrafe::silent)
 		cmd->viewangles = viewAngles;
