@@ -474,6 +474,16 @@ public:
 		return *(float*)((uintptr_t)this + 0x82C);
 	}
 
+	float GetMaxPlayerSpeed()
+	{
+		return *(float*)((uintptr_t)this + 0x830);
+	}
+
+	float GetMaxPlayerSpeedAlt()
+	{
+		return *(float*)((uintptr_t)this + 0x834);
+	}
+
 	float GetPenetration()
 	{
 		return *(float*)((uintptr_t)this + 0x840);
