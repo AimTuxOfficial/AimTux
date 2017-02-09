@@ -1,0 +1,242 @@
+#!/bin/bash
+#Credits: CrazyWolf for the launcher. All parts are done by crazywolf,
+#         unless stated otherwise.
+red=$'\e[1;31m'
+grn=$'\e[1;32m'
+yel=$'\e[1;33m'
+end=$'\e[0m'
+force_del="false"
+dir_name=${PWD##*/}
+_detect(){
+  #This grabs what OS they are on for the installer.
+  if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+    which apt-get && { OS="Debian"; return; }
+    which pacman && { OS="Arch"; return; }
+    which dnf && { OS="Fedora"; return; }
+    which emerge && { OS="Gentoo"; return; }
+  elif [ "$(uname)" == "Darwin" ]; then
+    OS="Mac"
+  elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
+    OS="Windows"
+  fi
+}
+_main(){
+  _detect
+  _selection
+}
+_showMenu(){
+_clrs
+echo "<========================================>"
+echo "         Please select version"
+echo "<========================================>"
+echo "[1] Run"
+echo "[2] Stop"
+echo "[3] Reload"
+echo
+echo "[4] Install"
+echo "[5] Update"
+echo
+echo "[0] exit"
+echo "<========================================>"
+
+read -p "Please Select A Number: " mc
+return $mc
+}
+_selection(){
+while [[ "$m" != "0" ]]
+do
+    if [[ "$m" == "1" ]]; then
+        _run
+    elif [[ "$m" == "2" ]]; then
+        _stop
+    elif [[ "$m" == "3" ]]; then
+        _reload
+    elif [[ "$m" == "4" ]]; then
+        _install
+    elif [[ "$m" == "5" ]]; then
+        _update
+    fi
+    echo
+    echo
+    showMenu
+    m=$?
+done
+
+exit 0;
+}
+_clrs(){
+  if [ "$(uname)" == "Darwin" ]; then
+    clear
+  elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+    clear
+  elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
+    cls
+  else
+    clear
+  fi
+}
+_run(){
+  csgo_pid=$(pidof csgo_linux64)
+  if [ -z "$csgo_pid" ]; then
+    echo -e "{$red}CSGO needs to be open before you can inject...{$end}"
+    exit 1
+  fi
+  if [ ! -d ".git" ]; then
+    clrs
+    echo "{$red}We have detected that you have downloaded aimtux-master.zip from the GitHub website. This is the WRONG way to download AimTux.{$end}"
+    read -r -p "\nWould you like us to re-download it? [y/N] " response
+    if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
+      echo "%sExcellent! ${red}Please do not exit this script until it is complete.${end}\n"
+      $force_del="true"
+      _install
+    else
+      # Seen the user does not agree we are going to exit.
+      exit 1
+    fi
+  fi
+
+  #Credit: Aixxe @ aixxe.net
+  if grep -q libAimTux.so /proc/$csgo_pid/maps; then
+      echo -e "{$yel}AimTux is already injected... Aborting...{$end}"
+      exit
+  fi
+
+  input="$(
+  sudo gdb -n -q -batch \
+    -ex "attach $csgo_pid" \
+    -ex "set \$dlopen = (void*(*)(char*, int)) dlopen" \
+    -ex "call \$dlopen(\"$(pwd)/libAimTux.so\", 1)" \
+    -ex "detach" \
+    -ex "quit"
+  )"
+
+  last_line="${input##*$'\n'}"
+
+  if [ "$last_line" != "\$1 = (void *) 0x0" ]; then
+      /bin/echo -e "{$grn}Successfully injected!{$end}"
+  else
+      /bin/echo -e "{$red}Injection failed, make sure you've compiled...{$end}"
+  fi
+}
+_stop(){
+  #Credit: Aixxe @ aixxe.net
+  if grep -q libAimTux.so /proc/$(pidof csgo_linux64)/maps; then
+  sudo gdb -n -q -batch \
+      -ex "attach $(pidof csgo_linux64)" \
+      -ex "set \$dlopen = (void*(*)(char*, int)) dlopen" \
+      -ex "set \$dlclose = (int(*)(void*)) dlclose" \
+      -ex "set \$library = \$dlopen(\"$(pwd)/libAimTux.so\", 6)" \
+      -ex "call \$dlclose(\$library)" \
+      -ex "call \$dlclose(\$library)" \
+      -ex "detach" \
+      -ex "quit"
+  fi
+  _main
+}
+_reload(){
+  _stop
+  cmake .
+  make -j$(cat /proc/cpuinfo | grep "^processor" | wc -l) "$@"
+  _start
+}
+_install(){
+  if [ $force_del == "false" ]; then
+    if [ $OS == "Arch" ]; then
+      pacman -S base-devel cmake gdb git sdl2
+    elif [ $OS == "Fedora" ]; then
+      dnf install cmake gcc-c++ gdb git libstdc++-static mesa-libGL-devel SDL2-devel zlib-devel
+    elif [ $OS == "Gentoo" ]; then
+      emerge cmake dev-vcs/git gdb libsdl2 mesa
+    elif [ $OS == "Debian" ]; then
+      apt-get install -y cmake g++ gdb git libsdl2-dev zlib1g-dev
+    elif [ $OS == "Mac" ]; then
+      echo "{$red}Sorry, this only works on Linux.{$end}"
+      exit 0
+    elif [ $OS == "Windows" ]; then
+      echo "{$red}Sorry, this only works on Linux.{$end}"
+      exit 0
+    fi
+  elif [ $force_del == "true" ]; then
+    read -r -p "We are deleteing $dir_name, is this the correct directory? (All edits will be lost) [y/N] " response
+      # Grab the response from the user input.
+      if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
+          # If the user agrees with it.
+          echo "%sExcellent! ${red}Please wait.${end}\n"
+      else
+          read -r -p "Please give the full path like shown above: " dir
+          $dir_name = $dir
+      fi
+  fi
+  _branchSel
+  _main
+}
+_update(){
+  if [ ! -d ".git" ]; then
+    clrs
+    echo "{$red}We have detected that you have downloaded aimtux-master.zip from the GitHub website. This is the WRONG way to download AimTux.{$end}"
+    read -r -p "\nWould you like us to re-download it? [y/N] " response
+    if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
+      echo "%sExcellent! ${red}Please do not exit this script until it is complete.${end}\n"
+      $force_del="true"
+      _install
+    else
+      # Seen the user does not agree we are going to exit.
+      exit 1
+    fi
+  else
+    git pull
+    git submodule update --init --recursive --remote
+    cmake .
+    make -j$(cat /proc/cpuinfo | grep "^processor" | wc -l) "$@"
+  fi
+}
+_branch(){
+  echo "<========================================>"
+  echo "         Please select branch"
+  echo "<========================================>"
+  echo "[1] Master"
+  echo "[2] Master-Freetype"
+  echo "[3] faceit"
+  echo
+  echo "[0] Go Back"
+  echo "<========================================>"
+
+  read -p "Please Select A Number: " mc
+  return $mc
+}
+_branchSel(){
+  while [[ "$m" != "0" ]]
+  do
+    if [[ "$m" == "1" ]]; then
+      if [ $force_del == "false" ] then;
+        git clone --recursive https://github.com/AimTuxOfficial/AimTux
+      elif [ $force_del == "true" ] then;
+        cd ../ && rm -rf ./$dir_name && git clone --recursive https://github.com/AimTuxOfficial/AimTux
+      fi
+    elif [[ "$m" == "2" ]]; then
+      if [ $force_del == "false" ] then;
+        git clone -b master-freetype https://github.com/AimTuxOfficial/AimTux
+      elif [ $force_del == "true" ] then;
+        cd ../ && rm -rf ./$dir_name && git clone -b master-freetype https://github.com/AimTuxOfficial/AimTux
+      fi
+    elif [[ "$m" == "3" ]]; then
+      if [ $force_del == "false"] then;
+        git clone -b faceit https://github.com/AimTuxOfficial/AimTux
+      elif [ $force_del == "true"] then;
+        cd ../ && rm -rf ./$dir_name && git clone -b faceit https://github.com/AimTuxOfficial/AimTux
+      fi
+    fi
+    echo
+    echo
+    _branch
+    m=$?
+  done
+
+  _selection
+}
+_finishInstall(){
+  cd AimTux
+  cmake .
+  read -r -p "How many cores do you want to use to build this? " amount
+  make -j $amount
+}
