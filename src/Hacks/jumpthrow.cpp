@@ -6,18 +6,18 @@ ButtonCode_t Settings::JumpThrow::key = ButtonCode_t::KEY_T;
 
 void JumpThrow::CreateMove(CUserCmd* cmd)
 {
-	if(!Settings::JumpThrow::enabled)
+	if (!Settings::JumpThrow::enabled)
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-
-	if(!localplayer)
+	if (!localplayer)
 		return;
 
 	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
-	ItemDefinitionIndex itemDefinitionIndex = *activeWeapon->GetItemDefinitionIndex();
+	if (!activeWeapon)
+		return;
 
-	if (!(itemDefinitionIndex == ItemDefinitionIndex::WEAPON_FLASHBANG || itemDefinitionIndex == ItemDefinitionIndex::WEAPON_HEGRENADE || itemDefinitionIndex == ItemDefinitionIndex::WEAPON_SMOKEGRENADE || itemDefinitionIndex == ItemDefinitionIndex::WEAPON_MOLOTOV || itemDefinitionIndex == ItemDefinitionIndex::WEAPON_DECOY || itemDefinitionIndex == ItemDefinitionIndex::WEAPON_INCGRENADE))
+	if (activeWeapon->GetCSWpnData()->GetWeaponType() != CSWeaponType::WEAPONTYPE_GRENADE)
 		return;
 
 	if (localplayer->GetMoveType() == MOVETYPE_LADDER || localplayer->GetMoveType() == MOVETYPE_NOCLIP)
@@ -32,6 +32,7 @@ void JumpThrow::CreateMove(CUserCmd* cmd)
 		inAttackState = false;
 		return;
 	}
+
 	cmd->buttons |= IN_ATTACK;
 	inAttackState = true;
 }
