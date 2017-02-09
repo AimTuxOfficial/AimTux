@@ -7,5 +7,5 @@
 
 namespace JumpThrow
 {
-  void CreateMove(CUserCmd* cmd);
+	void CreateMove(CUserCmd* cmd);
 }
