@@ -805,6 +805,12 @@ namespace Settings
 		extern float distance;
 	}
 
+	namespace JumpThrow
+	{
+		extern bool enabled;
+		extern ButtonCode_t key;
+	}
+
 	void LoadDefaultsOrSave(std::string path);
 	void LoadConfig(std::string path);
 	void LoadSettings();
