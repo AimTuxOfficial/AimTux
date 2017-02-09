@@ -21,8 +21,13 @@ _detect(){
   fi
 }
 _main(){
+ if [ "$(whoami)" = "root" ]; then
   _detect
   _selection
+ else
+  echo "{$red}Please restart as Root{$end}"
+  exit 0
+ fi
 }
 _showMenu(){
 _clrs
@@ -102,7 +107,7 @@ _run(){
   fi
 
   input="$(
-  sudo gdb -n -q -batch \
+  gdb -n -q -batch \
     -ex "attach $csgo_pid" \
     -ex "set \$dlopen = (void*(*)(char*, int)) dlopen" \
     -ex "call \$dlopen(\"$(pwd)/libAimTux.so\", 1)" \
@@ -121,7 +126,7 @@ _run(){
 _stop(){
   #Credit: Aixxe @ aixxe.net
   if grep -q libAimTux.so /proc/$(pidof csgo_linux64)/maps; then
-  sudo gdb -n -q -batch \
+  gdb -n -q -batch \
       -ex "attach $(pidof csgo_linux64)" \
       -ex "set \$dlopen = (void*(*)(char*, int)) dlopen" \
       -ex "set \$dlclose = (int(*)(void*)) dlclose" \
