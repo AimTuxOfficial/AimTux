@@ -149,7 +149,7 @@ struct AimbotWeapon_t
 	ButtonCode_t aimkey;
 	bool aimkeyOnly, smoothEnabled, smoothSaltEnabled, errorMarginEnabled, autoAimEnabled, aimStepEnabled, rcsEnabled, rcsAlwaysOn;
 	float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmountX, rcsAmountY, autoWallValue, autoSlowMinDamage;
-	bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smokeCheck, autoWallEnabled, autoWallBones[6], autoAimRealDistance, autoSlow;
+	bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallBones[6], autoAimRealDistance, autoSlow;
 
 	AimbotWeapon_t(bool _enabled, bool _silent, bool _friendly, Bone _bone, ButtonCode_t _aimkey, bool _aimkeyOnly,
 		   bool _smoothEnabled, float _smoothValue, SmoothType _smoothType, bool _smoothSaltEnabled, float _smoothSaltMultiplier,
@@ -157,7 +157,9 @@ struct AimbotWeapon_t
 		   bool _autoAimEnabled, float _autoAimValue, bool _aimStepEnabled, float _aimStepValue,
 		   bool _rcsEnabled, bool _rcsAlwaysOn, float _rcsAmountX, float _rcsAmountY,
 		   bool _autoPistolEnabled, bool _autoShootEnabled, bool _autoScopeEnabled,
-		   bool _noShootEnabled, bool _ignoreJumpEnabled, bool _smokeCheck, bool _autoWallEnabled, float _autoWallValue, bool _autoAimRealDistance, bool _autoSlow, float _autoSlowMinDamage, bool _autoWallBones[6] = nullptr)
+		   bool _noShootEnabled, bool _ignoreJumpEnabled, bool _smokeCheck, bool _flashCheck,
+		   bool _autoWallEnabled, float _autoWallValue, bool _autoAimRealDistance, bool _autoSlow,
+		   float _autoSlowMinDamage, bool _autoWallBones[6] = nullptr)
 	{
 		this->enabled = _enabled;
 		this->silent = _silent;
@@ -186,6 +188,7 @@ struct AimbotWeapon_t
 		this->noShootEnabled = _noShootEnabled;
 		this->ignoreJumpEnabled = _ignoreJumpEnabled;
 		this->smokeCheck = _smokeCheck;
+		this->flashCheck = _flashCheck;
 		this->autoWallEnabled = _autoWallEnabled;
 		this->autoWallValue = _autoWallValue;
 		this->autoSlow = _autoSlow;
@@ -316,6 +319,11 @@ namespace Settings
 			extern bool enabled;
 		}
 
+		namespace FlashCheck
+		{
+			extern bool enabled;
+		}
+
 		extern std::unordered_map<ItemDefinitionIndex, AimbotWeapon_t, Util::IntHash<ItemDefinitionIndex>> weapons;
 	}
 
@@ -330,6 +338,7 @@ namespace Settings
 			extern bool allies;
 			extern bool walls;
 			extern bool smokeCheck;
+			extern bool flashCheck;
 			extern bool head;
 			extern bool chest;
 			extern bool stomach;
@@ -434,6 +443,7 @@ namespace Settings
 			extern bool legit;
 			extern bool visibilityCheck;
 			extern bool smokeCheck;
+			extern bool flashCheck;
 			extern bool enemies;
 			extern bool allies;
 			extern bool bomb;
