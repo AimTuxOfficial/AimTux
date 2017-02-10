@@ -1332,6 +1332,24 @@ void MiscTab()
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
+			ImGui::Text("Grenade Helper");
+			ImGui::Separator();
+			ImGui::Checkbox("Enabled", &Settings::GrenadeHelper::enabled);
+			SetTooltip("Show Saved Grenade Throws");
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Checkbox("Throw Assist", &Settings::GrenadeHelper::aimAssist);
+				SetTooltip("Auto Aims nades.");
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::Checkbox("Only matching", &Settings::GrenadeHelper::onlyMatchingInfos);
+				SetTooltip("Shows the Smokes only when you have the right Grenade equipped.");
+			}
+			//TODO Maybe a Button that adds the current pose to the grenadeInfos
+
+			ImGui::Columns(1);
+			ImGui::Separator();
 			ImGui::EndChild();
 		}
 	}
