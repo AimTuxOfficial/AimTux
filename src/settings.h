@@ -148,7 +148,7 @@ struct AimbotWeapon_t
 	SmoothType smoothType;
 	ButtonCode_t aimkey;
 	bool aimkeyOnly, smoothEnabled, smoothSaltEnabled, errorMarginEnabled, autoAimEnabled, aimStepEnabled, rcsEnabled, rcsAlwaysOn;
-	float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmountX, rcsAmountY, autoWallValue, autoSlowMinDamage;
+	float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmountX, rcsAmountY, autoWallValue, autoSlowSpeedPercent;
 	bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallBones[6], autoAimRealDistance, autoSlow;
 
 	AimbotWeapon_t(bool _enabled, bool _silent, bool _friendly, Bone _bone, ButtonCode_t _aimkey, bool _aimkeyOnly,
@@ -159,7 +159,7 @@ struct AimbotWeapon_t
 		   bool _autoPistolEnabled, bool _autoShootEnabled, bool _autoScopeEnabled,
 		   bool _noShootEnabled, bool _ignoreJumpEnabled, bool _smokeCheck, bool _flashCheck,
 		   bool _autoWallEnabled, float _autoWallValue, bool _autoAimRealDistance, bool _autoSlow,
-		   float _autoSlowMinDamage, bool _autoWallBones[6] = nullptr)
+		   float _autoSlowSpeedPercent, bool _autoWallBones[6] = nullptr)
 	{
 		this->enabled = _enabled;
 		this->silent = _silent;
@@ -192,7 +192,7 @@ struct AimbotWeapon_t
 		this->autoWallEnabled = _autoWallEnabled;
 		this->autoWallValue = _autoWallValue;
 		this->autoSlow = _autoSlow;
-		this->autoSlowMinDamage = _autoSlowMinDamage;
+		this->autoSlowSpeedPercent = _autoSlowSpeedPercent;
 
 		if(_autoWallBones != nullptr)
 			for (int i = (int) Hitbox::HITBOX_HEAD; i <= (int) Hitbox::HITBOX_ARMS; i++)
@@ -301,7 +301,7 @@ namespace Settings
 		namespace AutoSlow
 		{
 			extern bool enabled;
-			extern float minDamage;
+			extern float speedPercent;
 		}
 
 		namespace NoShoot
