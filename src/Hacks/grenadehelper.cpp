@@ -6,8 +6,17 @@
 using namespace GrenadeHelper;
 
 bool Settings::GrenadeHelper::enabled = true;
-std::vector<GrenadeHelper::GrenadeInfo> /**Settings::GrenadeHelper::**/grenadeInfos = { GrenadeInfo(GrenadeType::SMOKE, Vector(1149.4f,-1183.97f,-141.51f),QAngle(-39.49f,-171.85f,0f),ThrowType::CROUCH),
-                                                                                  GrenadeInfo(GrenadeType::FLASH, Vector(803f,-1418f,-44.91f),QAngle(-30.49f,-178.85f,0f),ThrowType::NORMAL)};
+std::vector<GrenadeInfo> /**Settings::GrenadeHelper::**/grenadeInfos = { GrenadeInfo(GrenadeType::SMOKE, Vector(1149.4f,-1183.97f,-141.51f),QAngle(-39.49f,-171.85f,0),ThrowType::CROUCH),
+                                                                                  GrenadeInfo(GrenadeType::FLASH, Vector(803,-1418,-44.91f),QAngle(-30.49f,-178.85f,0),ThrowType::NORMAL)};
+void GrenadeHelper::DrawGrenadeInfo(GrenadeInfo* info)
+{
+    Draw::Circle3D(info->pos,20,20,Color(255,10,10));
+}
+
+void GrenadeHelper::DrawAimHelp(GrenadeInfo* info)
+{
+
+}
 
 void GrenadeHelper::Paint()
 {
@@ -31,11 +40,11 @@ void GrenadeHelper::Paint()
     {
         if(grenadeInfo->pos.DistTo(localplayer->GetVecOrigin()) > 1000)//TODO change dist
         {
-            //Draw normal
+            DrawGrenadeInfo(grenadeInfo.base());
         }
         else
         {
-            //Draw showing the QAngle
+            DrawAimHelp(grenadeInfo.base());
         }
     }
 }

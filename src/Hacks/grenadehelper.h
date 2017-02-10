@@ -32,6 +32,10 @@ namespace GrenadeHelper
             this->tType = tType;
         }
     };
+
+    void DrawGrenadeInfo(GrenadeInfo* info);
+    void DrawAimHelp(GrenadeInfo* info);
+
     void FireGameEvent(IGameEvent* event);//for loading new data for new Map
     //void CreateMove(CUserCmd* cmd);//Activly Help to perfect grenade?
     void Paint();//Draw the Grenade Esp
