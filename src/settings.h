@@ -814,6 +814,8 @@ namespace Settings
 	namespace GrenadeHelper
 	{
 		extern bool enabled;
+		extern bool onlyMatchingInfos;
+		extern bool aimAssist;
 
 	}
 	void LoadDefaultsOrSave(std::string path);
