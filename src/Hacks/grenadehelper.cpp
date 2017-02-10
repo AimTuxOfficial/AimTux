@@ -9,6 +9,15 @@ bool shotLastTick = false;
 bool Settings::GrenadeHelper::enabled = true;
 bool Settings::GrenadeHelper::onlyMatchingInfos = true;
 bool Settings::GrenadeHelper::aimAssist = false;
+
+ImColor Settings::GrenadeHelper::aimLine = ImColor(200,200,200,255);
+ImColor Settings::GrenadeHelper::aimDot = ImColor(10,10,200,255);
+ImColor Settings::GrenadeHelper::infoHE = ImColor(30,100,30,255);
+ImColor Settings::GrenadeHelper::infoMolotov = ImColor(100,20,20,255);
+ImColor Settings::GrenadeHelper::infoSmoke = ImColor(200,200,200,255);
+ImColor Settings::GrenadeHelper::infoFlash = ImColor(255,255,0,255);
+
+
 std::vector<GrenadeInfo> /**Settings::GrenadeHelper::**/grenadeInfos = { GrenadeInfo(GrenadeType::SMOKE, Vector(1149.4f,-1183.97f,-141.51f),QAngle(-42.f,-165.f,0.f),ThrowType::NORMAL),
                                                                                   GrenadeInfo(GrenadeType::FLASH, Vector(803,-1418,-44.91f),QAngle(-30.49f,-178.85f,0.f),ThrowType::NORMAL)};
 bool GrenadeHelper::matches(C_BaseCombatWeapon* wpn, GrenadeType type)
@@ -30,12 +39,28 @@ bool GrenadeHelper::matches(C_BaseCombatWeapon* wpn, GrenadeType type)
     }
 }
 
+ImColor GrenadeHelper::getColor(GrenadeType type)
+{
+    switch (type)
+    {
+        case GrenadeType::HEGRENADE:
+            return Settings::GrenadeHelper::infoHE;
+        case GrenadeType::SMOKE:
+            return Settings::GrenadeHelper::infoSmoke;
+        case GrenadeType::FLASH:
+            return Settings::GrenadeHelper::infoFlash;
+        case GrenadeType::MOLOTOV:
+            return Settings::GrenadeHelper::infoMolotov;
+
+    }
+}
+
 void GrenadeHelper::DrawGrenadeInfo(GrenadeInfo* info)
 {
     Vector pos2d;
     if (debugOverlay->ScreenPosition(Vector(info->pos.x,info->pos.y,info->pos.z), pos2d))
         return;
-    Draw::Circle(Vector2D(pos2d.x,pos2d.y),15,20,Color(255,10,10));
+    Draw::Circle(Vector2D(pos2d.x,pos2d.y),15,20,Color::FromImColor(getColor(info->gType)));
 }
 
 void GrenadeHelper::DrawAimHelp(GrenadeInfo* info)
@@ -48,11 +73,11 @@ void GrenadeHelper::DrawAimHelp(GrenadeInfo* info)
     if (debugOverlay->ScreenPosition(aim, posVec))
         return;
     Vector2D pos2d(posVec.x,posVec.y);
-    Draw::FilledCircle(pos2d,20,5,Color(10,10,255));//Draw Point to Throw to
+    Draw::FilledCircle(pos2d,20,5,Color::FromImColor(Settings::GrenadeHelper::aimDot));//Draw Point to Throw to
 
     int w,h;
     engine->GetScreenSize(w,h);
-    Draw::Line(Vector2D(w/2,h/2),pos2d,Color(255,255,255));//Draw Help line
+    Draw::Line(Vector2D(w/2,h/2),pos2d,Color::FromImColor(Settings::GrenadeHelper::aimLine));//Draw Help line
 }
 
 void GrenadeHelper::Paint()
@@ -75,7 +100,7 @@ void GrenadeHelper::Paint()
     //draw the info
     for(auto grenadeInfo = grenadeInfos.begin(); grenadeInfo != grenadeInfos.end(); grenadeInfo++)
     {
-        if(onlyMatchingInfos && !matches(activeWeapon,grenadeInfo->gType))
+        if(Settings::GrenadeHelper::onlyMatchingInfos && !matches(activeWeapon,grenadeInfo->gType))
             continue;
 
         float dist = grenadeInfo->pos.DistTo(localplayer->GetVecOrigin());
@@ -126,7 +151,7 @@ void GrenadeHelper::AimAssist(CUserCmd* cmd)
 
     for(auto grenadeInfo = grenadeInfos.begin(); grenadeInfo != grenadeInfos.end(); grenadeInfo++)
     {
-        if(onlyMatchingInfos && !matches(activeWeapon,grenadeInfo->gType))
+        if(Settings::GrenadeHelper::onlyMatchingInfos && !matches(activeWeapon,grenadeInfo->gType))
             continue;
         float dist = Math::GetDistance(localplayer->GetEyePosition(), grenadeInfo->pos);
         if(dist > 75.f)

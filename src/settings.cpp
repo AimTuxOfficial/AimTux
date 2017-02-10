@@ -418,6 +418,16 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["JumpThrow"]["enabled"] = Settings::JumpThrow::enabled;
 	settings["JumpThrow"]["key"] = Util::GetButtonName(Settings::JumpThrow::key);
 
+	settings["GrenadeHelper"]["enabled"] = Settings::GrenadeHelper::enabled;
+	settings["GrenadeHelper"]["aimAssist"] = Settings::GrenadeHelper::aimAssist;
+	settings["GrenadeHelper"]["OnlyMatching"] = Settings::GrenadeHelper::onlyMatchingInfos;
+	LoadUIColor(settings["GrenadeHelper"]["aimDot"], Settings::GrenadeHelper::aimDot);
+	LoadUIColor(settings["GrenadeHelper"][""], Settings::GrenadeHelper::aimLine);
+	LoadUIColor(settings["GrenadeHelper"][""], Settings::GrenadeHelper::infoHE);
+	LoadUIColor(settings["GrenadeHelper"][""], Settings::GrenadeHelper::infoSmoke);
+	LoadUIColor(settings["GrenadeHelper"][""], Settings::GrenadeHelper::infoMolotov);
+	LoadUIColor(settings["GrenadeHelper"][""], Settings::GrenadeHelper::infoFlash);
+
 	std::ofstream(path) << styledWriter.write(settings);
 }
 
@@ -818,6 +828,11 @@ void Settings::LoadConfig(std::string path)
 
 	GetVal(settings["JumpThrow"]["enabled"], &Settings::JumpThrow::enabled);
 	GetButtonCode(settings["JumpThrow"]["key"], &Settings::JumpThrow::key);
+
+	GetVal(settings["GrenadeHelper"]["enabled"], &Settings::GrenadeHelper::enabled);
+	GetVal(settings["GrenadeHelper"]["aimAssist"], &Settings::GrenadeHelper::aimAssist);
+	GetVal(settings["GrenadeHelper"]["OnlyMatching"], &Settings::GrenadeHelper::onlyMatchingInfos);
+
 }
 
 void Settings::LoadSettings()

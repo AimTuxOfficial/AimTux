@@ -37,6 +37,7 @@ namespace GrenadeHelper
     void DrawGrenadeInfo(GrenadeInfo* info);
     void DrawAimHelp(GrenadeInfo* info);
     void AimAssist(CUserCmd* cmd);
+    ImColor getColor(GrenadeType type);
 
     void FireGameEvent(IGameEvent* event);//for loading new data for new Map
     void CreateMove(CUserCmd* cmd);//Activly Help to perfect grenade?

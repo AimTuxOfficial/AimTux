@@ -816,7 +816,12 @@ namespace Settings
 		extern bool enabled;
 		extern bool onlyMatchingInfos;
 		extern bool aimAssist;
-
+		extern ImColor aimDot;
+		extern ImColor aimLine;
+		extern ImColor infoHE;
+		extern ImColor infoSmoke;
+		extern ImColor infoFlash;
+		extern ImColor infoMolotov;
 	}
 	void LoadDefaultsOrSave(std::string path);
 	void LoadConfig(std::string path);
