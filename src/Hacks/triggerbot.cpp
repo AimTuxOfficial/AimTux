@@ -6,6 +6,7 @@ bool Settings::Triggerbot::Filters::enemies = true;
 bool Settings::Triggerbot::Filters::allies = false;
 bool Settings::Triggerbot::Filters::walls = false;
 bool Settings::Triggerbot::Filters::smokeCheck = false;
+bool Settings::Triggerbot::Filters::flashCheck = false;
 bool Settings::Triggerbot::Filters::head = true;
 bool Settings::Triggerbot::Filters::chest = true;
 bool Settings::Triggerbot::Filters::stomach = true;
@@ -25,6 +26,9 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer || !localplayer->GetAlive())
+		return;
+	
+	if (Settings::Triggerbot::Filters::flashCheck && localplayer->GetFlashBangTime() - globalVars->curtime > 2.0f)
 		return;
 
 	long currentTime_ms = Util::GetEpochTime();

@@ -192,6 +192,7 @@ static bool autoScopeEnabled = false;
 static bool noShootEnabled = false;
 static bool ignoreJumpEnabled = false;
 static bool smokeCheck = false;
+static bool flashCheck = false;
 static bool autoWallEnabled = false;
 static float autoWallValue = 10.0f;
 static bool autoWallBones[] = { true, false, false, false, false, false };
@@ -210,7 +211,7 @@ void UI::UpdateWeaponSettings()
 							   autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
 							   rcsEnabled, rcsAlwaysOn, rcsAmountX, rcsAmountY,
 							   autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
-							   noShootEnabled, ignoreJumpEnabled, smokeCheck, autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, autoSlowMinDamage
+							   noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, autoSlowMinDamage
 	};
 
 	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
@@ -252,6 +253,7 @@ void ReloadWeaponSettings()
 	noShootEnabled = Settings::Aimbot::weapons.at(index).noShootEnabled;
 	ignoreJumpEnabled = Settings::Aimbot::weapons.at(index).ignoreJumpEnabled;
 	smokeCheck = Settings::Aimbot::weapons.at(index).smokeCheck;
+	flashCheck = Settings::Aimbot::weapons.at(index).flashCheck;
 	autoWallEnabled = Settings::Aimbot::weapons.at(index).autoWallEnabled;
 	autoWallValue = Settings::Aimbot::weapons.at(index).autoWallValue;
 	autoAimRealDistance = Settings::Aimbot::weapons.at(index).autoAimRealDistance;
@@ -570,7 +572,7 @@ void AimbotTab()
 				SetTooltip("Prevents the camera from locking to an enemy, doesn't work for demos");
 				if (ImGui::Checkbox("Smoke Check", &smokeCheck))
 					UI::UpdateWeaponSettings();
-				SetTooltip("Ignore players that are in smoke");
+				SetTooltip("Ignore players that are blocked by smoke");
 			}
 			ImGui::NextColumn();
 			{
@@ -583,6 +585,9 @@ void AimbotTab()
 				if (ImGui::Checkbox("Ignore Jump", &ignoreJumpEnabled))
 					UI::UpdateWeaponSettings();
 				SetTooltip("Prevents you from aimbotting while jumping");
+				if (ImGui::Checkbox("Flash Check", &flashCheck))
+					UI::UpdateWeaponSettings();
+				SetTooltip("Disable aimbot while flashed");
 			}
 
 			ImGui::Columns(1);
@@ -725,6 +730,8 @@ void TriggerbotTab()
 				SetTooltip("Trigger on allies");
 				ImGui::Checkbox("Smoke check", &Settings::Triggerbot::Filters::smokeCheck);
 				SetTooltip("Don't shoot through smokes");
+				ImGui::Checkbox("Flash check", &Settings::Triggerbot::Filters::flashCheck);
+				SetTooltip("Don't shoot while flashed");
 				ImGui::Checkbox("Stomach", &Settings::Triggerbot::Filters::stomach);
 				SetTooltip("Trigger on stomach");
 				ImGui::Checkbox("Arms", &Settings::Triggerbot::Filters::arms);
