@@ -197,7 +197,7 @@ static float autoWallValue = 10.0f;
 static bool autoWallBones[] = { true, false, false, false, false, false };
 static bool autoAimRealDistance = false;
 static bool autoSlow = false;
-static float autoSlowMinDamage = 5.0f;
+static float autoSlowSpeedPercent = 34.0f;
 
 void UI::UpdateWeaponSettings()
 {
@@ -210,7 +210,7 @@ void UI::UpdateWeaponSettings()
 							   autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
 							   rcsEnabled, rcsAlwaysOn, rcsAmountX, rcsAmountY,
 							   autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
-							   noShootEnabled, ignoreJumpEnabled, smokeCheck, autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, autoSlowMinDamage
+							   noShootEnabled, ignoreJumpEnabled, smokeCheck, autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, autoSlowSpeedPercent
 	};
 
 	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
@@ -256,7 +256,7 @@ void ReloadWeaponSettings()
 	autoWallValue = Settings::Aimbot::weapons.at(index).autoWallValue;
 	autoAimRealDistance = Settings::Aimbot::weapons.at(index).autoAimRealDistance;
 	autoSlow = Settings::Aimbot::weapons.at(index).autoSlow;
-	autoSlowMinDamage = Settings::Aimbot::weapons.at(index).autoSlowMinDamage;
+	autoSlowSpeedPercent = Settings::Aimbot::weapons.at(index).autoSlowSpeedPercent;
 
 	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
 		autoWallBones[bone] = Settings::Aimbot::weapons.at(index).autoWallBones[bone];
@@ -598,7 +598,7 @@ void AimbotTab()
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-					if (ImGui::SliderFloat("##AUTOSLOWMINDAMAGE", &autoSlowMinDamage, 0, 100, "Min Damage: %f"))
+					if (ImGui::SliderFloat("##AUTOSLOWSPEEDPERCENT", &autoSlowSpeedPercent, 0, 100, "Percent: %f"))
 						UI::UpdateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
