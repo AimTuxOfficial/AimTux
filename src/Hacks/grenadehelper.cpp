@@ -5,7 +5,7 @@
 #include "grenadehelper.h"
 using namespace GrenadeHelper;
 
-bool Settings::GrenadeHelper::enabled = true;//TODO: Move
+bool Settings::GrenadeHelper::enabled = true;
 std::vector<GrenadeHelper::GrenadeInfo> /**Settings::GrenadeHelper::**/grenadeInfos = { GrenadeInfo(GrenadeType::SMOKE, Vector(1149.4f,-1183.97f,-141.51f),QAngle(-39.49f,-171.85f,0f),ThrowType::CROUCH),
                                                                                   GrenadeInfo(GrenadeType::FLASH, Vector(803f,-1418f,-44.91f),QAngle(-30.49f,-178.85f,0f),ThrowType::NORMAL)};
 
@@ -52,6 +52,6 @@ void GrenadeHelper::FireGameEvent(IGameEvent* event)
         return;
 
     const char* mapname = event->GetString("mapname");
-    //load info for map
 
+    //load info for new map
 }

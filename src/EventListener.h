@@ -17,6 +17,7 @@ public:
 	void FireGameEvent(IGameEvent* event)
 	{
 		Aimbot::FireGameEvent(event);
+		GrenadeHelper::FireGameEvent(event);
 		Hitmarkers::FireGameEvent(event);
 		NameStealer::FireGameEvent(event);
 		Resolver::FireGameEvent(event);

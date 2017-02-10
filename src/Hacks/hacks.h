@@ -15,6 +15,7 @@
 #include "esp.h"
 #include "fakelag.h"
 #include "fovchanger.h"
+#include "grenadehelper.h"
 #include "hitmarkers.h"
 #include "jumpthrow.h"
 #include "namechanger.h"
