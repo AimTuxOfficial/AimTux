@@ -8,7 +8,7 @@ QAngle old_aim_punch_angle;
 
 void View::FrameStageNotify(ClientFrameStage_t stage)
 {
-	if (!Settings::View::NoAimPunch::enabled && !Settings::View::NoViewPunch::enabled)
+	if ((!Settings::View::NoAimPunch::enabled && !Settings::View::NoViewPunch::enabled) || !Settings::ESP::enabled)
 		return;
 
 	if (!engine->IsInGame())
@@ -48,7 +48,7 @@ void View::FrameStageNotify(ClientFrameStage_t stage)
 
 void View::PostFrameStageNotify(ClientFrameStage_t stage)
 {
-	if (!Settings::View::NoAimPunch::enabled && !Settings::View::NoViewPunch::enabled)
+	if ((!Settings::View::NoAimPunch::enabled && !Settings::View::NoViewPunch::enabled) || !Settings::ESP::enabled)
 		return;
 
 	if (!engine->IsInGame())

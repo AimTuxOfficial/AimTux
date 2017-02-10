@@ -131,13 +131,22 @@ void Hooker::FindIClientMode()
 void Hooker::FindGlobalVars()
 {
 	uintptr_t HudUpdate = reinterpret_cast<uintptr_t>(getvtable(client)[11]);
+
 	globalVars = *reinterpret_cast<CGlobalVars**>(GetAbsoluteAddress(HudUpdate + 13, 3, 7));
 }
 
 void Hooker::FindCInput()
 {
 	uintptr_t IN_ActivateMouse = reinterpret_cast<uintptr_t>(getvtable(client)[15]);
+
 	input = **reinterpret_cast<CInput***>(GetAbsoluteAddress(IN_ActivateMouse, 3, 7));
+}
+
+void Hooker::FindCGameServer()
+{
+	uintptr_t instruction_addr = PatternFinder::FindPatternInModule("engine_client.so", (unsigned char*) CGAMESERVER_SIGNATURE, CGAMESERVER_MASK);
+
+	sv = *reinterpret_cast<CGameServer**>(GetAbsoluteAddress(instruction_addr, 3, 7));
 }
 
 void Hooker::FindGlowManager()
