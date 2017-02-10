@@ -286,13 +286,19 @@ void Settings::LoadDefaultsOrSave(std::string path)
 
 	settings["Spammer"]["spammer_type"] = (int) Settings::Spammer::type;
 	settings["Spammer"]["say_team"] = Settings::Spammer::say_team;
+
 	settings["Spammer"]["KillSpammer"]["enabled"] = Settings::Spammer::KillSpammer::enabled;
 	settings["Spammer"]["KillSpammer"]["say_team"] = Settings::Spammer::KillSpammer::sayTeam;
-	settings["Spammer"]["KillSpammer"]["message"] = Settings::Spammer::KillSpammer::message;
-	Json::Value messages;
+	Json::Value killSpammerMessages;
+	for (auto it : Settings::Spammer::KillSpammer::messages)
+		killSpammerMessages.append(it);
+	settings["Spammer"]["KillSpammer"]["messages"] = killSpammerMessages;
+
+	Json::Value normalSpammerMessages;
 	for (auto it : Settings::Spammer::NormalSpammer::messages)
-		messages.append(it);
-	settings["Spammer"]["NormalSpammer"]["messages"] = messages;
+		normalSpammerMessages.append(it);
+	settings["Spammer"]["NormalSpammer"]["messages"] = normalSpammerMessages;
+
 	settings["Spammer"]["PositionSpammer"]["show_name"] = Settings::Spammer::PositionSpammer::showName;
 	settings["Spammer"]["PositionSpammer"]["show_weapon"] = Settings::Spammer::PositionSpammer::showWeapon;
 	settings["Spammer"]["PositionSpammer"]["show_rank"] = Settings::Spammer::PositionSpammer::showRank;
@@ -660,7 +666,12 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["Spammer"]["say_team"], &Settings::Spammer::say_team);
 	GetVal(settings["Spammer"]["KillSpammer"]["enabled"], &Settings::Spammer::KillSpammer::enabled);
 	GetVal(settings["Spammer"]["KillSpammer"]["say_team"], &Settings::Spammer::KillSpammer::sayTeam);
-	GetVal(settings["Spammer"]["KillSpammer"]["message"], &Settings::Spammer::KillSpammer::message);
+	if (!settings["Spammer"]["KillSpammer"]["messages"].isNull())
+	{
+		Settings::Spammer::KillSpammer::messages.clear();
+		for (const Json::Value& message : settings["Spammer"]["KillSpammer"]["messages"])
+			Settings::Spammer::KillSpammer::messages.push_back(message.asString());
+	}
 	if (!settings["Spammer"]["NormalSpammer"]["messages"].isNull())
 	{
 		Settings::Spammer::NormalSpammer::messages.clear();

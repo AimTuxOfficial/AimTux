@@ -4,7 +4,11 @@ SpammerType Settings::Spammer::type = SpammerType::SPAMMER_NONE;
 bool Settings::Spammer::say_team = false;
 bool Settings::Spammer::KillSpammer::enabled = false;
 bool Settings::Spammer::KillSpammer::sayTeam = false;
-char* Settings::Spammer::KillSpammer::message = strdup("$nick just got OWNED by AimTux!!");
+std::vector<std::string> Settings::Spammer::KillSpammer::messages = {
+		"$nick just got owned by AimTux",
+		"$nick watches anime",
+        // someone needs to add more
+};
 bool Settings::Spammer::RadioSpammer::enabled = false;
 std::vector<std::string> Settings::Spammer::NormalSpammer::messages = {
 		"AimTux owns me and all",
@@ -55,7 +59,8 @@ void Spammer::BeginFrame(float frameTime)
 		// Construct a command with our message
 		pstring str;
 		str << (Settings::Spammer::KillSpammer::sayTeam ? "say_team" : "say");
-		str << " \"" << Util::ReplaceString(Settings::Spammer::KillSpammer::message, "$nick", dead_player_name) << "\"";
+		std::string message = Settings::Spammer::KillSpammer::messages[std::rand() % Settings::Spammer::KillSpammer::messages.size()];
+		str << " \"" << Util::ReplaceString(message, "$nick", dead_player_name) << "\"";
 
 		// Execute our constructed command
 		engine->ExecuteClientCmd(str.c_str());

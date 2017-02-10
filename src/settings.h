@@ -587,9 +587,9 @@ namespace Settings
 
 		namespace KillSpammer
 		{
+			extern std::vector<std::string> messages;
 			extern bool enabled;
 			extern bool sayTeam;
-			extern char* message;
 		}
 
 		namespace RadioSpammer

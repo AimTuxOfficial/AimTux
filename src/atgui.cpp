@@ -1216,11 +1216,32 @@ void MiscTab()
 				if (ImGui::Button("Options###KILL"))
 					ImGui::OpenPopup("options_kill");
 
-				ImGui::SetNextWindowSize(ImVec2(565, 40), ImGuiSetCond_Always);
+				ImGui::SetNextWindowSize(ImVec2(565, 268), ImGuiSetCond_Always);
 				if (ImGui::BeginPopup("options_kill"))
 				{
+					static int killSpammerMessageCurrent = -1;
+					static char killSpammerMessageBuf[126];
+
+					ImGui::PushItemWidth(445);
+					ImGui::InputText("###SPAMMERMESSAGE", killSpammerMessageBuf, IM_ARRAYSIZE(killSpammerMessageBuf));
+					ImGui::PopItemWidth();
+					ImGui::SameLine();
+
+					if (ImGui::Button("Add"))
+					{
+						if (strlen(killSpammerMessageBuf) > 0)
+							Settings::Spammer::KillSpammer::messages.push_back(std::string(killSpammerMessageBuf));
+
+						strcpy(killSpammerMessageBuf, "");
+					}
+					ImGui::SameLine();
+
+					if (ImGui::Button("Remove"))
+						if (killSpammerMessageCurrent > -1 && (int) Settings::Spammer::KillSpammer::messages.size() > killSpammerMessageCurrent)
+							Settings::Spammer::KillSpammer::messages.erase(Settings::Spammer::KillSpammer::messages.begin() + killSpammerMessageCurrent);
+
 					ImGui::PushItemWidth(550);
-						ImGui::InputText("", Settings::Spammer::KillSpammer::message, 127);
+					ImGui::ListBox("", &killSpammerMessageCurrent, Settings::Spammer::KillSpammer::messages, 10);
 					ImGui::PopItemWidth();
 
 					ImGui::EndPopup();
