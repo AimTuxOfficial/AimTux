@@ -7,7 +7,6 @@ bool Settings::Spammer::KillSpammer::sayTeam = false;
 std::vector<std::string> Settings::Spammer::KillSpammer::messages = {
 		"$nick just got owned by AimTux",
 		"$nick watches anime",
-        // someone needs to add more
 };
 bool Settings::Spammer::RadioSpammer::enabled = false;
 std::vector<std::string> Settings::Spammer::NormalSpammer::messages = {
@@ -195,7 +194,6 @@ void Spammer::BeginFrame(float frameTime)
 	// Update the time stamp
 	timeStamp = currentTime_ms;
 }
-
 
 void Spammer::FireGameEvent(IGameEvent* event)
 {

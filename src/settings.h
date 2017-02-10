@@ -194,12 +194,8 @@ struct AimbotWeapon_t
 		this->autoSlow = _autoSlow;
 		this->autoSlowSpeedPercent = _autoSlowSpeedPercent;
 
-		if(_autoWallBones != nullptr)
-			for (int i = (int) Hitbox::HITBOX_HEAD; i <= (int) Hitbox::HITBOX_ARMS; i++)
-				this->autoWallBones[i] = _autoWallBones[i];
-		else
-			for (int i = (int) Hitbox::HITBOX_HEAD; i <= (int) Hitbox::HITBOX_ARMS; i++)
-				this->autoWallBones[i] = false;
+		for (int i = (int) Hitbox::HITBOX_HEAD; i <= (int) Hitbox::HITBOX_ARMS; i++)
+			this->autoWallBones[i] = _autoWallBones != nullptr ? _autoWallBones[i] : false;
 
 		this->autoAimRealDistance = _autoAimRealDistance;
 	}
@@ -587,9 +583,9 @@ namespace Settings
 
 		namespace KillSpammer
 		{
-			extern std::vector<std::string> messages;
 			extern bool enabled;
 			extern bool sayTeam;
+			extern std::vector<std::string> messages;
 		}
 
 		namespace RadioSpammer
