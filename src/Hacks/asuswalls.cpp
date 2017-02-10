@@ -47,7 +47,7 @@ void ASUSWalls::FrameStageNotify(ClientFrameStage_t stage)
 			worldMaterials2.emplace(i, ImColor(r, g, b, a));
 		}
 
-		ImColor color = Settings::ASUSWalls::enabled ? Settings::ASUSWalls::color : worldMaterials2.find(i)->second;
+		ImColor color = (Settings::ASUSWalls::enabled && Settings::ESP::enabled) ? Settings::ASUSWalls::color : worldMaterials2.find(i)->second;
 
 		if (worldMaterials.at(i) != color)
 		{
