@@ -873,7 +873,7 @@ void Settings::LoadGrenadeInfo(std::string path)
 	std::ifstream configDoc(path, std::ifstream::binary);
 	configDoc >> data;
 
-
+	cvar->ConsoleDPrintf("Smokes for this map loaded.\n");
 }
 
 void remove_directory(const char* path)

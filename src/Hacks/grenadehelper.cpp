@@ -180,7 +180,7 @@ void GrenadeHelper::CheckForUpdate()
 	{
 		if (config->name.compare(actMapName))
 			continue;
-		//TODO Load into infos
+		//Settings::LoadGrenadeInfo(config->path);
 		return;
 	}
 	Settings::GrenadeHelper::grenadeInfos = {};

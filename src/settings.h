@@ -835,5 +835,6 @@ namespace Settings
 	void LoadDefaultsOrSave(std::string path);
 	void LoadConfig(std::string path);
 	void LoadSettings();
+	void LoadGrenadeInfo(std::string path);
 	void DeleteConfig(std::string path);
 }
