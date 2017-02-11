@@ -488,6 +488,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	engine->GetViewAngles(oldAngle);
 	float oldForward = cmd->forwardmove;
 	float oldSideMove = cmd->sidemove;
+	bool bBSmoke = false;
 
 	QAngle angle = cmd->viewangles;
 
@@ -521,9 +522,11 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 		Vector pVecHead = localplayer->GetEyePosition();
 
 		if (Settings::Aimbot::SmokeCheck::enabled && LineGoesThroughSmoke(pVecHead, eVecHead, true))
-			return;
+		{
+			bBSmoke = true;
+		}
 
-		if (Settings::Aimbot::AutoAim::enabled)
+		if (Settings::Aimbot::AutoAim::enabled && !bBSmoke)
 		{
 			if (cmd->buttons & IN_ATTACK && !Settings::Aimbot::aimkeyOnly)
 				shouldAim = true;
