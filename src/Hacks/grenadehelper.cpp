@@ -1,6 +1,7 @@
 #include "grenadehelper.h"
 
 bool shotLastTick = false;
+pstring actMapName = pstring();
 bool Settings::GrenadeHelper::enabled = true;
 bool Settings::GrenadeHelper::onlyMatchingInfos = true;
 bool Settings::GrenadeHelper::aimAssist = false;
@@ -165,8 +166,30 @@ void GrenadeHelper::AimAssist(CUserCmd* cmd)
 	}
 }
 
+void GrenadeHelper::CheckForUpdate()
+{
+	if (!engine->IsInGame())
+		return;
+	if (!actMapName.compare(GetLocalClient(-1)->m_szLevelNameShort))
+		return;
+	actMapName = pstring(GetLocalClient(-1)->m_szLevelNameShort);
+	cvar->ConsoleDPrintf(actMapName.c_str());
+	//Update
+	std::vector<Config> gconfigs = GetConfigs(GetGhConfigDirectory().c_str());
+	for (auto config = gconfigs.begin(); config != gconfigs.end(); config++)
+	{
+		if (config->name.compare(actMapName))
+			continue;
+		//TODO Load into infos
+		return;
+	}
+	grenadeInfos = {};
+	cvar->ConsoleDPrintf("No Smokes for this map found.\n");
+}
+
 void GrenadeHelper::CreateMove(CUserCmd* cmd)
 {
+	GrenadeHelper::CheckForUpdate();
 	GrenadeHelper::AimAssist(cmd);
 	shotLastTick = cmd->buttons & IN_ATTACK;
 }
