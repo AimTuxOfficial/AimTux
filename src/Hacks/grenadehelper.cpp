@@ -140,7 +140,6 @@ void GrenadeHelper::AimAssist(CUserCmd* cmd)
 	if (!activeWeapon || activeWeapon->GetCSWpnData()->GetWeaponType() != CSWeaponType::WEAPONTYPE_GRENADE)
 		return;
 
-	// If he is shooting, he will not throw the Grenade
 	bool shootThisTick = cmd->buttons & IN_ATTACK;
 	if (!shootThisTick && !shotLastTick)
 		return;
@@ -181,16 +180,14 @@ void GrenadeHelper::CheckForUpdate()
 		return;
 	if (!Settings::GrenadeHelper::actMapName.compare(GetLocalClient(-1)->m_szLevelNameShort))
 		return;
+
 	Settings::GrenadeHelper::actMapName = pstring(GetLocalClient(-1)->m_szLevelNameShort);
-	std::vector<Config> gconfigs = GetConfigs(GetGhConfigDirectory().c_str());
-	for (auto config = gconfigs.begin(); config != gconfigs.end(); config++)
-	{
-		if (config->name.compare(Settings::GrenadeHelper::actMapName))
-			continue;
-		Settings::LoadGrenadeInfo(config->path.append("/config.json"));
-		return;
-	}
-	Settings::GrenadeHelper::grenadeInfos = {};
+	pstring path = GetGhConfigDirectory().append(Settings::GrenadeHelper::actMapName).append("/config.json");
+
+	if (DoesFileExist(path.c_str()))
+		Settings::LoadGrenadeInfo(path);
+	else
+		Settings::GrenadeHelper::grenadeInfos = {};
 }
 
 void GrenadeHelper::CreateMove(CUserCmd* cmd)

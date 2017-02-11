@@ -871,7 +871,7 @@ void Settings::SaveGrenadeInfo(std::string path)
 	{
 		Json::Value act;
 		act["name"] = grenadeInfo->name.c_str();
-		act["gType"] = grenadeInfo->gType;
+		act["gType"] = "Normal";//grenadeInfo->gType;
 
 		act["pos"]["x"] = grenadeInfo->pos.x;
 		act["pos"]["y"] = grenadeInfo->pos.y;
@@ -898,7 +898,7 @@ void Settings::LoadGrenadeInfo(std::string path)
 	Json::Value data;
 	std::ifstream configDoc(path, std::ifstream::binary);
 	try {
-		configDoc >> data;//crash
+		configDoc >> data;
 	}
 	catch (...)
 	{
