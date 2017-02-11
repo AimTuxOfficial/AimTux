@@ -863,16 +863,40 @@ void Settings::LoadSettings()
 		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 }
 
-
 void Settings::LoadGrenadeInfo(std::string path)
 {
-	if (!std::ifstream(path).good())
+	if (!std::ifstream(path).good() || !DoesFileExist(path.c_str()))
+	{
+		cvar->ConsoleDPrintf(path.c_str());
 		return;
-
+	}
 	Json::Value data;
 	std::ifstream configDoc(path, std::ifstream::binary);
-	configDoc >> data;
+	try {
+		configDoc >> data;//crash
+	}
+	catch (...)
+	{
+		cvar->ConsoleDPrintf("Error parsing the config file.");
+		return;
+	}
 
+	Json::Value array = data["smokeinfos"];
+	Settings::GrenadeHelper::grenadeInfos = {};
+
+	for(Json::Value::iterator it = array.begin(); it!=array.end(); ++it)
+	{
+		Json::Value act = *it;
+		const char* name = act["name"].asCString();
+		GrenadeType gType = getGrenadeType(act["gType"].asCString());
+		//const char*	tType = act["tType"].asCString();
+		Json::Value pos = act["pos"];
+		Vector posVec = Vector(pos["x"].asFloat(), pos["y"].asFloat(), pos["z"].asFloat());
+		Json::Value angle = act["angle"];
+		QAngle vAngle = QAngle(angle["x"].asFloat(), angle["y"].asFloat(), 0);
+
+		Settings::GrenadeHelper::grenadeInfos.push_back(GrenadeInfo(gType, posVec, vAngle, ThrowType::NORMAL, pstring(name)));
+	}
 	cvar->ConsoleDPrintf("Smokes for this map loaded.\n");
 }
 

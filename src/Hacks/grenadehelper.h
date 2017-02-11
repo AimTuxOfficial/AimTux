@@ -3,6 +3,7 @@
 #include "../SDK/SDK.h"
 #include "../settings.h"
 
+GrenadeType getGrenadeType(const char* v);
 namespace GrenadeHelper
 {
 	bool matches(C_BaseCombatWeapon* wpn, GrenadeType type);

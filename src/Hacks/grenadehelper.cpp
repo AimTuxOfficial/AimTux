@@ -13,10 +13,7 @@ ImColor Settings::GrenadeHelper::infoMolotov = ImColor(100, 20, 20, 255);
 ImColor Settings::GrenadeHelper::infoSmoke = ImColor(30, 30, 30, 255);
 ImColor Settings::GrenadeHelper::infoFlash = ImColor(255, 255, 0, 255);
 
-std::vector<GrenadeInfo> Settings::GrenadeHelper::grenadeInfos = {
-		GrenadeInfo(GrenadeType::SMOKE, Vector(1149.4f, -1183.97f, -141.51f), QAngle(-42.f, -165.f, 0.f), ThrowType::NORMAL, pstring("Smoke A Stairs")),
-		GrenadeInfo(GrenadeType::FLASH, Vector(803, -1418, -44.91f), QAngle(-30.49f, -178.85f, 0.f), ThrowType::NORMAL, pstring("Popflash A"))
-};
+std::vector<GrenadeInfo> Settings::GrenadeHelper::grenadeInfos = {};
 
 bool GrenadeHelper::matches(C_BaseCombatWeapon* wpn, GrenadeType type)
 {
@@ -34,6 +31,18 @@ bool GrenadeHelper::matches(C_BaseCombatWeapon* wpn, GrenadeType type)
 		default:
 			return false;
 	}
+}
+
+GrenadeType getGrenadeType(const char *v)
+{
+	if(!strcmp(v, "FLASH"))
+		return GrenadeType::FLASH;
+	if(!strcmp(v, "SMOKE"))
+		return GrenadeType::SMOKE;
+	if(!strcmp(v, "HE"))
+		return GrenadeType::HEGRENADE;
+	//if(!strcmp(v, "MOLOTOV"))
+	return GrenadeType::MOLOTOV;
 }
 
 ImColor GrenadeHelper::getColor(GrenadeType type)
@@ -104,6 +113,9 @@ void GrenadeHelper::Paint()
 	if (!activeWeapon || activeWeapon->GetCSWpnData()->GetWeaponType() != CSWeaponType::WEAPONTYPE_GRENADE)
 		return;
 
+	if (Settings::GrenadeHelper::grenadeInfos.empty())
+		return;
+
 	for (auto grenadeInfo = Settings::GrenadeHelper::grenadeInfos.begin(); grenadeInfo != Settings::GrenadeHelper::grenadeInfos.end(); grenadeInfo++)
 	{
 		if (Settings::GrenadeHelper::onlyMatchingInfos && !matches(activeWeapon,grenadeInfo->gType))
@@ -137,6 +149,9 @@ void GrenadeHelper::AimAssist(CUserCmd* cmd)
 	// If he is shooting, he will not throw the Grenade
 	bool shootThisTick = cmd->buttons & IN_ATTACK;
 	if (!shootThisTick && !shotLastTick)
+		return;
+
+	if (Settings::GrenadeHelper::grenadeInfos.empty())
 		return;
 
 	for (auto grenadeInfo = Settings::GrenadeHelper::grenadeInfos.begin(); grenadeInfo != Settings::GrenadeHelper::grenadeInfos.end(); grenadeInfo++)
@@ -180,7 +195,7 @@ void GrenadeHelper::CheckForUpdate()
 	{
 		if (config->name.compare(actMapName))
 			continue;
-		//Settings::LoadGrenadeInfo(config->path);
+		Settings::LoadGrenadeInfo(config->path.append("/config.json"));
 		return;
 	}
 	Settings::GrenadeHelper::grenadeInfos = {};
