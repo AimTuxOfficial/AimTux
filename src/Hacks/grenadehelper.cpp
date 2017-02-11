@@ -27,18 +27,6 @@ GrenadeType getGrenadeType(C_BaseCombatWeapon* wpn)
 	return GrenadeType::MOLOTOV;// "weapon_molotov", "weapon_incgrenade"
 }
 
-GrenadeType getGrenadeType(const char *v)
-{
-	if(!strcmp(v, "FLASH"))
-		return GrenadeType::FLASH;
-	if(!strcmp(v, "SMOKE"))
-		return GrenadeType::SMOKE;
-	if(!strcmp(v, "HE"))
-		return GrenadeType::HEGRENADE;
-	//if(!strcmp(v, "MOLOTOV"))
-	return GrenadeType::MOLOTOV;
-}
-
 ImColor GrenadeHelper::getColor(GrenadeType type)
 {
 	switch (type)
@@ -166,6 +154,8 @@ void GrenadeHelper::AimAssist(CUserCmd* cmd)
 		}
 		else if (!shootThisTick && shotLastTick)
 		{
+			if (grenadeInfo->tType == ThrowType::JUMP)
+				cmd->buttons &= IN_JUMP;
 			engine->SetViewAngles(grenadeInfo->angle);
 			// cmd->viewangles = grenadeInfo->angle;
 			// TODO Not working silent ;( maybe safe the value and Do it later or dont do it silent but smoother.

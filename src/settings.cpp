@@ -871,8 +871,8 @@ void Settings::SaveGrenadeInfo(std::string path)
 	{
 		Json::Value act;
 		act["name"] = grenadeInfo->name.c_str();
-		act["gType"] = "Normal";//grenadeInfo->gType;
-
+		act["gType"] = grenadeInfo->gType;
+		act["tType"] = grenadeInfo->tType;
 		act["pos"]["x"] = grenadeInfo->pos.x;
 		act["pos"]["y"] = grenadeInfo->pos.y;
 		act["pos"]["z"] = grenadeInfo->pos.z;
@@ -913,13 +913,13 @@ void Settings::LoadGrenadeInfo(std::string path)
 	{
 		Json::Value act = *it;
 		const char* name = act["name"].asCString();
-		GrenadeType gType = getGrenadeType(act["gType"].asCString());
-		//const char*	tType = act["tType"].asCString();
+		GrenadeType gType = (GrenadeType)act["gType"].asInt();
+		ThrowType tType = (ThrowType)act["tType"].asInt();
 		Json::Value pos = act["pos"];
 		Vector posVec = Vector(pos["x"].asFloat(), pos["y"].asFloat(), pos["z"].asFloat());
 		Json::Value angle = act["angle"];
 		QAngle vAngle = QAngle(angle["x"].asFloat(), angle["y"].asFloat(), 0);
-		Settings::GrenadeHelper::grenadeInfos.push_back(GrenadeInfo(gType, posVec, vAngle, ThrowType::NORMAL, pstring(name)));
+		Settings::GrenadeHelper::grenadeInfos.push_back(GrenadeInfo(gType, posVec, vAngle, tType, pstring(name)));
 	}
 }
 

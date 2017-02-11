@@ -3,7 +3,6 @@
 #include "../SDK/SDK.h"
 #include "../settings.h"
 
-GrenadeType getGrenadeType(const char* v);
 GrenadeType getGrenadeType(C_BaseCombatWeapon* wpn);
 
 namespace GrenadeHelper
