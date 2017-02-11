@@ -66,7 +66,9 @@ enum class AntiAimType_Y : int
 	LISP_JITTER,
 	ANGEL_BACKWARD,
 	ANGEL_INVERSE,
-	ANGEL_SPIN
+	ANGEL_SPIN,
+	JITTER_180,
+	BACK_JITTER
 };
 
 enum class AntiAimType_X : int
@@ -148,8 +150,8 @@ struct AimbotWeapon_t
 	SmoothType smoothType;
 	ButtonCode_t aimkey;
 	bool aimkeyOnly, smoothEnabled, smoothSaltEnabled, errorMarginEnabled, autoAimEnabled, aimStepEnabled, rcsEnabled, rcsAlwaysOn;
-	float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmountX, rcsAmountY, autoWallValue, autoSlowSpeedPercent;
-	bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallBones[6], autoAimRealDistance, autoSlow;
+	float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmountX, rcsAmountY, autoWallValue, autoSlowMinDamage;
+	bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smokeCheck, autoWallEnabled, autoWallBones[6], autoAimRealDistance, autoSlow;
 
 	AimbotWeapon_t(bool _enabled, bool _silent, bool _friendly, Bone _bone, ButtonCode_t _aimkey, bool _aimkeyOnly,
 		   bool _smoothEnabled, float _smoothValue, SmoothType _smoothType, bool _smoothSaltEnabled, float _smoothSaltMultiplier,
@@ -157,9 +159,7 @@ struct AimbotWeapon_t
 		   bool _autoAimEnabled, float _autoAimValue, bool _aimStepEnabled, float _aimStepValue,
 		   bool _rcsEnabled, bool _rcsAlwaysOn, float _rcsAmountX, float _rcsAmountY,
 		   bool _autoPistolEnabled, bool _autoShootEnabled, bool _autoScopeEnabled,
-		   bool _noShootEnabled, bool _ignoreJumpEnabled, bool _smokeCheck, bool _flashCheck,
-		   bool _autoWallEnabled, float _autoWallValue, bool _autoAimRealDistance, bool _autoSlow,
-		   float _autoSlowSpeedPercent, bool _autoWallBones[6] = nullptr)
+		   bool _noShootEnabled, bool _ignoreJumpEnabled, bool _smokeCheck, bool _autoWallEnabled, float _autoWallValue, bool _autoAimRealDistance, bool _autoSlow, float _autoSlowMinDamage, bool _autoWallBones[6] = nullptr)
 	{
 		this->enabled = _enabled;
 		this->silent = _silent;
@@ -188,14 +188,17 @@ struct AimbotWeapon_t
 		this->noShootEnabled = _noShootEnabled;
 		this->ignoreJumpEnabled = _ignoreJumpEnabled;
 		this->smokeCheck = _smokeCheck;
-		this->flashCheck = _flashCheck;
 		this->autoWallEnabled = _autoWallEnabled;
 		this->autoWallValue = _autoWallValue;
 		this->autoSlow = _autoSlow;
-		this->autoSlowSpeedPercent = _autoSlowSpeedPercent;
+		this->autoSlowMinDamage = _autoSlowMinDamage;
 
-		for (int i = (int) Hitbox::HITBOX_HEAD; i <= (int) Hitbox::HITBOX_ARMS; i++)
-			this->autoWallBones[i] = _autoWallBones != nullptr ? _autoWallBones[i] : false;
+		if(_autoWallBones != nullptr)
+			for (int i = (int) Hitbox::HITBOX_HEAD; i <= (int) Hitbox::HITBOX_ARMS; i++)
+				this->autoWallBones[i] = _autoWallBones[i];
+		else
+			for (int i = (int) Hitbox::HITBOX_HEAD; i <= (int) Hitbox::HITBOX_ARMS; i++)
+				this->autoWallBones[i] = false;
 
 		this->autoAimRealDistance = _autoAimRealDistance;
 	}
@@ -297,7 +300,7 @@ namespace Settings
 		namespace AutoSlow
 		{
 			extern bool enabled;
-			extern float speedPercent;
+			extern float minDamage;
 		}
 
 		namespace NoShoot
@@ -311,11 +314,6 @@ namespace Settings
 		}
 
 		namespace SmokeCheck
-		{
-			extern bool enabled;
-		}
-
-		namespace FlashCheck
 		{
 			extern bool enabled;
 		}
@@ -334,7 +332,6 @@ namespace Settings
 			extern bool allies;
 			extern bool walls;
 			extern bool smokeCheck;
-			extern bool flashCheck;
 			extern bool head;
 			extern bool chest;
 			extern bool stomach;
@@ -439,7 +436,6 @@ namespace Settings
 			extern bool legit;
 			extern bool visibilityCheck;
 			extern bool smokeCheck;
-			extern bool flashCheck;
 			extern bool enemies;
 			extern bool allies;
 			extern bool bomb;
@@ -585,7 +581,7 @@ namespace Settings
 		{
 			extern bool enabled;
 			extern bool sayTeam;
-			extern std::vector<std::string> messages;
+			extern char* message;
 		}
 
 		namespace RadioSpammer
