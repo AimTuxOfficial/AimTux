@@ -66,7 +66,9 @@ enum class AntiAimType_Y : int
 	LISP_JITTER,
 	ANGEL_BACKWARD,
 	ANGEL_INVERSE,
-	ANGEL_SPIN
+	ANGEL_SPIN,
+	JITTER_180,
+	BACK_JITTER
 };
 
 enum class AntiAimType_X : int
