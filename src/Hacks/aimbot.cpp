@@ -525,6 +525,9 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 		if (Settings::Aimbot::FlashCheck::enabled && localplayer->GetFlashBangTime() - globalVars->curtime > 2.0f)
 			skipPlayer = true;
 
+		if (skipPlayer)
+			player = nullptr;
+
 		if (Settings::Aimbot::AutoAim::enabled && !skipPlayer)
 		{
 			if (cmd->buttons & IN_ATTACK && !Settings::Aimbot::aimkeyOnly)
