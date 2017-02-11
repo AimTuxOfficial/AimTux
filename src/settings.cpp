@@ -866,10 +866,7 @@ void Settings::LoadSettings()
 void Settings::LoadGrenadeInfo(std::string path)
 {
 	if (!std::ifstream(path).good() || !DoesFileExist(path.c_str()))
-	{
-		cvar->ConsoleDPrintf(path.c_str());
 		return;
-	}
 	Json::Value data;
 	std::ifstream configDoc(path, std::ifstream::binary);
 	try {
@@ -877,7 +874,7 @@ void Settings::LoadGrenadeInfo(std::string path)
 	}
 	catch (...)
 	{
-		cvar->ConsoleDPrintf("Error parsing the config file.");
+		cvar->ConsoleDPrintf("Error parsing the config file.\n");
 		return;
 	}
 
@@ -894,10 +891,8 @@ void Settings::LoadGrenadeInfo(std::string path)
 		Vector posVec = Vector(pos["x"].asFloat(), pos["y"].asFloat(), pos["z"].asFloat());
 		Json::Value angle = act["angle"];
 		QAngle vAngle = QAngle(angle["x"].asFloat(), angle["y"].asFloat(), 0);
-
 		Settings::GrenadeHelper::grenadeInfos.push_back(GrenadeInfo(gType, posVec, vAngle, ThrowType::NORMAL, pstring(name)));
 	}
-	cvar->ConsoleDPrintf("Smokes for this map loaded.\n");
 }
 
 void remove_directory(const char* path)

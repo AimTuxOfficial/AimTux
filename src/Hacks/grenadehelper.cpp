@@ -175,7 +175,7 @@ void GrenadeHelper::AimAssist(CUserCmd* cmd)
 		{
 			engine->SetViewAngles(grenadeInfo->angle);
 			// cmd->viewangles = grenadeInfo->angle;
-			// TODO Not working ;( maybe safe the value and Do it later or dont do it silent.
+			// TODO Not working silent ;( maybe safe the value and Do it later or dont do it silent but smoother.
 		}
 		break;
 	}
@@ -188,8 +188,6 @@ void GrenadeHelper::CheckForUpdate()
 	if (!actMapName.compare(GetLocalClient(-1)->m_szLevelNameShort))
 		return;
 	actMapName = pstring(GetLocalClient(-1)->m_szLevelNameShort);
-	cvar->ConsoleDPrintf(actMapName.c_str());
-	//Update
 	std::vector<Config> gconfigs = GetConfigs(GetGhConfigDirectory().c_str());
 	for (auto config = gconfigs.begin(); config != gconfigs.end(); config++)
 	{
@@ -199,7 +197,6 @@ void GrenadeHelper::CheckForUpdate()
 		return;
 	}
 	Settings::GrenadeHelper::grenadeInfos = {};
-	cvar->ConsoleDPrintf("No Smokes for this map found.\n");
 }
 
 void GrenadeHelper::CreateMove(CUserCmd* cmd)
