@@ -2,7 +2,6 @@
 
 #include "../SDK/SDK.h"
 #include "../settings.h"
-#include "../GhConfig.h"
 
 namespace GrenadeHelper
 {
