@@ -199,6 +199,7 @@ static bool autoWallBones[] = { true, false, false, false, false, false };
 static bool autoAimRealDistance = false;
 static bool autoSlow = false;
 static float autoSlowSpeedPercent = 34.0f;
+static bool predEnabled = false;
 
 void UI::UpdateWeaponSettings()
 {
@@ -211,7 +212,8 @@ void UI::UpdateWeaponSettings()
 							   autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
 							   rcsEnabled, rcsAlwaysOn, rcsAmountX, rcsAmountY,
 							   autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
-							   noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, autoSlowSpeedPercent
+							   noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallValue, autoAimRealDistance,
+							   autoSlow, autoSlowSpeedPercent, predEnabled
 	};
 
 	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
@@ -259,6 +261,7 @@ void ReloadWeaponSettings()
 	autoAimRealDistance = Settings::Aimbot::weapons.at(index).autoAimRealDistance;
 	autoSlow = Settings::Aimbot::weapons.at(index).autoSlow;
 	autoSlowSpeedPercent = Settings::Aimbot::weapons.at(index).autoSlowSpeedPercent;
+	predEnabled = Settings::Aimbot::weapons.at(index).predEnabled;
 
 	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
 		autoWallBones[bone] = Settings::Aimbot::weapons.at(index).autoWallBones[bone];
@@ -573,6 +576,9 @@ void AimbotTab()
 				if (ImGui::Checkbox("Smoke Check", &smokeCheck))
 					UI::UpdateWeaponSettings();
 				SetTooltip("Ignore players that are blocked by smoke");
+				if (ImGui::Checkbox("Prediction", &predEnabled))
+					UI::UpdateWeaponSettings();
+				SetTooltip("Use velocity prediction");
 			}
 			ImGui::NextColumn();
 			{
