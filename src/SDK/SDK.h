@@ -32,6 +32,7 @@
 #include "ICvar.h"
 #include "IGameEvent.h"
 #include "ILocalize.h"
+#include "CGameServer.h"
 #include "CGlowObjectManager.h"
 #include "IPhysicsSurfaceProps.h"
 #include "CViewRender.h"

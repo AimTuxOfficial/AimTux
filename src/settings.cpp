@@ -124,10 +124,11 @@ void Settings::LoadDefaultsOrSave(std::string path)
 		weaponSetting["NoShoot"]["Enabled"] = i.second.noShootEnabled;
 		weaponSetting["IgnoreJump"]["Enabled"] = i.second.ignoreJumpEnabled;
 		weaponSetting["SmokeCheck"]["Enabled"] = i.second.smokeCheck;
+		weaponSetting["FlashCheck"]["Enabled"] = i.second.flashCheck;
 		weaponSetting["AutoWall"]["Enabled"] = i.second.autoWallEnabled;
 		weaponSetting["AutoWall"]["Value"] = i.second.autoWallValue;
 		weaponSetting["AutoSlow"]["enabled"] = i.second.autoSlow;
-		weaponSetting["AutoSlow"]["minDamage"] = i.second.autoSlowMinDamage;
+		weaponSetting["AutoSlow"]["speedPercent"] = i.second.autoSlowSpeedPercent;
 
 		for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
 			weaponSetting["AutoWall"]["Bones"][bone] = i.second.autoWallBones[bone];
@@ -147,6 +148,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Triggerbot"]["Filters"]["allies"] = Settings::Triggerbot::Filters::allies;
 	settings["Triggerbot"]["Filters"]["walls"] = Settings::Triggerbot::Filters::walls;
 	settings["Triggerbot"]["Filters"]["smoke_check"] = Settings::Triggerbot::Filters::smokeCheck;
+	settings["Triggerbot"]["Filters"]["flash_check"] = Settings::Triggerbot::Filters::flashCheck;
 	settings["Triggerbot"]["Filters"]["head"] = Settings::Triggerbot::Filters::head;
 	settings["Triggerbot"]["Filters"]["chest"] = Settings::Triggerbot::Filters::chest;
 	settings["Triggerbot"]["Filters"]["stomach"] = Settings::Triggerbot::Filters::stomach;
@@ -284,13 +286,19 @@ void Settings::LoadDefaultsOrSave(std::string path)
 
 	settings["Spammer"]["spammer_type"] = (int) Settings::Spammer::type;
 	settings["Spammer"]["say_team"] = Settings::Spammer::say_team;
+
 	settings["Spammer"]["KillSpammer"]["enabled"] = Settings::Spammer::KillSpammer::enabled;
 	settings["Spammer"]["KillSpammer"]["say_team"] = Settings::Spammer::KillSpammer::sayTeam;
-	settings["Spammer"]["KillSpammer"]["message"] = Settings::Spammer::KillSpammer::message;
-	Json::Value messages;
+	Json::Value killSpammerMessages;
+	for (auto it : Settings::Spammer::KillSpammer::messages)
+		killSpammerMessages.append(it);
+	settings["Spammer"]["KillSpammer"]["messages"] = killSpammerMessages;
+
+	Json::Value normalSpammerMessages;
 	for (auto it : Settings::Spammer::NormalSpammer::messages)
-		messages.append(it);
-	settings["Spammer"]["NormalSpammer"]["messages"] = messages;
+		normalSpammerMessages.append(it);
+	settings["Spammer"]["NormalSpammer"]["messages"] = normalSpammerMessages;
+
 	settings["Spammer"]["PositionSpammer"]["show_name"] = Settings::Spammer::PositionSpammer::showName;
 	settings["Spammer"]["PositionSpammer"]["show_weapon"] = Settings::Spammer::PositionSpammer::showWeapon;
 	settings["Spammer"]["PositionSpammer"]["show_rank"] = Settings::Spammer::PositionSpammer::showRank;
@@ -453,7 +461,7 @@ void Settings::LoadConfig(std::string path)
 	Fonts::SetupFonts();
 
 	Settings::Aimbot::weapons = {
-			{ ItemDefinitionIndex::INVALID, { false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f, false, false, false, false, false, false, false, 10.0f, false, false, 5.0f } },
+			{ ItemDefinitionIndex::INVALID, { false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f, false, false, false, false, false, false, false, false, 10.0f, false, false, 5.0f } },
 	};
 
 	for (Json::ValueIterator itr = settings["Aimbot"]["weapons"].begin(); itr != settings["Aimbot"]["weapons"].end(); itr++)
@@ -504,11 +512,12 @@ void Settings::LoadConfig(std::string path)
 				weaponSetting["NoShoot"]["Enabled"].asBool(),
 				weaponSetting["IgnoreJump"]["Enabled"].asBool(),
 				weaponSetting["SmokeCheck"]["Enabled"].asBool(),
+				weaponSetting["FlashCheck"]["Enabled"].asBool(),
 				weaponSetting["AutoWall"]["Enabled"].asBool(),
 				weaponSetting["AutoWall"]["Value"].asFloat(),
 				weaponSetting["AutoAim"]["RealDistance"].asBool(),
 				weaponSetting["AutoSlow"]["enabled"].asBool(),
-				weaponSetting["AutoSlow"]["minDamage"].asFloat()
+				weaponSetting["AutoSlow"]["speedPercent"].asFloat()
 		};
 
 		for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
@@ -527,6 +536,7 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["Triggerbot"]["Filters"]["allies"], &Settings::Triggerbot::Filters::allies);
 	GetVal(settings["Triggerbot"]["Filters"]["walls"], &Settings::Triggerbot::Filters::walls);
 	GetVal(settings["Triggerbot"]["Filters"]["smoke_check"], &Settings::Triggerbot::Filters::smokeCheck);
+	GetVal(settings["Triggerbot"]["Filters"]["flash_check"], &Settings::Triggerbot::Filters::flashCheck);
 	GetVal(settings["Triggerbot"]["Filters"]["head"], &Settings::Triggerbot::Filters::head);
 	GetVal(settings["Triggerbot"]["Filters"]["chest"], &Settings::Triggerbot::Filters::chest);
 	GetVal(settings["Triggerbot"]["Filters"]["stomach"], &Settings::Triggerbot::Filters::stomach);
@@ -666,7 +676,12 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["Spammer"]["say_team"], &Settings::Spammer::say_team);
 	GetVal(settings["Spammer"]["KillSpammer"]["enabled"], &Settings::Spammer::KillSpammer::enabled);
 	GetVal(settings["Spammer"]["KillSpammer"]["say_team"], &Settings::Spammer::KillSpammer::sayTeam);
-	GetVal(settings["Spammer"]["KillSpammer"]["message"], &Settings::Spammer::KillSpammer::message);
+	if (!settings["Spammer"]["KillSpammer"]["messages"].isNull())
+	{
+		Settings::Spammer::KillSpammer::messages.clear();
+		for (const Json::Value& message : settings["Spammer"]["KillSpammer"]["messages"])
+			Settings::Spammer::KillSpammer::messages.push_back(message.asString());
+	}
 	if (!settings["Spammer"]["NormalSpammer"]["messages"].isNull())
 	{
 		Settings::Spammer::NormalSpammer::messages.clear();

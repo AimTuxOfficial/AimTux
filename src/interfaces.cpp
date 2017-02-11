@@ -33,6 +33,7 @@ IEngineSound* sound = nullptr;
 ILocalize* localize = nullptr;
 ICommandLine* commandline = nullptr;
 CInput* input = nullptr;
+CGameServer* sv = nullptr;
 
 void Interfaces::FindInterfaces()
 {

@@ -192,12 +192,13 @@ static bool autoScopeEnabled = false;
 static bool noShootEnabled = false;
 static bool ignoreJumpEnabled = false;
 static bool smokeCheck = false;
+static bool flashCheck = false;
 static bool autoWallEnabled = false;
 static float autoWallValue = 10.0f;
 static bool autoWallBones[] = { true, false, false, false, false, false };
 static bool autoAimRealDistance = false;
 static bool autoSlow = false;
-static float autoSlowMinDamage = 5.0f;
+static float autoSlowSpeedPercent = 34.0f;
 
 void UI::UpdateWeaponSettings()
 {
@@ -210,7 +211,7 @@ void UI::UpdateWeaponSettings()
 							   autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
 							   rcsEnabled, rcsAlwaysOn, rcsAmountX, rcsAmountY,
 							   autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
-							   noShootEnabled, ignoreJumpEnabled, smokeCheck, autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, autoSlowMinDamage
+							   noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, autoSlowSpeedPercent
 	};
 
 	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
@@ -252,11 +253,12 @@ void ReloadWeaponSettings()
 	noShootEnabled = Settings::Aimbot::weapons.at(index).noShootEnabled;
 	ignoreJumpEnabled = Settings::Aimbot::weapons.at(index).ignoreJumpEnabled;
 	smokeCheck = Settings::Aimbot::weapons.at(index).smokeCheck;
+	flashCheck = Settings::Aimbot::weapons.at(index).flashCheck;
 	autoWallEnabled = Settings::Aimbot::weapons.at(index).autoWallEnabled;
 	autoWallValue = Settings::Aimbot::weapons.at(index).autoWallValue;
 	autoAimRealDistance = Settings::Aimbot::weapons.at(index).autoAimRealDistance;
 	autoSlow = Settings::Aimbot::weapons.at(index).autoSlow;
-	autoSlowMinDamage = Settings::Aimbot::weapons.at(index).autoSlowMinDamage;
+	autoSlowSpeedPercent = Settings::Aimbot::weapons.at(index).autoSlowSpeedPercent;
 
 	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
 		autoWallBones[bone] = Settings::Aimbot::weapons.at(index).autoWallBones[bone];
@@ -576,7 +578,7 @@ void AimbotTab()
 				SetTooltip("Prevents the camera from locking to an enemy, doesn't work for demos");
 				if (ImGui::Checkbox("Smoke Check", &smokeCheck))
 					UI::UpdateWeaponSettings();
-				SetTooltip("Ignore players that are in smoke");
+				SetTooltip("Ignore players that are blocked by smoke");
 			}
 			ImGui::NextColumn();
 			{
@@ -589,6 +591,9 @@ void AimbotTab()
 				if (ImGui::Checkbox("Ignore Jump", &ignoreJumpEnabled))
 					UI::UpdateWeaponSettings();
 				SetTooltip("Prevents you from aimbotting while jumping");
+				if (ImGui::Checkbox("Flash Check", &flashCheck))
+					UI::UpdateWeaponSettings();
+				SetTooltip("Disable aimbot while flashed");
 			}
 
 			ImGui::Columns(1);
@@ -604,7 +609,7 @@ void AimbotTab()
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-					if (ImGui::SliderFloat("##AUTOSLOWMINDAMAGE", &autoSlowMinDamage, 0, 100, "Min Damage: %f"))
+					if (ImGui::SliderFloat("##AUTOSLOWSPEEDPERCENT", &autoSlowSpeedPercent, 0, 100, "Percent: %f"))
 						UI::UpdateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
@@ -731,6 +736,8 @@ void TriggerbotTab()
 				SetTooltip("Trigger on allies");
 				ImGui::Checkbox("Smoke check", &Settings::Triggerbot::Filters::smokeCheck);
 				SetTooltip("Don't shoot through smokes");
+				ImGui::Checkbox("Flash check", &Settings::Triggerbot::Filters::flashCheck);
+				SetTooltip("Don't shoot while flashed");
 				ImGui::Checkbox("Stomach", &Settings::Triggerbot::Filters::stomach);
 				SetTooltip("Trigger on stomach");
 				ImGui::Checkbox("Arms", &Settings::Triggerbot::Filters::arms);
@@ -1215,11 +1222,32 @@ void MiscTab()
 				if (ImGui::Button("Options###KILL"))
 					ImGui::OpenPopup("options_kill");
 
-				ImGui::SetNextWindowSize(ImVec2(565, 40), ImGuiSetCond_Always);
+				ImGui::SetNextWindowSize(ImVec2(565, 268), ImGuiSetCond_Always);
 				if (ImGui::BeginPopup("options_kill"))
 				{
+					static int killSpammerMessageCurrent = -1;
+					static char killSpammerMessageBuf[126];
+
+					ImGui::PushItemWidth(445);
+					ImGui::InputText("###SPAMMERMESSAGE", killSpammerMessageBuf, IM_ARRAYSIZE(killSpammerMessageBuf));
+					ImGui::PopItemWidth();
+					ImGui::SameLine();
+
+					if (ImGui::Button("Add"))
+					{
+						if (strlen(killSpammerMessageBuf) > 0)
+							Settings::Spammer::KillSpammer::messages.push_back(std::string(killSpammerMessageBuf));
+
+						strcpy(killSpammerMessageBuf, "");
+					}
+					ImGui::SameLine();
+
+					if (ImGui::Button("Remove"))
+						if (killSpammerMessageCurrent > -1 && (int) Settings::Spammer::KillSpammer::messages.size() > killSpammerMessageCurrent)
+							Settings::Spammer::KillSpammer::messages.erase(Settings::Spammer::KillSpammer::messages.begin() + killSpammerMessageCurrent);
+
 					ImGui::PushItemWidth(550);
-						ImGui::InputText("", Settings::Spammer::KillSpammer::message, 127);
+					ImGui::ListBox("", &killSpammerMessageCurrent, Settings::Spammer::KillSpammer::messages, 10);
 					ImGui::PopItemWidth();
 
 					ImGui::EndPopup();
