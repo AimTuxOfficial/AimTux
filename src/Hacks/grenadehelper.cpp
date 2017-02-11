@@ -35,7 +35,7 @@ bool GrenadeHelper::matches(C_BaseCombatWeapon* wpn, GrenadeHelper::GrenadeType 
 	}
 }
 
-ImColor getColor(GrenadeHelper::GrenadeType type)
+ImColor GrenadeHelper::getColor(GrenadeHelper::GrenadeType type)
 {
 	switch (type)
 	{
