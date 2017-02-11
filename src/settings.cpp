@@ -832,7 +832,6 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["GrenadeHelper"]["enabled"], &Settings::GrenadeHelper::enabled);
 	GetVal(settings["GrenadeHelper"]["aimAssist"], &Settings::GrenadeHelper::aimAssist);
 	GetVal(settings["GrenadeHelper"]["OnlyMatching"], &Settings::GrenadeHelper::onlyMatchingInfos);
-
 }
 
 void Settings::LoadSettings()

@@ -823,6 +823,7 @@ namespace Settings
 		extern ImColor infoFlash;
 		extern ImColor infoMolotov;
 	}
+
 	void LoadDefaultsOrSave(std::string path);
 	void LoadConfig(std::string path);
 	void LoadSettings();

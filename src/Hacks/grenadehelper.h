@@ -12,6 +12,7 @@ namespace GrenadeHelper
 		MOLOTOV,
 		HEGRENADE
 	};
+
 	enum ThrowType : int
 	{
 		NORMAL,
@@ -19,13 +20,15 @@ namespace GrenadeHelper
 		JUMP,
 		CROUCH_JUMP
 	};
+
 	struct GrenadeInfo
 	{
 		GrenadeType gType;
 		Vector pos;
 		QAngle angle;
 		ThrowType tType;
-		GrenadeInfo(GrenadeType gType, Vector pos, QAngle angle,ThrowType tType){
+		GrenadeInfo(GrenadeType gType, Vector pos, QAngle angle,ThrowType tType)
+		{
 			this->gType = gType;
 			this->pos = pos;
 			this->angle = angle;
