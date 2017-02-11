@@ -1377,7 +1377,9 @@ void MiscTab()
 
 			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::InputText("##Name", Settings::GrenadeHelper::inputName, sizeof(Settings::GrenadeHelper::inputName));
+				ImGui::PushItemWidth(-1);
+					ImGui::InputText("##Name", Settings::GrenadeHelper::inputName, sizeof(Settings::GrenadeHelper::inputName));
+				ImGui::PopItemWidth();
 			}
 			ImGui::NextColumn();
 			{
@@ -1398,8 +1400,6 @@ void MiscTab()
 				}
 				SetTooltip("Adds a new throw using the current Angle, position and helpd Grenade.");
 			}
-			//TODO Maybe a Button that adds the current pose to the grenadeInfos
-
 			ImGui::Columns(1);
 			ImGui::Separator();
 			ImGui::EndChild();
