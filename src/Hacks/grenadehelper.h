@@ -42,7 +42,6 @@ namespace GrenadeHelper
 	void AimAssist(CUserCmd* cmd);
 	ImColor getColor(GrenadeType type);
 
-	void FireGameEvent(IGameEvent* event);//for loading new data for new Map
-	void CreateMove(CUserCmd* cmd);//Activly Help to perfect grenade?
-	void Paint();//Draw the Grenade Esp
+	void CreateMove(CUserCmd* cmd);//Activly Help to throw grenade
+	void Paint();//Draw the Grenade Helper Esp
 }

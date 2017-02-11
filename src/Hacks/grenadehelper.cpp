@@ -110,21 +110,6 @@ void GrenadeHelper::Paint()
 	}
 }
 
-void GrenadeHelper::FireGameEvent(IGameEvent* event)
-{
-	if (!Settings::GrenadeHelper::enabled)
-		return;
-
-	if (!engine->IsInGame())
-		return;
-
-	if (strcmp(event->GetName(), "game_newmap") != 0)
-		return;
-
-	//  const char* mapname = event->GetString("mapname");
-	//load info for new map
-}
-
 void GrenadeHelper::AimAssist(CUserCmd* cmd)
 {
 	if (!Settings::GrenadeHelper::aimAssist || !engine->IsInGame())
