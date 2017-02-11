@@ -1374,6 +1374,25 @@ void MiscTab()
 				ImGui::Checkbox("Only matching", &Settings::GrenadeHelper::onlyMatchingInfos);
 				SetTooltip("Shows the Smokes only when you have the right Grenade equipped.");
 			}
+
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::InputText("##Name", Settings::GrenadeHelper::inputName, sizeof(Settings::GrenadeHelper::inputName));
+			}
+			ImGui::NextColumn();
+			{
+				if (ImGui::Button("Add Throw") && engine->IsInGame())
+				{
+					C_BasePlayer* lp = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+					C_BaseCombatWeapon* wpn = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(lp->GetActiveWeapon());
+					GrenadeType gType = getGrenadeType(wpn);
+					GrenadeInfo gi = GrenadeInfo(gType, lp->GetEyePosition(), *lp->GetVAngles(), ThrowType::NORMAL, pstring(Settings::GrenadeHelper::inputName));
+					Settings::GrenadeHelper::grenadeInfos.push_back(gi);
+					pstring path = GetGhConfigDirectory().append(Settings::GrenadeHelper::actMapName).append("/config.json");
+					Settings::SaveGrenadeInfo(path);
+				}
+				SetTooltip("Adds a new throw using the current Angle, position and helpd Grenade.");
+			}
 			//TODO Maybe a Button that adds the current pose to the grenadeInfos
 
 			ImGui::Columns(1);

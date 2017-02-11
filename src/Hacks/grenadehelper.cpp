@@ -1,10 +1,11 @@
 #include "grenadehelper.h"
 
 bool shotLastTick = false;
-pstring actMapName = pstring();
+pstring Settings::GrenadeHelper::actMapName = pstring();
 bool Settings::GrenadeHelper::enabled = true;
 bool Settings::GrenadeHelper::onlyMatchingInfos = true;
 bool Settings::GrenadeHelper::aimAssist = false;
+char Settings::GrenadeHelper::inputName[20] = {};
 
 ImColor Settings::GrenadeHelper::aimLine = ImColor(200, 200, 200, 255);
 ImColor Settings::GrenadeHelper::aimDot = ImColor(10, 10, 200, 255);
@@ -15,22 +16,15 @@ ImColor Settings::GrenadeHelper::infoFlash = ImColor(255, 255, 0, 255);
 
 std::vector<GrenadeInfo> Settings::GrenadeHelper::grenadeInfos = {};
 
-bool GrenadeHelper::matches(C_BaseCombatWeapon* wpn, GrenadeType type)
+GrenadeType getGrenadeType(C_BaseCombatWeapon* wpn)
 {
-	switch (type)
-	{
-		case GrenadeType::HEGRENADE:
-			return strcmp(wpn->GetCSWpnData()->szClassName, "weapon_hegrenade") == 0;
-		case GrenadeType::SMOKE:
-			return strcmp(wpn->GetCSWpnData()->szClassName, "weapon_smokegrenade") == 0;
-		case GrenadeType::FLASH:
-			return strcmp(wpn->GetCSWpnData()->szClassName, "weapon_flashbang") == 0;
-		case GrenadeType::MOLOTOV:
-			return strcmp(wpn->GetCSWpnData()->szClassName, "weapon_molotov") == 0
-				   || strcmp(wpn->GetCSWpnData()->szClassName, "weapon_incgrenade") == 0;
-		default:
-			return false;
-	}
+	if (!strcmp(wpn->GetCSWpnData()->szClassName, "weapon_hegrenade"))
+		return GrenadeType::HEGRENADE;
+	if (!strcmp(wpn->GetCSWpnData()->szClassName, "weapon_smokegrenade"))
+		return GrenadeType::SMOKE;
+	if (!strcmp(wpn->GetCSWpnData()->szClassName, "weapon_flashbang"))
+		return GrenadeType::FLASH;
+	return GrenadeType::MOLOTOV;// "weapon_molotov", "weapon_incgrenade"
 }
 
 GrenadeType getGrenadeType(const char *v)
@@ -118,7 +112,7 @@ void GrenadeHelper::Paint()
 
 	for (auto grenadeInfo = Settings::GrenadeHelper::grenadeInfos.begin(); grenadeInfo != Settings::GrenadeHelper::grenadeInfos.end(); grenadeInfo++)
 	{
-		if (Settings::GrenadeHelper::onlyMatchingInfos && !matches(activeWeapon,grenadeInfo->gType))
+		if (Settings::GrenadeHelper::onlyMatchingInfos && getGrenadeType(activeWeapon) != grenadeInfo->gType)
 			continue;
 
 		float dist = grenadeInfo->pos.DistTo(localPlayer->GetVecOrigin());
@@ -156,7 +150,7 @@ void GrenadeHelper::AimAssist(CUserCmd* cmd)
 
 	for (auto grenadeInfo = Settings::GrenadeHelper::grenadeInfos.begin(); grenadeInfo != Settings::GrenadeHelper::grenadeInfos.end(); grenadeInfo++)
 	{
-		if (Settings::GrenadeHelper::onlyMatchingInfos && !matches(activeWeapon,grenadeInfo->gType))
+		if (Settings::GrenadeHelper::onlyMatchingInfos && getGrenadeType(activeWeapon) != grenadeInfo->gType)
 			continue;
 
 		float dist = Math::GetDistance(localPlayer->GetEyePosition(), grenadeInfo->pos);
@@ -185,13 +179,13 @@ void GrenadeHelper::CheckForUpdate()
 {
 	if (!engine->IsInGame())
 		return;
-	if (!actMapName.compare(GetLocalClient(-1)->m_szLevelNameShort))
+	if (!Settings::GrenadeHelper::actMapName.compare(GetLocalClient(-1)->m_szLevelNameShort))
 		return;
-	actMapName = pstring(GetLocalClient(-1)->m_szLevelNameShort);
+	Settings::GrenadeHelper::actMapName = pstring(GetLocalClient(-1)->m_szLevelNameShort);
 	std::vector<Config> gconfigs = GetConfigs(GetGhConfigDirectory().c_str());
 	for (auto config = gconfigs.begin(); config != gconfigs.end(); config++)
 	{
-		if (config->name.compare(actMapName))
+		if (config->name.compare(Settings::GrenadeHelper::actMapName))
 			continue;
 		Settings::LoadGrenadeInfo(config->path.append("/config.json"));
 		return;

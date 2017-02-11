@@ -830,6 +830,8 @@ namespace Settings
 		extern ImColor infoSmoke;
 		extern ImColor infoFlash;
 		extern ImColor infoMolotov;
+		extern pstring actMapName;
+		extern char inputName[20];
 	}
 
 	void LoadDefaultsOrSave(std::string path);

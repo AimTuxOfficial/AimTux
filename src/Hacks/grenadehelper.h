@@ -4,9 +4,10 @@
 #include "../settings.h"
 
 GrenadeType getGrenadeType(const char* v);
+GrenadeType getGrenadeType(C_BaseCombatWeapon* wpn);
+
 namespace GrenadeHelper
 {
-	bool matches(C_BaseCombatWeapon* wpn, GrenadeType type);
 	void DrawGrenadeInfo(GrenadeInfo* info);
 	void DrawAimHelp(GrenadeInfo* info);
 	void AimAssist(CUserCmd* cmd);
