@@ -1388,8 +1388,13 @@ void MiscTab()
 					GrenadeType gType = getGrenadeType(wpn);
 					GrenadeInfo gi = GrenadeInfo(gType, lp->GetEyePosition(), *lp->GetVAngles(), ThrowType::NORMAL, pstring(Settings::GrenadeHelper::inputName));
 					Settings::GrenadeHelper::grenadeInfos.push_back(gi);
-					pstring path = GetGhConfigDirectory().append(Settings::GrenadeHelper::actMapName).append("/config.json");
-					Settings::SaveGrenadeInfo(path);
+
+					pstring path = GetGhConfigDirectory() << Settings::GrenadeHelper::actMapName;
+					if (!DoesFileExist(path.c_str()))
+					{
+						mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+						Settings::SaveGrenadeInfo(path << "/config.json");
+					}
 				}
 				SetTooltip("Adds a new throw using the current Angle, position and helpd Grenade.");
 			}
