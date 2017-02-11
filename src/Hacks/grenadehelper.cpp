@@ -55,7 +55,7 @@ void GrenadeHelper::DrawGrenadeInfo(GrenadeInfo* info)
 	Vector pos2d;
 	if (debugOverlay->ScreenPosition(Vector(info->pos.x, info->pos.y, info->pos.z), pos2d))
 		return;
-	Draw::Circle(Vector2D(pos2d.x,pos2d.y),15,20,Color::FromImColor(getColor(info->gType)));
+	Draw::Circle(Vector2D(pos2d.x, pos2d.y), 15, 20, Color::FromImColor(getColor(info->gType)));
 }
 
 void GrenadeHelper::DrawAimHelp(GrenadeInfo* info)
