@@ -878,8 +878,7 @@ void Settings::SaveGrenadeInfo(std::string path)
 		act["pos"]["z"] = grenadeInfo->pos.z;
 
 		act["angle"]["x"] = grenadeInfo->angle.x;
-		act["angle"]["x"] = grenadeInfo->angle.y;
-
+		act["angle"]["y"] = grenadeInfo->angle.y;
 
 		grenadeInfos.append(act);
 	}
