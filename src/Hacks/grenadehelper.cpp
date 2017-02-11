@@ -13,8 +13,8 @@ ImColor Settings::GrenadeHelper::infoSmoke = ImColor(30, 30, 30, 255);
 ImColor Settings::GrenadeHelper::infoFlash = ImColor(255, 255, 0, 255);
 
 std::vector<GrenadeHelper::GrenadeInfo> /**Settings::GrenadeHelper::**/grenadeInfos = {
-		GrenadeHelper::GrenadeInfo(GrenadeHelper::GrenadeType::SMOKE, Vector(1149.4f, -1183.97f, -141.51f), QAngle(-42.f, -165.f, 0.f), GrenadeHelper::ThrowType::NORMAL),
-		GrenadeHelper::GrenadeInfo(GrenadeHelper::GrenadeType::FLASH, Vector(803, -1418, -44.91f), QAngle(-30.49f, -178.85f, 0.f), GrenadeHelper::ThrowType::NORMAL)
+		GrenadeHelper::GrenadeInfo(GrenadeHelper::GrenadeType::SMOKE, Vector(1149.4f, -1183.97f, -141.51f), QAngle(-42.f, -165.f, 0.f), GrenadeHelper::ThrowType::NORMAL, pstring("Smoke A Stairs")),
+		GrenadeHelper::GrenadeInfo(GrenadeHelper::GrenadeType::FLASH, Vector(803, -1418, -44.91f), QAngle(-30.49f, -178.85f, 0.f), GrenadeHelper::ThrowType::NORMAL, pstring("Popflash A"))
 };
 
 bool GrenadeHelper::matches(C_BaseCombatWeapon* wpn, GrenadeHelper::GrenadeType type)
@@ -58,7 +58,10 @@ void GrenadeHelper::DrawGrenadeInfo(GrenadeInfo* info)
 	if (debugOverlay->ScreenPosition(Vector(info->pos.x, info->pos.y, info->pos.z), pos2d))
 		return;
 
-	Draw::Circle(Vector2D(pos2d.x, pos2d.y), 15, 20, Color::FromImColor(getColor(info->gType)));
+	Color clr = Color::FromImColor(getColor(info->gType));
+	float radius = 20;
+	Draw::Circle(Vector2D(pos2d.x, pos2d.y), 15, radius, clr);
+	Draw::Text(pos2d.x + radius, pos2d.y, info->name.c_str(), esp_font, clr);
 }
 
 void GrenadeHelper::DrawAimHelp(GrenadeInfo* info)
