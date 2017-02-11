@@ -430,11 +430,11 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["GrenadeHelper"]["aimAssist"] = Settings::GrenadeHelper::aimAssist;
 	settings["GrenadeHelper"]["OnlyMatching"] = Settings::GrenadeHelper::onlyMatchingInfos;
 	LoadUIColor(settings["GrenadeHelper"]["aimDot"], Settings::GrenadeHelper::aimDot);
-	LoadUIColor(settings["GrenadeHelper"][""], Settings::GrenadeHelper::aimLine);
-	LoadUIColor(settings["GrenadeHelper"][""], Settings::GrenadeHelper::infoHE);
-	LoadUIColor(settings["GrenadeHelper"][""], Settings::GrenadeHelper::infoSmoke);
-	LoadUIColor(settings["GrenadeHelper"][""], Settings::GrenadeHelper::infoMolotov);
-	LoadUIColor(settings["GrenadeHelper"][""], Settings::GrenadeHelper::infoFlash);
+	LoadUIColor(settings["GrenadeHelper"]["aimLine"], Settings::GrenadeHelper::aimLine);
+	LoadUIColor(settings["GrenadeHelper"]["infoHe"], Settings::GrenadeHelper::infoHE);
+	LoadUIColor(settings["GrenadeHelper"]["infoSmoke"], Settings::GrenadeHelper::infoSmoke);
+	LoadUIColor(settings["GrenadeHelper"]["infoMolotov"], Settings::GrenadeHelper::infoMolotov);
+	LoadUIColor(settings["GrenadeHelper"]["infoFlash"], Settings::GrenadeHelper::infoFlash);
 
 	std::ofstream(path) << styledWriter.write(settings);
 }
@@ -861,6 +861,35 @@ void Settings::LoadSettings()
 
 	if (!DoesDirectoryExist(directory.c_str()))
 		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+}
+
+
+void Settings::SaveGrenadeInfo(std::string path)
+{
+	Json::Value grenadeInfos;
+	for (auto grenadeInfo = GrenadeHelper::grenadeInfos.begin(); grenadeInfo != GrenadeHelper::grenadeInfos.end(); grenadeInfo++)
+	{
+		Json::Value act;
+		act["name"] = grenadeInfo->name.c_str();
+		act["gType"] = grenadeInfo->gType;
+
+		act["pos"]["x"] = grenadeInfo->pos.x;
+		act["pos"]["y"] = grenadeInfo->pos.y;
+		act["pos"]["z"] = grenadeInfo->pos.z;
+
+		act["angle"]["x"] = grenadeInfo->angle.x;
+		act["angle"]["x"] = grenadeInfo->angle.y;
+
+
+		grenadeInfos.append(act);
+	}
+
+	Json::Value data;
+	Json::StyledWriter styledWriter;
+
+	data["smokeinfos"] = grenadeInfos;
+
+	std::ofstream(path) << styledWriter.write(data);
 }
 
 void Settings::LoadGrenadeInfo(std::string path)
