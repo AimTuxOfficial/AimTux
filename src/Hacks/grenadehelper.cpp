@@ -1,6 +1,5 @@
 #include "grenadehelper.h"
 
-using namespace GrenadeHelper;
 bool shotLastTick = false;
 bool Settings::GrenadeHelper::enabled = true;
 bool Settings::GrenadeHelper::onlyMatchingInfos = true;
@@ -13,19 +12,22 @@ ImColor Settings::GrenadeHelper::infoMolotov = ImColor(100, 20, 20, 255);
 ImColor Settings::GrenadeHelper::infoSmoke = ImColor(30, 30, 30, 255);
 ImColor Settings::GrenadeHelper::infoFlash = ImColor(255, 255, 0, 255);
 
-std::vector<GrenadeInfo> /**Settings::GrenadeHelper::**/grenadeInfos = { GrenadeInfo(GrenadeType::SMOKE, Vector(1149.4f,-1183.97f,-141.51f), QAngle(-42.f,-165.f,0.f), ThrowType::NORMAL),
-																		 GrenadeInfo(GrenadeType::FLASH, Vector(803,-1418,-44.91f), QAngle(-30.49f,-178.85f,0.f), ThrowType::NORMAL)};
-bool GrenadeHelper::matches(C_BaseCombatWeapon* wpn, GrenadeType type)
+std::vector<GrenadeHelper::GrenadeInfo> /**Settings::GrenadeHelper::**/grenadeInfos = {
+		GrenadeHelper::GrenadeInfo(GrenadeHelper::GrenadeType::SMOKE, Vector(1149.4f,-1183.97f,-141.51f), QAngle(-42.f,-165.f,0.f), GrenadeHelper::ThrowType::NORMAL),
+		GrenadeHelper::GrenadeInfo(GrenadeHelper::GrenadeType::FLASH, Vector(803,-1418,-44.91f), QAngle(-30.49f,-178.85f,0.f), GrenadeHelper::ThrowType::NORMAL)
+};
+
+bool GrenadeHelper::matches(C_BaseCombatWeapon* wpn, GrenadeHelper::GrenadeType type)
 {
 	switch (type)
 	{
-		case GrenadeType::HEGRENADE:
+		case GrenadeHelper::GrenadeType::HEGRENADE:
 			return strcmp(wpn->GetCSWpnData()->szClassName, "weapon_hegrenade") == 0;
-		case GrenadeType::SMOKE:
+		case GrenadeHelper::GrenadeType::SMOKE:
 			return strcmp(wpn->GetCSWpnData()->szClassName, "weapon_smokegrenade") == 0;
-		case GrenadeType::FLASH:
+		case GrenadeHelper::GrenadeType::FLASH:
 			return strcmp(wpn->GetCSWpnData()->szClassName, "weapon_flashbang") == 0;
-		case GrenadeType::MOLOTOV:
+		case GrenadeHelper::GrenadeType::MOLOTOV:
 			return strcmp(wpn->GetCSWpnData()->szClassName, "weapon_molotov") == 0
 					|| strcmp(wpn->GetCSWpnData()->szClassName, "weapon_incgrenade") == 0;
 		default:
@@ -33,17 +35,17 @@ bool GrenadeHelper::matches(C_BaseCombatWeapon* wpn, GrenadeType type)
 	}
 }
 
-ImColor getColor(GrenadeType type)
+ImColor getColor(GrenadeHelper::GrenadeType type)
 {
 	switch (type)
 	{
-		case GrenadeType::HEGRENADE:
+		case GrenadeHelper::GrenadeType::HEGRENADE:
 			return Settings::GrenadeHelper::infoHE;
-		case GrenadeType::SMOKE:
+		case GrenadeHelper::GrenadeType::SMOKE:
 			return Settings::GrenadeHelper::infoSmoke;
-		case GrenadeType::FLASH:
+		case GrenadeHelper::GrenadeType::FLASH:
 			return Settings::GrenadeHelper::infoFlash;
-		case GrenadeType::MOLOTOV:
+		case GrenadeHelper::GrenadeType::MOLOTOV:
 			return Settings::GrenadeHelper::infoMolotov;
 	}
 }
@@ -68,8 +70,8 @@ void GrenadeHelper::DrawAimHelp(GrenadeInfo* info)
 	Vector2D pos2d(posVec.x, posVec.y);
 	Draw::FilledCircle(pos2d, 20, 5, Color::FromImColor(Settings::GrenadeHelper::aimDot));//Draw Point to Throw to
 
-	int w,h;
-	engine->GetScreenSize(w,h);
+	int w, h;
+	engine->GetScreenSize(w, h);
 	Draw::Line(Vector2D(w / 2, h / 2), pos2d, Color::FromImColor(Settings::GrenadeHelper::aimLine));//Draw Help line
 }
 
@@ -99,11 +101,11 @@ void GrenadeHelper::Paint()
 		float dist = grenadeInfo->pos.DistTo(localplayer->GetVecOrigin());
 		if (dist > 10000)
 			continue;
-		DrawGrenadeInfo(grenadeInfo.base());
+		GrenadeHelper::DrawGrenadeInfo(grenadeInfo.base());
 
 		if (dist < 75)
 		{
-			DrawAimHelp(grenadeInfo.base());
+			GrenadeHelper::DrawAimHelp(grenadeInfo.base());
 		}
 	}
 }
@@ -143,7 +145,7 @@ void GrenadeHelper::AimAssist(CUserCmd* cmd)
 
 	for (auto grenadeInfo = grenadeInfos.begin(); grenadeInfo != grenadeInfos.end(); grenadeInfo++)
 	{
-		if (onlyMatchingInfos && !matches(activeWeapon,grenadeInfo->gType))
+		if (Settings::GrenadeHelper::onlyMatchingInfos && !matches(activeWeapon,grenadeInfo->gType))
 			continue;
 		float dist = Math::GetDistance(localplayer->GetEyePosition(), grenadeInfo->pos);
 		if (dist > 75.f)
@@ -158,17 +160,17 @@ void GrenadeHelper::AimAssist(CUserCmd* cmd)
 			//Todo make it not change the viewangles. Pretty Ghetto atm
 		}
 		else if (!shootThisTick && shotLastTick)
-			{
-				engine->SetViewAngles(grenadeInfo->angle);
-				//cmd->viewangles = grenadeInfo->angle;
-				//TODO Not working ;( maybe safe the value and Do it later or dont do it silent.
-			}
+		{
+			engine->SetViewAngles(grenadeInfo->angle);
+			//cmd->viewangles = grenadeInfo->angle;
+			//TODO Not working ;( maybe safe the value and Do it later or dont do it silent.
+		}
 		break;
 	}
 }
 
 void GrenadeHelper::CreateMove(CUserCmd* cmd)
 {
-	AimAssist(cmd);
+	GrenadeHelper::AimAssist(cmd);
 	shotLastTick = cmd->buttons & IN_ATTACK;
 }
