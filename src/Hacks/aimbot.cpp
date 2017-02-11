@@ -508,22 +508,24 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	if (weaponType == CSWeaponType::WEAPONTYPE_C4 || weaponType == CSWeaponType::WEAPONTYPE_GRENADE || weaponType == CSWeaponType::WEAPONTYPE_KNIFE)
 		return;
 
-	if (Settings::Aimbot::FlashCheck::enabled && localplayer->GetFlashBangTime() - globalVars->curtime > 2.0f)
-		return;
-
 	Bone aw_bone;
 	float bestDamage = 0.0f;
 	C_BasePlayer* player = GetClosestPlayer(cmd, true, aw_bone, bestDamage);
 
 	if (player)
 	{
+		bool skipPlayer = false;
+
 		Vector eVecHead = player->GetBonePosition((int) aw_bone);
 		Vector pVecHead = localplayer->GetEyePosition();
 
 		if (Settings::Aimbot::SmokeCheck::enabled && LineGoesThroughSmoke(pVecHead, eVecHead, true))
-			return;
+			skipPlayer = true;
 
-		if (Settings::Aimbot::AutoAim::enabled)
+		if (Settings::Aimbot::FlashCheck::enabled && localplayer->GetFlashBangTime() - globalVars->curtime > 2.0f)
+			skipPlayer = true;
+
+		if (Settings::Aimbot::AutoAim::enabled && !skipPlayer)
 		{
 			if (cmd->buttons & IN_ATTACK && !Settings::Aimbot::aimkeyOnly)
 				shouldAim = true;
@@ -540,6 +542,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 			}
 		}
 	}
+
 	Aimbot::AimStep(player, angle, cmd);
 	Aimbot::AutoCrouch(player, cmd);
 	Aimbot::AutoSlow(player, oldForward, oldSideMove, activeWeapon, cmd);
