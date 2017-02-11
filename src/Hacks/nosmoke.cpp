@@ -3,10 +3,10 @@
 bool Settings::NoSmoke::enabled = false;
 
 std::vector<const char*> smoke_materials = {
-	"particle/vistasmokev1/vistasmokev1_fire",
-	"particle/vistasmokev1/vistasmokev1_smokegrenade",
-	"particle/vistasmokev1/vistasmokev1_emods",
-	"particle/vistasmokev1/vistasmokev1_emods_impactdust",
+		"particle/vistasmokev1/vistasmokev1_fire",
+		"particle/vistasmokev1/vistasmokev1_smokegrenade",
+		"particle/vistasmokev1/vistasmokev1_emods",
+		"particle/vistasmokev1/vistasmokev1_emods_impactdust",
 };
 
 bool NoSmoke::RenderSmokePostViewmodel()
