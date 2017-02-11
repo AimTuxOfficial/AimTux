@@ -17,6 +17,7 @@
 #include "Utils/util_sdk.h"
 #include "config.h"
 #include "atgui.h"
+#include "Hacks/grenadehelper.h"
 
 enum class SmoothType : int
 {
@@ -819,6 +820,7 @@ namespace Settings
 
 	namespace GrenadeHelper
 	{
+		extern std::vector<GrenadeInfo> grenadeInfos;
 		extern bool enabled;
 		extern bool onlyMatchingInfos;
 		extern bool aimAssist;

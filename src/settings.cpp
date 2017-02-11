@@ -863,6 +863,19 @@ void Settings::LoadSettings()
 		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 }
 
+
+void Settings::LoadGrenadeInfo(std::string path)
+{
+	if (!std::ifstream(path).good())
+		return;
+
+	Json::Value data;
+	std::ifstream configDoc(path, std::ifstream::binary);
+	configDoc >> data;
+
+
+}
+
 void remove_directory(const char* path)
 {
 	DIR* dir;
