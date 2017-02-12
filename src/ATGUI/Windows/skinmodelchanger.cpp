@@ -48,23 +48,55 @@ void ModelsTab()
 	ImGui::Separator();
 
 	ImGui::Columns(2);
-	{
-		ImGui::Text("Counter Terrorist Models");
-	}
+
+	ImGui::Text("Counter Terrorist Models");
 	ImGui::NextColumn();
-	{
-		ImGui::Text("Terrorist Models");
-	}
+
+	ImGui::Text("Terrorist Models");
 	ImGui::Columns(1);
 	ImGui::Separator();
 
-	ImGui::Columns(4, NULL, true);
-	{
-		ImGui::Text("Original");
-		ImGui::PushItemWidth(-1);
+	ImGui::Columns(4);
+
+	ImGui::Text("Original");
+	ImGui::NextColumn();
+
+	ImGui::Text("Replacement");
+	ImGui::NextColumn();
+
+	ImGui::Text("Original");
+	ImGui::NextColumn();
+
+	ImGui::Text("Replacment");
+	ImGui::Columns(1);
+
+	ImGui::Columns(4);
+
+	ImGui::PushItemWidth(-1);
 		ImGui::InputText("##filterOriginalModelCT", filterOriginalModelsCT, IM_ARRAYSIZE(filterOriginalModelsCT));
-		ImGui::PopItemWidth();
-		ImGui::ListBoxHeader("##originalModelsCT", ImVec2(-1, 300));
+	ImGui::PopItemWidth();
+	ImGui::NextColumn();
+
+	ImGui::PushItemWidth(-1);
+		ImGui::InputText("##filterReplacementModelCT", filterReplacementModelsCT, IM_ARRAYSIZE(filterReplacementModelsCT));
+	ImGui::PopItemWidth();
+	ImGui::NextColumn();
+
+	ImGui::PushItemWidth(-1);
+		ImGui::InputText("##filterOriginalModelT", filterOriginalModelsT, IM_ARRAYSIZE(filterOriginalModelsT));
+	ImGui::PopItemWidth();
+	ImGui::NextColumn();
+
+	ImGui::PushItemWidth(-1);
+		ImGui::InputText("##filterReplacementModelT", filterReplacementModelsT, IM_ARRAYSIZE(filterReplacementModelsT));
+	ImGui::PopItemWidth();
+	ImGui::Columns(1);
+
+	ImGui::Columns(4);
+
+	ImGui::GetCurrentContext()->FontBaseSize = 14.0f;
+	ImGui::ListBoxHeader("##originalModelsCT", ImVec2(-1, 300));
+		ImGui::Columns(2);
 		for (auto model : ItemDefinitionIndexMap)
 		{
 			if (!Util::Contains(Util::ToLower(std::string(filterOriginalModelsCT)), Util::ToLower(Util::Items::GetItemDisplayName(model.first))))
@@ -73,24 +105,24 @@ void ModelsTab()
 				continue;
 			const bool item_selected = ((int) model.first == originalModelCT);
 			ImGui::PushID((int)model.first);
-			std::string formattedName;
-			formattedName = Util::Items::GetItemDisplayName(model.first) + " (" + Util::Items::GetItemEntityName(model.first) + ")";
-			if (ImGui::Selectable(formattedName.c_str(), item_selected))
-			{
-				originalModelCT = (int)model.first;
-				replacementModelCT = (int)Settings::Skinchanger::skinsCT.at(model.first).itemDefinitionIndex;
-			}
+				if (ImGui::Selectable(Util::Items::GetItemDisplayName(model.first).c_str(), item_selected, ImGuiSelectableFlags_SpanAllColumns))
+				{
+					originalModelCT = (int)model.first;
+					replacementModelCT = (int)Settings::Skinchanger::skinsCT.at(model.first).itemDefinitionIndex;
+				}
+				ImGui::NextColumn();
+
+				ImGui::Text(Util::Items::GetItemEntityName(model.first).c_str());
+				ImGui::NextColumn();
+
+				ImGui::Separator();
 			ImGui::PopID();
 		}
-		ImGui::ListBoxFooter();
-	}
+	ImGui::ListBoxFooter();
 	ImGui::NextColumn();
-	{
-		ImGui::Text("Replacement");
-		ImGui::PushItemWidth(-1);
-		ImGui::InputText("##filterReplacementModelCT", filterReplacementModelsCT, IM_ARRAYSIZE(filterReplacementModelsCT));
-		ImGui::PopItemWidth();
-		ImGui::ListBoxHeader("##replacementModelsCT", ImVec2(-1, 300));
+
+	ImGui::ListBoxHeader("##replacementModelsCT", ImVec2(-1, 300));
+		ImGui::Columns(2);
 		for (auto model : ItemDefinitionIndexMap)
 		{
 			if (!Util::Contains(Util::ToLower(std::string(filterReplacementModelsCT)), Util::ToLower(Util::Items::GetItemDisplayName(model.first))))
@@ -110,21 +142,21 @@ void ModelsTab()
 			}
 			const bool item_selected = ((int) model.first == replacementModelCT);
 			ImGui::PushID((int)model.first);
-			std::string formattedName;
-			formattedName = Util::Items::GetItemDisplayName(model.first) + " (" + Util::Items::GetItemEntityName(model.first) + ")";
-			if (ImGui::Selectable(formattedName.c_str(), item_selected))
-				replacementModelCT = (int)model.first;
+				if (ImGui::Selectable(Util::Items::GetItemDisplayName(model.first).c_str(), item_selected, ImGuiSelectableFlags_SpanAllColumns))
+					replacementModelCT = (int)model.first;
+				ImGui::NextColumn();
+
+				ImGui::Text(Util::Items::GetItemEntityName(model.first).c_str());
+				ImGui::NextColumn();
+
+				ImGui::Separator();
 			ImGui::PopID();
 		}
-		ImGui::ListBoxFooter();
-	}
+	ImGui::ListBoxFooter();
 	ImGui::NextColumn();
-	{
-		ImGui::Text("Original");
-		ImGui::PushItemWidth(-1);
-		ImGui::InputText("##filterOriginalModelT", filterOriginalModelsT, IM_ARRAYSIZE(filterOriginalModelsT));
-		ImGui::PopItemWidth();
-		ImGui::ListBoxHeader("##originalModelsT", ImVec2(-1, 300));
+
+	ImGui::ListBoxHeader("##originalModelsT", ImVec2(-1, 300));
+		ImGui::Columns(2);
 		for (auto model : ItemDefinitionIndexMap)
 		{
 			if (!Util::Contains(Util::ToLower(std::string(filterOriginalModelsT)), Util::ToLower(Util::Items::GetItemDisplayName(model.first))))
@@ -133,24 +165,24 @@ void ModelsTab()
 				continue;
 			const bool item_selected = ((int) model.first == originalModelT);
 			ImGui::PushID((int)model.first);
-			std::string formattedName;
-			formattedName = Util::Items::GetItemDisplayName(model.first) + " (" + Util::Items::GetItemEntityName(model.first) + ")";
-			if (ImGui::Selectable(formattedName.c_str(), item_selected))
-			{
-				originalModelT = (int)model.first;
-				replacementModelT = (int)Settings::Skinchanger::skinsT.at(model.first).itemDefinitionIndex;
-			}
+				if (ImGui::Selectable(Util::Items::GetItemDisplayName(model.first).c_str(), item_selected, ImGuiSelectableFlags_SpanAllColumns))
+				{
+					originalModelT = (int)model.first;
+					replacementModelT = (int)Settings::Skinchanger::skinsT.at(model.first).itemDefinitionIndex;
+				}
+				ImGui::NextColumn();
+
+				ImGui::Text(Util::Items::GetItemEntityName(model.first).c_str());
+				ImGui::NextColumn();
+
+				ImGui::Separator();
 			ImGui::PopID();
 		}
-		ImGui::ListBoxFooter();
-	}
+	ImGui::ListBoxFooter();
 	ImGui::NextColumn();
-	{
-		ImGui::Text("Replacement");
-		ImGui::PushItemWidth(-1);
-		ImGui::InputText("##filterReplacementModelT", filterReplacementModelsT, IM_ARRAYSIZE(filterReplacementModelsT));
-		ImGui::PopItemWidth();
-		ImGui::ListBoxHeader("##replacementModelsT", ImVec2(-1, 300));
+
+	ImGui::ListBoxHeader("##replacementModelsT", ImVec2(-1, 300));
+		ImGui::Columns(2);
 		for (auto model : ItemDefinitionIndexMap)
 		{
 			if (!Util::Contains(Util::ToLower(std::string(filterReplacementModelsT)), Util::ToLower(Util::Items::GetItemDisplayName(model.first))))
@@ -170,41 +202,46 @@ void ModelsTab()
 			}
 			const bool item_selected = ((int) model.first == replacementModelT);
 			ImGui::PushID((int)model.first);
-			std::string formattedName;
-			formattedName = Util::Items::GetItemDisplayName(model.first) + " (" + Util::Items::GetItemEntityName(model.first) + ")";
-			if (ImGui::Selectable(formattedName.c_str(), item_selected))
-				replacementModelT = (int)model.first;
+				if (ImGui::Selectable(Util::Items::GetItemDisplayName(model.first).c_str(), item_selected, ImGuiSelectableFlags_SpanAllColumns))
+					replacementModelT = (int)model.first;
+				ImGui::NextColumn();
+
+				ImGui::Text(Util::Items::GetItemEntityName(model.first).c_str());
+				ImGui::NextColumn();
+
+				ImGui::Separator();
 			ImGui::PopID();
 		}
-		ImGui::ListBoxFooter();
-	}
+	ImGui::GetCurrentContext()->FontBaseSize = 18.0f; // Has to go specifically here, or it wont reset the size.
+	ImGui::ListBoxFooter();
+
 	ImGui::Columns(1);
 	ImGui::Separator();
+
 	ImGui::Columns(2);
+
+	if(ImGui::Button("Apply", ImVec2(-1, 0)))
 	{
-		if(ImGui::Button("Apply", ImVec2(-1, 0)))
-		{
-			if (Settings::Skinchanger::skinsCT.find((ItemDefinitionIndex)originalModelCT) == Settings::Skinchanger::skinsCT.end())
-				Settings::Skinchanger::skinsCT[(ItemDefinitionIndex)originalModelCT] = AttribItem_t();
+		if (Settings::Skinchanger::skinsCT.find((ItemDefinitionIndex)originalModelCT) == Settings::Skinchanger::skinsCT.end())
+			Settings::Skinchanger::skinsCT[(ItemDefinitionIndex)originalModelCT] = AttribItem_t();
 
-			Settings::Skinchanger::skinsCT.at((ItemDefinitionIndex)originalModelCT).itemDefinitionIndex = (ItemDefinitionIndex) replacementModelCT;
+		Settings::Skinchanger::skinsCT.at((ItemDefinitionIndex)originalModelCT).itemDefinitionIndex = (ItemDefinitionIndex) replacementModelCT;
 
-			SkinChanger::forceFullUpdate = true;
-		}
+		SkinChanger::forceFullUpdate = true;
 	}
 	ImGui::NextColumn();
+
+	if(ImGui::Button("Apply", ImVec2(-1, 0)))
 	{
-		if(ImGui::Button("Apply", ImVec2(-1, 0)))
-		{
-			if (Settings::Skinchanger::skinsT.find((ItemDefinitionIndex)originalModelT) == Settings::Skinchanger::skinsT.end())
-				Settings::Skinchanger::skinsT[(ItemDefinitionIndex)originalModelT] = AttribItem_t();
+		if (Settings::Skinchanger::skinsT.find((ItemDefinitionIndex)originalModelT) == Settings::Skinchanger::skinsT.end())
+			Settings::Skinchanger::skinsT[(ItemDefinitionIndex)originalModelT] = AttribItem_t();
 
-			Settings::Skinchanger::skinsT.at((ItemDefinitionIndex)originalModelT).itemDefinitionIndex = (ItemDefinitionIndex)replacementModelT;
+		Settings::Skinchanger::skinsT.at((ItemDefinitionIndex)originalModelT).itemDefinitionIndex = (ItemDefinitionIndex)replacementModelT;
 
-			SkinChanger::forceFullUpdate = true;
-		}
+		SkinChanger::forceFullUpdate = true;
 	}
 	ImGui::Columns(1);
+
 	ImGui::Separator();
 }
 
@@ -212,7 +249,7 @@ void SkinsTab()
 {
 	static int modelCT = 1;
 	static int modelSkinCT = 1;
-	static float skinWearCT = 0.005f;
+	static float skinWearCT = 0.0005f;
 	static int skinSeedCT = -1;
 	static int skinStatTrakCT = -1;
 	static char skinNameCT[18];
@@ -220,7 +257,7 @@ void SkinsTab()
 	static char filterModelSkinsCT[18];
 	static int modelT = 1;
 	static int modelSkinT = 1;
-	static float skinWearT = 0.005f;
+	static float skinWearT = 0.0005f;
 	static int skinSeedT = -1;
 	static int skinStatTrakT = -1;
 	static char skinNameT[18];
@@ -233,213 +270,244 @@ void SkinsTab()
 	ImGui::Separator();
 
 	ImGui::Columns(2);
-	{
-		ImGui::Text("Counter Terrorist Skins");
-	}
+
+	ImGui::Text("Counter Terrorist Skins");
 	ImGui::NextColumn();
-	{
-		ImGui::Text("Terrorist Skins");
-	}
+
+	ImGui::Text("Terrorist Skins");
 	ImGui::Columns(1);
 	ImGui::Separator();
 
-	ImGui::Columns(4, NULL, true);
-	{
-		ImGui::Text("Model");
-		ImGui::PushItemWidth(-1);
+	ImGui::Columns(4);
+
+	ImGui::Text("Model");
+	ImGui::NextColumn();
+
+	ImGui::Text("Skin");
+	ImGui::NextColumn();
+
+	ImGui::Text("Model");
+	ImGui::NextColumn();
+
+	ImGui::Text("Skin");
+	ImGui::Columns(1);
+
+	ImGui::Columns(4);
+
+	ImGui::PushItemWidth(-1);
 		ImGui::InputText("##filterModelsCT", filterModelsCT, IM_ARRAYSIZE(filterModelsCT));
-		ImGui::PopItemWidth();
-		ImGui::ListBoxHeader("##modelsCT", ImVec2(-1, 300));
+	ImGui::PopItemWidth();
+	ImGui::NextColumn();
+
+	ImGui::PushItemWidth(-1);
+		ImGui::InputText("##filterModelSkinsCT", filterModelSkinsCT, IM_ARRAYSIZE(filterModelSkinsCT));
+	ImGui::PopItemWidth();
+	ImGui::NextColumn();
+
+	ImGui::PushItemWidth(-1);
+		ImGui::InputText("##filterModelsT", filterModelsT, IM_ARRAYSIZE(filterModelsT));
+	ImGui::PopItemWidth();
+	ImGui::NextColumn();
+
+	ImGui::PushItemWidth(-1);
+		ImGui::InputText("##filterModelSkinsT", filterModelSkinsT, IM_ARRAYSIZE(filterModelSkinsT));
+	ImGui::PopItemWidth();
+	ImGui::Columns(1);
+
+	ImGui::Columns(4);
+
+	ImGui::GetCurrentContext()->FontBaseSize = 14.0f;
+	ImGui::ListBoxHeader("##modelsCT", ImVec2(-1, 300));
+		ImGui::Columns(2);
 		for (auto model : ItemDefinitionIndexMap)
 		{
 			if (!Util::Contains(Util::ToLower(std::string(filterModelsCT)), Util::ToLower(Util::Items::GetItemDisplayName(model.first))))
 				continue;
-			if (Util::Items::isUtility(model.first))
+			if (Util::Items::isUtility(model.first) || model.first == ItemDefinitionIndex::GLOVE_CT_SIDE || model.first == ItemDefinitionIndex::GLOVE_T_SIDE || Util::Items::isTWeapon(model.first) || model.first == ItemDefinitionIndex::WEAPON_KNIFE || model.first == ItemDefinitionIndex::WEAPON_KNIFE_T)
 				continue;
 			const bool item_selected = ((int) model.first == modelCT);
 			ImGui::PushID((int)model.first);
-			std::string formattedName;
-			formattedName = Util::Items::GetItemDisplayName(model.first) + " (" + Util::Items::GetItemEntityName(model.first) + ")";
-			if (ImGui::Selectable(formattedName.c_str(), item_selected))
-			{
-				modelCT = (int)model.first;
-				if (Settings::Skinchanger::skinsCT.find((ItemDefinitionIndex)modelCT) != Settings::Skinchanger::skinsCT.end())
+				if (ImGui::Selectable(Util::Items::GetItemDisplayName(model.first).c_str(), item_selected, ImGuiSelectableFlags_SpanAllColumns))
 				{
-					modelSkinCT = Settings::Skinchanger::skinsCT.at(model.first).fallbackPaintKit;
-					skinWearCT = Settings::Skinchanger::skinsCT.at(model.first).fallbackWear;
-					skinSeedCT = Settings::Skinchanger::skinsCT.at(model.first).fallbackSeed;
-					skinStatTrakCT = Settings::Skinchanger::skinsCT.at(model.first).fallbackStatTrak;
-					std::fill(std::begin(skinNameCT), std::end(skinNameCT), 0);
-					std::copy(std::begin(Settings::Skinchanger::skinsCT.at(model.first).customName), std::end(Settings::Skinchanger::skinsCT.at(model.first).customName), std::begin(skinNameCT));
+					modelCT = (int)model.first;
+					if (Settings::Skinchanger::skinsCT.find((ItemDefinitionIndex)modelCT) != Settings::Skinchanger::skinsCT.end())
+					{
+						modelSkinCT = Settings::Skinchanger::skinsCT.at(model.first).fallbackPaintKit;
+						skinWearCT = Settings::Skinchanger::skinsCT.at(model.first).fallbackWear;
+						skinSeedCT = Settings::Skinchanger::skinsCT.at(model.first).fallbackSeed;
+						skinStatTrakCT = Settings::Skinchanger::skinsCT.at(model.first).fallbackStatTrak;
+						std::fill(std::begin(skinNameCT), std::end(skinNameCT), 0);
+						std::copy(std::begin(Settings::Skinchanger::skinsCT.at(model.first).customName), std::end(Settings::Skinchanger::skinsCT.at(model.first).customName), std::begin(skinNameCT));
+					}
 				}
-			}
+				ImGui::NextColumn();
+
+				ImGui::Text(Util::Items::GetItemEntityName(model.first).c_str());
+				ImGui::NextColumn();
+
+				ImGui::Separator();
 			ImGui::PopID();
 		}
-		ImGui::ListBoxFooter();
-	}
+	ImGui::ListBoxFooter();
 	ImGui::NextColumn();
-	{
-		ImGui::Text("Skins");
-		ImGui::PushItemWidth(-1);
-		ImGui::InputText("##filterModelSkinsCT", filterModelSkinsCT, IM_ARRAYSIZE(filterModelSkinsCT));
-		ImGui::PopItemWidth();
-		ImGui::ListBoxHeader("##modelSkinsCT", ImVec2(-1, 300));
+
+	ImGui::ListBoxHeader("##modelSkinsCT", ImVec2(-1, 300));
+		ImGui::Columns(2);
 		for (auto skin : itemSkins)
 		{
-			if (!Util::Contains(Util::ToLower(std::string(filterModelSkinsCT)), Util::ToLower(Util::WstringToString(localize->FindSafe(skin.second.displayName)))))
+			if (skin.second.paintName != nullptr ? !(Util::Contains(Util::ToLower(std::string(filterModelSkinsCT)), Util::ToLower(Util::WstringToString(localize->FindSafe(skin.second.displayName)))) || Util::Contains(Util::ToLower(std::string(filterModelSkinsCT)), skin.second.paintName)) : !Util::Contains(Util::ToLower(std::string(filterModelSkinsCT)), Util::ToLower(Util::WstringToString(localize->FindSafe(skin.second.displayName)))))
 				continue;
 			const bool item_selected = (skin.first == modelSkinCT);
 			ImGui::PushID(skin.first);
-			std::string formattedName;
-			if(skin.second.paintName != nullptr)
-				formattedName = Util::WstringToString(localize->FindSafe(skin.second.displayName)) + " (" + skin.second.paintName + ")";
-			else
-				formattedName = skin.first == -1 ? skin.second.displayName : Util::WstringToString(localize->FindSafe(skin.second.displayName));
-			if (ImGui::Selectable(formattedName.c_str(), item_selected))
-				modelSkinCT = skin.first;
+				if (ImGui::Selectable(skin.first == -1 ? skin.second.displayName : Util::WstringToString(localize->FindSafe(skin.second.displayName)).c_str(), item_selected, ImGuiSelectableFlags_SpanAllColumns))
+					modelSkinCT = skin.first;
+				ImGui::NextColumn();
+
+				ImGui::Text(skin.second.paintName != nullptr ? skin.second.paintName : "");
+				ImGui::NextColumn();
+
+				ImGui::Separator();
 			ImGui::PopID();
 		}
-		ImGui::ListBoxFooter();
-	}
+	ImGui::ListBoxFooter();
 	ImGui::NextColumn();
-	{
-		ImGui::Text("Model");
-		ImGui::PushItemWidth(-1);
-		ImGui::InputText("##filterModelsT", filterModelsT, IM_ARRAYSIZE(filterModelsT));
-		ImGui::PopItemWidth();
-		ImGui::ListBoxHeader("##modelsT", ImVec2(-1, 300));
+
+	ImGui::ListBoxHeader("##modelsT", ImVec2(-1, 300));
+		ImGui::Columns(2);
 		for (auto model : ItemDefinitionIndexMap)
 		{
 			if (!Util::Contains(Util::ToLower(std::string(filterModelsT)), Util::ToLower(Util::Items::GetItemDisplayName(model.first))))
 				continue;
-			if (Util::Items::isUtility(model.first))
+			if (Util::Items::isUtility(model.first) || model.first == ItemDefinitionIndex::GLOVE_CT_SIDE || model.first == ItemDefinitionIndex::GLOVE_T_SIDE || Util::Items::isCTWeapon(model.first) || model.first == ItemDefinitionIndex::WEAPON_KNIFE || model.first == ItemDefinitionIndex::WEAPON_KNIFE_T)
 				continue;
 			const bool item_selected = ((int) model.first == modelT);
 			ImGui::PushID((int)model.first);
-			std::string formattedName;
-			formattedName = Util::Items::GetItemDisplayName(model.first) + " (" + Util::Items::GetItemEntityName(model.first) + ")";
-			if (ImGui::Selectable(formattedName.c_str(), item_selected))
-			{
-				modelT = (int)model.first;
-				if (Settings::Skinchanger::skinsT.find((ItemDefinitionIndex)modelT) != Settings::Skinchanger::skinsT.end())
+				if (ImGui::Selectable(Util::Items::GetItemDisplayName(model.first).c_str(), item_selected, ImGuiSelectableFlags_SpanAllColumns))
 				{
-					modelSkinT = Settings::Skinchanger::skinsT.at(model.first).fallbackPaintKit;
-					skinWearT = Settings::Skinchanger::skinsCT.at(model.first).fallbackWear;
-					skinSeedT = Settings::Skinchanger::skinsCT.at(model.first).fallbackSeed;
-					skinStatTrakT = Settings::Skinchanger::skinsCT.at(model.first).fallbackStatTrak;
-					std::fill(std::begin(skinNameT), std::end(skinNameT), 0);
-					std::copy(std::begin(Settings::Skinchanger::skinsT.at(model.first).customName), std::end(Settings::Skinchanger::skinsT.at(model.first).customName), std::begin(skinNameT));
+					modelT = (int)model.first;
+					if (Settings::Skinchanger::skinsT.find((ItemDefinitionIndex)modelT) != Settings::Skinchanger::skinsT.end())
+					{
+						modelSkinT = Settings::Skinchanger::skinsT.at(model.first).fallbackPaintKit;
+						skinWearT = Settings::Skinchanger::skinsCT.at(model.first).fallbackWear;
+						skinSeedT = Settings::Skinchanger::skinsCT.at(model.first).fallbackSeed;
+						skinStatTrakT = Settings::Skinchanger::skinsCT.at(model.first).fallbackStatTrak;
+						std::fill(std::begin(skinNameT), std::end(skinNameT), 0);
+						std::copy(std::begin(Settings::Skinchanger::skinsT.at(model.first).customName), std::end(Settings::Skinchanger::skinsT.at(model.first).customName), std::begin(skinNameT));
+					}
 				}
-			}
+				ImGui::NextColumn();
+
+				ImGui::Text(Util::Items::GetItemEntityName(model.first).c_str());
+				ImGui::NextColumn();
+
+				ImGui::Separator();
 			ImGui::PopID();
 		}
-		ImGui::ListBoxFooter();
-	}
+	ImGui::ListBoxFooter();
 	ImGui::NextColumn();
-	{
-		ImGui::Text("Skins");
-		ImGui::PushItemWidth(-1);
-		ImGui::InputText("##filterModelSkinsT", filterModelSkinsT, IM_ARRAYSIZE(filterModelSkinsT));
-		ImGui::PopItemWidth();
-		ImGui::ListBoxHeader("##modelSkinsT", ImVec2(-1, 300));
+
+	ImGui::ListBoxHeader("##modelSkinsT", ImVec2(-1, 300));
+		ImGui::Columns(2);
 		for (auto skin : itemSkins)
 		{
-			if (!Util::Contains(Util::ToLower(std::string(filterModelSkinsT)), Util::ToLower(Util::WstringToString(localize->FindSafe(skin.second.displayName)))))
+			if (skin.second.paintName != nullptr ? !(Util::Contains(Util::ToLower(std::string(filterModelSkinsT)), Util::ToLower(Util::WstringToString(localize->FindSafe(skin.second.displayName)))) || Util::Contains(Util::ToLower(std::string(filterModelSkinsT)), skin.second.paintName)) : !Util::Contains(Util::ToLower(std::string(filterModelSkinsT)), Util::ToLower(Util::WstringToString(localize->FindSafe(skin.second.displayName)))))
 				continue;
 			const bool item_selected = (skin.first == modelSkinT);
 			ImGui::PushID(skin.first);
-			std::string formattedName;
-			if(skin.second.paintName != nullptr)
-				formattedName = Util::WstringToString(localize->FindSafe(skin.second.displayName)) + " (" + skin.second.paintName + ")";
-			else
-				formattedName = skin.first == -1 ? skin.second.displayName : Util::WstringToString(localize->FindSafe(skin.second.displayName));
-			if (ImGui::Selectable(formattedName.c_str(), item_selected))
-				modelSkinT = skin.first;
+				if (ImGui::Selectable(skin.first == -1 ? skin.second.displayName : Util::WstringToString(localize->FindSafe(skin.second.displayName)).c_str(), item_selected, ImGuiSelectableFlags_SpanAllColumns))
+					modelSkinT = skin.first;
+				ImGui::NextColumn();
+
+				ImGui::Text(skin.second.paintName != nullptr ? skin.second.paintName : "");
+				ImGui::NextColumn();
+
+				ImGui::Separator();
 			ImGui::PopID();
 		}
-		ImGui::ListBoxFooter();
-	}
+	ImGui::GetCurrentContext()->FontBaseSize = 18.0f;
+	ImGui::ListBoxFooter();
 	ImGui::Columns(1);
 	ImGui::Separator();
-	ImGui::Columns(2, NULL, true);
+
+	ImGui::Columns(2);
+
+	ImGui::BeginChild("CT Settings", ImVec2(0, 0), true);
 	{
-		ImGui::BeginChild("CT Settings", ImVec2(0, 0), true);
+		ImGui::Columns(3);
+
+		ImGui::InputInt("ID##CT", &modelSkinCT);
+		ImGui::NextColumn();
+
+		ImGui::InputInt("Seed##CT", &skinSeedCT);
+		ImGui::NextColumn();
+
+		ImGui::PushItemWidth(-1);
+			ImGui::SliderFloat("##WearCT", &skinWearCT, 0.0005f, 1.0f, "Wear: %0f");
+		ImGui::PopItemWidth();
+		ImGui::Columns(1);
+
+		if(!Util::Items::isGlove((ItemDefinitionIndex)modelCT))
 		{
-			ImGui::Columns(3, NULL, false);
-			{
-				ImGui::InputInt("ID##CT", &modelSkinCT);
-			}
-			ImGui::NextColumn();
-			{
-				ImGui::InputInt("Seed##CT", &skinSeedCT);
-			}
-			ImGui::NextColumn();
-			{
-				ImGui::PushItemWidth(-1);
-				ImGui::SliderFloat("##WearCT", &skinWearCT, 0.005f, 1.0f, "Wear: %0.3f");
-				ImGui::PopItemWidth();
-			}
-			ImGui::Columns(1);
 			ImGui::Columns(2, NULL, false);
-			{
-				ImGui::InputInt("StatTrak##CT", &skinStatTrakCT);
-			}
+
+			ImGui::InputInt("StatTrak##CT", &skinStatTrakCT);
 			ImGui::NextColumn();
-			{
-				ImGui::InputText("Name##CT", skinNameCT, IM_ARRAYSIZE(skinNameCT));
-			}
+
+			ImGui::InputText("Name##CT", skinNameCT, IM_ARRAYSIZE(skinNameCT));
 			ImGui::Columns(1);
-			if(ImGui::Button("Apply##CT", ImVec2(-1, 0)))
-			{
-				if (Settings::Skinchanger::skinsCT.find((ItemDefinitionIndex)modelCT) == Settings::Skinchanger::skinsCT.end())
-					Settings::Skinchanger::skinsCT[(ItemDefinitionIndex)modelCT] = AttribItem_t();
-
-				Settings::Skinchanger::skinsCT.at((ItemDefinitionIndex)modelCT) = { ItemDefinitionIndex::INVALID, modelSkinCT, skinWearCT, skinSeedT, skinStatTrakCT, -1, skinNameCT};
-
-				SkinChanger::forceFullUpdate = true;
-			}
-			ImGui::EndChild();
 		}
+
+		if(ImGui::Button("Apply##CT", ImVec2(-1, 0)))
+		{
+			if (Settings::Skinchanger::skinsCT.find((ItemDefinitionIndex)modelCT) == Settings::Skinchanger::skinsCT.end())
+				Settings::Skinchanger::skinsCT[(ItemDefinitionIndex)modelCT] = AttribItem_t();
+
+			Settings::Skinchanger::skinsCT.at((ItemDefinitionIndex)modelCT) = { ItemDefinitionIndex::INVALID, modelSkinCT, skinWearCT, skinSeedT, skinStatTrakCT, -1, skinNameCT};
+
+			SkinChanger::forceFullUpdate = true;
+		}
+
+		ImGui::EndChild();
 	}
 	ImGui::NextColumn();
+
+	ImGui::BeginChild("T Settings", ImVec2(0, 0), true);
 	{
-		ImGui::BeginChild("T Settings", ImVec2(0, 0), true);
+		ImGui::Columns(3, NULL, false);
+
+		ImGui::InputInt("ID##T", &modelSkinT);
+		ImGui::NextColumn();
+
+		ImGui::InputInt("Seed##T", &skinSeedT);
+		ImGui::NextColumn();
+
+		ImGui::PushItemWidth(-1);
+			ImGui::SliderFloat("##WearT", &skinWearT, 0.0005f, 1.0f, "Wear: %0f");
+		ImGui::PopItemWidth();
+		ImGui::Columns(1);
+
+		if(!Util::Items::isGlove((ItemDefinitionIndex)modelT))
 		{
-			ImGui::Columns(3, NULL, false);
-			{
-				ImGui::InputInt("ID##T", &modelSkinT);
-			}
-			ImGui::NextColumn();
-			{
-				ImGui::InputInt("Seed##T", &skinSeedT);
-			}
-			ImGui::NextColumn();
-			{
-				ImGui::PushItemWidth(-1);
-				ImGui::SliderFloat("##WearT", &skinWearT, 0.005f, 1.0f, "Wear: %0.3f");
-				ImGui::PopItemWidth();
-			}
-			ImGui::Columns(1);
 			ImGui::Columns(2, NULL, false);
-			{
-				ImGui::InputInt("StatTrak##T", &skinStatTrakT);
-			}
+
+			ImGui::InputInt("StatTrak##T", &skinStatTrakT);
 			ImGui::NextColumn();
-			{
-				ImGui::InputText("Name##T", skinNameT, IM_ARRAYSIZE(skinNameT));
-			}
+
+			ImGui::InputText("Name##T", skinNameT, IM_ARRAYSIZE(skinNameT));
 			ImGui::Columns(1);
-			if(ImGui::Button("Apply##T", ImVec2(-1, 0)))
-			{
-				if (Settings::Skinchanger::skinsT.find((ItemDefinitionIndex)modelT) == Settings::Skinchanger::skinsT.end())
-					Settings::Skinchanger::skinsT[(ItemDefinitionIndex)modelT] = AttribItem_t();
-
-				Settings::Skinchanger::skinsT.at((ItemDefinitionIndex)modelT) = { ItemDefinitionIndex::INVALID, modelSkinT, skinWearT, skinSeedT, skinStatTrakT, -1, skinNameT};
-
-				SkinChanger::forceFullUpdate = true;
-			}
-			ImGui::EndChild();
 		}
+
+		if(ImGui::Button("Apply##T", ImVec2(-1, 0)))
+		{
+			if (Settings::Skinchanger::skinsT.find((ItemDefinitionIndex)modelT) == Settings::Skinchanger::skinsT.end())
+				Settings::Skinchanger::skinsT[(ItemDefinitionIndex)modelT] = AttribItem_t();
+
+			Settings::Skinchanger::skinsT.at((ItemDefinitionIndex)modelT) = { ItemDefinitionIndex::INVALID, modelSkinT, skinWearT, skinSeedT, skinStatTrakT, -1, skinNameT};
+
+			SkinChanger::forceFullUpdate = true;
+		}
+
+		ImGui::EndChild();
 	}
 	ImGui::Columns(1);
 }
@@ -449,7 +517,7 @@ void SkinModelChanger::RenderWindow()
 	if(!SkinModelChanger::showWindow)
 		return;
 
-	ImGui::SetNextWindowSize(ImVec2(1200, 645), ImGuiSetCond_FirstUseEver);
+	ImGui::SetNextWindowSize(ImVec2(1050, 645), ImGuiSetCond_FirstUseEver);
 	if (ImGui::Begin("Skin & Model Changer", &SkinModelChanger::showWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
 	{
 		TabButtons();

@@ -80,8 +80,14 @@ namespace Util
 		std::string GetItemEntityName(ItemDefinitionIndex index)
 		{
 			if (ItemDefinitionIndexMap.find(index) != ItemDefinitionIndexMap.end())
-				return ItemDefinitionIndexMap.at(index).entityName;
-			else
+			{
+				std::string entityName = ItemDefinitionIndexMap.at(index).entityName;
+
+				if (entityName.find("weapon_") != std::string::npos)
+					entityName.erase(entityName.find("weapon_"), std::string("weapon_").length());
+
+				return entityName;
+			} else
 				return "INVALID";
 		}
 
@@ -150,6 +156,44 @@ namespace Util
 				case ItemDefinitionIndex::GLOVE_SLICK:
 				case ItemDefinitionIndex::GLOVE_SPORTY:
 				case ItemDefinitionIndex::GLOVE_LEATHER_WRAP:
+					return true;
+				default:
+					return false;
+			}
+		}
+
+		bool isCTWeapon(ItemDefinitionIndex index)
+		{
+			switch(index)
+			{
+				case ItemDefinitionIndex::WEAPON_M4A1:
+				case ItemDefinitionIndex::WEAPON_M4A1_SILENCER:
+				case ItemDefinitionIndex::WEAPON_HKP2000:
+				case ItemDefinitionIndex::WEAPON_FIVESEVEN:
+				case ItemDefinitionIndex::WEAPON_USP_SILENCER:
+				case ItemDefinitionIndex::WEAPON_AUG:
+				case ItemDefinitionIndex::WEAPON_SCAR20:
+				case ItemDefinitionIndex::WEAPON_FAMAS:
+				case ItemDefinitionIndex::WEAPON_MAG7:
+				case ItemDefinitionIndex::WEAPON_MP9:
+					return true;
+				default:
+					return false;
+			}
+		}
+
+		bool isTWeapon(ItemDefinitionIndex index)
+		{
+			switch(index)
+			{
+				case ItemDefinitionIndex::WEAPON_AK47:
+				case ItemDefinitionIndex::WEAPON_GALILAR:
+				case ItemDefinitionIndex::WEAPON_GLOCK:
+				case ItemDefinitionIndex::WEAPON_SG556:
+				case ItemDefinitionIndex::WEAPON_G3SG1:
+				case ItemDefinitionIndex::WEAPON_TEC9:
+				case ItemDefinitionIndex::WEAPON_SAWEDOFF:
+				case ItemDefinitionIndex::WEAPON_MAC10:
 					return true;
 				default:
 					return false;

@@ -29,5 +29,7 @@ namespace Util
 		bool isKnife(ItemDefinitionIndex index);
 		bool isUtility(ItemDefinitionIndex index);
 		bool isGlove(ItemDefinitionIndex index);
+		bool isCTWeapon(ItemDefinitionIndex index);
+		bool isTWeapon(ItemDefinitionIndex index);
 	}
 }

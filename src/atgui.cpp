@@ -1836,7 +1836,7 @@ void UI::SetupWindows()
 
 		if (ModSupport::current_mod != ModType::CSCO)
 		{
-			ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(1200, 645));
+			ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(1050, 645));
 				SkinModelChanger::RenderWindow();
 			ImGui::PopStyleVar();
 		}
