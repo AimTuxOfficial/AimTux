@@ -107,6 +107,8 @@ void __attribute__((destructor)) AimTuxShutdown()
 	SDL2::UnhookWindow();
 	SDL2::UnhookPollEvent();
 
+	NoSmoke::AimTuxShutdown();
+
 	clientVMT->ReleaseVMT();
 	panelVMT->ReleaseVMT();
 	modelRenderVMT->ReleaseVMT();

@@ -28,3 +28,12 @@ void NoSmoke::FrameStageNotify(ClientFrameStage_t stage)
 		mat->SetMaterialVarFlag(MATERIAL_VAR_NO_DRAW, Settings::ESP::enabled && Settings::NoSmoke::enabled);
 	}
 }
+
+void NoSmoke::AimTuxShutdown()
+{
+	for (auto material_name : smoke_materials)
+	{
+		IMaterial* mat = material->FindMaterial(material_name, TEXTURE_GROUP_OTHER);
+		mat->SetMaterialVarFlag(MATERIAL_VAR_NO_DRAW, false);
+	}
+}
