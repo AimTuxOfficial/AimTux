@@ -28,6 +28,8 @@ void Offsets::GetOffsets()
 	offsets.DT_BaseEntity.m_MoveType = offsets.DT_BaseEntity.m_nRenderMode + 1;
 	offsets.DT_BaseEntity.m_Collision = NetVarManager::GetOffset(tables, "DT_BaseEntity", "m_Collision");
 	offsets.DT_BaseEntity.m_bSpotted = NetVarManager::GetOffset(tables, "DT_BaseEntity", "m_bSpotted");
+	offsets.DT_BaseEntity.m_flSimulationTime = NetVarManager::GetOffset(tables, "DT_BaseEntity", "m_flAnimTime");
+	offsets.DT_BaseEntity.m_flSimulationTime = NetVarManager::GetOffset(tables, "DT_BaseEntity", "m_flSimulationTime");
 
 	offsets.DT_BaseCombatCharacter.m_hActiveWeapon = NetVarManager::GetOffset(tables, "DT_BaseCombatCharacter", "m_hActiveWeapon");
 	offsets.DT_BaseCombatCharacter.m_hMyWeapons = NetVarManager::GetOffset(tables, "DT_BaseCombatCharacter", "m_hMyWeapons") / 2;

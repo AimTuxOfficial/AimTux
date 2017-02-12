@@ -31,6 +31,8 @@ struct COffsets
 		std::ptrdiff_t m_MoveType;
 		std::ptrdiff_t m_Collision;
 		std::ptrdiff_t m_bSpotted;
+		std::ptrdiff_t m_flAnimTime;
+		std::ptrdiff_t m_flSimulationTime;
 	} DT_BaseEntity;
 
 	struct
