@@ -161,6 +161,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["AntiAim"]["Yaw"]["enabled"] = Settings::AntiAim::Yaw::enabled;
 	settings["AntiAim"]["Yaw"]["type"] = (int) Settings::AntiAim::Yaw::type;
 	settings["AntiAim"]["Yaw"]["type_fake"] = (int) Settings::AntiAim::Yaw::typeFake;
+	settings["AntiAim"]["Yaw"]["antiResolver"] = Settings::AntiAim::Yaw::antiResolver;
 	settings["AntiAim"]["Pitch"]["enabled"] = Settings::AntiAim::Pitch::enabled;
 	settings["AntiAim"]["Pitch"]["type"] = (int) Settings::AntiAim::Pitch::type;
 	settings["AntiAim"]["HeadEdge"]["enabled"] = Settings::AntiAim::HeadEdge::enabled;
@@ -540,6 +541,7 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["AntiAim"]["Yaw"]["enabled"], &Settings::AntiAim::Yaw::enabled);
 	GetVal(settings["AntiAim"]["Yaw"]["type"], (int*)& Settings::AntiAim::Yaw::type);
 	GetVal(settings["AntiAim"]["Yaw"]["type_fake"], (int*)& Settings::AntiAim::Yaw::typeFake);
+	GetVal(settings["AntiAim"]["Yaw"]["antiResolver"], &Settings::AntiAim::Yaw::antiResolver);
 	GetVal(settings["AntiAim"]["Pitch"]["enabled"], &Settings::AntiAim::Pitch::enabled);
 	GetVal(settings["AntiAim"]["Pitch"]["type"], (int*)& Settings::AntiAim::Pitch::type);
 	GetVal(settings["AntiAim"]["HeadEdge"]["enabled"], &Settings::AntiAim::HeadEdge::enabled);

@@ -368,6 +368,7 @@ namespace Settings
 			extern bool enabled;
 			extern AntiAimType_Y type;
 			extern AntiAimType_Y typeFake;
+			extern bool antiResolver;
 		}
 
 		namespace Pitch
