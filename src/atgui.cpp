@@ -1389,7 +1389,8 @@ void MiscTab()
 					C_BaseCombatWeapon *wpn = (C_BaseCombatWeapon *) entityList->GetClientEntityFromHandle(
 							lp->GetActiveWeapon());
 					GrenadeType gType = getGrenadeType(wpn);
-					GrenadeInfo gi = GrenadeInfo(gType, lp->GetEyePosition(), *lp->GetVAngles(), ThrowType::NORMAL,
+					ThrowType tType = Settings::GrenadeHelper::inputJump ? ThrowType::JUMP : ThrowType::NORMAL;
+					GrenadeInfo gi = GrenadeInfo(gType, lp->GetEyePosition(), *lp->GetVAngles(), tType,
 												 pstring(Settings::GrenadeHelper::inputName));
 					Settings::GrenadeHelper::grenadeInfos.push_back(gi);
 
