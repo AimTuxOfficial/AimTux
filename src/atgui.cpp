@@ -1362,8 +1362,11 @@ void MiscTab()
 			ImGui::Separator();
 			ImGui::Text("Grenade Helper");
 			ImGui::Separator();
-			ImGui::Checkbox("Enabled", &Settings::GrenadeHelper::enabled);
-			SetTooltip("Show Saved Grenade Throws");
+			ImGui::Columns(1);
+			{
+				ImGui::Checkbox("Enabled", &Settings::GrenadeHelper::enabled);
+				SetTooltip("Show Saved Grenade Throws");
+			}
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("Throw Assist", &Settings::GrenadeHelper::aimAssist);

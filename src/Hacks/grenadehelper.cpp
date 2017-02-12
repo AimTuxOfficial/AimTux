@@ -61,10 +61,10 @@ void GrenadeHelper::DrawAimHelp(GrenadeInfo* info)
 	Vector infoVec;
 	Math::AngleVectors(info->angle, infoVec);
 	infoVec *= 150 / infoVec.Length();
-	Vector aim = info->pos + infoVec;
+	infoVec += info->pos;
 
 	Vector posVec;
-	if (debugOverlay->ScreenPosition(aim, posVec))
+	if (debugOverlay->ScreenPosition(infoVec, posVec))
 		return;
 
 	int w, h;
@@ -101,7 +101,7 @@ void GrenadeHelper::Paint()
 			continue;
 
 		float dist = grenadeInfo->pos.DistTo(localPlayer->GetVecOrigin());
-		if (dist > 10000)
+		if (dist > 1000)
 			continue;
 
 		GrenadeHelper::DrawGrenadeInfo(grenadeInfo.base());
@@ -131,56 +131,82 @@ void GrenadeHelper::AimAssist(CUserCmd* cmd)
 
 	if (Settings::GrenadeHelper::grenadeInfos.empty())
 		return;
+	//for storing the best result
+	GrenadeInfo* grenadeInfo = nullptr;
+	float distOnScreen = -1;//Viewangle difference
+	float dist = 1000;//3D distance
 
-	for (auto grenadeInfo = Settings::GrenadeHelper::grenadeInfos.begin(); grenadeInfo != Settings::GrenadeHelper::grenadeInfos.end(); grenadeInfo++)
+	int w, h;
+	engine->GetScreenSize(w, h);
+	Vector ScreenCenter(w / 2, h / 2, 0);
+
+	for (auto act = Settings::GrenadeHelper::grenadeInfos.begin(); act != Settings::GrenadeHelper::grenadeInfos.end(); act++)
 	{
-		if (Settings::GrenadeHelper::onlyMatchingInfos && getGrenadeType(activeWeapon) != grenadeInfo->gType)
+		if (Settings::GrenadeHelper::onlyMatchingInfos && getGrenadeType(activeWeapon) != act->gType)
 			continue;
 
-		float dist = Math::GetDistance(localPlayer->GetEyePosition(), grenadeInfo->pos);
-		if (dist > 75.f)
+		float dist3D = Math::GetDistance(localPlayer->GetEyePosition(), act->pos);
+		if (dist3D > 75.f)
 			continue;
 
-		if (!shootThisTick && shotLastTick && dist < 5)
-		{
-			//throw the grenade
-			if (grenadeInfo->tType == ThrowType::JUMP)
-				cmd->buttons |= IN_JUMP;
-			if (grenadeInfo->tType == ThrowType::WALK)
-				cmd->buttons |= IN_WALK;
-			engine->SetViewAngles(grenadeInfo->angle);
-		}
+		float actDistOnScreen;
+		Vector infoVec;
+		Math::AngleVectors(act->angle, infoVec);
+		infoVec *= 150 / infoVec.Length();
+		infoVec += act->pos;
+		Vector posVec;
+		if (debugOverlay->ScreenPosition(infoVec, posVec))
+			actDistOnScreen = 180;
 		else
-		{
-			if (dist > 0.5f)
-			{
-				QAngle movement = Math::CalcAngle(localPlayer->GetEyePosition(), grenadeInfo->pos);
-				if (cmd->forwardmove < dist) cmd->forwardmove = dist * 2;
-				cmd->sidemove = 0;
-				cmd->buttons |= IN_WALK;
-				Math::CorrectMovement(movement, cmd, cmd->forwardmove, cmd->sidemove);
-			}
-			if (cmd->viewangles !=  grenadeInfo->angle)
-			{
-				//Aim towards the aimspot
-				float maxStep = 5;
-				QAngle old = cmd->viewangles;
+			actDistOnScreen = (posVec - ScreenCenter).Length();
 
-				float diffX = grenadeInfo->angle.x - old.x;
-				if (diffX > maxStep) diffX = maxStep;
-				if (diffX < -maxStep) diffX = -maxStep;
-				float diffY = grenadeInfo->angle.y - old.y;
-				while (diffY > 180) diffY -= 360;
-				while (diffY < -180) diffY += 360;
-				if (diffY > maxStep) diffY = maxStep;
-				if (diffY < -maxStep) diffY = -maxStep;
-				cmd->viewangles += QAngle(diffX, diffY, 0);
-				Math::ClampAngles(cmd->viewangles);
-				engine->SetViewAngles(cmd->viewangles);
-				Math::CorrectMovement(old, cmd, cmd->forwardmove, cmd->sidemove);
-			}
+		if (distOnScreen != -1 &&  distOnScreen < actDistOnScreen)
+			continue;
+		grenadeInfo = act.base();
+		distOnScreen = actDistOnScreen;
+		dist = dist3D;
+	}
+	if (!grenadeInfo)
+		return;
+
+	if (!shootThisTick && shotLastTick && dist < 5)
+	{
+		//throw the grenade
+		if (grenadeInfo->tType == ThrowType::JUMP)
+			cmd->buttons |= IN_JUMP;
+		if (grenadeInfo->tType == ThrowType::WALK)
+			cmd->buttons |= IN_WALK;
+		engine->SetViewAngles(grenadeInfo->angle);
+	}
+	else
+	{
+		if (dist > 0.5f)
+		{
+			QAngle movement = Math::CalcAngle(localPlayer->GetEyePosition(), grenadeInfo->pos);
+			if (cmd->forwardmove < dist) cmd->forwardmove = dist * 2;
+			cmd->sidemove = 0;
+			cmd->buttons |= IN_WALK;
+			Math::CorrectMovement(movement, cmd, cmd->forwardmove, cmd->sidemove);
 		}
-		break;
+		if (cmd->viewangles !=  grenadeInfo->angle)
+		{
+			//Aim towards the aimspot
+			float maxStep = 5;
+			QAngle old = cmd->viewangles;
+
+			float diffX = grenadeInfo->angle.x - old.x;
+			if (diffX > maxStep) diffX = maxStep;
+			if (diffX < -maxStep) diffX = -maxStep;
+			float diffY = grenadeInfo->angle.y - old.y;
+			while (diffY > 180) diffY -= 360;
+			while (diffY < -180) diffY += 360;
+			if (diffY > maxStep) diffY = maxStep;
+			if (diffY < -maxStep) diffY = -maxStep;
+			cmd->viewangles += QAngle(diffX, diffY, 0);
+			Math::ClampAngles(cmd->viewangles);
+			engine->SetViewAngles(cmd->viewangles);
+			Math::CorrectMovement(old, cmd, cmd->forwardmove, cmd->sidemove);
+		}
 	}
 }
 
@@ -188,11 +214,17 @@ void GrenadeHelper::CheckForUpdate()
 {
 	if (!engine->IsInGame())
 		return;
-	if (!Settings::GrenadeHelper::actMapName.compare(GetLocalClient(-1)->m_szLevelNameShort))
+
+	pstring s = pstring(GetLocalClient(-1)->m_szLevelNameShort);
+	unsigned long p = s.find_last_of("/");
+	if (p != std::string::npos)
+		s.erase(0, p + 1);
+
+	if (!Settings::GrenadeHelper::actMapName.compare(s))
 		return;
 
-	Settings::GrenadeHelper::actMapName = pstring(GetLocalClient(-1)->m_szLevelNameShort);
-	pstring path = GetGhConfigDirectory().append(Settings::GrenadeHelper::actMapName).append("/config.json");
+	Settings::GrenadeHelper::actMapName = s;
+	pstring path = GetGhConfigDirectory().append(s).append("/config.json");
 
 	if (DoesFileExist(path.c_str()))
 		Settings::LoadGrenadeInfo(path);
