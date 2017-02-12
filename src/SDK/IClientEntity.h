@@ -346,6 +346,16 @@ public:
 	{
 		return (QAngle*)((uintptr_t)this + offsets.DT_BasePlayer.deadflag + 0x4);
 	}
+
+	float GetAnimTime()
+	{
+		return *(float*)((uintptr_t)this + offsets.DT_BaseEntity.m_flAnimTime);
+	}
+
+	float GetSimulationTime()
+	{
+		return *(float*)((uintptr_t)this + offsets.DT_BaseEntity.m_flSimulationTime);
+	}
 };
 
 class C_PlantedC4 : public C_BaseEntity
