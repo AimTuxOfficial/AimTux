@@ -81,10 +81,7 @@ void GrenadeHelper::DrawAimHelp(GrenadeInfo* info)
 
 void GrenadeHelper::Paint()
 {
-	if (!Settings::ESP::enabled || !Settings::GrenadeHelper::enabled)
-		return;
-
-	if (!engine->IsInGame())
+	if (!Settings::ESP::enabled || !engine->IsInGame() || !Settings::GrenadeHelper::enabled)
 		return;
 
 	C_BasePlayer* localPlayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
@@ -116,7 +113,7 @@ void GrenadeHelper::Paint()
 
 void GrenadeHelper::AimAssist(CUserCmd* cmd)
 {
-	if (!Settings::GrenadeHelper::aimAssist || !engine->IsInGame())
+	if (!Settings::GrenadeHelper::aimAssist || !engine->IsInGame() || !Settings::GrenadeHelper::enabled)
 		return;
 
 	C_BasePlayer* localPlayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
@@ -149,6 +146,8 @@ void GrenadeHelper::AimAssist(CUserCmd* cmd)
 			//throw the grenade
 			if (grenadeInfo->tType == ThrowType::JUMP)
 				cmd->buttons |= IN_JUMP;
+			if (grenadeInfo->tType == ThrowType::WALK)
+				cmd->buttons |= IN_WALK;
 			engine->SetViewAngles(grenadeInfo->angle);
 		}
 		else
@@ -158,25 +157,25 @@ void GrenadeHelper::AimAssist(CUserCmd* cmd)
 				QAngle movement = Math::CalcAngle(localPlayer->GetEyePosition(), grenadeInfo->pos);
 				if (cmd->forwardmove < dist) cmd->forwardmove = dist * 2;
 				cmd->sidemove = 0;
-				Math::CorrectMovement(movement,cmd,cmd->forwardmove,cmd->sidemove);
+				cmd->buttons |= IN_WALK;
+				Math::CorrectMovement(movement, cmd, cmd->forwardmove, cmd->sidemove);
 			}
-			if (cmd->viewangles !=  grenadeInfo->angle) {
+			if (cmd->viewangles !=  grenadeInfo->angle)
+			{
 				//Aim towards the aimspot
 				float maxStep = 5;
 				QAngle old = cmd->viewangles;
-				float diffX, diffY;
-				diffX = grenadeInfo->angle.x - old.x;
+
+				float diffX = grenadeInfo->angle.x - old.x;
 				if (diffX > maxStep) diffX = maxStep;
 				if (diffX < -maxStep) diffX = -maxStep;
-
-				diffY = grenadeInfo->angle.y - old.y;
+				float diffY = grenadeInfo->angle.y - old.y;
 				while (diffY > 180) diffY -= 360;
 				while (diffY < -180) diffY += 360;
 				if (diffY > maxStep) diffY = maxStep;
 				if (diffY < -maxStep) diffY = -maxStep;
-				QAngle newA = QAngle(old.x + diffX, old.y + diffY, 0);
-				cmd->viewangles = newA;
-				engine->SetViewAngles(newA);
+				cmd->viewangles += QAngle(diffX, diffY, 0);
+				engine->SetViewAngles(cmd->viewangles);
 				Math::CorrectMovement(old, cmd, cmd->forwardmove, cmd->sidemove);
 			}
 		}
