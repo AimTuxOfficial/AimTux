@@ -529,7 +529,7 @@ enum ThrowType : int
 	NORMAL,
 	CROUCH,
 	JUMP,
-	CROUCH_JUMP
+	WALK
 };
 
 struct GrenadeInfo

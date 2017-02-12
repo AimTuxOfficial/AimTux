@@ -6,7 +6,7 @@ bool Settings::GrenadeHelper::enabled = true;
 bool Settings::GrenadeHelper::onlyMatchingInfos = true;
 bool Settings::GrenadeHelper::aimAssist = false;
 char Settings::GrenadeHelper::inputName[20] = {};
-
+bool Settings::GrenadeHelper::inputJump = false;
 ImColor Settings::GrenadeHelper::aimLine = ImColor(200, 200, 200, 255);
 ImColor Settings::GrenadeHelper::aimDot = ImColor(10, 10, 200, 255);
 ImColor Settings::GrenadeHelper::infoHE = ImColor(30, 100, 30, 255);
@@ -155,7 +155,7 @@ void GrenadeHelper::AimAssist(CUserCmd* cmd)
 		else if (!shootThisTick && shotLastTick)
 		{
 			if (grenadeInfo->tType == ThrowType::JUMP)
-				cmd->buttons &= IN_JUMP;
+				cmd->buttons |= IN_JUMP;
 			engine->SetViewAngles(grenadeInfo->angle);
 			// cmd->viewangles = grenadeInfo->angle;
 			// TODO Not working silent ;( maybe safe the value and Do it later or dont do it silent but smoother.

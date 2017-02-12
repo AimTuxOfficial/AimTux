@@ -1375,25 +1375,28 @@ void MiscTab()
 				SetTooltip("Shows the Smokes only when you have the right Grenade equipped.");
 			}
 
-			ImGui::Columns(2, NULL, true);
+			ImGui::Columns(1);
 			{
-				ImGui::PushItemWidth(-1);
-					ImGui::InputText("##Name", Settings::GrenadeHelper::inputName, sizeof(Settings::GrenadeHelper::inputName));
-				ImGui::PopItemWidth();
-			}
-			ImGui::NextColumn();
-			{
-				if (ImGui::Button("Add Throw") && engine->IsInGame())
-				{
-					C_BasePlayer* lp = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-					C_BaseCombatWeapon* wpn = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(lp->GetActiveWeapon());
+				//ImGui::PushItemWidth(-1);
+				ImGui::InputText("##Name", Settings::GrenadeHelper::inputName, sizeof(Settings::GrenadeHelper::inputName));
+				//ImGui::PopItemWidth();
+
+				ImGui::SameLine();
+				ImGui::Checkbox("Jump", &Settings::GrenadeHelper::inputJump);
+				SetTooltip("Should the Throw you want to save be a Jumpthrow?");
+
+				ImGui::SameLine();
+				if (ImGui::Button("Add Throw") && engine->IsInGame()) {
+					C_BasePlayer *lp = (C_BasePlayer *) entityList->GetClientEntity(engine->GetLocalPlayer());
+					C_BaseCombatWeapon *wpn = (C_BaseCombatWeapon *) entityList->GetClientEntityFromHandle(
+							lp->GetActiveWeapon());
 					GrenadeType gType = getGrenadeType(wpn);
-					GrenadeInfo gi = GrenadeInfo(gType, lp->GetEyePosition(), *lp->GetVAngles(), ThrowType::NORMAL, pstring(Settings::GrenadeHelper::inputName));
+					GrenadeInfo gi = GrenadeInfo(gType, lp->GetEyePosition(), *lp->GetVAngles(), ThrowType::NORMAL,
+												 pstring(Settings::GrenadeHelper::inputName));
 					Settings::GrenadeHelper::grenadeInfos.push_back(gi);
 
 					pstring path = GetGhConfigDirectory() << Settings::GrenadeHelper::actMapName;
-					if (!DoesFileExist(path.c_str()))
-					{
+					if (!DoesFileExist(path.c_str())) {
 						mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 						Settings::SaveGrenadeInfo(path << "/config.json");
 					}

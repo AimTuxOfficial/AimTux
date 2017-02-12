@@ -832,6 +832,7 @@ namespace Settings
 		extern ImColor infoMolotov;
 		extern pstring actMapName;
 		extern char inputName[20];
+		extern bool inputJump;
 	}
 
 	void LoadDefaultsOrSave(std::string path);
