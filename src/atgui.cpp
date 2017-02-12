@@ -1038,7 +1038,7 @@ void HvHTab()
 		ImGui::BeginChild("HVH1", ImVec2(0, 0), true);
 		{
 			ImGui::Text("AntiAim");
-			ImGui::BeginChild("##ANTIAIM", ImVec2(0, ImGui::GetWindowSize().y / 2 + 32), true);
+			ImGui::BeginChild("##ANTIAIM", ImVec2(0, ImGui::GetWindowSize().y / 2 + 64), true);
 			{
 				ImGui::Checkbox("Yaw", &Settings::AntiAim::Yaw::enabled);
 				SetTooltip("Enables Yaw AntiAim");
@@ -1049,6 +1049,8 @@ void HvHTab()
 					ImGui::Text("Yaw Fake");
 					ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
 					ImGui::Text("Yaw Actual");
+					ImGui::Checkbox("Anti Resolver", &Settings::AntiAim::Yaw::antiResolver);
+					SetTooltip("Simple resolver prevention");
 				}
 				ImGui::NextColumn();
 				{
