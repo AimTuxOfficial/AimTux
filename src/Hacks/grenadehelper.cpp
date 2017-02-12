@@ -9,9 +9,9 @@ char Settings::GrenadeHelper::inputName[20] = {};
 bool Settings::GrenadeHelper::inputJump = false;
 ImColor Settings::GrenadeHelper::aimLine = ImColor(200, 200, 200, 255);
 ImColor Settings::GrenadeHelper::aimDot = ImColor(10, 10, 200, 255);
-ImColor Settings::GrenadeHelper::infoHE = ImColor(30, 100, 30, 255);
-ImColor Settings::GrenadeHelper::infoMolotov = ImColor(100, 20, 20, 255);
-ImColor Settings::GrenadeHelper::infoSmoke = ImColor(30, 30, 30, 255);
+ImColor Settings::GrenadeHelper::infoHE = ImColor(7, 183, 7, 255);
+ImColor Settings::GrenadeHelper::infoMolotov = ImColor(236, 0, 0, 255);
+ImColor Settings::GrenadeHelper::infoSmoke = ImColor(172, 172, 172, 255);
 ImColor Settings::GrenadeHelper::infoFlash = ImColor(255, 255, 0, 255);
 
 std::vector<GrenadeInfo> Settings::GrenadeHelper::grenadeInfos = {};

@@ -1377,9 +1377,7 @@ void MiscTab()
 
 			ImGui::Columns(1);
 			{
-				//ImGui::PushItemWidth(-1);
 				ImGui::InputText("##Name", Settings::GrenadeHelper::inputName, sizeof(Settings::GrenadeHelper::inputName));
-				//ImGui::PopItemWidth();
 
 				ImGui::SameLine();
 				ImGui::Checkbox("Jump", &Settings::GrenadeHelper::inputJump);
@@ -1396,10 +1394,9 @@ void MiscTab()
 					Settings::GrenadeHelper::grenadeInfos.push_back(gi);
 
 					pstring path = GetGhConfigDirectory() << Settings::GrenadeHelper::actMapName;
-					if (!DoesFileExist(path.c_str())) {
+					if (!DoesFileExist(path.c_str()))
 						mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-						Settings::SaveGrenadeInfo(path << "/config.json");
-					}
+					Settings::SaveGrenadeInfo(path << "/config.json");
 				}
 				SetTooltip("Adds a new throw using the current Angle, position and helpd Grenade.");
 			}
