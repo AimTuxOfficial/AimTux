@@ -51,6 +51,15 @@ struct Color
 		return color;
 	}
 
+	Color& operator *= (float coeff)
+	{
+		Color& color = *this;
+		color.r *= coeff;
+		color.g *= coeff;
+		color.b *= coeff;
+		return color;
+	}
+
 	static Color FromHSB(float hue, float saturation, float brightness)
 	{
 		float h = hue == 1.0f ? 0 : hue * 6.0f;
@@ -128,6 +137,4 @@ struct Color
 				color.a / 255.f
 		);
 	}
-
-	//TODO: Add operator overloads
 };

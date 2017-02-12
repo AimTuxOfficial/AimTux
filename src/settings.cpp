@@ -124,8 +124,12 @@ void Settings::LoadDefaultsOrSave(std::string path)
 		weaponSetting["NoShoot"]["Enabled"] = i.second.noShootEnabled;
 		weaponSetting["IgnoreJump"]["Enabled"] = i.second.ignoreJumpEnabled;
 		weaponSetting["SmokeCheck"]["Enabled"] = i.second.smokeCheck;
+		weaponSetting["FlashCheck"]["Enabled"] = i.second.flashCheck;
 		weaponSetting["AutoWall"]["Enabled"] = i.second.autoWallEnabled;
 		weaponSetting["AutoWall"]["Value"] = i.second.autoWallValue;
+		weaponSetting["AutoSlow"]["enabled"] = i.second.autoSlow;
+		weaponSetting["AutoSlow"]["speedPercent"] = i.second.autoSlowSpeedPercent;
+		weaponSetting["Prediction"]["enabled"] = i.second.predEnabled;
 
 		for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
 			weaponSetting["AutoWall"]["Bones"][bone] = i.second.autoWallBones[bone];
@@ -134,8 +138,6 @@ void Settings::LoadDefaultsOrSave(std::string path)
 
 		#undef weaponSetting
 	}
-
-	settings["Aimbot"]["AutoStop"]["enabled"] = Settings::Aimbot::AutoStop::enabled;
 
 	settings["Aimbot"]["AutoCrouch"]["enabled"] = Settings::Aimbot::AutoCrouch::enabled;
 
@@ -147,6 +149,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Triggerbot"]["Filters"]["allies"] = Settings::Triggerbot::Filters::allies;
 	settings["Triggerbot"]["Filters"]["walls"] = Settings::Triggerbot::Filters::walls;
 	settings["Triggerbot"]["Filters"]["smoke_check"] = Settings::Triggerbot::Filters::smokeCheck;
+	settings["Triggerbot"]["Filters"]["flash_check"] = Settings::Triggerbot::Filters::flashCheck;
 	settings["Triggerbot"]["Filters"]["head"] = Settings::Triggerbot::Filters::head;
 	settings["Triggerbot"]["Filters"]["chest"] = Settings::Triggerbot::Filters::chest;
 	settings["Triggerbot"]["Filters"]["stomach"] = Settings::Triggerbot::Filters::stomach;
@@ -174,6 +177,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	LoadUIColor(settings["ESP"]["t_visible_color"], Settings::ESP::tVisibleColor);
 	LoadUIColor(settings["ESP"]["ct_color"], Settings::ESP::ctColor);
 	LoadUIColor(settings["ESP"]["ct_visible_color"], Settings::ESP::ctVisibleColor);
+	LoadUIColor(settings["ESP"]["localplayer_color"], Settings::ESP::localplayerColor);
 	settings["ESP"]["hp_enemy_color"] = Settings::ESP::hpEnemyColor;
 	settings["ESP"]["hp_ally_color"] = Settings::ESP::hpAllyColor;
 	settings["ESP"]["hp_enemy_visible_color"] = Settings::ESP::hpEnemyVisibleColor;
@@ -182,6 +186,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["ESP"]["hp_t_color"] = Settings::ESP::hpTColor;
 	settings["ESP"]["hp_ct_visible_color"] = Settings::ESP::hpCtVisibleColor;
 	settings["ESP"]["hp_t_visible_color"] = Settings::ESP::hpTVisibleColor;
+	settings["ESP"]["hp_localplayer_color"] = Settings::ESP::hpLocalplayerColor;
 	LoadUIColor(settings["ESP"]["bomb_color"], Settings::ESP::bombColor);
 	LoadUIColor(settings["ESP"]["bomb_defusing_color"], Settings::ESP::bombDefusingColor);
 	LoadUIColor(settings["ESP"]["hostage_color"], Settings::ESP::hostageColor);
@@ -198,9 +203,11 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	LoadUIColor(settings["ESP"]["Glow"]["ally_color"], Settings::ESP::Glow::allyColor);
 	LoadUIColor(settings["ESP"]["Glow"]["enemy_color"], Settings::ESP::Glow::enemyColor);
 	LoadUIColor(settings["ESP"]["Glow"]["enemy_visible_color"], Settings::ESP::Glow::enemyVisibleColor);
+	LoadUIColor(settings["ESP"]["Glow"]["localplayer_color"], Settings::ESP::Glow::localplayerColor);
 	settings["ESP"]["Glow"]["hp_ally_color"] = Settings::ESP::Glow::hpAllyColor;
 	settings["ESP"]["Glow"]["hp_enemy_color"] = Settings::ESP::Glow::hpEnemyColor;
 	settings["ESP"]["Glow"]["hp_enemy_visible_color"] = Settings::ESP::Glow::hpEnemyVisibleColor;
+	settings["ESP"]["Glow"]["hp_localplayer_color"] = Settings::ESP::Glow::hpLocalplayerColor;
 	LoadUIColor(settings["ESP"]["Glow"]["weapon_color"], Settings::ESP::Glow::weaponColor);
 	LoadUIColor(settings["ESP"]["Glow"]["grenade_color"], Settings::ESP::Glow::grenadeColor);
 	LoadUIColor(settings["ESP"]["Glow"]["defuser_color"], Settings::ESP::Glow::defuserColor);
@@ -217,6 +224,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["ESP"]["Filters"]["chickens"] = Settings::ESP::Filters::chickens;
 	settings["ESP"]["Filters"]["fishes"] = Settings::ESP::Filters::fishes;
 	settings["ESP"]["Filters"]["throwables"] = Settings::ESP::Filters::throwables;
+	settings["ESP"]["Filters"]["localplayer"] = Settings::ESP::Filters::localplayer;
 	settings["ESP"]["Info"]["name"] = Settings::ESP::Info::name;
 	settings["ESP"]["Info"]["clan"] = Settings::ESP::Info::clan;
 	settings["ESP"]["Info"]["steam_id"] = Settings::ESP::Info::steamId;
@@ -253,10 +261,12 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	LoadUIColor(settings["ESP"]["Chams"]["players_ally_visible_color"], Settings::ESP::Chams::allyVisibleColor);
 	LoadUIColor(settings["ESP"]["Chams"]["players_enemy_color"], Settings::ESP::Chams::enemyColor);
 	LoadUIColor(settings["ESP"]["Chams"]["players_enemy_visible_color"], Settings::ESP::Chams::enemyVisibleColor);
+	LoadUIColor(settings["ESP"]["Chams"]["localplayer_color"], Settings::ESP::Chams::localplayerColor);
 	settings["ESP"]["Chams"]["hp_ally_color"] = Settings::ESP::Chams::hpAllyColor;
 	settings["ESP"]["Chams"]["hp_ally_visible_color"] = Settings::ESP::Chams::hpAllyVisibleColor;
 	settings["ESP"]["Chams"]["hp_enemy_color"] = Settings::ESP::Chams::hpEnemyColor;
 	settings["ESP"]["Chams"]["hp_enemy_visible_color"] = Settings::ESP::Chams::hpEnemyVisibleColor;
+	settings["ESP"]["Chams"]["hp_localplayer_color"] = Settings::ESP::Chams::hpLocalplayerColor;
 	settings["ESP"]["Chams"]["type"] = (int) Settings::ESP::Chams::type;
 	settings["ESP"]["Chams"]["enabled"] = Settings::ESP::Chams::enabled;
 	settings["ESP"]["Sounds"]["enabled"] = Settings::ESP::Sounds::enabled;
@@ -277,13 +287,19 @@ void Settings::LoadDefaultsOrSave(std::string path)
 
 	settings["Spammer"]["spammer_type"] = (int) Settings::Spammer::type;
 	settings["Spammer"]["say_team"] = Settings::Spammer::say_team;
+
 	settings["Spammer"]["KillSpammer"]["enabled"] = Settings::Spammer::KillSpammer::enabled;
 	settings["Spammer"]["KillSpammer"]["say_team"] = Settings::Spammer::KillSpammer::sayTeam;
-	settings["Spammer"]["KillSpammer"]["message"] = Settings::Spammer::KillSpammer::message;
-	Json::Value messages;
+	Json::Value killSpammerMessages;
+	for (auto it : Settings::Spammer::KillSpammer::messages)
+		killSpammerMessages.append(it);
+	settings["Spammer"]["KillSpammer"]["messages"] = killSpammerMessages;
+
+	Json::Value normalSpammerMessages;
 	for (auto it : Settings::Spammer::NormalSpammer::messages)
-		messages.append(it);
-	settings["Spammer"]["NormalSpammer"]["messages"] = messages;
+		normalSpammerMessages.append(it);
+	settings["Spammer"]["NormalSpammer"]["messages"] = normalSpammerMessages;
+
 	settings["Spammer"]["PositionSpammer"]["show_name"] = Settings::Spammer::PositionSpammer::showName;
 	settings["Spammer"]["PositionSpammer"]["show_weapon"] = Settings::Spammer::PositionSpammer::showWeapon;
 	settings["Spammer"]["PositionSpammer"]["show_rank"] = Settings::Spammer::PositionSpammer::showRank;
@@ -419,6 +435,12 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["NameStealer"]["enabled"] = Settings::NameStealer::enabled;
 	settings["NameStealer"]["team"] = Settings::NameStealer::team;
 
+	settings["ThirdPerson"]["enabled"] = Settings::ThirdPerson::enabled;
+	settings["ThirdPerson"]["distance"] = Settings::ThirdPerson::distance;
+
+	settings["JumpThrow"]["enabled"] = Settings::JumpThrow::enabled;
+	settings["JumpThrow"]["key"] = Util::GetButtonName(Settings::JumpThrow::key);
+
 	std::ofstream(path) << styledWriter.write(settings);
 }
 
@@ -444,7 +466,7 @@ void Settings::LoadConfig(std::string path)
 	Fonts::SetupFonts();
 
 	Settings::Aimbot::weapons = {
-			{ ItemDefinitionIndex::INVALID, { false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f, false, false, false, false, false, false, false, 10.0f, false} },
+			{ ItemDefinitionIndex::INVALID, { false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f, false, false, false, false, false, false, false, false, 10.0f, false, false, false, 5.0f } },
 	};
 
 	for (Json::ValueIterator itr = settings["Aimbot"]["weapons"].begin(); itr != settings["Aimbot"]["weapons"].end(); itr++)
@@ -495,9 +517,13 @@ void Settings::LoadConfig(std::string path)
 				weaponSetting["NoShoot"]["Enabled"].asBool(),
 				weaponSetting["IgnoreJump"]["Enabled"].asBool(),
 				weaponSetting["SmokeCheck"]["Enabled"].asBool(),
+				weaponSetting["FlashCheck"]["Enabled"].asBool(),
 				weaponSetting["AutoWall"]["Enabled"].asBool(),
 				weaponSetting["AutoWall"]["Value"].asFloat(),
-				weaponSetting["AutoAim"]["RealDistance"].asBool()
+				weaponSetting["AutoAim"]["RealDistance"].asBool(),
+				weaponSetting["AutoSlow"]["enabled"].asBool(),
+				weaponSetting["AutoSlow"]["speedPercent"].asFloat(),
+				weaponSetting["Prediction"]["enabled"].asBool()
 		};
 
 		for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
@@ -505,8 +531,6 @@ void Settings::LoadConfig(std::string path)
 
 		Settings::Aimbot::weapons.at(weaponID) = weapon;
 	}
-
-	GetVal(settings["Aimbot"]["AutoStop"]["enabled"], &Settings::Aimbot::AutoStop::enabled);
 
 	GetVal(settings["Aimbot"]["AutoCrouch"]["enabled"], &Settings::Aimbot::AutoCrouch::enabled);
 
@@ -518,6 +542,7 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["Triggerbot"]["Filters"]["allies"], &Settings::Triggerbot::Filters::allies);
 	GetVal(settings["Triggerbot"]["Filters"]["walls"], &Settings::Triggerbot::Filters::walls);
 	GetVal(settings["Triggerbot"]["Filters"]["smoke_check"], &Settings::Triggerbot::Filters::smokeCheck);
+	GetVal(settings["Triggerbot"]["Filters"]["flash_check"], &Settings::Triggerbot::Filters::flashCheck);
 	GetVal(settings["Triggerbot"]["Filters"]["head"], &Settings::Triggerbot::Filters::head);
 	GetVal(settings["Triggerbot"]["Filters"]["chest"], &Settings::Triggerbot::Filters::chest);
 	GetVal(settings["Triggerbot"]["Filters"]["stomach"], &Settings::Triggerbot::Filters::stomach);
@@ -545,6 +570,7 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["ESP"]["t_visible_color"], &Settings::ESP::tVisibleColor);
 	GetVal(settings["ESP"]["ct_color"], &Settings::ESP::ctColor);
 	GetVal(settings["ESP"]["ct_visible_color"], &Settings::ESP::ctVisibleColor);
+	GetVal(settings["ESP"]["localplayer_color"], &Settings::ESP::localplayerColor);
 	GetVal(settings["ESP"]["hp_enemy_color"], &Settings::ESP::hpEnemyColor);
 	GetVal(settings["ESP"]["hp_enemy_visible_color"], &Settings::ESP::hpEnemyVisibleColor);
 	GetVal(settings["ESP"]["hp_ally_color"], &Settings::ESP::hpAllyColor);
@@ -553,6 +579,7 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["ESP"]["hp_t_visible_color"], &Settings::ESP::hpTVisibleColor);
 	GetVal(settings["ESP"]["hp_ct_color"], &Settings::ESP::hpCtColor);
 	GetVal(settings["ESP"]["hp_ct_visible_color"], &Settings::ESP::hpCtVisibleColor);
+	GetVal(settings["ESP"]["hp_localplayer_color"], &Settings::ESP::hpLocalplayerColor);
 	GetVal(settings["ESP"]["bomb_color"], &Settings::ESP::bombColor);
 	GetVal(settings["ESP"]["bomb_defusing_color"], &Settings::ESP::bombDefusingColor);
 	GetVal(settings["ESP"]["hostage_color"], &Settings::ESP::hostageColor);
@@ -569,9 +596,11 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["ESP"]["Glow"]["ally_color"], &Settings::ESP::Glow::allyColor);
 	GetVal(settings["ESP"]["Glow"]["enemy_color"], &Settings::ESP::Glow::enemyColor);
 	GetVal(settings["ESP"]["Glow"]["enemy_visible_color"], &Settings::ESP::Glow::enemyVisibleColor);
+	GetVal(settings["ESP"]["Glow"]["localplayer_color"], &Settings::ESP::Glow::localplayerColor);
 	GetVal(settings["ESP"]["Glow"]["hp_ally_color"], &Settings::ESP::Glow::hpAllyColor);
 	GetVal(settings["ESP"]["Glow"]["hp_enemy_color"], &Settings::ESP::Glow::hpEnemyColor);
 	GetVal(settings["ESP"]["Glow"]["hp_enemy_visible_color"], &Settings::ESP::Glow::hpEnemyVisibleColor);
+	GetVal(settings["ESP"]["Glow"]["hp_localplayer_color"], &Settings::ESP::Glow::hpLocalplayerColor);
 	GetVal(settings["ESP"]["Glow"]["weapon_color"], &Settings::ESP::Glow::weaponColor);
 	GetVal(settings["ESP"]["Glow"]["grenade_color"], &Settings::ESP::Glow::grenadeColor);
 	GetVal(settings["ESP"]["Glow"]["defuser_color"], &Settings::ESP::Glow::defuserColor);
@@ -588,6 +617,7 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["ESP"]["Filters"]["chickens"], &Settings::ESP::Filters::chickens);
 	GetVal(settings["ESP"]["Filters"]["fishes"], &Settings::ESP::Filters::fishes);
 	GetVal(settings["ESP"]["Filters"]["throwables"], &Settings::ESP::Filters::throwables);
+	GetVal(settings["ESP"]["Filters"]["localplayer"], &Settings::ESP::Filters::localplayer);
 	GetVal(settings["ESP"]["Info"]["name"], &Settings::ESP::Info::name);
 	GetVal(settings["ESP"]["Info"]["clan"], &Settings::ESP::Info::clan);
 	GetVal(settings["ESP"]["Info"]["steam_id"], &Settings::ESP::Info::steamId);
@@ -624,10 +654,12 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["ESP"]["Chams"]["players_ally_visible_color"], &Settings::ESP::Chams::allyVisibleColor);
 	GetVal(settings["ESP"]["Chams"]["players_enemy_color"], &Settings::ESP::Chams::enemyColor);
 	GetVal(settings["ESP"]["Chams"]["players_enemy_visible_color"], &Settings::ESP::Chams::enemyVisibleColor);
+	GetVal(settings["ESP"]["Chams"]["localplayer_color"], &Settings::ESP::Chams::localplayerColor);
 	GetVal(settings["ESP"]["Chams"]["hp_players_ally_color"], &Settings::ESP::Chams::hpAllyColor);
 	GetVal(settings["ESP"]["Chams"]["hp_players_ally_visible_color"], &Settings::ESP::Chams::hpAllyVisibleColor);
 	GetVal(settings["ESP"]["Chams"]["hp_players_enemy_color"], &Settings::ESP::Chams::hpEnemyColor);
 	GetVal(settings["ESP"]["Chams"]["hp_players_enemy_visible_color"], &Settings::ESP::Chams::hpEnemyVisibleColor);
+	GetVal(settings["ESP"]["Chams"]["hp_localplayer_color"], &Settings::ESP::Chams::hpLocalplayerColor);
 	GetVal(settings["ESP"]["Chams"]["type"], (int*)& Settings::ESP::Chams::type);
 	GetVal(settings["ESP"]["Chams"]["enabled"], &Settings::ESP::Chams::enabled);
 	GetVal(settings["ESP"]["Sounds"]["enabled"], &Settings::ESP::Sounds::enabled);
@@ -650,7 +682,12 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["Spammer"]["say_team"], &Settings::Spammer::say_team);
 	GetVal(settings["Spammer"]["KillSpammer"]["enabled"], &Settings::Spammer::KillSpammer::enabled);
 	GetVal(settings["Spammer"]["KillSpammer"]["say_team"], &Settings::Spammer::KillSpammer::sayTeam);
-	GetVal(settings["Spammer"]["KillSpammer"]["message"], &Settings::Spammer::KillSpammer::message);
+	if (!settings["Spammer"]["KillSpammer"]["messages"].isNull())
+	{
+		Settings::Spammer::KillSpammer::messages.clear();
+		for (const Json::Value& message : settings["Spammer"]["KillSpammer"]["messages"])
+			Settings::Spammer::KillSpammer::messages.push_back(message.asString());
+	}
 	if (!settings["Spammer"]["NormalSpammer"]["messages"].isNull())
 	{
 		Settings::Spammer::NormalSpammer::messages.clear();
@@ -844,6 +881,12 @@ void Settings::LoadConfig(std::string path)
 
 	GetVal(settings["NameStealer"]["enabled"], &Settings::NameStealer::enabled);
 	GetVal(settings["NameStealer"]["team"], &Settings::NameStealer::team);
+
+	GetVal(settings["ThirdPerson"]["enabled"], &Settings::ThirdPerson::enabled);
+	GetVal(settings["ThirdPerson"]["distance"], &Settings::ThirdPerson::distance);
+
+	GetVal(settings["JumpThrow"]["enabled"], &Settings::JumpThrow::enabled);
+	GetButtonCode(settings["JumpThrow"]["key"], &Settings::JumpThrow::key);
 }
 
 void Settings::LoadSettings()

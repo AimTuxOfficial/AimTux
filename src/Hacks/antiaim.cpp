@@ -245,7 +245,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 	if (!Settings::AntiAim::Yaw::enabled && !Settings::AntiAim::Pitch::enabled)
 		return;
 
-	if (Settings::Aimbot::AimStep::enabled && Aimbot::AimStepInProgress)
+	if (Settings::Aimbot::AimStep::enabled && Aimbot::aimStepInProgress)
 		return;
 
 	QAngle oldAngle = cmd->viewangles;
@@ -270,7 +270,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 			return;
 	}
 
-	if (cmd->buttons & IN_USE || cmd->buttons & IN_ATTACK || cmd->buttons & IN_ATTACK2)
+	if (cmd->buttons & IN_USE || cmd->buttons & IN_ATTACK || (cmd->buttons & IN_ATTACK2 && *activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER))
 		return;
 
 	if (localplayer->GetMoveType() == MOVETYPE_LADDER || localplayer->GetMoveType() == MOVETYPE_NOCLIP)
@@ -310,7 +310,8 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 	{
 		DoAntiAimY(angle, cmd->command_number, bFlip, should_clamp);
 		Math::NormalizeAngles(angle);
-		CreateMove::SendPacket = bFlip;
+		if (!Settings::FakeLag::enabled)
+			CreateMove::sendPacket = bFlip;
 		if (Settings::AntiAim::HeadEdge::enabled && edging_head && !bFlip)
 			angle.y = edge_angle.y;
 	}

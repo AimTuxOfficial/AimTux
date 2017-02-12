@@ -4,7 +4,10 @@ SpammerType Settings::Spammer::type = SpammerType::SPAMMER_NONE;
 bool Settings::Spammer::say_team = false;
 bool Settings::Spammer::KillSpammer::enabled = false;
 bool Settings::Spammer::KillSpammer::sayTeam = false;
-char* Settings::Spammer::KillSpammer::message = strdup("$nick just got OWNED by AimTux!!");
+std::vector<std::string> Settings::Spammer::KillSpammer::messages = {
+		"$nick just got owned by AimTux",
+		"$nick watches anime",
+};
 bool Settings::Spammer::RadioSpammer::enabled = false;
 std::vector<std::string> Settings::Spammer::NormalSpammer::messages = {
 		"AimTux owns me and all",
@@ -55,7 +58,8 @@ void Spammer::BeginFrame(float frameTime)
 		// Construct a command with our message
 		pstring str;
 		str << (Settings::Spammer::KillSpammer::sayTeam ? "say_team" : "say");
-		str << " \"" << Util::ReplaceString(Settings::Spammer::KillSpammer::message, "$nick", dead_player_name) << "\"";
+		std::string message = Settings::Spammer::KillSpammer::messages[std::rand() % Settings::Spammer::KillSpammer::messages.size()];
+		str << " \"" << Util::ReplaceString(message, "$nick", dead_player_name) << "\"";
 
 		// Execute our constructed command
 		engine->ExecuteClientCmd(str.c_str());
@@ -143,14 +147,6 @@ void Spammer::BeginFrame(float frameTime)
 			C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(player->GetActiveWeapon());
 
 			std::string modelName = Util::Items::GetItemDisplayName(*activeWeapon->GetItemDefinitionIndex());
-			if (modelName == "")
-			{
-				modelName = std::string(activeWeapon->GetClientClass()->m_pNetworkName);
-				if (strstr(modelName.c_str(), "Weapon"))
-					modelName = modelName.substr(7, modelName.length() - 7);
-				else
-					modelName = modelName.substr(1, modelName.length() - 1);
-			}
 
 			// Prepare player's nickname without ';' & '"' characters
 			// as they might cause user to execute a command.
@@ -169,7 +165,7 @@ void Spammer::BeginFrame(float frameTime)
 				str << player_name << " | ";
 
 			if (Settings::Spammer::PositionSpammer::showWeapon)
-				str << modelName << " | ";
+				str << Util::WstringToString(localize->FindSafe(modelName.c_str())) << " | ";
 
 			if (Settings::Spammer::PositionSpammer::showRank)
 				str << ESP::ranks[*(*csPlayerResource)->GetCompetitiveRanking(i)] << " | ";
@@ -198,7 +194,6 @@ void Spammer::BeginFrame(float frameTime)
 	// Update the time stamp
 	timeStamp = currentTime_ms;
 }
-
 
 void Spammer::FireGameEvent(IGameEvent* event)
 {

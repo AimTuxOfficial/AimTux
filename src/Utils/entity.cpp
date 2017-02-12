@@ -7,6 +7,9 @@ bool Entity::IsVisible(C_BasePlayer* player, Bone bone, float fov, bool smoke_ch
 	if (!localplayer)
 		return true;
 
+	if (player == localplayer)
+		return true;
+
 	if (!localplayer->GetAlive())
 	{
 		if (*localplayer->GetObserverMode() == ObserverMode_t::OBS_MODE_IN_EYE && localplayer->GetObserverTarget())

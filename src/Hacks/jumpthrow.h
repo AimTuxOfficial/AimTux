@@ -3,8 +3,9 @@
 #include "../SDK/SDK.h"
 #include "../interfaces.h"
 #include "../settings.h"
+#include "../Utils/entity.h"
 
-namespace ASUSWalls
+namespace JumpThrow
 {
-	void FrameStageNotify(ClientFrameStage_t stage);
+	void CreateMove(CUserCmd* cmd);
 }

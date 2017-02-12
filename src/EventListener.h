@@ -18,6 +18,7 @@ public:
 	{
 		Aimbot::FireGameEvent(event);
 		Hitmarkers::FireGameEvent(event);
+		NameStealer::FireGameEvent(event);
 		Resolver::FireGameEvent(event);
 		Spammer::FireGameEvent(event);
 		ValveDSCheck::FireGameEvent(event);

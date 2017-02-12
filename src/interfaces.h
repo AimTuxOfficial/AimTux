@@ -40,6 +40,7 @@ extern IEngineSound* sound;
 extern ILocalize* localize;
 extern ICommandLine* commandline;
 extern CInput* input;
+extern CGameServer* sv;
 
 extern VMT* panelVMT;
 extern VMT* clientVMT;
@@ -62,6 +63,7 @@ extern int* nPredictionRandomSeed;
 extern bool* bSendPacket;
 extern CMoveData* g_MoveData;
 extern uint8_t* CrosshairWeaponTypeCheck;
+extern uint8_t* CamThinkSvCheatsCheck;
 
 extern uintptr_t oSwapWindow;
 extern uintptr_t* swapWindowJumpAddress;

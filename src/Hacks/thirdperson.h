@@ -4,7 +4,8 @@
 #include "../interfaces.h"
 #include "../settings.h"
 
-namespace ASUSWalls
+namespace ThirdPerson
 {
+	void BeginFrame();
 	void FrameStageNotify(ClientFrameStage_t stage);
 }

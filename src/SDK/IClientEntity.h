@@ -341,6 +341,11 @@ public:
 
 		return Vector(hitbox[0][3], hitbox[1][3], hitbox[2][3]);
 	}
+
+	QAngle* GetVAngles()
+	{
+		return (QAngle*)((uintptr_t)this + offsets.DT_BasePlayer.deadflag + 0x4);
+	}
 };
 
 class C_PlantedC4 : public C_BaseEntity
@@ -417,14 +422,8 @@ public:
 
 	float GetInaccuracy()
 	{
-		typedef float (* oGetIndex)(void*);
-		return getvfunc<oGetIndex>(this, 478)(this);
-	}
-
-	float GetSpread()
-	{
-		typedef float (* oGetIndex)(void*);
-		return getvfunc<oGetIndex>(this, 479)(this);
+		typedef float (* oGetInaccuracy)(void*);
+		return getvfunc<oGetInaccuracy>(this, 552)(this);
 	}
 };
 
@@ -475,6 +474,16 @@ public:
 		return *(float*)((uintptr_t)this + 0x82C);
 	}
 
+	float GetMaxPlayerSpeed()
+	{
+		return *(float*)((uintptr_t)this + 0x830);
+	}
+
+	float GetMaxPlayerSpeedAlt()
+	{
+		return *(float*)((uintptr_t)this + 0x834);
+	}
+
 	float GetPenetration()
 	{
 		return *(float*)((uintptr_t)this + 0x840);
@@ -493,6 +502,11 @@ public:
 	float GetRangeModifier()
 	{
 		return *(float*)((uintptr_t)this + 0x84C);
+	}
+
+	float GetSpread()
+	{
+		return *(float*)((uintptr_t)this + 0x9FC);
 	}
 
 	int GetZoomLevels()

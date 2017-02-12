@@ -192,10 +192,14 @@ static bool autoScopeEnabled = false;
 static bool noShootEnabled = false;
 static bool ignoreJumpEnabled = false;
 static bool smokeCheck = false;
+static bool flashCheck = false;
 static bool autoWallEnabled = false;
 static float autoWallValue = 10.0f;
 static bool autoWallBones[] = { true, false, false, false, false, false };
 static bool autoAimRealDistance = false;
+static bool autoSlow = false;
+static float autoSlowSpeedPercent = 34.0f;
+static bool predEnabled = false;
 
 void UI::UpdateWeaponSettings()
 {
@@ -208,7 +212,8 @@ void UI::UpdateWeaponSettings()
 							   autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
 							   rcsEnabled, rcsAlwaysOn, rcsAmountX, rcsAmountY,
 							   autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
-							   noShootEnabled, ignoreJumpEnabled, smokeCheck, autoWallEnabled, autoWallValue, autoAimRealDistance
+							   noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallValue, autoAimRealDistance,
+							   autoSlow, autoSlowSpeedPercent, predEnabled
 	};
 
 	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
@@ -250,9 +255,13 @@ void ReloadWeaponSettings()
 	noShootEnabled = Settings::Aimbot::weapons.at(index).noShootEnabled;
 	ignoreJumpEnabled = Settings::Aimbot::weapons.at(index).ignoreJumpEnabled;
 	smokeCheck = Settings::Aimbot::weapons.at(index).smokeCheck;
+	flashCheck = Settings::Aimbot::weapons.at(index).flashCheck;
 	autoWallEnabled = Settings::Aimbot::weapons.at(index).autoWallEnabled;
 	autoWallValue = Settings::Aimbot::weapons.at(index).autoWallValue;
 	autoAimRealDistance = Settings::Aimbot::weapons.at(index).autoAimRealDistance;
+	autoSlow = Settings::Aimbot::weapons.at(index).autoSlow;
+	autoSlowSpeedPercent = Settings::Aimbot::weapons.at(index).autoSlowSpeedPercent;
+	predEnabled = Settings::Aimbot::weapons.at(index).predEnabled;
 
 	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
 		autoWallBones[bone] = Settings::Aimbot::weapons.at(index).autoWallBones[bone];
@@ -284,6 +293,7 @@ void ColorsWindow()
 			{ "ESP - T", &Settings::ESP::tColor, &Settings::ESP::hpTColor },
 			{ "ESP - CT Visible", &Settings::ESP::ctVisibleColor, &Settings::ESP::hpCtVisibleColor },
 			{ "ESP - T Visible", &Settings::ESP::tVisibleColor, &Settings::ESP::hpTVisibleColor },
+			{ "ESP - LocalPlayer", &Settings::ESP::localplayerColor, &Settings::ESP::hpLocalplayerColor },
 			{ "ESP - Bomb", &Settings::ESP::bombColor, nullptr },
 			{ "ESP - Bomb Defusing", &Settings::ESP::bombDefusingColor, nullptr },
 			{ "ESP - Hostage", &Settings::ESP::hostageColor, nullptr },
@@ -301,6 +311,7 @@ void ColorsWindow()
 			{ "Chams - Team Visible", &Settings::ESP::Chams::allyVisibleColor, &Settings::ESP::Chams::hpAllyVisibleColor },
 			{ "Chams - Enemy", &Settings::ESP::Chams::enemyColor, &Settings::ESP::Chams::hpEnemyColor },
 			{ "Chams - Enemy Visible", &Settings::ESP::Chams::enemyVisibleColor, &Settings::ESP::Chams::hpEnemyVisibleColor },
+			{ "Chams - LocalPlayer", &Settings::ESP::Chams::localplayerColor, &Settings::ESP::Chams::hpLocalplayerColor },
 			{ "Chams - Arms", &Settings::ESP::Chams::Arms::color, nullptr },
 			{ "Chams - Weapon", &Settings::ESP::Chams::Weapon::color, nullptr },
 			{ "Radar - Enemy", &Settings::Radar::enemyColor, &Settings::Radar::hpEnemyColor },
@@ -316,6 +327,7 @@ void ColorsWindow()
 			{ "Glow - Team", &Settings::ESP::Glow::allyColor, &Settings::ESP::Glow::hpAllyColor },
 			{ "Glow - Enemy", &Settings::ESP::Glow::enemyColor, &Settings::ESP::Glow::hpEnemyColor },
 			{ "Glow - Enemy Visible", &Settings::ESP::Glow::enemyVisibleColor, &Settings::ESP::Glow::hpEnemyVisibleColor },
+			{ "Glow - LocalPlayer", &Settings::ESP::Glow::localplayerColor, &Settings::ESP::Glow::hpLocalplayerColor },
 			{ "Glow - Weapon", &Settings::ESP::Glow::weaponColor, nullptr },
 			{ "Glow - Grenade", &Settings::ESP::Glow::grenadeColor, nullptr },
 			{ "Glow - Defuser", &Settings::ESP::Glow::defuserColor, nullptr },
@@ -355,7 +367,7 @@ void ColorsWindow()
 void AimbotTab()
 {
 	const char* targets[] = { "PELVIS", "", "", "HIP", "LOWER SPINE", "MIDDLE SPINE", "UPPER SPINE", "NECK", "HEAD" };
-	const char* smoothTypes[] = { "Slow Near End", "Constant Speed" };
+	const char* smoothTypes[] = { "Slow Near End", "Constant Speed", "Fast Near End" };
 	static char filterWeapons[32];
 
 	if (ImGui::Checkbox("Enabled", &enabled))
@@ -562,7 +574,10 @@ void AimbotTab()
 				SetTooltip("Prevents the camera from locking to an enemy, doesn't work for demos");
 				if (ImGui::Checkbox("Smoke Check", &smokeCheck))
 					UI::UpdateWeaponSettings();
-				SetTooltip("Ignore players that are in smoke");
+				SetTooltip("Ignore players that are blocked by smoke");
+				if (ImGui::Checkbox("Prediction", &predEnabled))
+					UI::UpdateWeaponSettings();
+				SetTooltip("Use velocity prediction");
 			}
 			ImGui::NextColumn();
 			{
@@ -575,7 +590,29 @@ void AimbotTab()
 				if (ImGui::Checkbox("Ignore Jump", &ignoreJumpEnabled))
 					UI::UpdateWeaponSettings();
 				SetTooltip("Prevents you from aimbotting while jumping");
+				if (ImGui::Checkbox("Flash Check", &flashCheck))
+					UI::UpdateWeaponSettings();
+				SetTooltip("Disable aimbot while flashed");
 			}
+
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::Text("AutoSlow");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				if (ImGui::Checkbox("Enabled##AUTOSLOW", &autoSlow))
+					UI::UpdateWeaponSettings();
+				SetTooltip("Automatically slows your movement speed when an enemy is shootable");
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::PushItemWidth(-1);
+					if (ImGui::SliderFloat("##AUTOSLOWSPEEDPERCENT", &autoSlowSpeedPercent, 0, 100, "Percent: %f"))
+						UI::UpdateWeaponSettings();
+				ImGui::PopItemWidth();
+			}
+
 			ImGui::Columns(1);
 			ImGui::Separator();
 			ImGui::Text("AutoWall");
@@ -689,6 +726,8 @@ void TriggerbotTab()
 				SetTooltip("Trigger on head");
 				ImGui::Checkbox("Chest", &Settings::Triggerbot::Filters::chest);
 				SetTooltip("Trigger on chest");
+				ImGui::Checkbox("Legs", &Settings::Triggerbot::Filters::legs);
+				SetTooltip("Trigger on legs");
 			}
 			ImGui::NextColumn();
 			{
@@ -696,12 +735,12 @@ void TriggerbotTab()
 				SetTooltip("Trigger on allies");
 				ImGui::Checkbox("Smoke check", &Settings::Triggerbot::Filters::smokeCheck);
 				SetTooltip("Don't shoot through smokes");
+				ImGui::Checkbox("Flash check", &Settings::Triggerbot::Filters::flashCheck);
+				SetTooltip("Don't shoot while flashed");
 				ImGui::Checkbox("Stomach", &Settings::Triggerbot::Filters::stomach);
 				SetTooltip("Trigger on stomach");
 				ImGui::Checkbox("Arms", &Settings::Triggerbot::Filters::arms);
 				SetTooltip("Trigger on arms");
-				ImGui::Checkbox("Legs", &Settings::Triggerbot::Filters::legs);
-				SetTooltip("Trigger on legs");
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -777,10 +816,10 @@ void VisualsTab()
 					SetTooltip("Show enemies");
 					ImGui::Checkbox("Chickens", &Settings::ESP::Filters::chickens);
 					SetTooltip("Show chickens");
+					ImGui::Checkbox("LocalPlayer", &Settings::ESP::Filters::localplayer);
+					SetTooltip("Show localplayer");
 					ImGui::Checkbox("Legit Mode", &Settings::ESP::Filters::legit);
 					SetTooltip("Hide enemies behind walls");
-					ImGui::Checkbox("Smoke Check", &Settings::ESP::Filters::smokeCheck);
-					SetTooltip("Mark players behind smokes as invisible");
 				}
 				ImGui::NextColumn();
 				{
@@ -788,6 +827,8 @@ void VisualsTab()
 					SetTooltip("Show team mates");
 					ImGui::Checkbox("Fish", &Settings::ESP::Filters::fishes);
 					SetTooltip("Show fish");
+					ImGui::Checkbox("Smoke Check", &Settings::ESP::Filters::smokeCheck);
+					SetTooltip("Mark players behind smokes as invisible");
 					ImGui::Checkbox("Visiblity Check", &Settings::ESP::Filters::visibilityCheck);
 					SetTooltip("Change color of outlined box based on whether you see them");
 				}
@@ -888,8 +929,6 @@ void VisualsTab()
 			{
 				ImGui::Checkbox("Arms", &Settings::ESP::Chams::Arms::enabled);
 				SetTooltip("Apply chams to arms");
-				ImGui::Checkbox("Weapons", &Settings::ESP::Chams::Weapon::enabled);
-				SetTooltip("Apply chams to weapons");
 				ImGui::Checkbox("Dlights", &Settings::Dlights::enabled);
 				SetTooltip("Adds a light source to players");
 				ImGui::Checkbox("No Flash", &Settings::Noflash::enabled);
@@ -898,6 +937,8 @@ void VisualsTab()
 				SetTooltip("Shows you footsteps in 3D space");
 				ImGui::Checkbox("No View Punch", &Settings::View::NoViewPunch::enabled);
 				SetTooltip("Disables view punch when shooting");
+				ImGui::Checkbox("Weapons", &Settings::ESP::Chams::Weapon::enabled);
+				SetTooltip("Apply chams to weapons");
 				ImGui::Checkbox("No Sky", &Settings::NoSky::enabled);
 				SetTooltip("Allows for the skybox to be colored or disabled");
 				ImGui::Checkbox("No Smoke", &Settings::NoSmoke::enabled);
@@ -909,14 +950,14 @@ void VisualsTab()
 					ImGui::Combo("##ARMSTYPE", (int*)& Settings::ESP::Chams::Arms::type, ArmsTypes, IM_ARRAYSIZE(ArmsTypes));
 					ImGui::SliderFloat("##DLIGHTRADIUS", &Settings::Dlights::radius, 0, 1000, "Radius: %0.f");
 					ImGui::SliderFloat("##NOFLASHAMOUNT", &Settings::Noflash::value, 0, 255, "Amount: %0.f");
-					ImGui::SliderInt("##SOUNDSTIME", &Settings::ESP::Sounds::time, 250, 5000), "Timeout: %0.f";
+					ImGui::SliderInt("##SOUNDSTIME", &Settings::ESP::Sounds::time, 250, 5000, "Timeout: %0.f");
 				ImGui::PopItemWidth();
 				ImGui::Checkbox("No Aim Punch", &Settings::View::NoAimPunch::enabled);
 				SetTooltip("Disables aim punch when shooting");
-				ImGui::Checkbox("No Scope Border", &Settings::NoScopeBorder::enabled);
-				SetTooltip("Disables black scope silhouette");
 				ImGui::Checkbox("ASUS Walls", &Settings::ASUSWalls::enabled);
 				SetTooltip("Makes wall textures transparent");
+				ImGui::Checkbox("No Scope Border", &Settings::NoScopeBorder::enabled);
+				SetTooltip("Disables black scope silhouette");
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -1059,8 +1100,6 @@ void HvHTab()
 				ImGui::Separator();
 				ImGui::Checkbox("Knife", &Settings::AntiAim::AutoDisable::knifeHeld);
 				SetTooltip("Stops your antiaim while you have your knife out.");
-				ImGui::NextColumn();
-
 				ImGui::Checkbox("No Enemy", &Settings::AntiAim::AutoDisable::noEnemy);
 				SetTooltip("Stops your antiaim when there are no enemies visible.");
 
@@ -1109,19 +1148,8 @@ void HvHTab()
 			SetTooltip("Resolves all players on the server");
 			ImGui::Separator();
 			ImGui::Text("Movement");
-			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
-			{
-				ImGui::Checkbox("Auto Crouch", &Settings::Aimbot::AutoCrouch::enabled);
-				SetTooltip("Auto crouch when an enemy is in sight");
-			}
-			ImGui::NextColumn();
-			{
-				ImGui::Checkbox("Auto Stop", &Settings::Aimbot::AutoStop::enabled);
-				SetTooltip("Auto stop when an enemy is in sight");
-			}
-			ImGui::Columns(1);
-			ImGui::Separator();
+			ImGui::Checkbox("Auto Crouch", &Settings::Aimbot::AutoCrouch::enabled);
+			SetTooltip("Auto crouch when an enemy is in sight");
 			ImGui::EndChild();
 		}
 	}
@@ -1193,11 +1221,32 @@ void MiscTab()
 				if (ImGui::Button("Options###KILL"))
 					ImGui::OpenPopup("options_kill");
 
-				ImGui::SetNextWindowSize(ImVec2(565, 40), ImGuiSetCond_Always);
+				ImGui::SetNextWindowSize(ImVec2(565, 268), ImGuiSetCond_Always);
 				if (ImGui::BeginPopup("options_kill"))
 				{
+					static int killSpammerMessageCurrent = -1;
+					static char killSpammerMessageBuf[126];
+
+					ImGui::PushItemWidth(445);
+					ImGui::InputText("###SPAMMERMESSAGE", killSpammerMessageBuf, IM_ARRAYSIZE(killSpammerMessageBuf));
+					ImGui::PopItemWidth();
+					ImGui::SameLine();
+
+					if (ImGui::Button("Add"))
+					{
+						if (strlen(killSpammerMessageBuf) > 0)
+							Settings::Spammer::KillSpammer::messages.push_back(std::string(killSpammerMessageBuf));
+
+						strcpy(killSpammerMessageBuf, "");
+					}
+					ImGui::SameLine();
+
+					if (ImGui::Button("Remove"))
+						if (killSpammerMessageCurrent > -1 && (int) Settings::Spammer::KillSpammer::messages.size() > killSpammerMessageCurrent)
+							Settings::Spammer::KillSpammer::messages.erase(Settings::Spammer::KillSpammer::messages.begin() + killSpammerMessageCurrent);
+
 					ImGui::PushItemWidth(550);
-						ImGui::InputText("", Settings::Spammer::KillSpammer::message, 127);
+					ImGui::ListBox("", &killSpammerMessageCurrent, Settings::Spammer::KillSpammer::messages, 10);
 					ImGui::PopItemWidth();
 
 					ImGui::EndPopup();
@@ -1295,6 +1344,21 @@ void MiscTab()
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
+			ImGui::Text("Third Person");
+			ImGui::Separator();
+			ImGui::Columns(2, NULL, true);
+			{
+				ImGui::Checkbox("Enabled", &Settings::ThirdPerson::enabled);
+				SetTooltip("Switches from first-person perspective to third-person perspective.");
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::PushItemWidth(-1);
+				ImGui::SliderFloat("##TPCAMOFFSET", &Settings::ThirdPerson::distance, 0.f, 500.f, "Camera Offset: %0.f");
+				ImGui::PopItemWidth();
+			}
+			ImGui::Columns(1);
+			ImGui::Separator();
 			ImGui::EndChild();
 		}
 	}
@@ -1344,29 +1408,40 @@ void MiscTab()
 			if (ImGui::Button("No Name"))
 			{
 				NameChanger::changes = 0;
-				NameChanger::type = NC_NORMAL;
+				NameChanger::type = NameChanger::NC_Type::NC_NORMAL;
 			}
 
 			ImGui::SameLine();
 			if (ImGui::Button("Rainbow Name"))
-			{
-				NameChanger::changes = 0;
-				NameChanger::origName = NameChanger::GetName();
-				NameChanger::type = NC_RAINBOW;
-			}
+				NameChanger::InitColorChange(NameChanger::NC_Type::NC_RAINBOW);
 
 			ImGui::SameLine();
-			if (ImGui::Button("Solid Red Name"))
+			if (ImGui::Button("Colorize Name", ImVec2(-1, 0)))
+				ImGui::OpenPopup("optionColorizeName");
+			ImGui::SetNextWindowSize(ImVec2(150, 300), ImGuiSetCond_Always);
+			if (ImGui::BeginPopup("optionColorizeName"))
 			{
-				NameChanger::changes = 0;
-				NameChanger::origName = NameChanger::GetName();
-				NameChanger::type = NC_SOLID;
+				ImGui::PushItemWidth(-1);
+				for (auto& it : NameChanger::colors)
+				{
+					if (ImGui::Button(it.second, ImVec2(-1, 0)))
+						NameChanger::InitColorChange(NameChanger::NC_Type::NC_SOLID, it.first);
+				}
+				ImGui::PopItemWidth();
+
+				ImGui::EndPopup();
+			}
+			ImGui::Columns(2, NULL, true);
+			{
+				if (ImGui::Checkbox("Name Stealer", &Settings::NameStealer::enabled))
+					NameStealer::entityId = -1;
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::Combo("", &Settings::NameStealer::team, teams, IM_ARRAYSIZE(teams));
 			}
 
-			ImGui::Checkbox("Name Stealer", &Settings::NameStealer::enabled);
-			ImGui::SameLine();
-			ImGui::Combo("", &Settings::NameStealer::team, teams, IM_ARRAYSIZE(teams));
-
+			ImGui::Columns(1);
 			ImGui::Separator();
 			ImGui::Text("Other");
 			ImGui::Separator();
@@ -1391,6 +1466,8 @@ void MiscTab()
 					}
 				}
 				SetTooltip("Teleport to (0, 0) on any map");
+				ImGui::Checkbox("Jump Throw", &Settings::JumpThrow::enabled);
+				SetTooltip("Hold to prime grenade, release to perform perfect jump throw. Good for executing map smokes.");
 				ImGui::Checkbox("Sniper Crosshair", &Settings::SniperCrosshair::enabled);
 				SetTooltip("Enables the the crosshair with sniper rifles");
 			}
@@ -1406,6 +1483,7 @@ void MiscTab()
 				UI::KeyBindButton(&Settings::Airstuck::key);
 				UI::KeyBindButton(&Settings::Autoblock::key);
 				UI::KeyBindButton(&Settings::Teleport::key);
+				UI::KeyBindButton(&Settings::JumpThrow::key);
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -1611,7 +1689,7 @@ void PlayerListWindow()
 			ImGui::Text("Wins");
 			ImGui::NextColumn();
 
-			std::unordered_map<TeamID, std::vector<int>> players = {
+			std::unordered_map<TeamID, std::vector<int>, Util::IntHash<TeamID>> players = {
 					{ TeamID::TEAM_UNASSIGNED, { } },
 					{ TeamID::TEAM_SPECTATOR, { } },
 					{ TeamID::TEAM_TERRORIST, { } },

@@ -56,7 +56,7 @@ struct RecvProp
 	const char *m_pParentArrayPropName;
 };
 
-typedef void*	(*CreateClientClassFn)( int entnum, int serialNum );
+typedef void* (*CreateClientClassFn)(int entnum, int serialNum);
 
 struct ClientClass
 {

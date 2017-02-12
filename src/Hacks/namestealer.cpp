@@ -3,6 +3,8 @@
 bool Settings::NameStealer::enabled = false;
 int Settings::NameStealer::team = 1;
 
+int NameStealer::entityId = -1;
+
 void NameStealer::BeginFrame(float frameTime)
 {
 	if (!Settings::NameStealer::enabled)
@@ -21,14 +23,12 @@ void NameStealer::BeginFrame(float frameTime)
 	if (!localplayer)
 		return;
 
-	static int entityId = -1;
-
-	do
+	while (entityId < engine->GetMaxClients())
 	{
 		entityId++;
 
 		if (entityId >= engine->GetMaxClients())
-			entityId = 0;
+			entityId = 1;
 
 		if (entityId == 0)
 		{
@@ -36,28 +36,42 @@ void NameStealer::BeginFrame(float frameTime)
 
 			timeStamp = currentTime_ms;
 
-			return;
+			break;
 		}
 
 		if ((*csPlayerResource) && (*csPlayerResource)->GetConnected(entityId))
 		{
 			if (Settings::NameStealer::team == 0 && (*csPlayerResource)->GetTeam(entityId) != localplayer->GetTeam())
-				return;
+				break;
 
 			if (Settings::NameStealer::team == 1 && (*csPlayerResource)->GetTeam(entityId) == localplayer->GetTeam())
-				return;
+				break;
 
 			IEngineClient::player_info_t entityInformation;
 			engine->GetPlayerInfo(entityId, &entityInformation);
 
 			if (entityInformation.ishltv)
-				return;
+				break;
 
 			NameChanger::SetName(Util::PadStringRight(entityInformation.name, strlen(entityInformation.name) + 1));
 
 			timeStamp = currentTime_ms;
-
-			return;
 		}
-	} while (entityId < engine->GetMaxClients());
+
+		break;
+	}
+}
+
+void NameStealer::FireGameEvent(IGameEvent* event)
+{
+	if (!event)
+		return;
+
+	if (strcmp(event->GetName(), "player_connect_full") != 0 && strcmp(event->GetName(), "cs_game_disconnected") != 0)
+		return;
+
+	if (event->GetInt("userid") && engine->GetPlayerForUserID(event->GetInt("userid")) != engine->GetLocalPlayer())
+		return;
+
+	entityId = -1;
 }

@@ -21,7 +21,8 @@
 enum class SmoothType : int
 {
 	SLOW_END,
-	CONSTANT
+	CONSTANT,
+	FAST_END
 };
 
 enum class  TracerType : int
@@ -147,8 +148,8 @@ struct AimbotWeapon_t
 	SmoothType smoothType;
 	ButtonCode_t aimkey;
 	bool aimkeyOnly, smoothEnabled, smoothSaltEnabled, errorMarginEnabled, autoAimEnabled, aimStepEnabled, rcsEnabled, rcsAlwaysOn;
-	float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmountX, rcsAmountY, autoWallValue;
-	bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smokeCheck, autoWallEnabled, autoWallBones[6], autoAimRealDistance;
+	float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmountX, rcsAmountY, autoWallValue, autoSlowSpeedPercent;
+	bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallBones[6], autoAimRealDistance, autoSlow, predEnabled;
 
 	AimbotWeapon_t(bool _enabled, bool _silent, bool _friendly, Bone _bone, ButtonCode_t _aimkey, bool _aimkeyOnly,
 		   bool _smoothEnabled, float _smoothValue, SmoothType _smoothType, bool _smoothSaltEnabled, float _smoothSaltMultiplier,
@@ -156,7 +157,9 @@ struct AimbotWeapon_t
 		   bool _autoAimEnabled, float _autoAimValue, bool _aimStepEnabled, float _aimStepValue,
 		   bool _rcsEnabled, bool _rcsAlwaysOn, float _rcsAmountX, float _rcsAmountY,
 		   bool _autoPistolEnabled, bool _autoShootEnabled, bool _autoScopeEnabled,
-		   bool _noShootEnabled, bool _ignoreJumpEnabled, bool _smokeCheck, bool _autoWallEnabled, float _autoWallValue, bool _autoAimRealDistance, bool _autoWallBones[6] = nullptr)
+		   bool _noShootEnabled, bool _ignoreJumpEnabled, bool _smokeCheck, bool _flashCheck,
+		   bool _autoWallEnabled, float _autoWallValue, bool _autoAimRealDistance, bool _autoSlow,
+		   float _autoSlowSpeedPercent, bool _predEnabled, bool _autoWallBones[6] = nullptr)
 	{
 		this->enabled = _enabled;
 		this->silent = _silent;
@@ -185,15 +188,15 @@ struct AimbotWeapon_t
 		this->noShootEnabled = _noShootEnabled;
 		this->ignoreJumpEnabled = _ignoreJumpEnabled;
 		this->smokeCheck = _smokeCheck;
+		this->flashCheck = _flashCheck;
 		this->autoWallEnabled = _autoWallEnabled;
 		this->autoWallValue = _autoWallValue;
+		this->autoSlow = _autoSlow;
+		this->autoSlowSpeedPercent = _autoSlowSpeedPercent;
+		this->predEnabled = _predEnabled;
 
-		if(_autoWallBones != nullptr)
-			for (int i = (int) Hitbox::HITBOX_HEAD; i <= (int) Hitbox::HITBOX_ARMS; i++)
-				this->autoWallBones[i] = _autoWallBones[i];
-		else
-			for (int i = (int) Hitbox::HITBOX_HEAD; i <= (int) Hitbox::HITBOX_ARMS; i++)
-				this->autoWallBones[i] = false;
+		for (int i = (int) Hitbox::HITBOX_HEAD; i <= (int) Hitbox::HITBOX_ARMS; i++)
+			this->autoWallBones[i] = _autoWallBones != nullptr ? _autoWallBones[i] : false;
 
 		this->autoAimRealDistance = _autoAimRealDistance;
 	}
@@ -292,9 +295,10 @@ namespace Settings
 			extern bool enabled;
 		}
 
-		namespace AutoStop
+		namespace AutoSlow
 		{
 			extern bool enabled;
+			extern float speedPercent;
 		}
 
 		namespace NoShoot
@@ -312,7 +316,17 @@ namespace Settings
 			extern bool enabled;
 		}
 
-		extern std::unordered_map<ItemDefinitionIndex, AimbotWeapon_t> weapons;
+		namespace FlashCheck
+		{
+			extern bool enabled;
+		}
+
+		namespace Prediction
+		{
+			extern bool enabled;
+		}
+
+		extern std::unordered_map<ItemDefinitionIndex, AimbotWeapon_t, Util::IntHash<ItemDefinitionIndex>> weapons;
 	}
 
 	namespace Triggerbot
@@ -326,6 +340,7 @@ namespace Settings
 			extern bool allies;
 			extern bool walls;
 			extern bool smokeCheck;
+			extern bool flashCheck;
 			extern bool head;
 			extern bool chest;
 			extern bool stomach;
@@ -397,6 +412,7 @@ namespace Settings
 		extern ImColor flashbangColor;
 		extern ImColor grenadeColor;
 		extern ImColor molotovColor;
+		extern ImColor localplayerColor;
 		extern bool hpEnemyColor;
 		extern bool hpAllyColor;
 		extern bool hpEnemyVisibleColor;
@@ -405,6 +421,7 @@ namespace Settings
 		extern bool hpTColor;
 		extern bool hpCtVisibleColor;
 		extern bool hpTVisibleColor;
+		extern bool hpLocalplayerColor;
 
 		namespace Glow
 		{
@@ -416,9 +433,11 @@ namespace Settings
 			extern ImColor grenadeColor;
 			extern ImColor defuserColor;
 			extern ImColor chickenColor;
+			extern ImColor localplayerColor;
 			extern bool hpAllyColor;
 			extern bool hpEnemyColor;
 			extern bool hpEnemyVisibleColor;
+			extern bool hpLocalplayerColor;
 		}
 
 		namespace Filters
@@ -426,6 +445,7 @@ namespace Settings
 			extern bool legit;
 			extern bool visibilityCheck;
 			extern bool smokeCheck;
+			extern bool flashCheck;
 			extern bool enemies;
 			extern bool allies;
 			extern bool bomb;
@@ -435,6 +455,7 @@ namespace Settings
 			extern bool chickens;
 			extern bool fishes;
 			extern bool throwables;
+			extern bool localplayer;
 		}
 
 		namespace Info
@@ -504,11 +525,13 @@ namespace Settings
 			extern ImColor allyVisibleColor;
 			extern ImColor enemyColor;
 			extern ImColor enemyVisibleColor;
+			extern ImColor localplayerColor;
 			extern ChamsType type;
 			extern bool hpAllyColor;
 			extern bool hpAllyVisibleColor;
 			extern bool hpEnemyColor;
 			extern bool hpEnemyVisibleColor;
+			extern bool hpLocalplayerColor;
 
 			namespace Arms
 			{
@@ -568,7 +591,7 @@ namespace Settings
 		{
 			extern bool enabled;
 			extern bool sayTeam;
-			extern char* message;
+			extern std::vector<std::string> messages;
 		}
 
 		namespace RadioSpammer
@@ -689,9 +712,9 @@ namespace Settings
 		{
 			extern bool enabled;
 		}
-
-		extern std::unordered_map<ItemDefinitionIndex, AttribItem_t> skinsCT;
-		extern std::unordered_map<ItemDefinitionIndex, AttribItem_t> skinsT;
+		
+		extern std::unordered_map<ItemDefinitionIndex, AttribItem_t, Util::IntHash<ItemDefinitionIndex>> skinsCT;
+		extern std::unordered_map<ItemDefinitionIndex, AttribItem_t, Util::IntHash<ItemDefinitionIndex>> skinsT;
 	}
 
 	namespace ShowRanks
@@ -790,6 +813,18 @@ namespace Settings
 	{
 		extern bool enabled;
 		extern int team;
+	}
+
+	namespace ThirdPerson
+	{
+		extern bool enabled;
+		extern float distance;
+	}
+
+	namespace JumpThrow
+	{
+		extern bool enabled;
+		extern ButtonCode_t key;
 	}
 
 	void LoadDefaultsOrSave(std::string path);
