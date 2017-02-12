@@ -175,6 +175,7 @@ void GrenadeHelper::AimAssist(CUserCmd* cmd)
 				if (diffY > maxStep) diffY = maxStep;
 				if (diffY < -maxStep) diffY = -maxStep;
 				cmd->viewangles += QAngle(diffX, diffY, 0);
+				Math::ClampAngles(cmd->viewangles);
 				engine->SetViewAngles(cmd->viewangles);
 				Math::CorrectMovement(old, cmd, cmd->forwardmove, cmd->sidemove);
 			}
