@@ -7,7 +7,7 @@
 EventListener* eventListener = nullptr;
 
 /* called when the library is loading */
-int __attribute__((constructor)) aimtux_init()
+int __attribute__((constructor)) AimTuxInit()
 {
 	Interfaces::FindInterfaces();
 	Interfaces::DumpInterfaces();
@@ -100,7 +100,7 @@ int __attribute__((constructor)) aimtux_init()
 	return 0;
 }
 
-void __attribute__((destructor)) aimtux_shutdown()
+void __attribute__((destructor)) AimTuxShutdown()
 {
 	cvar->FindVar("cl_mouseenable")->SetValue(1);
 
