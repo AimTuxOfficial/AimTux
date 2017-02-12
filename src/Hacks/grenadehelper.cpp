@@ -144,21 +144,41 @@ void GrenadeHelper::AimAssist(CUserCmd* cmd)
 		if (dist > 75.f)
 			continue;
 
-		if (dist > 3.f)
+		if (!shootThisTick && shotLastTick && dist < 5)
 		{
-			QAngle n = Math::CalcAngle(localPlayer->GetEyePosition(),grenadeInfo->pos);
-			n.x = cmd->viewangles.x;
-			cmd->viewangles = n;
-			cmd->forwardmove = dist;
-			// Todo make it not change the viewangles. Pretty Ghetto atm
-		}
-		else if (!shootThisTick && shotLastTick)
-		{
+			//throw the grenade
 			if (grenadeInfo->tType == ThrowType::JUMP)
 				cmd->buttons |= IN_JUMP;
 			engine->SetViewAngles(grenadeInfo->angle);
-			// cmd->viewangles = grenadeInfo->angle;
-			// TODO Not working silent ;( maybe safe the value and Do it later or dont do it silent but smoother.
+		}
+		else
+		{
+			if (dist > 0.5f)
+			{
+				QAngle movement = Math::CalcAngle(localPlayer->GetEyePosition(), grenadeInfo->pos);
+				if (cmd->forwardmove < dist) cmd->forwardmove = dist * 2;
+				cmd->sidemove = 0;
+				Math::CorrectMovement(movement,cmd,cmd->forwardmove,cmd->sidemove);
+			}
+			if (cmd->viewangles !=  grenadeInfo->angle) {
+				//Aim towards the aimspot
+				float maxStep = 5;
+				QAngle old = cmd->viewangles;
+				float diffX, diffY;
+				diffX = grenadeInfo->angle.x - old.x;
+				if (diffX > maxStep) diffX = maxStep;
+				if (diffX < -maxStep) diffX = -maxStep;
+
+				diffY = grenadeInfo->angle.y - old.y;
+				while (diffY > 180) diffY -= 360;
+				while (diffY < -180) diffY += 360;
+				if (diffY > maxStep) diffY = maxStep;
+				if (diffY < -maxStep) diffY = -maxStep;
+				QAngle newA = QAngle(old.x + diffX, old.y + diffY, 0);
+				cmd->viewangles = newA;
+				engine->SetViewAngles(newA);
+				Math::CorrectMovement(old, cmd, cmd->forwardmove, cmd->sidemove);
+			}
 		}
 		break;
 	}
