@@ -120,7 +120,7 @@ void GrenadeHelper::AimAssist(CUserCmd* cmd)
 		return;
 
 	C_BasePlayer* localPlayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localPlayer)
+	if (!localPlayer || !localPlayer->GetAlive())
 		return;
 
 	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localPlayer->GetActiveWeapon());
