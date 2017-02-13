@@ -1,7 +1,7 @@
 #include "grenadehelper.h"
 
 std::vector<GrenadeInfo> Settings::GrenadeHelper::grenadeInfos = {};
-bool Settings::GrenadeHelper::enabled = true;
+bool Settings::GrenadeHelper::enabled = false;
 bool Settings::GrenadeHelper::onlyMatchingInfos = true;
 bool Settings::GrenadeHelper::aimAssist = false;
 float Settings::GrenadeHelper::aimDistance = 75;
@@ -143,7 +143,7 @@ void GrenadeHelper::AimAssist(CUserCmd* cmd)
 		if (Settings::GrenadeHelper::onlyMatchingInfos && getGrenadeType(activeWeapon) != act->gType)
 			continue;
 
-		float dist3D = Math::GetDistance(localPlayer->GetEyePosition(), act->pos);
+		float dist3D = localPlayer->GetEyePosition().DistTo(act->pos);
 		if (dist3D > Settings::GrenadeHelper::aimDistance)
 			continue;
 

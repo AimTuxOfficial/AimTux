@@ -431,6 +431,9 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["GrenadeHelper"]["enabled"] = Settings::GrenadeHelper::enabled;
 	settings["GrenadeHelper"]["aimAssist"] = Settings::GrenadeHelper::aimAssist;
 	settings["GrenadeHelper"]["OnlyMatching"] = Settings::GrenadeHelper::onlyMatchingInfos;
+	settings["GrenadeHelper"]["aimStep"] = Settings::GrenadeHelper::aimStep;
+	settings["GrenadeHelper"]["aimDistance"] = Settings::GrenadeHelper::aimDistance;
+	settings["GrenadeHelper"]["aimFov"] = Settings::GrenadeHelper::aimFov;
 	LoadUIColor(settings["GrenadeHelper"]["aimDot"], Settings::GrenadeHelper::aimDot);
 	LoadUIColor(settings["GrenadeHelper"]["aimLine"], Settings::GrenadeHelper::aimLine);
 	LoadUIColor(settings["GrenadeHelper"]["infoHe"], Settings::GrenadeHelper::infoHE);
@@ -851,6 +854,18 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["GrenadeHelper"]["enabled"], &Settings::GrenadeHelper::enabled);
 	GetVal(settings["GrenadeHelper"]["aimAssist"], &Settings::GrenadeHelper::aimAssist);
 	GetVal(settings["GrenadeHelper"]["OnlyMatching"], &Settings::GrenadeHelper::onlyMatchingInfos);
+	GetVal(settings["GrenadeHelper"]["aimStep"], &Settings::GrenadeHelper::aimStep);
+	GetVal(settings["GrenadeHelper"]["aimDistance"], &Settings::GrenadeHelper::aimDistance);
+	GetVal(settings["GrenadeHelper"]["aimFov"], &Settings::GrenadeHelper::aimFov);
+
+	GetVal(settings["GrenadeHelper"]["aimDot"], &Settings::GrenadeHelper::aimDot);
+	GetVal(settings["GrenadeHelper"]["aimLine"], &Settings::GrenadeHelper::aimLine);
+	GetVal(settings["GrenadeHelper"]["infoHE"], &Settings::GrenadeHelper::infoHE);
+	GetVal(settings["GrenadeHelper"]["infoSmoke"], &Settings::GrenadeHelper::infoSmoke);
+	GetVal(settings["GrenadeHelper"]["infoFlash"], &Settings::GrenadeHelper::infoFlash);
+	GetVal(settings["GrenadeHelper"]["infoMolotov"], &Settings::GrenadeHelper::infoMolotov);
+
+
 }
 
 void Settings::LoadSettings()
