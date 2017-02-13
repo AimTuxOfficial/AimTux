@@ -4,6 +4,7 @@
 #include "../settings.h"
 #include <algorithm>
 
+
 GrenadeType getGrenadeType(C_BaseCombatWeapon* wpn);
 
 namespace GrenadeHelper

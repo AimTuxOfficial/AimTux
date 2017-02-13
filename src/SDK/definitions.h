@@ -516,6 +516,40 @@ struct AttribItem_t
 	std::string customName;
 };
 
+
+enum GrenadeType : int
+{
+	FLASH,
+	SMOKE,
+	MOLOTOV,
+	HEGRENADE
+};
+
+enum ThrowType : int
+{
+	NORMAL,
+	RUN,
+	JUMP,
+	WALK
+};
+
+struct GrenadeInfo
+{
+	GrenadeType gType;
+	Vector pos;
+	QAngle angle;
+	ThrowType tType;
+	pstring name;
+	GrenadeInfo(GrenadeType gType, Vector pos, QAngle angle,ThrowType tType, pstring name)
+	{
+		this->gType = gType;
+		this->pos = pos;
+		this->angle = angle;
+		this->tType = tType;
+		this->name = name;
+	}
+};
+
 const std::map<ItemDefinitionIndex, DefItem_t> ItemDefinitionIndexMap = {
 		{ ItemDefinitionIndex::INVALID, {"<-Default->", "", "", ""} },
 		{ ItemDefinitionIndex::WEAPON_DEAGLE, { "#SFUI_WPNHUD_DesertEagle", "WEAPON_DEAGLE", "models/weapons/v_pist_deagle.mdl", "deagle" } },
