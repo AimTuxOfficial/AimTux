@@ -204,6 +204,39 @@ struct AimbotWeapon_t
 	AimbotWeapon_t() {};
 };
 
+enum GrenadeType : int
+{
+	FLASH,
+	SMOKE,
+	MOLOTOV,
+	HEGRENADE
+};
+
+enum ThrowType : int
+{
+	NORMAL,
+	CROUCH,
+	JUMP,
+	WALK
+};
+
+struct GrenadeInfo
+{
+	GrenadeType gType;
+	Vector pos;
+	QAngle angle;
+	ThrowType tType;
+	pstring name;
+	GrenadeInfo(GrenadeType gType, Vector pos, QAngle angle,ThrowType tType, pstring name)
+	{
+		this->gType = gType;
+		this->pos = pos;
+		this->angle = angle;
+		this->tType = tType;
+		this->name = name;
+	}
+};
+
 namespace Settings
 {
 	namespace UI
@@ -824,6 +857,9 @@ namespace Settings
 		extern bool enabled;
 		extern bool onlyMatchingInfos;
 		extern bool aimAssist;
+		extern float aimStep;
+		extern float aimDistance;
+		extern float aimFov;
 		extern ImColor aimDot;
 		extern ImColor aimLine;
 		extern ImColor infoHE;
@@ -831,8 +867,6 @@ namespace Settings
 		extern ImColor infoFlash;
 		extern ImColor infoMolotov;
 		extern pstring actMapName;
-		extern char inputName[20];
-		extern bool inputJump;
 	}
 
 	void LoadDefaultsOrSave(std::string path);
