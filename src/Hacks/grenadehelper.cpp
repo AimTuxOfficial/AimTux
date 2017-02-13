@@ -1,20 +1,25 @@
 #include "grenadehelper.h"
 
-bool shotLastTick = false;
-pstring Settings::GrenadeHelper::actMapName = pstring();
+std::vector<GrenadeInfo> Settings::GrenadeHelper::grenadeInfos = {};
 bool Settings::GrenadeHelper::enabled = true;
 bool Settings::GrenadeHelper::onlyMatchingInfos = true;
 bool Settings::GrenadeHelper::aimAssist = false;
-char Settings::GrenadeHelper::inputName[20] = {};
-bool Settings::GrenadeHelper::inputJump = false;
-ImColor Settings::GrenadeHelper::aimLine = ImColor(200, 200, 200, 255);
+float Settings::GrenadeHelper::aimDistance = 75;
+float Settings::GrenadeHelper::aimFov = 45;
+float Settings::GrenadeHelper::aimStep = 5;
+
 ImColor Settings::GrenadeHelper::aimDot = ImColor(10, 10, 200, 255);
+ImColor Settings::GrenadeHelper::aimLine = ImColor(200, 200, 200, 255);
 ImColor Settings::GrenadeHelper::infoHE = ImColor(7, 183, 7, 255);
 ImColor Settings::GrenadeHelper::infoMolotov = ImColor(236, 0, 0, 255);
 ImColor Settings::GrenadeHelper::infoSmoke = ImColor(172, 172, 172, 255);
 ImColor Settings::GrenadeHelper::infoFlash = ImColor(255, 255, 0, 255);
 
-std::vector<GrenadeInfo> Settings::GrenadeHelper::grenadeInfos = {};
+bool shotLastTick = false;
+pstring Settings::GrenadeHelper::actMapName = pstring();
+char Settings::GrenadeHelper::inputName[20] = {};
+ThrowType Settings::GrenadeHelper::inputTType = ThrowType::NORMAL;
+GrenadeType Settings::GrenadeHelper::inputGType = GrenadeType::SMOKE;
 
 GrenadeType getGrenadeType(C_BaseCombatWeapon* wpn)
 {
@@ -106,7 +111,7 @@ void GrenadeHelper::Paint()
 
 		GrenadeHelper::DrawGrenadeInfo(grenadeInfo.base());
 
-		if (dist < 75)
+		if (dist < Settings::GrenadeHelper::aimDistance)
 			GrenadeHelper::DrawAimHelp(grenadeInfo.base());
 	}
 }
@@ -133,12 +138,8 @@ void GrenadeHelper::AimAssist(CUserCmd* cmd)
 		return;
 	//for storing the best result
 	GrenadeInfo* grenadeInfo = nullptr;
-	float distOnScreen = -1;//Viewangle difference
-	float dist = 1000;//3D distance
-
-	int w, h;
-	engine->GetScreenSize(w, h);
-	Vector ScreenCenter(w / 2, h / 2, 0);
+	float distOnScreen;//Viewangle difference
+	float dist;//3D distance
 
 	for (auto act = Settings::GrenadeHelper::grenadeInfos.begin(); act != Settings::GrenadeHelper::grenadeInfos.end(); act++)
 	{
@@ -146,22 +147,14 @@ void GrenadeHelper::AimAssist(CUserCmd* cmd)
 			continue;
 
 		float dist3D = Math::GetDistance(localPlayer->GetEyePosition(), act->pos);
-		if (dist3D > 75.f)
+		if (dist3D > Settings::GrenadeHelper::aimDistance)
 			continue;
 
-		float actDistOnScreen;
-		Vector infoVec;
-		Math::AngleVectors(act->angle, infoVec);
-		infoVec *= 150 / infoVec.Length();
-		infoVec += act->pos;
-		Vector posVec;
-		if (debugOverlay->ScreenPosition(infoVec, posVec))
-			actDistOnScreen = 180;
-		else
-			actDistOnScreen = (posVec - ScreenCenter).Length();
+		float actDistOnScreen = Math::GetFov(act->angle, *localPlayer->GetVAngles());
 
-		if (distOnScreen != -1 &&  distOnScreen < actDistOnScreen)
+		if ((grenadeInfo &&  distOnScreen < actDistOnScreen) || actDistOnScreen > Settings::GrenadeHelper::aimFov)
 			continue;
+
 		grenadeInfo = act.base();
 		distOnScreen = actDistOnScreen;
 		dist = dist3D;
@@ -182,6 +175,7 @@ void GrenadeHelper::AimAssist(CUserCmd* cmd)
 	{
 		if (dist > 0.5f)
 		{
+			//Move towards the aimpos
 			QAngle movement = Math::CalcAngle(localPlayer->GetEyePosition(), grenadeInfo->pos);
 			if (cmd->forwardmove < dist) cmd->forwardmove = dist * 2;
 			cmd->sidemove = 0;
@@ -191,17 +185,12 @@ void GrenadeHelper::AimAssist(CUserCmd* cmd)
 		if (cmd->viewangles !=  grenadeInfo->angle)
 		{
 			//Aim towards the aimspot
-			float maxStep = 5;
+			float maxStep = Settings::GrenadeHelper::aimStep;
 			QAngle old = cmd->viewangles;
-
-			float diffX = grenadeInfo->angle.x - old.x;
-			if (diffX > maxStep) diffX = maxStep;
-			if (diffX < -maxStep) diffX = -maxStep;
-			float diffY = grenadeInfo->angle.y - old.y;
-			while (diffY > 180) diffY -= 360;
-			while (diffY < -180) diffY += 360;
-			if (diffY > maxStep) diffY = maxStep;
-			if (diffY < -maxStep) diffY = -maxStep;
+			float diffX = std::max(-maxStep, std::min(grenadeInfo->angle.x - old.x, maxStep));
+			float p = Math::GetFov(old + QAngle(diffX, 0.1, 0), grenadeInfo->angle);
+			float q = Math::GetFov(old + QAngle(diffX, -0.1, 0), grenadeInfo->angle);
+			float diffY = p < q ? std::min(p * p, maxStep): -std::min(q * q, maxStep);
 			cmd->viewangles += QAngle(diffX, diffY, 0);
 			Math::ClampAngles(cmd->viewangles);
 			engine->SetViewAngles(cmd->viewangles);

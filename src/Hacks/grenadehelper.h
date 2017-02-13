@@ -2,6 +2,7 @@
 
 #include "../SDK/SDK.h"
 #include "../settings.h"
+#include <algorithm>
 
 GrenadeType getGrenadeType(C_BaseCombatWeapon* wpn);
 
