@@ -90,16 +90,6 @@ float Math::GetFov(const QAngle& viewAngle, const QAngle& aimAngle)
 	return sqrtf(powf(delta.x, 2.0f) + powf(delta.y, 2.0f));
 }
 
-float Math::GetDistance(const Vector& source, const Vector& destination)
-{
-	Vector delta = destination - source;
-	return sqrtf(
-		powf(delta.x, 2.0f) +
-		powf(delta.y, 2.0f) +
-		powf(delta.z, 2.0f)
-	);
-}
-
 void Math::VectorAngles(const Vector& forward, QAngle &angles)
 {
 	if (forward[1] == 0.0f && forward[0] == 0.0f)

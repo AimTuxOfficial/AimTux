@@ -125,7 +125,7 @@ float GetRealDistanceFOV(float distance, QAngle angle, CUserCmd* cmd)
 	Math::AngleVectors(angle, aimAt);
 	aimAt *= distance;
 
-	return Math::GetDistance(aimingAt, aimAt);
+	return aimingAt.DistTo(aimAt);
 }
 
 Vector VelocityExtrapolate(C_BasePlayer* player, Vector aimPos)
@@ -180,7 +180,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 		QAngle viewAngles;
 		engine->GetViewAngles(viewAngles);
 
-		float distance = Math::GetDistance(pVecTarget, eVecTarget);
+		float distance = pVecTarget.DistTo(eVecTarget);
 		float fov = Math::GetFov(viewAngles, Math::CalcAngle(pVecTarget, eVecTarget));
 		float real_distance = GetRealDistanceFOV(distance, Math::CalcAngle(pVecTarget, eVecTarget), cmd);
 		int hp = player->GetHealth();

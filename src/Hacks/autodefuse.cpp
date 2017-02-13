@@ -43,7 +43,7 @@ void AutoDefuse::CreateMove(CUserCmd *cmd)
 	if (!localplayer->HasDefuser() && bombTimer > 10.5f)
 		return;
 
-	float distance = Math::GetDistance(localplayer->GetVecOrigin(), bomb->GetVecOrigin());
+	float distance = localplayer->GetVecOrigin().DistTo(bomb->GetVecOrigin());
 	if (distance <= 75.0f)
 		cmd->buttons |= IN_USE;
 }
