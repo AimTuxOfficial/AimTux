@@ -17,7 +17,7 @@ void FakeLag::CreateMove(CUserCmd* cmd)
 	if (!localplayer || !localplayer->GetAlive())
 		return;
 
-	if (localplayer->GetFlags() & FL_ONGROUND)
+	if (localplayer->GetFlags() & FL_ONGROUND && Settings::FakeLag::adaptive)
 		return;
 
 	if (cmd->buttons & IN_ATTACK)
