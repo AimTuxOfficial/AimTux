@@ -756,6 +756,7 @@ namespace Settings
 	{
 		extern bool enabled;
 		extern int value;
+		extern bool adaptive;
 	}
 
 	namespace AutoAccept

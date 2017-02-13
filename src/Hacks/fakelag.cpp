@@ -1,7 +1,9 @@
 #include "fakelag.h"
+#include "../interfaces.h"
 
 bool Settings::FakeLag::enabled = false;
-int Settings::FakeLag::value = 5;
+int Settings::FakeLag::value = 9;
+bool Settings::FakeLag::adaptive = false;
 
 static int ticks = 0;
 int ticksMax = 16;
@@ -13,6 +15,9 @@ void FakeLag::CreateMove(CUserCmd* cmd)
 
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer || !localplayer->GetAlive())
+		return;
+
+	if (localplayer->GetFlags() & FL_ONGROUND)
 		return;
 
 	if (cmd->buttons & IN_ATTACK)
@@ -28,7 +33,24 @@ void FakeLag::CreateMove(CUserCmd* cmd)
 	}
 	else
 	{
-		CreateMove::sendPacket = ticks < 16 - Settings::FakeLag::value;
+		if (Settings::FakeLag::adaptive)
+		{
+			int packetsToChoke;
+			if (localplayer->GetVelocity().Length() > 0.f)
+			{
+				packetsToChoke = (int)(4096.f / localplayer->GetVelocity().Length()) + 1;
+				if (packetsToChoke > 16)
+					packetsToChoke = 16;
+				if (packetsToChoke < Settings::FakeLag::value)
+					packetsToChoke = Settings::FakeLag::value;
+			}
+			else
+				packetsToChoke = 0;
+
+			CreateMove::sendPacket = ticks < 16 - packetsToChoke;
+		}
+		else
+			CreateMove::sendPacket = ticks < 16 - Settings::FakeLag::value;
 	}
 
 	ticks++;
