@@ -124,7 +124,7 @@ float GetRealDistanceFOV(float distance, QAngle angle, CUserCmd* cmd)
 	Math::AngleVectors(angle, aimAt);
 	aimAt *= distance;
 
-	return Math::GetDistance(aimingAt, aimAt);
+	return aimingAt.DistTo(aimAt);
 }
 
 C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, float& bestDamage, AimTargetType aimTargetType = AimTargetType::FOV)
@@ -174,7 +174,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 		QAngle viewAngles;
 		engine->GetViewAngles(viewAngles);
 
-		float distance = Math::GetDistance(pVecHead, eVecHead);
+		float distance = pVecHead.DistTo(eVecHead);
 		float fov = Math::GetFov(viewAngles, Math::CalcAngle(pVecHead, eVecHead));
 		float real_distance = GetRealDistanceFOV(distance, Math::CalcAngle(pVecHead, eVecHead), cmd);
 		int hp = player->GetHealth();

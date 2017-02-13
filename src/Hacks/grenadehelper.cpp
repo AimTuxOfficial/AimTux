@@ -17,9 +17,6 @@ ImColor Settings::GrenadeHelper::infoFlash = ImColor(255, 255, 0, 255);
 
 bool shotLastTick = false;
 pstring Settings::GrenadeHelper::actMapName = pstring();
-char Settings::GrenadeHelper::inputName[20] = {};
-ThrowType Settings::GrenadeHelper::inputTType = ThrowType::NORMAL;
-GrenadeType Settings::GrenadeHelper::inputGType = GrenadeType::SMOKE;
 
 GrenadeType getGrenadeType(C_BaseCombatWeapon* wpn)
 {
@@ -190,7 +187,7 @@ void GrenadeHelper::AimAssist(CUserCmd* cmd)
 			float diffX = std::max(-maxStep, std::min(grenadeInfo->angle.x - old.x, maxStep));
 			float p = Math::GetFov(old + QAngle(diffX, 0.1, 0), grenadeInfo->angle);
 			float q = Math::GetFov(old + QAngle(diffX, -0.1, 0), grenadeInfo->angle);
-			float diffY = p < q ? std::min(p * p, maxStep): -std::min(q * q, maxStep);
+			float diffY = p < q ? std::min(p, maxStep): -std::min(q, maxStep);
 			cmd->viewangles += QAngle(diffX, diffY, 0);
 			Math::ClampAngles(cmd->viewangles);
 			engine->SetViewAngles(cmd->viewangles);
