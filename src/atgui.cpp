@@ -1395,11 +1395,11 @@ void MiscTab()
 					ImGui::PushItemWidth(-1);
 					ImGui::Checkbox("enabled", &Settings::GrenadeHelper::aimAssist);
 					SetTooltip("Whether the Aimassist will help you throw Grenades.");
-					ImGui::SliderFloat("", &Settings::GrenadeHelper::aimStep, 0, 10, "X: %0.3f");
+					ImGui::SliderFloat("###aimstep", &Settings::GrenadeHelper::aimStep, 0, 10, "X: %0.3f");
 					SetTooltip("The speed at which the Aimassist helps.");
-					ImGui::SliderFloat("", &Settings::GrenadeHelper::aimFov, 0, 180, "Y: %0.2f");
+					ImGui::SliderFloat("###aimfov", &Settings::GrenadeHelper::aimFov, 0, 180, "Y: %0.2f");
 					SetTooltip("The Fov at which the Aimassist starts.");
-					ImGui::SliderFloat("", &Settings::GrenadeHelper::aimDistance, 0, 100, "Y: %0.2f");
+					ImGui::SliderFloat("###aimdistance", &Settings::GrenadeHelper::aimDistance, 0, 100, "Y: %0.2f");
 					SetTooltip("The distance at which the Aimassist starts.");
 					ImGui::PopItemWidth();
 
@@ -1453,7 +1453,13 @@ void MiscTab()
 					ImGui::SameLine();
 					if (ImGui::Button("Remove"))
 						if (throwMessageCurrent > -1 && (int) Settings::GrenadeHelper::grenadeInfos.size() > throwMessageCurrent)
+						{
 							Settings::GrenadeHelper::grenadeInfos.erase(Settings::GrenadeHelper::grenadeInfos.begin() + throwMessageCurrent);
+							pstring path = GetGhConfigDirectory() << Settings::GrenadeHelper::actMapName;
+							if (!DoesFileExist(path.c_str()))
+								mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+							Settings::SaveGrenadeInfo(path << "/config.json");
+						}
 					ImGui::Columns(2);
 						ImGui::Combo("###Throwtype", &tType, throwTypes, IM_ARRAYSIZE(throwTypes));
 					ImGui::NextColumn();
