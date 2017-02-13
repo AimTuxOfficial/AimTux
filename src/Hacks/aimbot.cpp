@@ -38,8 +38,8 @@ bool Settings::Aimbot::FlashCheck::enabled = false;
 bool Settings::Aimbot::Smooth::Salting::enabled = false;
 float Settings::Aimbot::Smooth::Salting::multiplier = 0.0f;
 bool Settings::Aimbot::AutoSlow::enabled = false;
-bool Settings::Aimbot::Prediction::enabled = false;
 float Settings::Aimbot::AutoSlow::minDamage = 5.0f;
+bool Settings::Aimbot::Prediction::enabled = false;
 
 bool Aimbot::aimStepInProgress = false;
 std::vector<int64_t> Aimbot::friends = { };
@@ -372,6 +372,9 @@ void Aimbot::AutoCrouch(C_BasePlayer* player, CUserCmd* cmd)
 
 void Aimbot::AutoSlow(C_BasePlayer* player, float& forward, float& sideMove, float& bestDamage, C_BaseCombatWeapon* active_weapon, CUserCmd* cmd)
 {
+	if (!Settings::Aimbot::AutoWall::enabled)
+		return;
+
 	if (!Settings::Aimbot::AutoSlow::enabled)
 		return;
 

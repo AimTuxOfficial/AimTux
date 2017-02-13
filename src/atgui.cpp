@@ -595,22 +595,25 @@ void AimbotTab()
 				SetTooltip("Disable aimbot while flashed");
 			}
 
-			ImGui::Columns(1);
-			ImGui::Separator();
-			ImGui::Text("AutoSlow");
-			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
+			if (autoWallEnabled)
 			{
-				if (ImGui::Checkbox("Enabled##AUTOSLOW", &autoSlow))
-					UI::UpdateWeaponSettings();
-				SetTooltip("Automatically slows your movement speed when an enemy is shootable");
-			}
-			ImGui::NextColumn();
-			{
-				ImGui::PushItemWidth(-1);
+				ImGui::Columns(1);
+				ImGui::Separator();
+				ImGui::Text("AutoSlow");
+				ImGui::Separator();
+				ImGui::Columns(2, NULL, true);
+				{
+					if (ImGui::Checkbox("Enabled##AUTOSLOW", &autoSlow))
+						UI::UpdateWeaponSettings();
+					SetTooltip("Automatically slows your movement speed when an enemy is shootable");
+				}
+				ImGui::NextColumn();
+				{
+					ImGui::PushItemWidth(-1);
 					if (ImGui::SliderFloat("##AUTOSLOWMINDAMAGE", &autoSlowMinDamage, 0, 100, "Min Damage: %f"))
 						UI::UpdateWeaponSettings();
-				ImGui::PopItemWidth();
+					ImGui::PopItemWidth();
+				}
 			}
 
 			ImGui::Columns(1);
