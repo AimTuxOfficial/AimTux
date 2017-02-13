@@ -128,8 +128,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
 		weaponSetting["AutoWall"]["Enabled"] = i.second.autoWallEnabled;
 		weaponSetting["AutoWall"]["Value"] = i.second.autoWallValue;
 		weaponSetting["AutoSlow"]["enabled"] = i.second.autoSlow;
-		weaponSetting["AutoSlow"]["speedPercent"] = i.second.autoSlowSpeedPercent;
 		weaponSetting["Prediction"]["enabled"] = i.second.predEnabled;
+		weaponSetting["AutoSlow"]["minDamage"] = i.second.autoSlowMinDamage;
 
 		for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
 			weaponSetting["AutoWall"]["Bones"][bone] = i.second.autoWallBones[bone];
@@ -509,7 +509,7 @@ void Settings::LoadConfig(std::string path)
 				weaponSetting["AutoWall"]["Value"].asFloat(),
 				weaponSetting["AutoAim"]["RealDistance"].asBool(),
 				weaponSetting["AutoSlow"]["enabled"].asBool(),
-				weaponSetting["AutoSlow"]["speedPercent"].asFloat(),
+				weaponSetting["AutoSlow"]["minDamage"].asFloat(),
 				weaponSetting["Prediction"]["enabled"].asBool()
 		};
 
