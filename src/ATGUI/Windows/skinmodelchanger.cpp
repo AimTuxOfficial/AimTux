@@ -212,7 +212,7 @@ void ModelsTab()
 				ImGui::Separator();
 			ImGui::PopID();
 		}
-	ImGui::GetCurrentContext()->FontBaseSize = 18.0f; // Has to go specifically here, or it wont reset the size.
+		ImGui::GetCurrentContext()->FontBaseSize = 18.0f; // Has to go specifically here, or it wont reset the size.
 	ImGui::ListBoxFooter();
 
 	ImGui::Columns(1);
@@ -220,7 +220,7 @@ void ModelsTab()
 
 	ImGui::Columns(2);
 
-	if(ImGui::Button("Apply", ImVec2(-1, 0)))
+	if(ImGui::Button("Apply##modelCT", ImVec2(-1, 0)))
 	{
 		if (Settings::Skinchanger::skinsCT.find((ItemDefinitionIndex)originalModelCT) == Settings::Skinchanger::skinsCT.end())
 			Settings::Skinchanger::skinsCT[(ItemDefinitionIndex)originalModelCT] = AttribItem_t();
@@ -231,7 +231,7 @@ void ModelsTab()
 	}
 	ImGui::NextColumn();
 
-	if(ImGui::Button("Apply", ImVec2(-1, 0)))
+	if(ImGui::Button("Apply##modelT", ImVec2(-1, 0)))
 	{
 		if (Settings::Skinchanger::skinsT.find((ItemDefinitionIndex)originalModelT) == Settings::Skinchanger::skinsT.end())
 			Settings::Skinchanger::skinsT[(ItemDefinitionIndex)originalModelT] = AttribItem_t();
@@ -455,7 +455,7 @@ void SplitSkins()
 			ImGui::Columns(1);
 		}
 
-		if(ImGui::Button("Apply##CT", ImVec2(-1, 0)))
+		if(ImGui::Button("Apply##skinCT", ImVec2(-1, 0)))
 		{
 			if (Settings::Skinchanger::skinsCT.find((ItemDefinitionIndex)modelCT) == Settings::Skinchanger::skinsCT.end())
 				Settings::Skinchanger::skinsCT[(ItemDefinitionIndex)modelCT] = AttribItem_t();
@@ -495,7 +495,7 @@ void SplitSkins()
 			ImGui::Columns(1);
 		}
 
-		if(ImGui::Button("Apply##T", ImVec2(-1, 0)))
+		if(ImGui::Button("Apply##skinT", ImVec2(-1, 0)))
 		{
 			if (Settings::Skinchanger::skinsT.find((ItemDefinitionIndex)modelT) == Settings::Skinchanger::skinsT.end())
 				Settings::Skinchanger::skinsT[(ItemDefinitionIndex)modelT] = AttribItem_t();
@@ -650,7 +650,8 @@ void SkinsTab()
 		SkinChanger::forceFullUpdate = true;
 	ImGui::NextColumn();
 
-	ImGui::Checkbox("Per-Team", &Settings::Skinchanger::Skins::perTeam);
+	if(ImGui::Checkbox("Per-Team", &Settings::Skinchanger::Skins::perTeam))
+		SkinChanger::forceFullUpdate = true;
 	ImGui::NextColumn();
 
 	ImGui::Columns(1);

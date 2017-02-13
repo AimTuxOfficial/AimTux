@@ -9,6 +9,7 @@ std::unordered_map<ItemDefinitionIndex, AttribItem_t, Util::IntHash<ItemDefiniti
 		{ ItemDefinitionIndex::WEAPON_AK47 /*WeaponID*/, { ItemDefinitionIndex::INVALID /*itemDefinitionIndex*/, 524 /*fallbackPaintKit*/, 0.0005f /*fallbackWear*/, -1 /*fallbackSeed*/, 1337/*fallbackStatTrak*/, -1/*fallbackEntityQuality*/, "TestTux"/*customName*/ } },
 		{ ItemDefinitionIndex::WEAPON_KNIFE, { ItemDefinitionIndex::WEAPON_KNIFE_M9_BAYONET, -1, -1, -1, -1, -1, "" } },
 		{ ItemDefinitionIndex::GLOVE_CT_SIDE, { ItemDefinitionIndex::GLOVE_SPECIALIST, 10006, 0.0005f, -1, -1, -1, "" } },
+		{ ItemDefinitionIndex::GLOVE_T_SIDE, { ItemDefinitionIndex::GLOVE_STUDDED_BLOODHOUND, 10006, 0.0005f, -1, -1, -1, "" } },
 		{ ItemDefinitionIndex::GLOVE_STUDDED_BLOODHOUND, { ItemDefinitionIndex::INVALID, 10006, 0.0005f, -1, -1, -1, ""} },
 		{ ItemDefinitionIndex::GLOVE_SPORTY, { ItemDefinitionIndex::INVALID, 10018, 0.0005f, -1, -1, -1, ""} },
 		{ ItemDefinitionIndex::GLOVE_SLICK, { ItemDefinitionIndex::INVALID, 10013, 0.0005f, -1, -1, -1, ""} },
@@ -222,7 +223,7 @@ void SkinChanger::FrameStageNotifySkins(ClientFrameStage_t stage)
 			if (!weapon)
 				continue;
 
-			if (localplayer->GetTeam() == TeamID::TEAM_COUNTER_TERRORIST)
+			if (localplayer->GetTeam() == TeamID::TEAM_COUNTER_TERRORIST || !Settings::Skinchanger::Skins::perTeam)
 			{
 				if (Settings::Skinchanger::skinsCT.find(*weapon->GetItemDefinitionIndex()) == Settings::Skinchanger::skinsCT.end())
 					continue;
@@ -247,7 +248,7 @@ void SkinChanger::FrameStageNotifySkins(ClientFrameStage_t stage)
 				if (skinCT.customName != "")
 					snprintf(weapon->GetCustomName(), 32, "%s", skinCT.customName.c_str());
 
-			} else if (localplayer->GetTeam() == TeamID::TEAM_TERRORIST)
+			} else if (localplayer->GetTeam() == TeamID::TEAM_TERRORIST && Settings::Skinchanger::Skins::perTeam)
 			{
 
 				if (Settings::Skinchanger::skinsT.find(*weapon->GetItemDefinitionIndex()) == Settings::Skinchanger::skinsT.end())
@@ -281,11 +282,11 @@ void SkinChanger::FrameStageNotifySkins(ClientFrameStage_t stage)
 		if (!glove)
 			return;
 
-		if(localplayer->GetTeam() == TeamID::TEAM_COUNTER_TERRORIST)
+		if(localplayer->GetTeam() == TeamID::TEAM_COUNTER_TERRORIST || !Settings::Skinchanger::Skins::perTeam)
 		{
-			if (Settings::Skinchanger::skinsCT.find(ItemDefinitionIndex::GLOVE_CT_SIDE) != Settings::Skinchanger::skinsCT.end())
+			if (Settings::Skinchanger::skinsCT.find(localplayer->GetTeam() == TeamID::TEAM_COUNTER_TERRORIST ? ItemDefinitionIndex::GLOVE_CT_SIDE : ItemDefinitionIndex::GLOVE_T_SIDE) != Settings::Skinchanger::skinsCT.end())
 			{
-				const AttribItem_t &currentSkinOrig = Settings::Skinchanger::skinsCT.at(ItemDefinitionIndex::GLOVE_CT_SIDE);
+				const AttribItem_t &currentSkinOrig = Settings::Skinchanger::skinsCT.at(localplayer->GetTeam() == TeamID::TEAM_COUNTER_TERRORIST ? ItemDefinitionIndex::GLOVE_CT_SIDE : ItemDefinitionIndex::GLOVE_T_SIDE);
 
 				if(Settings::Skinchanger::skinsCT.find(currentSkinOrig.itemDefinitionIndex) != Settings::Skinchanger::skinsCT.end())
 				{
@@ -293,22 +294,20 @@ void SkinChanger::FrameStageNotifySkins(ClientFrameStage_t stage)
 
 					if(*glove->GetFallbackPaintKit() != currentSkin.fallbackPaintKit && *glove->GetFallbackWear() != currentSkin.fallbackWear)
 					{
-						if (currentSkin.fallbackPaintKit != -1)
-							*glove->GetFallbackPaintKit() = currentSkin.fallbackPaintKit;
-
-						if (currentSkin.fallbackWear != -1)
-							*glove->GetFallbackWear() = currentSkin.fallbackWear;
-
+						*glove->GetFallbackPaintKit() = currentSkin.fallbackPaintKit;
+						*glove->GetFallbackWear() = currentSkin.fallbackWear;
 						*glove->GetFallbackSeed() = 0;
 						*glove->GetFallbackStatTrak() = -1;
 						*glove->GetEntityQuality() = 4;
 						*glove->GetItemIDHigh() = -1;
 						*glove->GetAccountID() = localplayer_info.xuidlow;
-						glove->GetNetworkable()->PreDataUpdate(DATA_UPDATE_CREATED);
+
+						if (currentSkin.fallbackPaintKit != -1 || currentSkin.fallbackWear != -1)
+							glove->GetNetworkable()->PreDataUpdate(DATA_UPDATE_CREATED);
 					}
 				}
 			}
-		} else if (localplayer->GetTeam() == TeamID::TEAM_TERRORIST)
+		} else if (localplayer->GetTeam() == TeamID::TEAM_TERRORIST && Settings::Skinchanger::Skins::perTeam)
 		{
 			if (Settings::Skinchanger::skinsT.find(ItemDefinitionIndex::GLOVE_T_SIDE) != Settings::Skinchanger::skinsT.end())
 			{
@@ -320,18 +319,16 @@ void SkinChanger::FrameStageNotifySkins(ClientFrameStage_t stage)
 
 					if (*glove->GetFallbackPaintKit() != currentSkin.fallbackPaintKit && *glove->GetFallbackWear() != currentSkin.fallbackWear)
 					{
-						if (currentSkin.fallbackPaintKit != -1)
-							*glove->GetFallbackPaintKit() = currentSkin.fallbackPaintKit;
-
-						if (currentSkin.fallbackWear != -1)
-							*glove->GetFallbackWear() = currentSkin.fallbackWear;
-
+						*glove->GetFallbackPaintKit() = currentSkin.fallbackPaintKit;
+						*glove->GetFallbackWear() = currentSkin.fallbackWear;
 						*glove->GetFallbackSeed() = 0;
 						*glove->GetFallbackStatTrak() = -1;
 						*glove->GetEntityQuality() = 4;
 						*glove->GetItemIDHigh() = -1;
 						*glove->GetAccountID() = localplayer_info.xuidlow;
-						glove->GetNetworkable()->PreDataUpdate(DATA_UPDATE_CREATED);
+
+						if (currentSkin.fallbackPaintKit != -1 || currentSkin.fallbackWear != -1)
+							glove->GetNetworkable()->PreDataUpdate(DATA_UPDATE_CREATED);
 					}
 				}
 			}
