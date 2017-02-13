@@ -1415,7 +1415,7 @@ void MiscTab()
 				if (ImGui::BeginPopup("addinfo_throw"))
 				{
 					static int throwMessageCurrent = -1;
-					static char inputName[20];
+					static char inputName[40];
 					static int tType = (int)ThrowType::NORMAL;
 					static int gType = (int)GrenadeType::SMOKE;
 
@@ -1431,11 +1431,11 @@ void MiscTab()
 								gType = (int)getGrenadeType(activeWeapon);
 						}
 					}
-					ImGui::Columns(2);
-						ImGui::PushItemWidth(-1);
-							ImGui::InputText("", inputName, sizeof(inputName));
-						ImGui::PopItemWidth();
-					ImGui::NextColumn();
+					ImGui::Columns(1);
+					ImGui::PushItemWidth(500);
+						ImGui::InputText("", inputName, sizeof(inputName));
+					ImGui::PopItemWidth();
+					ImGui::SameLine();
 					if (ImGui::Button("Add") && engine->IsInGame() && Settings::GrenadeHelper::actMapName.length() > 0)
 					{
 						C_BasePlayer* localPlayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
@@ -1450,16 +1450,6 @@ void MiscTab()
 						}
 						strcpy(inputName, "");
 					}
-					ImGui::SameLine();
-					if (ImGui::Button("Remove"))
-						if (throwMessageCurrent > -1 && (int) Settings::GrenadeHelper::grenadeInfos.size() > throwMessageCurrent)
-						{
-							Settings::GrenadeHelper::grenadeInfos.erase(Settings::GrenadeHelper::grenadeInfos.begin() + throwMessageCurrent);
-							pstring path = GetGhConfigDirectory() << Settings::GrenadeHelper::actMapName;
-							if (!DoesFileExist(path.c_str()))
-								mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-							Settings::SaveGrenadeInfo(path << "/config.json");
-						}
 					ImGui::Columns(2);
 						ImGui::Combo("###Throwtype", &tType, throwTypes, IM_ARRAYSIZE(throwTypes));
 					ImGui::NextColumn();
@@ -1472,9 +1462,18 @@ void MiscTab()
 						*out_text = Settings::GrenadeHelper::grenadeInfos.at(idx).name.c_str();
 						return *out_text != NULL;
 					};
-					ImGui::ListBox("", &throwMessageCurrent, lambda, NULL, Settings::GrenadeHelper::grenadeInfos.size());
+					ImGui::ListBox("", &throwMessageCurrent, lambda, NULL, Settings::GrenadeHelper::grenadeInfos.size(), 7);
 					ImGui::PopItemWidth();
-
+					ImGui::Columns(1);
+					if (ImGui::Button("Remove",  ImVec2(ImGui::GetWindowWidth(), 30)))
+						if (throwMessageCurrent > -1 && (int) Settings::GrenadeHelper::grenadeInfos.size() > throwMessageCurrent)
+						{
+							Settings::GrenadeHelper::grenadeInfos.erase(Settings::GrenadeHelper::grenadeInfos.begin() + throwMessageCurrent);
+							pstring path = GetGhConfigDirectory() << Settings::GrenadeHelper::actMapName;
+							if (!DoesFileExist(path.c_str()))
+								mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+							Settings::SaveGrenadeInfo(path << "/config.json");
+						}
 					ImGui::EndPopup();
 				}
 			}
