@@ -361,6 +361,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 
 	settings["SkinChanger"]["Skins"]["enabled"] = Settings::Skinchanger::Skins::enabled;
 	settings["SkinChanger"]["Models"]["enabled"] = Settings::Skinchanger::Models::enabled;
+	settings["SkinChanger"]["Skins"]["perTeam"] = Settings::Skinchanger::Skins::perTeam;
 
 	for (const auto& item: Settings::Skinchanger::skinsCT)
 	{
@@ -836,6 +837,7 @@ void Settings::LoadConfig(std::string path)
 
 	GetVal(settings["SkinChanger"]["Skins"]["enabled"], &Settings::Skinchanger::Skins::enabled);
 	GetVal(settings["SkinChanger"]["Models"]["enabled"], &Settings::Skinchanger::Models::enabled);
+	GetVal(settings["SkinChanger"]["Skins"]["perTeam"], &Settings::Skinchanger::Skins::perTeam);
 
 	GetVal(settings["ShowRanks"]["enabled"], &Settings::ShowRanks::enabled);
 

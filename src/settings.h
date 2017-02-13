@@ -707,6 +707,7 @@ namespace Settings
 		namespace Skins
 		{
 			extern bool enabled;
+			extern bool perTeam;
 		}
 
 		namespace Models
