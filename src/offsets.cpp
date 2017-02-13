@@ -22,6 +22,8 @@ void Offsets::GetOffsets()
 	offsets.DT_BasePlayer.m_szLastPlaceName = NetVarManager::GetOffset(tables, "DT_BasePlayer", "m_szLastPlaceName");
 	offsets.DT_BasePlayer.deadflag = NetVarManager::GetOffset(tables, "DT_BasePlayer", "deadflag");
 
+	offsets.DT_BaseEntity.m_flAnimTime = NetVarManager::GetOffset(tables, "DT_BaseEntity", "m_flAnimTime");
+	offsets.DT_BaseEntity.m_flSimulationTime = NetVarManager::GetOffset(tables, "DT_BaseEntity", "m_flSimulationTime");
 	offsets.DT_BaseEntity.m_vecOrigin = NetVarManager::GetOffset(tables, "DT_BaseEntity", "m_vecOrigin");
 	offsets.DT_BaseEntity.m_nRenderMode = NetVarManager::GetOffset(tables, "DT_BaseEntity", "m_nRenderMode");
 	offsets.DT_BaseEntity.m_iTeamNum = NetVarManager::GetOffset(tables, "DT_BaseEntity", "m_iTeamNum");

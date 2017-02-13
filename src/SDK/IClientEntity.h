@@ -135,6 +135,16 @@ public:
 		return (int*)((uintptr_t)this + offsets.DT_BaseViewModel.m_nModelIndex);
 	}
 
+	float GetAnimTime()
+	{
+		return *(float*)((uintptr_t)this + offsets.DT_BaseEntity.m_flAnimTime);
+	}
+
+	float GetSimulationTime()
+	{
+		return *(float*)((uintptr_t)this + offsets.DT_BaseEntity.m_flSimulationTime);
+	}
+
 	TeamID GetTeam()
 	{
 		return *(TeamID*)((uintptr_t)this + offsets.DT_BaseEntity.m_iTeamNum);

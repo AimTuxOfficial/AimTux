@@ -4,6 +4,7 @@ bool Settings::AntiAim::Yaw::enabled = false;
 bool Settings::AntiAim::Pitch::enabled = false;
 AntiAimType_Y Settings::AntiAim::Yaw::type = AntiAimType_Y::SPIN_FAST;
 AntiAimType_Y Settings::AntiAim::Yaw::typeFake = AntiAimType_Y::SPIN_FAST;
+bool Settings::AntiAim::Yaw::antiResolver = false;
 AntiAimType_X Settings::AntiAim::Pitch::type = AntiAimType_X::STATIC_DOWN;
 bool Settings::AntiAim::HeadEdge::enabled = false;
 float Settings::AntiAim::HeadEdge::distance = 25.0f;
@@ -326,6 +327,26 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 	}
 
 	cmd->viewangles = angle;
+
+	if (Settings::AntiAim::Yaw::antiResolver)
+	{
+		static bool antiResolverFlip = false;
+		if (cmd->viewangles.y == *localplayer->GetLowerBodyYawTarget())
+		{
+			if (antiResolverFlip)
+				cmd->viewangles.y += 60.f;
+			else
+				cmd->viewangles.y -= 60.f;
+
+			antiResolverFlip = !antiResolverFlip;
+
+			if (should_clamp)
+			{
+				Math::NormalizeAngles(cmd->viewangles);
+				Math::ClampAngles(cmd->viewangles);
+			}
+		}
+	}
 
 	Math::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);
 }

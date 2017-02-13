@@ -8,7 +8,6 @@ namespace Math {
 	void NormalizeAngles(QAngle& angle);
 	void ClampAngles(QAngle& angle);
 	void CorrectMovement(QAngle vOldAngles, CUserCmd* pCmd, float fOldForward, float fOldSidemove);
-	float GetDistance(const Vector& source, const Vector& destination);
 	float GetFov(const QAngle &viewAngle, const QAngle &aimAngle);
 	void VectorAngles(const Vector &forward, QAngle &angles);
 	QAngle CalcAngle(Vector src, Vector dst);
