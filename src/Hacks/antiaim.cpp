@@ -184,6 +184,7 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 			clamp = false;
 			factor = (globalVars->curtime * 5000.0f);
 			angle.y = factor + 36000000.0f;
+			break;
 		case AntiAimType_Y::JITTER_180:
 			clamp = false;
 			yFlip ? angle.y = 0.1f : angle.y = 179.0f;
