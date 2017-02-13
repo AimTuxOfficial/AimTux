@@ -39,7 +39,7 @@ bool Entity::IsVisible(C_BasePlayer* player, Bone bone, float fov, bool smoke_ch
 	if (smoke_check && LineGoesThroughSmoke(p_vecHead, e_vecHead, true))
 		return false;
 
-	return tr.m_pEntityHit == player;
+	return (tr.m_pEntityHit == player || tr.fraction > 0.99f);
 }
 
 bool Entity::IsPlanting(C_BasePlayer* player)
