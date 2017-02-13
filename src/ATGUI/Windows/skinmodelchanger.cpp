@@ -529,8 +529,6 @@ void CombinedSkins()
 	ImGui::Text("Skins");
 	ImGui::Columns(1);
 
-	ImGui::Separator();
-
 	ImGui::Columns(2);
 
 	ImGui::PushItemWidth(-1);
