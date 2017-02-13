@@ -215,7 +215,7 @@ enum GrenadeType : int
 enum ThrowType : int
 {
 	NORMAL,
-	CROUCH,
+	RUN,
 	JUMP,
 	WALK
 };

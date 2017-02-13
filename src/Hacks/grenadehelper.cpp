@@ -24,7 +24,7 @@ GrenadeType getGrenadeType(C_BaseCombatWeapon* wpn)
 		return GrenadeType::HEGRENADE;
 	if (!strcmp(wpn->GetCSWpnData()->szClassName, "weapon_smokegrenade"))
 		return GrenadeType::SMOKE;
-	if (!strcmp(wpn->GetCSWpnData()->szClassName, "weapon_flashbang"))
+	if (!strcmp(wpn->GetCSWpnData()->szClassName, "weapon_flashbang") || !strcmp(wpn->GetCSWpnData()->szClassName, "weapon_decoy"))
 		return GrenadeType::FLASH;
 	return GrenadeType::MOLOTOV;// "weapon_molotov", "weapon_incgrenade"
 }
