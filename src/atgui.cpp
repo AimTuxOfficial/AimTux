@@ -198,8 +198,8 @@ static float autoWallValue = 10.0f;
 static bool autoWallBones[] = { true, false, false, false, false, false };
 static bool autoAimRealDistance = false;
 static bool autoSlow = false;
-static float autoSlowSpeedPercent = 34.0f;
 static bool predEnabled = false;
+static float autoSlowMinDamage = 5.0f;
 
 void UI::UpdateWeaponSettings()
 {
@@ -212,8 +212,7 @@ void UI::UpdateWeaponSettings()
 							   autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
 							   rcsEnabled, rcsAlwaysOn, rcsAmountX, rcsAmountY,
 							   autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
-							   noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallValue, autoAimRealDistance,
-							   autoSlow, autoSlowSpeedPercent, predEnabled
+							   noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, autoSlowMinDamage, predEnabled
 	};
 
 	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
@@ -260,8 +259,8 @@ void ReloadWeaponSettings()
 	autoWallValue = Settings::Aimbot::weapons.at(index).autoWallValue;
 	autoAimRealDistance = Settings::Aimbot::weapons.at(index).autoAimRealDistance;
 	autoSlow = Settings::Aimbot::weapons.at(index).autoSlow;
-	autoSlowSpeedPercent = Settings::Aimbot::weapons.at(index).autoSlowSpeedPercent;
 	predEnabled = Settings::Aimbot::weapons.at(index).predEnabled;
+	autoSlowMinDamage = Settings::Aimbot::weapons.at(index).autoSlowMinDamage;
 
 	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
 		autoWallBones[bone] = Settings::Aimbot::weapons.at(index).autoWallBones[bone];
@@ -595,22 +594,25 @@ void AimbotTab()
 				SetTooltip("Disable aimbot while flashed");
 			}
 
-			ImGui::Columns(1);
-			ImGui::Separator();
-			ImGui::Text("AutoSlow");
-			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
+			if (autoWallEnabled)
 			{
-				if (ImGui::Checkbox("Enabled##AUTOSLOW", &autoSlow))
-					UI::UpdateWeaponSettings();
-				SetTooltip("Automatically slows your movement speed when an enemy is shootable");
-			}
-			ImGui::NextColumn();
-			{
-				ImGui::PushItemWidth(-1);
-					if (ImGui::SliderFloat("##AUTOSLOWSPEEDPERCENT", &autoSlowSpeedPercent, 0, 100, "Percent: %f"))
+				ImGui::Columns(1);
+				ImGui::Separator();
+				ImGui::Text("AutoSlow");
+				ImGui::Separator();
+				ImGui::Columns(2, NULL, true);
+				{
+					if (ImGui::Checkbox("Enabled##AUTOSLOW", &autoSlow))
 						UI::UpdateWeaponSettings();
-				ImGui::PopItemWidth();
+					SetTooltip("Automatically slows your movement speed when an enemy is shootable");
+				}
+				ImGui::NextColumn();
+				{
+					ImGui::PushItemWidth(-1);
+					if (ImGui::SliderFloat("##AUTOSLOWMINDAMAGE", &autoSlowMinDamage, 0, 100, "Min Damage: %f"))
+						UI::UpdateWeaponSettings();
+					ImGui::PopItemWidth();
+				}
 			}
 
 			ImGui::Columns(1);
@@ -1037,7 +1039,7 @@ void HvHTab()
 		ImGui::BeginChild("HVH1", ImVec2(0, 0), true);
 		{
 			ImGui::Text("AntiAim");
-			ImGui::BeginChild("##ANTIAIM", ImVec2(0, ImGui::GetWindowSize().y / 2 + 32), true);
+			ImGui::BeginChild("##ANTIAIM", ImVec2(0, 0), true);
 			{
 				ImGui::Checkbox("Yaw", &Settings::AntiAim::Yaw::enabled);
 				SetTooltip("Enables Yaw AntiAim");
@@ -1048,6 +1050,8 @@ void HvHTab()
 					ImGui::Text("Yaw Fake");
 					ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
 					ImGui::Text("Yaw Actual");
+					ImGui::Checkbox("Anti Resolver", &Settings::AntiAim::Yaw::antiResolver);
+					SetTooltip("Simple resolver prevention");
 				}
 				ImGui::NextColumn();
 				{

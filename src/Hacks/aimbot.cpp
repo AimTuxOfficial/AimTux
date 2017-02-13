@@ -38,7 +38,7 @@ bool Settings::Aimbot::FlashCheck::enabled = false;
 bool Settings::Aimbot::Smooth::Salting::enabled = false;
 float Settings::Aimbot::Smooth::Salting::multiplier = 0.0f;
 bool Settings::Aimbot::AutoSlow::enabled = false;
-float Settings::Aimbot::AutoSlow::speedPercent = 34.0f;
+float Settings::Aimbot::AutoSlow::minDamage = 5.0f;
 bool Settings::Aimbot::Prediction::enabled = false;
 
 bool Aimbot::aimStepInProgress = false;
@@ -125,7 +125,7 @@ float GetRealDistanceFOV(float distance, QAngle angle, CUserCmd* cmd)
 	Math::AngleVectors(angle, aimAt);
 	aimAt *= distance;
 
-	return Math::GetDistance(aimingAt, aimAt);
+	return aimingAt.DistTo(aimAt);
 }
 
 Vector VelocityExtrapolate(C_BasePlayer* player, Vector aimPos)
@@ -180,7 +180,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 		QAngle viewAngles;
 		engine->GetViewAngles(viewAngles);
 
-		float distance = Math::GetDistance(pVecTarget, eVecTarget);
+		float distance = pVecTarget.DistTo(eVecTarget);
 		float fov = Math::GetFov(viewAngles, Math::CalcAngle(pVecTarget, eVecTarget));
 		float real_distance = GetRealDistanceFOV(distance, Math::CalcAngle(pVecTarget, eVecTarget), cmd);
 		int hp = player->GetHealth();
@@ -370,22 +370,26 @@ void Aimbot::AutoCrouch(C_BasePlayer* player, CUserCmd* cmd)
 	cmd->buttons |= IN_DUCK;
 }
 
-void Aimbot::AutoSlow(C_BasePlayer* player, float& forward, float& sideMove, C_BaseCombatWeapon* active_weapon, CUserCmd* cmd)
+void Aimbot::AutoSlow(C_BasePlayer* player, float& forward, float& sideMove, float& bestDamage, C_BaseCombatWeapon* active_weapon, CUserCmd* cmd)
 {
-	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-
-	bool shouldSlow = Settings::Aimbot::AutoSlow::enabled && player && localplayer && shouldAim;
-
-	if (!shouldSlow)
+	if (!Settings::Aimbot::AutoWall::enabled)
 		return;
 
-	CCSWeaponInfo* weaponInfo = active_weapon->GetCSWpnData();
-	float maxWeaponSpeed = weaponInfo->GetMaxPlayerSpeed();
+	if (!Settings::Aimbot::AutoSlow::enabled)
+		return;
 
-	if (localplayer->GetVelocity().Length() > (maxWeaponSpeed * (Settings::Aimbot::AutoSlow::speedPercent / 100)))
+	if (!player)
+		return;
+
+	float nextPrimaryAttack = active_weapon->GetNextPrimaryAttack();
+
+	if (nextPrimaryAttack > globalVars->curtime)
+		return;
+
+	if (bestDamage > Settings::Aimbot::AutoSlow::minDamage)
 	{
-		forward *= Settings::Aimbot::AutoSlow::speedPercent;
-		sideMove *= Settings::Aimbot::AutoSlow::speedPercent;
+		forward *= 0.2f;
+		sideMove *= 0.16f;
 		cmd->upmove = 0;
 	}
 }
@@ -559,7 +563,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 
 	Aimbot::AimStep(player, angle, cmd);
 	Aimbot::AutoCrouch(player, cmd);
-	Aimbot::AutoSlow(player, oldForward, oldSideMove, activeWeapon, cmd);
+	Aimbot::AutoSlow(player, oldForward, oldSideMove, bestDamage, activeWeapon, cmd);
 	Aimbot::AutoPistol(activeWeapon, cmd);
 	Aimbot::AutoShoot(player, activeWeapon, cmd);
 	Aimbot::RCS(angle, player, cmd);
@@ -640,7 +644,7 @@ void Aimbot::UpdateValues()
 	Settings::Aimbot::AutoWall::enabled = currentWeaponSetting.autoWallEnabled;
 	Settings::Aimbot::AutoWall::value = currentWeaponSetting.autoWallValue;
 	Settings::Aimbot::AutoSlow::enabled = currentWeaponSetting.autoSlow;
-	Settings::Aimbot::AutoSlow::speedPercent = currentWeaponSetting.autoSlowSpeedPercent;
+	Settings::Aimbot::AutoSlow::minDamage = currentWeaponSetting.autoSlowMinDamage;
 
 	for (int i = (int) Hitbox::HITBOX_HEAD; i <= (int) Hitbox::HITBOX_ARMS; i++)
 		Settings::Aimbot::AutoWall::bones[i] = currentWeaponSetting.autoWallBones[i];
