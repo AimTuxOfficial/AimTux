@@ -394,6 +394,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 
 	settings["FakeLag"]["enabled"] = Settings::FakeLag::enabled;
 	settings["FakeLag"]["value"] = Settings::FakeLag::value;
+	settings["FakeLag"]["adaptive"] = Settings::FakeLag::adaptive;
 
 	settings["AutoAccept"]["enabled"] = Settings::AutoAccept::enabled;
 
@@ -804,6 +805,7 @@ void Settings::LoadConfig(std::string path)
 
 	GetVal(settings["FakeLag"]["enabled"], &Settings::FakeLag::enabled);
 	GetVal(settings["FakeLag"]["value"], &Settings::FakeLag::value);
+	GetVal(settings["FakeLag"]["adaptive"], &Settings::FakeLag::adaptive);
 
 	GetVal(settings["AutoAccept"]["enabled"], &Settings::AutoAccept::enabled);
 

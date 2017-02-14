@@ -1454,6 +1454,8 @@ void MiscTab()
 			{
 				ImGui::Checkbox("Fake Lag", &Settings::FakeLag::enabled);
 				SetTooltip("Chokes packets so it appears you're lagging");
+				ImGui::Checkbox("Adaptive Fake Lag", &Settings::FakeLag::adaptive);
+				SetTooltip("Chokes packets based on velocity (minimum choked is fakelag value)");
 				ImGui::Checkbox("Auto Accept", &Settings::AutoAccept::enabled);
 				SetTooltip("Auto accept games when in MM queue");
 				ImGui::Checkbox("Auto Defuse", &Settings::AutoDefuse::enabled);
