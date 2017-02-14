@@ -608,9 +608,9 @@ public:
 		return *(int*)((uintptr_t)this + offsets.DT_BaseCombatWeapon.m_hOwner);
 	}
 
-	unsigned int GetAmmo()
+	int GetAmmo()
 	{
-		return *(unsigned int*)((uintptr_t)this + offsets.DT_BaseCombatWeapon.m_iClip1);
+		return *(int*)((uintptr_t)this + offsets.DT_BaseCombatWeapon.m_iClip1);
 	}
 
 	float GetNextPrimaryAttack()
