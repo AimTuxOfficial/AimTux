@@ -4,6 +4,36 @@
 
 extern uintptr_t* GetCSWpnData_address;
 
+#define MAX_SHOOT_SOUNDS 16
+#define MAX_WEAPON_STRING 80
+#define MAX_WEAPON_PREFIX 16
+#define MAX_WEAPON_AMMO_NAME 32
+
+enum WeaponSound_t
+{
+	EMPTY,
+	SINGLE,
+	SINGLE_NPC,
+	WPN_DOUBLE, // Can't be "DOUBLE" because windows.h uses it.
+	DOUBLE_NPC,
+	BURST,
+	RELOAD,
+	RELOAD_NPC,
+	MELEE_MISS,
+	MELEE_HIT,
+	MELEE_HIT_WORLD,
+	SPECIAL1,
+	SPECIAL2,
+	SPECIAL3,
+	TAUNT,
+	FAST_RELOAD,
+
+	// Add new shoot sound types here
+	REVERSE_THE_NEW_SOUND,
+
+	NUM_SHOOT_SOUND_TYPES,
+};
+
 enum MoveType_t
 {
 	MOVETYPE_NONE = 0,
@@ -31,9 +61,9 @@ enum DataUpdateType_t
 class ICollideable
 {
 public:
-	virtual void pad0( );
-	virtual const Vector& OBBMins( ) const;
-	virtual const Vector& OBBMaxs( ) const;
+	virtual void pad0();
+	virtual const Vector& OBBMins() const;
+	virtual const Vector& OBBMaxs() const;
 };
 
 class IHandleEntity
@@ -451,6 +481,8 @@ public:
 	}
 };
 
+class CHudTexture;
+
 class FileWeaponInfo_t
 {
 public:
@@ -462,8 +494,51 @@ public:
 	bool bParsedScript;
 	bool bLoadedHudElements;
 
-	char szClassName[80];
-	char szPrintName[80];
+	char szClassName[MAX_WEAPON_STRING];
+	char szPrintName[MAX_WEAPON_STRING];
+
+	char szViewModel[MAX_WEAPON_STRING];
+	char szWorldModel[MAX_WEAPON_STRING];
+	char szAmmo1[MAX_WEAPON_AMMO_NAME];
+	char szWorldDroppedModel[MAX_WEAPON_STRING];
+	char szAnimationPrefix[MAX_WEAPON_PREFIX];
+	int iSlot;
+	int iPosition;
+	int iMaxClip1;
+	int iMaxClip2;
+	int iDefaultClip1;
+	int iDefaultClip2;
+	int iWeight;
+	int iRumbleEffect;
+	bool bAutoSwitchTo;
+	bool bAutoSwitchFrom;
+	int iFlags;
+	char szAmmo2[MAX_WEAPON_AMMO_NAME];
+	char szAIAddOn[MAX_WEAPON_STRING];
+
+	// Sound blocks
+	char aShootSounds[NUM_SHOOT_SOUND_TYPES][MAX_WEAPON_STRING];
+
+	int iAmmoType;
+	int iAmmo2Type;
+	bool m_bMeleeWeapon;
+
+	// This tells if the weapon was built right-handed (defaults to true).
+	// This helps cl_righthand make the decision about whether to flip the model or not.
+	bool m_bBuiltRightHanded;
+	bool m_bAllowFlipping;
+
+	// Sprite data, read from the data file
+	int iSpriteCount;
+	CHudTexture* iconActive;
+	CHudTexture* iconInactive;
+	CHudTexture* iconAmmo;
+	CHudTexture* iconAmmo2;
+	CHudTexture* iconCrosshair;
+	CHudTexture* iconAutoaim;
+	CHudTexture* iconZoomedCrosshair;
+	CHudTexture* iconZoomedAutoaim;
+	CHudTexture* iconSmall;
 };
 
 class CCSWeaponInfo : public FileWeaponInfo_t
