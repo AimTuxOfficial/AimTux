@@ -723,7 +723,7 @@ void ESP::DrawDefuseKit(C_BaseEntity* defuser)
 	DrawEntity(defuser, "Defuser", Color::FromImColor(Settings::ESP::defuserColor));
 }
 
-void ESP::DrawDroppedWeapons(C_BaseCombatWeapon* weapon)
+void ESP::DrawDroppedWeapon(C_BaseCombatWeapon* weapon)
 {
 	Vector vOrig = weapon->GetVecOrigin();
 	int owner = weapon->GetOwner();
@@ -734,7 +734,7 @@ void ESP::DrawDroppedWeapons(C_BaseCombatWeapon* weapon)
 	std::string modelName = Util::Items::GetItemDisplayName(*weapon->GetItemDefinitionIndex());
 	modelName = Util::WstringToString(localize->FindSafe(modelName.c_str()));
 
-	if (weapon->GetAmmo() > 0)
+	if (weapon->GetAmmo() > 0 && weapon->GetAmmo() <= weapon->GetCSWpnData()->iMaxClip1)
 	{
 		modelName += " | ";
 		modelName += std::to_string(weapon->GetAmmo());
@@ -1140,7 +1140,7 @@ void ESP::Paint()
 		if ((client->m_ClassID != EClassIds::CBaseWeaponWorldModel && (strstr(client->m_pNetworkName, "Weapon") || client->m_ClassID == EClassIds::CDEagle || client->m_ClassID == EClassIds::CAK47)) && Settings::ESP::Filters::weapons)
 		{
 			C_BaseCombatWeapon* weapon = (C_BaseCombatWeapon*) entity;
-			DrawDroppedWeapons(weapon);
+			DrawDroppedWeapon(weapon);
 		}
 		else if (client->m_ClassID == EClassIds::CC4 && Settings::ESP::Filters::bomb)
 		{

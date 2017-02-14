@@ -23,7 +23,7 @@ namespace ESP
 	void DrawBomb(C_BaseCombatWeapon* bomb);
 	void DrawPlantedBomb(C_PlantedC4* bomb);
 	void DrawDefuseKit(C_BaseEntity* defuser);
-	void DrawDroppedWeapons(C_BaseCombatWeapon* weapon);
+	void DrawDroppedWeapon(C_BaseCombatWeapon* weapon);
 	void DrawHostage(C_BaseEntity* hostage);
 	void DrawChicken(C_BaseEntity* chicken);
 	void DrawFish(C_BaseEntity* fish);
