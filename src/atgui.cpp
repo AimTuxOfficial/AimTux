@@ -383,7 +383,7 @@ void AimbotTab()
 			for (auto it : ItemDefinitionIndexMap)
 			{
 				bool isDefault = (int) it.first < 0;
-				if (!isDefault && !Util::Contains(Util::ToLower(std::string(filterWeapons)), Util::ToLower(Util::WstringToString(localize->FindSafe(Util::Items::GetItemDisplayName(it.first).c_str())))))
+				if (!isDefault && !Util::Contains(Util::ToLower(std::string(filterWeapons)), Util::ToLower(Util::Items::GetItemDisplayName(it.first).c_str())))
 					continue;
 
 				if (it.first >= ItemDefinitionIndex::WEAPON_KNIFE_BAYONET ||
