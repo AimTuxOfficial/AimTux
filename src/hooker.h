@@ -60,7 +60,7 @@
 #define CAMTHINK_SVCHEATSCHECK_SIGNATURE "\x74\x00\x49\x83\x00\x00\x00\x00\x00\x00\x00\x0F\x84\x00\x00\x00\x00\x49\x8B"
 #define CAMTHINK_SVCHEATSCHECK_MASK "x?xx??????xxx????xx"
 
-#define CGAMESERVER_SIGNATURE "\x48\x8B\x1D\x38\x92\xB8\x00\x49\x89\xC6"
+#define CGAMESERVER_SIGNATURE "\x48\x8B\x1D\x48\x9B\xB8\x00\x49\x89\xC6"
 #define CGAMESERVER_MASK "xxxxxx?xxx"
 
 #include <memory>
