@@ -151,54 +151,54 @@ struct AimbotWeapon_t
 	float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmountX, rcsAmountY, autoWallValue, autoSlowMinDamage;
 	bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallBones[6], autoAimRealDistance, autoSlow, predEnabled;
 
-	AimbotWeapon_t(bool _enabled, bool _silent, bool _friendly, Bone _bone, ButtonCode_t _aimkey, bool _aimkeyOnly,
-		   bool _smoothEnabled, float _smoothValue, SmoothType _smoothType, bool _smoothSaltEnabled, float _smoothSaltMultiplier,
-		   bool _errorMarginEnabled, float _errorMarginValue,
-		   bool _autoAimEnabled, float _autoAimValue, bool _aimStepEnabled, float _aimStepValue,
-		   bool _rcsEnabled, bool _rcsAlwaysOn, float _rcsAmountX, float _rcsAmountY,
-		   bool _autoPistolEnabled, bool _autoShootEnabled, bool _autoScopeEnabled,
-		   bool _noShootEnabled, bool _ignoreJumpEnabled, bool _smokeCheck, bool _flashCheck,
-		   bool _autoWallEnabled, float _autoWallValue, bool _autoAimRealDistance, bool _autoSlow,
-		   float _autoSlowMinDamage, bool _predEnabled, bool _autoWallBones[6] = nullptr)
+	AimbotWeapon_t(bool enabled, bool silent, bool friendly, Bone bone, ButtonCode_t aimkey, bool aimkeyOnly,
+		   bool smoothEnabled, float smoothValue, SmoothType smoothType, bool smoothSaltEnabled, float smoothSaltMultiplier,
+		   bool errorMarginEnabled, float errorMarginValue,
+		   bool autoAimEnabled, float autoAimValue, bool aimStepEnabled, float aimStepValue,
+		   bool rcsEnabled, bool rcsAlwaysOn, float rcsAmountX, float rcsAmountY,
+		   bool autoPistolEnabled, bool autoShootEnabled, bool autoScopeEnabled,
+		   bool noShootEnabled, bool ignoreJumpEnabled, bool smokeCheck, bool flashCheck,
+		   bool autoWallEnabled, float autoWallValue, bool autoAimRealDistance, bool autoSlow,
+		   float autoSlowMinDamage, bool predEnabled, bool autoWallBones[6] = nullptr)
 	{
-		this->enabled = _enabled;
-		this->silent = _silent;
-		this->friendly = _friendly;
-		this->bone = _bone;
-		this->aimkey = _aimkey;
-		this->aimkeyOnly = _aimkeyOnly;
-		this->smoothEnabled = _smoothEnabled;
-		this->smoothAmount = _smoothValue;
-		this->smoothType = _smoothType;
-		this->smoothSaltEnabled = _smoothSaltEnabled;
-		this->smoothSaltMultiplier = _smoothSaltMultiplier;
-		this->errorMarginEnabled = _errorMarginEnabled;
-		this->errorMarginValue = _errorMarginValue;
-		this->autoAimEnabled = _autoAimEnabled;
-		this->autoAimFov = _autoAimValue;
-		this->aimStepEnabled = _aimStepEnabled;
-		this->aimStepValue = _aimStepValue;
-		this->rcsEnabled = _rcsEnabled;
-		this->rcsAlwaysOn = _rcsAlwaysOn;
-		this->rcsAmountX = _rcsAmountX;
-		this->rcsAmountY = _rcsAmountY;
-		this->autoPistolEnabled = _autoPistolEnabled;
-		this->autoShootEnabled = _autoShootEnabled;
-		this->autoScopeEnabled = _autoScopeEnabled;
-		this->noShootEnabled = _noShootEnabled;
-		this->ignoreJumpEnabled = _ignoreJumpEnabled;
-		this->smokeCheck = _smokeCheck;
-		this->flashCheck = _flashCheck;
-		this->autoWallEnabled = _autoWallEnabled;
-		this->autoWallValue = _autoWallValue;
-		this->autoSlow = _autoSlow;
-		this->predEnabled = _predEnabled;
-		this->autoSlowMinDamage = _autoSlowMinDamage;
+		this->enabled = enabled;
+		this->silent = silent;
+		this->friendly = friendly;
+		this->bone = bone;
+		this->aimkey = aimkey;
+		this->aimkeyOnly = aimkeyOnly;
+		this->smoothEnabled = smoothEnabled;
+		this->smoothAmount = smoothValue;
+		this->smoothType = smoothType;
+		this->smoothSaltEnabled = smoothSaltEnabled;
+		this->smoothSaltMultiplier = smoothSaltMultiplier;
+		this->errorMarginEnabled = errorMarginEnabled;
+		this->errorMarginValue = errorMarginValue;
+		this->autoAimEnabled = autoAimEnabled;
+		this->autoAimFov = autoAimValue;
+		this->aimStepEnabled = aimStepEnabled;
+		this->aimStepValue = aimStepValue;
+		this->rcsEnabled = rcsEnabled;
+		this->rcsAlwaysOn = rcsAlwaysOn;
+		this->rcsAmountX = rcsAmountX;
+		this->rcsAmountY = rcsAmountY;
+		this->autoPistolEnabled = autoPistolEnabled;
+		this->autoShootEnabled = autoShootEnabled;
+		this->autoScopeEnabled = autoScopeEnabled;
+		this->noShootEnabled = noShootEnabled;
+		this->ignoreJumpEnabled = ignoreJumpEnabled;
+		this->smokeCheck = smokeCheck;
+		this->flashCheck = flashCheck;
+		this->autoWallEnabled = autoWallEnabled;
+		this->autoWallValue = autoWallValue;
+		this->autoSlow = autoSlow;
+		this->predEnabled = predEnabled;
+		this->autoSlowMinDamage = autoSlowMinDamage;
 
 		for (int i = (int) Hitbox::HITBOX_HEAD; i <= (int) Hitbox::HITBOX_ARMS; i++)
-			this->autoWallBones[i] = _autoWallBones != nullptr ? _autoWallBones[i] : false;
+			this->autoWallBones[i] = autoWallBones != nullptr ? autoWallBones[i] : false;
 
-		this->autoAimRealDistance = _autoAimRealDistance;
+		this->autoAimRealDistance = autoAimRealDistance;
 	}
 
 	AimbotWeapon_t() {};

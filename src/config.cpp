@@ -37,17 +37,17 @@ std::vector<Config> GetConfigs(const char* directory)
 
 	while ((pdir = readdir(dir)))
 	{
-		if (pdir->d_type == DT_DIR && strcmp(pdir->d_name, ".") != 0 && strcmp(pdir->d_name, "..") != 0)
-		{
-			pstring config_path;
-			config_path << directory << pdir->d_name;
+		if (pdir->d_type != DT_DIR || strcmp(pdir->d_name, ".") == 0 || strcmp(pdir->d_name, "..") == 0)
+			continue;
 
-			if (DoesConform(config_path.c_str()))
-			{
-				Config new_config(pdir->d_name, config_path.c_str());
-				configs.push_back(new_config);
-			}
-		}
+		pstring config_path;
+		config_path << directory << pdir->d_name;
+
+		if (!DoesConform(config_path.c_str()))
+			continue;
+
+		Config new_config(pdir->d_name, config_path.c_str());
+		configs.push_back(new_config);
 	}
 
 	return configs;
