@@ -22,12 +22,12 @@ void TabButtons()
 				Settings::UI::mainColor.Value.w
 		);
 
-		if (ImGui::Button(tabs[i], ImVec2(ImGui::GetWindowSize().x /  IM_ARRAYSIZE(tabs) - 9, 0)))
+		if (ImGui::Button(tabs[i], ImVec2(ImGui::GetWindowSize().x / IM_ARRAYSIZE(tabs) - 9, 0)))
 			page = i;
 
 		ImGui::GetStyle().Colors[ImGuiCol_Button] = Settings::UI::mainColor;
 
-		if (i <  IM_ARRAYSIZE(tabs) - 1)
+		if (i < IM_ARRAYSIZE(tabs) - 1)
 			ImGui::SameLine();
 	}
 }

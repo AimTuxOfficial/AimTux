@@ -54,7 +54,7 @@ std::unordered_map<std::string, std::string> killIcons = {};
 std::unique_ptr<RecvPropHook> SkinChanger::sequenceHook;
 
 bool SkinChanger::forceFullUpdate = true;
-bool SkinChanger::glovesUpdated = true;
+bool SkinChanger::glovesUpdated = false;
 
 void SkinChanger::FrameStageNotifyModels(ClientFrameStage_t stage)
 {
@@ -122,10 +122,11 @@ void SkinChanger::FrameStageNotifyModels(ClientFrameStage_t stage)
 						continue;
 
 					int entry = (entityList->GetHighestEntityIndex() + 1), serial = RandomInt(0x0, 0xFFF);
-
 					pClass->m_pCreateFn(entry, serial);
-
 					localplayer->GetWearables()[0] = entry | (serial << 16);
+
+					SkinChanger::forceFullUpdate = true;
+					SkinChanger::glovesUpdated = true;
 
 					break;
 				}
@@ -134,34 +135,19 @@ void SkinChanger::FrameStageNotifyModels(ClientFrameStage_t stage)
 			C_BaseAttributableItem* glove = (C_BaseAttributableItem* ) entityList->GetClientEntity(localplayer->GetWearables()[0] & 0xFFF);
 			if (!glove)
 				return;
-			if(localplayer->GetTeam() == TeamID::TEAM_COUNTER_TERRORIST)
-			{
-				if (Settings::Skinchanger::skinsCT.find(ItemDefinitionIndex::GLOVE_CT_SIDE) != Settings::Skinchanger::skinsCT.end())
-				{
-					const AttribItem_t &currentSkin = Settings::Skinchanger::skinsCT.at(ItemDefinitionIndex::GLOVE_CT_SIDE);
 
-					if (currentSkin.itemDefinitionIndex != ItemDefinitionIndex::INVALID && ItemDefinitionIndexMap.find(currentSkin.itemDefinitionIndex) != ItemDefinitionIndexMap.end())
-					{
-						if(*glove->GetItemDefinitionIndex() != currentSkin.itemDefinitionIndex)
-						{
-							glove->SetModelIndex(modelInfo->GetModelIndex(ItemDefinitionIndexMap.at(currentSkin.itemDefinitionIndex).entityModel));
-							*glove->GetItemDefinitionIndex() = currentSkin.itemDefinitionIndex;
-						}
-					}
-				}
-			} else if (localplayer->GetTeam() == TeamID::TEAM_TERRORIST)
-			{
-				if (Settings::Skinchanger::skinsT.find(ItemDefinitionIndex::GLOVE_T_SIDE) != Settings::Skinchanger::skinsCT.end())
-				{
-					const AttribItem_t &currentSkin = Settings::Skinchanger::skinsT.at(ItemDefinitionIndex::GLOVE_T_SIDE);
+			auto keyExists = localplayer->GetTeam() == TeamID::TEAM_COUNTER_TERRORIST ? Settings::Skinchanger::skinsCT.find(ItemDefinitionIndex::GLOVE_CT_SIDE) : Settings::Skinchanger::skinsT.find(ItemDefinitionIndex::GLOVE_T_SIDE);
 
-					if (currentSkin.itemDefinitionIndex != ItemDefinitionIndex::INVALID && ItemDefinitionIndexMap.find(currentSkin.itemDefinitionIndex) != ItemDefinitionIndexMap.end())
+			if (keyExists != (localplayer->GetTeam() == TeamID::TEAM_COUNTER_TERRORIST ? Settings::Skinchanger::skinsCT.end() : Settings::Skinchanger::skinsT.end()))
+			{
+				const AttribItem_t &currentModel = localplayer->GetTeam() == TeamID::TEAM_COUNTER_TERRORIST ? Settings::Skinchanger::skinsCT.at(ItemDefinitionIndex::GLOVE_CT_SIDE) : Settings::Skinchanger::skinsT.at(ItemDefinitionIndex::GLOVE_T_SIDE);
+
+				if (currentModel.itemDefinitionIndex != ItemDefinitionIndex::INVALID && ItemDefinitionIndexMap.find(currentModel.itemDefinitionIndex) != ItemDefinitionIndexMap.end())
+				{
+					if(*glove->GetItemDefinitionIndex() != currentModel.itemDefinitionIndex)
 					{
-						if(*glove->GetItemDefinitionIndex() != currentSkin.itemDefinitionIndex)
-						{
-							glove->SetModelIndex(modelInfo->GetModelIndex(ItemDefinitionIndexMap.at(currentSkin.itemDefinitionIndex).entityModel));
-							*glove->GetItemDefinitionIndex() = currentSkin.itemDefinitionIndex;
-						}
+						glove->SetModelIndex(modelInfo->GetModelIndex(ItemDefinitionIndexMap.at(currentModel.itemDefinitionIndex).entityModel));
+						*glove->GetItemDefinitionIndex() = currentModel.itemDefinitionIndex;
 					}
 				}
 			}
@@ -249,7 +235,7 @@ void SkinChanger::FrameStageNotifySkins(ClientFrameStage_t stage)
 				{
 					const AttribItem_t &currentSkin = Settings::Skinchanger::skinsCT.at(currentSkinOrig.itemDefinitionIndex);
 
-					if(currentSkin.fallbackPaintKit != -1 )
+					if(currentSkin.fallbackPaintKit != -1)
 						*glove->GetFallbackPaintKit() = currentSkin.fallbackPaintKit;
 
 					if(currentSkin.fallbackWear != -1)
