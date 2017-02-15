@@ -616,7 +616,6 @@ void ESP::DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info
 	if (Settings::ESP::Info::weapon && activeWeapon)
 	{
 		std::string modelName = Util::Items::GetItemDisplayName(*activeWeapon->GetItemDefinitionIndex());
-		modelName = Util::WstringToString(localize->FindSafe(modelName.c_str()));
 		int offset = (int)(Settings::ESP::Bars::type == BarType::HORIZONTAL || Settings::ESP::Bars::type == BarType::INTERWEBZ ? boxSpacing + barsSpacing.y + 1 : 0);
 
 		Vector2D weaponTextSize = Draw::GetTextSize(modelName.c_str(), esp_font);
@@ -732,7 +731,6 @@ void ESP::DrawDroppedWeapons(C_BaseCombatWeapon* weapon)
 		return;
 
 	std::string modelName = Util::Items::GetItemDisplayName(*weapon->GetItemDefinitionIndex());
-	modelName = Util::WstringToString(localize->FindSafe(modelName.c_str()));
 
 	if (weapon->GetAmmo() > 0)
 	{

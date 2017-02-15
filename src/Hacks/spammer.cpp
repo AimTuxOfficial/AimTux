@@ -146,26 +146,24 @@ void Spammer::BeginFrame(float frameTime)
 
 			C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(player->GetActiveWeapon());
 
-			std::string modelName = Util::Items::GetItemDisplayName(*activeWeapon->GetItemDefinitionIndex());
-
 			// Prepare player's nickname without ';' & '"' characters
 			// as they might cause user to execute a command.
-			std::string player_name = std::string(entityInformation.name);
-			player_name.erase(std::remove(player_name.begin(), player_name.end(), ';'), player_name.end());
-			player_name.erase(std::remove(player_name.begin(), player_name.end(), '"'), player_name.end());
+			std::string playerName = std::string(entityInformation.name);
+			playerName.erase(std::remove(playerName.begin(), playerName.end(), ';'), playerName.end());
+			playerName.erase(std::remove(playerName.begin(), playerName.end(), '"'), playerName.end());
 
 			// Remove end line character
-			player_name.erase(std::remove(player_name.begin(), player_name.end(), '\n'), player_name.end());
+			playerName.erase(std::remove(playerName.begin(), playerName.end(), '\n'), playerName.end());
 
 			// Construct a command with our message
 			pstring str;
 			str << (Settings::Spammer::say_team ? "say_team" : "say") << " \"";
 
 			if (Settings::Spammer::PositionSpammer::showName)
-				str << player_name << " | ";
+				str << playerName << " | ";
 
 			if (Settings::Spammer::PositionSpammer::showWeapon)
-				str << Util::WstringToString(localize->FindSafe(modelName.c_str())) << " | ";
+				str << Util::Items::GetItemDisplayName(*activeWeapon->GetItemDefinitionIndex()) << " | ";
 
 			if (Settings::Spammer::PositionSpammer::showRank)
 				str << ESP::ranks[*(*csPlayerResource)->GetCompetitiveRanking(i)] << " | ";
