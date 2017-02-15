@@ -163,8 +163,6 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 			|| player->GetImmune())
 			continue;
 
-		bestBone = static_cast<Bone>(Entity::GetBoneByName(player, targets[(int) Settings::Aimbot::bone]));
-
 		if (!Settings::Aimbot::friendly && player->GetTeam() == localplayer->GetTeam())
 			continue;
 
@@ -199,6 +197,8 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 
 		if (visible && !Settings::Aimbot::AutoWall::enabled && !Entity::IsVisible(player, Settings::Aimbot::bone))
 			continue;
+
+		bestBone = static_cast<Bone>(Entity::GetBoneByName(player, targets[(int) Settings::Aimbot::bone]));
 
 		if (Settings::Aimbot::AutoWall::enabled)
 		{
