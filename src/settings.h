@@ -704,14 +704,19 @@ namespace Settings
 
 	namespace Skinchanger
 	{
-		extern bool enabled;
+		namespace Skins
+		{
+			extern bool enabled;
+			extern bool perTeam;
+		}
 
-		namespace Gloves
+		namespace Models
 		{
 			extern bool enabled;
 		}
-
-		extern std::unordered_map<ItemDefinitionIndex, AttribItem_t, Util::IntHash<ItemDefinitionIndex>> skins;
+		
+		extern std::unordered_map<ItemDefinitionIndex, AttribItem_t, Util::IntHash<ItemDefinitionIndex>> skinsCT;
+		extern std::unordered_map<ItemDefinitionIndex, AttribItem_t, Util::IntHash<ItemDefinitionIndex>> skinsT;
 	}
 
 	namespace ShowRanks

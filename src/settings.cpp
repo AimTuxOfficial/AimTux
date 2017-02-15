@@ -359,14 +359,29 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Airstuck"]["enabled"] = Settings::Airstuck::enabled;
 	settings["Airstuck"]["key"] = Util::GetButtonName(Settings::Airstuck::key);
 
-	settings["Skinchanger"]["enabled"] = Settings::Skinchanger::enabled;
-	settings["Skinchanger"]["Gloves"]["enabled"] = Settings::Skinchanger::Gloves::enabled;
+	settings["SkinChanger"]["Skins"]["enabled"] = Settings::Skinchanger::Skins::enabled;
+	settings["SkinChanger"]["Models"]["enabled"] = Settings::Skinchanger::Models::enabled;
+	settings["SkinChanger"]["Skins"]["perTeam"] = Settings::Skinchanger::Skins::perTeam;
 
-	for (const auto& item: Settings::Skinchanger::skins)
+	for (const auto& item: Settings::Skinchanger::skinsCT)
 	{
 		const AttribItem_t& skin = item.second;
 
-		#define skinSetting settings["Skinchanger"]["skins"][Util::Items::GetItemEntityName(item.first)]
+		#define skinSetting settings["SkinChanger"]["skinsCT"][Util::Items::GetItemEntityName(item.first)]
+		skinSetting["ItemDefinitionIndex"] = Util::Items::GetItemEntityName(skin.itemDefinitionIndex);
+		skinSetting["PaintKit"] = skin.fallbackPaintKit;
+		skinSetting["Wear"] = skin.fallbackWear;
+		skinSetting["Seed"] = skin.fallbackSeed;
+		skinSetting["StatTrak"] = skin.fallbackStatTrak;
+		skinSetting["CustomName"] = skin.customName;
+		#undef skinSetting
+	}
+
+	for (const auto& item: Settings::Skinchanger::skinsT)
+	{
+		const AttribItem_t& skin = item.second;
+
+		#define skinSetting settings["SkinChanger"]["skinsT"][Util::Items::GetItemEntityName(item.first)]
 		skinSetting["ItemDefinitionIndex"] = Util::Items::GetItemEntityName(skin.itemDefinitionIndex);
 		skinSetting["PaintKit"] = skin.fallbackPaintKit;
 		skinSetting["Wear"] = skin.fallbackWear;
@@ -741,13 +756,14 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["Airstuck"]["enabled"], &Settings::Airstuck::enabled);
 	GetButtonCode(settings["Airstuck"]["key"], &Settings::Airstuck::key);
 
-	Settings::Skinchanger::enabled = false;
-	Settings::Skinchanger::skins.clear();
+	Settings::Skinchanger::Skins::enabled = false;
+	Settings::Skinchanger::skinsCT.clear();
+	Settings::Skinchanger::skinsT.clear();
 
-	for (Json::ValueIterator itr = settings["Skinchanger"]["skins"].begin(); itr != settings["Skinchanger"]["skins"].end(); itr++)
+	for (Json::ValueIterator itr = settings["SkinChanger"]["skinsCT"].begin(); itr != settings["SkinChanger"]["skinsCT"].end(); itr++)
 	{
 		std::string skinDataKey = itr.key().asString();
-		auto skinSetting = settings["Skinchanger"]["skins"][skinDataKey];
+		auto skinSetting = settings["SkinChanger"]["skinsCT"][skinDataKey];
 
 		// XXX Using exception handling to deal with this is stupid, but I don't care to find a better solution
 		// XXX We can't use GetOrdinal() since the key type is a string...
@@ -765,8 +781,8 @@ void Settings::LoadConfig(std::string path)
 		ItemDefinitionIndex defIndex;
 		GetOrdinal<ItemDefinitionIndex, Util::Items::GetItemIndex>(skinSetting["ItemDefinitionIndex"], &defIndex);
 
-		if (Settings::Skinchanger::skins.find((ItemDefinitionIndex) weaponID) == Settings::Skinchanger::skins.end())
-			Settings::Skinchanger::skins[(ItemDefinitionIndex) weaponID] = AttribItem_t();
+		if (Settings::Skinchanger::skinsCT.find((ItemDefinitionIndex) weaponID) == Settings::Skinchanger::skinsCT.end())
+			Settings::Skinchanger::skinsCT[(ItemDefinitionIndex) weaponID] = AttribItem_t();
 
 		AttribItem_t skin = {
 				defIndex,
@@ -778,13 +794,51 @@ void Settings::LoadConfig(std::string path)
 				skinSetting["CustomName"].asString(),
 		};
 
-		Settings::Skinchanger::skins.at((ItemDefinitionIndex) weaponID) = skin;
+		Settings::Skinchanger::skinsCT.at((ItemDefinitionIndex) weaponID) = skin;
+	}
+
+	for (Json::ValueIterator itr = settings["SkinChanger"]["skinsT"].begin(); itr != settings["SkinChanger"]["skinsT"].end(); itr++)
+	{
+		std::string skinDataKey = itr.key().asString();
+		auto skinSetting = settings["SkinChanger"]["skinsT"][skinDataKey];
+
+		// XXX Using exception handling to deal with this is stupid, but I don't care to find a better solution
+		// XXX We can't use GetOrdinal() since the key type is a string...
+		unsigned int weaponID;
+
+		try
+		{
+			weaponID = std::stoi(skinDataKey);
+		}
+		catch(std::invalid_argument)
+		{
+			weaponID = (int) Util::Items::GetItemIndex(skinDataKey);
+		}
+
+		ItemDefinitionIndex defIndex;
+		GetOrdinal<ItemDefinitionIndex, Util::Items::GetItemIndex>(skinSetting["ItemDefinitionIndex"], &defIndex);
+
+		if (Settings::Skinchanger::skinsT.find((ItemDefinitionIndex) weaponID) == Settings::Skinchanger::skinsT.end())
+			Settings::Skinchanger::skinsT[(ItemDefinitionIndex) weaponID] = AttribItem_t();
+
+		AttribItem_t skin = {
+				defIndex,
+				skinSetting["PaintKit"].asInt(),
+				skinSetting["Wear"].asFloat(),
+				skinSetting["Seed"].asInt(),
+				skinSetting["StatTrak"].asInt(),
+				-1,
+				skinSetting["CustomName"].asString(),
+		};
+
+		Settings::Skinchanger::skinsT.at((ItemDefinitionIndex) weaponID) = skin;
 	}
 
 	SkinChanger::forceFullUpdate = true;
 
-	GetVal(settings["Skinchanger"]["enabled"], &Settings::Skinchanger::enabled);
-	GetVal(settings["Skinchanger"]["Gloves"]["enabled"], &Settings::Skinchanger::Gloves::enabled);
+	GetVal(settings["SkinChanger"]["Skins"]["enabled"], &Settings::Skinchanger::Skins::enabled);
+	GetVal(settings["SkinChanger"]["Models"]["enabled"], &Settings::Skinchanger::Models::enabled);
+	GetVal(settings["SkinChanger"]["Skins"]["perTeam"], &Settings::Skinchanger::Skins::perTeam);
 
 	GetVal(settings["ShowRanks"]["enabled"], &Settings::ShowRanks::enabled);
 

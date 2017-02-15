@@ -7,6 +7,7 @@
 #include "settings.h"
 #include "Hacks/hacks.h"
 #include "Utils/skins.h"
+#include "ATGUI/Windows/skinmodelchanger.h"
 
 namespace UI
 {
