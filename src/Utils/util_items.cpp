@@ -87,16 +87,17 @@ namespace Util
 					entityName.erase(entityName.find("weapon_"), std::string("weapon_").length());
 
 				return entityName;
-			} else
-				return "INVALID";
+			}
+
+			return "INVALID";
 		}
 
 		std::string GetItemDisplayName(ItemDefinitionIndex index)
 		{
 			if (ItemDefinitionIndexMap.find(index) != ItemDefinitionIndexMap.end() && index != ItemDefinitionIndex::INVALID)
 				return Util::WstringToString(localize->FindSafe(ItemDefinitionIndexMap.at(index).displayName));
-			else
-				return ItemDefinitionIndexMap.at(index).displayName;
+
+			return ItemDefinitionIndexMap.at(index).displayName;
 		}
 
 		ItemDefinitionIndex GetItemIndex(const std::string itemName)
@@ -106,7 +107,7 @@ namespace Util
 
 		bool isKnife(ItemDefinitionIndex index)
 		{
-			switch(index)
+			switch (index)
 			{
 				case ItemDefinitionIndex::WEAPON_KNIFE:
 				case ItemDefinitionIndex::WEAPON_KNIFE_T:
@@ -128,7 +129,7 @@ namespace Util
 
 		bool isUtility(ItemDefinitionIndex index)
 		{
-			switch(index)
+			switch (index)
 			{
 				case ItemDefinitionIndex::INVALID:
 				case ItemDefinitionIndex::WEAPON_C4:
@@ -146,7 +147,7 @@ namespace Util
 
 		bool isGlove(ItemDefinitionIndex index)
 		{
-			switch(index)
+			switch (index)
 			{
 				case ItemDefinitionIndex::GLOVE_STUDDED_BLOODHOUND:
 				case ItemDefinitionIndex::GLOVE_SPECIALIST:
@@ -164,7 +165,7 @@ namespace Util
 
 		bool isCTWeapon(ItemDefinitionIndex index)
 		{
-			switch(index)
+			switch (index)
 			{
 				case ItemDefinitionIndex::WEAPON_M4A1:
 				case ItemDefinitionIndex::WEAPON_M4A1_SILENCER:
@@ -184,7 +185,7 @@ namespace Util
 
 		bool isTWeapon(ItemDefinitionIndex index)
 		{
-			switch(index)
+			switch (index)
 			{
 				case ItemDefinitionIndex::WEAPON_AK47:
 				case ItemDefinitionIndex::WEAPON_GALILAR:

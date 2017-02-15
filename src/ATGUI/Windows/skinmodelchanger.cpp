@@ -34,12 +34,12 @@ void TabButtons()
 
 void ModelsTab()
 {
-	static int originalModelCT = 42;
-	static int replacementModelCT = Settings::Skinchanger::skinsCT.find((ItemDefinitionIndex)originalModelCT) != Settings::Skinchanger::skinsCT.end() ? (int)Settings::Skinchanger::skinsCT.at((ItemDefinitionIndex)originalModelCT).itemDefinitionIndex : 42;
+	static int originalModelCT = (int) ItemDefinitionIndex::WEAPON_KNIFE;
+	static int replacementModelCT = Settings::Skinchanger::skinsCT.find((ItemDefinitionIndex) originalModelCT) != Settings::Skinchanger::skinsCT.end() ? (int) Settings::Skinchanger::skinsCT.at((ItemDefinitionIndex)originalModelCT).itemDefinitionIndex : (int) ItemDefinitionIndex::WEAPON_KNIFE;
 	static char filterOriginalModelsCT[18];
 	static char filterReplacementModelsCT[18];
-	static int originalModelT = 59;
-	static int replacementModelT = Settings::Skinchanger::skinsT.find((ItemDefinitionIndex)originalModelT) != Settings::Skinchanger::skinsT.end() ? (int)Settings::Skinchanger::skinsT.at((ItemDefinitionIndex)originalModelT).itemDefinitionIndex : 59;
+	static int originalModelT = (int) ItemDefinitionIndex::WEAPON_KNIFE_T;
+	static int replacementModelT = Settings::Skinchanger::skinsT.find((ItemDefinitionIndex) originalModelT) != Settings::Skinchanger::skinsT.end() ? (int) Settings::Skinchanger::skinsT.at((ItemDefinitionIndex)originalModelT).itemDefinitionIndex : (int) ItemDefinitionIndex::WEAPON_KNIFE_T;
 	static char filterOriginalModelsT[18];
 	static char filterReplacementModelsT[18];
 
@@ -103,11 +103,11 @@ void ModelsTab()
 			if (model.first != ItemDefinitionIndex::WEAPON_KNIFE && model.first != ItemDefinitionIndex::GLOVE_CT_SIDE)
 				continue;
 			const bool item_selected = ((int) model.first == originalModelCT);
-			ImGui::PushID((int)model.first);
+			ImGui::PushID((int) model.first);
 				if (ImGui::Selectable(Util::Items::GetItemDisplayName(model.first).c_str(), item_selected, ImGuiSelectableFlags_SpanAllColumns))
 				{
-					originalModelCT = (int)model.first;
-					replacementModelCT = (int)Settings::Skinchanger::skinsCT.at(model.first).itemDefinitionIndex;
+					originalModelCT = (int) model.first;
+					replacementModelCT = (int) Settings::Skinchanger::skinsCT.at(model.first).itemDefinitionIndex;
 				}
 				ImGui::NextColumn();
 
@@ -126,10 +126,10 @@ void ModelsTab()
 		{
 			if (!Util::Contains(Util::ToLower(std::string(filterReplacementModelsCT)), Util::ToLower(Util::Items::GetItemDisplayName(model.first))))
 				continue;
-			switch(originalModelCT)
+			switch (originalModelCT)
 			{
 				case (int) ItemDefinitionIndex::WEAPON_KNIFE:
-					if(!Util::Items::isKnife(model.first))
+					if (!Util::Items::isKnife(model.first))
 						continue;
 					break;
 				case (int) ItemDefinitionIndex::GLOVE_CT_SIDE:
@@ -140,9 +140,9 @@ void ModelsTab()
 					break;
 			}
 			const bool item_selected = ((int) model.first == replacementModelCT);
-			ImGui::PushID((int)model.first);
+			ImGui::PushID((int) model.first);
 				if (ImGui::Selectable(Util::Items::GetItemDisplayName(model.first).c_str(), item_selected, ImGuiSelectableFlags_SpanAllColumns))
-					replacementModelCT = (int)model.first;
+					replacementModelCT = (int) model.first;
 				ImGui::NextColumn();
 
 				ImGui::Text(Util::Items::GetItemEntityName(model.first).c_str());
@@ -163,11 +163,11 @@ void ModelsTab()
 			if (model.first != ItemDefinitionIndex::WEAPON_KNIFE_T && model.first != ItemDefinitionIndex::GLOVE_T_SIDE)
 				continue;
 			const bool item_selected = ((int) model.first == originalModelT);
-			ImGui::PushID((int)model.first);
+			ImGui::PushID((int) model.first);
 				if (ImGui::Selectable(Util::Items::GetItemDisplayName(model.first).c_str(), item_selected, ImGuiSelectableFlags_SpanAllColumns))
 				{
-					originalModelT = (int)model.first;
-					replacementModelT = (int)Settings::Skinchanger::skinsT.at(model.first).itemDefinitionIndex;
+					originalModelT = (int) model.first;
+					replacementModelT = (int) Settings::Skinchanger::skinsT.at(model.first).itemDefinitionIndex;
 				}
 				ImGui::NextColumn();
 
@@ -186,10 +186,10 @@ void ModelsTab()
 		{
 			if (!Util::Contains(Util::ToLower(std::string(filterReplacementModelsT)), Util::ToLower(Util::Items::GetItemDisplayName(model.first))))
 				continue;
-			switch(originalModelT)
+			switch (originalModelT)
 			{
 				case (int) ItemDefinitionIndex::WEAPON_KNIFE_T:
-					if(!Util::Items::isKnife(model.first))
+					if (!Util::Items::isKnife(model.first))
 						continue;
 					break;
 				case (int) ItemDefinitionIndex::GLOVE_T_SIDE:
@@ -200,9 +200,9 @@ void ModelsTab()
 					break;
 			}
 			const bool item_selected = ((int) model.first == replacementModelT);
-			ImGui::PushID((int)model.first);
+			ImGui::PushID((int) model.first);
 				if (ImGui::Selectable(Util::Items::GetItemDisplayName(model.first).c_str(), item_selected, ImGuiSelectableFlags_SpanAllColumns))
-					replacementModelT = (int)model.first;
+					replacementModelT = (int) model.first;
 				ImGui::NextColumn();
 
 				ImGui::Text(Util::Items::GetItemEntityName(model.first).c_str());
@@ -219,7 +219,7 @@ void ModelsTab()
 
 	ImGui::Columns(2);
 
-	if(ImGui::Button("Apply##modelCT", ImVec2(-1, 0)))
+	if (ImGui::Button("Apply##modelCT", ImVec2(-1, 0)))
 	{
 		if (Settings::Skinchanger::skinsCT.find((ItemDefinitionIndex)originalModelCT) == Settings::Skinchanger::skinsCT.end())
 			Settings::Skinchanger::skinsCT[(ItemDefinitionIndex)originalModelCT] = AttribItem_t();
@@ -230,14 +230,14 @@ void ModelsTab()
 	}
 	ImGui::NextColumn();
 
-	if(ImGui::Button("Apply##modelT", ImVec2(-1, 0)))
+	if (ImGui::Button("Apply##modelT", ImVec2(-1, 0)))
 	{
 		if (Settings::Skinchanger::skinsT.find((ItemDefinitionIndex)originalModelT) == Settings::Skinchanger::skinsT.end())
 			Settings::Skinchanger::skinsT[(ItemDefinitionIndex)originalModelT] = AttribItem_t();
 
 		Settings::Skinchanger::skinsT.at((ItemDefinitionIndex)originalModelT).itemDefinitionIndex = (ItemDefinitionIndex)replacementModelT;
 
-		if(!Settings::Skinchanger::Skins::perTeam)
+		if (!Settings::Skinchanger::Skins::perTeam)
 		{
 			if (Settings::Skinchanger::skinsCT.find((ItemDefinitionIndex)originalModelT) == Settings::Skinchanger::skinsT.end())
 				Settings::Skinchanger::skinsCT[(ItemDefinitionIndex)originalModelT] = AttribItem_t();
@@ -330,11 +330,11 @@ void SplitSkins()
 			if (Util::Items::isUtility(model.first) || model.first == ItemDefinitionIndex::GLOVE_CT_SIDE || model.first == ItemDefinitionIndex::GLOVE_T_SIDE || Util::Items::isTWeapon(model.first) || model.first == ItemDefinitionIndex::WEAPON_KNIFE || model.first == ItemDefinitionIndex::WEAPON_KNIFE_T)
 				continue;
 			const bool item_selected = ((int) model.first == modelCT);
-			ImGui::PushID((int)model.first);
+			ImGui::PushID((int) model.first);
 			if (ImGui::Selectable(Util::Items::GetItemDisplayName(model.first).c_str(), item_selected, ImGuiSelectableFlags_SpanAllColumns))
 			{
-				modelCT = (int)model.first;
-				if (Settings::Skinchanger::skinsCT.find((ItemDefinitionIndex)modelCT) != Settings::Skinchanger::skinsCT.end())
+				modelCT = (int) model.first;
+				if (Settings::Skinchanger::skinsCT.find((ItemDefinitionIndex) modelCT) != Settings::Skinchanger::skinsCT.end())
 				{
 					modelSkinCT = Settings::Skinchanger::skinsCT.at(model.first).fallbackPaintKit;
 					skinWearCT = Settings::Skinchanger::skinsCT.at(model.first).fallbackWear;
@@ -361,7 +361,7 @@ void SplitSkins()
 		{
 			if (skin.second.paintName != nullptr ? !(Util::Contains(Util::ToLower(std::string(filterModelSkinsCT)), Util::ToLower(Util::WstringToString(localize->FindSafe(skin.second.displayName)))) || Util::Contains(Util::ToLower(std::string(filterModelSkinsCT)), skin.second.paintName)) : !Util::Contains(Util::ToLower(std::string(filterModelSkinsCT)), Util::ToLower(Util::WstringToString(localize->FindSafe(skin.second.displayName)))))
 				continue;
-			if (Util::Items::isGlove((ItemDefinitionIndex)modelCT) && skin.first < 10006)
+			if (Util::Items::isGlove((ItemDefinitionIndex) modelCT) && skin.first < 10006)
 				continue;
 			const bool item_selected = (skin.first == modelSkinCT);
 			ImGui::PushID(skin.first);
@@ -387,11 +387,11 @@ void SplitSkins()
 			if (Util::Items::isUtility(model.first) || model.first == ItemDefinitionIndex::GLOVE_CT_SIDE || model.first == ItemDefinitionIndex::GLOVE_T_SIDE || Util::Items::isCTWeapon(model.first) || model.first == ItemDefinitionIndex::WEAPON_KNIFE || model.first == ItemDefinitionIndex::WEAPON_KNIFE_T)
 				continue;
 			const bool item_selected = ((int) model.first == modelT);
-			ImGui::PushID((int)model.first);
+			ImGui::PushID((int) model.first);
 			if (ImGui::Selectable(Util::Items::GetItemDisplayName(model.first).c_str(), item_selected, ImGuiSelectableFlags_SpanAllColumns))
 			{
-				modelT = (int)model.first;
-				if (Settings::Skinchanger::skinsT.find((ItemDefinitionIndex)modelT) != Settings::Skinchanger::skinsT.end())
+				modelT = (int) model.first;
+				if (Settings::Skinchanger::skinsT.find((ItemDefinitionIndex) modelT) != Settings::Skinchanger::skinsT.end())
 				{
 					modelSkinT = Settings::Skinchanger::skinsT.at(model.first).fallbackPaintKit;
 					skinWearT = Settings::Skinchanger::skinsCT.at(model.first).fallbackWear;
@@ -418,7 +418,7 @@ void SplitSkins()
 		{
 			if (skin.second.paintName != nullptr ? !(Util::Contains(Util::ToLower(std::string(filterModelSkinsT)), Util::ToLower(Util::WstringToString(localize->FindSafe(skin.second.displayName)))) || Util::Contains(Util::ToLower(std::string(filterModelSkinsT)), skin.second.paintName)) : !Util::Contains(Util::ToLower(std::string(filterModelSkinsT)), Util::ToLower(Util::WstringToString(localize->FindSafe(skin.second.displayName)))))
 				continue;
-			if (Util::Items::isGlove((ItemDefinitionIndex)modelT) && skin.first < 10006)
+			if (Util::Items::isGlove((ItemDefinitionIndex) modelT) && skin.first < 10006)
 				continue;
 			const bool item_selected = (skin.first == modelSkinT);
 			ImGui::PushID(skin.first);
@@ -453,7 +453,7 @@ void SplitSkins()
 		ImGui::PopItemWidth();
 		ImGui::Columns(1);
 
-		if(!Util::Items::isGlove((ItemDefinitionIndex)modelCT))
+		if (!Util::Items::isGlove((ItemDefinitionIndex) modelCT))
 		{
 			ImGui::Columns(2, NULL, false);
 
@@ -464,16 +464,16 @@ void SplitSkins()
 			ImGui::Columns(1);
 		}
 
-		if(ImGui::Button("Apply##skinCT", ImVec2(-1, 0)))
+		if (ImGui::Button("Apply##skinCT", ImVec2(-1, 0)))
 		{
-			if (Settings::Skinchanger::skinsCT.find((ItemDefinitionIndex)modelCT) == Settings::Skinchanger::skinsCT.end())
-				Settings::Skinchanger::skinsCT[(ItemDefinitionIndex)modelCT] = AttribItem_t();
+			if (Settings::Skinchanger::skinsCT.find((ItemDefinitionIndex) modelCT) == Settings::Skinchanger::skinsCT.end())
+				Settings::Skinchanger::skinsCT[(ItemDefinitionIndex) modelCT] = AttribItem_t();
 
-			Settings::Skinchanger::skinsCT.at((ItemDefinitionIndex)modelCT) = { ItemDefinitionIndex::INVALID, modelSkinCT, skinWearCT, skinSeedCT, skinStatTrakCT, -1, skinNameCT};
+			Settings::Skinchanger::skinsCT.at((ItemDefinitionIndex) modelCT) = { ItemDefinitionIndex::INVALID, modelSkinCT, skinWearCT, skinSeedCT, skinStatTrakCT, -1, skinNameCT };
 
 			SkinChanger::forceFullUpdate = true;
 
-			if(Util::Items::isGlove((ItemDefinitionIndex)modelCT))
+			if (Util::Items::isGlove((ItemDefinitionIndex) modelCT))
 				SkinChanger::glovesUpdated = true;
 		}
 
@@ -496,7 +496,7 @@ void SplitSkins()
 		ImGui::PopItemWidth();
 		ImGui::Columns(1);
 
-		if(!Util::Items::isGlove((ItemDefinitionIndex)modelT))
+		if (!Util::Items::isGlove((ItemDefinitionIndex) modelT))
 		{
 			ImGui::Columns(2, NULL, false);
 
@@ -507,16 +507,16 @@ void SplitSkins()
 			ImGui::Columns(1);
 		}
 
-		if(ImGui::Button("Apply##skinT", ImVec2(-1, 0)))
+		if (ImGui::Button("Apply##skinT", ImVec2(-1, 0)))
 		{
-			if (Settings::Skinchanger::skinsT.find((ItemDefinitionIndex)modelT) == Settings::Skinchanger::skinsT.end())
-				Settings::Skinchanger::skinsT[(ItemDefinitionIndex)modelT] = AttribItem_t();
+			if (Settings::Skinchanger::skinsT.find((ItemDefinitionIndex) modelT) == Settings::Skinchanger::skinsT.end())
+				Settings::Skinchanger::skinsT[(ItemDefinitionIndex) modelT] = AttribItem_t();
 
-			Settings::Skinchanger::skinsT.at((ItemDefinitionIndex)modelT) = { ItemDefinitionIndex::INVALID, modelSkinT, skinWearT, skinSeedT, skinStatTrakT, -1, skinNameT};
+			Settings::Skinchanger::skinsT.at((ItemDefinitionIndex) modelT) = { ItemDefinitionIndex::INVALID, modelSkinT, skinWearT, skinSeedT, skinStatTrakT, -1, skinNameT};
 
 			SkinChanger::forceFullUpdate = true;
 
-			if(Util::Items::isGlove((ItemDefinitionIndex)modelT))
+			if (Util::Items::isGlove((ItemDefinitionIndex) modelT))
 				SkinChanger::glovesUpdated = true;
 		}
 
@@ -567,10 +567,10 @@ void CombinedSkins()
 			if (Util::Items::isUtility(model.first) || model.first == ItemDefinitionIndex::GLOVE_CT_SIDE || model.first == ItemDefinitionIndex::GLOVE_T_SIDE || model.first == ItemDefinitionIndex::WEAPON_KNIFE || model.first == ItemDefinitionIndex::WEAPON_KNIFE_T)
 				continue;
 			const bool item_selected = ((int) model.first == selectedModel);
-			ImGui::PushID((int)model.first);
+			ImGui::PushID((int) model.first);
 			if (ImGui::Selectable(Util::Items::GetItemDisplayName(model.first).c_str(), item_selected, ImGuiSelectableFlags_SpanAllColumns))
 			{
-				selectedModel = (int)model.first;
+				selectedModel = (int) model.first;
 				if (Settings::Skinchanger::skinsCT.find((ItemDefinitionIndex)selectedModel) != Settings::Skinchanger::skinsCT.end())
 				{
 					selectedModelSkin = Settings::Skinchanger::skinsCT.at(model.first).fallbackPaintKit;
@@ -630,7 +630,7 @@ void CombinedSkins()
 		ImGui::PopItemWidth();
 		ImGui::Columns(1);
 
-		if(!Util::Items::isGlove((ItemDefinitionIndex)selectedModel))
+		if (!Util::Items::isGlove((ItemDefinitionIndex)selectedModel))
 		{
 			ImGui::Columns(2, NULL, false);
 
@@ -641,7 +641,7 @@ void CombinedSkins()
 			ImGui::Columns(1);
 		}
 
-		if(ImGui::Button("Apply##Combined", ImVec2(-1, 0)))
+		if (ImGui::Button("Apply##Combined", ImVec2(-1, 0)))
 		{
 			if (Settings::Skinchanger::skinsCT.find((ItemDefinitionIndex)selectedModel) == Settings::Skinchanger::skinsCT.end())
 				Settings::Skinchanger::skinsCT[(ItemDefinitionIndex)selectedModel] = AttribItem_t();
@@ -650,7 +650,7 @@ void CombinedSkins()
 
 			SkinChanger::forceFullUpdate = true;
 
-			if(Util::Items::isGlove((ItemDefinitionIndex)selectedModel))
+			if (Util::Items::isGlove((ItemDefinitionIndex)selectedModel))
 				SkinChanger::glovesUpdated = true;
 		}
 
@@ -662,14 +662,14 @@ void SkinsTab()
 {
 	ImGui::Columns(2, NULL, false);
 
-	if(ImGui::Checkbox("Enabled", &Settings::Skinchanger::Skins::enabled))
+	if (ImGui::Checkbox("Enabled", &Settings::Skinchanger::Skins::enabled))
 	{
 		SkinChanger::forceFullUpdate = true;
 		SkinChanger::glovesUpdated = true;
 	}
 	ImGui::NextColumn();
 
-	if(ImGui::Checkbox("Per-Team", &Settings::Skinchanger::Skins::perTeam))
+	if (ImGui::Checkbox("Per-Team", &Settings::Skinchanger::Skins::perTeam))
 	{
 		SkinChanger::forceFullUpdate = true;
 		SkinChanger::glovesUpdated = true;
@@ -688,7 +688,7 @@ void SkinsTab()
 
 void SkinModelChanger::RenderWindow()
 {
-	if(!SkinModelChanger::showWindow)
+	if (!SkinModelChanger::showWindow)
 		return;
 
 	ImGui::SetNextWindowSize(ImVec2(1050, 645), ImGuiSetCond_FirstUseEver);
