@@ -155,6 +155,9 @@ void SkinChanger::FrameStageNotifyModels(ClientFrameStage_t stage)
 
 			if (currentModel.itemDefinitionIndex != ItemDefinitionIndex::INVALID && ItemDefinitionIndexMap.find(currentModel.itemDefinitionIndex) != ItemDefinitionIndexMap.end())
 			{
+				if (currentModel.itemDefinitionIndex == ItemDefinitionIndex::GLOVE_CT_SIDE || currentModel.itemDefinitionIndex == ItemDefinitionIndex::GLOVE_T_SIDE)
+					return;
+
 				if (*glove->GetItemDefinitionIndex() != currentModel.itemDefinitionIndex)
 				{
 					glove->SetModelIndex(modelInfo->GetModelIndex(ItemDefinitionIndexMap.at(currentModel.itemDefinitionIndex).entityModel));
