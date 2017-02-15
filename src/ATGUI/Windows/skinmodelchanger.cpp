@@ -11,8 +11,7 @@ void TabButtons()
 			"Skins",
 	};
 
-	int tabs_size = sizeof(tabs) / sizeof(tabs[0]);
-	for (int i = 0; i < tabs_size; i++)
+	for (int i = 0; i < IM_ARRAYSIZE(tabs); i++)
 	{
 		int distance = i == page ? 0 : i > page ? i - page : page - i;
 
@@ -23,12 +22,12 @@ void TabButtons()
 				Settings::UI::mainColor.Value.w
 		);
 
-		if (ImGui::Button(tabs[i], ImVec2(ImGui::GetWindowSize().x / tabs_size - 9, 0)))
+		if (ImGui::Button(tabs[i], ImVec2(ImGui::GetWindowSize().x /  IM_ARRAYSIZE(tabs) - 9, 0)))
 			page = i;
 
 		ImGui::GetStyle().Colors[ImGuiCol_Button] = Settings::UI::mainColor;
 
-		if (i < tabs_size - 1)
+		if (i <  IM_ARRAYSIZE(tabs) - 1)
 			ImGui::SameLine();
 	}
 }
@@ -238,7 +237,17 @@ void ModelsTab()
 
 		Settings::Skinchanger::skinsT.at((ItemDefinitionIndex)originalModelT).itemDefinitionIndex = (ItemDefinitionIndex)replacementModelT;
 
+		if(!Settings::Skinchanger::Skins::perTeam)
+		{
+			if (Settings::Skinchanger::skinsCT.find((ItemDefinitionIndex)originalModelT) == Settings::Skinchanger::skinsT.end())
+				Settings::Skinchanger::skinsCT[(ItemDefinitionIndex)originalModelT] = AttribItem_t();
+
+			Settings::Skinchanger::skinsCT.at((ItemDefinitionIndex)originalModelT).itemDefinitionIndex = (ItemDefinitionIndex)replacementModelT;
+		}
+
 		SkinChanger::forceFullUpdate = true;
+
+		SkinChanger::glovesUpdated = true;
 	}
 	ImGui::Columns(1);
 
@@ -463,6 +472,9 @@ void SplitSkins()
 			Settings::Skinchanger::skinsCT.at((ItemDefinitionIndex)modelCT) = { ItemDefinitionIndex::INVALID, modelSkinCT, skinWearCT, skinSeedCT, skinStatTrakCT, -1, skinNameCT};
 
 			SkinChanger::forceFullUpdate = true;
+
+			if(Util::Items::isGlove((ItemDefinitionIndex)modelCT))
+				SkinChanger::glovesUpdated = true;
 		}
 
 		ImGui::EndChild();
@@ -503,6 +515,9 @@ void SplitSkins()
 			Settings::Skinchanger::skinsT.at((ItemDefinitionIndex)modelT) = { ItemDefinitionIndex::INVALID, modelSkinT, skinWearT, skinSeedT, skinStatTrakT, -1, skinNameT};
 
 			SkinChanger::forceFullUpdate = true;
+
+			if(Util::Items::isGlove((ItemDefinitionIndex)modelT))
+				SkinChanger::glovesUpdated = true;
 		}
 
 		ImGui::EndChild();
@@ -634,6 +649,9 @@ void CombinedSkins()
 			Settings::Skinchanger::skinsCT.at((ItemDefinitionIndex)selectedModel) = { ItemDefinitionIndex::INVALID, selectedModelSkin, skinWear, skinSeed, skinStatTrak, -1, skinName};
 
 			SkinChanger::forceFullUpdate = true;
+
+			if(Util::Items::isGlove((ItemDefinitionIndex)selectedModel))
+				SkinChanger::glovesUpdated = true;
 		}
 
 		ImGui::EndChild();
@@ -645,11 +663,17 @@ void SkinsTab()
 	ImGui::Columns(2, NULL, false);
 
 	if(ImGui::Checkbox("Enabled", &Settings::Skinchanger::Skins::enabled))
+	{
 		SkinChanger::forceFullUpdate = true;
+		SkinChanger::glovesUpdated = true;
+	}
 	ImGui::NextColumn();
 
 	if(ImGui::Checkbox("Per-Team", &Settings::Skinchanger::Skins::perTeam))
+	{
 		SkinChanger::forceFullUpdate = true;
+		SkinChanger::glovesUpdated = true;
+	}
 	ImGui::NextColumn();
 
 	ImGui::Columns(1);

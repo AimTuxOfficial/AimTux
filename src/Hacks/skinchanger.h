@@ -14,6 +14,7 @@ extern std::unordered_map<std::string, std::string> killIcons;
 namespace SkinChanger
 {
 	extern bool forceFullUpdate;
+	extern bool glovesUpdated;
 	extern std::unique_ptr<RecvPropHook> sequenceHook;
 
 	void FrameStageNotifySkins(ClientFrameStage_t stage);
