@@ -66,7 +66,7 @@ void ModelsTab()
 	ImGui::Text("Original");
 	ImGui::NextColumn();
 
-	ImGui::Text("Replacment");
+	ImGui::Text("Replacement");
 	ImGui::Columns(1);
 
 	ImGui::Columns(4);
