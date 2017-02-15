@@ -84,37 +84,20 @@ void SkinChanger::FrameStageNotifyModels(ClientFrameStage_t stage)
 				if (!weapon)
 					continue;
 
-				if (localplayer->GetTeam() == TeamID::TEAM_COUNTER_TERRORIST)
-				{
-					if (Settings::Skinchanger::skinsCT.find(*weapon->GetItemDefinitionIndex()) != Settings::Skinchanger::skinsCT.end())
-					{
-						const AttribItem_t &currentSkin = Settings::Skinchanger::skinsCT.at(*weapon->GetItemDefinitionIndex());
+				auto keyExists = localplayer->GetTeam() == TeamID::TEAM_COUNTER_TERRORIST ? Settings::Skinchanger::skinsCT.find(*weapon->GetItemDefinitionIndex()) : Settings::Skinchanger::skinsT.find(*weapon->GetItemDefinitionIndex());
 
-						if (currentSkin.itemDefinitionIndex != ItemDefinitionIndex::INVALID && ItemDefinitionIndexMap.find(currentSkin.itemDefinitionIndex) != ItemDefinitionIndexMap.end())
-						{
-							*weapon->GetModelIndex() = modelInfo->GetModelIndex(ItemDefinitionIndexMap.at(currentSkin.itemDefinitionIndex).entityModel);
-							if (ItemDefinitionIndexMap.find(*weapon->GetItemDefinitionIndex()) != ItemDefinitionIndexMap.end())
-							{
-								killIcons[ItemDefinitionIndexMap.at(*weapon->GetItemDefinitionIndex()).killIcon] = ItemDefinitionIndexMap.at(currentSkin.itemDefinitionIndex).killIcon;
-								*weapon->GetItemDefinitionIndex() = currentSkin.itemDefinitionIndex;
-							}
-						}
-					}
-				} else if (localplayer->GetTeam() == TeamID::TEAM_TERRORIST)
-				{
-					if (Settings::Skinchanger::skinsT.find(*weapon->GetItemDefinitionIndex()) != Settings::Skinchanger::skinsT.end())
-					{
-						const AttribItem_t &currentSkin = Settings::Skinchanger::skinsT.at(*weapon->GetItemDefinitionIndex());
+				if(keyExists == (localplayer->GetTeam() == TeamID::TEAM_COUNTER_TERRORIST ? Settings::Skinchanger::skinsCT.end() : Settings::Skinchanger::skinsT.end()))
+					continue;
 
-						if (currentSkin.itemDefinitionIndex != ItemDefinitionIndex::INVALID && ItemDefinitionIndexMap.find(currentSkin.itemDefinitionIndex) != ItemDefinitionIndexMap.end())
-						{
-							*weapon->GetModelIndex() = modelInfo->GetModelIndex(ItemDefinitionIndexMap.at(currentSkin.itemDefinitionIndex).entityModel);
-							if (ItemDefinitionIndexMap.find(*weapon->GetItemDefinitionIndex()) != ItemDefinitionIndexMap.end())
-							{
-								killIcons[ItemDefinitionIndexMap.at(*weapon->GetItemDefinitionIndex()).killIcon] = ItemDefinitionIndexMap.at(currentSkin.itemDefinitionIndex).killIcon;
-								*weapon->GetItemDefinitionIndex() = currentSkin.itemDefinitionIndex;
-							}
-						}
+				const AttribItem_t &currentModel = localplayer->GetTeam() == TeamID::TEAM_COUNTER_TERRORIST ? Settings::Skinchanger::skinsCT.at(*weapon->GetItemDefinitionIndex()) : Settings::Skinchanger::skinsT.at(*weapon->GetItemDefinitionIndex());
+
+				if (currentModel.itemDefinitionIndex != ItemDefinitionIndex::INVALID && ItemDefinitionIndexMap.find(currentModel.itemDefinitionIndex) != ItemDefinitionIndexMap.end())
+				{
+					*weapon->GetModelIndex() = modelInfo->GetModelIndex(ItemDefinitionIndexMap.at(currentModel.itemDefinitionIndex).entityModel);
+					if (ItemDefinitionIndexMap.find(*weapon->GetItemDefinitionIndex()) != ItemDefinitionIndexMap.end())
+					{
+						killIcons[ItemDefinitionIndexMap.at(*weapon->GetItemDefinitionIndex()).killIcon] = ItemDefinitionIndexMap.at(currentModel.itemDefinitionIndex).killIcon;
+						*weapon->GetItemDefinitionIndex() = currentModel.itemDefinitionIndex;
 					}
 				}
 			}
