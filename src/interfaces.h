@@ -40,7 +40,6 @@ extern IEngineSound* sound;
 extern ILocalize* localize;
 extern ICommandLine* commandline;
 extern CInput* input;
-extern CGameServer* sv;
 
 extern VMT* panelVMT;
 extern VMT* clientVMT;

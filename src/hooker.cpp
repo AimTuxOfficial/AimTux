@@ -142,13 +142,6 @@ void Hooker::FindCInput()
 	input = **reinterpret_cast<CInput***>(GetAbsoluteAddress(IN_ActivateMouse, 3, 7));
 }
 
-void Hooker::FindCGameServer()
-{
-	uintptr_t instruction_addr = PatternFinder::FindPatternInModule("engine_client.so", (unsigned char*) CGAMESERVER_SIGNATURE, CGAMESERVER_MASK);
-
-	sv = *reinterpret_cast<CGameServer**>(GetAbsoluteAddress(instruction_addr, 3, 7));
-}
-
 void Hooker::FindGlowManager()
 {
 	uintptr_t instruction_addr = PatternFinder::FindPatternInModule("client_client.so", (unsigned char*) GLOWOBJECT_SIGNATURE, GLOWOBJECT_MASK);
