@@ -201,26 +201,6 @@ static bool autoSlow = false;
 static bool predEnabled = false;
 static float autoSlowMinDamage = 5.0f;
 
-void UI::UpdateWeaponSettings()
-{
-	if (Settings::Aimbot::weapons.find(currentWeapon) == Settings::Aimbot::weapons.end())
-		Settings::Aimbot::weapons[currentWeapon] = AimbotWeapon_t();
-
-	AimbotWeapon_t settings = {enabled, silent, friendly, bone, aimkey, aimkeyOnly,
-							   smoothEnabled, smoothValue, smoothType, smoothSaltEnabled, smoothSaltMultiplier,
-							   errorMarginEnabled, errorMarginValue,
-							   autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
-							   rcsEnabled, rcsAlwaysOn, rcsAmountX, rcsAmountY,
-							   autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
-							   noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, autoSlowMinDamage, predEnabled
-	};
-
-	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
-		settings.autoWallBones[bone] = autoWallBones[bone];
-
-	Settings::Aimbot::weapons.at(currentWeapon) = settings;
-}
-
 void ReloadWeaponSettings()
 {
 	ItemDefinitionIndex index = ItemDefinitionIndex::INVALID;
@@ -264,6 +244,32 @@ void ReloadWeaponSettings()
 
 	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
 		autoWallBones[bone] = Settings::Aimbot::weapons.at(index).autoWallBones[bone];
+}
+
+void UI::UpdateWeaponSettings()
+{
+	if (Settings::Aimbot::weapons.find(currentWeapon) == Settings::Aimbot::weapons.end())
+		Settings::Aimbot::weapons[currentWeapon] = AimbotWeapon_t();
+
+	AimbotWeapon_t settings = {enabled, silent, friendly, bone, aimkey, aimkeyOnly,
+							   smoothEnabled, smoothValue, smoothType, smoothSaltEnabled, smoothSaltMultiplier,
+							   errorMarginEnabled, errorMarginValue,
+							   autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
+							   rcsEnabled, rcsAlwaysOn, rcsAmountX, rcsAmountY,
+							   autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
+							   noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, autoSlowMinDamage, predEnabled
+	};
+
+	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
+		settings.autoWallBones[bone] = autoWallBones[bone];
+
+	Settings::Aimbot::weapons.at(currentWeapon) = settings;
+
+	if (Settings::Aimbot::weapons.at(currentWeapon) == Settings::Aimbot::weapons.at(ItemDefinitionIndex::INVALID))
+	{
+		Settings::Aimbot::weapons.erase(currentWeapon);
+		ReloadWeaponSettings();
+	}
 }
 
 void ColorsWindow()

@@ -202,6 +202,50 @@ struct AimbotWeapon_t
 	}
 
 	AimbotWeapon_t() {};
+
+	bool operator == (const AimbotWeapon_t& another) const
+	{
+		for (int i = (int) Hitbox::HITBOX_HEAD; i <= (int) Hitbox::HITBOX_ARMS; i++)
+		{
+			if (this->autoWallBones[i] != another.autoWallBones[i])
+				return false;
+		}
+
+		return this->enabled == another.enabled &&
+			this->silent == another.silent &&
+			this->friendly == another.friendly &&
+			this->bone == another.bone &&
+			this->aimkey == another.aimkey &&
+			this->aimkeyOnly == another.aimkeyOnly &&
+			this->smoothEnabled == another.smoothEnabled &&
+			this->smoothAmount == another.smoothAmount &&
+			this->smoothType == another.smoothType &&
+			this->smoothSaltEnabled == another.smoothSaltEnabled &&
+			this->smoothSaltMultiplier == another.smoothSaltMultiplier &&
+			this->errorMarginEnabled == another.errorMarginEnabled &&
+			this->errorMarginValue == another.errorMarginValue &&
+			this->autoAimEnabled == another.autoAimEnabled &&
+			this->autoAimFov == another.autoAimFov &&
+			this->aimStepEnabled == another.aimStepEnabled &&
+			this->aimStepValue == another.aimStepValue &&
+			this->rcsEnabled == another.rcsEnabled &&
+			this->rcsAlwaysOn == another.rcsAlwaysOn &&
+			this->rcsAmountX == another.rcsAmountX &&
+			this->rcsAmountY == another.rcsAmountY &&
+			this->autoPistolEnabled == another.autoPistolEnabled &&
+			this->autoShootEnabled == another.autoShootEnabled &&
+			this->autoScopeEnabled == another.autoScopeEnabled &&
+			this->noShootEnabled == another.noShootEnabled &&
+			this->ignoreJumpEnabled == another.ignoreJumpEnabled &&
+			this->smokeCheck == another.smokeCheck &&
+			this->flashCheck == another.flashCheck &&
+			this->autoWallEnabled == another.autoWallEnabled &&
+			this->autoWallValue == another.autoWallValue &&
+			this->autoSlow == another.autoSlow &&
+			this->predEnabled == another.predEnabled &&
+			this->autoSlowMinDamage == another.autoSlowMinDamage &&
+			this->autoAimRealDistance == another.autoAimRealDistance;
+	}
 };
 
 namespace Settings
