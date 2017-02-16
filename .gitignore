@@ -1,5 +1,7 @@
 *.o
 *.so
+*.opendb
+*.opensdf
 .vscode/
 .idea/
 cmake-build-debug
