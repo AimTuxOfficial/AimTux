@@ -75,7 +75,7 @@ void Models::RenderTab()
 		if (ImGui::Selectable(Util::Items::GetItemDisplayName(model.first).c_str(), item_selected, ImGuiSelectableFlags_SpanAllColumns))
 		{
 			originalModelCT = (int) model.first;
-			if(Settings::Skinchanger::skinsCT.find(model.first) != Settings::Skinchanger::skinsCT.end())
+			if (Settings::Skinchanger::skinsCT.find(model.first) != Settings::Skinchanger::skinsCT.end())
 				replacementModelCT = (int) Settings::Skinchanger::skinsCT.at(model.first).itemDefinitionIndex;
 		}
 		ImGui::NextColumn();
@@ -136,7 +136,7 @@ void Models::RenderTab()
 		if (ImGui::Selectable(Util::Items::GetItemDisplayName(model.first).c_str(), item_selected, ImGuiSelectableFlags_SpanAllColumns))
 		{
 			originalModelT = (int) model.first;
-			if(Settings::Skinchanger::skinsT.find(model.first) != Settings::Skinchanger::skinsT.end())
+			if (Settings::Skinchanger::skinsT.find(model.first) != Settings::Skinchanger::skinsT.end())
 				replacementModelT = (int) Settings::Skinchanger::skinsT.at(model.first).itemDefinitionIndex;
 		}
 		ImGui::NextColumn();
