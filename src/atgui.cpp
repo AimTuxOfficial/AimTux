@@ -265,7 +265,8 @@ void UI::UpdateWeaponSettings()
 
 	Settings::Aimbot::weapons.at(currentWeapon) = settings;
 
-	if (Settings::Aimbot::weapons.at(currentWeapon) == Settings::Aimbot::weapons.at(ItemDefinitionIndex::INVALID))
+	if (Settings::Aimbot::weapons.at(currentWeapon) == Settings::Aimbot::weapons.at(ItemDefinitionIndex::INVALID) &&
+			currentWeapon != ItemDefinitionIndex::INVALID)
 	{
 		Settings::Aimbot::weapons.erase(currentWeapon);
 		ReloadWeaponSettings();
