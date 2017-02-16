@@ -1,6 +1,6 @@
 #include "main.h"
 
-bool Main::showWindow = false;
+bool Main::showWindow = true;
 
 void Main::RenderWindow()
 {
