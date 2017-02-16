@@ -87,13 +87,14 @@ void UI::UpdateWeaponSettings()
 	if (Settings::Aimbot::weapons.find(currentWeapon) == Settings::Aimbot::weapons.end())
 		Settings::Aimbot::weapons[currentWeapon] = AimbotWeapon_t();
 
-	AimbotWeapon_t settings = {enabled, silent, friendly, bone, aimkey, aimkeyOnly,
-							   smoothEnabled, smoothValue, smoothType, smoothSaltEnabled, smoothSaltMultiplier,
-							   errorMarginEnabled, errorMarginValue,
-							   autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
-							   rcsEnabled, rcsAlwaysOn, rcsAmountX, rcsAmountY,
-							   autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
-							   noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, autoSlowMinDamage, predEnabled
+	AimbotWeapon_t settings = {
+			enabled, silent, friendly, bone, aimkey, aimkeyOnly,
+			smoothEnabled, smoothValue, smoothType, smoothSaltEnabled, smoothSaltMultiplier,
+			errorMarginEnabled, errorMarginValue,
+			autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
+			rcsEnabled, rcsAlwaysOn, rcsAmountX, rcsAmountY,
+			autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
+			noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, autoSlowMinDamage, predEnabled
 	};
 
 	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
@@ -406,11 +407,13 @@ void Aimbot::RenderTab()
 			ImGui::Columns(1);
 			ImGui::Separator();
 			if (currentWeapon > ItemDefinitionIndex::INVALID && Settings::Aimbot::weapons.find(currentWeapon) != Settings::Aimbot::weapons.end())
+			{
 				if (ImGui::Button("Clear Weapon Settings", ImVec2(-1, 0)))
 				{
 					Settings::Aimbot::weapons.erase(currentWeapon);
 					UI::ReloadWeaponSettings();
 				}
+			}
 			ImGui::EndChild();
 		}
 	}
