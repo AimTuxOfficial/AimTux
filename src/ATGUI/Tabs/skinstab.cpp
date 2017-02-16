@@ -73,7 +73,7 @@ void SplitSkins()
 	{
 		if (!(Util::Contains(Util::ToLower(std::string(filterModelsCT)), Util::ToLower(Util::Items::GetItemDisplayName(model.first))) || Util::Contains(Util::ToLower(std::string(filterModelsCT)), Util::ToLower(Util::Items::GetItemEntityName(model.first)))))
 			continue;
-		if (Util::Items::isUtility(model.first) || model.first == ItemDefinitionIndex::GLOVE_CT_SIDE || model.first == ItemDefinitionIndex::GLOVE_T_SIDE || Util::Items::isTWeapon(model.first) || model.first == ItemDefinitionIndex::WEAPON_KNIFE || model.first == ItemDefinitionIndex::WEAPON_KNIFE_T)
+		if (model.first == ItemDefinitionIndex::INVALID || Util::Items::isUtility(model.first) || model.first == ItemDefinitionIndex::GLOVE_CT_SIDE || model.first == ItemDefinitionIndex::GLOVE_T_SIDE || Util::Items::isTWeapon(model.first) || model.first == ItemDefinitionIndex::WEAPON_KNIFE || model.first == ItemDefinitionIndex::WEAPON_KNIFE_T)
 			continue;
 		const bool item_selected = ((int) model.first == modelCT);
 		ImGui::PushID((int) model.first);
@@ -130,7 +130,7 @@ void SplitSkins()
 	{
 		if (!(Util::Contains(Util::ToLower(std::string(filterModelsT)), Util::ToLower(Util::Items::GetItemDisplayName(model.first))) || Util::Contains(Util::ToLower(std::string(filterModelsT)), Util::ToLower(Util::Items::GetItemEntityName(model.first)))))
 			continue;
-		if (Util::Items::isUtility(model.first) || model.first == ItemDefinitionIndex::GLOVE_CT_SIDE || model.first == ItemDefinitionIndex::GLOVE_T_SIDE || Util::Items::isCTWeapon(model.first) || model.first == ItemDefinitionIndex::WEAPON_KNIFE || model.first == ItemDefinitionIndex::WEAPON_KNIFE_T)
+		if (model.first == ItemDefinitionIndex::INVALID || Util::Items::isUtility(model.first) || model.first == ItemDefinitionIndex::GLOVE_CT_SIDE || model.first == ItemDefinitionIndex::GLOVE_T_SIDE || Util::Items::isCTWeapon(model.first) || model.first == ItemDefinitionIndex::WEAPON_KNIFE || model.first == ItemDefinitionIndex::WEAPON_KNIFE_T)
 			continue;
 		const bool item_selected = ((int) model.first == modelT);
 		ImGui::PushID((int) model.first);
