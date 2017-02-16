@@ -810,6 +810,7 @@ void ESP::DrawThrowable(C_BaseEntity* throwable, ClientClass* client)
 		else if (strstr(mat->GetName(), "decoy"))
 		{
 			nadeName = "Decoy";
+			nadeColor = Settings::ESP::decoyColor;			
 			
 			C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 			if (!localplayer)
@@ -817,8 +818,6 @@ void ESP::DrawThrowable(C_BaseEntity* throwable, ClientClass* client)
 			
 			if (throwable->GetTeam() == localplayer->GetTeam())
 			{
-				nadeColor = Settings::ESP::allyColor;
-
 				int owner = throwable->GetOwnerEntity() & 0xFFF;
 				if (!owner)
 					break;
@@ -829,10 +828,6 @@ void ESP::DrawThrowable(C_BaseEntity* throwable, ClientClass* client)
 				nadeName += "(";
 				nadeName += entityInformation.name;
 				nadeName += ")";
-			}
-			else
-			{
-				nadeColor = Settings::ESP::decoyColor;			
 			}
 
 			break;
