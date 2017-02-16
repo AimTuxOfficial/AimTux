@@ -2,7 +2,7 @@
 
 #include "../atgui.h"
 
-namespace SkinModelChanger
+namespace Colors
 {
 	extern bool showWindow;
 

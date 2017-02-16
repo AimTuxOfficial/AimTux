@@ -2,7 +2,7 @@
 
 #include "../atgui.h"
 
-namespace SkinModelChanger
+namespace PlayerList
 {
 	extern bool showWindow;
 

@@ -16,7 +16,7 @@
 #include "Utils/util_items.h"
 #include "Utils/util_sdk.h"
 #include "config.h"
-#include "atgui.h"
+#include "ATGUI/atgui.h"
 
 enum class SmoothType : int
 {

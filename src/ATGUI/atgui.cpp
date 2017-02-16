@@ -8,10 +8,6 @@ ImColor Settings::UI::mainColor = ImColor(54, 54, 54, 255);
 ImColor Settings::UI::bodyColor = ImColor(24, 24, 24, 240);
 ImColor Settings::UI::fontColor = ImColor(255, 255, 255, 255);
 bool showMainWindow = true;
-bool showSkinChangerWindow = false;
-bool showConfigWindow = false;
-bool showColorsWindow = false;
-bool showPlayerListWindow = false;
 
 #define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))
 
@@ -142,26 +138,20 @@ void SetupMainMenuBar()
 			ImGui::SameLine();
 		}
 
-		ImGui::Selectable("Config Window", &showConfigWindow, 0, ImVec2(ImGui::CalcTextSize("Config Window", NULL, true).x, 0.0f));
+		ImGui::Selectable("Config Window", &Configs::showWindow, 0, ImVec2(ImGui::CalcTextSize("Config Window", NULL, true).x, 0.0f));
 		ImGui::SameLine();
 
 		ImGui::Selectable("Spectators Window", &Settings::ShowSpectators::enabled, 0, ImVec2(ImGui::CalcTextSize("Spectators Window", NULL, true).x, 0.0f));
 		ImGui::SameLine();
 
-		ImGui::Selectable("Colors Window", &showColorsWindow, 0, ImVec2(ImGui::CalcTextSize("Colors Window", NULL, true).x, 0.0f));
+		ImGui::Selectable("Colors Window", &Colors::showWindow, 0, ImVec2(ImGui::CalcTextSize("Colors Window", NULL, true).x, 0.0f));
 		ImGui::SameLine();
 
-		ImGui::Selectable("Player List Window", &showPlayerListWindow, 0, ImVec2(ImGui::CalcTextSize("Player List Window", NULL, true).x, 0.0f));
+		ImGui::Selectable("Player List Window", &PlayerList::showWindow, 0, ImVec2(ImGui::CalcTextSize("Player List Window", NULL, true).x, 0.0f));
 
 		ImGui::PopStyleVar();
 		ImGui::EndMainMenuBar();
 	}
-}
-
-inline void SetTooltip(const char* text)
-{
-	if (ImGui::IsItemHovered())
-		ImGui::SetTooltip("%s", text);
 }
 
 static ItemDefinitionIndex currentWeapon = ItemDefinitionIndex::INVALID;
@@ -201,7 +191,7 @@ static bool autoSlow = false;
 static bool predEnabled = false;
 static float autoSlowMinDamage = 5.0f;
 
-void ReloadWeaponSettings()
+void UI::ReloadWeaponSettings()
 {
 	ItemDefinitionIndex index = ItemDefinitionIndex::INVALID;
 	if (Settings::Aimbot::weapons.find(currentWeapon) != Settings::Aimbot::weapons.end())
@@ -269,104 +259,7 @@ void UI::UpdateWeaponSettings()
 			currentWeapon != ItemDefinitionIndex::INVALID)
 	{
 		Settings::Aimbot::weapons.erase(currentWeapon);
-		ReloadWeaponSettings();
-	}
-}
-
-void ColorsWindow()
-{
-	if (!showColorsWindow)
-		return;
-
-	struct ColorProperty
-	{
-		const char* name;
-		ImColor* ptr;
-		bool* hpPtr;
-	};
-
-	ColorProperty colors[] = {
-			{ "UI Main", &Settings::UI::mainColor, nullptr },
-			{ "UI Body", &Settings::UI::bodyColor, nullptr },
-			{ "UI Font", &Settings::UI::fontColor, nullptr },
-			{ "FOV Circle", &Settings::ESP::FOVCrosshair::color, nullptr },
-			{ "Hitmarker", &Settings::ESP::Hitmarker::color, nullptr },
-			{ "ESP - Enemy", &Settings::ESP::enemyColor, &Settings::ESP::hpEnemyColor },
-			{ "ESP - Team", &Settings::ESP::allyColor, &Settings::ESP::hpAllyColor },
-			{ "ESP - Enemy Visible", &Settings::ESP::enemyVisibleColor, &Settings::ESP::hpEnemyVisibleColor },
-			{ "ESP - Team Visible", &Settings::ESP::allyVisibleColor, &Settings::ESP::hpAllyVisibleColor },
-			{ "ESP - CT", &Settings::ESP::ctColor, &Settings::ESP::hpCtColor },
-			{ "ESP - T", &Settings::ESP::tColor, &Settings::ESP::hpTColor },
-			{ "ESP - CT Visible", &Settings::ESP::ctVisibleColor, &Settings::ESP::hpCtVisibleColor },
-			{ "ESP - T Visible", &Settings::ESP::tVisibleColor, &Settings::ESP::hpTVisibleColor },
-			{ "ESP - LocalPlayer", &Settings::ESP::localplayerColor, &Settings::ESP::hpLocalplayerColor },
-			{ "ESP - Bomb", &Settings::ESP::bombColor, nullptr },
-			{ "ESP - Bomb Defusing", &Settings::ESP::bombDefusingColor, nullptr },
-			{ "ESP - Hostage", &Settings::ESP::hostageColor, nullptr },
-			{ "ESP - Defuser", &Settings::ESP::defuserColor, nullptr },
-			{ "ESP - Weapon", &Settings::ESP::weaponColor, nullptr },
-			{ "ESP - Chicken", &Settings::ESP::chickenColor, nullptr },
-			{ "ESP - Fish", &Settings::ESP::fishColor, nullptr },
-			{ "ESP - Smoke", &Settings::ESP::smokeColor, nullptr },
-			{ "ESP - Decoy", &Settings::ESP::decoyColor, nullptr },
-			{ "ESP - Flashbang", &Settings::ESP::flashbangColor, nullptr },
-			{ "ESP - Grenade", &Settings::ESP::grenadeColor, nullptr },
-			{ "ESP - Molotov", &Settings::ESP::molotovColor, nullptr },
-			{ "ESP - Skeleton", &Settings::ESP::Skeleton::color, nullptr },
-			{ "Chams - Team", &Settings::ESP::Chams::allyColor, &Settings::ESP::Chams::hpAllyColor },
-			{ "Chams - Team Visible", &Settings::ESP::Chams::allyVisibleColor, &Settings::ESP::Chams::hpAllyVisibleColor },
-			{ "Chams - Enemy", &Settings::ESP::Chams::enemyColor, &Settings::ESP::Chams::hpEnemyColor },
-			{ "Chams - Enemy Visible", &Settings::ESP::Chams::enemyVisibleColor, &Settings::ESP::Chams::hpEnemyVisibleColor },
-			{ "Chams - LocalPlayer", &Settings::ESP::Chams::localplayerColor, &Settings::ESP::Chams::hpLocalplayerColor },
-			{ "Chams - Arms", &Settings::ESP::Chams::Arms::color, nullptr },
-			{ "Chams - Weapon", &Settings::ESP::Chams::Weapon::color, nullptr },
-			{ "Radar - Enemy", &Settings::Radar::enemyColor, &Settings::Radar::hpEnemyColor },
-			{ "Radar - Team", &Settings::Radar::allyColor, &Settings::Radar::hpAllyColor },
-			{ "Radar - Enemy Visible", &Settings::Radar::enemyVisibleColor, &Settings::Radar::hpEnemyVisibleColor },
-			{ "Radar - Team Visible", &Settings::Radar::allyVisibleColor, &Settings::Radar::hpAllyVisibleColor },
-			{ "Radar - CT", &Settings::Radar::ctColor, &Settings::Radar::hpCtColor },
-			{ "Radar - T", &Settings::Radar::tColor, &Settings::Radar::hpTColor },
-			{ "Radar - CT Visible", &Settings::Radar::ctVisibleColor, &Settings::Radar::hpCtVisibleColor },
-			{ "Radar - T Visible", &Settings::Radar::tVisibleColor, &Settings::Radar::hpTVisibleColor },
-			{ "Radar - Bomb", &Settings::Radar::bombColor, nullptr },
-			{ "Radar - Bomb Defusing", &Settings::Radar::bombDefusingColor, nullptr },
-			{ "Glow - Team", &Settings::ESP::Glow::allyColor, &Settings::ESP::Glow::hpAllyColor },
-			{ "Glow - Enemy", &Settings::ESP::Glow::enemyColor, &Settings::ESP::Glow::hpEnemyColor },
-			{ "Glow - Enemy Visible", &Settings::ESP::Glow::enemyVisibleColor, &Settings::ESP::Glow::hpEnemyVisibleColor },
-			{ "Glow - LocalPlayer", &Settings::ESP::Glow::localplayerColor, &Settings::ESP::Glow::hpLocalplayerColor },
-			{ "Glow - Weapon", &Settings::ESP::Glow::weaponColor, nullptr },
-			{ "Glow - Grenade", &Settings::ESP::Glow::grenadeColor, nullptr },
-			{ "Glow - Defuser", &Settings::ESP::Glow::defuserColor, nullptr },
-			{ "Glow - Chicken", &Settings::ESP::Glow::chickenColor, nullptr },
-			{ "Sky", &Settings::NoSky::color, nullptr },
-			{ "Walls", &Settings::ASUSWalls::color, nullptr },
-	};
-
-	const char* colorNames[IM_ARRAYSIZE(colors)];
-	for (int i = 0; i < IM_ARRAYSIZE(colors); i++)
-		colorNames[i] = colors[i].name;
-
-	static int colorSelected = 0;
-
-	ImGui::SetNextWindowSize(ImVec2(540, 295), ImGuiSetCond_Always);
-	if (ImGui::Begin("Colors", &showColorsWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoResize))
-	{
-		ImGui::Columns(2, NULL, true);
-		{
-			ImGui::PushItemWidth(-1);
-				ImGui::ListBox("##COLORSELECTION", &colorSelected, colorNames, IM_ARRAYSIZE(colorNames), 11);
-			ImGui::PopItemWidth();
-		}
-		ImGui::NextColumn();
-		{
-			UI::ColorPicker4((float *)colors[colorSelected].ptr);
-			if (colors[colorSelected].hpPtr)
-			{
-				ImGui::Checkbox("Health-Based Color", colors[colorSelected].hpPtr);
-				SetTooltip("Takes color from entity health, i.e. 100 - green, 50 - yellow");
-			}
-		}
-		ImGui::End();
+		UI::ReloadWeaponSettings();
 	}
 }
 
@@ -410,7 +303,7 @@ void AimbotTab()
 					if (ImGui::Selectable(formattedName.c_str(), item_selected))
 					{
 						currentWeapon = it.first;
-						ReloadWeaponSettings();
+						UI::ReloadWeaponSettings();
 					}
 				ImGui::PopID();
 			}
@@ -673,7 +566,7 @@ void AimbotTab()
 				if (ImGui::Button("Clear Weapon Settings", ImVec2(-1, 0)))
 				{
 					Settings::Aimbot::weapons.erase(currentWeapon);
-					ReloadWeaponSettings();
+					UI::ReloadWeaponSettings();
 				}
 			ImGui::EndChild();
 		}
@@ -1536,18 +1429,10 @@ void MainWindow()
 				"HvH",
 				"Misc",
 		};
-		int tabs_size = sizeof(tabs) / sizeof(tabs[0]);
 
-		for (int i = 0; i < tabs_size; i++)
+		for (int i = 0; i < IM_ARRAYSIZE(tabs); i++)
 		{
-			ImVec2 windowSize = ImGui::GetWindowSize();
-			int width = windowSize.x / tabs_size - 9;
-
-			int distance;
-			if (i == page)
-				distance = 0;
-			else
-				distance = i > page ? i - page : page - i;
+			int distance = i == page ? 0 : i > page ? i - page : page - i;
 
 			ImGui::GetStyle().Colors[ImGuiCol_Button] = ImVec4(
 					Settings::UI::mainColor.Value.x - (distance * 0.035f),
@@ -1556,12 +1441,12 @@ void MainWindow()
 					Settings::UI::mainColor.Value.w
 			);
 
-			if (ImGui::Button(tabs[i], ImVec2(width, 0)))
+			if (ImGui::Button(tabs[i], ImVec2(ImGui::GetWindowSize().x / IM_ARRAYSIZE(tabs) - 9, 0)))
 				page = i;
 
 			ImGui::GetStyle().Colors[ImGuiCol_Button] = Settings::UI::mainColor;
 
-			if (i < tabs_size - 1)
+			if (i < IM_ARRAYSIZE(tabs) - 1)
 				ImGui::SameLine();
 		}
 
@@ -1585,243 +1470,6 @@ void MainWindow()
 				MiscTab();
 				break;
 		}
-		ImGui::End();
-	}
-}
-
-void ConfigWindow()
-{
-	if (!showConfigWindow)
-		return;
-
-	ImGui::SetNextWindowSize(ImVec2(195, 260), ImGuiSetCond_Always);
-	if (ImGui::Begin("Configs", &showConfigWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoResize))
-	{
-		static std::vector<std::string> configItems = GetConfigs();
-		static int configItemCurrent = -1;
-
-		if (ImGui::Button("Refresh"))
-			configItems = GetConfigs();
-
-		ImGui::SameLine();
-		if (ImGui::Button("Save"))
-		{
-			if (configItems.size() > 0 && (configItemCurrent >= 0 && configItemCurrent < (int) configItems.size()))
-			{
-				pstring path = GetConfigDirectory();
-				path << configItems[configItemCurrent] << "/config.json";
-
-				Settings::LoadDefaultsOrSave(path);
-			}
-		}
-
-		ImGui::SameLine();
-		if (ImGui::Button("Remove"))
-		{
-			if (configItems.size() > 0 && (configItemCurrent >= 0 && configItemCurrent < (int) configItems.size()))
-			{
-				pstring path = GetConfigDirectory();
-				path << configItems[configItemCurrent];
-
-				Settings::DeleteConfig(path);
-
-				configItems = GetConfigs();
-				configItemCurrent = -1;
-			}
-		}
-
-		static char buf[128] = "";
-		ImGui::PushItemWidth(138);
-			ImGui::InputText("", buf, IM_ARRAYSIZE(buf));
-		ImGui::PopItemWidth();
-
-		ImGui::SameLine();
-		if (ImGui::Button("Add") && strlen(buf) > 0)
-		{
-			pstring path = GetConfigDirectory();
-			path << buf;
-
-			if (!DoesFileExist(path.c_str()))
-			{
-				mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-				Settings::LoadDefaultsOrSave(path << "/config.json");
-
-				configItems = GetConfigs();
-				configItemCurrent = -1;
-			}
-		}
-
-		ImGui::PushItemWidth(178);
-			if (ImGui::ListBox("", &configItemCurrent, configItems, 7))
-			{
-				pstring path = GetConfigDirectory();
-				path << configItems[configItemCurrent] << "/config.json";
-
-				Settings::LoadConfig(path);
-				ReloadWeaponSettings();
-			}
-		ImGui::PopItemWidth();
-
-		ImGui::End();
-	}
-}
-
-void PlayerListWindow()
-{
-	if (!showPlayerListWindow)
-		return;
-
-	ImGui::SetNextWindowSize(ImVec2(700, 500), ImGuiSetCond_FirstUseEver);
-	if (ImGui::Begin("Player list", &showPlayerListWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
-	{
-		static int currentPlayer = -1;
-
-		if (!engine->IsInGame() || (*csPlayerResource && !(*csPlayerResource)->GetConnected(currentPlayer)))
-			currentPlayer = -1;
-
-		ImGui::ListBoxHeader("##PLAYERS", ImVec2(-1, (ImGui::GetWindowSize().y - 95)));
-		if (engine->IsInGame() && *csPlayerResource)
-		{
-			ImGui::Columns(6);
-
-			ImGui::Text("ID");
-			ImGui::NextColumn();
-
-			ImGui::Text("Nickname");
-			ImGui::NextColumn();
-
-			ImGui::Text("Team");
-			ImGui::NextColumn();
-
-			ImGui::Text("Clan tag");
-			ImGui::NextColumn();
-
-			ImGui::Text("Rank");
-			ImGui::NextColumn();
-
-			ImGui::Text("Wins");
-			ImGui::NextColumn();
-
-			std::unordered_map<TeamID, std::vector<int>, Util::IntHash<TeamID>> players = {
-					{ TeamID::TEAM_UNASSIGNED, { } },
-					{ TeamID::TEAM_SPECTATOR, { } },
-					{ TeamID::TEAM_TERRORIST, { } },
-					{ TeamID::TEAM_COUNTER_TERRORIST, { } },
-			};
-
-			for (int i = 1; i < engine->GetMaxClients(); i++)
-			{
-				if (i == engine->GetLocalPlayer())
-					continue;
-
-				if (!(*csPlayerResource)->GetConnected(i))
-					continue;
-
-				players[(*csPlayerResource)->GetTeam(i)].push_back(i);
-			}
-
-			for (int team = (int) TeamID::TEAM_UNASSIGNED; team <= (int) TeamID::TEAM_COUNTER_TERRORIST ; team++)
-			{
-				char* teamName = strdup("");
-				switch ((TeamID) team)
-				{
-					case TeamID::TEAM_UNASSIGNED:
-						teamName = strdup("Unassigned");
-						break;
-					case TeamID::TEAM_SPECTATOR:
-						teamName = strdup("Spectator");
-						break;
-					case TeamID::TEAM_TERRORIST:
-						teamName = strdup("Terrorist");
-						break;
-					case TeamID::TEAM_COUNTER_TERRORIST:
-						teamName = strdup("Counter Terrorist");
-						break;
-				}
-
-				for (auto it : players[(TeamID) team])
-				{
-					std::string id = std::to_string(it);
-
-					IEngineClient::player_info_t entityInformation;
-					engine->GetPlayerInfo(it, &entityInformation);
-
-					if (entityInformation.ishltv)
-						continue;
-
-					ImGui::Separator();
-
-					if (ImGui::Selectable(id.c_str(), it == currentPlayer, ImGuiSelectableFlags_SpanAllColumns))
-						currentPlayer = it;
-					ImGui::NextColumn();
-
-					ImGui::Text("%s", entityInformation.name);
-					ImGui::NextColumn();
-
-					ImGui::Text("%s", teamName);
-					ImGui::NextColumn();
-
-					ImGui::Text("%s", (*csPlayerResource)->GetClan(it));
-					ImGui::NextColumn();
-
-					ImGui::Text("%s", ESP::ranks[*(*csPlayerResource)->GetCompetitiveRanking(it)]);
-					ImGui::NextColumn();
-
-					ImGui::Text("%d", *(*csPlayerResource)->GetCompetitiveWins(it));
-					ImGui::NextColumn();
-				}
-			}
-		}
-		ImGui::ListBoxFooter();
-
-		if (currentPlayer != -1)
-		{
-			IEngineClient::player_info_t entityInformation;
-			engine->GetPlayerInfo(currentPlayer, &entityInformation);
-
-			ImGui::Columns(2);
-			{
-				bool isFriendly = std::find(Aimbot::friends.begin(), Aimbot::friends.end(), entityInformation.xuid) != Aimbot::friends.end();
-				if (ImGui::Checkbox("Friend", &isFriendly))
-				{
-					if (isFriendly)
-						Aimbot::friends.push_back(entityInformation.xuid);
-					else
-						Aimbot::friends.erase(std::find(Aimbot::friends.begin(), Aimbot::friends.end(), entityInformation.xuid));
-				}
-
-				bool shouldResolve = std::find(Resolver::Players.begin(), Resolver::Players.end(), entityInformation.xuid) != Resolver::Players.end();
-				if (ImGui::Checkbox("Resolver", &shouldResolve))
-				{
-					if (shouldResolve)
-						Resolver::Players.push_back(entityInformation.xuid);
-					else
-						Resolver::Players.erase(std::find(Resolver::Players.begin(), Resolver::Players.end(), entityInformation.xuid));
-				}
-			}
-			ImGui::NextColumn();
-			{
-				if (ImGui::Button("Steal name"))
-				{
-					std::string name(entityInformation.name);
-					name = Util::PadStringRight(name, name.length() + 1);
-
-					strcpy(nickname, name.c_str());
-					NameChanger::SetName(Util::PadStringRight(name, name.length() + 1));
-				}
-
-				const char* clanTag = (*csPlayerResource)->GetClan(currentPlayer);
-				if (strlen(clanTag) > 0 && ImGui::Button("Steal clan tag"))
-				{
-					Settings::ClanTagChanger::enabled = true;
-					strcpy(Settings::ClanTagChanger::value, clanTag);
-					Settings::ClanTagChanger::type = ClanTagType::STATIC;
-
-					ClanTagChanger::UpdateClanTagCallback();
-				}
-			}
-		}
-
 		ImGui::End();
 	}
 }
@@ -1854,9 +1502,9 @@ void UI::SetupWindows()
 			ImGui::PopStyleVar();
 		}
 
-		ConfigWindow();
-		ColorsWindow();
-		PlayerListWindow();
+		Configs::RenderWindow();
+		Colors::RenderWindow();
+		PlayerList::RenderWindow();
 	}
 
 	ShowSpectators::DrawWindow();
