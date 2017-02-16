@@ -105,6 +105,114 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 		case AntiAimType_Y::JITTER:
 			yFlip ? angle.y -= 90.0f : angle.y -= 270.0f;
 			break;
+		case AntiAimType_Y::FAKE_JITTER:
+			void __usercall YawAA8(int a1@<esi>, Vector *viewangles) // fake jitter implemented by Tyylr
+    {
+      double v2; // [sp+0h] [bp-Ch]@4
+     
+      if ( dword_100AFD14 > *(_DWORD *)(*(_DWORD *)(__readfsdword(44) + 4 * TlsIndex) + 4) )
+      {
+        sub_10086EEE(&dword_100AFD14);
+        if ( dword_100AFD14 == -1 )
+        {
+          dword_100AFD04 = clock();
+          sub_10086EAF(a1, &dword_100AFD14);
+        }
+      }
+      v2 = (double)(clock() - dword_100AFD04) / 1000.0;
+      if ( sub_10004CA0((int)&ShouldSwap) )
+      {
+        if ( byte_100AA52C )
+        {
+          if ( byte_100A8EBD )
+            viewangles[1].y = viewangles[1].y - 90.0;
+          else
+            viewangles[1].y = viewangles[1].y + 90.0;
+        }
+        else
+        {
+          viewangles[1].y = viewangles[1].y - 180.0;
+        }
+      }
+      else if ( ++dword_100AFAAC == 1 )
+      {
+        byte_100AA52C = 0;
+        viewangles[1].y = viewangles[1].y - 180.0;
+      }
+      else
+      {
+        byte_100AA52C = 1;
+        if ( byte_100A8EBD )
+          viewangles[1].y = viewangles[1].y - 90.0;
+        else
+          viewangles[1].y = viewangles[1].y + 90.0;
+        dword_100AFAAC = 0;
+      }
+      if ( v2 >= 0.35 )
+      {
+        byte_100A8EBD = byte_100A8EBD == 0;
+        dword_100AFD04 = clock();
+      }
+    }
+     
+    char __cdecl YawAA9(Vector *viewangles)
+    {
+      char result; // al@4
+     
+      if ( sub_10004CA0((int)&ShouldSwap) )
+      {
+        if ( byte_100AA52C )
+        {
+          if ( byte_100AFD00 )
+            viewangles[1].y = viewangles[1].y - 226.0;
+          else
+            viewangles[1].y = viewangles[1].y - 134.0;
+          result = byte_100AFD00 == 0;
+          byte_100AFD00 = byte_100AFD00 == 0;
+        }
+        else
+        {
+          if ( byte_100AFD01 )
+          {
+            result = (char)viewangles;
+            viewangles[1].y = viewangles[1].y - 134.0;
+          }
+          else
+          {
+            result = (char)viewangles;
+            viewangles[1].y = viewangles[1].y - 226.0;
+          }
+          byte_100AFD01 = byte_100AFD01 == 0;
+        }
+      }
+      else if ( ++dword_100AFABC == 1 )
+      {
+        byte_100AA52C = 0;
+        if ( byte_100AFD09 )
+        {
+          result = (char)viewangles;
+          viewangles[1].y = viewangles[1].y - 134.0;
+        }
+        else
+        {
+          result = (char)viewangles;
+          viewangles[1].y = viewangles[1].y - 226.0;
+        }
+        byte_100AFD09 = byte_100AFD09 == 0;
+      }
+      else
+      {
+        byte_100AA52C = 1;
+        if ( byte_100AFD08 )
+          viewangles[1].y = viewangles[1].y - 226.0;
+        else
+          viewangles[1].y = viewangles[1].y - 134.0;
+        result = byte_100AFD08 == 0;
+        byte_100AFD08 = byte_100AFD08 == 0;
+        dword_100AFABC = 0;
+      }
+      return result;
+    }
 		case AntiAimType_Y::SIDE:
 			yFlip ? angle.y += 90.f : angle.y -= 90.0f;
 			break;
