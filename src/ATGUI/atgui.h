@@ -11,6 +11,7 @@
 #include "Windows/configs.h"
 #include "Windows/playerlist.h"
 #include "Windows/colors.h"
+#include "Windows/main.h"
 
 namespace UI
 {
