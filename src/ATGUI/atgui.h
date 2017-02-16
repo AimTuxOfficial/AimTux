@@ -7,6 +7,7 @@
 #include "../settings.h"
 #include "../Hacks/hacks.h"
 #include "../Utils/skins.h"
+#include "imgui.h"
 #include "Windows/skinmodelchanger.h"
 #include "Windows/configs.h"
 #include "Windows/playerlist.h"

@@ -226,7 +226,6 @@ void Visuals::RenderTab()
 				ImGui::Checkbox("Legit", &Settings::Radar::legit);
 				ImGui::Checkbox("In-game Radar", &Settings::Radar::InGame::enabled);
 				SetTooltip("Shows players on the in-game radar");
-
 			}
 			ImGui::NextColumn();
 			{

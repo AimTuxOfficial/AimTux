@@ -2,25 +2,6 @@
 
 bool Configs::showWindow = false;
 
-namespace ImGui
-{
-	static auto vector_getter1 = [](void* vec, int idx, const char** out_text)
-	{
-		auto& vector = *static_cast<std::vector<std::string>*>(vec);
-		if (idx < 0 || idx >= static_cast<int>(vector.size())) { return false; }
-		*out_text = vector.at(idx).c_str();
-		return true;
-	};
-
-	bool ConfigListBox(const char* label, int* currIndex, std::vector<std::string>& values, int height_in_items = -1)
-	{
-		if (values.empty()) { return false; }
-		return ListBox(label, currIndex, vector_getter1,
-					   static_cast<void*>(&values), values.size(), height_in_items);
-	}
-}
-
-
 void Configs::RenderWindow()
 {
 	if (!Configs::showWindow)
@@ -84,7 +65,7 @@ void Configs::RenderWindow()
 		}
 
 		ImGui::PushItemWidth(178);
-		if (ImGui::ConfigListBox("", &configItemCurrent, configItems, 7))
+		if (ImGui::ListBox("", &configItemCurrent, configItems, 7))
 		{
 			pstring path = GetConfigDirectory();
 			path << configItems[configItemCurrent] << "/config.json";
