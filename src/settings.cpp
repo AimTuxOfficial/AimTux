@@ -367,8 +367,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	{
 		const AttribItem_t& skin = item.second;
 
-		#define skinSetting settings["SkinChanger"]["skinsCT"][Util::Items::GetItemEntityName(item.first)]
-		skinSetting["ItemDefinitionIndex"] = Util::Items::GetItemEntityName(skin.itemDefinitionIndex);
+		#define skinSetting settings["SkinChanger"]["skinsCT"][Util::Items::GetItemConfigEntityName(item.first)]
+		skinSetting["ItemDefinitionIndex"] = Util::Items::GetItemConfigEntityName(skin.itemDefinitionIndex);
 		skinSetting["PaintKit"] = skin.fallbackPaintKit;
 		skinSetting["Wear"] = skin.fallbackWear;
 		skinSetting["Seed"] = skin.fallbackSeed;
@@ -381,8 +381,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	{
 		const AttribItem_t& skin = item.second;
 
-		#define skinSetting settings["SkinChanger"]["skinsT"][Util::Items::GetItemEntityName(item.first)]
-		skinSetting["ItemDefinitionIndex"] = Util::Items::GetItemEntityName(skin.itemDefinitionIndex);
+		#define skinSetting settings["SkinChanger"]["skinsT"][Util::Items::GetItemConfigEntityName(item.first)]
+		skinSetting["ItemDefinitionIndex"] = Util::Items::GetItemConfigEntityName(skin.itemDefinitionIndex);
 		skinSetting["PaintKit"] = skin.fallbackPaintKit;
 		skinSetting["Wear"] = skin.fallbackWear;
 		skinSetting["Seed"] = skin.fallbackSeed;

@@ -92,6 +92,14 @@ namespace Util
 			return "INVALID";
 		}
 
+		std::string GetItemConfigEntityName(ItemDefinitionIndex index)
+		{
+			if (ItemDefinitionIndexMap.find(index) != ItemDefinitionIndexMap.end())
+				return  ItemDefinitionIndexMap.at(index).entityName;
+
+			return "INVALID";
+		}
+
 		std::string GetItemDisplayName(ItemDefinitionIndex index)
 		{
 			if (ItemDefinitionIndexMap.find(index) != ItemDefinitionIndexMap.end() && index != ItemDefinitionIndex::INVALID)
