@@ -12,14 +12,7 @@ namespace ImGui
 		return true;
 	};
 
-	bool Combo1(const char* label, int* currIndex, std::vector<std::string>& values)
-	{
-		if (values.empty()) { return false; }
-		return Combo(label, currIndex, vector_getter1,
-					 static_cast<void*>(&values), values.size());
-	}
-
-	bool ListBox1(const char* label, int* currIndex, std::vector<std::string>& values, int height_in_items = -1)
+	bool ConfigListBox(const char* label, int* currIndex, std::vector<std::string>& values, int height_in_items = -1)
 	{
 		if (values.empty()) { return false; }
 		return ListBox(label, currIndex, vector_getter1,
@@ -91,7 +84,7 @@ void Configs::RenderWindow()
 		}
 
 		ImGui::PushItemWidth(178);
-		if (ImGui::ListBox1("", &configItemCurrent, configItems, 7))
+		if (ImGui::ConfigListBox("", &configItemCurrent, configItems, 7))
 		{
 			pstring path = GetConfigDirectory();
 			path << configItems[configItemCurrent] << "/config.json";
