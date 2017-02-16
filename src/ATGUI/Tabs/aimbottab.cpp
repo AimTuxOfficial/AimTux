@@ -136,8 +136,8 @@ void Aimbot::RenderTab()
 			if (Util::Items::isKnife(it.first) || Util::Items::isGlove(it.first) || Util::Items::isUtility(it.first))
 				continue;
 
-			const bool item_selected = ((int)it.first == (int) currentWeapon);
-			ImGui::PushID((int)it.first);
+			const bool item_selected = ((int) it.first == (int) currentWeapon);
+			ImGui::PushID((int) it.first);
 			std::string formattedName;
 			char changeIndicator = ' ';
 			bool isChanged = Settings::Aimbot::weapons.find(it.first) != Settings::Aimbot::weapons.end();

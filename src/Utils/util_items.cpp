@@ -139,7 +139,6 @@ namespace Util
 		{
 			switch (index)
 			{
-				case ItemDefinitionIndex::INVALID:
 				case ItemDefinitionIndex::WEAPON_C4:
 				case ItemDefinitionIndex::WEAPON_FLASHBANG:
 				case ItemDefinitionIndex::WEAPON_HEGRENADE:
