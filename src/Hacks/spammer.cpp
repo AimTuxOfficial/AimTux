@@ -9,6 +9,7 @@ std::vector<std::string> Settings::Spammer::KillSpammer::messages = {
 		"$nick watches anime",
 };
 bool Settings::Spammer::RadioSpammer::enabled = false;
+bool Settings::Spammer::TimeoutSpammer::enabled = false;
 std::vector<std::string> Settings::Spammer::NormalSpammer::messages = {
 		"AimTux owns me and all",
 		"Your Windows p2c sucks my AimTux dry",
@@ -36,6 +37,9 @@ void Spammer::BeginFrame(float frameTime)
 	// Grab the current time in milliseconds
 	long currentTime_ms = Util::GetEpochTime();
 	static long timeStamp = currentTime_ms;
+
+	if (Settings::Spammer::TimeoutSpammer::enabled)
+		engine->ExecuteClientCmd("callvote starttimeout");
 
 	if (currentTime_ms - timeStamp < 850)
 		return;
