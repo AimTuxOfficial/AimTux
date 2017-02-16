@@ -170,6 +170,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["AntiAim"]["AutoDisable"]["knife_held"] = Settings::AntiAim::AutoDisable::knifeHeld;
 
 	settings["ESP"]["enabled"] = Settings::ESP::enabled;
+	settings["ESP"]["decoy_show_owner"] = Settings::ESP::decoyShowOwner;
 	LoadUIColor(settings["ESP"]["enemy_color"], Settings::ESP::enemyColor);
 	LoadUIColor(settings["ESP"]["enemy_visible_color"], Settings::ESP::enemyVisibleColor);
 	LoadUIColor(settings["ESP"]["ally_color"], Settings::ESP::allyColor);
@@ -566,6 +567,7 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["AntiAim"]["AutoDisable"]["no_enemy"], &Settings::AntiAim::AutoDisable::noEnemy);
 
 	GetVal(settings["ESP"]["enabled"], &Settings::ESP::enabled);
+	GetVal(settings["ESP"]["decoy_show_owner"], &Settings::ESP::decoyShowOwner);
 	GetVal(settings["ESP"]["enemy_color"], &Settings::ESP::enemyColor);
 	GetVal(settings["ESP"]["enemy_visible_color"], &Settings::ESP::enemyVisibleColor);
 	GetVal(settings["ESP"]["ally_color"], &Settings::ESP::allyColor);
