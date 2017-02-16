@@ -801,16 +801,40 @@ void ESP::DrawThrowable(C_BaseEntity* throwable, ClientClass* client)
 			nadeColor = Settings::ESP::smokeColor;
 			break;
 		}
-		else if (strstr(mat->GetName(), "decoy"))
-		{
-			nadeName = "Decoy";
-			nadeColor = Settings::ESP::decoyColor;
-			break;
-		}
 		else if (strstr(mat->GetName(), "incendiary") || strstr(mat->GetName(), "molotov"))
 		{
 			nadeName = "Molotov";
 			nadeColor = Settings::ESP::molotovColor;
+			break;
+		}
+		else if (strstr(mat->GetName(), "decoy"))
+		{
+			nadeName = "Decoy";
+			
+			C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+			if (!localplayer)
+				break;
+			
+			if (throwable->GetTeam() == localplayer->GetTeam())
+			{
+				nadeColor = Settings::ESP::allyColor;
+
+				int owner = throwable->GetOwnerEntity() & 0xFFF;
+				if (!owner)
+					break;
+
+				IEngineClient::player_info_t entityInformation;
+				engine->GetPlayerInfo(owner, &entityInformation);
+
+				nadeName += "(";
+				nadeName += entityInformation.name;
+				nadeName += ")";
+			}
+			else
+			{
+				nadeColor = Settings::ESP::decoyColor;			
+			}
+
 			break;
 		}
 	}

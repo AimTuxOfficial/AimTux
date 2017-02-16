@@ -33,6 +33,7 @@ struct COffsets
 		std::ptrdiff_t m_MoveType;
 		std::ptrdiff_t m_Collision;
 		std::ptrdiff_t m_bSpotted;
+		std::ptrdiff_t m_hOwnerEntity;
 	} DT_BaseEntity;
 
 	struct
