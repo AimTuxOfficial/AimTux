@@ -252,7 +252,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["ESP"]["Tracers"]["type"] = (int) Settings::ESP::Tracers::type;
 	settings["ESP"]["BulletTracers"]["enabled"] = Settings::ESP::BulletTracers::enabled;
 	settings["ESP"]["FOVCrosshair"]["enabled"] = Settings::ESP::FOVCrosshair::enabled;
-	settings["ESP"]["FOVCrosshair"]["filled"] = Settings::ESP::FOVCrosshair::enabled;
+	settings["ESP"]["FOVCrosshair"]["filled"] = Settings::ESP::FOVCrosshair::filled;
 	LoadUIColor(settings["ESP"]["FOVCrosshair"]["color"], Settings::ESP::FOVCrosshair::color);
 	settings["ESP"]["Chams"]["Arms"]["enabled"] = Settings::ESP::Chams::Arms::enabled;
 	settings["ESP"]["Chams"]["Arms"]["type"] = (int) Settings::ESP::Chams::Arms::type;
@@ -649,7 +649,7 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["ESP"]["Tracers"]["type"], (int*)& Settings::ESP::Tracers::type);
 	GetVal(settings["ESP"]["BulletTracers"]["enabled"], &Settings::ESP::BulletTracers::enabled);
 	GetVal(settings["ESP"]["FOVCrosshair"]["enabled"], &Settings::ESP::FOVCrosshair::enabled);
-	GetVal(settings["ESP"]["FOVCrosshair"]["filled"], &Settings::ESP::FOVCrosshair::enabled);
+	GetVal(settings["ESP"]["FOVCrosshair"]["filled"], &Settings::ESP::FOVCrosshair::filled);
 	GetVal(settings["ESP"]["FOVCrosshair"]["color"], &Settings::ESP::FOVCrosshair::color);
 	GetVal(settings["ESP"]["Chams"]["Arms"]["enabled"], &Settings::ESP::Chams::Arms::enabled);
 	GetVal(settings["ESP"]["Chams"]["Arms"]["type"], (int*)& Settings::ESP::Chams::Arms::type);
