@@ -320,7 +320,17 @@ void SkinChanger::FireGameEvent(IGameEvent* event)
 	if (!event || strcmp(event->GetName(), "switch_team") != 0)
 		return;
 
-	SkinChanger::forceFullUpdate = true; // Required otherwise gloves dont apply skin when you switch teams for some reason.
+	if (!(*csPlayerResource))
+		return;
+
+	static TeamID oldTeam = TeamID::TEAM_UNASSIGNED;
+	TeamID currentTeam = (*csPlayerResource)->GetTeam(engine->GetLocalPlayer());
+
+	if (oldTeam != currentTeam)
+	{
+		oldTeam = currentTeam;
+		SkinChanger::forceFullUpdate = true;
+	}
 }
 
 void SkinChanger::SetViewModelSequence(const CRecvProxyData *pDataConst, void *pStruct, void *pOut)
