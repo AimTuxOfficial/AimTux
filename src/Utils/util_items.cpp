@@ -110,7 +110,7 @@ namespace Util
 
 		ItemDefinitionIndex GetItemIndex(const std::string itemName)
 		{
-			return Util::MapSearchOrDefault<std::string, ItemDefinitionIndex>(&ItemNames, itemName, ItemDefinitionIndex::INVALID);
+			return Util::MapSearchOrDefault<std::string, ItemDefinitionIndex>(&ItemNames, Util::ToLower(itemName), ItemDefinitionIndex::INVALID);
 		}
 
 		bool IsKnife(ItemDefinitionIndex index)
