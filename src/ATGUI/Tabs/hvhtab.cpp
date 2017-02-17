@@ -97,7 +97,7 @@ void HvH::RenderTab()
 				ImGui::NextColumn();
 				{
 					ImGui::PushItemWidth(-1);
-						ImGui::SliderFloat("##EDGEDISTANCE", &Settings::AntiAim::HeadEdge::distance, 10, 30, "Distance: %0.f");
+						ImGui::SliderFloat("##EDGEDISTANCE", &Settings::AntiAim::HeadEdge::distance, 20, 30, "Distance: %0.f");
 					ImGui::PopItemWidth();
 				}
 				ImGui::Columns(1);
