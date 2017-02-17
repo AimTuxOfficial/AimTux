@@ -1,6 +1,7 @@
 #pragma once
 
 #include "settings.h"
+#include "SDK/SDK.h"
 
 #include "ATGUI/atgui.h"
 
@@ -11,4 +12,5 @@
 namespace Shortcuts
 {
 	void PollEvent(SDL_Event* event);
+	void SetKeyCodeState(ButtonCode_t code, bool bPressed);
 }

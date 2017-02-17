@@ -12,5 +12,8 @@ void Hooks::SetKeyCodeState(void* thisptr, ButtonCode_t code, bool bPressed)
 		UI::UpdateWeaponSettings();
 	}
 
+	if (!SetKeyCodeState::shouldListen)
+		Shortcuts::SetKeyCodeState(code, bPressed);
+
 	inputInternalVMT->GetOriginalMethod<SetKeyCodeStateFn>(92)(thisptr, code, bPressed);
 }
