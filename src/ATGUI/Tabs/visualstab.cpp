@@ -171,6 +171,8 @@ void Visuals::RenderTab()
 			{
 				ImGui::Checkbox("Only When Shooting", &Settings::Recoilcrosshair::showOnlyWhenShooting);
 				SetTooltip("Only show recoil crosshair when shooting");
+				ImGui::Checkbox("Filled", &Settings::ESP::FOVCrosshair::filled);
+				SetTooltip("Fill the fov circle");
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();

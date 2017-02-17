@@ -560,6 +560,7 @@ namespace Settings
 		namespace FOVCrosshair
 		{
 			extern bool enabled;
+			extern bool filled;
 			extern ImColor color;
 		}
 
