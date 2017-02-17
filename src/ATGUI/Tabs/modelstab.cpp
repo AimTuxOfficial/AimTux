@@ -102,7 +102,7 @@ void Models::RenderTab()
 					continue;
 				break;
 			case (int) ItemDefinitionIndex::GLOVE_CT_SIDE:
-				if (model.first < ItemDefinitionIndex::GLOVE_STUDDED_BLOODHOUND || model.first == ItemDefinitionIndex::GLOVE_T_SIDE)
+				if (!Util::Items::IsGlove(model.first) || model.first == ItemDefinitionIndex::GLOVE_T_SIDE)
 					continue;
 				break;
 			default:
@@ -163,7 +163,7 @@ void Models::RenderTab()
 					continue;
 				break;
 			case (int) ItemDefinitionIndex::GLOVE_T_SIDE:
-				if (model.first < ItemDefinitionIndex::GLOVE_STUDDED_BLOODHOUND || model.first == ItemDefinitionIndex::GLOVE_CT_SIDE)
+				if (!Util::Items::IsGlove(model.first) || model.first == ItemDefinitionIndex::GLOVE_CT_SIDE)
 					continue;
 				break;
 			default:
