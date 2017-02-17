@@ -90,10 +90,9 @@ void SDL2::UnhookWindow()
 int SDL2::PollEvent(SDL_Event* event)
 {
 	static SDL_PollEvent_t oSDL_PollEvent = reinterpret_cast<SDL_PollEvent_t>(oPollEvent);
-
-	if (event->key.keysym.sym == SDLK_INSERT && event->type == SDL_KEYDOWN)
-		UI::SetVisible(!UI::isVisible);
-
+	
+	Shortcuts::PollEvent(event);
+	
 	return oSDL_PollEvent(event);
 }
 
