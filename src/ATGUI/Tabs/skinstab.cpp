@@ -73,7 +73,7 @@ void SplitSkins()
 	{
 		if (!(Util::Contains(Util::ToLower(std::string(filterModelsCT)), Util::ToLower(Util::Items::GetItemDisplayName(model.first))) || Util::Contains(Util::ToLower(std::string(filterModelsCT)), Util::ToLower(Util::Items::GetItemEntityName(model.first)))))
 			continue;
-		if (model.first == ItemDefinitionIndex::INVALID || Util::Items::isUtility(model.first) || model.first == ItemDefinitionIndex::GLOVE_CT_SIDE || model.first == ItemDefinitionIndex::GLOVE_T_SIDE || Util::Items::isTWeapon(model.first) || model.first == ItemDefinitionIndex::WEAPON_KNIFE || model.first == ItemDefinitionIndex::WEAPON_KNIFE_T)
+		if (model.first == ItemDefinitionIndex::INVALID || Util::Items::IsUtility(model.first) || model.first == ItemDefinitionIndex::GLOVE_CT_SIDE || model.first == ItemDefinitionIndex::GLOVE_T_SIDE || Util::Items::IsTWeapon(model.first) || model.first == ItemDefinitionIndex::WEAPON_KNIFE || model.first == ItemDefinitionIndex::WEAPON_KNIFE_T)
 			continue;
 		const bool item_selected = ((int) model.first == modelCT);
 		ImGui::PushID((int) model.first);
@@ -107,7 +107,7 @@ void SplitSkins()
 	{
 		if (skin.second.paintName != nullptr ? !(Util::Contains(Util::ToLower(std::string(filterModelSkinsCT)), Util::ToLower(Util::WstringToString(localize->FindSafe(skin.second.displayName)))) || Util::Contains(Util::ToLower(std::string(filterModelSkinsCT)), skin.second.paintName)) : !Util::Contains(Util::ToLower(std::string(filterModelSkinsCT)), Util::ToLower(Util::WstringToString(localize->FindSafe(skin.second.displayName)))))
 			continue;
-		if (Util::Items::isGlove((ItemDefinitionIndex) modelCT) && skin.first < 10006)
+		if (Util::Items::IsGlove((ItemDefinitionIndex) modelCT) && skin.first < 10006)
 			continue;
 		const bool item_selected = (skin.first == modelSkinCT);
 		ImGui::PushID(skin.first);
@@ -130,7 +130,7 @@ void SplitSkins()
 	{
 		if (!(Util::Contains(Util::ToLower(std::string(filterModelsT)), Util::ToLower(Util::Items::GetItemDisplayName(model.first))) || Util::Contains(Util::ToLower(std::string(filterModelsT)), Util::ToLower(Util::Items::GetItemEntityName(model.first)))))
 			continue;
-		if (model.first == ItemDefinitionIndex::INVALID || Util::Items::isUtility(model.first) || model.first == ItemDefinitionIndex::GLOVE_CT_SIDE || model.first == ItemDefinitionIndex::GLOVE_T_SIDE || Util::Items::isCTWeapon(model.first) || model.first == ItemDefinitionIndex::WEAPON_KNIFE || model.first == ItemDefinitionIndex::WEAPON_KNIFE_T)
+		if (model.first == ItemDefinitionIndex::INVALID || Util::Items::IsUtility(model.first) || model.first == ItemDefinitionIndex::GLOVE_CT_SIDE || model.first == ItemDefinitionIndex::GLOVE_T_SIDE || Util::Items::IsCTWeapon(model.first) || model.first == ItemDefinitionIndex::WEAPON_KNIFE || model.first == ItemDefinitionIndex::WEAPON_KNIFE_T)
 			continue;
 		const bool item_selected = ((int) model.first == modelT);
 		ImGui::PushID((int) model.first);
@@ -164,7 +164,7 @@ void SplitSkins()
 	{
 		if (skin.second.paintName != nullptr ? !(Util::Contains(Util::ToLower(std::string(filterModelSkinsT)), Util::ToLower(Util::WstringToString(localize->FindSafe(skin.second.displayName)))) || Util::Contains(Util::ToLower(std::string(filterModelSkinsT)), skin.second.paintName)) : !Util::Contains(Util::ToLower(std::string(filterModelSkinsT)), Util::ToLower(Util::WstringToString(localize->FindSafe(skin.second.displayName)))))
 			continue;
-		if (Util::Items::isGlove((ItemDefinitionIndex) modelT) && skin.first < 10006)
+		if (Util::Items::IsGlove((ItemDefinitionIndex) modelT) && skin.first < 10006)
 			continue;
 		const bool item_selected = (skin.first == modelSkinT);
 		ImGui::PushID(skin.first);
@@ -199,7 +199,7 @@ void SplitSkins()
 		ImGui::PopItemWidth();
 		ImGui::Columns(1);
 
-		if (!Util::Items::isGlove((ItemDefinitionIndex) modelCT))
+		if (!Util::Items::IsGlove((ItemDefinitionIndex) modelCT))
 		{
 			ImGui::Columns(2, NULL, false);
 
@@ -219,7 +219,7 @@ void SplitSkins()
 
 			SkinChanger::forceFullUpdate = true;
 
-			if (Util::Items::isGlove((ItemDefinitionIndex) modelCT))
+			if (Util::Items::IsGlove((ItemDefinitionIndex) modelCT))
 				SkinChanger::glovesUpdated = true;
 		}
 
@@ -242,7 +242,7 @@ void SplitSkins()
 		ImGui::PopItemWidth();
 		ImGui::Columns(1);
 
-		if (!Util::Items::isGlove((ItemDefinitionIndex) modelT))
+		if (!Util::Items::IsGlove((ItemDefinitionIndex) modelT))
 		{
 			ImGui::Columns(2, NULL, false);
 
@@ -262,7 +262,7 @@ void SplitSkins()
 
 			SkinChanger::forceFullUpdate = true;
 
-			if (Util::Items::isGlove((ItemDefinitionIndex) modelT))
+			if (Util::Items::IsGlove((ItemDefinitionIndex) modelT))
 				SkinChanger::glovesUpdated = true;
 		}
 
@@ -310,7 +310,7 @@ void CombinedSkins()
 	{
 		if (!(Util::Contains(Util::ToLower(std::string(filterModels)), Util::ToLower(Util::Items::GetItemDisplayName(model.first))) || Util::Contains(Util::ToLower(std::string(filterModels)), Util::ToLower(Util::Items::GetItemEntityName(model.first)))))
 			continue;
-		if (Util::Items::isUtility(model.first) || model.first == ItemDefinitionIndex::GLOVE_CT_SIDE || model.first == ItemDefinitionIndex::GLOVE_T_SIDE || model.first == ItemDefinitionIndex::WEAPON_KNIFE || model.first == ItemDefinitionIndex::WEAPON_KNIFE_T)
+		if (Util::Items::IsUtility(model.first) || model.first == ItemDefinitionIndex::GLOVE_CT_SIDE || model.first == ItemDefinitionIndex::GLOVE_T_SIDE || model.first == ItemDefinitionIndex::WEAPON_KNIFE || model.first == ItemDefinitionIndex::WEAPON_KNIFE_T)
 			continue;
 		const bool item_selected = ((int) model.first == selectedModel);
 		ImGui::PushID((int) model.first);
@@ -344,7 +344,7 @@ void CombinedSkins()
 	{
 		if (skin.second.paintName != nullptr ? !(Util::Contains(Util::ToLower(std::string(filterModelSkins)), Util::ToLower(Util::WstringToString(localize->FindSafe(skin.second.displayName)))) || Util::Contains(Util::ToLower(std::string(filterModelSkins)), skin.second.paintName)) : !Util::Contains(Util::ToLower(std::string(filterModelSkins)), Util::ToLower(Util::WstringToString(localize->FindSafe(skin.second.displayName)))))
 			continue;
-		if (Util::Items::isGlove((ItemDefinitionIndex)selectedModel) && skin.first < 10006)
+		if (Util::Items::IsGlove((ItemDefinitionIndex)selectedModel) && skin.first < 10006)
 			continue;
 		const bool item_selected = (skin.first == selectedModelSkin);
 		ImGui::PushID(skin.first);
@@ -376,7 +376,7 @@ void CombinedSkins()
 		ImGui::PopItemWidth();
 		ImGui::Columns(1);
 
-		if (!Util::Items::isGlove((ItemDefinitionIndex)selectedModel))
+		if (!Util::Items::IsGlove((ItemDefinitionIndex)selectedModel))
 		{
 			ImGui::Columns(2, NULL, false);
 
@@ -396,7 +396,7 @@ void CombinedSkins()
 
 			SkinChanger::forceFullUpdate = true;
 
-			if (Util::Items::isGlove((ItemDefinitionIndex)selectedModel))
+			if (Util::Items::IsGlove((ItemDefinitionIndex)selectedModel))
 				SkinChanger::glovesUpdated = true;
 		}
 

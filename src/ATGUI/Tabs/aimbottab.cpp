@@ -133,7 +133,7 @@ void Aimbot::RenderTab()
 			if (!isDefault && !Util::Contains(Util::ToLower(std::string(filterWeapons)), Util::ToLower(Util::Items::GetItemDisplayName(it.first).c_str())))
 				continue;
 
-			if (Util::Items::isKnife(it.first) || Util::Items::isGlove(it.first) || Util::Items::isUtility(it.first))
+			if (Util::Items::IsKnife(it.first) || Util::Items::IsGlove(it.first) || Util::Items::IsUtility(it.first))
 				continue;
 
 			const bool item_selected = ((int) it.first == (int) currentWeapon);

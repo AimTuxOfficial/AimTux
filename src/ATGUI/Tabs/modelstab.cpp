@@ -98,7 +98,7 @@ void Models::RenderTab()
 		switch (originalModelCT)
 		{
 			case (int) ItemDefinitionIndex::WEAPON_KNIFE:
-				if (!Util::Items::isKnife(model.first))
+				if (!Util::Items::IsKnife(model.first))
 					continue;
 				break;
 			case (int) ItemDefinitionIndex::GLOVE_CT_SIDE:
@@ -159,7 +159,7 @@ void Models::RenderTab()
 		switch (originalModelT)
 		{
 			case (int) ItemDefinitionIndex::WEAPON_KNIFE_T:
-				if (!Util::Items::isKnife(model.first))
+				if (!Util::Items::IsKnife(model.first))
 					continue;
 				break;
 			case (int) ItemDefinitionIndex::GLOVE_T_SIDE:
