@@ -8,6 +8,8 @@ void Shortcuts::PollEvent(SDL_Event* event)
 
 void Shortcuts::SetKeyCodeState(ButtonCode_t code, bool bPressed)
 {
+#ifdef EXPERIMENTAL_SETTINGS
 	if (inputSystem->IsButtonDown(ButtonCode_t::KEY_LALT) && code == ButtonCode_t::KEY_F && bPressed)
 		Settings::ThirdPerson::enabled = !Settings::ThirdPerson::enabled;
+#endif
 }
