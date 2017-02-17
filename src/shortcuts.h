@@ -1,5 +1,7 @@
 #pragma once
 
+#include "settings.h"
+
 #include "ATGUI/atgui.h"
 
 #include "ImGUI/imgui.h"
