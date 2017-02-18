@@ -631,6 +631,18 @@ public:
 		typedef float (* oGetInaccuracy)(void*);
 		return getvfunc<oGetInaccuracy>(this, 552)(this);
 	}
+
+	float GetSpread()
+	{
+		typedef float (* oGetSpread)(void*);
+		return getvfunc<oGetSpread>(this, 553)(this);
+	}
+
+	void UpdateAccuracyPenalty()
+	{
+		typedef void (* oUpdateAccuracyPenalty)(void*);
+		return getvfunc<oUpdateAccuracyPenalty>(this, 554)(this);
+	}
 };
 
 class C_WeaponC4 : C_BaseCombatWeapon
