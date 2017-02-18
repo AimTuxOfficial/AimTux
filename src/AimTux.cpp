@@ -31,6 +31,7 @@ int __attribute__((constructor)) AimTuxInit()
 	Hooker::FindLineGoesThroughSmoke();
 	Hooker::FindInitKeyValues();
 	Hooker::FindLoadFromBuffer();
+	Hooker::FindVstdlibFunctions();
 	Hooker::FindCrosshairWeaponTypeCheck();
 	Hooker::FindCamThinkSvCheatsCheck();
 	Hooker::HookSwapWindow();

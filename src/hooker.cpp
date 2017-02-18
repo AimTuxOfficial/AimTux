@@ -40,6 +40,12 @@ LineGoesThroughSmokeFn LineGoesThroughSmoke;
 InitKeyValuesFn InitKeyValues;
 LoadFromBufferFn LoadFromBuffer;
 
+RandomSeedFn RandomSeed;
+RandomFloatFn RandomFloat;
+RandomFloatExpFn RandomFloatExp;
+RandomIntFn RandomInt;
+RandomGaussianFloatFn RandomGaussianFloat;
+
 std::vector<dlinfo_t> libraries;
 
 // taken form aixxe's cstrike-basehook-linux
@@ -240,6 +246,19 @@ void Hooker::FindLoadFromBuffer()
 {
 	uintptr_t func_address = PatternFinder::FindPatternInModule("client_client.so", (unsigned char*) LOADFROMBUFFER_SIGNATURE, LOADFROMBUFFER_MASK);
 	LoadFromBuffer = reinterpret_cast<LoadFromBufferFn>(func_address);
+}
+
+void Hooker::FindVstdlibFunctions()
+{
+	void* handle = dlopen("./bin/linux64/libvstdlib_client.so", RTLD_NOLOAD | RTLD_NOW);
+
+	RandomSeed = reinterpret_cast<RandomSeedFn>(dlsym(handle, "RandomSeed"));
+	RandomFloat = reinterpret_cast<RandomFloatFn>(dlsym(handle, "RandomFloat"));
+	RandomFloatExp = reinterpret_cast<RandomFloatExpFn>(dlsym(handle, "RandomFloatExp"));
+	RandomInt = reinterpret_cast<RandomIntFn>(dlsym(handle, "RandomInt"));
+	RandomGaussianFloat = reinterpret_cast<RandomGaussianFloatFn>(dlsym(handle, "RandomGaussianFloat"));
+
+	dlclose(handle);
 }
 
 void Hooker::FindCrosshairWeaponTypeCheck()

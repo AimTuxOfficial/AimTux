@@ -34,6 +34,11 @@ typedef bool (*LineGoesThroughSmokeFn) (Vector, Vector, int16_t);
 typedef void (*InitKeyValuesFn) (KeyValues*, const char*);
 typedef void (*LoadFromBufferFn) (KeyValues*, const char*, const char*, void*, const char*, void*);
 typedef ICommandLine* (*CommandLineFn) (void);
+typedef void (*RandomSeedFn)(int);
+typedef float (*RandomFloatFn)(float, float);
+typedef float (*RandomFloatExpFn)(float, float, float);
+typedef int (*RandomIntFn)(int, int);
+typedef float (*RandomGaussianFloatFn)(float, float);
 
 enum class TeamID : int
 {

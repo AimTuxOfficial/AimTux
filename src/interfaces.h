@@ -58,6 +58,12 @@ extern LineGoesThroughSmokeFn LineGoesThroughSmoke;
 extern InitKeyValuesFn InitKeyValues;
 extern LoadFromBufferFn LoadFromBuffer;
 
+extern RandomSeedFn RandomSeed;
+extern RandomFloatFn RandomFloat;
+extern RandomFloatExpFn RandomFloatExp;
+extern RandomIntFn RandomInt;
+extern RandomGaussianFloatFn RandomGaussianFloat;
+
 extern int* nPredictionRandomSeed;
 extern bool* bSendPacket;
 extern CMoveData* g_MoveData;
