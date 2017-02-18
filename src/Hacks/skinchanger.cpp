@@ -196,9 +196,9 @@ void SkinChanger::FrameStageNotifySkins(ClientFrameStage_t stage)
 			if (!weapon)
 				continue;
 
-			auto keyExists = localplayer->GetTeam() == TeamID::TEAM_COUNTER_TERRORIST ? Settings::Skinchanger::skinsCT.find(*weapon->GetItemDefinitionIndex()) : Settings::Skinchanger::skinsT.find(*weapon->GetItemDefinitionIndex());
+			auto keyExists = localplayer->GetTeam() == TeamID::TEAM_COUNTER_TERRORIST || !Settings::Skinchanger::Skins::perTeam ? Settings::Skinchanger::skinsCT.find(*weapon->GetItemDefinitionIndex()) : Settings::Skinchanger::skinsT.find(*weapon->GetItemDefinitionIndex());
 
-			if (keyExists == (localplayer->GetTeam() == TeamID::TEAM_COUNTER_TERRORIST ? Settings::Skinchanger::skinsCT.end() : Settings::Skinchanger::skinsT.end()))
+			if (keyExists == (localplayer->GetTeam() == TeamID::TEAM_COUNTER_TERRORIST || !Settings::Skinchanger::Skins::perTeam ? Settings::Skinchanger::skinsCT.end() : Settings::Skinchanger::skinsT.end()))
 				continue;
 
 			const AttribItem_t &skin = localplayer->GetTeam() == TeamID::TEAM_COUNTER_TERRORIST || !Settings::Skinchanger::Skins::perTeam ? Settings::Skinchanger::skinsCT.at(*weapon->GetItemDefinitionIndex()) : Settings::Skinchanger::skinsT.at(*weapon->GetItemDefinitionIndex());
