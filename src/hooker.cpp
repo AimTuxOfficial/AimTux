@@ -244,12 +244,6 @@ void Hooker::FindLoadFromBuffer()
 	LoadFromBuffer = reinterpret_cast<LoadFromBufferFn>(func_address);
 }
 
-void Hooker::FindGetCSWpnData()
-{
-	uintptr_t func_address = PatternFinder::FindPatternInModule("client_client.so", (unsigned char*) GETCSWPNDATA_SIGNATURE, GETCSWPNDATA_MASK);
-	GetCSWpnData_address = reinterpret_cast<uintptr_t*>(func_address);
-}
-
 void Hooker::FindCrosshairWeaponTypeCheck()
 {
 	uintptr_t byte_address = PatternFinder::FindPatternInModule("client_client.so", (unsigned char*) CROSSHAIRWEAPONTYPECHECK_SIGNATURE, CROSSHAIRWEAPONTYPECHECK_MASK);

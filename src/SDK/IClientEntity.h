@@ -459,12 +459,6 @@ public:
 	{
 		return (int*)((uintptr_t)this + offsets.DT_BaseAttributableItem.m_iAccountID);
 	}
-
-	float GetInaccuracy()
-	{
-		typedef float (* oGetInaccuracy)(void*);
-		return getvfunc<oGetInaccuracy>(this, 552)(this);
-	}
 };
 
 class C_BaseViewModel: public C_BaseEntity
@@ -630,8 +624,14 @@ public:
 
 	CCSWeaponInfo* GetCSWpnData()
 	{
-		typedef CCSWeaponInfo* (* oGetCSWpnData) (void*);
-		return reinterpret_cast<oGetCSWpnData>(GetCSWpnData_address)(this);
+		typedef CCSWeaponInfo* (* oGetCSWpnData)(void*);
+		return getvfunc<oGetCSWpnData>(this, 524)(this);
+	}
+
+	float GetInaccuracy()
+	{
+		typedef float (* oGetInaccuracy)(void*);
+		return getvfunc<oGetInaccuracy>(this, 552)(this);
 	}
 };
 

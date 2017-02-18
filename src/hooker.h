@@ -51,9 +51,6 @@
 #define LOADFROMBUFFER_SIGNATURE "\x55\x48\x89\xE5\x48\x89\x5D\xD8\x48\x89\xD3\x4C\x89\x65\xE0\x4D\x89\xCC"
 #define LOADFROMBUFFER_MASK "xxxxxxxxxxxxxxxxxx"
 
-#define GETCSWPNDATA_SIGNATURE "\x55\x48\x89\xE5\x0F\xB7\xBF\xD4\x3A"
-#define GETCSWPNDATA_MASK "xxxxxxxxx"
-
 #define CROSSHAIRWEAPONTYPECHECK_SIGNATURE "\x83\xF8\x05\x0F\x84\x00\x00\x00\x00\x49\x8B\x07"
 #define CROSSHAIRWEAPONTYPECHECK_MASK "xxxxx????xxx"
 
@@ -101,7 +98,6 @@ namespace Hooker
 	void FindLineGoesThroughSmoke();
 	void FindInitKeyValues();
 	void FindLoadFromBuffer();
-	void FindGetCSWpnData();
 	void FindCrosshairWeaponTypeCheck();
 	void FindCamThinkSvCheatsCheck();
 	void HookSwapWindow();
