@@ -19,8 +19,6 @@ VMT* launcherMgrVMT = nullptr;
 VMT* engineVGuiVMT = nullptr;
 VMT* soundVMT = nullptr;
 
-uintptr_t* GetCSWpnData_address = nullptr;
-
 uintptr_t oSwapWindow;
 uintptr_t* swapWindowJumpAddress = nullptr;
 
