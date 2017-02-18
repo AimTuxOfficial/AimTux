@@ -1,10 +1,127 @@
 #!/bin/bash
-if [ ! -d ".git" ]; then
-    echo "We have detected that you have downloaded aimtux-master.zip from the GitHub website. This is the WRONG way to download AimTux. Please download AimTux with the command 'git clone --recursive https://github.com/AimTuxOfficial/AimTux.git'"
-    exit
-else
+red=$'\e[1;31m'
+end=$'\e[0m'
+dir_name=${PWD##*/}
+_main(){
+  if [ ! -d ".git" ]; then
+    echo "{$red}This script will only work with clone repo's.{$end}\n"
+    # Ensure the use would like to start the install
+    read -r -p "Would you like us to re-download it? [y/N] " response
+    # Grab the response from the user input.
+    if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
+        # If the user agrees with it.
+        echo "%sExcellent! ${red}Please do not exit this script until it is complete.${end}\n"
+        _extra
+    else
+        # Seen the user does not agree we are going to exit.
+        exit 1
+    fi
+  else
     git pull
     git submodule update --init --recursive --remote
     cmake .
     make -j$(cat /proc/cpuinfo | grep "^processor" | wc -l) "$@"
-fi
+  fi
+}
+
+getMaster(){
+  read -r -p "Are you sure you would like to continue? All edits will be lost [y/N] " response
+  # Grab the response from the user input.
+  if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
+      # If the user agrees with it.
+      echo "%sExcellent! ${red}Please do not exit this script until it is complete.${end}\n"
+      read -r -p "We are deleteing $dir_name, is this the correct directory? [y/N] " response
+      # Grab the response from the user input.
+      if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
+          # If the user agrees with it.
+          echo "%sExcellent! ${red}Please wait.${end}\n"
+          cd ../ && rm -rf ./$dir_name && git clone --recursive https://github.com/AimTuxOfficial/AimTux $dir_name && bash ./$dir_name/update
+      else
+          read -r -p "Please give the full path like shown above: " dir
+          cd ../ && rm -rf ./$dir && git clone --recursive https://github.com/AimTuxOfficial/AimTux $dir && bash ./$dir/update
+      fi
+  else
+      # Seen the user does not agree we are going to exit.
+      exit 1
+  fi
+}
+getMasterFree(){
+  read -r -p "Are you sure you would like to continue? All edits will be lost [y/N] " response
+  # Grab the response from the user input.
+  if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
+      # If the user agrees with it.
+      echo "%sExcellent! ${red}Please do not exit this script until it is complete.${end}\n"
+      read -r -p "We are deleteing $dir_name, is this the correct directory? [y/N] " response
+      # Grab the response from the user input.
+      if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
+          # If the user agrees with it.
+          echo "%sExcellent! ${red}Please wait.${end}\n"
+          cd ../ && rm -rf ./$dir_name && git clone -b master-freetype https://github.com/AimTuxOfficial/AimTux $dir_name && bash ./$dir_name/update
+      else
+          read -r -p "Please give the full path like shown above: " dir
+          cd ../ && rm -rf ./$dir && git clone -b master-freetype https://github.com/AimTuxOfficial/AimTux $dir && bash ./$dir/update
+      fi
+  else
+      # Seen the user does not agree we are going to exit.
+      exit 1
+  fi
+}
+
+getFace(){
+  read -r -p "Are you sure you would like to continue? All edits will be lost [y/N] " response
+  # Grab the response from the user input.
+  if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
+      # If the user agrees with it.
+      echo "%sExcellent! ${red}Please do not exit this script until it is complete.${end}\n"
+      read -r -p "We are deleteing $dir_name, is this the correct directory? [y/N] " response
+      # Grab the response from the user input.
+      if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
+          # If the user agrees with it.
+          echo "%sExcellent! ${red}Please wait.${end}\n"
+          cd ../ && rm -rf ./$dir_name && git clone -b faceit https://github.com/AimTuxOfficial/AimTux $dir_name && bash ./$dir_name/update
+      else
+          read -r -p "Please give the full path like shown above: " dir
+          cd ../ && rm -rf ./$dir && git clone -b faceit https://github.com/AimTuxOfficial/AimTux $dir && bash ./$dir/update
+      fi
+  else
+      # Seen the user does not agree we are going to exit.
+      exit 1
+  fi
+}
+
+_showMenu(){
+
+echo "<========================================>"
+echo "         Please select branch"
+echo "<========================================>"
+echo "[1] Master"
+echo "[2] Master-Freetype"
+echo "[3] faceit"
+echo
+echo "[0] exit"
+echo "<========================================>"
+
+read -p "Please Select A Number: " mc
+return $mc
+}
+
+_extra(){
+while [[ "$m" != "0" ]]
+do
+    if [[ "$m" == "1" ]]; then
+        getMaster
+    elif [[ "$m" == "2" ]]; then
+        getMasterFree
+    elif [[ "$m" == "3" ]]; then
+        getFace
+    fi
+    echo
+    echo
+    showMenu
+    m=$?
+done
+
+exit 0;
+}
+_main
+#Made by CrazyWolf. If you need help understanding it. Feel free to reach out.
