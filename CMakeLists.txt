@@ -24,9 +24,16 @@ FUNCTION (EXCLUDE_FILES_FROM_DIR_IN_LIST _InFileList _excludeDirName _verbose)
     set(SOURCE_FILES ${_InFileList} PARENT_SCOPE) # Return the SOURCE_FILES variable to the calling parent
 ENDFUNCTION (EXCLUDE_FILES_FROM_DIR_IN_LIST)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Wno-maybe-uninitialized -Wno-unused-result -O3")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -std=c++14 -Wall -Wno-maybe-uninitialized -Wno-unused-result")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -DNDEBUG -std=c++14 -Wall -Wno-maybe-uninitialized -Wno-unused-result")
+set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} -O2 -g -DNDEBUG -std=c++14 -Wall -Wno-maybe-uninitialized -Wno-unused-result")
+set(CMAKE_CXX_FLAGS_MINSIZEREL "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} -Os -DNDEBUG -std=c++14 -Wall -Wno-maybe-uninitialized -Wno-unused-result")
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -static-libstdc++")
-set(CMAKE_BUILD_TYPE Debug)
+
+if(NOT CMAKE_BUILD_TYPE)
+    message(STATUS "No build type selected, default to RelWithDebInfo")
+    set(CMAKE_BUILD_TYPE RelWithDebInfo)
+endif(NOT CMAKE_BUILD_TYPE)
 
 file(GLOB_RECURSE SOURCE_FILES src/*.cpp)
 EXCLUDE_FILES_FROM_DIR_IN_LIST("${SOURCE_FILES}" "src/ImGUI/examples/" FALSE)
