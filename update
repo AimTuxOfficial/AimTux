@@ -6,5 +6,5 @@ else
     git pull
     git submodule update --init --recursive --remote
     cmake .
-    make -j$(cat /proc/cpuinfo | grep "^processor" | wc -l) "$@"
+    make -j$(grep "^processor" /proc/cpuinfo | wc -l) "$@"
 fi
