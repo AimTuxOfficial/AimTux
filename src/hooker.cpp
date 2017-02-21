@@ -3,6 +3,7 @@
 bool* bSendPacket = nullptr;
 int* nPredictionRandomSeed = nullptr;
 CMoveData* g_MoveData = nullptr;
+bool* s_bOverridePostProcessingDisable = nullptr;
 uint8_t* CrosshairWeaponTypeCheck = nullptr;
 uint8_t* CamThinkSvCheatsCheck = nullptr;
 
@@ -259,6 +260,14 @@ void Hooker::FindVstdlibFunctions()
 	RandomGaussianFloat = reinterpret_cast<RandomGaussianFloatFn>(dlsym(handle, "RandomGaussianFloat"));
 
 	dlclose(handle);
+}
+
+void Hooker::FindOverridePostProcessingDisable()
+{
+	uintptr_t bool_address = PatternFinder::FindPatternInModule("client_client.so", (unsigned char*) OVERRIDEPOSTPROCESSINGDISABLE_SIGNATURE, OVERRIDEPOSTPROCESSINGDISABLE_MASK);
+	bool_address = GetAbsoluteAddress(bool_address, 2, 7);
+
+	s_bOverridePostProcessingDisable = reinterpret_cast<bool*>(bool_address);
 }
 
 void Hooker::FindCrosshairWeaponTypeCheck()

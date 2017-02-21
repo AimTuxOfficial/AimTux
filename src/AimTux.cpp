@@ -32,6 +32,7 @@ int __attribute__((constructor)) AimTuxInit()
 	Hooker::FindInitKeyValues();
 	Hooker::FindLoadFromBuffer();
 	Hooker::FindVstdlibFunctions();
+	Hooker::FindOverridePostProcessingDisable();
 	Hooker::FindCrosshairWeaponTypeCheck();
 	Hooker::FindCamThinkSvCheatsCheck();
 	Hooker::HookSwapWindow();
@@ -128,6 +129,7 @@ void __attribute__((destructor)) AimTuxShutdown()
 	delete eventListener;
 
 	*bSendPacket = true;
+	*s_bOverridePostProcessingDisable = false;
 	*CrosshairWeaponTypeCheck = 5;
 	*CamThinkSvCheatsCheck = 0x74;
 	*(CamThinkSvCheatsCheck + 0x1) = 0x64;

@@ -319,6 +319,8 @@ void Misc::RenderTab()
 				SetTooltip("Hold to prime grenade, release to perform perfect jump throw. Good for executing map smokes.");
 				ImGui::Checkbox("Sniper Crosshair", &Settings::SniperCrosshair::enabled);
 				SetTooltip("Enables the crosshair with sniper rifles");
+				ImGui::Checkbox("Disable post-processing", &Settings::DisablePostProcessing::enabled);
+				SetTooltip("Disables post-processing");
 			}
 			ImGui::NextColumn();
 			{
