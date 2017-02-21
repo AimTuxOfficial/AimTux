@@ -445,6 +445,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["JumpThrow"]["enabled"] = Settings::JumpThrow::enabled;
 	settings["JumpThrow"]["key"] = Util::GetButtonName(Settings::JumpThrow::key);
 
+	settings["DisablePostProcessing"]["enabled"] = Settings::DisablePostProcessing::enabled;
+
 	std::ofstream(path) << styledWriter.write(settings);
 }
 
@@ -895,6 +897,8 @@ void Settings::LoadConfig(std::string path)
 
 	GetVal(settings["JumpThrow"]["enabled"], &Settings::JumpThrow::enabled);
 	GetButtonCode(settings["JumpThrow"]["key"], &Settings::JumpThrow::key);
+
+	GetVal(settings["DisablePostProcessing"]["enabled"], &Settings::DisablePostProcessing::enabled);
 }
 
 void Settings::LoadSettings()

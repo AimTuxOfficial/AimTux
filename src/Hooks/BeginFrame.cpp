@@ -9,6 +9,7 @@ void Hooks::BeginFrame(void* thisptr, float frameTime)
 	Radar::BeginFrame();
 	SniperCrosshair::BeginFrame();
 	ThirdPerson::BeginFrame();
+	DisablePostProcessing::BeginFrame();
 
 	if (!engine->IsInGame())
 	{

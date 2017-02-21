@@ -875,6 +875,11 @@ namespace Settings
 		extern ButtonCode_t key;
 	}
 
+	namespace DisablePostProcessing
+	{
+		extern bool enabled;
+	}
+
 	void LoadDefaultsOrSave(std::string path);
 	void LoadConfig(std::string path);
 	void LoadSettings();
