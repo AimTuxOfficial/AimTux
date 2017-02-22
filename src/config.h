@@ -24,3 +24,4 @@ std::vector<Config> GetConfigs(const char* directory);
 
 pstring GetConfigDirectory();
 std::vector<std::string> GetConfigs();
+pstring GetGhConfigDirectory();
