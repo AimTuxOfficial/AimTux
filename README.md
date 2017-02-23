@@ -2,13 +2,9 @@
 
 ===================
 
-[![Join the chat at https://www.gitter.im/AimTuxOfficial/lobby](https://img.shields.io/gitter/room/TechnologyAdvice/Stardust.svg?style=flat-square)](https://www.gitter.im/AimTuxOfficial/lobby)
+## What is Supreme Hack?
 
-Want to chat or play with other AimTux users? Join us on Gitter!
-
-## What is AimTux?
-
-AimTux is a fully featured internal hack for *CounterStrike : Global Offensive* written in C++.
+Supreme is a upgraded hack based on AimTux and fully featured internal hack for *CounterStrike : Global Offensive* written in C++.
 
 
 ## Compiling
@@ -44,14 +40,14 @@ sudo emerge cmake dev-vcs/git gdb libsdl2 mesa
 
 ===================
 
-#### Download AimTux:
+#### Download Supreme:
 
 ```bash
-git clone --recursive https://github.com/AimTuxOfficial/AimTux
+git clone --recursive https://github.com/BlastWorld/Supreme-Hack
 ```
 
 ```bash
-cd AimTux
+cd Supreme
 ```
 
 ===================
@@ -74,10 +70,10 @@ make -j 4
 
 First of all, make sure CSGO is open, it doesn't matter whether you're in game or not.
 
-Navigate to the directory where AimTux was built if you haven't ready.
+Navigate to the directory where Supreme was built if you haven't ready.
 
 ```bash
-cd AimTux
+cd Supreme
 ```
 
 Now, you can inject the hack with the `load` script
@@ -98,7 +94,7 @@ Now, go back into csgo, if you're in the main menu of the game you should see th
 
 ## Using the hack
 
-Now that AimTux has been injected into the game, press <kbd>Insert</kbd> on your keyboard to open the hack menu (<kbd>ALT</kbd>+<kbd>I</kbd> if you're using a laptop).
+Now that Supreme has been injected into the game, press <kbd>Insert</kbd> on your keyboard to open the hack menu (<kbd>ALT</kbd>+<kbd>I</kbd> if you're using a laptop).
 
 If you want to change skins, create and load configs or open the player list, you can find those buttons at the top of the screen.
 
@@ -133,16 +129,16 @@ And it will download and compile without any effort. Once it's done, happy hacki
 Configs are stored in a hidden directory in your home folder. Specifically 
 
 ```
-~/.config/AimTux
+~/.config/1Supreme
 ```
 
 Each `config.json` is stored in a seperately named folder (The name you see in-game, in the config window). 
 
-To add a config, create a folder inside of the `~/.config/AimTux` folder with a name of your choice, and paste the `config.json` inside of that folder.
+To add a config, create a folder inside of the `~/.config/1Supreme` folder with a name of your choice, and paste the `config.json` inside of that folder.
 
 To see hidden folders inside your home folder, press <kbd>CTRL</kbd>+<kbd>H</kbd> when using a file manager.
 
-## Contributing to AimTux
+## Contributing to Supreme
 
 If you wish to contribute code to this opensource project, please keep some things mind before creating a *pull request*:
  - Make sure you're using the correct [code style](https://github.com/AimTuxOfficial/AimTux/wiki/Code-Style).
