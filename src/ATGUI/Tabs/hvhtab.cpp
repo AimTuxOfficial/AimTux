@@ -4,11 +4,11 @@ void HvH::RenderTab()
 {
 	const char* yTypes[] = {
 			"SLOW SPIN", "FAST SPIN", "JITTER", "SIDE", "BACKWARDS", "FORWARDS", "LEFT", "RIGHT", "STATIC", "STATIC JITTER", "STATIC SMALL JITTER", // safe
-			"LISP", "LISP SIDE", "LISP JITTER", "ANGEL BACKWARDS", "ANGEL INVERSE", "ANGEL SPIN" // untrusted
+			"LISP", "LISP SIDE", "LISP JITTER", "ANGEL BACKWARDS", "ANGEL INVERSE", "ANGEL SPIN", "DONUT" // untrusted
 	};
 
 	const char* xTypes[] = {
-			"UP", "DOWN", "DANCE", "FRONT", // safe
+			"UP", "DOWN", "DANCE", "FRONT", "EMOTION", // safe
 			"FAKE UP", "FAKE DOWN", "LISP DOWN", "ANGEL DOWN", "ANGEL UP" // untrusted
 	};
 
