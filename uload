@@ -1,6 +1,5 @@
 #!/bin/sh
 
-#Credit: Aixxe @ aixxe.net
 if grep -q libAimTux.so /proc/$(pidof csgo_linux64)/maps; then
 sudo gdb -n -q -batch \
     -ex "attach $(pidof csgo_linux64)" \

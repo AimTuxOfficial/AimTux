@@ -7,12 +7,11 @@ if [ -z "$csgo_pid" ]; then
 fi
 
 if [ ! -d ".git" ]; then
-    /bin/echo "We have detected that you have downloaded aimtux-master.zip from the GitHub website. This is the WRONG way to download AimTux. Please download AimTux with the command 'git clone --recursive https://github.com/AimTuxOfficial/AimTux'"
+    /bin/echo "We have detected that you have downloaded supreme-master.zip from the GitHub website. This is the WRONG way to download Supreme. Please download Supreme with the command 'git clone --recursive https://github.com/BlastWorld/Supreme-Hack'"
 fi
 
-#Credit: Aixxe @ aixxe.net
 if grep -q libAimTux.so /proc/$csgo_pid/maps; then
-    /bin/echo -e "\e[33mAimTux is already injected... Aborting...\e[0m"
+    /bin/echo -e "\e[33mSupreme is already injected... Aborting...\e[0m"
     exit
 fi
 
