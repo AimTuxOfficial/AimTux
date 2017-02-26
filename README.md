@@ -134,7 +134,7 @@ Configs are stored in a hidden directory in your home folder. Specifically
 
 Grenade Helper
 ```
-~/.config/Supreme
+~/.config/SupremeGH
 ```
 
 Each `config.json` is stored in a seperately named folder (The name you see in-game, in the config window). 
