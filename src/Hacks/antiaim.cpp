@@ -105,7 +105,7 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 		case AntiAimType_Y::JITTER:
 			yFlip ? angle.y -= 90.0f : angle.y -= 270.0f;
 			break;
-		case AntiAimType_Y::SIDE:
+		case AntiAimType_Y::SIDEJITTER:
 			yFlip ? angle.y += 90.f : angle.y -= 90.0f;
 			break;
 		case AntiAimType_Y::BACKWARDS:
@@ -114,10 +114,10 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 		case AntiAimType_Y::FORWARDS:
 			angle.y -= 0.0f;
 			break;
-		case AntiAimType_Y::LEFT:
+		case AntiAimType_Y::SIDEWAYS_LEFT:
 			angle.y += 90.0f;
 			break;
-		case AntiAimType_Y::RIGHT:
+		case AntiAimType_Y::SIDEWAYS_RIGHT:
 			angle.y -= 90.0f;
 			break;
 		case AntiAimType_Y::STATICAA:
@@ -136,58 +136,6 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 
 			if (trigger > 100.0f)
 				trigger = 0.0f;
-			break;
-		case AntiAimType_Y::LISP:
-			clamp = false;
-			yFlip ? angle.y += 323210000.0f : angle.y -= 323210000.0f;
-			break;
-		case AntiAimType_Y::LISP_SIDE:
-			clamp = false;
-			temp = angle.y + 90.0f;
-			temp_qangle = QAngle(0.0f, temp, 0.0f);
-			Math::NormalizeAngles(temp_qangle);
-			temp = temp_qangle.y;
-
-			if (temp > -45.0f)
-				temp < 0.0f ? temp = -90.0f : temp < 45.0f ? temp = 90.0f : temp = temp;
-
-			temp += 1800000.0f;
-			angle.y = temp;
-			break;
-		case AntiAimType_Y::LISP_JITTER:
-			clamp = false;
-			static int jittertimer = -1;
-			temp = angle.y - 155.0f;
-
-			if (jittertimer == 1)
-			{
-				temp = angle.y + 58.0f;
-				temp += 1800000.0f;
-			}
-
-			if (bSendPacket)
-			{
-				if (jittertimer >= 1)
-					jittertimer = -1;
-				jittertimer++;
-			}
-			angle.y = temp;
-			break;
-		case AntiAimType_Y::ANGEL_BACKWARD:
-			clamp = false;
-			angle.y += 36000180.0f;
-			break;
-		case AntiAimType_Y::ANGEL_INVERSE:
-			clamp = false;
-			angle.y = 36000180.0f;
-			break;
-		case AntiAimType_Y::ANGEL_SPIN:
-			clamp = false;
-			factor = (globalVars->curtime * 5000.0f);
-			angle.y = factor + 36000000.0f;
-			break;
-		default:
-			angle.y -= 0.0f;
 			break;
 	}
 }
@@ -222,21 +170,6 @@ void DoAntiAimX(QAngle& angle, bool bFlip, bool& clamp)
 			break;
 		case AntiAimType_X::STATIC_DOWN_FAKE:
 			angle.x = bFlip ? -89.0f : 89.0f;
-			break;
-		case AntiAimType_X::LISP_DOWN:
-			clamp = false;
-			angle.x = 1800089.0f;
-			break;
-		case AntiAimType_X::ANGEL_DOWN:
-			clamp = false;
-			angle.x = 36000088.0f;
-			break;
-		case AntiAimType_X::ANGEL_UP:
-			clamp = false;
-			angle.x = 35999912.0f;
-			break;
-		default:
-			angle.x -= 0.0f;
 			break;
 	}
 }
