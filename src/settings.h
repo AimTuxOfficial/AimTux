@@ -66,7 +66,8 @@ enum class AntiAimType_Y : int
 	LISP_JITTER,
 	ANGEL_BACKWARD,
 	ANGEL_INVERSE,
-	ANGEL_SPIN
+	ANGEL_SPIN,
+    DONUT
 };
 
 enum class AntiAimType_X : int
@@ -75,6 +76,7 @@ enum class AntiAimType_X : int
 	STATIC_DOWN,
 	DANCE,
 	FRONT,
+    EMOTION,
 	STATIC_UP_FAKE,
 	STATIC_DOWN_FAKE,
 	LISP_DOWN,
