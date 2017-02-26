@@ -11,7 +11,7 @@ Supreme is a upgraded hack based on AimTux and fully featured internal hack for 
 
 **Note:** _Do NOT download or compile as the root user_
 
-#### Download the dependencies required to build AimTux:
+#### Download the dependencies required to build Supreme:
 
 __Ubuntu-Based / Debian:__
 ```bash
@@ -88,7 +88,7 @@ You should see a lot of text being printed out, most of which is not important,
 
 If the injection was successfull you'll see a message at the bottom saying `Successfully injected!`, however, if the message says `Injection failed`, then you've most likely done something wrong.
 
-Now, go back into csgo, if you're in the main menu of the game you should see the AimTux banner in the top left like so:
+Now, go back into csgo, if you're in the main menu of the game you should see the Supreme banner in the top left like so:
 
 ![this](http://aimtux.net/images/screenshot4.png)
 
@@ -106,13 +106,13 @@ If you wish to unload the hack from the game, you can do so by entering the comm
 ./uload
 ```
 
-## Updating AimTux
+## Updating Supreme
 
-We add and improve and fix things almost every day with AimTux. We don't have a fixed release schedule, we just add things to it when they're ready. Because of this, AimTux will need to update a lot.
+We add and improve and fix things almost every day with Supreme. We don't have a fixed release schedule, we just add things to it when they're ready. Because of this, Supreme will need to update a lot.
 
 If you don't update once a day then we recommend at LEAST update once a week, and ALWAYS update after a CSGO update, just to make sure we fix anything that's broken.
 
-We provide a script included in the AimTux folder that updates AimTux for you. To use it, just run:
+We provide a script included in the Supreme folder that updates Supreme for you. To use it, just run:
 
 ```
 ./update
@@ -129,12 +129,19 @@ And it will download and compile without any effort. Once it's done, happy hacki
 Configs are stored in a hidden directory in your home folder. Specifically 
 
 ```
-~/.config/1Supreme
+~/.config/Supreme
+```
+
+Grenade Helper
+```
+~/.config/Supreme
 ```
 
 Each `config.json` is stored in a seperately named folder (The name you see in-game, in the config window). 
 
-To add a config, create a folder inside of the `~/.config/1Supreme` folder with a name of your choice, and paste the `config.json` inside of that folder.
+To add a config, create a folder inside of the `~/.config/Supreme` folder with a name of your choice, and paste the `config.json` inside of that folder.
+
+To add a config for grenade helper, create a folder inside of the `~/.config/SupremeGH` folder with a name of your choice, and paste the `config.json` inside of that folder.
 
 To see hidden folders inside your home folder, press <kbd>CTRL</kbd>+<kbd>H</kbd> when using a file manager.
 
