@@ -61,13 +61,13 @@ enum class AntiAimType_Y : int
 	STATICAA,
 	STATICJITTER,
 	STATICSMALLJITTER,
+    DONUT,
 	LISP,
 	LISP_SIDE,
 	LISP_JITTER,
 	ANGEL_BACKWARD,
 	ANGEL_INVERSE,
-	ANGEL_SPIN,
-    DONUT
+	ANGEL_SPIN
 };
 
 enum class AntiAimType_X : int
