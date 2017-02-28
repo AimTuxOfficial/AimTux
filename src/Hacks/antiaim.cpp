@@ -137,6 +137,21 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 			if (trigger > 100.0f)
 				trigger = 0.0f;
 			break;
+        case AntiAimType_Y::DONUT:
+			clamp = false;
+			static int timer = 0;
+			static int rotation = 0;
+			if (timer == 3) {
+				rotation += 90;
+				if (rotation > 360) {
+					rotation = 0;
+				}
+				angle.y += rotation;
+				timer = 0;
+			} else {
+				timer++;
+			}
+			break;
 		case AntiAimType_Y::LISP:
 			clamp = false;
 			yFlip ? angle.y += 323210000.0f : angle.y -= 323210000.0f;
@@ -213,6 +228,9 @@ void DoAntiAimX(QAngle& angle, bool bFlip, bool& clamp)
 				angle.x = -89.f;
 			else if (pDance < 75.f)
 				angle.x = 89.f;
+			break;
+        case AntiAimType_X::EMOTION:
+			angle.x = 70.0f;
 			break;
 		case AntiAimType_X::FRONT:
 			angle.x = 0.0f;
