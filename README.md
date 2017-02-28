@@ -3,9 +3,10 @@
 ===================
 
 ## What is 
-```diff
--Supreme
-``` Hack?
+```html
+<font color="red">Supreme </font>
+```
+Hack?
 
 Supreme is a upgraded hack based on AimTux and fully featured internal hack for *CounterStrike : Global Offensive* written in C++.
 
