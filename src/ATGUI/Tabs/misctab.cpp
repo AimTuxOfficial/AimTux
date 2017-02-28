@@ -214,7 +214,7 @@ void Misc::RenderTab()
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("Enabled ###ghenabled", &Settings::GrenadeHelper::enabled);
-				SetTooltip("Show Saved Grenade Throws, Visuals required.");
+				SetTooltip("Show saved Grenade Throws, Visuals required.");
 			}
 			ImGui::NextColumn();
 			{
@@ -440,7 +440,7 @@ void Misc::RenderTab()
 				ImGui::Checkbox("Show Ranks", &Settings::ShowRanks::enabled);
 				SetTooltip("Displays competitive rank of all players in the scoreboard next to their name during a competitive match");
 				ImGui::Checkbox("Screenshot Cleaner", &Settings::ScreenshotCleaner::enabled);
-				SetTooltip("Prevents AimTux visuals from appearing in screenshots taken");
+				SetTooltip("Prevents Supreme visuals from appearing in screenshots taken");
 				UI::KeyBindButton(&Settings::Airstuck::key);
 				UI::KeyBindButton(&Settings::Autoblock::key);
 				UI::KeyBindButton(&Settings::Teleport::key);
