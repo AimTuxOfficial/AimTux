@@ -182,21 +182,24 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 		float fov = Math::GetFov(viewAngles, Math::CalcAngle(pVecTarget, eVecTarget));
 		float real_distance = GetRealDistanceFOV(distance, Math::CalcAngle(pVecTarget, eVecTarget), cmd);
 		int hp = player->GetHealth();
+		bool prioritize = true;
 
-		if (aimTargetType == AimTargetType::DISTANCE && distance > bestDistance)
+		if(!(std::find(Aimbot::priority.begin(), Aimbot::priority.end(), entityInformation.xuid) != Aimbot::priority.end()))
+ 			prioritize = false;
+
+		if (prioritize == false){
+			if (aimTargetType == AimTargetType::DISTANCE && distance > bestDistance)
 			continue;
 
-		if (aimTargetType == AimTargetType::FOV && fov > bestFov)
-			continue;
+			if (aimTargetType == AimTargetType::FOV && fov > bestFov)
+				continue;
 
-		if (aimTargetType == AimTargetType::REAL_DISTANCE && real_distance > bestRealDistance)
-			continue;
+			if (aimTargetType == AimTargetType::REAL_DISTANCE && real_distance > bestRealDistance)
+				continue;
 
-		if (aimTargetType == AimTargetType::HP && hp > bestHp)
-			continue;
-
-		if (visible && !Settings::Aimbot::AutoWall::enabled && !Entity::IsVisible(player, Settings::Aimbot::bone))
-			continue;
+			if (aimTargetType == AimTargetType::HP && hp > bestHp)
+				continue;
+		}
 
 		bestBone = static_cast<Bone>(Entity::GetBoneByName(player, targets[(int) Settings::Aimbot::bone]));
 
@@ -206,7 +209,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 			Bone bone;
 			GetBestBone(player, damage, bone);
 
-			if (damage >= bestDamage && damage >= Settings::Aimbot::AutoWall::value)
+			if ((prioritize && damage >= Settings::Aimbot::AutoWall::value) || (damage >= bestDamage && damage >= Settings::Aimbot::AutoWall::value))
 			{
 				bestDamage = damage;
 				bestBone = bone;
