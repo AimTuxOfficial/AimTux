@@ -1,6 +1,6 @@
 #!/bin/bash
 if [ ! -d ".git" ]; then
-    echo "We have detected that you have downloaded supreme-master.zip from the GitHub website. This is the WRONG way to download Supreme. Please download Supreme with the command 'git clone --recursive https://github.com/BlastWorld/Supreme-Hack'"
+    echo "We have detected that you have downloaded supreme-master.zip from the GitHub website. This is the WRONG way to download Supreme. Please download Supreme with the command 'git clone --recursive https://github.com/BlastWorld/Supreme'"
     exit
 else
     git pull
