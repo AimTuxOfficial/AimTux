@@ -2,7 +2,10 @@
 
 ===================
 
-## What is ```diff -Supreme``` Hack?
+## What is 
+```diff
+-Supreme
+``` Hack?
 
 Supreme is a upgraded hack based on AimTux and fully featured internal hack for *CounterStrike : Global Offensive* written in C++.
 
