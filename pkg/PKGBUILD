@@ -1,6 +1,6 @@
 # Maintainer: aixxe <me@aixxe.net>
-_pkgname=aimtux
-pkgname=aimtux-git
+_pkgname=supreme-hack
+pkgname=supreme-git
 pkgver=v1.0.r703.g9e7c759
 pkgrel=1
 pkgdesc="Open source internal multi-hack for Counter-Strike: Global Offensive"
