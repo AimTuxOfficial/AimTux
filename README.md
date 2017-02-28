@@ -2,11 +2,7 @@
 
 ===================
 
-## What is 
-```html
-<font color="red">Supreme </font>
-```
-Hack?
+## What is Supreme Hack?
 
 Supreme is a upgraded hack based on AimTux and fully featured internal hack for *CounterStrike : Global Offensive* written in C++.
 
