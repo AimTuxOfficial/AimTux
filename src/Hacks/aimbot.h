@@ -10,7 +10,6 @@ namespace Aimbot
 {
 	extern bool aimStepInProgress;
 	extern std::vector<int64_t> friends;
-    extern std::vector<int64_t> priority;
 
 	void RCS(QAngle& angle, C_BasePlayer* player, CUserCmd* cmd);
 	void AimStep(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd);
