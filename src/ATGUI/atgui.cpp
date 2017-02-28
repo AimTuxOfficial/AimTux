@@ -49,7 +49,10 @@ void UI::SwapWindow()
 	if (engine->IsInGame())
 		return;
 
-	Draw::ImDrawText(ImVec2(4.f, 4.f), ImColor(255, 255, 255, 255), "SupremeHack", NULL, 0.0f, NULL, ImFontFlags_Shadow);
+    static float rainbow;
+	rainbow += 0.005f;
+	if ( rainbow > 1.f ) rainbow = 0.f;
+	Draw::ImDrawText(ImVec2(4.f, 4.f), ImColor( 255, 25, 25, 255), "SupremeHack", NULL, 0.0f, NULL, ImFontFlags_Shadow);
 }
 
 void UI::SetVisible(bool visible)
