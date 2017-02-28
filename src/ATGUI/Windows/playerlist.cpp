@@ -117,7 +117,7 @@ void PlayerList::RenderWindow()
 			IEngineClient::player_info_t entityInformation;
 			engine->GetPlayerInfo(currentPlayer, &entityInformation);
 
-			ImGui::Columns(3);
+			ImGui::Columns(2);
 			{
 				bool isFriendly = std::find(Aimbot::friends.begin(), Aimbot::friends.end(), entityInformation.xuid) != Aimbot::friends.end();
 				if (ImGui::Checkbox("Friend", &isFriendly))
@@ -135,17 +135,6 @@ void PlayerList::RenderWindow()
 						Resolver::Players.push_back(entityInformation.xuid);
 					else
 						Resolver::Players.erase(std::find(Resolver::Players.begin(), Resolver::Players.end(), entityInformation.xuid));
-				}
-			}
-            ImGui::NextColumn();
-			{
-				bool isPriority = std::find(Aimbot::priority.begin(), Aimbot::priority.end(), entityInformation.xuid) != Aimbot::priority.end();
-				if(ImGui::Checkbox("Priority", &isPriority)){
-					if (isPriority){
-						Aimbot::priority.push_back(entityInformation.xuid);
-					}
-					else
-						Aimbot::priority.erase(std::find(Aimbot::priority.begin(), Aimbot::priority.end(), entityInformation.xuid));
 				}
 			}
 			ImGui::NextColumn();
