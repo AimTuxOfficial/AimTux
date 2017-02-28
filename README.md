@@ -43,7 +43,7 @@ sudo emerge cmake dev-vcs/git gdb libsdl2 mesa
 #### Download Supreme:
 
 ```bash
-git clone --recursive https://github.com/BlastWorld/Supreme-Hack
+git clone --recursive https://github.com/BlastWorld/Supreme
 ```
 
 ```bash
