@@ -10,7 +10,7 @@ bool Settings::AntiAim::HeadEdge::enabled = false;
 float Settings::AntiAim::HeadEdge::distance = 25.0f;
 bool Settings::AntiAim::AutoDisable::noEnemy = false;
 bool Settings::AntiAim::AutoDisable::knifeHeld = false;
-
+srand(time(NULL));
 float Distance(Vector a, Vector b)
 {
 	return sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2) + pow(a.z - b.z, 2));
@@ -106,7 +106,7 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 			yFlip ? angle.y -= 90.0f : angle.y -= 270.0f;
 			break;
 		case AntiAimType_Y::BACKJITTER:
-			int random = srand(time(null)) % 100;
+			int random = rand() % 100;
 			if (random < 98)
 				// Backwards
 				angle.y -= 180;
