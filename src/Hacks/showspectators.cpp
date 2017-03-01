@@ -49,6 +49,14 @@ void ShowSpectators::RenderWindow()
 	if (!UI::isVisible && !engine->IsInGame())
 		return;
 
+	C_BasePlayer* localplayer = (C_BasePlayer*)entityList->GetClientEntity(engine->GetLocalPlayer());
+
+	if (!localplayer)
+		return;
+
+	if (localplayer->GetAlive())
+		return;
+
 	ImGui::SetNextWindowSize(ImVec2(50, 100), ImGuiSetCond_FirstUseEver);
 	if (ImGui::Begin("Spectators", &Settings::ShowSpectators::enabled, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
 	{
