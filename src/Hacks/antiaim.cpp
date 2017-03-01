@@ -105,6 +105,25 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 		case AntiAimType_Y::JITTER:
 			yFlip ? angle.y -= 90.0f : angle.y -= 270.0f;
 			break;
+    case AntiAimType_Y::BACKJITTER:
+    {
+            int random = rand() % 100;
+            if (random < 98)
+                // Backwards
+                angle.y -= 180;
+            // Jitter
+            if (random < 15)
+            {
+                float change = -70 + (rand() % (int)((float)(globalVars->curtime / 1.5f * 140 + 1)));
+                angle.y = + change;
+            }
+            if (random == 69)
+            {
+                float change = -90 + (rand() % (int)((float)(globalVars->curtime / 1.5f * 180 + 1)));
+                angle.y = + change;
+            }
+    }
+    	break;
 		case AntiAimType_Y::SIDE:
 			yFlip ? angle.y += 90.f : angle.y -= 90.0f;
 			break;
