@@ -53,6 +53,7 @@ enum class AntiAimType_Y : int
 	SPIN_SLOW,
 	SPIN_FAST,
 	JITTER,
+	BACKJITTER,
 	SIDE,
 	BACKWARDS,
 	FORWARDS,
@@ -759,7 +760,7 @@ namespace Settings
 		{
 			extern bool enabled;
 		}
-		
+
 		extern std::unordered_map<ItemDefinitionIndex, AttribItem_t, Util::IntHash<ItemDefinitionIndex>> skinsCT;
 		extern std::unordered_map<ItemDefinitionIndex, AttribItem_t, Util::IntHash<ItemDefinitionIndex>> skinsT;
 	}
