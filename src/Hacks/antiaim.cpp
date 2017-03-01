@@ -105,7 +105,7 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 		case AntiAimType_Y::JITTER:
 			yFlip ? angle.y -= 90.0f : angle.y -= 270.0f;
 			break;
-    case AntiAimType_Y::BACKJITTER:
+		case AntiAimType_Y::BACKJITTER:
 			int random = srand(time(null)) % 100;
 			if (random < 98)
 				// Backwards
