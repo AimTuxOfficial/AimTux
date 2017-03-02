@@ -87,7 +87,7 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 	double factor;
 	static float trigger;
 	QAngle temp_qangle;
-	int random, maxJitter;
+	int random;
 
 	if (bFlip)
 		yFlip = !yFlip;
