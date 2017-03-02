@@ -30,6 +30,9 @@ bool Settings::Aimbot::RCS::enabled = false;
 bool Settings::Aimbot::RCS::always_on = false;
 float Settings::Aimbot::RCS::valueX = 2.0f;
 float Settings::Aimbot::RCS::valueY = 2.0f;
+bool Settings::Aimbot::spreadlimit::enabled = false;
+float Settings::Aimbot::spreadlimit::value = 0;
+float Settings::Aimbot::spreadlimit::max = 5;
 bool Settings::Aimbot::AutoCrouch::enabled = false;
 bool Settings::Aimbot::NoShoot::enabled = false;
 bool Settings::Aimbot::IgnoreJump::enabled = false;
@@ -97,7 +100,15 @@ void GetBestBone(C_BasePlayer* player, float& bestDamage, Bone& bestBone)
 		}
 	}
 }
-
+bool spreadlimit(float spread, CUserCmd* cmd, C_BaseCombatWeapon* active_weapon) {
+    float pspread = spread / 100.f;
+    bool bSpreadLimit = false;
+    if(active_weapon->GetInaccuracy() <= pspread) {
+                bSpreadLimit = true;
+		
+    }
+    return bSpreadLimit;
+}
 float GetRealDistanceFOV(float distance, QAngle angle, CUserCmd* cmd)
 {
 	/*    n
@@ -431,6 +442,12 @@ void Aimbot::AutoShoot(C_BasePlayer* player, C_BaseCombatWeapon* activeWeapon, C
 
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	float nextPrimaryAttack = activeWeapon->GetNextPrimaryAttack();
+	
+	if(Settings::Aimbot::spreadlimit::enabled) {
+        if(!spreadlimit(Settings::Aimbot::spreadlimit::value, cmd, active_weapon)) {
+            return;
+	    }
+        }
 
 	if (nextPrimaryAttack > globalVars->curtime)
 	{
@@ -643,6 +660,8 @@ void Aimbot::UpdateValues()
 	Settings::Aimbot::FlashCheck::enabled = currentWeaponSetting.flashCheck;
 	Settings::Aimbot::AutoWall::enabled = currentWeaponSetting.autoWallEnabled;
 	Settings::Aimbot::AutoWall::value = currentWeaponSetting.autoWallValue;
+	Settings::Aimbot::spreadlimit::enabled = currentWeaponSetting.spreadlimitenabled;
+	Settings::Aimbot::spreadlimit::value = currentWeaponSetting.spreadlimitvalue;
 	Settings::Aimbot::AutoSlow::enabled = currentWeaponSetting.autoSlow;
 	Settings::Aimbot::AutoSlow::minDamage = currentWeaponSetting.autoSlowMinDamage;
 
