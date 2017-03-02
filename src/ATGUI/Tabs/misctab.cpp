@@ -300,8 +300,6 @@ void Misc::RenderTab()
 				SetTooltip("Chokes packets based on velocity (minimum choked is fakelag value)");
 				ImGui::Checkbox("Auto Accept", &Settings::AutoAccept::enabled);
 				SetTooltip("Auto accept games when in MM queue");
-				ImGui::Checkbox("Auto Defuse", &Settings::AutoDefuse::enabled);
-				SetTooltip("Will automatically defuse the bomb with 0.5 seconds remaining - starts at 5.5 seconds until explosion with kit and 10.5 without");
 				ImGui::Checkbox("AirStuck", &Settings::Airstuck::enabled);
 				SetTooltip("Stops tickrate so you freeze in place");
 				ImGui::Checkbox("Autoblock", &Settings::Autoblock::enabled);
@@ -317,6 +315,8 @@ void Misc::RenderTab()
 				SetTooltip("Teleport to (0, 0) on any map");
 				ImGui::Checkbox("Jump Throw", &Settings::JumpThrow::enabled);
 				SetTooltip("Hold to prime grenade, release to perform perfect jump throw. Good for executing map smokes.");
+				ImGui::Checkbox("Auto Defuse", &Settings::AutoDefuse::enabled);
+				SetTooltip("Will automatically defuse the bomb with 0.5 seconds remaining - starts at 5.5 seconds until explosion with kit and 10.5 without");
 				ImGui::Checkbox("Sniper Crosshair", &Settings::SniperCrosshair::enabled);
 				SetTooltip("Enables the crosshair with sniper rifles");
 				ImGui::Checkbox("Disable post-processing", &Settings::DisablePostProcessing::enabled);
