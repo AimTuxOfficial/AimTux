@@ -127,6 +127,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
 		weaponSetting["FlashCheck"]["Enabled"] = i.second.flashCheck;
 		weaponSetting["AutoWall"]["Enabled"] = i.second.autoWallEnabled;
 		weaponSetting["AutoWall"]["Value"] = i.second.autoWallValue;
+		weaponSetting["spreadlimit"]["enabled"] = i.second.autoWallEnabled;
+		weaponSetting["spreadlimit"]["value"] = i.second.autoWallValue;
 		weaponSetting["AutoSlow"]["enabled"] = i.second.autoSlow;
 		weaponSetting["Prediction"]["enabled"] = i.second.predEnabled;
 		weaponSetting["AutoSlow"]["minDamage"] = i.second.autoSlowMinDamage;
