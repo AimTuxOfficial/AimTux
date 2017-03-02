@@ -94,7 +94,6 @@ void Spammer::BeginFrame(float frameTime)
 				"enemydown",
 		};
 
-		std::srand(std::time(NULL));
 		engine->ClientCmd_Unrestricted(radioCommands[std::rand() % IM_ARRAYSIZE(radioCommands)]);
 	}
 
@@ -102,9 +101,6 @@ void Spammer::BeginFrame(float frameTime)
 	{
 		if (Settings::Spammer::NormalSpammer::messages.empty())
 			return;
-
-		// Give the random number generator a new seed based of the current time
-		std::srand(std::time(NULL));
 
 		// Grab a random message string
 		std::string message = Settings::Spammer::NormalSpammer::messages[std::rand() % Settings::Spammer::NormalSpammer::messages.size()];

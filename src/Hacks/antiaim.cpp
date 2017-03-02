@@ -91,6 +91,7 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 	bool AnyVis = false;
 	static bool ySwitch = false;
 	QAngle temp_qangle;
+	int random, maxJitter;
 
 	if (bFlip)
 		yFlip = !yFlip;
@@ -109,25 +110,15 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 			yFlip ? angle.y -= 90.0f : angle.y -= 270.0f;
 			break;
 		case AntiAimType_Y::BACKJITTER:
-		{
-			int random = rand() % 100;
-			if (random < 98)
-			{
-				// Backwards
-				angle.y -= 180;
-				// Jitter
+			random = rand() % 100; // 0 - 99
+			angle.y -= 180; // go ahead and turn backwards
+			if ( random < (35 + ( rand() % 15 )) ) {   // ok so let's have 35%-50% chance of jitter left ( subtract  )
+				maxJitter = rand() % (85 - 70 + 1) + 70; // Max Jitter degrees between 70-85
+				angle.y -= maxJitter - ( rand() % maxJitter ); // I did it like this because rand() results aren't uniform and tend to be closer to 0
+			} else if ( random < (85 + ( rand() % 15 )) )  {   // another 35%-50% chance of jitter right( add )
+				maxJitter = rand() % (85 - 70 + 1) + 70;
+				angle.y += maxJitter - ( rand() % maxJitter );
 			}
-			if (random < 15)
-			{
-				float change = -70 + (rand() % (int)((float)(globalVars->curtime / 1.5f * 140 + 1)));
-				angle.y = + change;
-			}
-			if (random == 69)
-			{
-				float change = -90 + (rand() % (int)((float)(globalVars->curtime / 1.5f * 180 + 1)));
-				angle.y = + change;
-			}
-		}
 			break;
 		case AntiAimType_Y::TJITTER:
 		static bool back = false;
