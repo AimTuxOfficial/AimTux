@@ -904,4 +904,7 @@ namespace Settings
 	void LoadConfig(std::string path);
 	void LoadSettings();
 	void DeleteConfig(std::string path);
+	void SaveGrenadeInfo(std::string path);
+	void LoadGrenadeInfo(std::string path);
+
 }
