@@ -124,9 +124,6 @@ We provide a script included in the AimTux folder that updates AimTux for you. T
 
 And it will download and compile without any effort. Once it's done, happy hacking!
 
-## Video Tutorial for dummies
-
-[![tutorial](http://img.youtube.com/vi/bkEj57BviM8/0.jpg)](https://www.youtube.com/watch?v=bkEj57BviM8)
 
 ## Configs
 
@@ -142,6 +139,15 @@ To add a config, create a folder inside of the `~/.config/AimTux` folder with a 
 
 To see hidden folders inside your home folder, press <kbd>CTRL</kbd>+<kbd>H</kbd> when using a file manager.
 
+## Grenade Configs
+
+```
+~/.config/AimTuxGH
+```
+
+Each `config.json` is stored in the folder named after them map name.
+
+To add a config, copy the folder containing it to `~/.config/AimTuxGH`
 ## Contributing to AimTux
 
 If you wish to contribute code to this opensource project, please keep some things mind before creating a *pull request*:
