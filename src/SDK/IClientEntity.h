@@ -2,8 +2,6 @@
 
 #include "vector.h"
 
-extern uintptr_t* GetCSWpnData_address;
-
 #define MAX_SHOOT_SOUNDS 16
 #define MAX_WEAPON_STRING 80
 #define MAX_WEAPON_PREFIX 16
@@ -459,12 +457,6 @@ public:
 	{
 		return (int*)((uintptr_t)this + offsets.DT_BaseAttributableItem.m_iAccountID);
 	}
-
-	float GetInaccuracy()
-	{
-		typedef float (* oGetInaccuracy)(void*);
-		return getvfunc<oGetInaccuracy>(this, 552)(this);
-	}
 };
 
 class C_BaseViewModel: public C_BaseEntity
@@ -630,8 +622,26 @@ public:
 
 	CCSWeaponInfo* GetCSWpnData()
 	{
-		typedef CCSWeaponInfo* (* oGetCSWpnData) (void*);
-		return reinterpret_cast<oGetCSWpnData>(GetCSWpnData_address)(this);
+		typedef CCSWeaponInfo* (* oGetCSWpnData)(void*);
+		return getvfunc<oGetCSWpnData>(this, 524)(this);
+	}
+
+	float GetInaccuracy()
+	{
+		typedef float (* oGetInaccuracy)(void*);
+		return getvfunc<oGetInaccuracy>(this, 552)(this);
+	}
+
+	float GetSpread()
+	{
+		typedef float (* oGetSpread)(void*);
+		return getvfunc<oGetSpread>(this, 553)(this);
+	}
+
+	void UpdateAccuracyPenalty()
+	{
+		typedef void (* oUpdateAccuracyPenalty)(void*);
+		return getvfunc<oUpdateAccuracyPenalty>(this, 554)(this);
 	}
 };
 

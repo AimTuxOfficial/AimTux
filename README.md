@@ -98,7 +98,7 @@ Now, go back into csgo, if you're in the main menu of the game you should see th
 
 ## Using the hack
 
-Now that AimTux has been injected into the game, press <kbd>Insert</kbd> on your keyboard to open the hack menu (<kbd>FN</kbd>+<kbd>Delete</kbd> if you're using a laptop).
+Now that AimTux has been injected into the game, press <kbd>Insert</kbd> on your keyboard to open the hack menu (<kbd>ALT</kbd>+<kbd>I</kbd> if you're using a laptop).
 
 If you want to change skins, create and load configs or open the player list, you can find those buttons at the top of the screen.
 

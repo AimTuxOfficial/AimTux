@@ -3,7 +3,7 @@
 #include "../SDK/SDK.h"
 #include "../interfaces.h"
 #include "../Hacks/hacks.h"
-#include "../atgui.h"
+#include "../ATGUI/atgui.h"
 #include "../hooker.h"
 
 typedef void (*FrameStageNotifyFn) (void*, ClientFrameStage_t);

@@ -86,6 +86,7 @@ bool Settings::ESP::Tracers::enabled = false;
 TracerType Settings::ESP::Tracers::type = TracerType::BOTTOM;
 bool Settings::ESP::BulletTracers::enabled = false;
 bool Settings::ESP::FOVCrosshair::enabled = false;
+bool Settings::ESP::FOVCrosshair::filled = false;
 ImColor Settings::ESP::FOVCrosshair::color = ImColor(180, 50, 50, 255);
 bool Settings::ESP::Skeleton::enabled = false;
 bool Settings::ESP::Sounds::enabled = false;
@@ -616,7 +617,6 @@ void ESP::DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info
 	if (Settings::ESP::Info::weapon && activeWeapon)
 	{
 		std::string modelName = Util::Items::GetItemDisplayName(*activeWeapon->GetItemDefinitionIndex());
-		modelName = Util::WstringToString(localize->FindSafe(modelName.c_str()));
 		int offset = (int)(Settings::ESP::Bars::type == BarType::HORIZONTAL || Settings::ESP::Bars::type == BarType::INTERWEBZ ? boxSpacing + barsSpacing.y + 1 : 0);
 
 		Vector2D weaponTextSize = Draw::GetTextSize(modelName.c_str(), esp_font);
@@ -732,7 +732,6 @@ void ESP::DrawDroppedWeapons(C_BaseCombatWeapon* weapon)
 		return;
 
 	std::string modelName = Util::Items::GetItemDisplayName(*weapon->GetItemDefinitionIndex());
-	modelName = Util::WstringToString(localize->FindSafe(modelName.c_str()));
 
 	if (weapon->GetAmmo() > 0)
 	{
@@ -1017,8 +1016,11 @@ void ESP::DrawFOVCrosshair()
 		float fov = OverrideView::currentFOV;
 		radius = tanf(DEG2RAD(aimbotFov) / 2) / tanf(DEG2RAD(fov) / 2) * width;
 	}
-
-	Draw::Circle(Vector2D(width / 2, height / 2), 20, radius, Color::FromImColor(Settings::ESP::FOVCrosshair::color));
+	
+	if (Settings::ESP::FOVCrosshair::filled)
+		Draw::FilledCircle(Vector2D(width / 2, height / 2), 20, radius, Color::FromImColor(Settings::ESP::FOVCrosshair::color));
+	else
+		Draw::Circle(Vector2D(width / 2, height / 2), 20, radius, Color::FromImColor(Settings::ESP::FOVCrosshair::color));
 }
 
 void ESP::DrawGlow()

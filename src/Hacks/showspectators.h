@@ -8,5 +8,5 @@
 namespace ShowSpectators
 {
 	std::list<int> GetObservervators(int playerId);
-	void DrawWindow();
+	void RenderWindow();
 }

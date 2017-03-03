@@ -41,7 +41,7 @@ std::list<int> ShowSpectators::GetObservervators(int playerId)
 	return list;
 }
 
-void ShowSpectators::DrawWindow()
+void ShowSpectators::RenderWindow()
 {
 	if (!Settings::ShowSpectators::enabled)
 		return;

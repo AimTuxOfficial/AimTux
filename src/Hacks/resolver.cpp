@@ -3,7 +3,7 @@
 bool Settings::Resolver::resolveAll = false;
 std::vector<int64_t> Resolver::Players = { };
 
-std::vector<PlayerAA> player_data;
+std::vector<std::pair<C_BasePlayer*, QAngle>> player_data;
 
 void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 {
@@ -34,7 +34,7 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 			if (!Settings::Resolver::resolveAll && std::find(Resolver::Players.begin(), Resolver::Players.end(), entityInformation.xuid) == Resolver::Players.end())
 				continue;
 
-			player_data.push_back(PlayerAA(player, *player->GetEyeAngles()));
+			player_data.push_back(std::pair<C_BasePlayer*, QAngle>(player, *player->GetEyeAngles()));
 
 			player->GetEyeAngles()->y = *player->GetLowerBodyYawTarget();
 		}
@@ -43,9 +43,8 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 	{
 		for (unsigned long i = 0; i < player_data.size(); i++)
 		{
-			PlayerAA player_aa_data = player_data[i];
-
-			*player_aa_data.player->GetEyeAngles() = player_aa_data.angle;
+			std::pair<C_BasePlayer*, QAngle> player_aa_data = player_data[i];
+			*player_aa_data.first->GetEyeAngles() = player_aa_data.second;
 		}
 
 		player_data.clear();

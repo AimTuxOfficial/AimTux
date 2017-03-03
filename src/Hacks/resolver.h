@@ -7,18 +7,6 @@
 #include "../Utils/pstring.h"
 #include "../Utils/entity.h"
 
-struct PlayerAA
-{
-	C_BasePlayer* player;
-	QAngle angle;
-
-	PlayerAA(C_BasePlayer* player, QAngle angle)
-	{
-		this->player = player;
-		this->angle = angle;
-	}
-};
-
 namespace Resolver
 {
 	extern std::vector<int64_t> Players;

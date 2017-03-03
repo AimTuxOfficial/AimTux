@@ -11,8 +11,6 @@
 #include <codecvt>
 #include <sstream>
 
-#define RandomInt(nMin, nMax) (rand() % (nMax - nMin + 1) + nMin)
-
 namespace Util
 {
 	std::string ReplaceString(std::string subject, const std::string& search, const std::string& replace);

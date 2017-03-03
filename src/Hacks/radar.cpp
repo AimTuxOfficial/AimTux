@@ -135,7 +135,7 @@ ImColor Radar::GetRadarPlayerColor(C_BasePlayer* player, bool visible)
 	return playerColor;
 }
 
-void Radar::DrawWindow()
+void Radar::RenderWindow()
 {
 	if (!Settings::ESP::enabled)
 		return;

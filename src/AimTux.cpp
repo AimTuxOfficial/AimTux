@@ -31,7 +31,8 @@ int __attribute__((constructor)) AimTuxInit()
 	Hooker::FindLineGoesThroughSmoke();
 	Hooker::FindInitKeyValues();
 	Hooker::FindLoadFromBuffer();
-	Hooker::FindGetCSWpnData();
+	Hooker::FindVstdlibFunctions();
+	Hooker::FindOverridePostProcessingDisable();
 	Hooker::FindCrosshairWeaponTypeCheck();
 	Hooker::FindCamThinkSvCheatsCheck();
 	Hooker::HookSwapWindow();
@@ -84,7 +85,7 @@ int __attribute__((constructor)) AimTuxInit()
 	soundVMT->HookVM((void*) Hooks::EmitSound2, 6);
 	soundVMT->ApplyVMT();
 
-	eventListener = new EventListener({ "cs_game_disconnected", "player_connect_full", "player_death", "player_hurt" });
+	eventListener = new EventListener({ "cs_game_disconnected", "player_connect_full", "player_death", "player_hurt", "switch_team" });
 
 	if (ModSupport::current_mod != ModType::CSCO && Hooker::HookRecvProp("CBaseViewModel", "m_nSequence", SkinChanger::sequenceHook))
 		SkinChanger::sequenceHook->SetProxyFunction((RecvVarProxyFn) SkinChanger::SetViewModelSequence);
@@ -95,6 +96,8 @@ int __attribute__((constructor)) AimTuxInit()
 	Fonts::SetupFonts();
 
 	Settings::LoadSettings();
+
+	srand(time(NULL)); // Seed random # Generator so we can call rand() later
 
 	return 0;
 }
@@ -128,6 +131,7 @@ void __attribute__((destructor)) AimTuxShutdown()
 	delete eventListener;
 
 	*bSendPacket = true;
+	*s_bOverridePostProcessingDisable = false;
 	*CrosshairWeaponTypeCheck = 5;
 	*CamThinkSvCheatsCheck = 0x74;
 	*(CamThinkSvCheatsCheck + 0x1) = 0x64;

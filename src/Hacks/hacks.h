@@ -10,6 +10,7 @@
 #include "chams.h"
 #include "clantagchanger.h"
 #include "customglow.h"
+#include "disablepostprocessing.h"
 #include "dlights.h"
 #include "edgejump.h"
 #include "esp.h"

@@ -3,6 +3,7 @@
 bool* bSendPacket = nullptr;
 int* nPredictionRandomSeed = nullptr;
 CMoveData* g_MoveData = nullptr;
+bool* s_bOverridePostProcessingDisable = nullptr;
 uint8_t* CrosshairWeaponTypeCheck = nullptr;
 uint8_t* CamThinkSvCheatsCheck = nullptr;
 
@@ -18,8 +19,6 @@ VMT* surfaceVMT = nullptr;
 VMT* launcherMgrVMT = nullptr;
 VMT* engineVGuiVMT = nullptr;
 VMT* soundVMT = nullptr;
-
-uintptr_t* GetCSWpnData_address = nullptr;
 
 uintptr_t oSwapWindow;
 uintptr_t* swapWindowJumpAddress = nullptr;
@@ -41,6 +40,12 @@ GetLocalClientFn GetLocalClient;
 LineGoesThroughSmokeFn LineGoesThroughSmoke;
 InitKeyValuesFn InitKeyValues;
 LoadFromBufferFn LoadFromBuffer;
+
+RandomSeedFn RandomSeed;
+RandomFloatFn RandomFloat;
+RandomFloatExpFn RandomFloatExp;
+RandomIntFn RandomInt;
+RandomGaussianFloatFn RandomGaussianFloat;
 
 std::vector<dlinfo_t> libraries;
 
@@ -244,10 +249,25 @@ void Hooker::FindLoadFromBuffer()
 	LoadFromBuffer = reinterpret_cast<LoadFromBufferFn>(func_address);
 }
 
-void Hooker::FindGetCSWpnData()
+void Hooker::FindVstdlibFunctions()
 {
-	uintptr_t func_address = PatternFinder::FindPatternInModule("client_client.so", (unsigned char*) GETCSWPNDATA_SIGNATURE, GETCSWPNDATA_MASK);
-	GetCSWpnData_address = reinterpret_cast<uintptr_t*>(func_address);
+	void* handle = dlopen("./bin/linux64/libvstdlib_client.so", RTLD_NOLOAD | RTLD_NOW);
+
+	RandomSeed = reinterpret_cast<RandomSeedFn>(dlsym(handle, "RandomSeed"));
+	RandomFloat = reinterpret_cast<RandomFloatFn>(dlsym(handle, "RandomFloat"));
+	RandomFloatExp = reinterpret_cast<RandomFloatExpFn>(dlsym(handle, "RandomFloatExp"));
+	RandomInt = reinterpret_cast<RandomIntFn>(dlsym(handle, "RandomInt"));
+	RandomGaussianFloat = reinterpret_cast<RandomGaussianFloatFn>(dlsym(handle, "RandomGaussianFloat"));
+
+	dlclose(handle);
+}
+
+void Hooker::FindOverridePostProcessingDisable()
+{
+	uintptr_t bool_address = PatternFinder::FindPatternInModule("client_client.so", (unsigned char*) OVERRIDEPOSTPROCESSINGDISABLE_SIGNATURE, OVERRIDEPOSTPROCESSINGDISABLE_MASK);
+	bool_address = GetAbsoluteAddress(bool_address, 2, 7);
+
+	s_bOverridePostProcessingDisable = reinterpret_cast<bool*>(bool_address);
 }
 
 void Hooker::FindCrosshairWeaponTypeCheck()
