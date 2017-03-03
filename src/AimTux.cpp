@@ -97,6 +97,8 @@ int __attribute__((constructor)) AimTuxInit()
 
 	Settings::LoadSettings();
 
+	srand(time(NULL)); // Seed random # Generator so we can call rand() later
+
 	return 0;
 }
 
