@@ -87,39 +87,34 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 	double factor;
 	static float trigger;
 	QAngle temp_qangle;
-	int random, maxJitter;
+	int random;
+	int maxJitter;
 
-	if (bFlip)
-		yFlip = !yFlip;
+	yFlip = bFlip != yFlip;
 
 	switch (aa_type)
 	{
 		case AntiAimType_Y::SPIN_FAST:
 			factor =  360.0 / M_PHI;
 			factor *= 25;
-			angle.y = fmod(globalVars->curtime * factor, 360.0);
+			angle.y = fmodf(globalVars->curtime * factor, 360.0);
 			break;
 		case AntiAimType_Y::SPIN_SLOW:
 			factor =  360.0 / M_PHI;
-			angle.y = fmod(globalVars->curtime * factor, 360.0);
+			angle.y = fmodf(globalVars->curtime * factor, 360.0);
 			break;
 		case AntiAimType_Y::JITTER:
 			yFlip ? angle.y -= 90.0f : angle.y -= 270.0f;
 			break;
 		case AntiAimType_Y::BACKJITTER:
-			random = rand() % 100;
 			angle.y -= 180;
+			random = rand() % 100;
+			maxJitter = rand() % (85 - 70 + 1) + 70;
+			temp = maxJitter - (rand() % maxJitter);
 			if (random < 35 + (rand() % 15))
-			{
-				maxJitter = rand() % (85 - 70 + 1) + 70;
-				// I did it like this because rand() results aren't uniform and tend to be closer to 0
-				angle.y -= maxJitter - (rand() % maxJitter);
-			}
+				angle.y -= temp;
 			else if (random < 85 + (rand() % 15 ))
-			{
-				maxJitter = rand() % (85 - 70 + 1) + 70;
-				angle.y += maxJitter - (rand() % maxJitter);
-			}
+				angle.y += temp;
 			break;
 		case AntiAimType_Y::SIDE:
 			yFlip ? angle.y += 90.f : angle.y -= 90.0f;
