@@ -5,17 +5,17 @@ bool Settings::Spammer::say_team = false;
 bool Settings::Spammer::KillSpammer::enabled = false;
 bool Settings::Spammer::KillSpammer::sayTeam = false;
 std::vector<std::string> Settings::Spammer::KillSpammer::messages = {
-		"$nick just got owned by AimTux",
-		"$nick watches anime",
+		"$nick owned by ELITE4",
+		"$nick suck's again"
 };
 bool Settings::Spammer::RadioSpammer::enabled = false;
 std::vector<std::string> Settings::Spammer::NormalSpammer::messages = {
-		"AimTux owns me and all",
-		"Your Windows p2c sucks my AimTux dry",
-		"It's free as in FREEDOM!",
-		"Tux only let me out so I could play this game, please be nice!",
-		"Tux nutted but you keep sucken",
-		">tfw no vac on Linux"
+		"I'AM BAD CODER",
+		"DON'T LIKE TOMATOES",
+		"SUPREME HACK",
+		"ELITE4 OWNS U AND ALL",
+		"ELITE4LEGIT.TK",
+		"ELITE4HVH.TK"
 };
 int Settings::Spammer::PositionSpammer::team = 1;
 bool Settings::Spammer::PositionSpammer::showName = true;

@@ -55,9 +55,9 @@ ClanTagChanger::Animation ClanTagChanger::Letters(std::string name, std::wstring
 }
 
 std::vector<ClanTagChanger::Animation> ClanTagChanger::animations = {
-	ClanTagChanger::Marquee("NOVAC", L"NO VAC ON LINUX"),
-	ClanTagChanger::Words("USPINME", L"You spin me right round baby right round like a record baby right round _round __round"),
-	ClanTagChanger::Letters("ILOVELINUX", L"Suck my Tux!")
+	ClanTagChanger::Marquee("TOPHACK", L"SUPREME HACK"),
+	ClanTagChanger::Words("SPIN2WIN", L"___█_█_ ✈__█_█_ _✈_█_█_ __✈█_█_ ___▄_█_ _____█_ ✈____█_ _✈___█_ __✈__█_ ___✈_█_ ____✈█_ _____▄_ _______ ___☠_☠_ _______ ___☠_☠_ _______"),
+	ClanTagChanger::Letters("ILOVEANIME", L"Who likes anime?")
 };
 ClanTagChanger::Animation* ClanTagChanger::animation = &ClanTagChanger::animations[0];
 
@@ -86,9 +86,9 @@ void ClanTagChanger::UpdateClanTagCallback()
 	}
 
 	ClanTagChanger::animations = {
-			ClanTagChanger::Marquee("NOVAC", L"NO VAC ON LINUX"),
-			ClanTagChanger::Words("USPINME", L"You spin me right round baby right round like a record baby right round _round __round"),
-			ClanTagChanger::Letters("ILOVELINUX", L"Suck my Tux!")
+			ClanTagChanger::Marquee("TOPHACK", L"SUPREME HACK"),
+			ClanTagChanger::Words("SPIN2WIN", L"___█_█_ ✈__█_█_ _✈_█_█_ __✈█_█_ ___▄_█_ _____█_ ✈____█_ _✈___█_ __✈__█_ ___✈_█_ ____✈█_ _____▄_ _______ ___☠_☠_ _______ ___☠_☠_ _______"),
+			ClanTagChanger::Letters("ILOVEANIME", L"Who likes anime?")
 	};
 
 	int current_animation = (int) Settings::ClanTagChanger::type - 1;
