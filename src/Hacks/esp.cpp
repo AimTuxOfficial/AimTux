@@ -169,7 +169,7 @@ float GetArmourHealth(float flDamage, int ArmorValue)
 	return flNew;
 }
 
-bool ESP::GetBox(C_BaseEntity *entity, int &x, int &y, int &w, int &h)
+bool ESP::GetBox(C_BaseEntity* entity, int& x, int& y, int& w, int& h)
 {
 	// Variables
 	Vector vOrigin, min, max, flb, brt, blb, frt, frb, brb, blt, flt;
