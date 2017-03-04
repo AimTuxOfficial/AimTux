@@ -123,10 +123,6 @@ We provide a script included in the Supreme folder that updates Supreme for you.
 
 And it will download and compile without any effort. Once it's done, happy hacking!
 
-## Video Tutorial for dummies
-
-[![tutorial](http://img.youtube.com/vi/bkEj57BviM8/0.jpg)](https://www.youtube.com/watch?v=bkEj57BviM8)
-
 ## Configs
 
 Configs are stored in a hidden directory in your home folder. Specifically 
