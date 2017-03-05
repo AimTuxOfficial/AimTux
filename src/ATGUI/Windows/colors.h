@@ -4,7 +4,7 @@
 
 namespace Colors
 {
-	extern bool showWindow;
+extern bool showWindow;
 
-	extern void RenderWindow();
+extern void RenderWindow();
 }

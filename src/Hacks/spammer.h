@@ -1,15 +1,15 @@
 #pragma once
 
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include "../interfaces.h"
-#include "../settings.h"
 #include "../Utils/pstring.h"
 #include "../Utils/util.h"
+#include "../interfaces.h"
+#include "../settings.h"
+#include <algorithm>
+#include <iostream>
+#include <vector>
 
 namespace Spammer
 {
-	void BeginFrame(float frameTime);
-	void FireGameEvent(IGameEvent* event);
+void BeginFrame(float frameTime);
+void FireGameEvent(IGameEvent* event);
 }

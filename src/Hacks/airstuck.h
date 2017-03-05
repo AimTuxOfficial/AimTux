@@ -1,11 +1,11 @@
 #pragma once
 
-#include <climits>
-#include "../settings.h"
 #include "../SDK/SDK.h"
 #include "../interfaces.h"
+#include "../settings.h"
+#include <climits>
 
 namespace Airstuck
 {
-	void CreateMove(CUserCmd* cmd);
+void CreateMove(CUserCmd* cmd);
 }

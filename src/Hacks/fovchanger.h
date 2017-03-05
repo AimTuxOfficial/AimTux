@@ -5,6 +5,6 @@
 
 namespace FOVChanger
 {
-	void OverrideView(CViewSetup* pSetup);
-	void GetViewModelFOV(float& fov);
+void OverrideView(CViewSetup* pSetup);
+void GetViewModelFOV(float& fov);
 };

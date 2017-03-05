@@ -4,5 +4,5 @@
 
 namespace Teleport
 {
-	void CreateMove(CUserCmd* cmd);
+void CreateMove(CUserCmd* cmd);
 }

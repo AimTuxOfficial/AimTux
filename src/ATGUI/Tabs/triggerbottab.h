@@ -4,5 +4,5 @@
 
 namespace Triggerbot
 {
-	void RenderTab();
+void RenderTab();
 }

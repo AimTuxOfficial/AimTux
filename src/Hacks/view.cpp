@@ -8,70 +8,70 @@ QAngle old_aim_punch_angle;
 
 void View::FrameStageNotify(ClientFrameStage_t stage)
 {
-	if ((!Settings::View::NoAimPunch::enabled && !Settings::View::NoViewPunch::enabled) || !Settings::ESP::enabled)
-		return;
+    if ((!Settings::View::NoAimPunch::enabled && !Settings::View::NoViewPunch::enabled) || !Settings::ESP::enabled)
+	return;
 
-	if (!engine->IsInGame())
-		return;
+    if (!engine->IsInGame())
+	return;
 
-	if (stage != ClientFrameStage_t::FRAME_RENDER_START)
-		return;
+    if (stage != ClientFrameStage_t::FRAME_RENDER_START)
+	return;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+    C_BasePlayer* localplayer = (C_BasePlayer*)entityList->GetClientEntity(engine->GetLocalPlayer());
 
-	if (Settings::View::NoAimPunch::enabled)
+    if (Settings::View::NoAimPunch::enabled)
+    {
+	QAngle* aim_punch_angle = localplayer->GetAimPunchAngle();
+
+	old_aim_punch_angle = QAngle(0, 0, 0);
+
+	if (aim_punch_angle)
 	{
-		QAngle* aim_punch_angle = localplayer->GetAimPunchAngle();
-
-		old_aim_punch_angle = QAngle(0, 0, 0);
-
-		if (aim_punch_angle)
-		{
-			old_aim_punch_angle = *aim_punch_angle;
-			*aim_punch_angle = QAngle(0, 0, 0);
-		}
+	    old_aim_punch_angle = *aim_punch_angle;
+	    *aim_punch_angle = QAngle(0, 0, 0);
 	}
+    }
 
-	if (Settings::View::NoViewPunch::enabled)
+    if (Settings::View::NoViewPunch::enabled)
+    {
+	QAngle* view_punch_angle = localplayer->GetViewPunchAngle();
+
+	old_view_punch_angle = QAngle(0, 0, 0);
+
+	if (view_punch_angle)
 	{
-		QAngle* view_punch_angle = localplayer->GetViewPunchAngle();
-
-		old_view_punch_angle = QAngle(0, 0, 0);
-
-		if (view_punch_angle)
-		{
-			old_view_punch_angle = *view_punch_angle;
-			*view_punch_angle = QAngle(0, 0, 0);
-		}
+	    old_view_punch_angle = *view_punch_angle;
+	    *view_punch_angle = QAngle(0, 0, 0);
 	}
+    }
 }
 
 void View::PostFrameStageNotify(ClientFrameStage_t stage)
 {
-	if ((!Settings::View::NoAimPunch::enabled && !Settings::View::NoViewPunch::enabled) || !Settings::ESP::enabled)
-		return;
+    if ((!Settings::View::NoAimPunch::enabled && !Settings::View::NoViewPunch::enabled) || !Settings::ESP::enabled)
+	return;
 
-	if (!engine->IsInGame())
-		return;
+    if (!engine->IsInGame())
+	return;
 
-	if (stage != ClientFrameStage_t::FRAME_RENDER_START)
-		return;
+    if (stage != ClientFrameStage_t::FRAME_RENDER_START)
+	return;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+    C_BasePlayer* localplayer = (C_BasePlayer*)entityList->GetClientEntity(engine->GetLocalPlayer());
 
-	if (Settings::View::NoAimPunch::enabled)
-	{
-		QAngle* aim_punch_angle = localplayer->GetAimPunchAngle();
+    if (Settings::View::NoAimPunch::enabled)
+    {
+	QAngle* aim_punch_angle = localplayer->GetAimPunchAngle();
 
-		if (aim_punch_angle)
-			*aim_punch_angle = old_aim_punch_angle;
-	}
+	if (aim_punch_angle)
+	    *aim_punch_angle = old_aim_punch_angle;
+    }
 
-	if (Settings::View::NoViewPunch::enabled)
-	{
-		QAngle* view_punch_angle = localplayer->GetViewPunchAngle();
+    if (Settings::View::NoViewPunch::enabled)
+    {
+	QAngle* view_punch_angle = localplayer->GetViewPunchAngle();
 
-		if (view_punch_angle)
-			*view_punch_angle = old_view_punch_angle;
-	}
+	if (view_punch_angle)
+	    *view_punch_angle = old_view_punch_angle;
+    }
 }

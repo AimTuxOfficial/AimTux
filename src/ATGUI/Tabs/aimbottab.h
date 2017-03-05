@@ -4,5 +4,5 @@
 
 namespace Aimbot
 {
-	void RenderTab();
+void RenderTab();
 }

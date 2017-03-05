@@ -6,5 +6,5 @@
 
 namespace NoSky
 {
-	void FrameStageNotify(ClientFrameStage_t stage);
+void FrameStageNotify(ClientFrameStage_t stage);
 }

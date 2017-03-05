@@ -4,5 +4,5 @@
 
 namespace HvH
 {
-	void RenderTab();
+void RenderTab();
 }

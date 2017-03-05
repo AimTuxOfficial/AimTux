@@ -4,5 +4,5 @@
 
 namespace Skins
 {
-	void RenderTab();
+void RenderTab();
 }
