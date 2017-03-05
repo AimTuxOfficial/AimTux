@@ -142,6 +142,9 @@ To add a config, create a folder inside of the `~/.config/AimTux` folder with a 
 
 To see hidden folders inside your home folder, press <kbd>CTRL</kbd>+<kbd>H</kbd> when using a file manager.
 
+**You may find some community config's [here](https://github.com/search?utf8=%E2%9C%93&q=aimtux+config). Please look here before asking on gitter.**
+
+
 ## Contributing to AimTux
 
 If you wish to contribute code to this opensource project, please keep some things mind before creating a *pull request*:
