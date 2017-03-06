@@ -249,6 +249,7 @@ struct AimbotWeapon_t
 	}
 };
 
+
 namespace Settings
 {
 	namespace UI
@@ -760,7 +761,7 @@ namespace Settings
 		{
 			extern bool enabled;
 		}
-		
+
 		extern std::unordered_map<ItemDefinitionIndex, AttribItem_t, Util::IntHash<ItemDefinitionIndex>> skinsCT;
 		extern std::unordered_map<ItemDefinitionIndex, AttribItem_t, Util::IntHash<ItemDefinitionIndex>> skinsT;
 	}
@@ -881,8 +882,29 @@ namespace Settings
 		extern bool enabled;
 	}
 
+	namespace GrenadeHelper
+	{
+		extern std::vector<GrenadeInfo> grenadeInfos;
+		extern bool enabled;
+		extern bool onlyMatchingInfos;
+		extern bool aimAssist;
+		extern float aimStep;
+		extern float aimDistance;
+		extern float aimFov;
+		extern ImColor aimDot;
+		extern ImColor aimLine;
+		extern ImColor infoHE;
+		extern ImColor infoSmoke;
+		extern ImColor infoFlash;
+		extern ImColor infoMolotov;
+		extern pstring actMapName;
+	}
+
 	void LoadDefaultsOrSave(std::string path);
 	void LoadConfig(std::string path);
 	void LoadSettings();
 	void DeleteConfig(std::string path);
+	void SaveGrenadeInfo(std::string path);
+	void LoadGrenadeInfo(std::string path);
+
 }

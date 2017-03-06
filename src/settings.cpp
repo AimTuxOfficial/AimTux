@@ -447,6 +447,19 @@ void Settings::LoadDefaultsOrSave(std::string path)
 
 	settings["DisablePostProcessing"]["enabled"] = Settings::DisablePostProcessing::enabled;
 
+	settings["GrenadeHelper"]["enabled"] = Settings::GrenadeHelper::enabled;
+	settings["GrenadeHelper"]["aimAssist"] = Settings::GrenadeHelper::aimAssist;
+	settings["GrenadeHelper"]["OnlyMatching"] = Settings::GrenadeHelper::onlyMatchingInfos;
+	settings["GrenadeHelper"]["aimStep"] = Settings::GrenadeHelper::aimStep;
+	settings["GrenadeHelper"]["aimDistance"] = Settings::GrenadeHelper::aimDistance;
+	settings["GrenadeHelper"]["aimFov"] = Settings::GrenadeHelper::aimFov;
+	LoadUIColor(settings["GrenadeHelper"]["aimDot"], Settings::GrenadeHelper::aimDot);
+	LoadUIColor(settings["GrenadeHelper"]["aimLine"], Settings::GrenadeHelper::aimLine);
+	LoadUIColor(settings["GrenadeHelper"]["infoHe"], Settings::GrenadeHelper::infoHE);
+	LoadUIColor(settings["GrenadeHelper"]["infoSmoke"], Settings::GrenadeHelper::infoSmoke);
+	LoadUIColor(settings["GrenadeHelper"]["infoMolotov"], Settings::GrenadeHelper::infoMolotov);
+	LoadUIColor(settings["GrenadeHelper"]["infoFlash"], Settings::GrenadeHelper::infoFlash);
+
 	std::ofstream(path) << styledWriter.write(settings);
 }
 
@@ -899,6 +912,22 @@ void Settings::LoadConfig(std::string path)
 	GetButtonCode(settings["JumpThrow"]["key"], &Settings::JumpThrow::key);
 
 	GetVal(settings["DisablePostProcessing"]["enabled"], &Settings::DisablePostProcessing::enabled);
+
+	GetVal(settings["GrenadeHelper"]["enabled"], &Settings::GrenadeHelper::enabled);
+	GetVal(settings["GrenadeHelper"]["aimAssist"], &Settings::GrenadeHelper::aimAssist);
+	GetVal(settings["GrenadeHelper"]["OnlyMatching"], &Settings::GrenadeHelper::onlyMatchingInfos);
+	GetVal(settings["GrenadeHelper"]["aimStep"], &Settings::GrenadeHelper::aimStep);
+	GetVal(settings["GrenadeHelper"]["aimDistance"], &Settings::GrenadeHelper::aimDistance);
+	GetVal(settings["GrenadeHelper"]["aimFov"], &Settings::GrenadeHelper::aimFov);
+
+	GetVal(settings["GrenadeHelper"]["aimDot"], &Settings::GrenadeHelper::aimDot);
+	GetVal(settings["GrenadeHelper"]["aimLine"], &Settings::GrenadeHelper::aimLine);
+	GetVal(settings["GrenadeHelper"]["infoHE"], &Settings::GrenadeHelper::infoHE);
+	GetVal(settings["GrenadeHelper"]["infoSmoke"], &Settings::GrenadeHelper::infoSmoke);
+	GetVal(settings["GrenadeHelper"]["infoFlash"], &Settings::GrenadeHelper::infoFlash);
+	GetVal(settings["GrenadeHelper"]["infoMolotov"], &Settings::GrenadeHelper::infoMolotov);
+
+
 }
 
 void Settings::LoadSettings()
@@ -913,6 +942,66 @@ void Settings::LoadSettings()
 
 	if (!DoesDirectoryExist(directory.c_str()))
 		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+}
+
+
+void Settings::SaveGrenadeInfo(std::string path)
+{
+	Json::Value grenadeInfos;
+	for (auto grenadeInfo = GrenadeHelper::grenadeInfos.begin(); grenadeInfo != GrenadeHelper::grenadeInfos.end(); grenadeInfo++)
+	{
+		Json::Value act;
+		act["name"] = grenadeInfo->name.c_str();
+		act["gType"] = grenadeInfo->gType;
+		act["tType"] = grenadeInfo->tType;
+		act["pos"]["x"] = grenadeInfo->pos.x;
+		act["pos"]["y"] = grenadeInfo->pos.y;
+		act["pos"]["z"] = grenadeInfo->pos.z;
+
+		act["angle"]["x"] = grenadeInfo->angle.x;
+		act["angle"]["y"] = grenadeInfo->angle.y;
+
+		grenadeInfos.append(act);
+	}
+
+	Json::Value data;
+	Json::StyledWriter styledWriter;
+
+	data["smokeinfos"] = grenadeInfos;
+
+	std::ofstream(path) << styledWriter.write(data);
+}
+
+void Settings::LoadGrenadeInfo(std::string path)
+{
+	if (!std::ifstream(path).good() || !DoesFileExist(path.c_str()))
+		return;
+	Json::Value data;
+	std::ifstream configDoc(path, std::ifstream::binary);
+	try {
+		configDoc >> data;
+	}
+	catch (...)
+	{
+		cvar->ConsoleDPrintf("Error parsing the config file.\n");
+		return;
+	}
+
+	Json::Value array = data["smokeinfos"];
+	Settings::GrenadeHelper::grenadeInfos = {};
+
+	for(Json::Value::iterator it = array.begin(); it!=array.end(); ++it)
+	{
+		Json::Value act = *it;
+		const char* name = act["name"].asCString();
+		GrenadeType gType = (GrenadeType)act["gType"].asInt();
+		ThrowType tType = (ThrowType)act["tType"].asInt();
+		Json::Value pos = act["pos"];
+		Vector posVec = Vector(pos["x"].asFloat(), pos["y"].asFloat(), pos["z"].asFloat());
+		Json::Value angle = act["angle"];
+		QAngle vAngle = QAngle(angle["x"].asFloat(), angle["y"].asFloat(), 0);
+		Settings::GrenadeHelper::grenadeInfos.push_back(GrenadeInfo(gType, posVec, vAngle, tType, pstring(name)));
+	}
 }
 
 void remove_directory(const char* path)
