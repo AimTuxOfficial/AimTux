@@ -4,5 +4,5 @@
 
 namespace Misc
 {
-	void RenderTab();
+void RenderTab();
 }

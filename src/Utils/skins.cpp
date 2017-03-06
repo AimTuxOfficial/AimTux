@@ -2,12 +2,12 @@
 
 void Skins::Localize()
 {
-	static bool isLocalized = false;
-	if (isLocalized)
-		return;
+    static bool isLocalized = false;
+    if (isLocalized)
+	return;
 
-	if (itemSkins.size() == 0)
-		return;
+    if (itemSkins.size() == 0)
+	return;
 
-	isLocalized = true;
+    isLocalized = true;
 }

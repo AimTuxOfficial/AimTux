@@ -4,7 +4,7 @@
 
 namespace Configs
 {
-	extern bool showWindow;
+extern bool showWindow;
 
-	extern void RenderWindow();
+extern void RenderWindow();
 }

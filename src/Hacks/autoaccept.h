@@ -6,7 +6,7 @@
 
 namespace AutoAccept
 {
-	void PlaySound(const char* filename);
+void PlaySound(const char* filename);
 }
 
 extern IsReadyCallbackFn IsReadyCallback;

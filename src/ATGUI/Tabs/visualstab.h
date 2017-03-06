@@ -4,5 +4,5 @@
 
 namespace Visuals
 {
-	void RenderTab();
+void RenderTab();
 }

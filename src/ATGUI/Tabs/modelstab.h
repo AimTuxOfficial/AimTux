@@ -4,5 +4,5 @@
 
 namespace Models
 {
-	void RenderTab();
+void RenderTab();
 }

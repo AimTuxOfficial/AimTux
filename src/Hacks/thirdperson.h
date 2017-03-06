@@ -6,6 +6,6 @@
 
 namespace ThirdPerson
 {
-	void BeginFrame();
-	void FrameStageNotify(ClientFrameStage_t stage);
+void BeginFrame();
+void FrameStageNotify(ClientFrameStage_t stage);
 }

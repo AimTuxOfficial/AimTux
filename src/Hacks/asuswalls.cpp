@@ -9,53 +9,53 @@ std::unordered_map<MaterialHandle_t, ImColor> worldMaterials2;
 
 void ASUSWalls::FrameStageNotify(ClientFrameStage_t stage)
 {
-	if (!engine->IsInGame() && worldMaterials.size() > 0)
+    if (!engine->IsInGame() && worldMaterials.size() > 0)
+    {
+	for (const auto& it : worldMaterials)
 	{
-		for (const auto& it : worldMaterials)
-		{
-			IMaterial* mat = material->GetMaterial(it.first);
+	    IMaterial* mat = material->GetMaterial(it.first);
 
-			if (!mat)
-				continue;
+	    if (!mat)
+		continue;
 
-			mat->GetColorModulate(&r, &g, &b);
-			a = mat->GetAlphaModulation();
+	    mat->GetColorModulate(&r, &g, &b);
+	    a = mat->GetAlphaModulation();
 
-			mat->ColorModulate(r, g, b);
-			mat->AlphaModulate(a);
-		}
-
-		worldMaterials.clear();
-		worldMaterials2.clear();
+	    mat->ColorModulate(r, g, b);
+	    mat->AlphaModulate(a);
 	}
 
-	if (stage != ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_END)
-		return;
+	worldMaterials.clear();
+	worldMaterials2.clear();
+    }
 
-	for (MaterialHandle_t i = material->FirstMaterial(); i != material->InvalidMaterial(); i = material->NextMaterial(i))
+    if (stage != ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_END)
+	return;
+
+    for (MaterialHandle_t i = material->FirstMaterial(); i != material->InvalidMaterial(); i = material->NextMaterial(i))
+    {
+	IMaterial* mat = material->GetMaterial(i);
+
+	if (!mat || strcmp(mat->GetTextureGroupName(), TEXTURE_GROUP_WORLD) != 0)
+	    continue;
+
+	if (worldMaterials.find(i) == worldMaterials.end())
 	{
-		IMaterial* mat = material->GetMaterial(i);
-
-		if (!mat || strcmp(mat->GetTextureGroupName(), TEXTURE_GROUP_WORLD) != 0)
-			continue;
-
-		if (worldMaterials.find(i) == worldMaterials.end())
-		{
-			mat->GetColorModulate(&r, &g, &b);
-			a = mat->GetAlphaModulation();
-			worldMaterials.emplace(i, ImColor(r, g, b, a));
-			worldMaterials2.emplace(i, ImColor(r, g, b, a));
-		}
-
-		ImColor color = (Settings::ASUSWalls::enabled && Settings::ESP::enabled) ? Settings::ASUSWalls::color : worldMaterials2.find(i)->second;
-
-		if (worldMaterials.at(i) != color)
-		{
-
-			mat->ColorModulate(color);
-			mat->AlphaModulate(color.Value.w);
-
-			worldMaterials.at(i) = color;
-		}
+	    mat->GetColorModulate(&r, &g, &b);
+	    a = mat->GetAlphaModulation();
+	    worldMaterials.emplace(i, ImColor(r, g, b, a));
+	    worldMaterials2.emplace(i, ImColor(r, g, b, a));
 	}
+
+	ImColor color = (Settings::ASUSWalls::enabled && Settings::ESP::enabled) ? Settings::ASUSWalls::color : worldMaterials2.find(i)->second;
+
+	if (worldMaterials.at(i) != color)
+	{
+
+	    mat->ColorModulate(color);
+	    mat->AlphaModulate(color.Value.w);
+
+	    worldMaterials.at(i) = color;
+	}
+    }
 }

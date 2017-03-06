@@ -6,5 +6,5 @@
 
 namespace DisablePostProcessing
 {
-	void BeginFrame();
+void BeginFrame();
 }

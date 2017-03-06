@@ -6,5 +6,5 @@
 
 namespace ASUSWalls
 {
-	void FrameStageNotify(ClientFrameStage_t stage);
+void FrameStageNotify(ClientFrameStage_t stage);
 }

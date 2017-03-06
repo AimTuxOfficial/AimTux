@@ -6,5 +6,5 @@
 
 namespace SniperCrosshair
 {
-	void BeginFrame();
+void BeginFrame();
 };

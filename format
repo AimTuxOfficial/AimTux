@@ -1,0 +1,4 @@
+#!/bin/bash
+
+find src/ -type f -and \( -iname '*.h' -or -iname '*.cpp' \) -and \( -ipath '*ATGUI*' -or -ipath '*Hacks*' -or -ipath '*Utils*' \) -or -iname 'settings.*' -exec clang-format -i {} \;
+echo "Files Formatted";

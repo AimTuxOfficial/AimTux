@@ -6,7 +6,7 @@
 
 namespace ShowRanks
 {
-	void CreateMove(CUserCmd* cmd);
+void CreateMove(CUserCmd* cmd);
 }
 
 extern MsgFunc_ServerRankRevealAllFn MsgFunc_ServerRankRevealAll;
