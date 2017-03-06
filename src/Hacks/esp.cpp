@@ -4,6 +4,7 @@
 #include "../Utils/skins.h"
 
 bool Settings::ESP::enabled = false;
+bool Settings::ESP::decoyShowOwner = false;
 TeamColorType Settings::ESP::teamColorType = TeamColorType::RELATIVE;
 ImColor Settings::ESP::enemyColor = ImColor(240, 60, 60, 255);
 ImColor Settings::ESP::enemyVisibleColor = ImColor(240, 185, 60, 255);
@@ -802,16 +803,38 @@ void ESP::DrawThrowable(C_BaseEntity* throwable, ClientClass* client)
 			nadeColor = Settings::ESP::smokeColor;
 			break;
 		}
-		else if (strstr(mat->GetName(), "decoy"))
-		{
-			nadeName = "Decoy";
-			nadeColor = Settings::ESP::decoyColor;
-			break;
-		}
 		else if (strstr(mat->GetName(), "incendiary") || strstr(mat->GetName(), "molotov"))
 		{
 			nadeName = "Molotov";
 			nadeColor = Settings::ESP::molotovColor;
+			break;
+		}
+		else if (strstr(mat->GetName(), "decoy"))
+		{
+			nadeName = "Decoy";
+			nadeColor = Settings::ESP::decoyColor;
+			
+			if (!Settings::ESP::decoyShowOwner)
+				break;
+
+			C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+			if (!localplayer)
+				break;
+			
+			if (throwable->GetTeam() == localplayer->GetTeam())
+			{
+				int owner = throwable->GetOwnerEntity() & 0xFFF;
+				if (!owner)
+					break;
+
+				IEngineClient::player_info_t entityInformation;
+				engine->GetPlayerInfo(owner, &entityInformation);
+
+				nadeName += "(";
+				nadeName += entityInformation.name;
+				nadeName += ")";
+			}
+
 			break;
 		}
 	}

@@ -177,6 +177,11 @@ public:
 	{
 		return *(TeamID*)((uintptr_t)this + offsets.DT_BaseEntity.m_iTeamNum);
 	}
+  
+	int GetOwnerEntity()
+	{
+		return *(int*)((uintptr_t)this + offsets.DT_BaseEntity.m_hOwnerEntity);
+	}
 
 	Vector GetVecOrigin()
 	{

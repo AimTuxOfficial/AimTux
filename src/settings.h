@@ -438,6 +438,7 @@ namespace Settings
 	namespace ESP
 	{
 		extern bool enabled;
+		extern bool decoyShowOwner;
 		extern TeamColorType teamColorType;
 		extern ImColor enemyColor;
 		extern ImColor allyColor;
