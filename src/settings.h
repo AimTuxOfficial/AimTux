@@ -57,6 +57,7 @@ enum class AntiAimType_Y : int
 	TJITTER,
 	FJITTER,
 	JITTERSYNCED,
+	JITTER_180,
 	SIDE,
 	BACKWARDS,
 	FORWARDS,
@@ -66,6 +67,8 @@ enum class AntiAimType_Y : int
 	STATICJITTER,
 	STATICSMALLJITTER,
 	DONUT,
+	FLIP,
+	HYPNO,
 	LISP,
 	LISP_SIDE,
 	LISP_JITTER,
@@ -111,7 +114,7 @@ enum class BarType : int
 	VERTICAL_RIGHT,
 	HORIZONTAL,
 	HORIZONTAL_UP,
-	INTERWEBZ,
+	INTERWEBZ
 };
 
 enum class BarColorType : int
@@ -901,6 +904,10 @@ namespace Settings
 		extern pstring actMapName;
 	}
 
+	namespace SvCheatsBypass
+	{
+		extern bool enabled;
+	}
 
 	namespace DisablePostProcessing
 	{
