@@ -904,11 +904,6 @@ namespace Settings
 		extern pstring actMapName;
 	}
 
-	namespace SvCheatsBypass
-	{
-		extern bool enabled;
-	}
-
 	namespace DisablePostProcessing
 	{
 		extern bool enabled;
