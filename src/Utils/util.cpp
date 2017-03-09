@@ -109,7 +109,7 @@ long Util::GetEpochTime()
 
 ImColor Util::GetRainbowColor()
 {
-	float speed = 0.005f * Settings::UI::rainbowSpeed;
+	float speed = 0.002f * Settings::UI::rainbowSpeed;
 	long now = Util::GetEpochTime();
 	float hue = (now % (int)(1.0f / speed)) * speed;
 
