@@ -51,6 +51,31 @@ void GetVal(Json::Value &config, char* setting)
 	strcpy(setting, config.asCString());
 }
 
+void GetVal(Json::Value &config, ColorVar* setting)
+{
+	if (config.isNull())
+		return;
+
+	GetVal(config["r"], &setting->color.Value.x);
+	GetVal(config["g"], &setting->color.Value.y);
+	GetVal(config["b"], &setting->color.Value.z);
+	GetVal(config["a"], &setting->color.Value.w);
+	GetVal(config["rainbow"], &setting->rainbow);
+}
+
+void GetVal(Json::Value &config, HealthColorVar* setting)
+{
+	if (config.isNull())
+		return;
+
+	GetVal(config["r"], &setting->color.Value.x);
+	GetVal(config["g"], &setting->color.Value.y);
+	GetVal(config["b"], &setting->color.Value.z);
+	GetVal(config["a"], &setting->color.Value.w);
+	GetVal(config["rainbow"], &setting->rainbow);
+	GetVal(config["hp"], &setting->hp);
+}
+
 template <typename Ord, Ord (*lookupFunction)(std::string)>
 void GetOrdinal(Json::Value& config, Ord* setting)
 {
@@ -71,7 +96,7 @@ void GetButtonCode(Json::Value &config, enum ButtonCode_t* setting)
 	GetOrdinal<enum ButtonCode_t, Util::GetButtonCode>(config, setting);
 }
 
-void LoadUIColor(Json::Value &config, ImColor color)
+void LoadColor(Json::Value &config, ImColor color)
 {
 	config["r"] = color.Value.x;
 	config["g"] = color.Value.y;
@@ -79,14 +104,33 @@ void LoadUIColor(Json::Value &config, ImColor color)
 	config["a"] = color.Value.w;
 }
 
+void LoadColor(Json::Value &config, ColorVar color)
+{
+	config["r"] = color.color.Value.x;
+	config["g"] = color.color.Value.y;
+	config["b"] = color.color.Value.z;
+	config["a"] = color.color.Value.w;
+	config["rainbow"] = color.rainbow;
+}
+
+void LoadColor(Json::Value &config, HealthColorVar color)
+{
+	config["r"] = color.color.Value.x;
+	config["g"] = color.color.Value.y;
+	config["b"] = color.color.Value.z;
+	config["a"] = color.color.Value.w;
+	config["rainbow"] = color.rainbow;
+	config["hp"] = color.hp;
+}
+
 void Settings::LoadDefaultsOrSave(std::string path)
 {
 	Json::Value settings;
 	Json::StyledWriter styledWriter;
 
-	LoadUIColor(settings["UI"]["mainColor"], Settings::UI::mainColor);
-	LoadUIColor(settings["UI"]["bodyColor"], Settings::UI::bodyColor);
-	LoadUIColor(settings["UI"]["fontColor"], Settings::UI::fontColor);
+	LoadColor(settings["UI"]["mainColor"], Settings::UI::mainColor);
+	LoadColor(settings["UI"]["bodyColor"], Settings::UI::bodyColor);
+	LoadColor(settings["UI"]["fontColor"], Settings::UI::fontColor);
 	settings["UI"]["Fonts"]["ESP"]["family"] = Settings::UI::Fonts::ESP::family;
 	settings["UI"]["Fonts"]["ESP"]["size"] = Settings::UI::Fonts::ESP::size;
 	settings["UI"]["Fonts"]["ESP"]["flags"] = Settings::UI::Fonts::ESP::flags;
@@ -170,49 +214,36 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["AntiAim"]["AutoDisable"]["knife_held"] = Settings::AntiAim::AutoDisable::knifeHeld;
 
 	settings["ESP"]["enabled"] = Settings::ESP::enabled;
-	LoadUIColor(settings["ESP"]["enemy_color"], Settings::ESP::enemyColor);
-	LoadUIColor(settings["ESP"]["enemy_visible_color"], Settings::ESP::enemyVisibleColor);
-	LoadUIColor(settings["ESP"]["ally_color"], Settings::ESP::allyColor);
-	LoadUIColor(settings["ESP"]["ally_visible_color"], Settings::ESP::allyVisibleColor);
-	LoadUIColor(settings["ESP"]["t_color"], Settings::ESP::tColor);
-	LoadUIColor(settings["ESP"]["t_visible_color"], Settings::ESP::tVisibleColor);
-	LoadUIColor(settings["ESP"]["ct_color"], Settings::ESP::ctColor);
-	LoadUIColor(settings["ESP"]["ct_visible_color"], Settings::ESP::ctVisibleColor);
-	LoadUIColor(settings["ESP"]["localplayer_color"], Settings::ESP::localplayerColor);
-	settings["ESP"]["hp_enemy_color"] = Settings::ESP::hpEnemyColor;
-	settings["ESP"]["hp_ally_color"] = Settings::ESP::hpAllyColor;
-	settings["ESP"]["hp_enemy_visible_color"] = Settings::ESP::hpEnemyVisibleColor;
-	settings["ESP"]["hp_ally_visible_color"] = Settings::ESP::hpAllyVisibleColor;
-	settings["ESP"]["hp_ct_color"] = Settings::ESP::hpCtColor;
-	settings["ESP"]["hp_t_color"] = Settings::ESP::hpTColor;
-	settings["ESP"]["hp_ct_visible_color"] = Settings::ESP::hpCtVisibleColor;
-	settings["ESP"]["hp_t_visible_color"] = Settings::ESP::hpTVisibleColor;
-	settings["ESP"]["hp_localplayer_color"] = Settings::ESP::hpLocalplayerColor;
-	LoadUIColor(settings["ESP"]["bomb_color"], Settings::ESP::bombColor);
-	LoadUIColor(settings["ESP"]["bomb_defusing_color"], Settings::ESP::bombDefusingColor);
-	LoadUIColor(settings["ESP"]["hostage_color"], Settings::ESP::hostageColor);
-	LoadUIColor(settings["ESP"]["defuser_color"], Settings::ESP::defuserColor);
-	LoadUIColor(settings["ESP"]["weapon_color"], Settings::ESP::weaponColor);
-	LoadUIColor(settings["ESP"]["chicken_color"], Settings::ESP::chickenColor);
-	LoadUIColor(settings["ESP"]["fish_color"], Settings::ESP::fishColor);
-	LoadUIColor(settings["ESP"]["smoke_color"], Settings::ESP::smokeColor);
-	LoadUIColor(settings["ESP"]["decoy_color"], Settings::ESP::decoyColor);
-	LoadUIColor(settings["ESP"]["flashbang_color"], Settings::ESP::flashbangColor);
-	LoadUIColor(settings["ESP"]["grenade_color"], Settings::ESP::grenadeColor);
-	LoadUIColor(settings["ESP"]["molotov_color"], Settings::ESP::molotovColor);
+	LoadColor(settings["ESP"]["enemy_color"], Settings::ESP::enemyColor);
+	LoadColor(settings["ESP"]["enemy_visible_color"], Settings::ESP::enemyVisibleColor);
+	LoadColor(settings["ESP"]["ally_color"], Settings::ESP::allyColor);
+	LoadColor(settings["ESP"]["ally_visible_color"], Settings::ESP::allyVisibleColor);
+	LoadColor(settings["ESP"]["t_color"], Settings::ESP::tColor);
+	LoadColor(settings["ESP"]["t_visible_color"], Settings::ESP::tVisibleColor);
+	LoadColor(settings["ESP"]["ct_color"], Settings::ESP::ctColor);
+	LoadColor(settings["ESP"]["ct_visible_color"], Settings::ESP::ctVisibleColor);
+	LoadColor(settings["ESP"]["localplayer_color"], Settings::ESP::localplayerColor);
+	LoadColor(settings["ESP"]["bomb_color"], Settings::ESP::bombColor);
+	LoadColor(settings["ESP"]["bomb_defusing_color"], Settings::ESP::bombDefusingColor);
+	LoadColor(settings["ESP"]["hostage_color"], Settings::ESP::hostageColor);
+	LoadColor(settings["ESP"]["defuser_color"], Settings::ESP::defuserColor);
+	LoadColor(settings["ESP"]["weapon_color"], Settings::ESP::weaponColor);
+	LoadColor(settings["ESP"]["chicken_color"], Settings::ESP::chickenColor);
+	LoadColor(settings["ESP"]["fish_color"], Settings::ESP::fishColor);
+	LoadColor(settings["ESP"]["smoke_color"], Settings::ESP::smokeColor);
+	LoadColor(settings["ESP"]["decoy_color"], Settings::ESP::decoyColor);
+	LoadColor(settings["ESP"]["flashbang_color"], Settings::ESP::flashbangColor);
+	LoadColor(settings["ESP"]["grenade_color"], Settings::ESP::grenadeColor);
+	LoadColor(settings["ESP"]["molotov_color"], Settings::ESP::molotovColor);
 	settings["ESP"]["Glow"]["enabled"] = Settings::ESP::Glow::enabled;
-	LoadUIColor(settings["ESP"]["Glow"]["ally_color"], Settings::ESP::Glow::allyColor);
-	LoadUIColor(settings["ESP"]["Glow"]["enemy_color"], Settings::ESP::Glow::enemyColor);
-	LoadUIColor(settings["ESP"]["Glow"]["enemy_visible_color"], Settings::ESP::Glow::enemyVisibleColor);
-	LoadUIColor(settings["ESP"]["Glow"]["localplayer_color"], Settings::ESP::Glow::localplayerColor);
-	settings["ESP"]["Glow"]["hp_ally_color"] = Settings::ESP::Glow::hpAllyColor;
-	settings["ESP"]["Glow"]["hp_enemy_color"] = Settings::ESP::Glow::hpEnemyColor;
-	settings["ESP"]["Glow"]["hp_enemy_visible_color"] = Settings::ESP::Glow::hpEnemyVisibleColor;
-	settings["ESP"]["Glow"]["hp_localplayer_color"] = Settings::ESP::Glow::hpLocalplayerColor;
-	LoadUIColor(settings["ESP"]["Glow"]["weapon_color"], Settings::ESP::Glow::weaponColor);
-	LoadUIColor(settings["ESP"]["Glow"]["grenade_color"], Settings::ESP::Glow::grenadeColor);
-	LoadUIColor(settings["ESP"]["Glow"]["defuser_color"], Settings::ESP::Glow::defuserColor);
-	LoadUIColor(settings["ESP"]["Glow"]["chicken_color"], Settings::ESP::Glow::chickenColor);
+	LoadColor(settings["ESP"]["Glow"]["ally_color"], Settings::ESP::Glow::allyColor);
+	LoadColor(settings["ESP"]["Glow"]["enemy_color"], Settings::ESP::Glow::enemyColor);
+	LoadColor(settings["ESP"]["Glow"]["enemy_visible_color"], Settings::ESP::Glow::enemyVisibleColor);
+	LoadColor(settings["ESP"]["Glow"]["localplayer_color"], Settings::ESP::Glow::localplayerColor);
+	LoadColor(settings["ESP"]["Glow"]["weapon_color"], Settings::ESP::Glow::weaponColor);
+	LoadColor(settings["ESP"]["Glow"]["grenade_color"], Settings::ESP::Glow::grenadeColor);
+	LoadColor(settings["ESP"]["Glow"]["defuser_color"], Settings::ESP::Glow::defuserColor);
+	LoadColor(settings["ESP"]["Glow"]["chicken_color"], Settings::ESP::Glow::chickenColor);
 	settings["ESP"]["Filters"]["legit"] = Settings::ESP::Filters::legit;
 	settings["ESP"]["Filters"]["visibility_check"] = Settings::ESP::Filters::visibilityCheck;
 	settings["ESP"]["Filters"]["smoke_check"] = Settings::ESP::Filters::smokeCheck;
@@ -244,7 +275,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["ESP"]["Boxes"]["enabled"] = Settings::ESP::Boxes::enabled;
 	settings["ESP"]["Boxes"]["type"] = (int) Settings::ESP::Boxes::type;
 	settings["ESP"]["Skeleton"]["enabled"] = Settings::ESP::Skeleton::enabled;
-	LoadUIColor(settings["ESP"]["Skeleton"]["color"], Settings::ESP::Skeleton::color);
+	LoadColor(settings["ESP"]["Skeleton"]["color"], Settings::ESP::Skeleton::color);
 	settings["ESP"]["Bars"]["enabled"] = Settings::ESP::Bars::enabled;
 	settings["ESP"]["Bars"]["color_type"] = (int) Settings::ESP::Bars::colorType;
 	settings["ESP"]["Bars"]["type"] = (int) Settings::ESP::Bars::type;
@@ -253,22 +284,17 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["ESP"]["BulletTracers"]["enabled"] = Settings::ESP::BulletTracers::enabled;
 	settings["ESP"]["FOVCrosshair"]["enabled"] = Settings::ESP::FOVCrosshair::enabled;
 	settings["ESP"]["FOVCrosshair"]["filled"] = Settings::ESP::FOVCrosshair::filled;
-	LoadUIColor(settings["ESP"]["FOVCrosshair"]["color"], Settings::ESP::FOVCrosshair::color);
+	LoadColor(settings["ESP"]["FOVCrosshair"]["color"], Settings::ESP::FOVCrosshair::color);
 	settings["ESP"]["Chams"]["Arms"]["enabled"] = Settings::ESP::Chams::Arms::enabled;
 	settings["ESP"]["Chams"]["Arms"]["type"] = (int) Settings::ESP::Chams::Arms::type;
 	settings["ESP"]["Chams"]["Weapon"]["enabled"] = Settings::ESP::Chams::Weapon::enabled;
-	LoadUIColor(settings["ESP"]["Chams"]["Weapon"]["color"], Settings::ESP::Chams::Weapon::color);
-	LoadUIColor(settings["ESP"]["Chams"]["Arms"]["color"], Settings::ESP::Chams::Arms::color);
-	LoadUIColor(settings["ESP"]["Chams"]["players_ally_color"], Settings::ESP::Chams::allyColor);
-	LoadUIColor(settings["ESP"]["Chams"]["players_ally_visible_color"], Settings::ESP::Chams::allyVisibleColor);
-	LoadUIColor(settings["ESP"]["Chams"]["players_enemy_color"], Settings::ESP::Chams::enemyColor);
-	LoadUIColor(settings["ESP"]["Chams"]["players_enemy_visible_color"], Settings::ESP::Chams::enemyVisibleColor);
-	LoadUIColor(settings["ESP"]["Chams"]["localplayer_color"], Settings::ESP::Chams::localplayerColor);
-	settings["ESP"]["Chams"]["hp_ally_color"] = Settings::ESP::Chams::hpAllyColor;
-	settings["ESP"]["Chams"]["hp_ally_visible_color"] = Settings::ESP::Chams::hpAllyVisibleColor;
-	settings["ESP"]["Chams"]["hp_enemy_color"] = Settings::ESP::Chams::hpEnemyColor;
-	settings["ESP"]["Chams"]["hp_enemy_visible_color"] = Settings::ESP::Chams::hpEnemyVisibleColor;
-	settings["ESP"]["Chams"]["hp_localplayer_color"] = Settings::ESP::Chams::hpLocalplayerColor;
+	LoadColor(settings["ESP"]["Chams"]["Weapon"]["color"], Settings::ESP::Chams::Weapon::color);
+	LoadColor(settings["ESP"]["Chams"]["Arms"]["color"], Settings::ESP::Chams::Arms::color);
+	LoadColor(settings["ESP"]["Chams"]["players_ally_color"], Settings::ESP::Chams::allyColor);
+	LoadColor(settings["ESP"]["Chams"]["players_ally_visible_color"], Settings::ESP::Chams::allyVisibleColor);
+	LoadColor(settings["ESP"]["Chams"]["players_enemy_color"], Settings::ESP::Chams::enemyColor);
+	LoadColor(settings["ESP"]["Chams"]["players_enemy_visible_color"], Settings::ESP::Chams::enemyVisibleColor);
+	LoadColor(settings["ESP"]["Chams"]["localplayer_color"], Settings::ESP::Chams::localplayerColor);
 	settings["ESP"]["Chams"]["type"] = (int) Settings::ESP::Chams::type;
 	settings["ESP"]["Chams"]["enabled"] = Settings::ESP::Chams::enabled;
 	settings["ESP"]["Sounds"]["enabled"] = Settings::ESP::Sounds::enabled;
@@ -276,7 +302,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["ESP"]["Hitmarker"]["enabled"] = Settings::ESP::Hitmarker::enabled;
 	settings["ESP"]["Hitmarker"]["enemies"] = Settings::ESP::Hitmarker::enemies;
 	settings["ESP"]["Hitmarker"]["allies"] = Settings::ESP::Hitmarker::allies;
-	LoadUIColor(settings["ESP"]["Hitmarker"]["color"], Settings::ESP::Hitmarker::color);
+	LoadColor(settings["ESP"]["Hitmarker"]["color"], Settings::ESP::Hitmarker::color);
 	settings["ESP"]["Hitmarker"]["duration"] = Settings::ESP::Hitmarker::duration;
 	settings["ESP"]["Hitmarker"]["size"] = Settings::ESP::Hitmarker::size;
 	settings["ESP"]["Hitmarker"]["inner_gap"] = Settings::ESP::Hitmarker::innerGap;
@@ -327,24 +353,16 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Radar"]["visibility_check"] = Settings::Radar::visibilityCheck;
 	settings["Radar"]["smoke_check"] = Settings::Radar::smokeCheck;
 	settings["Radar"]["InGame"]["enabled"] = Settings::Radar::InGame::enabled;
-	LoadUIColor(settings["Radar"]["enemy_color"], Settings::Radar::enemyColor);
-	LoadUIColor(settings["Radar"]["enemy_visible_color"], Settings::Radar::enemyVisibleColor);
-	LoadUIColor(settings["Radar"]["ally_color"], Settings::Radar::allyColor);
-	LoadUIColor(settings["Radar"]["ally_visible_color"], Settings::Radar::allyVisibleColor);
-	LoadUIColor(settings["Radar"]["t_color"], Settings::Radar::tColor);
-	LoadUIColor(settings["Radar"]["t_visible_color"], Settings::Radar::tVisibleColor);
-	LoadUIColor(settings["Radar"]["ct_color"], Settings::Radar::ctColor);
-	LoadUIColor(settings["Radar"]["ct_visible_color"], Settings::Radar::ctVisibleColor);
-	LoadUIColor(settings["Radar"]["bomb_color"], Settings::Radar::bombColor);
-	LoadUIColor(settings["Radar"]["bomb_defusing_color"], Settings::Radar::bombDefusingColor);
-	settings["Radar"]["hp_enemy_color"] = Settings::Radar::hpEnemyColor;
-	settings["Radar"]["hp_ally_color"] = Settings::Radar::hpAllyColor;
-	settings["Radar"]["hp_enemy_visible_color"] = Settings::Radar::hpEnemyVisibleColor;
-	settings["Radar"]["hp_ally_visible_color"] = Settings::Radar::hpAllyVisibleColor;
-	settings["Radar"]["hp_ct_color"] = Settings::Radar::hpCtColor;
-	settings["Radar"]["hp_t_color"] = Settings::Radar::hpTColor;
-	settings["Radar"]["hp_ct_visible_color"] = Settings::Radar::hpCtVisibleColor;
-	settings["Radar"]["hp_t_visible_color"] = Settings::Radar::hpTVisibleColor;
+	LoadColor(settings["Radar"]["enemy_color"], Settings::Radar::enemyColor);
+	LoadColor(settings["Radar"]["enemy_visible_color"], Settings::Radar::enemyVisibleColor);
+	LoadColor(settings["Radar"]["ally_color"], Settings::Radar::allyColor);
+	LoadColor(settings["Radar"]["ally_visible_color"], Settings::Radar::allyVisibleColor);
+	LoadColor(settings["Radar"]["t_color"], Settings::Radar::tColor);
+	LoadColor(settings["Radar"]["t_visible_color"], Settings::Radar::tVisibleColor);
+	LoadColor(settings["Radar"]["ct_color"], Settings::Radar::ctColor);
+	LoadColor(settings["Radar"]["ct_visible_color"], Settings::Radar::ctVisibleColor);
+	LoadColor(settings["Radar"]["bomb_color"], Settings::Radar::bombColor);
+	LoadColor(settings["Radar"]["bomb_defusing_color"], Settings::Radar::bombDefusingColor);
 	settings["Radar"]["icons_scale"] = Settings::Radar::iconsScale;
 
 	settings["Recoilcrosshair"]["enabled"] = Settings::Recoilcrosshair::enabled;
@@ -415,10 +433,10 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["AutoAccept"]["enabled"] = Settings::AutoAccept::enabled;
 
 	settings["NoSky"]["enabled"] = Settings::NoSky::enabled;
-	LoadUIColor(settings["NoSky"]["color"], Settings::NoSky::color);
+	LoadColor(settings["NoSky"]["color"], Settings::NoSky::color);
 
 	settings["ASUSWalls"]["enabled"] = Settings::ASUSWalls::enabled;
-	LoadUIColor(settings["ASUSWalls"]["color"], Settings::ASUSWalls::color);
+	LoadColor(settings["ASUSWalls"]["color"], Settings::ASUSWalls::color);
 
 	settings["NoScopeBorder"]["enabled"] = Settings::NoScopeBorder::enabled;
 
@@ -453,12 +471,12 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["GrenadeHelper"]["aimStep"] = Settings::GrenadeHelper::aimStep;
 	settings["GrenadeHelper"]["aimDistance"] = Settings::GrenadeHelper::aimDistance;
 	settings["GrenadeHelper"]["aimFov"] = Settings::GrenadeHelper::aimFov;
-	LoadUIColor(settings["GrenadeHelper"]["aimDot"], Settings::GrenadeHelper::aimDot);
-	LoadUIColor(settings["GrenadeHelper"]["aimLine"], Settings::GrenadeHelper::aimLine);
-	LoadUIColor(settings["GrenadeHelper"]["infoHe"], Settings::GrenadeHelper::infoHE);
-	LoadUIColor(settings["GrenadeHelper"]["infoSmoke"], Settings::GrenadeHelper::infoSmoke);
-	LoadUIColor(settings["GrenadeHelper"]["infoMolotov"], Settings::GrenadeHelper::infoMolotov);
-	LoadUIColor(settings["GrenadeHelper"]["infoFlash"], Settings::GrenadeHelper::infoFlash);
+	LoadColor(settings["GrenadeHelper"]["aimDot"], Settings::GrenadeHelper::aimDot);
+	LoadColor(settings["GrenadeHelper"]["aimLine"], Settings::GrenadeHelper::aimLine);
+	LoadColor(settings["GrenadeHelper"]["infoHe"], Settings::GrenadeHelper::infoHE);
+	LoadColor(settings["GrenadeHelper"]["infoSmoke"], Settings::GrenadeHelper::infoSmoke);
+	LoadColor(settings["GrenadeHelper"]["infoMolotov"], Settings::GrenadeHelper::infoMolotov);
+	LoadColor(settings["GrenadeHelper"]["infoFlash"], Settings::GrenadeHelper::infoFlash);
 
 	std::ofstream(path) << styledWriter.write(settings);
 }
@@ -591,15 +609,6 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["ESP"]["ct_color"], &Settings::ESP::ctColor);
 	GetVal(settings["ESP"]["ct_visible_color"], &Settings::ESP::ctVisibleColor);
 	GetVal(settings["ESP"]["localplayer_color"], &Settings::ESP::localplayerColor);
-	GetVal(settings["ESP"]["hp_enemy_color"], &Settings::ESP::hpEnemyColor);
-	GetVal(settings["ESP"]["hp_enemy_visible_color"], &Settings::ESP::hpEnemyVisibleColor);
-	GetVal(settings["ESP"]["hp_ally_color"], &Settings::ESP::hpAllyColor);
-	GetVal(settings["ESP"]["hp_ally_visible_color"], &Settings::ESP::hpAllyVisibleColor);
-	GetVal(settings["ESP"]["hp_t_color"], &Settings::ESP::hpTColor);
-	GetVal(settings["ESP"]["hp_t_visible_color"], &Settings::ESP::hpTVisibleColor);
-	GetVal(settings["ESP"]["hp_ct_color"], &Settings::ESP::hpCtColor);
-	GetVal(settings["ESP"]["hp_ct_visible_color"], &Settings::ESP::hpCtVisibleColor);
-	GetVal(settings["ESP"]["hp_localplayer_color"], &Settings::ESP::hpLocalplayerColor);
 	GetVal(settings["ESP"]["bomb_color"], &Settings::ESP::bombColor);
 	GetVal(settings["ESP"]["bomb_defusing_color"], &Settings::ESP::bombDefusingColor);
 	GetVal(settings["ESP"]["hostage_color"], &Settings::ESP::hostageColor);
@@ -617,10 +626,6 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["ESP"]["Glow"]["enemy_color"], &Settings::ESP::Glow::enemyColor);
 	GetVal(settings["ESP"]["Glow"]["enemy_visible_color"], &Settings::ESP::Glow::enemyVisibleColor);
 	GetVal(settings["ESP"]["Glow"]["localplayer_color"], &Settings::ESP::Glow::localplayerColor);
-	GetVal(settings["ESP"]["Glow"]["hp_ally_color"], &Settings::ESP::Glow::hpAllyColor);
-	GetVal(settings["ESP"]["Glow"]["hp_enemy_color"], &Settings::ESP::Glow::hpEnemyColor);
-	GetVal(settings["ESP"]["Glow"]["hp_enemy_visible_color"], &Settings::ESP::Glow::hpEnemyVisibleColor);
-	GetVal(settings["ESP"]["Glow"]["hp_localplayer_color"], &Settings::ESP::Glow::hpLocalplayerColor);
 	GetVal(settings["ESP"]["Glow"]["weapon_color"], &Settings::ESP::Glow::weaponColor);
 	GetVal(settings["ESP"]["Glow"]["grenade_color"], &Settings::ESP::Glow::grenadeColor);
 	GetVal(settings["ESP"]["Glow"]["defuser_color"], &Settings::ESP::Glow::defuserColor);
@@ -676,11 +681,6 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["ESP"]["Chams"]["players_enemy_color"], &Settings::ESP::Chams::enemyColor);
 	GetVal(settings["ESP"]["Chams"]["players_enemy_visible_color"], &Settings::ESP::Chams::enemyVisibleColor);
 	GetVal(settings["ESP"]["Chams"]["localplayer_color"], &Settings::ESP::Chams::localplayerColor);
-	GetVal(settings["ESP"]["Chams"]["hp_players_ally_color"], &Settings::ESP::Chams::hpAllyColor);
-	GetVal(settings["ESP"]["Chams"]["hp_players_ally_visible_color"], &Settings::ESP::Chams::hpAllyVisibleColor);
-	GetVal(settings["ESP"]["Chams"]["hp_players_enemy_color"], &Settings::ESP::Chams::hpEnemyColor);
-	GetVal(settings["ESP"]["Chams"]["hp_players_enemy_visible_color"], &Settings::ESP::Chams::hpEnemyVisibleColor);
-	GetVal(settings["ESP"]["Chams"]["hp_localplayer_color"], &Settings::ESP::Chams::hpLocalplayerColor);
 	GetVal(settings["ESP"]["Chams"]["type"], (int*)& Settings::ESP::Chams::type);
 	GetVal(settings["ESP"]["Chams"]["enabled"], &Settings::ESP::Chams::enabled);
 	GetVal(settings["ESP"]["Sounds"]["enabled"], &Settings::ESP::Sounds::enabled);
@@ -748,14 +748,6 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["Radar"]["t_visible_color"], &Settings::Radar::tVisibleColor);
 	GetVal(settings["Radar"]["ct_color"], &Settings::Radar::ctColor);
 	GetVal(settings["Radar"]["ct_visible_color"], &Settings::Radar::ctVisibleColor);
-	GetVal(settings["Radar"]["hp_enemy_color"], &Settings::Radar::hpEnemyColor);
-	GetVal(settings["Radar"]["hp_enemy_visible_color"], &Settings::Radar::hpEnemyVisibleColor);
-	GetVal(settings["Radar"]["hp_ally_color"], &Settings::Radar::hpAllyColor);
-	GetVal(settings["Radar"]["hp_ally_visible_color"], &Settings::Radar::hpAllyVisibleColor);
-	GetVal(settings["Radar"]["hp_t_color"], &Settings::Radar::hpTColor);
-	GetVal(settings["Radar"]["hp_t_visible_color"], &Settings::Radar::hpTVisibleColor);
-	GetVal(settings["Radar"]["hp_ct_color"], &Settings::Radar::hpCtColor);
-	GetVal(settings["Radar"]["hp_ct_visible_color"], &Settings::Radar::hpCtVisibleColor);
 	GetVal(settings["Radar"]["bomb_color"], &Settings::Radar::bombColor);
 	GetVal(settings["Radar"]["bomb_defusing_color"], &Settings::Radar::bombDefusingColor);
 	GetVal(settings["Radar"]["icons_scale"], &Settings::Radar::iconsScale);
