@@ -23,13 +23,13 @@ enum class SmoothType : int
 {
 	SLOW_END,
 	CONSTANT,
-	FAST_END
+	FAST_END,
 };
 
 enum class  TracerType : int
 {
 	BOTTOM,
-	CURSOR
+	CURSOR,
 };
 
 enum class ClanTagType : int
@@ -37,7 +37,7 @@ enum class ClanTagType : int
 	STATIC,
 	MARQUEE,
 	WORDS,
-	LETTERS
+	LETTERS,
 };
 
 enum class AutostrafeType : int
@@ -46,7 +46,7 @@ enum class AutostrafeType : int
 	AS_BACKWARDS,
 	AS_LEFTSIDEWAYS,
 	AS_RIGHTSIDEWAYS,
-	AS_RAGE
+	AS_RAGE,
 };
 
 enum class AntiAimType_Y : int
@@ -68,7 +68,7 @@ enum class AntiAimType_Y : int
 	LISP_JITTER,
 	ANGEL_BACKWARD,
 	ANGEL_INVERSE,
-	ANGEL_SPIN
+	ANGEL_SPIN,
 };
 
 enum class AntiAimType_X : int
@@ -81,7 +81,7 @@ enum class AntiAimType_X : int
 	STATIC_DOWN_FAKE,
 	LISP_DOWN,
 	ANGEL_DOWN,
-	ANGEL_UP
+	ANGEL_UP,
 };
 
 enum class ChamsType : int
@@ -89,14 +89,14 @@ enum class ChamsType : int
 	CHAMS,
 	CHAMS_XQZ,
 	CHAMS_FLAT,
-	CHAMS_FLAT_XQZ
+	CHAMS_FLAT_XQZ,
 };
 
 enum class BoxType : int
 {
 	FLAT_2D,
 	FRAME_2D,
-	BOX_3D
+	BOX_3D,
 };
 
 enum class BarType : int
@@ -111,20 +111,20 @@ enum class BarType : int
 enum class BarColorType : int
 {
 	STATIC_COLOR,
-	HEALTH_BASED
+	HEALTH_BASED,
 };
 
 enum class TeamColorType : int
 {
 	ABSOLUTE,
-	RELATIVE
+	RELATIVE,
 };
 
 enum class ArmsType : int
 {
 	DEFAULT,
 	WIREFRAME,
-	NONE
+	NONE,
 };
 
 enum class AimTargetType : int
@@ -132,14 +132,14 @@ enum class AimTargetType : int
 	FOV,
 	DISTANCE,
 	REAL_DISTANCE,
-	HP
+	HP,
 };
 
 enum class SpammerType : int
 {
 	SPAMMER_NONE,
 	SPAMMER_NORMAL,
-	SPAMMER_POSITIONS
+	SPAMMER_POSITIONS,
 };
 
 struct AimbotWeapon_t
