@@ -102,7 +102,7 @@ void GrenadeHelper::Paint()
 		if (Settings::GrenadeHelper::onlyMatchingInfos && getGrenadeType(activeWeapon) != grenadeInfo->gType)
 			continue;
 
-		float dist = grenadeInfo->pos.DistTo(localPlayer->GetVecOrigin());
+		float dist = grenadeInfo->pos.DistTo(localPlayer->GetEyePosition());
 		if (dist > 1000)
 			continue;
 
