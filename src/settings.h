@@ -254,6 +254,7 @@ class ColorVar
 public:
 	ImColor color;
 	bool rainbow;
+	float rainbowSpeed;
 
 	ColorVar() {}
 
@@ -261,11 +262,12 @@ public:
 	{
 		this->color = color;
 		this->rainbow = false;
+		this->rainbowSpeed = 0.5f;
 	}
 
 	ImColor Color()
 	{
-		ImColor result = this->rainbow ? Util::GetRainbowColor() : this->color;
+		ImColor result = this->rainbow ? Util::GetRainbowColor(this->rainbowSpeed) : this->color;
 		result.Value.w = this->color.Value.w;
 		return result;
 	}
@@ -280,12 +282,13 @@ public:
 	{
 		this->color = color;
 		this->rainbow = false;
+		this->rainbowSpeed = 0.5f;
 		this->hp = false;
 	}
 
 	ImColor Color(C_BasePlayer* player)
 	{
-		ImColor result = this->rainbow ? Util::GetRainbowColor() : (this->hp ? Color::ToImColor(Util::GetHealthColor(player)) : this->color);
+		ImColor result = this->rainbow ? Util::GetRainbowColor(this->rainbowSpeed) : (this->hp ? Color::ToImColor(Util::GetHealthColor(player)) : this->color);
 		result.Value.w = this->color.Value.w;
 		return result;
 	}
@@ -298,7 +301,6 @@ namespace Settings
 		extern ColorVar mainColor;
 		extern ColorVar bodyColor;
 		extern ColorVar fontColor;
-		extern float rainbowSpeed;
 
 		namespace Fonts
 		{

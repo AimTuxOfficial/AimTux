@@ -7,7 +7,6 @@ bool Settings::ScreenshotCleaner::enabled = false;
 ColorVar Settings::UI::mainColor = ImColor(54, 54, 54, 255);
 ColorVar Settings::UI::bodyColor = ImColor(24, 24, 24, 240);
 ColorVar Settings::UI::fontColor = ImColor(255, 255, 255, 255);
-float Settings::UI::rainbowSpeed = 0.2f;
 
 #define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))
 

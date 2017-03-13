@@ -111,8 +111,7 @@ void Colors::RenderWindow()
 		ImGui::Columns(2, NULL, true);
 		{
 			ImGui::PushItemWidth(-1);
-			ImGui::ListBox("##COLORSELECTION", &colorSelected, colorNames, IM_ARRAYSIZE(colorNames), 11);
-			ImGui::SliderFloat("##RAINBOWSPEED", &Settings::UI::rainbowSpeed, 0.f, 1.f, "Rainbow Speed: %0.3f");
+			ImGui::ListBox("##COLORSELECTION", &colorSelected, colorNames, IM_ARRAYSIZE(colorNames), 12);
 			ImGui::PopItemWidth();
 		}
 		ImGui::NextColumn();
@@ -125,12 +124,18 @@ void Colors::RenderWindow()
 				ImGui::SameLine();
 				ImGui::Checkbox("Health-Based", &colors[colorSelected].healthColorVarPtr->hp);
 				SetTooltip("Takes color from entity health, i.e. 100 - green, 50 - yellow.");
+				ImGui::PushItemWidth(-1);
+				ImGui::SliderFloat("##RAINBOWSPEED", &colors[colorSelected].healthColorVarPtr->rainbowSpeed, 0.f, 1.f, "Rainbow Speed: %0.3f");
+				ImGui::PopItemWidth();
 			}
 			else
 			{
 				UI::ColorPicker4((float*)colors[colorSelected].colorVarPtr);
 				ImGui::Checkbox("Rainbow", &colors[colorSelected].colorVarPtr->rainbow);
 				SetTooltip("Makes the color an animated rainbow.");
+				ImGui::PushItemWidth(-1);
+				ImGui::SliderFloat("##RAINBOWSPEED", &colors[colorSelected].colorVarPtr->rainbowSpeed, 0.f, 1.f, "Rainbow Speed: %0.3f");
+				ImGui::PopItemWidth();
 			}
 		}
 		ImGui::End();

@@ -107,9 +107,9 @@ long Util::GetEpochTime()
 	return std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
 }
 
-ImColor Util::GetRainbowColor()
+ImColor Util::GetRainbowColor(float speed)
 {
-	float speed = 0.002f * Settings::UI::rainbowSpeed;
+	speed = 0.002f * speed;
 	long now = Util::GetEpochTime();
 	float hue = (now % (int)(1.0f / speed)) * speed;
 

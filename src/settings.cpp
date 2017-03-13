@@ -61,6 +61,7 @@ void GetVal(Json::Value &config, ColorVar* setting)
 	GetVal(config["b"], &setting->color.Value.z);
 	GetVal(config["a"], &setting->color.Value.w);
 	GetVal(config["rainbow"], &setting->rainbow);
+	GetVal(config["rainbowSpeed"], &setting->rainbowSpeed);
 }
 
 void GetVal(Json::Value &config, HealthColorVar* setting)
@@ -73,6 +74,7 @@ void GetVal(Json::Value &config, HealthColorVar* setting)
 	GetVal(config["b"], &setting->color.Value.z);
 	GetVal(config["a"], &setting->color.Value.w);
 	GetVal(config["rainbow"], &setting->rainbow);
+	GetVal(config["rainbowSpeed"], &setting->rainbowSpeed);
 	GetVal(config["hp"], &setting->hp);
 }
 
@@ -111,6 +113,7 @@ void LoadColor(Json::Value &config, ColorVar color)
 	config["b"] = color.color.Value.z;
 	config["a"] = color.color.Value.w;
 	config["rainbow"] = color.rainbow;
+	config["rainbowSpeed"] = color.rainbowSpeed;
 }
 
 void LoadColor(Json::Value &config, HealthColorVar color)
@@ -120,6 +123,7 @@ void LoadColor(Json::Value &config, HealthColorVar color)
 	config["b"] = color.color.Value.z;
 	config["a"] = color.color.Value.w;
 	config["rainbow"] = color.rainbow;
+	config["rainbowSpeed"] = color.rainbowSpeed;
 	config["hp"] = color.hp;
 }
 
