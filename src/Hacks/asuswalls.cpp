@@ -1,7 +1,7 @@
 #include "asuswalls.h"
 
 bool Settings::ASUSWalls::enabled = false;
-ImColor Settings::ASUSWalls::color = ImColor(255, 255, 255, 150);
+ColorVar Settings::ASUSWalls::color = ImColor(255, 255, 255, 150);
 float r = 0.0f, g = 0.0f, b = 0.0f, a = 0.0f;
 
 std::unordered_map<MaterialHandle_t, ImColor> worldMaterials;
@@ -47,7 +47,7 @@ void ASUSWalls::FrameStageNotify(ClientFrameStage_t stage)
 			worldMaterials2.emplace(i, ImColor(r, g, b, a));
 		}
 
-		ImColor color = (Settings::ASUSWalls::enabled && Settings::ESP::enabled) ? Settings::ASUSWalls::color : worldMaterials2.find(i)->second;
+		ImColor color = (Settings::ASUSWalls::enabled && Settings::ESP::enabled) ? Settings::ASUSWalls::color.Color() : worldMaterials2.find(i)->second;
 
 		if (worldMaterials.at(i) != color)
 		{
