@@ -221,7 +221,7 @@ void Visuals::RenderTab()
 				ImGui::Checkbox("Radar", &Settings::Radar::enabled);
 				SetTooltip("Shows players on the custom radar");
 				ImGui::PushItemWidth(-1);
-				ImGui::Combo("##RADARTEAMCOLTYPE", (int*)& Settings::Radar::team_color_type, TeamColorTypes, IM_ARRAYSIZE(TeamColorTypes));
+				ImGui::Combo("##RADARTEAMCOLTYPE", (int*)& Settings::Radar::teamColorType, TeamColorTypes, IM_ARRAYSIZE(TeamColorTypes));
 				ImGui::PopItemWidth();
 				ImGui::Checkbox("Enemies", &Settings::Radar::enemies);
 				ImGui::Checkbox("Bomb", &Settings::Radar::bomb);

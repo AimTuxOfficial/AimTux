@@ -8,9 +8,8 @@ void Misc::RenderTab()
 	const char* animationTypes[] = { "Static", "Marquee", "Words", "Letters" };
 	const char* spammerTypes[] = { "None", "Normal", "Positions" };
 	const char* teams[] = { "Allies", "Enemies", "Both" };
-    const char* grenadeTypes[] = { "Flash", "Smoke", "Molotov", "Hegrenade" };
-	const char* throwTypes[] = { "Normal", "Run", "Jump", "Walk" };
-
+	const char* grenadeTypes[] = { "FLASH", "SMOKE", "MOLOTOV", "HEGRENADE" };
+	const char* throwTypes[] = { "NORMAL", "RUN", "JUMP", "WALK" };
 
 	ImGui::Columns(2, NULL, true);
 	{
@@ -209,12 +208,12 @@ void Misc::RenderTab()
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
-            ImGui::Text("Grenade Helper");
+			ImGui::Text("Grenade Helper");
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox("Enabled ###ghenabled", &Settings::GrenadeHelper::enabled);
-				SetTooltip("Show saved Grenade Throws, Visuals required.");
+				SetTooltip("Show Saved Grenade Throws, Visuals required.");
 			}
 			ImGui::NextColumn();
 			{
@@ -230,14 +229,14 @@ void Misc::RenderTab()
 				if (ImGui::BeginPopup("optionAimAssist"))
 				{
 					ImGui::PushItemWidth(-1);
-					ImGui::Checkbox("enabled", &Settings::GrenadeHelper::aimAssist);
-					SetTooltip("Whether the Aim assist will help you throw Grenades.");
-					ImGui::SliderFloat("###aimstep", &Settings::GrenadeHelper::aimStep, 0, 10, "X: %0.3f");
-					SetTooltip("The speed at which the Aim assist helps.");
-					ImGui::SliderFloat("###aimfov", &Settings::GrenadeHelper::aimFov, 0, 180, "Y: %0.2f");
-					SetTooltip("The Fov at which the Aim assist starts.");
-					ImGui::SliderFloat("###aimdistance", &Settings::GrenadeHelper::aimDistance, 0, 100, "Y: %0.2f");
-					SetTooltip("The distance at which the Aim assist starts.");
+					ImGui::Checkbox("Enabled", &Settings::GrenadeHelper::aimAssist);
+					SetTooltip("Whether the Aimassist will help you throw Grenades.");
+					ImGui::SliderFloat("###aimstep", &Settings::GrenadeHelper::aimStep, 0, 10, "Speed: %0.3f");
+					SetTooltip("The speed at which the aim assist helps.");
+					ImGui::SliderFloat("###aimfov", &Settings::GrenadeHelper::aimFov, 0, 180, "FOV: %0.2f");
+					SetTooltip("The Fov at which the aim assist starts.");
+					ImGui::SliderFloat("###aimdistance", &Settings::GrenadeHelper::aimDistance, 0, 100, "Distance: %0.2f");
+					SetTooltip("The distance at which the aim assist starts.");
 					ImGui::PopItemWidth();
 
 					ImGui::EndPopup();
@@ -270,7 +269,7 @@ void Misc::RenderTab()
 					}
 					ImGui::Columns(1);
 					ImGui::PushItemWidth(500);
-						ImGui::InputText("", inputName, sizeof(inputName));
+					ImGui::InputText("", inputName, sizeof(inputName));
 					ImGui::PopItemWidth();
 					ImGui::SameLine();
 					if (ImGui::Button("Add") && engine->IsInGame() && Settings::GrenadeHelper::actMapName.length() > 0)
@@ -288,9 +287,9 @@ void Misc::RenderTab()
 						strcpy(inputName, "");
 					}
 					ImGui::Columns(2);
-						ImGui::Combo("###Throwtype", &tType, throwTypes, IM_ARRAYSIZE(throwTypes));
+					ImGui::Combo("###Throwtype", &tType, throwTypes, IM_ARRAYSIZE(throwTypes));
 					ImGui::NextColumn();
-						ImGui::Combo("###Grenadetype", &gType, grenadeTypes, IM_ARRAYSIZE(grenadeTypes));
+					ImGui::Combo("###Grenadetype", &gType, grenadeTypes, IM_ARRAYSIZE(grenadeTypes));
 					ImGui::Columns(1);
 					ImGui::Separator();
 					ImGui::PushItemWidth(550);
@@ -410,8 +409,6 @@ void Misc::RenderTab()
 				SetTooltip("Chokes packets based on velocity (minimum choked is fakelag value)");
 				ImGui::Checkbox("Auto Accept", &Settings::AutoAccept::enabled);
 				SetTooltip("Auto accept games when in MM queue");
-				ImGui::Checkbox("Auto Defuse", &Settings::AutoDefuse::enabled);
-				SetTooltip("Will automatically defuse the bomb with 0.5 seconds remaining - starts at 5.5 seconds until explosion with kit and 10.5 without");
 				ImGui::Checkbox("AirStuck", &Settings::Airstuck::enabled);
 				SetTooltip("Stops tickrate so you freeze in place");
 				ImGui::Checkbox("Autoblock", &Settings::Autoblock::enabled);
@@ -427,6 +424,8 @@ void Misc::RenderTab()
 				SetTooltip("Teleport to (0, 0) on any map");
 				ImGui::Checkbox("Jump Throw", &Settings::JumpThrow::enabled);
 				SetTooltip("Hold to prime grenade, release to perform perfect jump throw. Good for executing map smokes.");
+				ImGui::Checkbox("Auto Defuse", &Settings::AutoDefuse::enabled);
+				SetTooltip("Will automatically defuse the bomb with 0.5 seconds remaining - starts at 5.5 seconds until explosion with kit and 10.5 without");
 				ImGui::Checkbox("Sniper Crosshair", &Settings::SniperCrosshair::enabled);
 				SetTooltip("Enables the crosshair with sniper rifles");
 				ImGui::Checkbox("Disable post-processing", &Settings::DisablePostProcessing::enabled);
@@ -440,7 +439,7 @@ void Misc::RenderTab()
 				ImGui::Checkbox("Show Ranks", &Settings::ShowRanks::enabled);
 				SetTooltip("Displays competitive rank of all players in the scoreboard next to their name during a competitive match");
 				ImGui::Checkbox("Screenshot Cleaner", &Settings::ScreenshotCleaner::enabled);
-				SetTooltip("Prevents Supreme visuals from appearing in screenshots taken");
+				SetTooltip("Prevents AimTux visuals from appearing in screenshots taken");
 				UI::KeyBindButton(&Settings::Airstuck::key);
 				UI::KeyBindButton(&Settings::Autoblock::key);
 				UI::KeyBindButton(&Settings::Teleport::key);
