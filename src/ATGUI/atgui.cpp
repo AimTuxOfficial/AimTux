@@ -4,9 +4,9 @@ bool UI::isVisible = false;
 
 bool Settings::ScreenshotCleaner::enabled = false;
 
-ImColor Settings::UI::mainColor = ImColor(54, 54, 54, 255);
-ImColor Settings::UI::bodyColor = ImColor(24, 24, 24, 240);
-ImColor Settings::UI::fontColor = ImColor(255, 255, 255, 255);
+ColorVar Settings::UI::mainColor = ImColor(54, 54, 54, 255);
+ColorVar Settings::UI::bodyColor = ImColor(24, 24, 24, 240);
+ColorVar Settings::UI::fontColor = ImColor(255, 255, 255, 255);
 
 #define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))
 
@@ -46,13 +46,11 @@ void UI::SwapWindow()
 	if (UI::isVisible)
 		return;
 
-	if (engine->IsInGame())
-		return;
+	//if (engine->IsInGame())
+	//	return;
+	//NOTE:SHOW HACK LOGO ALL TIME
 
-    static float rainbow;
-	rainbow += 0.005f;
-	if ( rainbow > 1.f ) rainbow = 0.f;
-	Draw::ImDrawText(ImVec2(4.f, 4.f), ImColor( 255, 25, 25, 255), "SupremeHack", NULL, 0.0f, NULL, ImFontFlags_Shadow);
+	Draw::ImDrawText(ImVec2(4.f, 4.f), ImColor(231, 76, 60, 255), "Supreme", NULL, 0.0f, NULL, ImFontFlags_Shadow);
 }
 
 void UI::SetVisible(bool visible)
