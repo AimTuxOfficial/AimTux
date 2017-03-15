@@ -17,18 +17,19 @@
 #include "Utils/util_sdk.h"
 #include "config.h"
 #include "ATGUI/atgui.h"
+#include "Hacks/esp.h"
 
 enum class SmoothType : int
 {
 	SLOW_END,
 	CONSTANT,
-	FAST_END
+	FAST_END,
 };
 
 enum class  TracerType : int
 {
 	BOTTOM,
-	CURSOR
+	CURSOR,
 };
 
 enum class ClanTagType : int
@@ -36,7 +37,7 @@ enum class ClanTagType : int
 	STATIC,
 	MARQUEE,
 	WORDS,
-	LETTERS
+	LETTERS,
 };
 
 enum class AutostrafeType : int
@@ -45,7 +46,7 @@ enum class AutostrafeType : int
 	AS_BACKWARDS,
 	AS_LEFTSIDEWAYS,
 	AS_RIGHTSIDEWAYS,
-	AS_RAGE
+	AS_RAGE,
 };
 
 enum class AntiAimType_Y : int
@@ -74,7 +75,7 @@ enum class AntiAimType_Y : int
 	LISP_JITTER,
 	ANGEL_BACKWARD,
 	ANGEL_INVERSE,
-	ANGEL_SPIN
+	ANGEL_SPIN,
 };
 
 enum class AntiAimType_X : int
@@ -90,7 +91,7 @@ enum class AntiAimType_X : int
 	STATIC_DOWN_FAKE,
 	LISP_DOWN,
 	ANGEL_DOWN,
-	ANGEL_UP
+	ANGEL_UP,
 };
 
 enum class ChamsType : int
@@ -98,14 +99,14 @@ enum class ChamsType : int
 	CHAMS,
 	CHAMS_XQZ,
 	CHAMS_FLAT,
-	CHAMS_FLAT_XQZ
+	CHAMS_FLAT_XQZ,
 };
 
 enum class BoxType : int
 {
 	FLAT_2D,
 	FRAME_2D,
-	BOX_3D
+	BOX_3D,
 };
 
 enum class BarType : int
@@ -114,27 +115,26 @@ enum class BarType : int
 	VERTICAL_RIGHT,
 	HORIZONTAL,
 	HORIZONTAL_UP,
-	INTERWEBZ
+	INTERWEBZ,
 };
 
 enum class BarColorType : int
 {
 	STATIC_COLOR,
-	HEALTH_BASED
+	HEALTH_BASED,
 };
 
 enum class TeamColorType : int
 {
 	ABSOLUTE,
-	RELATIVE
+	RELATIVE,
 };
 
 enum class ArmsType : int
 {
 	DEFAULT,
-	RAINBOW,
 	WIREFRAME,
-	NONE
+	NONE,
 };
 
 enum class AimTargetType : int
@@ -142,14 +142,14 @@ enum class AimTargetType : int
 	FOV,
 	DISTANCE,
 	REAL_DISTANCE,
-	HP
+	HP,
 };
 
 enum class SpammerType : int
 {
 	SPAMMER_NONE,
 	SPAMMER_NORMAL,
-	SPAMMER_POSITIONS
+	SPAMMER_POSITIONS,
 };
 
 struct AimbotWeapon_t
@@ -259,13 +259,58 @@ struct AimbotWeapon_t
 	}
 };
 
+class ColorVar
+{
+public:
+	ImColor color;
+	bool rainbow;
+	float rainbowSpeed;
+
+	ColorVar() {}
+
+	ColorVar(ImColor color)
+	{
+		this->color = color;
+		this->rainbow = false;
+		this->rainbowSpeed = 0.5f;
+	}
+
+	ImColor Color()
+	{
+		ImColor result = this->rainbow ? Util::GetRainbowColor(this->rainbowSpeed) : this->color;
+		result.Value.w = this->color.Value.w;
+		return result;
+	}
+};
+
+class HealthColorVar : public ColorVar
+{
+public:
+	bool hp;
+
+	HealthColorVar(ImColor color)
+	{
+		this->color = color;
+		this->rainbow = false;
+		this->rainbowSpeed = 0.5f;
+		this->hp = false;
+	}
+
+	ImColor Color(C_BasePlayer* player)
+	{
+		ImColor result = this->rainbow ? Util::GetRainbowColor(this->rainbowSpeed) : (this->hp ? Color::ToImColor(Util::GetHealthColor(player)) : this->color);
+		result.Value.w = this->color.Value.w;
+		return result;
+	}
+};
+
 namespace Settings
 {
 	namespace UI
 	{
-		extern ImColor mainColor;
-		extern ImColor bodyColor;
-		extern ImColor fontColor;
+		extern ColorVar mainColor;
+		extern ColorVar bodyColor;
+		extern ColorVar fontColor;
 
 		namespace Fonts
 		{
@@ -448,52 +493,39 @@ namespace Settings
 	{
 		extern bool enabled;
 		extern TeamColorType teamColorType;
-		extern ImColor enemyColor;
-		extern ImColor allyColor;
-		extern ImColor enemyVisibleColor;
-		extern ImColor allyVisibleColor;
-		extern ImColor ctColor;
-		extern ImColor tColor;
-		extern ImColor ctVisibleColor;
-		extern ImColor tVisibleColor;
-		extern ImColor bombColor;
-		extern ImColor bombDefusingColor;
-		extern ImColor hostageColor;
-		extern ImColor defuserColor;
-		extern ImColor weaponColor;
-		extern ImColor chickenColor;
-		extern ImColor fishColor;
-		extern ImColor smokeColor;
-		extern ImColor decoyColor;
-		extern ImColor flashbangColor;
-		extern ImColor grenadeColor;
-		extern ImColor molotovColor;
-		extern ImColor localplayerColor;
-		extern bool hpEnemyColor;
-		extern bool hpAllyColor;
-		extern bool hpEnemyVisibleColor;
-		extern bool hpAllyVisibleColor;
-		extern bool hpCtColor;
-		extern bool hpTColor;
-		extern bool hpCtVisibleColor;
-		extern bool hpTVisibleColor;
-		extern bool hpLocalplayerColor;
+		extern HealthColorVar enemyColor;
+		extern HealthColorVar allyColor;
+		extern HealthColorVar enemyVisibleColor;
+		extern HealthColorVar allyVisibleColor;
+		extern HealthColorVar ctColor;
+		extern HealthColorVar tColor;
+		extern HealthColorVar ctVisibleColor;
+		extern HealthColorVar tVisibleColor;
+		extern ColorVar bombColor;
+		extern ColorVar bombDefusingColor;
+		extern ColorVar hostageColor;
+		extern ColorVar defuserColor;
+		extern ColorVar weaponColor;
+		extern ColorVar chickenColor;
+		extern ColorVar fishColor;
+		extern ColorVar smokeColor;
+		extern ColorVar decoyColor;
+		extern ColorVar flashbangColor;
+		extern ColorVar grenadeColor;
+		extern ColorVar molotovColor;
+		extern HealthColorVar localplayerColor;
 
 		namespace Glow
 		{
 			extern bool enabled;
-			extern ImColor allyColor;
-			extern ImColor enemyColor;
-			extern ImColor enemyVisibleColor;
-			extern ImColor weaponColor;
-			extern ImColor grenadeColor;
-			extern ImColor defuserColor;
-			extern ImColor chickenColor;
-			extern ImColor localplayerColor;
-			extern bool hpAllyColor;
-			extern bool hpEnemyColor;
-			extern bool hpEnemyVisibleColor;
-			extern bool hpLocalplayerColor;
+			extern HealthColorVar allyColor;
+			extern HealthColorVar enemyColor;
+			extern HealthColorVar enemyVisibleColor;
+			extern ColorVar weaponColor;
+			extern ColorVar grenadeColor;
+			extern ColorVar defuserColor;
+			extern ColorVar chickenColor;
+			extern HealthColorVar localplayerColor;
 		}
 
 		namespace Filters
@@ -536,7 +568,7 @@ namespace Settings
 		namespace Skeleton
 		{
 			extern bool enabled;
-			extern ImColor color;
+			extern ColorVar color;
 		}
 
 		namespace Boxes
@@ -572,35 +604,30 @@ namespace Settings
 		{
 			extern bool enabled;
 			extern bool filled;
-			extern ImColor color;
+			extern ColorVar color;
 		}
 
 		namespace Chams
 		{
 			extern bool enabled;
-			extern ImColor allyColor;
-			extern ImColor allyVisibleColor;
-			extern ImColor enemyColor;
-			extern ImColor enemyVisibleColor;
-			extern ImColor localplayerColor;
+			extern HealthColorVar allyColor;
+			extern HealthColorVar allyVisibleColor;
+			extern HealthColorVar enemyColor;
+			extern HealthColorVar enemyVisibleColor;
+			extern HealthColorVar localplayerColor;
 			extern ChamsType type;
-			extern bool hpAllyColor;
-			extern bool hpAllyVisibleColor;
-			extern bool hpEnemyColor;
-			extern bool hpEnemyVisibleColor;
-			extern bool hpLocalplayerColor;
 
 			namespace Arms
 			{
 				extern bool enabled;
-				extern ImColor color;
+				extern ColorVar color;
 				extern ArmsType type;
 			}
 
 			namespace Weapon
 			{
 				extern bool enabled;
-				extern ImColor color;
+				extern ColorVar color;
 			}
 		}
 
@@ -615,7 +642,7 @@ namespace Settings
 			extern bool enabled;
 			extern bool enemies;
 			extern bool allies;
-			extern ImColor color;
+			extern ColorVar color;
 			extern int duration;
 			extern int size;
 			extern int innerGap;
@@ -712,27 +739,19 @@ namespace Settings
 		extern bool legit;
 		extern bool visibilityCheck;
 		extern bool smokeCheck;
-		extern TeamColorType team_color_type;
-		extern ImColor enemyColor;
-		extern ImColor enemyVisibleColor;
-		extern ImColor allyColor;
-		extern ImColor allyVisibleColor;
-		extern ImColor tColor;
-		extern ImColor tVisibleColor;
-		extern ImColor ctColor;
-		extern ImColor ctVisibleColor;
-		extern ImColor bombColor;
-		extern ImColor bombDefusingColor;
-		extern ImColor defuser_color;
+		extern TeamColorType teamColorType;
+		extern HealthColorVar enemyColor;
+		extern HealthColorVar enemyVisibleColor;
+		extern HealthColorVar allyColor;
+		extern HealthColorVar allyVisibleColor;
+		extern HealthColorVar tColor;
+		extern HealthColorVar tVisibleColor;
+		extern HealthColorVar ctColor;
+		extern HealthColorVar ctVisibleColor;
+		extern ColorVar bombColor;
+		extern ColorVar bombDefusingColor;
+		extern ColorVar defuserColor;
 		extern float iconsScale;
-		extern bool hpEnemyColor;
-		extern bool hpEnemyVisibleColor;
-		extern bool hpAllyColor;
-		extern bool hpAllyVisibleColor;
-		extern bool hpTColor;
-		extern bool hpTVisibleColor;
-		extern bool hpCtColor;
-		extern bool hpCtVisibleColor;
 
 		namespace InGame
 		{
@@ -770,7 +789,7 @@ namespace Settings
 		{
 			extern bool enabled;
 		}
-		
+
 		extern std::unordered_map<ItemDefinitionIndex, AttribItem_t, Util::IntHash<ItemDefinitionIndex>> skinsCT;
 		extern std::unordered_map<ItemDefinitionIndex, AttribItem_t, Util::IntHash<ItemDefinitionIndex>> skinsT;
 	}
@@ -828,13 +847,13 @@ namespace Settings
 	namespace NoSky
 	{
 		extern bool enabled;
-		extern ImColor color;
+		extern ColorVar color;
 	}
 
 	namespace ASUSWalls
 	{
 		extern bool enabled;
-		extern ImColor color;
+		extern ColorVar color;
 	}
 
 	namespace NoScopeBorder
@@ -886,7 +905,12 @@ namespace Settings
 		extern ButtonCode_t key;
 	}
 
-    namespace GrenadeHelper
+	namespace DisablePostProcessing
+	{
+		extern bool enabled;
+	}
+
+	namespace GrenadeHelper
 	{
 		extern std::vector<GrenadeInfo> grenadeInfos;
 		extern bool enabled;
@@ -895,24 +919,19 @@ namespace Settings
 		extern float aimStep;
 		extern float aimDistance;
 		extern float aimFov;
-		extern ImColor aimDot;
-		extern ImColor aimLine;
-		extern ImColor infoHE;
-		extern ImColor infoSmoke;
-		extern ImColor infoFlash;
-		extern ImColor infoMolotov;
+		extern ColorVar aimDot;
+		extern ColorVar aimLine;
+		extern ColorVar infoHE;
+		extern ColorVar infoSmoke;
+		extern ColorVar infoFlash;
+		extern ColorVar infoMolotov;
 		extern pstring actMapName;
-	}
-
-	namespace DisablePostProcessing
-	{
-		extern bool enabled;
 	}
 
 	void LoadDefaultsOrSave(std::string path);
 	void LoadConfig(std::string path);
 	void LoadSettings();
+	void DeleteConfig(std::string path);
 	void SaveGrenadeInfo(std::string path);
 	void LoadGrenadeInfo(std::string path);
-	void DeleteConfig(std::string path);
 }
