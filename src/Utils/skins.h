@@ -570,6 +570,14 @@ const std::map<int, PaintNames_t> itemSkins = {
 		{ 646, { "#PaintKit_cu_five_seven_capillary_Tag", "five_seven_capillary" } },
 		{ 650, { "#PaintKit_cu_p250_ripple_Tag", "p250_ripple" } },
 		{ 642, { "#PaintKit_gs_SCAR20_blueprint_Tag", "scar20_blueprint" } },
+		{ 648, { "#PaintKit_gs_m249_Emerald_Poison_Dart_Tag", "m249_Emerald_Poison_Dart" } },
+		{ 647, { "#PaintKit_cu_galil_Crimson_Tsunami_Tag", "galil_Crimson_Tsunami" } },
+		{ 654, { "#PaintKit_cu_xm1014_Seasons_Tag", "xm1014_Seasons" } },
+		{ 652, { "#PaintKit_cu_ump45_Scaffold_Tag", "ump45_Scaffold" } },
+		{ 651, { "#PaintKit_cu_mac10_last_dive_tag", "mac10_last_dive" } },
+		{ 655, { "#PaintKit_cu_sawedoff_Zander_tag", "sawedoff_Zander" } },
+		{ 649, { "#PaintKit_aq_mp7_Akoben_Tag", "mp7_Akoben" } },
+		{ 641, { "#PaintKit_gs_pp_bizon_jungle_slipstream_Tag", "pp_bizon_jungle_slipstream" } },
 		{ 10006, { "#PaintKit_bloodhound_black_silver_tag", "bloodhound_black_silver" } },
 		{ 10007, { "#PaintKit_bloodhound_snakeskin_brass_tag", "bloodhound_snakeskin_brass" } },
 		{ 10008, { "#PaintKit_bloodhound_metallic_tag", "bloodhound_metallic" } },
@@ -594,6 +602,7 @@ const std::map<int, PaintNames_t> itemSkins = {
 		{ 10038, { "#PaintKit_sporty_green_tag", "sporty_green" } },
 		{ 10039, { "#PaintKit_bloodhound_guerrilla_tag", "bloodhound_guerrilla" } },
 		{ 10040, { "#PaintKit_slick_snakeskin_yellow_tag", "slick_snakeskin_yellow" } },
+    
 };
 
 namespace Skins
