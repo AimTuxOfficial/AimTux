@@ -61,7 +61,12 @@ pstring GetConfigDirectory()
 	if (!DoesDirectoryExist(directory.c_str()))
 		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
-	directory << "/Supreme/Main/";
+	directory << "/Supreme/";
+
+	if (!DoesDirectoryExist(directory.c_str()))
+		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+
+	directory << "/Main/";
 
 	if (!DoesDirectoryExist(directory.c_str()))
 		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
@@ -91,7 +96,12 @@ pstring GetGhConfigDirectory()
 	if (!DoesDirectoryExist(directory.c_str()))
 		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
-	directory << "/Supreme/Misc/";
+	directory << "/Supreme/";
+
+	if (!DoesDirectoryExist(directory.c_str()))
+		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+
+	directory << "/Misc/";
 
 	if (!DoesDirectoryExist(directory.c_str()))
 		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
