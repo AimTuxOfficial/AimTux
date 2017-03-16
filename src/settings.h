@@ -910,6 +910,11 @@ namespace Settings
 		extern bool enabled;
 	}
 
+	namespace Watermark
+	{
+		extern bool enabled;
+	}
+
 	namespace GrenadeHelper
 	{
 		extern std::vector<GrenadeInfo> grenadeInfos;

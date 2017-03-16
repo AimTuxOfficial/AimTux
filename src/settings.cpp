@@ -469,6 +469,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
 
 	settings["DisablePostProcessing"]["enabled"] = Settings::DisablePostProcessing::enabled;
 
+	settings["Watermark"]["enabled"] = Settings::Watermark::enabled;
+
 	settings["GrenadeHelper"]["enabled"] = Settings::GrenadeHelper::enabled;
 	settings["GrenadeHelper"]["aimAssist"] = Settings::GrenadeHelper::aimAssist;
 	settings["GrenadeHelper"]["OnlyMatching"] = Settings::GrenadeHelper::onlyMatchingInfos;
@@ -909,6 +911,8 @@ void Settings::LoadConfig(std::string path)
 
 	GetVal(settings["DisablePostProcessing"]["enabled"], &Settings::DisablePostProcessing::enabled);
 
+	GetVal(settings["Watermark"]["enabled"], &Settings::Watermark::enabled);
+
 	GetVal(settings["GrenadeHelper"]["enabled"], &Settings::GrenadeHelper::enabled);
 	GetVal(settings["GrenadeHelper"]["aimAssist"], &Settings::GrenadeHelper::aimAssist);
 	GetVal(settings["GrenadeHelper"]["OnlyMatching"], &Settings::GrenadeHelper::onlyMatchingInfos);
@@ -934,7 +938,12 @@ void Settings::LoadSettings()
 	if (!DoesDirectoryExist(directory.c_str()))
 		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
-	directory << "/Supreme/Main/";
+	directory << "/Supreme/";
+
+	if (!DoesDirectoryExist(directory.c_str()))
+		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+
+	directory << "/Main/";
 
 	if (!DoesDirectoryExist(directory.c_str()))
 		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
