@@ -52,7 +52,7 @@ void UI::SwapWindow()
 	//NOTE:SHOW HACK LOGO ALL TIME
 
 	if (Settings::Watermark::enabled)
-		Draw::ImDrawText(ImVec2(4.f, 4.f), ImColor(231, 76, 60, 255), "SupremeHack", NULL, 0.0f, NULL, ImFontFlags_Shadow);
+		Draw::ImDrawText(ImVec2(4.f, 4.f), ImColor(192, 57, 43, 255), "SupremeHack", NULL, 0.0f, NULL, ImFontFlags_Shadow);
 }
 
 void UI::SetVisible(bool visible)
