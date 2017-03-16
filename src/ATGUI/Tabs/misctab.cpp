@@ -430,6 +430,8 @@ void Misc::RenderTab()
 				SetTooltip("Enables the crosshair with sniper rifles");
 				ImGui::Checkbox("Disable post-processing", &Settings::DisablePostProcessing::enabled);
 				SetTooltip("Disables post-processing");
+				ImGui::Checkbox("Watermark", &Settings::Watermark::enabled);
+				SetTooltip("Enables/Disables hack watermark");
 			}
 			ImGui::NextColumn();
 			{
