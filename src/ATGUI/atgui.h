@@ -37,6 +37,7 @@ namespace UI
 	void ReloadWeaponSettings();
 }
 
+
 inline void SetTooltip(const char* text)
 {
 	if (ImGui::IsItemHovered())
