@@ -349,10 +349,12 @@ void DoAntiAimX(QAngle& angle, bool bFlip, bool& clamp)
 			angle.x -= 0.0f;
 			break;
 		case AntiAimType_X::DOWNJITTER:
+			{
 			 static bool up = true;
 			 if (up) angle.x = 70;
 			 else angle.x = 88;
 			 up = !up;
+			}
 		case AntiAimType_X::FAKEDOWN_TRUSTED:
 			if (AntiAims::ticks > 0 || !CreateMove::sendPacket)
 			{
