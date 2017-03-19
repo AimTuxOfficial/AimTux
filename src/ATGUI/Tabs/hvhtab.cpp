@@ -8,7 +8,7 @@ void HvH::RenderTab()
 	};
 
 	const char* xTypes[] = {
-			"UP", "DOWN", "DOWN JITTER" "DANCE", "FRONT", // safe
+			"UP", "DOWN", "DOWN JITTER", "DANCE", "FRONT", // safe
 			"FAKE UP", "FAKE DOWN", "LISP DOWN", "ANGEL DOWN", "ANGEL UP", "FAKEUP Trusted", "FAKEDOWN Trusted" // untrusted
 	};
 
