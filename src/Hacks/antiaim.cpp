@@ -94,6 +94,7 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 	static bool ySwitch = false;
 	bool AnyVis = false;
 	static bool back = false;
+	static bool up = true;
 
 	yFlip = bFlip != yFlip;
 
@@ -349,12 +350,12 @@ void DoAntiAimX(QAngle& angle, bool bFlip, bool& clamp)
 			angle.x -= 0.0f;
 			break;
 		case AntiAimType_X::DOWNJITTER:
-			{
-			 static bool up = true;
-			 if (up) angle.x = 70;
-			 else angle.x = 88;
-			 up = !up;
-			}
+			up = !up;
+			if (up)
+				angle.x = 70.0f;
+			else
+				angle.x = 88.0f;
+			break;
 		case AntiAimType_X::FAKEDOWN_TRUSTED:
 			if (AntiAims::ticks > 0 || !CreateMove::sendPacket)
 			{
