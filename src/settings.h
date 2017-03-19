@@ -82,7 +82,6 @@ enum class AntiAimType_X : int
 {
 	STATIC_UP,
 	STATIC_DOWN,
-	DOWNJITTER,
 	DANCE,
 	FRONT,
 	STATIC_UP_FAKE,
@@ -90,6 +89,7 @@ enum class AntiAimType_X : int
 	LISP_DOWN,
 	ANGEL_DOWN,
 	ANGEL_UP,
+	DOWNJITTER,
 	FAKEUP_TRUSTED,
 	FAKEDOWN_TRUSTED,
 };
