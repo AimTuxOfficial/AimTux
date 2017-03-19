@@ -101,14 +101,15 @@ void GetBestBone(C_BasePlayer* player, float& bestDamage, Bone& bestBone)
 	}
 }
 
-bool SpreadLimit(float spread, CUserCmd* cmd, C_BaseCombatWeapon* active_weapon) {
-    float pspread = spread / 100.f;
-    bool bSpreadLimit = false;
-    if(active_weapon->GetInaccuracy() <= pspread) {
-                bSpreadLimit = true;
-		
-    }
-    return bSpreadLimit;
+bool SpreadLimit(float spread, CUserCmd* cmd, C_BaseCombatWeapon* active_weapon) 
+{
+	float pspread = spread / 100.f;
+	bool bSpreadLimit = false;
+	if(active_weapon->GetInaccuracy() <= pspread) 
+	{
+		bSpreadLimit = true;
+	}
+	return bSpreadLimit;
 }
 
 float GetRealDistanceFOV(float distance, QAngle angle, CUserCmd* cmd)
@@ -445,11 +446,13 @@ void Aimbot::AutoShoot(C_BasePlayer* player, C_BaseCombatWeapon* activeWeapon, C
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	float nextPrimaryAttack = activeWeapon->GetNextPrimaryAttack();
 
-	if(Settings::Aimbot::SpreadLimit::enabled) {
-        if(!SpreadLimit(Settings::Aimbot::SpreadLimit::value, cmd, activeWeapon)) {
-            return;
-	    }
-        }
+	if(Settings::Aimbot::SpreadLimit::enabled)
+	{
+		if(!SpreadLimit(Settings::Aimbot::SpreadLimit::value, cmd, activeWeapon))
+		{
+			return;
+		}
+	}
 
 	if (nextPrimaryAttack > globalVars->curtime)
 	{
