@@ -8,8 +8,8 @@ void HvH::RenderTab()
 	};
 
 	const char* xTypes[] = {
-			"UP", "DOWN", "DOWN JITTER", "DANCE", "FRONT", // safe
-			"FAKE UP", "FAKE DOWN", "LISP DOWN", "ANGEL DOWN", "ANGEL UP", "FAKEUP Trusted", "FAKEDOWN Trusted" // untrusted
+			"UP", "DOWN", "DANCE", "FRONT", // safe
+			"FAKE UP", "FAKE DOWN", "LISP DOWN", "ANGEL DOWN", "ANGEL UP", "DOWN JITTER", "FAKEUP Trusted", "FAKEDOWN Trusted" // untrusted
 	};
 
 	ImGui::Columns(2, NULL, true);
