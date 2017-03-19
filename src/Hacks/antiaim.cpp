@@ -88,7 +88,12 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 	static float trigger;
 	QAngle temp_qangle;
 	int random;
+	int ticks = 0;
+	int jitterticks = 0;
 	int maxJitter;
+	static bool ySwitch = false;
+	bool AnyVis = false;
+	static bool back = false;
 
 	yFlip = bFlip != yFlip;
 
@@ -200,6 +205,100 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 		default:
 			angle.y -= 0.0f;
 			break;
+		case AntiAimType_Y::BACKWARDSJITTER:
+			yFlip ? angle.y -= 170.0f : angle.y -= 190.0f;
+			break;
+		case AntiAimType_Y::JITTER_180:
+		    	yFlip ? angle.y = 0.1f : angle.y = 179.0f;
+		    	factor = (globalVars->curtime * 99999999999.0f);
+		    	break;
+		case AntiAimType_Y::AUTISM:
+			factor = 360.0 / M_PHI;
+			factor *=5;
+			angle.y = fmod(globalVars->curtime * factor ,360.0f);
+			if (angle.y >= 100.0f)
+			{
+			angle.y -= 170.0f;
+			}
+			if (angle.y <= 200.0f)
+			{
+			angle.y += 305.00f;
+			}
+			    
+			break;
+		case AntiAimType_Y::TJITTER:
+			back = !back;
+			if (back)
+				angle.y =- 89;
+			else
+				angle.y =+ 91;
+			break;
+		case AntiAimType_Y::FJITTER:
+			{
+			if (CreateMove::sendPacket)
+			{
+				if (jitterticks > 0)
+					jitterticks = -1;
+				jitterticks++;
+			}
+			int add = 0;
+			if (jitterticks == 0)
+				add = 110;
+			if (jitterticks == 1)
+				add = -160;
+			if (ticks > 0 || !CreateMove::sendPacket)
+			{
+				add = -add;
+				CreateMove::sendPacket = false;
+			}
+			angle.y = + add;
+			}
+			break;
+		case AntiAimType_Y::JITTERSYNCED:
+			{
+			static float current_y = 0;
+			int Add = 179.00005f;
+			if (AnyVis)
+				Add = -Add;
+			int random = rand() % 2;
+			if (random == 0)
+				ySwitch = !ySwitch;
+			if(ySwitch)
+				Add = -Add;
+			current_y += Add;
+			if (current_y > 180)
+				current_y -= 360; // ineed to borrow this
+			else if (current_y < -180)
+				current_y += 360;
+			angle.y = current_y;
+			}
+			break;
+		case AntiAimType_Y::FLIP:
+		   	 back = !back;
+		   	 if (back)
+			angle.y -= rand() % 100;
+		  	  else
+			angle.y += rand() % 100;
+		   	 break;
+	}
+}
+
+namespace AntiAims
+{
+	int ticks = 0;
+	int jitterticks = 0; // unused 
+	int packetsToChoke;
+	void FakeAngleTimer() // Doesn't look to be called anywhere
+	{
+		C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+		if (localplayer->GetVelocity().Length() > 0.f)
+		{
+			packetsToChoke = (int)((64.f / globalVars->interval_per_tick) / localplayer->GetVelocity().Length()) + 1;
+			if (ticks > 3 || packetsToChoke > 0)
+				ticks = 0;
+			else
+				ticks++;
+		}
 	}
 }
 
@@ -249,6 +348,30 @@ void DoAntiAimX(QAngle& angle, bool bFlip, bool& clamp)
 		default:
 			angle.x -= 0.0f;
 			break;
+		case AntiAimType_X::DOWNJITTER:
+			 static bool up = true;
+			 if (up) angle.x = 70;
+			 else angle.x = 88;
+			 up = !up;
+		case AntiAimType_X::FAKEDOWN_TRUSTED:
+			if (AntiAims::ticks > 0 || !CreateMove::sendPacket)
+			{
+				angle.x = -88.99;
+				CreateMove::sendPacket = false;
+			}
+			else	
+				angle.x = 88;
+			break;
+		case AntiAimType_X::FAKEUP_TRUSTED:
+			if (AntiAims::ticks > 0 || !CreateMove::sendPacket)
+			{
+				angle.x = 89.99;
+				CreateMove::sendPacket = false;
+			} 
+			else 
+				angle.x = -88;
+			break;
+
 	}
 }
 
