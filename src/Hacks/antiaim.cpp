@@ -94,7 +94,6 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 	static bool ySwitch = false;
 	bool AnyVis = false;
 	static bool back = false;
-	static bool up = true;
 
 	yFlip = bFlip != yFlip;
 
@@ -306,6 +305,7 @@ namespace AntiAims
 void DoAntiAimX(QAngle& angle, bool bFlip, bool& clamp)
 {
 	static float pDance = 0.0f;
+	static bool up = true;
 	AntiAimType_X aa_type = Settings::AntiAim::Pitch::type;
 
 	switch (aa_type)
