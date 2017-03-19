@@ -69,12 +69,20 @@ enum class AntiAimType_Y : int
 	ANGEL_BACKWARD,
 	ANGEL_INVERSE,
 	ANGEL_SPIN,
+	BACKWARDSJITTER,
+	JITTER_180,
+	AUTISM,
+	TJITTER,
+	FJITTER,
+	JITTERSYNCED,
+	FLIP,
 };
 
 enum class AntiAimType_X : int
 {
 	STATIC_UP,
 	STATIC_DOWN,
+	DOWNJITTER,
 	DANCE,
 	FRONT,
 	STATIC_UP_FAKE,
@@ -82,6 +90,8 @@ enum class AntiAimType_X : int
 	LISP_DOWN,
 	ANGEL_DOWN,
 	ANGEL_UP,
+	FAKEUP_TRUSTED,
+	FAKEDOWN_TRUSTED,
 };
 
 enum class ChamsType : int
