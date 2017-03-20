@@ -274,12 +274,44 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 			}
 			break;
 		case AntiAimType_Y::FLIP:
-		   	 back = !back;
-		   	 if (back)
+			back = !back;
+			if (back)
 			angle.y -= rand() % 100;
-		  	  else
+			else
 			angle.y += rand() % 100;
-		   	 break;
+			break;
+		case AntiAimType_Y::DONUT:
+			clamp = false;
+			static int timer = 0;
+			static int rotation = 0;
+			if (timer == 3)
+			{
+				rotation += 90;
+				if (rotation > 360)
+				{
+					rotation = 0;
+				}
+				angle.y += rotation;
+				timer = 0;
+			} 
+			else
+			{
+				timer++;
+			}
+			break;
+		case AntiAimType_Y::HYPNO:
+			factor = 360.0 / M_PHI;
+			factor *=5;
+			angle.y = fmod(globalVars->curtime * factor ,360.0f);
+			if (angle.y >= 100.0f)
+			{
+				angle.y -= 170.0f;
+			}
+			if (angle.y <= 200.0f)
+			{
+				angle.y += 305.00f;
+			}
+			break;
 	}
 }
 
