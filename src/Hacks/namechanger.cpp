@@ -87,7 +87,7 @@ void NameChanger::BeginFrame(float frameTime)
 		switch (NameChanger::type)
 		{
 			case NC_Type::NC_NORMAL:
-				SetName(Util::PadStringRight("\230AIMTUX.NET", strlen("\230AIMTUX.NET") + RandomInt(10, 50)));
+				SetName(Util::PadStringRight("\44UPREME-HACK", strlen("\44UPREME-HACK") + RandomInt(10, 50)));
 				break;
 			case NC_Type::NC_RAINBOW:
 				SetName(Util::PadStringRight(Rainbowify(origName), origName.size() + RandomInt(10, 50)));
@@ -102,7 +102,7 @@ void NameChanger::BeginFrame(float frameTime)
 		return;
 	}
 
-	SetName(Util::PadStringRight("AIMTUX.NET", strlen("AIMTUX.NET") + changes));
+	SetName(Util::PadStringRight("SUPREME", strlen("SUPREME") + changes));
 }
 
 void NameChanger::SetName(const char* name)
