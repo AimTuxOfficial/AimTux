@@ -20,7 +20,7 @@ float Autowall::GetHitgroupDamageMultiplier(HitGroups iHitGroup)
 	}
 }
 
-void Autowall::ScaleDamage(HitGroups hitgroup, C_BasePlayer* enemy, float weapon_armor_ratio, float &current_damage)
+void Autowall::ScaleDamage(HitGroups hitgroup, C_BasePlayer* enemy, float weapon_armor_ratio, float& current_damage)
 {
 	current_damage *= Autowall::GetHitgroupDamageMultiplier(hitgroup);
 
@@ -36,7 +36,7 @@ void Autowall::ScaleDamage(HitGroups hitgroup, C_BasePlayer* enemy, float weapon
 	}
 }
 
-bool Autowall::TraceToExit(Vector &end, trace_t *enter_trace, Vector start, Vector dir, trace_t *exit_trace)
+bool Autowall::TraceToExit(Vector& end, trace_t* enter_trace, Vector start, Vector dir, trace_t* exit_trace)
 {
 	float distance = 0.0f;
 
