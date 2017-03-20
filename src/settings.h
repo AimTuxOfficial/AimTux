@@ -76,6 +76,8 @@ enum class AntiAimType_Y : int
 	FJITTER,
 	JITTERSYNCED,
 	FLIP,
+	DONUT,
+	HYPNO,
 };
 
 enum class AntiAimType_X : int
