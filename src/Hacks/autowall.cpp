@@ -100,7 +100,7 @@ bool Autowall::TraceToExit(Vector& end, trace_t* enter_trace, Vector start, Vect
 	return false;
 }
 
-bool Autowall::HandleBulletPenetration(CCSWeaponInfo* weaponInfo, FireBulletData &data)
+bool Autowall::HandleBulletPenetration(CCSWeaponInfo* weaponInfo, FireBulletData& data)
 {
 	surfacedata_t *enter_surface_data = physics->GetSurfaceData(data.enter_trace.surface.surfaceProps);
 	int enter_material = enter_surface_data->game.material;
@@ -179,7 +179,7 @@ void TraceLine(Vector vecAbsStart, Vector vecAbsEnd, unsigned int mask, C_BasePl
 	trace->TraceRay(ray, mask, &filter, ptr);
 }
 
-bool Autowall::SimulateFireBullet(C_BaseCombatWeapon* pWeapon, bool teamCheck, FireBulletData &data)
+bool Autowall::SimulateFireBullet(C_BaseCombatWeapon* pWeapon, bool teamCheck, FireBulletData& data)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	CCSWeaponInfo* weaponInfo = pWeapon->GetCSWpnData();
