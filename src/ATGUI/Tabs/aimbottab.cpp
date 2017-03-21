@@ -35,8 +35,6 @@ static bool autoWallBones[] = { true, false, false, false, false, false };
 static bool autoAimRealDistance = false;
 static bool autoSlow = false;
 static bool predEnabled = false;
-static bool spreadLimitEnabled = false;
-static float spreadLimitValue = 5.0f;
 static float autoSlowMinDamage = 5.0f;
 
 void UI::ReloadWeaponSettings()
@@ -78,8 +76,6 @@ void UI::ReloadWeaponSettings()
 	autoAimRealDistance = Settings::Aimbot::weapons.at(index).autoAimRealDistance;
 	autoSlow = Settings::Aimbot::weapons.at(index).autoSlow;
 	predEnabled = Settings::Aimbot::weapons.at(index).predEnabled;
-	spreadLimitEnabled = Settings::Aimbot::weapons.at(index).spreadLimitEnabled;
-	spreadLimitValue = Settings::Aimbot::weapons.at(index).spreadLimitValue;
 	autoSlowMinDamage = Settings::Aimbot::weapons.at(index).autoSlowMinDamage;
 
 	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
@@ -98,7 +94,7 @@ void UI::UpdateWeaponSettings()
 			autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
 			rcsEnabled, rcsAlwaysOn, rcsAmountX, rcsAmountY,
 			autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
-			noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, autoSlowMinDamage, predEnabled, spreadLimitEnabled, spreadLimitValue
+			noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, autoSlowMinDamage, predEnabled
 	};
 
 	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
@@ -232,9 +228,6 @@ void Aimbot::RenderTab()
 				if (ImGui::Checkbox("Error Margin", &errorMarginEnabled))
 					UI::UpdateWeaponSettings();
 				SetTooltip("Adds a margin of error to the aim, it will be obvious what it does when using it");
-				if (ImGui::Checkbox("Spread Limit", &spreadLimitEnabled))
-					UI::UpdateWeaponSettings();
-				SetTooltip("Use Spread Limit");
 				ImGui::PushItemWidth(-1);
 				if (ImGui::Combo("##SMOOTHTYPE", (int*)& smoothType, smoothTypes, IM_ARRAYSIZE(smoothTypes)))
 					UI::UpdateWeaponSettings();
@@ -248,8 +241,6 @@ void Aimbot::RenderTab()
 				if (ImGui::SliderFloat("##SALT", &smoothSaltMultiplier, 0, smoothValue))
 					UI::UpdateWeaponSettings();
 				if (ImGui::SliderFloat("##ERROR", &errorMarginValue, 0, 2))
-					UI::UpdateWeaponSettings();
-				if (ImGui::SliderFloat("##SPREADLIMIT", &spreadLimitValue, 0, 5))
 					UI::UpdateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
