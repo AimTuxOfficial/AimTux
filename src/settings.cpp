@@ -177,8 +177,6 @@ void Settings::LoadDefaultsOrSave(std::string path)
 		weaponSetting["AutoWall"]["Value"] = i.second.autoWallValue;
 		weaponSetting["AutoSlow"]["enabled"] = i.second.autoSlow;
 		weaponSetting["Prediction"]["enabled"] = i.second.predEnabled;
-		weaponSetting["SpreadLimit"]["enabled"] = i.second.spreadLimitEnabled;
-		weaponSetting["SpreadLimit"]["value"] = i.second.spreadLimitValue;
 		weaponSetting["AutoSlow"]["minDamage"] = i.second.autoSlowMinDamage;
 
 		for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
@@ -511,7 +509,7 @@ void Settings::LoadConfig(std::string path)
 	Fonts::SetupFonts();
 
 	Settings::Aimbot::weapons = {
-			{ ItemDefinitionIndex::INVALID, { false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f, false, false, false, false, false, false, false, false, 10.0f, false, false, false, 5.0f, false, 0 } },
+			{ ItemDefinitionIndex::INVALID, { false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f, false, false, false, false, false, false, false, false, 10.0f, false, false, false, 5.0f } },
 	};
 
 	for (Json::ValueIterator itr = settings["Aimbot"]["weapons"].begin(); itr != settings["Aimbot"]["weapons"].end(); itr++)
@@ -568,9 +566,7 @@ void Settings::LoadConfig(std::string path)
 				weaponSetting["AutoAim"]["RealDistance"].asBool(),
 				weaponSetting["AutoSlow"]["enabled"].asBool(),
 				weaponSetting["AutoSlow"]["minDamage"].asFloat(),
-				weaponSetting["Prediction"]["enabled"].asBool(),
-				weaponSetting["SpreadLimit"]["enabled"].asBool(),
-				weaponSetting["SpreadLimit"]["value"].asFloat()
+				weaponSetting["Prediction"]["enabled"].asBool()
 		};
 
 		for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
