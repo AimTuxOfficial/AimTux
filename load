@@ -10,7 +10,7 @@ if [ ! -d ".git" ]; then
     /bin/echo "We have detected that you have downloaded supreme-master.zip from the GitHub website. This is the WRONG way to download Supreme. Please download Supreme with the command 'git clone --recursive https://github.com/BlastWorld/Supreme'"
 fi
 
-if grep -q libAimTux.so /proc/$csgo_pid/maps; then
+if grep -q libSupreme.so /proc/$csgo_pid/maps; then
     /bin/echo -e "\e[33mSupreme is already injected... Aborting...\e[0m"
     exit
 fi
@@ -19,7 +19,7 @@ input="$(
 sudo gdb -n -q -batch \
   -ex "attach $csgo_pid" \
   -ex "set \$dlopen = (void*(*)(char*, int)) dlopen" \
-  -ex "call \$dlopen(\"$(pwd)/libAimTux.so\", 1)" \
+  -ex "call \$dlopen(\"$(pwd)/libSupreme.so\", 1)" \
   -ex "detach" \
   -ex "quit"
 )"
