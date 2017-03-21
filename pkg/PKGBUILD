@@ -38,5 +38,5 @@ package() {
 	
 	cd "${_pkgname}"
 	make DESTDIR="$pkgdir/"
-	install -Dm755 libAimTux.so "$pkgdir"/usr/lib/libAimTux.so
+	install -Dm755 libSupreme.so "$pkgdir"/usr/lib/libSupreme.so
 }
