@@ -8,7 +8,7 @@ void Visuals::RenderTab()
 	const char* BarColorTypes[] = { "Static", "Health Based" };
 	const char* TeamColorTypes[] = { "Absolute", "Relative" };
 	const char* ChamsTypes[] = { "Normal", "Normal - XQZ", "Flat", "Flat - XQZ" };
-	const char* ArmsTypes[] = { "Default", "Rainbow", "Wireframe", "None" };
+	const char* ArmsTypes[] = { "Default", "Wireframe", "None" };
 
 	ImGui::Checkbox("Enabled", &Settings::ESP::enabled);
 	ImGui::Separator();
