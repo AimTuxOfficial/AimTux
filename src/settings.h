@@ -345,6 +345,7 @@ namespace Settings
 		{
 			extern bool enabled;
 			extern float minDamage;
+			extern bool goingToSlow;
 		}
 
 		namespace NoShoot
@@ -898,6 +899,14 @@ namespace Settings
 		extern ImColor infoFlash;
 		extern ImColor infoMolotov;
 		extern pstring actMapName;
+	}
+
+	namespace WalkBot
+	{
+		extern bool enabled;
+		extern bool forceReset;
+		extern bool autobuy;
+		extern int autobuyAt;
 	}
 
 	void LoadDefaultsOrSave(std::string path);

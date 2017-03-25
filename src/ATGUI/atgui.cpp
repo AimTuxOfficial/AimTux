@@ -35,6 +35,9 @@ void SetupMainMenuBar()
 		ImGui::SameLine();
 
 		ImGui::Selectable("Player List Window", &PlayerList::showWindow, 0, ImVec2(ImGui::CalcTextSize("Player List Window", NULL, true).x, 0.0f));
+		ImGui::SameLine();
+
+		ImGui::Selectable("Walk Bot Window", &Walk::showWindow, 0, ImVec2(ImGui::CalcTextSize("Walk Bot Window", NULL, true).x, 0.0f));
 
 		ImGui::PopStyleVar();
 		ImGui::EndMainMenuBar();
@@ -78,6 +81,7 @@ void UI::SetupWindows()
 		Configs::RenderWindow();
 		Colors::RenderWindow();
 		PlayerList::RenderWindow();
+		Walk::RenderWindow();
 	}
 
 	ShowSpectators::RenderWindow();

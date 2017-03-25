@@ -39,6 +39,7 @@ bool Settings::Aimbot::Smooth::Salting::enabled = false;
 float Settings::Aimbot::Smooth::Salting::multiplier = 0.0f;
 bool Settings::Aimbot::AutoSlow::enabled = false;
 float Settings::Aimbot::AutoSlow::minDamage = 5.0f;
+bool Settings::Aimbot::AutoSlow::goingToSlow = false;
 bool Settings::Aimbot::Prediction::enabled = false;
 
 bool Aimbot::aimStepInProgress = false;
@@ -375,21 +376,28 @@ void Aimbot::AutoSlow(C_BasePlayer* player, float& forward, float& sideMove, flo
 	if (!Settings::Aimbot::AutoWall::enabled)
 		return;
 
-	if (!Settings::Aimbot::AutoSlow::enabled)
+	if (!Settings::Aimbot::AutoSlow::enabled){
+		Settings::Aimbot::AutoSlow::goingToSlow = false;
 		return;
+	}
 
-	if (!player)
+	if (!player){
+		Settings::Aimbot::AutoSlow::goingToSlow = false;
 		return;
+	}
 
 	float nextPrimaryAttack = active_weapon->GetNextPrimaryAttack();
 
-	if (nextPrimaryAttack > globalVars->curtime)
+	if (nextPrimaryAttack > globalVars->curtime){
+		Settings::Aimbot::AutoSlow::goingToSlow = false;
 		return;
+	}
 
 	if (bestDamage > Settings::Aimbot::AutoSlow::minDamage)
 	{
-		forward *= 0.2f;
-		sideMove *= 0.16f;
+		Settings::Aimbot::AutoSlow::goingToSlow = true;
+		forward = 0.0f;
+		sideMove = 0.0f;
 		cmd->upmove = 0;
 	}
 }
