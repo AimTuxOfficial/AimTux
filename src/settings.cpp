@@ -469,6 +469,10 @@ void Settings::LoadDefaultsOrSave(std::string path)
 
 	settings["DisablePostProcessing"]["enabled"] = Settings::DisablePostProcessing::enabled;
 
+	// settings["WalkBot"]["enabled"] = Settings::WalkBot::enabled;
+	settings["WalkBot"]["autobuy"] = Settings::WalkBot::autobuy;
+	settings["WalkBot"]["autobuyAt"] = Settings::WalkBot::autobuyAt;
+
 	settings["GrenadeHelper"]["enabled"] = Settings::GrenadeHelper::enabled;
 	settings["GrenadeHelper"]["aimAssist"] = Settings::GrenadeHelper::aimAssist;
 	settings["GrenadeHelper"]["OnlyMatching"] = Settings::GrenadeHelper::onlyMatchingInfos;
@@ -922,6 +926,10 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["GrenadeHelper"]["infoSmoke"], &Settings::GrenadeHelper::infoSmoke);
 	GetVal(settings["GrenadeHelper"]["infoFlash"], &Settings::GrenadeHelper::infoFlash);
 	GetVal(settings["GrenadeHelper"]["infoMolotov"], &Settings::GrenadeHelper::infoMolotov);
+
+	// GetVal(settings["WalkBot"]["enabled"], &Settings::WalkBot::enabled);
+	GetVal(settings["WalkBot"]["autobuy"], &Settings::WalkBot::autobuy);
+	GetVal(settings["WalkBot"]["autobuyAt"], &Settings::WalkBot::autobuyAt);
 
 
 }
