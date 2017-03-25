@@ -1,4 +1,5 @@
 #include "util.h"
+#include "../settings.h"
 
 std::string Util::ReplaceString(std::string subject, const std::string& search, const std::string& replace)
 {
@@ -104,4 +105,31 @@ long Util::GetEpochTime()
 	auto duration = std::chrono::system_clock::now().time_since_epoch();
 
 	return std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
+}
+
+ImColor Util::GetRainbowColor(float speed)
+{
+	speed = 0.002f * speed;
+	long now = Util::GetEpochTime();
+	float hue = (now % (int)(1.0f / speed)) * speed;
+
+	return ImColor::HSV(hue, 1.0f, 1.0f);
+}
+
+Color Util::GetHealthColor(int hp)
+{
+	return Color(
+			std::min(510 * (100 - hp) / 100, 255),
+			std::min(510 * hp / 100, 255),
+			25
+	);
+}
+
+Color Util::GetHealthColor(C_BasePlayer* player)
+{
+	return Color(
+			std::min(510 * (100 - player->GetHealth()) / 100, 255),
+			std::min(510 * player->GetHealth() / 100, 255),
+			25
+	);
 }

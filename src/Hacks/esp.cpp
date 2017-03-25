@@ -5,50 +5,37 @@
 
 bool Settings::ESP::enabled = false;
 TeamColorType Settings::ESP::teamColorType = TeamColorType::RELATIVE;
-ImColor Settings::ESP::enemyColor = ImColor(240, 60, 60, 255);
-ImColor Settings::ESP::enemyVisibleColor = ImColor(240, 185, 60, 255);
-ImColor Settings::ESP::allyColor = ImColor(60, 60, 240, 255);
-ImColor Settings::ESP::allyVisibleColor = ImColor(60, 185, 240, 255);
-ImColor Settings::ESP::tColor = ImColor(240, 60, 60, 255);
-ImColor Settings::ESP::tVisibleColor = ImColor(240, 185, 60, 255);
-ImColor Settings::ESP::ctColor = ImColor(60, 60, 240, 255);
-ImColor Settings::ESP::ctVisibleColor = ImColor(60, 185, 240, 255);
-ImColor Settings::ESP::localplayerColor = ImColor(117, 43, 73, 255);
-ImColor Settings::ESP::bombColor = ImColor(242, 48, 193, 255);
-ImColor Settings::ESP::bombDefusingColor = ImColor(100, 48, 242, 255);
-ImColor Settings::ESP::hostageColor = ImColor(242, 48, 193, 255);
-ImColor Settings::ESP::defuserColor = ImColor(132, 48, 242, 255);
-ImColor Settings::ESP::weaponColor = ImColor(255, 255, 255, 255);
-ImColor Settings::ESP::chickenColor = ImColor(255, 255, 255, 255);
-ImColor Settings::ESP::fishColor = ImColor(255, 255, 255, 255);
-ImColor Settings::ESP::smokeColor = ImColor(32, 224, 22, 255);
-ImColor Settings::ESP::decoyColor = ImColor(32, 224, 22, 255);
-ImColor Settings::ESP::flashbangColor = ImColor(224, 207, 22, 255);
-ImColor Settings::ESP::grenadeColor = ImColor(224, 22, 22, 255);
-ImColor Settings::ESP::molotovColor = ImColor(224, 22, 22, 255);
-bool Settings::ESP::hpEnemyColor = false;
-bool Settings::ESP::hpAllyColor = false;
-bool Settings::ESP::hpEnemyVisibleColor = false;
-bool Settings::ESP::hpAllyVisibleColor = false;
-bool Settings::ESP::hpCtColor = false;
-bool Settings::ESP::hpTColor = false;
-bool Settings::ESP::hpCtVisibleColor = false;
-bool Settings::ESP::hpTVisibleColor = false;
-bool Settings::ESP::hpLocalplayerColor = false;
-ImColor Settings::ESP::Skeleton::color = ImColor(255, 255, 255, 255);
+HealthColorVar Settings::ESP::enemyColor = ImColor(240, 60, 60, 255);
+HealthColorVar Settings::ESP::enemyVisibleColor = ImColor(240, 185, 60, 255);
+HealthColorVar Settings::ESP::allyColor = ImColor(60, 60, 240, 255);
+HealthColorVar Settings::ESP::allyVisibleColor = ImColor(60, 185, 240, 255);
+HealthColorVar Settings::ESP::tColor = ImColor(240, 60, 60, 255);
+HealthColorVar Settings::ESP::tVisibleColor = ImColor(240, 185, 60, 255);
+HealthColorVar Settings::ESP::ctColor = ImColor(60, 60, 240, 255);
+HealthColorVar Settings::ESP::ctVisibleColor = ImColor(60, 185, 240, 255);
+HealthColorVar Settings::ESP::localplayerColor = ImColor(117, 43, 73, 255);
+ColorVar Settings::ESP::bombColor = ImColor(242, 48, 193, 255);
+ColorVar Settings::ESP::bombDefusingColor = ImColor(100, 48, 242, 255);
+ColorVar Settings::ESP::hostageColor = ImColor(242, 48, 193, 255);
+ColorVar Settings::ESP::defuserColor = ImColor(132, 48, 242, 255);
+ColorVar Settings::ESP::weaponColor = ImColor(255, 255, 255, 255);
+ColorVar Settings::ESP::chickenColor = ImColor(255, 255, 255, 255);
+ColorVar Settings::ESP::fishColor = ImColor(255, 255, 255, 255);
+ColorVar Settings::ESP::smokeColor = ImColor(32, 224, 22, 255);
+ColorVar Settings::ESP::decoyColor = ImColor(32, 224, 22, 255);
+ColorVar Settings::ESP::flashbangColor = ImColor(224, 207, 22, 255);
+ColorVar Settings::ESP::grenadeColor = ImColor(224, 22, 22, 255);
+ColorVar Settings::ESP::molotovColor = ImColor(224, 22, 22, 255);
+ColorVar Settings::ESP::Skeleton::color = ImColor(255, 255, 255, 255);
 bool Settings::ESP::Glow::enabled = false;
-ImColor Settings::ESP::Glow::allyColor = ImColor(0, 50, 200, 200);
-ImColor Settings::ESP::Glow::enemyColor = ImColor(200, 0, 50, 200);
-ImColor Settings::ESP::Glow::enemyVisibleColor = ImColor(200, 200, 50, 200);
-ImColor Settings::ESP::Glow::localplayerColor = ImColor(117, 43, 73, 200);
-ImColor Settings::ESP::Glow::weaponColor = ImColor(200, 0, 50, 200);
-ImColor Settings::ESP::Glow::grenadeColor = ImColor(200, 0, 50, 200);
-ImColor Settings::ESP::Glow::defuserColor = ImColor(100, 100, 200, 200);
-ImColor Settings::ESP::Glow::chickenColor = ImColor(100, 200, 100, 200);
-bool Settings::ESP::Glow::hpAllyColor = false;
-bool Settings::ESP::Glow::hpEnemyColor = false;
-bool Settings::ESP::Glow::hpEnemyVisibleColor = false;
-bool Settings::ESP::Glow::hpLocalplayerColor = false;
+HealthColorVar Settings::ESP::Glow::allyColor = ImColor(0, 50, 200, 200);
+HealthColorVar Settings::ESP::Glow::enemyColor = ImColor(200, 0, 50, 200);
+HealthColorVar Settings::ESP::Glow::enemyVisibleColor = ImColor(200, 200, 50, 200);
+HealthColorVar Settings::ESP::Glow::localplayerColor = ImColor(117, 43, 73, 200);
+ColorVar Settings::ESP::Glow::weaponColor = ImColor(200, 0, 50, 200);
+ColorVar Settings::ESP::Glow::grenadeColor = ImColor(200, 0, 50, 200);
+ColorVar Settings::ESP::Glow::defuserColor = ImColor(100, 100, 200, 200);
+ColorVar Settings::ESP::Glow::chickenColor = ImColor(100, 200, 100, 200);
 bool Settings::ESP::Filters::legit = false;
 bool Settings::ESP::Filters::visibilityCheck = false;
 bool Settings::ESP::Filters::smokeCheck = false;
@@ -87,7 +74,7 @@ TracerType Settings::ESP::Tracers::type = TracerType::BOTTOM;
 bool Settings::ESP::BulletTracers::enabled = false;
 bool Settings::ESP::FOVCrosshair::enabled = false;
 bool Settings::ESP::FOVCrosshair::filled = false;
-ImColor Settings::ESP::FOVCrosshair::color = ImColor(180, 50, 50, 255);
+ColorVar Settings::ESP::FOVCrosshair::color = ImColor(180, 50, 50, 255);
 bool Settings::ESP::Skeleton::enabled = false;
 bool Settings::ESP::Sounds::enabled = false;
 int Settings::ESP::Sounds::time = 1000;
@@ -128,24 +115,6 @@ const char* ESP::ranks[] = {
 		"Supreme Master First Class",
 		"The Global Elite"
 };
-
-Color ESP::GetHealthColor(int hp)
-{
-	return Color(
-			std::min(510 * (100 - hp) / 100, 255),
-			std::min(510 * hp / 100, 255),
-			25
-	);
-}
-
-Color ESP::GetHealthColor(C_BasePlayer* player)
-{
-	return Color(
-			std::min(510 * (100 - player->GetHealth()) / 100, 255),
-			std::min(510 * player->GetHealth() / 100, 255),
-			25
-	);
-}
 
 // credits to Casual_Hacker from UC for this method (I modified it a lil bit)
 float GetArmourHealth(float flDamage, int ArmorValue)
@@ -238,7 +207,7 @@ ImColor ESP::GetESPPlayerColor(C_BasePlayer* player, bool visible)
 
 	if (player == localplayer)
 	{
-		playerColor = Settings::ESP::hpLocalplayerColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::localplayerColor;
+		playerColor = Settings::ESP::localplayerColor.Color(player);
 	}
 	else
 	{
@@ -247,16 +216,16 @@ ImColor ESP::GetESPPlayerColor(C_BasePlayer* player, bool visible)
 			if (player->GetTeam() != localplayer->GetTeam())
 			{
 				if (visible)
-					playerColor = Settings::ESP::hpEnemyVisibleColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::enemyVisibleColor;
+					playerColor = Settings::ESP::enemyVisibleColor.Color(player);
 				else
-					playerColor = Settings::ESP::hpEnemyColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::enemyColor;
+					playerColor = Settings::ESP::enemyColor.Color(player);
 			}
 			else
 			{
 				if (visible)
-					playerColor = Settings::ESP::hpAllyVisibleColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::allyVisibleColor;
+					playerColor = Settings::ESP::allyVisibleColor.Color(player);
 				else
-					playerColor = Settings::ESP::hpAllyColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::allyColor;
+					playerColor = Settings::ESP::allyColor.Color(player);
 			}
 		}
 		else if (Settings::ESP::teamColorType == TeamColorType::ABSOLUTE)
@@ -264,16 +233,16 @@ ImColor ESP::GetESPPlayerColor(C_BasePlayer* player, bool visible)
 			if (player->GetTeam() == TeamID::TEAM_TERRORIST)
 			{
 				if (visible)
-					playerColor = Settings::ESP::hpTVisibleColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::tVisibleColor;
+					playerColor = Settings::ESP::tVisibleColor.Color(player);
 				else
-					playerColor = Settings::ESP::hpTColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::tColor;
+					playerColor = Settings::ESP::tColor.Color(player);
 			}
 			else if (player->GetTeam() == TeamID::TEAM_COUNTER_TERRORIST)
 			{
 				if (visible)
-					playerColor = Settings::ESP::hpCtVisibleColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::ctVisibleColor;
+					playerColor = Settings::ESP::ctVisibleColor.Color(player);
 				else
-					playerColor = Settings::ESP::hpCtColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::ctColor;
+					playerColor = Settings::ESP::ctColor.Color(player);
 			}
 		}
 	}
@@ -465,7 +434,7 @@ void ESP::DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info
 		int barh = h;
 
 		if (Settings::ESP::Bars::colorType == BarColorType::HEALTH_BASED)
-			barColor = GetHealthColor(HealthValue);
+			barColor = Util::GetHealthColor(HealthValue);
 		else if (Settings::ESP::Bars::colorType== BarColorType::STATIC_COLOR)
 			barColor = Color::FromImColor(playerColor);
 
@@ -681,7 +650,7 @@ void ESP::DrawBomb(C_BaseCombatWeapon* bomb)
 	if (!(*csGameRules) || !(*csGameRules)->IsBombDropped())
 		return;
 
-	DrawEntity(bomb, "Bomb", Color::FromImColor(Settings::ESP::bombColor));
+	DrawEntity(bomb, "Bomb", Color::FromImColor(Settings::ESP::bombColor.Color()));
 }
 
 void ESP::DrawPlantedBomb(C_PlantedC4* bomb)
@@ -689,7 +658,7 @@ void ESP::DrawPlantedBomb(C_PlantedC4* bomb)
 	if (!(*csGameRules) || !(*csGameRules)->IsBombPlanted())
 		return;
 
-	ImColor color = bomb->GetBombDefuser() != -1 || bomb->IsBombDefused() ? Settings::ESP::bombDefusingColor : Settings::ESP::bombColor;
+	ImColor color = bomb->GetBombDefuser() != -1 || bomb->IsBombDefused() ? Settings::ESP::bombDefusingColor.Color() : Settings::ESP::bombColor.Color();
 
 	float bombTimer = bomb->GetBombTime() - globalVars->curtime;
 	std::stringstream displayText;
@@ -720,7 +689,7 @@ void ESP::DrawPlantedBomb(C_PlantedC4* bomb)
 
 void ESP::DrawDefuseKit(C_BaseEntity* defuser)
 {
-	DrawEntity(defuser, "Defuser", Color::FromImColor(Settings::ESP::defuserColor));
+	DrawEntity(defuser, "Defuser", Color::FromImColor(Settings::ESP::defuserColor.Color()));
 }
 
 void ESP::DrawDroppedWeapons(C_BaseCombatWeapon* weapon)
@@ -739,22 +708,22 @@ void ESP::DrawDroppedWeapons(C_BaseCombatWeapon* weapon)
 		modelName += std::to_string(weapon->GetAmmo());
 	}
 
-	DrawEntity(weapon, modelName.c_str(), Color::FromImColor(Settings::ESP::weaponColor));
+	DrawEntity(weapon, modelName.c_str(), Color::FromImColor(Settings::ESP::weaponColor.Color()));
 }
 
 void ESP::DrawHostage(C_BaseEntity* hostage)
 {
-	DrawEntity(hostage, "Hostage", Color::FromImColor(Settings::ESP::hostageColor));
+	DrawEntity(hostage, "Hostage", Color::FromImColor(Settings::ESP::hostageColor.Color()));
 }
 
 void ESP::DrawChicken(C_BaseEntity* chicken)
 {
-	DrawEntity(chicken, "Chicken", Color::FromImColor(Settings::ESP::chickenColor));
+	DrawEntity(chicken, "Chicken", Color::FromImColor(Settings::ESP::chickenColor.Color()));
 }
 
 void ESP::DrawFish(C_BaseEntity* fish)
 {
-	DrawEntity(fish, "Fish", Color::FromImColor(Settings::ESP::fishColor));
+	DrawEntity(fish, "Fish", Color::FromImColor(Settings::ESP::fishColor.Color()));
 }
 
 void ESP::DrawThrowable(C_BaseEntity* throwable, ClientClass* client)
@@ -787,31 +756,31 @@ void ESP::DrawThrowable(C_BaseEntity* throwable, ClientClass* client)
 		if (strstr(mat->GetName(), "flashbang"))
 		{
 			nadeName = "Flashbang";
-			nadeColor = Settings::ESP::flashbangColor;
+			nadeColor = Settings::ESP::flashbangColor.Color();
 			break;
 		}
 		else if (strstr(mat->GetName(), "m67_grenade") || strstr(mat->GetName(), "hegrenade"))
 		{
 			nadeName = "HE Grenade";
-			nadeColor = Settings::ESP::grenadeColor;
+			nadeColor = Settings::ESP::grenadeColor.Color();
 			break;
 		}
 		else if (strstr(mat->GetName(), "smoke"))
 		{
 			nadeName = "Smoke";
-			nadeColor = Settings::ESP::smokeColor;
+			nadeColor = Settings::ESP::smokeColor.Color();
 			break;
 		}
 		else if (strstr(mat->GetName(), "decoy"))
 		{
 			nadeName = "Decoy";
-			nadeColor = Settings::ESP::decoyColor;
+			nadeColor = Settings::ESP::decoyColor.Color();
 			break;
 		}
 		else if (strstr(mat->GetName(), "incendiary") || strstr(mat->GetName(), "molotov"))
 		{
 			nadeName = "Molotov";
-			nadeColor = Settings::ESP::molotovColor;
+			nadeColor = Settings::ESP::molotovColor.Color();
 			break;
 		}
 	}
@@ -842,7 +811,7 @@ void ESP::DrawSkeleton(C_BasePlayer* player)
 			if (debugOverlay->ScreenPosition(Vector(pBoneToWorldOut[pBone->parent][0][3], pBoneToWorldOut[pBone->parent][1][3], pBoneToWorldOut[pBone->parent][2][3]), vBonePos2))
 				continue;
 
-			Draw::Line(Vector2D(vBonePos1.x, vBonePos1.y), Vector2D(vBonePos2.x, vBonePos2.y), Color::FromImColor(Settings::ESP::Skeleton::color));
+			Draw::Line(Vector2D(vBonePos1.x, vBonePos1.y), Vector2D(vBonePos2.x, vBonePos2.y), Color::FromImColor(Settings::ESP::Skeleton::color.Color()));
 		}
 	}
 }
@@ -1018,9 +987,9 @@ void ESP::DrawFOVCrosshair()
 	}
 	
 	if (Settings::ESP::FOVCrosshair::filled)
-		Draw::FilledCircle(Vector2D(width / 2, height / 2), 20, radius, Color::FromImColor(Settings::ESP::FOVCrosshair::color));
+		Draw::FilledCircle(Vector2D(width / 2, height / 2), 20, radius, Color::FromImColor(Settings::ESP::FOVCrosshair::color.Color()));
 	else
-		Draw::Circle(Vector2D(width / 2, height / 2), 20, radius, Color::FromImColor(Settings::ESP::FOVCrosshair::color));
+		Draw::Circle(Vector2D(width / 2, height / 2), 20, radius, Color::FromImColor(Settings::ESP::FOVCrosshair::color.Color()));
 }
 
 void ESP::DrawGlow()
@@ -1049,41 +1018,41 @@ void ESP::DrawGlow()
 
 			if (player == localplayer)
 			{
-				color = Settings::ESP::Glow::hpLocalplayerColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::Glow::localplayerColor;
+				color = Settings::ESP::Glow::localplayerColor.Color(player);
 			}
 			else
 			{
 				if (glow_object.m_pEntity->GetTeam() != localplayer->GetTeam())
 				{
 					if (Entity::IsVisible(player, Bone::BONE_HEAD))
-						color = Settings::ESP::Glow::hpEnemyVisibleColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::Glow::enemyVisibleColor;
+						color = Settings::ESP::Glow::enemyVisibleColor.Color(player);
 					else
-						color = Settings::ESP::Glow::hpEnemyColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::Glow::enemyColor;
+						color = Settings::ESP::Glow::enemyColor.Color(player);
 				}
 				else
-					color = Settings::ESP::Glow::hpAllyColor ? Color::ToImColor(GetHealthColor(player)) : Settings::ESP::Glow::allyColor;
+					color = Settings::ESP::Glow::allyColor.Color(player);
 			}
 		}
 		else if (client->m_ClassID != EClassIds::CBaseWeaponWorldModel &&
 				 (strstr(client->m_pNetworkName, "Weapon") || client->m_ClassID == EClassIds::CDEagle || client->m_ClassID == EClassIds::CAK47))
 		{
-			color = Settings::ESP::Glow::weaponColor;
+			color = Settings::ESP::Glow::weaponColor.Color();
 		}
 		else if (client->m_ClassID == EClassIds::CBaseCSGrenadeProjectile || client->m_ClassID == EClassIds::CDecoyProjectile ||
 				 client->m_ClassID == EClassIds::CMolotovProjectile || client->m_ClassID == EClassIds::CSmokeGrenadeProjectile)
 		{
-			color = Settings::ESP::Glow::grenadeColor;
+			color = Settings::ESP::Glow::grenadeColor.Color();
 		}
 		else if (client->m_ClassID == EClassIds::CBaseAnimating)
 		{
-			color = Settings::ESP::Glow::defuserColor;
+			color = Settings::ESP::Glow::defuserColor.Color();
 
 			if (localplayer->HasDefuser() || localplayer->GetTeam() == TeamID::TEAM_TERRORIST)
 				shouldGlow = false;
 		}
 		else if (client->m_ClassID == EClassIds::CChicken)
 		{
-			color = Settings::ESP::Glow::chickenColor;
+			color = Settings::ESP::Glow::chickenColor.Color();
 
 			*reinterpret_cast<C_Chicken*>(glow_object.m_pEntity)->GetShouldGlow() = shouldGlow;
 		}

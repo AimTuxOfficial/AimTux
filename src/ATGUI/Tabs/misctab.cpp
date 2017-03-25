@@ -223,19 +223,19 @@ void Misc::RenderTab()
 
 			ImGui::Columns(2);
 			{
-				if (ImGui::Button("Aim Assist", ImVec2(-1, 0)))
+				if (ImGui::Button("Aimassist", ImVec2(-1, 0)))
 					ImGui::OpenPopup("optionAimAssist");
 				ImGui::SetNextWindowSize(ImVec2(200, 120), ImGuiSetCond_Always);
 				if (ImGui::BeginPopup("optionAimAssist"))
 				{
 					ImGui::PushItemWidth(-1);
-					ImGui::Checkbox("enabled", &Settings::GrenadeHelper::aimAssist);
+					ImGui::Checkbox("Enabled", &Settings::GrenadeHelper::aimAssist);
 					SetTooltip("Whether the Aimassist will help you throw Grenades.");
-					ImGui::SliderFloat("###aimstep", &Settings::GrenadeHelper::aimStep, 0, 10, "X: %0.3f");
+					ImGui::SliderFloat("###aimstep", &Settings::GrenadeHelper::aimStep, 0, 10, "Speed: %0.3f");
 					SetTooltip("The speed at which the Aimassist helps.");
-					ImGui::SliderFloat("###aimfov", &Settings::GrenadeHelper::aimFov, 0, 180, "Y: %0.2f");
+					ImGui::SliderFloat("###aimfov", &Settings::GrenadeHelper::aimFov, 0, 180, "Fov: %0.2f");
 					SetTooltip("The Fov at which the Aimassist starts.");
-					ImGui::SliderFloat("###aimdistance", &Settings::GrenadeHelper::aimDistance, 0, 100, "Y: %0.2f");
+					ImGui::SliderFloat("###aimdistance", &Settings::GrenadeHelper::aimDistance, 0, 100, "Distance: %0.2f");
 					SetTooltip("The distance at which the Aimassist starts.");
 					ImGui::PopItemWidth();
 
