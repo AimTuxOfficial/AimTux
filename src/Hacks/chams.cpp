@@ -4,21 +4,14 @@ bool Settings::ESP::Chams::enabled = false;
 bool Settings::ESP::Chams::Arms::enabled = false;
 bool Settings::ESP::Chams::Weapon::enabled = false;
 ArmsType Settings::ESP::Chams::Arms::type = ArmsType::DEFAULT;
-ImColor Settings::ESP::Chams::allyColor = ImColor(7, 98, 168, 255);
-ImColor Settings::ESP::Chams::allyVisibleColor = ImColor(40, 52, 138, 255);
-ImColor Settings::ESP::Chams::enemyColor = ImColor(243, 24, 28, 255);
-ImColor Settings::ESP::Chams::enemyVisibleColor = ImColor(243, 159, 20, 255);
-ImColor Settings::ESP::Chams::localplayerColor = ImColor(117, 43, 73, 255);
-bool Settings::ESP::Chams::hpAllyColor = false;
-bool Settings::ESP::Chams::hpAllyVisibleColor = false;
-bool Settings::ESP::Chams::hpEnemyColor = false;
-bool Settings::ESP::Chams::hpEnemyVisibleColor = false;
-bool Settings::ESP::Chams::hpLocalplayerColor = false;
-ImColor Settings::ESP::Chams::Arms::color = ImColor(117, 43, 73, 255);
-ImColor Settings::ESP::Chams::Weapon::color = ImColor(255, 255, 255, 255);
+HealthColorVar Settings::ESP::Chams::allyColor = ImColor(7, 98, 168, 255);
+HealthColorVar Settings::ESP::Chams::allyVisibleColor = ImColor(40, 52, 138, 255);
+HealthColorVar Settings::ESP::Chams::enemyColor = ImColor(243, 24, 28, 255);
+HealthColorVar Settings::ESP::Chams::enemyVisibleColor = ImColor(243, 159, 20, 255);
+HealthColorVar Settings::ESP::Chams::localplayerColor = ImColor(117, 43, 73, 255);
+ColorVar Settings::ESP::Chams::Arms::color = ImColor(117, 43, 73, 255);
+ColorVar Settings::ESP::Chams::Weapon::color = ImColor(255, 255, 255, 255);
 ChamsType Settings::ESP::Chams::type = ChamsType::CHAMS;
-
-float rainbowHue;
 
 IMaterial* materialChams;
 IMaterial* materialChamsIgnorez;
@@ -73,7 +66,7 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 
 	if (entity == localplayer)
 	{
-		Color visColor = Settings::ESP::Chams::hpLocalplayerColor ? ESP::GetHealthColor(entity) : Color::FromImColor(Settings::ESP::Chams::localplayerColor);
+		Color visColor = Color::FromImColor(Settings::ESP::Chams::localplayerColor.Color(entity));
 		Color color = visColor;
 		color *= 0.45f;
 
@@ -82,16 +75,16 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 	}
 	else if (entity->GetTeam() == localplayer->GetTeam())
 	{
-		Color visColor = Settings::ESP::Chams::hpAllyVisibleColor ? ESP::GetHealthColor(entity) : Color::FromImColor(Settings::ESP::Chams::allyVisibleColor);
-		Color color = Settings::ESP::Chams::hpAllyColor ? ESP::GetHealthColor(entity) : Color::FromImColor(Settings::ESP::Chams::allyColor);
+		Color visColor = Color::FromImColor(Settings::ESP::Chams::allyVisibleColor.Color(entity));
+		Color color = Color::FromImColor(Settings::ESP::Chams::allyColor.Color(entity));
 
 		visible_material->ColorModulate(visColor);
 		hidden_material->ColorModulate(color);
 	}
 	else if (entity->GetTeam() != localplayer->GetTeam())
 	{
-		Color visColor = Settings::ESP::Chams::hpEnemyVisibleColor ? ESP::GetHealthColor(entity) : Color::FromImColor(Settings::ESP::Chams::enemyVisibleColor);
-		Color color = Settings::ESP::Chams::hpEnemyColor ? ESP::GetHealthColor(entity) : Color::FromImColor(Settings::ESP::Chams::enemyColor);
+		Color visColor = Color::FromImColor(Settings::ESP::Chams::enemyVisibleColor.Color(entity));
+		Color color = Color::FromImColor(Settings::ESP::Chams::enemyColor.Color(entity));
 
 		visible_material->ColorModulate(visColor);
 		hidden_material->ColorModulate(color);
@@ -129,7 +122,7 @@ void DrawWeapon(const ModelRenderInfo_t& pInfo)
 		mat = material->FindMaterial(modelName.c_str(), TEXTURE_GROUP_MODEL);
 
 	mat->AlphaModulate(1.0f);
-	mat->ColorModulate(Settings::ESP::Chams::Weapon::color);
+	mat->ColorModulate(Settings::ESP::Chams::Weapon::color.Color());
 
 	modelRender->ForcedMaterialOverride(mat);
 }
@@ -151,12 +144,7 @@ void DrawArms(const ModelRenderInfo_t& pInfo)
 			break;
 		case ArmsType::DEFAULT:
 			mat->AlphaModulate(1.0f);
-			mat->ColorModulate(Settings::ESP::Chams::Arms::color);
-			break;
-		case ArmsType::RAINBOW:
-			Color color = Color::FromHSB(rainbowHue, 1.0f, 1.0f);
-			mat->AlphaModulate(1.0f);
-			mat->ColorModulate(color);
+			mat->ColorModulate(Settings::ESP::Chams::Arms::color.Color());
 			break;
 	}
 
@@ -196,12 +184,4 @@ void Chams::DrawModelExecute(void* thisptr, void* context, void *state, const Mo
 		DrawArms(pInfo);
 	else if (modelName.find("weapon") != std::string::npos)
 		DrawWeapon(pInfo);
-}
-
-void Chams::CreateMove(CUserCmd* cmd)
-{
-	if (rainbowHue >= 1.f)
-		rainbowHue = 0.f;
-	else
-		rainbowHue += 0.002;
 }

@@ -10,6 +10,8 @@
 #include <locale>
 #include <codecvt>
 #include <sstream>
+#include "../ImGUI/imgui.h"
+#include "../SDK/SDK.h"
 
 namespace Util
 {
@@ -22,6 +24,9 @@ namespace Util
 	std::string ToUpper(std::string str);
 	std::string WstringToString(std::wstring wstr);
 	std::wstring StringToWstring(std::string str);
+	ImColor GetRainbowColor(float speed);
+	Color GetHealthColor(int hp);
+	Color GetHealthColor(C_BasePlayer* player);
 
 	long GetEpochTime();
 

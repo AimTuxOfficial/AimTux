@@ -17,9 +17,4 @@ public:
 	{
 		return *(bool*)((uintptr_t)this + offsets.DT_CSGameRulesProxy.m_bBombPlanted);
 	}
-
-	bool IsFreezeTime()
-	{
-		return *(bool*)((uintptr_t)this + offsets.DT_CSGameRulesProxy.m_bFreezePeriod);
-	}
 };

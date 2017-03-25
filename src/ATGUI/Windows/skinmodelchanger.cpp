@@ -16,16 +16,16 @@ void TabButtons()
 		int distance = i == page ? 0 : i > page ? i - page : page - i;
 
 		ImGui::GetStyle().Colors[ImGuiCol_Button] = ImVec4(
-				Settings::UI::mainColor.Value.x - (distance * 0.06f),
-				Settings::UI::mainColor.Value.y - (distance * 0.06f),
-				Settings::UI::mainColor.Value.z - (distance * 0.06f),
-				Settings::UI::mainColor.Value.w
+				Settings::UI::mainColor.Color().Value.x - (distance * 0.06f),
+				Settings::UI::mainColor.Color().Value.y - (distance * 0.06f),
+				Settings::UI::mainColor.Color().Value.z - (distance * 0.06f),
+				Settings::UI::mainColor.Color().Value.w
 		);
 
 		if (ImGui::Button(tabs[i], ImVec2(ImGui::GetWindowSize().x / IM_ARRAYSIZE(tabs) - 9, 0)))
 			page = i;
 
-		ImGui::GetStyle().Colors[ImGuiCol_Button] = Settings::UI::mainColor;
+		ImGui::GetStyle().Colors[ImGuiCol_Button] = Settings::UI::mainColor.Color();
 
 		if (i < IM_ARRAYSIZE(tabs) - 1)
 			ImGui::SameLine();

@@ -453,9 +453,6 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["GrenadeHelper"]["aimStep"] = Settings::GrenadeHelper::aimStep;
 	settings["GrenadeHelper"]["aimDistance"] = Settings::GrenadeHelper::aimDistance;
 	settings["GrenadeHelper"]["aimFov"] = Settings::GrenadeHelper::aimFov;
-
-	//settings["WalkBot"]["enabled"] = Settings::WalkBot::enabled;
-
 	LoadUIColor(settings["GrenadeHelper"]["aimDot"], Settings::GrenadeHelper::aimDot);
 	LoadUIColor(settings["GrenadeHelper"]["aimLine"], Settings::GrenadeHelper::aimLine);
 	LoadUIColor(settings["GrenadeHelper"]["infoHe"], Settings::GrenadeHelper::infoHE);
@@ -780,8 +777,6 @@ void Settings::LoadConfig(std::string path)
 	Settings::Skinchanger::skinsCT.clear();
 	Settings::Skinchanger::skinsT.clear();
 
-	//Settings::WalkBot::enabled = false;
-
 	for (Json::ValueIterator itr = settings["SkinChanger"]["skinsCT"].begin(); itr != settings["SkinChanger"]["skinsCT"].end(); itr++)
 	{
 		std::string skinDataKey = itr.key().asString();
@@ -932,7 +927,7 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["GrenadeHelper"]["infoFlash"], &Settings::GrenadeHelper::infoFlash);
 	GetVal(settings["GrenadeHelper"]["infoMolotov"], &Settings::GrenadeHelper::infoMolotov);
 
-	//GetVal(settings["WalkBot"]["enabled"], &Settings::WalkBot::enabled);
+
 }
 
 void Settings::LoadSettings()
