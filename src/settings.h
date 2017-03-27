@@ -711,7 +711,14 @@ namespace Settings
 		extern bool enabled;
 		extern AutostrafeType type;
 		extern bool silent;
+
+		namespace StrafeKey
+		{
+			extern bool enabled;
+			extern ButtonCode_t key;
+		}
 	}
+
 
 	namespace Noflash
 	{

@@ -346,6 +346,9 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["AutoStrafe"]["type"] = (int) Settings::AutoStrafe::type;
 	settings["AutoStrafe"]["silent"] = Settings::AutoStrafe::silent;
 
+	settings["AutoStrafe"]["StrafeKey"]["enabled"] = Settings::AutoStrafe::StrafeKey::enabled;
+        settings["AutoStrafe"]["StrafeKey"]["key"] = Util::GetButtonName(Settings::AutoStrafe::StrafeKey::key);
+
 	settings["Noflash"]["enabled"] = Settings::Noflash::enabled;
 	settings["Noflash"]["value"] = Settings::Noflash::value;
 
@@ -734,6 +737,9 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["AutoStrafe"]["enabled"], &Settings::AutoStrafe::enabled);
 	GetVal(settings["AutoStrafe"]["type"], (int*)& Settings::AutoStrafe::type);
 	GetVal(settings["AutoStrafe"]["silent"], &Settings::AutoStrafe::silent);
+
+	GetVal(settings["AutoStrafe"]["StrafeKey"]["enabled"], &Settings::AutoStrafe::StrafeKey::enabled);
+	GetButtonCode(settings["AutoStrafe"]["StrafeKey"]["key"], &Settings::AutoStrafe::StrafeKey::key);
 
 	GetVal(settings["Noflash"]["enabled"], &Settings::Noflash::enabled);
 	GetVal(settings["Noflash"]["value"], &Settings::Noflash::value);
