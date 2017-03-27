@@ -172,8 +172,11 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 				yFlip ? angle.y = 0.1f : angle.y = 179.0f;
 				factor = (globalVars->curtime * 99999999999.0f);
 			break;
-		case AntiAimType_Y::SIDE:
+		case AntiAimType_Y::SIDEWAYS:
 			yFlip ? angle.y += 90.f : angle.y -= 90.0f;
+			break;
+		case AntiAimType_Y::HALF_SIDEWAYS:
+			yFlip ? angle.y += 45.f : angle.y -= 45.0f;
 			break;
 		case AntiAimType_Y::BACKWARDS:
 			angle.y -= 180.0f;
