@@ -106,6 +106,7 @@ enum class ChamsType : int
 enum class BoxType : int
 {
 	FLAT_2D,
+	FILLED_2D,
 	FRAME_2D,
 	BOX_3D,
 };
