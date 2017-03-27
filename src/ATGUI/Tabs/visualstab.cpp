@@ -2,7 +2,7 @@
 
 void Visuals::RenderTab()
 {
-	const char* BoxTypes[] = { "Flat 2D", "Frame 2D", "Box 3D" };
+	const char* BoxTypes[] = { "Flat 2D", "Filled 2D", "Frame 2D", "Box 3D" };
 	const char* TracerTypes[] = { "Bottom", "Cursor" };
 	const char* BarTypes[] = { "Vertical Left", "Vertical Right", "Horizontal Below", "Horizontal Above", "Interwebz" };
 	const char* BarColorTypes[] = { "Static", "Health Based" };
@@ -23,7 +23,7 @@ void Visuals::RenderTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::Checkbox("Outline Box", &Settings::ESP::Boxes::enabled);
+				ImGui::Checkbox("Outline Box", &Settings::ESP::Boxes::enabled); //dont know how name this
 				SetTooltip("Outline players with a box");
 				ImGui::Checkbox("Chams", &Settings::ESP::Chams::enabled);
 				SetTooltip("Change players' model texture");
@@ -172,7 +172,7 @@ void Visuals::RenderTab()
 				ImGui::Checkbox("Only When Shooting", &Settings::Recoilcrosshair::showOnlyWhenShooting);
 				SetTooltip("Only show recoil crosshair when shooting");
 				ImGui::Checkbox("Filled", &Settings::ESP::FOVCrosshair::filled);
-				SetTooltip("Fill the fov circle");
+				SetTooltip("Fill the FOV circle");
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
