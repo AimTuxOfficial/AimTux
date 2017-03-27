@@ -3,6 +3,8 @@
 bool Settings::AutoStrafe::enabled = false;
 AutostrafeType Settings::AutoStrafe::type = AutostrafeType::AS_FORWARDS;
 bool Settings::AutoStrafe::silent = true;
+bool Settings::AutoStrafe::StrafeKey::enabled = false;
+ButtonCode_t Settings::AutoStrafe::StrafeKey::key = ButtonCode_t::KEY_LSHIFT;
 
 void LegitStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 {
@@ -81,6 +83,9 @@ void RageStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 void AutoStrafe::CreateMove(CUserCmd* cmd)
 {
 	if (!Settings::AutoStrafe::enabled)
+		return;
+
+	if (Settings::AutoStrafe::StrafeKey::enabled && !inputSystem->IsButtonDown(Settings::AutoStrafe::StrafeKey::key))
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
