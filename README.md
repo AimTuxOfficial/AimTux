@@ -24,7 +24,6 @@ If you're having problems compiling make sure you've got the latest version of `
 
 [How to update g++](https://github.com/AimTuxOfficial/AimTux/wiki/Updating-your-compiler)
 
-==================
 
 __Arch:__
 ```bash
@@ -40,7 +39,6 @@ __Gentoo:__
 sudo emerge cmake dev-vcs/git gdb libsdl2 mesa
 ```
 
-===================
 
 #### Download AimTux:
 
@@ -52,7 +50,6 @@ git clone --recursive https://github.com/AimTuxOfficial/AimTux
 cd AimTux
 ```
 
-===================
 
 #### Generate a makefile
 
