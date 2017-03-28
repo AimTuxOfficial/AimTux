@@ -1,7 +1,5 @@
 ![banner](http://elite4.tk/supreme.png)
 
-===================
-
 ## What is Supreme Hack?
 
 Supreme is a upgraded hack based on AimTux and fully featured internal hack for *CounterStrike : Global Offensive* written in C++.
@@ -25,7 +23,7 @@ If you're having problems compiling make sure you've got the latest version of `
 
 [How to update g++](https://github.com/AimTuxOfficial/AimTux/wiki/Updating-your-compiler)
 
-==================
+##
 
 __Arch:__
 ```bash
@@ -41,7 +39,7 @@ __Gentoo:__
 sudo emerge cmake dev-vcs/git gdb libsdl2 mesa
 ```
 
-===================
+##
 
 #### Download Supreme:
 
@@ -53,7 +51,7 @@ git clone --recursive https://github.com/BlastWorld/Supreme
 cd Supreme
 ```
 
-===================
+##
 
 #### Generate a makefile
 
