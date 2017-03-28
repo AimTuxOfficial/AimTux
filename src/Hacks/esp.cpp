@@ -345,6 +345,8 @@ void ESP::DrawBox(Color color, int x, int y, int w, int h, C_BaseEntity* entity)
 	{
 		// color
 		Draw::FilledRectangle(x, y, x + w, y + h, color);
+		// outer outline
+		Draw::Rectangle(x + 1, y + 1, x + w - 1, y + h - 1, Color(10, 10, 10, 190));
 	}
 	else if (Settings::ESP::Boxes::type == BoxType::BOX_3D)
 	{
