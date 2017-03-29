@@ -10,6 +10,8 @@ sudo gdb -n -q -batch \
 	-ex "call \$dlclose(\$library)" \
 	-ex "detach" \
 	-ex "quit"
-#clear
-/bin/echo -e "\e[32mSuccessfully unloaded!\e[0m"
+	#clear
+	/bin/echo -e "\e[34mSuccessfully unloaded!\e[0m"
+else
+	/bin/echo -e "\e[31mUnload failed, make sure Supreme injected...\e[0m"
 fi
