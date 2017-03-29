@@ -2,32 +2,33 @@
 
 csgo_pid=$(pidof csgo_linux64)
 if [ -z "$csgo_pid" ]; then
-    /bin/echo -e "\e[31mCSGO needs to be open before you can inject...\e[0m"
-    exit 1
+	/bin/echo -e "\e[31mCSGO needs to be open before you can inject...\e[0m"
+	exit 1
 fi
 
 if [ ! -d ".git" ]; then
-    /bin/echo "We have detected that you have downloaded supreme-master.zip from the GitHub website. This is the WRONG way to download Supreme. Please download Supreme with the command 'git clone --recursive https://github.com/BlastWorld/Supreme'"
+	/bin/echo "We have detected that you have downloaded supreme-master.zip from the GitHub website. This is the WRONG way to download Supreme. Please download Supreme with the command 'git clone --recursive https://github.com/BlastWorld/Supreme'"
 fi
 
 if grep -q libSupreme.so /proc/$csgo_pid/maps; then
-    /bin/echo -e "\e[33mSupreme is already injected... Aborting...\e[0m"
-    exit
+	/bin/echo -e "\e[33mSupreme is already injected... Aborting...\e[0m"
+	exit
 fi
 
 input="$(
 sudo gdb -n -q -batch \
-  -ex "attach $csgo_pid" \
-  -ex "set \$dlopen = (void*(*)(char*, int)) dlopen" \
-  -ex "call \$dlopen(\"$(pwd)/libSupreme.so\", 1)" \
-  -ex "detach" \
-  -ex "quit"
+	-ex "attach $csgo_pid" \
+	-ex "set \$dlopen = (void*(*)(char*, int)) dlopen" \
+	-ex "call \$dlopen(\"$(pwd)/libSupreme.so\", 1)" \
+	-ex "detach" \
+	-ex "quit"
 )"
 
 last_line="${input##*$'\n'}"
 
 if [ "$last_line" != "\$1 = (void *) 0x0" ]; then
-    /bin/echo -e "\e[32mSuccessfully injected!\e[0m"
+	#clear
+	/bin/echo -e "\e[32mSuccessfully injected!\e[0m"
 else
-    /bin/echo -e "\e[31mInjection failed, make sure you've compiled...\e[0m"
+	/bin/echo -e "\e[31mInjection failed, make sure you've compiled...\e[0m"
 fi
