@@ -13,5 +13,5 @@ sudo gdb -n -q -batch \
 	#clear
 	/bin/echo -e "\e[34mSuccessfully unloaded!\e[0m"
 else
-	/bin/echo -e "\e[31mUnload failed, make sure Supreme injected...\e[0m"
+	/bin/echo -e "\e[31mUnload failed, make sure that Supreme is injected...\e[0m"
 fi
