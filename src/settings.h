@@ -482,6 +482,7 @@ namespace Settings
 
 		namespace Lua
 		{
+			extern bool debugMode; // turns on/off error checking. Can be turned off after your script is working for speed.
 			extern char scriptX[512];
 			extern char scriptY[512];
 			extern char scriptY2[512];

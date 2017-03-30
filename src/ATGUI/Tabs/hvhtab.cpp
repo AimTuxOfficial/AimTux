@@ -134,27 +134,34 @@ void HvH::RenderTab()
 			SetTooltip("Auto crouch when an enemy is in sight");
 
 			ImGui::Separator();
+			ImGui::Checkbox("Lua Debug Mode", &Settings::AntiAim::Lua::debugMode);
+			SetTooltip("Turns ON/OFF Lua Syntax/Runtime error checking.\n *Errors found in CSGO Console\nCan be turned off once Script is done for more speed.");
 			if( Settings::AntiAim::Pitch::type == AntiAimType_X::LUA1 || Settings::AntiAim::Pitch::type == AntiAimType_X ::LUA_UNCLAMPED )
 			{
 				ImGui::Text("Lua AntiAim Editor -- X Axis");
 				ImGui::InputTextMultiline("##LUAX", Settings::AntiAim::Lua::scriptX, sizeof(Settings::AntiAim::Lua::scriptX));
 			}
 			ImGui::Separator();
-			if( Settings::AntiAim::Yaw::type == AntiAimType_Y::LUA1 || Settings::AntiAim::Yaw::type == AntiAimType_Y::LUA_UNCLAMPED ||  Settings::AntiAim::Yaw::type == AntiAimType_Y::LUA2 )
-			{
-				if( Settings::AntiAim::Yaw::type == Settings::AntiAim::Yaw::typeFake ){
-					ImGui::Text("Lua AntiAim Editor -- Y Axis(BOTH)");
-				} else {
-					ImGui::Text("Lua AntiAim Editor -- Y Axis(ACTUAL)");
-				}
+
+			if( Settings::AntiAim::Yaw::type == Settings::AntiAim::Yaw::typeFake ){
+				ImGui::Text("Lua AntiAim Editor -- Y Axis(BOTH)");
 				ImGui::InputTextMultiline("##LUAY", Settings::AntiAim::Lua::scriptY, sizeof(Settings::AntiAim::Lua::scriptY));
-			}
-			ImGui::Separator();
-			if( ( Settings::AntiAim::Yaw::typeFake == AntiAimType_Y::LUA1 || Settings::AntiAim::Yaw::typeFake == AntiAimType_Y::LUA_UNCLAMPED ||  Settings::AntiAim::Yaw::typeFake == AntiAimType_Y::LUA2 )
-				&& Settings::AntiAim::Yaw::type != Settings::AntiAim::Yaw::typeFake )
-			{
-				ImGui::Text("Lua AntiAim Editor -- Y Axis(FAKE)");
-				ImGui::InputTextMultiline("##LUAY2", Settings::AntiAim::Lua::scriptY2, sizeof(Settings::AntiAim::Lua::scriptY2));
+			} else {
+				if ( Settings::AntiAim::Yaw::type == AntiAimType_Y::LUA1 || Settings::AntiAim::Yaw::type == AntiAimType_Y::LUA_UNCLAMPED ){
+					ImGui::Text("Lua AntiAim Editor -- Y Axis(ACTUAL)");
+					ImGui::InputTextMultiline("##LUAY", Settings::AntiAim::Lua::scriptY, sizeof(Settings::AntiAim::Lua::scriptY));
+				} else if( Settings::AntiAim::Yaw::typeFake == AntiAimType_Y::LUA1 || Settings::AntiAim::Yaw::typeFake == AntiAimType_Y::LUA_UNCLAMPED ){
+					ImGui::Text("Lua AntiAim Editor -- Y Axis(FAKE)");
+					ImGui::InputTextMultiline("##LUAY", Settings::AntiAim::Lua::scriptY, sizeof(Settings::AntiAim::Lua::scriptY));
+				}
+				ImGui::Separator();
+				if ( Settings::AntiAim::Yaw::type == AntiAimType_Y::LUA2 || Settings::AntiAim::Yaw::type == AntiAimType_Y::LUA_UNCLAMPED2 ){
+					ImGui::Text("Lua AntiAim Editor -- Y Axis(ACTUAL)");
+					ImGui::InputTextMultiline("##LUAY2", Settings::AntiAim::Lua::scriptY2, sizeof(Settings::AntiAim::Lua::scriptY2));
+				} else if( Settings::AntiAim::Yaw::typeFake == AntiAimType_Y::LUA2 || Settings::AntiAim::Yaw::typeFake == AntiAimType_Y::LUA_UNCLAMPED2 ){
+					ImGui::Text("Lua AntiAim Editor -- Y Axis(FAKE)");
+					ImGui::InputTextMultiline("##LUAY2", Settings::AntiAim::Lua::scriptY2, sizeof(Settings::AntiAim::Lua::scriptY2));
+				}
 			}
 			ImGui::EndChild();
 		}
