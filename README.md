@@ -34,7 +34,7 @@ sudo pacman -S base-devel cmake gdb git sdl2
 ```
 __Fedora:__
 ```bash
-sudo dnf install cmake gcc-c++ gdb git libstdc++-static mesa-libGL-devel SDL2-devel zlib-devel
+sudo dnf install cmake gcc-c++ gdb git libstdc++-static mesa-libGL-devel SDL2-devel zlib-devel lua-devel
 ```
 
 __Gentoo:__
@@ -90,7 +90,7 @@ You might be prompted to enter in your password, this is because the injection s
 
 You should see a lot of text being printed out, most of which is not important,
 
-If the injection was successfull you'll see a message at the bottom saying `Successfully injected!`, however, if the message says `Injection failed`, then you've most likely done something wrong.
+If the injection was successful you'll see a message at the bottom saying `Successfully injected!`, however, if the message says `Injection failed`, then you've most likely done something wrong.
 
 Now, go back into csgo, if you're in the main menu of the game you should see the AimTux banner in the top left like so:
 

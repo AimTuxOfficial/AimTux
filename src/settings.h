@@ -63,12 +63,16 @@ enum class AntiAimType_Y : int
 	STATICAA,
 	STATICJITTER,
 	STATICSMALLJITTER,
+	LUA1, // ImGui stole the name of LUA
+	LUA2, // Alternate LUA if you want a separate one for Fake.
 	LISP,
 	LISP_SIDE,
 	LISP_JITTER,
 	ANGEL_BACKWARD,
 	ANGEL_INVERSE,
 	ANGEL_SPIN,
+	LUA_UNCLAMPED,
+	LUA_UNCLAMPED2,
 };
 
 enum class AntiAimType_X : int
@@ -77,11 +81,13 @@ enum class AntiAimType_X : int
 	STATIC_DOWN,
 	DANCE,
 	FRONT,
+	LUA1,
 	STATIC_UP_FAKE,
 	STATIC_DOWN_FAKE,
 	LISP_DOWN,
 	ANGEL_DOWN,
 	ANGEL_UP,
+	LUA_UNCLAMPED,
 };
 
 enum class ChamsType : int
@@ -472,6 +478,13 @@ namespace Settings
 		{
 			extern bool enabled;
 			extern float distance;
+		}
+
+		namespace Lua
+		{
+			extern char scriptX[512];
+			extern char scriptY[512];
+			extern char scriptY2[512];
 		}
 	}
 

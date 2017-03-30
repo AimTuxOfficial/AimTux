@@ -3,13 +3,13 @@
 void HvH::RenderTab()
 {
 	const char* yTypes[] = {
-			"SLOW SPIN", "FAST SPIN", "JITTER", "BACKJITTER", "SIDE", "BACKWARDS", "FORWARDS", "LEFT", "RIGHT", "STATIC", "STATIC JITTER", "STATIC SMALL JITTER", // safe
-			"LISP", "LISP SIDE", "LISP JITTER", "ANGEL BACKWARDS", "ANGEL INVERSE", "ANGEL SPIN" // untrusted
+			"SLOW SPIN", "FAST SPIN", "JITTER", "BACKJITTER", "SIDE", "BACKWARDS", "FORWARDS", "LEFT", "RIGHT", "STATIC", "STATIC JITTER", "STATIC SMALL JITTER", "LUA", "LUA2",// safe
+			"LISP", "LISP SIDE", "LISP JITTER", "ANGEL BACKWARDS", "ANGEL INVERSE", "ANGEL SPIN", "LUA UNCLAMPED", "LUA UNCLAMPED2" // untrusted
 	};
 
 	const char* xTypes[] = {
-			"UP", "DOWN", "DANCE", "FRONT", // safe
-			"FAKE UP", "FAKE DOWN", "LISP DOWN", "ANGEL DOWN", "ANGEL UP" // untrusted
+			"UP", "DOWN", "DANCE", "FRONT", "LUA", // safe
+			"FAKE UP", "FAKE DOWN", "LISP DOWN", "ANGEL DOWN", "ANGEL UP", "LUA UNCLAMPED" // untrusted
 	};
 
 	ImGui::Columns(2, NULL, true);
@@ -132,6 +132,30 @@ void HvH::RenderTab()
 			ImGui::Text("Movement");
 			ImGui::Checkbox("Auto Crouch", &Settings::Aimbot::AutoCrouch::enabled);
 			SetTooltip("Auto crouch when an enemy is in sight");
+
+			ImGui::Separator();
+			if( Settings::AntiAim::Pitch::type == AntiAimType_X::LUA1 || Settings::AntiAim::Pitch::type == AntiAimType_X ::LUA_UNCLAMPED )
+			{
+				ImGui::Text("Lua AntiAim Editor -- X Axis");
+				ImGui::InputTextMultiline("##LUAX", Settings::AntiAim::Lua::scriptX, sizeof(Settings::AntiAim::Lua::scriptX));
+			}
+			ImGui::Separator();
+			if( Settings::AntiAim::Yaw::type == AntiAimType_Y::LUA1 || Settings::AntiAim::Yaw::type == AntiAimType_Y::LUA_UNCLAMPED ||  Settings::AntiAim::Yaw::type == AntiAimType_Y::LUA2 )
+			{
+				if( Settings::AntiAim::Yaw::type == Settings::AntiAim::Yaw::typeFake ){
+					ImGui::Text("Lua AntiAim Editor -- Y Axis(BOTH)");
+				} else {
+					ImGui::Text("Lua AntiAim Editor -- Y Axis(ACTUAL)");
+				}
+				ImGui::InputTextMultiline("##LUAY", Settings::AntiAim::Lua::scriptY, sizeof(Settings::AntiAim::Lua::scriptY));
+			}
+			ImGui::Separator();
+			if( ( Settings::AntiAim::Yaw::typeFake == AntiAimType_Y::LUA1 || Settings::AntiAim::Yaw::typeFake == AntiAimType_Y::LUA_UNCLAMPED ||  Settings::AntiAim::Yaw::typeFake == AntiAimType_Y::LUA2 )
+				&& Settings::AntiAim::Yaw::type != Settings::AntiAim::Yaw::typeFake )
+			{
+				ImGui::Text("Lua AntiAim Editor -- Y Axis(FAKE)");
+				ImGui::InputTextMultiline("##LUAY2", Settings::AntiAim::Lua::scriptY2, sizeof(Settings::AntiAim::Lua::scriptY2));
+			}
 			ImGui::EndChild();
 		}
 	}

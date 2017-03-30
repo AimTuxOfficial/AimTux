@@ -39,5 +39,13 @@ file(GLOB_RECURSE SOURCE_FILES "${CMAKE_SOURCE_DIR}/src/*.cpp")
 EXCLUDE_FILES_FROM_DIR_IN_LIST("${SOURCE_FILES}" "${CMAKE_SOURCE_DIR}/src/ImGUI/examples/" FALSE)
 EXCLUDE_FILES_FROM_DIR_IN_LIST("${SOURCE_FILES}" "${CMAKE_SOURCE_DIR}/src/ImGUI/extra_fonts" FALSE)
 
+FIND_PACKAGE(Lua 5.3 REQUIRED)
+
+set(INCLUDE_DIRS ${LUA_INCLUDE_DIR})
+
+add_definitions(-DLUA)
+
+include_directories(${INCLUDE_DIRS})
+
 add_library(AimTux SHARED ${SOURCE_FILES})
-target_link_libraries(AimTux SDL2 GL dl)
+target_link_libraries(AimTux SDL2 GL dl ${LUA_LIBRARY})

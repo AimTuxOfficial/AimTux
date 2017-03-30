@@ -1,6 +1,6 @@
 #include "interfaces.h"
 #include "hooker.h"
-#include "modsupport.h"
+// #include "modsupport.h"
 #include "Utils/netvarmanager.h"
 #include "EventListener.h"
 
@@ -99,12 +99,17 @@ int __attribute__((constructor)) AimTuxInit()
 
 	srand(time(NULL)); // Seed random # Generator so we can call rand() later
 
+	AntiAim::LuaInit();
+
+
 	return 0;
 }
 
 void __attribute__((destructor)) AimTuxShutdown()
 {
 	cvar->FindVar("cl_mouseenable")->SetValue(1);
+
+	AntiAim::LuaCleanup();
 
 	SDL2::UnhookWindow();
 	SDL2::UnhookPollEvent();
