@@ -14,7 +14,7 @@ void LegitStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 	switch (Settings::AutoStrafe::type)
 	{
 		case AutostrafeType::AS_FORWARDS:
-                        cmd->sidemove = cmd->mousedx < 0.f ? -450.f : 450.f;
+			cmd->sidemove = cmd->mousedx < 0.f ? -450.f : 450.f;
 			break;
 		case AutostrafeType::AS_BACKWARDS:
 			cmd->sidemove = cmd->mousedx < 0.f ? 450.f : -450.f;
