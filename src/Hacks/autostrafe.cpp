@@ -6,23 +6,25 @@ bool Settings::AutoStrafe::silent = true;
 
 void LegitStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 {
-	if (localplayer->GetFlags() & FL_ONGROUND)
+	if (localplayer->GetFlags() & FL_ONGROUND||(abs(cmd->mousedx)>0.1&&abs(cmd->mousedy)>0.1))
 		return;
-       cmd->forwardmove=0;
-       cmd->sidemove=0;	
-                	       
+                  	       
 	switch (Settings::AutoStrafe::type)
 	{
 		case AutostrafeType::AS_FORWARDS:
-			cmd->sidemove = cmd->mousedx < 0.f ? -450.f : 450.f;
+                	cmd->forwardmove=0;
+                        cmd->sidemove = cmd->mousedx < 0.f ? -450.f : 450.f;
 			break;
 		case AutostrafeType::AS_BACKWARDS:
-			cmd->sidemove = cmd->mousedx < 0.f ? 450.f : -450.f;
+			cmd->forwardmove=0;
+                	cmd->sidemove = cmd->mousedx < 0.f ? 450.f : -450.f;
 			break;
 		case AutostrafeType::AS_LEFTSIDEWAYS:
+                        cmd->sidemove=0;
                         cmd->forwardmove = cmd->mousedx < 0.f ? -450.f : 450.f;
 			break;
 		case AutostrafeType::AS_RIGHTSIDEWAYS:
+                        cmd->sidemove=0;
                         cmd->forwardmove = cmd->mousedx < 0.f ? 450.f : -450.f;
 			break;
 		default:
