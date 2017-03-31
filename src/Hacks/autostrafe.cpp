@@ -6,9 +6,8 @@ bool Settings::AutoStrafe::silent = true;
 
 void LegitStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 {
-	if (localplayer->GetFlags() & FL_ONGROUND||(abs(cmd->mousedx)>0.1&&abs(cmd->mousedy)>0.1))
-		return;
-                  	       
+	if (localplayer->GetFlags() & FL_ONGROUND)
+		return;    	       
 	switch (Settings::AutoStrafe::type)
 	{
 		case AutostrafeType::AS_FORWARDS:
