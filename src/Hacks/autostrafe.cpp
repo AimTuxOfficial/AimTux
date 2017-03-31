@@ -10,7 +10,7 @@ void LegitStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 		return;
        cmd->forwardmove=0;
        cmd->sidemove=0;	
-               	       
+                	       
 	switch (Settings::AutoStrafe::type)
 	{
 		case AutostrafeType::AS_FORWARDS:
