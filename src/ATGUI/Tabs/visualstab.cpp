@@ -166,6 +166,8 @@ void Visuals::RenderTab()
 				SetTooltip("Show a crosshair based on recoil");
 				ImGui::Checkbox("FOV Circle", &Settings::ESP::FOVCrosshair::enabled);
 				SetTooltip("Show circle around aimbot FOV");
+				ImGui::Checkbox("Show Spread", &Settings::ESP::Spread::enabled);
+				SetTooltip("Show where your bullets can possibly Land");
 			}
 			ImGui::NextColumn();
 			{

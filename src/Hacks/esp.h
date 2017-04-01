@@ -32,6 +32,7 @@ namespace ESP
 	void DrawHeaddot(C_BasePlayer* player);
 	void CollectFootstep(int iEntIndex, const char *pSample);
 	void DrawSounds();
+	void DrawSpread();
 	void DrawFOVCrosshair();
 	void DrawGlow();
 	void DrawScope();

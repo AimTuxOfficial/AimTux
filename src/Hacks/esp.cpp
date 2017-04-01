@@ -82,6 +82,8 @@ bool Settings::NoScopeBorder::enabled = false;
 bool Settings::ESP::HeadDot::enabled = false;
 float Settings::ESP::HeadDot::size = 2.f;
 
+bool Settings::ESP::Spread::enabled = false;
+
 struct Footstep
 {
 	long expiration;
@@ -1147,10 +1149,10 @@ void ESP::Paint()
 
 	if (Settings::ESP::Sounds::enabled)
 		ESP::DrawSounds();
-
 	if (Settings::ESP::FOVCrosshair::enabled)
 		ESP::DrawFOVCrosshair();
-
+	if (Settings::ESP::Spread::enabled)
+		ESP::DrawSpread();
 	if (Settings::NoScopeBorder::enabled && localplayer->IsScoped())
 		ESP::DrawScope();
 }
@@ -1191,6 +1193,26 @@ void ESP::DrawScope()
 
 	Draw::Line(0, height * 0.5, width, height * 0.5, Color(0, 0, 0, 255));
 	Draw::Line(width * 0.5, 0, width * 0.5, height, Color(0, 0, 0, 255));
+}
+
+void ESP::DrawSpread()
+{
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer)
+		return;
+
+	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+	if (!activeWeapon)
+		return;
+
+	int width, height;
+	engine->GetScreenSize(width, height);
+
+	float cone = activeWeapon->GetSpread() + activeWeapon->GetInaccuracy();
+	if( cone > 0.0f ){
+		float radius = ( cone * height ) / 1.5f;
+		Draw::Rectangle(Vector2D(((width/2)-radius), (height/2)-radius), Vector2D( (width/2)+radius, (height/2)+radius), Color::FromImColor(Settings::ESP::FOVCrosshair::color.Color()));
+	}
 }
 
 void ESP::CreateMove(CUserCmd* cmd)
