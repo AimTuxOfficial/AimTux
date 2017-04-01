@@ -216,6 +216,10 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["AntiAim"]["HeadEdge"]["distance"] = Settings::AntiAim::HeadEdge::distance;
 	settings["AntiAim"]["AutoDisable"]["no_enemy"] = Settings::AntiAim::AutoDisable::noEnemy;
 	settings["AntiAim"]["AutoDisable"]["knife_held"] = Settings::AntiAim::AutoDisable::knifeHeld;
+	settings["AntiAim"]["Lua"]["debugMode"] = Settings::AntiAim::Lua::debugMode;
+	settings["AntiAim"]["Lua"]["scriptX"] = Settings::AntiAim::Lua::scriptX;
+	settings["AntiAim"]["Lua"]["scriptY"] = Settings::AntiAim::Lua::scriptY;
+	settings["AntiAim"]["Lua"]["scriptY2"] = Settings::AntiAim::Lua::scriptY2;
 
 	settings["ESP"]["enabled"] = Settings::ESP::enabled;
 	LoadColor(settings["ESP"]["enemy_color"], Settings::ESP::enemyColor);
@@ -313,6 +317,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["ESP"]["Hitmarker"]["Damage"]["enabled"] = Settings::ESP::Hitmarker::Damage::enabled;
 	settings["ESP"]["HeadDot"]["enabled"] = Settings::ESP::HeadDot::enabled;
 	settings["ESP"]["HeadDot"]["size"] = Settings::ESP::HeadDot::size;
+	settings["ESP"]["Spread"]["enabled"] = Settings::ESP::Spread::enabled;
 
 	settings["Dlights"]["enabled"] = Settings::Dlights::enabled;
 	settings["Dlights"]["radius"] = Settings::Dlights::radius;
@@ -606,6 +611,11 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["AntiAim"]["HeadEdge"]["distance"], &Settings::AntiAim::HeadEdge::distance);
 	GetVal(settings["AntiAim"]["AutoDisable"]["knife_held"], &Settings::AntiAim::AutoDisable::knifeHeld);
 	GetVal(settings["AntiAim"]["AutoDisable"]["no_enemy"], &Settings::AntiAim::AutoDisable::noEnemy);
+	GetVal(settings["AntiAim"]["Lua"]["debugMode"], &Settings::AntiAim::Lua::debugMode);
+	GetVal(settings["AntiAim"]["Lua"]["scriptX"], Settings::AntiAim::Lua::scriptX);
+	GetVal(settings["AntiAim"]["Lua"]["scriptY"], Settings::AntiAim::Lua::scriptY);
+	GetVal(settings["AntiAim"]["Lua"]["scriptY2"], Settings::AntiAim::Lua::scriptY2);
+
 
 	GetVal(settings["ESP"]["enabled"], &Settings::ESP::enabled);
 	GetVal(settings["ESP"]["enemy_color"], &Settings::ESP::enemyColor);
@@ -703,6 +713,7 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["ESP"]["Hitmarker"]["Damage"]["enabled"], &Settings::ESP::Hitmarker::Damage::enabled);
 	GetVal(settings["ESP"]["HeadDot"]["enabled"], &Settings::ESP::HeadDot::enabled);
 	GetVal(settings["ESP"]["HeadDot"]["size"], &Settings::ESP::HeadDot::size);
+	GetVal(settings["ESP"]["Spread"]["enabled"], &Settings::ESP::Spread::enabled);
 
 	GetVal(settings["Dlights"]["enabled"], &Settings::Dlights::enabled);
 	GetVal(settings["Dlights"]["radius"], &Settings::Dlights::radius);
