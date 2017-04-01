@@ -370,6 +370,26 @@ void ESP::DrawBox(Color color, int x, int y, int w, int h, C_BaseEntity* entity)
 			Draw::Line(Vector2D(p1.x, p1.y), Vector2D(p2.x, p2.y), color);
 		}
 	}
+	else if (Settings::ESP::Boxes::type == BoxType::HITBOXES) /* credits to 1337floesen - https://www.unknowncheats.me/forum/counterstrike-global-offensive/157557-drawing-hitboxes.html */
+	{
+		matrix3x4_t matrix[128];
+
+		if(!entity->SetupBones(matrix, 128, 0x00000100, globalVars->curtime))
+			return;
+
+		studiohdr_t *hdr = modelInfo->GetStudioModel(entity->GetModel());
+		mstudiohitboxset_t* set = hdr->pHitboxSet(0);
+
+		for( int i = 0; i < set->numhitboxes; i++ ){
+			mstudiobbox_t *hitbox = set->pHitbox(i);
+			if( !hitbox ) { continue; }
+			Vector vMin, vMax;
+			Math::VectorTransform(hitbox->bbmin, matrix[hitbox->bone], vMin);
+			Math::VectorTransform(hitbox->bbmax, matrix[hitbox->bone], vMax);
+
+			debugOverlay->DrawPill(vMin, vMax, hitbox->radius , color.r, color.g, color.b, color.a, 0.01f);
+		}
+	}
 }
 
 void ESP::DrawEntity(C_BaseEntity* entity, const char* string, Color color)
@@ -1211,7 +1231,7 @@ void ESP::DrawSpread()
 	float cone = activeWeapon->GetSpread() + activeWeapon->GetInaccuracy();
 	if( cone > 0.0f ){
 		float radius = ( cone * height ) / 1.5f;
-		Draw::Rectangle(Vector2D(((width/2)-radius), (height/2)-radius), Vector2D( (width/2)+radius, (height/2)+radius), Color::FromImColor(Settings::ESP::FOVCrosshair::color.Color()));
+		Draw::Rectangle(Vector2D(((width/2)-radius), (height/2)-radius+1), Vector2D( (width/2)+radius+1, (height/2)+radius+2), Color::FromImColor(Settings::ESP::FOVCrosshair::color.Color()));
 	}
 }
 
