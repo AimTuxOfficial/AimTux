@@ -5,7 +5,7 @@
 Supreme is a upgraded hack based on AimTux and fully featured internal hack for *CounterStrike : Global Offensive* written in C++.
 
 ## WARNING!
-**Note:** _Developing freezed i'm start making (pasting) new p2c windows hax
+**Note:** _Developing freezed i'm start making (pasting) new p2c windows hax_
 
 Here i only adding good stuff from GitHub sources or commits.For my addings i use BitBucket with closed source if you want access for this write to me.
 
