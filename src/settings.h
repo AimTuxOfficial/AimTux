@@ -53,6 +53,9 @@ enum class AntiAimType_Y : int
 {
 	SPIN_SLOW,
 	SPIN_FAST,
+	SPIN_TURBO,
+	SPIN_REVERSE,
+	SPIN_RANDOM,
 	JITTER,
 	BACKJITTER,
 	TJITTER,
@@ -71,6 +74,7 @@ enum class AntiAimType_Y : int
 	DONUT,
 	FLIP,
 	HYPNO,
+	TERROR_ANGEL,
 	LISP,
 	LISP_SIDE,
 	LISP_JITTER,
@@ -83,6 +87,7 @@ enum class AntiAimType_X : int
 {
 	STATIC_UP,
 	STATIC_DOWN,
+	SWITCH_UPDOWN,
 	DANCE,
 	FRONT,
 	EMOTION,
@@ -90,6 +95,7 @@ enum class AntiAimType_X : int
 	FAKEDOWN_TRUSTED,
 	STATIC_UP_FAKE,
 	STATIC_DOWN_FAKE,
+	FAKE_SWITCH,
 	LISP_DOWN,
 	ANGEL_DOWN,
 	ANGEL_UP,

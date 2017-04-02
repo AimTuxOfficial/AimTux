@@ -79,9 +79,10 @@ std::vector<std::string> GetConfigs()
 	pstring configDirectory = GetConfigDirectory();
 	std::vector<Config> vConfigs = GetConfigs(configDirectory.c_str());
 	std::vector<std::string> configs;
+	configs.reserve(vConfigs.size());
 
-	for (auto config = vConfigs.begin(); config != vConfigs.end(); config++)
-		configs.push_back(config->name);
+	for (auto const& config : vConfigs)
+		configs.push_back(config.name);
 
 	std::sort(configs.begin(), configs.end());
 
