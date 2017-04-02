@@ -43,7 +43,7 @@ bool Settings::Aimbot::Prediction::enabled = false;
 
 bool Aimbot::aimStepInProgress = false;
 std::vector<int64_t> Aimbot::friends = { };
-
+bool noshoot;
 bool shouldAim;
 QAngle AimStepLastAngle;
 QAngle RCSLastPunch;
@@ -479,7 +479,27 @@ void Aimbot::NoShoot(C_BaseCombatWeapon* activeWeapon, C_BasePlayer* player, CUs
 	{
 		if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_C4)
 			return;
-
+		C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+		Vector traceStart, traceEnd;
+		trace_t tr;
+		QAngle viewAngles;
+		engine->GetViewAngles(viewAngles);
+		QAngle viewAngles_rcs = viewAngles + *localplayer->GetAimPunchAngle() * 2.0f;
+		Math::AngleVectors(viewAngles_rcs, traceEnd);
+		traceStart = localplayer->GetEyePosition();
+		traceEnd = traceStart + (traceEnd * 8192.0f);
+		Ray_t ray;
+		ray.Init(traceStart, traceEnd);
+		CTraceFilter traceFilter;
+		traceFilter.pSkip = localplayer;
+		trace->TraceRay(ray, 0x46004003, &traceFilter, &tr);
+		C_BasePlayer* target = (C_BasePlayer*) tr.m_pEntityHit;
+		//if the player your aiming at is the aimbot target you can shoot
+		if(target==player||noshoot)
+		{
+			noshoot=true;
+			return;
+		}
 		if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
 			cmd->buttons &= ~IN_ATTACK2;
 		else
@@ -521,7 +541,6 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	Bone aw_bone;
 	float bestDamage = 0.0f;
 	C_BasePlayer* player = GetClosestPlayer(cmd, true, aw_bone, bestDamage);
-
 	if (player)
 	{
 		bool skipPlayer = false;
@@ -560,7 +579,8 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 			}
 		}
 	}
-
+	if(!player||!(cmd->buttons&IN_ATTACK))
+		noshoot=false;
 	Aimbot::AimStep(player, angle, cmd);
 	Aimbot::AutoCrouch(player, cmd);
 	Aimbot::AutoSlow(player, oldForward, oldSideMove, bestDamage, activeWeapon, cmd);
