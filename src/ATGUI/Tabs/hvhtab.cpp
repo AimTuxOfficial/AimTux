@@ -3,13 +3,13 @@
 void HvH::RenderTab()
 {
 	const char* yTypes[] = {
-			"SLOW SPIN", "FAST SPIN", "JITTER", "BACKJITTER", "T JITTER", "FAKE JITTER", "JITTER SYNCED", "JITTER 180", "SIDEWAYS", "HALF SIDEWAYS", "BACKWARDS", "FORWARDS", "LEFT", "RIGHT", "STATIC", "STATIC JITTER", "STATIC SMALL JITTER", // safe
-			"DONUT", "FLIP", "HYPNO", "LISP", "LISP SIDE", "LISP JITTER", "ANGEL BACKWARDS", "ANGEL INVERSE", "ANGEL SPIN" // untrusted
+			"SLOW SPIN", "FAST SPIN", "REVERSE SPIN", "TURBO SPIN", "RANDOM SPIN", "JITTER", "BACKJITTER", "T JITTER", "FAKE JITTER", "JITTER SYNCED", "JITTER 180", "SIDEWAYS", "HALF SIDEWAYS", "BACKWARDS", "FORWARDS", "LEFT", "RIGHT", "STATIC", "STATIC JITTER", "STATIC SMALL JITTER", // safe
+			"DONUT", "FLIP", "HYPNO", "TERROR ANGEL", "LISP", "LISP SIDE", "LISP JITTER", "ANGEL BACKWARDS", "ANGEL INVERSE", "ANGEL SPIN" // untrusted
 	};
 
 	const char* xTypes[] = {
-			"UP", "DOWN", "DANCE", "FRONT", "EMOTION", "FAKE UP TRUSTED", "FAKE DOWN TRUSTED", // safe
-			"FAKE UP", "FAKE DOWN", "LISP DOWN", "ANGEL DOWN", "ANGEL UP" // untrusted
+			"UP", "DOWN", "SWITCH", "DANCE", "FRONT", "EMOTION", "FAKE UP TRUSTED", "FAKE DOWN TRUSTED", // safe
+			"FAKE UP", "FAKE DOWN", "FAKE SWITCH", "LISP DOWN", "ANGEL DOWN", "ANGEL UP" // untrusted
 	};
 
 	ImGui::Columns(2, NULL, true);
@@ -36,7 +36,7 @@ void HvH::RenderTab()
 					ImGui::PushItemWidth(-1);
 					if (ImGui::Combo("##YFAKETYPE", (int*)& Settings::AntiAim::Yaw::typeFake, yTypes, IM_ARRAYSIZE(yTypes)))
 					{
-						if (!ValveDSCheck::forceUT && ((*csGameRules) && (*csGameRules)->IsValveDS()) && Settings::AntiAim::Yaw::typeFake >= AntiAimType_Y::LISP)
+						if (!ValveDSCheck::forceUT && ((*csGameRules) && (*csGameRules)->IsValveDS()) && Settings::AntiAim::Yaw::typeFake >= AntiAimType_Y::TERROR_ANGEL)
 						{
 							Settings::AntiAim::Yaw::typeFake = AntiAimType_Y::SPIN_SLOW;
 							ImGui::OpenPopup("Error###UNTRUSTED_AA");
@@ -45,7 +45,7 @@ void HvH::RenderTab()
 
 					if (ImGui::Combo("##YACTUALTYPE", (int*)& Settings::AntiAim::Yaw::type, yTypes, IM_ARRAYSIZE(yTypes)))
 					{
-						if (!ValveDSCheck::forceUT && ((*csGameRules) && (*csGameRules)->IsValveDS()) && Settings::AntiAim::Yaw::type >= AntiAimType_Y::LISP)
+						if (!ValveDSCheck::forceUT && ((*csGameRules) && (*csGameRules)->IsValveDS()) && Settings::AntiAim::Yaw::type >= AntiAimType_Y::TERROR_ANGEL)
 						{
 							Settings::AntiAim::Yaw::type = AntiAimType_Y::SPIN_SLOW;
 							ImGui::OpenPopup("Error###UNTRUSTED_AA");
