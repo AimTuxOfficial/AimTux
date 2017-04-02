@@ -79,6 +79,9 @@ void Math::CorrectMovement(QAngle vOldAngles, CUserCmd* pCmd, float fOldForward,
 	deltaView = 360.0f - deltaView;
 
 	pCmd->forwardmove = cos(DEG2RAD(deltaView)) * fOldForward + cos(DEG2RAD(deltaView + 90.f)) * fOldSidemove;
+
+	if ((pCmd->viewangles.x > 90 && pCmd->viewangles.x < 270) || (pCmd->viewangles.x < -90 && pCmd->viewangles.x > -270)) pCmd->forwardmove *= -1; // Movement Fix
+
 	pCmd->sidemove = sin(DEG2RAD(deltaView)) * fOldForward + sin(DEG2RAD(deltaView + 90.f)) * fOldSidemove;
 }
 
