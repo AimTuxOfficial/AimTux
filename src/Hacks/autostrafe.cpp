@@ -3,15 +3,10 @@
 bool Settings::AutoStrafe::enabled = false;
 AutostrafeType Settings::AutoStrafe::type = AutostrafeType::AS_FORWARDS;
 bool Settings::AutoStrafe::silent = true;
-bool Settings::AutoStrafe::StrafeKey::enabled = false;
-ButtonCode_t Settings::AutoStrafe::StrafeKey::key = ButtonCode_t::KEY_LSHIFT;
 
 void LegitStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 {
 	if (localplayer->GetFlags() & FL_ONGROUND)
-		return;
-
-	if (cmd->buttons & IN_FORWARD || cmd->buttons & IN_BACK || cmd->buttons & IN_MOVELEFT || cmd->buttons & IN_MOVERIGHT)
 		return;
 
 	if (cmd->mousedx <= 1 && cmd->mousedx >= -1)
@@ -20,15 +15,19 @@ void LegitStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 	switch (Settings::AutoStrafe::type)
 	{
 		case AutostrafeType::AS_FORWARDS:
-			cmd->sidemove = cmd->mousedx < 0.f ? -450.f : 450.f;
+			cmd->forwardmove=0.f;
+			cmd->sidemove = cmd->mousedx < 0.f ? -450.f :cmd->mousedx==0?0.f: 450.f;
 			break;
 		case AutostrafeType::AS_BACKWARDS:
+			cmd->forwardmove=0.f;
 			cmd->sidemove = cmd->mousedx < 0.f ? 450.f : -450.f;
 			break;
 		case AutostrafeType::AS_LEFTSIDEWAYS:
+			cmd->sidemove=0.f;
 			cmd->forwardmove = cmd->mousedx < 0.f ? -450.f : 450.f;
 			break;
 		case AutostrafeType::AS_RIGHTSIDEWAYS:
+			cmd->sidemove=0.f;
 			cmd->forwardmove = cmd->mousedx < 0.f ? 450.f : -450.f;
 			break;
 		default:
@@ -83,9 +82,6 @@ void RageStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 void AutoStrafe::CreateMove(CUserCmd* cmd)
 {
 	if (!Settings::AutoStrafe::enabled)
-		return;
-
-	if (Settings::AutoStrafe::StrafeKey::enabled && !inputSystem->IsButtonDown(Settings::AutoStrafe::StrafeKey::key))
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
