@@ -26,6 +26,7 @@ static bool autoPistolEnabled = false;
 static bool autoShootEnabled = false;
 static bool autoScopeEnabled = false;
 static bool noShootEnabled = false;
+static NoShootType noShootType = NoShootType::NOT_AT_ALL;
 static bool ignoreJumpEnabled = false;
 static bool smokeCheck = false;
 static bool flashCheck = false;
@@ -68,6 +69,7 @@ void UI::ReloadWeaponSettings()
 	autoShootEnabled = Settings::Aimbot::weapons.at(index).autoShootEnabled;
 	autoScopeEnabled = Settings::Aimbot::weapons.at(index).autoScopeEnabled;
 	noShootEnabled = Settings::Aimbot::weapons.at(index).noShootEnabled;
+	noShootType = Settings::Aimbot::weapons.at(index).noShootType;
 	ignoreJumpEnabled = Settings::Aimbot::weapons.at(index).ignoreJumpEnabled;
 	smokeCheck = Settings::Aimbot::weapons.at(index).smokeCheck;
 	flashCheck = Settings::Aimbot::weapons.at(index).flashCheck;
@@ -94,7 +96,7 @@ void UI::UpdateWeaponSettings()
 			autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
 			rcsEnabled, rcsAlwaysOn, rcsAmountX, rcsAmountY,
 			autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
-			noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, autoSlowMinDamage, predEnabled
+			noShootEnabled,noShootType, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, autoSlowMinDamage, predEnabled
 	};
 
 	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
@@ -114,6 +116,7 @@ void Aimbot::RenderTab()
 {
 	const char* targets[] = { "PELVIS", "", "", "HIP", "LOWER SPINE", "MIDDLE SPINE", "UPPER SPINE", "NECK", "HEAD" };
 	const char* smoothTypes[] = { "Slow Near End", "Constant Speed", "Fast Near End" };
+	const char* noShootTypes[] = { "None", "On target", "Spray" };
 	static char filterWeapons[32];
 
 	if (ImGui::Checkbox("Enabled", &enabled))
@@ -324,9 +327,6 @@ void Aimbot::RenderTab()
 			}
 			ImGui::NextColumn();
 			{
-				if (ImGui::Checkbox("No Shoot", &noShootEnabled))
-					UI::UpdateWeaponSettings();
-				SetTooltip("Stops you shooting when locking to an enemy");
 				if (ImGui::Checkbox("Auto Scope", &autoScopeEnabled))
 					UI::UpdateWeaponSettings();
 				SetTooltip("Automatically scopes weapons that have them");
@@ -358,7 +358,13 @@ void Aimbot::RenderTab()
 					ImGui::PopItemWidth();
 				}
 			}
-
+			
+			if (ImGui::Checkbox("No Shoot", &noShootEnabled))
+					UI::UpdateWeaponSettings();
+				SetTooltip("Stops you shooting when locking to an enemy");
+				if (ImGui::Combo("##NOSHOOTTYPE", (int*)& noShootType, noShootTypes, IM_ARRAYSIZE(noShootTypes)))
+					UI::UpdateWeaponSettings();
+			
 			ImGui::Columns(1);
 			ImGui::Separator();
 			ImGui::Text("AutoWall");

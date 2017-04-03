@@ -142,11 +142,19 @@ enum class SpammerType : int
 	SPAMMER_POSITIONS,
 };
 
+enum class NoShootType : int
+{
+	NOT_AT_ALL,
+	IF_ON_TARGET,
+	AFTER_FIRST_SHOT,
+};
+
 struct AimbotWeapon_t
 {
 	bool enabled, silent, friendly;
 	Bone bone;
 	SmoothType smoothType;
+        NoShootType noShootType;
 	ButtonCode_t aimkey;
 	bool aimkeyOnly, smoothEnabled, smoothSaltEnabled, errorMarginEnabled, autoAimEnabled, aimStepEnabled, rcsEnabled, rcsAlwaysOn;
 	float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmountX, rcsAmountY, autoWallValue, autoSlowMinDamage;
@@ -158,7 +166,7 @@ struct AimbotWeapon_t
 		   bool autoAimEnabled, float autoAimValue, bool aimStepEnabled, float aimStepValue,
 		   bool rcsEnabled, bool rcsAlwaysOn, float rcsAmountX, float rcsAmountY,
 		   bool autoPistolEnabled, bool autoShootEnabled, bool autoScopeEnabled,
-		   bool noShootEnabled, bool ignoreJumpEnabled, bool smokeCheck, bool flashCheck,
+		   bool noShootEnabled,NoShootType noShootType, bool ignoreJumpEnabled, bool smokeCheck, bool flashCheck,
 		   bool autoWallEnabled, float autoWallValue, bool autoAimRealDistance, bool autoSlow,
 		   float autoSlowMinDamage, bool predEnabled, bool autoWallBones[6] = nullptr)
 	{
@@ -187,6 +195,7 @@ struct AimbotWeapon_t
 		this->autoShootEnabled = autoShootEnabled;
 		this->autoScopeEnabled = autoScopeEnabled;
 		this->noShootEnabled = noShootEnabled;
+                this->noShootType = noShootType;
 		this->ignoreJumpEnabled = ignoreJumpEnabled;
 		this->smokeCheck = smokeCheck;
 		this->flashCheck = flashCheck;
@@ -237,7 +246,8 @@ struct AimbotWeapon_t
 			this->autoShootEnabled == another.autoShootEnabled &&
 			this->autoScopeEnabled == another.autoScopeEnabled &&
 			this->noShootEnabled == another.noShootEnabled &&
-			this->ignoreJumpEnabled == another.ignoreJumpEnabled &&
+			this->noShootType == another.noShootType &&
+                        this->ignoreJumpEnabled == another.ignoreJumpEnabled &&
 			this->smokeCheck == another.smokeCheck &&
 			this->flashCheck == another.flashCheck &&
 			this->autoWallEnabled == another.autoWallEnabled &&
@@ -394,6 +404,7 @@ namespace Settings
 		namespace NoShoot
 		{
 			extern bool enabled;
+                        extern NoShootType type;
 		}
 
 		namespace IgnoreJump
