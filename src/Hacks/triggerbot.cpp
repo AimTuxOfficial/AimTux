@@ -15,13 +15,14 @@ bool Settings::Triggerbot::Filters::legs = true;
 bool Settings::Triggerbot::Delay::enabled = false;
 int Settings::Triggerbot::Delay::value = 250;
 ButtonCode_t Settings::Triggerbot::key = ButtonCode_t::KEY_LALT;
+bool Settings::Triggerbot::keyEnabled = false;
 
 void Triggerbot::CreateMove(CUserCmd *cmd)
 {
 	if (!Settings::Triggerbot::enabled)
 		return;
 
-	if (!inputSystem->IsButtonDown(Settings::Triggerbot::key))
+	if (Settings::Triggerbot::keyEnabled && !inputSystem->IsButtonDown(Settings::Triggerbot::key))
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
