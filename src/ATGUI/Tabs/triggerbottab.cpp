@@ -12,8 +12,8 @@ void Triggerbot::RenderTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
-				ImGui::Text("Trigger Key");
+				ImGui::Checkbox("Enabled", &Settings::Triggerbot::keyEnabled);
+				SetTooltip("Enabling this means it you need to press a specific key to trigger");
 			}
 			ImGui::NextColumn();
 			{
