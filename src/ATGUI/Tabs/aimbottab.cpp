@@ -4,6 +4,7 @@ static ItemDefinitionIndex currentWeapon = ItemDefinitionIndex::INVALID;
 static bool enabled = false;
 static bool silent = false;
 static bool friendly = false;
+static bool closestBone = false;
 static Bone bone = Bone::BONE_HEAD;
 static ButtonCode_t aimkey = ButtonCode_t::MOUSE_MIDDLE;
 static bool aimkeyOnly = false;
@@ -46,6 +47,7 @@ void UI::ReloadWeaponSettings()
 	enabled = Settings::Aimbot::weapons.at(index).enabled;
 	silent = Settings::Aimbot::weapons.at(index).silent;
 	friendly = Settings::Aimbot::weapons.at(index).friendly;
+	closestBone = Settings::Aimbot::weapons.at(index).closestBone;
 	bone = Settings::Aimbot::weapons.at(index).bone;
 	aimkey = Settings::Aimbot::weapons.at(index).aimkey;
 	aimkeyOnly = Settings::Aimbot::weapons.at(index).aimkeyOnly;
@@ -88,7 +90,7 @@ void UI::UpdateWeaponSettings()
 		Settings::Aimbot::weapons[currentWeapon] = AimbotWeapon_t();
 
 	AimbotWeapon_t settings = {
-			enabled, silent, friendly, bone, aimkey, aimkeyOnly,
+			enabled, silent, friendly, closestBone, bone, aimkey, aimkeyOnly,
 			smoothEnabled, smoothValue, smoothType, smoothSaltEnabled, smoothSaltMultiplier,
 			errorMarginEnabled, errorMarginValue,
 			autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
@@ -160,6 +162,9 @@ void Aimbot::RenderTab()
 		{
 			ImGui::Text("Target");
 			ImGui::Separator();
+			if (ImGui::Checkbox("Closest Bone", &closestBone))
+			    UI::UpdateWeaponSettings();
+			SetTooltip("Aims at the bone closest to your crosshair");
 			ImGui::Columns(2, NULL, true);
 			{
 				if (ImGui::Checkbox("Friendly", &friendly))
