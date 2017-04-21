@@ -187,7 +187,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 		
 		if (Settings::Aimbot::closestBone)
 		{
-		    for (int i = (int) Bone::BONE_PELVIS; i <= (int) Bone::BONE_HEAD; i++)
+		    for (int i = (int) Bone::BONE_PELVIS; i < (int) Bone::BONE_HEAD; i++)
 		    {
 			if (i == (int) Bone::CAM_DRIVER || i == (int) Bone::LEAN_ROOT || i == (int) Bone::INVALID)
 			    continue;
