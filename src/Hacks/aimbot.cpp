@@ -185,7 +185,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 		float real_distance = GetRealDistanceFOV(distance, Math::CalcAngle(pVecTarget, eVecTarget), cmd);
 		int hp = player->GetHealth();
 		
-		if (Settings::Aimbot::bone == Bone::BONE_PELVIS)
+		if (Settings::Aimbot::closestBone)
 		{
 		    for (int i = (int) Bone::BONE_PELVIS; i <= (int) Bone::BONE_HEAD; i++)
 		    {
