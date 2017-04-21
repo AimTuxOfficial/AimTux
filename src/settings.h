@@ -320,7 +320,7 @@ namespace Settings
 		extern bool enabled;
 		extern bool silent;
 		extern bool friendly;
-                extern bool closestBone;
+		extern bool closestBone;
 		extern Bone bone;
 		extern ButtonCode_t aimkey;
 		extern bool aimkeyOnly;

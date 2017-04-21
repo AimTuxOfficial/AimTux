@@ -187,25 +187,25 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 		
 		if (Settings::Aimbot::closestBone)
 		{
-		    for (int i = (int) Bone::BONE_PELVIS; i < (int) Bone::BONE_HEAD; i++)
-		    {
-			if (i == (int) Bone::CAM_DRIVER || i == (int) Bone::LEAN_ROOT || i == (int) Bone::INVALID)
-			    continue;
-			    
-		        Bone testBone = static_cast<Bone>(i);
-			Vector mVecTarget = player->GetBonePosition((int) testBone);
-			float m_distance = pVecTarget.DistTo(mVecTarget);
-			float m_fov = Math::GetFov(viewAngles, Math::CalcAngle(pVecTarget, mVecTarget));
-			float m_real_distance  = GetRealDistanceFOV(m_distance, Math::CalcAngle(pVecTarget, mVecTarget), cmd);
-			
-			if (m_real_distance < real_distance)
+			for (int i = (int) Bone::BONE_PELVIS; i < (int) Bone::BONE_HEAD; i++)
 			{
-			    distance = m_distance;
-			    fov = m_fov;
-			    real_distance = m_real_distance;
-			    targetBone = testBone;
+				if (i == (int) Bone::CAM_DRIVER || i == (int) Bone::LEAN_ROOT || i == (int) Bone::INVALID)
+					continue;
+				
+				Bone testBone = static_cast<Bone>(i);
+				Vector mVecTarget = player->GetBonePosition((int) testBone);
+				float m_distance = pVecTarget.DistTo(mVecTarget);
+				float m_fov = Math::GetFov(viewAngles, Math::CalcAngle(pVecTarget, mVecTarget));
+				float m_real_distance  = GetRealDistanceFOV(m_distance, Math::CalcAngle(pVecTarget, mVecTarget), cmd);
+			
+				if (m_real_distance < real_distance)
+				{
+					distance = m_distance;
+					fov = m_fov;
+					real_distance = m_real_distance;
+					targetBone = testBone;
+				}
 			}
-		    }
 		}
 
 		if (aimTargetType == AimTargetType::DISTANCE && distance > bestDistance)
