@@ -156,9 +156,11 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 	if (!Settings::Aimbot::silent && Settings::Aimbot::RCS::adaptive)
 	{
 		float AdaptiveFov = Settings::Aimbot::AutoAim::fov;
-		if (localplayer->GetShotsFired() > 5)
-			AdaptiveFov += AdaptiveFov * Settings::Aimbot::RCS::valueY;	//Make FOV higher when shooting > 5 bullets
-		
+
+        if (AdaptiveFov < Settings::Aimbot::Autoaim::fov * 2.5)
+		  if (localplayer->GetShotsFired() > 5)
+			AdaptiveFov *=Settings::Aimbot::RCS::valueY;	//Make FOV higher when shooting > 5 bullets
+																				//Not tested yet
 		bestFov = AdaptiveFov;
 	}
 

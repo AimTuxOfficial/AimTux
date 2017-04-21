@@ -210,13 +210,12 @@ void Aimbot::RenderTab()
 						UI::UpdateWeaponSettings();
 					if (ImGui::SliderFloat("##RCSY", &rcsAmountY, 0, 2, "Y: %0.3f"))
 						UI::UpdateWeaponSettings();
-					if (ImGui::Checkbox("Adaptive RCS", &rcsAdaptive))
-						UI::UpdateWeaponSettings();
-					SetTooltip("FOV adaptively changes to make aimbot work with RCS");	
 					ImGui::PopItemWidth();
-
 					ImGui::EndPopup();
 				}
+				if (ImGui::Checkbox("Adaptive RCS", &rcsAdaptive))
+					UI::UpdateWeaponSettings();
+				SetTooltip("FOV adaptively changes to make aimbot work with RCS");	
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
