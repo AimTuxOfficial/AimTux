@@ -186,12 +186,12 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 		int hp = player->GetHealth();
 		
 		if (Settings::Aimbot::closestBone)
-		{   
-		    for (int i = (int)Bone::BONE_PELVIS; i < (int)Bone::BONE_HEAD; i++)
+		{
+		    for (int i = (int) Bone::BONE_PELVIS; i <= (int) Bone::BONE_HEAD; i++)
 		    {
-			if (i == 1 || i == 2)
+			if (i == (int) Bone::CAM_DRIVER || i == (int) Bone::LEAN_ROOT || i == (int) Bone::INVALID)
 			    continue;
-			
+			    
 		        Bone testBone = static_cast<Bone>(i);
 			Vector mVecTarget = player->GetBonePosition((int) testBone);
 			float m_distance = pVecTarget.DistTo(mVecTarget);
