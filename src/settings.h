@@ -148,7 +148,7 @@ struct AimbotWeapon_t
 	Bone bone;
 	SmoothType smoothType;
 	ButtonCode_t aimkey;
-	bool aimkeyOnly, smoothEnabled, smoothSaltEnabled, errorMarginEnabled, autoAimEnabled, aimStepEnabled, rcsEnabled, rcsAlwaysOn;
+	bool aimkeyOnly, smoothEnabled, smoothSaltEnabled, errorMarginEnabled, autoAimEnabled, aimStepEnabled, rcsEnabled, rcsAlwaysOn, rcsAdaptive;
 	float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmountX, rcsAmountY, autoWallValue, autoSlowMinDamage;
 	bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallBones[6], autoAimRealDistance, autoSlow, predEnabled;
 
@@ -156,7 +156,7 @@ struct AimbotWeapon_t
 		   bool smoothEnabled, float smoothValue, SmoothType smoothType, bool smoothSaltEnabled, float smoothSaltMultiplier,
 		   bool errorMarginEnabled, float errorMarginValue,
 		   bool autoAimEnabled, float autoAimValue, bool aimStepEnabled, float aimStepValue,
-		   bool rcsEnabled, bool rcsAlwaysOn, float rcsAmountX, float rcsAmountY,
+		   bool rcsEnabled, bool rcsAlwaysOn, float rcsAmountX, float rcsAmountY, bool rcsAdaptive,
 		   bool autoPistolEnabled, bool autoShootEnabled, bool autoScopeEnabled,
 		   bool noShootEnabled, bool ignoreJumpEnabled, bool smokeCheck, bool flashCheck,
 		   bool autoWallEnabled, float autoWallValue, bool autoAimRealDistance, bool autoSlow,
@@ -183,6 +183,7 @@ struct AimbotWeapon_t
 		this->rcsAlwaysOn = rcsAlwaysOn;
 		this->rcsAmountX = rcsAmountX;
 		this->rcsAmountY = rcsAmountY;
+		this->rcsAdaptive = rcsAdaptive;
 		this->autoPistolEnabled = autoPistolEnabled;
 		this->autoShootEnabled = autoShootEnabled;
 		this->autoScopeEnabled = autoScopeEnabled;
@@ -233,6 +234,7 @@ struct AimbotWeapon_t
 			this->rcsAlwaysOn == another.rcsAlwaysOn &&
 			this->rcsAmountX == another.rcsAmountX &&
 			this->rcsAmountY == another.rcsAmountY &&
+			this->rcsAdaptive == another.rcsAdaptive &&
 			this->autoPistolEnabled == another.autoPistolEnabled &&
 			this->autoShootEnabled == another.autoShootEnabled &&
 			this->autoScopeEnabled == another.autoScopeEnabled &&
@@ -367,7 +369,9 @@ namespace Settings
 			extern bool always_on;
 			extern float valueX;
 			extern float valueY;
+			extern bool adaptive;
 		}
+
 
 		namespace AutoPistol
 		{

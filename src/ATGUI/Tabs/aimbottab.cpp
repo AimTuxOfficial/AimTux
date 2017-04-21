@@ -22,6 +22,7 @@ static bool rcsEnabled = false;
 static bool rcsAlwaysOn = false;
 static float rcsAmountX = 2.0f;
 static float rcsAmountY = 2.0f;
+static bool rcsAdaptive = false;
 static bool autoPistolEnabled = false;
 static bool autoShootEnabled = false;
 static bool autoScopeEnabled = false;
@@ -64,6 +65,7 @@ void UI::ReloadWeaponSettings()
 	rcsAlwaysOn = Settings::Aimbot::weapons.at(index).rcsAlwaysOn;
 	rcsAmountX = Settings::Aimbot::weapons.at(index).rcsAmountX;
 	rcsAmountY = Settings::Aimbot::weapons.at(index).rcsAmountY;
+	rcsAdaptive = Settings::Aimbot::weapons.at(index).rcsAdaptive;
 	autoPistolEnabled = Settings::Aimbot::weapons.at(index).autoPistolEnabled;
 	autoShootEnabled = Settings::Aimbot::weapons.at(index).autoShootEnabled;
 	autoScopeEnabled = Settings::Aimbot::weapons.at(index).autoScopeEnabled;
@@ -92,7 +94,7 @@ void UI::UpdateWeaponSettings()
 			smoothEnabled, smoothValue, smoothType, smoothSaltEnabled, smoothSaltMultiplier,
 			errorMarginEnabled, errorMarginValue,
 			autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
-			rcsEnabled, rcsAlwaysOn, rcsAmountX, rcsAmountY,
+			rcsEnabled, rcsAlwaysOn, rcsAmountX, rcsAmountY, rcsAdaptive,
 			autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
 			noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, autoSlowMinDamage, predEnabled
 	};
@@ -208,6 +210,9 @@ void Aimbot::RenderTab()
 						UI::UpdateWeaponSettings();
 					if (ImGui::SliderFloat("##RCSY", &rcsAmountY, 0, 2, "Y: %0.3f"))
 						UI::UpdateWeaponSettings();
+					if (ImGui::Checkbox("Adaptive RCS", &rcsAdaptive))
+						UI::UpdateWeaponSettings();
+					SetTooltip("FOV adaptively changes to make aimbot work with RCS");	
 					ImGui::PopItemWidth();
 
 					ImGui::EndPopup();
