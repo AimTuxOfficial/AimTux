@@ -157,8 +157,8 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 	{
 		float AdaptiveFov = Settings::Aimbot::AutoAim::fov;
 		if (localplayer->GetShotsFired() > 5)
-			AdaptiveFov += AdaptiveFov * Settings::Aimbot::RCS::valueY;	//Make FOV higher when shooting > 5 bullets
-		
+			//AdaptiveFov += AdaptiveFov * Settings::Aimbot::RCS::valueY;	//Make FOV higher when shooting > 5 bullets
+			AdaptiveFov += localplayer->GetShotsFired() * 0.1;		//Some1 said it makes Fov change smoother :)
 		bestFov = AdaptiveFov;
 		Settings::Aimbot::AutoAim::fov = AdaptiveFov;
 	}
