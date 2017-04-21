@@ -153,6 +153,15 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 	if (!localplayer)
 		return NULL;
 
+	if (!Settings::Aimbot::silent && Settings::Aimbot::RCS::adaptive)
+	{
+		float AdaptiveFov = Settings::Aimbot::Autoaim::fov;
+		if (localplayer->GetShotsFired() > 5)
+			AdaptiveFov += AdaptiveFov * Settings::Aimbot::RCS::valueY;	//Make FOV higher when shooting > 5 bullets
+		
+		bestFov = AdaptiveFov;
+	}
+
 	for (int i = 1; i < engine->GetMaxClients(); ++i)
 	{
 		C_BasePlayer* player = (C_BasePlayer*) entityList->GetClientEntity(i);
@@ -255,15 +264,8 @@ void Aimbot::RCS(QAngle& angle, C_BasePlayer* player, CUserCmd* cmd)
 
 		angle.x -= NewPunch.x * Settings::Aimbot::RCS::valueX;
 		angle.y -= NewPunch.y * Settings::Aimbot::RCS::valueY;
-		if (Settings::Aimbot::RCS::adaptive)
-		{
-			float AdaptiveFov = Settings::Aimbot::Autoaim::fov;
-			if (localplayer->GetShotsFired() > 5)
-				AdaptiveFov += AdaptiveFov * Settings::Aimbot::RCS::valueY;
-		}
 	}
 	
-	bestFov	= AdaptiveFov;
 	RCSLastPunch = CurrentPunch;
 }
 
