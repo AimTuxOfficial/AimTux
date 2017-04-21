@@ -40,10 +40,10 @@ sudo emerge cmake dev-vcs/git gdb libsdl2 mesa
 ```
 
 
-#### Download AimTux:
+#### Download AimTux(Wando build):
 
 ```bash
-git clone --recursive https://github.com/AimTuxOfficial/AimTux
+git clone --recursive https://github.com/Wando1423/AimTux
 ```
 
 ```bash
