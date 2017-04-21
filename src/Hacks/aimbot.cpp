@@ -31,6 +31,8 @@ bool Settings::Aimbot::RCS::always_on = false;
 float Settings::Aimbot::RCS::valueX = 2.0f;
 float Settings::Aimbot::RCS::valueY = 2.0f;
 bool Settings::Aimbot::RCS::adaptive = false;
+float Settings::Aimbot::RCS::adaptiveSpeed = 0.1;
+float Settings::Aimbot::RCS::adaptiveLimit = 1.5;
 bool Settings::Aimbot::AutoCrouch::enabled = false;
 bool Settings::Aimbot::NoShoot::enabled = false;
 bool Settings::Aimbot::IgnoreJump::enabled = false;
@@ -59,7 +61,7 @@ std::unordered_map<Hitbox, std::vector<const char*>, Util::IntHash<Hitbox>> hitb
 };
 
 std::unordered_map<ItemDefinitionIndex, AimbotWeapon_t, Util::IntHash<ItemDefinitionIndex>> Settings::Aimbot::weapons = {
-		{ ItemDefinitionIndex::INVALID, { false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f,false, false, false, false, false, false, false, false, false, 10.0f, false, false, false, 5.0f } },
+		{ ItemDefinitionIndex::INVALID, { false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f,false, 0.1, 1.5, false, false, false, false, false, false, false, false, 10.0f, false, false, false, 5.0f } },
 };
 
 static const char* targets[] = { "pelvis", "", "", "spine_0", "spine_1", "spine_2", "spine_3", "neck_0", "head_0" };
@@ -155,20 +157,27 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 
 	if (!Settings::Aimbot::silent && Settings::Aimbot::RCS::adaptive)
 	{
-		float AdaptiveFov = Settings::Aimbot::AutoAim::fov;
-<<<<<<< HEAD
+		float adaptiveFov = Settings::Aimbot::AutoAim::fov;
+		float baseFov = Settings::Aimbot::AutoAim::fov;
+		float rcsAdaptiveSpeed = Settings::Aimbot::RCS::adaptiveSpeed;
+		float rcsAdaptiveLimit = Settings::Aimbot::RCS::adaptiveLimit;
 
-        if (AdaptiveFov < Settings::Aimbot::Autoaim::fov * 2.5)
-		  if (localplayer->GetShotsFired() > 5)
-			AdaptiveFov *=Settings::Aimbot::RCS::valueY;	//Make FOV higher when shooting > 5 bullets
-																				//Not tested yet
-=======
-		if (localplayer->GetShotsFired() > 5)
-			//AdaptiveFov += AdaptiveFov * Settings::Aimbot::RCS::valueY;	//Make FOV higher when shooting > 5 bullets
-			AdaptiveFov += localplayer->GetShotsFired() * 0.1;		//Some1 said it makes Fov change smoother :)
->>>>>>> origin/master
-		bestFov = AdaptiveFov;
-		Settings::Aimbot::AutoAim::fov = AdaptiveFov;
+		if (localplayer->GetShotsFired() > 2)
+		{
+			adaptiveFov += localplayer->GetShotsFired() * rcsAdaptiveSpeed;
+
+			if (adaptiveFov < baseFov * rcsAdaptiveLimit) 
+			{
+				Settings::Aimbot::AutoAim::fov = adaptiveFov;
+				bestFov = adaptiveFov;
+			} 
+			else 
+			{
+				Settings::Aimbot::AutoAim::fov = baseFov * rcsAdaptiveLimit;
+				bestFov = Settings::Aimbot::AutoAim::fov * rcsAdaptiveLimit;
+			}
+		}
+
 	}
 
 	for (int i = 1; i < engine->GetMaxClients(); ++i)
@@ -656,6 +665,8 @@ void Aimbot::UpdateValues()
 	Settings::Aimbot::RCS::valueX = currentWeaponSetting.rcsAmountX;
 	Settings::Aimbot::RCS::valueY = currentWeaponSetting.rcsAmountY;
 	Settings::Aimbot::RCS::adaptive = currentWeaponSetting.rcsAdaptive;
+	Settings::Aimbot::RCS::adaptiveSpeed = currentWeaponSetting.rcsAdaptiveSpeed;
+	Settings::Aimbot::RCS::adaptiveLimit = currentWeaponSetting.rcsAdaptiveLimit;
 	Settings::Aimbot::NoShoot::enabled = currentWeaponSetting.noShootEnabled;
 	Settings::Aimbot::IgnoreJump::enabled = currentWeaponSetting.ignoreJumpEnabled;
 	Settings::Aimbot::Smooth::Salting::enabled = currentWeaponSetting.smoothSaltEnabled;

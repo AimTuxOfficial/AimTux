@@ -149,14 +149,14 @@ struct AimbotWeapon_t
 	SmoothType smoothType;
 	ButtonCode_t aimkey;
 	bool aimkeyOnly, smoothEnabled, smoothSaltEnabled, errorMarginEnabled, autoAimEnabled, aimStepEnabled, rcsEnabled, rcsAlwaysOn, rcsAdaptive;
-	float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmountX, rcsAmountY, autoWallValue, autoSlowMinDamage;
+	float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmountX, rcsAmountY, autoWallValue, autoSlowMinDamage, rcsAdaptiveSpeed, rcsAdaptiveLimit;
 	bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallBones[6], autoAimRealDistance, autoSlow, predEnabled;
 
 	AimbotWeapon_t(bool enabled, bool silent, bool friendly, Bone bone, ButtonCode_t aimkey, bool aimkeyOnly,
 		   bool smoothEnabled, float smoothValue, SmoothType smoothType, bool smoothSaltEnabled, float smoothSaltMultiplier,
 		   bool errorMarginEnabled, float errorMarginValue,
 		   bool autoAimEnabled, float autoAimValue, bool aimStepEnabled, float aimStepValue,
-		   bool rcsEnabled, bool rcsAlwaysOn, float rcsAmountX, float rcsAmountY, bool rcsAdaptive,
+		   bool rcsEnabled, bool rcsAlwaysOn, float rcsAmountX, float rcsAmountY, bool rcsAdaptive, float rcsAdaptiveSpeed, float rcsAdaptiveLimit,
 		   bool autoPistolEnabled, bool autoShootEnabled, bool autoScopeEnabled,
 		   bool noShootEnabled, bool ignoreJumpEnabled, bool smokeCheck, bool flashCheck,
 		   bool autoWallEnabled, float autoWallValue, bool autoAimRealDistance, bool autoSlow,
@@ -184,6 +184,8 @@ struct AimbotWeapon_t
 		this->rcsAmountX = rcsAmountX;
 		this->rcsAmountY = rcsAmountY;
 		this->rcsAdaptive = rcsAdaptive;
+		this->rcsAdaptiveSpeed = rcsAdaptiveSpeed;
+		this->rcsAdaptiveLimit = rcsAdaptiveLimit;
 		this->autoPistolEnabled = autoPistolEnabled;
 		this->autoShootEnabled = autoShootEnabled;
 		this->autoScopeEnabled = autoScopeEnabled;
@@ -235,6 +237,8 @@ struct AimbotWeapon_t
 			this->rcsAmountX == another.rcsAmountX &&
 			this->rcsAmountY == another.rcsAmountY &&
 			this->rcsAdaptive == another.rcsAdaptive &&
+			this->rcsAdaptiveSpeed == another.rcsAdaptiveSpeed &&
+			this->rcsAdaptiveLimit == another.rcsAdaptiveLimit &&
 			this->autoPistolEnabled == another.autoPistolEnabled &&
 			this->autoShootEnabled == another.autoShootEnabled &&
 			this->autoScopeEnabled == another.autoScopeEnabled &&
@@ -370,6 +374,8 @@ namespace Settings
 			extern float valueX;
 			extern float valueY;
 			extern bool adaptive;
+			extern float adaptiveSpeed;
+			extern float adaptiveLimit;
 		}
 
 

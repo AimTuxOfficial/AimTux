@@ -23,6 +23,8 @@ static bool rcsAlwaysOn = false;
 static float rcsAmountX = 2.0f;
 static float rcsAmountY = 2.0f;
 static bool rcsAdaptive = false;
+static float rcsAdaptiveSpeed = 0.1f;
+static float rcsAdaptiveLimit = 1.5f;
 static bool autoPistolEnabled = false;
 static bool autoShootEnabled = false;
 static bool autoScopeEnabled = false;
@@ -66,6 +68,8 @@ void UI::ReloadWeaponSettings()
 	rcsAmountX = Settings::Aimbot::weapons.at(index).rcsAmountX;
 	rcsAmountY = Settings::Aimbot::weapons.at(index).rcsAmountY;
 	rcsAdaptive = Settings::Aimbot::weapons.at(index).rcsAdaptive;
+	rcsAdaptiveSpeed = Settings::Aimbot::weapons.at(index).rcsAdaptiveSpeed;
+	rcsAdaptiveLimit = Settings::Aimbot::weapons.at(index).rcsAdaptiveLimit;
 	autoPistolEnabled = Settings::Aimbot::weapons.at(index).autoPistolEnabled;
 	autoShootEnabled = Settings::Aimbot::weapons.at(index).autoShootEnabled;
 	autoScopeEnabled = Settings::Aimbot::weapons.at(index).autoScopeEnabled;
@@ -94,7 +98,7 @@ void UI::UpdateWeaponSettings()
 			smoothEnabled, smoothValue, smoothType, smoothSaltEnabled, smoothSaltMultiplier,
 			errorMarginEnabled, errorMarginValue,
 			autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
-			rcsEnabled, rcsAlwaysOn, rcsAmountX, rcsAmountY, rcsAdaptive,
+			rcsEnabled, rcsAlwaysOn, rcsAmountX, rcsAmountY, rcsAdaptive, rcsAdaptiveSpeed, rcsAdaptiveLimit,
 			autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
 			noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, autoSlowMinDamage, predEnabled
 	};
@@ -190,6 +194,9 @@ void Aimbot::RenderTab()
 				if (ImGui::Checkbox("Distance-Based FOV", &autoAimRealDistance))
 					UI::UpdateWeaponSettings();
 				SetTooltip("Takes perspective into account when calculating FOV");
+				if (ImGui::Checkbox("Adaptive RCS", &rcsAdaptive))
+					UI::UpdateWeaponSettings();
+				SetTooltip("FOV adaptively changes to make aimbot work with RCS");
 			}
 			ImGui::NextColumn();
 			{
@@ -213,9 +220,21 @@ void Aimbot::RenderTab()
 					ImGui::PopItemWidth();
 					ImGui::EndPopup();
 				}
-				if (ImGui::Checkbox("Adaptive RCS", &rcsAdaptive))
-					UI::UpdateWeaponSettings();
-				SetTooltip("FOV adaptively changes to make aimbot work with RCS");	
+				ImGui::NewLine();
+				ImGui::PopItemWidth();
+				if (ImGui::Button("ARCS Settings",ImVec2(-1,0)))
+					ImGui::OpenPopup("optionARCSAmount");
+				ImGui::SetNextWindowSize(ImVec2(200, 70), ImGuiSetCond_Always);
+				if (ImGui::BeginPopup("optionARCSAmount"))
+				{
+					ImGui::PushItemWidth(-1);
+					if (ImGui::SliderFloat("##ARCSSpeed", &rcsAdaptiveSpeed, 0, 1, "Speed: %0.3f"))
+						UI::UpdateWeaponSettings();
+					if (ImGui::SliderFloat("##ARCSLimit", &rcsAdaptiveLimit, 0, 10, "Limit: %0.3f"))
+						UI::UpdateWeaponSettings();
+					ImGui::PopItemWidth();
+					ImGui::EndPopup();
+				}
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();

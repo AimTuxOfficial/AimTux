@@ -167,6 +167,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
 		weaponSetting["RCS"]["AmountX"] = i.second.rcsAmountX;
 		weaponSetting["RCS"]["AmountY"] = i.second.rcsAmountY;
 		weaponSetting["RCS"]["Adaptive"] = i.second.rcsAdaptive;
+		weaponSetting["RCS"]["AdaptiveSpeed"] = i.second.rcsAdaptiveSpeed;
+		weaponSetting["RCS"]["AdaptiveLimit"] = i.second.rcsAdaptiveLimit;
 		weaponSetting["AutoPistol"]["Enabled"] = i.second.autoPistolEnabled;
 		weaponSetting["AutoShoot"]["Enabled"] = i.second.autoShootEnabled;
 		weaponSetting["AutoScope"]["Enabled"] = i.second.autoScopeEnabled;
@@ -508,8 +510,8 @@ void Settings::LoadConfig(std::string path)
 	Fonts::SetupFonts();
 
 	Settings::Aimbot::weapons = {
-			{ ItemDefinitionIndex::INVALID, { false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f, false, false, false, false, false, false, false, false, false, 10.0f, false, false, false, 5.0f } },
-	};
+			{ ItemDefinitionIndex::INVALID, { false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f,false, 0.1, 1.5, false, false, false, false, false, false, false, false, 10.0f, false, false, false, 5.0f } },
+};
 
 	for (Json::ValueIterator itr = settings["Aimbot"]["weapons"].begin(); itr != settings["Aimbot"]["weapons"].end(); itr++)
 	{
@@ -554,6 +556,8 @@ void Settings::LoadConfig(std::string path)
 				weaponSetting["RCS"]["AmountX"].asFloat(),
 				weaponSetting["RCS"]["AmountY"].asFloat(),
 				weaponSetting["RCS"]["Adaptive"].asBool(),
+				weaponSetting["RCS"]["AdaptiveSpeed"].asFloat(),
+				weaponSetting["RCS"]["AdaptiveLimit"].asFloat(),
 				weaponSetting["AutoPistol"]["Enabled"].asBool(),
 				weaponSetting["AutoShoot"]["Enabled"].asBool(),
 				weaponSetting["AutoScope"]["Enabled"].asBool(),
