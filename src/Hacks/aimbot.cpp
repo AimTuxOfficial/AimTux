@@ -185,7 +185,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 		float real_distance = GetRealDistanceFOV(distance, Math::CalcAngle(pVecTarget, eVecTarget), cmd);
 		int hp = player->GetHealth();
 		
-		if (Settings::Aimbot::closestBone)
+		if (Settings::Aimbot::bone == Bone::BONE_PELVIS)
 		{
 		    for (int i = (int) Bone::BONE_PELVIS; i <= (int) Bone::BONE_HEAD; i++)
 		    {
@@ -641,6 +641,7 @@ void Aimbot::UpdateValues()
 	Settings::Aimbot::enabled = currentWeaponSetting.enabled;
 	Settings::Aimbot::silent = currentWeaponSetting.silent;
 	Settings::Aimbot::friendly = currentWeaponSetting.friendly;
+	Settings::Aimbot::closestBone = currentWeaponSetting.closestBone;
 	Settings::Aimbot::bone = currentWeaponSetting.bone;
 	Settings::Aimbot::aimkey = currentWeaponSetting.aimkey;
 	Settings::Aimbot::aimkeyOnly = currentWeaponSetting.aimkeyOnly;
