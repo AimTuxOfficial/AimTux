@@ -155,7 +155,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 
 	if (!Settings::Aimbot::silent && Settings::Aimbot::RCS::adaptive)
 	{
-		float AdaptiveFov = Settings::Aimbot::Autoaim::fov;
+		float AdaptiveFov = Settings::Aimbot::AutoAim::fov;
 		if (localplayer->GetShotsFired() > 5)
 			AdaptiveFov += AdaptiveFov * Settings::Aimbot::RCS::valueY;	//Make FOV higher when shooting > 5 bullets
 		
@@ -265,7 +265,7 @@ void Aimbot::RCS(QAngle& angle, C_BasePlayer* player, CUserCmd* cmd)
 		angle.x -= NewPunch.x * Settings::Aimbot::RCS::valueX;
 		angle.y -= NewPunch.y * Settings::Aimbot::RCS::valueY;
 	}
-	
+
 	RCSLastPunch = CurrentPunch;
 }
 
@@ -646,7 +646,7 @@ void Aimbot::UpdateValues()
 	Settings::Aimbot::RCS::always_on = currentWeaponSetting.rcsAlwaysOn;
 	Settings::Aimbot::RCS::valueX = currentWeaponSetting.rcsAmountX;
 	Settings::Aimbot::RCS::valueY = currentWeaponSetting.rcsAmountY;
-	Settings::Aimbot::RCS::adaptive = currentWeaponSetting.rcsAdaptive
+	Settings::Aimbot::RCS::adaptive = currentWeaponSetting.rcsAdaptive;
 	Settings::Aimbot::NoShoot::enabled = currentWeaponSetting.noShootEnabled;
 	Settings::Aimbot::IgnoreJump::enabled = currentWeaponSetting.ignoreJumpEnabled;
 	Settings::Aimbot::Smooth::Salting::enabled = currentWeaponSetting.smoothSaltEnabled;
