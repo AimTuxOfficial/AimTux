@@ -260,8 +260,8 @@ void Aimbot::RenderTab()
 				if (ImGui::Combo("##SMOOTHTYPE", (int*)& smoothType, smoothTypes, IM_ARRAYSIZE(smoothTypes)))
 					UI::UpdateWeaponSettings();
 				if (ImGui::Checkbox("Spread Limit", &spreadLimitEnabled))
- +					UI::UpdateWeaponSettings();
- +				SetTooltip("Limits the spread on which aimbot would shoot");
+ 					UI::UpdateWeaponSettings();
+ 				SetTooltip("Limits the spread on which aimbot would shoot");
 				ImGui::PopItemWidth();
 			}
 			ImGui::NextColumn();
@@ -274,7 +274,7 @@ void Aimbot::RenderTab()
 				if (ImGui::SliderFloat("##ERROR", &errorMarginValue, 0, 2))
 					UI::UpdateWeaponSettings();
 				if (ImGui::SliderFloat("##SPREADLIMIT", &spreadLimitValue, 0, 5))
- +					UI::UpdateWeaponSettings();
+ 					UI::UpdateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
