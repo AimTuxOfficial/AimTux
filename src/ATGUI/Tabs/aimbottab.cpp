@@ -35,6 +35,8 @@ static bool flashCheck = false;
 static bool autoWallEnabled = false;
 static float autoWallValue = 10.0f;
 static bool autoWallBones[] = { true, false, false, false, false, false };
+static bool spreadLimitEnabled = false;
+static float spreadLimitValue = 5.0f;
 static bool autoAimRealDistance = false;
 static bool autoSlow = false;
 static bool predEnabled = false;
@@ -79,6 +81,8 @@ void UI::ReloadWeaponSettings()
 	flashCheck = Settings::Aimbot::weapons.at(index).flashCheck;
 	autoWallEnabled = Settings::Aimbot::weapons.at(index).autoWallEnabled;
 	autoWallValue = Settings::Aimbot::weapons.at(index).autoWallValue;
+	spreadLimitEnabled = Settings::Aimbot::weapons.at(index).spreadLimitEnabled;
+	spreadLimitValue = Settings::Aimbot::weapons.at(index).spreadLimitValue;
 	autoAimRealDistance = Settings::Aimbot::weapons.at(index).autoAimRealDistance;
 	autoSlow = Settings::Aimbot::weapons.at(index).autoSlow;
 	predEnabled = Settings::Aimbot::weapons.at(index).predEnabled;
@@ -100,7 +104,8 @@ void UI::UpdateWeaponSettings()
 			autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
 			rcsEnabled, rcsAlwaysOn, rcsAmountX, rcsAmountY, rcsAdaptive, rcsAdaptiveSpeed, rcsAdaptiveLimit,
 			autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
-			noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, autoSlowMinDamage, predEnabled
+			noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, autoSlowMinDamage, 
+			predEnabled, spreadLimitEnable, spreadLimitValue
 	};
 
 	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
@@ -254,6 +259,9 @@ void Aimbot::RenderTab()
 				ImGui::PushItemWidth(-1);
 				if (ImGui::Combo("##SMOOTHTYPE", (int*)& smoothType, smoothTypes, IM_ARRAYSIZE(smoothTypes)))
 					UI::UpdateWeaponSettings();
+				if (ImGui::Checkbox("Spread Limit", &spreadLimitEnabled))
+ +					UI::UpdateWeaponSettings();
+ +				SetTooltip("Limits the spread on which aimbot would shoot");
 				ImGui::PopItemWidth();
 			}
 			ImGui::NextColumn();
@@ -265,6 +273,8 @@ void Aimbot::RenderTab()
 					UI::UpdateWeaponSettings();
 				if (ImGui::SliderFloat("##ERROR", &errorMarginValue, 0, 2))
 					UI::UpdateWeaponSettings();
+				if (ImGui::SliderFloat("##SPREADLIMIT", &spreadLimitValue, 0, 5))
+ +					UI::UpdateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);

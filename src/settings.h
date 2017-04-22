@@ -160,7 +160,7 @@ struct AimbotWeapon_t
 		   bool autoPistolEnabled, bool autoShootEnabled, bool autoScopeEnabled,
 		   bool noShootEnabled, bool ignoreJumpEnabled, bool smokeCheck, bool flashCheck,
 		   bool autoWallEnabled, float autoWallValue, bool autoAimRealDistance, bool autoSlow,
-		   float autoSlowMinDamage, bool predEnabled, bool autoWallBones[6] = nullptr)
+		   float autoSlowMinDamage, bool spreadLimitEnabled, float spreadLimitValue, bool predEnabled, bool autoWallBones[6] = nullptr)
 	{
 		this->enabled = enabled;
 		this->silent = silent;
@@ -195,6 +195,8 @@ struct AimbotWeapon_t
 		this->flashCheck = flashCheck;
 		this->autoWallEnabled = autoWallEnabled;
 		this->autoWallValue = autoWallValue;
+		this->spreadLimitEnabled = spreadLimitEnabled;
+		this->spreadLimitValue = spreadLimitValue;
 		this->autoSlow = autoSlow;
 		this->predEnabled = predEnabled;
 		this->autoSlowMinDamage = autoSlowMinDamage;
@@ -248,6 +250,8 @@ struct AimbotWeapon_t
 			this->flashCheck == another.flashCheck &&
 			this->autoWallEnabled == another.autoWallEnabled &&
 			this->autoWallValue == another.autoWallValue &&
+			this->spreadLimitEnabled == another.spreadLimitEnabled &&
+			this->spreadLimitValue == another.spreadLimitValue &&
 			this->autoSlow == another.autoSlow &&
 			this->predEnabled == another.predEnabled &&
 			this->autoSlowMinDamage == another.autoSlowMinDamage &&
@@ -424,6 +428,12 @@ namespace Settings
 		namespace Prediction
 		{
 			extern bool enabled;
+		}
+		
+		namespace SpreadLimit
+		{
+			extern bool enabled;
+			extern float value;
 		}
 
 		extern std::unordered_map<ItemDefinitionIndex, AimbotWeapon_t, Util::IntHash<ItemDefinitionIndex>> weapons;
