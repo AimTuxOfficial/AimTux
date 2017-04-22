@@ -849,6 +849,11 @@ namespace Settings
 		extern bool adaptive;
 	}
 
+	namespace Watermark
+	{
+		extern bool enabled;
+	}
+
 	namespace AutoAccept
 	{
 		extern bool enabled;

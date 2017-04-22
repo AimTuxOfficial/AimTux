@@ -439,6 +439,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["FakeLag"]["value"] = Settings::FakeLag::value;
 	settings["FakeLag"]["adaptive"] = Settings::FakeLag::adaptive;
 
+	settings["Watermark"]["enabled"] = Settings::Watermark::enabled;
+
 	settings["AutoAccept"]["enabled"] = Settings::AutoAccept::enabled;
 
 	settings["NoSky"]["enabled"] = Settings::NoSky::enabled;
@@ -883,6 +885,8 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["FakeLag"]["enabled"], &Settings::FakeLag::enabled);
 	GetVal(settings["FakeLag"]["value"], &Settings::FakeLag::value);
 	GetVal(settings["FakeLag"]["adaptive"], &Settings::FakeLag::adaptive);
+
+	GetVal(settings["Watermark"]["enabled"], &Settings::Watermark::enabled);
 
 	GetVal(settings["AutoAccept"]["enabled"], &Settings::AutoAccept::enabled);
 
