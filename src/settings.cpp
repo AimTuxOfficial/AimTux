@@ -571,7 +571,7 @@ void Settings::LoadConfig(std::string path)
 				weaponSetting["AutoWall"]["Value"].asFloat(),
 				weaponSetting["SpreadLimit"]["Enabled"].asBool(),
 				weaponSetting["SpreadLimit"]["Value"].asFloat(),
-				weaponSetting["AutoAim"]["RealDistance"].asBool(),
+				weaponSetting["AutoAim"]["RealDistance"].asFloat(),
 				weaponSetting["AutoSlow"]["enabled"].asBool(),
 				weaponSetting["AutoSlow"]["minDamage"].asFloat(),
 				weaponSetting["Prediction"]["enabled"].asBool()
