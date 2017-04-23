@@ -148,6 +148,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 		weaponSetting["Enabled"] = i.second.enabled;
 		weaponSetting["Silent"] = i.second.silent;
 		weaponSetting["Friendly"] = i.second.friendly;
+		weaponSetting["Closest Bone"] = i.second.closestBone;
 		weaponSetting["TargetBone"] = (int) i.second.bone;
 		weaponSetting["AimKey"] = Util::GetButtonName(i.second.aimkey);
 		weaponSetting["AimKeyOnly"] = i.second.aimkeyOnly;
@@ -511,7 +512,7 @@ void Settings::LoadConfig(std::string path)
 	Fonts::SetupFonts();
 
 	Settings::Aimbot::weapons = {
-			{ ItemDefinitionIndex::INVALID, { false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f,false, 0.1, 1.5, false, 0, false, false, false, false, false, false, false, false, 10.0f, false, false, false, 5.0f } },
+			{ ItemDefinitionIndex::INVALID, { false, false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f,false, 0.1, 1.5, false, 0, false, false, false, false, false, false, false, false, 10.0f, false, false, false, 5.0f } },
 };
 
 	for (Json::ValueIterator itr = settings["Aimbot"]["weapons"].begin(); itr != settings["Aimbot"]["weapons"].end(); itr++)
@@ -538,6 +539,7 @@ void Settings::LoadConfig(std::string path)
 				weaponSetting["Enabled"].asBool(),
 				weaponSetting["Silent"].asBool(),
 				weaponSetting["Friendly"].asBool(),
+				weaponSetting["Closest Bone"].asBool(),
 				(Bone) weaponSetting["TargetBone"].asInt(),
 				Util::GetButtonCode(weaponSetting["AimKey"].asCString()),
 				weaponSetting["AimKeyOnly"].asBool(),
