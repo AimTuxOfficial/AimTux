@@ -90,6 +90,10 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 	int random;
 	int maxJitter;
 
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+    if (!localplayer)
+        return;
+
 	yFlip = bFlip != yFlip;
 
 	switch (aa_type)
@@ -254,6 +258,10 @@ void DoAntiAimX(QAngle& angle, bool bFlip, bool& clamp)
 
 void AntiAim::CreateMove(CUserCmd* cmd)
 {
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer)
+		return;
+
 	if (!Settings::AntiAim::Yaw::enabled && !Settings::AntiAim::Pitch::enabled)
 		return;
 
@@ -264,11 +272,7 @@ void AntiAim::CreateMove(CUserCmd* cmd)
 	float oldForward = cmd->forwardmove;
 	float oldSideMove = cmd->sidemove;
 
-	QAngle angle = cmd->viewangles;
-
-	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer)
-		return;
+	QAngle angle = cmd->viewangles;	
 
 	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
 	if (!activeWeapon)
