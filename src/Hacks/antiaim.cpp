@@ -91,8 +91,8 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 	int maxJitter;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-    if (!localplayer)
-        return;
+    	if (!localplayer)
+        	return;
 
 	yFlip = bFlip != yFlip;
 
