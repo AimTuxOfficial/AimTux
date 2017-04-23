@@ -37,7 +37,7 @@ static bool autoWallEnabled = false;
 static float autoWallValue = 10.0f;
 static bool autoWallBones[] = { true, false, false, false, false, false };
 static bool spreadLimitEnabled = false;
-static float spreadLimitValue = 5.0f;
+static float spreadLimitValue = 0;
 static bool autoAimRealDistance = false;
 static bool autoSlow = false;
 static bool predEnabled = false;
@@ -260,13 +260,14 @@ void Aimbot::RenderTab()
 				if (ImGui::Checkbox("Error Margin", &errorMarginEnabled))
 					UI::UpdateWeaponSettings();
 				SetTooltip("Adds a margin of error to the aim, it will be obvious what it does when using it");
-				ImGui::PushItemWidth(-1);
-				if (ImGui::Combo("##SMOOTHTYPE", (int*)& smoothType, smoothTypes, IM_ARRAYSIZE(smoothTypes)))
-					UI::UpdateWeaponSettings();
 				if (ImGui::Checkbox("Spread Limit", &spreadLimitEnabled))
  					UI::UpdateWeaponSettings();
  				SetTooltip("Limits the spread on which aimbot would shoot");
+				ImGui::PushItemWidth(-1);
+				if (ImGui::Combo("##SMOOTHTYPE", (int*)& smoothType, smoothTypes, IM_ARRAYSIZE(smoothTypes)))
+					UI::UpdateWeaponSettings();
 				ImGui::PopItemWidth();
+				
 			}
 			ImGui::NextColumn();
 			{

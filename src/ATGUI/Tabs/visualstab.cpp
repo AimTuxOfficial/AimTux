@@ -10,7 +10,6 @@ void Visuals::RenderTab()
 	const char* ChamsTypes[] = { "Normal", "Normal - XQZ", "Flat", "Flat - XQZ" };
 	const char* ArmsTypes[] = { "Default", "Wireframe", "None" };
 	
-	ImGui::Checkbox("Watermark", &Settings::Watermark::enabled);
 	ImGui::Checkbox("Enabled", &Settings::ESP::enabled);
 	ImGui::Separator();
 
@@ -212,6 +211,8 @@ void Visuals::RenderTab()
 				SetTooltip("Makes wall textures transparent");
 				ImGui::Checkbox("No Scope Border", &Settings::NoScopeBorder::enabled);
 				SetTooltip("Disables black scope silhouette");
+				ImGui::Checkbox("Menu Watermark", &Settings::Watermark::enabled);
+				SetTooltip("Enable/Disable main menu watermark");
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
