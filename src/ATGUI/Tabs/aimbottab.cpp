@@ -173,9 +173,9 @@ void Aimbot::RenderTab()
 		{
 			ImGui::Text("Target");
 			ImGui::Separator();
-			if (ImGui::Checkbox("Closest Bone"), &closestBone)
+			if (ImGui::Checkbox("Closest Bone", &closestBone))
 				UI::UpdateWeaponSettings();
-			SetToolTip("Aims at the bone closest to your crosshair");
+			SetTooltip("Aims at the bone closest to your crosshair");
 			ImGui::Columns(2, NULL, true);
 			{
 				if (ImGui::Checkbox("Friendly", &friendly))
