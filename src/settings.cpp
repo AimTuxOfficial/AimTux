@@ -432,12 +432,11 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["View"]["NoViewPunch"]["enabled"] = Settings::View::NoViewPunch::enabled;
 	settings["View"]["NoAimPunch"]["enabled"] = Settings::View::NoAimPunch::enabled;
 
-	settings["Teleport"]["enabled"] = Settings::Teleport::enabled;
-	settings["Teleport"]["key"] = Settings::Teleport::key;
-
 	settings["FakeLag"]["enabled"] = Settings::FakeLag::enabled;
 	settings["FakeLag"]["value"] = Settings::FakeLag::value;
 	settings["FakeLag"]["adaptive"] = Settings::FakeLag::adaptive;
+
+	settings["Watermark"]["enabled"] = Settings::Watermark::enabled;
 
 	settings["AutoAccept"]["enabled"] = Settings::AutoAccept::enabled;
 
@@ -571,7 +570,7 @@ void Settings::LoadConfig(std::string path)
 				weaponSetting["AutoWall"]["Value"].asFloat(),
 				weaponSetting["SpreadLimit"]["Enabled"].asBool(),
 				weaponSetting["SpreadLimit"]["Value"].asFloat(),
-				weaponSetting["AutoAim"]["RealDistance"].asBool(),
+				weaponSetting["AutoAim"]["RealDistance"].asFloat(),
 				weaponSetting["AutoSlow"]["enabled"].asBool(),
 				weaponSetting["AutoSlow"]["minDamage"].asFloat(),
 				weaponSetting["Prediction"]["enabled"].asBool()
@@ -877,12 +876,11 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["View"]["NoViewPunch"]["enabled"], &Settings::View::NoViewPunch::enabled);
 	GetVal(settings["View"]["NoAimPunch"]["enabled"], &Settings::View::NoAimPunch::enabled);
 
-	GetVal(settings["Teleport"]["enabled"], &Settings::Teleport::enabled);
-	GetButtonCode(settings["Teleport"]["key"], &Settings::Teleport::key);
-
 	GetVal(settings["FakeLag"]["enabled"], &Settings::FakeLag::enabled);
 	GetVal(settings["FakeLag"]["value"], &Settings::FakeLag::value);
 	GetVal(settings["FakeLag"]["adaptive"], &Settings::FakeLag::adaptive);
+
+	GetVal(settings["Watermark"]["enabled"], &Settings::Watermark::enabled);
 
 	GetVal(settings["AutoAccept"]["enabled"], &Settings::AutoAccept::enabled);
 

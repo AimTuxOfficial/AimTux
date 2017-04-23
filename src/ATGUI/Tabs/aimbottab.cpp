@@ -105,7 +105,7 @@ void UI::UpdateWeaponSettings()
 			rcsEnabled, rcsAlwaysOn, rcsAmountX, rcsAmountY, rcsAdaptive, rcsAdaptiveSpeed, rcsAdaptiveLimit,
 			autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
 			noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, autoSlowMinDamage, 
-			predEnabled, spreadLimitEnable, spreadLimitValue
+			predEnabled, spreadLimitValue, spreadLimitEnabled
 	};
 
 	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
@@ -196,12 +196,12 @@ void Aimbot::RenderTab()
 				if (ImGui::Checkbox("Recoil Control", &rcsEnabled))
 					UI::UpdateWeaponSettings();
 				SetTooltip("Automatically controls recoil");
+				if (ImGui::Checkbox("Adaptive FOV", &rcsAdaptive))
+					UI::UpdateWeaponSettings();
+				SetTooltip("FOV adaptively changes to make aimbot work with RCS");
 				if (ImGui::Checkbox("Distance-Based FOV", &autoAimRealDistance))
 					UI::UpdateWeaponSettings();
 				SetTooltip("Takes perspective into account when calculating FOV");
-				if (ImGui::Checkbox("Adaptive RCS", &rcsAdaptive))
-					UI::UpdateWeaponSettings();
-				SetTooltip("FOV adaptively changes to make aimbot work with RCS");
 			}
 			ImGui::NextColumn();
 			{
@@ -225,9 +225,8 @@ void Aimbot::RenderTab()
 					ImGui::PopItemWidth();
 					ImGui::EndPopup();
 				}
-				ImGui::NewLine();
 				ImGui::PopItemWidth();
-				if (ImGui::Button("ARCS Settings",ImVec2(-1,0)))
+				if (ImGui::Button("AFOV Settings",ImVec2(-1,0)))
 					ImGui::OpenPopup("optionARCSAmount");
 				ImGui::SetNextWindowSize(ImVec2(200, 70), ImGuiSetCond_Always);
 				if (ImGui::BeginPopup("optionARCSAmount"))
@@ -235,7 +234,7 @@ void Aimbot::RenderTab()
 					ImGui::PushItemWidth(-1);
 					if (ImGui::SliderFloat("##ARCSSpeed", &rcsAdaptiveSpeed, 0, 1, "Speed: %0.3f"))
 						UI::UpdateWeaponSettings();
-					if (ImGui::SliderFloat("##ARCSLimit", &rcsAdaptiveLimit, 0, 10, "Limit: %0.3f"))
+					if (ImGui::SliderFloat("##ARCSLimit", &rcsAdaptiveLimit, 1, 10, "Limit: %0.3f"))
 						UI::UpdateWeaponSettings();
 					ImGui::PopItemWidth();
 					ImGui::EndPopup();
@@ -260,8 +259,8 @@ void Aimbot::RenderTab()
 				if (ImGui::Combo("##SMOOTHTYPE", (int*)& smoothType, smoothTypes, IM_ARRAYSIZE(smoothTypes)))
 					UI::UpdateWeaponSettings();
 				if (ImGui::Checkbox("Spread Limit", &spreadLimitEnabled))
- +					UI::UpdateWeaponSettings();
- +				SetTooltip("Limits the spread on which aimbot would shoot");
+ 					UI::UpdateWeaponSettings();
+ 				SetTooltip("Limits the spread on which aimbot would shoot");
 				ImGui::PopItemWidth();
 			}
 			ImGui::NextColumn();
@@ -274,7 +273,7 @@ void Aimbot::RenderTab()
 				if (ImGui::SliderFloat("##ERROR", &errorMarginValue, 0, 2))
 					UI::UpdateWeaponSettings();
 				if (ImGui::SliderFloat("##SPREADLIMIT", &spreadLimitValue, 0, 5))
- +					UI::UpdateWeaponSettings();
+ 					UI::UpdateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
