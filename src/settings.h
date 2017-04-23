@@ -836,17 +836,16 @@ namespace Settings
 		}
 	}
 
-	namespace Teleport
-	{
-		extern bool enabled;
-		extern ButtonCode_t key;
-	}
-
 	namespace FakeLag
 	{
 		extern bool enabled;
 		extern int value;
 		extern bool adaptive;
+	}
+
+	namespace Watermark
+	{
+		extern bool enabled;
 	}
 
 	namespace Watermark
