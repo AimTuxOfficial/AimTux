@@ -176,7 +176,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 		float rcsAdaptiveSpeed = Settings::Aimbot::RCS::adaptiveSpeed;
 		float rcsAdaptiveLimit = Settings::Aimbot::RCS::adaptiveLimit;
 
-		if (localplayer->GetShotsFired() > 1)
+		if (localplayer->GetShotsFired() > 0)
 		{
 			adaptiveFov += localplayer->GetShotsFired() * rcsAdaptiveSpeed;
 
