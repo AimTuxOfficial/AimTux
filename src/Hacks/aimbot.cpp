@@ -80,6 +80,7 @@ static void ApplyErrorToAngle(QAngle* angles, float margin)
 void GetBestBone(C_BasePlayer* player, float& bestDamage, Bone& bestBone)
 {
 	bestBone = Bone::BONE_HEAD;
+	float bestDamage = 0.0f;
 
 	for (std::unordered_map<Hitbox, std::vector<const char*>, Util::IntHash<Hitbox>>::iterator it = hitboxes.begin(); it != hitboxes.end(); it++)
 	{
@@ -99,6 +100,8 @@ void GetBestBone(C_BasePlayer* player, float& bestDamage, Bone& bestBone)
 			{
 				bestDamage = damage;
 				bestBone = bone;
+				if (bestDamage >= 100)
+					return bestDamage;
 			}
 		}
 	}
