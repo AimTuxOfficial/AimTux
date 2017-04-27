@@ -99,8 +99,6 @@ void GetBestBone(C_BasePlayer* player, float& bestDamage, Bone& bestBone)
 			{
 				bestDamage = damage;
 				bestBone = bone;
-				if (bestDamage >= 100)
-					return bestDamage;
 			}
 		}
 	}
