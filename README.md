@@ -19,7 +19,7 @@ AimTux is a fully featured internal hack for *CounterStrike : Global Offensive* 
 
 __Ubuntu-Based / Debian:__
 ```bash
-sudo apt-get install cmake g++ gdb git libsdl2-dev zlib1g-dev
+sudo apt-get install cmake g++ gdb git libsdl2-dev zlib1g-dev liblua5.3
 ```
 
 If you're having problems compiling make sure you've got the latest version of `g++`.
@@ -30,7 +30,7 @@ If you're having problems compiling make sure you've got the latest version of `
 
 __Arch:__
 ```bash
-sudo pacman -S base-devel cmake gdb git sdl2
+sudo pacman -S base-devel cmake gdb git sdl2 (Lua Development Libraries >=5.3)
 ```
 __Fedora:__
 ```bash
@@ -39,7 +39,7 @@ sudo dnf install cmake gcc-c++ gdb git libstdc++-static mesa-libGL-devel SDL2-de
 
 __Gentoo:__
 ```bash
-sudo emerge cmake dev-vcs/git gdb libsdl2 mesa
+sudo emerge cmake dev-vcs/git gdb libsdl2 mesa (Lua Development Libraries >=5.3)
 ```
 
 ===================
