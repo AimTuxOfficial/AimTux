@@ -362,10 +362,10 @@ void ESP::DrawBox(Color color, int x, int y, int w, int h, C_BaseEntity* entity)
 		                     { 4, 5 }, { 5, 6 }, { 6, 7 }, { 7, 4 },
 		                     { 0, 4 }, { 1, 5 }, { 2, 6 }, { 3, 7 }, };
 
-		for (auto it : edges)
+		for (const auto edge : edges)
 		{
 			Vector p1, p2;
-			if (debugOverlay->ScreenPosition(points[it[0]], p1) || debugOverlay->ScreenPosition(points[it[1]], p2))
+			if (debugOverlay->ScreenPosition(points[edge[0]], p1) || debugOverlay->ScreenPosition(points[edge[1]], p2))
 				return;
 			Draw::Line(Vector2D(p1.x, p1.y), Vector2D(p2.x, p2.y), color);
 		}
@@ -378,7 +378,7 @@ void ESP::DrawBox(Color color, int x, int y, int w, int h, C_BaseEntity* entity)
 			return;
 
 		studiohdr_t *hdr = modelInfo->GetStudioModel(entity->GetModel());
-		mstudiohitboxset_t* set = hdr->pHitboxSet(0);
+		mstudiohitboxset_t *set = hdr->pHitboxSet(0); // :^)
 
 		for( int i = 0; i < set->numhitboxes; i++ ){
 			mstudiobbox_t *hitbox = set->pHitbox(i);
@@ -909,7 +909,6 @@ void ESP::CollectFootstep(int iEntIndex, const char *pSample)
 	Footstep footstep;
 	footstep.entityId = iEntIndex;
 	footstep.position = entityList->GetClientEntity(iEntIndex)->GetVecOrigin();
-
 	footstep.expiration = Util::GetEpochTime() + Settings::ESP::Sounds::time;
 
 	footsteps.push_back(footstep);
@@ -1003,15 +1002,14 @@ void ESP::DrawFOVCrosshair()
 	}
 	else
 	{
-		float aimbotFov = Settings::Aimbot::AutoAim::fov;
-		float fov = OverrideView::currentFOV;
-		radius = tanf(DEG2RAD(aimbotFov) / 2) / tanf(DEG2RAD(fov) / 2) * width;
+		radius = ((Settings::Aimbot::AutoAim::fov / OverrideView::currentFOV ) * width) /2;
 	}
-	
+
 	if (Settings::ESP::FOVCrosshair::filled)
 		Draw::FilledCircle(Vector2D(width / 2, height / 2), 20, radius, Color::FromImColor(Settings::ESP::FOVCrosshair::color.Color()));
 	else
 		Draw::Circle(Vector2D(width / 2, height / 2), 20, radius, Color::FromImColor(Settings::ESP::FOVCrosshair::color.Color()));
+
 }
 
 void ESP::DrawGlow()

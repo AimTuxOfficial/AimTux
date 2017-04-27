@@ -421,11 +421,14 @@ bool HasViableEnemy()
 			|| entity->GetImmune())
 			continue;
 
-		IEngineClient::player_info_t entityInformation;
-		engine->GetPlayerInfo(i, &entityInformation);
+		if( !Aimbot::friends.empty() ) // check for friends, if any
+		{
+			IEngineClient::player_info_t entityInformation;
+			engine->GetPlayerInfo(i, &entityInformation);
 
-		if (std::find(Aimbot::friends.begin(), Aimbot::friends.end(), entityInformation.xuid) != Aimbot::friends.end())
-			continue;
+			if (std::find(Aimbot::friends.begin(), Aimbot::friends.end(), entityInformation.xuid) != Aimbot::friends.end())
+				continue;
+		}
 
 		if (Settings::Aimbot::friendly || entity->GetTeam() != localplayer->GetTeam())
 			return true;

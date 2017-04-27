@@ -312,6 +312,8 @@ void Aimbot::RenderTab()
 				if (ImGui::Checkbox("Auto Shoot", &autoShootEnabled))
 					UI::UpdateWeaponSettings();
 				SetTooltip("Automatically shoots when locking to an enemy");
+				ImGui::Checkbox("^Velocity Check", &Settings::Aimbot::AutoShoot::velocityCheck);
+				SetTooltip("Auto Shoot when below move penalty threshold\n Recommended used with Auto-Slow");
 				if (ImGui::Checkbox("Silent Aim", &silent))
 					UI::UpdateWeaponSettings();
 				SetTooltip("Prevents the camera from locking to an enemy, doesn't work for demos");

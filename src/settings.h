@@ -384,6 +384,7 @@ namespace Settings
 		namespace AutoShoot
 		{
 			extern bool enabled;
+			extern bool velocityCheck;
 			extern bool autoscope;
 		}
 
