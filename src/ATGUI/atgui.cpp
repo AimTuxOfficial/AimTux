@@ -52,7 +52,7 @@ void UI::SwapWindow()
 	if (engine->IsInGame())
 		return;
 
-	Draw::ImDrawText(ImVec2(4.f, 4.f), ImColor(255, 255, 255, 255), "AimTux", NULL, 0.0f, NULL, ImFontFlags_Shadow);
+	Draw::ImDrawText(ImVec2(4.f, 4.f), ImColor(255, 255, 255, 255), "Fuzion", NULL, 0.0f, NULL, ImFontFlags_Shadow);
 }
 
 void UI::SetVisible(bool visible)

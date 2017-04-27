@@ -61,7 +61,7 @@ pstring GetConfigDirectory()
 	if (!DoesDirectoryExist(directory.c_str()))
 		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
-	directory << "/AimTux/";
+	directory << "/Fuzion/";
 
 	if (!DoesDirectoryExist(directory.c_str()))
 		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
@@ -91,7 +91,7 @@ pstring GetGhConfigDirectory()
 	if (!DoesDirectoryExist(directory.c_str()))
 		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
-	directory << "/AimTuxGH/";
+	directory << "/FuzionGH/";
 
 	if (!DoesDirectoryExist(directory.c_str()))
 		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);

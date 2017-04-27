@@ -439,7 +439,7 @@ void Misc::RenderTab()
 				ImGui::Checkbox("Show Ranks", &Settings::ShowRanks::enabled);
 				SetTooltip("Displays competitive rank of all players in the scoreboard next to their name during a competitive match");
 				ImGui::Checkbox("Screenshot Cleaner", &Settings::ScreenshotCleaner::enabled);
-				SetTooltip("Prevents AimTux visuals from appearing in screenshots taken");
+				SetTooltip("Prevents Cheat visuals from appearing in screenshots taken");
 				UI::KeyBindButton(&Settings::Airstuck::key);
 				UI::KeyBindButton(&Settings::Autoblock::key);
 				UI::KeyBindButton(&Settings::Teleport::key);
