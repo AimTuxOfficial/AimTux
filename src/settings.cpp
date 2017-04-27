@@ -953,7 +953,7 @@ void Settings::LoadSettings()
 	if (!DoesDirectoryExist(directory.c_str()))
 		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
-	directory << "/AimTux/";
+	directory << "/fuzion/";
 
 	if (!DoesDirectoryExist(directory.c_str()))
 		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);

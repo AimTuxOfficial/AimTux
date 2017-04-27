@@ -5,13 +5,11 @@ bool Settings::Spammer::say_team = false;
 bool Settings::Spammer::KillSpammer::enabled = false;
 bool Settings::Spammer::KillSpammer::sayTeam = false;
 std::vector<std::string> Settings::Spammer::KillSpammer::messages = {
-		"$nick just got owned by AimTux",
+		"$nick just got owned ",
 		"$nick watches anime",
 };
 bool Settings::Spammer::RadioSpammer::enabled = false;
 std::vector<std::string> Settings::Spammer::NormalSpammer::messages = {
-		"AimTux owns me and all",
-		"Your Windows p2c sucks my AimTux dry",
 		"It's free as in FREEDOM!",
 		"Tux only let me out so I could play this game, please be nice!",
 		"Tux nutted but you keep sucken",

@@ -31,8 +31,8 @@ set(CMAKE_CXX_FLAGS_MINSIZEREL "${CMAKE_CXX_FLAGS_MINSIZEREL} -Os -DNDEBUG -std=
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -static-libstdc++")
 
 if(NOT CMAKE_BUILD_TYPE)
-    message(STATUS "No build type selected, default to RelWithDebInfo")
-    set(CMAKE_BUILD_TYPE RelWithDebInfo)
+    message(STATUS "No build type selected, default to Release")
+    set(CMAKE_BUILD_TYPE Release)
 endif(NOT CMAKE_BUILD_TYPE)
 
 file(GLOB_RECURSE SOURCE_FILES "${CMAKE_SOURCE_DIR}/src/*.cpp")

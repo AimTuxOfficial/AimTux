@@ -1,6 +1,6 @@
 #include "glhook.h"
 
-SDL_GLContext aimtux_context = nullptr;
+SDL_GLContext fuzion_context = nullptr;
 
 void SDL2::SwapWindow(SDL_Window* window)
 {
@@ -8,9 +8,9 @@ void SDL2::SwapWindow(SDL_Window* window)
 
 	static SDL_GLContext original_context = SDL_GL_GetCurrentContext();
 
-	if (!aimtux_context)
+	if (!fuzion_context)
 	{
-		aimtux_context = SDL_GL_CreateContext(window);
+		fuzion_context = SDL_GL_CreateContext(window);
 		ImGui_ImplSdl_Init(window);
 
 		ImWchar RobotoMonoRegular_ranges[] = {
@@ -44,7 +44,7 @@ void SDL2::SwapWindow(SDL_Window* window)
 		io.Fonts->Build();
 	}
 
-	SDL_GL_MakeCurrent(window, aimtux_context);
+	SDL_GL_MakeCurrent(window, fuzion_context);
 
 	ImGui_ImplSdl_NewFrame(window);
 
@@ -84,7 +84,7 @@ void SDL2::UnhookWindow()
 {
 	*swapWindowJumpAddress = oSwapWindow;
 
-	SDL_GL_DeleteContext(aimtux_context);
+	SDL_GL_DeleteContext(fuzion_context);
 }
 
 int SDL2::PollEvent(SDL_Event* event)
