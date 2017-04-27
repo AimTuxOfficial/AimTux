@@ -47,5 +47,5 @@ add_definitions(-DLUA)
 
 include_directories(${INCLUDE_DIRS})
 
-add_library(AimTux SHARED ${SOURCE_FILES})
-target_link_libraries(AimTux SDL2 GL dl ${LUA_LIBRARY})
+add_library(Fuzion SHARED ${SOURCE_FILES})
+target_link_libraries(Fuzion SDL2 GL dl ${LUA_LIBRARY})

@@ -5,7 +5,7 @@ bool Settings::Spammer::say_team = false;
 bool Settings::Spammer::KillSpammer::enabled = false;
 bool Settings::Spammer::KillSpammer::sayTeam = false;
 std::vector<std::string> Settings::Spammer::KillSpammer::messages = {
-		"$nick just got owned ",
+		"$nick just got owned",
 		"$nick watches anime",
 };
 bool Settings::Spammer::RadioSpammer::enabled = false;

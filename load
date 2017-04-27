@@ -11,8 +11,8 @@ if [ ! -d ".git" ]; then
 fi
 
 #Credit: Aixxe @ aixxe.net
-if grep -q libAimTux.so /proc/$csgo_pid/maps; then
-    /bin/echo -e "\e[33mAimTux is already injected... Aborting...\e[0m"
+if grep -q libFuzion.so /proc/$csgo_pid/maps; then
+    /bin/echo -e "\e[33mAimTux-Fuzion is already injected... Aborting...\e[0m"
     exit
 fi
 
@@ -20,7 +20,7 @@ input="$(
 sudo gdb -n -q -batch \
   -ex "attach $csgo_pid" \
   -ex "set \$dlopen = (void*(*)(char*, int)) dlopen" \
-  -ex "call \$dlopen(\"$(pwd)/libAimTux.so\", 1)" \
+  -ex "call \$dlopen(\"$(pwd)/libFuzion.so\", 1)" \
   -ex "detach" \
   -ex "quit"
 )"
