@@ -48,6 +48,7 @@ std::vector<int64_t> Aimbot::friends = { };
 bool shouldAim;
 QAngle AimStepLastAngle;
 QAngle RCSLastPunch;
+QAngle RealPunch;
 
 std::unordered_map<Hitbox, std::vector<const char*>, Util::IntHash<Hitbox>> hitboxes = {
 		{ Hitbox::HITBOX_HEAD, { "head_0" } },
@@ -179,6 +180,16 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 
 		QAngle viewAngles;
 		engine->GetViewAngles(viewAngles);
+		
+		if (Settings::Aimbot::RCS::enabled && localplayer->GetShotsFired() > 1)
+		{
+			QAngle CurrentPunch = *localplayer->GetAimPunchAngle();
+			QAngle ViewPunch = *localplayer->GetViewPunchAngle();
+			QAngle NewPunch = { CurrentPunch.x + RealPunch.x + ViewPunch.x, CurrentPunch.y + RealPunch.y + ViewPunch.y, 0 };
+			viewAngles.x += NewPunch.x;
+			viewAngles.y += NewPunch.y;
+			RealPunch = CurrentPunch;
+		}
 
 		float distance = pVecTarget.DistTo(eVecTarget);
 		float fov = Math::GetFov(viewAngles, Math::CalcAngle(pVecTarget, eVecTarget));

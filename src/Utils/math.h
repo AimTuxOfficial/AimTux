@@ -10,5 +10,6 @@ namespace Math {
 	void CorrectMovement(QAngle vOldAngles, CUserCmd* pCmd, float fOldForward, float fOldSidemove);
 	float GetFov(const QAngle &viewAngle, const QAngle &aimAngle);
 	void VectorAngles(const Vector &forward, QAngle &angles);
+	void VectorTransform(Vector& in1, matrix3x4_t& in2, Vector &out);
 	QAngle CalcAngle(Vector src, Vector dst);
 }

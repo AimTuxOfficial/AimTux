@@ -102,6 +102,7 @@ public:
 	inline float	DistTo(const Vector &vOther) const;
 	inline float	DistToSqr(const Vector &vOther) const;
 	float	Dot(const Vector& vOther) const;
+	float	Dot(const float* fOther) const;
 	float	Length2D(void) const;
 	float	Length2DSqr(void) const;
 	Vector& operator=(const Vector &vOther);
@@ -426,6 +427,13 @@ inline float Vector::Dot(const Vector& vOther) const
 	const Vector& a = *this;
 
 	return(a.x*vOther.x + a.y*vOther.y + a.z*vOther.z);
+}
+//=================================================
+inline float Vector::Dot(const float* fOther) const
+{
+	const Vector& a = *this;
+
+	return(a.x*fOther[0] + a.y*fOther[1] + a.z*fOther[2]);
 }
 
 //-----------------------------------------------------------------------------
