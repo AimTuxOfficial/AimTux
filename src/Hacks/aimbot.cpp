@@ -16,6 +16,7 @@ float Settings::Aimbot::ErrorMargin::value = 0.0f;
 bool Settings::Aimbot::AutoAim::enabled = false;
 float Settings::Aimbot::AutoAim::fov = 180.0f;
 bool Settings::Aimbot::AutoAim::realDistance = false;
+bool Settings::Aimbot::AutoAim::closestBone = false;
 bool Settings::Aimbot::AutoWall::enabled = false;
 float Settings::Aimbot::AutoWall::value = 10.0f;
 bool Settings::Aimbot::AutoWall::bones[] = { true, false, false, false, false, false };
@@ -57,7 +58,7 @@ std::unordered_map<Hitbox, std::vector<const char*>, Util::IntHash<Hitbox>> hitb
 };
 
 std::unordered_map<ItemDefinitionIndex, AimbotWeapon_t, Util::IntHash<ItemDefinitionIndex>> Settings::Aimbot::weapons = {
-		{ ItemDefinitionIndex::INVALID, { false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f, false, false, false, false, false, false, false, false, 10.0f, false, false, 5.0f } },
+		{ ItemDefinitionIndex::INVALID, { false, false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f, false, false, false, false, false, false, false, false, 10.0f, false, false, 5.0f } },
 };
 
 static void ApplyErrorToAngle(QAngle* angles, float margin)
@@ -180,7 +181,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 
 		float distance = pVecTarget.DistTo(eVecTarget);
 		float fov = Math::GetFov(viewAngles, Math::CalcAngle(pVecTarget, eVecTarget));
-		float real_distance = GetRealDistanceFOV(distance, Math::CalcAngle(pVecTarget, eVecTarget), cmd);
+		float realDistance = GetRealDistanceFOV(distance, Math::CalcAngle(pVecTarget, eVecTarget), cmd);
 		int hp = player->GetHealth();
 
 		if (aimTargetType == AimTargetType::DISTANCE && distance > bestDistance)
@@ -189,7 +190,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 		if (aimTargetType == AimTargetType::FOV && fov > bestFov)
 			continue;
 
-		if (aimTargetType == AimTargetType::REAL_DISTANCE && real_distance > bestRealDistance)
+		if (aimTargetType == AimTargetType::REAL_DISTANCE && realDistance > bestRealDistance)
 			continue;
 
 		if (aimTargetType == AimTargetType::HP && hp > bestHp)
@@ -198,12 +199,31 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 		if (visible && !Settings::Aimbot::AutoWall::enabled && !Entity::IsVisible(player, Settings::Aimbot::bone))
 			continue;
 
+		if (Settings::Aimbot::AutoAim::closestBone) /* Credits to: https://github.com/goldenguy00 ( study! study! study! :^) ) */
+		{
+			for(int i = (int)Bone::BONE_HEAD; i >= (int)Bone::BONE_HIP; i--) // i'm starting at the head, most players will be aiming head-levelish
+			{
+				Vector cbVecTarget = player->GetBonePosition(i);
+				float cbDistance = pVecTarget.DistTo(cbVecTarget);
+				float cbFov = Math::GetFov(viewAngles, Math::CalcAngle(pVecTarget, cbVecTarget));
+				float cbRealDistance = GetRealDistanceFOV(cbDistance, Math::CalcAngle(pVecTarget, cbVecTarget), cmd);
+
+				if(cbRealDistance < realDistance)
+				{
+					distance = cbDistance;
+					fov = cbFov;
+					realDistance = cbRealDistance;
+					bestBone = (Bone)i;
+					if( cbRealDistance < 3.0f ) { break; } // close enough, stop iterating bones.
+				}
+			}
+		}
 		if (Settings::Aimbot::AutoWall::enabled)
 		{
 			Bone bone;
 			float damage = GetBestBoneDamage(player, bone); // sets bone param, returns damage of hitting that bone.
 
-			if ( damage >= Settings::Aimbot::AutoWall::value)
+			if (damage >= Settings::Aimbot::AutoWall::value)
 			{
 				bestDamage = damage;
 				bestBone = bone;
@@ -214,7 +234,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 		{
 			closestEntity = player;
 			bestFov = fov;
-			bestRealDistance = real_distance;
+			bestRealDistance = realDistance;
 			bestDistance = distance;
 			bestHp = hp;
 		}
@@ -631,6 +651,7 @@ void Aimbot::UpdateValues()
 	Settings::Aimbot::ErrorMargin::value = currentWeaponSetting.errorMarginValue;
 	Settings::Aimbot::AutoAim::enabled = currentWeaponSetting.autoAimEnabled;
 	Settings::Aimbot::AutoAim::fov = currentWeaponSetting.autoAimFov;
+	Settings::Aimbot::AutoAim::closestBone = currentWeaponSetting.closestBone;
 	Settings::Aimbot::AimStep::enabled = currentWeaponSetting.aimStepEnabled;
 	Settings::Aimbot::AimStep::value = currentWeaponSetting.aimStepValue;
 	Settings::Aimbot::AutoPistol::enabled = currentWeaponSetting.autoPistolEnabled;

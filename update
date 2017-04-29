@@ -1,6 +1,6 @@
 #!/bin/bash
 if [ ! -d ".git" ]; then
-    echo "We have detected that you have downloaded aimtux-master.zip from the GitHub website. This is the WRONG way to download AimTux. Please download AimTux with the command 'git clone --recursive https://github.com/AimTuxOfficial/AimTux.git'"
+    echo ".git folder missing. Please re-download AimTux-Fuzion with the command 'git clone --recursive https://github.com/LWSS/AimTux.git' into a new folder."
     exit
 else
     git pull
