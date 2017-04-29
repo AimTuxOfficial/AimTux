@@ -163,7 +163,9 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 			cmd->buttons |= IN_ATTACK2;
 		else
 			cmd->buttons |= IN_ATTACK;
-		Settings::Triggerbot::RandomDelay::lastRoll = randomDelay;
+		if(Settings::Triggerbot::RandomDelay::enabled)
+			Settings::Triggerbot::RandomDelay::lastRoll = randomDelay;
+
 		randomDelay = localMin + rand() % (localMax - localMin);
 	}
 	timeStamp = currentTime_ms;
