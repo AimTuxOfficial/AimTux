@@ -21,18 +21,27 @@ void Triggerbot::RenderTab()
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
-			ImGui::Text("Delay");
+			ImGui::Text("Random Delay");
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::Checkbox("Enabled", &Settings::Triggerbot::Delay::enabled);
-				SetTooltip("Adds a delay to the Triggerbot");
+				ImGui::Checkbox("Enabled", &Settings::Triggerbot::RandomDelay::enabled);
+				SetTooltip("Adds a random delay(ms) to the Triggerbot");
+				if( Settings::Triggerbot::RandomDelay::lastRoll != 0 )
+				{
+					ImGui::Text("Last delay: %dms", Settings::Triggerbot::RandomDelay::lastRoll);
+				}
 			}
 			ImGui::NextColumn();
 			{
-				ImGui::PushItemWidth(-1);
-				ImGui::SliderInt("##TRIGGERDELAY", &Settings::Triggerbot::Delay::value, 0, 1000);
-				ImGui::PopItemWidth();
+				ImGui::Text("Minimum ms");
+				ImGui::SliderInt("##TRIGGERRANDOMLOW", &Settings::Triggerbot::RandomDelay::lowBound, 5, 220);
+				if( Settings::Triggerbot::RandomDelay::lowBound >= Settings::Triggerbot::RandomDelay::highBound )
+				{
+					Settings::Triggerbot::RandomDelay::highBound = Settings::Triggerbot::RandomDelay::lowBound + 1;
+				}
+				ImGui::Text("Maximum ms");
+				ImGui::SliderInt("##TRIGGERRANDOMHIGH", &Settings::Triggerbot::RandomDelay::highBound, (Settings::Triggerbot::RandomDelay::lowBound+1), 225);
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();

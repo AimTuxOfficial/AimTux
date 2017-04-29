@@ -12,8 +12,10 @@ bool Settings::Triggerbot::Filters::chest = true;
 bool Settings::Triggerbot::Filters::stomach = true;
 bool Settings::Triggerbot::Filters::arms = true;
 bool Settings::Triggerbot::Filters::legs = true;
-bool Settings::Triggerbot::Delay::enabled = false;
-int Settings::Triggerbot::Delay::value = 250;
+bool Settings::Triggerbot::RandomDelay::enabled = true;
+int Settings::Triggerbot::RandomDelay::lowBound = 20;
+int Settings::Triggerbot::RandomDelay::highBound = 35;
+int Settings::Triggerbot::RandomDelay::lastRoll = 0;
 ButtonCode_t Settings::Triggerbot::key = ButtonCode_t::KEY_LALT;
 
 void Triggerbot::CreateMove(CUserCmd *cmd)
@@ -34,6 +36,19 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	long currentTime_ms = Util::GetEpochTime();
 	static long timeStamp = currentTime_ms;
 	long oldTimeStamp;
+
+
+	static int localMin = Settings::Triggerbot::RandomDelay::lowBound;
+	static int localMax = Settings::Triggerbot::RandomDelay::highBound;
+	static int randomDelay = localMin + rand() % (localMax - localMin);
+
+	if( localMin != Settings::Triggerbot::RandomDelay::lowBound || localMax != Settings::Triggerbot::RandomDelay::highBound ) // Done in case Low/high bounds change before the next triggerbot shot.
+	{
+		localMin = Settings::Triggerbot::RandomDelay::lowBound;
+		localMax = Settings::Triggerbot::RandomDelay::highBound;
+		randomDelay = localMin + rand() % (localMax - localMin);
+	}
+
 
 	Vector traceStart, traceEnd;
 	trace_t tr;
@@ -138,7 +153,7 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	}
 	else
 	{
-		if (Settings::Triggerbot::Delay::enabled && currentTime_ms - oldTimeStamp < Settings::Triggerbot::Delay::value)
+		if (Settings::Triggerbot::RandomDelay::enabled && currentTime_ms - oldTimeStamp < randomDelay)
 		{
 			timeStamp = oldTimeStamp;
 			return;
@@ -148,7 +163,8 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 			cmd->buttons |= IN_ATTACK2;
 		else
 			cmd->buttons |= IN_ATTACK;
+		Settings::Triggerbot::RandomDelay::lastRoll = randomDelay;
+		randomDelay = localMin + rand() % (localMax - localMin);
 	}
-
 	timeStamp = currentTime_ms;
 }

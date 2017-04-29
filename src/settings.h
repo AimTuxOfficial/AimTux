@@ -447,10 +447,12 @@ namespace Settings
 			extern bool legs;
 		}
 
-		namespace Delay
+		namespace RandomDelay
 		{
 			extern bool enabled;
-			extern int value;
+			extern int lowBound; // in ms
+			extern int highBound;// in ms
+			extern int lastRoll;
 		}
 	}
 
