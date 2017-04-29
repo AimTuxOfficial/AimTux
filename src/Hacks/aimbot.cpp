@@ -37,7 +37,6 @@ bool Settings::Aimbot::FlashCheck::enabled = false;
 bool Settings::Aimbot::Smooth::Salting::enabled = false;
 float Settings::Aimbot::Smooth::Salting::multiplier = 0.0f;
 bool Settings::Aimbot::AutoSlow::enabled = false;
-float Settings::Aimbot::AutoSlow::minDamage = 5.0f;
 bool Settings::Aimbot::AutoSlow::goingToSlow = false;
 bool Settings::Aimbot::Prediction::enabled = false;
 
@@ -58,7 +57,7 @@ std::unordered_map<Hitbox, std::vector<const char*>, Util::IntHash<Hitbox>> hitb
 };
 
 std::unordered_map<ItemDefinitionIndex, AimbotWeapon_t, Util::IntHash<ItemDefinitionIndex>> Settings::Aimbot::weapons = {
-		{ ItemDefinitionIndex::INVALID, { false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f, false, false, false, false, false, false, false, false, 10.0f, false, false, false, 5.0f } },
+		{ ItemDefinitionIndex::INVALID, { false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f, false, false, false, false, false, false, false, false, 10.0f, false, false, 5.0f } },
 };
 
 static void ApplyErrorToAngle(QAngle* angles, float margin)
@@ -86,17 +85,17 @@ float GetBestBoneDamage(C_BasePlayer *player, Bone &bestBone)
 
 			Autowall::FireBulletData data;
 			float damage = Autowall::GetDamage(vecBone, !Settings::Aimbot::friendly, data);
-
 			if (damage > bestDamage)
 			{
-				bestDamage = damage;
 				bestBone = bone;
-				if( bestDamage >= 100 ){
-					return bestDamage;
+				if( damage >= 100 ){
+					return damage;
 				}
+				bestDamage = damage;
 			}
 		}
 	}
+
 	return bestDamage;
 }
 
@@ -204,7 +203,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 			Bone bone;
 			float damage = GetBestBoneDamage(player, bone); // sets bone param, returns damage of hitting that bone.
 
-			if (damage >= bestDamage && damage >= Settings::Aimbot::AutoWall::value)
+			if ( damage >= Settings::Aimbot::AutoWall::value)
 			{
 				bestDamage = damage;
 				bestBone = bone;
@@ -364,8 +363,6 @@ void Aimbot::AutoCrouch(C_BasePlayer* player, CUserCmd* cmd)
 
 void Aimbot::AutoSlow(C_BasePlayer* player, float& forward, float& sideMove, float& bestDamage, C_BaseCombatWeapon* active_weapon, CUserCmd* cmd)
 {
-	if (!Settings::Aimbot::AutoWall::enabled)
-		return;
 
 	if (!Settings::Aimbot::AutoSlow::enabled){
 		Settings::Aimbot::AutoSlow::goingToSlow = false;
@@ -384,23 +381,20 @@ void Aimbot::AutoSlow(C_BasePlayer* player, float& forward, float& sideMove, flo
 		return;
 	}
 
-	if (bestDamage > Settings::Aimbot::AutoSlow::minDamage)
+	Settings::Aimbot::AutoSlow::goingToSlow = true;
+
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+
+	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+	if (!activeWeapon || activeWeapon->GetAmmo() == 0)
+		return;
+
+	if( localplayer->GetVelocity().Length() > (activeWeapon->GetCSWpnData()->GetMaxPlayerSpeed() / 3) ) // https://youtu.be/ZgjYxBRuagA
 	{
-		Settings::Aimbot::AutoSlow::goingToSlow = true;
-
-		C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-
-		C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
-		if (!activeWeapon || activeWeapon->GetAmmo() == 0)
-			return;
-
-		if( localplayer->GetVelocity().Length() > (activeWeapon->GetCSWpnData()->GetMaxPlayerSpeed() / 3) ) // https://youtu.be/ZgjYxBRuagA
-		{
-			cmd->buttons |= IN_WALK;
-			forward = -forward;
-			sideMove = -sideMove;
-			cmd->upmove = 0;
-		}
+		cmd->buttons |= IN_WALK;
+		forward = -forward;
+		sideMove = -sideMove;
+		cmd->upmove = 0;
 	}
 }
 
@@ -655,7 +649,6 @@ void Aimbot::UpdateValues()
 	Settings::Aimbot::AutoWall::enabled = currentWeaponSetting.autoWallEnabled;
 	Settings::Aimbot::AutoWall::value = currentWeaponSetting.autoWallValue;
 	Settings::Aimbot::AutoSlow::enabled = currentWeaponSetting.autoSlow;
-	Settings::Aimbot::AutoSlow::minDamage = currentWeaponSetting.autoSlowMinDamage;
 
 	for (int i = (int) Hitbox::HITBOX_HEAD; i <= (int) Hitbox::HITBOX_ARMS; i++)
 		Settings::Aimbot::AutoWall::bones[i] = currentWeaponSetting.autoWallBones[i];

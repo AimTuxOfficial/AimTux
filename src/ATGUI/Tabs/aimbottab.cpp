@@ -35,7 +35,6 @@ static bool autoWallBones[] = { true, false, false, false, false, false };
 static bool autoAimRealDistance = false;
 static bool autoSlow = false;
 static bool predEnabled = false;
-static float autoSlowMinDamage = 5.0f;
 
 void UI::ReloadWeaponSettings()
 {
@@ -76,7 +75,6 @@ void UI::ReloadWeaponSettings()
 	autoAimRealDistance = Settings::Aimbot::weapons.at(index).autoAimRealDistance;
 	autoSlow = Settings::Aimbot::weapons.at(index).autoSlow;
 	predEnabled = Settings::Aimbot::weapons.at(index).predEnabled;
-	autoSlowMinDamage = Settings::Aimbot::weapons.at(index).autoSlowMinDamage;
 
 	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
 		autoWallBones[bone] = Settings::Aimbot::weapons.at(index).autoWallBones[bone];
@@ -94,7 +92,7 @@ void UI::UpdateWeaponSettings()
 			autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
 			rcsEnabled, rcsAlwaysOn, rcsAmountX, rcsAmountY,
 			autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
-			noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, autoSlowMinDamage, predEnabled
+			noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, predEnabled
 	};
 
 	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
@@ -340,26 +338,14 @@ void Aimbot::RenderTab()
 				SetTooltip("Disable aimbot while flashed");
 			}
 
-			if (autoWallEnabled)
-			{
-				ImGui::Columns(1);
-				ImGui::Separator();
-				ImGui::Text("AutoSlow");
-				ImGui::Separator();
-				ImGui::Columns(2, NULL, true);
-				{
-					if (ImGui::Checkbox("Enabled##AUTOSLOW", &autoSlow))
-						UI::UpdateWeaponSettings();
-					SetTooltip("Automatically slows your movement speed when an enemy is shootable");
-				}
-				ImGui::NextColumn();
-				{
-					ImGui::PushItemWidth(-1);
-					if (ImGui::SliderFloat("##AUTOSLOWMINDAMAGE", &autoSlowMinDamage, 0, 100, "Min Damage: %f"))
-						UI::UpdateWeaponSettings();
-					ImGui::PopItemWidth();
-				}
-			}
+
+			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::Text("AutoSlow");
+			ImGui::Separator();
+			if (ImGui::Checkbox("Enabled##AUTOSLOW", &autoSlow))
+				UI::UpdateWeaponSettings();
+			SetTooltip("Automatically slows your movement speed when an enemy is shootable");
 
 			ImGui::Columns(1);
 			ImGui::Separator();

@@ -156,7 +156,7 @@ struct AimbotWeapon_t
 	SmoothType smoothType;
 	ButtonCode_t aimkey;
 	bool aimkeyOnly, smoothEnabled, smoothSaltEnabled, errorMarginEnabled, autoAimEnabled, aimStepEnabled, rcsEnabled, rcsAlwaysOn;
-	float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmountX, rcsAmountY, autoWallValue, autoSlowMinDamage;
+	float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmountX, rcsAmountY, autoWallValue;
 	bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallBones[6], autoAimRealDistance, autoSlow, predEnabled;
 
 	AimbotWeapon_t(bool enabled, bool silent, bool friendly, Bone bone, ButtonCode_t aimkey, bool aimkeyOnly,
@@ -167,7 +167,7 @@ struct AimbotWeapon_t
 		   bool autoPistolEnabled, bool autoShootEnabled, bool autoScopeEnabled,
 		   bool noShootEnabled, bool ignoreJumpEnabled, bool smokeCheck, bool flashCheck,
 		   bool autoWallEnabled, float autoWallValue, bool autoAimRealDistance, bool autoSlow,
-		   float autoSlowMinDamage, bool predEnabled, bool autoWallBones[6] = nullptr)
+		   bool predEnabled, bool autoWallBones[6] = nullptr)
 	{
 		this->enabled = enabled;
 		this->silent = silent;
@@ -201,7 +201,6 @@ struct AimbotWeapon_t
 		this->autoWallValue = autoWallValue;
 		this->autoSlow = autoSlow;
 		this->predEnabled = predEnabled;
-		this->autoSlowMinDamage = autoSlowMinDamage;
 
 		for (int i = (int) Hitbox::HITBOX_HEAD; i <= (int) Hitbox::HITBOX_ARMS; i++)
 			this->autoWallBones[i] = autoWallBones != nullptr ? autoWallBones[i] : false;
@@ -251,7 +250,6 @@ struct AimbotWeapon_t
 			this->autoWallValue == another.autoWallValue &&
 			this->autoSlow == another.autoSlow &&
 			this->predEnabled == another.predEnabled &&
-			this->autoSlowMinDamage == another.autoSlowMinDamage &&
 			this->autoAimRealDistance == another.autoAimRealDistance;
 	}
 };
@@ -396,7 +394,6 @@ namespace Settings
 		namespace AutoSlow
 		{
 			extern bool enabled;
-			extern float minDamage;
 			extern bool goingToSlow;
 		}
 
