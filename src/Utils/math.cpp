@@ -113,14 +113,6 @@ void Math::VectorAngles(const Vector& forward, QAngle &angles)
 	angles[2] = 0.0f;
 }
 
-void Math::VectorTransform( Vector& in1, matrix3x4_t& in2, Vector &out )
-{
-	out.x = in1.Dot( in2.m_flMatVal[ 0 ] ) + in2.m_flMatVal[ 0 ][ 3 ];
-	out.y = in1.Dot( in2.m_flMatVal[ 1 ] ) + in2.m_flMatVal[ 1 ][ 3 ];
-	out.z = in1.Dot( in2.m_flMatVal[ 2 ] ) + in2.m_flMatVal[ 2 ][ 3 ];
-}
-
-
 QAngle Math::CalcAngle(Vector src, Vector dst)
 {
 	QAngle angles;
