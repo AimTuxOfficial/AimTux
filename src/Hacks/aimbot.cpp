@@ -54,7 +54,7 @@ std::vector<int64_t> Aimbot::friends = { };
 bool shouldAim;
 QAngle AimStepLastAngle;
 QAngle RCSLastPunch;
-C_BasePlayer* savedTarget;
+C_BasePlayer* savedTarget = NULL;
 
 std::unordered_map<Hitbox, std::vector<const char*>, Util::IntHash<Hitbox>> hitboxes = {
 		{ Hitbox::HITBOX_HEAD, { "head_0" } },
