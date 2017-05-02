@@ -150,7 +150,7 @@ struct AimbotWeapon_t
 	SmoothType smoothType;
 	ButtonCode_t aimkey;
 	bool aimkeyOnly, smoothEnabled, smoothSaltEnabled, errorMarginEnabled, autoAimEnabled, aimStepEnabled, rcsEnabled, rcsAlwaysOn, rcsAdaptive;
-	float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmountX, rcsAmountY, autoWallValue, autoSlowMinDamage, rcsAdaptiveSpeed, rcsAdaptiveLimit, spreadLimitValue,;
+	float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmountX, rcsAmountY, autoWallValue, autoSlowMinDamage, rcsAdaptiveSpeed, rcsAdaptiveLimit, spreadLimitValue;
 	bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallBones[6], autoAimRealDistance, autoSlow, spreadLimitEnabled, stickyAimEnabled, predEnabled;
 
 	AimbotWeapon_t(bool enabled, bool silent, bool friendly, bool closestBone, Bone bone, ButtonCode_t aimkey, bool aimkeyOnly,

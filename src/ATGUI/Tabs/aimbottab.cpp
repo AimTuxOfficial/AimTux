@@ -38,6 +38,7 @@ static float autoWallValue = 10.0f;
 static bool autoWallBones[] = { true, false, false, false, false, false };
 static bool spreadLimitEnabled = false;
 static float spreadLimitValue = 0;
+static bool stickyAimEnabled = false;
 static bool autoAimRealDistance = false;
 static bool autoSlow = false;
 static bool predEnabled = false;
@@ -100,13 +101,15 @@ void UI::UpdateWeaponSettings()
 		Settings::Aimbot::weapons[currentWeapon] = AimbotWeapon_t();
 
 	AimbotWeapon_t settings = {
-			enabled, silent, friendly, closestBone, bone, aimkey, aimkeyOnly,
-			smoothEnabled, smoothValue, smoothType, smoothSaltEnabled, smoothSaltMultiplier,
-			errorMarginEnabled, errorMarginValue,
-			autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
-			rcsEnabled, rcsAlwaysOn, rcsAmountX, rcsAmountY, rcsAdaptive, rcsAdaptiveSpeed, rcsAdaptiveLimit,
-			autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
-			noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, autoSlowMinDamage,  predEnabled,  spreadLimitValue, spreadLimitEnabled
+			enabled, silent, friendly, closestBone, bone, aimkey, aimkeyOnly, 
+			smoothEnabled, smoothValue, smoothType, smoothSaltEnabled, smoothSaltMultiplier, 
+			errorMarginEnabled, errorMarginValue, 
+			autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue, 
+			rcsEnabled, rcsAlwaysOn, rcsAmountX, rcsAmountY, rcsAdaptive, rcsAdaptiveSpeed, rcsAdaptiveLimit, 
+			autoPistolEnabled, autoShootEnabled, autoScopeEnabled, 
+			noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, 
+			autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, 
+			autoSlowMinDamage, spreadLimitEnabled, spreadLimitValue, stickyAimEnabled, predEnabled
 	};
 
 	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
@@ -194,7 +197,7 @@ void Aimbot::RenderTab()
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-				if (!closestbone)
+				if (!closestBone)
 				{
 				if (ImGui::Combo("##AIMTARGET", (int*)& bone, targets, IM_ARRAYSIZE(targets)))
 					UI::UpdateWeaponSettings();

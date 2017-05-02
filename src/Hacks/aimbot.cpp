@@ -231,7 +231,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 		
 		if (Settings::Aimbot::StickyAim::enabled 
 			&& savedTarget
-			&& !savedTarget == localplayer
+			&& savedTarget != localplayer
 			&& !savedTarget->GetDormant()
 			&& savedTarget->GetAlive()
 			&& !savedTarget->GetImmune()
