@@ -199,7 +199,16 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 	for (int i = 1; i < engine->GetMaxClients(); ++i)
 	{
 		C_BasePlayer* player = (C_BasePlayer*) entityList->GetClientEntity(i);
+		Bone targetBone = Settings::Aimbot::bone;
 
+		if (Settings::Aimbot::StickyAim::enabled 
+			&& savedTarget
+			&& !player->GetDormant()
+			&& !player->GetImmune()
+			&& savedTarget->GetAlive()
+			&& Entity::IsVisible(savedTarget, targetBone))
+			player = savedTarget;
+		else
 		if (!player
 			|| player == localplayer
 			|| player->GetDormant()
@@ -216,8 +225,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 
 		if (std::find(Aimbot::friends.begin(), Aimbot::friends.end(), entityInformation.xuid) != Aimbot::friends.end())
 			continue;
-		
-		Bone targetBone = Settings::Aimbot::bone;
+			
 		Vector eVecTarget = player->GetBonePosition((int) targetBone);
 		Vector pVecTarget = localplayer->GetEyePosition();
 
@@ -229,14 +237,6 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 		float real_distance = GetRealDistanceFOV(distance, Math::CalcAngle(pVecTarget, eVecTarget), cmd);
 		int hp = player->GetHealth();
 
-		if (Settings::Aimbot::StickyAim::enabled 
-			&& savedTarget
-			&& savedTarget != localplayer
-			&& !savedTarget->GetDormant()
-			&& savedTarget->GetAlive()
-			&& !savedTarget->GetImmune()
-			&& Entity::IsVisible(savedTarget, targetBone))
-			player = savedTarget;
 
 		if (Settings::Aimbot::closestBone)			//Thanks @goldenguy00!
 		{
