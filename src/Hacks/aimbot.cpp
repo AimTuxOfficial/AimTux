@@ -223,11 +223,12 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 
 		QAngle viewAngles;
 		engine->GetViewAngles(viewAngles);
+		
 		float distance = pVecTarget.DistTo(eVecTarget);
 		float fov = Math::GetFov(viewAngles, Math::CalcAngle(pVecTarget, eVecTarget));
 		float real_distance = GetRealDistanceFOV(distance, Math::CalcAngle(pVecTarget, eVecTarget), cmd);
 		int hp = player->GetHealth();
-		
+
 		if (Settings::Aimbot::StickyAim::enabled 
 			&& savedTarget
 			&& savedTarget != localplayer
@@ -235,7 +236,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 			&& savedTarget->GetAlive()
 			&& !savedTarget->GetImmune()
 			&& Entity::IsVisible(savedTarget, targetBone))
-			return savedTarget;
+			player = savedTarget;
 
 		if (Settings::Aimbot::closestBone)			//Thanks @goldenguy00!
 		{

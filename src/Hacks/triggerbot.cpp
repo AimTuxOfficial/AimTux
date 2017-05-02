@@ -17,6 +17,7 @@ int Settings::Triggerbot::Delay::value = 250;
 bool Settings::Triggerbot::RandomDelay::enabled = false;
 int Settings::Triggerbot::RandomDelay::min = 20;
 int Settings::Triggerbot::RandomDelay::max = 40;
+int Settings::Triggerbot::RandomDelay::last = 0;
 ButtonCode_t Settings::Triggerbot::key = ButtonCode_t::KEY_LALT;
 
 void Triggerbot::CreateMove(CUserCmd *cmd)
@@ -162,6 +163,7 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 			}
 		}
 
+		Settings::Triggerbot::RandomDelay::last = randDelay;
 		if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
 			cmd->buttons |= IN_ATTACK2;
 		else

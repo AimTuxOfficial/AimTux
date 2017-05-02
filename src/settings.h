@@ -480,6 +480,7 @@ namespace Settings
 			extern bool enabled;
 			extern int min;
 			extern int max;
+			extern int last;
 		}
 	}
 
