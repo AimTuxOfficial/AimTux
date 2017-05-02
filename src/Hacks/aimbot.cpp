@@ -184,6 +184,42 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 		float realDistance = GetRealDistanceFOV(distance, Math::CalcAngle(pVecTarget, eVecTarget), cmd);
 		int hp = player->GetHealth();
 
+		if (Settings::Aimbot::AutoAim::closestBone) /* Credits to: https://github.com/goldenguy00 ( study! study! study! :^) ) */
+		{
+			realDistance = bestRealDistance;
+			Bone tempBone = Bone::INVALID; // used to prevent bone snapping while going through the bones.
+			for(int bone = (int)Bone::BONE_HEAD; bone >= (int)Bone::BONE_HIP; bone--) // i'm starting at the head, most players will be aiming head-levelish
+			{
+				Vector cbVecTarget = player->GetBonePosition(bone);
+				float cbDistance = pVecTarget.DistTo(cbVecTarget);
+				float cbFov = Math::GetFov(viewAngles, Math::CalcAngle(pVecTarget, cbVecTarget));
+				float cbRealDistance = GetRealDistanceFOV(cbDistance, Math::CalcAngle(pVecTarget, cbVecTarget), cmd);
+
+				if(cbRealDistance < realDistance)
+				{
+					distance = cbDistance;
+					fov = cbFov;
+					realDistance = cbRealDistance;
+					tempBone = (Bone)bone;
+
+					/* Head Bias code. Not Ready yet.
+					if( aimTargetType == AimTargetType::REAL_DISTANCE && realDistance < bestRealDistance )
+					{
+						bestBone = (Bone)i;
+						break;
+					} else if( aimTargetType == AimTargetType::FOV && fov < bestFov )
+					{
+						bestBone = (Bone)i;
+						break;
+					}
+					*/
+				}
+			}
+			if( tempBone == Bone::INVALID )
+				continue;
+			bestBone = tempBone;
+		}
+
 		if (aimTargetType == AimTargetType::DISTANCE && distance > bestDistance)
 			continue;
 
@@ -199,25 +235,6 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 		if (visible && !Settings::Aimbot::AutoWall::enabled && !Entity::IsVisible(player, Settings::Aimbot::bone))
 			continue;
 
-		if (Settings::Aimbot::AutoAim::closestBone) /* Credits to: https://github.com/goldenguy00 ( study! study! study! :^) ) */
-		{
-			for(int i = (int)Bone::BONE_HEAD; i >= (int)Bone::BONE_HIP; i--) // i'm starting at the head, most players will be aiming head-levelish
-			{
-				Vector cbVecTarget = player->GetBonePosition(i);
-				float cbDistance = pVecTarget.DistTo(cbVecTarget);
-				float cbFov = Math::GetFov(viewAngles, Math::CalcAngle(pVecTarget, cbVecTarget));
-				float cbRealDistance = GetRealDistanceFOV(cbDistance, Math::CalcAngle(pVecTarget, cbVecTarget), cmd);
-
-				if(cbRealDistance < realDistance)
-				{
-					distance = cbDistance;
-					fov = cbFov;
-					realDistance = cbRealDistance;
-					bestBone = (Bone)i;
-					if( cbRealDistance < 3.0f ) { break; } // close enough, stop iterating bones.
-				}
-			}
-		}
 		if (Settings::Aimbot::AutoWall::enabled)
 		{
 			Bone bone;

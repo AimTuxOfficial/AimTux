@@ -201,6 +201,7 @@ void Aimbot::RenderTab()
 				ImGui::PushItemWidth(-1);
 				if (ImGui::SliderFloat("##AA", &autoAimValue, 0, 180))
 					UI::UpdateWeaponSettings();
+				SetTooltip("FOV around Crosshair used for AutoAim.\nCtrl+Click to Type Precise Values");
 				ImGui::PopItemWidth();
 				if (ImGui::Button("RCS Settings", ImVec2(-1, 0)))
 					ImGui::OpenPopup("optionRCSAmount");
