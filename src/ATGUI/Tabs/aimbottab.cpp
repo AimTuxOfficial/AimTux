@@ -172,9 +172,19 @@ void Aimbot::RenderTab()
 		{
 			ImGui::Text("Target");
 			ImGui::Separator();
-			if (ImGui::Checkbox("Closest Bone", &closestBone))
-				UI::UpdateWeaponSettings();
-			SetTooltip("Aims at the bone closest to your crosshair");
+			ImGui::Columns(2, NULL, true);
+			{
+				if (ImGui::Checkbox("Closest Bone", &closestBone))
+					UI::UpdateWeaponSettings();
+				SetTooltip("Aims at the bone closest to your crosshair");
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::PushItemWidth(-1);
+				if (ImGui::Checkbox("Sticky Aimbot", &stickyAimEnabled))
+					UI::UpdateWeaponSettings();
+				SetTooltip("Sticks to the target, doesnt snap to the other");
+			}
 			ImGui::Columns(2, NULL, true);
 			{
 				if (ImGui::Checkbox("Friendly", &friendly))
@@ -205,7 +215,7 @@ void Aimbot::RenderTab()
 				SetTooltip("Automatically controls recoil");
 				if (ImGui::Checkbox("Adaptive FOV", &rcsAdaptive))
 					UI::UpdateWeaponSettings();
-				SetTooltip("FOV adaptively changes to make aimbot work with RCS");
+				SetTooltip("FOV adaptively changes to make aimbot work properly with RCS");
 				if (ImGui::Checkbox("Distance-Based FOV", &autoAimRealDistance))
 					UI::UpdateWeaponSettings();
 				SetTooltip("Takes perspective into account when calculating FOV");
@@ -213,7 +223,7 @@ void Aimbot::RenderTab()
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-				if (ImGui::SliderFloat("##AA", &autoAimValue, 0, 180))
+				if (ImGui::SliderFloat("##AA", &autoAimValue, 0, 180, "FOV: %0.3f"))
 					UI::UpdateWeaponSettings();
 				ImGui::PopItemWidth();
 				if (ImGui::Button("RCS Settings", ImVec2(-1, 0)))

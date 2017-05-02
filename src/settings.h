@@ -150,8 +150,8 @@ struct AimbotWeapon_t
 	SmoothType smoothType;
 	ButtonCode_t aimkey;
 	bool aimkeyOnly, smoothEnabled, smoothSaltEnabled, errorMarginEnabled, autoAimEnabled, aimStepEnabled, rcsEnabled, rcsAlwaysOn, rcsAdaptive;
-	float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmountX, rcsAmountY, autoWallValue, autoSlowMinDamage, rcsAdaptiveSpeed, rcsAdaptiveLimit, spreadLimitValue;
-	bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallBones[6], autoAimRealDistance, autoSlow, spreadLimitEnabled, predEnabled;
+	float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmountX, rcsAmountY, autoWallValue, autoSlowMinDamage, rcsAdaptiveSpeed, rcsAdaptiveLimit, spreadLimitValue,;
+	bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallBones[6], autoAimRealDistance, autoSlow, spreadLimitEnabled, stickyAimEnabled, predEnabled;
 
 	AimbotWeapon_t(bool enabled, bool silent, bool friendly, bool closestBone, Bone bone, ButtonCode_t aimkey, bool aimkeyOnly,
 		   bool smoothEnabled, float smoothValue, SmoothType smoothType, bool smoothSaltEnabled, float smoothSaltMultiplier,
@@ -161,7 +161,7 @@ struct AimbotWeapon_t
 		   bool autoPistolEnabled, bool autoShootEnabled, bool autoScopeEnabled,
 		   bool noShootEnabled, bool ignoreJumpEnabled, bool smokeCheck, bool flashCheck,
 		   bool autoWallEnabled, float autoWallValue, bool autoAimRealDistance, bool autoSlow,
-		   float autoSlowMinDamage, bool spreadLimitEnabled, float spreadLimitValue, bool predEnabled, bool autoWallBones[6] = nullptr)
+		   float autoSlowMinDamage, bool spreadLimitEnabled, float spreadLimitValue, bool stickyAimEnabled, bool predEnabled, bool autoWallBones[6] = nullptr)
 	{
 		this->enabled = enabled;
 		this->silent = silent;
@@ -199,6 +199,7 @@ struct AimbotWeapon_t
 		this->autoWallValue = autoWallValue;
 		this->spreadLimitEnabled = spreadLimitEnabled;
 		this->spreadLimitValue = spreadLimitValue;
+		this->stickyAimEnabled = stickyAimEnabled;
 		this->autoSlow = autoSlow;
 		this->predEnabled = predEnabled;
 		this->autoSlowMinDamage = autoSlowMinDamage;
@@ -255,6 +256,7 @@ struct AimbotWeapon_t
 			this->autoWallValue == another.autoWallValue &&
 			this->spreadLimitEnabled == another.spreadLimitEnabled &&
 			this->spreadLimitValue == another.spreadLimitValue &&
+			this->stickyAimEnabled == another.stickyAimEnabled &&
 			this->autoSlow == another.autoSlow &&
 			this->predEnabled == another.predEnabled &&
 			this->autoSlowMinDamage == another.autoSlowMinDamage &&
@@ -438,6 +440,11 @@ namespace Settings
 		{
 			extern bool enabled;
 			extern float value;
+		}
+
+		namespace StickyAim
+		{
+			extern bool enabled;
 		}
 
 		extern std::unordered_map<ItemDefinitionIndex, AimbotWeapon_t, Util::IntHash<ItemDefinitionIndex>> weapons;

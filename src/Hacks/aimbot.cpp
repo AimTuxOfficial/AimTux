@@ -34,8 +34,6 @@ float Settings::Aimbot::RCS::valueY = 2.0f;
 bool Settings::Aimbot::RCS::adaptive = false;
 float Settings::Aimbot::RCS::adaptiveSpeed = 0.1;
 float Settings::Aimbot::RCS::adaptiveLimit = 1.5;
-bool Settings::Aimbot::SpreadLimit::enabled = false;
-float Settings::Aimbot::SpreadLimit::value = 0;
 bool Settings::Aimbot::AutoCrouch::enabled = false;
 bool Settings::Aimbot::NoShoot::enabled = false;
 bool Settings::Aimbot::IgnoreJump::enabled = false;
@@ -45,6 +43,9 @@ bool Settings::Aimbot::Smooth::Salting::enabled = false;
 float Settings::Aimbot::Smooth::Salting::multiplier = 0.0f;
 bool Settings::Aimbot::AutoSlow::enabled = false;
 float Settings::Aimbot::AutoSlow::minDamage = 5.0f;
+bool Settings::Aimbot::SpreadLimit::enabled = false;
+float Settings::Aimbot::SpreadLimit::value = 0;
+bool Settings::Aimbot::StickyAim::enabled = false;
 bool Settings::Aimbot::Prediction::enabled = false;
 
 bool Aimbot::aimStepInProgress = false;
@@ -53,6 +54,7 @@ std::vector<int64_t> Aimbot::friends = { };
 bool shouldAim;
 QAngle AimStepLastAngle;
 QAngle RCSLastPunch;
+C_BasePlayer* savedTarget;
 
 std::unordered_map<Hitbox, std::vector<const char*>, Util::IntHash<Hitbox>> hitboxes = {
 		{ Hitbox::HITBOX_HEAD, { "head_0" } },
@@ -64,7 +66,7 @@ std::unordered_map<Hitbox, std::vector<const char*>, Util::IntHash<Hitbox>> hitb
 };
 
 std::unordered_map<ItemDefinitionIndex, AimbotWeapon_t, Util::IntHash<ItemDefinitionIndex>> Settings::Aimbot::weapons = {
-		{ ItemDefinitionIndex::INVALID, { false, false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f,false, 0.1, 1.5, false, 0, false, false, false, false, false, false, false, false, 10.0f, false, false, false, 5.0f } },
+		{ ItemDefinitionIndex::INVALID, { false, false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f, false, 0.1, 1.5, false, false, false, false, false, false, false, false, 10.0f, false, false, 5.0f, false, 0, false, false} },
 };
 
 static const char* targets[] = { "pelvis", "", "", "spine_0", "spine_1", "spine_2", "spine_3", "neck_0", "head_0" };
@@ -163,7 +165,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 	// TODO Change the big value with a distance/fov slider
 	float bestFov = Settings::Aimbot::AutoAim::fov;
 	float bestRealDistance = Settings::Aimbot::AutoAim::fov * 5.f;
-	float bestDistance = 999999999.0f;
+	float bestDistance = 8192.0f;
 	int bestHp = 100;
 
 	if (!localplayer)
@@ -205,6 +207,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 			|| player->GetImmune())
 			continue;
 
+
 		if (!Settings::Aimbot::friendly && player->GetTeam() == localplayer->GetTeam())
 			continue;
 
@@ -226,6 +229,15 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 		float real_distance = GetRealDistanceFOV(distance, Math::CalcAngle(pVecTarget, eVecTarget), cmd);
 		int hp = player->GetHealth();
 		
+		if (Settings::Aimbot::StickyAim::enabled 
+			&& savedTarget
+			&& !savedTarget == localplayer
+			&& !savedTarget->GetDormant()
+			&& savedTarget->GetAlive()
+			&& !savedTarget->GetImmune()
+			&& Entity::IsVisible(savedTarget, targetBone))
+			return savedTarget;
+
 		if (Settings::Aimbot::closestBone)			//Thanks @goldenguy00!
 		{
 			for (int i = (int) Bone::BONE_PELVIS; i < (int) Bone::BONE_HEAD; i++)
@@ -288,8 +300,9 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 			bestHp = hp;
 		}
 	}
-
+	savedTarget = closestEntity;
 	return closestEntity;
+
 }
 
 void Aimbot::RCS(QAngle& angle, C_BasePlayer* player, CUserCmd* cmd)
@@ -722,10 +735,11 @@ void Aimbot::UpdateValues()
 	Settings::Aimbot::FlashCheck::enabled = currentWeaponSetting.flashCheck;
 	Settings::Aimbot::AutoWall::enabled = currentWeaponSetting.autoWallEnabled;
 	Settings::Aimbot::AutoWall::value = currentWeaponSetting.autoWallValue;
-	Settings::Aimbot::SpreadLimit::enabled = currentWeaponSetting.spreadLimitEnabled;
-	Settings::Aimbot::SpreadLimit::value = currentWeaponSetting.spreadLimitValue;
 	Settings::Aimbot::AutoSlow::enabled = currentWeaponSetting.autoSlow;
 	Settings::Aimbot::AutoSlow::minDamage = currentWeaponSetting.autoSlowMinDamage;
+	Settings::Aimbot::SpreadLimit::enabled = currentWeaponSetting.spreadLimitEnabled;
+	Settings::Aimbot::SpreadLimit::value = currentWeaponSetting.spreadLimitValue;
+	Settings::Aimbot::StickyAim::enabled = currentWeaponSetting.stickyAimEnabled;
 
 	for (int i = (int) Hitbox::HITBOX_HEAD; i <= (int) Hitbox::HITBOX_ARMS; i++)
 		Settings::Aimbot::AutoWall::bones[i] = currentWeaponSetting.autoWallBones[i];
