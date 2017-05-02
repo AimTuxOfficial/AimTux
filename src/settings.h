@@ -474,6 +474,13 @@ namespace Settings
 			extern bool enabled;
 			extern int value;
 		}
+
+		namespace RandomDelay
+		{
+			extern bool enabled;
+			extern int min;
+			extern int max;
+		}
 	}
 
 	namespace AntiAim

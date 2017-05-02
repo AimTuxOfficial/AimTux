@@ -212,6 +212,9 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Triggerbot"]["Filters"]["legs"] = Settings::Triggerbot::Filters::legs;
 	settings["Triggerbot"]["Delay"]["enabled"] = Settings::Triggerbot::Delay::enabled;
 	settings["Triggerbot"]["Delay"]["value"] = Settings::Triggerbot::Delay::value;
+	settings["Triggerbot"]["RandomDelay"]["enabled"] = Settings::Triggerbot::RandomDelay::enabled;
+	settings["Triggerbot"]["RandomDelay"]["min"] = Settings::Triggerbot::RandomDelay::min;
+	settings["Triggerbot"]["RandomDelay"]["max"] = Settings::Triggerbot::RandomDelay::max;
 
 	settings["AntiAim"]["Yaw"]["enabled"] = Settings::AntiAim::Yaw::enabled;
 	settings["AntiAim"]["Yaw"]["type"] = (int) Settings::AntiAim::Yaw::type;
@@ -604,6 +607,9 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["Triggerbot"]["Filters"]["legs"], &Settings::Triggerbot::Filters::legs);
 	GetVal(settings["Triggerbot"]["Delay"]["enabled"], &Settings::Triggerbot::Delay::enabled);
 	GetVal(settings["Triggerbot"]["Delay"]["value"], &Settings::Triggerbot::Delay::value);
+	GetVal(settings["Triggerbot"]["RandomDelay"]["enable"], &Settings::Triggerbot::RandomDelay::enabled);
+	GetVal(settings["Triggerbot"]["RandomDelay"]["min"], &Settings::Triggerbot::RandomDelay::min);
+	GetVal(settings["Triggerbot"]["RandomDelay"]["max"], &Settings::Triggerbot::RandomDelay::max);
 
 	GetVal(settings["AntiAim"]["Yaw"]["enabled"], &Settings::AntiAim::Yaw::enabled);
 	GetVal(settings["AntiAim"]["Yaw"]["type"], (int*)& Settings::AntiAim::Yaw::type);
