@@ -54,6 +54,7 @@ enum class AntiAimType_Y : int
 	SPIN_SLOW,
 	SPIN_FAST,
 	JITTER,
+	CASUALJITTER,
 	BACKJITTER,
 	SIDE,
 	BACKWARDS,

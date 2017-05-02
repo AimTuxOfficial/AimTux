@@ -184,8 +184,11 @@ void Aimbot::RenderTab()
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
+				if (!closestbone)
+				{
 				if (ImGui::Combo("##AIMTARGET", (int*)& bone, targets, IM_ARRAYSIZE(targets)))
 					UI::UpdateWeaponSettings();
+				}
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
