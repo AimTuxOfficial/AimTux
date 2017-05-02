@@ -88,6 +88,7 @@ void UI::ReloadWeaponSettings()
 	spreadLimitValue = Settings::Aimbot::weapons.at(index).spreadLimitValue;
 	autoAimRealDistance = Settings::Aimbot::weapons.at(index).autoAimRealDistance;
 	autoSlow = Settings::Aimbot::weapons.at(index).autoSlow;
+	stickyAimEnabled = Settings::Aimbot::weapons.at(index).stickyAimEnabled;
 	predEnabled = Settings::Aimbot::weapons.at(index).predEnabled;
 	autoSlowMinDamage = Settings::Aimbot::weapons.at(index).autoSlowMinDamage;
 
