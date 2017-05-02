@@ -18,10 +18,7 @@ A fully featured internal hack for *CounterStrike : Global Offensive* written in
 
 #### Download the dependencies required to build AimTux:
 
-__Ubuntu-Based / Debian:__
-```bash
-sudo apt-get install cmake g++ gdb git libsdl2-dev zlib1g-dev liblua5.3
-```
+
 
 If you're having problems compiling make sure you've got the latest version of `g++`.
 
@@ -29,6 +26,10 @@ If you're having problems compiling make sure you've got the latest version of `
 
 ==================
 
+__Ubuntu-Based / Debian:__
+```bash
+sudo apt-get install cmake g++ gdb git libsdl2-dev zlib1g-dev liblua5.3
+```
 __Arch:__
 ```bash
 sudo pacman -S base-devel cmake gdb git sdl2 (Lua Development Libraries >=5.3)
@@ -65,7 +66,7 @@ cmake .
 
 #### Compile with make
 
-**Note:** _The `4` in the command below specifies the amount of cpu "threads" or "cores" you wish to compile with (more = faster)._
+**Note:** _The `4` in the command below specifies the amount of cpu threads you wish to compile with (more = faster)._
 
 ```bash
 make -j 4
@@ -89,7 +90,7 @@ Now, you can inject the hack with the `load` script
 
 You might be prompted to enter in your password, this is because the injection script requires root access.
 
-You should see a lot of text being printed out, most of which is not important,
+The text printed out during injection is not important. 
 
 If the injection was successful you'll see a message at the bottom saying `Successfully injected!`, however, if the message says `Injection failed`, then you've most likely done something wrong.
 
@@ -131,7 +132,7 @@ And it will download and compile without any effort.
 Configs are stored in a hidden directory in your home folder. Specifically 
 
 ```
-~/.config/AimTux
+~/.config/Fuzion
 ```
 
 Each `config.json` is stored in a seperately named folder (The name you see in-game, in the config window). 
@@ -160,7 +161,7 @@ To add a config, copy the folder containing it to `~/.config/FuzionGH`
 ![fuzion](http://i.imgur.com/5fZDVHa.jpg)
 
 ## Credits
-Special thanks to the Original AimTux projecT: https://github.com/AimTuxOfficial/AimTux
+Special thanks to the Original AimTux project: https://github.com/AimTuxOfficial/AimTux
 
 Special thanks to [@aixxe](http://www.github.com/aixxe/) ([aixxe.net](http://www.aixxe.net)) for the skin changer and with the initial project, as well as helping this project with source code (Available on [@aixxe's](http://www.github.com/aixxe/) github page.)
 
