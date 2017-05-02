@@ -32,7 +32,7 @@ void Triggerbot::RenderTab()
 					SetTooltip("Adds a random delay to your Triggerbot");
 					if (Settings::Triggerbot::RandomDelay::enabled && Settings::Triggerbot::RandomDelay::last > 0)
 					{
-						ImGui::TextWrapped("Last radom delay: %dms", Settings::Triggerbot::RandomDelay::last);
+						ImGui::TextWrapped("Last random delay: %dms", Settings::Triggerbot::RandomDelay::last);
 					}
 				}
 				if (!Settings::Triggerbot::RandomDelay::enabled)
