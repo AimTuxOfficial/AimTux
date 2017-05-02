@@ -9,7 +9,7 @@ Want to chat or play with other AimTux users? Join us on Gitter!
 
 ## What is AimTux-Fuzion?
 
-AimTux is a fully featured internal hack for *CounterStrike : Global Offensive* written in C++.
+A fully featured internal hack for *CounterStrike : Global Offensive* written in C++.
 
 
 ## Compiling
@@ -75,7 +75,7 @@ make -j 4
 
 First of all, make sure CSGO is open, it doesn't matter whether you're in game or not. However, it is not recommended to inject while CSGO is loading into a map. 
 
-Navigate to the directory where AimTux was built if you haven't ready.
+Navigate to the directory where AimTux-Fuzion was built if you haven't ready.
 
 ```bash
 cd AimTux
@@ -160,6 +160,8 @@ To add a config, copy the folder containing it to `~/.config/FuzionGH`
 ![fuzion](http://i.imgur.com/5fZDVHa.jpg)
 
 ## Credits
+Special thanks to the Original AimTux projecT: https://github.com/AimTuxOfficial/AimTux
+
 Special thanks to [@aixxe](http://www.github.com/aixxe/) ([aixxe.net](http://www.aixxe.net)) for the skin changer and with the initial project, as well as helping this project with source code (Available on [@aixxe's](http://www.github.com/aixxe/) github page.)
 
 This project was also originally based upon Atex's [Linux Basehook](http://unknowncheats.me/forum/counterstrike-global-offensive/181878-linux-basehook.html).
