@@ -187,7 +187,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 		if (Settings::Aimbot::AutoAim::closestBone) /* Credits to: https://github.com/goldenguy00 ( study! study! study! :^) ) */
 		{
 			realDistance = bestRealDistance;
-			Bone tempBone = Bone::INVALID; // used to prevent bone snapping while going through the bones.
+			Bone tempBone = Bone::INVALID;
 			for(int bone = (int)Bone::BONE_HEAD; bone >= (int)Bone::BONE_HIP; bone--) // i'm starting at the head, most players will be aiming head-levelish
 			{
 				Vector cbVecTarget = player->GetBonePosition(bone);
@@ -354,7 +354,7 @@ void Aimbot::Smooth(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd)
 	if (Settings::Aimbot::silent)
 		return;
 
-	QAngle viewAngles = QAngle(0.f, 0.f, 0.f);
+	QAngle viewAngles;
 	engine->GetViewAngles(viewAngles);
 
 	QAngle delta = angle - viewAngles;
@@ -369,15 +369,15 @@ void Aimbot::Smooth(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd)
 
 	QAngle toChange = QAngle();
 
-	int type = (int) Settings::Aimbot::Smooth::type;
+	SmoothType type = Settings::Aimbot::Smooth::type;
 
-	if (type == (int) SmoothType::SLOW_END)
-		toChange = delta - delta * smooth;
-	else if (type == (int) SmoothType::CONSTANT || type == (int) SmoothType::FAST_END)
+	if (type == SmoothType::SLOW_END)
+		toChange = delta - (delta * smooth);
+	else if (type == SmoothType::CONSTANT || type == SmoothType::FAST_END)
 	{
 		float coeff = (1.0f - smooth) / delta.Length() * 4.f;
 
-		if (type == (int) SmoothType::FAST_END)
+		if (type == SmoothType::FAST_END)
 			coeff = powf(coeff, 2.f) * 10.f;
 
 		coeff = std::min(1.f, coeff);

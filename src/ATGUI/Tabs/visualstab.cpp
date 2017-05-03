@@ -10,7 +10,13 @@ void Visuals::RenderTab()
 	const char* ChamsTypes[] = { "Normal", "Normal - XQZ", "Flat", "Flat - XQZ" };
 	const char* ArmsTypes[] = { "Default", "Wireframe", "None" };
 
-	ImGui::Checkbox("Enabled", &Settings::ESP::enabled);
+	ImGui::Columns(2, NULL, true);
+	{
+		ImGui::Checkbox("Enabled", &Settings::ESP::enabled);
+		ImGui::NextColumn();
+		ImGui::Text("Only on Key");
+		UI::KeyBindButton(&Settings::ESP::key);
+	}
 	ImGui::Separator();
 
 	ImGui::Columns(2, NULL, true);

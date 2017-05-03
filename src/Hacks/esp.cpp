@@ -4,6 +4,7 @@
 #include "../Utils/skins.h"
 
 bool Settings::ESP::enabled = false;
+ButtonCode_t Settings::ESP::key = ButtonCode_t::KEY_Z;
 TeamColorType Settings::ESP::teamColorType = TeamColorType::RELATIVE;
 HealthColorVar Settings::ESP::enemyColor = ImColor(240, 60, 60, 255);
 HealthColorVar Settings::ESP::enemyVisibleColor = ImColor(240, 185, 60, 255);
@@ -1099,7 +1100,7 @@ bool ESP::PrePaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_for
 
 void ESP::Paint()
 {
-	if (!Settings::ESP::enabled)
+	if (!Settings::ESP::enabled && !inputSystem->IsButtonDown(Settings::ESP::key))
 		return;
 
 	if (!engine->IsInGame())
