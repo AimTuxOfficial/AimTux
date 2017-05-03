@@ -200,14 +200,15 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 	{
 		C_BasePlayer* player = (C_BasePlayer*) entityList->GetClientEntity(i);
 		Bone targetBone = Settings::Aimbot::bone;
+		C_BasePlayer* temp = savedTarget;
 
 		if (Settings::Aimbot::StickyAim::enabled 
-			&& savedTarget
-			&& !player->GetDormant()
-			&& !player->GetImmune()
-			&& savedTarget->GetAlive()
-			&& Entity::IsVisible(savedTarget, targetBone))
-			player = savedTarget;
+			&& temp
+			&& !temp->GetDormant()
+			&& !temp->GetImmune()
+			&& temp->GetAlive()
+			&& Entity::IsVisible(temp, targetBone))
+			player = temp;
 		else
 		if (!player
 			|| player == localplayer
