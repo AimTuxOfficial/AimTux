@@ -587,6 +587,7 @@ namespace Settings
 			extern bool reloading;
 			extern bool flashed;
 			extern bool planting;
+			extern bool hasBomb;
 			extern bool hasDefuser;
 			extern bool defusing;
 			extern bool grabbingHostage;

@@ -281,6 +281,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["ESP"]["Info"]["reloading"] = Settings::ESP::Info::reloading;
 	settings["ESP"]["Info"]["flashed"] = Settings::ESP::Info::flashed;
 	settings["ESP"]["Info"]["planting"] = Settings::ESP::Info::planting;
+	settings["ESP"]["Info"]["has_bomb"] = Settings::ESP::Info::hasBomb;
 	settings["ESP"]["Info"]["has_defuser"] = Settings::ESP::Info::hasDefuser;
 	settings["ESP"]["Info"]["defusing"] = Settings::ESP::Info::defusing;
 	settings["ESP"]["Info"]["grabbing_hostage"] = Settings::ESP::Info::grabbingHostage;
@@ -676,6 +677,7 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["ESP"]["Info"]["reloading"], &Settings::ESP::Info::reloading);
 	GetVal(settings["ESP"]["Info"]["flashed"], &Settings::ESP::Info::flashed);
 	GetVal(settings["ESP"]["Info"]["planting"], &Settings::ESP::Info::planting);
+	GetVal(settings["ESP"]["Info"]["has_bomb"], &Settings::ESP::Info::hasBomb);
 	GetVal(settings["ESP"]["Info"]["has_defuser"], &Settings::ESP::Info::hasDefuser);
 	GetVal(settings["ESP"]["Info"]["defusing"], &Settings::ESP::Info::defusing);
 	GetVal(settings["ESP"]["Info"]["grabbing_hostage"], &Settings::ESP::Info::grabbingHostage);
