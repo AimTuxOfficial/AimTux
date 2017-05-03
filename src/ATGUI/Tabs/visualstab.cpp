@@ -103,10 +103,10 @@ void Visuals::RenderTab()
 				SetTooltip("Show whether they are flashed");
 				ImGui::Checkbox("Defuse Kit", &Settings::ESP::Info::hasDefuser);
 				SetTooltip("Show whether they have a defuse kit");
+				ImGui::Checkbox("Bomb Carrier", &Settings::ESP::Info::hasBomb);
+				SetTooltip("Show player carrying a bomb");
 				ImGui::Checkbox("Grabbing Hostage", &Settings::ESP::Info::grabbingHostage);
 				SetTooltip("Show whether they are grabbing a hostage");
-				ImGui::Checkbox("Location", &Settings::ESP::Info::location);
-				SetTooltip("Show location");
 			}
 			ImGui::NextColumn();
 			{
@@ -124,6 +124,8 @@ void Visuals::RenderTab()
 				SetTooltip("Show whether they are defusing");
 				ImGui::Checkbox("Rescuing Hostage", &Settings::ESP::Info::rescuing);
 				SetTooltip("Show whether they are rescuing a hostage");
+				ImGui::Checkbox("Location", &Settings::ESP::Info::location);
+				SetTooltip("Show location");
 			}
 
 			ImGui::Columns(1);
