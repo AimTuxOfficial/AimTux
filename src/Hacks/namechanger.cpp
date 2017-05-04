@@ -87,7 +87,7 @@ void NameChanger::BeginFrame(float frameTime)
 		switch (NameChanger::type)
 		{
 			case NC_Type::NC_NORMAL:
-				SetName(Util::PadStringRight("\230AIMTUX.NET", strlen("\230AIMTUX.NET") + RandomInt(10, 50)));
+				SetName(Util::PadStringRight("\n", strlen("\n") + RandomInt(10, 50)));
 				break;
 			case NC_Type::NC_RAINBOW:
 				SetName(Util::PadStringRight(Rainbowify(origName), origName.size() + RandomInt(10, 50)));
