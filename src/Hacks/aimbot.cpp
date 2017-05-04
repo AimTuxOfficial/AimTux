@@ -17,6 +17,7 @@ bool Settings::Aimbot::AutoAim::enabled = false;
 float Settings::Aimbot::AutoAim::fov = 180.0f;
 bool Settings::Aimbot::AutoAim::realDistance = false;
 bool Settings::Aimbot::AutoAim::closestBone = false;
+bool Settings::Aimbot::AutoAim::engageLock = false;
 bool Settings::Aimbot::AutoWall::enabled = false;
 float Settings::Aimbot::AutoWall::value = 10.0f;
 bool Settings::Aimbot::AutoWall::bones[] = { true, false, false, false, false, false };
@@ -43,6 +44,7 @@ bool Settings::Aimbot::Prediction::enabled = false;
 
 bool Aimbot::aimStepInProgress = false;
 std::vector<int64_t> Aimbot::friends = { };
+std::vector<long> killTimes = { 0 }; // the Epoch time from when we kill someone
 
 bool shouldAim;
 QAngle AimStepLastAngle;
@@ -58,7 +60,7 @@ std::unordered_map<Hitbox, std::vector<const char*>, Util::IntHash<Hitbox>> hitb
 };
 
 std::unordered_map<ItemDefinitionIndex, AimbotWeapon_t, Util::IntHash<ItemDefinitionIndex>> Settings::Aimbot::weapons = {
-		{ ItemDefinitionIndex::INVALID, { false, false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f, false, false, false, false, false, false, false, false, 10.0f, false, false, 5.0f } },
+		{ ItemDefinitionIndex::INVALID, { false, false, false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f, false, false, false, false, false, false, false, false, 10.0f, false, false, 5.0f } },
 };
 
 static void ApplyErrorToAngle(QAngle* angles, float margin)
@@ -135,6 +137,8 @@ Vector VelocityExtrapolate(C_BasePlayer* player, Vector aimPos)
 	return aimPos + (player->GetVelocity() * globalVars->interval_per_tick);
 }
 
+
+
 C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, float& bestDamage, AimTargetType aimTargetType = AimTargetType::FOV)
 {
 	if (Settings::Aimbot::AutoAim::realDistance)
@@ -142,6 +146,8 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 
 	bestBone = Settings::Aimbot::bone;
 
+	static C_BasePlayer* lockedOn = NULL;
+	static Bone lockedOnBone = Bone::INVALID;
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	C_BasePlayer* closestEntity = NULL;
 
@@ -150,6 +156,25 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 	float bestDistance = 8192.0f; // Damage falls off to 0 after this distance.
 	int bestHp = 100;
 
+	if( lockedOn )
+	{
+		if (!(cmd->buttons & IN_ATTACK) || lockedOn->GetDormant())//|| !Entity::IsVisible(lockedOn, bestBone, 180.f, Settings::ESP::Filters::smokeCheck))
+		{
+			lockedOn = NULL;
+			lockedOnBone = Bone::INVALID;
+		}
+		else
+		{
+			if( !lockedOn->GetAlive() )
+				return NULL;
+
+			if ( lockedOnBone != Bone::INVALID )
+			{
+				bestBone = lockedOnBone;
+			}
+			return lockedOn;
+		}
+	}
 	for (int i = 1; i < engine->GetMaxClients(); ++i)
 	{
 		C_BasePlayer* player = (C_BasePlayer*) entityList->GetClientEntity(i);
@@ -218,6 +243,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 			if( tempBone == Bone::INVALID )
 				continue;
 			bestBone = tempBone;
+			lockedOnBone = tempBone;
 		}
 
 		if (aimTargetType == AimTargetType::DISTANCE && distance > bestDistance)
@@ -234,6 +260,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 
 		if (visible && !Settings::Aimbot::AutoWall::enabled && !Entity::IsVisible(player, Settings::Aimbot::bone))
 			continue;
+
 
 		if (Settings::Aimbot::AutoWall::enabled)
 		{
@@ -256,7 +283,24 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 			bestHp = hp;
 		}
 	}
+	if( Settings::Aimbot::AutoAim::engageLock )
+	{
+		if( !lockedOn )
+		{
+			if( (cmd->buttons & IN_ATTACK) )
+			{
+				if( Util::GetEpochTime() - killTimes.back() > 100 ) // don't lock on if we got a kill under 100ms ago.
+				{
+					lockedOn = closestEntity; // This is to prevent a Rare condition when you one-tap someone without the aimbot, it will lock on to another target.
+				}
+			}
+			else
+			{
+				return NULL;
+			}
+		}
 
+	}
 	return closestEntity;
 }
 
@@ -633,13 +677,25 @@ void Aimbot::FireGameEvent(IGameEvent* event)
 	if (!event)
 		return;
 
-	if (strcmp(event->GetName(), "player_connect_full") != 0 && strcmp(event->GetName(), "cs_game_disconnected") != 0)
-		return;
+	if (strcmp(event->GetName(), "player_connect_full") == 0 || strcmp(event->GetName(), "cs_game_disconnected") == 0 )
+	{
+		if (event->GetInt("userid") && engine->GetPlayerForUserID(event->GetInt("userid")) != engine->GetLocalPlayer())
+			return;
+		Aimbot::friends.clear();
+	}
+	if( strcmp(event->GetName(), "player_death") == 0 )
+	{
+		int attacker_id = engine->GetPlayerForUserID(event->GetInt("attacker"));
+		int deadPlayer_id = engine->GetPlayerForUserID(event->GetInt("userid"));
 
-	if (event->GetInt("userid") && engine->GetPlayerForUserID(event->GetInt("userid")) != engine->GetLocalPlayer())
-		return;
+		if (attacker_id == deadPlayer_id) // suicide
+			return;
 
-	Aimbot::friends.clear();
+		if (attacker_id != engine->GetLocalPlayer())
+			return;
+
+		killTimes.push_back(Util::GetEpochTime());
+	}
 }
 
 void Aimbot::UpdateValues()
@@ -669,6 +725,7 @@ void Aimbot::UpdateValues()
 	Settings::Aimbot::AutoAim::enabled = currentWeaponSetting.autoAimEnabled;
 	Settings::Aimbot::AutoAim::fov = currentWeaponSetting.autoAimFov;
 	Settings::Aimbot::AutoAim::closestBone = currentWeaponSetting.closestBone;
+	Settings::Aimbot::AutoAim::engageLock = currentWeaponSetting.engageLock;
 	Settings::Aimbot::AimStep::enabled = currentWeaponSetting.aimStepEnabled;
 	Settings::Aimbot::AimStep::value = currentWeaponSetting.aimStepValue;
 	Settings::Aimbot::AutoPistol::enabled = currentWeaponSetting.autoPistolEnabled;

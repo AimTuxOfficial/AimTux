@@ -5,6 +5,7 @@ static bool enabled = false;
 static bool silent = false;
 static bool friendly = false;
 static bool closestBone = false;
+static bool engageLock = false;
 static Bone bone = Bone::BONE_HEAD;
 static ButtonCode_t aimkey = ButtonCode_t::MOUSE_MIDDLE;
 static bool aimkeyOnly = false;
@@ -47,6 +48,7 @@ void UI::ReloadWeaponSettings()
 	silent = Settings::Aimbot::weapons.at(index).silent;
 	friendly = Settings::Aimbot::weapons.at(index).friendly;
 	closestBone = Settings::Aimbot::weapons.at(index).closestBone;
+	engageLock = Settings::Aimbot::weapons.at(index).engageLock;
 	bone = Settings::Aimbot::weapons.at(index).bone;
 	aimkey = Settings::Aimbot::weapons.at(index).aimkey;
 	aimkeyOnly = Settings::Aimbot::weapons.at(index).aimkeyOnly;
@@ -88,7 +90,7 @@ void UI::UpdateWeaponSettings()
 		Settings::Aimbot::weapons[currentWeapon] = AimbotWeapon_t();
 
 	AimbotWeapon_t settings = {
-			enabled, silent, friendly, closestBone, bone, aimkey, aimkeyOnly,
+			enabled, silent, friendly, closestBone, engageLock, bone, aimkey, aimkeyOnly,
 			smoothEnabled, smoothValue, smoothType, smoothSaltEnabled, smoothSaltMultiplier,
 			errorMarginEnabled, errorMarginValue,
 			autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
@@ -178,6 +180,10 @@ void Aimbot::RenderTab()
 				if(ImGui::Checkbox("ClosestBone", &closestBone))
 					UI::UpdateWeaponSettings();
 				SetTooltip("Aim at the Bone closest to your Cursor\nInstead of Aiming for a certain bone.");
+
+				if(ImGui::Checkbox("EngageLock", &engageLock))
+					UI::UpdateWeaponSettings();
+				SetTooltip("Aimbot at one foe until you let go of trigger.\nAfter Killing them, Aimbot is disabled until you repress the Trigger");
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
