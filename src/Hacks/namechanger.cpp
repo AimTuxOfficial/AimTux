@@ -82,6 +82,8 @@ void NameChanger::BeginFrame(float frameTime)
 	timeStamp = currentTime_ms;
 	changes++;
 
+	SetName("\n\xAD\xAD\xAD");
+
 	if (changes >= 5)
 	{
 		switch (NameChanger::type)
@@ -102,7 +104,7 @@ void NameChanger::BeginFrame(float frameTime)
 		return;
 	}
 
-	SetName(Util::PadStringRight("AIMTUX.NET", strlen("AIMTUX.NET") + changes));
+	SetName(Util::PadStringRight("Hello!", strlen("Hello!") + changes));
 }
 
 void NameChanger::SetName(const char* name)
