@@ -224,8 +224,11 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 				return NULL;
 			}
 
+			if( Settings::Aimbot::AutoAim::closestBone )
+			{
+				bestBone = GetClosestBone(cmd, localplayer, lockedOn, aimTargetType);
+			}
 
-			bestBone = GetClosestBone(cmd, localplayer, lockedOn, aimTargetType);
 			return lockedOn;
 		}
 	}
@@ -323,6 +326,8 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 		}
 
 	}
+	if( bestBone == Bone::INVALID )
+		return NULL;
 	return closestEntity;
 }
 
@@ -662,8 +667,42 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 				/*
 				IEngineClient::player_info_t playerInfo;
 				engine->GetPlayerInfo(player->GetIndex(), &playerInfo);
-				cvar->ConsoleDPrintf("Aiming at: %s\n", playerInfo.name);
+				cvar->ConsoleDPrintf("Aiming at: %s's ", playerInfo.name);
+				switch (aw_bone)
+				{
+					case Bone::INVALID:
+						cvar->ConsoleDPrintf("[INVALID]\n");
+						break;
+					case Bone::BONE_PELVIS:
+						cvar->ConsoleDPrintf("[PELVIS]\n");
+						break;
+					case Bone::LEAN_ROOT:
+						cvar->ConsoleDPrintf("[LEAN_ROOT]\n");
+						break;
+					case Bone::CAM_DRIVER:
+						cvar->ConsoleDPrintf("[CAM_DRIVER]\n");
+						break;
+					case Bone::BONE_HIP:
+						cvar->ConsoleDPrintf("[HIP]\n");
+						break;
+					case Bone::BONE_LOWER_SPINAL_COLUMN:
+						cvar->ConsoleDPrintf("[LOWER_SPINE]\n");
+						break;
+					case Bone::BONE_MIDDLE_SPINAL_COLUMN:
+						cvar->ConsoleDPrintf("[MIDDLE_SPINE]\n");
+						break;
+					case Bone::BONE_UPPER_SPINAL_COLUMN:
+						cvar->ConsoleDPrintf("[UPPER_SPINE]\n");
+						break;
+					case Bone::BONE_NECK:
+						cvar->ConsoleDPrintf("[NECK]\n");
+						break;
+					case Bone::BONE_HEAD:
+						cvar->ConsoleDPrintf("[HEAD]\n");
+						break;
+				}
 				*/
+
 				if (Settings::Aimbot::Prediction::enabled)
 				{
 					pVecTarget = VelocityExtrapolate(localplayer, pVecTarget); // get eye pos next tick
