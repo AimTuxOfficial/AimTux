@@ -217,7 +217,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 		{
 			if( !lockedOn->GetAlive() )
 			{
-				if(Util::GetEpochTime() - killTimes.back() > 1000) // if we got the kill over a second ago, go ahead and lock onto another
+				if(Util::GetEpochTime() - killTimes.back() > 700) // if we got the kill over a second ago, go ahead and lock onto another
 				{
 					lockedOn = NULL;
 				}
