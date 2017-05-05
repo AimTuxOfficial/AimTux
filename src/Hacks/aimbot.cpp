@@ -227,6 +227,10 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 			if( Settings::Aimbot::AutoAim::closestBone )
 			{
 				bestBone = GetClosestBone(cmd, localplayer, lockedOn, aimTargetType);
+				if( bestBone == Bone::INVALID )
+				{
+					return NULL;
+				}
 			}
 
 			return lockedOn;
