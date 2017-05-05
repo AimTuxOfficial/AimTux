@@ -95,7 +95,7 @@ int __attribute__((constructor)) FuzionInit()
 
 	Fonts::SetupFonts();
 
-	Settings::LoadSettings();
+	//Settings::LoadSettings();
 
 	srand(time(NULL)); // Seed random # Generator so we can call rand() later
 

@@ -137,7 +137,59 @@ Vector VelocityExtrapolate(C_BasePlayer* player, Vector aimPos)
 	return aimPos + (player->GetVelocity() * globalVars->interval_per_tick);
 }
 
+/* Credits to: https://github.com/goldenguy00 ( study! study! study! :^) ) */
+Bone GetClosestBone( CUserCmd* cmd, C_BasePlayer* localPlayer, C_BasePlayer* enemy, AimTargetType aimTargetType = AimTargetType::FOV)
+{
+	QAngle viewAngles;
+	engine->GetViewAngles(viewAngles);
 
+	float tempFov = Settings::Aimbot::AutoAim::fov;
+	float tempDistance = Settings::Aimbot::AutoAim::fov * 5.f;
+
+	Bone tempBone = Bone::INVALID;
+
+	Vector pVecTarget = localPlayer->GetEyePosition();
+
+	for(int bone = (int)Bone::BONE_HEAD; bone >= (int)Bone::BONE_HIP; bone--) // i'm starting at the head, most players will be aiming head-levelish
+	{
+		Vector cbVecTarget = enemy->GetBonePosition(bone);
+
+		if( aimTargetType == AimTargetType::FOV )
+		{
+			float cbFov = Math::GetFov(viewAngles, Math::CalcAngle(pVecTarget, cbVecTarget));
+
+			if( cbFov < tempFov )
+			{
+				tempFov = cbFov;
+				tempBone = (Bone)bone;
+			}
+		}
+		else if( aimTargetType == AimTargetType::REAL_DISTANCE )
+		{
+			float cbDistance = pVecTarget.DistTo(cbVecTarget);
+			float cbRealDistance = GetRealDistanceFOV(cbDistance, Math::CalcAngle(pVecTarget, cbVecTarget), cmd);
+
+			if( cbRealDistance < tempDistance )
+			{
+				tempDistance = cbRealDistance;
+				tempBone = (Bone)bone;
+			}
+		}
+		/* Head Bias code. Not Ready yet.
+		if( aimTargetType == AimTargetType::REAL_DISTANCE && realDistance < bestRealDistance )
+		{
+			bestBone = (Bone)i;
+			break;
+		} else if( aimTargetType == AimTargetType::FOV && fov < bestFov )
+		{
+			bestBone = (Bone)i;
+			break;
+		}
+		*/
+	}
+
+	return tempBone;
+}
 
 C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, float& bestDamage, AimTargetType aimTargetType = AimTargetType::FOV)
 {
@@ -147,7 +199,6 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 	bestBone = Settings::Aimbot::bone;
 
 	static C_BasePlayer* lockedOn = NULL;
-	static Bone lockedOnBone = Bone::INVALID;
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	C_BasePlayer* closestEntity = NULL;
 
@@ -161,17 +212,20 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 		if (!(cmd->buttons & IN_ATTACK) || lockedOn->GetDormant())//|| !Entity::IsVisible(lockedOn, bestBone, 180.f, Settings::ESP::Filters::smokeCheck))
 		{
 			lockedOn = NULL;
-			lockedOnBone = Bone::INVALID;
 		}
 		else
 		{
 			if( !lockedOn->GetAlive() )
-				return NULL;
-
-			if ( lockedOnBone != Bone::INVALID )
 			{
-				bestBone = lockedOnBone;
+				if(Util::GetEpochTime() - killTimes.back() > 1000) // if we got the kill over a second ago, go ahead and lock onto another
+				{
+					lockedOn = NULL;
+				}
+				return NULL;
 			}
+
+
+			bestBone = GetClosestBone(cmd, localplayer, lockedOn, aimTargetType);
 			return lockedOn;
 		}
 	}
@@ -209,41 +263,9 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 		float realDistance = GetRealDistanceFOV(distance, Math::CalcAngle(pVecTarget, eVecTarget), cmd);
 		int hp = player->GetHealth();
 
-		if (Settings::Aimbot::AutoAim::closestBone) /* Credits to: https://github.com/goldenguy00 ( study! study! study! :^) ) */
+		if (Settings::Aimbot::AutoAim::closestBone)
 		{
-			realDistance = bestRealDistance;
-			Bone tempBone = Bone::INVALID;
-			for(int bone = (int)Bone::BONE_HEAD; bone >= (int)Bone::BONE_HIP; bone--) // i'm starting at the head, most players will be aiming head-levelish
-			{
-				Vector cbVecTarget = player->GetBonePosition(bone);
-				float cbDistance = pVecTarget.DistTo(cbVecTarget);
-				float cbFov = Math::GetFov(viewAngles, Math::CalcAngle(pVecTarget, cbVecTarget));
-				float cbRealDistance = GetRealDistanceFOV(cbDistance, Math::CalcAngle(pVecTarget, cbVecTarget), cmd);
-
-				if(cbRealDistance < realDistance)
-				{
-					distance = cbDistance;
-					fov = cbFov;
-					realDistance = cbRealDistance;
-					tempBone = (Bone)bone;
-
-					/* Head Bias code. Not Ready yet.
-					if( aimTargetType == AimTargetType::REAL_DISTANCE && realDistance < bestRealDistance )
-					{
-						bestBone = (Bone)i;
-						break;
-					} else if( aimTargetType == AimTargetType::FOV && fov < bestFov )
-					{
-						bestBone = (Bone)i;
-						break;
-					}
-					*/
-				}
-			}
-			if( tempBone == Bone::INVALID )
-				continue;
-			bestBone = tempBone;
-			lockedOnBone = tempBone;
+			bestBone = GetClosestBone(cmd, localplayer, player, aimTargetType);
 		}
 
 		if (aimTargetType == AimTargetType::DISTANCE && distance > bestDistance)
@@ -289,7 +311,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 		{
 			if( (cmd->buttons & IN_ATTACK) )
 			{
-				if( Util::GetEpochTime() - killTimes.back() > 100 ) // don't lock on if we got a kill under 100ms ago.
+				if( Util::GetEpochTime() - killTimes.back() > 100 ) // if we haven't gotten a kill in under 100ms.
 				{
 					lockedOn = closestEntity; // This is to prevent a Rare condition when you one-tap someone without the aimbot, it will lock on to another target.
 				}
@@ -637,12 +659,19 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 
 			if (shouldAim)
 			{
+				/*
+				IEngineClient::player_info_t playerInfo;
+				engine->GetPlayerInfo(player->GetIndex(), &playerInfo);
+				cvar->ConsoleDPrintf("Aiming at: %s\n", playerInfo.name);
+				*/
 				if (Settings::Aimbot::Prediction::enabled)
 				{
 					pVecTarget = VelocityExtrapolate(localplayer, pVecTarget); // get eye pos next tick
 					eVecTarget = VelocityExtrapolate(player, eVecTarget); // get target pos next tick
 				}
 				angle = Math::CalcAngle(pVecTarget, eVecTarget);
+
+				//cvar->ConsoleDPrintf("Raw Angle = (%.2f, %.2f, %.2f)\n", angle.x, angle.y, angle.z);
 
 				if (Settings::Aimbot::ErrorMargin::enabled)
 					ApplyErrorToAngle(&angle, Settings::Aimbot::ErrorMargin::value);

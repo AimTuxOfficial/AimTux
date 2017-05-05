@@ -954,6 +954,7 @@ void Settings::LoadConfig(std::string path)
 
 }
 
+/*
 void Settings::LoadSettings()
 {
 	pstring directory = getenv("HOME");
@@ -967,7 +968,7 @@ void Settings::LoadSettings()
 	if (!DoesDirectoryExist(directory.c_str()))
 		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 }
-
+*/
 
 void Settings::SaveGrenadeInfo(std::string path)
 {
