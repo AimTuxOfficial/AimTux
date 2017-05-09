@@ -423,7 +423,7 @@ void ESP::DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info
 	bool bIsVisible = false;
 	if (Settings::ESP::Filters::visibilityCheck || Settings::ESP::Filters::legit)
 	{
-		bIsVisible = Entity::IsVisible(player, Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck);
+		bIsVisible = Entity::IsVisible(player, (int)Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck);
 		if (!bIsVisible && Settings::ESP::Filters::legit)
 			return;
 	}
@@ -881,7 +881,7 @@ void ESP::DrawTracer(C_BasePlayer* player)
 	else if (Settings::ESP::Tracers::type == TracerType::BOTTOM)
 		y = ScreenHeight;
 
-	bool bIsVisible = Entity::IsVisible(player, Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck);
+	bool bIsVisible = Entity::IsVisible(player, (int)Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck);
 	Draw::Line((int)(src.x), (int)(src.y), x, y, Color::FromImColor(GetESPPlayerColor(player, bIsVisible)));
 }
 
@@ -894,9 +894,21 @@ void ESP::DrawHeaddot(C_BasePlayer* player)
 
 	bool bIsVisible = false;
 	if (Settings::ESP::Filters::visibilityCheck || Settings::ESP::Filters::legit)
-		bIsVisible = Entity::IsVisible(player, Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck);
+		bIsVisible = Entity::IsVisible(player, (int)Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck);
 
 	Draw::FilledCircle(Vector2D(head2D.x, head2D.y), 10, Settings::ESP::HeadDot::size, Color::FromImColor(GetESPPlayerColor(player, bIsVisible)));
+	/*
+	for( int bone = 127; bone >= (int)Bone::BONE_HIP; bone-- )
+	{
+		Vector bone2D;
+		Vector bone3D = player->GetBonePosition(bone);
+		if( debugOverlay->ScreenPosition(Vector(bone3D.x, bone3D.y, bone3D.z), bone2D))
+			continue;
+		char text[4]; // < 999
+		snprintf(text, sizeof(text), "%d", bone);
+		Draw::Text(Vector2D(bone2D.x, bone2D.y), text, esp_font, Color::FromImColor(GetESPPlayerColor(player, bIsVisible)));
+	}
+	*/
 }
 
 void ESP::CollectFootstep(int iEntIndex, const char *pSample)
@@ -948,7 +960,7 @@ void ESP::DrawSounds()
 
 		bool bIsVisible = false;
 		if (Settings::ESP::Filters::visibilityCheck || Settings::ESP::Filters::legit)
-			bIsVisible = Entity::IsVisible(player, Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck);
+			bIsVisible = Entity::IsVisible(player, (int)Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck);
 
 		float percent = (float)diff / (float)Settings::ESP::Sounds::time;
 
@@ -1045,7 +1057,7 @@ void ESP::DrawGlow()
 			{
 				if (glow_object.m_pEntity->GetTeam() != localplayer->GetTeam())
 				{
-					if (Entity::IsVisible(player, Bone::BONE_HEAD))
+					if (Entity::IsVisible(player, (int)Bone::BONE_HEAD))
 						color = Settings::ESP::Glow::enemyVisibleColor.Color(player);
 					else
 						color = Settings::ESP::Glow::enemyColor.Color(player);

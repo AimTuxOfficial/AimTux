@@ -107,6 +107,100 @@ long Util::GetEpochTime()
 	return std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
 }
 
+ModelType Util::GetModelTypeID(C_BasePlayer* player)
+{
+	studiohdr_t* pStudioModel = modelInfo->GetStudioModel(player->GetModel());
+
+	switch( pStudioModel->numbones ) {
+		case 84: // Anarchists or Leet Krew
+			if (memchr(pStudioModel->name, 'h', sizeof(pStudioModel->name)) != NULL)// Anarchist
+			{
+				return ModelType::ANARCHIST;
+			}
+			else // Leet Krew
+			{
+				return ModelType::LEETKREW;
+			}
+		case 86: // Balkan, Phoenix, and Separatists
+			if (memchr(pStudioModel->name, 'h', sizeof(pStudioModel->name)) != NULL) // Phoenix
+			{
+				return ModelType::PHOENIX;
+			}
+			else if (memmem(pStudioModel->name, sizeof(pStudioModel->name), "ba", 2) != NULL) // balkan
+			{
+				return ModelType::BALKAN;
+			} else // Separatist
+			{
+				return ModelType::SEPARATIST;
+			}
+		case 89: // FBI, GSG, and SEALS
+			if (memchr(pStudioModel->name, 'f', sizeof(pStudioModel->name)) != NULL) // FBI
+			{
+				return ModelType::FBI;
+			}
+			else if( memmem(pStudioModel->name, sizeof(pStudioModel->name), "sg", 2) != NULL ) // GSG
+			{
+				return ModelType::GSG;
+			}
+			else // Seals
+			{
+				return ModelType::SEALS;
+			}
+		case 91: // SWAT, Professionals
+			if (memchr(pStudioModel->name, 'w', sizeof(pStudioModel->name)) != NULL) // SWAT
+			{
+				return ModelType::SWAT;
+			}
+			else // Professionals
+			{
+				return ModelType::PROFESSIONAL;
+			}
+		case 93: // GIGN
+			return ModelType::GIGN;
+		case 94: // IDF
+			return ModelType::IDF;
+		case 98: // SAS
+			return ModelType::SAS;
+		default:
+			return ModelType::UNKNOWN;
+	}
+}
+
+std::string Util::ModelTypeToString(ModelType model)
+{
+	switch( model )
+	{
+		case ModelType::FBI:
+			return std::string("FBI");
+		case ModelType::GIGN:
+			return std::string("GIGN");
+		case ModelType::GSG:
+			return std::string("GSG");
+		case ModelType::IDF:
+			return std::string("IDF");
+		case ModelType::SAS:
+			return std::string("SAS");
+		case ModelType::SEALS:
+			return std::string("SEALS");
+		case ModelType::SWAT:
+			return std::string("SWAT");
+		case ModelType::ANARCHIST:
+			return std::string("ANARCHIST");
+		case ModelType::BALKAN:
+			return std::string("BALKAN");
+		case ModelType::LEETKREW:
+			return std::string("LEETKREW");
+		case ModelType::PHOENIX:
+			return std::string("PHOENIX");
+		case ModelType::PROFESSIONAL:
+			return std::string("PROFESSIONAL");
+		case ModelType::SEPARATIST:
+			return std::string("SEPARATIST");
+		case ModelType::UNKNOWN:
+			return std::string("UNKNOWN");
+	}
+}
+
 ImColor Util::GetRainbowColor(float speed)
 {
 	speed = 0.002f * speed;

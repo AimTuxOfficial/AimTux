@@ -183,6 +183,9 @@ void Settings::LoadDefaultsOrSave(std::string path)
 		for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
 			weaponSetting["AutoWall"]["Bones"][bone] = i.second.autoWallBones[bone];
 
+		for (int bone = (int) DesiredBones::BONE_PELVIS; bone <= (int) DesiredBones::BONE_RIGHT_SOLE; bone++)
+			weaponSetting["DesiredBones"]["Bones"][bone] = i.second.desiredBones[bone];
+
 		weaponSetting["AutoAim"]["RealDistance"] = i.second.autoAimRealDistance;
 
 		#undef weaponSetting
@@ -583,7 +586,8 @@ void Settings::LoadConfig(std::string path)
 
 		for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
 			weapon.autoWallBones[bone] = weaponSetting["AutoWall"]["Bones"][bone].asBool();
-
+		for (int bone = (int) DesiredBones::BONE_PELVIS; bone <= (int) DesiredBones::BONE_RIGHT_SOLE; bone++)
+			weapon.desiredBones[bone] = weaponSetting["DesiredBones"]["Bones"][bone].asBool();
 		Settings::Aimbot::weapons.at(weaponID) = weapon;
 	}
 

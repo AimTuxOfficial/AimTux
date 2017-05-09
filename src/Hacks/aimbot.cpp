@@ -17,6 +17,12 @@ bool Settings::Aimbot::AutoAim::enabled = false;
 float Settings::Aimbot::AutoAim::fov = 180.0f;
 bool Settings::Aimbot::AutoAim::realDistance = false;
 bool Settings::Aimbot::AutoAim::closestBone = false;
+bool Settings::Aimbot::AutoAim::desiredBones[] = {true, true, true, true, true, true, true, // center mass
+							  false, false, false, false, false, false, false, // left arm
+							  false, false, false, false, false, false, false, // right arm
+							  false, false, false, false, false, // left leg
+							  false, false, false, false, false  // right leg
+};
 bool Settings::Aimbot::AutoAim::engageLock = false;
 bool Settings::Aimbot::AutoWall::enabled = false;
 float Settings::Aimbot::AutoWall::value = 10.0f;
@@ -138,7 +144,7 @@ Vector VelocityExtrapolate(C_BasePlayer* player, Vector aimPos)
 }
 
 /* Credits to: https://github.com/goldenguy00 ( study! study! study! :^) ) */
-Bone GetClosestBone( CUserCmd* cmd, C_BasePlayer* localPlayer, C_BasePlayer* enemy, AimTargetType aimTargetType = AimTargetType::FOV)
+int GetClosestBone( CUserCmd* cmd, C_BasePlayer* localPlayer, C_BasePlayer* enemy, AimTargetType aimTargetType = AimTargetType::FOV)
 {
 	QAngle viewAngles;
 	engine->GetViewAngles(viewAngles);
@@ -146,58 +152,103 @@ Bone GetClosestBone( CUserCmd* cmd, C_BasePlayer* localPlayer, C_BasePlayer* ene
 	float tempFov = Settings::Aimbot::AutoAim::fov;
 	float tempDistance = Settings::Aimbot::AutoAim::fov * 5.f;
 
-	Bone tempBone = Bone::INVALID;
+	int tempBone = (int)Bone::INVALID;
 
 	Vector pVecTarget = localPlayer->GetEyePosition();
 
-	for(int bone = (int)Bone::BONE_HEAD; bone >= (int)Bone::BONE_HIP; bone--) // i'm starting at the head, most players will be aiming head-levelish
+	ModelType enemyModel = Util::GetModelTypeID(enemy);
+
+	const std::map<int, int> *modelType;
+	switch( enemyModel )
 	{
-		Vector cbVecTarget = enemy->GetBonePosition(bone);
-
-		if( aimTargetType == AimTargetType::FOV )
-		{
-			float cbFov = Math::GetFov(viewAngles, Math::CalcAngle(pVecTarget, cbVecTarget));
-
-			if( cbFov < tempFov )
-			{
-				tempFov = cbFov;
-				tempBone = (Bone)bone;
-			}
-		}
-		else if( aimTargetType == AimTargetType::REAL_DISTANCE )
-		{
-			float cbDistance = pVecTarget.DistTo(cbVecTarget);
-			float cbRealDistance = GetRealDistanceFOV(cbDistance, Math::CalcAngle(pVecTarget, cbVecTarget), cmd);
-
-			if( cbRealDistance < tempDistance )
-			{
-				tempDistance = cbRealDistance;
-				tempBone = (Bone)bone;
-			}
-		}
-		/* Head Bias code. Not Ready yet.
-		if( aimTargetType == AimTargetType::REAL_DISTANCE && realDistance < bestRealDistance )
-		{
-			bestBone = (Bone)i;
+		case ModelType::FBI: /* Counter Terrorists */
+			modelType = &BoneMapCT_FBI;
 			break;
-		} else if( aimTargetType == AimTargetType::FOV && fov < bestFov )
-		{
-			bestBone = (Bone)i;
+		case ModelType::GIGN:
+			modelType = &BoneMapCT_GIGN;
 			break;
-		}
-		*/
+		case ModelType::GSG:
+			modelType = &BoneMapCT_GSG;
+			break;
+		case ModelType::IDF:
+			modelType = &BoneMapCT_IDF;
+			break;
+		case ModelType::SAS:
+			modelType = &BoneMapCT_SAS;
+			break;
+		case ModelType::SEALS:
+			modelType = &BoneMapCT_Seals;
+			break;
+		case ModelType::SWAT:
+			modelType = &BoneMapCT_SWAT;
+			break;
+		case ModelType::ANARCHIST: /* Terrorists */
+			modelType = &BoneMapT_Anarchist;
+			break;
+		case ModelType::BALKAN:
+			modelType = &BoneMapT_Balkan;
+			break;
+		case ModelType::LEETKREW:
+			modelType = &BoneMapT_Leet;
+			break;
+		case ModelType::PHOENIX:
+			modelType = &BoneMapT_Phoenix;
+			break;
+		case ModelType::PROFESSIONAL:
+			modelType = &BoneMapT_Professional;
+			break;
+		case ModelType::SEPARATIST:
+			modelType = &BoneMapT_Separatist;
+			break;
+
+		case ModelType::UNKNOWN:
+			return (int)Bone::INVALID;
 	}
 
+	static int len = sizeof(Settings::Aimbot::AutoAim::desiredBones) / sizeof(Settings::Aimbot::AutoAim::desiredBones[0]);
+	for( int i = 0; i < len; i++ )
+	{
+		if( Settings::Aimbot::AutoAim::desiredBones[i] )
+		{
+			int boneIndex = (*modelType).at(i);
+			if( boneIndex == (int)Bone::INVALID )
+				continue;
+			Vector cbVecTarget = enemy->GetBonePosition(boneIndex);
+
+			if( aimTargetType == AimTargetType::FOV )
+			{
+				float cbFov = Math::GetFov(viewAngles, Math::CalcAngle(pVecTarget, cbVecTarget));
+
+				if( cbFov < tempFov )
+				{
+					tempFov = cbFov;
+					tempBone = boneIndex;
+				}
+			}
+			else if( aimTargetType == AimTargetType::REAL_DISTANCE )
+			{
+				float cbDistance = pVecTarget.DistTo(cbVecTarget);
+				float cbRealDistance = GetRealDistanceFOV(cbDistance, Math::CalcAngle(pVecTarget, cbVecTarget), cmd);
+
+				if( cbRealDistance < tempDistance )
+				{
+					tempDistance = cbRealDistance;
+					tempBone = boneIndex;
+				}
+			}
+		}
+		else
+			continue;
+	}
 	return tempBone;
 }
 
-C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, float& bestDamage, AimTargetType aimTargetType = AimTargetType::FOV)
+C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, int& bestBone, float& bestDamage, AimTargetType aimTargetType = AimTargetType::FOV)
 {
 	if (Settings::Aimbot::AutoAim::realDistance)
 		aimTargetType = AimTargetType::REAL_DISTANCE;
 
-	bestBone = Settings::Aimbot::bone;
-
+	bestBone = (int)Settings::Aimbot::bone;
 	static C_BasePlayer* lockedOn = NULL;
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	C_BasePlayer* closestEntity = NULL;
@@ -221,21 +272,37 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 				{
 					lockedOn = NULL;
 				}
+
 				return NULL;
 			}
 
 			if( Settings::Aimbot::AutoAim::closestBone )
 			{
 				bestBone = GetClosestBone(cmd, localplayer, lockedOn, aimTargetType);
-				if( bestBone == Bone::INVALID )
+				if( bestBone == (int)Bone::INVALID )
 				{
 					return NULL;
+				}
+			}
+
+			if( !Entity::IsVisible(lockedOn, bestBone, 180.f, Settings::ESP::Filters::smokeCheck) )
+			{
+				static long hidTime = 0;
+				if( hidTime == 0 )
+				{
+					hidTime = Util::GetEpochTime();
+				}
+				if(Util::GetEpochTime() - hidTime > 250) // unlock if they're behind a wall for 250ms or more
+				{
+					lockedOn = NULL;
+					hidTime = 0;
 				}
 			}
 
 			return lockedOn;
 		}
 	}
+
 	for (int i = 1; i < engine->GetMaxClients(); ++i)
 	{
 		C_BasePlayer* player = (C_BasePlayer*) entityList->GetClientEntity(i);
@@ -287,7 +354,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 		if (aimTargetType == AimTargetType::HP && hp > bestHp)
 			continue;
 
-		if (visible && !Settings::Aimbot::AutoWall::enabled && !Entity::IsVisible(player, Settings::Aimbot::bone))
+		if (visible && !Settings::Aimbot::AutoWall::enabled && !Entity::IsVisible(player, (int)Settings::Aimbot::bone))
 			continue;
 
 
@@ -299,7 +366,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 			if (damage >= Settings::Aimbot::AutoWall::value)
 			{
 				bestDamage = damage;
-				bestBone = bone;
+				bestBone = (int)bone;
 				closestEntity = player;
 			}
 		}
@@ -330,7 +397,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 		}
 
 	}
-	if( bestBone == Bone::INVALID )
+	if( bestBone == (int)Bone::INVALID )
 		return NULL;
 	return closestEntity;
 }
@@ -638,7 +705,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	if (weaponType == CSWeaponType::WEAPONTYPE_C4 || weaponType == CSWeaponType::WEAPONTYPE_GRENADE || weaponType == CSWeaponType::WEAPONTYPE_KNIFE)
 		return;
 
-	Bone aw_bone;
+	int aw_bone;
 	float bestDamage = 0.0f;
 	C_BasePlayer* player = GetClosestPlayer(cmd, true, aw_bone, bestDamage);
 
@@ -646,7 +713,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	{
 		bool skipPlayer = false;
 
-		Vector eVecTarget = player->GetBonePosition((int) aw_bone);
+		Vector eVecTarget = player->GetBonePosition(aw_bone);
 		Vector pVecTarget = localplayer->GetEyePosition();
 
 		if (Settings::Aimbot::SmokeCheck::enabled && LineGoesThroughSmoke(pVecTarget, eVecTarget, true))
@@ -668,44 +735,15 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 
 			if (shouldAim)
 			{
-				/*
-				IEngineClient::player_info_t playerInfo;
-				engine->GetPlayerInfo(player->GetIndex(), &playerInfo);
-				cvar->ConsoleDPrintf("Aiming at: %s's ", playerInfo.name);
-				switch (aw_bone)
-				{
-					case Bone::INVALID:
-						cvar->ConsoleDPrintf("[INVALID]\n");
-						break;
-					case Bone::BONE_PELVIS:
-						cvar->ConsoleDPrintf("[PELVIS]\n");
-						break;
-					case Bone::LEAN_ROOT:
-						cvar->ConsoleDPrintf("[LEAN_ROOT]\n");
-						break;
-					case Bone::CAM_DRIVER:
-						cvar->ConsoleDPrintf("[CAM_DRIVER]\n");
-						break;
-					case Bone::BONE_HIP:
-						cvar->ConsoleDPrintf("[HIP]\n");
-						break;
-					case Bone::BONE_LOWER_SPINAL_COLUMN:
-						cvar->ConsoleDPrintf("[LOWER_SPINE]\n");
-						break;
-					case Bone::BONE_MIDDLE_SPINAL_COLUMN:
-						cvar->ConsoleDPrintf("[MIDDLE_SPINE]\n");
-						break;
-					case Bone::BONE_UPPER_SPINAL_COLUMN:
-						cvar->ConsoleDPrintf("[UPPER_SPINE]\n");
-						break;
-					case Bone::BONE_NECK:
-						cvar->ConsoleDPrintf("[NECK]\n");
-						break;
-					case Bone::BONE_HEAD:
-						cvar->ConsoleDPrintf("[HEAD]\n");
-						break;
-				}
-				*/
+
+				//IEngineClient::player_info_t playerInfo;
+				//engine->GetPlayerInfo(player->GetIndex(), &playerInfo);
+				//studiohdr_t* pStudioModel = modelInfo->GetStudioModel(player->GetModel());
+				//cvar->ConsoleDPrintf("Model ID: %d, Name: %s, NumOfBones: %d, len %d\n", pStudioModel->id, pStudioModel->name, pStudioModel->numbones);
+
+
+				//cvar->ConsoleDPrintf("Aiming at: %s, he is a %s \n", playerInfo.name, Util::ModelTypeToString(Util::GetModelTypeID(player)).c_str());
+
 
 				if (Settings::Aimbot::Prediction::enabled)
 				{
@@ -819,6 +857,9 @@ void Aimbot::UpdateValues()
 
 	for (int i = (int) Hitbox::HITBOX_HEAD; i <= (int) Hitbox::HITBOX_ARMS; i++)
 		Settings::Aimbot::AutoWall::bones[i] = currentWeaponSetting.autoWallBones[i];
+
+	for (int bone = (int) DesiredBones::BONE_PELVIS; bone <= (int) DesiredBones::BONE_RIGHT_SOLE; bone++)
+		Settings::Aimbot::AutoAim::desiredBones[bone] = currentWeaponSetting.desiredBones[bone];
 
 	Settings::Aimbot::AutoAim::realDistance = currentWeaponSetting.autoAimRealDistance;
 }

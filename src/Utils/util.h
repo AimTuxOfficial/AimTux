@@ -30,6 +30,9 @@ namespace Util
 
 	long GetEpochTime();
 
+	ModelType GetModelTypeID(C_BasePlayer* player);
+	std::string ModelTypeToString(ModelType model);
+
 	template <typename T>
 	T GetValueByKey(std::vector<std::pair<int, T>> vec, int key)
 	{

@@ -5,6 +5,12 @@ static bool enabled = false;
 static bool silent = false;
 static bool friendly = false;
 static bool closestBone = false;
+static bool desiredBones[] = {true, true, true, true, true, true, true, // center mass
+							  false, false, false, false, false, false, false, // left arm
+							  false, false, false, false, false, false, false, // right arm
+							  false, false, false, false, false, // left leg
+							  false, false, false, false, false  // right leg
+							 };
 static bool engageLock = false;
 static Bone bone = Bone::BONE_HEAD;
 static ButtonCode_t aimkey = ButtonCode_t::MOUSE_MIDDLE;
@@ -82,6 +88,8 @@ void UI::ReloadWeaponSettings()
 
 	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
 		autoWallBones[bone] = Settings::Aimbot::weapons.at(index).autoWallBones[bone];
+	for (int bone = (int) DesiredBones::BONE_PELVIS; bone <= (int) DesiredBones::BONE_RIGHT_SOLE; bone++)
+		desiredBones[bone] = Settings::Aimbot::weapons.at(index).desiredBones[bone];
 }
 
 void UI::UpdateWeaponSettings()
@@ -101,6 +109,9 @@ void UI::UpdateWeaponSettings()
 
 	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
 		settings.autoWallBones[bone] = autoWallBones[bone];
+
+	for (int bone = (int) DesiredBones::BONE_PELVIS; bone <= (int) DesiredBones::BONE_RIGHT_SOLE; bone++)
+		settings.desiredBones[bone] = desiredBones[bone];
 
 	Settings::Aimbot::weapons.at(currentWeapon) = settings;
 
@@ -162,21 +173,109 @@ void Aimbot::RenderTab()
 		{
 			ImGui::Text("Target");
 			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
+			ImGui::Columns(3, NULL, false);
 			{
 				if (ImGui::Checkbox("FriendlyFire", &friendly))
 					UI::UpdateWeaponSettings();
 				SetTooltip("Whether to target friendlies");
 			}
 			ImGui::NextColumn();
+			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
+				ImGui::Text("Aimbot Target");
 				if(!closestBone){
-					ImGui::Text("Aimbot Target");
 					if (ImGui::Combo("##AIMTARGET", (int*)& bone, targets, IM_ARRAYSIZE(targets)))
 						UI::UpdateWeaponSettings();
 				}
+				if( closestBone )
+				{
+					if(ImGui::Button("Bones", ImVec2(-1, 0)))
+						ImGui::OpenPopup("optionBones");
+					ImGui::SetNextWindowSize(ImVec2((ImGui::GetWindowWidth()/1.25f),ImGui::GetWindowHeight()), ImGuiSetCond_Always);
+					if( ImGui::BeginPopup("optionBones") )
+					{
+						ImGui::PushItemWidth(-1);
+						ImGui::Text("Center Mass\n");
+						if( ImGui::Checkbox("Head", &desiredBones[(int)DesiredBones::BONE_HEAD]) )
+							UI::UpdateWeaponSettings();
+						if( ImGui::Checkbox("Neck", &desiredBones[(int)DesiredBones::BONE_NECK]) )
+							UI::UpdateWeaponSettings();
+						if( ImGui::Checkbox("Upper Spine", &desiredBones[(int)DesiredBones::BONE_UPPER_SPINAL_COLUMN]) )
+							UI::UpdateWeaponSettings();
+						if( ImGui::Checkbox("Middle Spine", &desiredBones[(int)DesiredBones::BONE_MIDDLE_SPINAL_COLUMN]) )
+							UI::UpdateWeaponSettings();
+						if( ImGui::Checkbox("Lower Spine", &desiredBones[(int)DesiredBones::BONE_LOWER_SPINAL_COLUMN]) )
+							UI::UpdateWeaponSettings();
+						if( ImGui::Checkbox("Pelvis", &desiredBones[(int)DesiredBones::BONE_PELVIS]) )
+							UI::UpdateWeaponSettings();
+						if( ImGui::Checkbox("Hip", &desiredBones[(int)DesiredBones::BONE_HIP]) )
+							UI::UpdateWeaponSettings();
+						ImGui::Separator();
 
+						ImGui::Columns(2, NULL, false);
+						{
+							ImGui::Text("Player's Right Arm\n");
+							if( ImGui::Checkbox("Collarbone", &desiredBones[(int)DesiredBones::BONE_RIGHT_COLLARBONE]) )
+								UI::UpdateWeaponSettings();
+							if( ImGui::Checkbox("Shoulder", &desiredBones[(int)DesiredBones::BONE_RIGHT_SHOULDER]) )
+								UI::UpdateWeaponSettings();
+							if( ImGui::Checkbox("Armpit", &desiredBones[(int)DesiredBones::BONE_RIGHT_ARMPIT]) )
+								UI::UpdateWeaponSettings();
+							if( ImGui::Checkbox("Bicep", &desiredBones[(int)DesiredBones::BONE_RIGHT_BICEP]) )
+								UI::UpdateWeaponSettings();
+							if( ImGui::Checkbox("Elbow", &desiredBones[(int)DesiredBones::BONE_RIGHT_ELBOW]) )
+								UI::UpdateWeaponSettings();
+							if( ImGui::Checkbox("Forearm", &desiredBones[(int)DesiredBones::BONE_RIGHT_FOREARM]) )
+								UI::UpdateWeaponSettings();
+							if( ImGui::Checkbox("Wrist", &desiredBones[(int)DesiredBones::BONE_RIGHT_WRIST]) )
+								UI::UpdateWeaponSettings();
+							ImGui::Text("Player's Right Leg\n");
+							if( ImGui::Checkbox("Buttcheek", &desiredBones[(int)DesiredBones::BONE_RIGHT_BUTTCHEEK]) )
+								UI::UpdateWeaponSettings();
+							if( ImGui::Checkbox("Thigh", &desiredBones[(int)DesiredBones::BONE_RIGHT_THIGH]) )
+								UI::UpdateWeaponSettings();
+							if( ImGui::Checkbox("Knee", &desiredBones[(int)DesiredBones::BONE_RIGHT_KNEE]) )
+								UI::UpdateWeaponSettings();
+							if( ImGui::Checkbox("Ankle", &desiredBones[(int)DesiredBones::BONE_RIGHT_ANKLE]) )
+								UI::UpdateWeaponSettings();
+							if( ImGui::Checkbox("Sole", &desiredBones[(int)DesiredBones::BONE_RIGHT_SOLE]) )
+								UI::UpdateWeaponSettings();
+						}
+						ImGui::NextColumn();
+						{
+							ImGui::Text("Player's Left Arm\n");
+							if( ImGui::Checkbox("Collarbone ", &desiredBones[(int)DesiredBones::BONE_LEFT_COLLARBONE]) )
+								UI::UpdateWeaponSettings();
+							if( ImGui::Checkbox("Shoulder ", &desiredBones[(int)DesiredBones::BONE_LEFT_SHOULDER]) )
+								UI::UpdateWeaponSettings();
+							if( ImGui::Checkbox("Armpit ", &desiredBones[(int)DesiredBones::BONE_LEFT_ARMPIT]) )
+								UI::UpdateWeaponSettings();
+							if( ImGui::Checkbox("Bicep ", &desiredBones[(int)DesiredBones::BONE_LEFT_BICEP]) )
+								UI::UpdateWeaponSettings();
+							if( ImGui::Checkbox("Elbow ", &desiredBones[(int)DesiredBones::BONE_LEFT_ELBOW]) )
+								UI::UpdateWeaponSettings();
+							if( ImGui::Checkbox("Forearm ", &desiredBones[(int)DesiredBones::BONE_LEFT_FOREARM]) )
+								UI::UpdateWeaponSettings();
+							if( ImGui::Checkbox("Wrist ", &desiredBones[(int)DesiredBones::BONE_LEFT_WRIST]) )
+								UI::UpdateWeaponSettings();
+
+							ImGui::Text("Player's Left Leg\n");
+							if( ImGui::Checkbox("Buttcheek ", &desiredBones[(int)DesiredBones::BONE_LEFT_BUTTCHEEK]) )
+								UI::UpdateWeaponSettings();
+							if( ImGui::Checkbox("Thigh ", &desiredBones[(int)DesiredBones::BONE_LEFT_THIGH]) )
+								UI::UpdateWeaponSettings();
+							if( ImGui::Checkbox("Knee ", &desiredBones[(int)DesiredBones::BONE_LEFT_KNEE]) )
+								UI::UpdateWeaponSettings();
+							if( ImGui::Checkbox("Ankle ", &desiredBones[(int)DesiredBones::BONE_LEFT_ANKLE]) )
+								UI::UpdateWeaponSettings();
+							if( ImGui::Checkbox("Sole ", &desiredBones[(int)DesiredBones::BONE_LEFT_SOLE]) )
+								UI::UpdateWeaponSettings();
+						}
+						ImGui::PopItemWidth();
+						ImGui::EndPopup();
+					}
+				}
 				if(ImGui::Checkbox("ClosestBone", &closestBone))
 					UI::UpdateWeaponSettings();
 				SetTooltip("Aim at the Bone closest to your Cursor\nInstead of Aiming for a certain bone.");
@@ -184,6 +283,8 @@ void Aimbot::RenderTab()
 				if(ImGui::Checkbox("EngageLock", &engageLock))
 					UI::UpdateWeaponSettings();
 				SetTooltip("Aimbot at one foe until you let go of trigger.\nAfter Killing them, Aimbot is disabled until you repress the Trigger");
+
+
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);

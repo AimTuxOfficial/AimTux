@@ -344,7 +344,7 @@ void Radar::BeginFrame()
 			continue;
 
 		// we shouldn't see people behind us
-		if (Entity::IsVisible(player, Bone::BONE_HEAD, 55.f, Settings::Radar::smokeCheck))
+		if (Entity::IsVisible(player, (int)Bone::BONE_HEAD, 55.f, Settings::Radar::smokeCheck))
 			visible_players.insert(i);
 		else
 			visible_players.erase(i);

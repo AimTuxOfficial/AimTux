@@ -5,6 +5,7 @@ ButtonCode_t Settings::Teleport::key = ButtonCode_t::KEY_RALT;
 
 void Teleport::CreateMove(CUserCmd *cmd)
 {
+	return;
 	if (!ValveDSCheck::forceUT && (*csGameRules) && (*csGameRules)->IsValveDS())
 		Settings::Teleport::enabled = false;
 

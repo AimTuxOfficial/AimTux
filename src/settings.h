@@ -151,7 +151,7 @@ enum class SpammerType : int
 
 struct AimbotWeapon_t
 {
-	bool enabled, silent, friendly, closestBone, engageLock;
+	bool enabled, silent, friendly, closestBone, desiredBones[31], engageLock;
 	Bone bone;
 	SmoothType smoothType;
 	ButtonCode_t aimkey;
@@ -206,6 +206,8 @@ struct AimbotWeapon_t
 
 		for (int i = (int) Hitbox::HITBOX_HEAD; i <= (int) Hitbox::HITBOX_ARMS; i++)
 			this->autoWallBones[i] = autoWallBones != nullptr ? autoWallBones[i] : false;
+		for (int bone = (int) DesiredBones::BONE_PELVIS; bone <= (int) DesiredBones::BONE_RIGHT_SOLE; bone++)
+			this->desiredBones[bone] = (desiredBones != nullptr ) ? desiredBones[bone] : false;
 
 		this->autoAimRealDistance = autoAimRealDistance;
 	}
@@ -217,6 +219,11 @@ struct AimbotWeapon_t
 		for (int i = (int) Hitbox::HITBOX_HEAD; i <= (int) Hitbox::HITBOX_ARMS; i++)
 		{
 			if (this->autoWallBones[i] != another.autoWallBones[i])
+				return false;
+		}
+		for (int bone = (int) DesiredBones::BONE_PELVIS; bone <= (int) DesiredBones::BONE_RIGHT_SOLE; bone++)
+		{
+			if( this->desiredBones[bone] != another.desiredBones[bone] )
 				return false;
 		}
 
@@ -356,6 +363,7 @@ namespace Settings
 			extern float fov;
 			extern bool realDistance;
 			extern bool closestBone;
+			extern bool desiredBones[];
 			extern bool engageLock;
 		}
 
