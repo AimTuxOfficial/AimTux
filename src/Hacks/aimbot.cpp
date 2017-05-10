@@ -279,7 +279,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, int& bestBone, float
 			if( Settings::Aimbot::AutoAim::closestBone )
 			{
 				int tempBone = GetClosestBone(cmd, localplayer, lockedOn, aimTargetType);
-				if( bestBone == (int)Bone::INVALID )
+				if( tempBone == (int)Bone::INVALID )
 				{
 					return NULL;
 				}
