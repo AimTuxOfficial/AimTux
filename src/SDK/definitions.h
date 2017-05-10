@@ -462,7 +462,7 @@ enum class ModelType : int // Something I made up
 	SEPARATIST
 
 };
-enum class DesiredBones : int // used for UI; indexing bool array
+enum class DesiredBones : int // used for UI; indexing bool array; map keys for BoneMaps
 {
 	BONE_PELVIS = 0,
 	BONE_HIP,
@@ -500,6 +500,40 @@ enum class DesiredBones : int // used for UI; indexing bool array
 	BONE_RIGHT_ANKLE,
 	BONE_RIGHT_SOLE,
 
+};
+static const std::map<int,std::string> BoneMapStrings // Used for debugging; putting DesiredBones to strings.
+{
+		{ (int)DesiredBones::BONE_PELVIS, "PELVIS" },
+		{ (int)DesiredBones::BONE_HIP, "HIP" },
+		{ (int)DesiredBones::BONE_LOWER_SPINAL_COLUMN, "LOWER SPINE" },
+		{ (int)DesiredBones::BONE_MIDDLE_SPINAL_COLUMN, "MIDDLE SPINE" },
+		{ (int)DesiredBones::BONE_UPPER_SPINAL_COLUMN, "UPPER SPINE" },
+		{ (int)DesiredBones::BONE_NECK, "NECK" },
+		{ (int)DesiredBones::BONE_HEAD, "HEAD" },
+		{ (int)DesiredBones::BONE_LEFT_COLLARBONE, "LEFT COLLARBONE" },
+		{ (int)DesiredBones::BONE_LEFT_SHOULDER, "LEFT SHOULDER" },
+		{ (int)DesiredBones::BONE_LEFT_ARMPIT, "LEFT ARMPIT" },
+		{ (int)DesiredBones::BONE_LEFT_BICEP, "LEFT BICEP" },
+		{ (int)DesiredBones::BONE_LEFT_ELBOW, "LEFT ELBOW" },
+		{ (int)DesiredBones::BONE_LEFT_FOREARM, "LEFT FOREARM" },
+		{ (int)DesiredBones::BONE_LEFT_WRIST, "LEFT WRIST" },
+		{ (int)DesiredBones::BONE_RIGHT_COLLARBONE, "RIGHT COLLARBONE"},
+		{ (int)DesiredBones::BONE_RIGHT_SHOULDER, "RIGHT SHOULDER" },
+		{ (int)DesiredBones::BONE_RIGHT_ARMPIT, "RIGHT ARMPIT" },
+		{ (int)DesiredBones::BONE_RIGHT_BICEP, "RIGHT BICEP" },
+		{ (int)DesiredBones::BONE_RIGHT_ELBOW, "RIGHT ELBOW" },
+		{ (int)DesiredBones::BONE_RIGHT_FOREARM, "RIGHT FOREARM" },
+		{ (int)DesiredBones::BONE_RIGHT_WRIST, "RIGHT WRIST" },
+		{ (int)DesiredBones::BONE_LEFT_BUTTCHEEK, "LEFT BUTTCHEEK" },
+		{ (int)DesiredBones::BONE_LEFT_THIGH, "LEFT THIGH" },
+		{ (int)DesiredBones::BONE_LEFT_KNEE, "LEFT KNEE" },
+		{ (int)DesiredBones::BONE_LEFT_ANKLE, "LEFT ANKLE" },
+		{ (int)DesiredBones::BONE_LEFT_SOLE, "LEFT SOLE" },
+		{ (int)DesiredBones::BONE_RIGHT_BUTTCHEEK, "RIGHT BUTTCHEEK" },
+		{ (int)DesiredBones::BONE_RIGHT_THIGH, "RIGHT THIGH" },
+		{ (int)DesiredBones::BONE_RIGHT_KNEE, "RIGHT KNEE" },
+		{ (int)DesiredBones::BONE_RIGHT_ANKLE, "RIGHT ANKLE" },
+		{ (int)DesiredBones::BONE_RIGHT_SOLE, "RIGHT SOLE" }
 };
 enum class Bone : int
 {
