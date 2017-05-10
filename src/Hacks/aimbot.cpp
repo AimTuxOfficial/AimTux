@@ -257,8 +257,6 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, int& bestBone, float
 
 	float bestFov = Settings::Aimbot::AutoAim::fov;
 	float bestRealDistance = Settings::Aimbot::AutoAim::fov * 5.f;
-	float bestDistance = 8192.0f; // Damage falls off to 0 after this distance.
-	int bestHp = 100;
 
 	if( lockedOn )
 	{
@@ -280,11 +278,12 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, int& bestBone, float
 
 			if( Settings::Aimbot::AutoAim::closestBone )
 			{
-				bestBone = GetClosestBone(cmd, localplayer, lockedOn, aimTargetType);
+				int tempBone = GetClosestBone(cmd, localplayer, lockedOn, aimTargetType);
 				if( bestBone == (int)Bone::INVALID )
 				{
 					return NULL;
 				}
+				bestBone = tempBone;
 			}
 			/*
 			if( !Entity::IsVisible(lockedOn, bestBone, 180.f, Settings::ESP::Filters::smokeCheck) )
@@ -329,7 +328,19 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, int& bestBone, float
 				continue;
 		}
 
+
+
 		Vector eVecTarget = player->GetBonePosition((int) Settings::Aimbot::bone);
+		if( Settings::Aimbot::AutoAim::closestBone )
+		{
+			int tempBone = GetClosestBone(cmd, localplayer, player, aimTargetType);
+			if( tempBone == (int)Bone::INVALID )
+				continue;
+			bestBone = tempBone;
+			closestEntity = player;
+			continue;
+		}
+
 		Vector pVecTarget = localplayer->GetEyePosition();
 
 		QAngle viewAngles;
@@ -338,12 +349,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, int& bestBone, float
 		float distance = pVecTarget.DistTo(eVecTarget);
 		float fov = Math::GetFov(viewAngles, Math::CalcAngle(pVecTarget, eVecTarget));
 		float realDistance = GetRealDistanceFOV(distance, Math::CalcAngle(pVecTarget, eVecTarget), cmd);
-		int hp = player->GetHealth();
 
-
-
-		if (aimTargetType == AimTargetType::DISTANCE && distance > bestDistance)
-			continue;
 
 		if (aimTargetType == AimTargetType::FOV && fov > bestFov)
 			continue;
@@ -351,22 +357,8 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, int& bestBone, float
 		if (aimTargetType == AimTargetType::REAL_DISTANCE && realDistance > bestRealDistance)
 			continue;
 
-		if (aimTargetType == AimTargetType::HP && hp > bestHp)
-			continue;
-
-		if (Settings::Aimbot::AutoAim::closestBone)
-		{
-			bestBone = GetClosestBone(cmd, localplayer, player, aimTargetType);
-			if( bestBone == -1 )
-			{
-				//cvar->ConsoleDPrintf("[-1]");
-				continue;
-			}
-			eVecTarget = player->GetBonePosition(bestBone);
-		}
 		if (visible && !Settings::Aimbot::AutoWall::enabled && !Entity::IsVisible(player, (Settings::Aimbot::AutoAim::closestBone) ? bestBone : (int)Settings::Aimbot::bone))
 			continue;
-
 
 		if (Settings::Aimbot::AutoWall::enabled)
 		{
