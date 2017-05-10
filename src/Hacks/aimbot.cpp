@@ -286,7 +286,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, int& bestBone, float
 					return NULL;
 				}
 			}
-
+			/*
 			if( !Entity::IsVisible(lockedOn, bestBone, 180.f, Settings::ESP::Filters::smokeCheck) )
 			{
 				static long hidTime = 0;
@@ -300,6 +300,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, int& bestBone, float
 					hidTime = 0;
 				}
 			}
+			 */
 
 			return lockedOn;
 		}
