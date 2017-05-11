@@ -223,8 +223,11 @@ int GetClosestBone( CUserCmd* cmd, C_BasePlayer* localPlayer, C_BasePlayer* enem
 
 				if( cbFov < tempFov )
 				{
-					tempFov = cbFov;
-					tempBone = boneIndex;
+					if( Entity::IsVisible(enemy, boneIndex) )
+					{
+						tempFov = cbFov;
+						tempBone = boneIndex;
+					}
 				}
 			}
 			else if( aimTargetType == AimTargetType::REAL_DISTANCE )
@@ -234,8 +237,11 @@ int GetClosestBone( CUserCmd* cmd, C_BasePlayer* localPlayer, C_BasePlayer* enem
 
 				if( cbRealDistance < tempDistance )
 				{
-					tempDistance = cbRealDistance;
-					tempBone = boneIndex;
+					if( Entity::IsVisible(enemy, boneIndex) )
+					{
+						tempDistance = cbRealDistance;
+						tempBone = boneIndex;
+					}
 				}
 			}
 		}
