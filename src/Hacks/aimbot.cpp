@@ -223,7 +223,7 @@ int GetClosestBone( CUserCmd* cmd, C_BasePlayer* localPlayer, C_BasePlayer* enem
 
 				if( cbFov < tempFov )
 				{
-					if( Entity::IsVisible(enemy, boneIndex) )
+					if(Entity::IsVisibleThroughEnemies(enemy, boneIndex) )
 					{
 						tempFov = cbFov;
 						tempBone = boneIndex;
@@ -237,7 +237,7 @@ int GetClosestBone( CUserCmd* cmd, C_BasePlayer* localPlayer, C_BasePlayer* enem
 
 				if( cbRealDistance < tempDistance )
 				{
-					if( Entity::IsVisible(enemy, boneIndex) )
+					if(Entity::IsVisibleThroughEnemies(enemy, boneIndex) )
 					{
 						tempDistance = cbRealDistance;
 						tempBone = boneIndex;
@@ -266,6 +266,11 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, int& bestBone, float
 
 	if( lockedOn )
 	{
+		if( !Entity::IsVisibleThroughEnemies(lockedOn, bestBone) )
+		{
+			lockedOn = NULL;
+			return NULL;
+		}
 		if (!(cmd->buttons & IN_ATTACK) || lockedOn->GetDormant())//|| !Entity::IsVisible(lockedOn, bestBone, 180.f, Settings::ESP::Filters::smokeCheck))
 		{
 			lockedOn = NULL;
@@ -291,21 +296,6 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, int& bestBone, float
 				}
 				bestBone = tempBone;
 			}
-			/*
-			if( !Entity::IsVisible(lockedOn, bestBone, 180.f, Settings::ESP::Filters::smokeCheck) )
-			{
-				static long hidTime = 0;
-				if( hidTime == 0 )
-				{
-					hidTime = Util::GetEpochTime();
-				}
-				if(Util::GetEpochTime() - hidTime > 250) // unlock if they're behind a wall for 250ms or more
-				{
-					lockedOn = NULL;
-					hidTime = 0;
-				}
-			}
-			 */
 
 			return lockedOn;
 		}
@@ -334,13 +324,11 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, int& bestBone, float
 				continue;
 		}
 
-
-
 		Vector eVecTarget = player->GetBonePosition((int) Settings::Aimbot::bone);
 		if( Settings::Aimbot::AutoAim::closestBone )
 		{
 			int tempBone = GetClosestBone(cmd, localplayer, player, aimTargetType);
-			if( tempBone == (int)Bone::INVALID || !Entity::IsVisible(player, tempBone) )
+			if( tempBone == (int)Bone::INVALID || !Entity::IsVisibleThroughEnemies(player, tempBone) )
 				continue;
 			bestBone = tempBone;
 			closestEntity = player;

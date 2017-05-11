@@ -19,7 +19,7 @@ bool Entity::IsVisible(C_BasePlayer* player, int bone, float fov, bool smoke_che
 			return true;
 	}
 
-	Vector e_vecHead = player->GetBonePosition((int) bone);
+	Vector e_vecHead = player->GetBonePosition(bone);
 	Vector p_vecHead = localplayer->GetEyePosition();
 
 	QAngle viewAngles;
@@ -40,6 +40,62 @@ bool Entity::IsVisible(C_BasePlayer* player, int bone, float fov, bool smoke_che
 		return false;
 
 	return tr.m_pEntityHit == player;
+
+}
+
+bool Entity::IsVisibleThroughEnemies(C_BasePlayer *player, int bone, float fov, bool smoke_check)
+{
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer)
+		return true;
+
+	if (player == localplayer)
+		return true;
+
+	if (!localplayer->GetAlive())
+	{
+		if (*localplayer->GetObserverMode() == ObserverMode_t::OBS_MODE_IN_EYE && localplayer->GetObserverTarget())
+			localplayer = (C_BasePlayer*) entityList->GetClientEntityFromHandle(localplayer->GetObserverTarget());
+
+		if (!localplayer)
+			return true;
+	}
+
+	Vector e_vecHead = player->GetBonePosition(bone);
+	Vector p_vecHead = localplayer->GetEyePosition();
+
+	QAngle viewAngles;
+	engine->GetViewAngles(viewAngles);
+
+	// FIXME: scale fov by distance? its not really working that well...
+	if (Math::GetFov(viewAngles, Math::CalcAngle(p_vecHead, e_vecHead)) > fov)
+		return false;
+
+	Ray_t ray;
+	trace_t tr;
+	ray.Init(p_vecHead, e_vecHead);
+	CTraceFilter traceFilter;
+	traceFilter.pSkip = localplayer;
+	trace->TraceRay(ray, MASK_SHOT, &traceFilter, &tr);
+
+	if (smoke_check && LineGoesThroughSmoke(p_vecHead, e_vecHead, true))
+		return false;
+
+
+	if( tr.m_pEntityHit )
+	{
+		if( tr.m_pEntityHit != player )
+		{
+			if( tr.m_pEntityHit->GetTeam() == player->GetTeam() ) // if someone from the same team
+			{
+				cvar->ConsoleDPrintf("TeamMate in Front\n");
+				return true;
+			}
+		} else{
+			return true;
+		}
+	}
+
 }
 
 bool Entity::IsPlanting(C_BasePlayer* player)
