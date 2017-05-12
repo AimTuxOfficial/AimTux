@@ -387,7 +387,7 @@ void ESP::DrawBox(Color color, int x, int y, int w, int h, C_BaseEntity* entity)
 		mstudiohitboxset_t *set = hdr->pHitboxSet(0); // :^)
 
 		long diffTime = Util::GetEpochTime() - playerDrawTimes.at(entity->GetIndex());
-		if( diffTime >= 16 )
+		if( diffTime >= 12 )
 		{
 			for( int i = 0; i < set->numhitboxes; i++ ){
 				mstudiobbox_t *hitbox = set->pHitbox(i);
