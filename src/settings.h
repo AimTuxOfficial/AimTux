@@ -71,8 +71,10 @@ enum class AntiAimType_Y : int
 	ANGEL_BACKWARD,
 	ANGEL_INVERSE,
 	ANGEL_SPIN,
+	LOWERBODY,
+	LBYONGROUND,
 	LUA_UNCLAMPED,
-	LUA_UNCLAMPED2,
+	LUA_UNCLAMPED2
 };
 
 enum class AntiAimType_X : int
