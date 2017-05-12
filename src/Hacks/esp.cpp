@@ -373,6 +373,11 @@ void ESP::DrawBox(Color color, int x, int y, int w, int h, C_BaseEntity* entity)
 	}
 	else if (Settings::ESP::Boxes::type == BoxType::HITBOXES) /* credits to 1337floesen - https://www.unknowncheats.me/forum/counterstrike-global-offensive/157557-drawing-hitboxes.html */
 	{
+		static std::map<int, long> playerDrawTimes;
+		if( playerDrawTimes.find(entity->GetIndex()) == playerDrawTimes.end() ){ // haven't drawn this player yet
+			playerDrawTimes[entity->GetIndex()] = Util::GetEpochTime();
+		}
+
 		matrix3x4_t matrix[128];
 
 		if(!entity->SetupBones(matrix, 128, 0x00000100, globalVars->curtime))
@@ -381,14 +386,19 @@ void ESP::DrawBox(Color color, int x, int y, int w, int h, C_BaseEntity* entity)
 		studiohdr_t *hdr = modelInfo->GetStudioModel(entity->GetModel());
 		mstudiohitboxset_t *set = hdr->pHitboxSet(0); // :^)
 
-		for( int i = 0; i < set->numhitboxes; i++ ){
-			mstudiobbox_t *hitbox = set->pHitbox(i);
-			if( !hitbox ) { continue; }
-			Vector vMin, vMax;
-			Math::VectorTransform(hitbox->bbmin, matrix[hitbox->bone], vMin);
-			Math::VectorTransform(hitbox->bbmax, matrix[hitbox->bone], vMax);
+		long diffTime = Util::GetEpochTime() - playerDrawTimes.at(entity->GetIndex());
+		if( diffTime >= 16 )
+		{
+			for( int i = 0; i < set->numhitboxes; i++ ){
+				mstudiobbox_t *hitbox = set->pHitbox(i);
+				if( !hitbox ) { continue; }
+				Vector vMin, vMax;
+				Math::VectorTransform(hitbox->bbmin, matrix[hitbox->bone], vMin);
+				Math::VectorTransform(hitbox->bbmax, matrix[hitbox->bone], vMax);
 
-			debugOverlay->DrawPill(vMin, vMax, hitbox->radius , color.r, color.g, color.b, color.a, 0.01f);
+				debugOverlay->DrawPill(vMin, vMax, hitbox->radius , color.r, color.g, color.b, color.a, 0.025f);
+			}
+			playerDrawTimes[entity->GetIndex()] = Util::GetEpochTime();
 		}
 	}
 }
