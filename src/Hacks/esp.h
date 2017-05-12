@@ -1,7 +1,6 @@
 #pragma once
 
 #include <math.h>
-#include <chrono>
 #include "../settings.h"
 #include "../SDK/SDK.h"
 #include "../Hooks/hooks.h"
