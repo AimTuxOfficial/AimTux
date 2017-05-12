@@ -88,13 +88,13 @@ bool Entity::IsVisibleThroughEnemies(C_BasePlayer *player, int bone, float fov, 
 		{
 			if( tr.m_pEntityHit->GetTeam() == player->GetTeam() ) // if someone from the same team
 			{
-				cvar->ConsoleDPrintf("TeamMate in Front\n");
 				return true;
 			}
 		} else{
 			return true;
 		}
 	}
+	return false;
 
 }
 

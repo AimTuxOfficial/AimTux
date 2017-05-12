@@ -151,7 +151,8 @@ enum class SpammerType : int
 
 struct AimbotWeapon_t
 {
-	bool enabled, silent, friendly, closestBone, desiredBones[31], engageLock;
+	bool enabled, silent, friendly, closestBone, desiredBones[31], engageLock, engageLockTR;
+	int engageLockTTR;
 	Bone bone;
 	SmoothType smoothType;
 	ButtonCode_t aimkey;
@@ -159,7 +160,7 @@ struct AimbotWeapon_t
 	float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmountX, rcsAmountY, autoWallValue;
 	bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallBones[6], autoAimRealDistance, autoSlow, predEnabled;
 
-	AimbotWeapon_t(bool enabled, bool silent, bool friendly, bool closestBone, bool engageLock, Bone bone, ButtonCode_t aimkey, bool aimkeyOnly,
+	AimbotWeapon_t(bool enabled, bool silent, bool friendly, bool closestBone, bool engageLock, bool engageLockTR, int engageLockTTR, Bone bone, ButtonCode_t aimkey, bool aimkeyOnly,
 		   bool smoothEnabled, float smoothValue, SmoothType smoothType, bool smoothSaltEnabled, float smoothSaltMultiplier,
 		   bool errorMarginEnabled, float errorMarginValue,
 		   bool autoAimEnabled, float autoAimValue, bool aimStepEnabled, float aimStepValue,
@@ -174,6 +175,8 @@ struct AimbotWeapon_t
 		this->friendly = friendly;
 		this->closestBone = closestBone;
 		this->engageLock = engageLock;
+		this->engageLockTR = engageLockTR;
+		this->engageLockTTR = engageLockTTR;
 		this->bone = bone;
 		this->aimkey = aimkey;
 		this->aimkeyOnly = aimkeyOnly;
@@ -232,6 +235,8 @@ struct AimbotWeapon_t
 			this->friendly == another.friendly &&
 			this->closestBone == another.closestBone &&
 			this->engageLock == another.engageLock &&
+			this->engageLockTR == another.engageLockTR &&
+			this->engageLockTTR == another.engageLockTTR &&
 			this->bone == another.bone &&
 			this->aimkey == another.aimkey &&
 			this->aimkeyOnly == another.aimkeyOnly &&
@@ -365,6 +370,8 @@ namespace Settings
 			extern bool closestBone;
 			extern bool desiredBones[];
 			extern bool engageLock;
+			extern bool engageLockTR;
+			extern int engageLockTTR;
 		}
 
 		namespace AutoWall

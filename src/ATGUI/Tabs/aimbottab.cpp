@@ -12,6 +12,8 @@ static bool desiredBones[] = {true, true, true, true, true, true, true, // cente
 							  false, false, false, false, false  // right leg
 							 };
 static bool engageLock = false;
+static bool engageLockTR = false; // Target Reacquisition
+static int engageLockTTR = 700; // Time to Target Reacquisition ( in ms )
 static Bone bone = Bone::BONE_HEAD;
 static ButtonCode_t aimkey = ButtonCode_t::MOUSE_MIDDLE;
 static bool aimkeyOnly = false;
@@ -55,6 +57,8 @@ void UI::ReloadWeaponSettings()
 	friendly = Settings::Aimbot::weapons.at(index).friendly;
 	closestBone = Settings::Aimbot::weapons.at(index).closestBone;
 	engageLock = Settings::Aimbot::weapons.at(index).engageLock;
+	engageLockTR = Settings::Aimbot::weapons.at(index).engageLockTR;
+	engageLockTTR = Settings::Aimbot::weapons.at(index).engageLockTTR;
 	bone = Settings::Aimbot::weapons.at(index).bone;
 	aimkey = Settings::Aimbot::weapons.at(index).aimkey;
 	aimkeyOnly = Settings::Aimbot::weapons.at(index).aimkeyOnly;
@@ -98,7 +102,7 @@ void UI::UpdateWeaponSettings()
 		Settings::Aimbot::weapons[currentWeapon] = AimbotWeapon_t();
 
 	AimbotWeapon_t settings = {
-			enabled, silent, friendly, closestBone, engageLock, bone, aimkey, aimkeyOnly,
+			enabled, silent, friendly, closestBone, engageLock, engageLockTR, engageLockTTR, bone, aimkey, aimkeyOnly,
 			smoothEnabled, smoothValue, smoothType, smoothSaltEnabled, smoothSaltMultiplier,
 			errorMarginEnabled, errorMarginValue,
 			autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
@@ -173,13 +177,12 @@ void Aimbot::RenderTab()
 		{
 			ImGui::Text("Target");
 			ImGui::Separator();
-			ImGui::Columns(3, NULL, false);
+			ImGui::Columns(2, NULL, false);
 			{
 				if (ImGui::Checkbox("FriendlyFire", &friendly))
 					UI::UpdateWeaponSettings();
 				SetTooltip("Whether to target friendlies");
 			}
-			ImGui::NextColumn();
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
@@ -283,8 +286,18 @@ void Aimbot::RenderTab()
 				if(ImGui::Checkbox("EngageLock", &engageLock))
 					UI::UpdateWeaponSettings();
 				SetTooltip("Aimbot at one foe until you let go of trigger.\nAfter Killing them, Aimbot is disabled until you repress the Trigger");
-
-
+				if(engageLock)
+				{
+					if(ImGui::Checkbox("Target Reacquisition", &engageLockTR))
+						UI::UpdateWeaponSettings();
+					SetTooltip("After getting a kill while spraying, \n Whether or not to re-target another enemy");
+					if( engageLockTR )
+					{
+						if(ImGui::SliderInt("##TTR", &engageLockTTR, 0, 1000))
+							UI::UpdateWeaponSettings();
+						SetTooltip("Delay in ms for Targeting another enemy");
+					}
+				}
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);

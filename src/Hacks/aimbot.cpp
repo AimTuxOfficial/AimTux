@@ -24,6 +24,8 @@ bool Settings::Aimbot::AutoAim::desiredBones[] = {true, true, true, true, true, 
 							  false, false, false, false, false  // right leg
 };
 bool Settings::Aimbot::AutoAim::engageLock = false;
+bool Settings::Aimbot::AutoAim::engageLockTR = false; // engage lock Target Reacquisition ( re-target after getting a kill when spraying ).
+int Settings::Aimbot::AutoAim::engageLockTTR = 700; // Time to Target Reacquisition in ms
 bool Settings::Aimbot::AutoWall::enabled = false;
 float Settings::Aimbot::AutoWall::value = 10.0f;
 bool Settings::Aimbot::AutoWall::bones[] = { true, false, false, false, false, false };
@@ -66,7 +68,7 @@ std::unordered_map<Hitbox, std::vector<const char*>, Util::IntHash<Hitbox>> hitb
 };
 
 std::unordered_map<ItemDefinitionIndex, AimbotWeapon_t, Util::IntHash<ItemDefinitionIndex>> Settings::Aimbot::weapons = {
-		{ ItemDefinitionIndex::INVALID, { false, false, false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f, false, false, false, false, false, false, false, false, 10.0f, false, false, 5.0f } },
+		{ ItemDefinitionIndex::INVALID, { false, false, false, false, false, false, 700, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f, false, false, false, false, false, false, false, false, 10.0f, false, false, 5.0f } },
 };
 
 static void ApplyErrorToAngle(QAngle* angles, float margin)
@@ -266,7 +268,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, int& bestBone, float
 
 	if( lockedOn )
 	{
-		if( !Entity::IsVisibleThroughEnemies(lockedOn, bestBone) )
+		if( lockedOn->GetAlive() && !Entity::IsVisibleThroughEnemies(lockedOn, bestBone))
 		{
 			lockedOn = NULL;
 			return NULL;
@@ -279,11 +281,13 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, int& bestBone, float
 		{
 			if( !lockedOn->GetAlive() )
 			{
-				if(Util::GetEpochTime() - killTimes.back() > 700) // if we got the kill over a second ago, go ahead and lock onto another
+				if( Settings::Aimbot::AutoAim::engageLockTR )
 				{
-					lockedOn = NULL;
+					if(Util::GetEpochTime() - killTimes.back() > Settings::Aimbot::AutoAim::engageLockTTR) // if we got the kill over the TTR time, engage another foe.
+					{
+						lockedOn = NULL;
+					}
 				}
-
 				return NULL;
 			}
 
@@ -387,7 +391,6 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, int& bestBone, float
 				return NULL;
 			}
 		}
-
 	}
 	if( bestBone == (int)Bone::INVALID )
 		return NULL;
@@ -841,6 +844,8 @@ void Aimbot::UpdateValues()
 	Settings::Aimbot::AutoAim::fov = currentWeaponSetting.autoAimFov;
 	Settings::Aimbot::AutoAim::closestBone = currentWeaponSetting.closestBone;
 	Settings::Aimbot::AutoAim::engageLock = currentWeaponSetting.engageLock;
+	Settings::Aimbot::AutoAim::engageLockTR = currentWeaponSetting.engageLockTR;
+	Settings::Aimbot::AutoAim::engageLockTTR = currentWeaponSetting.engageLockTTR;
 	Settings::Aimbot::AimStep::enabled = currentWeaponSetting.aimStepEnabled;
 	Settings::Aimbot::AimStep::value = currentWeaponSetting.aimStepValue;
 	Settings::Aimbot::AutoPistol::enabled = currentWeaponSetting.autoPistolEnabled;
