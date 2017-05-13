@@ -464,6 +464,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Autoblock"]["key"] = Settings::Autoblock::key;
 
 	settings["AutoDefuse"]["enabled"] = Settings::AutoDefuse::enabled;
+	settings["AutoDefuse"]["silent"] = Settings::AutoDefuse::silent;
 
 	settings["NoSmoke"]["enabled"] = Settings::NoSmoke::enabled;
 
