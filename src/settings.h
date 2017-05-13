@@ -904,6 +904,7 @@ namespace Settings
 	namespace AutoDefuse
 	{
 		extern bool enabled;
+		extern bool silent;
 	}
 
 	namespace NoSmoke
