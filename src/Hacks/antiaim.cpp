@@ -513,7 +513,6 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 			break;
 		case AntiAimType_Y::LUA2:
 			angle.y = LuaScriptY2( lastAngleY2, angle.y );
-			lastAngleY2 = angle.y;
 			break;
 		case AntiAimType_Y::LISP:
 			clamp = false;
@@ -574,7 +573,6 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 		case AntiAimType_Y::LUA_UNCLAMPED2:
 			clamp = false;
 			angle.y = LuaScriptY2( lastAngleY2, angle.y );
-			lastAngleY2 = angle.y;
 			break;
 		case AntiAimType_Y::LBYONGROUND:
 			static C_BasePlayer* player = ((C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer()));
@@ -605,6 +603,8 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 			angle.y -= 0.0f;
 			break;
 	}
+	lastAngleY = angle.y;
+	lastAngleY2 = angle.y;
 }
 
 void DoAntiAimX(QAngle& angle, bool bFlip, bool& clamp)
