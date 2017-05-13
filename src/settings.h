@@ -74,7 +74,8 @@ enum class AntiAimType_Y : int
 	LOWERBODY,
 	LBYONGROUND,
 	LUA_UNCLAMPED,
-	LUA_UNCLAMPED2
+	LUA_UNCLAMPED2,
+	CASUALAA
 };
 
 enum class AntiAimType_X : int
