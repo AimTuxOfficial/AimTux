@@ -562,6 +562,20 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 		case AntiAimType_Y::LOWERBODY:
 			angle.y = *((C_BasePlayer*)entityList->GetClientEntity(engine->GetLocalPlayer()))->GetLowerBodyYawTarget() + rand()%35 + 165;
 			break;
+		case AntiAimType_Y::ANGEL_SPIN:
+			clamp = false;
+			factor = (globalVars->curtime * 5000.0f);
+			angle.y = factor + 36000000.0f;
+			break;
+		case AntiAimType_Y::LUA_UNCLAMPED:
+			clamp = false;
+			angle.y = LuaScriptY( lastAngleY, angle.y );
+			break;
+		case AntiAimType_Y::LUA_UNCLAMPED2:
+			clamp = false;
+			angle.y = LuaScriptY2( lastAngleY2, angle.y );
+			lastAngleY2 = angle.y;
+			break;
 		case AntiAimType_Y::LBYONGROUND:
 			static C_BasePlayer* player = ((C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer()));
 			if (player->GetFlags() & FL_ONGROUND)
@@ -590,25 +604,7 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 		default:
 			angle.y -= 0.0f;
 			break;
-		case AntiAimType_Y::ANGEL_SPIN:
-			clamp = false;
-			factor = (globalVars->curtime * 5000.0f);
-			angle.y = factor + 36000000.0f;
-			break;
-		case AntiAimType_Y::LUA_UNCLAMPED:
-			clamp = false;
-			angle.y = LuaScriptY( lastAngleY, angle.y );
-			break;
-		case AntiAimType_Y::LUA_UNCLAMPED2:
-			clamp = false;
-			angle.y = LuaScriptY2( lastAngleY2, angle.y );
-			lastAngleY2 = angle.y;
-			break;
-		default:
-			angle.y -= 0.0f;
-			break;
 	}
-	lastAngleY = angle.y;
 }
 
 void DoAntiAimX(QAngle& angle, bool bFlip, bool& clamp)
