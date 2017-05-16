@@ -1,6 +1,6 @@
-![banner](http://aimtux.net/images/banner.png)
-![banner](http://realnigga.club/img/knob.jpg)
-
+<p align="center">
+<img src="http://i.imgur.com/mCtrbIN.png">
+</p>
 ===================
 
 [![Join the chat at https://www.gitter.im/AimTuxOfficial/lobby](https://img.shields.io/gitter/room/TechnologyAdvice/Stardust.svg?style=flat-square)](https://www.gitter.im/AimTuxOfficial/lobby)
