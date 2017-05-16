@@ -566,6 +566,9 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 			factor = (globalVars->curtime * 5000.0f);
 			angle.y = factor + 36000000.0f;
 			break;
+		case AntiAimType_Y::CASUALAA:
+			yFlip ? angle.y -= 35.0f : angle.y += 35.0f;
+			break;
 		case AntiAimType_Y::LUA_UNCLAMPED:
 			clamp = false;
 			angle.y = LuaScriptY( lastAngleY, angle.y );

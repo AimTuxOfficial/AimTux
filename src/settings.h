@@ -74,7 +74,8 @@ enum class AntiAimType_Y : int
 	LOWERBODY,
 	LBYONGROUND,
 	LUA_UNCLAMPED,
-	LUA_UNCLAMPED2
+	LUA_UNCLAMPED2,
+	CASUALAA
 };
 
 enum class AntiAimType_X : int
@@ -904,6 +905,7 @@ namespace Settings
 	namespace AutoDefuse
 	{
 		extern bool enabled;
+		extern bool silent;
 	}
 
 	namespace NoSmoke
