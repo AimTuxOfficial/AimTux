@@ -65,6 +65,7 @@ enum class AntiAimType_Y : int
 	STATICSMALLJITTER,
 	LUA1, // ImGui stole the name of LUA
 	LUA2, // Alternate LUA if you want a separate one for Fake.
+	CASUAL,
 	LISP,
 	LISP_SIDE,
 	LISP_JITTER,
