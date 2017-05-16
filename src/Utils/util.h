@@ -30,6 +30,7 @@ namespace Util
 
 	long GetEpochTime();
 
+	const std::map<int,int> * GetModelTypeBoneMap(C_BasePlayer* player);
 	ModelType GetModelTypeID(C_BasePlayer* player);
 	std::string ModelTypeToString(ModelType model);
 

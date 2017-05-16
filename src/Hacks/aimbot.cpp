@@ -158,55 +158,7 @@ int GetClosestBone( CUserCmd* cmd, C_BasePlayer* localPlayer, C_BasePlayer* enem
 
 	int tempBone = (int)Bone::INVALID;
 
-	ModelType enemyModel = Util::GetModelTypeID(enemy);
-
-	const std::map<int, int> *modelType;
-	switch( enemyModel )
-	{
-		case ModelType::FBI: /* Counter Terrorists */
-			modelType = &BoneMapCT_FBI;
-			break;
-		case ModelType::GIGN:
-			modelType = &BoneMapCT_GIGN;
-			break;
-		case ModelType::GSG:
-			modelType = &BoneMapCT_GSG;
-			break;
-		case ModelType::IDF:
-			modelType = &BoneMapCT_IDF;
-			break;
-		case ModelType::SAS:
-			modelType = &BoneMapCT_SAS;
-			break;
-		case ModelType::SEALS:
-			modelType = &BoneMapCT_Seals;
-			break;
-		case ModelType::SWAT:
-			modelType = &BoneMapCT_SWAT;
-			break;
-		case ModelType::ANARCHIST: /* Terrorists */
-			modelType = &BoneMapT_Anarchist;
-			break;
-		case ModelType::BALKAN:
-			modelType = &BoneMapT_Balkan;
-			break;
-		case ModelType::LEETKREW:
-			modelType = &BoneMapT_Leet;
-			break;
-		case ModelType::PHOENIX:
-			modelType = &BoneMapT_Phoenix;
-			break;
-		case ModelType::PROFESSIONAL:
-			modelType = &BoneMapT_Professional;
-			break;
-		case ModelType::SEPARATIST:
-			modelType = &BoneMapT_Separatist;
-			break;
-
-		case ModelType::UNKNOWN:
-			cvar->ConsoleDPrintf("(GetClosestBone):Unknown Enemy Player Model Encountered. Exiting\n");
-			return (int)Bone::INVALID;
-	}
+	const std::map<int, int> *modelType = Util::GetModelTypeBoneMap(enemy);
 
 	static int len = sizeof(Settings::Aimbot::AutoAim::desiredBones) / sizeof(Settings::Aimbot::AutoAim::desiredBones[0]);
 	for( int i = 0; i < len; i++ )
