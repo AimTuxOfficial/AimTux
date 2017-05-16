@@ -567,7 +567,7 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 			angle.y = factor + 36000000.0f;
 			break;
 		case AntiAimType_Y::CASUALAA:
-			yFlip ? angle.y -= 35.0f : angle.y -= -35.0f;
+			yFlip ? angle.y -= 35.0f : angle.y += 35.0f;
 			break;
 		case AntiAimType_Y::LUA_UNCLAMPED:
 			clamp = false;
