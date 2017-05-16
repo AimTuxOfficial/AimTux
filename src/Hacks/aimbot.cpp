@@ -287,8 +287,6 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, int& bestBone, float
 			if( tempBone == (int)Bone::INVALID || !Entity::IsVisibleThroughEnemies(player, tempBone) )
 				continue;
 			bestBone = tempBone;
-			closestEntity = player;
-			continue;
 		}
 
 		Vector pVecTarget = localplayer->GetEyePosition();
@@ -298,11 +296,11 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, int& bestBone, float
 
 		float distance = pVecTarget.DistTo(eVecTarget);
 		float fov = Math::GetFov(viewAngles, Math::CalcAngle(pVecTarget, eVecTarget));
-		float realDistance = GetRealDistanceFOV(distance, Math::CalcAngle(pVecTarget, eVecTarget), cmd);
-
 
 		if (aimTargetType == AimTargetType::FOV && fov > bestFov)
 			continue;
+
+		float realDistance = GetRealDistanceFOV(distance, Math::CalcAngle(pVecTarget, eVecTarget), cmd);
 
 		if (aimTargetType == AimTargetType::REAL_DISTANCE && realDistance > bestRealDistance)
 			continue;
@@ -325,6 +323,8 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, int& bestBone, float
 		else
 		{
 			closestEntity = player;
+			bestFov = fov;
+			bestRealDistance = realDistance;
 		}
 	}
 	if( Settings::Aimbot::AutoAim::engageLock )
@@ -353,7 +353,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, int& bestBone, float
 		engine->GetPlayerInfo(closestEntity->GetIndex(), &playerInfo);
 		cvar->ConsoleDPrintf("%'s is Closest. Bone:%d\n", playerInfo.name, bestBone);
 	}
-	 */
+	*/
 
 	return closestEntity;
 }
