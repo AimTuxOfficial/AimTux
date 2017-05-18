@@ -462,42 +462,42 @@ class CCSWeaponInfo : public FileWeaponInfo_t
 public:
 	CSWeaponType GetWeaponType()
 	{
-		return *(CSWeaponType*)((uintptr_t)this + 0x814);
+		return *(CSWeaponType*)((uintptr_t)this + 0x864);
 	}
 
 	bool IsFullAuto()
 	{
-		return *(bool*)((uintptr_t)this + 0x820);
+		return *(bool*)((uintptr_t)this + 0x870);
 	}
 
 	float GetWeaponArmorRatio()
 	{
-		return *(float*)((uintptr_t)this + 0x82C);
+		return *(float*)((uintptr_t)this + 0x87C);
 	}
 
 	float GetPenetration()
 	{
-		return *(float*)((uintptr_t)this + 0x840);
+		return *(float*)((uintptr_t)this + 0x890);
 	}
 
 	int GetDamage()
 	{
-		return *(int*)((uintptr_t)this + 0x844);
+		return *(int*)((uintptr_t)this + 0x894);
 	}
 
 	float GetRange()
 	{
-		return *(float*)((uintptr_t)this + 0x848);
+		return *(float*)((uintptr_t)this + 0x898);
 	}
 
 	float GetRangeModifier()
 	{
-		return *(float*)((uintptr_t)this + 0x84C);
+		return *(float*)((uintptr_t)this + 0x89C);
 	}
 
 	int GetZoomLevels()
 	{
-		return *(int*)((uintptr_t)this + 0xE88);
+		return *(int*)((uintptr_t)this + 0xEE0);
 	}
 };
 
