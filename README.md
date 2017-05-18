@@ -45,7 +45,7 @@ and it will tell you on the bottom line the version, if it is not at least v6.0,
 #### Download AimTux:
 
 ```bash
-git clone --recursive https://github.com/AimTuxOfficial/AimTux
+git clone --recursive https://github.com/kwibjo/AimTux
 ```
 
 ```bash
