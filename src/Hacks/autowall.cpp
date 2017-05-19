@@ -1,5 +1,4 @@
 #include "autowall.h"
-
 float Autowall::GetHitgroupDamageMultiplier(HitGroups iHitGroup)
 {
 	switch (iHitGroup)
@@ -78,7 +77,7 @@ bool Autowall::TraceToExit(Vector& end, trace_t* enter_trace, Vector start, Vect
 		{
 			if (exit_trace->m_pEntityHit)
 			{
-				if (enter_trace->m_pEntityHit && enter_trace->m_pEntityHit == entityList->GetClientEntity(0))
+				if (enter_trace->m_pEntityHit && enter_trace->m_pEntityHit == entityList->GetClientEntity(Aimbot::targetAimbot))
 					return true;
 			}
 
@@ -125,6 +124,7 @@ bool Autowall::HandleBulletPenetration(CCSWeaponInfo* weaponInfo, FireBulletData
 	int exit_material = exit_surface_data->game.material;
 
 	float exit_surf_penetration_mod = exit_surface_data->game.flPenetrationModifier;
+
 	float final_damage_modifier = 0.16f;
 	float combined_penetration_modifier = 0.0f;
 
