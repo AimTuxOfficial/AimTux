@@ -1,6 +1,6 @@
 #!/bin/bash
 if [ ! -d ".git" ]; then
-    echo ".git folder missing. Please re-download AimTux-Fuzion with the command 'git clone --recursive https://github.com/LWSS/AimTux.git' into a new folder."
+    echo ".git folder missing. Do NOT download the repo as a zip file from github! Please re-download AimTux-Fuzion with the command 'git clone --recursive https://github.com/LWSS/AimTux.git' into a new folder."
     exit
 else
     git pull

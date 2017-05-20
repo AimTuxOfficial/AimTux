@@ -89,7 +89,6 @@ void Offsets::GetOffsets()
 	offsets.DT_CSPlayer.m_iAccount = NetVarManager::GetOffset(tables, "DT_CSPlayer", "m_iAccount");
 	offsets.DT_CSPlayer.m_totalHitsOnServer = NetVarManager::GetOffset(tables, "DT_CSPlayer", "m_totalHitsOnServer");
 	offsets.DT_CSPlayer.m_ArmorValue = NetVarManager::GetOffset(tables, "DT_CSPlayer", "m_ArmorValue");
-	offsets.DT_CSPlayer.m_bHasDefuser = NetVarManager::GetOffset(tables, "DT_CSPlayer", "m_bHasDefuser");
 	offsets.DT_CSPlayer.m_bIsDefusing = NetVarManager::GetOffset(tables, "DT_CSPlayer", "m_bIsDefusing");
 	offsets.DT_CSPlayer.m_bIsGrabbingHostage = NetVarManager::GetOffset(tables, "DT_CSPlayer", "m_bIsGrabbingHostage");
 	offsets.DT_CSPlayer.m_bIsScoped = NetVarManager::GetOffset(tables, "DT_CSPlayer", "m_bIsScoped");

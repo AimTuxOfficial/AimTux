@@ -441,9 +441,6 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["View"]["NoViewPunch"]["enabled"] = Settings::View::NoViewPunch::enabled;
 	settings["View"]["NoAimPunch"]["enabled"] = Settings::View::NoAimPunch::enabled;
 
-	settings["Teleport"]["enabled"] = Settings::Teleport::enabled;
-	settings["Teleport"]["key"] = Settings::Teleport::key;
-
 	settings["FakeLag"]["enabled"] = Settings::FakeLag::enabled;
 	settings["FakeLag"]["value"] = Settings::FakeLag::value;
 	settings["FakeLag"]["adaptive"] = Settings::FakeLag::adaptive;
@@ -899,9 +896,6 @@ void Settings::LoadConfig(std::string path)
 
 	GetVal(settings["View"]["NoViewPunch"]["enabled"], &Settings::View::NoViewPunch::enabled);
 	GetVal(settings["View"]["NoAimPunch"]["enabled"], &Settings::View::NoAimPunch::enabled);
-
-	GetVal(settings["Teleport"]["enabled"], &Settings::Teleport::enabled);
-	GetButtonCode(settings["Teleport"]["key"], &Settings::Teleport::key);
 
 	GetVal(settings["FakeLag"]["enabled"], &Settings::FakeLag::enabled);
 	GetVal(settings["FakeLag"]["value"], &Settings::FakeLag::value);

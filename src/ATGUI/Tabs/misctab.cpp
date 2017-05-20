@@ -413,15 +413,6 @@ void Misc::RenderTab()
 				SetTooltip("Stops tickrate so you freeze in place");
 				ImGui::Checkbox("Autoblock", &Settings::Autoblock::enabled);
 				SetTooltip("Allows you to block players from moving forwards by standing in front of them and mirroring their moves - great for griefing");
-				if (ImGui::Checkbox("Teleport", &Settings::Teleport::enabled))
-				{
-					if (!ValveDSCheck::forceUT && ((*csGameRules) && (*csGameRules)->IsValveDS()) && Settings::Teleport::enabled)
-					{
-						Settings::Teleport::enabled = false;
-						ImGui::OpenPopup("Error###UNTRUSTED_FEATURE");
-					}
-				}
-				SetTooltip("Teleport to (0, 0) on any map");
 				ImGui::Checkbox("Jump Throw", &Settings::JumpThrow::enabled);
 				SetTooltip("Hold to prime grenade, release to perform perfect jump throw. Good for executing map smokes.");
 				ImGui::Checkbox("Auto Defuse", &Settings::AutoDefuse::enabled);
@@ -442,7 +433,6 @@ void Misc::RenderTab()
 				SetTooltip("Prevents Cheat visuals from appearing in screenshots taken");
 				UI::KeyBindButton(&Settings::Airstuck::key);
 				UI::KeyBindButton(&Settings::Autoblock::key);
-				UI::KeyBindButton(&Settings::Teleport::key);
 				UI::KeyBindButton(&Settings::JumpThrow::key);
 				ImGui::Checkbox("Silent Defuse", &Settings::AutoDefuse::silent);
 				SetTooltip("Will defuse the bomb with no need to look at it");
