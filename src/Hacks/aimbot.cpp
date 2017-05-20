@@ -317,7 +317,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, int& bestBone, float
 			int bone = (int)Bone::INVALID;
 			float damage = AutoWallBestBone(player, bone); // sets bone param, returns damage of hitting that bone.
 
-			if (damage >= Settings::Aimbot::AutoWall::value && bone != (int)Bone::INVALID)
+			if (damage > Settings::Aimbot::AutoWall::value && bone != (int)Bone::INVALID)
 			{
 				bestDamage = damage;
 				bestBone = bone;
