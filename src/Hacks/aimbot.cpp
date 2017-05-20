@@ -83,7 +83,7 @@ static void ApplyErrorToAngle(QAngle* angles, float margin)
 
 float AutoWallBestBone(C_BasePlayer *player, int &bestBone)
 {
-	float bestDamage = 0.0f;
+	float bestDamage = Settings::Aimbot::AutoWall::value;
 	const std::map<int, int> *modelType = Util::GetModelTypeBoneMap(player);
 
 	static int len = sizeof(Settings::Aimbot::AutoAim::desiredBones) / sizeof(Settings::Aimbot::AutoAim::desiredBones[0]);
@@ -103,7 +103,7 @@ float AutoWallBestBone(C_BasePlayer *player, int &bestBone)
 		if( boneDamage > bestDamage )
 		{
 			bestBone = boneID;
-			if( boneDamage >= 100 )
+			if( boneDamage >= player->GetHealth() )
 			{
 				return boneDamage;
 			}
@@ -314,10 +314,10 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, int& bestBone, float
 
 		if (Settings::Aimbot::AutoWall::enabled)
 		{
-			int bone;
+			int bone = (int)Bone::INVALID;
 			float damage = AutoWallBestBone(player, bone); // sets bone param, returns damage of hitting that bone.
 
-			if (damage >= Settings::Aimbot::AutoWall::value)
+			if (damage >= Settings::Aimbot::AutoWall::value && bone != (int)Bone::INVALID)
 			{
 				bestDamage = damage;
 				bestBone = bone;
@@ -370,7 +370,7 @@ void Aimbot::RCS(QAngle& angle, C_BasePlayer* player, CUserCmd* cmd)
 	if (!(cmd->buttons & IN_ATTACK))
 		return;
 
-	bool hasTarget = Settings::Aimbot::AutoAim::enabled && shouldAim;
+	bool hasTarget = Settings::Aimbot::AutoAim::enabled && shouldAim && player;
 
 	if (!Settings::Aimbot::RCS::always_on && !hasTarget)
 		return;
