@@ -58,6 +58,8 @@ bool shouldAim;
 QAngle AimStepLastAngle;
 QAngle RCSLastPunch;
 
+int Aimbot::targetAimbot = -1;
+
 std::unordered_map<Hitbox, std::vector<const char*>, Util::IntHash<Hitbox>> hitboxes = {
 		{ Hitbox::HITBOX_HEAD, { "head_0" } },
 		{ Hitbox::HITBOX_NECK, { "neck_0" } },
@@ -256,9 +258,12 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, int& bestBone, float
 		}
 	}
 
+	
+
 	for (int i = 1; i < engine->GetMaxClients(); ++i)
 	{
 		C_BasePlayer* player = (C_BasePlayer*) entityList->GetClientEntity(i);
+		Aimbot::targetAimbot = i;
 
 		if (!player
 			|| player == localplayer
