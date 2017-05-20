@@ -260,6 +260,92 @@ std::string Util::ModelTypeToString(ModelType model)
 	}
 }
 
+std::string Util::BoneToString(const std::map<int,int> * model, int boneID )
+{
+	int boneKey = (int)Bone::INVALID;
+	for( const std::pair<const int, int> &kv : (*model) )
+	{
+		if( kv.second == boneID )
+		{
+			boneKey = kv.first;
+			break;
+		}
+	}
+	if( boneKey == (int)Bone::INVALID )
+		return std::string("Unknown Bone");
+
+	switch( boneKey )
+	{
+		case (int)DesiredBones::BONE_PELVIS:
+			return std::string("Pelvis");
+		case (int)DesiredBones::BONE_HIP:
+			return std::string("Hip");
+		case (int)DesiredBones::BONE_LOWER_SPINAL_COLUMN:
+			return std::string("Lower Spine");
+		case (int)DesiredBones::BONE_MIDDLE_SPINAL_COLUMN:
+			return std::string("Middle Spine");
+		case (int)DesiredBones::BONE_UPPER_SPINAL_COLUMN:
+			return std::string("Upper Spine");
+		case (int)DesiredBones::BONE_NECK:
+			return std::string("Neck");
+		case (int)DesiredBones::BONE_HEAD:
+			return std::string("Head");
+
+		case (int)DesiredBones::BONE_LEFT_COLLARBONE:
+			return std::string("Left Collarbone");
+		case (int)DesiredBones::BONE_LEFT_SHOULDER:
+			return std::string("Left Shoulder ");
+		case (int)DesiredBones::BONE_LEFT_ARMPIT:
+			return std::string("Left Armpit");
+		case (int)DesiredBones::BONE_LEFT_BICEP:
+			return std::string("Left Bicep");
+		case (int)DesiredBones::BONE_LEFT_ELBOW:
+			return std::string("Left Elbow");
+		case (int)DesiredBones::BONE_LEFT_FOREARM:
+			return std::string("Left Forearm");
+		case (int)DesiredBones::BONE_LEFT_WRIST:
+			return std::string("Left Wrist");
+
+		case (int)DesiredBones::BONE_RIGHT_COLLARBONE:
+			return std::string("Right Collarbone");
+		case (int)DesiredBones::BONE_RIGHT_SHOULDER:
+			return std::string("Right Shoulder");
+		case (int)DesiredBones::BONE_RIGHT_ARMPIT:
+			return std::string("Right Armpit");
+		case (int)DesiredBones::BONE_RIGHT_BICEP:
+			return std::string("Right Bicep");
+		case (int)DesiredBones::BONE_RIGHT_FOREARM:
+			return std::string("Right Forearm");
+		case (int)DesiredBones::BONE_RIGHT_WRIST:
+			return std::string("Right Wrist");
+
+		case (int)DesiredBones::BONE_LEFT_BUTTCHEEK:
+			return std::string("Left Buttcheek");
+		case (int)DesiredBones::BONE_LEFT_THIGH:
+			return std::string("Left Thigh");
+		case (int)DesiredBones::BONE_LEFT_KNEE:
+			return std::string("Left Knee");
+		case (int)DesiredBones::BONE_LEFT_ANKLE:
+			return std::string("Left Ankle");
+		case (int)DesiredBones::BONE_LEFT_SOLE:
+			return std::string("Left Sole");
+
+		case (int)DesiredBones::BONE_RIGHT_BUTTCHEEK:
+			return std::string("Right Buttcheek");
+		case (int)DesiredBones::BONE_RIGHT_THIGH:
+			return std::string("Right Thigh");
+		case (int)DesiredBones::BONE_RIGHT_KNEE:
+			return std::string("Right Knee");
+		case (int)DesiredBones::BONE_RIGHT_ANKLE:
+			return std::string("Right Ankle");
+		case (int)DesiredBones::BONE_RIGHT_SOLE:
+			return std::string("Right Sole");
+
+		default:
+			return std::string("Bone not Indexed"); // be sure to use the DesiredBones enum. Some of the bones are not on all models.
+	}
+}
+
 ImColor Util::GetRainbowColor(float speed)
 {
 	speed = 0.002f * speed;

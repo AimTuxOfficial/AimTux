@@ -18,6 +18,7 @@ namespace Aimbot
 	void AutoSlow(C_BasePlayer* player, float& forward, float& sideMove, float& bestDamage, C_BaseCombatWeapon* active_weapon, CUserCmd* cmd);
 	void AutoPistol(C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd);
 	void AutoShoot(C_BasePlayer* player, C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd);
+	float GetBestBoneDamage(C_BasePlayer *player, Bone &bestBone);
 	void ShootCheck(C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd);
 	void NoShoot(C_BaseCombatWeapon* activeWeapon, C_BasePlayer* player, CUserCmd* cmd);
 
