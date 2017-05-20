@@ -162,7 +162,8 @@ const std::map<int,int> * Util::GetModelTypeBoneMap(C_BasePlayer* player)
 		case 98: // SAS
 			return &BoneMapCT_SAS;
 		default:
-			return NULL;
+			cvar->ConsoleDPrintf("(Util::GetModelTypeBoneMap)- Warning. Model type Unknown. Using Generic boneMap\n");
+			return &BoneMapGeneric;
 	}
 }
 

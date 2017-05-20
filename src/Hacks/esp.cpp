@@ -904,9 +904,10 @@ void ESP::DrawTracer(C_BasePlayer* player)
 
 void ESP::DrawAutoWall(C_BasePlayer *player)
 {
-	//const std::map<int, int> *modelType = Util::GetModelTypeBoneMap(player);
-	static HFont autowallFont = Draw::CreateFont("Andale Mono", 11, (int)FontFlags::FONTFLAG_ANTIALIAS );
+	const std::map<int, int> *modelType = Util::GetModelTypeBoneMap(player);
 
+	static HFont autowallFont = Draw::CreateFont("Andale Mono", 11, (int)FontFlags::FONTFLAG_DROPSHADOW );
+	/*
 	Vector bone2D;
 	Vector bone3D = player->GetBonePosition((int)Bone::BONE_HEAD);
 	if( debugOverlay->ScreenPosition(Vector(bone3D.x, bone3D.y, bone3D.z), bone2D))
@@ -919,8 +920,9 @@ void ESP::DrawAutoWall(C_BasePlayer *player)
 	std::string output = stream.str();
 
 	Draw::Text(Vector2D(bone2D.x, bone2D.y), output.c_str(), autowallFont, Color(255, 0, 255, 255)); // hot pink
-	/*
-	static int len = 7;
+	 */
+
+	static int len = 31;
 	for( int i = 0; i < len; i++ )
 	{
 		int boneIndex = (*modelType).at(i);
@@ -934,13 +936,13 @@ void ESP::DrawAutoWall(C_BasePlayer *player)
 		Autowall::FireBulletData data;
 		float damage = Autowall::GetDamage(bone3D, !Settings::Aimbot::friendly, data);
 		std::stringstream stream;
-		stream << std::fixed << std::setprecision(1) << damage;
+		stream << std::fixed << std::setprecision(0) << damage;
 		std::string output = stream.str();
 
 		//Draw::Text(Vector2D(bone2D.x, bone2D.y), output.c_str(), autowallFont, Color::FromImColor(GetESPPlayerColor(player, true))); // for color from config
 		Draw::Text(Vector2D(bone2D.x, bone2D.y), output.c_str(), autowallFont, Color(255, 0, 255, 255)); // hot pink
 	}
-	 */
+
 }
 
 void ESP::DrawHeaddot(C_BasePlayer* player)

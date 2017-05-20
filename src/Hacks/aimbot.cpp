@@ -79,34 +79,35 @@ static void ApplyErrorToAngle(QAngle* angles, float margin)
 	angles->operator+=(error);
 }
 
-float GetBestBoneDamage(C_BasePlayer *player, Bone &bestBone)
+float AutoWallBestBone(C_BasePlayer *player, int &bestBone)
 {
-	bestBone = Bone::BONE_HEAD;
 	float bestDamage = 0.0f;
-	for (std::unordered_map< Hitbox, std::vector<const char*>, Util::IntHash<Hitbox> >::iterator it = hitboxes.begin(); it != hitboxes.end(); it++)
+	const std::map<int, int> *modelType = Util::GetModelTypeBoneMap(player);
+
+	static int len = sizeof(Settings::Aimbot::AutoAim::desiredBones) / sizeof(Settings::Aimbot::AutoAim::desiredBones[0]);
+
+	for( int i = 0; i < len; i++ )
 	{
-		if (!Settings::Aimbot::AutoWall::bones[(int) it->first])
+		if( !Settings::Aimbot::AutoAim::desiredBones[i] )
+			continue;
+		int boneID = (*modelType).at(i);
+		if( boneID == (int)Bone::INVALID ) // bone not available on this modeltype.
 			continue;
 
-		std::vector<const char*> hitboxList = hitboxes[it->first];
-		for (std::vector<const char*>::iterator it2 = hitboxList.begin(); it2 != hitboxList.end(); it2++)
-		{
-			Bone bone = Entity::GetBoneByName(player, *it2);
-			Vector vecBone = player->GetBonePosition((int) bone);
+		Vector bone3D = player->GetBonePosition(boneID);
 
-			Autowall::FireBulletData data;
-			float damage = Autowall::GetDamage(vecBone, !Settings::Aimbot::friendly, data);
-			if (damage > bestDamage)
+		Autowall::FireBulletData data;
+		float boneDamage = Autowall::GetDamage(bone3D, !Settings::Aimbot::friendly, data);
+		if( boneDamage > bestDamage )
+		{
+			bestBone = boneID;
+			if( boneDamage >= 100 )
 			{
-				bestBone = bone;
-				if( damage >= 100 ){
-					return damage;
-				}
-				bestDamage = damage;
+				return boneDamage;
 			}
+			bestDamage = boneDamage;
 		}
 	}
-
 	return bestDamage;
 }
 
@@ -163,44 +164,42 @@ int GetClosestBone( CUserCmd* cmd, C_BasePlayer* localPlayer, C_BasePlayer* enem
 	static int len = sizeof(Settings::Aimbot::AutoAim::desiredBones) / sizeof(Settings::Aimbot::AutoAim::desiredBones[0]);
 	for( int i = 0; i < len; i++ )
 	{
-		if( Settings::Aimbot::AutoAim::desiredBones[i] )
+		if( !Settings::Aimbot::AutoAim::desiredBones[i] )
+			continue;
+
+		int boneID = (*modelType).at(i);
+		if( boneID == (int)Bone::INVALID )
+			continue;
+
+		Vector cbVecTarget = enemy->GetBonePosition(boneID);
+
+		if( aimTargetType == AimTargetType::FOV )
 		{
-			int boneIndex = (*modelType).at(i);
-			if( boneIndex == (int)Bone::INVALID )
-				continue;
+			float cbFov = Math::GetFov(viewAngles, Math::CalcAngle(pVecTarget, cbVecTarget));
 
-			Vector cbVecTarget = enemy->GetBonePosition(boneIndex);
-
-			if( aimTargetType == AimTargetType::FOV )
+			if( cbFov < tempFov )
 			{
-				float cbFov = Math::GetFov(viewAngles, Math::CalcAngle(pVecTarget, cbVecTarget));
-
-				if( cbFov < tempFov )
+				if(Entity::IsVisibleThroughEnemies(enemy, boneID) )
 				{
-					if(Entity::IsVisibleThroughEnemies(enemy, boneIndex) )
-					{
-						tempFov = cbFov;
-						tempBone = boneIndex;
-					}
-				}
-			}
-			else if( aimTargetType == AimTargetType::REAL_DISTANCE )
-			{
-				float cbDistance = pVecTarget.DistTo(cbVecTarget);
-				float cbRealDistance = GetRealDistanceFOV(cbDistance, Math::CalcAngle(pVecTarget, cbVecTarget), cmd);
-
-				if( cbRealDistance < tempDistance )
-				{
-					if(Entity::IsVisibleThroughEnemies(enemy, boneIndex) )
-					{
-						tempDistance = cbRealDistance;
-						tempBone = boneIndex;
-					}
+					tempFov = cbFov;
+					tempBone = boneID;
 				}
 			}
 		}
-		else
-			continue;
+		else if( aimTargetType == AimTargetType::REAL_DISTANCE )
+		{
+			float cbDistance = pVecTarget.DistTo(cbVecTarget);
+			float cbRealDistance = GetRealDistanceFOV(cbDistance, Math::CalcAngle(pVecTarget, cbVecTarget), cmd);
+
+			if( cbRealDistance < tempDistance )
+			{
+				if(Entity::IsVisibleThroughEnemies(enemy, boneID) )
+				{
+					tempDistance = cbRealDistance;
+					tempBone = boneID;
+				}
+			}
+		}
 	}
 	return tempBone;
 }
@@ -310,13 +309,13 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, int& bestBone, float
 
 		if (Settings::Aimbot::AutoWall::enabled)
 		{
-			Bone bone;
-			float damage = GetBestBoneDamage(player, bone); // sets bone param, returns damage of hitting that bone.
+			int bone;
+			float damage = AutoWallBestBone(player, bone); // sets bone param, returns damage of hitting that bone.
 
 			if (damage >= Settings::Aimbot::AutoWall::value)
 			{
 				bestDamage = damage;
-				bestBone = (int)bone;
+				bestBone = bone;
 				closestEntity = player;
 			}
 		}
