@@ -221,12 +221,12 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, int& bestBone, float
 
 	if( lockedOn )
 	{
-		if( lockedOn->GetAlive() && !Entity::IsVisibleThroughEnemies(lockedOn, bestBone))
+		if( lockedOn->GetAlive() && !Entity::IsVisibleThroughEnemies(lockedOn, bestBone) )
 		{
 			lockedOn = NULL;
 			return NULL;
 		}
-		if (!(cmd->buttons & IN_ATTACK) || lockedOn->GetDormant())//|| !Entity::IsVisible(lockedOn, bestBone, 180.f, Settings::ESP::Filters::smokeCheck))
+		if (!(cmd->buttons & IN_ATTACK || inputSystem->IsButtonDown(Settings::Aimbot::aimkey)) || lockedOn->GetDormant())//|| !Entity::IsVisible(lockedOn, bestBone, 180.f, Settings::ESP::Filters::smokeCheck))
 		{
 			lockedOn = NULL;
 		}
@@ -335,7 +335,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, int& bestBone, float
 	{
 		if( !lockedOn )
 		{
-			if( (cmd->buttons & IN_ATTACK) )
+			if( (cmd->buttons & IN_ATTACK) || inputSystem->IsButtonDown(Settings::Aimbot::aimkey) )
 			{
 				if( Util::GetEpochTime() - killTimes.back() > 100 ) // if we haven't gotten a kill in under 100ms.
 				{
