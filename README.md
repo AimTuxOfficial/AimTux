@@ -50,11 +50,11 @@ sudo emerge cmake dev-vcs/git gdb libsdl2 mesa (Lua Development Libraries >=5.3)
 #### Download AimTux-Fuzion:
 
 ```bash
-git clone --recursive https://github.com/LWSS/AimTux
+git clone --recursive https://github.com/LWSS/AimTux-Fuzion
 ```
 
 ```bash
-cd AimTux
+cd AimTux-Fuzion
 ```
 
 ===================
@@ -80,7 +80,7 @@ First of all, make sure CSGO is open, it doesn't matter whether you're in game o
 Navigate to the directory where AimTux-Fuzion was built if you haven't ready.
 
 ```bash
-cd AimTux
+cd AimTux-Fuzion
 ```
 
 Now, you can inject the hack with the `load` script
