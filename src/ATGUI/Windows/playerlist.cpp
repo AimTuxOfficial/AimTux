@@ -20,24 +20,18 @@ void PlayerList::RenderWindow()
 		ImGui::ListBoxHeader("##PLAYERS", ImVec2(-1, (ImGui::GetWindowSize().y - 95)));
 		if (engine->IsInGame() && *csPlayerResource)
 		{
-			ImGui::Columns(8);
+			ImGui::Columns(6);
 
 			ImGui::Text("ID");
 			ImGui::NextColumn();
 
 			ImGui::Text("Nickname");
 			ImGui::NextColumn();
-			
+
 			ImGui::Text("Team");
 			ImGui::NextColumn();
 
-			ImGui::Text("SteamID");
-			ImGui::NextColumn();
-			
 			ImGui::Text("Clan tag");
-			ImGui::NextColumn();
-
-			ImGui::Text("Stats");
 			ImGui::NextColumn();
 
 			ImGui::Text("Rank");
@@ -101,17 +95,11 @@ void PlayerList::RenderWindow()
 
 					ImGui::Text("%s", entityInformation.name);
 					ImGui::NextColumn();
-					
-					ImGui::Text("%s", entityInformation.guid);
-					ImGui::NextColumn();
 
 					ImGui::Text("%s", teamName);
 					ImGui::NextColumn();
 
 					ImGui::Text("%s", (*csPlayerResource)->GetClan(it));
-					ImGui::NextColumn();
-
-					ImGui::Text("%d/%d/%d", (*csPlayerResource)->GetKills(it),(*csPlayerResource)->GetAssists(it), (*csPlayerResource)->GetDeaths(it));
 					ImGui::NextColumn();
 
 					ImGui::Text("%s", ESP::ranks[*(*csPlayerResource)->GetCompetitiveRanking(it)]);
@@ -129,7 +117,7 @@ void PlayerList::RenderWindow()
 			IEngineClient::player_info_t entityInformation;
 			engine->GetPlayerInfo(currentPlayer, &entityInformation);
 
-			ImGui::Columns(3);
+			ImGui::Columns(2);
 			{
 				bool isFriendly = std::find(Aimbot::friends.begin(), Aimbot::friends.end(), entityInformation.xuid) != Aimbot::friends.end();
 				if (ImGui::Checkbox("Friend", &isFriendly))
@@ -159,7 +147,7 @@ void PlayerList::RenderWindow()
 					strcpy(nickname, name.c_str());
 					NameChanger::SetName(Util::PadStringRight(name, name.length() + 1));
 				}
-				
+
 				const char* clanTag = (*csPlayerResource)->GetClan(currentPlayer);
 				if (strlen(clanTag) > 0 && ImGui::Button("Steal clan tag"))
 				{
@@ -168,13 +156,6 @@ void PlayerList::RenderWindow()
 					Settings::ClanTagChanger::type = ClanTagType::STATIC;
 
 					ClanTagChanger::UpdateClanTagCallback();
-				}
-			}
-			ImGui::NextColumn();
-			{
-				if (ImGui::Button("Print information"))
-				{
-					cvar->ConsoleColorPrintf(ColorRGBA(255, 255, 255), "\n=====\nPlayer informations:\n[%s] %s \nSteamID: %s\n=====\n",(*csPlayerResource)->GetClan(currentPlayer), entityInformation.name, entityInformation.guid);
 				}
 			}
 		}
