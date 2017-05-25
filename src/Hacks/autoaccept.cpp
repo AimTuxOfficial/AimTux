@@ -15,7 +15,7 @@ void AutoAccept::PlaySound(const char* filename)
 	if (engine->IsInGame())
 		return;
 
-	if (strcmp(filename, "weapons/hegrenade/beep.wav") != 0)
+	if (strcmp(filename, "UI/competitive_accept_beep.wav") != 0) // new wav file on autoaccept, thanks @flawww
 		return;
 
 	CServerConfirmedReservationCheckCallback empty_callback;
