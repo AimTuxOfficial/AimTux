@@ -486,6 +486,91 @@ void Aimbot::RenderTab()
 				if (ImGui::Checkbox("Enabled##AUTOWALL", &autoWallEnabled))
 					UI::UpdateWeaponSettings();
 				SetTooltip("Shoots enemy through a wall if it does X amount of damage");
+				if(ImGui::Button("Autowall Bones", ImVec2(-1, 0)))
+					ImGui::OpenPopup("optionBones");
+				ImGui::SetNextWindowSize(ImVec2((ImGui::GetWindowWidth()/1.25f),ImGui::GetWindowHeight()), ImGuiSetCond_Always);
+				if( ImGui::BeginPopup("optionBones") )
+				{
+					ImGui::PushItemWidth(-1);
+					ImGui::Text("Center Mass\n");
+					if( ImGui::Checkbox("Head", &desiredBones[(int)DesiredBones::BONE_HEAD]) )
+						UI::UpdateWeaponSettings();
+					if( ImGui::Checkbox("Neck", &desiredBones[(int)DesiredBones::BONE_NECK]) )
+						UI::UpdateWeaponSettings();
+					if( ImGui::Checkbox("Upper Spine", &desiredBones[(int)DesiredBones::BONE_UPPER_SPINAL_COLUMN]) )
+						UI::UpdateWeaponSettings();
+					if( ImGui::Checkbox("Middle Spine", &desiredBones[(int)DesiredBones::BONE_MIDDLE_SPINAL_COLUMN]) )
+						UI::UpdateWeaponSettings();
+					if( ImGui::Checkbox("Lower Spine", &desiredBones[(int)DesiredBones::BONE_LOWER_SPINAL_COLUMN]) )
+						UI::UpdateWeaponSettings();
+					if( ImGui::Checkbox("Pelvis", &desiredBones[(int)DesiredBones::BONE_PELVIS]) )
+						UI::UpdateWeaponSettings();
+					if( ImGui::Checkbox("Hip", &desiredBones[(int)DesiredBones::BONE_HIP]) )
+						UI::UpdateWeaponSettings();
+					ImGui::Separator();
+
+					ImGui::Columns(2, NULL, false);
+					{
+						ImGui::Text("Player's Right Arm\n");
+						if( ImGui::Checkbox("Collarbone", &desiredBones[(int)DesiredBones::BONE_RIGHT_COLLARBONE]) )
+							UI::UpdateWeaponSettings();
+						if( ImGui::Checkbox("Shoulder", &desiredBones[(int)DesiredBones::BONE_RIGHT_SHOULDER]) )
+							UI::UpdateWeaponSettings();
+						if( ImGui::Checkbox("Armpit", &desiredBones[(int)DesiredBones::BONE_RIGHT_ARMPIT]) )
+							UI::UpdateWeaponSettings();
+						if( ImGui::Checkbox("Bicep", &desiredBones[(int)DesiredBones::BONE_RIGHT_BICEP]) )
+							UI::UpdateWeaponSettings();
+						if( ImGui::Checkbox("Elbow", &desiredBones[(int)DesiredBones::BONE_RIGHT_ELBOW]) )
+							UI::UpdateWeaponSettings();
+						if( ImGui::Checkbox("Forearm", &desiredBones[(int)DesiredBones::BONE_RIGHT_FOREARM]) )
+							UI::UpdateWeaponSettings();
+						if( ImGui::Checkbox("Wrist", &desiredBones[(int)DesiredBones::BONE_RIGHT_WRIST]) )
+							UI::UpdateWeaponSettings();
+						ImGui::Text("Player's Right Leg\n");
+						if( ImGui::Checkbox("Buttcheek", &desiredBones[(int)DesiredBones::BONE_RIGHT_BUTTCHEEK]) )
+							UI::UpdateWeaponSettings();
+						if( ImGui::Checkbox("Thigh", &desiredBones[(int)DesiredBones::BONE_RIGHT_THIGH]) )
+							UI::UpdateWeaponSettings();
+						if( ImGui::Checkbox("Knee", &desiredBones[(int)DesiredBones::BONE_RIGHT_KNEE]) )
+							UI::UpdateWeaponSettings();
+						if( ImGui::Checkbox("Ankle", &desiredBones[(int)DesiredBones::BONE_RIGHT_ANKLE]) )
+							UI::UpdateWeaponSettings();
+						if( ImGui::Checkbox("Sole", &desiredBones[(int)DesiredBones::BONE_RIGHT_SOLE]) )
+							UI::UpdateWeaponSettings();
+					}
+					ImGui::NextColumn();
+					{
+						ImGui::Text("Player's Left Arm\n");
+						if( ImGui::Checkbox("Collarbone ", &desiredBones[(int)DesiredBones::BONE_LEFT_COLLARBONE]) )
+							UI::UpdateWeaponSettings();
+						if( ImGui::Checkbox("Shoulder ", &desiredBones[(int)DesiredBones::BONE_LEFT_SHOULDER]) )
+							UI::UpdateWeaponSettings();
+						if( ImGui::Checkbox("Armpit ", &desiredBones[(int)DesiredBones::BONE_LEFT_ARMPIT]) )
+							UI::UpdateWeaponSettings();
+						if( ImGui::Checkbox("Bicep ", &desiredBones[(int)DesiredBones::BONE_LEFT_BICEP]) )
+							UI::UpdateWeaponSettings();
+						if( ImGui::Checkbox("Elbow ", &desiredBones[(int)DesiredBones::BONE_LEFT_ELBOW]) )
+							UI::UpdateWeaponSettings();
+						if( ImGui::Checkbox("Forearm ", &desiredBones[(int)DesiredBones::BONE_LEFT_FOREARM]) )
+							UI::UpdateWeaponSettings();
+						if( ImGui::Checkbox("Wrist ", &desiredBones[(int)DesiredBones::BONE_LEFT_WRIST]) )
+							UI::UpdateWeaponSettings();
+
+						ImGui::Text("Player's Left Leg\n");
+						if( ImGui::Checkbox("Buttcheek ", &desiredBones[(int)DesiredBones::BONE_LEFT_BUTTCHEEK]) )
+							UI::UpdateWeaponSettings();
+						if( ImGui::Checkbox("Thigh ", &desiredBones[(int)DesiredBones::BONE_LEFT_THIGH]) )
+							UI::UpdateWeaponSettings();
+						if( ImGui::Checkbox("Knee ", &desiredBones[(int)DesiredBones::BONE_LEFT_KNEE]) )
+							UI::UpdateWeaponSettings();
+						if( ImGui::Checkbox("Ankle ", &desiredBones[(int)DesiredBones::BONE_LEFT_ANKLE]) )
+							UI::UpdateWeaponSettings();
+						if( ImGui::Checkbox("Sole ", &desiredBones[(int)DesiredBones::BONE_LEFT_SOLE]) )
+							UI::UpdateWeaponSettings();
+					}
+					ImGui::PopItemWidth();
+					ImGui::EndPopup();
+				}
 			}
 			ImGui::NextColumn();
 			{
@@ -494,34 +579,8 @@ void Aimbot::RenderTab()
 					UI::UpdateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
-			ImGui::Columns(1);
-			ImGui::Separator();
-			ImGui::Text("AutoWall Target");
-			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
-			{
-				if (ImGui::Checkbox("Head", &autoWallBones[(int) Hitbox::HITBOX_HEAD]))
-					UI::UpdateWeaponSettings();
-				SetTooltip("Trigger on head");
-				if (ImGui::Checkbox("Neck", &autoWallBones[(int) Hitbox::HITBOX_NECK]))
-					UI::UpdateWeaponSettings();
-				SetTooltip("Trigger on neck");
-				if (ImGui::Checkbox("Pelvis", &autoWallBones[(int) Hitbox::HITBOX_PELVIS]))
-					UI::UpdateWeaponSettings();
-				SetTooltip("Trigger on pelvis");
-			}
-			ImGui::NextColumn();
-			{
-				if (ImGui::Checkbox("Spine", &autoWallBones[(int) Hitbox::HITBOX_SPINE]))
-					UI::UpdateWeaponSettings();
-				SetTooltip("Trigger on spine");
-				if (ImGui::Checkbox("Legs", &autoWallBones[(int) Hitbox::HITBOX_LEGS]))
-					UI::UpdateWeaponSettings();
-				SetTooltip("Trigger on legs");
-				if (ImGui::Checkbox("Arms", &autoWallBones[(int) Hitbox::HITBOX_ARMS]))
-					UI::UpdateWeaponSettings();
-				SetTooltip("Trigger on arms");
-			}
+
+
 			ImGui::Columns(1);
 			ImGui::Separator();
 			if (currentWeapon > ItemDefinitionIndex::INVALID && Settings::Aimbot::weapons.find(currentWeapon) != Settings::Aimbot::weapons.end())

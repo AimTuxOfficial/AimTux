@@ -219,6 +219,8 @@ void Visuals::RenderTab()
 				SetTooltip("Makes wall textures transparent");
 				ImGui::Checkbox("No Scope Border", &Settings::NoScopeBorder::enabled);
 				SetTooltip("Disables black scope silhouette");
+				ImGui::Checkbox("Autowall Debug", &Settings::ESP::AutoWall::debugView);
+				SetTooltip("Draw Possible Autowall Damage on bones\nenable Visuals and Check Filter Enemies");
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();

@@ -547,6 +547,10 @@ namespace Settings
 		extern ColorVar molotovColor;
 		extern HealthColorVar localplayerColor;
 
+		namespace AutoWall
+		{
+			extern bool debugView;
+		}
 		namespace Glow
 		{
 			extern bool enabled;

@@ -1,5 +1,4 @@
 #include "autowall.h"
-
 float Autowall::GetHitgroupDamageMultiplier(HitGroups iHitGroup)
 {
 	switch (iHitGroup)
@@ -78,7 +77,7 @@ bool Autowall::TraceToExit(Vector& end, trace_t* enter_trace, Vector start, Vect
 		{
 			if (exit_trace->m_pEntityHit)
 			{
-				if (enter_trace->m_pEntityHit && enter_trace->m_pEntityHit == entityList->GetClientEntity(0))
+				if (enter_trace->m_pEntityHit && enter_trace->m_pEntityHit == entityList->GetClientEntity(Aimbot::targetAimbot))
 					return true;
 			}
 
@@ -104,7 +103,7 @@ bool Autowall::HandleBulletPenetration(CCSWeaponInfo* weaponInfo, FireBulletData
 {
 	surfacedata_t *enter_surface_data = physics->GetSurfaceData(data.enter_trace.surface.surfaceProps);
 	int enter_material = enter_surface_data->game.material;
-	float enter_surf_penetration_mod = *(float*)((uint8_t*) enter_surface_data + 76);
+	float enter_surf_penetration_mod = enter_surface_data->game.flPenetrationModifier;
 
 	data.trace_length += data.enter_trace.fraction * data.trace_length_remaining;
 	data.current_damage *= powf(weaponInfo->GetRangeModifier(), data.trace_length * 0.002f);
@@ -124,7 +123,8 @@ bool Autowall::HandleBulletPenetration(CCSWeaponInfo* weaponInfo, FireBulletData
 	surfacedata_t *exit_surface_data = physics->GetSurfaceData(trace_exit.surface.surfaceProps);
 	int exit_material = exit_surface_data->game.material;
 
-	float exit_surf_penetration_mod = *(float*)((uint8_t*) exit_surface_data + 76);
+	float exit_surf_penetration_mod = exit_surface_data->game.flPenetrationModifier;
+
 	float final_damage_modifier = 0.16f;
 	float combined_penetration_modifier = 0.0f;
 

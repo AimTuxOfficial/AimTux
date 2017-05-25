@@ -33,7 +33,7 @@ namespace Util
 	const std::map<int,int> * GetModelTypeBoneMap(C_BasePlayer* player);
 	ModelType GetModelTypeID(C_BasePlayer* player);
 	std::string ModelTypeToString(ModelType model);
-
+	std::string BoneToString(const std::map<int,int> * model, int boneID );
 	template <typename T>
 	T GetValueByKey(std::vector<std::pair<int, T>> vec, int key)
 	{

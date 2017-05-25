@@ -1,7 +1,8 @@
 #include <iomanip>
 
 #include "esp.h"
-#include "../Utils/skins.h"
+#include "autowall.h"
+//#include "../Utils/skins.h"
 
 bool Settings::ESP::enabled = false;
 ButtonCode_t Settings::ESP::key = ButtonCode_t::KEY_Z;
@@ -84,6 +85,8 @@ bool Settings::ESP::HeadDot::enabled = false;
 float Settings::ESP::HeadDot::size = 2.f;
 
 bool Settings::ESP::Spread::enabled = false;
+
+bool Settings::ESP::AutoWall::debugView = false;
 
 struct Footstep
 {
@@ -676,6 +679,10 @@ void ESP::DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info
 
 	if (Settings::ESP::HeadDot::enabled)
 		DrawHeaddot(player);
+
+	if (Settings::ESP::AutoWall::debugView)
+		DrawAutoWall(player);
+
 }
 
 void ESP::DrawBomb(C_BaseCombatWeapon* bomb)
@@ -893,6 +900,49 @@ void ESP::DrawTracer(C_BasePlayer* player)
 
 	bool bIsVisible = Entity::IsVisible(player, (int)Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck);
 	Draw::Line((int)(src.x), (int)(src.y), x, y, Color::FromImColor(GetESPPlayerColor(player, bIsVisible)));
+}
+
+void ESP::DrawAutoWall(C_BasePlayer *player)
+{
+	const std::map<int, int> *modelType = Util::GetModelTypeBoneMap(player);
+
+	static HFont autowallFont = Draw::CreateFont("Andale Mono", 11, (int)FontFlags::FONTFLAG_DROPSHADOW );
+	/*
+	Vector bone2D;
+	Vector bone3D = player->GetBonePosition((int)Bone::BONE_HEAD);
+	if( debugOverlay->ScreenPosition(Vector(bone3D.x, bone3D.y, bone3D.z), bone2D))
+		return;
+
+	Autowall::FireBulletData data;
+	float damage = Autowall::GetDamage(bone3D, !Settings::Aimbot::friendly, data);
+	std::stringstream stream;
+	stream << std::fixed << std::setprecision(1) << damage;
+	std::string output = stream.str();
+
+	Draw::Text(Vector2D(bone2D.x, bone2D.y), output.c_str(), autowallFont, Color(255, 0, 255, 255)); // hot pink
+	 */
+
+	static int len = 31;
+	for( int i = 0; i < len; i++ )
+	{
+		int boneIndex = (*modelType).at(i);
+		if( boneIndex == (int)Bone::INVALID )
+			continue;
+		Vector bone2D;
+		Vector bone3D = player->GetBonePosition(boneIndex);
+		if( debugOverlay->ScreenPosition(Vector(bone3D.x, bone3D.y, bone3D.z), bone2D) )
+			continue;
+
+		Autowall::FireBulletData data;
+		float damage = Autowall::GetDamage(bone3D, !Settings::Aimbot::friendly, data);
+		std::stringstream stream;
+		stream << std::fixed << std::setprecision(0) << damage;
+		std::string output = stream.str();
+
+		//Draw::Text(Vector2D(bone2D.x, bone2D.y), output.c_str(), autowallFont, Color::FromImColor(GetESPPlayerColor(player, true))); // for color from config
+		Draw::Text(Vector2D(bone2D.x, bone2D.y), output.c_str(), autowallFont, Color(255, 0, 255, 255)); // hot pink
+	}
+
 }
 
 void ESP::DrawHeaddot(C_BasePlayer* player)

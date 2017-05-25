@@ -47,10 +47,10 @@ bool Entity::IsVisibleThroughEnemies(C_BasePlayer *player, int bone, float fov, 
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
-		return true;
+		return false;
 
-	if (player == localplayer)
-		return true;
+	if (player == localplayer || player->GetDormant())
+		return false;
 
 	if (!localplayer->GetAlive())
 	{
@@ -58,18 +58,11 @@ bool Entity::IsVisibleThroughEnemies(C_BasePlayer *player, int bone, float fov, 
 			localplayer = (C_BasePlayer*) entityList->GetClientEntityFromHandle(localplayer->GetObserverTarget());
 
 		if (!localplayer)
-			return true;
+			return false;
 	}
 
 	Vector e_vecHead = player->GetBonePosition(bone);
 	Vector p_vecHead = localplayer->GetEyePosition();
-
-	QAngle viewAngles;
-	engine->GetViewAngles(viewAngles);
-
-	// FIXME: scale fov by distance? its not really working that well...
-	if (Math::GetFov(viewAngles, Math::CalcAngle(p_vecHead, e_vecHead)) > fov)
-		return false;
 
 	Ray_t ray;
 	trace_t tr;

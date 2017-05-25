@@ -8,13 +8,14 @@
 #include "../interfaces.h"
 #include "../Utils/pstring.h"
 #include "../Utils/entity.h"
-#include "../settings.h"
+
 namespace ESP
 {
 	extern const char* ranks[];
 
 	bool GetBox(C_BaseEntity* entity, int& x, int& y, int& w, int& h);
 	ImColor GetESPPlayerColor(C_BasePlayer* player, bool visible);
+	void DrawAutoWall(C_BasePlayer* player);
 	void DrawBox(Color color, int x, int y, int w, int h, C_BaseEntity* entity);
 	void DrawEntity(C_BaseEntity* entity, const char* string, Color color);
 	void DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info_t player_info);

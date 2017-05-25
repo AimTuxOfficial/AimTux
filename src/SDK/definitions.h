@@ -551,6 +551,17 @@ enum class Bone : int
 	BONE_HEAD,
 
 };
+/* If we cannot identify the model type (perhaps a custom model), these should be the same on most models */
+static const std::map<int,int> BoneMapGeneric =
+{
+		{ (int)DesiredBones::BONE_PELVIS, 0 },
+		{ (int)DesiredBones::BONE_HIP, 3 },
+		{ (int)DesiredBones::BONE_LOWER_SPINAL_COLUMN, 4 },
+		{ (int)DesiredBones::BONE_MIDDLE_SPINAL_COLUMN,5 },
+		{ (int)DesiredBones::BONE_UPPER_SPINAL_COLUMN, 6 },
+		{ (int)DesiredBones::BONE_NECK, 7 },
+		{ (int)DesiredBones::BONE_HEAD, 8 },
+};
 
 /* Militia, Assault, Office */
 enum class BoneCT_FBI : int
@@ -1569,6 +1580,7 @@ enum class CSWeaponType : int
 	WEAPONTYPE_SNIPER_RIFLE,
 	WEAPONTYPE_MACHINEGUN,
 	WEAPONTYPE_C4,
+	FUZION_TOP_SECRET_WEAPONTYPE_CONFIDENTIAL_DO_NOT_STEAL,
 	WEAPONTYPE_GRENADE,
 	WEAPONTYPE_UNKNOWN
 
