@@ -20,7 +20,6 @@ A fully featured internal hack for *CounterStrike : Global Offensive* written in
 #### Download the dependencies required to build AimTux:
 
 
-
 If you're having problems compiling make sure you've got the latest version of `g++`.
 
 [How to update g++](https://github.com/AimTuxOfficial/AimTux/wiki/Updating-your-compiler)
@@ -44,7 +43,6 @@ __Gentoo:__
 ```bash
 sudo emerge cmake dev-vcs/git gdb libsdl2 mesa (Lua Development Libraries >=5.3)
 ```
-
 ===================
 
 #### Download AimTux-Fuzion:
@@ -59,18 +57,16 @@ cd AimTux-Fuzion
 
 ===================
 
-#### Generate a makefile
 
+#### Compile with build script
+
+You can build easily with the included build script.
 ```bash
-cmake .
+./build
 ```
-
-#### Compile with make
-
-**Note:** _The `4` in the command below specifies the amount of cpu threads you wish to compile with (more = faster)._
-
+You can later update with 
 ```bash
-make -j 4
+./update
 ```
 
 ## Injecting
@@ -112,21 +108,6 @@ If you wish to unload the hack from the game, you can do so by entering the comm
 ```bash
 ./uload
 ```
-
-## Updating AimTux
-
-We add and improve and fix things almost every week with AimTux-Fuzion( Unlike the Main AimTux ). We don't have a fixed release schedule, we just add things to it when they're ready. Because of this, AimTux-Fuzion will need to update a lot.
-
-If you don't update once a day then we recommend at LEAST update once a week, and ALWAYS update after a CSGO update, just to make sure we fix anything that's broken.
-
-We provide a script included in the AimTux-Fuzion folder that updates AimTux-Fuzion for you. To use it, just run:
-
-```
-./update
-```
-
-And it will download and compile without any effort.
-
 
 ## Configs
 
