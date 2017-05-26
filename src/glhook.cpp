@@ -48,7 +48,7 @@ void SDL2::SwapWindow(SDL_Window* window)
 		ImGuiIO& io = ImGui::GetIO();
 		ImFontConfig config;
 
-		// Add Roboto as default font
+		// Add SegoeUI as default font
 		io.Fonts->AddFontFromMemoryCompressedTTF(SegoeUI_compressed_data, SegoeUI_compressed_size, 18.0f, &config, SegoeUI_ranges);
 
 		// Enable MergeMode and add additional fonts
