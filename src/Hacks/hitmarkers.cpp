@@ -3,7 +3,7 @@
 bool Settings::ESP::Hitmarker::enabled = false;
 bool Settings::ESP::Hitmarker::enemies = false;
 bool Settings::ESP::Hitmarker::allies = false;
-ColorVar Settings::ESP::Hitmarker::color = ImColor(240, 10, 10, 255);
+ColorVar Settings::ESP::Hitmarker::color = ImColor(255, 0, 0, 255);
 int Settings::ESP::Hitmarker::duration = 2000;
 int Settings::ESP::Hitmarker::size = 16;
 int Settings::ESP::Hitmarker::innerGap = 5;

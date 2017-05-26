@@ -38,7 +38,7 @@ int __attribute__((constructor)) FuzionInit()
 	Hooker::HookSwapWindow();
 	Hooker::HookPollEvent();
 
-	cvar->ConsoleColorPrintf(ColorRGBA(150, 255, 150), ".so Successfully injected.\n");
+	cvar->ConsoleColorPrintf(ColorRGBA(0, 255, 0), ".so Successfully injected.\n");
 
 	ModSupport::OnInit();
 
@@ -146,5 +146,5 @@ void __attribute__((destructor)) FuzionShutdown()
 	for (ptrdiff_t off = 0; off < 0x2; off++)
 		Util::ProtectAddr(CamThinkSvCheatsCheck + off, PROT_READ | PROT_EXEC);
 
-	cvar->ConsoleColorPrintf(ColorRGBA(255, 150, 150), ".so Unloaded successfully.\n");
+	cvar->ConsoleColorPrintf(ColorRGBA(255, 0, 0), ".so Unloaded successfully.\n");
 }
