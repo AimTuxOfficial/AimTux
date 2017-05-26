@@ -7,7 +7,7 @@ bool Settings::ScreenshotCleaner::enabled = false;
 ColorVar Settings::UI::mainColor = ImColor(15, 15, 15, 255);
 ColorVar Settings::UI::bodyColor = ImColor(10, 10, 10, 255);
 ColorVar Settings::UI::fontColor = ImColor(204, 204, 204, 255);
-ColorVar Settings::UI::accentColor = ImColor(205, 18, 111, 255);
+ColorVar Settings::UI::accentColor = ImColor(39, 106, 219, 255);
 
 #define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))
 
