@@ -326,6 +326,7 @@ namespace Settings
 		extern ColorVar mainColor;
 		extern ColorVar bodyColor;
 		extern ColorVar fontColor;
+		extern ColorVar accentColor;
 
 		namespace Fonts
 		{
