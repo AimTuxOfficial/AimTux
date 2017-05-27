@@ -406,8 +406,9 @@ void Aimbot::RenderTab()
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-				if (ImGui::SliderFloat("##STEP", &aimStepValue, 0, 45))
+				if (ImGui::SliderFloat("##STEP", &aimStepValue, 5, 35))
 					UI::UpdateWeaponSettings();
+				SetTooltip("This is the Max Angle you will move per tick in Degrees\nFor both X and Y Axis");
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);

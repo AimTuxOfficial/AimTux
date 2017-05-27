@@ -419,24 +419,26 @@ void Aimbot::AimStep(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd)
 	if (!player)
 		return;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	Vector eVecTarget = player->GetBonePosition((int) Settings::Aimbot::bone);
-	Vector pVecTarget = localplayer->GetEyePosition();
-	float fov = Math::GetFov(AimStepLastAngle, Math::CalcAngle(pVecTarget, eVecTarget));
+	float fov = Math::GetFov(AimStepLastAngle, angle);
 
-	Aimbot::aimStepInProgress = fov > Settings::Aimbot::AimStep::value;
+	Aimbot::aimStepInProgress = ( fov > Settings::Aimbot::AimStep::value );
 
 	if (!Aimbot::aimStepInProgress)
 		return;
 
-	QAngle AimStepDelta = AimStepLastAngle - angle;
+	QAngle deltaAngle = AimStepLastAngle - angle;
+	Math::NormalizeAngles(deltaAngle);
 
-	if (AimStepDelta.y < 0)
+	if (deltaAngle.y < 0)
 		AimStepLastAngle.y += Settings::Aimbot::AimStep::value;
 	else
 		AimStepLastAngle.y -= Settings::Aimbot::AimStep::value;
 
-	AimStepLastAngle.x = angle.x;
+	if(deltaAngle.x < 0)
+		AimStepLastAngle.x += Settings::Aimbot::AimStep::value;
+	else
+		AimStepLastAngle.x -= Settings::Aimbot::AimStep::value;
+
 	angle = AimStepLastAngle;
 }
 
