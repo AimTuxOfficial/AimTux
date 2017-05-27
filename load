@@ -10,6 +10,12 @@ if [ ! -d ".git" ]; then
     /bin/echo "We have detected that you have downloaded aimtux-master.zip from the GitHub website. This is the WRONG way to download AimTux. Please download AimTux with the command 'git clone --recursive https://github.com/AimTuxOfficial/AimTux'"
 fi
 
+# pBypass for crash dumps being sent
+sudo rm -rf /tmp/dumps # Remove if it's there
+sudo mkdir /tmp/dumps # Make it as root
+sudo chmod 000 /tmp/dumps # No permissions
+
+
 #Credit: Aixxe @ aixxe.net
 if grep -q libFuzion.so /proc/$csgo_pid/maps; then
     /bin/echo -e "\e[33mAimTux-Fuzion is already injected... Aborting...\e[0m"

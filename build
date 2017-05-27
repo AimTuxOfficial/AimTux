@@ -1,0 +1,4 @@
+#!/bin/bash
+#TODO: check distro and packages
+
+cmake . && make -j$(grep "^processor" /proc/cpuinfo | wc -l) "$@" && strip -s libFuzion.so
