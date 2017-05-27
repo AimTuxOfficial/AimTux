@@ -160,8 +160,8 @@ struct AimbotWeapon_t
 	Bone bone;
 	SmoothType smoothType;
 	ButtonCode_t aimkey;
-	bool aimkeyOnly, smoothEnabled, smoothSaltEnabled, errorMarginEnabled, autoAimEnabled, aimStepEnabled, rcsEnabled, rcsAlwaysOn;
-	float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmountX, rcsAmountY, autoWallValue;
+	bool aimkeyOnly, smoothEnabled, smoothSaltEnabled, errorMarginEnabled, autoAimEnabled, aimStepEnabled, rcsEnabled, rcsAlwaysOn, spreadLimitEnabled;
+	float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmountX, rcsAmountY, autoWallValue, spreadLimit;
 	bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallBones[6], autoAimRealDistance, autoSlow, predEnabled;
 
 	AimbotWeapon_t(bool enabled, bool silent, bool friendly, bool closestBone, bool engageLock, bool engageLockTR, int engageLockTTR, Bone bone, ButtonCode_t aimkey, bool aimkeyOnly,
@@ -171,6 +171,7 @@ struct AimbotWeapon_t
 		   bool rcsEnabled, bool rcsAlwaysOn, float rcsAmountX, float rcsAmountY,
 		   bool autoPistolEnabled, bool autoShootEnabled, bool autoScopeEnabled,
 		   bool noShootEnabled, bool ignoreJumpEnabled, bool smokeCheck, bool flashCheck,
+		   bool spreadLimitEnabled, float spreadLimit,
 		   bool autoWallEnabled, float autoWallValue, bool autoAimRealDistance, bool autoSlow,
 		   bool predEnabled, bool autoWallBones[6] = nullptr)
 	{
@@ -206,6 +207,8 @@ struct AimbotWeapon_t
 		this->ignoreJumpEnabled = ignoreJumpEnabled;
 		this->smokeCheck = smokeCheck;
 		this->flashCheck = flashCheck;
+		this->spreadLimitEnabled = spreadLimitEnabled;
+		this->spreadLimit = spreadLimit;
 		this->autoWallEnabled = autoWallEnabled;
 		this->autoWallValue = autoWallValue;
 		this->autoSlow = autoSlow;
@@ -266,6 +269,8 @@ struct AimbotWeapon_t
 			this->ignoreJumpEnabled == another.ignoreJumpEnabled &&
 			this->smokeCheck == another.smokeCheck &&
 			this->flashCheck == another.flashCheck &&
+			this->spreadLimitEnabled == another.spreadLimitEnabled &&
+			this->spreadLimit == another.spreadLimit &&
 			this->autoWallEnabled == another.autoWallEnabled &&
 			this->autoWallValue == another.autoWallValue &&
 			this->autoSlow == another.autoSlow &&
@@ -440,6 +445,12 @@ namespace Settings
 		namespace FlashCheck
 		{
 			extern bool enabled;
+		}
+
+		namespace SpreadLimit
+		{
+			extern bool enabled;
+			extern float value;
 		}
 
 		namespace Prediction
@@ -697,7 +708,10 @@ namespace Settings
 
 		namespace Spread
 		{
-			extern bool enabled;
+			extern bool enabled; // show current spread
+			extern bool spreadLimit; // show spreadLimit value
+			extern ColorVar color;
+			extern ColorVar spreadLimitColor;
 		}
 	}
 

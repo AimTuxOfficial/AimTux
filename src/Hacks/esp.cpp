@@ -29,6 +29,8 @@ ColorVar Settings::ESP::flashbangColor = ImColor(224, 207, 22, 255);
 ColorVar Settings::ESP::grenadeColor = ImColor(224, 22, 22, 255);
 ColorVar Settings::ESP::molotovColor = ImColor(224, 22, 22, 255);
 ColorVar Settings::ESP::Skeleton::color = ImColor(255, 255, 255, 255);
+ColorVar Settings::ESP::Spread::color = ImColor(15, 200, 45, 255);
+ColorVar Settings::ESP::Spread::spreadLimitColor = ImColor(20, 5, 150, 255);
 bool Settings::ESP::Glow::enabled = false;
 HealthColorVar Settings::ESP::Glow::allyColor = ImColor(0, 50, 200, 200);
 HealthColorVar Settings::ESP::Glow::enemyColor = ImColor(200, 0, 50, 200);
@@ -85,6 +87,7 @@ bool Settings::ESP::HeadDot::enabled = false;
 float Settings::ESP::HeadDot::size = 2.f;
 
 bool Settings::ESP::Spread::enabled = false;
+bool Settings::ESP::Spread::spreadLimit = false;
 
 bool Settings::ESP::AutoWall::debugView = false;
 
@@ -1242,7 +1245,7 @@ void ESP::Paint()
 		ESP::DrawSounds();
 	if (Settings::ESP::FOVCrosshair::enabled)
 		ESP::DrawFOVCrosshair();
-	if (Settings::ESP::Spread::enabled)
+	if (Settings::ESP::Spread::enabled || Settings::ESP::Spread::spreadLimit)
 		ESP::DrawSpread();
 	if (Settings::NoScopeBorder::enabled && localplayer->IsScoped())
 		ESP::DrawScope();
@@ -1296,13 +1299,27 @@ void ESP::DrawSpread()
 	if (!activeWeapon)
 		return;
 
-	int width, height;
-	engine->GetScreenSize(width, height);
+	if( Settings::ESP::Spread::enabled )
+	{
+		int width, height;
+		engine->GetScreenSize(width, height);
 
-	float cone = activeWeapon->GetSpread() + activeWeapon->GetInaccuracy();
-	if( cone > 0.0f ){
-		float radius = ( cone * height ) / 1.5f;
-		Draw::Rectangle(Vector2D(((width/2)-radius), (height/2)-radius+1), Vector2D( (width/2)+radius+1, (height/2)+radius+2), Color::FromImColor(Settings::ESP::FOVCrosshair::color.Color()));
+		float cone = activeWeapon->GetSpread() + activeWeapon->GetInaccuracy();
+		if( cone > 0.0f ){
+			float radius = ( cone * height ) / 1.5f;
+			Draw::Rectangle(Vector2D(((width/2)-radius), (height/2)-radius+1), Vector2D( (width/2)+radius+1, (height/2)+radius+2), Color::FromImColor(Settings::ESP::Spread::color.Color()));
+		}
+	}
+	if( Settings::ESP::Spread::spreadLimit )
+	{
+		int width, height;
+		engine->GetScreenSize(width, height);
+
+		float cone = Settings::Aimbot::SpreadLimit::value;
+		if( cone > 0.0f ){
+			float radius = ( cone * height ) / 1.5f;
+			Draw::Rectangle(Vector2D(((width/2)-radius), (height/2)-radius+1), Vector2D( (width/2)+radius+1, (height/2)+radius+2), Color::FromImColor(Settings::ESP::Spread::spreadLimitColor.Color()));
+		}
 	}
 }
 

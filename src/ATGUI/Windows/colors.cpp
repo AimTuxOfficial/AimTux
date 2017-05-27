@@ -41,6 +41,8 @@ void Colors::RenderWindow()
 			{ "UI Body", &Settings::UI::bodyColor },
 			{ "UI Font", &Settings::UI::fontColor },
 			{ "FOV Circle", &Settings::ESP::FOVCrosshair::color },
+			{ "Spread", &Settings::ESP::Spread::color },
+			{ "SpreadLimit", &Settings::ESP::Spread::spreadLimitColor},
 			{ "Hitmarker", &Settings::ESP::Hitmarker::color },
 			{ "ESP - Enemy", &Settings::ESP::enemyColor },
 			{ "ESP - Team", &Settings::ESP::allyColor },
