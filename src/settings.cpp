@@ -135,7 +135,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	LoadColor(settings["UI"]["mainColor"], Settings::UI::mainColor);
 	LoadColor(settings["UI"]["bodyColor"], Settings::UI::bodyColor);
 	LoadColor(settings["UI"]["fontColor"], Settings::UI::fontColor);
-	LoadColor(settings["UI"]["accentColor"], Settings::UI::mainColor);
+	LoadColor(settings["UI"]["accentColor"], Settings::UI::accentColor);
 	settings["UI"]["Fonts"]["ESP"]["family"] = Settings::UI::Fonts::ESP::family;
 	settings["UI"]["Fonts"]["ESP"]["size"] = Settings::UI::Fonts::ESP::size;
 	settings["UI"]["Fonts"]["ESP"]["flags"] = Settings::UI::Fonts::ESP::flags;
@@ -517,7 +517,7 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["UI"]["mainColor"], &Settings::UI::mainColor);
 	GetVal(settings["UI"]["bodyColor"], &Settings::UI::bodyColor);
 	GetVal(settings["UI"]["fontColor"], &Settings::UI::fontColor);
-	GetVal(settings["UI"]["accentColor"], &Settings::UI::fontColor);
+	GetVal(settings["UI"]["accentColor"], &Settings::UI::accentColor);
 	GetVal(settings["UI"]["Fonts"]["ESP"]["family"], &Settings::UI::Fonts::ESP::family);
 	GetVal(settings["UI"]["Fonts"]["ESP"]["size"], &Settings::UI::Fonts::ESP::size);
 	GetVal(settings["UI"]["Fonts"]["ESP"]["flags"], &Settings::UI::Fonts::ESP::flags);
