@@ -8,7 +8,7 @@ void Walk::RenderWindow()
 	if( !Walk::showWindow )
 		return;
 
-	ImGui::SetNextWindowSize(ImVec2(290, 105), ImGuiSetCond_Always);
+	ImGui::SetNextWindowSize(ImVec2(280, 110), ImGuiSetCond_Always);
 	if (ImGui::Begin("Walkbot", &Walk::showWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoResize))
 	{
 		ImGui::Text("Dust 2 Walkbot");
