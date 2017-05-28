@@ -178,6 +178,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
 		weaponSetting["IgnoreJump"]["Enabled"] = i.second.ignoreJumpEnabled;
 		weaponSetting["SmokeCheck"]["Enabled"] = i.second.smokeCheck;
 		weaponSetting["FlashCheck"]["Enabled"] = i.second.flashCheck;
+		weaponSetting["SpreadLimit"]["Enabled"] = i.second.spreadLimitEnabled;
+		weaponSetting["SpreadLimit"]["Value"] = i.second.spreadLimit;
 		weaponSetting["AutoWall"]["Enabled"] = i.second.autoWallEnabled;
 		weaponSetting["AutoWall"]["Value"] = i.second.autoWallValue;
 		weaponSetting["AutoSlow"]["enabled"] = i.second.autoSlow;
@@ -328,6 +330,9 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["ESP"]["HeadDot"]["enabled"] = Settings::ESP::HeadDot::enabled;
 	settings["ESP"]["HeadDot"]["size"] = Settings::ESP::HeadDot::size;
 	settings["ESP"]["Spread"]["enabled"] = Settings::ESP::Spread::enabled;
+	settings["ESP"]["Spread"]["spreadLimit"] = Settings::ESP::Spread::spreadLimit;
+	LoadColor(settings["ESP"]["Spread"]["color"], Settings::ESP::Spread::color);
+	LoadColor(settings["ESP"]["Spread"]["spreadLimitColor"], Settings::ESP::Spread::spreadLimitColor);
 
 	settings["Dlights"]["enabled"] = Settings::Dlights::enabled;
 	settings["Dlights"]["radius"] = Settings::Dlights::radius;
@@ -525,7 +530,7 @@ void Settings::LoadConfig(std::string path)
 	Fonts::SetupFonts();
 
 	Settings::Aimbot::weapons = {
-			{ ItemDefinitionIndex::INVALID, { false, false, false, false, false, false, 700, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f, false, false, false, false, false, false, false, false, 10.0f, false, false, 5.0f } },
+			{ ItemDefinitionIndex::INVALID, { false, false, false, false, false, false, 700, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f, false, false, false, false, false, false, false, false, 0.1f, false, 10.0f, false, false, 5.0f } },
 	};
 
 	for (Json::ValueIterator itr = settings["Aimbot"]["weapons"].begin(); itr != settings["Aimbot"]["weapons"].end(); itr++)
@@ -581,6 +586,8 @@ void Settings::LoadConfig(std::string path)
 				weaponSetting["IgnoreJump"]["Enabled"].asBool(),
 				weaponSetting["SmokeCheck"]["Enabled"].asBool(),
 				weaponSetting["FlashCheck"]["Enabled"].asBool(),
+				weaponSetting["SpreadLimit"]["Enabled"].asBool(),
+				weaponSetting["SpreadLimit"]["Value"].asFloat(),
 				weaponSetting["AutoWall"]["Enabled"].asBool(),
 				weaponSetting["AutoWall"]["Value"].asFloat(),
 				weaponSetting["AutoAim"]["RealDistance"].asBool(),
@@ -731,6 +738,9 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["ESP"]["HeadDot"]["enabled"], &Settings::ESP::HeadDot::enabled);
 	GetVal(settings["ESP"]["HeadDot"]["size"], &Settings::ESP::HeadDot::size);
 	GetVal(settings["ESP"]["Spread"]["enabled"], &Settings::ESP::Spread::enabled);
+	GetVal(settings["ESP"]["Spread"]["spreadLimit"], &Settings::ESP::Spread::spreadLimit);
+	GetVal(settings["ESP"]["Spread"]["color"], &Settings::ESP::Spread::color);
+	GetVal(settings["ESP"]["Spread"]["spreadLimitColor"], &Settings::ESP::Spread::spreadLimitColor);
 
 	GetVal(settings["Dlights"]["enabled"], &Settings::Dlights::enabled);
 	GetVal(settings["Dlights"]["radius"], &Settings::Dlights::radius);

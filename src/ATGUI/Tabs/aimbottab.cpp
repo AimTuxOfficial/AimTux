@@ -39,6 +39,8 @@ static bool noShootEnabled = false;
 static bool ignoreJumpEnabled = false;
 static bool smokeCheck = false;
 static bool flashCheck = false;
+static bool spreadLimitEnabled = false;
+static float spreadLimit = 0.1f;
 static bool autoWallEnabled = false;
 static float autoWallValue = 10.0f;
 static bool autoWallBones[] = { true, false, false, false, false, false };
@@ -84,6 +86,8 @@ void UI::ReloadWeaponSettings()
 	ignoreJumpEnabled = Settings::Aimbot::weapons.at(index).ignoreJumpEnabled;
 	smokeCheck = Settings::Aimbot::weapons.at(index).smokeCheck;
 	flashCheck = Settings::Aimbot::weapons.at(index).flashCheck;
+	spreadLimitEnabled = Settings::Aimbot::weapons.at(index).spreadLimitEnabled;
+	spreadLimit = Settings::Aimbot::weapons.at(index).spreadLimit;
 	autoWallEnabled = Settings::Aimbot::weapons.at(index).autoWallEnabled;
 	autoWallValue = Settings::Aimbot::weapons.at(index).autoWallValue;
 	autoAimRealDistance = Settings::Aimbot::weapons.at(index).autoAimRealDistance;
@@ -108,7 +112,7 @@ void UI::UpdateWeaponSettings()
 			autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
 			rcsEnabled, rcsAlwaysOn, rcsAmountX, rcsAmountY,
 			autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
-			noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, predEnabled
+			noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, spreadLimitEnabled, spreadLimit, autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, predEnabled
 	};
 
 	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
@@ -374,6 +378,19 @@ void Aimbot::RenderTab()
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
+			ImGui::Text("Autoshoot");
+			ImGui::Separator();
+			if (ImGui::Checkbox("Auto Shoot", &autoShootEnabled))
+				UI::UpdateWeaponSettings();
+			SetTooltip("Automatically shoots when locking to an enemy");
+			ImGui::Checkbox("^Velocity Check", &Settings::Aimbot::AutoShoot::velocityCheck);
+			SetTooltip("Auto Shoot when below move penalty threshold.\nRecommend using with Auto-Slow");
+			if( ImGui::Checkbox("Spread Limit", &spreadLimitEnabled) )
+				UI::UpdateWeaponSettings();
+			SetTooltip("Auto Shoot below a certain inaccuracy threshold.\nGood for weapons such as deagle");
+			if( ImGui::SliderFloat("##SPREADLIMIT", &spreadLimit, 0, 0.1) )
+				UI::UpdateWeaponSettings();
+			SetTooltip("Visuals - Show Spreadlimit to see how big this is");
 			ImGui::EndChild();
 		}
 	}
@@ -406,8 +423,9 @@ void Aimbot::RenderTab()
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-				if (ImGui::SliderFloat("##STEP", &aimStepValue, 0, 45))
+				if (ImGui::SliderFloat("##STEP", &aimStepValue, 5, 35))
 					UI::UpdateWeaponSettings();
+				SetTooltip("This is the Max Angle you will move per tick in Degrees\nFor both X and Y Axis");
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
@@ -437,11 +455,6 @@ void Aimbot::RenderTab()
 						break;
 				}
 
-				if (ImGui::Checkbox("Auto Shoot", &autoShootEnabled))
-					UI::UpdateWeaponSettings();
-				SetTooltip("Automatically shoots when locking to an enemy");
-				ImGui::Checkbox("^Velocity Check", &Settings::Aimbot::AutoShoot::velocityCheck);
-				SetTooltip("Auto Shoot when below move penalty threshold.\nRecommend using with Auto-Slow");
 				if (ImGui::Checkbox("Silent Aim", &silent))
 					UI::UpdateWeaponSettings();
 				SetTooltip("Prevents the camera from locking to an enemy, doesn't work for demos");
