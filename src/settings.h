@@ -905,6 +905,12 @@ namespace Settings
 		extern ColorVar color;
 	}
 
+	namespace SkyBox
+	{
+		extern bool enabled;
+		extern int skyBoxNumber; // number in skyBoxNames
+	}
+
 	namespace ASUSWalls
 	{
 		extern bool enabled;

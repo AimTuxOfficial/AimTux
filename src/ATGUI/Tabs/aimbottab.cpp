@@ -383,7 +383,7 @@ void Aimbot::RenderTab()
 			if (ImGui::Checkbox("Auto Shoot", &autoShootEnabled))
 				UI::UpdateWeaponSettings();
 			SetTooltip("Automatically shoots when locking to an enemy");
-			ImGui::Checkbox("^Velocity Check", &Settings::Aimbot::AutoShoot::velocityCheck);
+			ImGui::Checkbox("Velocity Check", &Settings::Aimbot::AutoShoot::velocityCheck);
 			SetTooltip("Auto Shoot when below move penalty threshold.\nRecommend using with Auto-Slow");
 			if( ImGui::Checkbox("Spread Limit", &spreadLimitEnabled) )
 				UI::UpdateWeaponSettings();

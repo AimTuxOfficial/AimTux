@@ -39,6 +39,7 @@ typedef float (*RandomFloatFn)(float, float);
 typedef float (*RandomFloatExpFn)(float, float, float);
 typedef int (*RandomIntFn)(int, int);
 typedef float (*RandomGaussianFloatFn)(float, float);
+typedef bool (*SetNamedSkyBoxFn)(const char*);
 
 enum class TeamID : int
 {

@@ -1,11 +1,38 @@
-#include "nosky.h"
+#include "skybox.h"
 
 bool Settings::NoSky::enabled = false;
+bool Settings::SkyBox::enabled = false;
+int Settings::SkyBox::skyBoxNumber = 0;
 ColorVar Settings::NoSky::color = ImColor(0, 0, 0, 255);
 float r1 = 0.0f, g1 = 0.0f, b1 = 0.0f, a1 = 0.0f;
 
 std::unordered_map<MaterialHandle_t, ImColor> skyboxMaterials;
 std::unordered_map<MaterialHandle_t, ImColor> skyboxMaterials2;
+
+const char* skyBoxNames[] = {
+		"cs_baggage_skybox_", // 0
+		"cs_tibet", "embassy",
+		"italy",
+		"jungle",
+		"office",
+		"nukeblank",
+		"sky_venice",
+		"sky_cs15_daylight01_hdr",
+		"sky_cs15_daylight02_hdr",
+		"sky_cs15_daylight03_hdr",
+		"sky_cs15_daylight04_hdr",
+		"sky_csgo_cloudy01",
+		"sky_csgo_night_flat",
+		"sky_csgo_night02",
+		"sky_csgo_night02b",
+		"sky_day02_05",
+		"sky_day02_05_hdr",
+		"sky_dust",
+		"vertigo",
+		"vertigo_hdr",
+		"vertigoblue_hdr",
+		"vietnam" // 21
+};
 
 void NoSky::FrameStageNotify(ClientFrameStage_t stage)
 {
@@ -28,7 +55,13 @@ void NoSky::FrameStageNotify(ClientFrameStage_t stage)
 		skyboxMaterials.clear();
 		skyboxMaterials2.clear();
 	}
-	
+
+	if( engine->IsInGame() && Settings::ESP::enabled && Settings::SkyBox::enabled )
+	{
+		SetNamedSkyBox(skyBoxNames[Settings::SkyBox::skyBoxNumber]); // Thanks to @Flawww
+		return;
+	}
+
 	if (stage != ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_END)
 		return;
 
@@ -47,7 +80,7 @@ void NoSky::FrameStageNotify(ClientFrameStage_t stage)
 			skyboxMaterials2.emplace(i, ImColor(r1, g1, b1, a1));
 		}
 
-		ImColor color = (Settings::NoSky::enabled && Settings::ESP::enabled) ? Settings::NoSky::color.Color() : skyboxMaterials2.find(i)->second;
+		ImColor color = (Settings::NoSky::enabled && Settings::ESP::enabled && !Settings::SkyBox::enabled) ? Settings::NoSky::color.Color() : skyboxMaterials2.find(i)->second;
 
 		if (skyboxMaterials.at(i) != color)
 		{
@@ -56,4 +89,6 @@ void NoSky::FrameStageNotify(ClientFrameStage_t stage)
 			skyboxMaterials.at(i) = color;
 		}
 	}
+
+
 }

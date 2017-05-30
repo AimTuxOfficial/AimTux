@@ -10,6 +10,31 @@ void Visuals::RenderTab()
 	const char* ChamsTypes[] = { "Normal", "Normal - XQZ", "Flat", "Flat - XQZ" };
 	const char* ArmsTypes[] = { "Default", "Wireframe", "None" };
 
+	const char* SkyBoxes[] = {
+			"cs_baggage_skybox_", // 0
+			"cs_tibet", "embassy",
+			"italy",
+			"jungle",
+			"office",
+			"nukeblank",
+			"sky_venice",
+			"sky_cs15_daylight01_hdr",
+			"sky_cs15_daylight02_hdr",
+			"sky_cs15_daylight03_hdr",
+			"sky_cs15_daylight04_hdr",
+			"sky_csgo_cloudy01",
+			"sky_csgo_night_flat",
+			"sky_csgo_night02",
+			"sky_csgo_night02b",
+			"sky_day02_05",
+			"sky_day02_05_hdr",
+			"sky_dust",
+			"vertigo",
+			"vertigo_hdr",
+			"vertigoblue_hdr",
+			"vietnam" // 21
+	};
+
 	ImGui::Columns(2, NULL, true);
 	{
 		ImGui::Checkbox("Enabled", &Settings::ESP::enabled);
@@ -185,6 +210,12 @@ void Visuals::RenderTab()
 				SetTooltip("Show Spread Limit threshold");
 			}
 			ImGui::Columns(1);
+			ImGui::Separator();
+			ImGui::Text("Skybox Changer");
+			ImGui::Separator();
+			ImGui::Checkbox("##SKYBOXENABLE", &Settings::SkyBox::enabled);
+			ImGui::SameLine();
+			ImGui::Combo("##SKYBOX", &Settings::SkyBox::skyBoxNumber, SkyBoxes, IM_ARRAYSIZE(SkyBoxes));
 			ImGui::Separator();
 			ImGui::Text("Other Visual Settings");
 			ImGui::Separator();

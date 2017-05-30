@@ -64,6 +64,8 @@ extern RandomFloatExpFn RandomFloatExp;
 extern RandomIntFn RandomInt;
 extern RandomGaussianFloatFn RandomGaussianFloat;
 
+extern SetNamedSkyBoxFn SetNamedSkyBox;
+
 extern int* nPredictionRandomSeed;
 extern bool* bSendPacket;
 extern CMoveData* g_MoveData;

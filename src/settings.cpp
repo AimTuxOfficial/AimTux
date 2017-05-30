@@ -456,6 +456,9 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["NoSky"]["enabled"] = Settings::NoSky::enabled;
 	LoadColor(settings["NoSky"]["color"], Settings::NoSky::color);
 
+	settings["SkyBox"]["enabled"] = Settings::SkyBox::enabled;
+	settings["SkyBox"]["skyBoxNumber"] = Settings::SkyBox::skyBoxNumber;
+
 	settings["ASUSWalls"]["enabled"] = Settings::ASUSWalls::enabled;
 	LoadColor(settings["ASUSWalls"]["color"], Settings::ASUSWalls::color);
 
@@ -917,6 +920,9 @@ void Settings::LoadConfig(std::string path)
 
 	GetVal(settings["NoSky"]["enabled"], &Settings::NoSky::enabled);
 	GetVal(settings["NoSky"]["color"], &Settings::NoSky::color);
+
+	GetVal(settings["SkyBox"]["enabled"], &Settings::SkyBox::enabled);
+	GetVal(settings["SkyBox"]["skyBoxNumber"], &Settings::SkyBox::skyBoxNumber);
 
 	GetVal(settings["ASUSWalls"]["enabled"], &Settings::ASUSWalls::enabled);
 	GetVal(settings["ASUSWalls"]["color"], &Settings::ASUSWalls::color);

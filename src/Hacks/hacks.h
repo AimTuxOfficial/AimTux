@@ -22,7 +22,7 @@
 #include "namechanger.h"
 #include "namestealer.h"
 #include "noflash.h"
-#include "nosky.h"
+#include "skybox.h"
 #include "nosmoke.h"
 #include "predictionsystem.h"
 #include "radar.h"

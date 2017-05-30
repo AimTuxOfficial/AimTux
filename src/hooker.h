@@ -60,6 +60,9 @@
 #define CAMTHINK_SVCHEATSCHECK_SIGNATURE "\x74\x00\x49\x83\x00\x00\x00\x00\x00\x00\x00\x0F\x84\x00\x00\x00\x00\x49\x8B"
 #define CAMTHINK_SVCHEATSCHECK_MASK "x?xx??????xxx????xx"
 
+#define LOADSKYBOX_SIGNATURE "\x55\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x48\x89\xE5\x41\x55\x41\x54\x49\x89\xFD"
+#define LOADSKYBOX_MASK "x??????????????xxxxxxxxxx"
+
 #include <memory>
 #include <unordered_map>
 #include <sys/mman.h>
@@ -108,4 +111,5 @@ namespace Hooker
 	void HookSwapWindow();
 	void HookPollEvent();
 	void FindSDLInput();
+	void FindSetNamedSkybox();
 }
