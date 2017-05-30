@@ -4,7 +4,7 @@
 ===================
 
 # Please Note that AimTux-Fuzion Requires an Additional Package for Lua. See Below
-[![Join the chat at https://www.gitter.im/AimTuxOfficial/lobby](https://img.shields.io/gitter/room/TechnologyAdvice/Stardust.svg?style=flat-square)](https://www.gitter.im/AimTuxOfficial/lobby)
+[![Join the chat at https://gitter.im/Aimtux-Fuzion/Lobby](https://img.shields.io/gitter/room/TechnologyAdvice/Stardust.svg?style=flat-square)](https://gitter.im/Aimtux-Fuzion/Lobby#)
 
 Want to chat or play with other AimTux users? Join us on Gitter!
 
@@ -26,6 +26,8 @@ If you're having problems compiling make sure you've got the latest version of `
 
 ==================
 
+![#f03c15] Attention! You need lua to compile Aimxtux-Fuzion. Please dont skip this!
+x
 __Ubuntu-Based / Debian:__
 ```bash
 sudo apt-get install cmake g++ gdb git libsdl2-dev zlib1g-dev liblua5.3
