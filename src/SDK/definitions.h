@@ -267,6 +267,7 @@ enum class EClassIds : int
 	CInfoLadderDismount,
 	CInfoOverlayAccessor,
 	CItem_Healthshot,
+	CItemDogtags,
 	CKnife,
 	CKnifeGG,
 	CLightGlow,
@@ -287,6 +288,7 @@ enum class EClassIds : int
 	CPlayerResource,
 	CPointCamera,
 	CPointCommentaryNode,
+	CPointWorldText,
 	CPoseController,
 	CPostProcessController,
 	CPrecipitation,
@@ -475,6 +477,7 @@ enum class CSWeaponType : int
 	WEAPONTYPE_SNIPER_RIFLE,
 	WEAPONTYPE_MACHINEGUN,
 	WEAPONTYPE_C4,
+	WEAPONTYPE_PLACEHOLDER,
 	WEAPONTYPE_GRENADE,
 	WEAPONTYPE_UNKNOWN
 
