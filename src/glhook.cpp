@@ -37,6 +37,7 @@ void SDL2::SwapWindow(SDL_Window* window)
 				0
 		};
 
+		/*
 		ImWchar KaiGenGothicCNRegular_ranges[] = {
 				0x3000, 0x30FF, // Punctuations, Hiragana, Katakana
 				0x31F0, 0x31FF, // Katakana Phonetic Extensions
@@ -44,7 +45,7 @@ void SDL2::SwapWindow(SDL_Window* window)
 				0x4E00, 0x9FAF, // CJK Ideograms
 				0
 		};
-
+		*/
 		ImGuiIO& io = ImGui::GetIO();
 		ImFontConfig config;
 
@@ -52,8 +53,8 @@ void SDL2::SwapWindow(SDL_Window* window)
 		io.Fonts->AddFontFromMemoryCompressedTTF(SegoeUI_compressed_data, SegoeUI_compressed_size, 18.0f, &config, SegoeUI_ranges);
 
 		// Enable MergeMode and add additional fonts
-		config.MergeMode = true;
-		io.Fonts->AddFontFromMemoryCompressedBase85TTF(KaiGenGothicCNRegular_compressed_data_base85, 14.0f, &config, KaiGenGothicCNRegular_ranges);
+		//config.MergeMode = true;
+		//io.Fonts->AddFontFromMemoryCompressedBase85TTF(KaiGenGothicCNRegular_compressed_data_base85, 14.0f, &config, KaiGenGothicCNRegular_ranges);
 		io.Fonts->Build();
 	}
 

@@ -7,7 +7,7 @@
 #include "ImGUI/imgui.h"
 #include "ImGUI/imgui_impl_sdl.h"
 #include "ImGUI/imgui_internal.h"
-#include "ImGUI/fonts/KaiGenGothicCNRegular.h"
+//#include "ImGUI/fonts/KaiGenGothicCNRegular.h"
 //#include "ImGUI/fonts/RobotoMonoRegular.h"
 #include "ATGUI/SegoeUI.h"
 
