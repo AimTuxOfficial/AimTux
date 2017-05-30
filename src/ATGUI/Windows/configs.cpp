@@ -7,7 +7,7 @@ void Configs::RenderWindow()
 	if (!Configs::showWindow)
 		return;
 
-	ImGui::SetNextWindowSize(ImVec2(195, 260), ImGuiSetCond_Always);
+	ImGui::SetNextWindowSize(ImVec2(185, 250), ImGuiSetCond_Always);
 	if (ImGui::Begin("Configs", &Configs::showWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoResize))
 	{
 		static std::vector<std::string> configItems = GetConfigs();

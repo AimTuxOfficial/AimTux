@@ -40,6 +40,7 @@ void Colors::RenderWindow()
 			{ "UI Main", &Settings::UI::mainColor },
 			{ "UI Body", &Settings::UI::bodyColor },
 			{ "UI Font", &Settings::UI::fontColor },
+			{ "UI Accent", &Settings::UI::accentColor },
 			{ "FOV Circle", &Settings::ESP::FOVCrosshair::color },
 			{ "Spread", &Settings::ESP::Spread::color },
 			{ "SpreadLimit", &Settings::ESP::Spread::spreadLimitColor},
@@ -107,7 +108,7 @@ void Colors::RenderWindow()
 
 	static int colorSelected = 0;
 
-	ImGui::SetNextWindowSize(ImVec2(540, 325), ImGuiSetCond_Always);
+	ImGui::SetNextWindowSize(ImVec2(540,325), ImGuiSetCond_Always);
 	if (ImGui::Begin("Colors", &Colors::showWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoResize))
 	{
 		ImGui::Columns(2, NULL, true);

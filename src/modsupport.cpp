@@ -10,6 +10,6 @@ void ModSupport::OnInit()
     if (strstr(output, "csco"))
     {
         current_mod = ModType::CSCO;
-        cvar->ConsoleColorPrintf(ColorRGBA(150, 150, 255), "Counter-Strike: Classic Offensive detected!\n");
+        cvar->ConsoleColorPrintf(ColorRGBA(0, 255, 255), "Counter-Strike: Classic Offensive detected!\n");
     }
 }
