@@ -458,6 +458,7 @@ namespace Settings
 	namespace Triggerbot
 	{
 		extern bool enabled;
+		extern bool mouseClick;
 		extern ButtonCode_t key;
 
 		namespace Filters

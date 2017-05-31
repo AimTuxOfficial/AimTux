@@ -52,8 +52,6 @@ bool Settings::Aimbot::AutoSlow::goingToSlow = false;
 bool Settings::Aimbot::Prediction::enabled = false;
 bool Settings::Aimbot::moveMouse = false;
 
-static xdo_t *xdo = xdo_new(NULL);
-
 bool Aimbot::aimStepInProgress = false;
 std::vector<int64_t> Aimbot::friends = { };
 std::vector<long> killTimes = { 0 }; // the Epoch time from when we kill someone

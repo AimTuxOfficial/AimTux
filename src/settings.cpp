@@ -214,6 +214,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Triggerbot"]["RandomDelay"]["enabled"] = Settings::Triggerbot::RandomDelay::enabled;
 	settings["Triggerbot"]["RandomDelay"]["lowBound"] = Settings::Triggerbot::RandomDelay::lowBound;
 	settings["Triggerbot"]["RandomDelay"]["highBound"] = Settings::Triggerbot::RandomDelay::highBound;
+	settings["Triggerbot"]["mouseClick"] = Settings::Triggerbot::mouseClick;
 
 	settings["AntiAim"]["Yaw"]["enabled"] = Settings::AntiAim::Yaw::enabled;
 	settings["AntiAim"]["Yaw"]["type"] = (int) Settings::AntiAim::Yaw::type;
@@ -623,6 +624,7 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["Triggerbot"]["RandomDelay"]["enabled"], &Settings::Triggerbot::RandomDelay::enabled);
 	GetVal(settings["Triggerbot"]["RandomDelay"]["lowBound"], &Settings::Triggerbot::RandomDelay::lowBound);
 	GetVal(settings["Triggerbot"]["RandomDelay"]["highBound"], &Settings::Triggerbot::RandomDelay::highBound);
+	GetVal(settings["Triggerbot"]["mouseClick"], &Settings::Triggerbot::mouseClick);
 
 	GetVal(settings["AntiAim"]["Yaw"]["enabled"], &Settings::AntiAim::Yaw::enabled);
 	GetVal(settings["AntiAim"]["Yaw"]["type"], (int*)& Settings::AntiAim::Yaw::type);

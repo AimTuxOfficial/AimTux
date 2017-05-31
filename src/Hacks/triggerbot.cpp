@@ -2,6 +2,7 @@
 #include "autowall.h"
 
 bool Settings::Triggerbot::enabled = false;
+bool Settings::Triggerbot::mouseClick = false;
 bool Settings::Triggerbot::Filters::enemies = true;
 bool Settings::Triggerbot::Filters::allies = false;
 bool Settings::Triggerbot::Filters::walls = false;
@@ -17,6 +18,8 @@ int Settings::Triggerbot::RandomDelay::lowBound = 20;
 int Settings::Triggerbot::RandomDelay::highBound = 35;
 int Settings::Triggerbot::RandomDelay::lastRoll = 0;
 ButtonCode_t Settings::Triggerbot::key = ButtonCode_t::KEY_LALT;
+
+static xdo_t *xdo = xdo_new(NULL);
 
 void Triggerbot::CreateMove(CUserCmd *cmd)
 {
@@ -146,10 +149,20 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 
 	if (activeWeapon->GetNextPrimaryAttack() > globalVars->curtime)
 	{
-		if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
-			cmd->buttons &= ~IN_ATTACK2;
+		if(Settings::Triggerbot::mouseClick)
+		{
+			if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
+				xdo_mouseup(xdo, CURRENTWINDOW, 3);
+			else
+				xdo_mouseup(xdo, CURRENTWINDOW, 1);
+		}
 		else
-			cmd->buttons &= ~IN_ATTACK;
+		{
+			if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
+				cmd->buttons &= ~IN_ATTACK2;
+			else
+				cmd->buttons &= ~IN_ATTACK;
+		}
 	}
 	else
 	{
@@ -159,12 +172,24 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 			return;
 		}
 
-		if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
-			cmd->buttons |= IN_ATTACK2;
+		if(Settings::Triggerbot::mouseClick)
+		{
+			if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
+				xdo_mousedown(xdo, CURRENTWINDOW, 3);
+			else
+				xdo_mousedown(xdo, CURRENTWINDOW, 1);
+			if(Settings::Triggerbot::RandomDelay::enabled)
+				Settings::Triggerbot::RandomDelay::lastRoll = randomDelay;
+		}
 		else
-			cmd->buttons |= IN_ATTACK;
-		if(Settings::Triggerbot::RandomDelay::enabled)
-			Settings::Triggerbot::RandomDelay::lastRoll = randomDelay;
+		{
+			if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
+				cmd->buttons |= IN_ATTACK2;
+			else
+				cmd->buttons |= IN_ATTACK;
+			if(Settings::Triggerbot::RandomDelay::enabled)
+				Settings::Triggerbot::RandomDelay::lastRoll = randomDelay;
+		}
 
 		randomDelay = localMin + rand() % (localMax - localMin);
 	}
