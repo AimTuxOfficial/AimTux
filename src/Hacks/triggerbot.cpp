@@ -19,8 +19,6 @@ int Settings::Triggerbot::RandomDelay::highBound = 35;
 int Settings::Triggerbot::RandomDelay::lastRoll = 0;
 ButtonCode_t Settings::Triggerbot::key = ButtonCode_t::KEY_LALT;
 
-static xdo_t *xdo = xdo_new(NULL);
-
 void Triggerbot::CreateMove(CUserCmd *cmd)
 {
 	if (!Settings::Triggerbot::enabled)
