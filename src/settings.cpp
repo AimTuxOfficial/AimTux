@@ -593,8 +593,8 @@ void Settings::LoadConfig(std::string path)
 				weaponSetting["AutoWall"]["Value"].asFloat(),
 				weaponSetting["AutoAim"]["RealDistance"].asBool(),
 				weaponSetting["AutoSlow"]["enabled"].asBool(),
-				weaponSetting["Prediction"]["enabled"].asBool()
-				weaponSetting["MoveMouse"].asBool(),
+				weaponSetting["Prediction"]["enabled"].asBool(),
+				weaponSetting["MoveMouse"].asBool()
 		};
 
 		for (int bone = (int) DesiredBones::BONE_PELVIS; bone <= (int) DesiredBones::BONE_RIGHT_SOLE; bone++)
