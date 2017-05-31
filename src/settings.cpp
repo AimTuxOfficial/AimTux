@@ -185,9 +185,6 @@ void Settings::LoadDefaultsOrSave(std::string path)
 		weaponSetting["AutoSlow"]["enabled"] = i.second.autoSlow;
 		weaponSetting["Prediction"]["enabled"] = i.second.predEnabled;
 
-		for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
-			weaponSetting["AutoWall"]["Bones"][bone] = i.second.autoWallBones[bone];
-
 		for (int bone = (int) DesiredBones::BONE_PELVIS; bone <= (int) DesiredBones::BONE_RIGHT_SOLE; bone++)
 			weaponSetting["DesiredBones"]["Bones"][bone] = i.second.desiredBones[bone];
 
@@ -456,6 +453,9 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["NoSky"]["enabled"] = Settings::NoSky::enabled;
 	LoadColor(settings["NoSky"]["color"], Settings::NoSky::color);
 
+	settings["SkyBox"]["enabled"] = Settings::SkyBox::enabled;
+	settings["SkyBox"]["skyBoxNumber"] = Settings::SkyBox::skyBoxNumber;
+
 	settings["ASUSWalls"]["enabled"] = Settings::ASUSWalls::enabled;
 	LoadColor(settings["ASUSWalls"]["color"], Settings::ASUSWalls::color);
 
@@ -595,8 +595,6 @@ void Settings::LoadConfig(std::string path)
 				weaponSetting["Prediction"]["enabled"].asBool()
 		};
 
-		for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
-			weapon.autoWallBones[bone] = weaponSetting["AutoWall"]["Bones"][bone].asBool();
 		for (int bone = (int) DesiredBones::BONE_PELVIS; bone <= (int) DesiredBones::BONE_RIGHT_SOLE; bone++)
 			weapon.desiredBones[bone] = weaponSetting["DesiredBones"]["Bones"][bone].asBool();
 		Settings::Aimbot::weapons.at(weaponID) = weapon;
@@ -917,6 +915,9 @@ void Settings::LoadConfig(std::string path)
 
 	GetVal(settings["NoSky"]["enabled"], &Settings::NoSky::enabled);
 	GetVal(settings["NoSky"]["color"], &Settings::NoSky::color);
+
+	GetVal(settings["SkyBox"]["enabled"], &Settings::SkyBox::enabled);
+	GetVal(settings["SkyBox"]["skyBoxNumber"], &Settings::SkyBox::skyBoxNumber);
 
 	GetVal(settings["ASUSWalls"]["enabled"], &Settings::ASUSWalls::enabled);
 	GetVal(settings["ASUSWalls"]["color"], &Settings::ASUSWalls::color);

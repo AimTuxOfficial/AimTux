@@ -3,21 +3,24 @@
 </p>
 ===================
 
+
 # Please Note that AimTux-Fuzion Requires an Additional Package for Lua. See Below
 [![Join the chat at https://gitter.im/Aimtux-Fuzion/Lobby](https://img.shields.io/gitter/room/TechnologyAdvice/Stardust.svg?style=flat-square)](https://gitter.im/Aimtux-Fuzion/Lobby#)
 
-Want to chat or play with other AimTux users? Join us on Gitter!
+Want to chat or play with other Fuzion users? Join us on Gitter!
 
-## What is AimTux-Fuzion?
+## What is Fuzion?
 
 A fully featured internal hack for *CounterStrike : Global Offensive* written in C++.
 
 
 ## Compiling
 
-**Note:** _Do NOT download or compile as the root user_
+**Note:** _Fuzion Requires an additional package for Lua._
 
-#### Download the dependencies required to build AimTux:
+**Note:** _Do NOT download or compile as the root user._
+
+#### Download the dependencies required to build Fuzion:
 
 
 If you're having problems compiling make sure you've got the latest version of `g++`.
@@ -34,7 +37,7 @@ sudo apt-get install cmake g++ gdb git libsdl2-dev zlib1g-dev liblua5.3
 ```
 __Arch:__
 ```bash
-sudo pacman -S base-devel cmake gdb git sdl2 (Lua Development Libraries >=5.3)
+sudo pacman -S base-devel cmake gdb git sdl2 lua
 ```
 __Fedora:__
 ```bash
@@ -43,18 +46,18 @@ sudo dnf install cmake gcc-c++ gdb git libstdc++-static mesa-libGL-devel SDL2-de
 
 __Gentoo:__
 ```bash
-sudo emerge cmake dev-vcs/git gdb libsdl2 mesa (Lua Development Libraries >=5.3)
+sudo emerge cmake dev-vcs/git gdb libsdl2 mesa lua
 ```
 ===================
 
-#### Download AimTux-Fuzion:
+#### Download Fuzion:
 
 ```bash
-git clone --recursive https://github.com/LWSS/AimTux-Fuzion
+git clone --recursive https://github.com/LWSS/Fuzion
 ```
 
 ```bash
-cd AimTux-Fuzion
+cd Fuzion
 ```
 
 ===================
@@ -78,7 +81,7 @@ First of all, make sure CSGO is open, it doesn't matter whether you're in game o
 Navigate to the directory where AimTux-Fuzion was built if you haven't ready.
 
 ```bash
-cd AimTux-Fuzion
+cd Fuzion
 ```
 
 Now, you can inject the hack with the `load` script
@@ -99,7 +102,7 @@ Now, go back into csgo, if you're in the main menu of the game you should see a 
 
 ## Using the hack
 
-Now that AimTux-Fuzion has been injected into the game, press <kbd>Insert</kbd> on your keyboard to open the hack menu (<kbd>ALT</kbd>+<kbd>I</kbd> if you're using a laptop).
+Now that Fuzion has been injected into the game, press <kbd>Insert</kbd> on your keyboard to open the hack menu (<kbd>ALT</kbd>+<kbd>I</kbd> if you're using a laptop).
 
 If you want to change skins, create and load configs or open the player list, you can find those buttons at the top of the screen.
 

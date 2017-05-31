@@ -47,6 +47,8 @@ RandomFloatExpFn RandomFloatExp;
 RandomIntFn RandomInt;
 RandomGaussianFloatFn RandomGaussianFloat;
 
+SetNamedSkyBoxFn SetNamedSkyBox;
+
 std::vector<dlinfo_t> libraries;
 
 // taken form aixxe's cstrike-basehook-linux
@@ -309,4 +311,11 @@ void Hooker::FindSDLInput()
 	uintptr_t func_address = PatternFinder::FindPatternInModule("launcher_client.so", (unsigned char*) GETSDLMGR_SIGNATURE, GETSDLMGR_MASK);
 
 	launcherMgr = reinterpret_cast<ILauncherMgrCreateFn>(func_address)();
+}
+
+void Hooker::FindSetNamedSkybox()
+{
+	uintptr_t func_address = PatternFinder::FindPatternInModule("engine_client.so", (unsigned char*) LOADSKYBOX_SIGNATURE, LOADSKYBOX_MASK);
+
+	SetNamedSkyBox = reinterpret_cast<SetNamedSkyBoxFn>(func_address);
 }

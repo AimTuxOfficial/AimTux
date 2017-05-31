@@ -12,6 +12,7 @@ int __attribute__((constructor)) FuzionInit()
 	Interfaces::FindInterfaces();
 	Interfaces::DumpInterfaces();
 
+	Hooker::FindSetNamedSkybox();
 	Hooker::FindViewRender();
 	Hooker::FindSDLInput();
 	Hooker::InitializeVMHooks();

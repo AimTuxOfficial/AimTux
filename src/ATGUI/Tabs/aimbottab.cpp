@@ -43,7 +43,6 @@ static bool spreadLimitEnabled = false;
 static float spreadLimit = 0.1f;
 static bool autoWallEnabled = false;
 static float autoWallValue = 10.0f;
-static bool autoWallBones[] = { true, false, false, false, false, false };
 static bool autoAimRealDistance = false;
 static bool autoSlow = false;
 static bool predEnabled = false;
@@ -94,8 +93,6 @@ void UI::ReloadWeaponSettings()
 	autoSlow = Settings::Aimbot::weapons.at(index).autoSlow;
 	predEnabled = Settings::Aimbot::weapons.at(index).predEnabled;
 
-	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
-		autoWallBones[bone] = Settings::Aimbot::weapons.at(index).autoWallBones[bone];
 	for (int bone = (int) DesiredBones::BONE_PELVIS; bone <= (int) DesiredBones::BONE_RIGHT_SOLE; bone++)
 		desiredBones[bone] = Settings::Aimbot::weapons.at(index).desiredBones[bone];
 }
@@ -114,9 +111,6 @@ void UI::UpdateWeaponSettings()
 			autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
 			noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, spreadLimitEnabled, spreadLimit, autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, predEnabled
 	};
-
-	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
-		settings.autoWallBones[bone] = autoWallBones[bone];
 
 	for (int bone = (int) DesiredBones::BONE_PELVIS; bone <= (int) DesiredBones::BONE_RIGHT_SOLE; bone++)
 		settings.desiredBones[bone] = desiredBones[bone];
@@ -185,7 +179,6 @@ void Aimbot::RenderTab()
 			{
 				if (ImGui::Checkbox("FriendlyFire", &friendly))
 					UI::UpdateWeaponSettings();
-				SetTooltip("Whether to target friendlies");
 			}
 			ImGui::NextColumn();
 			{
@@ -383,7 +376,7 @@ void Aimbot::RenderTab()
 			if (ImGui::Checkbox("Auto Shoot", &autoShootEnabled))
 				UI::UpdateWeaponSettings();
 			SetTooltip("Automatically shoots when locking to an enemy");
-			ImGui::Checkbox("^Velocity Check", &Settings::Aimbot::AutoShoot::velocityCheck);
+			ImGui::Checkbox("Velocity Check", &Settings::Aimbot::AutoShoot::velocityCheck);
 			SetTooltip("Auto Shoot when below move penalty threshold.\nRecommend using with Auto-Slow");
 			if( ImGui::Checkbox("Spread Limit", &spreadLimitEnabled) )
 				UI::UpdateWeaponSettings();
