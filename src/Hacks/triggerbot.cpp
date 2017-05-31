@@ -2,7 +2,6 @@
 #include "autowall.h"
 
 bool Settings::Triggerbot::enabled = false;
-bool Settings::Triggerbot::mouseClick = false;
 bool Settings::Triggerbot::Filters::enemies = true;
 bool Settings::Triggerbot::Filters::allies = false;
 bool Settings::Triggerbot::Filters::walls = false;
@@ -147,20 +146,10 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 
 	if (activeWeapon->GetNextPrimaryAttack() > globalVars->curtime)
 	{
-		if(Settings::Triggerbot::mouseClick)
-		{
-			if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
-				xdo_mouseup(xdo, CURRENTWINDOW, 3);
-			else
-				xdo_mouseup(xdo, CURRENTWINDOW, 1);
-		}
+		if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
+			cmd->buttons &= ~IN_ATTACK2;
 		else
-		{
-			if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
-				cmd->buttons &= ~IN_ATTACK2;
-			else
-				cmd->buttons &= ~IN_ATTACK;
-		}
+			cmd->buttons &= ~IN_ATTACK;
 	}
 	else
 	{
@@ -170,24 +159,12 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 			return;
 		}
 
-		if(Settings::Triggerbot::mouseClick)
-		{
-			if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
-				xdo_mousedown(xdo, CURRENTWINDOW, 3);
-			else
-				xdo_mousedown(xdo, CURRENTWINDOW, 1);
-			if(Settings::Triggerbot::RandomDelay::enabled)
-				Settings::Triggerbot::RandomDelay::lastRoll = randomDelay;
-		}
+		if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
+			cmd->buttons |= IN_ATTACK2;
 		else
-		{
-			if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
-				cmd->buttons |= IN_ATTACK2;
-			else
-				cmd->buttons |= IN_ATTACK;
-			if(Settings::Triggerbot::RandomDelay::enabled)
-				Settings::Triggerbot::RandomDelay::lastRoll = randomDelay;
-		}
+			cmd->buttons |= IN_ATTACK;
+		if(Settings::Triggerbot::RandomDelay::enabled)
+			Settings::Triggerbot::RandomDelay::lastRoll = randomDelay;
 
 		randomDelay = localMin + rand() % (localMax - localMin);
 	}
