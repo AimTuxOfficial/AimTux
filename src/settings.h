@@ -154,7 +154,7 @@ enum class SpammerType : int
 
 struct AimbotWeapon_t
 {
-	bool enabled, silent, friendly, closestBone, desiredBones[31], engageLock, engageLockTR;
+	bool enabled, silent, friendly, closestBone, desiredBones[31], engageLock, engageLockTR, moveMouse;
 	int engageLockTTR;
 	Bone bone;
 	SmoothType smoothType;
@@ -172,7 +172,7 @@ struct AimbotWeapon_t
 		   bool noShootEnabled, bool ignoreJumpEnabled, bool smokeCheck, bool flashCheck,
 		   bool spreadLimitEnabled, float spreadLimit,
 		   bool autoWallEnabled, float autoWallValue, bool autoAimRealDistance, bool autoSlow,
-		   bool predEnabled)
+		   bool predEnabled, bool moveMouse)
 	{
 		this->enabled = enabled;
 		this->silent = silent;
@@ -212,6 +212,7 @@ struct AimbotWeapon_t
 		this->autoWallValue = autoWallValue;
 		this->autoSlow = autoSlow;
 		this->predEnabled = predEnabled;
+		this->moveMouse = moveMouse;
 
 		for (int bone = (int) DesiredBones::BONE_PELVIS; bone <= (int) DesiredBones::BONE_RIGHT_SOLE; bone++)
 			this->desiredBones[bone] = (desiredBones != nullptr ) ? desiredBones[bone] : false;
@@ -344,6 +345,7 @@ namespace Settings
 		extern Bone bone;
 		extern ButtonCode_t aimkey;
 		extern bool aimkeyOnly;
+		extern bool moveMouse;
 
 		namespace Smooth
 		{

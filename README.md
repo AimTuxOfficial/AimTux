@@ -33,20 +33,20 @@ If you're having problems compiling make sure you've got the latest version of `
 
 __Ubuntu-Based / Debian:__
 ```bash
-sudo apt-get install cmake g++ gdb git libsdl2-dev zlib1g-dev liblua5.3
+sudo apt-get install cmake g++ gdb git libsdl2-dev zlib1g-dev liblua5.3 libxdo-dev
 ```
 __Arch:__
 ```bash
-sudo pacman -S base-devel cmake gdb git sdl2 lua
+sudo pacman -S base-devel cmake gdb git sdl2 lua xdotool
 ```
 __Fedora:__
 ```bash
-sudo dnf install cmake gcc-c++ gdb git libstdc++-static mesa-libGL-devel SDL2-devel zlib-devel lua-devel
+sudo dnf install cmake gcc-c++ gdb git libstdc++-static mesa-libGL-devel SDL2-devel zlib-devel lua-devel libX11-devel libxdo-devel
 ```
 
 __Gentoo:__
 ```bash
-sudo emerge cmake dev-vcs/git gdb libsdl2 mesa lua
+sudo emerge cmake dev-vcs/git gdb libsdl2 mesa lua xdotool
 ```
 ===================
 

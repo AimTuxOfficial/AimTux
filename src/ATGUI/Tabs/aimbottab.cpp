@@ -46,6 +46,7 @@ static float autoWallValue = 10.0f;
 static bool autoAimRealDistance = false;
 static bool autoSlow = false;
 static bool predEnabled = false;
+static bool moveMouse = false;
 
 void UI::ReloadWeaponSettings()
 {
@@ -92,6 +93,7 @@ void UI::ReloadWeaponSettings()
 	autoAimRealDistance = Settings::Aimbot::weapons.at(index).autoAimRealDistance;
 	autoSlow = Settings::Aimbot::weapons.at(index).autoSlow;
 	predEnabled = Settings::Aimbot::weapons.at(index).predEnabled;
+	moveMouse = Settings::Aimbot::weapons.at(index).moveMouse;
 
 	for (int bone = (int) DesiredBones::BONE_PELVIS; bone <= (int) DesiredBones::BONE_RIGHT_SOLE; bone++)
 		desiredBones[bone] = Settings::Aimbot::weapons.at(index).desiredBones[bone];
@@ -109,7 +111,8 @@ void UI::UpdateWeaponSettings()
 			autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
 			rcsEnabled, rcsAlwaysOn, rcsAmountX, rcsAmountY,
 			autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
-			noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, spreadLimitEnabled, spreadLimit, autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, predEnabled
+			noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, spreadLimitEnabled, spreadLimit, autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, predEnabled,
+			moveMouse
 	};
 
 	for (int bone = (int) DesiredBones::BONE_PELVIS; bone <= (int) DesiredBones::BONE_RIGHT_SOLE; bone++)
@@ -447,7 +450,10 @@ void Aimbot::RenderTab()
 					default:
 						break;
 				}
-
+				
+				if (ImGui::Checkbox("Mouse Movement", &moveMouse))
+					UI::UpdateWeaponSettings();
+				SetTooltip("Emulates mouse movements instead of setting view angles. Recommended for FaceIt servers. (Doesn't work with silent aim)");
 				if (ImGui::Checkbox("Silent Aim", &silent))
 					UI::UpdateWeaponSettings();
 				SetTooltip("Prevents the camera from locking to an enemy, doesn't work for demos");

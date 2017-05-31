@@ -6,6 +6,11 @@
 #include "../Utils/entity.h"
 #include "../Utils/math.h"
 
+extern "C"
+{
+	#include <xdo.h>
+}
+
 namespace Aimbot
 {
 	extern bool aimStepInProgress;

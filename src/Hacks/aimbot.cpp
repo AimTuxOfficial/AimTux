@@ -50,6 +50,9 @@ float Settings::Aimbot::Smooth::Salting::multiplier = 0.0f;
 bool Settings::Aimbot::AutoSlow::enabled = false;
 bool Settings::Aimbot::AutoSlow::goingToSlow = false;
 bool Settings::Aimbot::Prediction::enabled = false;
+bool Settings::Aimbot::moveMouse = false;
+
+static xdo_t *xdo = xdo_new(NULL);
 
 bool Aimbot::aimStepInProgress = false;
 std::vector<int64_t> Aimbot::friends = { };
@@ -71,7 +74,7 @@ std::unordered_map<Hitbox, std::vector<const char*>, Util::IntHash<Hitbox>> hitb
 };
 
 std::unordered_map<ItemDefinitionIndex, AimbotWeapon_t, Util::IntHash<ItemDefinitionIndex>> Settings::Aimbot::weapons = {
-		{ ItemDefinitionIndex::INVALID, { false, false, false, false, false, false, 700, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f, false, false, false, false, false, false, false, false, 0.1f ,false, 10.0f, false, false, 5.0f } },
+		{ ItemDefinitionIndex::INVALID, { false, false, false, false, false, false, 700, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f, false, false, false, false, false, false, false, false, 0.1f ,false, 10.0f, false, false, 5.0f, false } },
 };
 
 static QAngle ApplyErrorToAngle(QAngle* angles, float margin)
@@ -771,7 +774,20 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	Math::ClampAngles(angle);
 
 	if (angle != cmd->viewangles)
-		cmd->viewangles = angle;
+	{
+		if(Settings::Aimbot::moveMouse && !Settings::Aimbot::silent) // not a good idea to use mouse-based aimbot and silent aim at the same time
+		{
+			ConVar* sensitivity = cvar->FindVar("sensitivity");
+			ConVar* m_pitch = cvar->FindVar("m_pitch");
+			ConVar* m_yaw = cvar->FindVar("m_yaw");
+			
+			xdo_move_mouse_relative(xdo, (int) -((angle.y - oldAngle.y) / (m_pitch->GetFloat() * sensitivity->GetFloat())), (int) ((angle.x - oldAngle.x) / (m_yaw->GetFloat() * sensitivity->GetFloat())));
+		}
+		else
+		{
+			cmd->viewangles = angle;
+		}
+	}
 
 	Math::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);
 
@@ -860,4 +876,5 @@ void Aimbot::UpdateValues()
 		Settings::Aimbot::AutoAim::desiredBones[bone] = currentWeaponSetting.desiredBones[bone];
 
 	Settings::Aimbot::AutoAim::realDistance = currentWeaponSetting.autoAimRealDistance;
+	Settings::Aimbot::moveMouse = currentWeaponSetting.moveMouse;
 }
