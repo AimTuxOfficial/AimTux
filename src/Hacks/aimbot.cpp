@@ -62,6 +62,8 @@ QAngle RCSLastPunch;
 
 int Aimbot::targetAimbot = -1;
 
+static xdo_t *xdo = xdo_new(NULL);
+
 std::unordered_map<Hitbox, std::vector<const char*>, Util::IntHash<Hitbox>> hitboxes = {
 		{ Hitbox::HITBOX_HEAD, { "head_0" } },
 		{ Hitbox::HITBOX_NECK, { "neck_0" } },
