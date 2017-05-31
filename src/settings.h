@@ -154,14 +154,14 @@ enum class SpammerType : int
 
 struct AimbotWeapon_t
 {
-	bool enabled, silent, friendly, closestBone, desiredBones[31], engageLock, engageLockTR, moveMouse;
+	bool enabled, silent, friendly, closestBone, desiredBones[31], engageLock, engageLockTR;
 	int engageLockTTR;
 	Bone bone;
 	SmoothType smoothType;
 	ButtonCode_t aimkey;
 	bool aimkeyOnly, smoothEnabled, smoothSaltEnabled, errorMarginEnabled, autoAimEnabled, aimStepEnabled, rcsEnabled, rcsAlwaysOn, spreadLimitEnabled;
 	float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmountX, rcsAmountY, autoWallValue, spreadLimit;
-	bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoAimRealDistance, autoSlow, predEnabled;
+	bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoAimRealDistance, autoSlow, predEnabled, moveMouse;
 
 	AimbotWeapon_t(bool enabled, bool silent, bool friendly, bool closestBone, bool engageLock, bool engageLockTR, int engageLockTTR, Bone bone, ButtonCode_t aimkey, bool aimkeyOnly,
 		   bool smoothEnabled, float smoothValue, SmoothType smoothType, bool smoothSaltEnabled, float smoothSaltMultiplier,
@@ -268,7 +268,8 @@ struct AimbotWeapon_t
 			this->autoWallValue == another.autoWallValue &&
 			this->autoSlow == another.autoSlow &&
 			this->predEnabled == another.predEnabled &&
-			this->autoAimRealDistance == another.autoAimRealDistance;
+			this->autoAimRealDistance == another.autoAimRealDistance &&
+			this->moveMouse == another.moveMouse;
 	}
 };
 
@@ -458,7 +459,6 @@ namespace Settings
 	namespace Triggerbot
 	{
 		extern bool enabled;
-		extern bool mouseClick;
 		extern ButtonCode_t key;
 
 		namespace Filters
