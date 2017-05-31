@@ -6,13 +6,6 @@
 
 EventListener* eventListener = nullptr;
 
-extern "C"
-{
-	#include <xdo.h>
-}
-
-static xdo_t *xdo = xdo_new(NULL);
-
 /* called when the library is loading */
 int __attribute__((constructor)) FuzionInit()
 {
