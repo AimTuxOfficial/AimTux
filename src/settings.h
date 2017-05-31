@@ -161,7 +161,7 @@ struct AimbotWeapon_t
 	ButtonCode_t aimkey;
 	bool aimkeyOnly, smoothEnabled, smoothSaltEnabled, errorMarginEnabled, autoAimEnabled, aimStepEnabled, rcsEnabled, rcsAlwaysOn, spreadLimitEnabled;
 	float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmountX, rcsAmountY, autoWallValue, spreadLimit;
-	bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallBones[6], autoAimRealDistance, autoSlow, predEnabled;
+	bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoAimRealDistance, autoSlow, predEnabled;
 
 	AimbotWeapon_t(bool enabled, bool silent, bool friendly, bool closestBone, bool engageLock, bool engageLockTR, int engageLockTTR, Bone bone, ButtonCode_t aimkey, bool aimkeyOnly,
 		   bool smoothEnabled, float smoothValue, SmoothType smoothType, bool smoothSaltEnabled, float smoothSaltMultiplier,
@@ -172,7 +172,7 @@ struct AimbotWeapon_t
 		   bool noShootEnabled, bool ignoreJumpEnabled, bool smokeCheck, bool flashCheck,
 		   bool spreadLimitEnabled, float spreadLimit,
 		   bool autoWallEnabled, float autoWallValue, bool autoAimRealDistance, bool autoSlow,
-		   bool predEnabled, bool autoWallBones[6] = nullptr)
+		   bool predEnabled)
 	{
 		this->enabled = enabled;
 		this->silent = silent;
@@ -213,8 +213,6 @@ struct AimbotWeapon_t
 		this->autoSlow = autoSlow;
 		this->predEnabled = predEnabled;
 
-		for (int i = (int) Hitbox::HITBOX_HEAD; i <= (int) Hitbox::HITBOX_ARMS; i++)
-			this->autoWallBones[i] = autoWallBones != nullptr ? autoWallBones[i] : false;
 		for (int bone = (int) DesiredBones::BONE_PELVIS; bone <= (int) DesiredBones::BONE_RIGHT_SOLE; bone++)
 			this->desiredBones[bone] = (desiredBones != nullptr ) ? desiredBones[bone] : false;
 
@@ -225,11 +223,6 @@ struct AimbotWeapon_t
 
 	bool operator == (const AimbotWeapon_t& another) const
 	{
-		for (int i = (int) Hitbox::HITBOX_HEAD; i <= (int) Hitbox::HITBOX_ARMS; i++)
-		{
-			if (this->autoWallBones[i] != another.autoWallBones[i])
-				return false;
-		}
 		for (int bone = (int) DesiredBones::BONE_PELVIS; bone <= (int) DesiredBones::BONE_RIGHT_SOLE; bone++)
 		{
 			if( this->desiredBones[bone] != another.desiredBones[bone] )
@@ -387,7 +380,6 @@ namespace Settings
 		{
 			extern bool enabled;
 			extern float value;
-			extern bool bones[];
 		}
 
 		namespace AimStep

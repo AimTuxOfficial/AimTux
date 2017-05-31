@@ -28,7 +28,6 @@ bool Settings::Aimbot::AutoAim::engageLockTR = false; // engage lock Target Reac
 int Settings::Aimbot::AutoAim::engageLockTTR = 700; // Time to Target Reacquisition in ms
 bool Settings::Aimbot::AutoWall::enabled = false;
 float Settings::Aimbot::AutoWall::value = 10.0f;
-bool Settings::Aimbot::AutoWall::bones[] = { true, false, false, false, false, false };
 bool Settings::Aimbot::AimStep::enabled = false;
 float Settings::Aimbot::AimStep::value = 25.0f;
 bool Settings::Aimbot::AutoPistol::enabled = false;
@@ -856,9 +855,6 @@ void Aimbot::UpdateValues()
 	Settings::Aimbot::AutoWall::enabled = currentWeaponSetting.autoWallEnabled;
 	Settings::Aimbot::AutoWall::value = currentWeaponSetting.autoWallValue;
 	Settings::Aimbot::AutoSlow::enabled = currentWeaponSetting.autoSlow;
-
-	for (int i = (int) Hitbox::HITBOX_HEAD; i <= (int) Hitbox::HITBOX_ARMS; i++)
-		Settings::Aimbot::AutoWall::bones[i] = currentWeaponSetting.autoWallBones[i];
 
 	for (int bone = (int) DesiredBones::BONE_PELVIS; bone <= (int) DesiredBones::BONE_RIGHT_SOLE; bone++)
 		Settings::Aimbot::AutoAim::desiredBones[bone] = currentWeaponSetting.desiredBones[bone];
