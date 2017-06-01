@@ -29,7 +29,7 @@ If you're having problems compiling make sure you've got the latest version of `
 
 ==================
 
-#### Attention! You need lua and xdo to compile Aimtux-Fuzion. Please don't skip this!
+#### Attention! You need lua and xdo to compile Fuzion. Please don't skip this!
 
 __Ubuntu-Based / Debian:__
 ```bash
