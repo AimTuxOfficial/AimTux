@@ -1,5 +1,8 @@
 #!/bin/sh
 
+/bin/echo -e "\e[31mThis script will soon be deprecated. Use ./aimtux.sh rload instead.\e[0m"
+sleep 6s
+
 sudo ./uload
 cmake .
 make -j$(grep "^processor" /proc/cpuinfo | wc -l) "$@"

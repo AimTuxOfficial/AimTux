@@ -75,10 +75,10 @@ Navigate to the directory where AimTux was built if you haven't ready.
 cd AimTux
 ```
 
-Now, you can inject the hack with the `load` script
+Now, you can inject the hack with the `aimtux.sh` script
 
 ```bash
-./load
+./aimtux.sh load
 ```
 
 You might be prompted to enter in your password, this is because the injection script requires root access.
@@ -102,7 +102,7 @@ If you want to change skins, create and load configs or open the player list, yo
 If you wish to unload the hack from the game, you can do so by entering the command:
 
 ```bash
-./uload
+./aimtux.sh uload
 ```
 
 ## Updating AimTux
@@ -114,7 +114,7 @@ If you don't update once a day then we recommend at LEAST update once a week, an
 We provide a script included in the AimTux folder that updates AimTux for you. To use it, just run:
 
 ```
-./update
+./aimtux.sh update
 ```
 
 And it will download and compile without any effort. Once it's done, happy hacking!
@@ -122,13 +122,13 @@ And it will download and compile without any effort. Once it's done, happy hacki
 
 ## Configs
 
-Configs are stored in a hidden directory in your home folder. Specifically 
+Configs are stored in a hidden directory in your home folder. Specifically
 
 ```
 ~/.config/AimTux
 ```
 
-Each `config.json` is stored in a seperately named folder (The name you see in-game, in the config window). 
+Each `config.json` is stored in a seperately named folder (The name you see in-game, in the config window).
 
 To add a config, create a folder inside of the `~/.config/AimTux` folder with a name of your choice, and paste the `config.json` inside of that folder.
 

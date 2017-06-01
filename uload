@@ -1,5 +1,8 @@
 #!/bin/sh
 
+/bin/echo -e "\e[31mThis script will soon be deprecated. Use ./aimtux.sh uload instead.\e[0m"
+sleep 6s
+
 #Credit: Aixxe @ aixxe.net
 if grep -q libAimTux.so /proc/$(pidof csgo_linux64)/maps; then
 sudo gdb -n -q -batch \

@@ -1,5 +1,8 @@
 #!/bin/sh
 
+/bin/echo -e "\e[31mThis script will soon be deprecated. Use './aimtux.sh load' instead.\e[0m"
+sleep 6s
+
 csgo_pid=$(pidof csgo_linux64)
 if [ -z "$csgo_pid" ]; then
     /bin/echo -e "\e[31mCSGO needs to be open before you can inject...\e[0m"

@@ -1,4 +1,8 @@
 #!/bin/bash
+
+/bin/echo -e "\e[31mThis script will soon be deprecated. Use ./aimtux.sh update instead.\e[0m"
+sleep 6s
+
 if [ ! -d ".git" ]; then
     echo "We have detected that you have downloaded aimtux-master.zip from the GitHub website. This is the WRONG way to download AimTux. Please download AimTux with the command 'git clone --recursive https://github.com/AimTuxOfficial/AimTux.git'"
     exit
