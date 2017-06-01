@@ -17,6 +17,10 @@ std::vector<std::string> Settings::Spammer::NormalSpammer::messages = {
 		"Tux nutted but you keep sucken",
 		">tfw no vac on Linux"
 };
+std::vector<std::string> Settings::Spammer::NameExploit::names = {
+		"AIMTUX",
+		"PWND BY FREE CHEAT"
+};
 int Settings::Spammer::PositionSpammer::team = 1;
 bool Settings::Spammer::PositionSpammer::showName = true;
 bool Settings::Spammer::PositionSpammer::showWeapon = true;
@@ -96,7 +100,25 @@ void Spammer::BeginFrame(float frameTime)
 
 		engine->ClientCmd_Unrestricted(radioCommands[std::rand() % IM_ARRAYSIZE(radioCommands)]);
 	}
+	if (Settings::Spammer::NameExploit::enabled)
+	{
+		if (Settings::Spammer::NameExploit::names.empty())
+			return;
 
+		// Give the random number generator a new seed based of the current time
+		std::srand(std::time(NULL));
+
+		// Grab a random message string
+		std::string fname = Settings::Spammer::NameExploit::names[std::rand() % Settings::Spammer::NameExploit::names.size()];
+
+		// Construct a command with our message
+		pstring str;
+		str << ("name") << " ";
+		str << fname;
+
+		// Execute our constructed command
+		engine->ExecuteClientCmd(str.c_str());
+	}
 	if (Settings::Spammer::type == SpammerType::SPAMMER_NORMAL)
 	{
 		if (Settings::Spammer::NormalSpammer::messages.empty())
