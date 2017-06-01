@@ -5,13 +5,9 @@ void Hooks::DrawModelExecute(void* thisptr, void* context, void *state, const Mo
 	if (!Settings::ScreenshotCleaner::enabled || !engine->IsTakingScreenshot())
 	{
 		Chams::DrawModelExecute(thisptr, context, state, pInfo, pCustomBoneToWorld);
+		ESP::DrawModelExecute(thisptr, context, state, pInfo, pCustomBoneToWorld);
 	}
 
 	modelRenderVMT->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
 	modelRender->ForcedMaterialOverride(NULL);
-
-	if (!Settings::ScreenshotCleaner::enabled || !engine->IsTakingScreenshot())
-	{
-		ESP::DrawModelExecute(thisptr, context, state, pInfo, pCustomBoneToWorld);
-	}
 }
