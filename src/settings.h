@@ -105,7 +105,7 @@ enum class BarType : int
 	VERTICAL_RIGHT,
 	HORIZONTAL,
 	HORIZONTAL_UP,
-	INTERWEBZ,
+	INTERWEBZ
 };
 
 enum class BarColorType : int
