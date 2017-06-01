@@ -102,7 +102,6 @@ int __attribute__((constructor)) FuzionInit()
 
 	AntiAim::LuaInit();
 
-
 	return 0;
 }
 
@@ -110,11 +109,11 @@ void __attribute__((destructor)) FuzionShutdown()
 {
 	cvar->FindVar("cl_mouseenable")->SetValue(1);
 
-	AntiAim::LuaCleanup();
-
 	SDL2::UnhookWindow();
 	SDL2::UnhookPollEvent();
 
+	AntiAim::LuaCleanup();
+	Aimbot::XDOCleanup();
 	NoSmoke::Cleanup();
 
 	clientVMT->ReleaseVMT();

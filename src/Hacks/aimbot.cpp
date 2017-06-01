@@ -90,6 +90,11 @@ static inline void ApplyOffsetToAngle(QAngle *angles, QAngle *offset)
 	angles->operator+=(*offset);
 }
 
+void Aimbot::XDOCleanup()
+{
+	xdo_free(xdo);
+}
+
 float AutoWallBestBone(C_BasePlayer *player, int &bestBone)
 {
 	float bestDamage = Settings::Aimbot::AutoWall::value;
@@ -266,8 +271,6 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, int& bestBone, float
 			return lockedOn;
 		}
 	}
-
-	
 
 	for (int i = 1; i < engine->GetMaxClients(); ++i)
 	{
@@ -777,11 +780,13 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	{
 		if(Settings::Aimbot::moveMouse && !Settings::Aimbot::silent) // not a good idea to use mouse-based aimbot and silent aim at the same time
 		{
-			ConVar* sensitivity = cvar->FindVar("sensitivity");
-			ConVar* m_pitch = cvar->FindVar("m_pitch");
-			ConVar* m_yaw = cvar->FindVar("m_yaw");
+			float sensitivity = cvar->FindVar("sensitivity")->GetFloat();
+			float m_pitch = cvar->FindVar("m_pitch")->GetFloat();
+			float m_yaw = cvar->FindVar("m_yaw")->GetFloat();
 			
-			xdo_move_mouse_relative(xdo, (int) -((angle.y - oldAngle.y) / (m_pitch->GetFloat() * sensitivity->GetFloat())), (int) ((angle.x - oldAngle.x) / (m_yaw->GetFloat() * sensitivity->GetFloat())));
+			xdo_move_mouse_relative(xdo, (int) -( (angle.y - oldAngle.y) / (m_pitch * sensitivity) ),
+									     (int) ( (angle.x - oldAngle.x) / (m_yaw * sensitivity))
+								   );
 		}
 		else
 		{

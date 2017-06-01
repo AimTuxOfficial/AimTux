@@ -31,4 +31,6 @@ namespace Aimbot
 	void CreateMove(CUserCmd* cmd);
 	void FireGameEvent(IGameEvent* event);
 	void UpdateValues();
+
+	void XDOCleanup();
 }

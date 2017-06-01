@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-project(Fuzion) # Why was this "AimTux" when you add libraries to "Fuzion"?
+project(Fuzion)
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.2)
