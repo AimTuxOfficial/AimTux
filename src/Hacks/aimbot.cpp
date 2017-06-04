@@ -90,6 +90,11 @@ static inline void ApplyOffsetToAngle(QAngle *angles, QAngle *offset)
 	angles->operator+=(*offset);
 }
 
+void Aimbot::XDOCleanup()
+{
+	xdo_free(xdo);
+}
+
 float AutoWallBestBone(C_BasePlayer *player, int &bestBone)
 {
 	float bestDamage = Settings::Aimbot::AutoWall::value;
@@ -266,8 +271,6 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, int& bestBone, float
 			return lockedOn;
 		}
 	}
-
-	
 
 	for (int i = 1; i < engine->GetMaxClients(); ++i)
 	{
@@ -540,7 +543,17 @@ void Aimbot::AutoSlow(C_BasePlayer* player, float& forward, float& sideMove, flo
 	if (!activeWeapon || activeWeapon->GetAmmo() == 0)
 		return;
 
-	if( localplayer->GetVelocity().Length() > (activeWeapon->GetCSWpnData()->GetMaxPlayerSpeed() / 3) ) // https://youtu.be/ZgjYxBRuagA
+	if( Settings::Aimbot::SpreadLimit::enabled )
+	{
+		if( (activeWeapon->GetSpread() + activeWeapon->GetInaccuracy()) > Settings::Aimbot::SpreadLimit::value )
+		{
+			cmd->buttons |= IN_WALK;
+			forward = -forward;
+			sideMove = -sideMove;
+			cmd->upmove = 0;
+		}
+	}
+	else if( localplayer->GetVelocity().Length() > (activeWeapon->GetCSWpnData()->GetMaxPlayerSpeed() / 3) ) // https://youtu.be/ZgjYxBRuagA
 	{
 		cmd->buttons |= IN_WALK;
 		forward = -forward;
@@ -586,6 +599,9 @@ void Aimbot::AutoShoot(C_BasePlayer* player, C_BaseCombatWeapon* activeWeapon, C
 
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 
+	if (Settings::Aimbot::AutoShoot::autoscope && activeWeapon->GetCSWpnData()->GetZoomLevels() > 0 && !localplayer->IsScoped())
+		cmd->buttons |= IN_ATTACK2;
+	
 	if( Settings::Aimbot::AutoShoot::velocityCheck && localplayer->GetVelocity().Length() > (activeWeapon->GetCSWpnData()->GetMaxPlayerSpeed() / 3) )
 		return;
 	if( Settings::Aimbot::SpreadLimit::enabled && ((activeWeapon->GetSpread() + activeWeapon->GetInaccuracy()) > Settings::Aimbot::SpreadLimit::value))
@@ -602,9 +618,7 @@ void Aimbot::AutoShoot(C_BasePlayer* player, C_BaseCombatWeapon* activeWeapon, C
 	}
 	else
 	{
-		if (Settings::Aimbot::AutoShoot::autoscope && activeWeapon->GetCSWpnData()->GetZoomLevels() > 0 && !localplayer->IsScoped())
-			cmd->buttons |= IN_ATTACK2;
-		else if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
+		if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
 			cmd->buttons |= IN_ATTACK2;
 		else
 			cmd->buttons |= IN_ATTACK;
@@ -777,11 +791,13 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	{
 		if(Settings::Aimbot::moveMouse && !Settings::Aimbot::silent) // not a good idea to use mouse-based aimbot and silent aim at the same time
 		{
-			ConVar* sensitivity = cvar->FindVar("sensitivity");
-			ConVar* m_pitch = cvar->FindVar("m_pitch");
-			ConVar* m_yaw = cvar->FindVar("m_yaw");
+			float sensitivity = cvar->FindVar("sensitivity")->GetFloat();
+			float m_pitch = cvar->FindVar("m_pitch")->GetFloat();
+			float m_yaw = cvar->FindVar("m_yaw")->GetFloat();
 			
-			xdo_move_mouse_relative(xdo, (int) -((angle.y - oldAngle.y) / (m_pitch->GetFloat() * sensitivity->GetFloat())), (int) ((angle.x - oldAngle.x) / (m_yaw->GetFloat() * sensitivity->GetFloat())));
+			xdo_move_mouse_relative(xdo, (int) -( (angle.y - oldAngle.y) / (m_pitch * sensitivity) ),
+									     (int) ( (angle.x - oldAngle.x) / (m_yaw * sensitivity))
+								   );
 		}
 		else
 		{

@@ -429,10 +429,12 @@ void Aimbot::RenderTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-	
-				if (ImGui::Checkbox("Mouse Movement", &moveMouse))
-					UI::UpdateWeaponSettings();
-				SetTooltip("Emulates mouse movements instead of setting view angles. Recommended for FaceIt servers. (Doesn't work with silent aim)");
+				if( !silent )
+				{
+					if (ImGui::Checkbox("Mouse Movement", &moveMouse))
+						UI::UpdateWeaponSettings();
+					SetTooltip("Emulates mouse movements instead of setting view angles. Recommended for FaceIt servers.\n(Doesn't work with silent aim)");
+				}
 	
 				switch (currentWeapon)
 				{
@@ -454,10 +456,13 @@ void Aimbot::RenderTab()
 					default:
 						break;
 				}
-	
-				if (ImGui::Checkbox("Silent Aim", &silent))
-					UI::UpdateWeaponSettings();
-				SetTooltip("Prevents the camera from locking to an enemy, doesn't work for demos");
+
+				if( !moveMouse )
+				{
+					if (ImGui::Checkbox("Silent Aim", &silent))
+						UI::UpdateWeaponSettings();
+					SetTooltip("Prevents the camera from locking to an enemy, doesn't work for demos");
+				}
 				if (ImGui::Checkbox("Smoke Check", &smokeCheck))
 					UI::UpdateWeaponSettings();
 				SetTooltip("Ignore players that are blocked by smoke");
