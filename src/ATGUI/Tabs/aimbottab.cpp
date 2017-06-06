@@ -503,7 +503,7 @@ void Aimbot::RenderTab()
 			{
 				if (ImGui::Checkbox("Enabled##AUTOWALL", &autoWallEnabled))
 					UI::UpdateWeaponSettings();
-				SetTooltip("Shoots enemy through a wall if it does X amount of damage");
+				SetTooltip("Shoots enemy through a wall if it does X amount of damage\nWhen this is enabled it Shoots the highest damage Bone\nOut of the selected Bones");
 				if(ImGui::Button("Autowall Bones", ImVec2(-1, 0)))
 					ImGui::OpenPopup("optionBones");
 				ImGui::SetNextWindowSize(ImVec2((ImGui::GetWindowWidth()/1.25f),ImGui::GetWindowHeight()), ImGuiSetCond_Always);

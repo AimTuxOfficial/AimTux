@@ -1,0 +1,617 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="Fuzion"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/lwss/Documents/Fuzion"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j4 -f &quot;/home/lwss/Documents/Fuzion/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/gmake -j4 -f &quot;/home/lwss/Documents/Fuzion/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j4 -f &quot;/home/lwss/Documents/Fuzion/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j4 -f &quot;/home/lwss/Documents/Fuzion/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/lwss/Documents/Fuzion"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j4 -f &quot;/home/lwss/Documents/Fuzion/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/gmake -j4 -f &quot;/home/lwss/Documents/Fuzion/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j4 -f &quot;/home/lwss/Documents/Fuzion/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j4 -f &quot;/home/lwss/Documents/Fuzion/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Fuzion">
+				<Option output="/home/lwss/Documents/Fuzion/libFuzion.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/lwss/Documents/Fuzion"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DLUA"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/7/../../../../include/c++/7"/>
+					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/7/../../../../include/c++/7/x86_64-redhat-linux"/>
+					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/7/../../../../include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/7/include"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j4 -f &quot;/home/lwss/Documents/Fuzion/Makefile&quot;  VERBOSE=1 Fuzion"/>
+					<CompileFile command="/usr/bin/gmake -j4 -f &quot;/home/lwss/Documents/Fuzion/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j4 -f &quot;/home/lwss/Documents/Fuzion/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j4 -f &quot;/home/lwss/Documents/Fuzion/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Fuzion/fast">
+				<Option output="/home/lwss/Documents/Fuzion/libFuzion.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/lwss/Documents/Fuzion"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DLUA"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/7/../../../../include/c++/7"/>
+					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/7/../../../../include/c++/7/x86_64-redhat-linux"/>
+					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/7/../../../../include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/7/include"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j4 -f &quot;/home/lwss/Documents/Fuzion/Makefile&quot;  VERBOSE=1 Fuzion/fast"/>
+					<CompileFile command="/usr/bin/gmake -j4 -f &quot;/home/lwss/Documents/Fuzion/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j4 -f &quot;/home/lwss/Documents/Fuzion/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j4 -f &quot;/home/lwss/Documents/Fuzion/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/lwss/Documents/Fuzion"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j4 -f &quot;/home/lwss/Documents/Fuzion/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/gmake -j4 -f &quot;/home/lwss/Documents/Fuzion/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j4 -f &quot;/home/lwss/Documents/Fuzion/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j4 -f &quot;/home/lwss/Documents/Fuzion/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ATGUI/Tabs/aimbottab.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ATGUI/Tabs/aimbottab.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ATGUI/Tabs/hvhtab.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ATGUI/Tabs/hvhtab.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ATGUI/Tabs/misctab.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ATGUI/Tabs/misctab.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ATGUI/Tabs/modelstab.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ATGUI/Tabs/modelstab.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ATGUI/Tabs/skinstab.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ATGUI/Tabs/skinstab.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ATGUI/Tabs/triggerbottab.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ATGUI/Tabs/triggerbottab.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ATGUI/Tabs/visualstab.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ATGUI/Tabs/visualstab.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ATGUI/Windows/colors.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ATGUI/Windows/colors.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ATGUI/Windows/configs.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ATGUI/Windows/configs.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ATGUI/Windows/main.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ATGUI/Windows/main.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ATGUI/Windows/playerlist.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ATGUI/Windows/playerlist.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ATGUI/Windows/skinmodelchanger.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ATGUI/Windows/skinmodelchanger.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ATGUI/Windows/walk.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ATGUI/Windows/walk.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ATGUI/atgui.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ATGUI/atgui.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ATGUI/atguielements.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Fuzion.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/aimbot.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/aimbot.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/airstuck.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/airstuck.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/antiaim.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/antiaim.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/asuswalls.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/asuswalls.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/autoaccept.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/autoaccept.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/autoblock.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/autoblock.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/autodefuse.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/autodefuse.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/autostrafe.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/autostrafe.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/autowall.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/autowall.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/bhop.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/bhop.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/chams.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/chams.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/clantagchanger.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/clantagchanger.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/customglow.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/customglow.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/disablepostprocessing.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/disablepostprocessing.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/dlights.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/dlights.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/edgejump.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/edgejump.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/esp.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/esp.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/fakelag.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/fakelag.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/fovchanger.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/fovchanger.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/grenadehelper.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/grenadehelper.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/hitmarkers.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/hitmarkers.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/jumpthrow.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/jumpthrow.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/namechanger.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/namechanger.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/namestealer.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/namestealer.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/noflash.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/noflash.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/nosmoke.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/nosmoke.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/predictionsystem.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/predictionsystem.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/radar.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/radar.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/recoilcrosshair.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/recoilcrosshair.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/resolver.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/resolver.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/showranks.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/showranks.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/showspectators.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/showspectators.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/skinchanger.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/skinchanger.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/skybox.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/skybox.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/snipercrosshair.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/snipercrosshair.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/spammer.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/spammer.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/teleport.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/teleport.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/thirdperson.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/thirdperson.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/triggerbot.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/triggerbot.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/valvedscheck.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/valvedscheck.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/view.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/view.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/walkbot.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/walkbot.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hooks/BeginFrame.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hooks/CreateMove.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hooks/DrawModelExecute.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hooks/EmitSound.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hooks/FireEvent.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hooks/FireEventClientSide.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hooks/FrameStageNotify.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hooks/GetViewModelFOV.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hooks/IN_KeyEvent.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hooks/OnScreenSizeChanged.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hooks/OverrideView.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hooks/Paint.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hooks/PaintTraverse.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hooks/PlaySound.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hooks/PumpWindowsMessageLoop.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hooks/RenderSmokePostViewmodel.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hooks/RenderView.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hooks/SetKeyCodeState.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Hooks/SetMouseCodeState.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ImGUI/imgui.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ImGUI/imgui.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ImGUI/imgui_demo.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ImGUI/imgui_draw.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ImGUI/imgui_impl_sdl.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/ImGUI/imgui_impl_sdl.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Utils/draw.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Utils/draw.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Utils/entity.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Utils/entity.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Utils/math.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Utils/math.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Utils/netvarmanager.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Utils/netvarmanager.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Utils/patternfinder.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Utils/patternfinder.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Utils/skins.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Utils/skins.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Utils/util.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Utils/util.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Utils/util_items.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Utils/util_items.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Utils/util_sdk.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/Utils/util_sdk.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/config.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/config.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/fonts.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/fonts.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/glhook.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/glhook.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/hooker.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/hooker.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/interfaces.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/interfaces.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/json/jsoncpp.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/modsupport.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/modsupport.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/offsets.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/offsets.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/settings.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/settings.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/shortcuts.cpp">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/src/shortcuts.h">
+			<Option target="Fuzion"/>
+		</Unit>
+		<Unit filename="/home/lwss/Documents/Fuzion/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

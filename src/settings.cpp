@@ -932,6 +932,7 @@ void Settings::LoadConfig(std::string path)
 	GetButtonCode(settings["Autoblock"]["key"], &Settings::Autoblock::key);
 
 	GetVal(settings["AutoDefuse"]["enabled"], &Settings::AutoDefuse::enabled);
+	GetVal(settings["AutoDefuse"]["silent"], &Settings::AutoDefuse::silent);
 
 	GetVal(settings["NoSmoke"]["enabled"], &Settings::NoSmoke::enabled);
 

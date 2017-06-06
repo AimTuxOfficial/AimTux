@@ -909,7 +909,7 @@ void ESP::DrawAutoWall(C_BasePlayer *player)
 {
 	const std::map<int, int> *modelType = Util::GetModelTypeBoneMap(player);
 
-	static HFont autowallFont = Draw::CreateFont("Andale Mono", 11, (int)FontFlags::FONTFLAG_DROPSHADOW );
+	static HFont autowallFont = Draw::CreateFont("Andale Mono", 8, (int)FontFlags::FONTFLAG_DROPSHADOW );
 	/*
 	Vector bone2D;
 	Vector bone3D = player->GetBonePosition((int)Bone::BONE_HEAD);
@@ -945,11 +945,64 @@ void ESP::DrawAutoWall(C_BasePlayer *player)
 		//Draw::Text(Vector2D(bone2D.x, bone2D.y), output.c_str(), autowallFont, Color::FromImColor(GetESPPlayerColor(player, true))); // for color from config
 		Draw::Text(Vector2D(bone2D.x, bone2D.y), output.c_str(), autowallFont, Color(255, 0, 255, 255)); // hot pink
 	}
+	matrix3x4_t matrix[128];
 
+	if( !player->SetupBones(matrix, 128, 0x100, 0.f) )
+		return;
+	model_t *pModel = player->GetModel();
+	if( !pModel )
+		return;
+
+	studiohdr_t *hdr = modelInfo->GetStudioModel(pModel);
+	if( !hdr )
+		return;
+
+	mstudiobbox_t *bbox = hdr->pHitbox((int)Hitbox::HITBOX_HEAD, 0); // bounding box
+	if( !bbox )
+		return;
+
+	Vector mins, maxs;
+	Math::VectorTransform(bbox->bbmin, matrix[bbox->bone], mins);
+	Math::VectorTransform(bbox->bbmax, matrix[bbox->bone], maxs);
+
+	Vector center = ( mins + maxs ) * 0.5f;
+
+	// 0 - center, 1 - forehead, 2 - skullcap, 3 - upperleftear, 4 - upperrightear, 5 - uppernose, 6 - upperbackofhead
+	// 7 - leftear, 8 - rightear, 9 - nose, 10 - backofhead
+	Vector headPoints[11] = { center, center, center, center, center, center, center, center, center, center, center };
+	headPoints[1].z += bbox->radius * 0.60f;
+	headPoints[2].z += bbox->radius * 1.25f;
+	headPoints[3].x += bbox->radius * 0.80f;
+	headPoints[3].z += bbox->radius * 0.60f;
+	headPoints[4].x -= bbox->radius * 0.80f;
+	headPoints[4].z += bbox->radius * 0.90f;
+	headPoints[5].y += bbox->radius * 0.80f;
+	headPoints[5].z += bbox->radius * 0.90f;
+	headPoints[6].y -= bbox->radius * 0.80f;
+	headPoints[6].z += bbox->radius * 0.90f;
+	headPoints[7].x += bbox->radius * 0.80f;
+	headPoints[8].x -= bbox->radius * 0.80f;
+	headPoints[9].y += bbox->radius * 0.80f;
+	headPoints[10].y -= bbox->radius * 0.80f;
+
+
+	Autowall::FireBulletData data;
+	for( int i = 0; i < 11; i++ )
+	{
+		float damage = Autowall::GetDamage(headPoints[i], !Settings::Aimbot::friendly, data);
+		std::stringstream stream;
+		stream << std::fixed << std::setprecision(0) << damage;
+		std::string output = stream.str();
+
+		Vector string2D;
+		debugOverlay->ScreenPosition(headPoints[i], string2D);
+		Draw::Text(Vector2D(string2D.x, string2D.y), output.c_str(), autowallFont, Color(255, 0, 255, 255));
+	}
 }
 
 void ESP::DrawHeaddot(C_BasePlayer* player)
 {
+	/*
 	Vector head2D;
 	Vector head3D = player->GetBonePosition((int) Bone::BONE_HEAD);
 	if (debugOverlay->ScreenPosition(Vector(head3D.x, head3D.y, head3D.z), head2D))
@@ -960,6 +1013,7 @@ void ESP::DrawHeaddot(C_BasePlayer* player)
 		bIsVisible = Entity::IsVisible(player, (int)Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck);
 
 	Draw::FilledCircle(Vector2D(head2D.x, head2D.y), 10, Settings::ESP::HeadDot::size, Color::FromImColor(GetESPPlayerColor(player, bIsVisible)));
+	 */
 	/*
 	for( int bone = 127; bone >= (int)Bone::BONE_HIP; bone-- )
 	{
@@ -972,6 +1026,32 @@ void ESP::DrawHeaddot(C_BasePlayer* player)
 		Draw::Text(Vector2D(bone2D.x, bone2D.y), text, esp_font, Color::FromImColor(GetESPPlayerColor(player, bIsVisible)));
 	}
 	*/
+	matrix3x4_t matrix[128];
+
+	if( !player->SetupBones(matrix, 128, 0x100, 0.f) )
+		return;
+	model_t *pModel = player->GetModel();
+	if( !pModel )
+		return;
+
+	studiohdr_t *hdr = modelInfo->GetStudioModel(pModel);
+	if( !hdr )
+		return;
+
+	mstudiobbox_t *bbox = hdr->pHitbox((int)Hitbox::HITBOX_HEAD, 0); // bounding box
+	if( !bbox )
+		return;
+
+	Vector mins, maxs;
+	Math::VectorTransform(bbox->bbmin, matrix[bbox->bone], mins);
+	Math::VectorTransform(bbox->bbmax, matrix[bbox->bone], maxs);
+
+	Vector min2D, max2D;
+	debugOverlay->ScreenPosition(mins, min2D);
+	debugOverlay->ScreenPosition(maxs, max2D);
+
+	Draw::Text(Vector2D(min2D.x, min2D.y), "Min", esp_font, Color(255, 0, 255, 255));
+	Draw::Text(Vector2D(max2D.x, max2D.y), "Max", esp_font, Color(255, 0, 255, 255));
 }
 
 void ESP::CollectFootstep(int iEntIndex, const char *pSample)
