@@ -1,5 +1,8 @@
 #!/bin/sh
 
+echo "Aimtux is detected. It is recommended that you do not inject."
+exit
+
 csgo_pid=$(pidof csgo_linux64)
 if [ -z "$csgo_pid" ]; then
     /bin/echo -e "\e[31mCSGO needs to be open before you can inject...\e[0m"
