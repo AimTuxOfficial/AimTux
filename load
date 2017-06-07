@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "Aimtux is detected. It is recommended that you to not inject."
+echo "Aimtux is detected. It is recommended that you do not inject."
 exit
 
 csgo_pid=$(pidof csgo_linux64)
