@@ -55,7 +55,6 @@ ClanTagChanger::Animation ClanTagChanger::Letters(std::string name, std::wstring
 }
 
 std::vector<ClanTagChanger::Animation> ClanTagChanger::animations = {
-	ClanTagChanger::Marquee("NOVAC", L"NO VAC ON LINUX"),
 	ClanTagChanger::Words("USPINME", L"You spin me right round baby right round like a record baby right round _round __round"),
 	ClanTagChanger::Letters("ILOVELINUX", L"Suck my Tux!")
 };
@@ -86,7 +85,6 @@ void ClanTagChanger::UpdateClanTagCallback()
 	}
 
 	ClanTagChanger::animations = {
-			ClanTagChanger::Marquee("NOVAC", L"NO VAC ON LINUX"),
 			ClanTagChanger::Words("USPINME", L"You spin me right round baby right round like a record baby right round _round __round"),
 			ClanTagChanger::Letters("ILOVELINUX", L"Suck my Tux!")
 	};
