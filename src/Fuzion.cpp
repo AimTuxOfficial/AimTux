@@ -32,14 +32,14 @@ int __attribute__((constructor)) FuzionInit()
 	Hooker::FindLineGoesThroughSmoke();
 	Hooker::FindInitKeyValues();
 	Hooker::FindLoadFromBuffer();
-	Hooker::FindVstdlibFunctions();
+	//Hooker::FindVstdlibFunctions();
 	Hooker::FindOverridePostProcessingDisable();
 	Hooker::FindCrosshairWeaponTypeCheck();
 	Hooker::FindCamThinkSvCheatsCheck();
 	Hooker::HookSwapWindow();
 	Hooker::HookPollEvent();
 
-	cvar->ConsoleColorPrintf(ColorRGBA(0, 255, 0), ".so Successfully injected.\n");
+	cvar->ConsoleColorPrintf(ColorRGBA(0, 255, 0), XORSTR(".so Successfully injected.\n"));
 
 	ModSupport::OnInit();
 
@@ -107,7 +107,7 @@ int __attribute__((constructor)) FuzionInit()
 
 void __attribute__((destructor)) FuzionShutdown()
 {
-	cvar->FindVar("cl_mouseenable")->SetValue(1);
+	cvar->FindVar(XORSTR("cl_mouseenable"))->SetValue(1);
 
 	SDL2::UnhookWindow();
 	SDL2::UnhookPollEvent();
@@ -146,5 +146,5 @@ void __attribute__((destructor)) FuzionShutdown()
 	for (ptrdiff_t off = 0; off < 0x2; off++)
 		Util::ProtectAddr(CamThinkSvCheatsCheck + off, PROT_READ | PROT_EXEC);
 
-	cvar->ConsoleColorPrintf(ColorRGBA(255, 0, 0), ".so Unloaded successfully.\n");
+	cvar->ConsoleColorPrintf(ColorRGBA(255, 0, 0), XORSTR(".so Unloaded successfully.\n"));
 }

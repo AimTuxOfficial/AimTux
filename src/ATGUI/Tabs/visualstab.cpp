@@ -12,7 +12,8 @@ void Visuals::RenderTab()
 
 	const char* SkyBoxes[] = {
 			"cs_baggage_skybox_", // 0
-			"cs_tibet", "embassy",
+			"cs_tibet",
+			"embassy",
 			"italy",
 			"jungle",
 			"office",
@@ -37,147 +38,111 @@ void Visuals::RenderTab()
 
 	ImGui::Columns(2, NULL, true);
 	{
-		ImGui::Checkbox("Enabled", &Settings::ESP::enabled);
+		ImGui::Checkbox(XORSTR("Enabled"), &Settings::ESP::enabled);
 		ImGui::NextColumn();
-		ImGui::Text("Only on Key");
+		ImGui::Text(XORSTR("Only on Key"));
 		UI::KeyBindButton(&Settings::ESP::key);
 	}
 	ImGui::Separator();
 
 	ImGui::Columns(2, NULL, true);
 	{
-		ImGui::BeginChild("COL1", ImVec2(0, 0), true);
+		ImGui::BeginChild(XORSTR("COL1"), ImVec2(0, 0), true);
 		{
-			ImGui::Text("ESP");
-			ImGui::BeginChild("ESP", ImVec2(0, 0), true);
-			ImGui::Text("Type");
+			ImGui::Text(XORSTR("ESP"));
+			ImGui::BeginChild(XORSTR("ESP"), ImVec2(0, 0), true);
+			ImGui::Text(XORSTR("Type"));
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::Checkbox("Outline Box", &Settings::ESP::Boxes::enabled);
-				SetTooltip("Outline players with a box");
-				ImGui::Checkbox("Chams", &Settings::ESP::Chams::enabled);
-				SetTooltip("Change players' model texture");
-				ImGui::Checkbox("Health", &Settings::ESP::Bars::enabled);
-				SetTooltip("Show a players health with a bar");
-				ImGui::Checkbox("Tracers", &Settings::ESP::Tracers::enabled);
-				SetTooltip("Draws a line to each player");
+				ImGui::Checkbox(XORSTR("Outline Box"), &Settings::ESP::Boxes::enabled);
+				ImGui::Checkbox(XORSTR("Chams"), &Settings::ESP::Chams::enabled);
+				ImGui::Checkbox(XORSTR("Health"), &Settings::ESP::Bars::enabled);
+				ImGui::Checkbox(XORSTR("Tracers"), &Settings::ESP::Tracers::enabled);
 				ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
-				ImGui::Text("Bar Color");
+				ImGui::Text(XORSTR("Bar Color"));
 				ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
-				ImGui::Text("Team Color");
+				ImGui::Text(XORSTR("Team Color"));
 				ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
-				ImGui::Checkbox("Bullet Tracers", &Settings::ESP::BulletTracers::enabled);
-				SetTooltip("Adds a line showing where a player is aiming");
-				ImGui::Checkbox("Head Dot", &Settings::ESP::HeadDot::enabled);
-				SetTooltip("Adds a Dot on the Head of a player");
+				ImGui::Checkbox(XORSTR("Bullet Tracers"), &Settings::ESP::BulletTracers::enabled);
+				ImGui::Checkbox(XORSTR("Head Dot"), &Settings::ESP::HeadDot::enabled);
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-				ImGui::Combo("##BOXTYPE", (int*)& Settings::ESP::Boxes::type, BoxTypes, IM_ARRAYSIZE(BoxTypes));
-				ImGui::Combo("##CHAMSTYPE", (int*)& Settings::ESP::Chams::type, ChamsTypes, IM_ARRAYSIZE(ChamsTypes));
-				ImGui::Combo("##BARTYPE", (int*)& Settings::ESP::Bars::type, BarTypes, IM_ARRAYSIZE(BarTypes));
-				ImGui::Combo("##TRACERTYPE", (int*)& Settings::ESP::Tracers::type, TracerTypes, IM_ARRAYSIZE(TracerTypes));
-				ImGui::Combo("##BARCOLTYPE", (int*)& Settings::ESP::Bars::colorType, BarColorTypes, IM_ARRAYSIZE(BarColorTypes));
-				ImGui::Combo("##TEAMCOLTYPE", (int*)& Settings::ESP::teamColorType, TeamColorTypes, IM_ARRAYSIZE(TeamColorTypes));
+				ImGui::Combo(XORSTR("##BOXTYPE"), (int*)& Settings::ESP::Boxes::type, BoxTypes, IM_ARRAYSIZE(BoxTypes));
+				ImGui::Combo(XORSTR("##CHAMSTYPE"), (int*)& Settings::ESP::Chams::type, ChamsTypes, IM_ARRAYSIZE(ChamsTypes));
+				ImGui::Combo(XORSTR("##BARTYPE"), (int*)& Settings::ESP::Bars::type, BarTypes, IM_ARRAYSIZE(BarTypes));
+				ImGui::Combo(XORSTR("##TRACERTYPE"), (int*)& Settings::ESP::Tracers::type, TracerTypes, IM_ARRAYSIZE(TracerTypes));
+				ImGui::Combo(XORSTR("##BARCOLTYPE"), (int*)& Settings::ESP::Bars::colorType, BarColorTypes, IM_ARRAYSIZE(BarColorTypes));
+				ImGui::Combo(XORSTR("##TEAMCOLTYPE"), (int*)& Settings::ESP::teamColorType, TeamColorTypes, IM_ARRAYSIZE(TeamColorTypes));
 				ImGui::PopItemWidth();
-				ImGui::Checkbox("Skeleton", &Settings::ESP::Skeleton::enabled);
-				SetTooltip("Show a players skeleton");
+				ImGui::Checkbox(XORSTR("Skeleton"), &Settings::ESP::Skeleton::enabled);
 				ImGui::PushItemWidth(-1);
-				ImGui::SliderFloat("##HDOTSIZE", &Settings::ESP::HeadDot::size, 1.f, 10.f, "Size: %0.3f");
+				ImGui::SliderFloat(XORSTR("##HDOTSIZE"), &Settings::ESP::HeadDot::size, 1.f, 10.f, XORSTR("Size: %0.3f"));
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
-			ImGui::Text("Filter");
+			ImGui::Text(XORSTR("Filter"));
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::Checkbox("Enemies", &Settings::ESP::Filters::enemies);
-				SetTooltip("Show enemies");
-				ImGui::Checkbox("Chickens", &Settings::ESP::Filters::chickens);
-				SetTooltip("Show chickens");
-				ImGui::Checkbox("LocalPlayer", &Settings::ESP::Filters::localplayer);
-				SetTooltip("Show localplayer");
-				ImGui::Checkbox("Legit Mode", &Settings::ESP::Filters::legit);
-				SetTooltip("Hide enemies behind walls");
+				ImGui::Checkbox(XORSTR("Enemies"), &Settings::ESP::Filters::enemies);
+				ImGui::Checkbox(XORSTR("Chickens"), &Settings::ESP::Filters::chickens);
+				ImGui::Checkbox(XORSTR("LocalPlayer"), &Settings::ESP::Filters::localplayer);
+				ImGui::Checkbox(XORSTR("Legit Mode"), &Settings::ESP::Filters::legit);
 			}
 			ImGui::NextColumn();
 			{
-				ImGui::Checkbox("Allies", &Settings::ESP::Filters::allies);
-				SetTooltip("Show team mates");
-				ImGui::Checkbox("Fish", &Settings::ESP::Filters::fishes);
-				SetTooltip("Show fish");
-				ImGui::Checkbox("Smoke Check", &Settings::ESP::Filters::smokeCheck);
-				SetTooltip("Mark players behind smokes as invisible");
-				ImGui::Checkbox("Visiblity Check", &Settings::ESP::Filters::visibilityCheck);
-				SetTooltip("Change color of outlined box based on whether you see them");
+				ImGui::Checkbox(XORSTR("Allies"), &Settings::ESP::Filters::allies);
+				ImGui::Checkbox(XORSTR("Fish"), &Settings::ESP::Filters::fishes);
+				ImGui::Checkbox(XORSTR("Smoke Check"), &Settings::ESP::Filters::smokeCheck);
+				ImGui::Checkbox(XORSTR("Visiblity Check"), &Settings::ESP::Filters::visibilityCheck);
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
-			ImGui::Text("Player Information");
+			ImGui::Text(XORSTR("Player Information"));
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::Checkbox("Clan", &Settings::ESP::Info::clan);
-				SetTooltip("Show clan");
-				ImGui::Checkbox("Rank", &Settings::ESP::Info::rank);
-				SetTooltip("Show rank");
+				ImGui::Checkbox(XORSTR("Clan"), &Settings::ESP::Info::clan);
+				ImGui::Checkbox(XORSTR("Rank"), &Settings::ESP::Info::rank);
 				ImGui::PushID(1);
-				ImGui::Checkbox("Health", &Settings::ESP::Info::health);
-				SetTooltip("Show health");
+				ImGui::Checkbox(XORSTR("Health"), &Settings::ESP::Info::health);
 				ImGui::PopID();
-				ImGui::Checkbox("Scoped", &Settings::ESP::Info::scoped);
-				SetTooltip("Show whether they are scoped");
-				ImGui::Checkbox("Flashed", &Settings::ESP::Info::flashed);
-				SetTooltip("Show whether they are flashed");
-				ImGui::Checkbox("Defuse Kit", &Settings::ESP::Info::hasDefuser);
-				SetTooltip("Show whether they have a defuse kit");
-				ImGui::Checkbox("Grabbing Hostage", &Settings::ESP::Info::grabbingHostage);
-				SetTooltip("Show whether they are grabbing a hostage");
-				ImGui::Checkbox("Location", &Settings::ESP::Info::location);
-				SetTooltip("Show location");
+				ImGui::Checkbox(XORSTR("Scoped"), &Settings::ESP::Info::scoped);
+				ImGui::Checkbox(XORSTR("Flashed"), &Settings::ESP::Info::flashed);
+				ImGui::Checkbox(XORSTR("Defuse Kit"), &Settings::ESP::Info::hasDefuser);
+				ImGui::Checkbox(XORSTR("Grabbing Hostage"), &Settings::ESP::Info::grabbingHostage);
+				ImGui::Checkbox(XORSTR("Location"), &Settings::ESP::Info::location);
 			}
 			ImGui::NextColumn();
 			{
-				ImGui::Checkbox("Name", &Settings::ESP::Info::name);
-				SetTooltip("Show name");
-				ImGui::Checkbox("Steam ID", &Settings::ESP::Info::steamId);
-				SetTooltip("Show Steam ID");
-				ImGui::Checkbox("Weapon", &Settings::ESP::Info::weapon);
-				SetTooltip("Show held weapon");
-				ImGui::Checkbox("Reloading", &Settings::ESP::Info::reloading);
-				SetTooltip("Show whether they are reloading");
-				ImGui::Checkbox("Planting", &Settings::ESP::Info::planting);
-				SetTooltip("Show whether they are planting");
-				ImGui::Checkbox("Defusing", &Settings::ESP::Info::defusing);
-				SetTooltip("Show whether they are defusing");
-				ImGui::Checkbox("Rescuing Hostage", &Settings::ESP::Info::rescuing);
-				SetTooltip("Show whether they are rescuing a hostage");
+				ImGui::Checkbox(XORSTR("Name"), &Settings::ESP::Info::name);
+				ImGui::Checkbox(XORSTR("Steam ID"), &Settings::ESP::Info::steamId);
+				ImGui::Checkbox(XORSTR("Weapon"), &Settings::ESP::Info::weapon);
+				ImGui::Checkbox(XORSTR("Reloading"), &Settings::ESP::Info::reloading);
+				ImGui::Checkbox(XORSTR("Planting"), &Settings::ESP::Info::planting);
+				ImGui::Checkbox(XORSTR("Defusing"), &Settings::ESP::Info::defusing);
+				ImGui::Checkbox(XORSTR("Rescuing Hostage"), &Settings::ESP::Info::rescuing);
 			}
 
 			ImGui::Columns(1);
 			ImGui::Separator();
-			ImGui::Text("World");
+			ImGui::Text(XORSTR("World"));
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::Checkbox("Weapons", &Settings::ESP::Filters::weapons);
-				SetTooltip("Show weapons on floor");
-				ImGui::Checkbox("Throwables", &Settings::ESP::Filters::throwables);
-				SetTooltip("Show throwables");
-				ImGui::Checkbox("Entity Glow", &Settings::ESP::Glow::enabled);
-				SetTooltip("Show a glow around entities");
+				ImGui::Checkbox(XORSTR("Weapons"), &Settings::ESP::Filters::weapons);
+				ImGui::Checkbox(XORSTR("Throwables"), &Settings::ESP::Filters::throwables);
+				ImGui::Checkbox(XORSTR("Entity Glow"), &Settings::ESP::Glow::enabled);
 			}
 			ImGui::NextColumn();
 			{
-				ImGui::Checkbox("Bomb", &Settings::ESP::Filters::bomb);
-				SetTooltip("Show bomb when planted");
-				ImGui::Checkbox("Defuse Kits", &Settings::ESP::Filters::defusers);
-				SetTooltip("Show defuse kits on floor");
-				ImGui::Checkbox("Hostages", &Settings::ESP::Filters::hostages);
-				SetTooltip("Show hostages");
+				ImGui::Checkbox(XORSTR("Bomb"), &Settings::ESP::Filters::bomb);
+				ImGui::Checkbox(XORSTR("Defuse Kits"), &Settings::ESP::Filters::defusers);
+				ImGui::Checkbox(XORSTR("Hostages"), &Settings::ESP::Filters::hostages);
 			}
 			ImGui::Columns(1);
 			ImGui::EndChild();
@@ -187,123 +152,101 @@ void Visuals::RenderTab()
 
 	ImGui::NextColumn();
 	{
-		ImGui::BeginChild("Chams", ImVec2(0, 0), true);
+		ImGui::BeginChild(XORSTR("Chams"), ImVec2(0, 0), true);
 		{
-			ImGui::Text("Crosshair");
+			ImGui::Text(XORSTR("Crosshair"));
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::Checkbox("Recoil Crosshair", &Settings::Recoilcrosshair::enabled);
-				SetTooltip("Show a crosshair based on recoil");
-				ImGui::Checkbox("FOV Circle", &Settings::ESP::FOVCrosshair::enabled);
-				SetTooltip("Show circle around aimbot FOV");
-				ImGui::Checkbox("Show Spread", &Settings::ESP::Spread::enabled);
-				SetTooltip("Show where your bullets can possibly Land");
+				ImGui::Checkbox(XORSTR("Recoil Crosshair"), &Settings::Recoilcrosshair::enabled);
+				ImGui::Checkbox(XORSTR("FOV Circle"), &Settings::ESP::FOVCrosshair::enabled);
+				ImGui::Checkbox(XORSTR("Show Spread"), &Settings::ESP::Spread::enabled);
 			}
 			ImGui::NextColumn();
 			{
-				ImGui::Checkbox("Only When Shooting", &Settings::Recoilcrosshair::showOnlyWhenShooting);
-				SetTooltip("Only show recoil crosshair when shooting");
-				ImGui::Checkbox("Filled", &Settings::ESP::FOVCrosshair::filled);
-				SetTooltip("Fill the fov circle");
-				ImGui::Checkbox("Show SpreadLimit", &Settings::ESP::Spread::spreadLimit);
-				SetTooltip("Show Spread Limit threshold");
+				ImGui::Checkbox(XORSTR("Only When Shooting"), &Settings::Recoilcrosshair::showOnlyWhenShooting);
+				ImGui::Checkbox(XORSTR("Filled"), &Settings::ESP::FOVCrosshair::filled);
+				ImGui::Checkbox(XORSTR("Show SpreadLimit"), &Settings::ESP::Spread::spreadLimit);
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
-			ImGui::Text("Skybox Changer");
+			ImGui::Text(XORSTR("Skybox Changer"));
 			ImGui::Separator();
-			ImGui::Checkbox("##SKYBOXENABLE", &Settings::SkyBox::enabled);
+			ImGui::Checkbox(XORSTR("##SKYBOXENABLE"), &Settings::SkyBox::enabled);
 			ImGui::SameLine();
-			ImGui::Combo("##SKYBOX", &Settings::SkyBox::skyBoxNumber, SkyBoxes, IM_ARRAYSIZE(SkyBoxes));
+			ImGui::Combo(XORSTR("##SKYBOX"), &Settings::SkyBox::skyBoxNumber, SkyBoxes, IM_ARRAYSIZE(SkyBoxes));
 			ImGui::Separator();
-			ImGui::Text("Other Visual Settings");
+			ImGui::Text(XORSTR("Other Visual Settings"));
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::Checkbox("Arms", &Settings::ESP::Chams::Arms::enabled);
-				SetTooltip("Apply chams to arms");
-				ImGui::Checkbox("Dlights", &Settings::Dlights::enabled);
-				SetTooltip("Adds a light source to players");
-				ImGui::Checkbox("No Flash", &Settings::Noflash::enabled);
-				SetTooltip("Hide flashbang effect");
-				ImGui::Checkbox("Show Footsteps", &Settings::ESP::Sounds::enabled);
-				SetTooltip("Shows you footsteps in 3D space");
-				ImGui::Checkbox("No View Punch", &Settings::View::NoViewPunch::enabled);
-				SetTooltip("Disables view punch when shooting");
-				ImGui::Checkbox("Weapons", &Settings::ESP::Chams::Weapon::enabled);
-				SetTooltip("Apply chams to weapons");
-				ImGui::Checkbox("No Sky", &Settings::NoSky::enabled);
-				SetTooltip("Allows for the skybox to be colored or disabled");
-				ImGui::Checkbox("No Smoke", &Settings::NoSmoke::enabled);
-				SetTooltip("Disables smoke rendering");
+				ImGui::Checkbox(XORSTR("Arms"), &Settings::ESP::Chams::Arms::enabled);
+				ImGui::Checkbox(XORSTR("Dlights"), &Settings::Dlights::enabled);
+				ImGui::Checkbox(XORSTR("No Flash"), &Settings::Noflash::enabled);
+				ImGui::Checkbox(XORSTR("Show Footsteps"), &Settings::ESP::Sounds::enabled);
+				ImGui::Checkbox(XORSTR("No View Punch"), &Settings::View::NoViewPunch::enabled);
+				ImGui::Checkbox(XORSTR("Weapons"), &Settings::ESP::Chams::Weapon::enabled);
+				ImGui::Checkbox(XORSTR("No Sky"), &Settings::NoSky::enabled);
+				ImGui::Checkbox(XORSTR("No Smoke"), &Settings::NoSmoke::enabled);
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-				ImGui::Combo("##ARMSTYPE", (int*)& Settings::ESP::Chams::Arms::type, ArmsTypes, IM_ARRAYSIZE(ArmsTypes));
-				ImGui::SliderFloat("##DLIGHTRADIUS", &Settings::Dlights::radius, 0, 1000, "Radius: %0.f");
-				ImGui::SliderFloat("##NOFLASHAMOUNT", &Settings::Noflash::value, 0, 255, "Amount: %0.f");
-				ImGui::SliderInt("##SOUNDSTIME", &Settings::ESP::Sounds::time, 250, 5000, "Timeout: %0.f");
+				ImGui::Combo(XORSTR("##ARMSTYPE"), (int*)& Settings::ESP::Chams::Arms::type, ArmsTypes, IM_ARRAYSIZE(ArmsTypes));
+				ImGui::SliderFloat(XORSTR("##DLIGHTRADIUS"), &Settings::Dlights::radius, 0, 1000, XORSTR("Radius: %0.f"));
+				ImGui::SliderFloat(XORSTR("##NOFLASHAMOUNT"), &Settings::Noflash::value, 0, 255, XORSTR("Amount: %0.f"));
+				ImGui::SliderInt(XORSTR("##SOUNDSTIME"), &Settings::ESP::Sounds::time, 250, 5000, XORSTR("Timeout: %0.f"));
 				ImGui::PopItemWidth();
-				ImGui::Checkbox("No Aim Punch", &Settings::View::NoAimPunch::enabled);
-				SetTooltip("Disables aim punch when shooting");
-				ImGui::Checkbox("ASUS Walls", &Settings::ASUSWalls::enabled);
-				SetTooltip("Makes wall textures transparent");
-				ImGui::Checkbox("No Scope Border", &Settings::NoScopeBorder::enabled);
-				SetTooltip("Disables black scope silhouette");
-				ImGui::Checkbox("Autowall Debug", &Settings::ESP::AutoWall::debugView);
-				SetTooltip("Draw Possible Autowall Damage on bones\nenable Visuals and Check Filter Enemies");
+				ImGui::Checkbox(XORSTR("No Aim Punch"), &Settings::View::NoAimPunch::enabled);
+				ImGui::Checkbox(XORSTR("ASUS Walls"), &Settings::ASUSWalls::enabled);
+				ImGui::Checkbox(XORSTR("No Scope Border"), &Settings::NoScopeBorder::enabled);
+				ImGui::Checkbox(XORSTR("Autowall Debug"), &Settings::ESP::AutoWall::debugView);
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
-			ImGui::Text("Radar");
+			ImGui::Text(XORSTR("Radar"));
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::Checkbox("Radar", &Settings::Radar::enabled);
-				SetTooltip("Shows players on the custom radar");
+				ImGui::Checkbox(XORSTR("Radar"), &Settings::Radar::enabled);
 				ImGui::PushItemWidth(-1);
-				ImGui::Combo("##RADARTEAMCOLTYPE", (int*)& Settings::Radar::teamColorType, TeamColorTypes, IM_ARRAYSIZE(TeamColorTypes));
+				ImGui::Combo(XORSTR("##RADARTEAMCOLTYPE"), (int*)& Settings::Radar::teamColorType, TeamColorTypes, IM_ARRAYSIZE(TeamColorTypes));
 				ImGui::PopItemWidth();
-				ImGui::Checkbox("Enemies", &Settings::Radar::enemies);
-				ImGui::Checkbox("Bomb", &Settings::Radar::bomb);
-				ImGui::Checkbox("Legit", &Settings::Radar::legit);
-				ImGui::Checkbox("In-game Radar", &Settings::Radar::InGame::enabled);
-				SetTooltip("Shows players on the in-game radar");
+				ImGui::Checkbox(XORSTR("Enemies"), &Settings::Radar::enemies);
+				ImGui::Checkbox(XORSTR("Bomb"), &Settings::Radar::bomb);
+				ImGui::Checkbox(XORSTR("Legit"), &Settings::Radar::legit);
+				ImGui::Checkbox(XORSTR("In-game Radar"), &Settings::Radar::InGame::enabled);
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-				ImGui::SliderFloat("##RADARZOOM", &Settings::Radar::zoom, 0.f, 100.f, "Zoom: %0.f");
-				ImGui::SliderFloat("##RADARICONSSCALE", &Settings::Radar::iconsScale, 2, 16, "Icons Scale: %0.1f");
+				ImGui::SliderFloat(XORSTR("##RADARZOOM"), &Settings::Radar::zoom, 0.f, 100.f, XORSTR("Zoom: %0.f"));
+				ImGui::SliderFloat(XORSTR("##RADARICONSSCALE"), &Settings::Radar::iconsScale, 2, 16, XORSTR("Icons Scale: %0.1f"));
 				ImGui::PopItemWidth();
-				ImGui::Checkbox("Allies", &Settings::Radar::allies);
-				ImGui::Checkbox("Defuser", &Settings::Radar::defuser);
-				ImGui::Checkbox("Visibility Check", &Settings::Radar::visibilityCheck);
-				ImGui::Checkbox("Smoke Check", &Settings::Radar::smokeCheck);
+				ImGui::Checkbox(XORSTR("Allies"), &Settings::Radar::allies);
+				ImGui::Checkbox(XORSTR("Defuser"), &Settings::Radar::defuser);
+				ImGui::Checkbox(XORSTR("Visibility Check"), &Settings::Radar::visibilityCheck);
+				ImGui::Checkbox(XORSTR("Smoke Check"), &Settings::Radar::smokeCheck);
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
 
-			ImGui::Text("Hitmarkers");
+			ImGui::Text(XORSTR("Hitmarkers"));
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::Checkbox("Hitmarkers", &Settings::ESP::Hitmarker::enabled);
-				SetTooltip("Notify when you hit another player");
+				ImGui::Checkbox(XORSTR("Hitmarkers"), &Settings::ESP::Hitmarker::enabled);
 
-				ImGui::Checkbox("Enemies##HITMARKERS", &Settings::ESP::Hitmarker::enemies);
-				ImGui::Checkbox("Allies##HITMARKERS", &Settings::ESP::Hitmarker::allies);
-				ImGui::Checkbox("Damage##HITMARKERS", &Settings::ESP::Hitmarker::Damage::enabled);
-				SetTooltip("Show dealt damage next to the hitmarker");
+				ImGui::Checkbox(XORSTR("Enemies##HITMARKERS"), &Settings::ESP::Hitmarker::enemies);
+				ImGui::Checkbox(XORSTR("Allies##HITMARKERS"), &Settings::ESP::Hitmarker::allies);
+				ImGui::Checkbox(XORSTR("Damage##HITMARKERS"), &Settings::ESP::Hitmarker::Damage::enabled);
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-				ImGui::SliderInt("##HITMARKERDUR", &Settings::ESP::Hitmarker::duration, 250, 3000, "Timeout: %0.f");
-				ImGui::SliderInt("##HITMARKERSIZE", &Settings::ESP::Hitmarker::size, 1, 32, "Size: %0.f");
-				ImGui::SliderInt("##HITMARKERGAP", &Settings::ESP::Hitmarker::innerGap, 1, 16, "Gap: %0.f");
+				ImGui::SliderInt(XORSTR("##HITMARKERDUR"), &Settings::ESP::Hitmarker::duration, 250, 3000, XORSTR("Timeout: %0.f"));
+				ImGui::SliderInt(XORSTR("##HITMARKERSIZE"), &Settings::ESP::Hitmarker::size, 1, 32, XORSTR("Size: %0.f"));
+				ImGui::SliderInt(XORSTR("##HITMARKERGAP"), &Settings::ESP::Hitmarker::innerGap, 1, 16, XORSTR("Gap: %0.f"));
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);

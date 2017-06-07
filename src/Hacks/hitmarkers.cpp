@@ -48,7 +48,7 @@ void Hitmarkers::Paint()
 	if (!Settings::ESP::Hitmarker::Damage::enabled)
 		return;
 
-	float textHeight = Draw::GetTextSize("[cool]", esp_font).y;
+	float textHeight = Draw::GetTextSize(XORSTR("[cool]"), esp_font).y;
 
 	for (unsigned int i = 0; i < damages.size(); i++)
 	{
@@ -84,11 +84,11 @@ void Hitmarkers::FireGameEvent(IGameEvent* event)
 	if (!engine->IsInGame())
 		return;
 
-	if (strcmp(event->GetName(), "player_hurt") != 0)
+	if (strcmp(event->GetName(), XORSTR("player_hurt")) != 0)
 		return;
 
-	int hurt_player_id = event->GetInt("userid");
-	int attacker_id = event->GetInt("attacker");
+	int hurt_player_id = event->GetInt(XORSTR("userid"));
+	int attacker_id = event->GetInt(XORSTR("attacker"));
 
 	if (engine->GetPlayerForUserID(hurt_player_id) == engine->GetLocalPlayer())
 		return;
@@ -113,5 +113,5 @@ void Hitmarkers::FireGameEvent(IGameEvent* event)
 
 	long now = Util::GetEpochTime();
 	lastHitmarkerTimestamp = now;
-	damages.insert(damages.begin(), std::pair<int, long>(event->GetInt("dmg_health"), now));
+	damages.insert(damages.begin(), std::pair<int, long>(event->GetInt(XORSTR("dmg_health")), now));
 }

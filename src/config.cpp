@@ -21,7 +21,7 @@ bool DoesDirectoryExist(const char* path)
 bool DoesConform(const char* config_path)
 {
 	pstring path;
-	path << config_path << "/config.json";
+	path << config_path << XORSTR("/config.json");
 
 	return DoesFileExist(path.c_str());
 }
@@ -55,13 +55,13 @@ std::vector<Config> GetConfigs(const char* directory)
 
 pstring GetConfigDirectory()
 {
-	pstring directory = getenv("HOME");
-	directory << "/.config";
+	pstring directory = getenv(XORSTR("HOME"));
+	directory << XORSTR("/.config");
 
 	if (!DoesDirectoryExist(directory.c_str()))
 		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
-	directory << "/Fuzion/";
+	directory << XORSTR("/Fuzion/");
 
 	if (!DoesDirectoryExist(directory.c_str()))
 		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
@@ -85,13 +85,13 @@ std::vector<std::string> GetConfigs()
 
 pstring GetGhConfigDirectory()
 {
-	pstring directory = getenv("HOME");
-	directory << "/.config";
+	pstring directory = getenv(XORSTR("HOME"));
+	directory << XORSTR("/.config");
 
 	if (!DoesDirectoryExist(directory.c_str()))
 		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
-	directory << "/FuzionGH/";
+	directory << XORSTR("/FuzionGH/");
 
 	if (!DoesDirectoryExist(directory.c_str()))
 		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);

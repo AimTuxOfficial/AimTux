@@ -2,18 +2,18 @@
 
 void Triggerbot::RenderTab()
 {
-	ImGui::Checkbox("Enabled", &Settings::Triggerbot::enabled);
+	ImGui::Checkbox(XORSTR("Enabled"), &Settings::Triggerbot::enabled);
 	ImGui::Separator();
 	ImGui::Columns(2, NULL, true);
 	{
-		ImGui::BeginChild("TRIG1", ImVec2(0, 0), true);
+		ImGui::BeginChild(XORSTR("TRIG1"), ImVec2(0, 0), true);
 		{
-			ImGui::Text("Keybind");
+			ImGui::Text(XORSTR("Keybind"));
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::ItemSize(ImVec2(0.0f, 0.0f), 0.0f);
-				ImGui::Text("Trigger Key");
+				ImGui::Text(XORSTR("Trigger Key"));
 			}
 			ImGui::NextColumn();
 			{
@@ -21,27 +21,26 @@ void Triggerbot::RenderTab()
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
-			ImGui::Text("Random Delay");
+			ImGui::Text(XORSTR("Random Delay"));
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::Checkbox("Enabled", &Settings::Triggerbot::RandomDelay::enabled);
-				SetTooltip("Adds a random delay(ms) to the Triggerbot");
+				ImGui::Checkbox(XORSTR("Enabled"), &Settings::Triggerbot::RandomDelay::enabled);
 				if( Settings::Triggerbot::RandomDelay::lastRoll != 0 )
 				{
-					ImGui::Text("Last delay: %dms", Settings::Triggerbot::RandomDelay::lastRoll);
+					ImGui::Text(XORSTR("Last delay: %dms"), Settings::Triggerbot::RandomDelay::lastRoll);
 				}
 			}
 			ImGui::NextColumn();
 			{
-				ImGui::Text("Minimum ms");
-				ImGui::SliderInt("##TRIGGERRANDOMLOW", &Settings::Triggerbot::RandomDelay::lowBound, 5, 220);
+				ImGui::Text(XORSTR("Minimum ms"));
+				ImGui::SliderInt(XORSTR("##TRIGGERRANDOMLOW"), &Settings::Triggerbot::RandomDelay::lowBound, 5, 220);
 				if( Settings::Triggerbot::RandomDelay::lowBound >= Settings::Triggerbot::RandomDelay::highBound )
 				{
 					Settings::Triggerbot::RandomDelay::highBound = Settings::Triggerbot::RandomDelay::lowBound + 1;
 				}
-				ImGui::Text("Maximum ms");
-				ImGui::SliderInt("##TRIGGERRANDOMHIGH", &Settings::Triggerbot::RandomDelay::highBound, (Settings::Triggerbot::RandomDelay::lowBound+1), 225);
+				ImGui::Text(XORSTR("Maximum ms"));
+				ImGui::SliderInt(XORSTR("##TRIGGERRANDOMHIGH"), &Settings::Triggerbot::RandomDelay::highBound, (Settings::Triggerbot::RandomDelay::lowBound+1), 225);
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -50,35 +49,25 @@ void Triggerbot::RenderTab()
 	}
 	ImGui::NextColumn();
 	{
-		ImGui::BeginChild("TRIG2", ImVec2(0, 0), true);
+		ImGui::BeginChild(XORSTR("TRIG2"), ImVec2(0, 0), true);
 		{
-			ImGui::Text("Filter");
+			ImGui::Text(XORSTR("Filter"));
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::Checkbox("Enemies", &Settings::Triggerbot::Filters::enemies);
-				SetTooltip("Trigger on enemies");
-				ImGui::Checkbox("Walls", &Settings::Triggerbot::Filters::walls);
-				SetTooltip("Trigger through walls");
-				ImGui::Checkbox("Head", &Settings::Triggerbot::Filters::head);
-				SetTooltip("Trigger on head");
-				ImGui::Checkbox("Chest", &Settings::Triggerbot::Filters::chest);
-				SetTooltip("Trigger on chest");
-				ImGui::Checkbox("Legs", &Settings::Triggerbot::Filters::legs);
-				SetTooltip("Trigger on legs");
+				ImGui::Checkbox(XORSTR("Enemies"), &Settings::Triggerbot::Filters::enemies);
+				ImGui::Checkbox(XORSTR("Walls"), &Settings::Triggerbot::Filters::walls);
+				ImGui::Checkbox(XORSTR("Head"), &Settings::Triggerbot::Filters::head);
+				ImGui::Checkbox(XORSTR("Chest"), &Settings::Triggerbot::Filters::chest);
+				ImGui::Checkbox(XORSTR("Legs"), &Settings::Triggerbot::Filters::legs);
 			}
 			ImGui::NextColumn();
 			{
-				ImGui::Checkbox("Allies", &Settings::Triggerbot::Filters::allies);
-				SetTooltip("Trigger on allies");
-				ImGui::Checkbox("Smoke check", &Settings::Triggerbot::Filters::smokeCheck);
-				SetTooltip("Don't shoot through smokes");
-				ImGui::Checkbox("Flash check", &Settings::Triggerbot::Filters::flashCheck);
-				SetTooltip("Don't shoot while flashed");
-				ImGui::Checkbox("Stomach", &Settings::Triggerbot::Filters::stomach);
-				SetTooltip("Trigger on stomach");
-				ImGui::Checkbox("Arms", &Settings::Triggerbot::Filters::arms);
-				SetTooltip("Trigger on arms");
+				ImGui::Checkbox(XORSTR("Allies"), &Settings::Triggerbot::Filters::allies);
+				ImGui::Checkbox(XORSTR("Smoke check"), &Settings::Triggerbot::Filters::smokeCheck);
+				ImGui::Checkbox(XORSTR("Flash check"), &Settings::Triggerbot::Filters::flashCheck);
+				ImGui::Checkbox(XORSTR("Stomach"), &Settings::Triggerbot::Filters::stomach);
+				ImGui::Checkbox(XORSTR("Arms"), &Settings::Triggerbot::Filters::arms);
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();

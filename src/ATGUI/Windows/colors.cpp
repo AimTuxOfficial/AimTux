@@ -123,10 +123,8 @@ void Colors::RenderWindow()
 			{
 				UI::ColorPicker4((float*)colors[colorSelected].healthColorVarPtr);
 				ImGui::Checkbox("Rainbow", &colors[colorSelected].healthColorVarPtr->rainbow);
-				SetTooltip("Makes the color an animated rainbow.");
 				ImGui::SameLine();
 				ImGui::Checkbox("Health-Based", &colors[colorSelected].healthColorVarPtr->hp);
-				SetTooltip("Takes color from entity health, i.e. 100 - green, 50 - yellow.");
 				ImGui::PushItemWidth(-1);
 				ImGui::SliderFloat("##RAINBOWSPEED", &colors[colorSelected].healthColorVarPtr->rainbowSpeed, 0.f, 1.f, "Rainbow Speed: %0.3f");
 				ImGui::PopItemWidth();
@@ -135,7 +133,6 @@ void Colors::RenderWindow()
 			{
 				UI::ColorPicker4((float*)colors[colorSelected].colorVarPtr);
 				ImGui::Checkbox("Rainbow", &colors[colorSelected].colorVarPtr->rainbow);
-				SetTooltip("Makes the color an animated rainbow.");
 				ImGui::PushItemWidth(-1);
 				ImGui::SliderFloat("##RAINBOWSPEED", &colors[colorSelected].colorVarPtr->rainbowSpeed, 0.f, 1.f, "Rainbow Speed: %0.3f");
 				ImGui::PopItemWidth();

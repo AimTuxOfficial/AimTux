@@ -8,28 +8,28 @@ void Configs::RenderWindow()
 		return;
 
 	ImGui::SetNextWindowSize(ImVec2(185, 250), ImGuiSetCond_Always);
-	if (ImGui::Begin("Configs", &Configs::showWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoResize))
+	if (ImGui::Begin(XORSTR("Configs"), &Configs::showWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoResize))
 	{
 		static std::vector<std::string> configItems = GetConfigs();
 		static int configItemCurrent = -1;
 
-		if (ImGui::Button("Refresh"))
+		if (ImGui::Button(XORSTR("Refresh")))
 			configItems = GetConfigs();
 
 		ImGui::SameLine();
-		if (ImGui::Button("Save"))
+		if (ImGui::Button(XORSTR("Save")))
 		{
 			if (configItems.size() > 0 && (configItemCurrent >= 0 && configItemCurrent < (int) configItems.size()))
 			{
 				pstring path = GetConfigDirectory();
-				path << configItems[configItemCurrent] << "/config.json";
+				path << configItems[configItemCurrent] << XORSTR("/config.json");
 
 				Settings::LoadDefaultsOrSave(path);
 			}
 		}
 
 		ImGui::SameLine();
-		if (ImGui::Button("Remove"))
+		if (ImGui::Button(XORSTR("Remove")))
 		{
 			if (configItems.size() > 0 && (configItemCurrent >= 0 && configItemCurrent < (int) configItems.size()))
 			{
@@ -49,7 +49,7 @@ void Configs::RenderWindow()
 		ImGui::PopItemWidth();
 
 		ImGui::SameLine();
-		if (ImGui::Button("Add") && strlen(buf) > 0)
+		if (ImGui::Button(XORSTR("Add")) && strlen(buf) > 0)
 		{
 			pstring path = GetConfigDirectory();
 			path << buf;
@@ -57,7 +57,7 @@ void Configs::RenderWindow()
 			if (!DoesFileExist(path.c_str()))
 			{
 				mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-				Settings::LoadDefaultsOrSave(path << "/config.json");
+				Settings::LoadDefaultsOrSave(path << XORSTR("/config.json"));
 
 				configItems = GetConfigs();
 				configItemCurrent = -1;
@@ -68,7 +68,7 @@ void Configs::RenderWindow()
 		if (ImGui::ListBox("", &configItemCurrent, configItems, 7))
 		{
 			pstring path = GetConfigDirectory();
-			path << configItems[configItemCurrent] << "/config.json";
+			path << configItems[configItemCurrent] << XORSTR("/config.json");
 
 			Settings::LoadConfig(path);
 			UI::ReloadWeaponSettings();

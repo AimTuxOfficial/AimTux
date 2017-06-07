@@ -87,13 +87,13 @@ void NameChanger::BeginFrame(float frameTime)
 		switch (NameChanger::type)
 		{
 			case NC_Type::NC_NORMAL:
-				SetName(Util::PadStringRight("\230realnigga.club", strlen("\230realnigga.club") + RandomInt(10, 50)));
+				SetName(Util::PadStringRight(XORSTR("\230realnigga.club"), strlen(XORSTR("\230realnigga.club")) + Util::RandomInt(10, 50)));
 				break;
 			case NC_Type::NC_RAINBOW:
-				SetName(Util::PadStringRight(Rainbowify(origName), origName.size() + RandomInt(10, 50)));
+				SetName(Util::PadStringRight(Rainbowify(origName), origName.size() + Util::RandomInt(10, 50)));
 				break;
 			case NC_Type::NC_SOLID:
-				SetName(Util::PadStringRight(Colorize(origName, NameChanger::color), origName.size() + RandomInt(10, 50)));
+				SetName(Util::PadStringRight(Colorize(origName, NameChanger::color), origName.size() + Util::RandomInt(10, 50)));
 				break;
 		}
 
@@ -102,12 +102,12 @@ void NameChanger::BeginFrame(float frameTime)
 		return;
 	}
 
-	SetName(Util::PadStringRight("realnigga.club", strlen("realnigga.club") + changes));
+	SetName(Util::PadStringRight(XORSTR("realnigga.club"), strlen(XORSTR("realnigga.club")) + changes));
 }
 
 void NameChanger::SetName(const char* name)
 {
-	ConVar* cvar_name = cvar->FindVar("name");
+	ConVar* cvar_name = cvar->FindVar(XORSTR("name"));
 	*(int*)((uintptr_t)&cvar_name->fnChangeCallback + 0x15) = 0;
 	cvar_name->SetValue(name);
 }

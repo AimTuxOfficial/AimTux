@@ -142,7 +142,7 @@ void NetVarManager::DumpNetvars()
 
 	getcwd(cwd, sizeof(cwd));
 
-	std::string netvarsPath = std::string(cwd) + "/netvars.txt";
+	std::string netvarsPath = std::string(cwd) + XORSTR("/netvars.txt");
 
 	std::ofstream(netvarsPath) << ss.str();
 }

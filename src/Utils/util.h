@@ -27,7 +27,7 @@ namespace Util
 	ImColor GetRainbowColor(float speed);
 	Color GetHealthColor(int hp);
 	Color GetHealthColor(C_BasePlayer* player);
-
+	int RandomInt(int min, int max);
 	long GetEpochTime();
 
 	const std::map<int,int> * GetModelTypeBoneMap(C_BasePlayer* player);

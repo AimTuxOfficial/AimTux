@@ -20,7 +20,7 @@ C_BasePlayer* localPlayer;
 void inline Reset()
 {
 	if( reachedEnd || Settings::WalkBot::forceReset || hasDied ){
-		cvar->ConsoleColorPrintf(ColorRGBA(225, 225, 10), "--Reset Rally--\n");
+		cvar->ConsoleColorPrintf(ColorRGBA(225, 225, 10), XORSTR("--Reset Rally--\n"));
 		rally = 0;
 		reachedEnd = false;
 		Settings::WalkBot::forceReset = false;
@@ -36,15 +36,15 @@ bool DoRally( const std::vector<Vector> points, CUserCmd *cmd ) // return true i
 		(std::abs(localPlayer->GetEyePosition().y - points[rally].y) < 0.6f) ){
 		if( rally == points.size() -1 ){
 			if( !reachedEnd ){
-				cvar->ConsoleDPrintf("Reached Rally #%d\n", rally);
-				cvar->ConsoleColorPrintf(ColorRGBA(50, 200, 100), "Finished Rally Points!\n");
+				cvar->ConsoleDPrintf(XORSTR("Reached Rally #%d\n"), rally);
+				cvar->ConsoleColorPrintf(ColorRGBA(50, 200, 100), XORSTR("Finished Rally Points!\n"));
 				reachedEnd = true;
 			}
 			return true; // Finished Walking
 		}
-		cvar->ConsoleDPrintf("Reached Rally #%d\n", rally);
+		cvar->ConsoleDPrintf(XORSTR("Reached Rally #%d\n"), rally);
 		rally++;
-		cvar->ConsoleDPrintf("Moving To Rally #%d\n", rally);
+		cvar->ConsoleDPrintf(XORSTR("Moving To Rally #%d\n"), rally);
 	}
 
 	QAngle move = Math::CalcAngle(localPlayer->GetEyePosition(), points[rally]);
@@ -68,7 +68,7 @@ void Walkbot::CreateMove( CUserCmd *cmd )
 	if( (*csGameRules)->IsFreezeTime() ){
 		Reset();
 		if( Settings::WalkBot::autobuy && !hasAutobought && ( localPlayer->GetMoney() >= Settings::WalkBot::autobuyAt ) ){
-			engine->ExecuteClientCmd("autobuy");
+			engine->ExecuteClientCmd(XORSTR("autobuy"));
 			hasAutobought = true;
 		}
 	}
@@ -83,7 +83,7 @@ void Walkbot::CreateMove( CUserCmd *cmd )
 	TeamID ourTeam = localPlayer->GetTeam();
 	if( !localPlayer->GetAlive() ){
 		if( ourTeam == TeamID::TEAM_UNASSIGNED ){
-			engine->ExecuteClientCmd("teammenu"); // this will trigger the auto select timer
+			engine->ExecuteClientCmd(XORSTR("teammenu")); // this will trigger the auto select timer
 			return;
 		} else {
 			hasDied = true;

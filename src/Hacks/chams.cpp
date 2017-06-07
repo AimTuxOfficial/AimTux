@@ -167,21 +167,21 @@ void Chams::DrawModelExecute(void* thisptr, void* context, void *state, const Mo
 	static bool materialsCreated = false;
 	if (!materialsCreated)
 	{
-		materialChams = Util::CreateMaterial("VertexLitGeneric", "VGUI/white_additive", false, true, true, true, true);
-		materialChamsIgnorez = Util::CreateMaterial("VertexLitGeneric", "VGUI/white_additive", true, true, true, true, true);
-		materialChamsFlat = Util::CreateMaterial("UnlitGeneric", "VGUI/white_additive", false, true, true, true, true);
-		materialChamsFlatIgnorez = Util::CreateMaterial("UnlitGeneric", "VGUI/white_additive", true, true, true, true, true);
-		materialChamsArms = Util::CreateMaterial("VertexLitGeneric", "VGUI/white_additive", false, true, true, true, true);
-		materialChamsWeapons = Util::CreateMaterial("VertexLitGeneric", "VGUI/white_additive", false, true, true, true, true);
+		materialChams = Util::CreateMaterial(XORSTR("VertexLitGeneric"), XORSTR("VGUI/white_additive"), false, true, true, true, true);
+		materialChamsIgnorez = Util::CreateMaterial(XORSTR("VertexLitGeneric"), XORSTR("VGUI/white_additive"), true, true, true, true, true);
+		materialChamsFlat = Util::CreateMaterial(XORSTR("UnlitGeneric"), XORSTR("VGUI/white_additive"), false, true, true, true, true);
+		materialChamsFlatIgnorez = Util::CreateMaterial(XORSTR("UnlitGeneric"), XORSTR("VGUI/white_additive"), true, true, true, true, true);
+		materialChamsArms = Util::CreateMaterial(XORSTR("VertexLitGeneric"), XORSTR("VGUI/white_additive"), false, true, true, true, true);
+		materialChamsWeapons = Util::CreateMaterial(XORSTR("VertexLitGeneric"), XORSTR("VGUI/white_additive"), false, true, true, true, true);
 		materialsCreated = true;
 	}
 
 	std::string modelName = modelInfo->GetModelName(pInfo.pModel);
 
-	if (modelName.find("models/player") != std::string::npos)
+	if (modelName.find(XORSTR("models/player")) != std::string::npos)
 		DrawPlayer(thisptr, context, state, pInfo, pCustomBoneToWorld);
-	else if (modelName.find("arms") != std::string::npos)
+	else if (modelName.find(XORSTR("arms")) != std::string::npos)
 		DrawArms(pInfo);
-	else if (modelName.find("weapon") != std::string::npos)
+	else if (modelName.find(XORSTR("weapon")) != std::string::npos)
 		DrawWeapon(pInfo);
 }

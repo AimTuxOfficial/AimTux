@@ -15,18 +15,27 @@ sudo rm -rf /tmp/dumps # Remove if it's there
 sudo mkdir /tmp/dumps # Make it as root
 sudo chmod 000 /tmp/dumps # No permissions
 
+if [ ! -f build_id ]; then
+    /bin/echo "build ID not found. Please re-build using the ./build script"
+    exit
+fi
+
+filename=$(cat build_id)
 
 #Credit: Aixxe @ aixxe.net
-if grep -q libFuzion.so /proc/$csgo_pid/maps; then
+if grep -q $filename /proc/$csgo_pid/maps; then
     /bin/echo -e "\e[33mAimTux-Fuzion is already injected... Aborting...\e[0m"
     exit
 fi
+
+sudo cp $filename /$filename
+
 
 input="$(
 sudo gdb -n -q -batch \
   -ex "attach $csgo_pid" \
   -ex "set \$dlopen = (void*(*)(char*, int)) dlopen" \
-  -ex "call \$dlopen(\"$(pwd)/libFuzion.so\", 1)" \
+  -ex "call \$dlopen(\"/$filename\", 1)" \
   -ex "detach" \
   -ex "quit"
 )"

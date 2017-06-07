@@ -8,6 +8,7 @@
 #include "SDK/SDK.h"
 #include "Utils/vmt.h"
 #include "Utils/util.h"
+#include "Utils/xorstring.h"
 
 extern IBaseClientDLL* client;
 extern ISurface* surface;
@@ -58,11 +59,11 @@ extern LineGoesThroughSmokeFn LineGoesThroughSmoke;
 extern InitKeyValuesFn InitKeyValues;
 extern LoadFromBufferFn LoadFromBuffer;
 
-extern RandomSeedFn RandomSeed;
-extern RandomFloatFn RandomFloat;
-extern RandomFloatExpFn RandomFloatExp;
-extern RandomIntFn RandomInt;
-extern RandomGaussianFloatFn RandomGaussianFloat;
+//extern RandomSeedFn RandomSeed;
+//extern RandomFloatFn RandomFloat;
+//extern RandomFloatExpFn RandomFloatExp;
+//extern RandomIntFn RandomInt;
+//extern RandomGaussianFloatFn RandomGaussianFloat;
 
 extern SetNamedSkyBoxFn SetNamedSkyBox;
 

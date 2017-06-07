@@ -34,11 +34,11 @@ typedef bool (*LineGoesThroughSmokeFn) (Vector, Vector, int16_t);
 typedef void (*InitKeyValuesFn) (KeyValues*, const char*);
 typedef void (*LoadFromBufferFn) (KeyValues*, const char*, const char*, void*, const char*, void*);
 typedef ICommandLine* (*CommandLineFn) (void);
-typedef void (*RandomSeedFn)(int);
-typedef float (*RandomFloatFn)(float, float);
-typedef float (*RandomFloatExpFn)(float, float, float);
-typedef int (*RandomIntFn)(int, int);
-typedef float (*RandomGaussianFloatFn)(float, float);
+//typedef void (*RandomSeedFn)(int);
+//typedef float (*RandomFloatFn)(float, float);
+//typedef float (*RandomFloatExpFn)(float, float, float);
+//typedef int (*RandomIntFn)(int, int);
+//typedef float (*RandomGaussianFloatFn)(float, float);
 typedef bool (*SetNamedSkyBoxFn)(const char*);
 
 enum class TeamID : int
@@ -504,6 +504,7 @@ enum class DesiredBones : int // used for UI; indexing bool array; map keys for 
 	BONE_RIGHT_SOLE,
 
 };
+/*
 static const std::map<int,std::string> BoneMapStrings // Used for debugging; putting DesiredBones to strings.
 {
 		{ (int)DesiredBones::BONE_PELVIS, "PELVIS" },
@@ -538,6 +539,7 @@ static const std::map<int,std::string> BoneMapStrings // Used for debugging; put
 		{ (int)DesiredBones::BONE_RIGHT_ANKLE, "RIGHT ANKLE" },
 		{ (int)DesiredBones::BONE_RIGHT_SOLE, "RIGHT SOLE" }
 };
+ */
 enum class Bone : int
 {
 	INVALID = -1,
@@ -605,7 +607,6 @@ enum class BoneCT_FBI : int
 	BONE_RIGHT_KNEE = 73,
 	BONE_RIGHT_ANKLE = 74,
 	BONE_RIGHT_SOLE = 75
-
 };
 static const std::map<int,int> BoneMapCT_FBI =
 {

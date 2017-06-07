@@ -10,40 +10,40 @@ void PlayerList::RenderWindow()
 		return;
 
 	ImGui::SetNextWindowSize(ImVec2(700, 500), ImGuiSetCond_FirstUseEver);
-	if (ImGui::Begin("Player list", &PlayerList::showWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
+	if (ImGui::Begin(XORSTR("Player list"), &PlayerList::showWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
 	{
 		static int currentPlayer = -1;
 
 		if (!engine->IsInGame() || (*csPlayerResource && !(*csPlayerResource)->GetConnected(currentPlayer)))
 			currentPlayer = -1;
 
-		ImGui::ListBoxHeader("##PLAYERS", ImVec2(-1, (ImGui::GetWindowSize().y - 95)));
+		ImGui::ListBoxHeader(XORSTR("##PLAYERS"), ImVec2(-1, (ImGui::GetWindowSize().y - 95)));
 		if (engine->IsInGame() && *csPlayerResource)
 		{
 			ImGui::Columns(8);
 
-			ImGui::Text("ID");
+			ImGui::Text(XORSTR("ID"));
 			ImGui::NextColumn();
 
-			ImGui::Text("Nickname");
-			ImGui::NextColumn();
-			
-			ImGui::Text("Team");
+			ImGui::Text(XORSTR("Nickname"));
 			ImGui::NextColumn();
 
-			ImGui::Text("SteamID");
-			ImGui::NextColumn();
-			
-			ImGui::Text("Clan tag");
+			ImGui::Text(XORSTR("Team"));
 			ImGui::NextColumn();
 
-			ImGui::Text("Stats");
+			ImGui::Text(XORSTR("SteamID"));
 			ImGui::NextColumn();
 
-			ImGui::Text("Rank");
+			ImGui::Text(XORSTR("Clan tag"));
 			ImGui::NextColumn();
 
-			ImGui::Text("Wins");
+			ImGui::Text(XORSTR("Stats"));
+			ImGui::NextColumn();
+
+			ImGui::Text(XORSTR("Rank"));
+			ImGui::NextColumn();
+
+			ImGui::Text(XORSTR("Wins"));
 			ImGui::NextColumn();
 
 			std::unordered_map<TeamID, std::vector<int>, Util::IntHash<TeamID>> players = {
@@ -70,16 +70,16 @@ void PlayerList::RenderWindow()
 				switch ((TeamID) team)
 				{
 					case TeamID::TEAM_UNASSIGNED:
-						teamName = strdup("Unassigned");
+						teamName = strdup(XORSTR("Unassigned"));
 						break;
 					case TeamID::TEAM_SPECTATOR:
-						teamName = strdup("Spectator");
+						teamName = strdup(XORSTR("Spectator"));
 						break;
 					case TeamID::TEAM_TERRORIST:
-						teamName = strdup("Terrorist");
+						teamName = strdup(XORSTR("Terrorist"));
 						break;
 					case TeamID::TEAM_COUNTER_TERRORIST:
-						teamName = strdup("Counter Terrorist");
+						teamName = strdup(XORSTR("Counter Terrorist"));
 						break;
 				}
 
@@ -101,7 +101,7 @@ void PlayerList::RenderWindow()
 
 					ImGui::Text("%s", entityInformation.name);
 					ImGui::NextColumn();
-					
+
 					ImGui::Text("%s", entityInformation.guid);
 					ImGui::NextColumn();
 
@@ -132,7 +132,7 @@ void PlayerList::RenderWindow()
 			ImGui::Columns(3);
 			{
 				bool isFriendly = std::find(Aimbot::friends.begin(), Aimbot::friends.end(), entityInformation.xuid) != Aimbot::friends.end();
-				if (ImGui::Checkbox("Friend", &isFriendly))
+				if (ImGui::Checkbox(XORSTR("Friend"), &isFriendly))
 				{
 					if (isFriendly)
 						Aimbot::friends.push_back(entityInformation.xuid);
@@ -141,7 +141,7 @@ void PlayerList::RenderWindow()
 				}
 
 				bool shouldResolve = std::find(Resolver::Players.begin(), Resolver::Players.end(), entityInformation.xuid) != Resolver::Players.end();
-				if (ImGui::Checkbox("Resolver", &shouldResolve))
+				if (ImGui::Checkbox(XORSTR("Resolver"), &shouldResolve))
 				{
 					if (shouldResolve)
 						Resolver::Players.push_back(entityInformation.xuid);
@@ -151,7 +151,7 @@ void PlayerList::RenderWindow()
 			}
 			ImGui::NextColumn();
 			{
-				if (ImGui::Button("Steal name"))
+				if (ImGui::Button(XORSTR("Steal name")))
 				{
 					std::string name(entityInformation.name);
 					name = Util::PadStringRight(name, name.length() + 1);
@@ -159,9 +159,9 @@ void PlayerList::RenderWindow()
 					strcpy(nickname, name.c_str());
 					NameChanger::SetName(Util::PadStringRight(name, name.length() + 1));
 				}
-				
+
 				const char* clanTag = (*csPlayerResource)->GetClan(currentPlayer);
-				if (strlen(clanTag) > 0 && ImGui::Button("Steal clan tag"))
+				if (strlen(clanTag) > 0 && ImGui::Button(XORSTR("Steal clan tag")))
 				{
 					Settings::ClanTagChanger::enabled = true;
 					strcpy(Settings::ClanTagChanger::value, clanTag);
@@ -172,9 +172,9 @@ void PlayerList::RenderWindow()
 			}
 			ImGui::NextColumn();
 			{
-				if (ImGui::Button("Print information"))
+				if (ImGui::Button(XORSTR("Print information")))
 				{
-					cvar->ConsoleColorPrintf(ColorRGBA(255, 255, 255), "\n=====\nPlayer informations:\n[%s] %s \nSteamID: %s\n=====\n",(*csPlayerResource)->GetClan(currentPlayer), entityInformation.name, entityInformation.guid);
+					cvar->ConsoleColorPrintf(ColorRGBA(255, 255, 255), XORSTR("\n=====\nPlayer informations:\n[%s] %s \nSteamID: %s\n=====\n"),(*csPlayerResource)->GetClan(currentPlayer), entityInformation.name, entityInformation.guid);
 				}
 			}
 		}

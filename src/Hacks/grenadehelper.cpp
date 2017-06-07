@@ -20,11 +20,11 @@ pstring Settings::GrenadeHelper::actMapName = pstring();
 
 GrenadeType getGrenadeType(C_BaseCombatWeapon* wpn)
 {
-	if (!strcmp(wpn->GetCSWpnData()->szClassName, "weapon_hegrenade"))
+	if (!strcmp(wpn->GetCSWpnData()->szClassName, XORSTR("weapon_hegrenade")))
 		return GrenadeType::HEGRENADE;
-	if (!strcmp(wpn->GetCSWpnData()->szClassName, "weapon_smokegrenade"))
+	if (!strcmp(wpn->GetCSWpnData()->szClassName, XORSTR("weapon_smokegrenade")))
 		return GrenadeType::SMOKE;
-	if (!strcmp(wpn->GetCSWpnData()->szClassName, "weapon_flashbang") || !strcmp(wpn->GetCSWpnData()->szClassName, "weapon_decoy"))
+	if (!strcmp(wpn->GetCSWpnData()->szClassName, XORSTR("weapon_flashbang")) || !strcmp(wpn->GetCSWpnData()->szClassName, XORSTR("weapon_decoy")))
 		return GrenadeType::FLASH;
 	return GrenadeType::MOLOTOV;// "weapon_molotov", "weapon_incgrenade"
 }
@@ -210,7 +210,7 @@ void GrenadeHelper::CheckForUpdate()
 		return;
 
 	Settings::GrenadeHelper::actMapName = s;
-	pstring path = GetGhConfigDirectory().append(s).append("/config.json");
+	pstring path = GetGhConfigDirectory().append(s).append(XORSTR("/config.json"));
 
 	if (DoesFileExist(path.c_str()))
 		Settings::LoadGrenadeInfo(path);

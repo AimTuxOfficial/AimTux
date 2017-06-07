@@ -8,3 +8,8 @@ CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake
 Makefile
+build_id
+*.id0
+*.id1
+*.nam
+*.til

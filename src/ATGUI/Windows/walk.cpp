@@ -9,29 +9,26 @@ void Walk::RenderWindow()
 		return;
 
 	ImGui::SetNextWindowSize(ImVec2(280, 110), ImGuiSetCond_Always);
-	if (ImGui::Begin("Walkbot", &Walk::showWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoResize))
+	if (ImGui::Begin(XORSTR("Walkbot"), &Walk::showWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoResize))
 	{
-		ImGui::Text("Dust 2 Walkbot");
+		ImGui::Text(XORSTR("Dust 2 Walkbot"));
 
-		if (ImGui::Checkbox("Enable", &Settings::WalkBot::enabled)){
-			cvar->ConsoleDPrintf("\n---WalkBot %s---\n", Settings::WalkBot::enabled ? "ON" : "OFF");
+		if (ImGui::Checkbox(XORSTR("Enable"), &Settings::WalkBot::enabled)){
+			cvar->ConsoleDPrintf(XORSTR("\n---WalkBot %s---\n"), Settings::WalkBot::enabled ? XORSTR("ON") : XORSTR("OFF"));
 		}
-		SetTooltip("Turn On/Off the Dust2 Bot");
 
 		ImGui::SameLine();
-		if (ImGui::Button("Reset")){
+		if (ImGui::Button(XORSTR("Reset"))){
 			Settings::WalkBot::forceReset = true;
 		}
-		SetTooltip("Resets the Waypoints");
 
 		ImGui::Separator();
 
-		if (ImGui::Checkbox("Autobuy", &Settings::WalkBot::autobuy)){
-			cvar->ConsoleColorPrintf(ColorRGBA(100, 150, 90), "\n---WalkBot-AutoBuy %s---\n", Settings::WalkBot::autobuy ? "ON" : "OFF");
+		if (ImGui::Checkbox(XORSTR("Autobuy"), &Settings::WalkBot::autobuy)){
+			cvar->ConsoleColorPrintf(ColorRGBA(100, 150, 90), XORSTR("\n---WalkBot-AutoBuy %s---\n"), Settings::WalkBot::autobuy ?XORSTR("ON") : XORSTR("OFF"));
 		}
 		ImGui::SameLine();
-		ImGui::SliderInt("", &Settings::WalkBot::autobuyAt, 0, 16000, "Autobuy At $%0.f");
-		SetTooltip("The amount of Money you will start to autobuy At\n (Ctrl-Click) to Type");
+		ImGui::SliderInt("", &Settings::WalkBot::autobuyAt, 0, 16000, XORSTR("Autobuy At $%0.f"));
 
 		ImGui::End();
 	}

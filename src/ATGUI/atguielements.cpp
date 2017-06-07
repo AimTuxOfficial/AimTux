@@ -5,7 +5,7 @@ void UI::KeyBindButton(ButtonCode_t* key)
 	const char* text = inputSystem->ButtonCodeToString(*key);
 
 	if (SetKeyCodeState::shouldListen && SetKeyCodeState::keyOutput == key)
-		text = "-- press a key --";
+		text = XORSTR("-- press a key --");
 	else
 		text = Util::ToUpper(std::string(text)).c_str();
 
@@ -114,7 +114,7 @@ bool UI::ColorPicker(float* col, bool alphabar)
 	draw_list->AddLine(ImVec2(p.x, p.y + CROSSHAIR_SIZE), ImVec2(p.x, p.y + 2), ImColor(255, 255, 255));
 	draw_list->AddLine(ImVec2(p.x, p.y - CROSSHAIR_SIZE), ImVec2(p.x, p.y - 2), ImColor(255, 255, 255));
 
-	ImGui::InvisibleButton("saturation_value_selector", SV_PICKER_SIZE);
+	ImGui::InvisibleButton(XORSTR("saturation_value_selector"), SV_PICKER_SIZE);
 
 	if (ImGui::IsItemActive() && ImGui::GetIO().MouseDown[0])
 	{
@@ -137,7 +137,7 @@ bool UI::ColorPicker(float* col, bool alphabar)
 
 	// hue bar logic
 	ImGui::SetCursorScreenPos(ImVec2(picker_pos.x + SPACING + SV_PICKER_SIZE.x, picker_pos.y));
-	ImGui::InvisibleButton("hue_selector", ImVec2(HUE_PICKER_WIDTH, SV_PICKER_SIZE.y));
+	ImGui::InvisibleButton(XORSTR("hue_selector"), ImVec2(HUE_PICKER_WIDTH, SV_PICKER_SIZE.y));
 
 	if (ImGui::GetIO().MouseDown[0] && (ImGui::IsItemHovered() || ImGui::IsItemActive()))
 	{
@@ -155,7 +155,7 @@ bool UI::ColorPicker(float* col, bool alphabar)
 	if (alphabar)
 	{
 		ImGui::SetCursorScreenPos(ImVec2(picker_pos.x + SPACING * 2 + HUE_PICKER_WIDTH + SV_PICKER_SIZE.x, picker_pos.y));
-		ImGui::InvisibleButton("alpha_selector", ImVec2(HUE_PICKER_WIDTH, SV_PICKER_SIZE.y));
+		ImGui::InvisibleButton(XORSTR("alpha_selector"), ImVec2(HUE_PICKER_WIDTH, SV_PICKER_SIZE.y));
 
 		if (ImGui::GetIO().MouseDown[0] && (ImGui::IsItemHovered() || ImGui::IsItemActive()))
 		{

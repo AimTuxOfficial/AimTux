@@ -38,7 +38,7 @@ void SkinModelChanger::RenderWindow()
 		return;
 
 	ImGui::SetNextWindowSize(ImVec2(1050, 645), ImGuiSetCond_FirstUseEver);
-	if (ImGui::Begin("Skin & Model Changer", &SkinModelChanger::showWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
+	if (ImGui::Begin(XORSTR("Skin & Model Changer"), &SkinModelChanger::showWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
 	{
 		TabButtons();
 		ImGui::Separator();

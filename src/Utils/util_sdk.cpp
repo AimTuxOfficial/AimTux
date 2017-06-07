@@ -69,7 +69,7 @@ IMaterial* Util::CreateMaterial(std::string type, std::string texture, bool igno
 			"\t\"$halflambert\" \"" + std::to_string(halflambert) + "\"\n"
 			"}\n" << std::flush;
 
-	std::string materialName = "fuzion_" + std::to_string(RandomInt(10, 100000));
+	std::string materialName = XORSTR("fuzion_") + std::to_string(RandomInt(10, 100000));
 	KeyValues* keyValues = new KeyValues(materialName.c_str());
 
 	InitKeyValues(keyValues, type.c_str());

@@ -357,17 +357,17 @@ void ESP::DrawBox(Color color, int x, int y, int w, int h, C_BaseEntity* entity)
 		Vector max = entity->GetCollideable()->OBBMaxs() + vOrigin;
 
 		Vector points[] = { Vector(min.x, min.y, min.z),
-		                    Vector(min.x, max.y, min.z),
-		                    Vector(max.x, max.y, min.z),
-		                    Vector(max.x, min.y, min.z),
-		                    Vector(min.x, min.y, max.z),
-		                    Vector(min.x, max.y, max.z),
-		                    Vector(max.x, max.y, max.z),
-		                    Vector(max.x, min.y, max.z) };
+							Vector(min.x, max.y, min.z),
+							Vector(max.x, max.y, min.z),
+							Vector(max.x, min.y, min.z),
+							Vector(min.x, min.y, max.z),
+							Vector(min.x, max.y, max.z),
+							Vector(max.x, max.y, max.z),
+							Vector(max.x, min.y, max.z) };
 
 		int edges[12][2] = { { 0, 1 }, { 1, 2 }, { 2, 3 }, { 3, 0 },
-		                     { 4, 5 }, { 5, 6 }, { 6, 7 }, { 7, 4 },
-		                     { 0, 4 }, { 1, 5 }, { 2, 6 }, { 3, 7 }, };
+							 { 4, 5 }, { 5, 6 }, { 6, 7 }, { 7, 4 },
+							 { 0, 4 }, { 1, 5 }, { 2, 6 }, { 3, 7 }, };
 
 		for (const auto edge : edges)
 		{
@@ -446,7 +446,7 @@ void ESP::DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info
 
 	ImColor playerColor = GetESPPlayerColor(player, bIsVisible);
 
-	static Vector2D textSize = Draw::GetTextSize("Hi", esp_font);
+	static Vector2D textSize = Draw::GetTextSize(XORSTR("Hi"), esp_font);
 
 	int x, y, w, h;
 	if (!GetBox(player, x, y, w, h))
@@ -617,7 +617,7 @@ void ESP::DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info
 	// health
 	if (Settings::ESP::Info::health)
 	{
-		std::string buf = std::to_string(player->GetHealth()) + " HP";
+		std::string buf = std::to_string(player->GetHealth()) + XORSTR(" HP");
 		Draw::Text(x + w + boxSpacing, (int)(y + h - textSize.y), buf.c_str(), esp_font, Color(255, 255, 255));
 	}
 
@@ -635,31 +635,31 @@ void ESP::DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info
 	std::vector<std::string> stringsToShow;
 
 	if (Settings::ESP::Info::scoped && player->IsScoped())
-		stringsToShow.push_back("Scoped");
+		stringsToShow.push_back(XORSTR("Scoped"));
 
 	if (Settings::ESP::Info::reloading && activeWeapon && activeWeapon->GetInReload())
-		stringsToShow.push_back("Reloading");
+		stringsToShow.push_back(XORSTR("Reloading"));
 
 	if (Settings::ESP::Info::flashed && player->GetFlashBangTime() - globalVars->curtime > 2.0f)
-		stringsToShow.push_back("Flashed");
+		stringsToShow.push_back(XORSTR("Flashed"));
 
 	if (Settings::ESP::Info::planting && Entity::IsPlanting(player))
-		stringsToShow.push_back("Planting");
+		stringsToShow.push_back(XORSTR("Planting"));
 
 	if (Settings::ESP::Info::planting && index == (*csPlayerResource)->GetPlayerC4())
-		stringsToShow.push_back("Bomb Carrier");
+		stringsToShow.push_back(XORSTR("Bomb Carrier"));
 
 	if (Settings::ESP::Info::hasDefuser && player->HasDefuser())
-		stringsToShow.push_back("Defuse kit");
+		stringsToShow.push_back(XORSTR("Defuse kit"));
 
 	if (Settings::ESP::Info::defusing && player->IsDefusing())
-		stringsToShow.push_back("Defusing");
+		stringsToShow.push_back(XORSTR("Defusing"));
 
 	if (Settings::ESP::Info::grabbingHostage && player->IsGrabbingHostage())
-		stringsToShow.push_back("Hostage Carrier");
+		stringsToShow.push_back(XORSTR("Hostage Carrier"));
 
 	if (Settings::ESP::Info::rescuing && player->IsRescuing())
-		stringsToShow.push_back("Rescuing");
+		stringsToShow.push_back(XORSTR("Rescuing"));
 
 	if (Settings::ESP::Info::location)
 		stringsToShow.push_back(player->GetLastPlaceName());
@@ -693,7 +693,7 @@ void ESP::DrawBomb(C_BaseCombatWeapon* bomb)
 	if (!(*csGameRules) || !(*csGameRules)->IsBombDropped())
 		return;
 
-	DrawEntity(bomb, "Bomb", Color::FromImColor(Settings::ESP::bombColor.Color()));
+	DrawEntity(bomb, XORSTR("Bomb"), Color::FromImColor(Settings::ESP::bombColor.Color()));
 }
 
 void ESP::DrawPlantedBomb(C_PlantedC4* bomb)
@@ -707,7 +707,7 @@ void ESP::DrawPlantedBomb(C_PlantedC4* bomb)
 	std::stringstream displayText;
 	if (bomb->IsBombDefused() || !bomb->IsBombTicking() || bombTimer <= 0.f)
 	{
-			displayText << "Bomb";
+		displayText << XORSTR("Bomb");
 	}
 	else
 	{
@@ -724,7 +724,7 @@ void ESP::DrawPlantedBomb(C_PlantedC4* bomb)
 
 		float damage = std::max((int) ceilf(GetArmourHealth(flDamage, localplayer->GetArmor())), 0);
 
-		displayText << "Bomb: " << std::fixed << std::showpoint << std::setprecision(1) << bombTimer << ", damage: " << (int) damage;
+		displayText << XORSTR("Bomb: ") << std::fixed << std::showpoint << std::setprecision(1) << bombTimer << XORSTR(", damage: ") << (int) damage;
 	}
 
 	DrawEntity(bomb, displayText.str().c_str(), Color::FromImColor(color));
@@ -732,7 +732,7 @@ void ESP::DrawPlantedBomb(C_PlantedC4* bomb)
 
 void ESP::DrawDefuseKit(C_BaseEntity* defuser)
 {
-	DrawEntity(defuser, "Defuser", Color::FromImColor(Settings::ESP::defuserColor.Color()));
+	DrawEntity(defuser, XORSTR("Defuser"), Color::FromImColor(Settings::ESP::defuserColor.Color()));
 }
 
 void ESP::DrawDroppedWeapons(C_BaseCombatWeapon* weapon)
@@ -747,7 +747,7 @@ void ESP::DrawDroppedWeapons(C_BaseCombatWeapon* weapon)
 
 	if (weapon->GetAmmo() > 0)
 	{
-		modelName += " | ";
+		modelName += XORSTR(" | ");
 		modelName += std::to_string(weapon->GetAmmo());
 	}
 
@@ -756,17 +756,17 @@ void ESP::DrawDroppedWeapons(C_BaseCombatWeapon* weapon)
 
 void ESP::DrawHostage(C_BaseEntity* hostage)
 {
-	DrawEntity(hostage, "Hostage", Color::FromImColor(Settings::ESP::hostageColor.Color()));
+	DrawEntity(hostage, XORSTR("Hostage"), Color::FromImColor(Settings::ESP::hostageColor.Color()));
 }
 
 void ESP::DrawChicken(C_BaseEntity* chicken)
 {
-	DrawEntity(chicken, "Chicken", Color::FromImColor(Settings::ESP::chickenColor.Color()));
+	DrawEntity(chicken, XORSTR("Chicken"), Color::FromImColor(Settings::ESP::chickenColor.Color()));
 }
 
 void ESP::DrawFish(C_BaseEntity* fish)
 {
-	DrawEntity(fish, "Fish", Color::FromImColor(Settings::ESP::fishColor.Color()));
+	DrawEntity(fish, XORSTR("Fish"), Color::FromImColor(Settings::ESP::fishColor.Color()));
 }
 
 void ESP::DrawThrowable(C_BaseEntity* throwable, ClientClass* client)
@@ -781,11 +781,11 @@ void ESP::DrawThrowable(C_BaseEntity* throwable, ClientClass* client)
 	if (!hdr)
 		return;
 
-	if (!strstr(hdr->name, "thrown") && !strstr(hdr->name, "dropped"))
+	if (!strstr(hdr->name, XORSTR("thrown")) && !strstr(hdr->name, XORSTR("dropped")))
 		return;
 
 	ImColor nadeColor = ImColor(255, 255, 255, 255);
-	std::string nadeName = "Unknown Grenade";
+	std::string nadeName = XORSTR("Unknown Grenade");
 
 	IMaterial* mats[32];
 	modelInfo->GetModelMaterials(nadeModel, hdr->numtextures, mats);
@@ -796,33 +796,33 @@ void ESP::DrawThrowable(C_BaseEntity* throwable, ClientClass* client)
 		if (!mat)
 			continue;
 
-		if (strstr(mat->GetName(), "flashbang"))
+		if (strstr(mat->GetName(), XORSTR("flashbang")))
 		{
-			nadeName = "Flashbang";
+			nadeName = XORSTR("Flashbang");
 			nadeColor = Settings::ESP::flashbangColor.Color();
 			break;
 		}
-		else if (strstr(mat->GetName(), "m67_grenade") || strstr(mat->GetName(), "hegrenade"))
+		else if (strstr(mat->GetName(), XORSTR("m67_grenade")) || strstr(mat->GetName(), XORSTR("hegrenade")))
 		{
-			nadeName = "HE Grenade";
+			nadeName = XORSTR("HE Grenade");
 			nadeColor = Settings::ESP::grenadeColor.Color();
 			break;
 		}
-		else if (strstr(mat->GetName(), "smoke"))
+		else if (strstr(mat->GetName(), XORSTR("smoke")))
 		{
-			nadeName = "Smoke";
+			nadeName = XORSTR("Smoke");
 			nadeColor = Settings::ESP::smokeColor.Color();
 			break;
 		}
-		else if (strstr(mat->GetName(), "decoy"))
+		else if (strstr(mat->GetName(), XORSTR("decoy")))
 		{
-			nadeName = "Decoy";
+			nadeName = XORSTR("Decoy");
 			nadeColor = Settings::ESP::decoyColor.Color();
 			break;
 		}
-		else if (strstr(mat->GetName(), "incendiary") || strstr(mat->GetName(), "molotov"))
+		else if (strstr(mat->GetName(), XORSTR("incendiary")) || strstr(mat->GetName(), XORSTR("molotov")))
 		{
-			nadeName = "Molotov";
+			nadeName = XORSTR("Molotov");
 			nadeColor = Settings::ESP::molotovColor.Color();
 			break;
 		}
@@ -909,7 +909,7 @@ void ESP::DrawAutoWall(C_BasePlayer *player)
 {
 	const std::map<int, int> *modelType = Util::GetModelTypeBoneMap(player);
 
-	static HFont autowallFont = Draw::CreateFont("Andale Mono", 8, (int)FontFlags::FONTFLAG_DROPSHADOW );
+	static HFont autowallFont = Draw::CreateFont(XORSTR("Andale Mono"), 8, (int)FontFlags::FONTFLAG_DROPSHADOW );
 	/*
 	Vector bone2D;
 	Vector bone3D = player->GetBonePosition((int)Bone::BONE_HEAD);
@@ -1002,7 +1002,7 @@ void ESP::DrawAutoWall(C_BasePlayer *player)
 
 void ESP::DrawHeaddot(C_BasePlayer* player)
 {
-	/*
+
 	Vector head2D;
 	Vector head3D = player->GetBonePosition((int) Bone::BONE_HEAD);
 	if (debugOverlay->ScreenPosition(Vector(head3D.x, head3D.y, head3D.z), head2D))
@@ -1013,7 +1013,7 @@ void ESP::DrawHeaddot(C_BasePlayer* player)
 		bIsVisible = Entity::IsVisible(player, (int)Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck);
 
 	Draw::FilledCircle(Vector2D(head2D.x, head2D.y), 10, Settings::ESP::HeadDot::size, Color::FromImColor(GetESPPlayerColor(player, bIsVisible)));
-	 */
+
 	/*
 	for( int bone = 127; bone >= (int)Bone::BONE_HIP; bone-- )
 	{
@@ -1026,6 +1026,7 @@ void ESP::DrawHeaddot(C_BasePlayer* player)
 		Draw::Text(Vector2D(bone2D.x, bone2D.y), text, esp_font, Color::FromImColor(GetESPPlayerColor(player, bIsVisible)));
 	}
 	*/
+	/*
 	matrix3x4_t matrix[128];
 
 	if( !player->SetupBones(matrix, 128, 0x100, 0.f) )
@@ -1052,11 +1053,12 @@ void ESP::DrawHeaddot(C_BasePlayer* player)
 
 	Draw::Text(Vector2D(min2D.x, min2D.y), "Min", esp_font, Color(255, 0, 255, 255));
 	Draw::Text(Vector2D(max2D.x, max2D.y), "Max", esp_font, Color(255, 0, 255, 255));
+	 */
 }
 
 void ESP::CollectFootstep(int iEntIndex, const char *pSample)
 {
-	if (strstr(pSample, "player/footsteps") == NULL && strstr(pSample, "player/land") == NULL)
+	if (strstr(pSample, XORSTR("player/footsteps")) == NULL && strstr(pSample, XORSTR("player/land")) == NULL)
 		return;
 
 	if (iEntIndex == engine->GetLocalPlayer())
@@ -1210,7 +1212,7 @@ void ESP::DrawGlow()
 			}
 		}
 		else if (client->m_ClassID != EClassIds::CBaseWeaponWorldModel &&
-				 (strstr(client->m_pNetworkName, "Weapon") || client->m_ClassID == EClassIds::CDEagle || client->m_ClassID == EClassIds::CAK47))
+				 (strstr(client->m_pNetworkName, XORSTR("Weapon")) || client->m_ClassID == EClassIds::CDEagle || client->m_ClassID == EClassIds::CAK47))
 		{
 			color = Settings::ESP::Glow::weaponColor.Color();
 		}
@@ -1284,7 +1286,7 @@ void ESP::Paint()
 			if (engine->GetPlayerInfo(i, &playerInfo))
 				DrawPlayer(i, player, playerInfo);
 		}
-		if ((client->m_ClassID != EClassIds::CBaseWeaponWorldModel && (strstr(client->m_pNetworkName, "Weapon") || client->m_ClassID == EClassIds::CDEagle || client->m_ClassID == EClassIds::CAK47)) && Settings::ESP::Filters::weapons)
+		if ((client->m_ClassID != EClassIds::CBaseWeaponWorldModel && (strstr(client->m_pNetworkName, XORSTR("Weapon")) || client->m_ClassID == EClassIds::CDEagle || client->m_ClassID == EClassIds::CAK47)) && Settings::ESP::Filters::weapons)
 		{
 			C_BaseCombatWeapon* weapon = (C_BaseCombatWeapon*) entity;
 			DrawDroppedWeapons(weapon);
@@ -1315,7 +1317,7 @@ void ESP::Paint()
 		{
 			DrawFish(entity);
 		}
-		else if (Settings::ESP::Filters::throwables && strstr(client->m_pNetworkName, "Projectile"))
+		else if (Settings::ESP::Filters::throwables && strstr(client->m_pNetworkName, XORSTR("Projectile")))
 		{
 			DrawThrowable(entity, client);
 		}

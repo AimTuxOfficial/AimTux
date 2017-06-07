@@ -160,13 +160,13 @@ struct AimbotWeapon_t
 	SmoothType smoothType;
 	ButtonCode_t aimkey;
 	bool aimkeyOnly, smoothEnabled, smoothSaltEnabled, errorMarginEnabled, autoAimEnabled, aimStepEnabled, rcsEnabled, rcsAlwaysOn, spreadLimitEnabled;
-	float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmountX, rcsAmountY, autoWallValue, spreadLimit;
+	float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepMin, aimStepMax, rcsAmountX, rcsAmountY, autoWallValue, spreadLimit;
 	bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoAimRealDistance, autoSlow, predEnabled, moveMouse;
 
 	AimbotWeapon_t(bool enabled, bool silent, bool friendly, bool closestBone, bool engageLock, bool engageLockTR, int engageLockTTR, Bone bone, ButtonCode_t aimkey, bool aimkeyOnly,
 		   bool smoothEnabled, float smoothValue, SmoothType smoothType, bool smoothSaltEnabled, float smoothSaltMultiplier,
 		   bool errorMarginEnabled, float errorMarginValue,
-		   bool autoAimEnabled, float autoAimValue, bool aimStepEnabled, float aimStepValue,
+		   bool autoAimEnabled, float autoAimValue, bool aimStepEnabled, float aimStepMin, float aimStepMax,
 		   bool rcsEnabled, bool rcsAlwaysOn, float rcsAmountX, float rcsAmountY,
 		   bool autoPistolEnabled, bool autoShootEnabled, bool autoScopeEnabled,
 		   bool noShootEnabled, bool ignoreJumpEnabled, bool smokeCheck, bool flashCheck,
@@ -194,7 +194,8 @@ struct AimbotWeapon_t
 		this->autoAimEnabled = autoAimEnabled;
 		this->autoAimFov = autoAimValue;
 		this->aimStepEnabled = aimStepEnabled;
-		this->aimStepValue = aimStepValue;
+		this->aimStepMin = aimStepMin;
+		this->aimStepMax = aimStepMax;
 		this->rcsEnabled = rcsEnabled;
 		this->rcsAlwaysOn = rcsAlwaysOn;
 		this->rcsAmountX = rcsAmountX;
@@ -250,7 +251,8 @@ struct AimbotWeapon_t
 			this->autoAimEnabled == another.autoAimEnabled &&
 			this->autoAimFov == another.autoAimFov &&
 			this->aimStepEnabled == another.aimStepEnabled &&
-			this->aimStepValue == another.aimStepValue &&
+			this->aimStepMin == another.aimStepMin &&
+			this->aimStepMax == another.aimStepMax &&
 			this->rcsEnabled == another.rcsEnabled &&
 			this->rcsAlwaysOn == another.rcsAlwaysOn &&
 			this->rcsAmountX == another.rcsAmountX &&
@@ -388,7 +390,8 @@ namespace Settings
 		namespace AimStep
 		{
 			extern bool enabled;
-			extern float value;
+			extern float min;
+			extern float max;
 		}
 
 		namespace RCS

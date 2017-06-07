@@ -11,58 +11,58 @@ void Models::RenderTab()
 	static char filterOriginalModelsT[18];
 	static char filterReplacementModelsT[18];
 
-	ImGui::Checkbox("Enabled", &Settings::Skinchanger::Models::enabled);
+	ImGui::Checkbox(XORSTR("Enabled"), &Settings::Skinchanger::Models::enabled);
 	ImGui::Separator();
 
 	ImGui::Columns(2);
 
-	ImGui::Text("Counter Terrorist Models");
+	ImGui::Text(XORSTR("Counter Terrorist Models"));
 	ImGui::NextColumn();
 
-	ImGui::Text("Terrorist Models");
+	ImGui::Text(XORSTR("Terrorist Models"));
 	ImGui::Columns(1);
 	ImGui::Separator();
 
 	ImGui::Columns(4);
 
-	ImGui::Text("Original");
+	ImGui::Text(XORSTR("Original"));
 	ImGui::NextColumn();
 
-	ImGui::Text("Replacement");
+	ImGui::Text(XORSTR("Replacement"));
 	ImGui::NextColumn();
 
-	ImGui::Text("Original");
+	ImGui::Text(XORSTR("Original"));
 	ImGui::NextColumn();
 
-	ImGui::Text("Replacement");
+	ImGui::Text(XORSTR("Replacement"));
 	ImGui::Columns(1);
 
 	ImGui::Columns(4);
 
 	ImGui::PushItemWidth(-1);
-	ImGui::InputText("##filterOriginalModelCT", filterOriginalModelsCT, IM_ARRAYSIZE(filterOriginalModelsCT));
+	ImGui::InputText(XORSTR("##filterOriginalModelCT"), filterOriginalModelsCT, IM_ARRAYSIZE(filterOriginalModelsCT));
 	ImGui::PopItemWidth();
 	ImGui::NextColumn();
 
 	ImGui::PushItemWidth(-1);
-	ImGui::InputText("##filterReplacementModelCT", filterReplacementModelsCT, IM_ARRAYSIZE(filterReplacementModelsCT));
+	ImGui::InputText(XORSTR("##filterReplacementModelCT"), filterReplacementModelsCT, IM_ARRAYSIZE(filterReplacementModelsCT));
 	ImGui::PopItemWidth();
 	ImGui::NextColumn();
 
 	ImGui::PushItemWidth(-1);
-	ImGui::InputText("##filterOriginalModelT", filterOriginalModelsT, IM_ARRAYSIZE(filterOriginalModelsT));
+	ImGui::InputText(XORSTR("##filterOriginalModelT"), filterOriginalModelsT, IM_ARRAYSIZE(filterOriginalModelsT));
 	ImGui::PopItemWidth();
 	ImGui::NextColumn();
 
 	ImGui::PushItemWidth(-1);
-	ImGui::InputText("##filterReplacementModelT", filterReplacementModelsT, IM_ARRAYSIZE(filterReplacementModelsT));
+	ImGui::InputText(XORSTR("##filterReplacementModelT"), filterReplacementModelsT, IM_ARRAYSIZE(filterReplacementModelsT));
 	ImGui::PopItemWidth();
 	ImGui::Columns(1);
 
 	ImGui::Columns(4);
 
 	ImGui::GetCurrentContext()->FontBaseSize = 14.0f;
-	ImGui::ListBoxHeader("##originalModelsCT", ImVec2(-1, 300));
+	ImGui::ListBoxHeader(XORSTR("##originalModelsCT"), ImVec2(-1, 300));
 	ImGui::Columns(2);
 	for (auto model : ItemDefinitionIndexMap)
 	{
@@ -89,7 +89,7 @@ void Models::RenderTab()
 	ImGui::ListBoxFooter();
 	ImGui::NextColumn();
 
-	ImGui::ListBoxHeader("##replacementModelsCT", ImVec2(-1, 300));
+	ImGui::ListBoxHeader(XORSTR("##replacementModelsCT"), ImVec2(-1, 300));
 	ImGui::Columns(2);
 	for (auto model : ItemDefinitionIndexMap)
 	{
@@ -123,7 +123,7 @@ void Models::RenderTab()
 	ImGui::ListBoxFooter();
 	ImGui::NextColumn();
 
-	ImGui::ListBoxHeader("##originalModelsT", ImVec2(-1, 300));
+	ImGui::ListBoxHeader(XORSTR("##originalModelsT"), ImVec2(-1, 300));
 	ImGui::Columns(2);
 	for (auto model : ItemDefinitionIndexMap)
 	{
@@ -150,7 +150,7 @@ void Models::RenderTab()
 	ImGui::ListBoxFooter();
 	ImGui::NextColumn();
 
-	ImGui::ListBoxHeader("##replacementModelsT", ImVec2(-1, 300));
+	ImGui::ListBoxHeader(XORSTR("##replacementModelsT"), ImVec2(-1, 300));
 	ImGui::Columns(2);
 	for (auto model : ItemDefinitionIndexMap)
 	{
@@ -189,7 +189,7 @@ void Models::RenderTab()
 
 	ImGui::Columns(2);
 
-	if (ImGui::Button("Apply##modelCT", ImVec2(-1, 0)))
+	if (ImGui::Button(XORSTR("Apply##modelCT"), ImVec2(-1, 0)))
 	{
 		if (Settings::Skinchanger::skinsCT.find((ItemDefinitionIndex)originalModelCT) == Settings::Skinchanger::skinsCT.end())
 			Settings::Skinchanger::skinsCT[(ItemDefinitionIndex)originalModelCT] = AttribItem_t();
@@ -200,7 +200,7 @@ void Models::RenderTab()
 	}
 	ImGui::NextColumn();
 
-	if (ImGui::Button("Apply##modelT", ImVec2(-1, 0)))
+	if (ImGui::Button(XORSTR("Apply##modelT"), ImVec2(-1, 0)))
 	{
 		if (Settings::Skinchanger::skinsT.find((ItemDefinitionIndex)originalModelT) == Settings::Skinchanger::skinsT.end())
 			Settings::Skinchanger::skinsT[(ItemDefinitionIndex)originalModelT] = AttribItem_t();
