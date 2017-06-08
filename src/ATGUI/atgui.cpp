@@ -3,10 +3,11 @@
 bool UI::isVisible = false;
 
 bool Settings::ScreenshotCleaner::enabled = false;
+bool Settings::Watermark::enabled = true;
 
-ColorVar Settings::UI::mainColor = ImColor(54, 54, 54, 255);
-ColorVar Settings::UI::bodyColor = ImColor(24, 24, 24, 240);
-ColorVar Settings::UI::fontColor = ImColor(255, 255, 255, 255);
+ColorVar Settings::UI::mainColor = ImColor(40, 40, 40, 180);
+ColorVar Settings::UI::bodyColor = ImColor(0, 0, 2, 220);
+ColorVar Settings::UI::fontColor = ImColor(0, 200, 255, 255);
 
 #define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))
 
@@ -49,7 +50,8 @@ void UI::SwapWindow()
 	if (engine->IsInGame())
 		return;
 
-	Draw::ImDrawText(ImVec2(4.f, 4.f), ImColor(255, 255, 255, 255), "AimTux", NULL, 0.0f, NULL, ImFontFlags_Shadow);
+	if (Settings::Watermark::enabled)	
+		Draw::ImDrawText(ImVec2(4.f, 4.f), ImColor(0, 200, 255, 255), "Wando's AimTux", NULL, 0.0f, NULL, ImFontFlags_Shadow);
 }
 
 void UI::SetVisible(bool visible)

@@ -14,6 +14,10 @@ bool Settings::Triggerbot::Filters::arms = true;
 bool Settings::Triggerbot::Filters::legs = true;
 bool Settings::Triggerbot::Delay::enabled = false;
 int Settings::Triggerbot::Delay::value = 250;
+bool Settings::Triggerbot::RandomDelay::enabled = false;
+int Settings::Triggerbot::RandomDelay::min = 20;
+int Settings::Triggerbot::RandomDelay::max = 40;
+int Settings::Triggerbot::RandomDelay::last = 0;
 ButtonCode_t Settings::Triggerbot::key = ButtonCode_t::KEY_LALT;
 
 void Triggerbot::CreateMove(CUserCmd *cmd)
@@ -34,6 +38,10 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	long currentTime_ms = Util::GetEpochTime();
 	static long timeStamp = currentTime_ms;
 	long oldTimeStamp;
+
+	int minDelay = Settings::Triggerbot::RandomDelay::min;
+	int maxDelay = Settings::Triggerbot::RandomDelay::max;
+	int randDelay = rand()%(maxDelay - minDelay + 1) + minDelay;
 
 	Vector traceStart, traceEnd;
 	trace_t tr;
@@ -138,12 +146,24 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 	}
 	else
 	{
-		if (Settings::Triggerbot::Delay::enabled && currentTime_ms - oldTimeStamp < Settings::Triggerbot::Delay::value)
+		if (!Settings::Triggerbot::RandomDelay::enabled)
 		{
-			timeStamp = oldTimeStamp;
-			return;
+			if (Settings::Triggerbot::Delay::enabled && currentTime_ms - oldTimeStamp < Settings::Triggerbot::Delay::value)
+			{
+				timeStamp = oldTimeStamp;
+				return;
+			}
+		}
+		else
+		{
+			if (currentTime_ms - oldTimeStamp < randDelay)
+			{
+				timeStamp = oldTimeStamp;
+				return;
+			}
 		}
 
+		Settings::Triggerbot::RandomDelay::last = randDelay;
 		if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
 			cmd->buttons |= IN_ATTACK2;
 		else

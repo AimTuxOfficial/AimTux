@@ -25,14 +25,39 @@ void Triggerbot::RenderTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::Checkbox("Enabled", &Settings::Triggerbot::Delay::enabled);
-				SetTooltip("Adds a delay to the Triggerbot");
+				if (!Settings::Triggerbot::Delay::enabled)
+				{
+					ImGui::PushItemWidth(-1);
+					ImGui::Checkbox("Random", &Settings::Triggerbot::RandomDelay::enabled);
+					SetTooltip("Adds a random delay to your Triggerbot");
+					if (Settings::Triggerbot::RandomDelay::enabled && Settings::Triggerbot::RandomDelay::last > 0)
+					{
+						ImGui::TextWrapped("Last random delay: %dms", Settings::Triggerbot::RandomDelay::last);
+					}
+				}
+				if (!Settings::Triggerbot::RandomDelay::enabled)
+				{
+					ImGui::PushItemWidth(-1);
+					ImGui::Checkbox("Custom", &Settings::Triggerbot::Delay::enabled);
+					SetTooltip("Adds a custom delay to the Triggerbot");
+				}
 			}
 			ImGui::NextColumn();
 			{
-				ImGui::PushItemWidth(-1);
-				ImGui::SliderInt("##TRIGGERDELAY", &Settings::Triggerbot::Delay::value, 0, 1000);
-				ImGui::PopItemWidth();
+				if (Settings::Triggerbot::Delay::enabled)
+				{
+					ImGui::PushItemWidth(-1);
+					ImGui::SliderInt("##TRIGGERDELAY", &Settings::Triggerbot::Delay::value, 0, 1000);
+					ImGui::PopItemWidth();
+				}
+				else
+				if (Settings::Triggerbot::RandomDelay::enabled)
+				{
+					ImGui::PushItemWidth(-1);
+					ImGui::SliderInt("##RANDTRIGGERMIN", &Settings::Triggerbot::RandomDelay::min, 0, 999, "MIN: %0.3f");
+					ImGui::SliderInt("##RANDTRIGGERMAX", &Settings::Triggerbot::RandomDelay::max, 1, 1000, "MAX: %0.3f");
+				}
+
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();

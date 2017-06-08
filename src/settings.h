@@ -54,6 +54,7 @@ enum class AntiAimType_Y : int
 	SPIN_SLOW,
 	SPIN_FAST,
 	JITTER,
+	CASUALJITTER,
 	BACKJITTER,
 	SIDE,
 	BACKWARDS,
@@ -144,27 +145,28 @@ enum class SpammerType : int
 
 struct AimbotWeapon_t
 {
-	bool enabled, silent, friendly;
+	bool enabled, silent, friendly, closestBone;
 	Bone bone;
 	SmoothType smoothType;
 	ButtonCode_t aimkey;
-	bool aimkeyOnly, smoothEnabled, smoothSaltEnabled, errorMarginEnabled, autoAimEnabled, aimStepEnabled, rcsEnabled, rcsAlwaysOn;
-	float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmountX, rcsAmountY, autoWallValue, autoSlowMinDamage;
-	bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallBones[6], autoAimRealDistance, autoSlow, predEnabled;
+	bool aimkeyOnly, smoothEnabled, smoothSaltEnabled, errorMarginEnabled, autoAimEnabled, aimStepEnabled, rcsEnabled, rcsAlwaysOn, rcsAdaptive;
+	float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmountX, rcsAmountY, autoWallValue, autoSlowMinDamage, rcsAdaptiveSpeed, rcsAdaptiveLimit, spreadLimitValue;
+	bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallBones[6], autoAimRealDistance, autoSlow, spreadLimitEnabled, stickyAimEnabled, predEnabled;
 
-	AimbotWeapon_t(bool enabled, bool silent, bool friendly, Bone bone, ButtonCode_t aimkey, bool aimkeyOnly,
+	AimbotWeapon_t(bool enabled, bool silent, bool friendly, bool closestBone, Bone bone, ButtonCode_t aimkey, bool aimkeyOnly,
 		   bool smoothEnabled, float smoothValue, SmoothType smoothType, bool smoothSaltEnabled, float smoothSaltMultiplier,
 		   bool errorMarginEnabled, float errorMarginValue,
 		   bool autoAimEnabled, float autoAimValue, bool aimStepEnabled, float aimStepValue,
-		   bool rcsEnabled, bool rcsAlwaysOn, float rcsAmountX, float rcsAmountY,
+		   bool rcsEnabled, bool rcsAlwaysOn, float rcsAmountX, float rcsAmountY, bool rcsAdaptive, float rcsAdaptiveSpeed, float rcsAdaptiveLimit,
 		   bool autoPistolEnabled, bool autoShootEnabled, bool autoScopeEnabled,
 		   bool noShootEnabled, bool ignoreJumpEnabled, bool smokeCheck, bool flashCheck,
 		   bool autoWallEnabled, float autoWallValue, bool autoAimRealDistance, bool autoSlow,
-		   float autoSlowMinDamage, bool predEnabled, bool autoWallBones[6] = nullptr)
+		   float autoSlowMinDamage, bool spreadLimitEnabled, float spreadLimitValue, bool stickyAimEnabled, bool predEnabled, bool autoWallBones[6] = nullptr)
 	{
 		this->enabled = enabled;
 		this->silent = silent;
 		this->friendly = friendly;
+		this->closestBone = closestBone;
 		this->bone = bone;
 		this->aimkey = aimkey;
 		this->aimkeyOnly = aimkeyOnly;
@@ -183,6 +185,9 @@ struct AimbotWeapon_t
 		this->rcsAlwaysOn = rcsAlwaysOn;
 		this->rcsAmountX = rcsAmountX;
 		this->rcsAmountY = rcsAmountY;
+		this->rcsAdaptive = rcsAdaptive;
+		this->rcsAdaptiveSpeed = rcsAdaptiveSpeed;
+		this->rcsAdaptiveLimit = rcsAdaptiveLimit;
 		this->autoPistolEnabled = autoPistolEnabled;
 		this->autoShootEnabled = autoShootEnabled;
 		this->autoScopeEnabled = autoScopeEnabled;
@@ -192,6 +197,9 @@ struct AimbotWeapon_t
 		this->flashCheck = flashCheck;
 		this->autoWallEnabled = autoWallEnabled;
 		this->autoWallValue = autoWallValue;
+		this->spreadLimitEnabled = spreadLimitEnabled;
+		this->spreadLimitValue = spreadLimitValue;
+		this->stickyAimEnabled = stickyAimEnabled;
 		this->autoSlow = autoSlow;
 		this->predEnabled = predEnabled;
 		this->autoSlowMinDamage = autoSlowMinDamage;
@@ -215,6 +223,7 @@ struct AimbotWeapon_t
 		return this->enabled == another.enabled &&
 			this->silent == another.silent &&
 			this->friendly == another.friendly &&
+			this->closestBone == another.closestBone &&
 			this->bone == another.bone &&
 			this->aimkey == another.aimkey &&
 			this->aimkeyOnly == another.aimkeyOnly &&
@@ -233,6 +242,9 @@ struct AimbotWeapon_t
 			this->rcsAlwaysOn == another.rcsAlwaysOn &&
 			this->rcsAmountX == another.rcsAmountX &&
 			this->rcsAmountY == another.rcsAmountY &&
+			this->rcsAdaptive == another.rcsAdaptive &&
+			this->rcsAdaptiveSpeed == another.rcsAdaptiveSpeed &&
+			this->rcsAdaptiveLimit == another.rcsAdaptiveLimit &&
 			this->autoPistolEnabled == another.autoPistolEnabled &&
 			this->autoShootEnabled == another.autoShootEnabled &&
 			this->autoScopeEnabled == another.autoScopeEnabled &&
@@ -242,6 +254,9 @@ struct AimbotWeapon_t
 			this->flashCheck == another.flashCheck &&
 			this->autoWallEnabled == another.autoWallEnabled &&
 			this->autoWallValue == another.autoWallValue &&
+			this->spreadLimitEnabled == another.spreadLimitEnabled &&
+			this->spreadLimitValue == another.spreadLimitValue &&
+			this->stickyAimEnabled == another.stickyAimEnabled &&
 			this->autoSlow == another.autoSlow &&
 			this->predEnabled == another.predEnabled &&
 			this->autoSlowMinDamage == another.autoSlowMinDamage &&
@@ -318,6 +333,7 @@ namespace Settings
 		extern bool enabled;
 		extern bool silent;
 		extern bool friendly;
+		extern bool closestBone;
 		extern Bone bone;
 		extern ButtonCode_t aimkey;
 		extern bool aimkeyOnly;
@@ -367,7 +383,11 @@ namespace Settings
 			extern bool always_on;
 			extern float valueX;
 			extern float valueY;
+			extern bool adaptive;
+			extern float adaptiveSpeed;
+			extern float adaptiveLimit;
 		}
+
 
 		namespace AutoPistol
 		{
@@ -415,6 +435,17 @@ namespace Settings
 		{
 			extern bool enabled;
 		}
+		
+		namespace SpreadLimit
+		{
+			extern bool enabled;
+			extern float value;
+		}
+
+		namespace StickyAim
+		{
+			extern bool enabled;
+		}
 
 		extern std::unordered_map<ItemDefinitionIndex, AimbotWeapon_t, Util::IntHash<ItemDefinitionIndex>> weapons;
 	}
@@ -442,6 +473,14 @@ namespace Settings
 		{
 			extern bool enabled;
 			extern int value;
+		}
+
+		namespace RandomDelay
+		{
+			extern bool enabled;
+			extern int min;
+			extern int max;
+			extern int last;
 		}
 	}
 
@@ -548,6 +587,7 @@ namespace Settings
 			extern bool reloading;
 			extern bool flashed;
 			extern bool planting;
+			extern bool hasBomb;
 			extern bool hasDefuser;
 			extern bool defusing;
 			extern bool grabbingHostage;
@@ -816,17 +856,21 @@ namespace Settings
 		}
 	}
 
-	namespace Teleport
-	{
-		extern bool enabled;
-		extern ButtonCode_t key;
-	}
-
 	namespace FakeLag
 	{
 		extern bool enabled;
 		extern int value;
 		extern bool adaptive;
+	}
+
+	namespace Watermark
+	{
+		extern bool enabled;
+	}
+
+	namespace Watermark
+	{
+		extern bool enabled;
 	}
 
 	namespace AutoAccept

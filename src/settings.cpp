@@ -148,6 +148,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 		weaponSetting["Enabled"] = i.second.enabled;
 		weaponSetting["Silent"] = i.second.silent;
 		weaponSetting["Friendly"] = i.second.friendly;
+		weaponSetting["Closest Bone"] = i.second.closestBone;
 		weaponSetting["TargetBone"] = (int) i.second.bone;
 		weaponSetting["AimKey"] = Util::GetButtonName(i.second.aimkey);
 		weaponSetting["AimKeyOnly"] = i.second.aimkeyOnly;
@@ -166,6 +167,9 @@ void Settings::LoadDefaultsOrSave(std::string path)
 		weaponSetting["RCS"]["AlwaysOn"] = i.second.rcsAlwaysOn;
 		weaponSetting["RCS"]["AmountX"] = i.second.rcsAmountX;
 		weaponSetting["RCS"]["AmountY"] = i.second.rcsAmountY;
+		weaponSetting["RCS"]["Adaptive"] = i.second.rcsAdaptive;
+		weaponSetting["RCS"]["AdaptiveSpeed"] = i.second.rcsAdaptiveSpeed;
+		weaponSetting["RCS"]["AdaptiveLimit"] = i.second.rcsAdaptiveLimit;
 		weaponSetting["AutoPistol"]["Enabled"] = i.second.autoPistolEnabled;
 		weaponSetting["AutoShoot"]["Enabled"] = i.second.autoShootEnabled;
 		weaponSetting["AutoScope"]["Enabled"] = i.second.autoScopeEnabled;
@@ -175,9 +179,12 @@ void Settings::LoadDefaultsOrSave(std::string path)
 		weaponSetting["FlashCheck"]["Enabled"] = i.second.flashCheck;
 		weaponSetting["AutoWall"]["Enabled"] = i.second.autoWallEnabled;
 		weaponSetting["AutoWall"]["Value"] = i.second.autoWallValue;
-		weaponSetting["AutoSlow"]["enabled"] = i.second.autoSlow;
-		weaponSetting["Prediction"]["enabled"] = i.second.predEnabled;
-		weaponSetting["AutoSlow"]["minDamage"] = i.second.autoSlowMinDamage;
+		weaponSetting["SpreadLimit"]["Enabled"] = i.second.spreadLimitEnabled;
+		weaponSetting["SpreadLimit"]["Value"] = i.second.spreadLimitValue;
+		weaponSetting["AutoSlow"]["Enabled"] = i.second.autoSlow;
+		weaponSetting["AutoSlow"]["MinDamage"] = i.second.autoSlowMinDamage;
+		weaponSetting["StickyAim"]["Enabled"] = i.second.stickyAimEnabled;
+		weaponSetting["Prediction"]["Enabled"] = i.second.predEnabled;
 
 		for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
 			weaponSetting["AutoWall"]["Bones"][bone] = i.second.autoWallBones[bone];
@@ -205,6 +212,9 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["Triggerbot"]["Filters"]["legs"] = Settings::Triggerbot::Filters::legs;
 	settings["Triggerbot"]["Delay"]["enabled"] = Settings::Triggerbot::Delay::enabled;
 	settings["Triggerbot"]["Delay"]["value"] = Settings::Triggerbot::Delay::value;
+	settings["Triggerbot"]["RandomDelay"]["enabled"] = Settings::Triggerbot::RandomDelay::enabled;
+	settings["Triggerbot"]["RandomDelay"]["min"] = Settings::Triggerbot::RandomDelay::min;
+	settings["Triggerbot"]["RandomDelay"]["max"] = Settings::Triggerbot::RandomDelay::max;
 
 	settings["AntiAim"]["Yaw"]["enabled"] = Settings::AntiAim::Yaw::enabled;
 	settings["AntiAim"]["Yaw"]["type"] = (int) Settings::AntiAim::Yaw::type;
@@ -271,6 +281,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["ESP"]["Info"]["reloading"] = Settings::ESP::Info::reloading;
 	settings["ESP"]["Info"]["flashed"] = Settings::ESP::Info::flashed;
 	settings["ESP"]["Info"]["planting"] = Settings::ESP::Info::planting;
+	settings["ESP"]["Info"]["has_bomb"] = Settings::ESP::Info::hasBomb;
 	settings["ESP"]["Info"]["has_defuser"] = Settings::ESP::Info::hasDefuser;
 	settings["ESP"]["Info"]["defusing"] = Settings::ESP::Info::defusing;
 	settings["ESP"]["Info"]["grabbing_hostage"] = Settings::ESP::Info::grabbingHostage;
@@ -427,12 +438,11 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings["View"]["NoViewPunch"]["enabled"] = Settings::View::NoViewPunch::enabled;
 	settings["View"]["NoAimPunch"]["enabled"] = Settings::View::NoAimPunch::enabled;
 
-	settings["Teleport"]["enabled"] = Settings::Teleport::enabled;
-	settings["Teleport"]["key"] = Settings::Teleport::key;
-
 	settings["FakeLag"]["enabled"] = Settings::FakeLag::enabled;
 	settings["FakeLag"]["value"] = Settings::FakeLag::value;
 	settings["FakeLag"]["adaptive"] = Settings::FakeLag::adaptive;
+
+	settings["Watermark"]["enabled"] = Settings::Watermark::enabled;
 
 	settings["AutoAccept"]["enabled"] = Settings::AutoAccept::enabled;
 
@@ -507,8 +517,8 @@ void Settings::LoadConfig(std::string path)
 	Fonts::SetupFonts();
 
 	Settings::Aimbot::weapons = {
-			{ ItemDefinitionIndex::INVALID, { false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f, false, false, false, false, false, false, false, false, 10.0f, false, false, false, 5.0f } },
-	};
+			{ ItemDefinitionIndex::INVALID, { false, false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f, false, 0.1, 1.5, false, false, false, false, false, false, false, false, 10.0f, false, false, 5.0f, false, 0, false, false} },
+};
 
 	for (Json::ValueIterator itr = settings["Aimbot"]["weapons"].begin(); itr != settings["Aimbot"]["weapons"].end(); itr++)
 	{
@@ -534,6 +544,7 @@ void Settings::LoadConfig(std::string path)
 				weaponSetting["Enabled"].asBool(),
 				weaponSetting["Silent"].asBool(),
 				weaponSetting["Friendly"].asBool(),
+				weaponSetting["Closest Bone"].asBool(),
 				(Bone) weaponSetting["TargetBone"].asInt(),
 				Util::GetButtonCode(weaponSetting["AimKey"].asCString()),
 				weaponSetting["AimKeyOnly"].asBool(),
@@ -552,6 +563,9 @@ void Settings::LoadConfig(std::string path)
 				weaponSetting["RCS"]["AlwaysOn"].asBool(),
 				weaponSetting["RCS"]["AmountX"].asFloat(),
 				weaponSetting["RCS"]["AmountY"].asFloat(),
+				weaponSetting["RCS"]["Adaptive"].asBool(),
+				weaponSetting["RCS"]["AdaptiveSpeed"].asFloat(),
+				weaponSetting["RCS"]["AdaptiveLimit"].asFloat(),
 				weaponSetting["AutoPistol"]["Enabled"].asBool(),
 				weaponSetting["AutoShoot"]["Enabled"].asBool(),
 				weaponSetting["AutoScope"]["Enabled"].asBool(),
@@ -562,9 +576,12 @@ void Settings::LoadConfig(std::string path)
 				weaponSetting["AutoWall"]["Enabled"].asBool(),
 				weaponSetting["AutoWall"]["Value"].asFloat(),
 				weaponSetting["AutoAim"]["RealDistance"].asBool(),
-				weaponSetting["AutoSlow"]["enabled"].asBool(),
-				weaponSetting["AutoSlow"]["minDamage"].asFloat(),
-				weaponSetting["Prediction"]["enabled"].asBool()
+				weaponSetting["AutoSlow"]["Enabled"].asBool(),
+				weaponSetting["AutoSlow"]["MinDamage"].asFloat(),
+				weaponSetting["SpreadLimit"]["Enabled"].asBool(),
+				weaponSetting["SpreadLimit"]["Value"].asFloat(),
+				weaponSetting["StickyAim"]["Enabled"].asBool(),
+				weaponSetting["Prediction"]["Enabled"].asBool()
 		};
 
 		for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
@@ -591,6 +608,9 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["Triggerbot"]["Filters"]["legs"], &Settings::Triggerbot::Filters::legs);
 	GetVal(settings["Triggerbot"]["Delay"]["enabled"], &Settings::Triggerbot::Delay::enabled);
 	GetVal(settings["Triggerbot"]["Delay"]["value"], &Settings::Triggerbot::Delay::value);
+	GetVal(settings["Triggerbot"]["RandomDelay"]["enable"], &Settings::Triggerbot::RandomDelay::enabled);
+	GetVal(settings["Triggerbot"]["RandomDelay"]["min"], &Settings::Triggerbot::RandomDelay::min);
+	GetVal(settings["Triggerbot"]["RandomDelay"]["max"], &Settings::Triggerbot::RandomDelay::max);
 
 	GetVal(settings["AntiAim"]["Yaw"]["enabled"], &Settings::AntiAim::Yaw::enabled);
 	GetVal(settings["AntiAim"]["Yaw"]["type"], (int*)& Settings::AntiAim::Yaw::type);
@@ -657,6 +677,7 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["ESP"]["Info"]["reloading"], &Settings::ESP::Info::reloading);
 	GetVal(settings["ESP"]["Info"]["flashed"], &Settings::ESP::Info::flashed);
 	GetVal(settings["ESP"]["Info"]["planting"], &Settings::ESP::Info::planting);
+	GetVal(settings["ESP"]["Info"]["has_bomb"], &Settings::ESP::Info::hasBomb);
 	GetVal(settings["ESP"]["Info"]["has_defuser"], &Settings::ESP::Info::hasDefuser);
 	GetVal(settings["ESP"]["Info"]["defusing"], &Settings::ESP::Info::defusing);
 	GetVal(settings["ESP"]["Info"]["grabbing_hostage"], &Settings::ESP::Info::grabbingHostage);
@@ -867,12 +888,11 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings["View"]["NoViewPunch"]["enabled"], &Settings::View::NoViewPunch::enabled);
 	GetVal(settings["View"]["NoAimPunch"]["enabled"], &Settings::View::NoAimPunch::enabled);
 
-	GetVal(settings["Teleport"]["enabled"], &Settings::Teleport::enabled);
-	GetButtonCode(settings["Teleport"]["key"], &Settings::Teleport::key);
-
 	GetVal(settings["FakeLag"]["enabled"], &Settings::FakeLag::enabled);
 	GetVal(settings["FakeLag"]["value"], &Settings::FakeLag::value);
 	GetVal(settings["FakeLag"]["adaptive"], &Settings::FakeLag::adaptive);
+
+	GetVal(settings["Watermark"]["enabled"], &Settings::Watermark::enabled);
 
 	GetVal(settings["AutoAccept"]["enabled"], &Settings::AutoAccept::enabled);
 

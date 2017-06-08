@@ -4,6 +4,7 @@ static ItemDefinitionIndex currentWeapon = ItemDefinitionIndex::INVALID;
 static bool enabled = false;
 static bool silent = false;
 static bool friendly = false;
+static bool closestBone = false;
 static Bone bone = Bone::BONE_HEAD;
 static ButtonCode_t aimkey = ButtonCode_t::MOUSE_MIDDLE;
 static bool aimkeyOnly = false;
@@ -22,6 +23,9 @@ static bool rcsEnabled = false;
 static bool rcsAlwaysOn = false;
 static float rcsAmountX = 2.0f;
 static float rcsAmountY = 2.0f;
+static bool rcsAdaptive = false;
+static float rcsAdaptiveSpeed = 0.1f;
+static float rcsAdaptiveLimit = 1.5f;
 static bool autoPistolEnabled = false;
 static bool autoShootEnabled = false;
 static bool autoScopeEnabled = false;
@@ -32,6 +36,9 @@ static bool flashCheck = false;
 static bool autoWallEnabled = false;
 static float autoWallValue = 10.0f;
 static bool autoWallBones[] = { true, false, false, false, false, false };
+static bool spreadLimitEnabled = false;
+static float spreadLimitValue = 0;
+static bool stickyAimEnabled = false;
 static bool autoAimRealDistance = false;
 static bool autoSlow = false;
 static bool predEnabled = false;
@@ -46,6 +53,7 @@ void UI::ReloadWeaponSettings()
 	enabled = Settings::Aimbot::weapons.at(index).enabled;
 	silent = Settings::Aimbot::weapons.at(index).silent;
 	friendly = Settings::Aimbot::weapons.at(index).friendly;
+	closestBone = Settings::Aimbot::weapons.at(index).closestBone;
 	bone = Settings::Aimbot::weapons.at(index).bone;
 	aimkey = Settings::Aimbot::weapons.at(index).aimkey;
 	aimkeyOnly = Settings::Aimbot::weapons.at(index).aimkeyOnly;
@@ -64,6 +72,9 @@ void UI::ReloadWeaponSettings()
 	rcsAlwaysOn = Settings::Aimbot::weapons.at(index).rcsAlwaysOn;
 	rcsAmountX = Settings::Aimbot::weapons.at(index).rcsAmountX;
 	rcsAmountY = Settings::Aimbot::weapons.at(index).rcsAmountY;
+	rcsAdaptive = Settings::Aimbot::weapons.at(index).rcsAdaptive;
+	rcsAdaptiveSpeed = Settings::Aimbot::weapons.at(index).rcsAdaptiveSpeed;
+	rcsAdaptiveLimit = Settings::Aimbot::weapons.at(index).rcsAdaptiveLimit;
 	autoPistolEnabled = Settings::Aimbot::weapons.at(index).autoPistolEnabled;
 	autoShootEnabled = Settings::Aimbot::weapons.at(index).autoShootEnabled;
 	autoScopeEnabled = Settings::Aimbot::weapons.at(index).autoScopeEnabled;
@@ -73,8 +84,11 @@ void UI::ReloadWeaponSettings()
 	flashCheck = Settings::Aimbot::weapons.at(index).flashCheck;
 	autoWallEnabled = Settings::Aimbot::weapons.at(index).autoWallEnabled;
 	autoWallValue = Settings::Aimbot::weapons.at(index).autoWallValue;
+	spreadLimitEnabled = Settings::Aimbot::weapons.at(index).spreadLimitEnabled;
+	spreadLimitValue = Settings::Aimbot::weapons.at(index).spreadLimitValue;
 	autoAimRealDistance = Settings::Aimbot::weapons.at(index).autoAimRealDistance;
 	autoSlow = Settings::Aimbot::weapons.at(index).autoSlow;
+	stickyAimEnabled = Settings::Aimbot::weapons.at(index).stickyAimEnabled;
 	predEnabled = Settings::Aimbot::weapons.at(index).predEnabled;
 	autoSlowMinDamage = Settings::Aimbot::weapons.at(index).autoSlowMinDamage;
 
@@ -88,13 +102,15 @@ void UI::UpdateWeaponSettings()
 		Settings::Aimbot::weapons[currentWeapon] = AimbotWeapon_t();
 
 	AimbotWeapon_t settings = {
-			enabled, silent, friendly, bone, aimkey, aimkeyOnly,
-			smoothEnabled, smoothValue, smoothType, smoothSaltEnabled, smoothSaltMultiplier,
-			errorMarginEnabled, errorMarginValue,
-			autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue,
-			rcsEnabled, rcsAlwaysOn, rcsAmountX, rcsAmountY,
-			autoPistolEnabled, autoShootEnabled, autoScopeEnabled,
-			noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, autoSlowMinDamage, predEnabled
+			enabled, silent, friendly, closestBone, bone, aimkey, aimkeyOnly, 
+			smoothEnabled, smoothValue, smoothType, smoothSaltEnabled, smoothSaltMultiplier, 
+			errorMarginEnabled, errorMarginValue, 
+			autoAimEnabled, autoAimValue, aimStepEnabled, aimStepValue, 
+			rcsEnabled, rcsAlwaysOn, rcsAmountX, rcsAmountY, rcsAdaptive, rcsAdaptiveSpeed, rcsAdaptiveLimit, 
+			autoPistolEnabled, autoShootEnabled, autoScopeEnabled, 
+			noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, 
+			autoWallEnabled, autoWallValue, autoAimRealDistance, autoSlow, 
+			autoSlowMinDamage, spreadLimitEnabled, spreadLimitValue, stickyAimEnabled, predEnabled
 	};
 
 	for (int bone = (int) Hitbox::HITBOX_HEAD; bone <= (int) Hitbox::HITBOX_ARMS; bone++)
@@ -162,6 +178,19 @@ void Aimbot::RenderTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
+				if (ImGui::Checkbox("Closest Bone", &closestBone))
+					UI::UpdateWeaponSettings();
+				SetTooltip("Aims at the bone closest to your crosshair");
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::PushItemWidth(-1);
+				if (ImGui::Checkbox("Sticky Aimbot", &stickyAimEnabled))
+					UI::UpdateWeaponSettings();
+				SetTooltip("Sticks to the target, doesnt snap to the other");
+			}
+			ImGui::Columns(2, NULL, true);
+			{
 				if (ImGui::Checkbox("Friendly", &friendly))
 					UI::UpdateWeaponSettings();
 				SetTooltip("Whether to target friendlies");
@@ -169,8 +198,11 @@ void Aimbot::RenderTab()
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
+				if (!closestBone)
+				{
 				if (ImGui::Combo("##AIMTARGET", (int*)& bone, targets, IM_ARRAYSIZE(targets)))
 					UI::UpdateWeaponSettings();
+				}
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
@@ -185,6 +217,9 @@ void Aimbot::RenderTab()
 				if (ImGui::Checkbox("Recoil Control", &rcsEnabled))
 					UI::UpdateWeaponSettings();
 				SetTooltip("Automatically controls recoil");
+				if (ImGui::Checkbox("Adaptive FOV", &rcsAdaptive))
+					UI::UpdateWeaponSettings();
+				SetTooltip("FOV adaptively changes to make aimbot work properly with RCS");
 				if (ImGui::Checkbox("Distance-Based FOV", &autoAimRealDistance))
 					UI::UpdateWeaponSettings();
 				SetTooltip("Takes perspective into account when calculating FOV");
@@ -192,7 +227,7 @@ void Aimbot::RenderTab()
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-				if (ImGui::SliderFloat("##AA", &autoAimValue, 0, 180))
+				if (ImGui::SliderFloat("##AA", &autoAimValue, 0, 180, "FOV: %0.3f"))
 					UI::UpdateWeaponSettings();
 				ImGui::PopItemWidth();
 				if (ImGui::Button("RCS Settings", ImVec2(-1, 0)))
@@ -209,7 +244,20 @@ void Aimbot::RenderTab()
 					if (ImGui::SliderFloat("##RCSY", &rcsAmountY, 0, 2, "Y: %0.3f"))
 						UI::UpdateWeaponSettings();
 					ImGui::PopItemWidth();
-
+					ImGui::EndPopup();
+				}
+				ImGui::PopItemWidth();
+				if (ImGui::Button("AFOV Settings",ImVec2(-1,0)))
+					ImGui::OpenPopup("optionARCSAmount");
+				ImGui::SetNextWindowSize(ImVec2(200, 70), ImGuiSetCond_Always);
+				if (ImGui::BeginPopup("optionARCSAmount"))
+				{
+					ImGui::PushItemWidth(-1);
+					if (ImGui::SliderFloat("##ARCSSpeed", &rcsAdaptiveSpeed, 0, 1, "Speed: %0.3f"))
+						UI::UpdateWeaponSettings();
+					if (ImGui::SliderFloat("##ARCSLimit", &rcsAdaptiveLimit, 1, 10, "Limit: %0.3f"))
+						UI::UpdateWeaponSettings();
+					ImGui::PopItemWidth();
 					ImGui::EndPopup();
 				}
 			}
@@ -228,10 +276,14 @@ void Aimbot::RenderTab()
 				if (ImGui::Checkbox("Error Margin", &errorMarginEnabled))
 					UI::UpdateWeaponSettings();
 				SetTooltip("Adds a margin of error to the aim, it will be obvious what it does when using it");
+				if (ImGui::Checkbox("Spread Limit", &spreadLimitEnabled))
+ 					UI::UpdateWeaponSettings();
+ 				SetTooltip("Limits the spread on which aimbot would shoot");
 				ImGui::PushItemWidth(-1);
 				if (ImGui::Combo("##SMOOTHTYPE", (int*)& smoothType, smoothTypes, IM_ARRAYSIZE(smoothTypes)))
 					UI::UpdateWeaponSettings();
 				ImGui::PopItemWidth();
+				
 			}
 			ImGui::NextColumn();
 			{
@@ -242,6 +294,8 @@ void Aimbot::RenderTab()
 					UI::UpdateWeaponSettings();
 				if (ImGui::SliderFloat("##ERROR", &errorMarginValue, 0, 2))
 					UI::UpdateWeaponSettings();
+				if (ImGui::SliderFloat("##SPREADLIMIT", &spreadLimitValue, 0, 5))
+ 					UI::UpdateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);

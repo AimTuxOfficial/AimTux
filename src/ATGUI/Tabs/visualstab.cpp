@@ -9,7 +9,7 @@ void Visuals::RenderTab()
 	const char* TeamColorTypes[] = { "Absolute", "Relative" };
 	const char* ChamsTypes[] = { "Normal", "Normal - XQZ", "Flat", "Flat - XQZ" };
 	const char* ArmsTypes[] = { "Default", "Wireframe", "None" };
-
+	
 	ImGui::Checkbox("Enabled", &Settings::ESP::enabled);
 	ImGui::Separator();
 
@@ -103,10 +103,10 @@ void Visuals::RenderTab()
 				SetTooltip("Show whether they are flashed");
 				ImGui::Checkbox("Defuse Kit", &Settings::ESP::Info::hasDefuser);
 				SetTooltip("Show whether they have a defuse kit");
+				ImGui::Checkbox("Bomb Carrier", &Settings::ESP::Info::hasBomb);
+				SetTooltip("Show player carrying a bomb");
 				ImGui::Checkbox("Grabbing Hostage", &Settings::ESP::Info::grabbingHostage);
 				SetTooltip("Show whether they are grabbing a hostage");
-				ImGui::Checkbox("Location", &Settings::ESP::Info::location);
-				SetTooltip("Show location");
 			}
 			ImGui::NextColumn();
 			{
@@ -124,6 +124,8 @@ void Visuals::RenderTab()
 				SetTooltip("Show whether they are defusing");
 				ImGui::Checkbox("Rescuing Hostage", &Settings::ESP::Info::rescuing);
 				SetTooltip("Show whether they are rescuing a hostage");
+				ImGui::Checkbox("Location", &Settings::ESP::Info::location);
+				SetTooltip("Show location");
 			}
 
 			ImGui::Columns(1);
@@ -211,6 +213,8 @@ void Visuals::RenderTab()
 				SetTooltip("Makes wall textures transparent");
 				ImGui::Checkbox("No Scope Border", &Settings::NoScopeBorder::enabled);
 				SetTooltip("Disables black scope silhouette");
+				ImGui::Checkbox("Menu Watermark", &Settings::Watermark::enabled);
+				SetTooltip("Enable/Disable main menu watermark");
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();

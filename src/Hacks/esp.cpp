@@ -59,6 +59,7 @@ bool Settings::ESP::Info::scoped = false;
 bool Settings::ESP::Info::reloading = false;
 bool Settings::ESP::Info::flashed = false;
 bool Settings::ESP::Info::planting = false;
+bool Settings::ESP::Info::hasBomb = false;
 bool Settings::ESP::Info::hasDefuser = false;
 bool Settings::ESP::Info::defusing = false;
 bool Settings::ESP::Info::grabbingHostage = false;
@@ -607,7 +608,7 @@ void ESP::DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info
 	if (Settings::ESP::Info::planting && Entity::IsPlanting(player))
 		stringsToShow.push_back("Planting");
 
-	if (Settings::ESP::Info::planting && index == (*csPlayerResource)->GetPlayerC4())
+	if (Settings::ESP::Info::hasBomb && index == (*csPlayerResource)->GetPlayerC4())
 		stringsToShow.push_back("Bomb Carrier");
 
 	if (Settings::ESP::Info::hasDefuser && player->HasDefuser())
