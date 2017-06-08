@@ -112,11 +112,11 @@ void UI::UpdateWeaponSettings()
 
 void Aimbot::RenderTab()
 {
-	const char* targets[] = { "PELVIS", "", "", "HIP", "LOWER SPINE", "MIDDLE SPINE", "UPPER SPINE", "NECK", "HEAD" };
-	const char* smoothTypes[] = { "Slow Near End", "Constant Speed", "Fast Near End" };
+	const char* targets[] = { "ТАЗ (жопа)", "", "", "БЕДРА", "НИЖНИЙ ОТДЕЛ ПОЗВОНОЧНИКА", "СЕРЕДИНА ПОЗВОНОЧНИКА", "ВЕРХНЕГО ОТДЕЛА ПОЗВОНОЧНИКА", "ШЕЯ", "ГОЛОВА" };
+	const char* smoothTypes[] = { "ЧЕМ БЛИЖЕ К ЦЕЛИ ТЕМ МЕДЛЕННЕЙ", "С ОДНОЙ СКОРОСТЬЮ", "ЧЕМ БЛИЖЕ К ЦЕЛИ ТЕМ БЫСТРЕЕ" };
 	static char filterWeapons[32];
 
-	if (ImGui::Checkbox("Enabled", &enabled))
+	if (ImGui::Checkbox("АКТИВАЦИЯ", &enabled))
 		UI::UpdateWeaponSettings();
 	ImGui::Separator();
 
@@ -124,9 +124,9 @@ void Aimbot::RenderTab()
 	{
 		ImGui::SetColumnOffset(1, 200);
 		ImGui::PushItemWidth(-1);
-		ImGui::InputText("##FILTERWEAPONS", filterWeapons, IM_ARRAYSIZE(filterWeapons));
+		ImGui::InputText("##ФИЛЬТРЫ", filterWeapons, IM_ARRAYSIZE(filterWeapons));
 		ImGui::PopItemWidth();
-		ImGui::ListBoxHeader("##GUNS", ImVec2(-1, -1));
+		ImGui::ListBoxHeader("##ПУШКИ", ImVec2(-1, -1));
 		for (auto it : ItemDefinitionIndexMap)
 		{
 			bool isDefault = (int) it.first < 0;
@@ -158,36 +158,36 @@ void Aimbot::RenderTab()
 		ImGui::SetColumnOffset(2, ImGui::GetWindowWidth() / 2 + 75);
 		ImGui::BeginChild("COL1", ImVec2(0, 0), true);
 		{
-			ImGui::Text("Target");
+			ImGui::Text("ЦЕЛЬ");
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				if (ImGui::Checkbox("Friendly", &friendly))
+				if (ImGui::Checkbox("ДРУЖЕЛЮБНЫЙ", &friendly))
 					UI::UpdateWeaponSettings();
-				SetTooltip("Whether to target friendlies");
+				SetTooltip("НАВОДИТЬСЯ НА СВОИХ (ДЛЯ НЕКОТОРЫХ СЕРВЕРОВ DM");
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-				if (ImGui::Combo("##AIMTARGET", (int*)& bone, targets, IM_ARRAYSIZE(targets)))
+				if (ImGui::Combo("##ПРИЦЕЛ НВ ЦЕЛЬ", (int*)& bone, targets, IM_ARRAYSIZE(targets)))
 					UI::UpdateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
-			ImGui::Text("Accuracy");
+			ImGui::Text("ТОЧНОСТЬ");
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				if (ImGui::Checkbox("Auto Aim", &autoAimEnabled))
+				if (ImGui::Checkbox("АВТОЦЕЛЬ", &autoAimEnabled))
 					UI::UpdateWeaponSettings();
-				SetTooltip("Locks onto enemies within a certain FOV amount");
-				if (ImGui::Checkbox("Recoil Control", &rcsEnabled))
+				SetTooltip("РАДИУС ЗАХВАТА ПРИЦЕЛОМ ЦЕЛИ");
+				if (ImGui::Checkbox("КОНТРОЛЬ РАЗБРОСА (ТОЛЬКО В РАДИУСЕ ЗАХВАТА)", &rcsEnabled))
 					UI::UpdateWeaponSettings();
-				SetTooltip("Automatically controls recoil");
-				if (ImGui::Checkbox("Distance-Based FOV", &autoAimRealDistance))
+				SetTooltip("АВТОМАТИЧЕСКИЙ КОНТРОЛЬ РАЗБРОСА (ТОЛЬКО В РАДИУСЕ FOV");
+				if (ImGui::Checkbox("ДИНАМИЧЕСКИЙ РАДИУС ЗАХВАТА", &autoAimRealDistance))
 					UI::UpdateWeaponSettings();
-				SetTooltip("Takes perspective into account when calculating FOV");
+				SetTooltip("ДИНАМИЧЕСКИЙ РАДИУС ЗАХВАТА ЦЕЛИ (ЧЕМ БЛИЖЕ К ЦЕЛИ ТЕМ БОЛЬШЕ РАДИУС");
 			}
 			ImGui::NextColumn();
 			{
@@ -195,15 +195,15 @@ void Aimbot::RenderTab()
 				if (ImGui::SliderFloat("##AA", &autoAimValue, 0, 180))
 					UI::UpdateWeaponSettings();
 				ImGui::PopItemWidth();
-				if (ImGui::Button("RCS Settings", ImVec2(-1, 0)))
+				if (ImGui::Button("RCS НАСТРОЙКИ", ImVec2(-1, 0)))
 					ImGui::OpenPopup("optionRCSAmount");
 				ImGui::SetNextWindowSize(ImVec2(200, 100), ImGuiSetCond_Always);
 				if (ImGui::BeginPopup("optionRCSAmount"))
 				{
 					ImGui::PushItemWidth(-1);
-					if (ImGui::Checkbox("RCS Always on", &rcsAlwaysOn))
+					if (ImGui::Checkbox("RCS ВКЛЮЧЕНИЕ", &rcsAlwaysOn))
 						UI::UpdateWeaponSettings();
-					SetTooltip("Whether Recoil Control always controls recoil (even when not aimbotting)");
+					SetTooltip("НЕЗАВИСИМО ОТ ТОГО ЦЕЛЬ В РАДИУСЕ НАВОДКИ ИЛИ НЕТ, КОНТРОЛИРУТ РАЗБРОС (ДАЖЕ ЕСЛИ ОТКЛЮЧЕНА НАВОДКА)");
 					if (ImGui::SliderFloat("##RCSX", &rcsAmountX, 0, 2, "X: %0.3f"))
 						UI::UpdateWeaponSettings();
 					if (ImGui::SliderFloat("##RCSY", &rcsAmountY, 0, 2, "Y: %0.3f"))
@@ -215,32 +215,32 @@ void Aimbot::RenderTab()
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
-			ImGui::Text("Humanizing");
+			ImGui::Text("ГУМАНИЗАЦИЯ");
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				if (ImGui::Checkbox("Smoothing", &smoothEnabled))
+				if (ImGui::Checkbox("СГЛАЖИВАНИЕ", &smoothEnabled))
 					UI::UpdateWeaponSettings();
-				SetTooltip("Smoothing reduces the aimbot \"snap\". 0 for full snap. 1 for full smoothing");
-				if (ImGui::Checkbox("Smooth Salting", &smoothSaltEnabled))
+				SetTooltip("СКОРОСТЬ НАВОДКИ НА ЦЕЛЬ \"snap\". 0 ДЛЯ БЫСТРОЙ НАВОДКИ. 1 ДЛЯ ДОЛГОЙ НАВОДКИ");
+				if (ImGui::Checkbox("СГЛАЖИВАНИЕ ПО ИНТЕРВАЛАМ", &smoothSaltEnabled))
 					UI::UpdateWeaponSettings();
-				SetTooltip("Breaks the smoothing into smaller steps, high smooth + low salt is slightly stuttery");
-				if (ImGui::Checkbox("Error Margin", &errorMarginEnabled))
+				SetTooltip("РАЗРЫВАНИЕ ИНТЕРВАЛОВ НАВОДКИ (ЗАВИСИТ ОТ ТИПА ЗГЛАЖИВАНИЯ НАВОДКИ)");
+				if (ImGui::Checkbox("ПОГРЕШНОСТИ НАВЕДЕНИЯ", &errorMarginEnabled))
 					UI::UpdateWeaponSettings();
-				SetTooltip("Adds a margin of error to the aim, it will be obvious what it does when using it");
+				SetTooltip("ДОБАВЛЯЕТ ПОГРЕШНОСТЬ В НАВИДЕНИЕ (Я ТАК И НЕ ПОНЯЛ ЧТО ИМЕННО ЭТО ДАЕТ)");
 				ImGui::PushItemWidth(-1);
-				if (ImGui::Combo("##SMOOTHTYPE", (int*)& smoothType, smoothTypes, IM_ARRAYSIZE(smoothTypes)))
+				if (ImGui::Combo("##ТИП СГЛАЖИВАНИЯ НАВОДКИ", (int*)& smoothType, smoothTypes, IM_ARRAYSIZE(smoothTypes)))
 					UI::UpdateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-				if (ImGui::SliderFloat("##SMOOTH", &smoothValue, 0, 1))
+				if (ImGui::SliderFloat("##ПЛАВНОСТЬ", &smoothValue, 0, 1))
 					UI::UpdateWeaponSettings();
-				if (ImGui::SliderFloat("##SALT", &smoothSaltMultiplier, 0, smoothValue))
+				if (ImGui::SliderFloat("##ИНТЕРВАЛ", &smoothSaltMultiplier, 0, smoothValue))
 					UI::UpdateWeaponSettings();
-				if (ImGui::SliderFloat("##ERROR", &errorMarginValue, 0, 2))
+				if (ImGui::SliderFloat("##ОШИБКИ", &errorMarginValue, 0, 2))
 					UI::UpdateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
@@ -253,13 +253,13 @@ void Aimbot::RenderTab()
 	{
 		ImGui::BeginChild("COL2", ImVec2(0, 0), true);
 		{
-			ImGui::Text("Aimkey Only");
+			ImGui::Text("АИМ НА КНОПКУ");
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				if (ImGui::Checkbox("Enabled", &aimkeyOnly))
+				if (ImGui::Checkbox("ВКЛЮЧЕН", &aimkeyOnly))
 					UI::UpdateWeaponSettings();
-				SetTooltip("Enabling this means it you need to press a specific key to aimlock");
+				SetTooltip("ЗАХВАТ ЦЕЛИ ПРОИЗВОДИТЬСЯ ТОЛЬКО ПРИ НАЖАТИИ И УДЕРЖАНИИ НАЗНАЧЕННОЙ КЛАВИШИ");
 			}
 			ImGui::NextColumn();
 			{
@@ -267,24 +267,24 @@ void Aimbot::RenderTab()
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
-			ImGui::Text("Casual / DM Only");
+			ImGui::Text("ПОВСЕДНЕВНОЕ И ДМ");
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				if (ImGui::Checkbox("Aim Step", &aimStepEnabled))
+				if (ImGui::Checkbox("НАВОДКА НА КЛАВИШУ", &aimStepEnabled))
 					UI::UpdateWeaponSettings();
-				SetTooltip("Stops you getting VAC auth kicked in Casual / DM");
+				SetTooltip("ПОМОГАЕТ ПРЕДОТВРАТИТЬ ПОЛУЧЕНИЕ ВАК БАНА(ПАТРУЛЕМ) В МАТЧАХ И В DM (Я ТАК И НЕ ПОНЯЛ ЧТО ЭТО ТОЧНО)");
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-				if (ImGui::SliderFloat("##STEP", &aimStepValue, 0, 45))
+				if (ImGui::SliderFloat("##ШАГ", &aimStepValue, 0, 45))
 					UI::UpdateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
-			ImGui::Text("Other");
+			ImGui::Text("ОСТАЛЬНОЕ");
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
@@ -301,54 +301,54 @@ void Aimbot::RenderTab()
 					case ItemDefinitionIndex::WEAPON_P250:
 					case ItemDefinitionIndex::WEAPON_CZ75A:
 					case ItemDefinitionIndex::WEAPON_REVOLVER:
-						if (ImGui::Checkbox("Auto Pistol", &autoPistolEnabled))
+						if (ImGui::Checkbox("АВТОМАТИЧЕСКИЙ ПИСТОЛЕТ", &autoPistolEnabled))
 							UI::UpdateWeaponSettings();
-						SetTooltip("Automatically shoots the pistol when holding fire");
+						SetTooltip("АВТОМАТИЧЕСКАЯ СТРЕЛЬБА ИЗ ПИСТОЛЕТА ПРИ УДЕРЖАНИИ КЛАВИШИ ОГОНЬ (ОБЫЧНО ЭТО mause1");
 						break;
 					default:
 						break;
 				}
 
-				if (ImGui::Checkbox("Auto Shoot", &autoShootEnabled))
+				if (ImGui::Checkbox("АВТОМАТИЧЕСКИЙ ОГОНЬ", &autoShootEnabled))
 					UI::UpdateWeaponSettings();
-				SetTooltip("Automatically shoots when locking to an enemy");
-				if (ImGui::Checkbox("Silent Aim", &silent))
+				SetTooltip("АВТОМАТИЧЕСКИЙ ОГОНЬ ПРИ НАХОЖДЕНИЯ ПРОТИВНИКА В РАДИУСЕ НАВОДКИ (FOV)");
+				if (ImGui::Checkbox("БЕЗПАЛЕВНЫЙ АИМ", &silent))
 					UI::UpdateWeaponSettings();
-				SetTooltip("Prevents the camera from locking to an enemy, doesn't work for demos");
-				if (ImGui::Checkbox("Smoke Check", &smokeCheck))
+				SetTooltip("ПРЕДОТВРАЩАЕТ БЛОКИРОВКУ КАМЕРЫ НА ВРАГЕ");
+				if (ImGui::Checkbox("ПРОВЕРЯТЬ ДЫМ", &smokeCheck))
 					UI::UpdateWeaponSettings();
-				SetTooltip("Ignore players that are blocked by smoke");
-				if (ImGui::Checkbox("Prediction", &predEnabled))
+				SetTooltip("ИГНОРИРОВАТЬ ИГРОКОВ ЗА ДЫМОМ");
+				if (ImGui::Checkbox("ПРОГНОЗИРОВАНИЕ", &predEnabled))
 					UI::UpdateWeaponSettings();
-				SetTooltip("Use velocity prediction");
+				SetTooltip("ПРОГНОЗИРОВАТЬ ПЕРЕМЕЩЕНИЯ ПРОТИВНИКА");
 			}
 			ImGui::NextColumn();
 			{
-				if (ImGui::Checkbox("No Shoot", &noShootEnabled))
+				if (ImGui::Checkbox("НЕ СТРЕЛЯТЬ", &noShootEnabled))
 					UI::UpdateWeaponSettings();
-				SetTooltip("Stops you shooting when locking to an enemy");
-				if (ImGui::Checkbox("Auto Scope", &autoScopeEnabled))
+				SetTooltip("ПРИ НАВОДКЕ НА ПРОТИВНИКА СТРЕЛЬБА ОСТАНАВЛИВАЕТЬСЯ (Я НЕ ПОНЯЛ ТОЧНО КАК ЭТО РАБОТАЕТ)");
+				if (ImGui::Checkbox("АВТОЗУМ", &autoScopeEnabled))
 					UI::UpdateWeaponSettings();
-				SetTooltip("Automatically scopes weapons that have them");
-				if (ImGui::Checkbox("Ignore Jump", &ignoreJumpEnabled))
+				SetTooltip("АВТОМАТИЧЕСКИ ЗУМИТЬСЯ НА ПРОТИВНИКЕ");
+				if (ImGui::Checkbox("ИГНОРИРОВАТЬ ПРЫЖКИ", &ignoreJumpEnabled))
 					UI::UpdateWeaponSettings();
-				SetTooltip("Prevents you from aimbotting while jumping");
-				if (ImGui::Checkbox("Flash Check", &flashCheck))
+				SetTooltip("КОГДА ВЫ ПРЫГАЕТЕ АИМ НЕ СРАБАТЫВАЕТ");
+				if (ImGui::Checkbox("СЛЕПЫМ НЕ НАВОДИТЬСЯ", &flashCheck))
 					UI::UpdateWeaponSettings();
-				SetTooltip("Disable aimbot while flashed");
+				SetTooltip("ОТКЛЮЧЕНИЯ АИМА КОГДА ВЫ ОСЛЕПЛЕНЫ");
 			}
 
 			if (autoWallEnabled)
 			{
 				ImGui::Columns(1);
 				ImGui::Separator();
-				ImGui::Text("AutoSlow");
+				ImGui::Text("АВТОЗАМЕДЛЕНИЕ");
 				ImGui::Separator();
 				ImGui::Columns(2, NULL, true);
 				{
 					if (ImGui::Checkbox("Enabled##AUTOSLOW", &autoSlow))
 						UI::UpdateWeaponSettings();
-					SetTooltip("Automatically slows your movement speed when an enemy is shootable");
+					SetTooltip("АВТОМАТИЧЕСКИ ЗАМЕДЛЯЕТ ВАС КОГДА В ВАС СТРЕЛЯЕТЕ (НЕ УВЕРЕН)");
 				}
 				ImGui::NextColumn();
 				{
@@ -361,54 +361,54 @@ void Aimbot::RenderTab()
 
 			ImGui::Columns(1);
 			ImGui::Separator();
-			ImGui::Text("AutoWall");
+			ImGui::Text("СТРЕЛЯТЬ ЧЕРЕЗ СТЕНЫ");
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
 				if (ImGui::Checkbox("Enabled##AUTOWALL", &autoWallEnabled))
 					UI::UpdateWeaponSettings();
-				SetTooltip("Shoots enemy through a wall if it does X amount of damage");
+				SetTooltip("СТРЕЛЬБА СКВОЗЬ СТЕНУ, НО ТОЛЬКО ЕСЛИ ЕСТЬ ВЕРОЯТНОСТЬ НАНЕСТИ Х ПОВРЕЖДЕНИЙ");
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-				if (ImGui::SliderFloat("##AUTOWALLDMG", &autoWallValue, 0, 100, "Min Damage: %f"))
+				if (ImGui::SliderFloat("##AUTOWALLDMG", &autoWallValue, 0, 100, "МИНИМАЛЬНЫЙ УРОН: %f"))
 					UI::UpdateWeaponSettings();
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
-			ImGui::Text("AutoWall Target");
+			ImGui::Text("АВТОМАТИЧЕСКАЯ СТРЕЛЬБА СКВОЗЬ СТЕНЫ");
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				if (ImGui::Checkbox("Head", &autoWallBones[(int) Hitbox::HITBOX_HEAD]))
+				if (ImGui::Checkbox("ГОЛОВА", &autoWallBones[(int) Hitbox::HITBOX_HEAD]))
 					UI::UpdateWeaponSettings();
-				SetTooltip("Trigger on head");
-				if (ImGui::Checkbox("Neck", &autoWallBones[(int) Hitbox::HITBOX_NECK]))
+				SetTooltip("СТРЕЛЬБА В ГОЛОВУ");
+				if (ImGui::Checkbox("ШЕЯ", &autoWallBones[(int) Hitbox::HITBOX_NECK]))
 					UI::UpdateWeaponSettings();
-				SetTooltip("Trigger on neck");
-				if (ImGui::Checkbox("Pelvis", &autoWallBones[(int) Hitbox::HITBOX_PELVIS]))
+				SetTooltip("СТРЕЛЬБА В ШЕЮ");
+				if (ImGui::Checkbox("ТАЗ", &autoWallBones[(int) Hitbox::HITBOX_PELVIS]))
 					UI::UpdateWeaponSettings();
-				SetTooltip("Trigger on pelvis");
+				SetTooltip("СТРЕЛЬБА В ТАЗ");
 			}
 			ImGui::NextColumn();
 			{
-				if (ImGui::Checkbox("Spine", &autoWallBones[(int) Hitbox::HITBOX_SPINE]))
+				if (ImGui::Checkbox("СПИНА", &autoWallBones[(int) Hitbox::HITBOX_SPINE]))
 					UI::UpdateWeaponSettings();
-				SetTooltip("Trigger on spine");
-				if (ImGui::Checkbox("Legs", &autoWallBones[(int) Hitbox::HITBOX_LEGS]))
+				SetTooltip("СТРЕЛЬБА В СПИНУ");
+				if (ImGui::Checkbox("НОГИ", &autoWallBones[(int) Hitbox::HITBOX_LEGS]))
 					UI::UpdateWeaponSettings();
-				SetTooltip("Trigger on legs");
-				if (ImGui::Checkbox("Arms", &autoWallBones[(int) Hitbox::HITBOX_ARMS]))
+				SetTooltip("СТРЕЛЬБА В НОГИ");
+				if (ImGui::Checkbox("ОРУЖИЕ", &autoWallBones[(int) Hitbox::HITBOX_ARMS]))
 					UI::UpdateWeaponSettings();
-				SetTooltip("Trigger on arms");
+				SetTooltip("СТРЕЛЬБА В ОРУЖИЕ (РУКИ)");
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
 			if (currentWeapon > ItemDefinitionIndex::INVALID && Settings::Aimbot::weapons.find(currentWeapon) != Settings::Aimbot::weapons.end())
 			{
-				if (ImGui::Button("Clear Weapon Settings", ImVec2(-1, 0)))
+				if (ImGui::Button("СБРОСИТЬ НАСТРОЙКИ НА СТОКОВЫЕ", ImVec2(-1, 0)))
 				{
 					Settings::Aimbot::weapons.erase(currentWeapon);
 					UI::ReloadWeaponSettings();
