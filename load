@@ -31,7 +31,9 @@ sudo gdb -n -q -batch \
 last_line="${input##*$'\n'}"
 
 if [ "$last_line" != "\$1 = (void *) 0x0" ]; then
+    clear
     /bin/echo -e "\e[32mSuccessfully injected!\e[0m"
 else
+    clear
     /bin/echo -e "\e[31mInjection failed, make sure you've compiled...\e[0m"
 fi
