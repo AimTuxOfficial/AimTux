@@ -2,6 +2,7 @@
 *.so
 .vscode/
 .idea/
+*.cbp
 cmake-build-debug
 AimTux.cbp
 CMakeFiles/
@@ -9,6 +10,7 @@ CMakeCache.txt
 cmake_install.cmake
 Makefile
 build_id
+build_id_old
 *.id0
 *.id1
 *.nam
