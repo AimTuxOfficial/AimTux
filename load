@@ -30,7 +30,7 @@ fi
 echo "Injecting Build ID: $filename"
 
 #https://www.kernel.org/doc/Documentation/security/Yama.txt
-sudo echo "2" > sudo tee /proc/sys/kernel/yama/ptrace_scope # Only allows root to inject code. This is temp until reboot.
+sudo echo "2" | sudo tee /proc/sys/kernel/yama/ptrace_scope # Only allows root to inject code. This is temp until reboot.
 
 sudo cp $filename /$filename
 
@@ -42,6 +42,8 @@ sudo gdb -n -q -batch \
   -ex "detach" \
   -ex "quit"
 )"
+
+sudo rm /$filename
 
 last_line="${input##*$'\n'}"
 
