@@ -4,7 +4,7 @@ bool Settings::AutoStrafe::enabled = false;
 AutostrafeType Settings::AutoStrafe::type = AutostrafeType::AS_FORWARDS;
 bool Settings::AutoStrafe::silent = true;
 
-void LegitStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
+static void LegitStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 {
 	if (localplayer->GetFlags() & FL_ONGROUND)
 		return;
@@ -34,7 +34,7 @@ void LegitStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 	}
 }
 
-void RageStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
+static void RageStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 {
 	static bool leftRight;
 	bool inMove = cmd->buttons & IN_FORWARD || cmd->buttons & IN_BACK || cmd->buttons & IN_MOVELEFT || cmd->buttons & IN_MOVERIGHT;

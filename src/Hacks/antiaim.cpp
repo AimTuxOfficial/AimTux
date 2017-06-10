@@ -23,12 +23,12 @@ float luaRetX, luaRetY, luaRetY2; // Pop the Lua stack off into these and then r
 
 lua_State *LuaX, *LuaY, *LuaY2; // 1 instance of Lua for each Script.
 
-float Distance(Vector a, Vector b)
+static float Distance(Vector a, Vector b)
 {
 	return sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2) + pow(a.z - b.z, 2));
 }
 
-bool AntiAim::GetBestHeadAngle(QAngle& angle)
+static bool GetBestHeadAngle(QAngle& angle)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 
@@ -241,8 +241,13 @@ void AntiAim::LuaInit() // commence nigg riggin'
 	luaL_openlibs(LuaY2);
 
 }
-
-void LuaError( int errorCode, lua_State *luaInstance )
+void AntiAim::LuaCleanup()
+{
+	lua_close(LuaX);
+	lua_close(LuaY);
+	lua_close(LuaY2);
+}
+static void LuaError( int errorCode, lua_State *luaInstance )
 {
 	switch( errorCode ){ // defined in lua.h
 		case 2: // Runtime Error.
@@ -262,8 +267,7 @@ void LuaError( int errorCode, lua_State *luaInstance )
 			break;
 	}
 }
-
-inline float LuaScriptX(const float lastAngle, const float angle)
+static inline float LuaScriptX(const float lastAngle, const float angle)
 {
 	if( Settings::AntiAim::Lua::debugMode ){
 		if( strcmp(Settings::AntiAim::Lua::scriptX, luaLastX) != 0 ){
@@ -309,7 +313,7 @@ inline float LuaScriptX(const float lastAngle, const float angle)
 
 }
 
-inline float LuaScriptY(const float lastAngle, const float angle)
+static inline float LuaScriptY(const float lastAngle, const float angle)
 {
 	if( Settings::AntiAim::Lua::debugMode ){
 		if( strcmp(Settings::AntiAim::Lua::scriptY, luaLastY) != 0 ){
@@ -354,7 +358,7 @@ inline float LuaScriptY(const float lastAngle, const float angle)
 	}
 }
 
-inline float LuaScriptY2(const float lastAngle, const float angle)
+static inline float LuaScriptY2(const float lastAngle, const float angle)
 {
 	if( Settings::AntiAim::Lua::debugMode ){
 		if( strcmp(Settings::AntiAim::Lua::scriptY2, luaLastY2) != 0 ){
@@ -398,15 +402,7 @@ inline float LuaScriptY2(const float lastAngle, const float angle)
 		return temp;
 	}
 }
-
-void AntiAim::LuaCleanup()
-{
-	lua_close(LuaX);
-	lua_close(LuaY);
-	lua_close(LuaY2);
-}
-
-bool HasViableEnemy()
+static bool HasViableEnemy()
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 
@@ -436,8 +432,7 @@ bool HasViableEnemy()
 
 	return false;
 }
-
-void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
+static void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 {
 	AntiAimType_Y aa_type = bFlip ? Settings::AntiAim::Yaw::typeFake : Settings::AntiAim::Yaw::type;
 
@@ -610,7 +605,7 @@ void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clamp)
 	lastAngleY2 = angle.y;
 }
 
-void DoAntiAimX(QAngle& angle, bool bFlip, bool& clamp)
+static void DoAntiAimX(QAngle& angle, bool bFlip, bool& clamp)
 {
 	static float pDance = 0.0f;
 	static float lastAngleX;

@@ -115,7 +115,7 @@ std::string NetVarManager::DumpTable(RecvTable* table, int depth)
 
 	return ss.str();
 }
-
+/*
 bool NetVarManager::HookProp(const char* tableName, const char* propName, RecvVarProxyFn f)
 {
 	RecvProp* recvProp = 0;
@@ -127,8 +127,8 @@ bool NetVarManager::HookProp(const char* tableName, const char* propName, RecvVa
 
 	return true;
 }
-
-
+*/
+/*
 void NetVarManager::DumpNetvars()
 {
 	std::stringstream ss;
@@ -146,3 +146,4 @@ void NetVarManager::DumpNetvars()
 
 	std::ofstream(netvarsPath) << ss.str();
 }
+ */

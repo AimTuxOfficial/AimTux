@@ -388,12 +388,6 @@
 		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/spammer.h">
 			<Option target="Fuzion"/>
 		</Unit>
-		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/teleport.cpp">
-			<Option target="Fuzion"/>
-		</Unit>
-		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/teleport.h">
-			<Option target="Fuzion"/>
-		</Unit>
 		<Unit filename="/home/lwss/Documents/Fuzion/src/Hacks/thirdperson.cpp">
 			<Option target="Fuzion"/>
 		</Unit>

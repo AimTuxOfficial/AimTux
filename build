@@ -1,7 +1,8 @@
 #!/bin/bash
 #TODO: check distro and packages
 
-cmake . && make -j$(grep "^processor" /proc/cpuinfo | wc -l) "$@" && strip -s -R .comment -R .gnu.version --strip-unneeded libFuzion.so
+cmake . || exit 1
+make -j$(grep "^processor" /proc/cpuinfo | wc -l) "$@" || exit 1
 
 BUILD_ID=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 
@@ -15,6 +16,11 @@ if [ -f build_id ]; then
 fi
 
 echo "$BUILD_ID" > build_id
+mv libFuzion.so "$BUILD_ID"
+
+strip -s -v "$BUILD_ID"
+patchelf --set-soname "$BUILD_ID" "$BUILD_ID"
+
 chmod 400 build_id #User read only
 
-mv libFuzion.so "$BUILD_ID"
+echo "Build Completed."

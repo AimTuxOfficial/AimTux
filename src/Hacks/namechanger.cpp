@@ -23,14 +23,14 @@ std::vector<std::pair<NameChanger::Colors, const char*>> NameChanger::colors = {
 		{ NameChanger::Colors::ORANGE, "Orange" },
 };
 
-std::string NameChanger::GetName()
+static std::string GetName()
 {
 	IEngineClient::player_info_t playerInfo;
 	engine->GetPlayerInfo(engine->GetLocalPlayer(), &playerInfo);
 	return std::string(playerInfo.name);
 }
 
-std::string Rainbowify(const std::string& name)
+static std::string Rainbowify(const std::string& name)
 {
 	std::string base = " \x01\x0B";
 	std::vector<char> rainbow = {
@@ -56,7 +56,7 @@ std::string Rainbowify(const std::string& name)
 	return base;
 }
 
-std::string Colorize(const std::string& name, NameChanger::Colors color = NameChanger::Colors::LIGHT_RED)
+static std::string Colorize(const std::string& name, NameChanger::Colors color = NameChanger::Colors::LIGHT_RED)
 {
 	std::string res = " \x01\x0B";
 	res += (char)(color);
@@ -64,6 +64,22 @@ std::string Colorize(const std::string& name, NameChanger::Colors color = NameCh
 	res.append("\230");
 	return res;
 }
+
+void NameChanger::SetName(const char* name)
+{
+	ConVar* cvar_name = cvar->FindVar(XORSTR("name"));
+	*(int*)((uintptr_t)&cvar_name->fnChangeCallback + 0x15) = 0;
+	cvar_name->SetValue(name);
+}
+
+void NameChanger::InitColorChange(NameChanger::NC_Type type, NameChanger::Colors color /*= NameChanger::Colors::LIGHT_RED*/)
+{
+	NameChanger::changes = 0;
+	NameChanger::origName = GetName();
+	NameChanger::type = type;
+	NameChanger::color = color;
+}
+
 
 void NameChanger::BeginFrame(float frameTime)
 {
@@ -103,19 +119,4 @@ void NameChanger::BeginFrame(float frameTime)
 	}
 
 	SetName(Util::PadStringRight(XORSTR("realnigga.club"), strlen(XORSTR("realnigga.club")) + changes));
-}
-
-void NameChanger::SetName(const char* name)
-{
-	ConVar* cvar_name = cvar->FindVar(XORSTR("name"));
-	*(int*)((uintptr_t)&cvar_name->fnChangeCallback + 0x15) = 0;
-	cvar_name->SetValue(name);
-}
-
-void NameChanger::InitColorChange(NameChanger::NC_Type type, NameChanger::Colors color /*= NameChanger::Colors::LIGHT_RED*/)
-{
-	NameChanger::changes = 0;
-	NameChanger::origName = NameChanger::GetName();
-	NameChanger::type = type;
-	NameChanger::color = color;
 }

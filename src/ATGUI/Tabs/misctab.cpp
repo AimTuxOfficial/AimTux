@@ -246,7 +246,7 @@ void Misc::RenderTab()
 									localPlayer->GetActiveWeapon());
 							if (activeWeapon &&
 								activeWeapon->GetCSWpnData()->GetWeaponType() == CSWeaponType::WEAPONTYPE_GRENADE)
-								gType = (int)getGrenadeType(activeWeapon);
+								gType = (int) GetGrenadeType(activeWeapon);
 						}
 					}
 					ImGui::Columns(1);

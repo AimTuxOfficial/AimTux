@@ -879,12 +879,6 @@ namespace Settings
 		}
 	}
 
-	namespace Teleport
-	{
-		extern bool enabled;
-		extern ButtonCode_t key;
-	}
-
 	namespace FakeLag
 	{
 		extern bool enabled;

@@ -25,8 +25,7 @@ ColorVar Settings::Radar::defuserColor = ImColor(49, 27, 146, 255);
 float Settings::Radar::iconsScale = 4.5f;
 
 std::set<int> visible_players;
-
-Vector2D WorldToRadar(const Vector location, const Vector origin, const QAngle angles, int width, float scale = 16.f)
+static Vector2D WorldToRadar(const Vector location, const Vector origin, const QAngle angles, int width, float scale = 16.f)
 {
 	float x_diff = location.x - origin.x;
 	float y_diff = location.y - origin.y;
@@ -75,13 +74,11 @@ Vector2D WorldToRadar(const Vector location, const Vector origin, const QAngle a
 
 	return Vector2D(xnew_diff, ynew_diff);
 }
-
 static void SquareConstraint(ImGuiSizeConstraintCallbackData *data)
 {
 	data->DesiredSize = ImVec2(std::max(data->DesiredSize.x, data->DesiredSize.y), std::max(data->DesiredSize.x, data->DesiredSize.y));
 }
-
-ImColor Radar::GetRadarPlayerColor(C_BasePlayer* player, bool visible)
+static ImColor GetRadarPlayerColor(C_BasePlayer* player, bool visible)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
@@ -305,14 +302,14 @@ void Radar::RenderWindow()
 		ImGui::End();
 	}
 }
-
-void Radar::InGameRadar(C_BasePlayer* player)
+static void InGameRadar(C_BasePlayer* player)
 {
 	if (!player->GetAlive() || player->GetDormant())
 		return;
 
 	*player->GetSpotted() = true;
 }
+
 
 void Radar::BeginFrame()
 {
@@ -338,7 +335,7 @@ void Radar::BeginFrame()
 		C_BasePlayer* player = (C_BasePlayer*) entity;
 
 		if (Settings::Radar::InGame::enabled)
-			Radar::InGameRadar(player);
+			InGameRadar(player);
 
 		if (!Settings::Radar::enabled)
 			continue;

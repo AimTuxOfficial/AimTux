@@ -34,7 +34,7 @@ const char* skyBoxNames[] = {
 		"vietnam" // 21
 };
 
-void NoSky::FrameStageNotify(ClientFrameStage_t stage)
+void SkyBox::FrameStageNotify(ClientFrameStage_t stage)
 {
 	if (!engine->IsInGame() && skyboxMaterials.size() > 0)
 	{

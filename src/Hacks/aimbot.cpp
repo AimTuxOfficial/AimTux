@@ -90,7 +90,7 @@ void Aimbot::XDOCleanup()
 	xdo_free(xdo);
 }
 /* Fills points Vector. True if successful. False if not.  Credits for Original method - ReactiioN */
-bool HeadMultiPoint(C_BasePlayer *player, Vector points[])
+static bool HeadMultiPoint(C_BasePlayer *player, Vector points[])
 {
 	matrix3x4_t matrix[128];
 
@@ -133,7 +133,7 @@ bool HeadMultiPoint(C_BasePlayer *player, Vector points[])
 
 	return true;
 }
-float AutoWallBestSpot(C_BasePlayer *player, Vector &bestSpot)
+static float AutoWallBestSpot(C_BasePlayer *player, Vector &bestSpot)
 {
 	float bestDamage = Settings::Aimbot::AutoWall::value;
 	const std::map<int, int> *modelType = Util::GetModelTypeBoneMap(player);
@@ -182,7 +182,7 @@ float AutoWallBestSpot(C_BasePlayer *player, Vector &bestSpot)
 	return bestDamage;
 }
 
-float GetRealDistanceFOV(float distance, QAngle angle, CUserCmd* cmd)
+static float GetRealDistanceFOV(float distance, QAngle angle, CUserCmd* cmd)
 {
 	/*    n
 	    w + e
@@ -212,13 +212,13 @@ float GetRealDistanceFOV(float distance, QAngle angle, CUserCmd* cmd)
 	return aimingAt.DistTo(aimAt);
 }
 
-Vector VelocityExtrapolate(C_BasePlayer* player, Vector aimPos)
+static Vector VelocityExtrapolate(C_BasePlayer* player, Vector aimPos)
 {
 	return aimPos + (player->GetVelocity() * globalVars->interval_per_tick);
 }
 
 /* Original Credits to: https://github.com/goldenguy00 ( study! study! study! :^) ) */
-Vector GetClosestSpot( CUserCmd* cmd, C_BasePlayer* localPlayer, C_BasePlayer* enemy, AimTargetType aimTargetType = AimTargetType::FOV)
+static Vector GetClosestSpot( CUserCmd* cmd, C_BasePlayer* localPlayer, C_BasePlayer* enemy, AimTargetType aimTargetType = AimTargetType::FOV)
 {
 	QAngle viewAngles;
 	engine->GetViewAngles(viewAngles);
@@ -275,7 +275,7 @@ Vector GetClosestSpot( CUserCmd* cmd, C_BasePlayer* localPlayer, C_BasePlayer* e
 	return tempSpot;
 }
 
-C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visibleCheck, Vector& bestSpot, float& bestDamage, AimTargetType aimTargetType = AimTargetType::FOV)
+static C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visibleCheck, Vector& bestSpot, float& bestDamage, AimTargetType aimTargetType = AimTargetType::FOV)
 {
 	if (Settings::Aimbot::AutoAim::realDistance)
 		aimTargetType = AimTargetType::REAL_DISTANCE;
@@ -434,7 +434,7 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visibleCheck, Vector& bestSpo
 	return closestEntity;
 }
 
-void Aimbot::RCS(QAngle& angle, C_BasePlayer* player, CUserCmd* cmd)
+static void RCS(QAngle& angle, C_BasePlayer* player, CUserCmd* cmd)
 {
 	if (!Settings::Aimbot::RCS::enabled)
 		return;
@@ -465,12 +465,7 @@ void Aimbot::RCS(QAngle& angle, C_BasePlayer* player, CUserCmd* cmd)
 
 	RCSLastPunch = CurrentPunch;
 }
-float float_rand( float min, float max ) // thanks foo - https://stackoverflow.com/questions/13408990/how-to-generate-random-float-number-in-c :^)
-{
-	float scale = rand() / (float) RAND_MAX; /* [0, 1.0] */
-	return min + scale * ( max - min );      /* [min, max] */
-}
-void Aimbot::AimStep(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd)
+static void AimStep(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd)
 {
 	if (!Settings::Aimbot::AimStep::enabled)
 		return;
@@ -492,7 +487,7 @@ void Aimbot::AimStep(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd)
 
 	float fov = Math::GetFov(AimStepLastAngle, angle);
 
-	Aimbot::aimStepInProgress = ( fov > (float_rand(Settings::Aimbot::AimStep::min, Settings::Aimbot::AimStep::max)) );
+	Aimbot::aimStepInProgress = ( fov > (Math::float_rand(Settings::Aimbot::AimStep::min, Settings::Aimbot::AimStep::max)) );
 
 	if (!Aimbot::aimStepInProgress)
 		return;
@@ -500,8 +495,8 @@ void Aimbot::AimStep(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd)
 	QAngle deltaAngle = AimStepLastAngle - angle;
 
 	Math::NormalizeAngles(deltaAngle);
-	float randX = float_rand(Settings::Aimbot::AimStep::min, std::min(Settings::Aimbot::AimStep::max, fov));
-	float randY = float_rand(Settings::Aimbot::AimStep::min, std::min(Settings::Aimbot::AimStep::max, fov));
+	float randX = Math::float_rand(Settings::Aimbot::AimStep::min, std::min(Settings::Aimbot::AimStep::max, fov));
+	float randY = Math::float_rand(Settings::Aimbot::AimStep::min, std::min(Settings::Aimbot::AimStep::max, fov));
 	if (deltaAngle.y < 0)
 		AimStepLastAngle.y += randY;
 	else
@@ -515,7 +510,7 @@ void Aimbot::AimStep(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd)
 	angle = AimStepLastAngle;
 }
 
-void Salt(float& smooth)
+static void Salt(float& smooth)
 {
 	float sine = sin (globalVars->tickcount);
 	float salt = sine * Settings::Aimbot::Smooth::Salting::multiplier;
@@ -523,7 +518,7 @@ void Salt(float& smooth)
 	smooth *= oval;
 }
 
-void Aimbot::Smooth(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd)
+static void Smooth(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd)
 {
 	if (!Settings::Aimbot::Smooth::enabled)
 		return;
@@ -570,7 +565,7 @@ void Aimbot::Smooth(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd)
 	angle = viewAngles + toChange;
 }
 
-void Aimbot::AutoCrouch(C_BasePlayer* player, CUserCmd* cmd)
+static void AutoCrouch(C_BasePlayer* player, CUserCmd* cmd)
 {
 	if (!Settings::Aimbot::AutoCrouch::enabled)
 		return;
@@ -581,7 +576,7 @@ void Aimbot::AutoCrouch(C_BasePlayer* player, CUserCmd* cmd)
 	cmd->buttons |= IN_DUCK;
 }
 
-void Aimbot::AutoSlow(C_BasePlayer* player, float& forward, float& sideMove, float& bestDamage, C_BaseCombatWeapon* active_weapon, CUserCmd* cmd)
+static void AutoSlow(C_BasePlayer* player, float& forward, float& sideMove, float& bestDamage, C_BaseCombatWeapon* active_weapon, CUserCmd* cmd)
 {
 
 	if (!Settings::Aimbot::AutoSlow::enabled){
@@ -628,7 +623,7 @@ void Aimbot::AutoSlow(C_BasePlayer* player, float& forward, float& sideMove, flo
 	}
 }
 
-void Aimbot::AutoPistol(C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd)
+static void AutoPistol(C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd)
 {
 	if (!Settings::Aimbot::AutoPistol::enabled)
 		return;
@@ -645,7 +640,7 @@ void Aimbot::AutoPistol(C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd)
 		cmd->buttons &= ~IN_ATTACK;
 }
 
-void Aimbot::AutoShoot(C_BasePlayer* player, C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd)
+static void AutoShoot(C_BasePlayer* player, C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd)
 {
 	if (!Settings::Aimbot::AutoShoot::enabled)
 		return;
@@ -691,7 +686,7 @@ void Aimbot::AutoShoot(C_BasePlayer* player, C_BaseCombatWeapon* activeWeapon, C
 	}
 }
 
-void Aimbot::ShootCheck(C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd)
+static void ShootCheck(C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd)
 {
 	if (!Settings::AntiAim::Pitch::enabled && !Settings::AntiAim::Yaw::enabled)
 		return;
@@ -714,7 +709,7 @@ void Aimbot::ShootCheck(C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd)
 		cmd->buttons &= ~IN_ATTACK;
 }
 
-void Aimbot::NoShoot(C_BaseCombatWeapon* activeWeapon, C_BasePlayer* player, CUserCmd* cmd)
+static void NoShoot(C_BaseCombatWeapon* activeWeapon, C_BasePlayer* player, CUserCmd* cmd)
 {
 	if (player && Settings::Aimbot::NoShoot::enabled)
 	{
@@ -840,15 +835,15 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	}
 
 
-	Aimbot::AimStep(player, angle, cmd);
-	Aimbot::AutoCrouch(player, cmd);
-	Aimbot::AutoSlow(player, oldForward, oldSideMove, bestDamage, activeWeapon, cmd);
-	Aimbot::AutoPistol(activeWeapon, cmd);
-	Aimbot::AutoShoot(player, activeWeapon, cmd);
-	Aimbot::RCS(angle, player, cmd);
-	Aimbot::Smooth(player, angle, cmd);
-	Aimbot::ShootCheck(activeWeapon, cmd);
-	Aimbot::NoShoot(activeWeapon, player, cmd);
+	AimStep(player, angle, cmd);
+	AutoCrouch(player, cmd);
+	AutoSlow(player, oldForward, oldSideMove, bestDamage, activeWeapon, cmd);
+	AutoPistol(activeWeapon, cmd);
+	AutoShoot(player, activeWeapon, cmd);
+	RCS(angle, player, cmd);
+	Smooth(player, angle, cmd);
+	ShootCheck(activeWeapon, cmd);
+	NoShoot(activeWeapon, player, cmd);
 
 	Math::NormalizeAngles(angle);
 	Math::ClampAngles(angle);
@@ -876,7 +871,6 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	if (!Settings::Aimbot::silent)
 		engine->SetViewAngles(cmd->viewangles);
 }
-
 void Aimbot::FireGameEvent(IGameEvent* event)
 {
 	if (!event)
@@ -902,7 +896,6 @@ void Aimbot::FireGameEvent(IGameEvent* event)
 		killTimes.push_back(Util::GetEpochTime());
 	}
 }
-
 void Aimbot::UpdateValues()
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());

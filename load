@@ -7,7 +7,7 @@ if [ -z "$csgo_pid" ]; then
 fi
 
 if [ ! -d ".git" ]; then
-    /bin/echo "We have detected that you have downloaded aimtux-master.zip from the GitHub website. This is the WRONG way to download AimTux. Please download AimTux with the command 'git clone --recursive https://github.com/AimTuxOfficial/AimTux'"
+    /bin/echo "We have detected that you have downloaded AimTux-Fuzion .zip from the GitHub website. This is the WRONG way to download! Please download AimTux-Fuzion with the command 'git clone --recursive https://github.com/LWSS/Fuzion'"
 fi
 
 # pBypass for crash dumps being sent
@@ -27,9 +27,12 @@ if grep -q $filename /proc/$csgo_pid/maps; then
     /bin/echo -e "\e[33mAimTux-Fuzion is already injected... Aborting...\e[0m"
     exit
 fi
+echo "Injecting Build ID: $filename"
+
+#https://www.kernel.org/doc/Documentation/security/Yama.txt
+sudo echo "2" > sudo tee /proc/sys/kernel/yama/ptrace_scope # Only allows root to inject code. This is temp until reboot.
 
 sudo cp $filename /$filename
-
 
 input="$(
 sudo gdb -n -q -batch \

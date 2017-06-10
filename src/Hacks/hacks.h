@@ -33,7 +33,6 @@
 #include "skinchanger.h"
 #include "snipercrosshair.h"
 #include "spammer.h"
-#include "teleport.h"
 #include "thirdperson.h"
 #include "triggerbot.h"
 #include "valvedscheck.h"

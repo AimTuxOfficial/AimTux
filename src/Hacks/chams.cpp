@@ -20,7 +20,7 @@ IMaterial* materialChamsFlatIgnorez;
 IMaterial* materialChamsArms;
 IMaterial* materialChamsWeapons;
 
-void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t* pCustomBoneToWorld)
+static void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t* pCustomBoneToWorld)
 {
 	if (!Settings::ESP::Chams::enabled)
 		return;
@@ -110,7 +110,7 @@ void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo
 	modelRenderVMT->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
 }
 
-void DrawWeapon(const ModelRenderInfo_t& pInfo)
+static void DrawWeapon(const ModelRenderInfo_t& pInfo)
 {
 	if (!Settings::ESP::Chams::Weapon::enabled)
 		return;
@@ -127,7 +127,7 @@ void DrawWeapon(const ModelRenderInfo_t& pInfo)
 	modelRender->ForcedMaterialOverride(mat);
 }
 
-void DrawArms(const ModelRenderInfo_t& pInfo)
+static void DrawArms(const ModelRenderInfo_t& pInfo)
 {
 	if (!Settings::ESP::Chams::Arms::enabled)
 		return;

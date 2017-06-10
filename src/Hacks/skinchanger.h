@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../SDK/SDK.h"
 #include "../interfaces.h"
 #include "../settings.h"
 #include "../modsupport.h"
@@ -17,10 +16,12 @@ namespace SkinChanger
 	extern bool glovesUpdated;
 	extern std::unique_ptr<RecvPropHook> sequenceHook;
 
+	//Hooks
 	void FrameStageNotifySkins(ClientFrameStage_t stage);
 	void FrameStageNotifyModels(ClientFrameStage_t stage);
 	void FireEventClientSide(IGameEvent* event);
 	void FireGameEvent(IGameEvent* event);
+
 	void SetViewModelSequence(const CRecvProxyData *pDataConst, void *pStruct, void *pOut);
 };
 

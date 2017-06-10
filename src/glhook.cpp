@@ -1,6 +1,6 @@
 #include "glhook.h"
 
-SDL_GLContext fuzion_context = nullptr;
+SDL_GLContext context = nullptr;
 
 void SDL2::SwapWindow(SDL_Window* window)
 {
@@ -8,9 +8,9 @@ void SDL2::SwapWindow(SDL_Window* window)
 
 	static SDL_GLContext original_context = SDL_GL_GetCurrentContext();
 
-	if (!fuzion_context)
+	if (!context)
 	{
-		fuzion_context = SDL_GL_CreateContext(window);
+		context = SDL_GL_CreateContext(window);
 		ImGui_ImplSdl_Init(window);
 
 		/*
@@ -58,7 +58,7 @@ void SDL2::SwapWindow(SDL_Window* window)
 		io.Fonts->Build();
 	}
 
-	SDL_GL_MakeCurrent(window, fuzion_context);
+	SDL_GL_MakeCurrent(window, context);
 
 	ImGui_ImplSdl_NewFrame(window);
 
@@ -98,7 +98,7 @@ void SDL2::UnhookWindow()
 {
 	*swapWindowJumpAddress = oSwapWindow;
 
-	SDL_GL_DeleteContext(fuzion_context);
+	SDL_GL_DeleteContext(context);
 }
 
 int SDL2::PollEvent(SDL_Event* event)

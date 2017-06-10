@@ -1,16 +1,14 @@
 #include "interfaces.h"
 #include "hooker.h"
-// #include "modsupport.h"
-#include "Utils/netvarmanager.h"
 #include "EventListener.h"
 
 EventListener* eventListener = nullptr;
 
-/* called when the library is loading */
-int __attribute__((constructor)) FuzionInit()
+/* Entrypoint to the Library. Called when loading  */
+int __attribute__((constructor)) Startup()
 {
 	Interfaces::FindInterfaces();
-	Interfaces::DumpInterfaces();
+	//Interfaces::DumpInterfaces();
 
 	Hooker::FindSetNamedSkybox();
 	Hooker::FindViewRender();
@@ -91,7 +89,7 @@ int __attribute__((constructor)) FuzionInit()
 	if (ModSupport::current_mod != ModType::CSCO && Hooker::HookRecvProp("CBaseViewModel", "m_nSequence", SkinChanger::sequenceHook))
 		SkinChanger::sequenceHook->SetProxyFunction((RecvVarProxyFn) SkinChanger::SetViewModelSequence);
 
-	NetVarManager::DumpNetvars();
+	//NetVarManager::DumpNetvars();
 	Offsets::GetOffsets();
 
 	Fonts::SetupFonts();
@@ -104,8 +102,8 @@ int __attribute__((constructor)) FuzionInit()
 
 	return 0;
 }
-
-void __attribute__((destructor)) FuzionShutdown()
+/* Called when un-injecting the library */
+void __attribute__((destructor)) Shutdown()
 {
 	cvar->FindVar(XORSTR("cl_mouseenable"))->SetValue(1);
 

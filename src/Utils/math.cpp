@@ -9,6 +9,12 @@ void inline Math::SinCos(float radians, float *sine, float *cosine)
 	*cosine = __cosr;
 }
 
+float float_rand( float min, float max ) // thanks foo - https://stackoverflow.com/questions/13408990/how-to-generate-random-float-number-in-c :^)
+{
+	float scale = rand() / (float) RAND_MAX; /* [0, 1.0] */
+	return min + scale * ( max - min );      /* [min, max] */
+}
+
 void Math::AngleVectors(const QAngle &angles, Vector& forward)
 {
 	Assert(s_bMathlibInitialized);

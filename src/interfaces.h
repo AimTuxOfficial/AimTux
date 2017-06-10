@@ -4,7 +4,6 @@
 #include <sys/mman.h>
 #include <link.h>
 #include <fstream>
-#include "Utils/patternfinder.h"
 #include "SDK/SDK.h"
 #include "Utils/vmt.h"
 #include "Utils/util.h"

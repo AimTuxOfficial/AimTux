@@ -8,7 +8,7 @@ void Hooks::FrameStageNotify(void* thisptr, ClientFrameStage_t stage)
 	Noflash::FrameStageNotify(stage);
 	View::FrameStageNotify(stage);
 	Resolver::FrameStageNotify(stage);
-	NoSky::FrameStageNotify(stage);
+	SkyBox::FrameStageNotify(stage);
 	ASUSWalls::FrameStageNotify(stage);
 	NoSmoke::FrameStageNotify(stage);
 	ThirdPerson::FrameStageNotify(stage);
