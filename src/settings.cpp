@@ -512,6 +512,11 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	LoadColor(settings[XORSTR("GrenadeHelper")][XORSTR("infoMolotov")], Settings::GrenadeHelper::infoMolotov);
 	LoadColor(settings[XORSTR("GrenadeHelper")][XORSTR("infoFlash")], Settings::GrenadeHelper::infoFlash);
 
+	settings[XORSTR("AutoKnife")][XORSTR("enabled")] = Settings::AutoKnife::enabled;
+ 	settings[XORSTR("AutoKnife")][XORSTR("Filters")][XORSTR("enemies")] = Settings::AutoKnife::Filters::enemies;
+ 	settings[XORSTR("AutoKnife")][XORSTR("Filters")][XORSTR("allies")] = Settings::AutoKnife::Filters::allies;
+ 	settings[XORSTR("AutoKnife")][XORSTR("onKey")] = Settings::AutoKnife::onKey;
+
 	std::ofstream(path) << styledWriter.write(settings);
 }
 
@@ -985,6 +990,11 @@ void Settings::LoadConfig(std::string path)
 	// GetVal(settings[XORSTR("WalkBot")][XORSTR("enabled")], &Settings::WalkBot::enabled);
 	GetVal(settings[XORSTR("WalkBot")][XORSTR("autobuy")], &Settings::WalkBot::autobuy);
 	GetVal(settings[XORSTR("WalkBot")][XORSTR("autobuyAt")], &Settings::WalkBot::autobuyAt);
+
+	GetVal(settings[XORSTR("AutoKnife")][XORSTR("enabled")], &Settings::AutoKnife::enabled);
+ 	GetVal(settings[XORSTR("AutoKnife")][XORSTR("Filters")][XORSTR("enemies")], &Settings::AutoKnife::Filters::enemies);
+ 	GetVal(settings[XORSTR("AutoKnife")][XORSTR("Filters")][XORSTR("allies")], &Settings::AutoKnife::Filters::allies);
+ 	GetVal(settings[XORSTR("AutoKnife")][XORSTR("onKey")], &Settings::AutoKnife::onKey);
 
 
 }
