@@ -19,26 +19,41 @@ void Misc::RenderTab()
 			ImGui::Separator();
 
 			ImGui::Checkbox(XORSTR("Bunny Hop"), &Settings::BHop::enabled);
-			ImGui::Columns(2, NULL, true);
-			{
-				ImGui::Checkbox(XORSTR("Edge Jump"), &Settings::EdgeJump::enabled);
-			}
-			ImGui::NextColumn();
-			{
-				UI::KeyBindButton(&Settings::EdgeJump::key);
-			}
-			ImGui::Columns(1);
 
+			ImGui::Columns(1);
 			ImGui::Separator();
+			
+			if (Settings::BHop::enabled)
+			{	
+				ImGui::Text(XORSTR("Humanizing"));
+				ImGui::Separator();
+				ImGui::Columns(2, NULL, true);
+				{
+					ImGui::Checkbox(XORSTR("Hop Chance"), &Settings::BHop::Chance::enabled);
+					ImGui::Checkbox(XORSTR("Min Hops"), &Settings::BHop::Hops::enabledMin);
+					ImGui::Checkbox(XORSTR("Max Hops"), &Settings::BHop::Hops::enabledMax);
+				}
+				ImGui::NextColumn();
+				{
+					ImGui::PushItemWidth(-1);
+					ImGui::SliderInt(XORSTR("##BHOPCHANCE"), &Settings::BHop::Chance::value, 0, 100);
+					ImGui::SliderInt(XORSTR("##BHOPMIN"), &Settings::BHop::Hops::Min, 0, 20);
+					ImGui::SliderInt(XORSTR("##BHOPMAX"), &Settings::BHop::Hops::Max, 0, 20);
+				}
+				ImGui::Separator();
+			}
+
 			ImGui::Columns(2, NULL, true);
 			{
 				ImGui::Checkbox(XORSTR("Auto Strafe"), &Settings::AutoStrafe::enabled);
+				ImGui::Checkbox(XORSTR("Edge Jump"), &Settings::EdgeJump::enabled);
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
 				ImGui::Combo(XORSTR("##STRAFETYPE"), (int*)& Settings::AutoStrafe::type, strafeTypes, IM_ARRAYSIZE(strafeTypes));
 				ImGui::PopItemWidth();
+				UI::KeyBindButton(&Settings::EdgeJump::key);
 			}
 
 			if (Settings::AutoStrafe::type == AutostrafeType::AS_RAGE)
