@@ -14,7 +14,7 @@ if [ -f build_id ]; then
         -ex "call \$dlclose(\$library)" \
         -ex "detach" \
         -ex "quit"
-    sudo rm $(cat build_id)
+    sudo rm /$(cat build_id)
     fi
 fi
 
@@ -31,7 +31,7 @@ if [ -f build_id_old ]; then
 	    -ex "detach" \
 	    -ex "quit"
 
-    sudo rm $(cat build_id_old)
+    sudo rm /$(cat build_id_old)
 	fi
 
 fi
