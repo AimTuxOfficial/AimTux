@@ -1,7 +1,7 @@
 ## Aimtux is currently a detected cheat, concerning the GDB injector.
 ### It is recommended that you do not use this cheat for the time being.
 
-![banner](http://aimtux.net/images/banner.png)
+![banner](https://my.mixtape.moe/nccxjs.png)
 
 [![Join the chat at https://www.gitter.im/AimTuxOfficial/lobby](https://img.shields.io/gitter/room/TechnologyAdvice/Stardust.svg?style=flat-square)](https://www.gitter.im/AimTuxOfficial/lobby)
 
