@@ -44,6 +44,23 @@ void Triggerbot::RenderTab()
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
+
+			ImGui::Text(XORSTR("Auto Knife & Zeus"));
+ 			ImGui::Separator();
+ 			ImGui::Columns(2, NULL, true);
+ 			{
+ 					ImGui::PushItemWidth(-1);
+ 					ImGui::Checkbox(XORSTR("Auto Knife"), &Settings::AutoKnife::enabled);
+ 					ImGui::Checkbox(XORSTR("On Key"), &Settings::AutoKnife::onKey);
+ 
+ 			}
+ 			ImGui::NextColumn();
+ 			{
+ 					ImGui::PushItemWidth(-1);
+ 					ImGui::Checkbox(XORSTR("Enemies"), &Settings::AutoKnife::Filters::enemies);
+ 					ImGui::Checkbox(XORSTR("Allies"), &Settings::AutoKnife::Filters::allies);
+ 			}
+
 			ImGui::EndChild();
 		}
 	}

@@ -757,6 +757,20 @@ namespace Settings
 	namespace BHop
 	{
 		extern bool enabled;
+
+		namespace Chance
+		{
+			extern bool enabled;
+			extern int value;
+		}
+
+		namespace Hops
+		{
+			extern bool enabledMax;
+			extern int Max;
+			extern bool enabledMin;
+			extern int Min;
+		}
 	}
 
 	namespace AutoStrafe
@@ -989,6 +1003,18 @@ namespace Settings
 		extern bool autobuy;
 		extern int autobuyAt;
 	}
+
+	namespace AutoKnife
+ 	{
+ 		extern bool enabled;
+ 		extern bool onKey;
+ 
+ 		namespace Filters
+ 		{
+ 			extern bool enemies;
+ 			extern bool allies;
+ 		}
+ 	}
 
 	void LoadDefaultsOrSave(std::string path);
 	void LoadConfig(std::string path);
