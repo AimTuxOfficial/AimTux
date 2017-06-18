@@ -171,8 +171,8 @@ void Hooker::FindPlayerResource()
 void Hooker::FindGameRules()
 {
 	uintptr_t instruction_addr = PatternFinder::FindPatternInModule(XORSTR("client_client.so"),
-																	(unsigned char*) XORSTR("\x48\x8B\x05\x00\x00\x00\x00\x48\x8B\x00\x0F\x84"),
-																	XORSTR("xxx????xx?xx"));
+																	(unsigned char*) XORSTR("\x48\x8B\x05\x00\x00\x00\x00\x48\x8B\x00\x0F\x84\xA1\x01"),
+																	XORSTR("xxx????xx?xxxx"));
 
 	csGameRules = *reinterpret_cast<C_CSGameRules***>(GetAbsoluteAddress(instruction_addr, 3, 7));
 }
