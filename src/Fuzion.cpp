@@ -1,10 +1,11 @@
 #include "interfaces.h"
 #include "hooker.h"
 #include "EventListener.h"
+//#include "Utils/netvarmanager.h"
 
 EventListener* eventListener = nullptr;
 
-/* Entrypoint to the Library. Called when loading  */
+/* Entrypoint to the Library. Called when loading */
 int __attribute__((constructor)) Startup()
 {
 	Interfaces::FindInterfaces();

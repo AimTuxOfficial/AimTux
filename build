@@ -13,6 +13,7 @@ if [ -f build_id ]; then
         sudo rm /$filename
     fi
     chmod 660 build_id
+    mv build_id  build_id_old
 fi
 
 echo "$BUILD_ID" > build_id

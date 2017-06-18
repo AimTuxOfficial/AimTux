@@ -128,7 +128,7 @@ bool NetVarManager::HookProp(const char* tableName, const char* propName, RecvVa
 	return true;
 }
 */
-/*
+
 void NetVarManager::DumpNetvars()
 {
 	std::stringstream ss;
@@ -146,4 +146,3 @@ void NetVarManager::DumpNetvars()
 
 	std::ofstream(netvarsPath) << ss.str();
 }
- */

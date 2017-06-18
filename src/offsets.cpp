@@ -210,5 +210,7 @@ void Offsets::GetOffsets()
 	offsets.DT_CSGameRulesProxy.m_numGlobalGiftsPeriodSeconds = NetVarManager::GetOffset(tables, XORSTR("DT_CSGameRulesProxy"), XORSTR("m_numGlobalGiftsPeriodSeconds"));
 	offsets.DT_CSGameRulesProxy.m_arrFeaturedGiftersAccounts = NetVarManager::GetOffset(tables, XORSTR("DT_CSGameRulesProxy"), XORSTR("m_arrFeaturedGiftersAccounts"));
 	offsets.DT_CSGameRulesProxy.m_arrFeaturedGiftersGifts = NetVarManager::GetOffset(tables, XORSTR("DT_CSGameRulesProxy"), XORSTR("m_arrFeaturedGiftersGifts"));
+	offsets.DT_CSGameRulesProxy.m_arrProhibitedItemIndices = NetVarManager::GetOffset(tables, XORSTR("DT_CSGameRulesProxy"), XORSTR("m_arrProhibitedItemIndices"));
+	offsets.DT_CSGameRulesProxy.m_numBestOfMaps = NetVarManager::GetOffset(tables, XORSTR("DT_CSGameRulesProxy"), XORSTR("m_numBestOfMaps"));
 	offsets.DT_CSGameRulesProxy.m_arrTournamentActiveCasterAccounts = NetVarManager::GetOffset(tables, XORSTR("DT_CSGameRulesProxy"), XORSTR("m_arrTournamentActiveCasterAccounts"));
 }

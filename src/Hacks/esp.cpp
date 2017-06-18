@@ -918,15 +918,11 @@ static void DrawBomb(C_BaseCombatWeapon* bomb)
 {
 	if (!(*csGameRules) || !(*csGameRules)->IsBombDropped())
 		return;
-
 	DrawEntity(bomb, XORSTR("Bomb"), Color::FromImColor(Settings::ESP::bombColor.Color()));
 }
 
 static void DrawPlantedBomb(C_PlantedC4* bomb)
 {
-	if (!(*csGameRules) || !(*csGameRules)->IsBombPlanted())
-		return;
-
 	ImColor color = bomb->GetBombDefuser() != -1 || bomb->IsBombDefused() ? Settings::ESP::bombDefusingColor.Color() : Settings::ESP::bombColor.Color();
 
 	float bombTimer = bomb->GetBombTime() - globalVars->curtime;
@@ -1333,6 +1329,15 @@ void ESP::Paint()
 			continue;
 
 		ClientClass* client = entity->GetClientClass();
+		/*
+		static std::vector<std::pair<char*, int>> classes;
+		std::pair<char*, int> pair = std::make_pair(client->m_pNetworkName, (int)client->m_ClassID);
+		if( std::find(classes.begin(), classes.end(), pair) == classes.end() )
+		{
+			cvar->ConsoleDPrintf("network_name: %s, classID: %d\n", client->m_pNetworkName, client->m_ClassID);
+			classes.push_back(pair);
+		}
+		*/
 
 		if (client->m_ClassID == EClassIds::CCSPlayer && (Settings::ESP::Filters::enemies || Settings::ESP::Filters::allies || (Settings::ESP::Filters::localplayer && Settings::ThirdPerson::enabled)))
 		{
