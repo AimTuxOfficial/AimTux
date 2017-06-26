@@ -2,15 +2,15 @@
 #TODO: check distro and packages
 
 cmake . || exit 1
-make -j$(grep "^processor" /proc/cpuinfo | wc -l) "$@" || exit 1
+make -j "$(grep -c "^processor" /proc/cpuinfo)" "$@" || exit 1
 
-BUILD_ID=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+BUILD_ID=$(< /dev/urandom tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 
 if [ -f build_id ]; then
     filename=$(cat build_id)
-    rm $filename
-    if [ -f /$filename ]; then
-        sudo rm /$filename
+    rm "$filename"
+    if [ -f /"$filename" ]; then
+        sudo rm /"$filename"
     fi
     chmod 660 build_id
     mv build_id  build_id_old
