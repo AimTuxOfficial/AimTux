@@ -16,7 +16,7 @@ A fully featured internal hack for *CounterStrike : Global Offensive* written in
 
 ## Compiling
 
-**Note:** _Fuzion Requires an additional package for Lua._
+**Note:** _Fuzion Requires an additional package for Lua and xdo._
 
 **Note:** _Do NOT download or compile as the root user._
 
@@ -28,8 +28,6 @@ If you're having problems compiling make sure you've got the latest version of `
 [How to update g++](https://github.com/AimTuxOfficial/AimTux/wiki/Updating-your-compiler)
 
 ==================
-
-#### Attention! You need lua and xdo to compile Fuzion. Please don't skip this!
 
 __Ubuntu-Based / Debian:__
 ```bash
