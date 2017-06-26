@@ -1,30 +1,30 @@
-#!/bin/sh
+#!/bin/bash
 
 csgo_pid=$(pidof csgo_linux64)
 if [ -z "$csgo_pid" ]; then
-    /bin/echo -e "\e[31mCSGO needs to be open before you can inject...\e[0m"
+    /bin/echo -e "\e[31mCS:GO needs to be open before you can inject...\e[0m"
     exit 1
 fi
 
 if [ ! -d ".git" ]; then
-    /bin/echo "We have detected that you have downloaded AimTux-Fuzion .zip from the GitHub website. This is the WRONG way to download! Please download AimTux-Fuzion with the command 'git clone --recursive https://github.com/LWSS/Fuzion'"
+    /bin/echo "We have detected that you have downloaded Fuzion-master.zip from GitHub.com. This is the WRONG way to download! Please download Fuzion by cloning the Git repository: 'git clone --recursive https://github.com/LWSS/Fuzion.git'"
 fi
 
 # pBypass for crash dumps being sent
-sudo rm -rf /tmp/dumps # Remove if it's there
+sudo rm -rf /tmp/dumps # Remove if it exists
 sudo mkdir /tmp/dumps # Make it as root
 sudo chmod 000 /tmp/dumps # No permissions
 
 if [ ! -f build_id ]; then
-    /bin/echo "build ID not found. Please re-build using the ./build script"
+    /bin/echo "Build ID not found. Please rebuild using the './build' script."
     exit
 fi
 
 filename=$(cat build_id)
 
 #Credit: Aixxe @ aixxe.net
-if grep -q $filename /proc/$csgo_pid/maps; then
-    /bin/echo -e "\e[33mAimTux-Fuzion is already injected... Aborting...\e[0m"
+if grep -q "$filename" /proc/"$csgo_pid"/maps; then
+    /bin/echo -e "\e[33mFuzion is already injected... Aborting...\e[0m"
     exit
 fi
 echo "Injecting Build ID: $filename"
@@ -32,10 +32,10 @@ echo "Injecting Build ID: $filename"
 #https://www.kernel.org/doc/Documentation/security/Yama.txt
 sudo echo "2" | sudo tee /proc/sys/kernel/yama/ptrace_scope # Only allows root to inject code. This is temp until reboot.
 
-sudo cp $filename /$filename
+sudo cp "$filename" /"$filename"
 
 input="$(
-sudo gdb -n -q -batch \
+sudo gdb -n -q -batch-silent \
   -ex "attach $csgo_pid" \
   -ex "set \$dlopen = (void*(*)(char*, int)) dlopen" \
   -ex "call \$dlopen(\"/$filename\", 1)" \
@@ -43,12 +43,12 @@ sudo gdb -n -q -batch \
   -ex "quit"
 )"
 
-sudo rm /$filename
+sudo rm /"$filename"
 
 last_line="${input##*$'\n'}"
 
 if [ "$last_line" != "\$1 = (void *) 0x0" ]; then
     /bin/echo -e "\e[32mSuccessfully injected!\e[0m"
 else
-    /bin/echo -e "\e[31mInjection failed, make sure you've compiled...\e[0m"
+    /bin/echo -e "\e[31mInjection failed, make sure you have compiled...\e[0m"
 fi
