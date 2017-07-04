@@ -1,7 +1,7 @@
 #!/bin/bash
 
 LIBNAME=$(cat $(pwd)/build_id)
-GAMEROOT=$(dirname "$(locate csgo_linux64 | head -n 1)") # There can be crash dumps in /var/lib with the same name.
+GAMEROOT=$(dirname "$(find $HOME -iname csgo_linux64 | head -n 1)") # There can be crash dumps in /var/lib with the same name.
 
 export LD_LIBRARY_PATH="$GAMEROOT/bin"\
 ":$GAMEROOT/bin/linux64"\
