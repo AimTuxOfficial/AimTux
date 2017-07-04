@@ -15,3 +15,4 @@ build_id_old
 *.id1
 *.nam
 *.til
+gdb.txt

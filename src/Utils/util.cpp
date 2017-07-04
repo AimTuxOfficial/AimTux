@@ -18,7 +18,33 @@ int Util::RandomInt(int min, int max)
 {
 	return rand()%(max-min + 1) + min;
 }
+/* https://stackoverflow.com/questions/3596781/how-to-detect-if-the-current-process-is-being-run-by-gdb */
+// This seems to be the best method. Forking and ptracing is ghetto
+int Util::IsDebuggerPresent()
+{
+	char buf[1024];
+	int debugger_present = 0;
 
+	int status_fd = open("/proc/self/status", O_RDONLY);
+	if (status_fd == -1)
+		return 0;
+
+	ssize_t num_read = read(status_fd, buf, sizeof(buf)-1);
+
+	if (num_read > 0)
+	{
+		static const char TracerPid[] = "TracerPid:";
+		char *tracer_pid;
+
+		buf[num_read] = 0;
+		tracer_pid    = strstr(buf, TracerPid);
+		if (tracer_pid)
+			debugger_present = !!atoi(tracer_pid + sizeof(TracerPid) - 1);
+	}
+
+	close(status_fd);
+	return debugger_present;
+}
 void Util::StdReplaceStr(std::string& replaceIn, const std::string& replace, const std::string& replaceWith)
 {
 	size_t const span = replace.size();

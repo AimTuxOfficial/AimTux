@@ -98,6 +98,18 @@ Now, go back into csgo, if you're in the main menu of the game you should see a 
 
 ![this](http://i.imgur.com/Gb0SV1u.png)
 
+## Preloading(experimental)
+We have a new loading method that uses LD_PRELOAD and library function hooking to stay undetected. 
+
+To use this method, you need to have CSGO closed and use the preload script with your CSGO launch options.
+
+Here is an example. Note that you need *-steam* for VAC to be enabled. 
+```
+./preload -steam -nobreakpad -high -threads 4
+```
+
+Once CSGO is loaded, the cheat should be loaded as well and you can check the CSGO console for more information. 
+
 ## Using the hack
 
 Now that Fuzion has been injected into the game, press <kbd>Insert</kbd> on your keyboard to open the hack menu (<kbd>ALT</kbd>+<kbd>I</kbd> if you're using a laptop).

@@ -11,6 +11,7 @@ if [ ! -d ".git" ]; then
 fi
 
 # pBypass for crash dumps being sent
+# You may also want to consider using -nobreakpad in your launch options.
 sudo rm -rf /tmp/dumps # Remove if it exists
 sudo mkdir /tmp/dumps # Make it as root
 sudo chmod 000 /tmp/dumps # No permissions

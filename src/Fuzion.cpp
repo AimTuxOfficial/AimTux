@@ -1,13 +1,20 @@
-#include "interfaces.h"
-#include "hooker.h"
+#include "Fuzion.h"
 #include "EventListener.h"
+#include "preload.h"
 //#include "Utils/netvarmanager.h"
 
-EventListener* eventListener = nullptr;
 
-/* Entrypoint to the Library. Called when loading */
-int __attribute__((constructor)) Startup()
+static EventListener* eventListener = nullptr;
+char buildID[] = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"; // Line Set by build script
+bool preload = false;
+bool isShuttingDown = false;
+
+void MainThread()
 {
+	if( preload )
+	{
+		std::this_thread::sleep_for(std::chrono::seconds(20));
+	}
 	Interfaces::FindInterfaces();
 	//Interfaces::DumpInterfaces();
 
@@ -38,7 +45,80 @@ int __attribute__((constructor)) Startup()
 	Hooker::HookSwapWindow();
 	Hooker::HookPollEvent();
 
-	cvar->ConsoleColorPrintf(ColorRGBA(0, 255, 0), XORSTR(".so Successfully injected.\n"));
+
+	if( preload )
+	{
+		cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 200), XORSTR("LD_PRELOAD method Detected...\n"));
+		bool found = false;
+		for (int i = 0; environ[i]; i++)
+		{
+			if (strstr(environ[i], buildID) != NULL)
+			{
+				found = true;
+			}
+		}
+		if (found)
+		{
+			cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 0), XORSTR("Environ has our buildID!\n"));
+		}
+		else
+		{
+			cvar->ConsoleColorPrintf(ColorRGBA(0, 150, 0), XORSTR("Environ Memory Purged Sucessfully.\n"));
+		}
+		cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 200), XORSTR("-- Hooks --\n"));
+
+		/* The program will force exit before this point, if these are not found, so this is more of an informational read of what is hooked */
+		cvar->ConsoleColorPrintf(ColorRGBA(0, 0, 200), XORSTR("fopen(): Hooked\n"));
+		cvar->ConsoleColorPrintf(ColorRGBA(0, 0, 200), XORSTR("getenv(): Hooked\n"));
+		cvar->ConsoleColorPrintf(ColorRGBA(0, 0, 200), XORSTR("open(): Hooked\n"));
+		cvar->ConsoleColorPrintf(ColorRGBA(0, 0, 200), XORSTR("execve(): Hooked\n"));
+
+		cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 200), XORSTR("-- Tests --\n"));
+		if (getenv(XORSTR("LD_PRELOAD")) == NULL)
+		{
+			cvar->ConsoleColorPrintf(ColorRGBA(0, 150, 0), XORSTR("getenv(\"LD_PRELOAD\") Clean.\n"));
+		}
+		else
+		{
+			cvar->ConsoleColorPrintf(ColorRGBA(255, 255, 0), XORSTR("getenv(\"LD_PRELOAD\") = %s\n"),
+									 getenv(XORSTR("LD_PRELOAD")));
+		}
+
+		if (strcmp(XORSTR("/dev/null"), getenv(XORSTR("TMPDIR"))) == 0)
+		{
+			cvar->ConsoleColorPrintf(ColorRGBA(0, 150, 0), XORSTR("getenv(\"TMPDIR\") -> /dev/null.\n"));
+		}
+		else
+		{
+			cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 0), XORSTR("getenv(\"TMPDIR\") ->%s\n"),
+									 getenv(XORSTR("TMPDIR")));
+		}
+
+		char buffer[PATH_MAX];
+		found = false;
+		FILE *maps = fopen(XORSTR("/proc/self/maps"), "r");
+		while (fgets(buffer, PATH_MAX, maps)) {
+			if (strstr(buffer, buildID) != NULL)
+				found = true;
+		}
+		fclose(maps);
+		if (found)
+		{
+			cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 0),
+									 XORSTR("fopen(\"/proc/self/maps\") contains our shared object!\n"));
+		}
+		else
+		{
+			cvar->ConsoleColorPrintf(ColorRGBA(0, 150, 0), XORSTR("fopen(\"/proc/self/maps\") file Clean.\n"));
+		}
+	}
+	else
+	{
+		cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 200), XORSTR("GDB Injection method Detected...\n"));
+	}
+
+
+	cvar->ConsoleColorPrintf(ColorRGBA(0, 225, 0), XORSTR("\nFuzion Successfully loaded.\n"));
 
 	ModSupport::OnInit();
 
@@ -101,11 +181,53 @@ int __attribute__((constructor)) Startup()
 
 	AntiAim::LuaInit();
 
+	if( preload )
+	{
+		while( !isShuttingDown )
+		{
+			std::this_thread::sleep_for(std::chrono::seconds(1));
+			if( Util::IsDebuggerPresent() != 0 )
+			{
+				cvar->ConsoleColorPrintf(ColorRGBA(225, 0, 0), XORSTR("DEBUGGER DETECTED! EXITING FUZION\n"));
+				Fuzion::SelfShutdown();
+			}
+		}
+	}
+}
+/* Entrypoint to the Library. Called when loading */
+int __attribute__((constructor)) Startup()
+{
+	// Search in Environment Memory for our buildID before purging environ memory
+	for(int i = 0; environ[i]; i++)
+	{
+		if(strstr(environ[i], buildID) != NULL)
+		{
+			preload = true;
+			if( !Preload::Startup(buildID) )
+			{
+				char fd[PATH_MAX];
+				snprintf(fd, sizeof(fd), XORSTR("/tmp/%s.log"), buildID);
+				FILE *log = fopen(fd, "w");
+				fprintf(log, XORSTR("Could not find functions to hook in Preload::Startup(). Exiting.\n"));
+				fclose(log);
+				exit(-1);
+			}
+			Preload::CleanEnvironment();
+		}
+	}
+
+	std::thread mainThread(MainThread);
+	// The root of all suffering is attachment
+	// Therefore our little buddy must detach from this realm.
+	// Farewell my thread, may we join again some day..
+	mainThread.detach();
+
 	return 0;
 }
 /* Called when un-injecting the library */
 void __attribute__((destructor)) Shutdown()
 {
+	isShuttingDown = true;
 	cvar->FindVar(XORSTR("cl_mouseenable"))->SetValue(1);
 
 	SDL2::UnhookWindow();
@@ -145,5 +267,22 @@ void __attribute__((destructor)) Shutdown()
 	for (ptrdiff_t off = 0; off < 0x2; off++)
 		Util::ProtectAddr(CamThinkSvCheatsCheck + off, PROT_READ | PROT_EXEC);
 
-	cvar->ConsoleColorPrintf(ColorRGBA(255, 0, 0), XORSTR(".so Unloaded successfully.\n"));
+	cvar->ConsoleColorPrintf(ColorRGBA(255, 0, 0), XORSTR("Fuzion Unloaded successfully.\n"));
+}
+void Fuzion::SelfShutdown()
+{
+	// Beta Feature.
+	// Does not Correctly/Fully Unload yet.
+	/*
+	void *self = dlopen(NULL, RTLD_NOW | RTLD_NOLOAD);
+	if (self == NULL) {
+		cvar->ConsoleDPrintf("Error Unloading: %s\nself Addr: %p\n", dlerror(), self);
+		return;
+	}
+	*/
+	Shutdown();
+	/*
+	dlclose(self);
+	dlclose(self);
+	*/
 }

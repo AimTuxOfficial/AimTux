@@ -1002,7 +1002,8 @@ void Settings::LoadConfig(std::string path)
 /*
 void Settings::LoadSettings()
 {
-	pstring directory = getenv("HOME");
+	passwd *pw = getpwuid(getuid());
+	pstring directory = pw->pw_dir;
 	directory << "/.config";
 
 	if (!DoesDirectoryExist(directory.c_str()))

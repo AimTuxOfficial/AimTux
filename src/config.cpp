@@ -55,7 +55,8 @@ std::vector<Config> GetConfigs(const char* directory)
 
 pstring GetConfigDirectory()
 {
-	pstring directory = getenv(XORSTR("HOME"));
+	passwd *pw = getpwuid(getuid());
+	pstring directory = pw->pw_dir;
 	directory << XORSTR("/.config");
 
 	if (!DoesDirectoryExist(directory.c_str()))
@@ -85,7 +86,8 @@ std::vector<std::string> GetConfigs()
 
 pstring GetGhConfigDirectory()
 {
-	pstring directory = getenv(XORSTR("HOME"));
+	passwd *pw = getpwuid(getuid());
+	pstring directory = pw->pw_dir;
 	directory << XORSTR("/.config");
 
 	if (!DoesDirectoryExist(directory.c_str()))
