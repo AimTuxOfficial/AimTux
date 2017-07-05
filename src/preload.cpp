@@ -239,5 +239,10 @@ void Preload::CleanEnvironment()
 
 void Preload::Cleanup()
 {
+	/* remove fakemap file */
+	pid_t pid = getpid();
+	char maps_path[PATH_MAX];
+	snprintf(maps_path, PATH_MAX, XORSTR("/tmp/%d-fakemaps"), pid);
+	remove(maps_path);
 
 }

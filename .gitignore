@@ -16,4 +16,3 @@ build_id_old
 *.nam
 *.til
 gdb.txt
-src/Fuzion.cpp

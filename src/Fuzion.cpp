@@ -3,9 +3,10 @@
 #include "preload.h"
 //#include "Utils/netvarmanager.h"
 
-
 static EventListener* eventListener = nullptr;
-char buildID[] = "BnjIfZ6fYAHHB4FyzMC7LnkKtuf9zgqv"; // Line Set by build script
+// The Below Line is Set by the Build script. Keep this on Line 8.
+char buildID[] = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"; // Line Set by build script
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 bool preload = false;
 bool isShuttingDown = false;
 
@@ -13,7 +14,11 @@ void MainThread()
 {
 	if( preload )
 	{
-		std::this_thread::sleep_for(std::chrono::seconds(20));
+		while( client == nullptr )
+		{
+			client = GetInterface<IBaseClientDLL>(XORSTR("./csgo/bin/linux64/client_client.so"), XORSTR( "VClient"));
+			std::this_thread::sleep_for(std::chrono::seconds(3));
+		}
 	}
 	Interfaces::FindInterfaces();
 	//Interfaces::DumpInterfaces();
@@ -80,8 +85,7 @@ void MainThread()
 		}
 		else
 		{
-			cvar->ConsoleColorPrintf(ColorRGBA(255, 255, 0), XORSTR("getenv(\"LD_PRELOAD\") = %s\n"),
-									 getenv(XORSTR("LD_PRELOAD")));
+			cvar->ConsoleColorPrintf(ColorRGBA(255, 255, 0), XORSTR("getenv(\"LD_PRELOAD\") = %s\n"), getenv(XORSTR("LD_PRELOAD")));
 		}
 
 		if (strcmp(XORSTR("/dev/null"), getenv(XORSTR("TMPDIR"))) == 0)
@@ -90,8 +94,7 @@ void MainThread()
 		}
 		else
 		{
-			cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 0), XORSTR("getenv(\"TMPDIR\") ->%s\n"),
-									 getenv(XORSTR("TMPDIR")));
+			cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 0), XORSTR("getenv(\"TMPDIR\") ->%s\n"), getenv(XORSTR("TMPDIR")));
 		}
 
 		char buffer[PATH_MAX];
@@ -104,8 +107,7 @@ void MainThread()
 		fclose(maps);
 		if (found)
 		{
-			cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 0),
-									 XORSTR("fopen(\"/proc/self/maps\") contains our shared object!\n"));
+			cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 0), XORSTR("fopen(\"/proc/self/maps\") contains our shared object!\n"));
 		}
 		else
 		{
@@ -233,6 +235,7 @@ void __attribute__((destructor)) Shutdown()
 	SDL2::UnhookWindow();
 	SDL2::UnhookPollEvent();
 
+	Preload::Cleanup();
 	AntiAim::LuaCleanup();
 	Aimbot::XDOCleanup();
 	NoSmoke::Cleanup();
