@@ -1,7 +1,10 @@
 #!/bin/bash
 
 LIBNAME=$(cat $(pwd)/build_id)
-GAMEROOT=$(dirname "$(find $HOME -iname csgo_linux64 | head -n 1)") # There can be crash dumps in /var/lib with the same name.
+# An optimized way to find the CS:GO directory without specifying any absolute nor relative paths.
+# This ensures the find command will not hang, even with a lot of symlinks in $HOME.
+# There can be crash dumps in /var/lib with the same name.
+GAMEROOT=$(dirname "$(find -L -O3 $HOME -maxdepth 6 -type f -iname csgo_linux64 2>/dev/null | head -n 1)")
 
 export LD_LIBRARY_PATH="$GAMEROOT"\
 ":$GAMEROOT/bin"\
@@ -32,41 +35,40 @@ export LD_LIBRARY_PATH="$GAMEROOT"\
 
 export LD_PRELOAD="$(pwd)/$LIBNAME"
 
-
 echo "Loading $LIBNAME"
 GAMEEXE=csgo_linux64
 
-#Max number of file descriptors
+# Max number of file descriptors
 ulimit -n 2048
 
-# enable nVidia threaded optimizations
+# Enable nVidia threaded optimizations
 export __GL_THREADED_OPTIMIZATIONS=1
-# enable Mesa threaded shader compiles
+# Enable Mesa threaded shader compiles
 export multithread_glsl_compiler=1
 
-# and launch the game
-#echo "$GAMEROOT"
+# And launch the game
+# echo "$GAMEROOT"
 cd "$GAMEROOT"
 
 STATUS=42
 while [ $STATUS -eq 42 ]; do
-	if [ "${DEBUGGER}" == "gdb" ]; then
-		ARGSFILE=$(mktemp $USER.hl2.gdb.XXXX)
-		echo b main > "$ARGSFILE"
-		echo run $@ -game csgo >> "$ARGSFILE"
-		echo show args >> "$ARGSFILE"
-		${DEBUGGER} "${GAMEROOT}"/${GAMEEXE} -x "$ARGSFILE"
-		rm "$ARGSFILE"
-		${DEBUGGER} "${GAMEROOT}"/${GAMEEXE} "$@"
-	elif [ "${DEBUGGER}" == "lldb" ]; then
-		ARGSFILE=$(mktemp $USER.hl2.lldb.XXXX)
-		echo "b main" > "$ARGSFILE"
-		echo "env DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH" > "$ARGSFILE"
-		${DEBUGGER} -s "$ARGSFILE" -- "${GAMEROOT}"/${GAMEEXE} "$@"
-		rm $ARGSFILE
-	else
-		${DEBUGGER} "${GAMEROOT}"/${GAMEEXE} "$@"
-	fi
-	STATUS=$?
+    if [ "${DEBUGGER}" == "gdb" ]; then
+        ARGSFILE=$(mktemp $USER.hl2.gdb.XXXX)
+        echo b main > "$ARGSFILE"
+        echo run $@ -game csgo >> "$ARGSFILE"
+        echo show args >> "$ARGSFILE"
+        ${DEBUGGER} "${GAMEROOT}"/${GAMEEXE} -x "$ARGSFILE"
+        rm "$ARGSFILE"
+        ${DEBUGGER} "${GAMEROOT}"/${GAMEEXE} "$@"
+    elif [ "${DEBUGGER}" == "lldb" ]; then
+        ARGSFILE=$(mktemp $USER.hl2.lldb.XXXX)
+        echo "b main" > "$ARGSFILE"
+        echo "env DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH" > "$ARGSFILE"
+        ${DEBUGGER} -s "$ARGSFILE" -- "${GAMEROOT}"/${GAMEEXE} "$@"
+        rm $ARGSFILE
+    else
+        ${DEBUGGER} "${GAMEROOT}"/${GAMEEXE} "$@"
+    fi
+    STATUS=$?
 done
 exit $STATUS
