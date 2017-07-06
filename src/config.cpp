@@ -55,8 +55,7 @@ std::vector<Config> GetConfigs(const char* directory)
 
 pstring GetConfigDirectory()
 {
-	passwd *pw = getpwuid(getuid());
-	pstring directory = pw->pw_dir;
+	pstring directory = getenv(XORSTR("HOME"));
 	directory << XORSTR("/.config");
 
 	if (!DoesDirectoryExist(directory.c_str()))
@@ -67,6 +66,7 @@ pstring GetConfigDirectory()
 	if (!DoesDirectoryExist(directory.c_str()))
 		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
+	cvar->ConsoleDPrintf("Config Directory: %s\n", directory.c_str());
 	return directory;
 }
 
@@ -86,8 +86,7 @@ std::vector<std::string> GetConfigs()
 
 pstring GetGhConfigDirectory()
 {
-	passwd *pw = getpwuid(getuid());
-	pstring directory = pw->pw_dir;
+	pstring directory = getenv(XORSTR("HOME"));
 	directory << XORSTR("/.config");
 
 	if (!DoesDirectoryExist(directory.c_str()))
