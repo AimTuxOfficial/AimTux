@@ -2,15 +2,36 @@
 
 bool Walk::showWindow = false;
 
-
 void Walk::RenderWindow()
 {
+	if( Settings::UI::Windows::Walkbot::reload )
+	{
+		ImGui::SetNextWindowPos(ImVec2(Settings::UI::Windows::Walkbot::posX, Settings::UI::Windows::Walkbot::posY), ImGuiSetCond_Always);
+		ImGui::SetNextWindowSize(ImVec2(Settings::UI::Windows::Walkbot::sizeX, Settings::UI::Windows::Walkbot::sizeY), ImGuiSetCond_Always);
+		Settings::UI::Windows::Walkbot::reload = false;
+		Walk::showWindow = Settings::UI::Windows::Walkbot::open;
+	}
+	else
+	{
+		ImGui::SetNextWindowPos(ImVec2(Settings::UI::Windows::Walkbot::posX, Settings::UI::Windows::Walkbot::posY), ImGuiSetCond_FirstUseEver);
+		ImGui::SetNextWindowSize(ImVec2(Settings::UI::Windows::Walkbot::sizeX, Settings::UI::Windows::Walkbot::sizeY), ImGuiSetCond_FirstUseEver);
+	}
 	if( !Walk::showWindow )
+	{
+		Settings::UI::Windows::Walkbot::open = false;
 		return;
+	}
 
-	ImGui::SetNextWindowSize(ImVec2(280, 110), ImGuiSetCond_Always);
 	if (ImGui::Begin(XORSTR("Walkbot"), &Walk::showWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoResize))
 	{
+		Settings::UI::Windows::Walkbot::open = true;
+		ImVec2 temp = ImGui::GetWindowSize();
+		Settings::UI::Windows::Walkbot::sizeX = (int)temp.x;
+		Settings::UI::Windows::Walkbot::sizeY = (int)temp.y;
+		temp = ImGui::GetWindowPos();
+		Settings::UI::Windows::Walkbot::posX = (int)temp.x;
+		Settings::UI::Windows::Walkbot::posY = (int)temp.y;
+
 		ImGui::Text(XORSTR("Dust 2 Walkbot"));
 
 		if (ImGui::Checkbox(XORSTR("Enable"), &Settings::WalkBot::enabled)){

@@ -6,12 +6,34 @@ static char nickname[127] = "";
 
 void PlayerList::RenderWindow()
 {
+	if( Settings::UI::Windows::Playerlist::reload )
+	{
+		ImGui::SetNextWindowPos(ImVec2(Settings::UI::Windows::Playerlist::posX, Settings::UI::Windows::Playerlist::posY), ImGuiSetCond_Always);
+		ImGui::SetNextWindowSize(ImVec2(Settings::UI::Windows::Playerlist::sizeX, Settings::UI::Windows::Playerlist::sizeY), ImGuiSetCond_Always);
+		Settings::UI::Windows::Playerlist::reload = false;
+		PlayerList::showWindow = Settings::UI::Windows::Playerlist::open;
+	}
+	else
+	{
+		ImGui::SetNextWindowPos(ImVec2(Settings::UI::Windows::Playerlist::posX, Settings::UI::Windows::Playerlist::posY), ImGuiSetCond_FirstUseEver);
+		ImGui::SetNextWindowSize(ImVec2(Settings::UI::Windows::Playerlist::sizeX, Settings::UI::Windows::Playerlist::sizeY), ImGuiSetCond_FirstUseEver);
+	}
 	if (!PlayerList::showWindow)
+	{
+		Settings::UI::Windows::Playerlist::open = false;
 		return;
+	}
 
-	ImGui::SetNextWindowSize(ImVec2(700, 500), ImGuiSetCond_FirstUseEver);
 	if (ImGui::Begin(XORSTR("Player list"), &PlayerList::showWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
 	{
+		Settings::UI::Windows::Playerlist::open = true;
+		ImVec2 temp = ImGui::GetWindowSize();
+		Settings::UI::Windows::Playerlist::sizeX = (int)temp.x;
+		Settings::UI::Windows::Playerlist::sizeY = (int)temp.y;
+		temp = ImGui::GetWindowPos();
+		Settings::UI::Windows::Playerlist::posX = (int)temp.x;
+		Settings::UI::Windows::Playerlist::posY = (int)temp.y;
+
 		static int currentPlayer = -1;
 
 		if (!engine->IsInGame() || (*csPlayerResource && !(*csPlayerResource)->GetConnected(currentPlayer)))

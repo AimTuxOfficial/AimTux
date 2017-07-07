@@ -18,6 +18,6 @@ void AutoAccept::PlaySound(const char* filename)
 	if (strcmp(filename, XORSTR("UI/competitive_accept_beep.wav")) != 0) // new wav file on autoaccept, thanks @flawww
 		return;
 
-	CServerConfirmedReservationCheckCallback empty_callback;
-	IsReadyCallback(&empty_callback);
+	//CServerConfirmedReservationCheckCallback empty_callback;
+	//IsReadyCallback(&empty_callback);
 }

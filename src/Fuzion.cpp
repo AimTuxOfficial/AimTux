@@ -37,7 +37,7 @@ void MainThread()
 	Hooker::FindSendClanTag();
 	Hooker::FindSendPacket();
 	Hooker::FindPrediction();
-	Hooker::FindIsReadyCallback();
+	//Hooker::FindIsReadyCallback();
 	Hooker::FindSurfaceDrawing();
 	Hooker::FindGetLocalClient();
 	Hooker::FindLineGoesThroughSmoke();
@@ -234,6 +234,10 @@ void __attribute__((destructor)) Shutdown()
 
 	SDL2::UnhookWindow();
 	SDL2::UnhookPollEvent();
+	if( !preload )
+	{
+		ImGui::Shutdown();
+	}
 
 	Preload::Cleanup();
 	AntiAim::LuaCleanup();

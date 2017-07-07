@@ -48,10 +48,26 @@ void ShowSpectators::RenderWindow()
 
 	if (!UI::isVisible && !engine->IsInGame())
 		return;
-
-	ImGui::SetNextWindowSize(ImVec2(50, 100), ImGuiSetCond_FirstUseEver);
+	if( Settings::UI::Windows::Spectators::reload )
+	{
+		ImGui::SetNextWindowPos(ImVec2(Settings::UI::Windows::Spectators::posX, Settings::UI::Windows::Spectators::posY), ImGuiSetCond_Always);
+		ImGui::SetNextWindowSize(ImVec2(Settings::UI::Windows::Spectators::sizeX, Settings::UI::Windows::Spectators::sizeY), ImGuiSetCond_Always);
+		Settings::UI::Windows::Spectators::reload = false;
+	}
+	else
+	{
+		ImGui::SetNextWindowPos(ImVec2(Settings::UI::Windows::Spectators::posX, Settings::UI::Windows::Spectators::posY), ImGuiSetCond_FirstUseEver);
+		ImGui::SetNextWindowSize(ImVec2(Settings::UI::Windows::Spectators::sizeX, Settings::UI::Windows::Spectators::sizeY), ImGuiSetCond_FirstUseEver);
+	}
 	if (ImGui::Begin(XORSTR("Spectators"), &Settings::ShowSpectators::enabled, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
 	{
+		ImVec2 temp = ImGui::GetWindowSize();
+		Settings::UI::Windows::Spectators::sizeX = (int)temp.x;
+		Settings::UI::Windows::Spectators::sizeY = (int)temp.y;
+		temp = ImGui::GetWindowPos();
+		Settings::UI::Windows::Spectators::posX = (int)temp.x;
+		Settings::UI::Windows::Spectators::posY = (int)temp.y;
+
 		ImGui::Columns(2);
 		ImGui::Separator();
 

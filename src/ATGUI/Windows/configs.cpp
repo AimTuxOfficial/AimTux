@@ -4,12 +4,34 @@ bool Configs::showWindow = false;
 
 void Configs::RenderWindow()
 {
+	if( Settings::UI::Windows::Config::reload )
+	{
+		ImGui::SetNextWindowPos(ImVec2(Settings::UI::Windows::Config::posX, Settings::UI::Windows::Config::posY), ImGuiSetCond_Always);
+		ImGui::SetNextWindowSize(ImVec2(Settings::UI::Windows::Config::sizeX, Settings::UI::Windows::Config::sizeY), ImGuiSetCond_Always);
+		Settings::UI::Windows::Config::reload = false;
+		Configs::showWindow = Settings::UI::Windows::Config::open;
+	}
+	else
+	{
+		ImGui::SetNextWindowPos(ImVec2(Settings::UI::Windows::Config::posX, Settings::UI::Windows::Config::posY), ImGuiSetCond_FirstUseEver);
+		ImGui::SetNextWindowSize(ImVec2(Settings::UI::Windows::Config::sizeX, Settings::UI::Windows::Config::sizeY), ImGuiSetCond_FirstUseEver);
+	}
 	if (!Configs::showWindow)
+	{
+		Settings::UI::Windows::Config::open = false;
 		return;
+	}
 
-	ImGui::SetNextWindowSize(ImVec2(185, 250), ImGuiSetCond_Always);
 	if (ImGui::Begin(XORSTR("Configs"), &Configs::showWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoResize))
 	{
+		Settings::UI::Windows::Config::open = true;
+		ImVec2 temp = ImGui::GetWindowSize();
+		Settings::UI::Windows::Config::sizeX = (int)temp.x;
+		Settings::UI::Windows::Config::sizeY = (int)temp.y;
+		temp = ImGui::GetWindowPos();
+		Settings::UI::Windows::Config::posX = (int)temp.x;
+		Settings::UI::Windows::Config::posY = (int)temp.y;
+
 		static std::vector<std::string> configItems = GetConfigs();
 		static int configItemCurrent = -1;
 
