@@ -1,10 +1,10 @@
 #!/bin/bash
 
-LIBNAME=$(cat $(pwd)/build_id)
+LIBNAME=$(cat "$(pwd)"/build_id)
 # An optimized way to find the CS:GO directory without specifying any absolute nor relative paths.
 # This ensures the find command will not hang, even with a lot of symlinks in $HOME.
 # There can be crash dumps in /var/lib with the same name.
-GAMEROOT=$(dirname "$(find -L -O3 $HOME -maxdepth 6 -type f -iname csgo_linux64 2>/dev/null | head -n 1)")
+GAMEROOT=$(dirname "$(find -L -O3 . "$HOME" -maxdepth 6 -type f -iname csgo_linux64 2>/dev/null | head -n 1)")
 
 export LD_LIBRARY_PATH="$GAMEROOT"\
 ":$GAMEROOT/bin"\
@@ -33,7 +33,8 @@ export LD_LIBRARY_PATH="$GAMEROOT"\
 ":$HOME/.steam/steam/ubuntu12_32"\
 ":$HOME/.steam/steam/ubuntu12_64"
 
-export LD_PRELOAD="$(pwd)/$LIBNAME"
+export LD_PRELOAD
+LD_PRELOAD=$(pwd)/$LIBNAME
 
 echo "Loading $LIBNAME"
 GAMEEXE=csgo_linux64
@@ -48,26 +49,74 @@ export multithread_glsl_compiler=1
 
 # And launch the game
 # echo "$GAMEROOT"
-cd "$GAMEROOT"
+cd "$GAMEROOT" || exit
 
 STATUS=42
 while [ $STATUS -eq 42 ]; do
     if [ "${DEBUGGER}" == "gdb" ]; then
-        ARGSFILE=$(mktemp $USER.hl2.gdb.XXXX)
+        ARGSFILE=$(mktemp "$USER".hl2.gdb.XXXX)
         echo b main > "$ARGSFILE"
-        echo run $@ -game csgo >> "$ARGSFILE"
+        echo run "$@" -game csgo >> "$ARGSFILE"
         echo show args >> "$ARGSFILE"
-        ${DEBUGGER} "${GAMEROOT}"/${GAMEEXE} -x "$ARGSFILE"
-        rm "$ARGSFILE"
-        ${DEBUGGER} "${GAMEROOT}"/${GAMEEXE} "$@"
+        if [[ "$(xrandr --listproviders | awk '/Providers/' | awk '{print $4}')" == "2" ]] &>/dev/null; then
+            xrandr --setprovideroffloadsink 1 0
+            echo -e "Launching CS:GO using PRIME GPU offloading... \\e[1;32m[SUCCESS]\\e[0m"
+            # DRI_PRIME=1 glxinfo | grep "OpenGL renderer"
+            DRI_PRIME=1 ${DEBUGGER} "${GAMEROOT}"/${GAMEEXE} -x "$ARGSFILE"
+            rm "$ARGSFILE"
+            DRI_PRIME=1 ${DEBUGGER} "${GAMEROOT}"/${GAMEEXE} "$@"
+        elif [ -x "$(command -v primusrun)" ]; then
+            echo -e "Launching CS:GO using primusrun... \\e[1;32m[SUCCESS]\\e[0m"
+            primusrun ${DEBUGGER} "${GAMEROOT}"/${GAMEEXE} -x "$ARGSFILE"
+            rm "$ARGSFILE"
+            primusrun ${DEBUGGER} "${GAMEROOT}"/${GAMEEXE} "$@"
+        elif [ -x "$(command -v optirun)" ]; then
+            echo -e "Launching CS:GO using optirun... \\e[1;32m[SUCCESS]\\e[0m"
+            optirun ${DEBUGGER} "${GAMEROOT}"/${GAMEEXE} -x "$ARGSFILE"
+            rm "$ARGSFILE"
+            optirun ${DEBUGGER} "${GAMEROOT}"/${GAMEEXE} "$@"
+        else
+            echo -e "Launching CS:GO... \\e[1;32m[SUCCESS]\\e[0m"
+            ${DEBUGGER} "${GAMEROOT}"/${GAMEEXE} -x "$ARGSFILE"
+            rm "$ARGSFILE"
+            ${DEBUGGER} "${GAMEROOT}"/${GAMEEXE} "$@"
+        fi
     elif [ "${DEBUGGER}" == "lldb" ]; then
-        ARGSFILE=$(mktemp $USER.hl2.lldb.XXXX)
+        ARGSFILE=$(mktemp "$USER".hl2.lldb.XXXX)
         echo "b main" > "$ARGSFILE"
         echo "env DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH" > "$ARGSFILE"
-        ${DEBUGGER} -s "$ARGSFILE" -- "${GAMEROOT}"/${GAMEEXE} "$@"
-        rm $ARGSFILE
+        if [[ "$(xrandr --listproviders | awk '/Providers/' | awk '{print $4}')" == "2" ]] &>/dev/null; then
+            xrandr --setprovideroffloadsink 1 0
+            echo -e "Launching CS:GO using PRIME GPU offloading... \\e[1;32m[SUCCESS]\\e[0m"
+            # DRI_PRIME=1 glxinfo | grep "OpenGL renderer"
+            DRI_PRIME=1 ${DEBUGGER} -s "$ARGSFILE" -- "${GAMEROOT}"/${GAMEEXE} "$@"
+        elif [ -x "$(command -v primusrun)" ]; then
+            echo -e "Launching CS:GO using primusrun... \\e[1;32m[SUCCESS]\\e[0m"
+            primusrun ${DEBUGGER} -s "$ARGSFILE" -- "${GAMEROOT}"/${GAMEEXE} "$@"
+        elif [ -x "$(command -v optirun)" ]; then
+            echo -e "Launching CS:GO using optirun... \\e[1;32m[SUCCESS]\\e[0m"
+            optirun ${DEBUGGER} -s "$ARGSFILE" -- "${GAMEROOT}"/${GAMEEXE} "$@"
+        else
+            echo -e "Launching CS:GO... \\e[1;32m[SUCCESS]\\e[0m"
+            ${DEBUGGER} -s "$ARGSFILE" -- "${GAMEROOT}"/${GAMEEXE} "$@"
+        fi
+        rm "$ARGSFILE"
     else
-        ${DEBUGGER} "${GAMEROOT}"/${GAMEEXE} "$@"
+        if [[ "$(xrandr --listproviders | awk '/Providers/' | awk '{print $4}')" == "2" ]] &>/dev/null; then
+            xrandr --setprovideroffloadsink 1 0
+            echo -e "Launching CS:GO using PRIME GPU offloading... \\e[1;32m[SUCCESS]\\e[0m"
+            # DRI_PRIME=1 glxinfo | grep "OpenGL renderer"
+            DRI_PRIME=1 ${DEBUGGER} "${GAMEROOT}"/${GAMEEXE} "$@"
+        elif [ -x "$(command -v primusrun)" ]; then
+            echo -e "Launching CS:GO using primusrun... \\e[1;32m[SUCCESS]\\e[0m"
+            primusrun ${DEBUGGER} "${GAMEROOT}"/${GAMEEXE} "$@"
+        elif [ -x "$(command -v optirun)" ]; then
+            echo -e "Launching CS:GO using optirun... \\e[1;32m[SUCCESS]\\e[0m"
+            optirun ${DEBUGGER} "${GAMEROOT}"/${GAMEEXE} "$@"
+        else
+            echo -e "Launching CS:GO... \\e[1;32m[SUCCESS]\\e[0m"
+            ${DEBUGGER} "${GAMEROOT}"/${GAMEEXE} "$@"
+        fi
     fi
     STATUS=$?
 done
