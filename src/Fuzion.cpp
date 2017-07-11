@@ -37,7 +37,7 @@ void MainThread()
 	Hooker::FindSendClanTag();
 	Hooker::FindSendPacket();
 	Hooker::FindPrediction();
-	//Hooker::FindIsReadyCallback();
+	Hooker::FindIsReadyCallback();
 	Hooker::FindSurfaceDrawing();
 	Hooker::FindGetLocalClient();
 	Hooker::FindLineGoesThroughSmoke();
