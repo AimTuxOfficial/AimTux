@@ -235,7 +235,7 @@ void Hooker::FindPrediction()
 void Hooker::FindIsReadyCallback()
 {
 	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("client_client.so"),
-																(unsigned char*) XORSTR("\x48\x83\x3D\x00\x00\x00\x00\x00\x55\x48\x89\xE5\x41"),
+																(unsigned char*) XORSTR("\x48\x83\x3D\x00\x00\x00\x00\x00\x74\x34\x48\x8B\x05"),
 																XORSTR("xxx????xxxxxx"));
 
 	IsReadyCallback = reinterpret_cast<IsReadyCallbackFn>(func_address);
