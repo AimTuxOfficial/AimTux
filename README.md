@@ -1,8 +1,3 @@
-## Aimtux is currently a detected cheat, concerning the GDB injector.
-### It is recommended that you do not use this cheat for the time being.
-
-## To every people asking if it still detected, no bans were recorded by the wave of 6/7/17 on any linux cheats(over 40k bans of Windows cheats. ) , So try at your own risk.=
-
 ![banner](http://aimtux.net/images/banner.png)
 
 [![Join the chat at https://www.gitter.im/AimTuxOfficial/lobby](https://img.shields.io/gitter/room/TechnologyAdvice/Stardust.svg?style=flat-square)](https://www.gitter.im/AimTuxOfficial/lobby)
@@ -13,6 +8,8 @@ Want to chat or play with other AimTux users? Join us on Gitter!
 
 AimTux is a fully featured internal hack for *CounterStrike : Global Offensive* written in C++.
 
+**Quick note before starting**:
+To every people asking if it still detected, no bans were recorded by the wave of 6/7/17 on any linux cheat(over 40k bans of Windows cheats. ), So try at your own risk.
 
 ## Compiling
 
