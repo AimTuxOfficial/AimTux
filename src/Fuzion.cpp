@@ -37,7 +37,7 @@ void MainThread()
 	Hooker::FindSendClanTag();
 	Hooker::FindSendPacket();
 	Hooker::FindPrediction();
-	//Hooker::FindIsReadyCallback();
+	Hooker::FindIsReadyCallback();
 	Hooker::FindSurfaceDrawing();
 	Hooker::FindGetLocalClient();
 	Hooker::FindLineGoesThroughSmoke();
@@ -46,7 +46,6 @@ void MainThread()
 	//Hooker::FindVstdlibFunctions();
 	Hooker::FindOverridePostProcessingDisable();
 	Hooker::FindCrosshairWeaponTypeCheck();
-	Hooker::FindCamThinkSvCheatsCheck();
 	Hooker::HookSwapWindow();
 	Hooker::HookPollEvent();
 
@@ -133,7 +132,7 @@ void MainThread()
 
 	modelRenderVMT->HookVM((void*) Hooks::DrawModelExecute, 21);
 	modelRenderVMT->ApplyVMT();
-
+	
 	clientModeVMT->HookVM((void*) Hooks::OverrideView, 19);
 	clientModeVMT->HookVM((void*) Hooks::CreateMove, 25);
 	clientModeVMT->HookVM((void*) Hooks::GetViewModelFOV, 36);
@@ -266,13 +265,9 @@ void __attribute__((destructor)) Shutdown()
 	*bSendPacket = true;
 	*s_bOverridePostProcessingDisable = false;
 	*CrosshairWeaponTypeCheck = 5;
-	*CamThinkSvCheatsCheck = 0x74;
-	*(CamThinkSvCheatsCheck + 0x1) = 0x64;
 
 	Util::ProtectAddr(bSendPacket, PROT_READ | PROT_EXEC);
 	Util::ProtectAddr(CrosshairWeaponTypeCheck, PROT_READ | PROT_EXEC);
-	for (ptrdiff_t off = 0; off < 0x2; off++)
-		Util::ProtectAddr(CamThinkSvCheatsCheck + off, PROT_READ | PROT_EXEC);
 
 	cvar->ConsoleColorPrintf(ColorRGBA(255, 0, 0), XORSTR("Fuzion Unloaded successfully.\n"));
 }

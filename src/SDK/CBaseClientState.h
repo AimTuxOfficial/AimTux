@@ -3,7 +3,7 @@
 class CBaseClientState
 {
 public:
-	char _pad0[0x1FC];
+	char _pad0[0x20C];
 	int m_nDeltaTick;
 	bool m_bPaused;
 	char _pad1[0x3];

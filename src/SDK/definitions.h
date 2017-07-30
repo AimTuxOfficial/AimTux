@@ -1830,8 +1830,6 @@ const std::map<ItemDefinitionIndex, DefItem_t> ItemDefinitionIndexMap = {
 #define MAXSTUDIOBONES 128
 #define BONE_USED_BY_HITBOX 0x100
 
-#define MASK_SHOT	(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_MONSTER|CONTENTS_WINDOW|CONTENTS_DEBRIS|CONTENTS_HITBOX)
-
 // NOTE: These are stored in a short in the engine now.  Don't use more than 16 bits
 #define SURF_LIGHT		0x0001		// value will hold the light strength
 #define SURF_SKY2D		0x0002		// don't draw, indicates we should skylight + draw 2d sky but not draw the 3D skybox

@@ -5,7 +5,6 @@ int* nPredictionRandomSeed = nullptr;
 CMoveData* g_MoveData = nullptr;
 bool* s_bOverridePostProcessingDisable = nullptr;
 uint8_t* CrosshairWeaponTypeCheck = nullptr;
-uint8_t* CamThinkSvCheatsCheck = nullptr;
 
 VMT* panelVMT = nullptr;
 VMT* clientVMT = nullptr;
@@ -235,7 +234,7 @@ void Hooker::FindPrediction()
 void Hooker::FindIsReadyCallback()
 {
 	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("client_client.so"),
-																(unsigned char*) XORSTR("\x48\x83\x3D\x00\x00\x00\x00\x00\x55\x48\x89\xE5\x41"),
+																(unsigned char*) XORSTR("\x48\x83\x3D\x00\x00\x00\x00\x00\x74\x34\x48\x8B\x05"),
 																XORSTR("xxx????xxxxxx"));
 
 	IsReadyCallback = reinterpret_cast<IsReadyCallbackFn>(func_address);
@@ -316,18 +315,6 @@ void Hooker::FindCrosshairWeaponTypeCheck()
 
 	CrosshairWeaponTypeCheck = reinterpret_cast<uint8_t*>(byte_address + 2);
 	Util::ProtectAddr(CrosshairWeaponTypeCheck, PROT_READ | PROT_WRITE | PROT_EXEC);
-}
-
-void Hooker::FindCamThinkSvCheatsCheck()
-{
-	uintptr_t byte_address = PatternFinder::FindPatternInModule(XORSTR("client_client.so"),
-																(unsigned char*) XORSTR("\x74\x00\x49\x83\x00\x00\x00\x00\x00\x00\x00\x0F\x84\x00\x00\x00\x00\x49\x8B"),
-																XORSTR("x?xx??????xxx????xx"));
-
-	CamThinkSvCheatsCheck = reinterpret_cast<uint8_t*>(byte_address);
-
-	for (ptrdiff_t off = 0; off < 0x2; off++)
-		Util::ProtectAddr(CamThinkSvCheatsCheck + off, PROT_READ | PROT_WRITE | PROT_EXEC);
 }
 
 void Hooker::HookSwapWindow()
