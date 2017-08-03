@@ -214,7 +214,7 @@ enum class EClassIds : int
 	CCSPlayerResource,
 	CCSRagdoll,
 	CCSTeam,
-	CDeagle,
+	CDEagle,
 	CDecoyGrenade,
 	CDecoyProjectile,
 	CDynamicLight,
