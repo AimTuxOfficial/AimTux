@@ -63,7 +63,6 @@ void Interfaces::FindInterfaces()
 void Interfaces::DumpInterfaces()
 {
 	std::stringstream ss;
-	char cwd[1024];
 
 	std::vector<const char*> modules;
 
@@ -109,9 +108,7 @@ void Interfaces::DumpInterfaces()
 		ss << '\n';
 	}
 
-	getcwd(cwd, sizeof(cwd));
-
-	std::string interfacesPath = std::string(cwd) + XORSTR("/interfaces.txt");
+	std::string interfacesPath = XORSTR("/tmp/interfaces.txt");
 
 	std::ofstream(interfacesPath) << ss.str();
 }
