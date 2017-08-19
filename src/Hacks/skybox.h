@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../SDK/SDK.h"
 #include "../interfaces.h"
 #include "../settings.h"
 
-namespace NoSky
+namespace SkyBox
 {
+	//Hooks
 	void FrameStageNotify(ClientFrameStage_t stage);
 }

@@ -54,12 +54,12 @@ namespace ClanTagChanger
 		}
 	};
 
-	Animation Marquee(std::string name, std::wstring text, int width = 15);
-	Animation Words(std::string name, std::wstring text);
-	Animation Letters(std::string name, std::wstring text);
 	extern std::vector<Animation> animations;
 	extern Animation* animation;
+
 	void UpdateClanTagCallback();
+
+	//Hooks
 	void BeginFrame(float frameTime);
 }
 

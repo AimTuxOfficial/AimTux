@@ -29,7 +29,7 @@ inline Fn getvfunc(const void* inst, size_t index, size_t offset = 0)
 template <typename interface>
 interface* GetInterface(const char* filename, const char* version, bool exact = false)
 {
-	void* library = dlopen(filename, RTLD_NOLOAD | RTLD_NOW);
+	void* library = dlopen(filename, RTLD_NOLOAD | RTLD_NOW | RTLD_LOCAL);
 
 	if (!library)
 		return nullptr;
@@ -73,7 +73,7 @@ inline uintptr_t GetAbsoluteAddress(uintptr_t instruction_ptr, int offset, int s
 template <typename T>
 T GetSymbolAddress(const char* filename, const char* symbol)
 {
-	void* handle = dlopen(filename, RTLD_NOW);
+	void* handle = dlopen(filename, RTLD_NOW | RTLD_LOCAL);
 	T result = reinterpret_cast<T>(dlsym(handle, symbol));
 	dlclose(handle);
 

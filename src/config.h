@@ -8,6 +8,8 @@
 #include <vector>
 #include <algorithm>
 #include "Utils/pstring.h"
+#include "Utils/xorstring.h"
+#include "interfaces.h"
 
 bool DoesFileExist(const char* path);
 bool DoesDirectoryExist(const char* path);

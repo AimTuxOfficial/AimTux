@@ -2,10 +2,11 @@
 
 #include "../settings.h"
 #include "../SDK/SDK.h"
-#include "../interfaces.h"
 
 namespace PredictionSystem
 {
+	//Hooks
+	/* CreateMove */
 	void StartPrediction(CUserCmd* cmd);
 	void EndPrediction();
 };

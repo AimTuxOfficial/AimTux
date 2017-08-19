@@ -4,10 +4,10 @@
 #include <sys/mman.h>
 #include <link.h>
 #include <fstream>
-#include "Utils/patternfinder.h"
 #include "SDK/SDK.h"
 #include "Utils/vmt.h"
 #include "Utils/util.h"
+#include "Utils/xorstring.h"
 
 extern IBaseClientDLL* client;
 extern ISurface* surface;
@@ -58,11 +58,11 @@ extern LineGoesThroughSmokeFn LineGoesThroughSmoke;
 extern InitKeyValuesFn InitKeyValues;
 extern LoadFromBufferFn LoadFromBuffer;
 
-extern RandomSeedFn RandomSeed;
-extern RandomFloatFn RandomFloat;
-extern RandomFloatExpFn RandomFloatExp;
-extern RandomIntFn RandomInt;
-extern RandomGaussianFloatFn RandomGaussianFloat;
+//extern RandomSeedFn RandomSeed;
+//extern RandomFloatFn RandomFloat;
+//extern RandomFloatExpFn RandomFloatExp;
+//extern RandomIntFn RandomInt;
+//extern RandomGaussianFloatFn RandomGaussianFloat;
 
 extern SetNamedSkyBoxFn SetNamedSkyBox;
 
@@ -71,7 +71,6 @@ extern bool* bSendPacket;
 extern CMoveData* g_MoveData;
 extern bool* s_bOverridePostProcessingDisable;
 extern uint8_t* CrosshairWeaponTypeCheck;
-extern uint8_t* CamThinkSvCheatsCheck;
 
 extern uintptr_t oSwapWindow;
 extern uintptr_t* swapWindowJumpAddress;

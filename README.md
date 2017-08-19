@@ -16,7 +16,7 @@ A fully featured internal hack for *CounterStrike : Global Offensive* written in
 
 ## Compiling
 
-**Note:** _Fuzion Requires an additional package for Lua._
+**Note:** _Fuzion Requires an additional package for Lua and xdo._
 
 **Note:** _Do NOT download or compile as the root user._
 
@@ -29,24 +29,22 @@ If you're having problems compiling make sure you've got the latest version of `
 
 ==================
 
-#### Attention! You need lua and xdo to compile Fuzion. Please don't skip this!
-
 __Ubuntu-Based / Debian:__
 ```bash
-sudo apt-get install cmake g++ gdb git libsdl2-dev zlib1g-dev liblua5.3 libxdo-dev
+sudo apt-get install cmake g++ gdb git libsdl2-dev zlib1g-dev liblua5.3 libxdo-dev patchelf
 ```
 __Arch:__
 ```bash
-sudo pacman -S base-devel cmake gdb git sdl2 lua xdotool
+sudo pacman -S base-devel cmake gdb git sdl2 lua xdotool patchelf
 ```
 __Fedora:__
 ```bash
-sudo dnf install cmake gcc-c++ gdb git libstdc++-static mesa-libGL-devel SDL2-devel zlib-devel lua-devel libX11-devel libxdo-devel
+sudo dnf install cmake gcc-c++ gdb git libstdc++-static mesa-libGL-devel SDL2-devel zlib-devel lua-devel libX11-devel libxdo-devel patchelf
 ```
 
 __Gentoo:__
 ```bash
-sudo emerge cmake dev-vcs/git gdb libsdl2 mesa lua xdotool
+sudo emerge cmake dev-vcs/git gdb libsdl2 mesa lua xdotool patchelf
 ```
 ===================
 
@@ -99,6 +97,18 @@ If the injection was successful you'll see a message at the bottom saying `Succe
 Now, go back into csgo, if you're in the main menu of the game you should see a banner in the top left like so:
 
 ![this](http://i.imgur.com/Gb0SV1u.png)
+
+## Preloading(experimental)
+We have a new loading method that uses LD_PRELOAD and library function hooking to stay undetected. 
+
+To use this method, you need to have CSGO closed and use the preload script with your CSGO launch options.
+
+Here is an example. Note that you need *-steam* for VAC to be enabled. 
+```
+./preload -steam -nobreakpad -high -threads 4
+```
+
+Once CSGO is loaded, the cheat should be loaded as well and you can check the CSGO console for more information. 
 
 ## Using the hack
 

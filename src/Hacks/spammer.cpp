@@ -5,15 +5,15 @@ bool Settings::Spammer::say_team = false;
 bool Settings::Spammer::KillSpammer::enabled = false;
 bool Settings::Spammer::KillSpammer::sayTeam = false;
 std::vector<std::string> Settings::Spammer::KillSpammer::messages = {
-		"$nick just got owned",
-		"$nick watches anime",
+		"",
+		"",
 };
 bool Settings::Spammer::RadioSpammer::enabled = false;
 std::vector<std::string> Settings::Spammer::NormalSpammer::messages = {
-		"It's free as in FREEDOM!",
-		"Tux only let me out so I could play this game, please be nice!",
-		"Tux nutted but you keep sucken",
-		">tfw no vac on Linux"
+		"",
+		"",
+		"",
+		""
 };
 int Settings::Spammer::PositionSpammer::team = 1;
 bool Settings::Spammer::PositionSpammer::showName = true;
@@ -55,9 +55,9 @@ void Spammer::BeginFrame(float frameTime)
 
 		// Construct a command with our message
 		pstring str;
-		str << (Settings::Spammer::KillSpammer::sayTeam ? "say_team" : "say");
+		str << (Settings::Spammer::KillSpammer::sayTeam ? XORSTR("say_team") : XORSTR("say"));
 		std::string message = Settings::Spammer::KillSpammer::messages[std::rand() % Settings::Spammer::KillSpammer::messages.size()];
-		str << " \"" << Util::ReplaceString(message, "$nick", dead_player_name) << "\"";
+		str << " \"" << Util::ReplaceString(message, XORSTR("$nick"), dead_player_name) << "\"";
 
 		// Execute our constructed command
 		engine->ExecuteClientCmd(str.c_str());
@@ -105,7 +105,7 @@ void Spammer::BeginFrame(float frameTime)
 
 		// Construct a command with our message
 		pstring str;
-		str << (Settings::Spammer::say_team ? "say_team" : "say") << " ";
+		str << (Settings::Spammer::say_team ? XORSTR("say_team") : XORSTR("say")) << " ";
 		str << message;
 
 		// Execute our constructed command
@@ -151,7 +151,7 @@ void Spammer::BeginFrame(float frameTime)
 
 			// Construct a command with our message
 			pstring str;
-			str << (Settings::Spammer::say_team ? "say_team" : "say") << " \"";
+			str << (Settings::Spammer::say_team ? XORSTR("say_team") : XORSTR("say")) << " \"";
 
 			if (Settings::Spammer::PositionSpammer::showName)
 				str << playerName << " | ";
@@ -163,13 +163,13 @@ void Spammer::BeginFrame(float frameTime)
 				str << ESP::ranks[*(*csPlayerResource)->GetCompetitiveRanking(i)] << " | ";
 
 			if (Settings::Spammer::PositionSpammer::showWins)
-				str << *(*csPlayerResource)->GetCompetitiveWins(i) << " wins | ";
+				str << *(*csPlayerResource)->GetCompetitiveWins(i) << XORSTR(" wins | ");
 
 			if (Settings::Spammer::PositionSpammer::showHealth)
-				str << player->GetHealth() << "HP | ";
+				str << player->GetHealth() << XORSTR("HP | ");
 
 			if (Settings::Spammer::PositionSpammer::showMoney)
-				str << "$" << player->GetMoney() << " | ";
+				str << "$" << player->GetMoney() << XORSTR(" | ");
 
 			if (Settings::Spammer::PositionSpammer::showLastplace)
 				str << player->GetLastPlaceName();
@@ -195,11 +195,11 @@ void Spammer::FireGameEvent(IGameEvent* event)
 	if (!engine->IsInGame())
 		return;
 
-	if (strcmp(event->GetName(), "player_death") != 0)
+	if (strcmp(event->GetName(), XORSTR("player_death")) != 0)
 		return;
 
-	int attacker_id = engine->GetPlayerForUserID(event->GetInt("attacker"));
-	int deadPlayer_id = engine->GetPlayerForUserID(event->GetInt("userid"));
+	int attacker_id = engine->GetPlayerForUserID(event->GetInt(XORSTR("attacker")));
+	int deadPlayer_id = engine->GetPlayerForUserID(event->GetInt(XORSTR("userid")));
 
 	// Make sure it's not a suicide.x
 	if (attacker_id == deadPlayer_id)

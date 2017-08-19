@@ -34,12 +34,33 @@ void TabButtons()
 
 void SkinModelChanger::RenderWindow()
 {
-	if (!SkinModelChanger::showWindow)
-		return;
-
-	ImGui::SetNextWindowSize(ImVec2(1050, 645), ImGuiSetCond_FirstUseEver);
-	if (ImGui::Begin("Skin & Model Changer", &SkinModelChanger::showWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
+	if( Settings::UI::Windows::Skinmodel::reload )
 	{
+		ImGui::SetNextWindowPos(ImVec2(Settings::UI::Windows::Skinmodel::posX, Settings::UI::Windows::Skinmodel::posY), ImGuiSetCond_Always);
+		ImGui::SetNextWindowSize(ImVec2(Settings::UI::Windows::Skinmodel::sizeX, Settings::UI::Windows::Skinmodel::sizeY), ImGuiSetCond_Always);
+		Settings::UI::Windows::Skinmodel::reload = false;
+		SkinModelChanger::showWindow = Settings::UI::Windows::Skinmodel::open;
+	}
+	else
+	{
+		ImGui::SetNextWindowPos(ImVec2(Settings::UI::Windows::Skinmodel::posX, Settings::UI::Windows::Skinmodel::posY), ImGuiSetCond_FirstUseEver);
+		ImGui::SetNextWindowSize(ImVec2(Settings::UI::Windows::Skinmodel::sizeX, Settings::UI::Windows::Skinmodel::sizeY), ImGuiSetCond_FirstUseEver);
+	}
+	if (!SkinModelChanger::showWindow)
+	{
+		Settings::UI::Windows::Skinmodel::open = false;
+		return;
+	}
+
+	if (ImGui::Begin(XORSTR("Skin & Model Changer"), &SkinModelChanger::showWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
+	{
+		Settings::UI::Windows::Skinmodel::open = true;
+		ImVec2 temp = ImGui::GetWindowSize();
+		Settings::UI::Windows::Skinmodel::sizeX = (int)temp.x;
+		Settings::UI::Windows::Skinmodel::sizeY = (int)temp.y;
+		temp = ImGui::GetWindowPos();
+		Settings::UI::Windows::Skinmodel::posX = (int)temp.x;
+		Settings::UI::Windows::Skinmodel::posY = (int)temp.y;
 		TabButtons();
 		ImGui::Separator();
 		switch (page)

@@ -132,7 +132,7 @@ void SkinChanger::FrameStageNotifyModels(ClientFrameStage_t stage)
 				if (pClass->m_ClassID != EClassIds::CEconWearable)
 					continue;
 
-				int entry = (entityList->GetHighestEntityIndex() + 1), serial = RandomInt(0x0, 0xFFF);
+				int entry = (entityList->GetHighestEntityIndex() + 1), serial = Util::RandomInt(0x0, 0xFFF);
 				pClass->m_pCreateFn(entry, serial);
 				localplayer->GetWearables()[0] = entry | (serial << 16);
 
@@ -363,10 +363,10 @@ void SkinChanger::SetViewModelSequence(const CRecvProxyData *pDataConst, void *p
 				switch (m_nSequence)
 				{
 					case SEQUENCE_DEFAULT_DRAW:
-						m_nSequence = RandomInt(SEQUENCE_BUTTERFLY_DRAW, SEQUENCE_BUTTERFLY_DRAW2);
+						m_nSequence = Util::RandomInt(SEQUENCE_BUTTERFLY_DRAW, SEQUENCE_BUTTERFLY_DRAW2);
 						break;
 					case SEQUENCE_DEFAULT_LOOKAT01:
-						m_nSequence = RandomInt(SEQUENCE_BUTTERFLY_LOOKAT01, SEQUENCE_BUTTERFLY_LOOKAT03);
+						m_nSequence = Util::RandomInt(SEQUENCE_BUTTERFLY_LOOKAT01, SEQUENCE_BUTTERFLY_LOOKAT03);
 						break;
 					default:
 						m_nSequence++;
@@ -380,10 +380,10 @@ void SkinChanger::SetViewModelSequence(const CRecvProxyData *pDataConst, void *p
 					case SEQUENCE_DEFAULT_IDLE2:
 						m_nSequence = SEQUENCE_FALCHION_IDLE1; break;
 					case SEQUENCE_DEFAULT_HEAVY_MISS1:
-						m_nSequence = RandomInt(SEQUENCE_FALCHION_HEAVY_MISS1, SEQUENCE_FALCHION_HEAVY_MISS1_NOFLIP);
+						m_nSequence = Util::RandomInt(SEQUENCE_FALCHION_HEAVY_MISS1, SEQUENCE_FALCHION_HEAVY_MISS1_NOFLIP);
 						break;
 					case SEQUENCE_DEFAULT_LOOKAT01:
-						m_nSequence = RandomInt(SEQUENCE_FALCHION_LOOKAT01, SEQUENCE_FALCHION_LOOKAT02);
+						m_nSequence = Util::RandomInt(SEQUENCE_FALCHION_LOOKAT01, SEQUENCE_FALCHION_LOOKAT02);
 						break;
 					case SEQUENCE_DEFAULT_DRAW:
 					case SEQUENCE_DEFAULT_IDLE1:
@@ -401,10 +401,10 @@ void SkinChanger::SetViewModelSequence(const CRecvProxyData *pDataConst, void *p
 						m_nSequence = SEQUENCE_DAGGERS_IDLE1; break;
 					case SEQUENCE_DEFAULT_LIGHT_MISS1:
 					case SEQUENCE_DEFAULT_LIGHT_MISS2:
-						m_nSequence = RandomInt(SEQUENCE_DAGGERS_LIGHT_MISS1, SEQUENCE_DAGGERS_LIGHT_MISS5);
+						m_nSequence = Util::RandomInt(SEQUENCE_DAGGERS_LIGHT_MISS1, SEQUENCE_DAGGERS_LIGHT_MISS5);
 						break;
 					case SEQUENCE_DEFAULT_HEAVY_MISS1:
-						m_nSequence = RandomInt(SEQUENCE_DAGGERS_HEAVY_MISS2, SEQUENCE_DAGGERS_HEAVY_MISS1);
+						m_nSequence = Util::RandomInt(SEQUENCE_DAGGERS_HEAVY_MISS2, SEQUENCE_DAGGERS_HEAVY_MISS1);
 						break;
 					case SEQUENCE_DEFAULT_HEAVY_HIT1:
 					case SEQUENCE_DEFAULT_HEAVY_BACKSTAB:

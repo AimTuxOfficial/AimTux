@@ -21,53 +21,53 @@ void SplitSkins()
 
 	ImGui::Columns(2);
 
-	ImGui::Text("Counter Terrorist Skins");
+	ImGui::Text(XORSTR("Counter Terrorist Skins"));
 	ImGui::NextColumn();
 
-	ImGui::Text("Terrorist Skins");
+	ImGui::Text(XORSTR("Terrorist Skins"));
 	ImGui::Columns(1);
 	ImGui::Separator();
 
 	ImGui::Columns(4);
 
-	ImGui::Text("Model");
+	ImGui::Text(XORSTR("Model"));
 	ImGui::NextColumn();
 
-	ImGui::Text("Skin");
+	ImGui::Text(XORSTR("Skin"));
 	ImGui::NextColumn();
 
-	ImGui::Text("Model");
+	ImGui::Text(XORSTR("Model"));
 	ImGui::NextColumn();
 
-	ImGui::Text("Skin");
+	ImGui::Text(XORSTR("Skin"));
 	ImGui::Columns(1);
 
 	ImGui::Columns(4);
 
 	ImGui::PushItemWidth(-1);
-	ImGui::InputText("##filterModelsCT", filterModelsCT, IM_ARRAYSIZE(filterModelsCT));
+	ImGui::InputText(XORSTR("##filterModelsCT"), filterModelsCT, IM_ARRAYSIZE(filterModelsCT));
 	ImGui::PopItemWidth();
 	ImGui::NextColumn();
 
 	ImGui::PushItemWidth(-1);
-	ImGui::InputText("##filterModelSkinsCT", filterModelSkinsCT, IM_ARRAYSIZE(filterModelSkinsCT));
+	ImGui::InputText(XORSTR("##filterModelSkinsCT"), filterModelSkinsCT, IM_ARRAYSIZE(filterModelSkinsCT));
 	ImGui::PopItemWidth();
 	ImGui::NextColumn();
 
 	ImGui::PushItemWidth(-1);
-	ImGui::InputText("##filterModelsT", filterModelsT, IM_ARRAYSIZE(filterModelsT));
+	ImGui::InputText(XORSTR("##filterModelsT"), filterModelsT, IM_ARRAYSIZE(filterModelsT));
 	ImGui::PopItemWidth();
 	ImGui::NextColumn();
 
 	ImGui::PushItemWidth(-1);
-	ImGui::InputText("##filterModelSkinsT", filterModelSkinsT, IM_ARRAYSIZE(filterModelSkinsT));
+	ImGui::InputText(XORSTR("##filterModelSkinsT"), filterModelSkinsT, IM_ARRAYSIZE(filterModelSkinsT));
 	ImGui::PopItemWidth();
 	ImGui::Columns(1);
 
 	ImGui::Columns(4);
 
 	ImGui::GetCurrentContext()->FontBaseSize = 14.0f;
-	ImGui::ListBoxHeader("##modelsCT", ImVec2(-1, 300));
+	ImGui::ListBoxHeader(XORSTR("##modelsCT"), ImVec2(-1, 300));
 	ImGui::Columns(2);
 	for (auto model : ItemDefinitionIndexMap)
 	{
@@ -101,7 +101,7 @@ void SplitSkins()
 	ImGui::ListBoxFooter();
 	ImGui::NextColumn();
 
-	ImGui::ListBoxHeader("##modelSkinsCT", ImVec2(-1, 300));
+	ImGui::ListBoxHeader(XORSTR("##modelSkinsCT"), ImVec2(-1, 300));
 	ImGui::Columns(2);
 	for (auto skin : itemSkins)
 	{
@@ -124,7 +124,7 @@ void SplitSkins()
 	ImGui::ListBoxFooter();
 	ImGui::NextColumn();
 
-	ImGui::ListBoxHeader("##modelsT", ImVec2(-1, 300));
+	ImGui::ListBoxHeader(XORSTR("##modelsT"), ImVec2(-1, 300));
 	ImGui::Columns(2);
 	for (auto model : ItemDefinitionIndexMap)
 	{
@@ -158,7 +158,7 @@ void SplitSkins()
 	ImGui::ListBoxFooter();
 	ImGui::NextColumn();
 
-	ImGui::ListBoxHeader("##modelSkinsT", ImVec2(-1, 300));
+	ImGui::ListBoxHeader(XORSTR("##modelSkinsT"), ImVec2(-1, 300));
 	ImGui::Columns(2);
 	for (auto skin : itemSkins)
 	{
@@ -184,18 +184,18 @@ void SplitSkins()
 
 	ImGui::Columns(2);
 
-	ImGui::BeginChild("CT Settings", ImVec2(0, 0), true);
+	ImGui::BeginChild(XORSTR("CT Settings"), ImVec2(0, 0), true);
 	{
 		ImGui::Columns(3);
 
-		ImGui::InputInt("ID##CT", &modelSkinCT);
+		ImGui::InputInt(XORSTR("ID##CT"), &modelSkinCT);
 		ImGui::NextColumn();
 
-		ImGui::InputInt("Seed##CT", &skinSeedCT);
+		ImGui::InputInt(XORSTR("Seed##CT"), &skinSeedCT);
 		ImGui::NextColumn();
 
 		ImGui::PushItemWidth(-1);
-		ImGui::SliderFloat("##WearCT", &skinWearCT, 0.0005f, 1.0f, "Wear: %0f");
+		ImGui::SliderFloat(XORSTR("##WearCT"), &skinWearCT, 0.0005f, 1.0f, XORSTR("Wear: %0f"));
 		ImGui::PopItemWidth();
 		ImGui::Columns(1);
 
@@ -203,14 +203,14 @@ void SplitSkins()
 		{
 			ImGui::Columns(2, NULL, false);
 
-			ImGui::InputInt("StatTrak##CT", &skinStatTrakCT);
+			ImGui::InputInt(XORSTR("StatTrak##CT"), &skinStatTrakCT);
 			ImGui::NextColumn();
 
-			ImGui::InputText("Name##CT", skinNameCT, IM_ARRAYSIZE(skinNameCT));
+			ImGui::InputText(XORSTR("Name##CT"), skinNameCT, IM_ARRAYSIZE(skinNameCT));
 			ImGui::Columns(1);
 		}
 
-		if (ImGui::Button("Apply##skinCT", ImVec2(-1, 0)))
+		if (ImGui::Button(XORSTR("Apply##skinCT"), ImVec2(-1, 0)))
 		{
 			if (Settings::Skinchanger::skinsCT.find((ItemDefinitionIndex) modelCT) == Settings::Skinchanger::skinsCT.end())
 				Settings::Skinchanger::skinsCT[(ItemDefinitionIndex) modelCT] = AttribItem_t();
@@ -227,18 +227,18 @@ void SplitSkins()
 	}
 	ImGui::NextColumn();
 
-	ImGui::BeginChild("T Settings", ImVec2(0, 0), true);
+	ImGui::BeginChild(XORSTR("T Settings"), ImVec2(0, 0), true);
 	{
 		ImGui::Columns(3, NULL, false);
 
-		ImGui::InputInt("ID##T", &modelSkinT);
+		ImGui::InputInt(XORSTR("ID##T"), &modelSkinT);
 		ImGui::NextColumn();
 
-		ImGui::InputInt("Seed##T", &skinSeedT);
+		ImGui::InputInt(XORSTR("Seed##T"), &skinSeedT);
 		ImGui::NextColumn();
 
 		ImGui::PushItemWidth(-1);
-		ImGui::SliderFloat("##WearT", &skinWearT, 0.0005f, 1.0f, "Wear: %0f");
+		ImGui::SliderFloat(XORSTR("##WearT"), &skinWearT, 0.0005f, 1.0f, XORSTR("Wear: %0f"));
 		ImGui::PopItemWidth();
 		ImGui::Columns(1);
 
@@ -246,14 +246,14 @@ void SplitSkins()
 		{
 			ImGui::Columns(2, NULL, false);
 
-			ImGui::InputInt("StatTrak##T", &skinStatTrakT);
+			ImGui::InputInt(XORSTR("StatTrak##T"), &skinStatTrakT);
 			ImGui::NextColumn();
 
-			ImGui::InputText("Name##T", skinNameT, IM_ARRAYSIZE(skinNameT));
+			ImGui::InputText(XORSTR("Name##T"), skinNameT, IM_ARRAYSIZE(skinNameT));
 			ImGui::Columns(1);
 		}
 
-		if (ImGui::Button("Apply##skinT", ImVec2(-1, 0)))
+		if (ImGui::Button(XORSTR("Apply##skinT"), ImVec2(-1, 0)))
 		{
 			if (Settings::Skinchanger::skinsT.find((ItemDefinitionIndex) modelT) == Settings::Skinchanger::skinsT.end())
 				Settings::Skinchanger::skinsT[(ItemDefinitionIndex) modelT] = AttribItem_t();
@@ -284,27 +284,27 @@ void CombinedSkins()
 
 	ImGui::Columns(2);
 
-	ImGui::Text("Models");
+	ImGui::Text(XORSTR("Models"));
 	ImGui::NextColumn();
 
-	ImGui::Text("Skins");
+	ImGui::Text(XORSTR("Skins"));
 	ImGui::Columns(1);
 
 	ImGui::Columns(2);
 
 	ImGui::PushItemWidth(-1);
-	ImGui::InputText("##filterModels", filterModels, IM_ARRAYSIZE(filterModels));
+	ImGui::InputText(XORSTR("##filterModels"), filterModels, IM_ARRAYSIZE(filterModels));
 	ImGui::PopItemWidth();
 	ImGui::NextColumn();
 
 	ImGui::PushItemWidth(-1);
-	ImGui::InputText("##filterModelSkins", filterModelSkins, IM_ARRAYSIZE(filterModelSkins));
+	ImGui::InputText(XORSTR("##filterModelSkins"), filterModelSkins, IM_ARRAYSIZE(filterModelSkins));
 	ImGui::PopItemWidth();
 	ImGui::Columns(1);
 
 	ImGui::Columns(2);
 
-	ImGui::ListBoxHeader("##models", ImVec2(-1, 300));
+	ImGui::ListBoxHeader(XORSTR("##models"), ImVec2(-1, 300));
 	ImGui::Columns(2);
 	for (auto model : ItemDefinitionIndexMap)
 	{
@@ -338,7 +338,7 @@ void CombinedSkins()
 	ImGui::ListBoxFooter();
 	ImGui::NextColumn();
 
-	ImGui::ListBoxHeader("##modelSkins", ImVec2(-1, 300));
+	ImGui::ListBoxHeader(XORSTR("##modelSkins"), ImVec2(-1, 300));
 	ImGui::Columns(2);
 	for (auto skin : itemSkins)
 	{
@@ -361,18 +361,18 @@ void CombinedSkins()
 	ImGui::ListBoxFooter();
 	ImGui::Columns(1);
 
-	ImGui::BeginChild("Settings", ImVec2(0, 0), true);
+	ImGui::BeginChild(XORSTR("Settings"), ImVec2(0, 0), true);
 	{
 		ImGui::Columns(3);
 
-		ImGui::InputInt("ID##CT", &selectedModelSkin);
+		ImGui::InputInt(XORSTR("ID##CT"), &selectedModelSkin);
 		ImGui::NextColumn();
 
-		ImGui::InputInt("Seed##CT", &skinSeed);
+		ImGui::InputInt(XORSTR("Seed##CT"), &skinSeed);
 		ImGui::NextColumn();
 
 		ImGui::PushItemWidth(-1);
-		ImGui::SliderFloat("##WearCT", &skinWear, 0.0005f, 1.0f, "Wear: %0f");
+		ImGui::SliderFloat(XORSTR("##WearCT"), &skinWear, 0.0005f, 1.0f, XORSTR("Wear: %0f"));
 		ImGui::PopItemWidth();
 		ImGui::Columns(1);
 
@@ -380,14 +380,14 @@ void CombinedSkins()
 		{
 			ImGui::Columns(2, NULL, false);
 
-			ImGui::InputInt("StatTrak##Combined", &skinStatTrak);
+			ImGui::InputInt(XORSTR("StatTrak##Combined"), &skinStatTrak);
 			ImGui::NextColumn();
 
-			ImGui::InputText("Name##Combined", skinName, IM_ARRAYSIZE(skinName));
+			ImGui::InputText(XORSTR("Name##Combined"), skinName, IM_ARRAYSIZE(skinName));
 			ImGui::Columns(1);
 		}
 
-		if (ImGui::Button("Apply##Combined", ImVec2(-1, 0)))
+		if (ImGui::Button(XORSTR("Apply##Combined"), ImVec2(-1, 0)))
 		{
 			if (Settings::Skinchanger::skinsCT.find((ItemDefinitionIndex)selectedModel) == Settings::Skinchanger::skinsCT.end())
 				Settings::Skinchanger::skinsCT[(ItemDefinitionIndex)selectedModel] = AttribItem_t();
@@ -408,14 +408,14 @@ void Skins::RenderTab()
 {
 	ImGui::Columns(2, NULL, false);
 
-	if (ImGui::Checkbox("Enabled", &Settings::Skinchanger::Skins::enabled))
+	if (ImGui::Checkbox(XORSTR("Enabled"), &Settings::Skinchanger::Skins::enabled))
 	{
 		SkinChanger::forceFullUpdate = true;
 		SkinChanger::glovesUpdated = true;
 	}
 	ImGui::NextColumn();
 
-	if (ImGui::Checkbox("Per-Team", &Settings::Skinchanger::Skins::perTeam))
+	if (ImGui::Checkbox(XORSTR("Per-Team"), &Settings::Skinchanger::Skins::perTeam))
 	{
 		SkinChanger::forceFullUpdate = true;
 		SkinChanger::glovesUpdated = true;

@@ -18,18 +18,18 @@ ColorVar Settings::GrenadeHelper::infoFlash = ImColor(255, 255, 0, 255);
 bool shotLastTick = false;
 pstring Settings::GrenadeHelper::actMapName = pstring();
 
-GrenadeType getGrenadeType(C_BaseCombatWeapon* wpn)
+GrenadeType GetGrenadeType(C_BaseCombatWeapon *wpn)
 {
-	if (!strcmp(wpn->GetCSWpnData()->szClassName, "weapon_hegrenade"))
+	if (!strcmp(wpn->GetCSWpnData()->szClassName, XORSTR("weapon_hegrenade")))
 		return GrenadeType::HEGRENADE;
-	if (!strcmp(wpn->GetCSWpnData()->szClassName, "weapon_smokegrenade"))
+	if (!strcmp(wpn->GetCSWpnData()->szClassName, XORSTR("weapon_smokegrenade")))
 		return GrenadeType::SMOKE;
-	if (!strcmp(wpn->GetCSWpnData()->szClassName, "weapon_flashbang") || !strcmp(wpn->GetCSWpnData()->szClassName, "weapon_decoy"))
+	if (!strcmp(wpn->GetCSWpnData()->szClassName, XORSTR("weapon_flashbang")) || !strcmp(wpn->GetCSWpnData()->szClassName, XORSTR("weapon_decoy")))
 		return GrenadeType::FLASH;
 	return GrenadeType::MOLOTOV;// "weapon_molotov", "weapon_incgrenade"
 }
 
-ImColor GrenadeHelper::getColor(GrenadeType type)
+static ImColor GetColor(GrenadeType type)
 {
 	switch (type)
 	{
@@ -45,20 +45,18 @@ ImColor GrenadeHelper::getColor(GrenadeType type)
 			return ImColor(255, 255, 255);
 	}
 }
-
-void GrenadeHelper::DrawGrenadeInfo(GrenadeInfo* info)
+static void DrawGrenadeInfo(GrenadeInfo* info)
 {
 	Vector pos2d;
 	if (debugOverlay->ScreenPosition(Vector(info->pos.x, info->pos.y, info->pos.z), pos2d))
 		return;
 
-	Color clr = Color::FromImColor(getColor(info->gType));
+	Color clr = Color::FromImColor(GetColor(info->gType));
 	float radius = 20;
 	Draw::Circle(Vector2D(pos2d.x, pos2d.y), 15, radius, clr);
 	Draw::Text(pos2d.x + radius, pos2d.y, info->name.c_str(), esp_font, clr);
 }
-
-void GrenadeHelper::DrawAimHelp(GrenadeInfo* info)
+static void DrawAimHelp(GrenadeInfo* info)
 {
 	Vector infoVec;
 	Math::AngleVectors(info->angle, infoVec);
@@ -80,40 +78,7 @@ void GrenadeHelper::DrawAimHelp(GrenadeInfo* info)
 	// Draw Help line
 	Draw::Line(Vector2D(w / 2, h / 2), pos2d, Color::FromImColor(Settings::GrenadeHelper::aimLine.Color()));
 }
-
-void GrenadeHelper::Paint()
-{
-	if (!Settings::ESP::enabled || !engine->IsInGame() || !Settings::GrenadeHelper::enabled)
-		return;
-
-	C_BasePlayer* localPlayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localPlayer)
-		return;
-
-	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localPlayer->GetActiveWeapon());
-	if (!activeWeapon || activeWeapon->GetCSWpnData()->GetWeaponType() != CSWeaponType::WEAPONTYPE_GRENADE)
-		return;
-
-	if (Settings::GrenadeHelper::grenadeInfos.empty())
-		return;
-
-	for (auto grenadeInfo = Settings::GrenadeHelper::grenadeInfos.begin(); grenadeInfo != Settings::GrenadeHelper::grenadeInfos.end(); grenadeInfo++)
-	{
-		if (Settings::GrenadeHelper::onlyMatchingInfos && getGrenadeType(activeWeapon) != grenadeInfo->gType)
-			continue;
-
-		float dist = grenadeInfo->pos.DistTo(localPlayer->GetEyePosition());
-		if (dist > 1000)
-			continue;
-
-		GrenadeHelper::DrawGrenadeInfo(grenadeInfo.base());
-
-		if (dist < Settings::GrenadeHelper::aimDistance)
-			GrenadeHelper::DrawAimHelp(grenadeInfo.base());
-	}
-}
-
-void GrenadeHelper::AimAssist(CUserCmd* cmd)
+static void AimAssist(CUserCmd* cmd)
 {
 	if (!Settings::GrenadeHelper::aimAssist || !engine->IsInGame() || !Settings::GrenadeHelper::enabled)
 		return;
@@ -140,7 +105,7 @@ void GrenadeHelper::AimAssist(CUserCmd* cmd)
 
 	for (auto act = Settings::GrenadeHelper::grenadeInfos.begin(); act != Settings::GrenadeHelper::grenadeInfos.end(); act++)
 	{
-		if (Settings::GrenadeHelper::onlyMatchingInfos && getGrenadeType(activeWeapon) != act->gType)
+		if (Settings::GrenadeHelper::onlyMatchingInfos && GetGrenadeType(activeWeapon) != act->gType)
 			continue;
 
 		float dist3D = localPlayer->GetEyePosition().DistTo(act->pos);
@@ -195,8 +160,7 @@ void GrenadeHelper::AimAssist(CUserCmd* cmd)
 		}
 	}
 }
-
-void GrenadeHelper::CheckForUpdate()
+static void CheckForUpdate()
 {
 	if (!engine->IsInGame())
 		return;
@@ -210,7 +174,7 @@ void GrenadeHelper::CheckForUpdate()
 		return;
 
 	Settings::GrenadeHelper::actMapName = s;
-	pstring path = GetGhConfigDirectory().append(s).append("/config.json");
+	pstring path = GetGhConfigDirectory().append(s).append(XORSTR("/config.json"));
 
 	if (DoesFileExist(path.c_str()))
 		Settings::LoadGrenadeInfo(path);
@@ -218,9 +182,45 @@ void GrenadeHelper::CheckForUpdate()
 		Settings::GrenadeHelper::grenadeInfos = {};
 }
 
+
+
+
+
+
 void GrenadeHelper::CreateMove(CUserCmd* cmd)
 {
-	GrenadeHelper::CheckForUpdate();
-	GrenadeHelper::AimAssist(cmd);
+	CheckForUpdate();
+	AimAssist(cmd);
 	shotLastTick = cmd->buttons & IN_ATTACK;
+}
+void GrenadeHelper::Paint()
+{
+	if (!Settings::ESP::enabled || !engine->IsInGame() || !Settings::GrenadeHelper::enabled)
+		return;
+
+	C_BasePlayer* localPlayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+	if (!localPlayer)
+		return;
+
+	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localPlayer->GetActiveWeapon());
+	if (!activeWeapon || activeWeapon->GetCSWpnData()->GetWeaponType() != CSWeaponType::WEAPONTYPE_GRENADE)
+		return;
+
+	if (Settings::GrenadeHelper::grenadeInfos.empty())
+		return;
+
+	for (auto grenadeInfo = Settings::GrenadeHelper::grenadeInfos.begin(); grenadeInfo != Settings::GrenadeHelper::grenadeInfos.end(); grenadeInfo++)
+	{
+		if (Settings::GrenadeHelper::onlyMatchingInfos && GetGrenadeType(activeWeapon) != grenadeInfo->gType)
+			continue;
+
+		float dist = grenadeInfo->pos.DistTo(localPlayer->GetEyePosition());
+		if (dist > 1000)
+			continue;
+
+		DrawGrenadeInfo(grenadeInfo.base());
+
+		if (dist < Settings::GrenadeHelper::aimDistance)
+			DrawAimHelp(grenadeInfo.base());
+	}
 }

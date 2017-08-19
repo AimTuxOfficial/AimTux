@@ -160,13 +160,13 @@ struct AimbotWeapon_t
 	SmoothType smoothType;
 	ButtonCode_t aimkey;
 	bool aimkeyOnly, smoothEnabled, smoothSaltEnabled, errorMarginEnabled, autoAimEnabled, aimStepEnabled, rcsEnabled, rcsAlwaysOn, spreadLimitEnabled;
-	float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepValue, rcsAmountX, rcsAmountY, autoWallValue, spreadLimit;
+	float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepMin, aimStepMax, rcsAmountX, rcsAmountY, autoWallValue, spreadLimit;
 	bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoAimRealDistance, autoSlow, predEnabled, moveMouse;
 
 	AimbotWeapon_t(bool enabled, bool silent, bool friendly, bool closestBone, bool engageLock, bool engageLockTR, int engageLockTTR, Bone bone, ButtonCode_t aimkey, bool aimkeyOnly,
 		   bool smoothEnabled, float smoothValue, SmoothType smoothType, bool smoothSaltEnabled, float smoothSaltMultiplier,
 		   bool errorMarginEnabled, float errorMarginValue,
-		   bool autoAimEnabled, float autoAimValue, bool aimStepEnabled, float aimStepValue,
+		   bool autoAimEnabled, float autoAimValue, bool aimStepEnabled, float aimStepMin, float aimStepMax,
 		   bool rcsEnabled, bool rcsAlwaysOn, float rcsAmountX, float rcsAmountY,
 		   bool autoPistolEnabled, bool autoShootEnabled, bool autoScopeEnabled,
 		   bool noShootEnabled, bool ignoreJumpEnabled, bool smokeCheck, bool flashCheck,
@@ -194,7 +194,8 @@ struct AimbotWeapon_t
 		this->autoAimEnabled = autoAimEnabled;
 		this->autoAimFov = autoAimValue;
 		this->aimStepEnabled = aimStepEnabled;
-		this->aimStepValue = aimStepValue;
+		this->aimStepMin = aimStepMin;
+		this->aimStepMax = aimStepMax;
 		this->rcsEnabled = rcsEnabled;
 		this->rcsAlwaysOn = rcsAlwaysOn;
 		this->rcsAmountX = rcsAmountX;
@@ -250,7 +251,8 @@ struct AimbotWeapon_t
 			this->autoAimEnabled == another.autoAimEnabled &&
 			this->autoAimFov == another.autoAimFov &&
 			this->aimStepEnabled == another.aimStepEnabled &&
-			this->aimStepValue == another.aimStepValue &&
+			this->aimStepMin == another.aimStepMin &&
+			this->aimStepMax == another.aimStepMax &&
 			this->rcsEnabled == another.rcsEnabled &&
 			this->rcsAlwaysOn == another.rcsAlwaysOn &&
 			this->rcsAmountX == another.rcsAmountX &&
@@ -327,6 +329,71 @@ namespace Settings
 		extern ColorVar fontColor;
 		extern ColorVar accentColor;
 
+		namespace Windows
+		{
+			namespace Colors
+			{
+				extern int posX;
+				extern int posY;
+				extern int sizeX;
+				extern int sizeY;
+				extern bool open;
+				extern bool reload; // True on config load, used to change Window Position.
+			}
+			namespace Config
+			{
+				extern int posX;
+				extern int posY;
+				extern int sizeX;
+				extern int sizeY;
+				extern bool open;
+				extern bool reload; // True on config load, used to change Window Position.
+			}
+			namespace Main
+			{
+				extern int posX;
+				extern int posY;
+				extern int sizeX;
+				extern int sizeY;
+				extern bool open;
+				extern bool reload; // True on config load, used to change Window Position.
+			}
+			namespace Playerlist
+			{
+				extern int posX;
+				extern int posY;
+				extern int sizeX;
+				extern int sizeY;
+				extern bool open;
+				extern bool reload; // True on config load, used to change Window Position.
+			}
+			namespace Skinmodel
+			{
+				extern int posX;
+				extern int posY;
+				extern int sizeX;
+				extern int sizeY;
+				extern bool open;
+				extern bool reload; // True on config load, used to change Window Position.
+			}
+			namespace Spectators
+			{
+				extern int posX;
+				extern int posY;
+				extern int sizeX;
+				extern int sizeY;
+				extern bool reload; // True on config load, used to change Window Position.
+			}
+			namespace Walkbot
+			{
+				extern int posX;
+				extern int posY;
+				extern int sizeX;
+				extern int sizeY;
+				extern bool open;
+				extern bool reload; // True on config load, used to change Window Position.
+			}
+		}
 		namespace Fonts
 		{
 			namespace ESP
@@ -388,7 +455,8 @@ namespace Settings
 		namespace AimStep
 		{
 			extern bool enabled;
-			extern float value;
+			extern float min;
+			extern float max;
 		}
 
 		namespace RCS
@@ -754,6 +822,20 @@ namespace Settings
 	namespace BHop
 	{
 		extern bool enabled;
+
+		namespace Chance
+		{
+			extern bool enabled;
+			extern int value;
+		}
+
+		namespace Hops
+		{
+			extern bool enabledMax;
+			extern int Max;
+			extern bool enabledMin;
+			extern int Min;
+		}
 	}
 
 	namespace AutoStrafe
@@ -876,12 +958,6 @@ namespace Settings
 		}
 	}
 
-	namespace Teleport
-	{
-		extern bool enabled;
-		extern ButtonCode_t key;
-	}
-
 	namespace FakeLag
 	{
 		extern bool enabled;
@@ -992,6 +1068,18 @@ namespace Settings
 		extern bool autobuy;
 		extern int autobuyAt;
 	}
+
+	namespace AutoKnife
+ 	{
+ 		extern bool enabled;
+ 		extern bool onKey;
+ 
+ 		namespace Filters
+ 		{
+ 			extern bool enemies;
+ 			extern bool allies;
+ 		}
+ 	}
 
 	void LoadDefaultsOrSave(std::string path);
 	void LoadConfig(std::string path);

@@ -24,9 +24,9 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		Autoblock::CreateMove(cmd);
 		Aimbot::CreateMove(cmd);
 		Triggerbot::CreateMove(cmd);
+		AutoKnife::CreateMove(cmd);
 		AntiAim::CreateMove(cmd);
 		Airstuck::CreateMove(cmd);
-		// Teleport::CreateMove(cmd);
 		FakeLag::CreateMove(cmd);
 		ESP::CreateMove(cmd);
 		Walkbot::CreateMove(cmd);

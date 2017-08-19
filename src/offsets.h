@@ -248,6 +248,8 @@ struct COffsets
 		std::ptrdiff_t m_numGlobalGiftsPeriodSeconds;
 		std::ptrdiff_t m_arrFeaturedGiftersAccounts;
 		std::ptrdiff_t m_arrFeaturedGiftersGifts;
+		std::ptrdiff_t m_arrProhibitedItemIndices;
+		std::ptrdiff_t m_numBestOfMaps;
 		std::ptrdiff_t m_arrTournamentActiveCasterAccounts;
 	} DT_CSGameRulesProxy;
 };

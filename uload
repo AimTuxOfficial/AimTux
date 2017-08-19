@@ -1,14 +1,40 @@
-#!/bin/sh
+#!/bin/bash
 
 #Credit: Aixxe @ aixxe.net
-if grep -q libFuzion.so /proc/$(pidof csgo_linux64)/maps; then
-sudo gdb -n -q -batch \
-    -ex "attach $(pidof csgo_linux64)" \
-    -ex "set \$dlopen = (void*(*)(char*, int)) dlopen" \
-    -ex "set \$dlclose = (int(*)(void*)) dlclose" \
-    -ex "set \$library = \$dlopen(\"$(pwd)/libFuzion.so\", 6)" \
-    -ex "call \$dlclose(\$library)" \
-    -ex "call \$dlclose(\$library)" \
-    -ex "detach" \
-    -ex "quit"
+
+csgo_pid=$(pidof csgo_linux64)
+filename=$(cat build_id)
+filename_old=$(cat build_id_old)
+
+if [ -f build_id ]; then
+    if grep -q "$filename" /proc/"$csgo_pid"/maps; then
+    sudo gdb -n -q -batch-silent \
+        -ex "attach $csgo_pid" \
+        -ex "set \$dlopen = (void*(*)(char*, int)) dlopen" \
+        -ex "set \$dlclose = (int(*)(void*)) dlclose" \
+        -ex "set \$library = \$dlopen(\"/$filename\", 6)" \
+        -ex "call \$dlclose(\$library)" \
+        -ex "call \$dlclose(\$library)" \
+        -ex "detach" \
+        -ex "quit"
+    sudo rm /"$filename"
+    fi
 fi
+
+#build_id_old is used for unloading in case you rebuild while injected.
+if [ -f build_id_old ]; then
+    if grep -q "$filename_old" /proc/"$csgo_pid"/maps; then
+    sudo gdb -n -q -batch-silent \
+        -ex "attach $csgo_pid" \
+        -ex "set \$dlopen = (void*(*)(char*, int)) dlopen" \
+        -ex "set \$dlclose = (int(*)(void*)) dlclose" \
+        -ex "set \$library = \$dlopen(\"/$filename_old\", 6)" \
+        -ex "call \$dlclose(\$library)" \
+        -ex "call \$dlclose(\$library)" \
+        -ex "detach" \
+        -ex "quit"
+    sudo rm /"$filename_old"
+    fi
+fi
+
+echo "Done. See CSGO Console."

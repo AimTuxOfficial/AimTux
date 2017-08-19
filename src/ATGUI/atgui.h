@@ -21,6 +21,8 @@
 #include "Tabs/misctab.h"
 #include "Tabs/modelstab.h"
 #include "Tabs/skinstab.h"
+#include "../Utils/xorstring.h"
+#include "../Fuzion.h"
 
 namespace UI
 {
@@ -38,8 +40,10 @@ namespace UI
 	void ReloadWeaponSettings();
 }
 
+/*
 inline void SetTooltip(const char* text)
 {
 	if (ImGui::IsItemHovered())
 		ImGui::SetTooltip("%s", text);
 }
+*/

@@ -1,16 +1,27 @@
-#include "interfaces.h"
-#include "hooker.h"
-// #include "modsupport.h"
-#include "Utils/netvarmanager.h"
+#include "Fuzion.h"
 #include "EventListener.h"
+#include "preload.h"
+//#include "Utils/netvarmanager.h"
 
-EventListener* eventListener = nullptr;
+static EventListener* eventListener = nullptr;
+// The Below Line is Set by the Build script. Keep this on Line 8.
+char buildID[] = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"; // Line Set by build script
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bool preload = false;
+bool isShuttingDown = false;
 
-/* called when the library is loading */
-int __attribute__((constructor)) FuzionInit()
+void MainThread()
 {
+	if( preload )
+	{
+		while( client == nullptr )
+		{
+			client = GetInterface<IBaseClientDLL>(XORSTR("./csgo/bin/linux64/client_client.so"), XORSTR( "VClient"));
+			std::this_thread::sleep_for(std::chrono::seconds(3));
+		}
+	}
 	Interfaces::FindInterfaces();
-	Interfaces::DumpInterfaces();
+	//Interfaces::DumpInterfaces();
 
 	Hooker::FindSetNamedSkybox();
 	Hooker::FindViewRender();
@@ -32,14 +43,83 @@ int __attribute__((constructor)) FuzionInit()
 	Hooker::FindLineGoesThroughSmoke();
 	Hooker::FindInitKeyValues();
 	Hooker::FindLoadFromBuffer();
-	Hooker::FindVstdlibFunctions();
+	//Hooker::FindVstdlibFunctions();
 	Hooker::FindOverridePostProcessingDisable();
 	Hooker::FindCrosshairWeaponTypeCheck();
-	Hooker::FindCamThinkSvCheatsCheck();
 	Hooker::HookSwapWindow();
 	Hooker::HookPollEvent();
 
-	cvar->ConsoleColorPrintf(ColorRGBA(0, 255, 0), ".so Successfully injected.\n");
+
+	if( preload )
+	{
+		cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 200), XORSTR("LD_PRELOAD method Detected...\n"));
+		bool found = false;
+		for (int i = 0; environ[i]; i++)
+		{
+			if (strstr(environ[i], buildID) != NULL)
+			{
+				found = true;
+			}
+		}
+		if (found)
+		{
+			cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 0), XORSTR("Environ has our buildID!\n"));
+		}
+		else
+		{
+			cvar->ConsoleColorPrintf(ColorRGBA(0, 150, 0), XORSTR("Environ Memory Purged Sucessfully.\n"));
+		}
+		cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 200), XORSTR("-- Hooks --\n"));
+
+		/* The program will force exit before this point, if these are not found, so this is more of an informational read of what is hooked */
+		cvar->ConsoleColorPrintf(ColorRGBA(0, 0, 200), XORSTR("fopen(): Hooked\n"));
+		cvar->ConsoleColorPrintf(ColorRGBA(0, 0, 200), XORSTR("getenv(): Hooked\n"));
+		cvar->ConsoleColorPrintf(ColorRGBA(0, 0, 200), XORSTR("open(): Hooked\n"));
+		cvar->ConsoleColorPrintf(ColorRGBA(0, 0, 200), XORSTR("execve(): Hooked\n"));
+
+		cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 200), XORSTR("-- Tests --\n"));
+		if (getenv(XORSTR("LD_PRELOAD")) == NULL)
+		{
+			cvar->ConsoleColorPrintf(ColorRGBA(0, 150, 0), XORSTR("getenv(\"LD_PRELOAD\") Clean.\n"));
+		}
+		else
+		{
+			cvar->ConsoleColorPrintf(ColorRGBA(255, 255, 0), XORSTR("getenv(\"LD_PRELOAD\") = %s\n"), getenv(XORSTR("LD_PRELOAD")));
+		}
+
+		if (strcmp(XORSTR("/dev/null"), getenv(XORSTR("TMPDIR"))) == 0)
+		{
+			cvar->ConsoleColorPrintf(ColorRGBA(0, 150, 0), XORSTR("getenv(\"TMPDIR\") -> /dev/null.\n"));
+		}
+		else
+		{
+			cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 0), XORSTR("getenv(\"TMPDIR\") ->%s\n"), getenv(XORSTR("TMPDIR")));
+		}
+
+		char buffer[PATH_MAX];
+		found = false;
+		FILE *maps = fopen(XORSTR("/proc/self/maps"), "r");
+		while (fgets(buffer, PATH_MAX, maps)) {
+			if (strstr(buffer, buildID) != NULL)
+				found = true;
+		}
+		fclose(maps);
+		if (found)
+		{
+			cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 0), XORSTR("fopen(\"/proc/self/maps\") contains our shared object!\n"));
+		}
+		else
+		{
+			cvar->ConsoleColorPrintf(ColorRGBA(0, 150, 0), XORSTR("fopen(\"/proc/self/maps\") file Clean.\n"));
+		}
+	}
+	else
+	{
+		cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 200), XORSTR("GDB Injection method Detected...\n"));
+	}
+
+
+	cvar->ConsoleColorPrintf(ColorRGBA(0, 225, 0), XORSTR("\nFuzion Successfully loaded.\n"));
 
 	ModSupport::OnInit();
 
@@ -52,7 +132,7 @@ int __attribute__((constructor)) FuzionInit()
 
 	modelRenderVMT->HookVM((void*) Hooks::DrawModelExecute, 21);
 	modelRenderVMT->ApplyVMT();
-
+	
 	clientModeVMT->HookVM((void*) Hooks::OverrideView, 19);
 	clientModeVMT->HookVM((void*) Hooks::CreateMove, 25);
 	clientModeVMT->HookVM((void*) Hooks::GetViewModelFOV, 36);
@@ -91,7 +171,7 @@ int __attribute__((constructor)) FuzionInit()
 	if (ModSupport::current_mod != ModType::CSCO && Hooker::HookRecvProp("CBaseViewModel", "m_nSequence", SkinChanger::sequenceHook))
 		SkinChanger::sequenceHook->SetProxyFunction((RecvVarProxyFn) SkinChanger::SetViewModelSequence);
 
-	NetVarManager::DumpNetvars();
+	//NetVarManager::DumpNetvars();
 	Offsets::GetOffsets();
 
 	Fonts::SetupFonts();
@@ -102,16 +182,63 @@ int __attribute__((constructor)) FuzionInit()
 
 	AntiAim::LuaInit();
 
+	if( preload )
+	{
+		while( !isShuttingDown )
+		{
+			std::this_thread::sleep_for(std::chrono::seconds(1));
+			if( Util::IsDebuggerPresent() != 0 )
+			{
+				cvar->ConsoleColorPrintf(ColorRGBA(225, 0, 0), XORSTR("DEBUGGER DETECTED! EXITING FUZION\n"));
+				Fuzion::SelfShutdown();
+			}
+		}
+	}
+}
+/* Entrypoint to the Library. Called when loading */
+int __attribute__((constructor)) Startup()
+{
+	// Search in Environment Memory for our buildID before purging environ memory
+	for(int i = 0; environ[i]; i++)
+	{
+		if(strstr(environ[i], buildID) != NULL)
+		{
+			preload = true;
+			if( !Preload::Startup(buildID) )
+			{
+				char fd[PATH_MAX];
+				snprintf(fd, sizeof(fd), XORSTR("/tmp/%s.log"), buildID);
+				FILE *log = fopen(fd, "w");
+				fprintf(log, XORSTR("Could not find functions to hook in Preload::Startup(). Exiting.\n"));
+				fclose(log);
+				exit(-1);
+			}
+			Preload::CleanEnvironment();
+		}
+	}
+
+	std::thread mainThread(MainThread);
+	// The root of all suffering is attachment
+	// Therefore our little buddy must detach from this realm.
+	// Farewell my thread, may we join again some day..
+	mainThread.detach();
+
 	return 0;
 }
-
-void __attribute__((destructor)) FuzionShutdown()
+/* Called when un-injecting the library */
+void __attribute__((destructor)) Shutdown()
 {
-	cvar->FindVar("cl_mouseenable")->SetValue(1);
+	isShuttingDown = true;
+	cvar->FindVar(XORSTR("cl_mouseenable"))->SetValue(1);
 
 	SDL2::UnhookWindow();
 	SDL2::UnhookPollEvent();
+	if( !preload )
+	{
+		ImGui::Shutdown();
+	}
 
+	Preload::Cleanup();
 	AntiAim::LuaCleanup();
 	Aimbot::XDOCleanup();
 	NoSmoke::Cleanup();
@@ -138,13 +265,26 @@ void __attribute__((destructor)) FuzionShutdown()
 	*bSendPacket = true;
 	*s_bOverridePostProcessingDisable = false;
 	*CrosshairWeaponTypeCheck = 5;
-	*CamThinkSvCheatsCheck = 0x74;
-	*(CamThinkSvCheatsCheck + 0x1) = 0x64;
 
 	Util::ProtectAddr(bSendPacket, PROT_READ | PROT_EXEC);
 	Util::ProtectAddr(CrosshairWeaponTypeCheck, PROT_READ | PROT_EXEC);
-	for (ptrdiff_t off = 0; off < 0x2; off++)
-		Util::ProtectAddr(CamThinkSvCheatsCheck + off, PROT_READ | PROT_EXEC);
 
-	cvar->ConsoleColorPrintf(ColorRGBA(255, 0, 0), ".so Unloaded successfully.\n");
+	cvar->ConsoleColorPrintf(ColorRGBA(255, 0, 0), XORSTR("Fuzion Unloaded successfully.\n"));
+}
+void Fuzion::SelfShutdown()
+{
+	// Beta Feature.
+	// Does not Correctly/Fully Unload yet.
+	/*
+	void *self = dlopen(NULL, RTLD_NOW | RTLD_NOLOAD);
+	if (self == NULL) {
+		cvar->ConsoleDPrintf("Error Unloading: %s\nself Addr: %p\n", dlerror(), self);
+		return;
+	}
+	*/
+	Shutdown();
+	/*
+	dlclose(self);
+	dlclose(self);
+	*/
 }

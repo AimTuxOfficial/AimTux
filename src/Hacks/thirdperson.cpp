@@ -3,42 +3,64 @@
 bool Settings::ThirdPerson::enabled = false;
 float Settings::ThirdPerson::distance = 30.f;
 
-void ThirdPerson::BeginFrame()
+void ThirdPerson::OverrideView(CViewSetup *pSetup)
 {
-	if (!engine->IsInGame())
+	if (!Settings::ThirdPerson::enabled)
 		return;
 
-	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer || !localplayer->GetAlive())
+	C_BasePlayer *localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+	if(!localplayer || !localplayer->GetAlive())
 		return;
 
-	if (Settings::ThirdPerson::enabled)
+	QAngle *view = localplayer->GetVAngles();
+	trace_t tr;
+	Ray_t ray;
+
+	Vector desiredCamOffset = Vector(cos(DEG2RAD(view->y)) * Settings::ThirdPerson::distance,
+								  sin(DEG2RAD(view->y)) * Settings::ThirdPerson::distance,
+								  sin(DEG2RAD(-view->x)) * Settings::ThirdPerson::distance
+							);
+
+	//cast a ray from the Current camera Origin to the Desired 3rd person Camera origin
+	ray.Init(localplayer->GetEyePosition(), (localplayer->GetEyePosition() - desiredCamOffset));
+	CTraceFilter traceFilter;
+	traceFilter.pSkip = localplayer;
+	trace->TraceRay(ray, MASK_SHOT, &traceFilter, &tr);
+
+	Vector diff = localplayer->GetEyePosition() - tr.endpos;
+
+	float distance2D = sqrt(abs(diff.x * diff.x) + abs(diff.y * diff.y));// Pythagorean
+
+	bool horOK = distance2D > (Settings::ThirdPerson::distance - 2.0f);
+	bool vertOK = (abs(diff.z) - abs(desiredCamOffset.z) < 3.0f);
+
+	float cameraDistance;
+
+	if( horOK && vertOK )  // If we are clear of obstacles
 	{
-		for (ptrdiff_t off = 0; off < 0x2; off++)
-			*(CamThinkSvCheatsCheck + off) = 0x90;
+		cameraDistance= Settings::ThirdPerson::distance; // go ahead and set the distance to the setting
 	}
 	else
 	{
-		*CamThinkSvCheatsCheck = 0x74;
-		*(CamThinkSvCheatsCheck + 0x1) = 0x64;
+		if( vertOK ) // if the Vertical Axis is OK
+		{
+			cameraDistance = distance2D * 0.95f;
+		}
+		else// otherwise we need to move closer to not go into the floor/ceiling
+		{
+			cameraDistance = abs(diff.z) * 0.95f;
+		}
 	}
+	input->m_fCameraInThirdPerson = true;
+	input->m_vecCameraOffset.z = cameraDistance;
+/*
+	Vector temp = Vector(cos(DEG2RAD(view.y)) * Settings::ThirdPerson::distance,
+						 sin(DEG2RAD(view.y)) * Settings::ThirdPerson::distance,
+						 -view.x );
+
+	pSetup->origin -= temp;
+
+*/
+
 }
 
-void ThirdPerson::FrameStageNotify(ClientFrameStage_t stage)
-{
-	if (!engine->IsInGame())
-		return;
-
-	if (stage != ClientFrameStage_t::FRAME_RENDER_START)
-		return;
-
-	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer)
-		return;
-
-	input->m_fCameraInThirdPerson = Settings::ThirdPerson::enabled && localplayer->GetAlive();
-	input->m_vecCameraOffset.z = Settings::ThirdPerson::enabled ? Settings::ThirdPerson::distance : 150.f;
-
-	if (Settings::ThirdPerson::enabled)
-		*localplayer->GetVAngles() = CreateMove::lastTickViewAngles;
-}

@@ -2,7 +2,6 @@
 
 #include <math.h>
 #include "../settings.h"
-#include "../SDK/SDK.h"
 #include "../Hooks/hooks.h"
 #include "../Utils/draw.h"
 #include "../interfaces.h"
@@ -13,8 +12,13 @@ namespace ESP
 {
 	extern const char* ranks[];
 
-	bool GetBox(C_BaseEntity* entity, int& x, int& y, int& w, int& h);
 	ImColor GetESPPlayerColor(C_BasePlayer* player, bool visible);
+
+
+
+
+	/*
+	bool GetBox(C_BaseEntity* entity, int& x, int& y, int& w, int& h);
 	void DrawAutoWall(C_BasePlayer* player);
 	void DrawBox(Color color, int x, int y, int w, int h, C_BaseEntity* entity);
 	void DrawEntity(C_BaseEntity* entity, const char* string, Color color);
@@ -37,7 +41,9 @@ namespace ESP
 	void DrawFOVCrosshair();
 	void DrawGlow();
 	void DrawScope();
+	 */
 
+	//Hooks
 	void DrawModelExecute(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t* pCustomBoneToWorld);
 	bool PrePaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force);
 	void Paint();

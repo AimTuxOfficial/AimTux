@@ -1,11 +1,10 @@
 #pragma once
 
-#include <climits>
 #include "../settings.h"
-#include "../SDK/SDK.h"
 #include "../interfaces.h"
 
 namespace Autoblock
 {
+	//Hooks
 	void CreateMove(CUserCmd* cmd);
 }

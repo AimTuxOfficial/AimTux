@@ -1,0 +1,36 @@
+#!/bin/bash
+# Starts a GDB session on CSGO, injects cheat if it is not already present. 
+# Send SIGINT to CSGO with: "kill -2 $(pidof csgo_linux64)"
+
+
+csgo_pid=$(pidof csgo_linux64)
+if [ -z "$csgo_pid" ]; then
+    /bin/echo -e "\e[31mCS:GO needs to be open before you can inject...\e[0m"
+    exit 1
+fi
+
+# pBypass for crash dumps being sent
+# You may also want to consider using -nobreakpad in your launch options.
+sudo rm -rf /tmp/dumps # Remove if it exists
+sudo mkdir /tmp/dumps # Make it as root
+sudo chmod 000 /tmp/dumps # No permissions
+
+if [ ! -f build_id ]; then
+    /bin/echo "Build ID not found. Please rebuild using the './build' script."
+    exit
+fi
+
+filename=$(cat build_id)
+
+#https://www.kernel.org/doc/Documentation/security/Yama.txt
+sudo echo "2" | sudo tee /proc/sys/kernel/yama/ptrace_scope # Only allows root to inject code. This is temp until reboot.
+
+#dlopen method Credits: Aixxe @ aixxe.net
+if grep -q "$filename" /proc/"$csgo_pid"/maps; then
+    (sudo echo -e "continue\n"; cat) | sudo gdb -p $csgo_pid
+else
+    echo "Injecting build $filename"
+    sudo cp "$filename" /"$filename"
+    (sudo echo -e "set \$dlopen = (void*(*)(char*, int)) dlopen\ncall \$dlopen(\"/$filename\", 1)\ncontinue\n"; cat) | sudo gdb -p $csgo_pid
+    sudo rm /"$filename"
+fi
