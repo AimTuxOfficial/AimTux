@@ -606,7 +606,7 @@ public:
 	float GetSpread()
 	{
 		typedef float (* oGetSpread)(void*);
-		return getvfunc<oGetSpread>(this, 513)(this); //553
+		return getvfunc<oGetSpread>(this, 507)(this); //553
 	}
 	float GetInaccuracy()
 	{
