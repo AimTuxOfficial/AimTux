@@ -140,6 +140,7 @@ struct COffsets
 
 	struct
 	{
+		std::ptrdiff_t m_bReloadVisuallyComplete;
 		std::ptrdiff_t m_fAccuracyPenalty;
 	} DT_WeaponCSBase;
 

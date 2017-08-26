@@ -34,6 +34,7 @@
 #include "snipercrosshair.h"
 #include "spammer.h"
 #include "thirdperson.h"
+#include "tracereffect.h"
 #include "triggerbot.h"
 #include "autoknife.h"
 #include "valvedscheck.h"

@@ -130,7 +130,7 @@ std::wstring Util::StringToWstring(std::string str)
 		return s.str();
 	}
 }
-
+/* Get Epoch timestamp in ms */
 long Util::GetEpochTime()
 {
 	auto duration = std::chrono::system_clock::now().time_since_epoch();

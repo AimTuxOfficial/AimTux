@@ -12,6 +12,7 @@
 #include "fonts.h"
 #include "Utils/draw.h"
 #include "Hacks/skinchanger.h"
+#include "Hacks/tracereffect.h"
 #include "Utils/util.h"
 #include "Utils/util_items.h"
 #include "Utils/util_sdk.h"
@@ -1068,7 +1069,14 @@ namespace Settings
 		extern bool autobuy;
 		extern int autobuyAt;
 	}
+	namespace TracerEffects
+	{
+		extern bool enabled;
+		extern bool serverSide;
+		extern TracerEffects_t effect;
+		extern int frequency;
 
+	}
 	namespace AutoKnife
  	{
  		extern bool enabled;
