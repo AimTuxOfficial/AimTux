@@ -325,7 +325,7 @@ public:
 
 	float GetFlashBangTime()
 	{
-		return *(float*)((uintptr_t)this + 0xABE4);
+		return *(float*)((uintptr_t)this + 0xABC4);
 	}
 
 	float GetFlashDuration()
