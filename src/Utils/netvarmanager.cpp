@@ -132,7 +132,6 @@ bool NetVarManager::HookProp(const char* tableName, const char* propName, RecvVa
 void NetVarManager::DumpNetvars()
 {
 	std::stringstream ss;
-	char cwd[1024];
 
 	for (ClientClass* pClass = client->GetAllClasses(); pClass != NULL; pClass = pClass->m_pNext)
 	{
@@ -140,9 +139,7 @@ void NetVarManager::DumpNetvars()
 		ss << NetVarManager::DumpTable(table, 0);
 	}
 
-	getcwd(cwd, sizeof(cwd));
-
-	std::string netvarsPath = std::string(cwd) + XORSTR("/netvars.txt");
+	std::string netvarsPath = XORSTR("/tmp/netvars.txt");
 
 	std::ofstream(netvarsPath) << ss.str();
 }

@@ -536,60 +536,50 @@ public:
 class CCSWeaponInfo : public FileWeaponInfo_t
 {
 public:
+	char* GetConsoleName()
+	{
+		return *(char**)((uintptr_t)this + 0x8);
+	}
 	CSWeaponType GetWeaponType()
 	{
-		return *(CSWeaponType*)((uintptr_t)this + 0x864);
+		return *(CSWeaponType*)((uintptr_t)this + 0x140);
 	}
-
-	bool IsFullAuto()
-	{
-		return *(bool*)((uintptr_t)this + 0x870);
-	}
-
-	float GetWeaponArmorRatio()
-	{
-		return *(float*)((uintptr_t)this + 0x87C);
-	}
-
-	float GetMaxPlayerSpeed()
-	{
-		return *(float*)((uintptr_t)this + 0x880);
-	}
-
-	float GetMaxPlayerSpeedAlt()
-	{
-		return *(float*)((uintptr_t)this + 0x884);
-	}
-
-	float GetPenetration()
-	{
-		return *(float*)((uintptr_t)this + 0x890);
-	}
-
 	int GetDamage()
 	{
-		return *(int*)((uintptr_t)this + 0x894);
+		return *(int*)((uintptr_t)this + 0x16C);
 	}
-
+	float GetWeaponArmorRatio()
+	{
+		return *(float*)((uintptr_t)this + 0x170);
+	}
+	float GetPenetration()
+	{
+		return *(float*)((uintptr_t)this + 0x178);
+	}
 	float GetRange()
 	{
-		return *(float*)((uintptr_t)this + 0x898);
+		return *(float*)((uintptr_t)this + 0x184);
 	}
-
 	float GetRangeModifier()
 	{
-		return *(float*)((uintptr_t)this + 0x89C);
+		return *(float*)((uintptr_t)this + 0x188);
 	}
-
-	float GetSpread()
+	float GetMaxPlayerSpeed()
 	{
-		return *(float*)((uintptr_t)this + 0xA4C);
+		return *(float*)((uintptr_t)this + 0x1B0);
 	}
-
 	int GetZoomLevels()
 	{
-		return *(int*)((uintptr_t)this + 0xEE0);
+		return *(int*)((uintptr_t)this + 0x240);
 	}
+    char* GetTracerEffect()
+    {
+        return *(char**)((uintptr_t)this + 0x278);
+    }
+    int* GetTracerFrequency()
+    {
+        return (int*)((uintptr_t)this + 0x280);
+    }
 };
 
 class C_BaseCombatWeapon: public C_BaseAttributableItem
@@ -620,28 +610,30 @@ public:
 		return *(float*)((uintptr_t)this + offsets.DT_WeaponCSBase.m_fAccuracyPenalty);
 	}
 
+	bool GetReloadVisuallyComplete()
+	{
+		return *(bool*)((uintptr_t)this + offsets.DT_WeaponCSBase.m_bReloadVisuallyComplete);
+	}
+
 	CCSWeaponInfo* GetCSWpnData()
 	{
 		typedef CCSWeaponInfo* (* oGetCSWpnData)(void*);
-		return getvfunc<oGetCSWpnData>(this, 524)(this);
+		return getvfunc<oGetCSWpnData>(this, 514)(this);
 	}
-
-	float GetInaccuracy()
-	{
-		typedef float (* oGetInaccuracy)(void*);
-		return getvfunc<oGetInaccuracy>(this, 551)(this);
-	}
-
 	float GetSpread()
 	{
 		typedef float (* oGetSpread)(void*);
-		return getvfunc<oGetSpread>(this, 552)(this); //553
+		return getvfunc<oGetSpread>(this, 507)(this); //553
 	}
-
+	float GetInaccuracy()
+	{
+		typedef float (* oGetInaccuracy)(void*);
+		return getvfunc<oGetInaccuracy>(this, 537)(this);
+	}
 	void UpdateAccuracyPenalty()
 	{
 		typedef void (* oUpdateAccuracyPenalty)(void*);
-		return getvfunc<oUpdateAccuracyPenalty>(this, 553)(this);//554
+		return getvfunc<oUpdateAccuracyPenalty>(this, 538)(this);//554
 	}
 };
 

@@ -152,10 +152,9 @@ To add a config, copy the folder containing it to `~/.config/FuzionGH`
 
 
 ## Screenshots
-![franklin](http://i.imgur.com/a964edK.jpg)
-![menu](http://i.imgur.com/AOSjO6S.jpg)
-![swag](http://i.imgur.com/Okzvm5r.jpg)
-![fuzion](http://i.imgur.com/5fZDVHa.jpg)
+![aimbot](http://i.imgur.com/NhSEO9W.png)
+![menu](http://i.imgur.com/59TGPfw.png)
+![esp](http://i.imgur.com/lnF42Ng.png)
 
 ## Credits
 Special thanks to the Original AimTux project: https://github.com/AimTuxOfficial/AimTux

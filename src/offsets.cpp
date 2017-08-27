@@ -114,6 +114,7 @@ void Offsets::GetOffsets()
 	offsets.DT_BaseViewModel.m_hWeapon = NetVarManager::GetOffset(tables, XORSTR("DT_BaseViewModel"), XORSTR("m_hWeapon"));
 	offsets.DT_BaseViewModel.m_hOwner = NetVarManager::GetOffset(tables, XORSTR("DT_BaseViewModel"), XORSTR("m_hOwner"));
 
+	offsets.DT_WeaponCSBase.m_bReloadVisuallyComplete = NetVarManager::GetOffset(tables, XORSTR("DT_WeaponCSBase"), XORSTR("m_bReloadVisuallyComplete"));
 	offsets.DT_WeaponCSBase.m_fAccuracyPenalty = NetVarManager::GetOffset(tables, XORSTR("DT_WeaponCSBase"), XORSTR("m_fAccuracyPenalty"));
 
 	offsets.DT_WeaponC4.m_bStartedArming = NetVarManager::GetOffset(tables, XORSTR("DT_WeaponC4"), XORSTR("m_bStartedArming"));

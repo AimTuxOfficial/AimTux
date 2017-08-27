@@ -9,6 +9,9 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 
 	if (cmd && cmd->command_number)
 	{
+		//register uintptr_t *pFrame asm("rbp");
+		//cvar->ConsoleDPrintf("*RBP: %#x | Final Address: %#x | Sending? (%d)\n", *pFrame, (((bool*)*pFrame)-0x3B4), *(((bool*)*pFrame)-0x3B4));
+		//*(((bool*)*pFrame)-0x1018) = CreateMove::sendPacket;
 		*bSendPacket = CreateMove::sendPacket;
 		CreateMove::sendPacket = true;
 
@@ -31,6 +34,7 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		ESP::CreateMove(cmd);
 		Walkbot::CreateMove(cmd);
 		PredictionSystem::EndPrediction();
+		TracerEffect::CreateMove(cmd);
 
 		EdgeJump::PostPredictionCreateMove(cmd);
 

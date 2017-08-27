@@ -87,13 +87,20 @@ enum class FontDrawType_t : int
 
 enum class ClientFrameStage_t : int
 {
+	// (haven't run any frames yet)
 	FRAME_UNDEFINED = -1,
 	FRAME_START,
+	// A network packet is being recieved
 	FRAME_NET_UPDATE_START,
+	// Data has been received and we're going to start calling PostDataUpdate
 	FRAME_NET_UPDATE_POSTDATAUPDATE_START,
+	// Data has been received and we've called PostDataUpdate on all data recipients
 	FRAME_NET_UPDATE_POSTDATAUPDATE_END,
+	// We've received all packets, we can now do interpolation, prediction, etc..
 	FRAME_NET_UPDATE_END,
+	// We're about to start rendering the scene
 	FRAME_RENDER_START,
+	// We've finished rendering the scene.
 	FRAME_RENDER_END
 };
 
@@ -1644,6 +1651,29 @@ enum ThrowType : int
 	RUN,
 	JUMP,
 	WALK
+};
+
+enum TracerEffects_t : int
+{
+    ASSRIFLE,
+    PISTOL,
+    SMG,
+    RIFLE,
+    TASER, // Also known as "Kisak Snot"
+    MACH,
+    SHOT,
+
+    TASER_FALLBACK,
+    TASER_FALLBACK2,
+    TASER_WIRE1A,
+    TASER_WIRE2,
+    TASER_WIRE1B,
+    ORIGINAL,
+    BACKUP,
+    FIFTY_CAL,
+    FIFTY_CAL_GLOW,
+    FIFTY_CAL_LOW,
+    FIFTY_CAL_LOW_GLOW,
 };
 
 struct GrenadeInfo
