@@ -2,7 +2,7 @@
 
 csgo_pid=$(pidof csgo_linux64)
 if [ -z "$csgo_pid" ]; then
-    /bin/echo -e "\e[31mCS:GO needs to be open before you can inject...\e[0m"
+    /bin/echo -e "\\e[31mCS:GO needs to be open before you can inject...\\e[0m"
     exit 1
 fi
 
@@ -23,15 +23,15 @@ fi
 
 filename=$(cat build_id)
 
-#Credit: Aixxe @ aixxe.net
+# Credit: Aixxe @ aixxe.net
 if grep -q "$filename" /proc/"$csgo_pid"/maps; then
-    /bin/echo -e "\e[33mFuzion is already injected... Aborting...\e[0m"
+    /bin/echo -e "\\e[33mFuzion is already injected... Aborting...\\e[0m"
     exit
 fi
 echo "Injecting Build ID: $filename"
 
-#https://www.kernel.org/doc/Documentation/security/Yama.txt
-sudo echo "2" | sudo tee /proc/sys/kernel/yama/ptrace_scope # Only allows root to inject code. This is temp until reboot.
+# https://www.kernel.org/doc/Documentation/security/Yama.txt
+sudo echo "2" | sudo tee /proc/sys/kernel/yama/ptrace_scope # Only allows root to inject code. This is temporary until reboot.
 
 sudo cp "$filename" /"$filename"
 
@@ -51,7 +51,7 @@ sudo rm /"$filename"
 last_line="${input##*$'\n'}"
 
 if [ "$last_line" != "\$1 = (void *) 0x0" ]; then
-    /bin/echo -e "\e[32mSuccessfully injected!\e[0m"
+    /bin/echo -e "\\e[32mSuccessfully injected!\\e[0m"
 else
-    /bin/echo -e "\e[31mInjection failed, make sure you have compiled...\e[0m"
+    /bin/echo -e "\\e[31mInjection failed, make sure you have compiled...\\e[0m"
 fi

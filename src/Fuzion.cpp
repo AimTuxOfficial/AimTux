@@ -4,9 +4,9 @@
 #include "Utils/netvarmanager.h"
 
 static EventListener* eventListener = nullptr;
-// The Below Line is Set by the Build script. Keep this on Line 8.
-char buildID[] = "yLX2Hsqq4cAgpZWxWB9anCycDHdQVLWx"; // Line Set by build script
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+// The below line is defined by the build script. Keep this on line 8.
+char buildID[] = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"; // Line defined by the build script.
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 bool preload = false;
 bool isShuttingDown = false;
 
