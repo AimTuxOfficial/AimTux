@@ -188,7 +188,7 @@ void Hooker::FindRankReveal()
 void Hooker::FindSendClanTag()
 {
 	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("engine_client.so"),
-																(unsigned char*) XORSTR( "\x55\x48\x89\xE5\x48\x89\x5D\xE8\x4C\x89\x65\xF0\x49\x89\xFC\xBF\x48\x00\x00\x00\x4C\x89\x6D\xF8\x48\x83\xEC\x20\x49"),
+																(unsigned char*) XORSTR("\x55\x48\x89\xE5\x48\x89\x5D\xE8\x4C\x89\x65\xF0\x49\x89\xFC\xBF\x48\x00\x00\x00\x4C\x89\x6D\xF8\x48\x83\xEC\x20\x49"),
 																XORSTR("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"));
 
 	SendClanTag = reinterpret_cast<SendClanTagFn>(func_address);

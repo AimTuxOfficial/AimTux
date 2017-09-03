@@ -4,7 +4,6 @@
 .idea/
 *.cbp
 cmake-build-debug
-AimTux.cbp
 CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake

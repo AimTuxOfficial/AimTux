@@ -3,7 +3,7 @@
 </p>
 ===================
 
-# Please Note that AimTux-Fuzion Requires Additional Packages. See Below!
+# Please Note that Fuzion Requires Additional Packages. See Below!
 [![Join the chat at https://gitter.im/Aimtux-Fuzion/Lobby](https://img.shields.io/gitter/room/TechnologyAdvice/Stardust.svg?style=flat-square)](https://gitter.im/Aimtux-Fuzion/Lobby#)
 
 Want to chat or play with other Fuzion users? Join us on Gitter!
@@ -77,7 +77,7 @@ You can later update with
 
 First of all, make sure CS:GO is open, it does not matter whether you are in game or not. However, it is not recommended to inject while CS:GO is loading into a map. 
 
-Navigate to the directory where AimTux-Fuzion was built if you have not ready.
+Navigate to the directory where Fuzion was built if you have not ready.
 ```bash
 cd Fuzion
 ```
@@ -102,7 +102,7 @@ Now, go back into CS:GO, if you are in the main menu of the game you should see 
 
 We have a new loading method that uses LD_PRELOAD and library function hooking to stay undetected. 
 
-To use this method, you need to have CS:GO closed and use the preload script with your CS:GO launch options.
+To use this method, you need to have CS:GO closed and use the `preload` script with your CS:GO launch options.
 
 Here is an example. Note that you need *-steam* for VAC to be enabled. 
 ```
@@ -168,6 +168,6 @@ To add a config, copy the folder containing it to `~/.config/FuzionGH`
 
 Special thanks to the Original AimTux project: [https://github.com/AimTuxOfficial/AimTux](https://github.com/AimTuxOfficial/AimTux).
 
-Special thanks to [@aixxe](http://www.github.com/aixxe/) ([aixxe.net](http://www.aixxe.net)) for the skin changer and with the initial project, as well as helping this project with source code (Available on [@aixxe's](http://www.github.com/aixxe/) github page.)
+Special thanks to [@aixxe](http://www.github.com/aixxe/) ([aixxe.net](http://www.aixxe.net)) for the skin changer and with the initial project, as well as helping this project with source code (Available on [@aixxe's](http://www.github.com/aixxe/) github page.).
 
 This project was also originally based upon Atex's [Linux Basehook](http://unknowncheats.me/forum/counterstrike-global-offensive/181878-linux-basehook.html).

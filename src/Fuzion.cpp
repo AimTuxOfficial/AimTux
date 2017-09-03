@@ -16,7 +16,7 @@ void MainThread()
 	{
 		while( client == nullptr )
 		{
-			client = GetInterface<IBaseClientDLL>(XORSTR("./csgo/bin/linux64/client_client.so"), XORSTR( "VClient"));
+			client = GetInterface<IBaseClientDLL>(XORSTR("./csgo/bin/linux64/client_client.so"), XORSTR("VClient"));
 			std::this_thread::sleep_for(std::chrono::seconds(3));
 		}
 	}

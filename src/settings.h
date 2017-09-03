@@ -27,7 +27,7 @@ enum class SmoothType : int
 	FAST_END,
 };
 
-enum class  TracerType : int
+enum class TracerType : int
 {
 	BOTTOM,
 	CURSOR,
