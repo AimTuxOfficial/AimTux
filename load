@@ -39,6 +39,7 @@ input="$(
 sudo gdb -n -q -batch-silent \
   -ex "set logging on" \
   -ex "set logging file /dev/null" \
+  -ex "set logging redirect on" \
   -ex "attach $csgo_pid" \
   -ex "set \$dlopen = (void*(*)(char*, int)) dlopen" \
   -ex "call \$dlopen(\"/$filename\", 1)" \
