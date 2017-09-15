@@ -10,6 +10,7 @@
 #include <locale>
 #include <codecvt>
 #include <sstream>
+#include <link.h>
 #include "../ImGUI/imgui.h"
 #include "../SDK/SDK.h"
 
@@ -30,6 +31,9 @@ namespace Util
 	int RandomInt(int min, int max);
 	long GetEpochTime();
 	int IsDebuggerPresent();
+	void RemoveLinkMapEntry(char *name, void **prev, void **curr, void **next);
+	void RestoreLinkMapEntry(void *prev, void *curr, void *next);
+	bool SearchLinkMap(char *name);
 
 	const std::map<int,int> * GetModelTypeBoneMap(C_BasePlayer* player);
 	ModelType GetModelTypeID(C_BasePlayer* player);

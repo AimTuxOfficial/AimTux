@@ -18,16 +18,16 @@ static void LegitStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 	switch (Settings::AutoStrafe::type)
 	{
 		case AutostrafeType::AS_FORWARDS:
-			cmd->sidemove = cmd->mousedx < 0.f ? -450.f : 450.f;
+			cmd->sidemove = cmd->mousedx < 0.f ? -250.f : 250.f;
 			break;
 		case AutostrafeType::AS_BACKWARDS:
-			cmd->sidemove = cmd->mousedx < 0.f ? 450.f : -450.f;
+			cmd->sidemove = cmd->mousedx < 0.f ? 250.f : -250.f;
 			break;
 		case AutostrafeType::AS_LEFTSIDEWAYS:
-			cmd->forwardmove = cmd->mousedx < 0.f ? -450.f : 450.f;
+			cmd->forwardmove = cmd->mousedx < 0.f ? -250.f : 250.f;
 			break;
 		case AutostrafeType::AS_RIGHTSIDEWAYS:
-			cmd->forwardmove = cmd->mousedx < 0.f ? 450.f : -450.f;
+			cmd->forwardmove = cmd->mousedx < 0.f ? 250.f : -250.f;
 			break;
 		default:
 			break;
@@ -40,7 +40,7 @@ static void RageStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 	bool inMove = cmd->buttons & IN_FORWARD || cmd->buttons & IN_BACK || cmd->buttons & IN_MOVELEFT || cmd->buttons & IN_MOVERIGHT;
 
 	if (cmd->buttons & IN_FORWARD && localplayer->GetVelocity().Length() <= 50.0f)
-		cmd->forwardmove = 450.0f;
+		cmd->forwardmove = 250.0f;
 
 	float yaw_change = 0.0f;
 	if (localplayer->GetVelocity().Length() > 50.f)
@@ -58,12 +58,12 @@ static void RageStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 		if (leftRight || cmd->mousedx > 1)
 		{
 			viewAngles.y += yaw_change;
-			cmd->sidemove = 450.0f;
+			cmd->sidemove = 250.0f;
 		}
 		else if (!leftRight || cmd->mousedx < 1)
 		{
 			viewAngles.y -= yaw_change;
-			cmd->sidemove = -450.0f;
+			cmd->sidemove = -250.0f;
 		}
 
 		leftRight = !leftRight;

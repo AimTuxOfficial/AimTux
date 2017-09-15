@@ -2,7 +2,7 @@
 
 void inline Math::SinCos(float radians, float *sine, float *cosine)
 {
-	register double __cosr, __sinr;
+	double __cosr, __sinr;
 	__asm ("fsincos" : "=t" (__cosr), "=u" (__sinr) : "0" (radians));
 
 	*sine = __sinr;

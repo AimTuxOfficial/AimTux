@@ -34,7 +34,7 @@ typedef struct
 //-----------------------------------------------------------------------------
 inline static void MD5Transform(unsigned int buf[4], unsigned int const in[16])
 {
-	register unsigned int a, b, c, d;
+	unsigned int a, b, c, d;
 
 	a = buf[0];
 	b = buf[1];

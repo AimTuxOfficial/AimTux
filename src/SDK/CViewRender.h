@@ -2,16 +2,14 @@
 
 struct CViewSetup
 {
-	int x;
-	int m_nUnscaledX;
-	int y;
-	int m_nUnscaledY;
-	int width;
-	int m_nUnscaledWidth;
-	int height;
-	char pad_0x0020[0x9C];
+	char pad_0000[16];
+	int32_t width;
+	int32_t unscaledWidth;
+	int32_t height;
+	int32_t unscaledHeight;
+	char pad_0020[152];
 	float fov;
-	float fovViewmodel;
+	float fovViewModel;
 	Vector origin;
 	Vector angles;
 	float zNear;
@@ -26,6 +24,7 @@ struct CViewSetup
 	float m_flNearBlurRadius;
 	float m_flFarBlurRadius;
 	float m_nDoFQuality;
+	int32_t m_nMotionBlurMode;
 };
 
 class CViewRender

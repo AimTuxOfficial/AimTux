@@ -202,7 +202,7 @@ void TracerEffect::CreateMove(CUserCmd* cmd) {
         /* Taser is out, we need to switch back to the gun and wait for it to be cocked */
         if( drawTimes.find(lastGun) == drawTimes.end() )
         {
-            cvar->ConsoleDPrintf("(TracerEffect::CreateMove): Warning: Gun \"%s\" not found in drawTimes map\n", localWeapon->GetCSWpnData()->GetConsoleName());
+            cvar->ConsoleDPrintf(XORSTR("(TracerEffect::CreateMove): Warning: Gun \"%s\" not found in drawTimes map\n"), localWeapon->GetCSWpnData()->GetConsoleName());
         }
         else
         {

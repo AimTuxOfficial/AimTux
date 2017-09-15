@@ -224,7 +224,7 @@ void Visuals::RenderTab()
 					ImGui::Combo(XORSTR("##TracerEffects"), (int*)& Settings::TracerEffects::effect, tracerEffectNames, IM_ARRAYSIZE(tracerEffectNames));
 					ImGui::Checkbox(XORSTR("Enable Tracers"), &Settings::TracerEffects::enabled);
                     ImGui::Checkbox(XORSTR("Server Sided?"), &Settings::TracerEffects::serverSide);
-                    SetTooltip("Requires a Taser in your Inventory.\nCan only shoot one shot at a time\nOnly Works with Kisak Snot");
+                    SetTooltip(XORSTR("Requires a Taser in your Inventory.\nCan only shoot one shot at a time\nOnly Works with Kisak Snot"));
                     ImGui::Columns(2, NULL, false);
                     {
                         ImGui::SliderInt(XORSTR("##TracerFreq"),&Settings::TracerEffects::frequency, 0, 10, XORSTR("Freq: %0.f"));
