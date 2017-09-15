@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#Credit: Aixxe @ aixxe.net
+# Credit: Aixxe @ aixxe.net
 
 csgo_pid=$(pidof csgo_linux64)
 filename=$(cat build_id)
@@ -9,8 +9,9 @@ filename_old=$(cat build_id_old)
 if [ -f build_id ]; then
     if grep -q "$filename" /proc/"$csgo_pid"/maps; then
     sudo gdb -n -q -batch-silent \
-    	-ex "set logging on" \
+        -ex "set logging on" \
         -ex "set logging file /dev/null" \
+        -ex "set logging redirect on" \
         -ex "attach $csgo_pid" \
         -ex "set \$dlopen = (void*(*)(char*, int)) dlopen" \
         -ex "set \$dlclose = (int(*)(void*)) dlclose" \
@@ -23,12 +24,13 @@ if [ -f build_id ]; then
     fi
 fi
 
-#build_id_old is used for unloading in case you rebuild while injected.
+# "build_id_old" is used for unloading in case you rebuild while injected.
 if [ -f build_id_old ]; then
     if grep -q "$filename_old" /proc/"$csgo_pid"/maps; then
     sudo gdb -n -q -batch-silent \
         -ex "set logging on" \
         -ex "set logging file /dev/null" \
+        -ex "set logging redirect on" \
         -ex "attach $csgo_pid" \
         -ex "set \$dlopen = (void*(*)(char*, int)) dlopen" \
         -ex "set \$dlclose = (int(*)(void*)) dlclose" \
@@ -41,4 +43,4 @@ if [ -f build_id_old ]; then
     fi
 fi
 
-echo "Done. See CSGO Console."
+echo "Done. See CS:GO Console."
