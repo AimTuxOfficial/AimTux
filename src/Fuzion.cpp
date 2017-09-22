@@ -169,7 +169,7 @@ void MainThread()
 	soundVMT->HookVM((void*) Hooks::EmitSound2, 6);
 	soundVMT->ApplyVMT();
 
-	eventListener = new EventListener({ "cs_game_disconnected", "player_connect_full", "player_death", "player_hurt", "switch_team" });
+	eventListener = new EventListener({ XORSTR("cs_game_disconnected"), XORSTR("player_connect_full"), XORSTR("player_death"), XORSTR("player_hurt"), XORSTR("switch_team") });
 
 	if (ModSupport::current_mod != ModType::CSCO && Hooker::HookRecvProp(XORSTR("CBaseViewModel"), XORSTR("m_nSequence"), SkinChanger::sequenceHook))
 		SkinChanger::sequenceHook->SetProxyFunction((RecvVarProxyFn) SkinChanger::SetViewModelSequence);
