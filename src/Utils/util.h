@@ -31,9 +31,10 @@ namespace Util
 	int RandomInt(int min, int max);
 	long GetEpochTime();
 	int IsDebuggerPresent();
-	void RemoveLinkMapEntry(char *name, void **prev, void **curr, void **next);
+	void RemoveLinkMapEntry(char *partialName, void **prev, void **curr, void **next);
 	void RestoreLinkMapEntry(void *prev, void *curr, void *next);
-	bool SearchLinkMap(char *name);
+	bool SearchLinkMap(char *partialName);
+	bool SearchLinkMap(char *partialName, void **addr);
 
 	const std::map<int,int> * GetModelTypeBoneMap(C_BasePlayer* player);
 	ModelType GetModelTypeID(C_BasePlayer* player);

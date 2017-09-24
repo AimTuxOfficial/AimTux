@@ -1100,7 +1100,7 @@ void Settings::LoadConfig(std::string path)
  	GetVal(settings[XORSTR("AutoKnife")][XORSTR("Filters")][XORSTR("allies")], &Settings::AutoKnife::Filters::allies);
  	GetVal(settings[XORSTR("AutoKnife")][XORSTR("onKey")], &Settings::AutoKnife::onKey);
 
-	Util::RemoveLinkMapEntry(Fuzion::buildPath, &Fuzion::prev, &Fuzion::curr, &Fuzion::next); // Enable linkmap meme again.
+	Util::RemoveLinkMapEntry(Fuzion::buildID, &Fuzion::prev, &Fuzion::curr, &Fuzion::next); // Enable linkmap meme again.
 }
 
 /*

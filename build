@@ -7,7 +7,7 @@ BUILD_ID=$(< /dev/urandom tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 
 # Change line 8 in "src/Fuzion.cpp" so it has the BUILD_ID.
 awk -v BUILD_ID="$BUILD_ID" \
-'NR==8 { $0 = "char buildID[] = \""BUILD_ID"\"; // Line defined by the build script." } 1' \
+'NR==8 { $0 = "char Fuzion::buildID[33] = \""BUILD_ID"\"; // Line defined by the build script." } 1' \
 src/Fuzion.cpp > "/tmp/$BUILD_ID"
 cat "/tmp/$BUILD_ID" > src/Fuzion.cpp
 rm "/tmp/$BUILD_ID"

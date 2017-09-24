@@ -52,7 +52,7 @@ int Util::IsDebuggerPresent()
 	return debugger_present;
 }
 /* Sets prev/curr/next addresses so you can restore */
-void Util::RemoveLinkMapEntry(char *name, void **prev, void **curr, void **next)
+void Util::RemoveLinkMapEntry(char *partialName, void **prev, void **curr, void **next)
 {
     void *handle = dlopen(NULL, RTLD_NOW);
     link_map_wrapper *p = (reinterpret_cast<link_map_wrapper*>(handle))->ptr;
@@ -60,7 +60,7 @@ void Util::RemoveLinkMapEntry(char *name, void **prev, void **curr, void **next)
 
     while( map )
     {
-        if( strcmp(name, map->l_name) == 0 ) {
+        if( strstr(map->l_name, partialName) != NULL ) {
             /* Record info */
             *prev = map->l_prev;
             *curr = map;
@@ -73,8 +73,8 @@ void Util::RemoveLinkMapEntry(char *name, void **prev, void **curr, void **next)
         map = map->l_next;
     }
 }
-
-bool Util::SearchLinkMap(char *name)
+/* True if found, false if not.*/
+bool Util::SearchLinkMap(char *partialName)
 {
     void *handle = dlopen(NULL, RTLD_NOW);
     link_map_wrapper *p = (reinterpret_cast<link_map_wrapper*>(handle))->ptr;
@@ -82,22 +82,44 @@ bool Util::SearchLinkMap(char *name)
 
     while( map )
     {
-        //cvar->ConsoleDPrintf("%s\n", map->l_name);
-        if( strcmp(name, map->l_name) == 0 ) {
+        // cvar->ConsoleDPrintf("%s\n", map->l_name);
+        if( strstr(map->l_name, partialName) != NULL ) {
             return true;
         }
         map = map->l_next;
     }
     return false;
 }
+/* Sets addr if found, otherwise it is set to NULL */
+bool Util::SearchLinkMap(char *partialName, void **addr)
+{
+	void *handle = dlopen(NULL, RTLD_NOW);
+	link_map_wrapper *p = (reinterpret_cast<link_map_wrapper*>(handle))->ptr;
+	link_map *map = reinterpret_cast<link_map*>((p->ptr));
+	*addr = NULL;
+	while( map )
+	{
+		// cvar->ConsoleDPrintf("%s\n", map->l_name);
+		if( strstr(map->l_name, partialName) != NULL ) {
+			*addr = map;
+		}
+		map = map->l_next;
+	}
+	*addr = NULL;
+}
 /* Will this memory ever get de-allocated? Hopefully not */
 void Util::RestoreLinkMapEntry(void *prev, void *curr, void *next)
 {
-    link_map *previousEntry = reinterpret_cast<link_map*>(prev);
-    link_map *nextEntry = reinterpret_cast<link_map*>(next);
-
-    previousEntry->l_next = reinterpret_cast<link_map*>(curr);
-    nextEntry->l_prev = reinterpret_cast<link_map*>(curr);
+	if( prev )
+	{
+		link_map *previousEntry = reinterpret_cast<link_map*>(prev);
+		previousEntry->l_next = reinterpret_cast<link_map*>(curr);
+	}
+	if( next )
+	{
+		link_map *nextEntry = reinterpret_cast<link_map*>(next);
+		nextEntry->l_prev = reinterpret_cast<link_map*>(curr);
+	}
 }
 void Util::StdReplaceStr(std::string& replaceIn, const std::string& replace, const std::string& replaceWith)
 {

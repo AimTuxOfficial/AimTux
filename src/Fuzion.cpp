@@ -5,13 +5,12 @@
 
 static EventListener* eventListener = nullptr;
 // The below line is defined by the build script. Keep this on line 8.
-char buildID[] = "vjNEFLyq80ZCLlEBvqYWbsGPIeysy864"; // Line defined by the build script.
+char Fuzion::buildID[33] = "LzEuXfXRtQkfna06U8t6sloRVfLeZbjt"; // Line defined by the build script.
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 static bool preload = false;
 static bool isShuttingDown = false;
 void *Fuzion::prev = NULL,*Fuzion::curr = NULL,*Fuzion::next = NULL;
-char Fuzion::buildPath[PATH_MAX] = {0};
 
 void MainThread()
 {
@@ -59,7 +58,7 @@ void MainThread()
 		bool found = false;
 		for (int i = 0; environ[i]; i++)
 		{
-			if (strstr(environ[i], buildID) != NULL)
+			if (strstr(environ[i], Fuzion::buildID) != NULL)
 			{
 				found = true;
 			}
@@ -103,7 +102,7 @@ void MainThread()
 		found = false;
 		FILE *maps = fopen(XORSTR("/proc/self/maps"), "r");
 		while (fgets(buffer, PATH_MAX, maps)) {
-			if (strstr(buffer, buildID) != NULL)
+			if (strstr(buffer, Fuzion::buildID) != NULL)
 				found = true;
 		}
 		fclose(maps);
@@ -185,12 +184,11 @@ void MainThread()
 
 	AntiAim::LuaInit();
 
-
-    snprintf(Fuzion::buildPath, PATH_MAX, "/%s", buildID);
-    Util::RemoveLinkMapEntry(Fuzion::buildPath, &Fuzion::prev, &Fuzion::curr, &Fuzion::next); // This Breaks uload. Need to restore linked list first.
-    if( Util::SearchLinkMap(Fuzion::buildPath) ) {
+    Util::RemoveLinkMapEntry(Fuzion::buildID, &Fuzion::prev, &Fuzion::curr, &Fuzion::next); // This Breaks uload. Need to restore linked list first.
+    if( Util::SearchLinkMap(Fuzion::buildID) ) {
         cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 0), XORSTR( "Warning! .so file did not get removed in link_map\n" ) );
     }
+
 	if( preload )
 	{
 		while( !isShuttingDown )
@@ -204,21 +202,6 @@ void MainThread()
 		}
 	}
 
-    /*
-    while( !isShuttingDown )
-    {
-        static bool bFirst = true;
-        if( inputSystem->IsButtonDown(ButtonCode_t::KEY_P) && bFirst )
-        {
-            Util::RestoreLinkMapEntry(prev, curr, next);
-            if( Util::SearchLinkMap(buildPath) )
-            {
-                cvar->ConsoleColorPrintf(ColorRGBA(0, 200, 0), XORSTR( "Found buildpath again.\n" ) );
-            }
-            bFirst = false;
-        }
-    }
-    */
 }
 /* Entrypoint to the Library. Called when loading */
 int __attribute__((constructor)) Startup()
@@ -226,13 +209,13 @@ int __attribute__((constructor)) Startup()
 	// Search in Environment Memory for our buildID before purging environ memory
 	for(int i = 0; environ[i]; i++)
 	{
-		if(strstr(environ[i], buildID) != NULL)
+		if(strstr(environ[i], Fuzion::buildID) != NULL)
 		{
 			preload = true;
-			if( !Preload::Startup(buildID) )
+			if( !Preload::Startup(Fuzion::buildID) )
 			{
 				char fd[PATH_MAX];
-				snprintf(fd, sizeof(fd), XORSTR("/tmp/%s.log"), buildID);
+				snprintf(fd, sizeof(fd), XORSTR("/tmp/%s.log"), Fuzion::buildID);
 				FILE *log = fopen(fd, "w");
 				fprintf(log, XORSTR("Could not find functions to hook in Preload::Startup(). Exiting.\n"));
 				fclose(log);
