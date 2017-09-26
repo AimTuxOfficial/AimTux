@@ -1,7 +1,7 @@
 #!/bin/bash
 
-mkdir -p /tmp/dumps
-chmod 000 /tmp/dumps
+sudo mkdir -p /tmp/dumps
+sudo chmod 000 /tmp/dumps
 
 LIBNAME=$(cat "$(pwd)"/build_id)
 # An optimized way to find the CS:GO directory without specifying any absolute nor relative paths.
