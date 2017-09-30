@@ -3,6 +3,10 @@
 
 cmake . || exit 1
 
+if ! hash patchelf 2>/dev/null; then
+    echo -e "\\e[31mYou need to install the \"patchelf\" command!\nUse your package manager to install it, or get source here:\nhttps://github.com/NixOS/patchelf\\e[0m"
+    exit 1
+fi
 BUILD_ID=$(< /dev/urandom tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 
 # Change line 8 in "src/Fuzion.cpp" so it has the BUILD_ID.
@@ -28,7 +32,7 @@ echo "$BUILD_ID" > build_id
 mv libFuzion.so "$BUILD_ID"
 
 strip -s -v "$BUILD_ID"
-patchelf --set-soname "$BUILD_ID" "$BUILD_ID"
+patchelf --set-soname "$BUILD_ID" "$BUILD_ID" || echo -e "\\e[33mWarning: your patchelf version does not support \"--set-soname\"\nConsider building from source: https://github.com/NixOS/patchelf\\e[0m"
 
 chmod 400 build_id # Make the build_id read-only for safety.
 
