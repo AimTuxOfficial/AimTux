@@ -4,9 +4,10 @@
 #include "Utils/netvarmanager.h"
 
 static EventListener* eventListener = nullptr;
-// The below line is defined by the build script. Keep this on line 8.
-char Fuzion::buildID[33] = "73hfYFoBctF0osa0Fu3WGSgiQ0PABVgo"; // Line defined by the build script.
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+char Fuzion::buildID[33] = {
+#include "../build_id_hex" // Made by ./build script.
+};
 
 static bool preload = false;
 static bool isShuttingDown = false;
