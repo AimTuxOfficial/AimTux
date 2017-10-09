@@ -45,9 +45,19 @@ void Misc::RenderTab()
 			}
 
 			if (Settings::AutoStrafe::type == AutostrafeType::AS_RAGE)
+                        {
+                                ImGui::Checkbox("Silent", &Settings::AutoStrafe::silent);
+                                SetTooltip("Strafes won't be visible for spectators");
+                        }
+
+			ImGui::Columns(2, NULL, true);
 			{
-				ImGui::Checkbox("Silent", &Settings::AutoStrafe::silent);
-				SetTooltip("Strafes won't be visible for spectators");
+				ImGui::Checkbox("Strafe Key", &Settings::AutoStrafe::StrafeKey::enabled);
+				SetTooltip("Strafes only when a key is held");
+			}
+			ImGui::NextColumn();
+			{
+				UI::KeyBindButton(&Settings::AutoStrafe::StrafeKey::key);
 			}
 
 			ImGui::Columns(1);
