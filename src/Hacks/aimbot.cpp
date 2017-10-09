@@ -7,6 +7,7 @@
 bool Settings::Aimbot::enabled = false;
 bool Settings::Aimbot::silent = false;
 bool Settings::Aimbot::friendly = false;
+bool Settings::Aimbot::closestBone = false;
 Bone Settings::Aimbot::bone = Bone::BONE_HEAD;
 ButtonCode_t Settings::Aimbot::aimkey = ButtonCode_t::MOUSE_MIDDLE;
 bool Settings::Aimbot::aimkeyOnly = false;
@@ -58,7 +59,7 @@ std::unordered_map<Hitbox, std::vector<const char*>, Util::IntHash<Hitbox>> hitb
 };
 
 std::unordered_map<ItemDefinitionIndex, AimbotWeapon_t, Util::IntHash<ItemDefinitionIndex>> Settings::Aimbot::weapons = {
-		{ ItemDefinitionIndex::INVALID, { false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f, false, false, false, false, false, false, false, false, 10.0f, false, false, false, 5.0f } },
+		{ ItemDefinitionIndex::INVALID, { false, false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f, false, false, false, false, false, false, false, false, 10.0f, false, false, false, 5.0f } },
 };
 
 static const char* targets[] = { "pelvis", "", "", "spine_0", "spine_1", "spine_2", "spine_3", "neck_0", "head_0" };
@@ -172,7 +173,8 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 		if (std::find(Aimbot::friends.begin(), Aimbot::friends.end(), entityInformation.xuid) != Aimbot::friends.end())
 			continue;
 
-		Vector eVecTarget = player->GetBonePosition((int) Settings::Aimbot::bone);
+		Bone targetBone = Settings::Aimbot::bone;
+		Vector eVecTarget = player->GetBonePosition((int) targetBone);
 		Vector pVecTarget = localplayer->GetEyePosition();
 
 		QAngle viewAngles;
@@ -182,6 +184,29 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 		float fov = Math::GetFov(viewAngles, Math::CalcAngle(pVecTarget, eVecTarget));
 		float real_distance = GetRealDistanceFOV(distance, Math::CalcAngle(pVecTarget, eVecTarget), cmd);
 		int hp = player->GetHealth();
+		
+		if (Settings::Aimbot::closestBone)
+		{
+			for (int i = (int) Bone::BONE_PELVIS; i < (int) Bone::BONE_HEAD; i++)
+			{
+				if (i == (int) Bone::CAM_DRIVER || i == (int) Bone::LEAN_ROOT || i == (int) Bone::INVALID)
+					continue;
+				
+				Bone testBone = static_cast<Bone>(i);
+				Vector mVecTarget = player->GetBonePosition((int) testBone);
+				float m_distance = pVecTarget.DistTo(mVecTarget);
+				float m_fov = Math::GetFov(viewAngles, Math::CalcAngle(pVecTarget, mVecTarget));
+				float m_real_distance  = GetRealDistanceFOV(m_distance, Math::CalcAngle(pVecTarget, mVecTarget), cmd);
+			
+				if (m_real_distance < real_distance)
+				{
+					distance = m_distance;
+					fov = m_fov;
+					real_distance = m_real_distance;
+					targetBone = testBone;
+				}
+			}
+		}
 
 		if (aimTargetType == AimTargetType::DISTANCE && distance > bestDistance)
 			continue;
@@ -195,10 +220,10 @@ C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visible, Bone& bestBone, floa
 		if (aimTargetType == AimTargetType::HP && hp > bestHp)
 			continue;
 
-		if (visible && !Settings::Aimbot::AutoWall::enabled && !Entity::IsVisible(player, Settings::Aimbot::bone))
+		if (visible && !Settings::Aimbot::AutoWall::enabled && !Entity::IsVisible(player, targetBone))
 			continue;
 
-		bestBone = static_cast<Bone>(Entity::GetBoneByName(player, targets[(int) Settings::Aimbot::bone]));
+		bestBone = static_cast<Bone>(Entity::GetBoneByName(player, targets[(int) targetBone]));
 
 		if (Settings::Aimbot::AutoWall::enabled)
 		{
@@ -616,6 +641,7 @@ void Aimbot::UpdateValues()
 	Settings::Aimbot::enabled = currentWeaponSetting.enabled;
 	Settings::Aimbot::silent = currentWeaponSetting.silent;
 	Settings::Aimbot::friendly = currentWeaponSetting.friendly;
+	Settings::Aimbot::closestBone = currentWeaponSetting.closestBone;
 	Settings::Aimbot::bone = currentWeaponSetting.bone;
 	Settings::Aimbot::aimkey = currentWeaponSetting.aimkey;
 	Settings::Aimbot::aimkeyOnly = currentWeaponSetting.aimkeyOnly;
