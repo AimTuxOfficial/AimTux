@@ -32,6 +32,7 @@ float Settings::Aimbot::RCS::valueX = 2.0f;
 float Settings::Aimbot::RCS::valueY = 2.0f;
 bool Settings::Aimbot::AutoCrouch::enabled = false;
 bool Settings::Aimbot::NoShoot::enabled = false;
+NoShootType Settings::Aimbot::NoShoot::type = NoShootType::NOT_AT_ALL;
 bool Settings::Aimbot::IgnoreJump::enabled = false;
 bool Settings::Aimbot::SmokeCheck::enabled = false;
 bool Settings::Aimbot::FlashCheck::enabled = false;
@@ -48,6 +49,8 @@ bool shouldAim;
 QAngle AimStepLastAngle;
 QAngle RCSLastPunch;
 
+bool noshoot;
+
 std::unordered_map<Hitbox, std::vector<const char*>, Util::IntHash<Hitbox>> hitboxes = {
 		{ Hitbox::HITBOX_HEAD, { "head_0" } },
 		{ Hitbox::HITBOX_NECK, { "neck_0" } },
@@ -58,7 +61,7 @@ std::unordered_map<Hitbox, std::vector<const char*>, Util::IntHash<Hitbox>> hitb
 };
 
 std::unordered_map<ItemDefinitionIndex, AimbotWeapon_t, Util::IntHash<ItemDefinitionIndex>> Settings::Aimbot::weapons = {
-		{ ItemDefinitionIndex::INVALID, { false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f, false, false, false, false, false, false, false, false, 10.0f, false, false, false, 5.0f } },
+		{ ItemDefinitionIndex::INVALID, { false, false, false, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f, SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, false, false, 2.0f, 2.0f, false, false, false, false,NoShootType::NOT_AT_ALL, false, false, false, false, 10.0f, false, false, false, 5.0f } },
 };
 
 static const char* targets[] = { "pelvis", "", "", "spine_0", "spine_1", "spine_2", "spine_3", "neck_0", "head_0" };
@@ -479,7 +482,32 @@ void Aimbot::NoShoot(C_BaseCombatWeapon* activeWeapon, C_BasePlayer* player, CUs
 	{
 		if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_C4)
 			return;
-
+		C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+		Vector traceStart, traceEnd;
+		trace_t tr;
+		QAngle viewAngles;
+		engine->GetViewAngles(viewAngles);
+		QAngle viewAngles_rcs = viewAngles + *localplayer->GetAimPunchAngle() * 2.0f;
+		Math::AngleVectors(viewAngles_rcs, traceEnd);
+		traceStart = localplayer->GetEyePosition();
+		traceEnd = traceStart + (traceEnd * 8192.0f);
+		Ray_t ray;
+		ray.Init(traceStart, traceEnd);
+		CTraceFilter traceFilter;
+		traceFilter.pSkip = localplayer;
+		trace->TraceRay(ray, 0x46004003, &traceFilter, &tr);
+		C_BasePlayer* target = (C_BasePlayer*) tr.m_pEntityHit;	
+		//if the player your aiming at is the aimbot target you can shoot
+		if(Settings::Aimbot::NoShoot::type == NoShootType::AFTER_FIRST_SHOT&&(target==player||noshoot))
+		{
+			noshoot=true;
+			return;
+		}
+		else if(Settings::Aimbot::NoShoot::type == NoShootType::IF_ON_TARGET &&target==player)
+			return;
+		
+		
+		
 		if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
 			cmd->buttons &= ~IN_ATTACK2;
 		else
@@ -560,7 +588,8 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 			}
 		}
 	}
-
+	if(!player||!(cmd->buttons&IN_ATTACK))
+		noshoot=false;
 	Aimbot::AimStep(player, angle, cmd);
 	Aimbot::AutoCrouch(player, cmd);
 	Aimbot::AutoSlow(player, oldForward, oldSideMove, bestDamage, activeWeapon, cmd);
@@ -636,6 +665,7 @@ void Aimbot::UpdateValues()
 	Settings::Aimbot::RCS::valueX = currentWeaponSetting.rcsAmountX;
 	Settings::Aimbot::RCS::valueY = currentWeaponSetting.rcsAmountY;
 	Settings::Aimbot::NoShoot::enabled = currentWeaponSetting.noShootEnabled;
+	Settings::Aimbot::NoShoot::type = currentWeaponSetting.noShootType;
 	Settings::Aimbot::IgnoreJump::enabled = currentWeaponSetting.ignoreJumpEnabled;
 	Settings::Aimbot::Smooth::Salting::enabled = currentWeaponSetting.smoothSaltEnabled;
 	Settings::Aimbot::Smooth::Salting::multiplier = currentWeaponSetting.smoothSaltMultiplier;
