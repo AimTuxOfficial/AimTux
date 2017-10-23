@@ -1,13 +1,11 @@
 #pragma once
 
 #include <unistd.h>
-#include <stdio.h>
-#include <string.h>
+#include <string>
 #include <dirent.h>
 #include <sys/stat.h>
 #include <vector>
 #include <algorithm>
-#include "Utils/pstring.h"
 #include "Utils/xorstring.h"
 #include "interfaces.h"
 
@@ -24,7 +22,7 @@ struct Config
 
 std::vector<Config> GetConfigs(const char* directory);
 
-pstring GetConfigDirectory();
+std::string GetConfigDirectory();
 std::vector<std::string> GetConfigs();
 
-pstring GetGhConfigDirectory();
+std::string GetGhConfigDirectory();

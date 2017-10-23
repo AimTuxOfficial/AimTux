@@ -16,7 +16,7 @@ ColorVar Settings::GrenadeHelper::infoSmoke = ImColor(172, 172, 172, 255);
 ColorVar Settings::GrenadeHelper::infoFlash = ImColor(255, 255, 0, 255);
 
 bool shotLastTick = false;
-pstring Settings::GrenadeHelper::actMapName = pstring();
+std::string Settings::GrenadeHelper::actMapName = {};
 
 GrenadeType GetGrenadeType(C_BaseCombatWeapon *wpn)
 {
@@ -165,19 +165,20 @@ static void CheckForUpdate()
 	if (!engine->IsInGame())
 		return;
 
-	pstring s = pstring(GetLocalClient(-1)->m_szLevelNameShort);
-	unsigned long p = s.find_last_of("/");
+	std::string levelName = std::string(GetLocalClient(-1)->m_szLevelNameShort);
+	unsigned long p = levelName.find_last_of("/");
 	if (p != std::string::npos)
-		s.erase(0, p + 1);
+		levelName.erase(0, p + 1);
 
-	if (!Settings::GrenadeHelper::actMapName.compare(s))
+	if (!Settings::GrenadeHelper::actMapName.compare(levelName))
 		return;
 
-	Settings::GrenadeHelper::actMapName = s;
-	pstring path = GetGhConfigDirectory().append(s).append(XORSTR("/config.json"));
+	Settings::GrenadeHelper::actMapName = levelName;
+	std::ostringstream path;
+	path << GetGhConfigDirectory()<< levelName << XORSTR("/config.json");
 
-	if (DoesFileExist(path.c_str()))
-		Settings::LoadGrenadeInfo(path);
+	if (DoesFileExist(path.str().c_str()))
+		Settings::LoadGrenadeInfo(path.str());
 	else
 		Settings::GrenadeHelper::grenadeInfos = {};
 }

@@ -1,38 +1,37 @@
-//#include <unordered_map>
-#include <set>
 #include "interfaces.h"
 
 IBaseClientDLL* client = nullptr;
-ISurface* surface = nullptr;
-IVPanel* panel = nullptr;
-IEngineClient* engine = nullptr;
-IClientEntityList* entityList = nullptr;
+IClientMode* clientMode = nullptr;
+ICommandLine* commandline = nullptr;
+C_CSGameRules** csGameRules = nullptr;
+C_CSPlayerResource** csPlayerResource = nullptr;
+ICvar* cvar = nullptr;
 IVDebugOverlay* debugOverlay = nullptr;
+CEffects* effects = nullptr;
+IEngineClient* engine = nullptr;
+IEngineVGui* engineVGui = nullptr;
+IClientEntityList* entityList = nullptr;
+IGameEventManager2* gameEvents = nullptr;
+IGameMovement* gameMovement = nullptr;
+CGlobalVars* globalVars = nullptr;
+CGlowObjectManager* glowManager = nullptr;
+CInput* input = nullptr;
+IInputInternal* inputInternal = nullptr;
+IInputSystem* inputSystem = nullptr;
+ILauncherMgr* launcherMgr = nullptr;
+ILocalize* localize = nullptr;
+IMaterialSystem* material = nullptr;
 IVModelInfo* modelInfo = nullptr;
 IVModelRender* modelRender = nullptr;
-IClientMode* clientMode = nullptr;
-IEngineTrace* trace = nullptr;
-IInputSystem* inputSystem = nullptr;
-IInputInternal* inputInternal = nullptr;
-IMaterialSystem* material = nullptr;
-ICvar* cvar = nullptr;
-CGlobalVars* globalVars = nullptr;
-CEffects* effects = nullptr;
-IGameEventManager2* gameEvents = nullptr;
-IPhysicsSurfaceProps* physics = nullptr;
-CViewRender* viewRender = nullptr;
-IPrediction* prediction = nullptr;
-IGameMovement* gameMovement = nullptr;
 IMoveHelper* moveHelper = nullptr;
-ILauncherMgr* launcherMgr = nullptr;
-CGlowObjectManager* glowManager = nullptr;
-C_CSPlayerResource** csPlayerResource = nullptr;
-C_CSGameRules** csGameRules = nullptr;
-IEngineVGui* engineVGui = nullptr;
+IVPanel* panel = nullptr;
+IPhysicsSurfaceProps* physics = nullptr;
+IPrediction* prediction = nullptr;
 IEngineSound* sound = nullptr;
-ILocalize* localize = nullptr;
-ICommandLine* commandline = nullptr;
-CInput* input = nullptr;
+ISurface* surface = nullptr;
+IEngineTrace* trace = nullptr;
+CViewRender* viewRender = nullptr;
+
 
 void Interfaces::FindInterfaces()
 {

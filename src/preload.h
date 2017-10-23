@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Fuzion.h"
 extern "C"{
 	// Environment data. resolved at link-time.
 	extern char **environ;
@@ -50,6 +50,7 @@ extern "C"{
 
 namespace Preload
 {
+	void PrintStatus();
 	bool Startup(char buildID[]);
 	void CleanEnvironment();
 	void Cleanup();

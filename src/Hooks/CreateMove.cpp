@@ -15,6 +15,7 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		*bSendPacket = CreateMove::sendPacket;
 		CreateMove::sendPacket = true;
 
+		/* run code that affects movement before prediction */
 		BHop::CreateMove(cmd);
 		AutoStrafe::CreateMove(cmd);
 		ShowRanks::CreateMove(cmd);
@@ -22,20 +23,19 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 		JumpThrow::CreateMove(cmd);
 		GrenadeHelper::CreateMove(cmd);
 		EdgeJump::PrePredictionCreateMove(cmd);
+		Walkbot::CreateMove(cmd);
+		Autoblock::CreateMove(cmd);
 
 		PredictionSystem::StartPrediction(cmd);
-		Autoblock::CreateMove(cmd);
-		Aimbot::CreateMove(cmd);
-		Triggerbot::CreateMove(cmd);
-		AutoKnife::CreateMove(cmd);
-		AntiAim::CreateMove(cmd);
-		Airstuck::CreateMove(cmd);
-		FakeLag::CreateMove(cmd);
-		ESP::CreateMove(cmd);
-		Walkbot::CreateMove(cmd);
-		TracerEffect::CreateMove(cmd);
+			Aimbot::CreateMove(cmd);
+			Triggerbot::CreateMove(cmd);
+			AutoKnife::CreateMove(cmd);
+			AntiAim::CreateMove(cmd);
+			Airstuck::CreateMove(cmd);
+			FakeLag::CreateMove(cmd);
+			ESP::CreateMove(cmd);
+			TracerEffect::CreateMove(cmd);
 		PredictionSystem::EndPrediction();
-
 
 		EdgeJump::PostPredictionCreateMove(cmd);
 

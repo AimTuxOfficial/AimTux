@@ -8,5 +8,7 @@ int Settings::UI::Fonts::ESP::flags = (int) FontFlags::FONTFLAG_OUTLINE;
 
 void Fonts::SetupFonts()
 {
-	esp_font = Draw::CreateFont(Settings::UI::Fonts::ESP::family, Settings::UI::Fonts::ESP::size, Settings::UI::Fonts::ESP::flags);
+	esp_font = Draw::CreateFont(Settings::UI::Fonts::ESP::family,
+								Settings::UI::Fonts::ESP::size,
+								Settings::UI::Fonts::ESP::flags);
 }

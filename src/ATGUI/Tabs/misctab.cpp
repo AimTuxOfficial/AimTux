@@ -276,10 +276,12 @@ void Misc::RenderTab()
 						{
 							GrenadeInfo n = GrenadeInfo((GrenadeType)gType, localPlayer->GetEyePosition(), *localPlayer->GetVAngles(), (ThrowType)tType, inputName);
 							Settings::GrenadeHelper::grenadeInfos.push_back(n);
-							pstring path = GetGhConfigDirectory() << Settings::GrenadeHelper::actMapName;
-							if (!DoesFileExist(path.c_str()))
-								mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-							Settings::SaveGrenadeInfo(path << XORSTR("/config.json"));
+							std::ostringstream path;
+							path << GetGhConfigDirectory() << Settings::GrenadeHelper::actMapName;
+							if (!DoesFileExist(path.str().c_str()))
+								mkdir(path.str().c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+							path << XORSTR("/config.json");
+							Settings::SaveGrenadeInfo(path.str());
 						}
 						strcpy(inputName, "");
 					}
@@ -302,10 +304,12 @@ void Misc::RenderTab()
 						if (throwMessageCurrent > -1 && (int) Settings::GrenadeHelper::grenadeInfos.size() > throwMessageCurrent)
 						{
 							Settings::GrenadeHelper::grenadeInfos.erase(Settings::GrenadeHelper::grenadeInfos.begin() + throwMessageCurrent);
-							pstring path = GetGhConfigDirectory() << Settings::GrenadeHelper::actMapName;
-							if (!DoesFileExist(path.c_str()))
-								mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-							Settings::SaveGrenadeInfo(path << XORSTR("/config.json"));
+							std::ostringstream path;
+							path << GetGhConfigDirectory() << Settings::GrenadeHelper::actMapName;
+							if (!DoesFileExist(path.str().c_str()))
+								mkdir(path.str().c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+							path << XORSTR("/config.json");
+							Settings::SaveGrenadeInfo(path.str());
 						}
 					ImGui::EndPopup();
 				}

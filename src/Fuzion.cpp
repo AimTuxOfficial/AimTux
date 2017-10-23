@@ -22,6 +22,8 @@ void MainThread()
 			client = GetInterface<IBaseClientDLL>(XORSTR("./csgo/bin/linux64/client_client.so"), XORSTR("VClient"));
 			std::this_thread::sleep_for(std::chrono::seconds(3));
 		}
+
+        Preload::PrintStatus();
 	}
 	Interfaces::FindInterfaces();
 	//Interfaces::DumpInterfaces();
@@ -52,126 +54,52 @@ void MainThread()
 	Hooker::HookSwapWindow();
 	Hooker::HookPollEvent();
 
-
-	if( preload )
-	{
-		cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 200), XORSTR("LD_PRELOAD method Detected...\n"));
-		bool found = false;
-		for (int i = 0; environ[i]; i++)
-		{
-			if (strstr(environ[i], Fuzion::buildID) != NULL)
-			{
-				found = true;
-			}
-		}
-		if (found)
-		{
-			cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 0), XORSTR("Environ has our buildID!\n"));
-		}
-		else
-		{
-			cvar->ConsoleColorPrintf(ColorRGBA(0, 150, 0), XORSTR("Environ Memory Purged Sucessfully.\n"));
-		}
-		cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 200), XORSTR("-- Hooks --\n"));
-
-		/* The program will force exit before this point, if these are not found, so this is more of an informational read of what is hooked */
-		cvar->ConsoleColorPrintf(ColorRGBA(0, 0, 200), XORSTR("fopen(): Hooked\n"));
-		cvar->ConsoleColorPrintf(ColorRGBA(0, 0, 200), XORSTR("getenv(): Hooked\n"));
-		cvar->ConsoleColorPrintf(ColorRGBA(0, 0, 200), XORSTR("open(): Hooked\n"));
-		cvar->ConsoleColorPrintf(ColorRGBA(0, 0, 200), XORSTR("execve(): Hooked\n"));
-
-		cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 200), XORSTR("-- Tests --\n"));
-		if (getenv(XORSTR("LD_PRELOAD")) == NULL)
-		{
-			cvar->ConsoleColorPrintf(ColorRGBA(0, 150, 0), XORSTR("getenv(\"LD_PRELOAD\") Clean.\n"));
-		}
-		else
-		{
-			cvar->ConsoleColorPrintf(ColorRGBA(255, 255, 0), XORSTR("getenv(\"LD_PRELOAD\") = %s\n"), getenv(XORSTR("LD_PRELOAD")));
-		}
-
-		if (strcmp(XORSTR("/dev/null"), getenv(XORSTR("TMPDIR"))) == 0)
-		{
-			cvar->ConsoleColorPrintf(ColorRGBA(0, 150, 0), XORSTR("getenv(\"TMPDIR\") -> /dev/null.\n"));
-		}
-		else
-		{
-			cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 0), XORSTR("getenv(\"TMPDIR\") ->%s\n"), getenv(XORSTR("TMPDIR")));
-		}
-
-		char buffer[PATH_MAX];
-		found = false;
-		FILE *maps = fopen(XORSTR("/proc/self/maps"), "r");
-		while (fgets(buffer, PATH_MAX, maps)) {
-			if (strstr(buffer, Fuzion::buildID) != NULL)
-				found = true;
-		}
-		fclose(maps);
-		if (found)
-		{
-			cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 0), XORSTR("fopen(\"/proc/self/maps\") contains our shared object!\n"));
-		}
-		else
-		{
-			cvar->ConsoleColorPrintf(ColorRGBA(0, 150, 0), XORSTR("fopen(\"/proc/self/maps\") file Clean.\n"));
-		}
-	}
-	else
-	{
-		cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 200), XORSTR("GDB Injection method Detected...\n"));
-	}
-
-
-	cvar->ConsoleColorPrintf(ColorRGBA(0, 225, 0), XORSTR("\nFuzion Successfully loaded.\n"));
-
-	ModSupport::OnInit();
-
 	clientVMT->HookVM((void*) Hooks::IN_KeyEvent, 20);
 	clientVMT->HookVM((void*) Hooks::FrameStageNotify, 36);
 	clientVMT->ApplyVMT();
 
-	panelVMT->HookVM((void*) Hooks::PaintTraverse, 42);
-	panelVMT->ApplyVMT();
+    clientModeVMT->HookVM((void*) Hooks::OverrideView, 19);
+    clientModeVMT->HookVM((void*) Hooks::CreateMove, 25);
+    clientModeVMT->HookVM((void*) Hooks::GetViewModelFOV, 36);
+    clientModeVMT->ApplyVMT();
 
-	modelRenderVMT->HookVM((void*) Hooks::DrawModelExecute, 21);
-	modelRenderVMT->ApplyVMT();
-	
-	clientModeVMT->HookVM((void*) Hooks::OverrideView, 19);
-	clientModeVMT->HookVM((void*) Hooks::CreateMove, 25);
-	clientModeVMT->HookVM((void*) Hooks::GetViewModelFOV, 36);
-	clientModeVMT->ApplyVMT();
+    engineVGuiVMT->HookVM((void*) Hooks::Paint, 15);
+    engineVGuiVMT->ApplyVMT();
 
 	gameEventsVMT->HookVM((void*) Hooks::FireEvent, 9);
 	gameEventsVMT->HookVM((void*) Hooks::FireEventClientSide, 10);
 	gameEventsVMT->ApplyVMT();
 
-	viewRenderVMT->HookVM((void*) Hooks::RenderSmokePostViewmodel, 41);
-	viewRenderVMT->ApplyVMT();
+    inputInternalVMT->HookVM((void*) Hooks::SetKeyCodeState, 92);
+    inputInternalVMT->HookVM((void*) Hooks::SetMouseCodeState, 93);
+    inputInternalVMT->ApplyVMT();
 
-	inputInternalVMT->HookVM((void*) Hooks::SetKeyCodeState, 92);
-	inputInternalVMT->HookVM((void*) Hooks::SetMouseCodeState, 93);
-	inputInternalVMT->ApplyVMT();
+    launcherMgrVMT->HookVM((void*) Hooks::PumpWindowsMessageLoop, 19);
+    launcherMgrVMT->ApplyVMT();
 
 	materialVMT->HookVM((void*) Hooks::BeginFrame, 42);
 	materialVMT->ApplyVMT();
+
+    modelRenderVMT->HookVM((void*) Hooks::DrawModelExecute, 21);
+    modelRenderVMT->ApplyVMT();
+
+    panelVMT->HookVM((void*) Hooks::PaintTraverse, 42);
+    panelVMT->ApplyVMT();
+
+    soundVMT->HookVM((void*) Hooks::EmitSound1, 5);
+    soundVMT->HookVM((void*) Hooks::EmitSound2, 6);
+    soundVMT->ApplyVMT();
 
 	surfaceVMT->HookVM((void*) Hooks::PlaySound, 82);
 	surfaceVMT->HookVM((void*) Hooks::OnScreenSizeChanged, 116);
 	surfaceVMT->ApplyVMT();
 
-	launcherMgrVMT->HookVM((void*) Hooks::PumpWindowsMessageLoop, 19);
-	launcherMgrVMT->ApplyVMT();
-
-	engineVGuiVMT->HookVM((void*) Hooks::Paint, 15);
-	engineVGuiVMT->ApplyVMT();
-
-	soundVMT->HookVM((void*) Hooks::EmitSound1, 5);
-	soundVMT->HookVM((void*) Hooks::EmitSound2, 6);
-	soundVMT->ApplyVMT();
+    viewRenderVMT->HookVM((void*) Hooks::RenderSmokePostViewmodel, 41);
+    viewRenderVMT->ApplyVMT();
 
 	eventListener = new EventListener({ XORSTR("cs_game_disconnected"), XORSTR("player_connect_full"), XORSTR("player_death"), XORSTR("player_hurt"), XORSTR("switch_team") });
 
-	if (ModSupport::current_mod != ModType::CSCO && Hooker::HookRecvProp(XORSTR("CBaseViewModel"), XORSTR("m_nSequence"), SkinChanger::sequenceHook))
+	if (Hooker::HookRecvProp(XORSTR("CBaseViewModel"), XORSTR("m_nSequence"), SkinChanger::sequenceHook))
 		SkinChanger::sequenceHook->SetProxyFunction((RecvVarProxyFn) SkinChanger::SetViewModelSequence);
 
 	//NetVarManager::DumpNetvars();
@@ -190,6 +118,8 @@ void MainThread()
         cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 0), XORSTR( "Warning! .so file did not get removed in link_map\n" ) );
     }
 
+    cvar->ConsoleColorPrintf(ColorRGBA(0, 225, 0), XORSTR("\nFuzion Successfully loaded.\n"));
+
 	if( preload )
 	{
 		while( !isShuttingDown )
@@ -202,7 +132,6 @@ void MainThread()
 			}
 		}
 	}
-
 }
 /* Entrypoint to the Library. Called when loading */
 int __attribute__((constructor)) Startup()
@@ -251,19 +180,19 @@ void __attribute__((destructor)) Shutdown()
 	TracerEffect::RestoreTracers();
 
 	clientVMT->ReleaseVMT();
-	panelVMT->ReleaseVMT();
-	modelRenderVMT->ReleaseVMT();
-	clientModeVMT->ReleaseVMT();
-	gameEventsVMT->ReleaseVMT();
-	viewRenderVMT->ReleaseVMT();
-	inputInternalVMT->ReleaseVMT();
-	materialVMT->ReleaseVMT();
-	surfaceVMT->ReleaseVMT();
-	launcherMgrVMT->ReleaseVMT();
-	engineVGuiVMT->ReleaseVMT();
+    clientModeVMT->ReleaseVMT();
+    engineVGuiVMT->ReleaseVMT();
+    gameEventsVMT->ReleaseVMT();
+    inputInternalVMT->ReleaseVMT();
+    launcherMgrVMT->ReleaseVMT();
+    materialVMT->ReleaseVMT();
+    modelRenderVMT->ReleaseVMT();
+    panelVMT->ReleaseVMT();
 	soundVMT->ReleaseVMT();
+    surfaceVMT->ReleaseVMT();
+    viewRenderVMT->ReleaseVMT();
 
-	input->m_fCameraInThirdPerson = false;
+    input->m_fCameraInThirdPerson = false;
 	input->m_vecCameraOffset.z = 150.f;
 	GetLocalClient(-1)->m_nDeltaTick = -1;
 

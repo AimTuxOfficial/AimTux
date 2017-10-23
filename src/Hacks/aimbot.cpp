@@ -275,7 +275,7 @@ static Vector GetClosestSpot( CUserCmd* cmd, C_BasePlayer* localPlayer, C_BasePl
 	return tempSpot;
 }
 
-static C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visibleCheck, Vector& bestSpot, float& bestDamage, AimTargetType aimTargetType = AimTargetType::FOV)
+static C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visibleCheck, Vector* bestSpot, float* bestDamage, AimTargetType aimTargetType = AimTargetType::FOV)
 {
 	if (Settings::Aimbot::AutoAim::realDistance)
 		aimTargetType = AimTargetType::REAL_DISTANCE;
@@ -315,15 +315,15 @@ static C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visibleCheck, Vector& 
 			if( Settings::Aimbot::AutoAim::closestBone )
 			{
 				Vector tempSpot = GetClosestSpot(cmd, localplayer, lockedOn, aimTargetType);
-				if( tempSpot.x == 0 && tempSpot.y == 0 && tempSpot.z == 0 )
+				if( tempSpot.IsZero() )
 				{
 					return NULL;
 				}
-				bestSpot = tempSpot;
+				*bestSpot = tempSpot;
 			}
 			else
 			{
-				bestSpot = lockedOn->GetBonePosition((int)Settings::Aimbot::bone);
+				*bestSpot = lockedOn->GetBonePosition((int)Settings::Aimbot::bone);
 			}
 
 			return lockedOn;
@@ -358,7 +358,7 @@ static C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visibleCheck, Vector& 
 		if( Settings::Aimbot::AutoAim::closestBone )
 		{
 			Vector tempSpot = GetClosestSpot(cmd, localplayer, player, aimTargetType);
-			if( (tempSpot.x == 0 && tempSpot.y == 0 && tempSpot.z == 0) || !Entity::IsSpotVisibleThroughEnemies(player, tempSpot) )
+			if( tempSpot.IsZero() || !Entity::IsSpotVisibleThroughEnemies(player, tempSpot) )
 				continue;
 			eVecTarget = tempSpot;
 		}
@@ -387,17 +387,17 @@ static C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visibleCheck, Vector& 
 			Vector wallBangSpot = {0,0,0};
 			float damage = AutoWallBestSpot(player, wallBangSpot); // sets Vector Angle, returns damage of hitting that spot.
 
-			if( wallBangSpot.x != 0 && wallBangSpot.y != 0 && wallBangSpot.z != 0 )
+			if( !wallBangSpot.IsZero() )
 			{
-				bestDamage = damage;
-				bestSpot = wallBangSpot;
+				*bestDamage = damage;
+				*bestSpot = wallBangSpot;
 				closestEntity = player;
 			}
 		}
 		else
 		{
 			closestEntity = player;
-			bestSpot = eVecTarget;
+			*bestSpot = eVecTarget;
 			bestFov = fov;
 			bestRealDistance = realDistance;
 		}
@@ -419,7 +419,7 @@ static C_BasePlayer* GetClosestPlayer(CUserCmd* cmd, bool visibleCheck, Vector& 
 			}
 		}
 	}
-	if( bestSpot.x == 0 && bestSpot.y == 0 && bestSpot.z == 0 )
+	if( bestSpot->IsZero() )
 		return NULL;
 
 	/*
@@ -492,6 +492,8 @@ static void AimStep(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd)
 	if (!Aimbot::aimStepInProgress)
 		return;
 
+    cmd->buttons &= ~(IN_ATTACK); // aimstep in progress, don't shoot.
+
 	QAngle deltaAngle = AimStepLastAngle - angle;
 
 	Math::NormalizeAngles(deltaAngle);
@@ -518,7 +520,7 @@ static void Salt(float& smooth)
 	smooth *= oval;
 }
 
-static void Smooth(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd)
+static void Smooth(C_BasePlayer* player, QAngle& angle)
 {
 	if (!Settings::Aimbot::Smooth::enabled)
 		return;
@@ -545,7 +547,7 @@ static void Smooth(C_BasePlayer* player, QAngle& angle, CUserCmd* cmd)
 	if (Settings::Aimbot::Smooth::Salting::enabled)
 		Salt(smooth);
 
-	QAngle toChange = QAngle();
+	QAngle toChange = {0,0,0};
 
 	SmoothType type = Settings::Aimbot::Smooth::type;
 
@@ -723,6 +725,26 @@ static void NoShoot(C_BaseCombatWeapon* activeWeapon, C_BasePlayer* player, CUse
 	}
 }
 
+static void MoveMouse(CUserCmd* cmd, const QAngle &angle, const QAngle &oldAngle)
+{
+    if (angle != cmd->viewangles)
+    {
+        if(Settings::Aimbot::moveMouse && !Settings::Aimbot::silent) // not a good idea to use mouse-based aimbot and silent aim at the same time
+        {
+            float sensitivity = cvar->FindVar(XORSTR("sensitivity"))->GetFloat();
+            float m_pitch = cvar->FindVar(XORSTR("m_pitch"))->GetFloat();
+            float m_yaw = cvar->FindVar(XORSTR("m_yaw"))->GetFloat();
+
+            xdo_move_mouse_relative(xdo, (int) -( (angle.y - oldAngle.y) / (m_pitch * sensitivity) ),
+                                    (int) ( (angle.x - oldAngle.x) / (m_yaw * sensitivity))
+            );
+        }
+        else
+        {
+            cmd->viewangles = angle;
+        }
+    }
+}
 void Aimbot::CreateMove(CUserCmd* cmd)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
@@ -756,18 +778,17 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	if (weaponType == CSWeaponType::WEAPONTYPE_C4 || weaponType == CSWeaponType::WEAPONTYPE_GRENADE || weaponType == CSWeaponType::WEAPONTYPE_KNIFE)
 		return;
 
-	Vector aimSpot = {0,0,0};
+    Vector bestSpot = {0,0,0};
 	float bestDamage = 0.0f;
-	C_BasePlayer* player = GetClosestPlayer(cmd, true, aimSpot, bestDamage);
+	C_BasePlayer* player = GetClosestPlayer(cmd, true, &bestSpot, &bestDamage);
 
 	if (player)
 	{
 		bool skipPlayer = false;
 
-		Vector eVecTarget = aimSpot;
-		Vector pVecTarget = localplayer->GetEyePosition();
+		Vector localEye = localplayer->GetEyePosition();
 
-		if (Settings::Aimbot::SmokeCheck::enabled && LineGoesThroughSmoke(pVecTarget, eVecTarget, true))
+		if (Settings::Aimbot::SmokeCheck::enabled && LineGoesThroughSmoke(localEye, bestSpot, true))
 			skipPlayer = true;
 
 		if (Settings::Aimbot::FlashCheck::enabled && localplayer->GetFlashBangTime() - globalVars->curtime > 2.0f)
@@ -784,25 +805,15 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 			if (inputSystem->IsButtonDown(Settings::Aimbot::aimkey))
 				shouldAim = true;
 
-			if (shouldAim)
+            Settings::Debug::AutoAim::target = bestSpot; // For Debug showing aimspot.
+            if (shouldAim)
 			{
-				//IEngineClient::player_info_t playerInfo;
-				//engine->GetPlayerInfo(player->GetIndex(), &playerInfo);
-				//studiohdr_t* pStudioModel = modelInfo->GetStudioModel(player->GetModel());
-				//cvar->ConsoleDPrintf("Model ID: %d, Name: %s, NumOfBones: %d, len %d\n", pStudioModel->id, pStudioModel->name, pStudioModel->numbones);
-
-
-				//cvar->ConsoleDPrintf("Aiming at: %s, he is a %s \n", playerInfo.name, Util::ModelTypeToString(Util::GetModelTypeID(player)).c_str());
-
-
 				if (Settings::Aimbot::Prediction::enabled)
 				{
-					pVecTarget = VelocityExtrapolate(localplayer, pVecTarget); // get eye pos next tick
-					eVecTarget = VelocityExtrapolate(player, eVecTarget); // get target pos next tick
+					localEye = VelocityExtrapolate(localplayer, localEye); // get eye pos next tick
+					bestSpot = VelocityExtrapolate(player, bestSpot); // get target pos next tick
 				}
-				angle = Math::CalcAngle(pVecTarget, eVecTarget);
-
-				//cvar->ConsoleDPrintf("Raw Angle = (%.2f, %.2f, %.2f)\n", angle.x, angle.y, angle.z);
+				angle = Math::CalcAngle(localEye, bestSpot);
 
 				if (Settings::Aimbot::ErrorMargin::enabled)
 				{
@@ -812,7 +823,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 						lastRandom = ApplyErrorToAngle(&angle, Settings::Aimbot::ErrorMargin::value);
 					}
 
-					if( lastRandom.x != 0 && lastRandom.y != 0 && lastRandom.z != 0 )
+					if( !lastRandom.IsZero() )
 					{
 						ApplyOffsetToAngle(&angle,&lastRandom);
 					}
@@ -821,50 +832,34 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 				}
 				newTarget = false;
 			}
-			else
-			{
-				newTarget = true;
-				lastRandom = {0,0,0};
-			}
 		}
 	}
-	else
-	{
-		newTarget = true;
-		lastRandom = {0,0,0};
-	}
+
+    if( !player ) // No player to Shoot
+    {
+        Settings::Debug::AutoAim::target = {0,0,0};
+        newTarget = true;
+        lastRandom = {0,0,0};
+    }
+
+    if( !shouldAim )// Not going to Aimlock.
+        return;
 
 
-	AimStep(player, angle, cmd);
+    AimStep(player, angle, cmd);
 	AutoCrouch(player, cmd);
 	AutoSlow(player, oldForward, oldSideMove, bestDamage, activeWeapon, cmd);
 	AutoPistol(activeWeapon, cmd);
 	AutoShoot(player, activeWeapon, cmd);
 	RCS(angle, player, cmd);
-	Smooth(player, angle, cmd);
+	Smooth(player, angle);
 	ShootCheck(activeWeapon, cmd);
 	NoShoot(activeWeapon, player, cmd);
+    MoveMouse(cmd, angle, oldAngle);
 
 	Math::NormalizeAngles(angle);
 	Math::ClampAngles(angle);
 
-	if (angle != cmd->viewangles)
-	{
-		if(Settings::Aimbot::moveMouse && !Settings::Aimbot::silent) // not a good idea to use mouse-based aimbot and silent aim at the same time
-		{
-			float sensitivity = cvar->FindVar(XORSTR("sensitivity"))->GetFloat();
-			float m_pitch = cvar->FindVar(XORSTR("m_pitch"))->GetFloat();
-			float m_yaw = cvar->FindVar(XORSTR("m_yaw"))->GetFloat();
-			
-			xdo_move_mouse_relative(xdo, (int) -( (angle.y - oldAngle.y) / (m_pitch * sensitivity) ),
-									     (int) ( (angle.x - oldAngle.x) / (m_yaw * sensitivity))
-								   );
-		}
-		else
-		{
-			cmd->viewangles = angle;
-		}
-	}
 
 	Math::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);
 

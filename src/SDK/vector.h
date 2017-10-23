@@ -1217,6 +1217,13 @@ public:
 	bool operator==(const QAngle& v) const;
 	bool operator!=(const QAngle& v) const;
 
+	bool IsZero(float tolerance = 0.01f) const
+	{
+		return (x > -tolerance && x < tolerance &&
+				y > -tolerance && y < tolerance &&
+				z > -tolerance && z < tolerance);
+	}
+
 	// arithmetic operations
 	QAngle& operator+=(const QAngle &v);
 	QAngle& operator-=(const QAngle &v);

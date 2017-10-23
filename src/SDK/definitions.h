@@ -1758,8 +1758,8 @@ struct GrenadeInfo
 	Vector pos;
 	QAngle angle;
 	ThrowType tType;
-	pstring name;
-	GrenadeInfo(GrenadeType gType, Vector pos, QAngle angle,ThrowType tType, pstring name)
+	std::string name;
+	GrenadeInfo(GrenadeType gType, Vector pos, QAngle angle,ThrowType tType, std::string name)
 	{
 		this->gType = gType;
 		this->pos = pos;
