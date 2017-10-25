@@ -1,7 +1,6 @@
 #pragma once
 
-struct surfacephysicsparams_t
-{
+struct surfacephysicsparams_t {
 	float friction;
 	float elasticity;
 	float density;
@@ -9,47 +8,16 @@ struct surfacephysicsparams_t
 	float dampening;
 };
 
-struct surfaceaudioparams_t
-{
-	float reflectivity;
-	float hardnessFactor;
-	float roughnessFactor;
-	float roughThreshold;
-	float hardThreshold;
-	float hardVelocityThreshold;
-};
-
-struct surfacesoundnames_t
-{
-	unsigned short stepleft;
-	unsigned short stepright;
-	unsigned short impactSoft;
-	unsigned short impactHard;
-	unsigned short scrapeSmooth;
-	unsigned short scrapeRough;
-	unsigned short bulletImpact;
-	unsigned short rolling;
-	unsigned short breakSound;
-	unsigned short strainSound;
-};
-
-struct surfacegameprops_t
-{
+struct surfacegameprops_t {
 public:
-	float maxSpeedFactor;
-	float jumpFactor;
-	char pad00[0x4];
 	float flPenetrationModifier;
 	float flDamageModifier;
 	unsigned short material;
-	char pad01[0x3];
 };
 
-struct surfacedata_t
-{
+struct surfacedata_t {
 	surfacephysicsparams_t physics;
-	surfaceaudioparams_t audio;
-	surfacesoundnames_t sounds;
+	char __kisakSucks[68];
 	surfacegameprops_t game;
 };
 
