@@ -842,10 +842,6 @@ void Aimbot::CreateMove(CUserCmd* cmd)
         lastRandom = {0,0,0};
     }
 
-    if( !shouldAim )// Not going to Aimlock.
-        return;
-
-
     AimStep(player, angle, cmd);
 	AutoCrouch(player, cmd);
 	AutoSlow(player, oldForward, oldSideMove, bestDamage, activeWeapon, cmd);
