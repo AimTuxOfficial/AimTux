@@ -45,6 +45,7 @@ namespace Hooks
 	void BeginFrame(void* thisptr, float frameTime);
 	int PumpWindowsMessageLoop(void* thisptr, void* unknown);
 	void Paint(void* thisptr, PaintMode_t mode);
+	void PaintImGui(); // Draw with ImGui.
 	void EmitSound1(void* thisptr, IRecipientFilter& filter, int iEntIndex, int iChannel, const char* pSoundEntry, unsigned int nSoundEntryHash, const char *pSample, float flVolume, int nSeed, float flAttenuation, int iFlags, int iPitch, const Vector* pOrigin, const Vector* pDirection, void* pUtlVecOrigins, bool bUpdatePositions, float soundtime, int speakerentity);
 	void EmitSound2(void* thisptr, IRecipientFilter& filter, int iEntIndex, int iChannel, const char* pSoundEntry, unsigned int nSoundEntryHash, const char *pSample, float flVolume, int nSeed, soundlevel_t iSoundLevel, int iFlags, int iPitch, const Vector* pOrigin, const Vector* pDirection, void* pUtlVecOrigins, bool bUpdatePositions, float soundtime, int speakerentity);
 	void RenderSmokePostViewmodel(void* thisptr);

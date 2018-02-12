@@ -2,7 +2,7 @@
 
 void inline Math::SinCos(float radians, float *sine, float *cosine)
 {
-	register double __cosr, __sinr;
+	double __cosr, __sinr;
 	__asm ("fsincos" : "=t" (__cosr), "=u" (__sinr) : "0" (radians));
 
 	*sine = __sinr;
@@ -60,7 +60,7 @@ void Math::ClampAngles(QAngle& angle)
 	angle.z = 0;
 }
 
-void Math::CorrectMovement(QAngle vOldAngles, CUserCmd* pCmd, float fOldForward, float fOldSidemove)
+void Math::CorrectMovement(const QAngle &vOldAngles, CUserCmd* pCmd, float fOldForward, float fOldSidemove)
 {
 	// side/forward move correction
 	float deltaView;
@@ -119,18 +119,18 @@ void Math::VectorAngles(const Vector& forward, QAngle &angles)
 	angles[2] = 0.0f;
 }
 
-float Math::DotProduct(Vector &v1, const float* v2)
+float Math::DotProduct(const Vector &v1, const float* v2)
 {
 	return v1.x*v2[0] + v1.y*v2[1] + v1.z*v2[2];
 }
-void Math::VectorTransform (Vector &in1, const matrix3x4_t& in2, Vector &out)
+void Math::VectorTransform (const Vector &in1, const matrix3x4_t& in2, Vector &out)
 {
 	out.x = DotProduct(in1, in2[0]) + in2[0][3];
 	out.y = DotProduct(in1, in2[1]) + in2[1][3];
 	out.z = DotProduct(in1, in2[2]) + in2[2][3];
 }
 
-QAngle Math::CalcAngle(Vector src, Vector dst)
+QAngle Math::CalcAngle(const Vector &src, const Vector &dst)
 {
 	QAngle angles;
 	Vector delta = src - dst;

@@ -452,7 +452,8 @@ enum class ModelType : int // Something I made up
 	//Anarchists - 84 (player/custom_player/legacy/tm_anarchist_varianta.mdl)
 	//Balkan - 86 (player/custom_player/legacy/tm_balkan_variantc.mdl)
 	//Leet krew - 84 (player/custom_player/legacy/tm_leet_varianta.mdl)
-	//Phoenix - 86 (player/custom_player/legacy/tm_phoenix_variantc.mdl)
+    //Leet krew 2- 85 (player/custom_player/legacy/tm_leet_variantD.mdl)
+    //Phoenix - 86 (player/custom_player/legacy/tm_phoenix_variantc.mdl)
 	//Professionals - 91 (player/custom_player/legacy/tm_professional_var3.mdl)
 	//Separatists - 86 (player/custom_player/legacy/tm_separatist_variantd.mdl)
 	UNKNOWN = -1,
@@ -467,7 +468,8 @@ enum class ModelType : int // Something I made up
 	ANARCHIST,
 	BALKAN,
 	LEETKREW,
-	PHOENIX,
+    LEETKREW2, // dust 2 re-make
+    PHOENIX,
 	PROFESSIONAL,
 	SEPARATIST
 
@@ -1330,6 +1332,80 @@ static const std::map<int,int> BoneMapT_Leet =
 		{ (int)DesiredBones::BONE_RIGHT_ANKLE, (int)BoneT_Leet::BONE_RIGHT_ANKLE },
 		{ (int)DesiredBones::BONE_RIGHT_SOLE, (int)BoneT_Leet::BONE_RIGHT_SOLE }
 };
+enum class BoneT_Leet2 : int {
+    INVALID = -1,
+    BONE_PELVIS = 0,
+    LEAN_ROOT,
+    CAM_DRIVER,
+    BONE_HIP,
+    BONE_LOWER_SPINAL_COLUMN,
+    BONE_MIDDLE_SPINAL_COLUMN,
+    BONE_UPPER_SPINAL_COLUMN,
+    BONE_NECK,
+    BONE_HEAD,
+
+    BONE_LEFT_COLLARBONE = 10,
+    BONE_LEFT_SHOULDER = 11,
+    BONE_LEFT_ARMPIT = 11,
+    BONE_LEFT_BICEP = 37,
+    BONE_LEFT_ELBOW = 12,
+    BONE_LEFT_FOREARM = 35,
+    BONE_LEFT_WRIST = 13,
+
+    BONE_RIGHT_COLLARBONE = 38,
+    BONE_RIGHT_SHOULDER = 39,
+    BONE_RIGHT_ARMPIT = 39,
+    BONE_RIGHT_BICEP = 65,
+    BONE_RIGHT_ELBOW = 40,
+    BONE_RIGHT_FOREARM = 63,
+    BONE_RIGHT_WRIST = 41,
+
+    BONE_LEFT_BUTTCHEEK = 66,
+    BONE_LEFT_THIGH = 71,
+    BONE_LEFT_KNEE = 67,
+    BONE_LEFT_ANKLE = 68,
+    BONE_LEFT_SOLE = 69,
+
+    BONE_RIGHT_BUTTCHEEK = 73,
+    BONE_RIGHT_THIGH = 78,
+    BONE_RIGHT_KNEE = 74,
+    BONE_RIGHT_ANKLE = 75,
+    BONE_RIGHT_SOLE = 77
+};
+static const std::map<int, int> BoneMapT_Leet2 =
+{
+        { ( int ) DesiredBones::BONE_PELVIS,               ( int ) BoneT_Leet2::BONE_PELVIS },
+        { ( int ) DesiredBones::BONE_HIP,                  ( int ) BoneT_Leet2::BONE_HIP },
+        { ( int ) DesiredBones::BONE_LOWER_SPINAL_COLUMN,  ( int ) BoneT_Leet2::BONE_LOWER_SPINAL_COLUMN },
+        { ( int ) DesiredBones::BONE_MIDDLE_SPINAL_COLUMN, ( int ) BoneT_Leet2::BONE_MIDDLE_SPINAL_COLUMN },
+        { ( int ) DesiredBones::BONE_UPPER_SPINAL_COLUMN,  ( int ) BoneT_Leet2::BONE_UPPER_SPINAL_COLUMN },
+        { ( int ) DesiredBones::BONE_NECK,                 ( int ) BoneT_Leet2::BONE_NECK },
+        { ( int ) DesiredBones::BONE_HEAD,                 ( int ) BoneT_Leet2::BONE_HEAD },
+        { ( int ) DesiredBones::BONE_LEFT_COLLARBONE,      ( int ) BoneT_Leet2::BONE_LEFT_COLLARBONE },
+        { ( int ) DesiredBones::BONE_LEFT_SHOULDER,        ( int ) BoneT_Leet2::BONE_LEFT_SHOULDER },
+        { ( int ) DesiredBones::BONE_LEFT_ARMPIT,          ( int ) BoneT_Leet2::BONE_LEFT_ARMPIT },
+        { ( int ) DesiredBones::BONE_LEFT_BICEP,           ( int ) BoneT_Leet2::BONE_LEFT_BICEP },
+        { ( int ) DesiredBones::BONE_LEFT_ELBOW,           ( int ) BoneT_Leet2::BONE_LEFT_ELBOW },
+        { ( int ) DesiredBones::BONE_LEFT_FOREARM,         ( int ) BoneT_Leet2::BONE_LEFT_FOREARM },
+        { ( int ) DesiredBones::BONE_LEFT_WRIST,           ( int ) BoneT_Leet2::BONE_LEFT_WRIST },
+        { ( int ) DesiredBones::BONE_RIGHT_COLLARBONE,     ( int ) BoneT_Leet2::BONE_RIGHT_COLLARBONE },
+        { ( int ) DesiredBones::BONE_RIGHT_SHOULDER,       ( int ) BoneT_Leet2::BONE_RIGHT_SHOULDER },
+        { ( int ) DesiredBones::BONE_RIGHT_ARMPIT,         ( int ) BoneT_Leet2::BONE_RIGHT_ARMPIT },
+        { ( int ) DesiredBones::BONE_RIGHT_BICEP,          ( int ) BoneT_Leet2::BONE_RIGHT_BICEP },
+        { ( int ) DesiredBones::BONE_RIGHT_ELBOW,          ( int ) BoneT_Leet2::BONE_RIGHT_ELBOW },
+        { ( int ) DesiredBones::BONE_RIGHT_FOREARM,        ( int ) BoneT_Leet2::BONE_RIGHT_FOREARM },
+        { ( int ) DesiredBones::BONE_RIGHT_WRIST,          ( int ) BoneT_Leet2::BONE_RIGHT_WRIST },
+        { ( int ) DesiredBones::BONE_LEFT_BUTTCHEEK,       ( int ) BoneT_Leet2::BONE_LEFT_BUTTCHEEK },
+        { ( int ) DesiredBones::BONE_LEFT_THIGH,           ( int ) BoneT_Leet2::BONE_LEFT_THIGH },
+        { ( int ) DesiredBones::BONE_LEFT_KNEE,            ( int ) BoneT_Leet2::BONE_LEFT_KNEE },
+        { ( int ) DesiredBones::BONE_LEFT_ANKLE,           ( int ) BoneT_Leet2::BONE_LEFT_ANKLE },
+        { ( int ) DesiredBones::BONE_LEFT_SOLE,            ( int ) BoneT_Leet2::BONE_LEFT_SOLE },
+        { ( int ) DesiredBones::BONE_RIGHT_BUTTCHEEK,      ( int ) BoneT_Leet2::BONE_RIGHT_BUTTCHEEK },
+        { ( int ) DesiredBones::BONE_RIGHT_THIGH,          ( int ) BoneT_Leet2::BONE_RIGHT_THIGH },
+        { ( int ) DesiredBones::BONE_RIGHT_KNEE,           ( int ) BoneT_Leet2::BONE_RIGHT_KNEE },
+        { ( int ) DesiredBones::BONE_RIGHT_ANKLE,          ( int ) BoneT_Leet2::BONE_RIGHT_ANKLE },
+        { ( int ) DesiredBones::BONE_RIGHT_SOLE,           ( int ) BoneT_Leet2::BONE_RIGHT_SOLE }
+};
 /* Aztec, Cobblestone, Assault, Militia, Cache, Nuke */
 enum class BoneT_Phoenix : int {
 	INVALID = -1,
@@ -1682,8 +1758,8 @@ struct GrenadeInfo
 	Vector pos;
 	QAngle angle;
 	ThrowType tType;
-	pstring name;
-	GrenadeInfo(GrenadeType gType, Vector pos, QAngle angle,ThrowType tType, pstring name)
+	std::string name;
+	GrenadeInfo(GrenadeType gType, Vector pos, QAngle angle,ThrowType tType, std::string name)
 	{
 		this->gType = gType;
 		this->pos = pos;

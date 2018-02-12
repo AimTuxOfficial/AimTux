@@ -1,5 +1,5 @@
 #!/bin/bash
 
 cmake -DCMAKE_BUILD_TYPE="DEBUG"
-make -j4
-mv libFuzion.so $(cat build_id)
+make -j"$(grep -c "^processor" /proc/cpuinfo)"
+mv libFuzion.so "$(cat build_id)"

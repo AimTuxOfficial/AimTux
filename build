@@ -3,16 +3,21 @@
 
 cmake . || exit 1
 
+if ! hash patchelf 2>/dev/null; then
+    echo -e "\\e[31mYou need to install the \"patchelf\" command!\nUse your package manager to install it, or get source here:\nhttps://github.com/NixOS/patchelf\\e[0m"
+    exit 1
+fi
+
+rm build_id_hex
+# Get a Random 32 char ID
 BUILD_ID=$(< /dev/urandom tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 
-# Change Line 8 in src/Fuzion.cpp so it has the BUILD_ID.
-awk -v BUILD_ID="$BUILD_ID" \
-'NR==8 {$0="char buildID[] = \""BUILD_ID"\"; // Line Set by build script"} 1' \
-src/Fuzion.cpp > "/tmp/$BUILD_ID"
-cat "/tmp/$BUILD_ID" > src/Fuzion.cpp
-rm "/tmp/$BUILD_ID"
+# Hexify it and put it into build_id_hex
+for (( i=0; i<${#BUILD_ID}; i++ )); do
+  printf '0x%x,\n' "'${BUILD_ID:$i:1}" >> build_id_hex
+done
 
-make -j$(grep "^processor" /proc/cpuinfo | wc -l) "$@" || exit 1
+make -j"$(grep -c "^processor" /proc/cpuinfo)" "$@" || exit 1
 
 if [ -f build_id ]; then
     filename=$(cat build_id)
@@ -21,15 +26,15 @@ if [ -f build_id ]; then
         sudo rm /"$filename"
     fi
     chmod 660 build_id
-    mv build_id  build_id_old
+    mv build_id build_id_old
 fi
 
-echo "$BUILD_ID" > build_id
+echo $BUILD_ID > build_id
 mv libFuzion.so "$BUILD_ID"
 
 strip -s -v "$BUILD_ID"
-patchelf --set-soname "$BUILD_ID" "$BUILD_ID"
+patchelf --set-soname "$BUILD_ID" "$BUILD_ID" || echo -e "\\e[33mWarning: your patchelf version does not support \"--set-soname\"\nConsider building from source: https://github.com/NixOS/patchelf\\e[0m"
 
-chmod 400 build_id #User read only
+chmod 400 build_id # Make the build_id read-only for safety.
 
 echo "Build Completed."

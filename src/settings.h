@@ -27,7 +27,7 @@ enum class SmoothType : int
 	FAST_END,
 };
 
-enum class  TracerType : int
+enum class TracerType : int
 {
 	BOTTOM,
 	CURSOR,
@@ -622,10 +622,6 @@ namespace Settings
 		extern ColorVar molotovColor;
 		extern HealthColorVar localplayerColor;
 
-		namespace AutoWall
-		{
-			extern bool debugView;
-		}
 		namespace Glow
 		{
 			extern bool enabled;
@@ -1059,7 +1055,7 @@ namespace Settings
 		extern ColorVar infoSmoke;
 		extern ColorVar infoFlash;
 		extern ColorVar infoMolotov;
-		extern pstring actMapName;
+		extern std::string actMapName;
 	}
 
 	namespace WalkBot
@@ -1088,6 +1084,24 @@ namespace Settings
  			extern bool allies;
  		}
  	}
+    namespace Debug
+    {
+        namespace AutoWall
+        {
+            extern bool debugView;
+        }
+		namespace AutoAim
+		{
+			extern bool drawTarget;
+			extern Vector target;
+		}
+		namespace BoneMap
+		{
+			extern bool draw;
+			extern bool justDrawDots;
+		}
+    }
+
 
 	void LoadDefaultsOrSave(std::string path);
 	void LoadConfig(std::string path);

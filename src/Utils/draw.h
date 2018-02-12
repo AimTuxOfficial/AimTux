@@ -19,6 +19,7 @@ enum ImFontFlags
 namespace Draw
 {
 	void Circle(Vector2D position, float points, float radius, Color color);
+	void OutlinedCircle(int x0, int y0, int points, int radius, Color col);
 	void FilledCircle(Vector2D position, float points, float radius, Color color);
 	void Circle3D(Vector position, float points, float radius, Color color);
 	void FilledRectangle(int x0, int y0, int x1, int y1, Color col);
@@ -42,8 +43,12 @@ namespace Draw
 
 	// ImGui
 	void ImStart();
-	void ImDrawText(ImVec2 pos, ImColor color, const char* text_begin, const char* text_end = NULL, float wrap_width = 0.0f, const ImVec4* cpu_fine_clip_rect = NULL, ImFontFlags flags = ImFontFlags_None);
-	void ImDrawCircle(ImVec2 point, ImColor color, float radius, int num_segments = 12, float thickness = 1.0f);
-	void ImDrawRect(ImVec2 a, ImVec2 b, ImColor color, float rounding = 0.0f, int rounding_corners_flags = ~0, float thickness = 1.0f);
+	void ImCircle(ImVec2 point, ImColor color, float radius, int num_segments = 12, float thickness = 1.0f);
+	void ImCircleFilled(ImVec2 point, ImColor color, float radius, int num_segments);
+	void ImLine(ImVec2 a, ImVec2 b, ImColor color, float thickness = 1.0f);
+	void ImRect(ImVec2 a, ImVec2 b, ImColor color, float rounding = 0.0f, int rounding_corners_flags = ~0, float thickness = 1.0f);
+	void ImRect(int x0, int y0, int x1, int y1, Color color, float rounding = 0.0f, int rounding_corners_flags = ~0, float thickness = 1.0f);
+	void ImRect(ImVec2 a, ImVec2 b, Color color, float rounding = 0.0f, int rounding_corners_flags = ~0, float thickness = 1.0f);
+	void ImText(ImVec2 pos, ImColor color, const char *text_begin, const char *text_end = NULL, float wrap_width = 0.0f, const ImVec4 *cpu_fine_clip_rect = NULL, ImFontFlags flags = ImFontFlags_None);
 	void ImEnd();
 }

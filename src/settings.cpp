@@ -570,6 +570,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 
 void Settings::LoadConfig(std::string path)
 {
+	Util::RestoreLinkMapEntry(Fuzion::prev, Fuzion::curr, Fuzion::next); // the Linkmap meme breaks config loading, so we need to restore it before we load.
 	TracerEffect::RestoreTracers();
 	if (!std::ifstream(path).good())
 	{
@@ -908,7 +909,7 @@ void Settings::LoadConfig(std::string path)
 			weaponID = (int) Util::Items::GetItemIndex(skinDataKey);
 		}
 
-		ItemDefinitionIndex defIndex;
+		ItemDefinitionIndex defIndex = ItemDefinitionIndex::INVALID;
 		GetOrdinal<ItemDefinitionIndex, Util::Items::GetItemIndex>(skinSetting[XORSTR("ItemDefinitionIndex")], &defIndex);
 
 		if (Settings::Skinchanger::skinsCT.find((ItemDefinitionIndex) weaponID) == Settings::Skinchanger::skinsCT.end())
@@ -945,7 +946,7 @@ void Settings::LoadConfig(std::string path)
 			weaponID = (int) Util::Items::GetItemIndex(skinDataKey);
 		}
 
-		ItemDefinitionIndex defIndex;
+		ItemDefinitionIndex defIndex = ItemDefinitionIndex::INVALID;
 		GetOrdinal<ItemDefinitionIndex, Util::Items::GetItemIndex>(skinSetting[XORSTR("ItemDefinitionIndex")], &defIndex);
 
 		if (Settings::Skinchanger::skinsT.find((ItemDefinitionIndex) weaponID) == Settings::Skinchanger::skinsT.end())
@@ -1099,7 +1100,7 @@ void Settings::LoadConfig(std::string path)
  	GetVal(settings[XORSTR("AutoKnife")][XORSTR("Filters")][XORSTR("allies")], &Settings::AutoKnife::Filters::allies);
  	GetVal(settings[XORSTR("AutoKnife")][XORSTR("onKey")], &Settings::AutoKnife::onKey);
 
-
+	Util::RemoveLinkMapEntry(Fuzion::buildID, &Fuzion::prev, &Fuzion::curr, &Fuzion::next); // Enable linkmap meme again.
 }
 
 /*
@@ -1174,7 +1175,7 @@ void Settings::LoadGrenadeInfo(std::string path)
 		Vector posVec = Vector(pos[XORSTR("x")].asFloat(), pos[XORSTR("y")].asFloat(), pos[XORSTR("z")].asFloat());
 		Json::Value angle = act[XORSTR("angle")];
 		QAngle vAngle = QAngle(angle[XORSTR("x")].asFloat(), angle[XORSTR("y")].asFloat(), 0);
-		Settings::GrenadeHelper::grenadeInfos.push_back(GrenadeInfo(gType, posVec, vAngle, tType, pstring(name)));
+		Settings::GrenadeHelper::grenadeInfos.push_back(GrenadeInfo(gType, posVec, vAngle, tType, std::string(name)));
 	}
 }
 
@@ -1192,17 +1193,17 @@ void remove_directory(const char* path)
 
 		if (pdir->d_type == DT_DIR)
 		{
-			pstring _dir;
+			std::ostringstream _dir;
 			_dir << path << "/" << pdir->d_name;
 
-			remove_directory(_dir.c_str());
+			remove_directory(_dir.str().c_str());
 		}
 		else if (pdir->d_type == DT_REG)
 		{
-			pstring file;
+			std::ostringstream file;
 			file << path << "/" << pdir->d_name;
 
-			unlink(file.c_str());
+			unlink(file.str().c_str());
 		}
 	}
 

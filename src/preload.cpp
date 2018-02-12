@@ -1,15 +1,13 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <dlfcn.h>
-#include <limits.h>
+#include <climits>
 #include <errno.h>
-#include <sys/stat.h>
 #include <fcntl.h>
-#include <string.h>
 #include <unistd.h>
 #include "preload.h"
-#include "Utils/util.h"
-#include "Utils/xorstring.h"
+//#include "Utils/util.h"
+//#include "Utils/xorstring.h"
 
 // Derived from: http://haxelion.eu/article/LD_NOT_PRELOADED_FOR_REAL/
 // "I asked the Author (haxelion) permission to re-license under GPLv3. He said it was totally okay." -- LWSS
@@ -244,5 +242,68 @@ void Preload::Cleanup()
 	char maps_path[PATH_MAX];
 	snprintf(maps_path, PATH_MAX, XORSTR("/tmp/%d-fakemaps"), pid);
 	remove(maps_path);
+}
 
+void Preload::PrintStatus()
+{
+	cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 200), XORSTR("LD_PRELOAD method Detected...\n"));
+	bool found = false;
+	for (int i = 0; environ[i]; i++)
+	{
+		if (strstr(environ[i], Fuzion::buildID) != NULL)
+		{
+			found = true;
+		}
+	}
+	if (found)
+	{
+		cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 0), XORSTR("Environ has our buildID!\n"));
+	}
+	else
+	{
+		cvar->ConsoleColorPrintf(ColorRGBA(0, 150, 0), XORSTR("Environ Memory Purged Sucessfully.\n"));
+	}
+	cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 200), XORSTR("-- Hooks --\n"));
+
+	/* The program will force exit before this point, if these are not found, so this is more of an informational read of what is hooked */
+	cvar->ConsoleColorPrintf(ColorRGBA(0, 0, 200), XORSTR("fopen(): Hooked\n"));
+	cvar->ConsoleColorPrintf(ColorRGBA(0, 0, 200), XORSTR("getenv(): Hooked\n"));
+	cvar->ConsoleColorPrintf(ColorRGBA(0, 0, 200), XORSTR("open(): Hooked\n"));
+	cvar->ConsoleColorPrintf(ColorRGBA(0, 0, 200), XORSTR("execve(): Hooked\n"));
+
+	cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 200), XORSTR("-- Tests --\n"));
+	if (getenv(XORSTR("LD_PRELOAD")) == NULL)
+	{
+		cvar->ConsoleColorPrintf(ColorRGBA(0, 150, 0), XORSTR("getenv(\"LD_PRELOAD\") Clean.\n"));
+	}
+	else
+	{
+		cvar->ConsoleColorPrintf(ColorRGBA(255, 255, 0), XORSTR("getenv(\"LD_PRELOAD\") = %s\n"), getenv(XORSTR("LD_PRELOAD")));
+	}
+
+	if (strcmp(XORSTR("/dev/null"), getenv(XORSTR("TMPDIR"))) == 0)
+	{
+		cvar->ConsoleColorPrintf(ColorRGBA(0, 150, 0), XORSTR("getenv(\"TMPDIR\") -> /dev/null.\n"));
+	}
+	else
+	{
+		cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 0), XORSTR("getenv(\"TMPDIR\") ->%s\n"), getenv(XORSTR("TMPDIR")));
+	}
+
+	char buffer[PATH_MAX];
+	found = false;
+	FILE *maps = fopen(XORSTR("/proc/self/maps"), "r");
+	while (fgets(buffer, PATH_MAX, maps)) {
+		if (strstr(buffer, Fuzion::buildID) != NULL)
+			found = true;
+	}
+	fclose(maps);
+	if (found)
+	{
+		cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 0), XORSTR("fopen(\"/proc/self/maps\") contains our shared object!\n"));
+	}
+	else
+	{
+		cvar->ConsoleColorPrintf(ColorRGBA(0, 150, 0), XORSTR("fopen(\"/proc/self/maps\") file Clean.\n"));
+	}
 }

@@ -71,11 +71,8 @@ void SetupMainMenuBar()
 		ImGui::Selectable(XORSTR("Main Window"), &Main::showWindow, 0, ImVec2(ImGui::CalcTextSize(XORSTR("Main Window"), NULL, true).x, 0.0f));
 		ImGui::SameLine();
 
-		if (ModSupport::current_mod != ModType::CSCO)
-		{
-			ImGui::Selectable(XORSTR("Skin & Model Changer Window"), &SkinModelChanger::showWindow, 0, ImVec2(ImGui::CalcTextSize(XORSTR("Skin & Model Changer Window"), NULL, true).x, 0.0f));
-			ImGui::SameLine();
-		}
+		ImGui::Selectable(XORSTR("Skin & Model Changer Window"), &SkinModelChanger::showWindow, 0, ImVec2(ImGui::CalcTextSize(XORSTR("Skin & Model Changer Window"), NULL, true).x, 0.0f));
+		ImGui::SameLine();
 
 		ImGui::Selectable(XORSTR("Config Window"), &Configs::showWindow, 0, ImVec2(ImGui::CalcTextSize(XORSTR("Config Window"), NULL, true).x, 0.0f));
 		ImGui::SameLine();
@@ -110,7 +107,8 @@ void UI::SwapWindow()
 	if (engine->IsInGame())
 		return;
 
-	Draw::ImDrawText(ImVec2(4.f, 4.f), ImColor(255, 255, 255, 255), XORSTR("Fuzion"), NULL, 0.0f, NULL, ImFontFlags_Shadow);
+    Draw::ImText( ImVec2( 4.f, 4.f ), ImColor( 255, 255, 255, 255 ), XORSTR( "Fuzion" ), NULL, 0.0f, NULL,
+                  ImFontFlags_Shadow );
 }
 
 void UI::SetVisible(bool visible)
@@ -129,12 +127,9 @@ void UI::SetupWindows()
 			Main::RenderWindow();
 		ImGui::PopStyleVar();
 
-		if (ModSupport::current_mod != ModType::CSCO)
-		{
-			ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(1050, 645));
-				SkinModelChanger::RenderWindow();
-			ImGui::PopStyleVar();
-		}
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(1050, 645));
+			SkinModelChanger::RenderWindow();
+		ImGui::PopStyleVar();
 
 		Configs::RenderWindow();
 		Colors::RenderWindow();

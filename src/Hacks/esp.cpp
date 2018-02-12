@@ -89,8 +89,11 @@ float Settings::ESP::HeadDot::size = 2.f;
 bool Settings::ESP::Spread::enabled = false;
 bool Settings::ESP::Spread::spreadLimit = false;
 
-bool Settings::ESP::AutoWall::debugView = false;
-
+bool Settings::Debug::AutoWall::debugView = false;
+bool Settings::Debug::AutoAim::drawTarget = false;
+Vector Settings::Debug::AutoAim::target = {0, 0, 0};
+bool Settings::Debug::BoneMap::draw = false;
+bool Settings::Debug::BoneMap::justDrawDots = false;
 struct Footstep
 {
 	long expiration;
@@ -471,8 +474,6 @@ static void DrawBulletTrace(C_BasePlayer* player)
 	Draw::FilledRectangle((int)(dst.x - 3), (int)(dst.y - 3), 6, 6, Color::FromImColor(ESP::GetESPPlayerColor(player, false)));
 }
 
-
-
 static void DrawTracer(C_BasePlayer* player)
 {
 	Vector src3D, src;
@@ -495,7 +496,51 @@ static void DrawTracer(C_BasePlayer* player)
 	bool bIsVisible = Entity::IsVisible(player, (int)Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck);
 	Draw::Line((int)(src.x), (int)(src.y), x, y, Color::FromImColor(ESP::GetESPPlayerColor(player, bIsVisible)));
 }
+static void DrawAimbotSpot( ) {
+	C_BasePlayer* localplayer = ( C_BasePlayer* ) entityList->GetClientEntity( engine->GetLocalPlayer() );
+	if ( !localplayer || !localplayer->GetAlive() ){
+		Settings::Debug::AutoAim::target = {0,0,0};
+		return;
+	}
+	if ( !Settings::Aimbot::AutoAim::enabled || !Settings::Aimbot::enabled ){
+		Settings::Debug::AutoAim::target = {0,0,0};
+		return;
+	}
+	if ( Settings::Debug::AutoAim::target.IsZero() )
+		return;
+	Vector spot2D;
+	if( debugOverlay->ScreenPosition( Settings::Debug::AutoAim::target, spot2D) )
+		return;
+	int width, height;
+	engine->GetScreenSize( width, height );
+	Draw::Line( Vector2D( width/2, height/2), Vector2D( spot2D.x, spot2D.y ), Color(45, 235, 60));
+	Draw::Circle( Vector2D( width/2, height/2), 12, 2.0f, Color(45, 235, 60));
+	Draw::Circle( Vector2D( spot2D.x, spot2D.y ), 12, 2.0f, Color(45, 235, 60));
+}
+static void DrawBoneMap( C_BasePlayer* player ) {
+	static HFont boneMapFont = Draw::CreateFont( XORSTR( "Andale Mono" ), 10, (int)FontFlags::FONTFLAG_DROPSHADOW );
+	static Vector bone2D;
+	static Vector bone3D;
+	studiohdr_t* pStudioModel = modelInfo->GetStudioModel( player->GetModel() );
 
+	for( int i = 1; i < pStudioModel->numbones; i++ ){
+		bone3D = player->GetBonePosition( i );
+		if ( debugOverlay->ScreenPosition( bone3D, bone2D ) )
+			continue;
+		if( Settings::Debug::BoneMap::justDrawDots ){
+			Draw::FilledCircle( Vector2D( bone2D.x, bone2D.y ), 6, 2.0f, Color( 255, 10, 255, 255 ) );
+		} else {
+			char buffer[4];
+			snprintf(buffer, 4, "%d", i);
+			Draw::Text( Vector2D( bone2D.x, bone2D.y ), buffer, boneMapFont, Color( 255, 0, 255, 255 ) );
+		}
+	}
+	if( !Settings::Debug::BoneMap::justDrawDots ){
+		IEngineClient::player_info_t entityInformation;
+		engine->GetPlayerInfo( player->GetIndex(), &entityInformation );
+		cvar->ConsoleDPrintf( XORSTR( "(%s)-ModelName: %s, numBones: %d\n" ), entityInformation.name, pStudioModel->name, pStudioModel->numbones );
+	}
+}
 static void DrawAutoWall(C_BasePlayer *player)
 {
 	const std::map<int, int> *modelType = Util::GetModelTypeBoneMap(player);
@@ -909,9 +954,14 @@ static void DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_in
 	if (Settings::ESP::HeadDot::enabled)
 		DrawHeaddot(player);
 
-	if (Settings::ESP::AutoWall::debugView)
+	if (Settings::Debug::AutoWall::debugView)
 		DrawAutoWall(player);
 
+	if ( Settings::Debug::BoneMap::draw )
+		DrawBoneMap( player );
+
+	if (Settings::Debug::AutoAim::drawTarget)
+		DrawAimbotSpot();
 }
 
 static void DrawBomb(C_BaseCombatWeapon* bomb)

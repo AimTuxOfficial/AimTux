@@ -1,5 +1,8 @@
 #!/bin/bash
 
+sudo mkdir -p /tmp/dumps
+sudo chmod 000 /tmp/dumps
+
 LIBNAME=$(cat "$(pwd)"/build_id)
 # An optimized way to find the CS:GO directory without specifying any absolute nor relative paths.
 # This ensures the find command will not hang, even with a lot of symlinks in $HOME.

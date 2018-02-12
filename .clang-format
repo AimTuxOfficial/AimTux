@@ -1,4 +1,4 @@
-#AimTux clang-format
+#Fuzion clang-format
 BasedOnStyle: WebKit
 BreakBeforeBraces: Allman
 AllowShortIfStatementsOnASingleLine: false

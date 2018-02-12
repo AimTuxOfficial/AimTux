@@ -1,9 +1,9 @@
 #pragma once
 
-#include <unordered_map>
-#include <sys/mman.h>
-#include <link.h>
+#include <set>
 #include <fstream>
+#include <link.h> // dl_iterate_phdr
+
 #include "SDK/SDK.h"
 #include "Utils/vmt.h"
 #include "Utils/util.h"
