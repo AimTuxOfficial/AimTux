@@ -2,6 +2,7 @@
 
 #include <unistd.h>
 #include <string>
+#include <string.h>
 #include <dirent.h>
 #include <sys/stat.h>
 #include <vector>
@@ -21,8 +22,7 @@ struct Config
 };
 
 std::vector<Config> GetConfigs(const char* directory);
-
-std::string GetConfigDirectory();
 std::vector<std::string> GetConfigs();
 
+std::string GetConfigDirectory();
 std::string GetGhConfigDirectory();

@@ -7,14 +7,10 @@ void Hooks::BeginFrame(void* thisptr, float frameTime)
 	NameStealer::BeginFrame(frameTime);
 	Spammer::BeginFrame(frameTime);
 	Radar::BeginFrame();
-	SniperCrosshair::BeginFrame();
 	DisablePostProcessing::BeginFrame();
 
 	if (!engine->IsInGame())
-	{
 		CreateMove::sendPacket = true;
-		*bSendPacket = CreateMove::sendPacket;
-	}
 
 	Skins::Localize();
 

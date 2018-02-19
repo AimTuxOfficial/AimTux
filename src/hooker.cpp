@@ -1,10 +1,8 @@
 #include "hooker.h"
 
-bool* bSendPacket = nullptr;
 int* nPredictionRandomSeed = nullptr;
 CMoveData* g_MoveData = nullptr;
 bool* s_bOverridePostProcessingDisable = nullptr;
-uint8_t* CrosshairWeaponTypeCheck = nullptr;
 
 VMT* panelVMT = nullptr;
 VMT* clientVMT = nullptr;
@@ -203,17 +201,6 @@ void Hooker::FindViewRender()
 	viewRender = reinterpret_cast<CViewRender*>(GetAbsoluteAddress(func_address + 14, 3, 7));
 }
 
-void Hooker::FindSendPacket()
-{
-	uintptr_t bool_address = PatternFinder::FindPatternInModule(XORSTR("engine_client.so"),
-																(unsigned char*) XORSTR("\x41\xBD\x01\x00\x00\x00\xE9\x2A\xFE"),
-																XORSTR("xxx???xxx"));
-	bool_address = GetAbsoluteAddress(bool_address, 2, 1);
-
-	bSendPacket = reinterpret_cast<bool*>(bool_address);
-	Util::ProtectAddr(bSendPacket, PROT_READ | PROT_WRITE | PROT_EXEC);
-}
-
 void Hooker::FindPrediction()
 {
 	uintptr_t seed_instruction_addr = PatternFinder::FindPatternInModule(XORSTR("client_client.so"),
@@ -233,9 +220,11 @@ void Hooker::FindPrediction()
 
 void Hooker::FindIsReadyCallback()
 {
-	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("client_client.so"),
-																(unsigned char*) XORSTR("\x48\x83\x3D\x00\x00\x00\x00\x00\x74\x34\x48\x8B\x05"),
-																XORSTR("xxx????xxxxxx"));
+    uintptr_t func_address = PatternFinder::FindPatternInModule( XORSTR( "client_client.so" ),
+                                                                 ( unsigned char* ) XORSTR( "\x55\x48\x89\xE5\x53\x48\x83\xEC\x08\x48\x8B\x1D"
+                                                                                                    "\x00\x00\x00\x00" // ??
+                                                                                                    "\x48\x83"),
+                                                                 XORSTR( "xxxxxxxxxxxx????xx" ));
 
 	IsReadyCallback = reinterpret_cast<IsReadyCallbackFn>(func_address);
 }
@@ -305,30 +294,6 @@ void Hooker::FindOverridePostProcessingDisable()
 	bool_address = GetAbsoluteAddress(bool_address, 2, 7);
 
 	s_bOverridePostProcessingDisable = reinterpret_cast<bool*>(bool_address);
-}
-
-void Hooker::FindCrosshairWeaponTypeCheck()
-{
-	/*  48 8B 02                          mov     rax, [rdx]
- 		48 89 D7                          mov     rdi, rdx
-		FF 90 E0 0F 00 00                 call    qword ptr [rax+0FE0h]
- 		83 F8 05                          cmp     eax, 5      <--- We want to change eax here.
- 		0F 84 54 0D 00 00                 jz      loc_D7A5DA
-	 */
-	uintptr_t byte_address = PatternFinder::FindPatternInModule(XORSTR("client_client.so"),
-																(unsigned char*) XORSTR(        "\x00\x8B\x00" // mov r/m into r
-																								"\x00\x89\x00" // mov r into r/m
-																								"\xFF\x90\xE0\x0F\x00\x00" // call based on rax ( ff 90 ), 4-byte rax offset( hasn't changed in a long time )
-																								"\x83\xF8\x05" // cmp eax, 5
-																								"\x0F\x84\x00\x00\x00\x00"), // jz ( 4-byte address )
-																XORSTR(        "?x?"
-																			   "?x?"
-																			   "xxxxxx"
-																			   "xxx"
-																			   "xx????"));
-
-	CrosshairWeaponTypeCheck = reinterpret_cast<uint8_t*>(byte_address + 14);
-	Util::ProtectAddr(CrosshairWeaponTypeCheck, PROT_READ | PROT_WRITE | PROT_EXEC);
 }
 
 void Hooker::HookSwapWindow()

@@ -9,11 +9,13 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 
 	if (cmd && cmd->command_number)
 	{
-		//register uintptr_t *pFrame asm("rbp");
-		//cvar->ConsoleDPrintf("*RBP: %#x | Final Address: %#x | Sending? (%d)\n", *pFrame, (((bool*)*pFrame)-0x3B4), *(((bool*)*pFrame)-0x3B4));
-		//*(((bool*)*pFrame)-0x1018) = CreateMove::sendPacket;
-		*bSendPacket = CreateMove::sendPacket;
-		CreateMove::sendPacket = true;
+        // Special thanks to Gre-- I mean Heep ( https://www.unknowncheats.me/forum/counterstrike-global-offensive/240740-linux-journey-finding-bsendpacket-stack.html )
+        // Coincidentally, i'll thank Luk1337 too.
+        uintptr_t rbp;
+        asm volatile("mov %%rbp, %0" : "=r" (rbp));
+        bool *sendPacket = ((*(bool **)rbp) - 0x8);
+        *sendPacket = CreateMove::sendPacket;
+        CreateMove::sendPacket = true;
 
 		/* run code that affects movement before prediction */
 		BHop::CreateMove(cmd);

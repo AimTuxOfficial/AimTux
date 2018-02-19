@@ -33,7 +33,6 @@ namespace Hooker
 	void FindRankReveal();
 	void FindSendClanTag();
 	void FindViewRender();
-	void FindSendPacket();
 	void FindPrediction();
 	void FindIsReadyCallback();
 	void FindSurfaceDrawing();
@@ -43,7 +42,6 @@ namespace Hooker
 	void FindLoadFromBuffer();
 	//void FindVstdlibFunctions();
 	void FindOverridePostProcessingDisable();
-	void FindCrosshairWeaponTypeCheck();
 	void HookSwapWindow();
 	void HookPollEvent();
 	void FindSDLInput();

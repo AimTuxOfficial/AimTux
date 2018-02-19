@@ -5,7 +5,7 @@
 
 static EventListener* eventListener = nullptr;
 
-char Fuzion::buildID[33] = {
+char Fuzion::buildID[NAME_MAX] = {
 #include "../build_id_hex" // Made by ./build script.
 };
 
@@ -40,7 +40,6 @@ void MainThread()
 	Hooker::FindGameRules();
 	Hooker::FindRankReveal();
 	Hooker::FindSendClanTag();
-	Hooker::FindSendPacket();
 	Hooker::FindPrediction();
 	Hooker::FindIsReadyCallback();
 	Hooker::FindSurfaceDrawing();
@@ -50,7 +49,6 @@ void MainThread()
 	Hooker::FindLoadFromBuffer();
 	//Hooker::FindVstdlibFunctions();
 	Hooker::FindOverridePostProcessingDisable();
-	Hooker::FindCrosshairWeaponTypeCheck();
 	Hooker::HookSwapWindow();
 	Hooker::HookPollEvent();
 
@@ -112,7 +110,7 @@ void MainThread()
 	srand(time(NULL)); // Seed random # Generator so we can call rand() later
 
 	AntiAim::LuaInit();
-
+    /*
     Util::RemoveLinkMapEntry(Fuzion::buildID, &Fuzion::prev, &Fuzion::curr, &Fuzion::next); // This Breaks uload. Need to restore linked list first.
     if( Util::SearchLinkMap(Fuzion::buildID) ) {
         cvar->ConsoleColorPrintf(ColorRGBA(200, 0, 0), XORSTR( "Warning! .so file did not get removed in link_map\n" ) );
@@ -132,6 +130,7 @@ void MainThread()
 			}
 		}
 	}
+    */
 }
 /* Entrypoint to the Library. Called when loading */
 int __attribute__((constructor)) Startup()
@@ -198,13 +197,9 @@ void __attribute__((destructor)) Shutdown()
 
 	delete eventListener;
 
-	*bSendPacket = true;
 	*s_bOverridePostProcessingDisable = false;
-	*CrosshairWeaponTypeCheck = 5;
 
-	Util::ProtectAddr(bSendPacket, PROT_READ | PROT_EXEC);
-	Util::ProtectAddr(CrosshairWeaponTypeCheck, PROT_READ | PROT_EXEC);
-
+    Util::RestoreLinkMapEntry(Fuzion::prev, Fuzion::curr, Fuzion::next);
 	cvar->ConsoleColorPrintf(ColorRGBA(255, 0, 0), XORSTR("Fuzion Unloaded successfully.\n"));
 }
 void Fuzion::SelfShutdown()
