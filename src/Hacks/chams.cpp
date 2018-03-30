@@ -107,7 +107,7 @@ static void DrawPlayer(void* thisptr, void* context, void *state, const ModelRen
 	}
 
 	modelRender->ForcedMaterialOverride(visible_material);
-	modelRenderVMT->GetOriginalMethod<DrawModelExecuteFn>(21)(thisptr, context, state, pInfo, pCustomBoneToWorld);
+	// No need to call DME again, it already gets called in DrawModelExecute.cpp
 }
 
 static void DrawWeapon(const ModelRenderInfo_t& pInfo)
