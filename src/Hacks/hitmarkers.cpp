@@ -22,10 +22,7 @@ void Hitmarkers::Paint()
 		return;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer)
-		return;
-
-	if (!localplayer->GetAlive())
+	if ( !localplayer || !localplayer->GetAlive() )
 		return;
 
 	int duration = Settings::ESP::Hitmarker::duration;

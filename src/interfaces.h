@@ -67,10 +67,8 @@ extern LoadFromBufferFn LoadFromBuffer;
 extern SetNamedSkyBoxFn SetNamedSkyBox;
 
 extern int* nPredictionRandomSeed;
-extern bool* bSendPacket;
 extern CMoveData* g_MoveData;
 extern bool* s_bOverridePostProcessingDisable;
-extern uint8_t* CrosshairWeaponTypeCheck;
 
 extern uintptr_t oSwapWindow;
 extern uintptr_t* swapWindowJumpAddress;

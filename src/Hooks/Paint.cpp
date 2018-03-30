@@ -19,6 +19,7 @@ void Hooks::Paint(void* thisptr, PaintMode_t mode)
 		GrenadeHelper::Paint();
 		Recoilcrosshair::Paint();
 		Hitmarkers::Paint();
+		SniperCrosshair::Paint();
 
 		FinishDrawing(surface);
 	}

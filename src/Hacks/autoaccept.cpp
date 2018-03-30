@@ -2,9 +2,9 @@
 
 bool Settings::AutoAccept::enabled = false;
 
-struct CServerConfirmedReservationCheckCallback
-{
-	char pad[0x2200];
+/* This doesn't matter too much, it just has to be big enough for the game to write various parts of it */
+struct CServerConfirmedReservationCheckCallback {
+	char pad[0x12788];
 };
 
 void AutoAccept::PlaySound(const char* filename)

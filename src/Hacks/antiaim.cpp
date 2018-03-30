@@ -537,7 +537,7 @@ static void DoAntiAimY(QAngle& angle, int command_number, bool bFlip, bool& clam
 				temp += 1800000.0f;
 			}
 
-			if (bSendPacket)
+			if (CreateMove::sendPacket)
 			{
 				if (jittertimer >= 1)
 					jittertimer = -1;

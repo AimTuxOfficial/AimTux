@@ -9,21 +9,29 @@ if ! hash patchelf 2>/dev/null; then
 fi
 
 rm build_id_hex
-# Get a Random 32 char ID
-BUILD_ID=$(< /dev/urandom tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+# Get a Random name from the build_names file.
+BUILD_ID=$(shuf -n 1 build_names)
+
+# In case this file exists, get another one. ( checked it works )
+while [ -f "/usr/lib64/${BUILD_ID}" ]; do
+	BUILD_ID=$(shuf -n 1 build_names)
+done
 
 # Hexify it and put it into build_id_hex
 for (( i=0; i<${#BUILD_ID}; i++ )); do
   printf '0x%x,\n' "'${BUILD_ID:$i:1}" >> build_id_hex
 done
+printf '0x0' >> build_id_hex
 
 make -j"$(grep -c "^processor" /proc/cpuinfo)" "$@" || exit 1
 
 if [ -f build_id ]; then
     filename=$(cat build_id)
     rm "$filename"
-    if [ -f /"$filename" ]; then
-        sudo rm /"$filename"
+    if [ -f "/usr/lib64/${filename}" ]; then
+    	echo -e "Note: Old file found at /usr/lib64/{$filename}\n"
+        #sudo rm "/usr/lib64/${filename}"
+
     fi
     chmod 660 build_id
     mv build_id build_id_old
