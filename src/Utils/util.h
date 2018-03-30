@@ -19,7 +19,6 @@ namespace Util
 	std::string ReplaceString(std::string subject, const std::string& search, const std::string& replace);
 	void StdReplaceStr(std::string&, const std::string&, const std::string&);
 	const char* PadStringRight(std::string text, size_t value);
-	void ProtectAddr(void* address, int prot);
 	bool Contains(const std::string &word, const std::string &sentence);
 	std::string ToLower(std::string str);
 	std::string ToUpper(std::string str);
@@ -33,6 +32,7 @@ namespace Util
 	int IsDebuggerPresent();
 	void RemoveLinkMapEntry(char *partialName, void **prev, void **curr, void **next);
 	void RestoreLinkMapEntry(void *prev, void *curr, void *next);
+	void PrintLinkMapIDs();
 	bool SearchLinkMap(char *partialName);
 	bool SearchLinkMap(char *partialName, void **addr);
 

@@ -82,10 +82,14 @@ bool Util::SearchLinkMap(char *partialName)
 
     while( map )
     {
-        // cvar->ConsoleDPrintf("%s\n", map->l_name);
+		Lmid_t lmid;
+		//void *libHandle = dlopen(map->l_name, RTLD_NOLOAD | RTLD_NOW);
+		dlinfo(map, RTLD_DI_LMID, &lmid);
+		cvar->ConsoleDPrintf("(%s)-(%d)\n", map->l_name, lmid);
         if( strstr(map->l_name, partialName) != NULL ) {
             return true;
         }
+		//dlclose(libHandle);
         map = map->l_next;
     }
     return false;
@@ -144,14 +148,6 @@ const char* Util::PadStringRight(std::string text, size_t value)
 	text.insert(text.length(), value - text.length(), ' ');
 
 	return text.c_str();
-}
-
-void Util::ProtectAddr(void* addr, int prot)
-{
-	long pagesize = sysconf(_SC_PAGESIZE);
-	void* address = (void *)((long)(uintptr_t)addr & ~(pagesize - 1));
-
-	mprotect(address, sizeof(address), prot);
 }
 
 bool Util::Contains(const std::string &word, const std::string &sentence) {
