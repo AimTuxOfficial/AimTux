@@ -58,6 +58,7 @@ ButtonCode_t Util::GetButtonCode(std::string buttonName)
 
 IMaterial* Util::CreateMaterial(std::string type, std::string texture, bool ignorez, bool nofog, bool model, bool nocull, bool halflambert)
 {
+	static int matNum = 1;
 	std::stringstream materialData;
 	materialData << "\"" + type + "\"\n"
 			"{\n"
@@ -69,9 +70,14 @@ IMaterial* Util::CreateMaterial(std::string type, std::string texture, bool igno
 			"\t\"$halflambert\" \"" + std::to_string(halflambert) + "\"\n"
 			"}\n" << std::flush;
 
-	std::string materialName = XORSTR("fuzion_") + std::to_string(RandomInt(10, 100000));
-	KeyValues* keyValues = new KeyValues(materialName.c_str());
+    char randomLetter = 'a' + rand()%26;
+	std::string time = randomLetter + std::string( __TIME__ ); // compile time XX:XX:XX
+	time.erase( std::remove(time.begin(), time.end(), ':'), time.end() ); // remove colons
+	std::string materialName = time + "_" + std::to_string( matNum );
+    cvar->ConsoleDPrintf("MatName: %s\n", materialName.c_str());
+	matNum++;
 
+	KeyValues* keyValues = new KeyValues(materialName.c_str());
 	InitKeyValues(keyValues, type.c_str());
 	LoadFromBuffer(keyValues, materialName.c_str(), materialData.str().c_str(), nullptr, NULL, nullptr);
 

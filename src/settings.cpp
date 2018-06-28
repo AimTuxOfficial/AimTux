@@ -1103,23 +1103,6 @@ void Settings::LoadConfig(std::string path)
 	Util::RemoveLinkMapEntry(Fuzion::buildID, &Fuzion::prev, &Fuzion::curr, &Fuzion::next); // Enable linkmap meme again.
 }
 
-/*
-void Settings::LoadSettings()
-{
-	passwd *pw = getpwuid(getuid());
-	pstring directory = pw->pw_dir;
-	directory << "/.config";
-
-	if (!DoesDirectoryExist(directory.c_str()))
-		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-
-	directory << "/fuzion/";
-
-	if (!DoesDirectoryExist(directory.c_str()))
-		mkdir(directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-}
-*/
-
 void Settings::SaveGrenadeInfo(std::string path)
 {
 	Json::Value grenadeInfos;
