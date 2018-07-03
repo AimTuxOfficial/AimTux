@@ -22,8 +22,14 @@ char* (*orig_getenv)(const char *) = NULL;
 int (*orig_execve)(const char *path, char *const argv[], char *const envp[]) = NULL;
 FILE* (*orig_fopen)(const char*, const char*) = NULL;
 
-/* Hooks getenv(). Confirmed Working */
-char* getenv(const char *name)
+#if defined(__GNUC__) // __has_feature is clang specific.
+    #include <features.h>
+    #if __GNUC_PREREQ(8,0)
+        char* getenv(const char *name)
+    #else
+        char* getenv(const char *name) throw()
+    #endif
+#endif
 {
 	if(!orig_getenv)
 		orig_getenv = (char* (*)(const char*))dlsym(RTLD_NEXT, "getenv"); // RTLD_NEXT finds the next occurrence. We are the first.
@@ -89,7 +95,14 @@ int open(const char *path, int oflag, ...)
 
 /* Replace the current process, executing PATH with arguments ARGV and
    	environment ENVP.  ARGV and ENVP are terminated by NULL pointers.  */
-int execve(const char *path, char *const argv[], char *const envp[])
+#if defined(__GNUC__) // __has_feature is clang specific.
+    #include <features.h>
+    #if __GNUC_PREREQ(8,0)
+        int execve(const char *path, char *const argv[], char *const envp[])
+    #else
+        int execve(const char *path, char *const argv[], char *const envp[]) throw()
+    #endif
+#endif
 {
 	FILE *log = fopen(XORSTR("/tmp/hooks.log"), "a");
 	fprintf(log, XORSTR("[Hooks] execve() : path -> %s\n"), path);
