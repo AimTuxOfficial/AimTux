@@ -570,7 +570,6 @@ void Settings::LoadDefaultsOrSave(std::string path)
 
 void Settings::LoadConfig(std::string path)
 {
-	Util::RestoreLinkMapEntry(Fuzion::prev, Fuzion::curr, Fuzion::next); // the Linkmap meme breaks config loading, so we need to restore it before we load.
 	TracerEffect::RestoreTracers();
 	if (!std::ifstream(path).good())
 	{
@@ -1099,8 +1098,6 @@ void Settings::LoadConfig(std::string path)
  	GetVal(settings[XORSTR("AutoKnife")][XORSTR("Filters")][XORSTR("enemies")], &Settings::AutoKnife::Filters::enemies);
  	GetVal(settings[XORSTR("AutoKnife")][XORSTR("Filters")][XORSTR("allies")], &Settings::AutoKnife::Filters::allies);
  	GetVal(settings[XORSTR("AutoKnife")][XORSTR("onKey")], &Settings::AutoKnife::onKey);
-
-	Util::RemoveLinkMapEntry(Fuzion::buildID, &Fuzion::prev, &Fuzion::curr, &Fuzion::next); // Enable linkmap meme again.
 }
 
 void Settings::SaveGrenadeInfo(std::string path)
