@@ -51,7 +51,7 @@ void Interfaces::FindInterfaces()
 	effects = GetInterface<CEffects>(XORSTR("./bin/linux64/engine_client.so"), XORSTR("VEngineEffects"));
 	gameEvents = GetInterface<IGameEventManager2>(XORSTR("./bin/linux64/engine_client.so"), XORSTR("GAMEEVENTSMANAGER002"), true);
 	physics = GetInterface<IPhysicsSurfaceProps>(XORSTR("./bin/linux64/vphysics_client.so"), XORSTR("VPhysicsSurfaceProps"));
-	prediction = GetInterface<IPrediction>(XORSTR("./csgo/bin/linux64/client_client.so"), XORSTR("VClientPrediction"));
+	prediction = GetInterface<IPrediction>(XORSTR("./csgo/bin/linux64/client_client.so"), XORSTR("VClientPrediction001"), true);
 	gameMovement = GetInterface<IGameMovement>(XORSTR("./csgo/bin/linux64/client_client.so"), XORSTR("GameMovement"));
 	engineVGui = GetInterface<IEngineVGui>(XORSTR("./bin/linux64/engine_client.so"), XORSTR("VEngineVGui"));
 	sound = GetInterface<IEngineSound>(XORSTR("./bin/linux64/engine_client.so"), XORSTR("IEngineSoundClient"));

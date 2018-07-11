@@ -126,7 +126,7 @@ bool Hooker::HookRecvProp(const char* className, const char* propertyName, std::
 
 void Hooker::FindIClientMode()
 {
-	uintptr_t hudprocessinput = reinterpret_cast<uintptr_t>(getvtable(client)[10]);
+    uintptr_t hudprocessinput = reinterpret_cast<uintptr_t>(getvtable(client)[10]);
 	GetClientModeFn GetClientMode = reinterpret_cast<GetClientModeFn>(GetAbsoluteAddress(hudprocessinput + 11, 1, 5));
 
 	clientMode = GetClientMode();
@@ -142,7 +142,7 @@ void Hooker::FindGlobalVars()
 
 void Hooker::FindCInput()
 {
-	uintptr_t IN_ActivateMouse = reinterpret_cast<uintptr_t>(getvtable(client)[15]);
+	uintptr_t IN_ActivateMouse = reinterpret_cast<uintptr_t>(getvtable(client)[16]);
 
 	input = **reinterpret_cast<CInput***>(GetAbsoluteAddress(IN_ActivateMouse, 3, 7));
 }
@@ -168,8 +168,10 @@ void Hooker::FindPlayerResource()
 void Hooker::FindGameRules()
 {
 	uintptr_t instruction_addr = PatternFinder::FindPatternInModule(XORSTR("client_client.so"),
-																	(unsigned char*) XORSTR("\x48\x8B\x05\x00\x00\x00\x00\x48\x8B\x00\x0F\x84\xA1\x01"),
-																	XORSTR("xxx????xx?xxxx"));
+																	(unsigned char*) XORSTR("\x48\x8B\x05"
+																									"\x00\x00\x00\x00"
+																									"\x48\x8B\x38\x0F\x84"),
+																	XORSTR("xxx????xxxxx"));
 
 	csGameRules = *reinterpret_cast<C_CSGameRules***>(GetAbsoluteAddress(instruction_addr, 3, 7));
 }
@@ -183,11 +185,28 @@ void Hooker::FindRankReveal()
 	MsgFunc_ServerRankRevealAll = reinterpret_cast<MsgFunc_ServerRankRevealAllFn>(func_address);
 }
 
+// "ClanTagChanged"
 void Hooker::FindSendClanTag()
 {
 	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("engine_client.so"),
-																(unsigned char*) XORSTR("\x55\x48\x89\xE5\x48\x89\x5D\xE8\x4C\x89\x65\xF0\x49\x89\xFC\xBF\x48\x00\x00\x00\x4C\x89\x6D\xF8\x48\x83\xEC\x20\x49"),
-																XORSTR("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"));
+																(unsigned char*) XORSTR("\x55\x48\x89\xE5\x41\x55\x49\x89\xFD\x41\x54\xBF\x48\x00\x00\x00\x49\x89\xF4\x53\x48\x83\xEC\x08\xE8"
+                                                                                                "\x00\x00\x00\x00"
+                                                                                                "\x48\x8D\x35"
+                                                                                                "\x00\x00\x00\x00"
+                                                                                                "\x48\x89\xC7\x48\x89\xC3\xE8"
+                                                                                                "\x00\x00\x00\x00"
+                                                                                                "\x48\x8D\x35"
+                                                                                                "\x00\x00\x00\x00"
+                                                                                                "\x4C\x89\xEA"),
+																XORSTR("xxxxxxxxxxxxxxxxxxxxxxxxx"
+                                                                               "????"
+                                                                               "xxx"
+                                                                               "????"
+                                                                               "xxxxxxx"
+                                                                               "????"
+                                                                               "xxx"
+                                                                               "????"
+                                                                               "xxx" ));
 
 	SendClanTag = reinterpret_cast<SendClanTagFn>(func_address);
 }
@@ -195,22 +214,38 @@ void Hooker::FindSendClanTag()
 void Hooker::FindViewRender()
 {
 	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("client_client.so"),
-																(unsigned char*) XORSTR("\xB8\xFF\xFF\x7F\x7F\x31\xD2\x55\x89\x05\x00\x00\x00\x00\x48\x8D\x3D\x00\x00\x00\x00"),
-																XORSTR("xxxxxxxxxx????xxx????"));
+																(unsigned char*) XORSTR("\x48\x8D\x05"
+                                                                                                "\x00\x00\x00\x00"
+                                                                                                "\x55\xF3\x0F\x10"
+                                                                                                "\x00\x00\x00\x00\x00"
+                                                                                                "\x48\x89\x05"
+                                                                                                "\x00\x00\x00\x00"
+                                                                                                "\x48\x8B\x05"
+                                                                                                "\x00\x00\x00\x00"
+                                                                                                "\x48\x89\xE5\x48\x8D\x0D"
+                                                                                                "\x00\x00\x00\x00"
+                                                                                                "\x0F\x57\xC9\xC6"),
+																XORSTR("xxx????xxxx?????xxx????xxx????xxxxxx????xxxx"));
 
-	viewRender = reinterpret_cast<CViewRender*>(GetAbsoluteAddress(func_address + 14, 3, 7));
+	viewRender = reinterpret_cast<CViewRender*>(GetAbsoluteAddress(func_address + 50, 3, 7));
 }
 
 void Hooker::FindPrediction()
 {
 	uintptr_t seed_instruction_addr = PatternFinder::FindPatternInModule(XORSTR("client_client.so"),
-																		 (unsigned char*) XORSTR("\x48\x8B\x05\x00\x00\x00\x00\xF3\x0F\x11\x45\xDC\xF3"),
-																		 XORSTR("xxx????xxxxxx"));
+																		 (unsigned char*) XORSTR("\x48\x8B\x05"
+                                                                                                         "\x00\x00\x00\x00"
+                                                                                                         "\x8B\x38\xE8"
+                                                                                                         "\x00\x00\x00\x00"
+                                                                                                         "\x89\xC7"),
+																		 XORSTR("xxx????xxx????xx"));
 	uintptr_t helper_instruction_addr = PatternFinder::FindPatternInModule(XORSTR("client_client.so"),
 																		   (unsigned char*) XORSTR("\x00\x48\x89\x3D\x00\x00\x00\x00\xC3"),
 																		   XORSTR("xxxx????x"));
 	uintptr_t movedata_instruction_addr = PatternFinder::FindPatternInModule(XORSTR("client_client.so"),
-																			 (unsigned char*) XORSTR("\x48\x8B\x0D\x00\x00\x00\x00\x4C\x89\xF2"),
+																			 (unsigned char*) XORSTR("\x48\x8B\x0D"
+																											 "\x00\x00\x00\x00"
+																											 "\x4C\x89\xEA"),
 																			 XORSTR("xxx????xxx"));
 
 	nPredictionRandomSeed = *reinterpret_cast<int**>(GetAbsoluteAddress(seed_instruction_addr, 3, 7));
@@ -232,13 +267,13 @@ void Hooker::FindIsReadyCallback()
 void Hooker::FindSurfaceDrawing()
 {
 	uintptr_t start_func_address = PatternFinder::FindPatternInModule(XORSTR("vguimatsurface_client.so"),
-																	  (unsigned char*) XORSTR("\x55\x48\x89\xE5\x53\x48\x89\xFB\x48\x83\xEC\x28\x80"),
-																	  XORSTR("xxxxxxxxxxxxx"));
+																	  (unsigned char*) XORSTR("\x55\x48\x89\xE5\x53\x48\x89\xFB\x48\x83\xEC\x28\x80\x3D"),
+																	  XORSTR("xxxxxxxxxxxxxx"));
 	StartDrawing = reinterpret_cast<StartDrawingFn>(start_func_address);
 
 	uintptr_t finish_func_address = PatternFinder::FindPatternInModule(XORSTR("vguimatsurface_client.so"),
-																	   (unsigned char*) XORSTR("\x55\x31\xFF\x48\x89"),
-																	   XORSTR("xxxxx"));
+																	   (unsigned char*) XORSTR("\x55\x31\xFF\x48\x89\xE5\x53"),
+																	   XORSTR("xxxxxxx"));
 	FinishDrawing = reinterpret_cast<FinishDrawingFn>(finish_func_address);
 }
 
@@ -251,7 +286,7 @@ void Hooker::FindGetLocalClient()
 void Hooker::FindLineGoesThroughSmoke()
 {
 	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("client_client.so"),
-																(unsigned char*) XORSTR("\x55\x40\x0F\xB6\xFF"),
+																(unsigned char*) XORSTR("\x40\x0F\xB6\xFF\x55"),
 																XORSTR("xxxxx"));
 	LineGoesThroughSmoke = reinterpret_cast<LineGoesThroughSmokeFn>(func_address);
 }
@@ -259,16 +294,16 @@ void Hooker::FindLineGoesThroughSmoke()
 void Hooker::FindInitKeyValues()
 {
 	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("client_client.so"),
-																(unsigned char*) XORSTR("\x81\x27\x00\x00\x00\xFF\x55\x48\x89\xE5\x5D"),
-																XORSTR("xx???xxxxxx"));
+																(unsigned char*) XORSTR("\x81\x27\x00\x00\x00\xFF\x55\x31\xC0\x48\x89\xE5\x5D"),
+																XORSTR("xxxxxxxxxxxxx"));
 	InitKeyValues = reinterpret_cast<InitKeyValuesFn>(func_address);
 }
 
 void Hooker::FindLoadFromBuffer()
 {
 	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("client_client.so"),
-																(unsigned char*) XORSTR("\x55\x48\x89\xE5\x48\x89\x5D\xD8\x48\x89\xD3\x4C\x89\x65\xE0\x4D\x89\xCC"),
-																XORSTR("xxxxxxxxxxxxxxxxxx"));
+																(unsigned char*) XORSTR("\x55\x48\x89\xE5\x41\x57\x41\x56\x41\x55\x41\x54\x49\x89\xD4\x53\x48\x83\xEC\x78\x48"),
+																XORSTR("xxxxxxxxxxxxxxxxxxxxx"));
 	LoadFromBuffer = reinterpret_cast<LoadFromBufferFn>(func_address);
 }
 /*
@@ -289,8 +324,12 @@ void Hooker::FindVstdlibFunctions()
 void Hooker::FindOverridePostProcessingDisable()
 {
 	uintptr_t bool_address = PatternFinder::FindPatternInModule(XORSTR("client_client.so"),
-																(unsigned char*) XORSTR("\x80\x3D\x00\x00\x00\x00\x00\x0F\x85\x00\x00\x00\x00\x85\xC9"),
-																XORSTR("xx????xxx????xx"));
+																(unsigned char*) XORSTR("\x80\x3D"
+                                                                                                "\x00\x00\x00\x00\x00"
+                                                                                                "\x89\xB5"
+                                                                                                "\x00\x00"
+                                                                                                "\xFF\xFF"),
+																XORSTR("xx?????xx??xx"));
 	bool_address = GetAbsoluteAddress(bool_address, 2, 7);
 
 	s_bOverridePostProcessingDisable = reinterpret_cast<bool*>(bool_address);
@@ -314,17 +353,28 @@ void Hooker::HookPollEvent()
 
 void Hooker::FindSDLInput()
 {
-	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("launcher_client.so"),
-																(unsigned char*) XORSTR("\x55\x48\x89\xE5\x53\x48\x83\xEC\x18"),
-																XORSTR("xxxxxxxxx"));
-
-	launcherMgr = reinterpret_cast<ILauncherMgrCreateFn>(func_address)();
+	/*
+	    0F 95 83 AC 01 00 00    setnz   byte ptr [rbx+1ACh]
+		E8 E2 B7 FF FF          call    _memcpy
+		E8 FD D8 02 00          call    LauncherMgrCreateFunc <------
+	 */
+	uintptr_t startAddr = PatternFinder::FindPatternInModule(XORSTR("launcher_client.so"),
+																(unsigned char*) XORSTR("\x0F\x95\x83"
+																								"\x00\x00\x00\x00"
+																								"\xE8"
+																								"\x00\x00\x00\x00"
+																								"\xE8"),
+																XORSTR("xxx????x????x"));
+	ILauncherMgrCreateFn createFunc = reinterpret_cast<ILauncherMgrCreateFn>(GetAbsoluteAddress(startAddr + 12, 1, 5));
+	launcherMgr = createFunc();
 }
 
 void Hooker::FindSetNamedSkybox()
 {
 	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("engine_client.so"),
-																(unsigned char*) XORSTR("\x55\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x48\x89\xE5\x41\x55\x41\x54\x49\x89\xFD"),
+																(unsigned char*) XORSTR("\x55"
+                                                                                                "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                                                                                                "\x48\x89\xE5\x41\x55\x41\x54\x49\x89\xFD"),
 																XORSTR("x??????????????xxxxxxxxxx"));
 
 	SetNamedSkyBox = reinterpret_cast<SetNamedSkyBoxFn>(func_address);

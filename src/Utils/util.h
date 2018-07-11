@@ -16,6 +16,9 @@
 
 namespace Util
 {
+	extern const char *logFileName;
+
+	void Log(char const * const format, ...);
 	std::string ReplaceString(std::string subject, const std::string& search, const std::string& replace);
 	void StdReplaceStr(std::string&, const std::string&, const std::string&);
 	const char* PadStringRight(std::string text, size_t value);

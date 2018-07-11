@@ -7,6 +7,29 @@ struct link_map_wrapper
     struct link_map_wrapper* ptr;
 };
 
+
+void Util::Log(char const * const format, ...)
+{
+    char buffer[4096];
+    static bool bFirst = true;
+    FILE *logFile;
+
+    if ( bFirst ) {
+        logFile = fopen(Util::logFileName, "w"); // create new log
+        fprintf(logFile, "--Start of log--\n");
+        bFirst = false;
+    } else {
+        logFile = fopen(Util::logFileName, "a"); // append to log
+    }
+    setbuf( logFile, NULL ); // Turn off buffered I/O, decreases performance but if crash occurs, no unflushed buffer.
+    va_list args;
+    va_start(args, format);
+    vsnprintf(buffer, 4096, format, args);
+    fprintf(logFile, buffer);
+    va_end(args);
+    fclose(logFile);
+}
+
 std::string Util::ReplaceString(std::string subject, const std::string& search, const std::string& replace)
 {
 	size_t pos = 0;

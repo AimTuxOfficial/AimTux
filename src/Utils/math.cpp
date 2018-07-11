@@ -17,9 +17,6 @@ float Math::float_rand( float min, float max ) // thanks foo - https://stackover
 
 void Math::AngleVectors(const QAngle &angles, Vector& forward)
 {
-	Assert(s_bMathlibInitialized);
-	Assert(forward);
-
 	float sp, sy, cp, cy;
 
 	Math::SinCos(DEG2RAD(angles[YAW]), &sy, &cy);

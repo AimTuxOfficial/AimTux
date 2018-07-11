@@ -4,6 +4,8 @@
 
 static EventListener* eventListener = nullptr;
 
+const char *Util::logFileName = "/tmp/fuzion.log";
+
 char Fuzion::buildID[NAME_MAX] = {
 #include "../build_id_hex" // Made by ./build script.
 };
@@ -12,8 +14,8 @@ void MainThread()
 {
 	Interfaces::FindInterfaces();
 	//Interfaces::DumpInterfaces();
-
-	Hooker::FindSetNamedSkybox();
+    cvar->ConsoleDPrintf("Loading...\n");
+	//Hooker::FindSetNamedSkybox();
 	Hooker::FindViewRender();
 	Hooker::FindSDLInput();
 	Hooker::InitializeVMHooks();
@@ -37,8 +39,7 @@ void MainThread()
 	Hooker::HookSwapWindow();
 	Hooker::HookPollEvent();
 
-	clientVMT->HookVM((void*) Hooks::IN_KeyEvent, 20);
-	clientVMT->HookVM((void*) Hooks::FrameStageNotify, 36);
+	clientVMT->HookVM((void*) Hooks::FrameStageNotify, 37);
 	clientVMT->ApplyVMT();
 
     clientModeVMT->HookVM((void*) Hooks::OverrideView, 19);

@@ -240,7 +240,8 @@ float Autowall::GetDamage(const Vector& point, bool teamCheck, FireBulletData& f
 	QAngle angles = Math::CalcAngle(data.src, dst);
 	Math::AngleVectors(angles, data.direction);
 
-	data.direction.NormalizeInPlace();
+    Vector tmp = data.direction;
+    data.direction = tmp.Normalize();
 
 	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
 	if (!activeWeapon)

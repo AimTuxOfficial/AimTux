@@ -12,7 +12,6 @@ typedef void (*DrawModelExecuteFn) (void*, void*, void*, const ModelRenderInfo_t
 typedef bool (*CreateMoveFn) (void*, float, CUserCmd*);
 typedef bool (*FireEventFn) (void*, IGameEvent*, bool);
 typedef bool (*FireEventClientSideFn) (void*, IGameEvent*);
-typedef int (*IN_KeyEventFn) (void*, int, int, const char*);
 typedef void (*RenderViewFn) (void*, CViewSetup&, CViewSetup&, unsigned int, int);
 typedef void (*SetKeyCodeStateFn) (void*, ButtonCode_t, bool);
 typedef void (*SetMouseCodeStateFn) (void*, ButtonCode_t, MouseCodeState_t);
@@ -35,7 +34,6 @@ namespace Hooks
 	bool CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd);
 	bool FireEvent(void* thisptr, IGameEvent* event, bool bDontBroadcast);
 	bool FireEventClientSide(void* thisptr, IGameEvent* event);
-	int IN_KeyEvent(void* thisptr, int eventcode, int keynum, const char* currentbinding);
 	void RenderView(void* thisptr, CViewSetup& setup, CViewSetup& hudViewSetup, unsigned int nClearFlags, int whatToDraw);
 	void OverrideView(void* thisptr, CViewSetup* pSetup);
 	void SetKeyCodeState(void* thisptr, ButtonCode_t code, bool bPressed);
