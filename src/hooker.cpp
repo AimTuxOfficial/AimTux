@@ -149,7 +149,8 @@ void Hooker::FindCInput()
 
 void Hooker::FindGlowManager()
 {
-	uintptr_t instruction_addr = PatternFinder::FindPatternInModule(XORSTR("client_client.so"),
+    // Call right above "Music.StopAllExceptMusic"
+	uintptr_t instruction_addr = PatternFinder::FindPatternInModule(XORSTR("client_panorama_client.so"),
 																	(unsigned char*) XORSTR("\xE8\x00\x00\x00\x00\x48\x8B\x3D\x00\x00\x00\x00\xBE\x01\x00\x00\x00\xC7"),
 																	XORSTR("x????xxx????xxxxxx"));
 
@@ -158,7 +159,7 @@ void Hooker::FindGlowManager()
 
 void Hooker::FindPlayerResource()
 {
-	uintptr_t instruction_addr = PatternFinder::FindPatternInModule(XORSTR("client_client.so"),
+	uintptr_t instruction_addr = PatternFinder::FindPatternInModule(XORSTR("client_panorama_client.so"),
 																	(unsigned char*) XORSTR("\x48\x8B\x05\x00\x00\x00\x00\x55\x48\x89\xE5\x48\x85\xC0\x74\x10\x48"),
 																	XORSTR("xxx????xxxxxxxxxx"));
 
@@ -167,7 +168,7 @@ void Hooker::FindPlayerResource()
 
 void Hooker::FindGameRules()
 {
-	uintptr_t instruction_addr = PatternFinder::FindPatternInModule(XORSTR("client_client.so"),
+	uintptr_t instruction_addr = PatternFinder::FindPatternInModule(XORSTR("client_panorama_client.so"),
 																	(unsigned char*) XORSTR("\x48\x8B\x05"
 																									"\x00\x00\x00\x00"
 																									"\x48\x8B\x38\x0F\x84"),
@@ -178,7 +179,8 @@ void Hooker::FindGameRules()
 
 void Hooker::FindRankReveal()
 {
-	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("client_client.so"),
+    // Broke in panorama
+	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("client_panorama_client.so"),
 																(unsigned char*) XORSTR("\x55\x48\x89\xE5\x53\x48\x89\xFB\x48\x83\xEC\x08\xE8\x00\x00\x00\x00\x48\x8D\x00\x00\x00\x00\x00\x48\x8B\x10\x48\x89\xC7\xFF\x52\x28"),
 																XORSTR("xxxxxxxxxxxxx????xx?????xxxxxxxxx"));
 
@@ -210,10 +212,10 @@ void Hooker::FindSendClanTag()
 
 	SendClanTag = reinterpret_cast<SendClanTagFn>(func_address);
 }
-
+// "PrecacheCSViewScene"
 void Hooker::FindViewRender()
 {
-	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("client_client.so"),
+	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("client_panorama_client.so"),
 																(unsigned char*) XORSTR("\x48\x8D\x05"
                                                                                                 "\x00\x00\x00\x00"
                                                                                                 "\x55\xF3\x0F\x10"
@@ -232,17 +234,17 @@ void Hooker::FindViewRender()
 
 void Hooker::FindPrediction()
 {
-	uintptr_t seed_instruction_addr = PatternFinder::FindPatternInModule(XORSTR("client_client.so"),
+	uintptr_t seed_instruction_addr = PatternFinder::FindPatternInModule(XORSTR("client_panorama_client.so"),
 																		 (unsigned char*) XORSTR("\x48\x8B\x05"
                                                                                                          "\x00\x00\x00\x00"
                                                                                                          "\x8B\x38\xE8"
                                                                                                          "\x00\x00\x00\x00"
                                                                                                          "\x89\xC7"),
 																		 XORSTR("xxx????xxx????xx"));
-	uintptr_t helper_instruction_addr = PatternFinder::FindPatternInModule(XORSTR("client_client.so"),
+	uintptr_t helper_instruction_addr = PatternFinder::FindPatternInModule(XORSTR("client_panorama_client.so"),
 																		   (unsigned char*) XORSTR("\x00\x48\x89\x3D\x00\x00\x00\x00\xC3"),
 																		   XORSTR("xxxx????x"));
-	uintptr_t movedata_instruction_addr = PatternFinder::FindPatternInModule(XORSTR("client_client.so"),
+	uintptr_t movedata_instruction_addr = PatternFinder::FindPatternInModule(XORSTR("client_panorama_client.so"),
 																			 (unsigned char*) XORSTR("\x48\x8B\x0D"
 																											 "\x00\x00\x00\x00"
 																											 "\x4C\x89\xEA"),
@@ -255,7 +257,8 @@ void Hooker::FindPrediction()
 
 void Hooker::FindIsReadyCallback()
 {
-    uintptr_t func_address = PatternFinder::FindPatternInModule( XORSTR( "client_client.so" ),
+    // broke in panorama
+    uintptr_t func_address = PatternFinder::FindPatternInModule( XORSTR( "client_panorama_client.so" ),
                                                                  ( unsigned char* ) XORSTR( "\x55\x48\x89\xE5\x53\x48\x83\xEC\x08\x48\x8B\x1D"
                                                                                                     "\x00\x00\x00\x00" // ??
                                                                                                     "\x48\x83"),
@@ -285,7 +288,7 @@ void Hooker::FindGetLocalClient()
 
 void Hooker::FindLineGoesThroughSmoke()
 {
-	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("client_client.so"),
+	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("client_panorama_client.so"),
 																(unsigned char*) XORSTR("\x40\x0F\xB6\xFF\x55"),
 																XORSTR("xxxxx"));
 	LineGoesThroughSmoke = reinterpret_cast<LineGoesThroughSmokeFn>(func_address);
@@ -293,7 +296,7 @@ void Hooker::FindLineGoesThroughSmoke()
 
 void Hooker::FindInitKeyValues()
 {
-	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("client_client.so"),
+	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("client_panorama_client.so"),
 																(unsigned char*) XORSTR("\x81\x27\x00\x00\x00\xFF\x55\x31\xC0\x48\x89\xE5\x5D"),
 																XORSTR("xxxxxxxxxxxxx"));
 	InitKeyValues = reinterpret_cast<InitKeyValuesFn>(func_address);
@@ -301,7 +304,7 @@ void Hooker::FindInitKeyValues()
 
 void Hooker::FindLoadFromBuffer()
 {
-	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("client_client.so"),
+	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("client_panorama_client.so"),
 																(unsigned char*) XORSTR("\x55\x48\x89\xE5\x41\x57\x41\x56\x41\x55\x41\x54\x49\x89\xD4\x53\x48\x83\xEC\x78\x48"),
 																XORSTR("xxxxxxxxxxxxxxxxxxxxx"));
 	LoadFromBuffer = reinterpret_cast<LoadFromBufferFn>(func_address);
@@ -323,7 +326,7 @@ void Hooker::FindVstdlibFunctions()
 
 void Hooker::FindOverridePostProcessingDisable()
 {
-	uintptr_t bool_address = PatternFinder::FindPatternInModule(XORSTR("client_client.so"),
+	uintptr_t bool_address = PatternFinder::FindPatternInModule(XORSTR("client_panorama_client.so"),
 																(unsigned char*) XORSTR("\x80\x3D"
                                                                                                 "\x00\x00\x00\x00\x00"
                                                                                                 "\x89\xB5"
