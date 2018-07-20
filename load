@@ -45,7 +45,7 @@ sudo gdb -n -q -batch-silent \
   -ex "set logging redirect on" \
   -ex "attach $csgo_pid" \
   -ex "set \$dlopen = (void*(*)(char*, int)) dlopen" \
-  -ex "call \$dlopen(\"/usr/lib64/$filename\", 1)" \
+  -ex "call \$dlopen(\"/usr/lib/$filename\", 1)" \
   -ex "detach" \
   -ex "quit"
 )"
@@ -54,7 +54,7 @@ sleep 1
 sudo killall -18 steamwebhelper
 sudo killall -18 steam
 
-sudo rm "/usr/lib64/${filename}"
+sudo rm "/usr/lib/${filename}"
 
 last_line="${input##*$'\n'}"
 

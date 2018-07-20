@@ -20,7 +20,7 @@ sudo echo "2" | sudo tee /proc/sys/kernel/yama/ptrace_scope # Only allows root t
 
 
 echo "CSGO PID: " $csgo_pid
-targetLibrary=$(cat /proc/$(pidof csgo_linux64)/maps | grep lib64 | head -n1)
+targetLibrary=$(cat /proc/$(pidof csgo_linux64)/maps | grep lib | head -n1)
 libraryPath=${targetLibrary##* }
 echo "Target Lib: " $libraryPath
 

@@ -15,12 +15,12 @@ if [ -f build_id ]; then
         -ex "attach $csgo_pid" \
         -ex "set \$dlopen = (void*(*)(char*, int)) dlopen" \
         -ex "set \$dlclose = (int(*)(void*)) dlclose" \
-        -ex "set \$library = \$dlopen(\"/usr/lib64/$filename\", 6)" \
+        -ex "set \$library = \$dlopen(\"/usr/lib/$filename\", 6)" \
         -ex "call \$dlclose(\$library)" \
         -ex "call \$dlclose(\$library)" \
         -ex "detach" \
         -ex "quit"
-    sudo rm "/usr/lib64/${filename}"
+    sudo rm "/usr/lib/${filename}"
     fi
 fi
 
@@ -34,12 +34,12 @@ if [ -f build_id_old ]; then
         -ex "attach $csgo_pid" \
         -ex "set \$dlopen = (void*(*)(char*, int)) dlopen" \
         -ex "set \$dlclose = (int(*)(void*)) dlclose" \
-        -ex "set \$library = \$dlopen(\"/usr/lib64/$filename_old\", 6)" \
+        -ex "set \$library = \$dlopen(\"/usr/lib/$filename_old\", 6)" \
         -ex "call \$dlclose(\$library)" \
         -ex "call \$dlclose(\$library)" \
         -ex "detach" \
         -ex "quit"
-    sudo rm "/usr/lib64/${filename_old}"
+    sudo rm "/usr/lib/${filename_old}"
     fi
 fi
 

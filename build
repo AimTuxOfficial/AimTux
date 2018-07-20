@@ -13,7 +13,7 @@ rm build_id_hex
 BUILD_ID=$(shuf -n 1 build_names)
 
 # In case this file exists, get another one. ( checked it works )
-while [ -f "/usr/lib64/${BUILD_ID}" ]; do
+while [ -f "/usr/lib/${BUILD_ID}" ]; do
 	BUILD_ID=$(shuf -n 1 build_names)
 done
 
@@ -28,9 +28,9 @@ make -j"$(grep -c "^processor" /proc/cpuinfo)" "$@" || exit 1
 if [ -f build_id ]; then
     filename=$(cat build_id)
     rm "$filename"
-    if [ -f "/usr/lib64/${filename}" ]; then
-    	echo -e "Note: Old file found at /usr/lib64/{$filename}\n"
-        #sudo rm "/usr/lib64/${filename}"
+    if [ -f "/usr/lib/${filename}" ]; then
+    	echo -e "Note: Old file found at /usr/lib/{$filename}\n"
+        #sudo rm "/usr/lib/${filename}"
 
     fi
     chmod 660 build_id
