@@ -97,20 +97,7 @@ Now, go back into CS:GO, if you are in the main menu of the game you should see 
 
 ![this](http://i.imgur.com/Gb0SV1u.png)
 
-
-## Injecting using the preload script (experimental)
-
-We have a new loading method that uses LD_PRELOAD and library function hooking to stay undetected. 
-
-To use this method, you need to have CS:GO closed and use the `preload` script with your CS:GO launch options.
-
-Here is an example. Note that you need *-steam* for VAC to be enabled. 
-```
-./preload -steam -nobreakpad -high -threads 4
-```
-
-Once CS:GO is loaded, the cheat should be loaded as well and you can check the CS:GO console for more information. 
-
+*Note:* if you are getting crashes ( that are unrelated to game updates ) Try disabling shader precaching in your Steam Client -> Steam -> Settngs -> Shader Pre-Caching. 
 
 ## Using the hack
 
@@ -125,7 +112,6 @@ If you wish to unload the hack from the game, you can do so by entering the comm
 ```bash
 ./uload
 ```
-
 
 ## Configs
 
