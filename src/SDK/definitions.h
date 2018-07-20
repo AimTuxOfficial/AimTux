@@ -115,7 +115,7 @@ enum class ObserverMode_t : int
 	OBS_MODE_ROAMING = 6
 };
 
-enum class ItemDefinitionIndex : int
+enum class ItemDefinitionIndex : short
 {
 	INVALID = -1,
 	WEAPON_DEAGLE = 1,
