@@ -5,6 +5,7 @@
 #include "../Hacks/hacks.h"
 #include "../ATGUI/atgui.h"
 #include "../hooker.h"
+#include "../GUI/gui.h"
 
 typedef void (*FrameStageNotifyFn) (void*, ClientFrameStage_t);
 typedef void (*PaintTraverseFn) (void*, VPANEL, bool, bool);
@@ -25,7 +26,10 @@ typedef void (*EmitSound2Fn) (void*, IRecipientFilter&, int, int, const char*, u
 typedef void (*RenderSmokePostViewmodelFn) (void*);
 typedef void (*OverrideViewFn) (void*, CViewSetup*);
 typedef float (*GetViewModelFOVFn) (void*);
-
+// panorama
+typedef int (* RunScriptFn)( panorama::UIEngine*, panorama::IUIPanel *,char const*,char const*,int,int,bool );
+typedef panorama::PanelWrapper* (*CreatePanelFn)( panorama::UIEngine*, panorama::CPanoramaSymbol* ,char const*,panorama::IUIPanel * );
+typedef void (* DispatchEventFn)( panorama::UIEngine*, panorama::IUIEvent* );
 namespace Hooks
 {
 	void PaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool allow_force);
@@ -48,6 +52,10 @@ namespace Hooks
 	void EmitSound2(void* thisptr, IRecipientFilter& filter, int iEntIndex, int iChannel, const char* pSoundEntry, unsigned int nSoundEntryHash, const char *pSample, float flVolume, int nSeed, soundlevel_t iSoundLevel, int iFlags, int iPitch, const Vector* pOrigin, const Vector* pDirection, void* pUtlVecOrigins, bool bUpdatePositions, float soundtime, int speakerentity);
 	void RenderSmokePostViewmodel(void* thisptr);
 	float GetViewModelFOV(void* thisptr);
+
+	int RunScript( panorama::UIEngine* thisptr, panorama::IUIPanel* panel, const char* str1, const char* str2, int int1, int int2, bool bool1 );
+	panorama::PanelWrapper* CreatePanel( panorama::UIEngine* thisptr, panorama::CPanoramaSymbol* symbol, const char* str, panorama::IUIPanel* panel );
+	void DispatchEvent(panorama::UIEngine* thisptr, panorama::IUIEvent* event);
 }
 
 namespace CreateMove

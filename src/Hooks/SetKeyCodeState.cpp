@@ -15,5 +15,18 @@ void Hooks::SetKeyCodeState(void* thisptr, ButtonCode_t code, bool bPressed)
 	if (!SetKeyCodeState::shouldListen)
 		Shortcuts::SetKeyCodeState(code, bPressed);
 
+
+	if( code == ButtonCode_t::KEY_DELETE && bPressed ){
+        for( int i = 0; i < 1024; i++ ){
+            panorama::IUIPanel *panel = panorama::panelArray->slots[i].panel;
+            if( panoramaEngine->AccessUIEngine()->IsValidPanelPointer(panel) ){
+                cvar->ConsoleDPrintf("Panel %d: (%s)\n", i, panel->GetID());
+            }
+        }
+	}
+
+    if( code == ButtonCode_t::KEY_HOME && bPressed ){
+        GUI::ToggleUI();
+    }
 	inputInternalVMT->GetOriginalMethod<SetKeyCodeStateFn>(92)(thisptr, code, bPressed);
 }

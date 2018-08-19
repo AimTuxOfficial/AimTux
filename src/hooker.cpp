@@ -16,6 +16,7 @@ VMT* surfaceVMT = nullptr;
 VMT* launcherMgrVMT = nullptr;
 VMT* engineVGuiVMT = nullptr;
 VMT* soundVMT = nullptr;
+VMT* uiEngineVMT = nullptr;
 
 uintptr_t oSwapWindow;
 uintptr_t* swapWindowJumpAddress = nullptr;
@@ -37,6 +38,8 @@ GetLocalClientFn GetLocalClient;
 LineGoesThroughSmokeFn LineGoesThroughSmoke;
 InitKeyValuesFn InitKeyValues;
 LoadFromBufferFn LoadFromBuffer;
+
+panorama::PanelArray* panorama::panelArray = nullptr;
 
 //RandomSeedFn RandomSeed;
 //RandomFloatFn RandomFloat;
@@ -93,6 +96,7 @@ void Hooker::InitializeVMHooks()
 	launcherMgrVMT = new VMT(launcherMgr);
 	engineVGuiVMT = new VMT(engineVGui);
 	soundVMT = new VMT(sound);
+    uiEngineVMT = new VMT(panoramaEngine->AccessUIEngine());
 }
 
 bool Hooker::HookRecvProp(const char* className, const char* propertyName, std::unique_ptr<RecvPropHook>& recvPropHook)
@@ -374,11 +378,25 @@ void Hooker::FindSDLInput()
 
 void Hooker::FindSetNamedSkybox()
 {
-	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("engine_client.so"),
-																(unsigned char*) XORSTR("\x55"
-                                                                                                "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-                                                                                                "\x48\x89\xE5\x41\x55\x41\x54\x49\x89\xFD"),
-																XORSTR("x??????????????xxxxxxxxxx"));
+	//55 4C 8D 05 ?? ?? ?? ?? 48 89 E5
+    // xref for "skybox/%s%s"
+    uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("engine_client.so"),
+                                                                (unsigned char*) XORSTR("\x55\x4C\x8D\x05"
+                                                                                                "\x00\x00\x00\x00" //??
+                                                                                                "\x48\x89\xE5"),
+                                                                XORSTR("xxxx????xxx"));
 
-	SetNamedSkyBox = reinterpret_cast<SetNamedSkyBoxFn>(func_address);
+    SetNamedSkyBox = reinterpret_cast<SetNamedSkyBoxFn>(func_address);
+}
+
+void Hooker::FindPanelArrayOffset()
+{
+	/*
+	 * CUIEngine::IsValidPanelPointer()
+	 *
+	   55                      push    rbp
+	   48 81 C7 B8 01 00 00    add     rdi, 1B8h <--------
+	 */
+	uintptr_t IsValidPanelPointer = reinterpret_cast<uintptr_t>(getvtable( panoramaEngine->AccessUIEngine() )[36]);
+	panorama::panelArray = *(panorama::PanelArray**)(((uintptr_t)panoramaEngine->AccessUIEngine()) + *(unsigned int*)(IsValidPanelPointer + 4) + 8); // +8 for vtable
 }

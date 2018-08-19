@@ -1,0 +1,27 @@
+R"(
+<root>
+    <styles>
+    </styles>
+    <Panel class='McMain' style='width: 400px; height: 200px; horizontal-align: left; vertical-align: center; background-color: green;'>
+        <Label text='Fuzion Panorama Test' style='horizontal-align: center; font-size: 24px; color: red; text-decoration: underline;'/>
+        <Button id='McButton' style='width: 300px; height: 75px; vertical-align: center;' onactivate='$.Msg(&quot;Button Pressed&quot;)'>
+            <Label text='Babbys 1st Btn' style='background-color: grey;'/>
+        </Button>
+        <!--
+        <TextEntry id='MyEntry' maxchars='100' placeholder='Type here...' />
+        <DropDown>
+            <Label text='Bazinga' id='entry1'/>
+            <Label text='Zimbabwe' id='entry2'/>
+            <Label text='Gentoo' id='entry3'/>
+            <Label text='Xenotype' id='entry4'/>
+        </DropDown>
+        <ToggleButton checked='true' text='[On]' />
+        <ToggleButton text='[Off]' />
+        <RadioButton checked='checked' group='Demo' id='Demo1' text='Rap'/>
+        <RadioButton group='Demo' id='Demo2' text='Rock'/>
+        <RadioButton group='Demo' id='Demo3' text='Jazz'/>
+        <DOTAAvatarImage steamid='local' />
+        -->
+    </Panel>
+</root>
+)"

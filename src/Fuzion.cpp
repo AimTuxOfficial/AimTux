@@ -13,7 +13,7 @@ char Fuzion::buildID[NAME_MAX] = {
 void MainThread()
 {
 	Interfaces::FindInterfaces();
-	//Interfaces::DumpInterfaces();
+    //Interfaces::DumpInterfaces();
     cvar->ConsoleDPrintf("Loading...\n");
 	//Hooker::FindSetNamedSkybox();
 	Hooker::FindViewRender();
@@ -38,6 +38,17 @@ void MainThread()
 	Hooker::FindOverridePostProcessingDisable();
 	Hooker::HookSwapWindow();
 	Hooker::HookPollEvent();
+    Hooker::FindPanelArrayOffset();
+
+    cvar->ConsoleDPrintf("Panorama UI Engine @ %p\n", (void*)panoramaEngine->AccessUIEngine());
+    cvar->ConsoleDPrintf("Install path: %s\n", panoramaEngine->AccessUIEngine()->GetApplicationInstallPath());
+    cvar->ConsoleDPrintf("UI Frametime: %f\n", panoramaEngine->AccessUIEngine()->GetCurrentFrameTime());
+    cvar->ConsoleDPrintf("PanelArray is at %p\n", (void*)panorama::panelArray);
+
+    //uiEngineVMT->HookVM((void*)Hooks::RunScript, 109);
+    //uiEngineVMT->HookVM((void*)Hooks::CreatePanel, 139);
+    uiEngineVMT->HookVM((void*)Hooks::DispatchEvent, 48);
+    uiEngineVMT->ApplyVMT();
 
 	clientVMT->HookVM((void*) Hooks::FrameStageNotify, 37);
 	clientVMT->ApplyVMT();
@@ -96,6 +107,8 @@ void MainThread()
 	srand(time(NULL)); // Seed random # Generator so we can call rand() later
 
 	AntiAim::LuaInit();
+
+    cvar->ConsoleColorPrintf(ColorRGBA(0, 225, 0), XORSTR("\nFuzion Successfully loaded.\n"));
 }
 /* Entrypoint to the Library. Called when loading */
 int __attribute__((constructor)) Startup()

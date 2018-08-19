@@ -46,4 +46,5 @@ namespace Hooker
 	void HookPollEvent();
 	void FindSDLInput();
 	void FindSetNamedSkybox();
+	void FindPanelArrayOffset();
 }

@@ -8,6 +8,7 @@ filename_old=$(cat build_id_old)
 
 if [ -f build_id ]; then
     if grep -q "$filename" /proc/"$csgo_pid"/maps; then
+    echo "unloading $filename"
     sudo gdb -n -q -batch-silent \
         -ex "set logging on" \
         -ex "set logging file /dev/null" \
@@ -27,6 +28,7 @@ fi
 # "build_id_old" is used for unloading in case you rebuild while injected.
 if [ -f build_id_old ]; then
     if grep -q "$filename_old" /proc/"$csgo_pid"/maps; then
+    echo "unloading old file - $filename_old"
     sudo gdb -n -q -batch-silent \
         -ex "set logging on" \
         -ex "set logging file /dev/null" \

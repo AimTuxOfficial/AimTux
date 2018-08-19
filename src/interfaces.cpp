@@ -31,6 +31,7 @@ IEngineSound* sound = nullptr;
 ISurface* surface = nullptr;
 IEngineTrace* trace = nullptr;
 CViewRender* viewRender = nullptr;
+IPanoramaUIEngine* panoramaEngine = nullptr;
 
 
 void Interfaces::FindInterfaces()
@@ -57,6 +58,7 @@ void Interfaces::FindInterfaces()
 	sound = GetInterface<IEngineSound>(XORSTR("./bin/linux64/engine_client.so"), XORSTR("IEngineSoundClient"));
 	localize = GetInterface<ILocalize>(XORSTR("./bin/linux64/localize_client.so"), XORSTR("Localize_"));
 	commandline = GetSymbolAddress<CommandLineFn>(XORSTR("./bin/linux64/libtier0_client.so"), XORSTR("CommandLine"))();
+    panoramaEngine = GetInterface<IPanoramaUIEngine>(XORSTR("./bin/linux64/panorama_client.so"), XORSTR("PanoramaUIEngine001"), true);
 }
 
 void Interfaces::DumpInterfaces()
@@ -93,8 +95,10 @@ void Interfaces::DumpInterfaces()
 
 		std::set<const char*> interface_name;
 
-		for (cur_interface = interfaces; cur_interface; cur_interface = cur_interface->m_pNext)
-			interface_name.insert(cur_interface->m_pName);
+		for (cur_interface = interfaces; cur_interface; cur_interface = cur_interface->m_pNext){
+            cvar->ConsoleDPrintf("%s - %p\n", cur_interface->m_pName, (void*)cur_interface->m_CreateFn);
+            interface_name.insert(cur_interface->m_pName);
+        }
 
 		if (interface_name.empty())
 			continue;
@@ -107,7 +111,7 @@ void Interfaces::DumpInterfaces()
 		ss << '\n';
 	}
 
-	std::string interfacesPath = XORSTR("/tmp/interfaces.txt");
+	std::string interfacesPath = XORSTR("/tmp/csgointerfaces.txt");
 
 	std::ofstream(interfacesPath) << ss.str();
 }
