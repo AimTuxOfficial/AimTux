@@ -40,6 +40,7 @@ extern IEngineSound* sound;
 extern ILocalize* localize;
 extern ICommandLine* commandline;
 extern CInput* input;
+extern IPanoramaUIEngine* panoramaEngine;
 
 extern VMT* panelVMT;
 extern VMT* clientVMT;
@@ -53,6 +54,7 @@ extern VMT* surfaceVMT;
 extern VMT* launcherMgrVMT;
 extern VMT* engineVGuiVMT;
 extern VMT* soundVMT;
+extern VMT* uiEngineVMT;
 
 extern LineGoesThroughSmokeFn LineGoesThroughSmoke;
 extern InitKeyValuesFn InitKeyValues;

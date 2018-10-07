@@ -8,6 +8,7 @@ filename_old=$(cat build_id_old)
 
 if [ -f build_id ]; then
     if grep -q "$filename" /proc/"$csgo_pid"/maps; then
+    echo "unloading $filename"
     sudo gdb -n -q -batch-silent \
         -ex "set logging on" \
         -ex "set logging file /dev/null" \
@@ -15,18 +16,19 @@ if [ -f build_id ]; then
         -ex "attach $csgo_pid" \
         -ex "set \$dlopen = (void*(*)(char*, int)) dlopen" \
         -ex "set \$dlclose = (int(*)(void*)) dlclose" \
-        -ex "set \$library = \$dlopen(\"/usr/lib64/$filename\", 6)" \
+        -ex "set \$library = \$dlopen(\"/usr/lib/$filename\", 6)" \
         -ex "call \$dlclose(\$library)" \
         -ex "call \$dlclose(\$library)" \
         -ex "detach" \
         -ex "quit"
-    sudo rm "/usr/lib64/${filename}"
+    sudo rm "/usr/lib/${filename}"
     fi
 fi
 
 # "build_id_old" is used for unloading in case you rebuild while injected.
 if [ -f build_id_old ]; then
     if grep -q "$filename_old" /proc/"$csgo_pid"/maps; then
+    echo "unloading old file - $filename_old"
     sudo gdb -n -q -batch-silent \
         -ex "set logging on" \
         -ex "set logging file /dev/null" \
@@ -34,12 +36,12 @@ if [ -f build_id_old ]; then
         -ex "attach $csgo_pid" \
         -ex "set \$dlopen = (void*(*)(char*, int)) dlopen" \
         -ex "set \$dlclose = (int(*)(void*)) dlclose" \
-        -ex "set \$library = \$dlopen(\"/usr/lib64/$filename_old\", 6)" \
+        -ex "set \$library = \$dlopen(\"/usr/lib/$filename_old\", 6)" \
         -ex "call \$dlclose(\$library)" \
         -ex "call \$dlclose(\$library)" \
         -ex "detach" \
         -ex "quit"
-    sudo rm "/usr/lib64/${filename_old}"
+    sudo rm "/usr/lib/${filename_old}"
     fi
 fi
 

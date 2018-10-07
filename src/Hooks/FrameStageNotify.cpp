@@ -18,7 +18,7 @@ void Hooks::FrameStageNotify(void* thisptr, ClientFrameStage_t stage)
 		SkinChanger::forceFullUpdate = false;
 	}
 
-	clientVMT->GetOriginalMethod<FrameStageNotifyFn>(36)(thisptr, stage);
+	clientVMT->GetOriginalMethod<FrameStageNotifyFn>(37)(thisptr, stage);
 
 	Resolver::PostFrameStageNotify(stage);
 	View::PostFrameStageNotify(stage);

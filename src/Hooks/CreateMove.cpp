@@ -9,11 +9,10 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 
 	if (cmd && cmd->command_number)
 	{
-        // Special thanks to Gre-- I mean Heep ( https://www.unknowncheats.me/forum/counterstrike-global-offensive/240740-linux-journey-finding-bsendpacket-stack.html )
-        // Coincidentally, i'll thank Luk1337 too.
+        // Special thanks to Gre-- I mean Heep ( https://www.unknowncheats.me/forum/counterstrike-global-offensive/290258-updating-bsendpacket-linux.html )
         uintptr_t rbp;
         asm volatile("mov %%rbp, %0" : "=r" (rbp));
-        bool *sendPacket = ((*(bool **)rbp) - 0x8);
+        bool *sendPacket = ((*(bool **)rbp) - 0x18);
         *sendPacket = CreateMove::sendPacket;
         CreateMove::sendPacket = true;
 

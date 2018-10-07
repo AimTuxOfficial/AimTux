@@ -115,7 +115,7 @@ enum class ObserverMode_t : int
 	OBS_MODE_ROAMING = 6
 };
 
-enum class ItemDefinitionIndex : int
+enum class ItemDefinitionIndex : short
 {
 	INVALID = -1,
 	WEAPON_DEAGLE = 1,
@@ -132,6 +132,7 @@ enum class ItemDefinitionIndex : int
 	WEAPON_M4A1 = 16,
 	WEAPON_MAC10 = 17,
 	WEAPON_P90 = 19,
+	WEAPON_MP5 = 23,
 	WEAPON_UMP45 = 24,
 	WEAPON_XM1014 = 25,
 	WEAPON_BIZON = 26,
@@ -573,6 +574,30 @@ static const std::map<int,int> BoneMapGeneric =
 		{ (int)DesiredBones::BONE_UPPER_SPINAL_COLUMN, 6 },
 		{ (int)DesiredBones::BONE_NECK, 7 },
 		{ (int)DesiredBones::BONE_HEAD, 8 },
+		{ (int)DesiredBones::BONE_LEFT_COLLARBONE, (int)Bone::INVALID },
+		{ (int)DesiredBones::BONE_LEFT_SHOULDER, (int)Bone::INVALID },
+		{ (int)DesiredBones::BONE_LEFT_ARMPIT, (int)Bone::INVALID },
+		{ (int)DesiredBones::BONE_LEFT_BICEP, (int)Bone::INVALID },
+		{ (int)DesiredBones::BONE_LEFT_ELBOW, (int)Bone::INVALID },
+		{ (int)DesiredBones::BONE_LEFT_FOREARM, (int)Bone::INVALID },
+		{ (int)DesiredBones::BONE_LEFT_WRIST, (int)Bone::INVALID },
+		{ (int)DesiredBones::BONE_RIGHT_COLLARBONE, (int)Bone::INVALID },
+		{ (int)DesiredBones::BONE_RIGHT_SHOULDER, (int)Bone::INVALID },
+		{ (int)DesiredBones::BONE_RIGHT_ARMPIT, (int)Bone::INVALID },
+		{ (int)DesiredBones::BONE_RIGHT_BICEP, (int)Bone::INVALID },
+		{ (int)DesiredBones::BONE_RIGHT_ELBOW, (int)Bone::INVALID },
+		{ (int)DesiredBones::BONE_RIGHT_FOREARM, (int)Bone::INVALID },
+		{ (int)DesiredBones::BONE_RIGHT_WRIST, (int)Bone::INVALID },
+		{ (int)DesiredBones::BONE_LEFT_BUTTCHEEK, (int)Bone::INVALID },
+		{ (int)DesiredBones::BONE_LEFT_THIGH, (int)Bone::INVALID },
+		{ (int)DesiredBones::BONE_LEFT_KNEE, (int)Bone::INVALID },
+		{ (int)DesiredBones::BONE_LEFT_ANKLE, (int)Bone::INVALID },
+		{ (int)DesiredBones::BONE_LEFT_SOLE, (int)Bone::INVALID },
+		{ (int)DesiredBones::BONE_RIGHT_BUTTCHEEK, (int)Bone::INVALID },
+		{ (int)DesiredBones::BONE_RIGHT_THIGH, (int)Bone::INVALID },
+		{ (int)DesiredBones::BONE_RIGHT_KNEE, (int)Bone::INVALID },
+		{ (int)DesiredBones::BONE_RIGHT_ANKLE, (int)Bone::INVALID },
+		{ (int)DesiredBones::BONE_RIGHT_SOLE, (int)Bone::INVALID }
 };
 
 /* Militia, Assault, Office */
@@ -1786,6 +1811,7 @@ const std::map<ItemDefinitionIndex, DefItem_t> ItemDefinitionIndexMap = {
 		{ ItemDefinitionIndex::WEAPON_MAC10,				{ "#SFUI_WPNHUD_MAC10", "weapon_mac10", "models/weapons/v_smg_mac10.mdl", "mac10" } },
 		{ ItemDefinitionIndex::WEAPON_P90,					{ "#SFUI_WPNHUD_P90", "weapon_p90", "models/weapons/v_smg_p90.mdl", "p90" } },
 		{ ItemDefinitionIndex::WEAPON_UMP45,				{ "#SFUI_WPNHUD_UMP45", "weapon_ump45", "models/weapons/v_smg_ump45.mdl", "ump45" } },
+        { ItemDefinitionIndex::WEAPON_MP5,                  { "#SFUI_WPNHUD_MP5SD", "weapon_mp5sd", "models/weapons/v_smg_mp5sd.mdl", "mp5sd" } },
 		{ ItemDefinitionIndex::WEAPON_XM1014,				{ "#SFUI_WPNHUD_xm1014", "weapon_xm1014", "models/weapons/v_shot_xm1014.mdl", "xm1014" } },
 		{ ItemDefinitionIndex::WEAPON_BIZON,				{ "#SFUI_WPNHUD_Bizon", "weapon_bizon", "models/weapons/v_smg_bizon.mdl", "bizon" } },
 		{ ItemDefinitionIndex::WEAPON_MAG7,					{ "#SFUI_WPNHUD_Mag7", "weapon_mag7", "models/weapons/v_shot_mag7.mdl", "mag7" } },

@@ -561,14 +561,13 @@ static void DrawAutoWall(C_BasePlayer *player)
 	Draw::Text(Vector2D(bone2D.x, bone2D.y), output.c_str(), autowallFont, Color(255, 0, 255, 255)); // hot pink
 	 */
 
-	static int len = 31;
-	for( int i = 0; i < len; i++ )
+	for( int i = 0; i < 31; i++ )
 	{
-		int boneIndex = (*modelType).at(i);
-		if( boneIndex == (int)Bone::INVALID )
+		auto bone = modelType->find(i);
+		if( bone == modelType->end() || bone->second <= (int)Bone::INVALID )
 			continue;
 		Vector bone2D;
-		Vector bone3D = player->GetBonePosition(boneIndex);
+		Vector bone3D = player->GetBonePosition(bone->second);
 		if( debugOverlay->ScreenPosition(Vector(bone3D.x, bone3D.y, bone3D.z), bone2D) )
 			continue;
 

@@ -31,13 +31,14 @@ IEngineSound* sound = nullptr;
 ISurface* surface = nullptr;
 IEngineTrace* trace = nullptr;
 CViewRender* viewRender = nullptr;
+IPanoramaUIEngine* panoramaEngine = nullptr;
 
 
 void Interfaces::FindInterfaces()
 {
-	client = GetInterface<IBaseClientDLL>(XORSTR("./csgo/bin/linux64/client_client.so"), XORSTR("VClient"));
+	client = GetInterface<IBaseClientDLL>(XORSTR("./csgo/bin/linux64/client_panorama_client.so"), XORSTR("VClient"));
 	engine = GetInterface<IEngineClient>(XORSTR("./bin/linux64/engine_client.so"), XORSTR("VEngineClient"));
-	entityList = GetInterface<IClientEntityList>(XORSTR("./csgo/bin/linux64/client_client.so"), XORSTR("VClientEntityList"));
+	entityList = GetInterface<IClientEntityList>(XORSTR("./csgo/bin/linux64/client_panorama_client.so"), XORSTR("VClientEntityList"));
 	surface = GetInterface<ISurface>(XORSTR("./bin/linux64/vguimatsurface_client.so"), XORSTR("VGUI_Surface"));
 	panel = GetInterface<IVPanel>(XORSTR("./bin/linux64/vgui2_client.so"), XORSTR("VGUI_Panel"));
 	debugOverlay = GetInterface<IVDebugOverlay>(XORSTR("./bin/linux64/engine_client.so"), XORSTR("VDebugOverlay"));
@@ -51,12 +52,13 @@ void Interfaces::FindInterfaces()
 	effects = GetInterface<CEffects>(XORSTR("./bin/linux64/engine_client.so"), XORSTR("VEngineEffects"));
 	gameEvents = GetInterface<IGameEventManager2>(XORSTR("./bin/linux64/engine_client.so"), XORSTR("GAMEEVENTSMANAGER002"), true);
 	physics = GetInterface<IPhysicsSurfaceProps>(XORSTR("./bin/linux64/vphysics_client.so"), XORSTR("VPhysicsSurfaceProps"));
-	prediction = GetInterface<IPrediction>(XORSTR("./csgo/bin/linux64/client_client.so"), XORSTR("VClientPrediction"));
-	gameMovement = GetInterface<IGameMovement>(XORSTR("./csgo/bin/linux64/client_client.so"), XORSTR("GameMovement"));
+	prediction = GetInterface<IPrediction>(XORSTR("./csgo/bin/linux64/client_panorama_client.so"), XORSTR("VClientPrediction001"), true);
+	gameMovement = GetInterface<IGameMovement>(XORSTR("./csgo/bin/linux64/client_panorama_client.so"), XORSTR("GameMovement"));
 	engineVGui = GetInterface<IEngineVGui>(XORSTR("./bin/linux64/engine_client.so"), XORSTR("VEngineVGui"));
 	sound = GetInterface<IEngineSound>(XORSTR("./bin/linux64/engine_client.so"), XORSTR("IEngineSoundClient"));
 	localize = GetInterface<ILocalize>(XORSTR("./bin/linux64/localize_client.so"), XORSTR("Localize_"));
 	commandline = GetSymbolAddress<CommandLineFn>(XORSTR("./bin/linux64/libtier0_client.so"), XORSTR("CommandLine"))();
+    panoramaEngine = GetInterface<IPanoramaUIEngine>(XORSTR("./bin/linux64/panorama_client.so"), XORSTR("PanoramaUIEngine001"), true);
 }
 
 void Interfaces::DumpInterfaces()
@@ -93,8 +95,10 @@ void Interfaces::DumpInterfaces()
 
 		std::set<const char*> interface_name;
 
-		for (cur_interface = interfaces; cur_interface; cur_interface = cur_interface->m_pNext)
-			interface_name.insert(cur_interface->m_pName);
+		for (cur_interface = interfaces; cur_interface; cur_interface = cur_interface->m_pNext){
+            cvar->ConsoleDPrintf("%s - %p\n", cur_interface->m_pName, (void*)cur_interface->m_CreateFn);
+            interface_name.insert(cur_interface->m_pName);
+        }
 
 		if (interface_name.empty())
 			continue;
@@ -107,7 +111,7 @@ void Interfaces::DumpInterfaces()
 		ss << '\n';
 	}
 
-	std::string interfacesPath = XORSTR("/tmp/interfaces.txt");
+	std::string interfacesPath = XORSTR("/tmp/csgointerfaces.txt");
 
 	std::ofstream(interfacesPath) << ss.str();
 }
