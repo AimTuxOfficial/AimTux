@@ -11,7 +11,8 @@ std::unordered_map<MaterialHandle_t, ImColor> skyboxMaterials2;
 
 const char* skyBoxNames[] = {
 		"cs_baggage_skybox_", // 0
-		"cs_tibet", "embassy",
+		"cs_tibet",
+		"embassy",
 		"italy",
 		"jungle",
 		"office",
@@ -31,7 +32,7 @@ const char* skyBoxNames[] = {
 		"vertigo",
 		"vertigo_hdr",
 		"vertigoblue_hdr",
-		"vietnam" // 21
+		"vietnam" // 22
 };
 
 void SkyBox::FrameStageNotify(ClientFrameStage_t stage)

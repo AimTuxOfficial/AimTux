@@ -262,11 +262,7 @@ const std::map<int,int> * Util::GetModelTypeBoneMap(C_BasePlayer* player)
 				return &BoneMapT_Separatist;
 			}
 		case 89: // FBI, GSG, and SEALS
-			if (memchr(pStudioModel->name, 'f', sizeof(pStudioModel->name)) != NULL) // FBI
-			{
-				return &BoneMapCT_FBI;
-			}
-			else if( memmem(pStudioModel->name, sizeof(pStudioModel->name), "sg", 2) != NULL ) // GSG
+			if( memmem(pStudioModel->name, sizeof(pStudioModel->name), "sg", 2) != NULL ) // GSG
 			{
 				return &BoneMapCT_GSG;
 			}
@@ -287,8 +283,13 @@ const std::map<int,int> * Util::GetModelTypeBoneMap(C_BasePlayer* player)
 			return &BoneMapCT_GIGN;
 		case 94: // IDF
 			return &BoneMapCT_IDF;
-		case 98: // SAS
-			return &BoneMapCT_SAS;
+		case 98: // FBI or SAS
+			if (memchr(pStudioModel->name, 'f', sizeof(pStudioModel->name)) != NULL) // FBI
+			{
+				return &BoneMapCT_FBI;
+			} else {
+				return &BoneMapCT_SAS;
+			}
 		default:
 			cvar->ConsoleDPrintf(XORSTR( "(Util::GetModelTypeBoneMap)- Warning. Model type \"%s\" Unknown. Using Generic boneMap\n" ), pStudioModel->name );
 			return &BoneMapGeneric;
