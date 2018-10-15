@@ -28,7 +28,7 @@ void MainThread()
 	Hooker::FindRankReveal();
 	Hooker::FindSendClanTag();
 	Hooker::FindPrediction();
-	Hooker::FindIsReadyCallback();
+	Hooker::FindSetLocalPlayerReady();
 	Hooker::FindSurfaceDrawing();
 	Hooker::FindGetLocalClient();
 	Hooker::FindLineGoesThroughSmoke();

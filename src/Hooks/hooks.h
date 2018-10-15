@@ -22,7 +22,7 @@ typedef void (*BeginFrameFn) (void*, float);
 typedef int (*PumpWindowsMessageLoopFn) (void*, void*);
 typedef void (*PaintFn) (void*, PaintMode_t);
 typedef void (*EmitSound1Fn) (void*, IRecipientFilter&, int, int, const char*, unsigned int, const char*, float, int, float, int, int, const Vector*, const Vector*, void*, bool, float, int);
-typedef void (*EmitSound2Fn) (void*, IRecipientFilter&, int, int, const char*, unsigned int, const char*, float, int, soundlevel_t, int, int, const Vector*, const Vector*, void*, bool, float, int);
+typedef void (*EmitSound2Fn) (void*, IRecipientFilter&, int, int, const char*, unsigned int, const char*, float, int, soundlevel_t, int, int, const Vector*, const Vector*, void*, bool, float, int, StartSoundParams_t&);
 typedef void (*RenderSmokePostViewmodelFn) (void*);
 typedef void (*OverrideViewFn) (void*, CViewSetup*);
 typedef float (*GetViewModelFOVFn) (void*);
