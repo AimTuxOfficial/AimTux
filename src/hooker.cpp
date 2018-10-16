@@ -26,7 +26,7 @@ uintptr_t* polleventJumpAddress = nullptr;
 
 MsgFunc_ServerRankRevealAllFn MsgFunc_ServerRankRevealAll;
 SendClanTagFn SendClanTag;
-IsReadyCallbackFn IsReadyCallback;
+SetLocalPlayerReadyFn SetLocalPlayerReady;
 
 RecvVarProxyFn fnSequenceProxyFn;
 
@@ -183,10 +183,9 @@ void Hooker::FindGameRules()
 
 void Hooker::FindRankReveal()
 {
-    // Broke in panorama
 	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("client_panorama_client.so"),
-																(unsigned char*) XORSTR("\x55\x48\x89\xE5\x53\x48\x89\xFB\x48\x83\xEC\x08\xE8\x00\x00\x00\x00\x48\x8D\x00\x00\x00\x00\x00\x48\x8B\x10\x48\x89\xC7\xFF\x52\x28"),
-																XORSTR("xxxxxxxxxxxxx????xx?????xxxxxxxxx"));
+																(unsigned char*) XORSTR("\x55\x48\x89\xE5\x41\x54\x53\x48\x89\xFB\x48\x8B\x3D\x00\x00\x00\x00\x48\x85\xFF"),
+																XORSTR("xxxxxxxxxxxxx????xxx"));
 
 	MsgFunc_ServerRankRevealAll = reinterpret_cast<MsgFunc_ServerRankRevealAllFn>(func_address);
 }
@@ -259,16 +258,14 @@ void Hooker::FindPrediction()
 	g_MoveData = **reinterpret_cast<CMoveData***>(GetAbsoluteAddress(movedata_instruction_addr, 3, 7));
 }
 
-void Hooker::FindIsReadyCallback()
+void Hooker::FindSetLocalPlayerReady()
 {
-    // broke in panorama
-    uintptr_t func_address = PatternFinder::FindPatternInModule( XORSTR( "client_panorama_client.so" ),
-                                                                 ( unsigned char* ) XORSTR( "\x55\x48\x89\xE5\x53\x48\x83\xEC\x08\x48\x8B\x1D"
-                                                                                                    "\x00\x00\x00\x00" // ??
-                                                                                                    "\x48\x83"),
-                                                                 XORSTR( "xxxxxxxxxxxx????xx" ));
+	// xref: "deferred"
+	uintptr_t func_address = PatternFinder::FindPatternInModule((XORSTR("client_panorama_client.so")),    
+																(unsigned char*) XORSTR("\x55\x48\x89\xF7\x48\x8D\x35\x00\x00\x00\x00\x48\x89\xE5\xE8\x00\x00\x00\x00\x85\xC0"),
+																XORSTR("xxxxxxx????xxxx????xx"));
 
-	IsReadyCallback = reinterpret_cast<IsReadyCallbackFn>(func_address);
+	SetLocalPlayerReady = reinterpret_cast<SetLocalPlayerReadyFn>(func_address);
 }
 
 void Hooker::FindSurfaceDrawing()

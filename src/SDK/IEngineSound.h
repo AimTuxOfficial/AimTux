@@ -85,3 +85,5 @@ public:
 		getvfunc<oGetActiveSounds>(this, 18)(this, sndlist);
 	}
 };
+
+struct StartSoundParams_t;
