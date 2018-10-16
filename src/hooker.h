@@ -34,7 +34,7 @@ namespace Hooker
 	void FindSendClanTag();
 	void FindViewRender();
 	void FindPrediction();
-	void FindIsReadyCallback();
+	void FindSetLocalPlayerReady();
 	void FindSurfaceDrawing();
 	void FindGetLocalClient();
 	void FindLineGoesThroughSmoke();
