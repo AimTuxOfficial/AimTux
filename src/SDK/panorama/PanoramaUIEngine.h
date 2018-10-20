@@ -7,7 +7,7 @@
 // Xref "english" to first function, then vtable.
 namespace panorama
 {
-    inline PanelArray* panelArray;
+    extern PanelArray* panelArray;
     class UIEngine
     {
     public:
