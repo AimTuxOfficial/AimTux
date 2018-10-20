@@ -85,9 +85,10 @@ namespace panorama
         virtual int GetHiddenChildCount(void) = 0;
         virtual IUIPanel* GetHiddenChild(int) = 0;
         virtual IUIPanel* FindAncestor(const char *) = 0;
+        virtual void sub_131D10() = 0; // new function, added around august 2018
         virtual void SetRepaint(EPanelRepaint) = 0;
+        virtual void SetRepaintUpParentChain( void* unk ) = 0;
         virtual bool ShouldDrawChildren(IUIPanel *) = 0;
-        virtual void ApplyLayoutFile() = 0; // (panorama::CLayoutFile *,CUtlVector<panorama::IUIPanel *,CUtlMemory<panorama::IUIPanel *,int>> *)
         virtual void EnableBackgroundMovies(bool state) = 0;
         virtual void* AccessIUIStyle() = 0;
         virtual IUIPanelStyle* AccessIUIStyleDirty() = 0;
@@ -114,6 +115,8 @@ namespace panorama
         virtual bool IsChildPositionTransitioning(void) = 0;
         virtual bool IsChildSizeTransitioning(void) = 0;
         virtual void TransitionPositionApplied(bool) = 0;
+        virtual void sub_140EE0();
+        virtual void sub_140F00();
         virtual float GetDesiredLayoutWidth(void) = 0; // these might be doubles, need to "double"-check
         virtual float GetDesiredLayoutHeight(void) = 0;
         virtual float GetContentWidth(void) = 0;
@@ -127,9 +130,9 @@ namespace panorama
         virtual float GetRawActualXOffset(void) = 0;
         virtual float GetRawActualYOffset(void) = 0;
         virtual void unk12() = 0;
+        virtual void sub_140FC0() = 0;
         virtual float GetContentsYScrollOffset(void) = 0;
         virtual float GetContentsXScrollOffset(void) = 0;
-        virtual void unk_152220() = 0;
         virtual void unk_131A10() = 0;
         virtual void unk_152250() = 0;
         virtual void unk_152230() = 0;
@@ -158,10 +161,10 @@ namespace panorama
         virtual void AddClass(CPanoramaSymbol) = 0;
         virtual void AddClasses(CPanoramaSymbol *, unsigned int count) = 0;
         virtual void RemoveClass(const char *) = 0;
-        virtual void RemoveClass(CPanoramaSymbol) = 0;
         virtual void RemoveClasses(CPanoramaSymbol const * const, unsigned int) = 0;
         virtual void RemoveClasses(const char *) = 0;
         virtual void RemoveAllClasses(void) = 0;
+        virtual void sub_137540() = 0;
         virtual void* GetClasses(void) = 0;
         virtual bool HasClass(const char *) = 0;
         virtual bool HasClass(CPanoramaSymbol) = 0;
@@ -177,15 +180,15 @@ namespace panorama
         virtual void unk_149D50() = 0;
         virtual void unk_149EB0() = 0;
         virtual void unk_149E50() = 0;
-        virtual void unk_130E10() = 0;
-        virtual void SetAcceptsInput() = 0;
-        virtual void AcceptsFocus() = 0;
-        virtual void SetAcceptsFocus() = 0;
-        virtual void CanAcceptInput() = 0;
-        virtual void SetDefaultFocus() = 0;
-        virtual void GetDefaultFocus() = 0;
-        virtual void SetDisableFocusOnMouseDown() = 0;
-        virtual void FocusOnMouseDown() = 0;
+        virtual bool AcceptsInput() = 0;
+        virtual void SetAcceptsInput(bool state) = 0;
+        virtual bool AcceptsFocus() = 0;
+        virtual void SetAcceptsFocus(bool state) = 0;
+        virtual bool CanAcceptInput() = 0;
+        virtual void SetDefaultFocus(const char *) = 0;
+        virtual const char *GetDefaultFocus() = 0;
+        virtual void SetDisableFocusOnMouseDown(bool state) = 0;
+        virtual bool FocusOnMouseDown() = 0;
         virtual void unk_152460() = 0;
         virtual void unk_1523E0() = 0;
         virtual void unk_130E80() = 0;
@@ -213,10 +216,10 @@ namespace panorama
         virtual void SetEnabled(bool state) = 0;
         virtual bool IsEnabled(void) = 0;
         virtual void unk_146920() = 0;
-        virtual void IsActivationEnabled(void) = 0;
         virtual void unk_1525B0() = 0;
         virtual void unk13() = 0;
-        virtual void unk_132B10() = 0;
+        virtual void sub_125010() = 0;
+        virtual void SetAllChildrenActivationEnabled(bool state) = 0;
         virtual void SetHitTestEnabled(bool state) = 0;
         virtual bool HitTestEnabled(void) = 0;
         virtual void SetHitTestEnabledTraverse(bool state) = 0;
@@ -237,6 +240,7 @@ namespace panorama
         virtual void SetInputNamespace(const char *) = 0;
         virtual void MarkStylesDirty(bool state) = 0;
         virtual bool StylesDirty(void) = 0;
+        virtual void sub_12A000() = 0;
         virtual bool ChildStylesDirty() = 0;
         virtual bool ParsePanelEvent(CPanoramaSymbol, const char *) = 0;
         virtual bool IsPanelEventSet(CPanoramaSymbol) = 0;
@@ -245,7 +249,7 @@ namespace panorama
         virtual void* GetJavaScriptContextParent(void) = 0;
         virtual void* UIImageManager(void) = 0;
         virtual void* UIRenderEngine(void) = 0;
-        virtual void unk_130DF0() = 0; // returns another class like the 2 above
+        virtual void* unk_130DF0() = 0; // returns another class like the 2 above
         virtual void PaintTraverse(void) = 0;
         virtual void SetTabIndex(float) = 0;
         virtual float GetTabIndex(void) = 0;
@@ -319,6 +323,8 @@ namespace panorama
         virtual void unk_13D450() = 0;
         virtual void unk_13D950() = 0;
         virtual void unk_13D870() = 0;
+        virtual void unk_13D690() = 0;
+        virtual void unk_13D420() = 0;
         virtual void SetAnimation(const char *, float, float, EAnimationTimingFunction, EAnimationDirection, float) = 0;
         virtual void UpdateVisibility(bool) = 0;
         virtual void unk14() = 0;

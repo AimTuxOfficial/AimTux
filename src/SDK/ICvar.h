@@ -83,24 +83,28 @@ public:
 		return getvfunc<oSetValue>(this, 20)(this, value);
 	}
 
-	char pad_0x0000[0x4]; //0x0000
-	ConVar* pNext; //0x0004
-	int32_t bRegistered; //0x0008
-	char* pszName; //0x000C
-	char* pszHelpString; //0x0010
-	int32_t nFlags; //0x0014
+	void* vtable;
+	ConVar* next; //0x0008
+	bool isRegistered; //0x0010
+	char pad_0011[7]; //0x0011
+	char* name; //0x0018
+	char* description; //0x0020
+	int32_t flags; //0x0028
 	char pad_0x0018[0x4]; //0x0018
-	ConVar* pParent; //0x001C
-	char* pszDefaultValue; //0x0020
-	char* strString; //0x0024
-	int32_t StringLength; //0x0028
-	float fValue; //0x002C
-	int32_t nValue; //0x0030
-	int32_t bHasMin; //0x0034
-	float fMinVal; //0x0038
-	int32_t bHasMax; //0x003C
-	float fMaxVal; //0x0040
-	void* fnChangeCallback; //0x0044
+	void* s_pAccessor;
+	ConVar* pParent;
+	char* strDefault;
+	char* strValue;
+	ConVarType_t type;
+	float fValue;
+	int32_t iValue;
+	bool hasMin;
+	char _padmin[3];
+	float minVal;
+	bool hasMax;
+	char _padmax[3];
+	float maxVal;
+	void* fnChangeCallback;
 };
 
 class ICvar : public IAppSystem
