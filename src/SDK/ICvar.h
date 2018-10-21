@@ -44,6 +44,13 @@ struct ColorRGBA
 	unsigned char RGBA[4];
 };
 
+enum ConVarType_t : int
+{
+	INTEGER = 2,
+	FLOAT = 4,
+	STRING = 15,
+};
+
 class ConVar
 {
 public:
