@@ -394,6 +394,7 @@ void Hooker::FindPanelArrayOffset()
 	   55                      push    rbp
 	   48 81 C7 B8 01 00 00    add     rdi, 1B8h <--------
 	 */
-	uintptr_t IsValidPanelPointer = reinterpret_cast<uintptr_t>(getvtable( panoramaEngine->AccessUIEngine() )[36]);
-	panorama::panelArray = *(panorama::PanelArray**)(((uintptr_t)panoramaEngine->AccessUIEngine()) + *(unsigned int*)(IsValidPanelPointer + 4) + 8); // +8 for vtable
+	uintptr_t IsValidPanelPointer = reinterpret_cast<uintptr_t>(getvtable( panoramaEngine->AccessUIEngine() )[37]);
+	int32_t offset = *(unsigned int*)(IsValidPanelPointer + 4);
+	panorama::panelArray = *(panorama::PanelArray**) ( ((uintptr_t)panoramaEngine->AccessUIEngine()) + offset + 8);
 }

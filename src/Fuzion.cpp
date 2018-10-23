@@ -45,9 +45,9 @@ void MainThread()
     cvar->ConsoleDPrintf("UI Frametime: %f\n", panoramaEngine->AccessUIEngine()->GetCurrentFrameTime());
     cvar->ConsoleDPrintf("PanelArray is at %p\n", (void*)panorama::panelArray);
 
-    //uiEngineVMT->HookVM((void*)Hooks::RunScript, 109);
-    //uiEngineVMT->HookVM((void*)Hooks::CreatePanel, 139);
-    uiEngineVMT->HookVM((void*)Hooks::DispatchEvent, 48);
+    //uiEngineVMT->HookVM((void*)Hooks::RunScript, 110);
+    //uiEngineVMT->HookVM((void*)Hooks::CreatePanel, 140);
+    uiEngineVMT->HookVM((void*)Hooks::DispatchEvent, 49);
     uiEngineVMT->ApplyVMT();
 
 	clientVMT->HookVM((void*) Hooks::FrameStageNotify, 37);

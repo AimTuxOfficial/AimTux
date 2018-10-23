@@ -5,6 +5,7 @@
 #include "IUIEvent.h"
 
 // Xref "english" to first function, then vtable.
+// OR xref "Panorama Cache Summary" 2x to PrintCacheStatus()
 namespace panorama
 {
     extern PanelArray* panelArray;
@@ -25,14 +26,14 @@ namespace panorama
         virtual double GetCurrentFrameTime(void) = 0;
         virtual void unk0() = 0; // getter
         virtual void unk1() = 0; // setter ^^
+        virtual void INT3_WRAPPER() = 0;
+        virtual void INT3_WRAPPER2() = 0;
+        virtual void INT3_WRAPPER3() = 0;// probably windows specific
+        virtual void INT3_WRAPPER4() = 0;
+        virtual void INT3_WRAPPER5() = 0;
         virtual void CreateTextLayout(char const*,char const*,float,float,panorama::EFontWeight,panorama::EFontStyle,panorama::ETextAlign,bool,bool,int,float,float) = 0;
         virtual void CreateTextLayout(wchar_t const*,char const*,float,float,panorama::EFontWeight,panorama::EFontStyle,panorama::ETextAlign,bool,bool,int,float,float) = 0;
         virtual void FreeTextLayout(panorama::IUITextLayout *) = 0;
-        virtual void unkno() = 0;
-        virtual void unkno2() = 0;
-        virtual void unknown() = 0;// seems like csgo added some of these unk's
-        virtual void unknown1() = 0;
-        virtual void unknown2() = 0;
         virtual void GetSomeFontThing(void) = 0; //similar to function below
         virtual void GetSortedValidFontNames(void) = 0;
         virtual IUIInputEngine* UIInputEngine(void) = 0;
@@ -41,6 +42,7 @@ namespace panorama
         virtual IUISettings*  UISettings(void) = 0;
         virtual IUILayoutManager* UILayoutManager(void) = 0;
         virtual IUIFileSystem* UIFileSystem(void) = 0;
+        virtual void INT3_WRAPPER6() = 0;
         virtual void RegisterFrameFunc(void (*)(void)) = 0;
         virtual void ReloadLayoutFile(panorama::CPanoramaSymbol) = 0;
         virtual void ToggleDebugMode(void) = 0;
@@ -141,8 +143,8 @@ namespace panorama
         virtual void Grabber4(void) = 0; // returns offset in class.
         virtual void UIStyleFactory(void) = 0;
         virtual void GetV8Isolate(void) = 0;
-        virtual void unknow() = 0;
-        virtual void unknow2() = 0;
+        virtual void RunFunction() = 0;
+        virtual void RunFunction2() = 0; //different args
         virtual void CreateV8PanelInstance(panorama::IUIPanel *) = 0;
         virtual void CreateV8PanelStyleInstance(panorama::IUIPanelStyle *) = 0;
         virtual void CreateV8ObjectInstance(char const*,void *,panorama::IUIJSObject *) = 0;
@@ -194,13 +196,6 @@ namespace panorama
         virtual void OnFileCacheRemoved(panorama::CPanoramaSymbol) = 0;
         virtual void RunPlatformFrame(void) = 0;
         virtual void CreateSoundSystem(void) = 0;
-        virtual void unk12();
-        virtual void unk13();
-        virtual void unk14();
-        virtual void unk15();
-        virtual void unk16();
-        virtual void unk17();
-        virtual void unk18();
     };
 }
 
