@@ -40,6 +40,9 @@ void MainThread()
 	Hooker::HookPollEvent();
     Hooker::FindPanelArrayOffset();
 
+    Offsets::GetOffsets();
+    Fonts::SetupFonts();
+
     cvar->ConsoleDPrintf("Panorama UI Engine @ %p\n", (void*)panoramaEngine->AccessUIEngine());
     cvar->ConsoleDPrintf("Install path: %s\n", panoramaEngine->AccessUIEngine()->GetApplicationInstallPath());
     cvar->ConsoleDPrintf("UI Frametime: %f\n", panoramaEngine->AccessUIEngine()->GetCurrentFrameTime());
@@ -47,8 +50,8 @@ void MainThread()
 
     //uiEngineVMT->HookVM((void*)Hooks::RunScript, 110);
     //uiEngineVMT->HookVM((void*)Hooks::CreatePanel, 140);
-    uiEngineVMT->HookVM((void*)Hooks::DispatchEvent, 49);
-    uiEngineVMT->ApplyVMT();
+    //uiEngineVMT->HookVM((void*)Hooks::DispatchEvent, 49);
+    //uiEngineVMT->ApplyVMT();
 
 	clientVMT->HookVM((void*) Hooks::FrameStageNotify, 37);
 	clientVMT->ApplyVMT();
@@ -81,11 +84,9 @@ void MainThread()
     panelVMT->HookVM((void*) Hooks::PaintTraverse, 42);
     panelVMT->ApplyVMT();
 
-    soundVMT->HookVM((void*) Hooks::EmitSound1, 5);
     soundVMT->HookVM((void*) Hooks::EmitSound2, 6);
     soundVMT->ApplyVMT();
 
-	surfaceVMT->HookVM((void*) Hooks::PlaySound, 82);
 	surfaceVMT->HookVM((void*) Hooks::OnScreenSizeChanged, 116);
 	surfaceVMT->ApplyVMT();
 
@@ -98,9 +99,7 @@ void MainThread()
 		SkinChanger::sequenceHook->SetProxyFunction((RecvVarProxyFn) SkinChanger::SetViewModelSequence);
 
 	//NetVarManager::DumpNetvars();
-	Offsets::GetOffsets();
 
-	Fonts::SetupFonts();
 
 	//Settings::LoadSettings();
 
