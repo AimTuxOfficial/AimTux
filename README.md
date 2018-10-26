@@ -30,7 +30,7 @@ If you are having problems compiling make sure you've got the latest version of 
 
 __Ubuntu-Based / Debian:__
 ```bash
-sudo apt-get install cmake g++ gdb git libsdl2-dev zlib1g-dev liblua5.3 libxdo-dev patchelf
+sudo apt-get install cmake g++ gdb git libsdl2-dev zlib1g-dev liblua5.3 libxdo-dev patchelf libv8-dev
 ```
 __Arch:__
 ```bash
