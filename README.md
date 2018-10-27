@@ -16,8 +16,6 @@ A fully featured internal hack for *CounterStrike : Global Offensive* written in
 
 ## Compiling
 
-**Note:** _Fuzion Requires an additional package for Lua and xdo._
-
 **Note:** _Do NOT download or compile as the root user._
 
 #### Download the dependencies required to build Fuzion:
@@ -34,16 +32,11 @@ sudo apt-get install cmake g++ gdb git libsdl2-dev zlib1g-dev liblua5.3 libxdo-d
 ```
 __Arch:__
 ```bash
-sudo pacman -S base-devel cmake gdb git sdl2 lua xdotool patchelf
+sudo pacman -S base-devel cmake gdb git sdl2 lua xdotool patchelf v8
 ```
 __Fedora:__
 ```bash
-sudo dnf install cmake gcc-c++ gdb git libstdc++-static mesa-libGL-devel SDL2-devel zlib-devel lua-devel libX11-devel libxdo-devel patchelf
-```
-
-__Gentoo:__
-```bash
-sudo emerge cmake dev-vcs/git gdb libsdl2 mesa lua xdotool patchelf
+sudo dnf install cmake gcc-c++ gdb git libstdc++-static mesa-libGL-devel SDL2-devel zlib-devel lua-devel libX11-devel libxdo-devel patchelf v8-devel
 ```
 
 ===================
