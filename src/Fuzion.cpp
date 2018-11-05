@@ -53,44 +53,44 @@ void MainThread()
     //uiEngineVMT->HookVM((void*)Hooks::DispatchEvent, 49);
     //uiEngineVMT->ApplyVMT();
 
-	clientVMT->HookVM((void*) Hooks::FrameStageNotify, 37);
+	clientVMT->HookVM(Hooks::FrameStageNotify, 37);
 	clientVMT->ApplyVMT();
 
-    clientModeVMT->HookVM((void*) Hooks::OverrideView, 19);
-    clientModeVMT->HookVM((void*) Hooks::CreateMove, 25);
-    clientModeVMT->HookVM((void*) Hooks::GetViewModelFOV, 36);
+    clientModeVMT->HookVM(Hooks::OverrideView, 19);
+    clientModeVMT->HookVM(Hooks::CreateMove, 25);
+    clientModeVMT->HookVM(Hooks::GetViewModelFOV, 36);
     clientModeVMT->ApplyVMT();
 
-    engineVGuiVMT->HookVM((void*) Hooks::Paint, 15);
+    engineVGuiVMT->HookVM(Hooks::Paint, 15);
     engineVGuiVMT->ApplyVMT();
 
-	gameEventsVMT->HookVM((void*) Hooks::FireEvent, 9);
-	gameEventsVMT->HookVM((void*) Hooks::FireEventClientSide, 10);
+	gameEventsVMT->HookVM(Hooks::FireEvent, 9);
+	gameEventsVMT->HookVM(Hooks::FireEventClientSide, 10);
 	gameEventsVMT->ApplyVMT();
 
-    inputInternalVMT->HookVM((void*) Hooks::SetKeyCodeState, 92);
-    inputInternalVMT->HookVM((void*) Hooks::SetMouseCodeState, 93);
+    inputInternalVMT->HookVM(Hooks::SetKeyCodeState, 92);
+    inputInternalVMT->HookVM(Hooks::SetMouseCodeState, 93);
     inputInternalVMT->ApplyVMT();
 
-    launcherMgrVMT->HookVM((void*) Hooks::PumpWindowsMessageLoop, 19);
+    launcherMgrVMT->HookVM(Hooks::PumpWindowsMessageLoop, 19);
     launcherMgrVMT->ApplyVMT();
 
-	materialVMT->HookVM((void*) Hooks::BeginFrame, 42);
+	materialVMT->HookVM(Hooks::BeginFrame, 42);
 	materialVMT->ApplyVMT();
 
-    modelRenderVMT->HookVM((void*) Hooks::DrawModelExecute, 21);
+    modelRenderVMT->HookVM(Hooks::DrawModelExecute, 21);
     modelRenderVMT->ApplyVMT();
 
-    panelVMT->HookVM((void*) Hooks::PaintTraverse, 42);
+    panelVMT->HookVM(Hooks::PaintTraverse, 42);
     panelVMT->ApplyVMT();
 
-    soundVMT->HookVM((void*) Hooks::EmitSound2, 6);
+    soundVMT->HookVM( Hooks::EmitSound2, 6);
     soundVMT->ApplyVMT();
 
-	surfaceVMT->HookVM((void*) Hooks::OnScreenSizeChanged, 116);
+	surfaceVMT->HookVM(Hooks::OnScreenSizeChanged, 116);
 	surfaceVMT->ApplyVMT();
 
-    viewRenderVMT->HookVM((void*) Hooks::RenderSmokePostViewmodel, 41);
+    viewRenderVMT->HookVM(Hooks::RenderSmokePostViewmodel, 41);
     viewRenderVMT->ApplyVMT();
 
 	eventListener = new EventListener({ XORSTR("cs_game_disconnected"), XORSTR("player_connect_full"), XORSTR("player_death"), XORSTR("player_hurt"), XORSTR("switch_team") });

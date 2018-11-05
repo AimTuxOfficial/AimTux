@@ -32,7 +32,8 @@ public:
 	}
 
 	// Hook virtual method
-	void HookVM(void* method, size_t methodIndex)
+	template <typename func>
+	void HookVM(func method, size_t methodIndex)
 	{
 		vmt[methodIndex] = reinterpret_cast<uintptr_t>(method);
 	}
