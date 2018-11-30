@@ -26,7 +26,7 @@ public:
 
 		original_vmt = *this->interface;
 
-		vmt = new uintptr_t[sizeof(uintptr_t) * method_count];
+		vmt = new uintptr_t[method_count];
 
 		memcpy(vmt, original_vmt, sizeof(uintptr_t) * method_count);
 	}
