@@ -619,22 +619,22 @@ public:
 
 	CCSWeaponInfo* GetCSWpnData() {
 		typedef CCSWeaponInfo* (* oGetCSWpnData)( void* );
-		return getvfunc<oGetCSWpnData>( this, 512 )( this );
+		return getvfunc<oGetCSWpnData>( this, 516 )( this );
 	}
 
 	float GetSpread() {
 		typedef float (* oGetSpread)( void* );
-		return getvfunc<oGetSpread>( this, 504 )( this );
+		return getvfunc<oGetSpread>( this, 508 )( this );
 	}
 
 	float GetInaccuracy() {
 		typedef float (* oGetInaccuracy)( void* );
-		return getvfunc<oGetInaccuracy>( this, 535 )( this );
+		return getvfunc<oGetInaccuracy>( this, 539 )( this );
 	}
 
 	void UpdateAccuracyPenalty() {
 		typedef void (* oUpdateAccuracyPenalty)( void* );
-		return getvfunc<oUpdateAccuracyPenalty>( this, 536 )( this );
+		return getvfunc<oUpdateAccuracyPenalty>( this, 540 )( this );
 	}
 };
 

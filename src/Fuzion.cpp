@@ -15,7 +15,7 @@ void MainThread()
 	Interfaces::FindInterfaces();
     //Interfaces::DumpInterfaces();
     cvar->ConsoleDPrintf("Loading...\n");
-	//Hooker::FindSetNamedSkybox();
+	Hooker::FindSetNamedSkybox();
 	Hooker::FindViewRender();
 	Hooker::FindSDLInput();
 	Hooker::InitializeVMHooks();
