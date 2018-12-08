@@ -5,8 +5,10 @@ float Settings::ThirdPerson::distance = 30.f;
 
 void ThirdPerson::OverrideView(CViewSetup *pSetup)
 {
-	if (!Settings::ThirdPerson::enabled)
+	if (!Settings::ThirdPerson::enabled) {
+		input->m_fCameraInThirdPerson = false;
 		return;
+	}
 
 	C_BasePlayer *localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if(!localplayer || !localplayer->GetAlive())
@@ -29,7 +31,7 @@ void ThirdPerson::OverrideView(CViewSetup *pSetup)
 
 	Vector diff = localplayer->GetEyePosition() - tr.endpos;
 
-	float distance2D = sqrt(abs(diff.x * diff.x) + abs(diff.y * diff.y));// Pythagorean
+	float distance2D = diff.Length2D();
 
 	bool horOK = distance2D > (Settings::ThirdPerson::distance - 2.0f);
 	bool vertOK = (abs(diff.z) - abs(desiredCamOffset.z) < 3.0f);
@@ -51,6 +53,7 @@ void ThirdPerson::OverrideView(CViewSetup *pSetup)
 			cameraDistance = abs(diff.z) * 0.95f;
 		}
 	}
+	cvar->ConsoleDPrintf("Input @ %p\n", (void*)input);
 	input->m_fCameraInThirdPerson = true;
 	input->m_vecCameraOffset.z = cameraDistance;
 /*

@@ -13,7 +13,7 @@ rm build_id_hex
 BUILD_ID=$(shuf -n 1 build_names)
 
 # In case this file exists, get another one. ( checked it works )
-while [ -f "/usr/lib/${BUILD_ID}" ]; do
+while [ -f "/usr/lib/${BUILD_ID}" ] || grep -q ${BUILD_ID} /proc/$(pidof csgo_linux64)/maps; do
 	BUILD_ID=$(shuf -n 1 build_names)
 done
 

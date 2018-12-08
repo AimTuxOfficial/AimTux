@@ -2,6 +2,10 @@
 
 #include <cstdint>
 #include <cstddef>
+#include <vector>
+
+class VMT;
+extern std::vector<VMT*> createdVMTs;
 
 class VMT
 {
@@ -15,6 +19,10 @@ public:
 
 	uint32_t methodCount = 0;
 
+	~VMT( ){
+		ReleaseVMT();
+		delete[] vmt;
+	}
 	VMT(void* interface)
 	{
 		this->interface = reinterpret_cast<uintptr_t**>(interface);
@@ -29,6 +37,8 @@ public:
 		vmt = new uintptr_t[method_count];
 
 		memcpy(vmt, original_vmt, sizeof(uintptr_t) * method_count);
+
+		createdVMTs.push_back(this);
 	}
 
 	// Hook virtual method

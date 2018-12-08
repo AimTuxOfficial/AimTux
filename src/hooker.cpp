@@ -83,22 +83,6 @@ bool Hooker::GetLibraryInformation(const char* library, uintptr_t* address, size
 	return false;
 }
 
-void Hooker::InitializeVMHooks()
-{
-	panelVMT = new VMT(panel);
-	clientVMT = new VMT(client);
-	modelRenderVMT = new VMT(modelRender);
-	gameEventsVMT = new VMT(gameEvents);
-	viewRenderVMT = new VMT(viewRender);
-	inputInternalVMT = new VMT(inputInternal);
-	materialVMT = new VMT(material);
-	surfaceVMT = new VMT(surface);
-	launcherMgrVMT = new VMT(launcherMgr);
-	engineVGuiVMT = new VMT(engineVGui);
-	soundVMT = new VMT(sound);
-    uiEngineVMT = new VMT(panoramaEngine->AccessUIEngine());
-}
-
 bool Hooker::HookRecvProp(const char* className, const char* propertyName, std::unique_ptr<RecvPropHook>& recvPropHook)
 {
 	// FIXME: Does not search recursively.. yet.
@@ -134,7 +118,6 @@ void Hooker::FindIClientMode()
 	GetClientModeFn GetClientMode = reinterpret_cast<GetClientModeFn>(GetAbsoluteAddress(hudprocessinput + 11, 1, 5));
 
 	clientMode = GetClientMode();
-	clientModeVMT = new VMT(clientMode);
 }
 
 void Hooker::FindGlobalVars()

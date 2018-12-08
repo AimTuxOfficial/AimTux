@@ -3620,29 +3620,6 @@ Value Value::removeMember(const JSONCPP_STRING& key)
   return removeMember(key.c_str());
 }
 
-bool Value::removeIndex(ArrayIndex index, Value* removed) {
-  if (type_ != arrayValue) {
-    return false;
-  }
-  CZString key(index);
-  ObjectValues::iterator it = value_.map_->find(key);
-  if (it == value_.map_->end()) {
-    return false;
-  }
-  *removed = it->second;
-  ArrayIndex oldSize = size();
-  // shift left all items left, into the place of the "removed"
-  for (ArrayIndex i = index; i < (oldSize - 1); ++i){
-    CZString keey(i);
-    (*value_.map_)[keey] = (*this)[i + 1];
-  }
-  // erase the last one ("leftover")
-  CZString keyLast(oldSize - 1);
-  ObjectValues::iterator itLast = value_.map_->find(keyLast);
-  value_.map_->erase(itLast);
-  return true;
-}
-
 #ifdef JSON_USE_CPPTL
 Value Value::get(const CppTL::ConstString& key,
                  const Value& defaultValue) const {

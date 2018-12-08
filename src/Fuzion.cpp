@@ -5,6 +5,7 @@
 static EventListener* eventListener = nullptr;
 
 const char *Util::logFileName = "/tmp/fuzion.log";
+std::vector<VMT*> createdVMTs;
 
 char Fuzion::buildID[NAME_MAX] = {
 #include "../build_id_hex" // Made by ./build script.
@@ -18,7 +19,6 @@ void MainThread()
 	Hooker::FindSetNamedSkybox();
 	Hooker::FindViewRender();
 	Hooker::FindSDLInput();
-	Hooker::InitializeVMHooks();
 	Hooker::FindIClientMode();
 	Hooker::FindGlobalVars();
 	Hooker::FindCInput();
@@ -48,51 +48,65 @@ void MainThread()
     cvar->ConsoleDPrintf("UI Frametime: %f\n", panoramaEngine->AccessUIEngine()->GetCurrentFrameTime());
     cvar->ConsoleDPrintf("PanelArray is at %p\n", (void*)panorama::panelArray);
 
+    //uiEngineVMT = new VMT(panoramaEngine->AccessUIEngine());
     //uiEngineVMT->HookVM((void*)Hooks::RunScript, 110);
     //uiEngineVMT->HookVM((void*)Hooks::CreatePanel, 140);
     //uiEngineVMT->HookVM((void*)Hooks::DispatchEvent, 49);
     //uiEngineVMT->ApplyVMT();
 
-	clientVMT->HookVM(Hooks::FrameStageNotify, 37);
+
+    clientVMT = new VMT(client);
+    clientVMT->HookVM(Hooks::FrameStageNotify, 37);
 	clientVMT->ApplyVMT();
 
+    clientModeVMT = new VMT(clientMode);
     clientModeVMT->HookVM(Hooks::OverrideView, 19);
     clientModeVMT->HookVM(Hooks::CreateMove, 25);
     clientModeVMT->HookVM(Hooks::GetViewModelFOV, 36);
     clientModeVMT->ApplyVMT();
 
+    engineVGuiVMT = new VMT(engineVGui);
     engineVGuiVMT->HookVM(Hooks::Paint, 15);
     engineVGuiVMT->ApplyVMT();
 
-	gameEventsVMT->HookVM(Hooks::FireEvent, 9);
+    gameEventsVMT = new VMT(gameEvents);
+    gameEventsVMT->HookVM(Hooks::FireEvent, 9);
 	gameEventsVMT->HookVM(Hooks::FireEventClientSide, 10);
 	gameEventsVMT->ApplyVMT();
 
+    inputInternalVMT = new VMT(inputInternal);
     inputInternalVMT->HookVM(Hooks::SetKeyCodeState, 92);
     inputInternalVMT->HookVM(Hooks::SetMouseCodeState, 93);
     inputInternalVMT->ApplyVMT();
 
+    launcherMgrVMT = new VMT(launcherMgr);
     launcherMgrVMT->HookVM(Hooks::PumpWindowsMessageLoop, 19);
     launcherMgrVMT->ApplyVMT();
 
-	materialVMT->HookVM(Hooks::BeginFrame, 42);
+    materialVMT = new VMT(material);
+    materialVMT->HookVM(Hooks::BeginFrame, 42);
 	materialVMT->ApplyVMT();
 
+    modelRenderVMT = new VMT(modelRender);
     modelRenderVMT->HookVM(Hooks::DrawModelExecute, 21);
     modelRenderVMT->ApplyVMT();
 
+    panelVMT = new VMT(panel);
     panelVMT->HookVM(Hooks::PaintTraverse, 42);
     panelVMT->ApplyVMT();
 
+    soundVMT = new VMT(sound);
     soundVMT->HookVM( Hooks::EmitSound2, 6);
     soundVMT->ApplyVMT();
 
-	surfaceVMT->HookVM(Hooks::OnScreenSizeChanged, 116);
+    surfaceVMT = new VMT(surface);
+    surfaceVMT->HookVM(Hooks::OnScreenSizeChanged, 116);
 	surfaceVMT->ApplyVMT();
 
+    viewRenderVMT = new VMT(viewRender);
     viewRenderVMT->HookVM(Hooks::RenderSmokePostViewmodel, 41);
     viewRenderVMT->ApplyVMT();
-
+    
 	eventListener = new EventListener({ XORSTR("cs_game_disconnected"), XORSTR("player_connect_full"), XORSTR("player_death"), XORSTR("player_hurt"), XORSTR("switch_team") });
 
 	if (Hooker::HookRecvProp(XORSTR("CBaseViewModel"), XORSTR("m_nSequence"), SkinChanger::sequenceHook))
@@ -134,18 +148,9 @@ void __attribute__((destructor)) Shutdown()
 	NoSmoke::Cleanup();
 	TracerEffect::RestoreTracers();
 
-	clientVMT->ReleaseVMT();
-    clientModeVMT->ReleaseVMT();
-    engineVGuiVMT->ReleaseVMT();
-    gameEventsVMT->ReleaseVMT();
-    inputInternalVMT->ReleaseVMT();
-    launcherMgrVMT->ReleaseVMT();
-    materialVMT->ReleaseVMT();
-    modelRenderVMT->ReleaseVMT();
-    panelVMT->ReleaseVMT();
-	soundVMT->ReleaseVMT();
-    surfaceVMT->ReleaseVMT();
-    viewRenderVMT->ReleaseVMT();
+    for( VMT* vmt : createdVMTs ){
+        delete vmt;
+    }
 
     input->m_fCameraInThirdPerson = false;
 	input->m_vecCameraOffset.z = 150.f;
