@@ -745,6 +745,20 @@ static void MoveMouse(CUserCmd* cmd, const QAngle &angle, const QAngle &oldAngle
         }
     }
 }
+
+static void FixMouseDeltas(CUserCmd* cmd, const QAngle &angle, const QAngle &oldAngle)
+{
+    QAngle delta = angle - oldAngle;
+    float sens = cvar->FindVar(XORSTR("sensitivity"))->GetFloat();
+    float m_pitch = cvar->FindVar(XORSTR("m_pitch"))->GetFloat();
+    float m_yaw = cvar->FindVar(XORSTR("m_yaw"))->GetFloat();
+    float zoomMultiplier = cvar->FindVar("zoom_sensitivity_ratio_mouse")->GetFloat();
+
+    Math::NormalizeAngles(delta);
+
+    cmd->mousedx = -delta.y / ( m_yaw * sens * zoomMultiplier );
+    cmd->mousedy = delta.x / ( m_pitch * sens * zoomMultiplier );
+}
 void Aimbot::CreateMove(CUserCmd* cmd)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
@@ -831,6 +845,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 					lastShotFired = localplayer->GetShotsFired();
 				}
 				newTarget = false;
+                FixMouseDeltas(cmd, angle, oldAngle);
 			}
 		}
 	}
