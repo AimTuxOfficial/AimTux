@@ -2,7 +2,6 @@
 
 static ItemDefinitionIndex currentWeapon = ItemDefinitionIndex::INVALID;
 static bool enabled = false;
-static bool silent = false;
 static bool friendly = false;
 static bool moveMouse = false;
 static bool closestBone = false;
@@ -56,7 +55,6 @@ void UI::ReloadWeaponSettings()
 		index = currentWeapon;
 
 	enabled = Settings::Aimbot::weapons.at(index).enabled;
-	silent = Settings::Aimbot::weapons.at(index).silent;
 	friendly = Settings::Aimbot::weapons.at(index).friendly;
 	moveMouse = Settings::Aimbot::weapons.at(index).moveMouse;
 	closestBone = Settings::Aimbot::weapons.at(index).closestBone;
@@ -107,7 +105,7 @@ void UI::UpdateWeaponSettings()
 		Settings::Aimbot::weapons[currentWeapon] = AimbotWeapon_t();
 
 	AimbotWeapon_t settings = {
-			enabled, silent, friendly, closestBone, engageLock, engageLockTR, engageLockTTR, bone, aimkey, aimkeyOnly,
+			enabled, friendly, closestBone, engageLock, engageLockTR, engageLockTTR, bone, aimkey, aimkeyOnly,
 			smoothEnabled, smoothValue, smoothType, smoothSaltEnabled, smoothSaltMultiplier,
 			errorMarginEnabled, errorMarginValue,
 			autoAimEnabled, autoAimValue, aimStepEnabled, aimStepMin, aimStepMax,
@@ -324,9 +322,9 @@ void Aimbot::RenderTab()
 					ImGui::PushItemWidth(-1);
 					if (ImGui::Checkbox(XORSTR("RCS Always on"), &rcsAlwaysOn))
 						UI::UpdateWeaponSettings();
-					if (ImGui::SliderFloat(XORSTR("##RCSX"), &rcsAmountX, 0, 2, XORSTR("X: %0.3f")))
+					if (ImGui::SliderFloat(XORSTR("##RCSX"), &rcsAmountX, 0, 2, XORSTR("Pitch: %0.3f")))
 						UI::UpdateWeaponSettings();
-					if (ImGui::SliderFloat(XORSTR("##RCSY"), &rcsAmountY, 0, 2, XORSTR("Y: %0.3f")))
+					if (ImGui::SliderFloat(XORSTR("##RCSY"), &rcsAmountY, 0, 2, XORSTR("Yaw: %0.3f")))
 						UI::UpdateWeaponSettings();
 					ImGui::PopItemWidth();
 
@@ -416,11 +414,9 @@ void Aimbot::RenderTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-				if( !silent )
-				{
-					if (ImGui::Checkbox(XORSTR("Mouse Movement"), &moveMouse))
-						UI::UpdateWeaponSettings();
-				}
+
+				if (ImGui::Checkbox(XORSTR("Mouse Movement"), &moveMouse))
+					UI::UpdateWeaponSettings();
 	
 				switch (currentWeapon)
 				{
@@ -442,11 +438,6 @@ void Aimbot::RenderTab()
 						break;
 				}
 
-				if( !moveMouse )
-				{
-					if (ImGui::Checkbox(XORSTR("Silent Aim"), &silent))
-						UI::UpdateWeaponSettings();
-				}
 				if (ImGui::Checkbox(XORSTR("Smoke Check"), &smokeCheck))
 					UI::UpdateWeaponSettings();
 				if (ImGui::Checkbox(XORSTR("Prediction"), &predEnabled))

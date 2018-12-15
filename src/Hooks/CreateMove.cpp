@@ -42,6 +42,8 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 
 		if (CreateMove::sendPacket)
 			CreateMove::lastTickViewAngles = cmd->viewangles;
+        if (inputSystem->IsButtonDown( ButtonCode_t::KEY_F ) )
+            cvar->ConsoleDPrintf("mousedx/y: %d,%d\n", cmd->mousedx, cmd->mousedy);
 	}
 
 	return false;

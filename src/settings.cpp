@@ -147,7 +147,6 @@ void Settings::LoadDefaultsOrSave(std::string path)
 		// in C++ and weird shit
 		#define weaponSetting settings[XORSTR("Aimbot")][XORSTR("weapons")][Util::Items::GetItemName((enum ItemDefinitionIndex) i.first)]
 		weaponSetting[XORSTR("Enabled")] = i.second.enabled;
-		weaponSetting[XORSTR("Silent")] = i.second.silent;
 		weaponSetting[XORSTR("Friendly")] = i.second.friendly;
 		weaponSetting[XORSTR("ClosestBone")] = i.second.closestBone;
 		weaponSetting[XORSTR("engageLock")] = i.second.engageLock;
@@ -592,7 +591,7 @@ void Settings::LoadConfig(std::string path)
 	Fonts::SetupFonts();
 
 	Settings::Aimbot::weapons = {
-			{ ItemDefinitionIndex::INVALID, { false, false, false, false, false, false, 700, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f,
+			{ ItemDefinitionIndex::INVALID, { false, false, false, false, false, 700, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f,
 													SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, 35.0f, false, false, 2.0f, 2.0f,
 													false, false, false, false, false, false, false, false, 0.1f, false, 10.0f, false, false, 5.0f, false } },
 	};
@@ -619,7 +618,6 @@ void Settings::LoadConfig(std::string path)
 
 		AimbotWeapon_t weapon = {
 				weaponSetting[XORSTR("Enabled")].asBool(),
-				weaponSetting[XORSTR("Silent")].asBool(),
 				weaponSetting[XORSTR("Friendly")].asBool(),
 				weaponSetting[XORSTR("ClosestBone")].asBool(),
 				weaponSetting[XORSTR("engageLock")].asBool(),
