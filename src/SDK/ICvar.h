@@ -92,26 +92,28 @@ public:
 
 	void* vtable;
 	ConVar* next; //0x0008
-	bool isRegistered; //0x0010
-	char pad_0011[7]; //0x0011
+	bool isRegistered; //0x0009
+	char pad_0011[7]; //0x0010
 	char* name; //0x0018
 	char* description; //0x0020
 	int32_t flags; //0x0028
-	char pad_0x0018[0x4]; //0x0018
-	void* s_pAccessor;
-	ConVar* pParent;
-	char* strDefault;
-	char* strValue;
-	ConVarType_t type;
-	float fValue;
-	int32_t iValue;
-	bool hasMin;
+	char pad_0x0018[0x4]; //0x002C
+	void* s_pAccessor; // 0x0030
+	ConVar* pParent; // 0x0038
+	char* strDefault;// 0x0040
+	char* strValue;  // 0x0048
+	ConVarType_t type; // 0x0050
+	float fValue; //0x0054
+	int32_t iValue;//0x0058
+	bool hasMin; //0x005C
 	char _padmin[3];
-	float minVal;
-	bool hasMax;
+	float minVal; // 0x0060
+	bool hasMax; //0x0064
 	char _padmax[3];
-	float maxVal;
-	void* fnChangeCallback;
+	float maxVal; // 0x0068
+    char _unkpad[4];
+	void* someOtherClass;
+    void* fnChangeCallback;
 };
 
 class ICvar : public IAppSystem
