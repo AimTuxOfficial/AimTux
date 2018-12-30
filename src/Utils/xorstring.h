@@ -73,7 +73,7 @@ namespace Util
 				: Value{ EncryptCharacter(String[Index], Index)... } {}
 
 		char* decrypt() {
-			for(unsigned int t = 0; t < sizeof...(Index); t++) {
+			for(volatile unsigned int t = 0; t < sizeof...(Index); t++) {
 				Value[t] = Value[t] ^ (XORKEY + t);
 			}
 			Value[sizeof...(Index)] = '\0';
