@@ -28,15 +28,15 @@ If you are having problems compiling make sure you've got the latest version of 
 
 __Ubuntu-Based / Debian:__
 ```bash
-sudo apt-get install cmake g++ gdb git libsdl2-dev zlib1g-dev liblua5.3 libxdo-dev patchelf libv8-dev
+sudo apt-get install cmake g++ gdb git libsdl2-dev zlib1g-dev liblua5.3 libxdo-dev patchelf
 ```
 __Arch:__
 ```bash
-sudo pacman -S base-devel cmake gdb git sdl2 lua xdotool patchelf v8
+sudo pacman -S base-devel cmake gdb git sdl2 lua xdotool patchelf
 ```
 __Fedora:__
 ```bash
-sudo dnf install cmake gcc-c++ gdb git libstdc++-static mesa-libGL-devel SDL2-devel zlib-devel lua-devel libX11-devel libxdo-devel patchelf v8-devel
+sudo dnf install cmake gcc-c++ gdb git libstdc++-static mesa-libGL-devel SDL2-devel zlib-devel lua-devel libX11-devel libxdo-devel patchelf
 ```
 
 ===================
