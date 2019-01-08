@@ -1,5 +1,8 @@
 #include "skybox.h"
 
+#include "../settings.h"
+#include "../interfaces.h"
+
 bool Settings::NoSky::enabled = false;
 bool Settings::SkyBox::enabled = false;
 int Settings::SkyBox::skyBoxNumber = 0;

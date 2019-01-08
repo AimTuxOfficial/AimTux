@@ -1,9 +1,6 @@
 #pragma once
 
-#include "../settings.h"
-#include "../interfaces.h"
-#include "../Hooks/hooks.h"
-#include "../Utils/util.h"
+#include "../SDK/IInputSystem.h"
 
 namespace FakeLag
 {

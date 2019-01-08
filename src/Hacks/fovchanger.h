@@ -1,7 +1,6 @@
 #pragma once
 
-#include "../SDK/SDK.h"
-#include "../settings.h"
+#include "../SDK/CViewRender.h"
 
 namespace FOVChanger
 {

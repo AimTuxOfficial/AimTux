@@ -1,5 +1,12 @@
 #include "hitmarkers.h"
 
+#include "../Utils/xorstring.h"
+#include "../settings.h"
+#include "../fonts.h"
+#include "../settings.h"
+#include "../interfaces.h"
+#include "../Utils/draw.h"
+
 bool Settings::ESP::Hitmarker::enabled = false;
 bool Settings::ESP::Hitmarker::enemies = false;
 bool Settings::ESP::Hitmarker::allies = false;

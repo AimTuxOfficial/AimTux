@@ -1,14 +1,7 @@
 #pragma once
 
-#include <unistd.h>
-#include <string>
-#include <string.h>
-#include <dirent.h>
-#include <sys/stat.h>
 #include <vector>
-#include <algorithm>
-#include "Utils/xorstring.h"
-#include "interfaces.h"
+#include <string>
 
 bool DoesFileExist(const char* path);
 bool DoesDirectoryExist(const char* path);

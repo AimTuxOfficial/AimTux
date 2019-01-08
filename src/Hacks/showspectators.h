@@ -1,8 +1,6 @@
 #pragma once
 
-#include "../settings.h"
-#include "../interfaces.h"
-#include "../Utils/entity.h"
+#include <list>
 
 namespace ShowSpectators
 {

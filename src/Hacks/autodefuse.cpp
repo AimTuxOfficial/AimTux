@@ -1,5 +1,9 @@
 #include "autodefuse.h"
 
+#include "../settings.h"
+#include "../interfaces.h"
+#include "../Utils/math.h"
+
 bool Settings::AutoDefuse::enabled = false;
 bool Settings::AutoDefuse::silent = false;
 

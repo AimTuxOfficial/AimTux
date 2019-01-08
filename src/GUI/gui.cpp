@@ -1,5 +1,7 @@
 #include "gui.h"
 
+#include "../interfaces.h"
+
 /* CSGO Panels */
 panorama::IUIPanel* GUI::menuRoot = NULL;
 panorama::IUIPanel* GUI::hudRoot = NULL;

@@ -1,9 +1,9 @@
 #pragma once
 
-#include <algorithm>
-#include "../settings.h"
-#include "../SDK/SDK.h"
-#include "../interfaces.h"
+#include <string>
+#include <vector>
+
+#include "../SDK/definitions.h"
 
 namespace ClanTagChanger
 {

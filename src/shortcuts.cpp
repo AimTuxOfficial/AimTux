@@ -1,4 +1,5 @@
 #include "shortcuts.h"
+#include "ATGUI/atgui.h"
 
 void Shortcuts::PollEvent(SDL_Event* event)
 {

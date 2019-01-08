@@ -1,5 +1,8 @@
 #include "bhop.h"
 
+#include "../settings.h"
+#include "../interfaces.h"
+
 bool Settings::BHop::enabled = false;
 bool Settings::BHop::Chance::enabled = false;
 int Settings::BHop::Chance::value = 70;

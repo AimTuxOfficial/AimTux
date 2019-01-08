@@ -1,5 +1,8 @@
 #include "hooks.h"
 
+#include "../ATGUI/atgui.h"
+#include "../interfaces.h"
+
 void Hooks::SetMouseCodeState(void* thisptr, ButtonCode_t code, MouseCodeState_t state)
 {
 	if (SetKeyCodeState::shouldListen && state == MouseCodeState_t::BUTTON_PRESSED)

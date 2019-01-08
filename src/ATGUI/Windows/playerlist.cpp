@@ -1,5 +1,15 @@
 #include "playerlist.h"
 
+#include "../../interfaces.h"
+#include "../../settings.h"
+#include "../../Utils/xorstring.h"
+
+#include "../../Hacks/aimbot.h"
+#include "../../Hacks/esp.h"
+#include "../../Hacks/resolver.h"
+#include "../../Hacks/clantagchanger.h"
+#include "../../Hacks/namechanger.h"
+
 bool PlayerList::showWindow = false;
 
 static char nickname[127] = "";

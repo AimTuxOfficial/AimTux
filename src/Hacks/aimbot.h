@@ -1,14 +1,9 @@
 #pragma once
 
-#include "../settings.h"
-#include "../interfaces.h"
-#include "../Utils/entity.h"
-#include "../Utils/math.h"
-
-extern "C"
-{
-	#include <xdo.h>
-}
+#include <vector>
+#include <cstdint>
+#include "../SDK/IInputSystem.h"
+#include "../SDK/IGameEvent.h"
 
 namespace Aimbot
 {

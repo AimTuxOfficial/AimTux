@@ -1,5 +1,8 @@
 #include "hooks.h"
 
+#include "../Utils/skins.h"
+#include "../interfaces.h"
+
 void Hooks::BeginFrame(void* thisptr, float frameTime)
 {
 	ClanTagChanger::BeginFrame(frameTime);

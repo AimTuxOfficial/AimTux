@@ -1,5 +1,14 @@
 #include "glhook.h"
 
+#include "interfaces.h"
+#include "shortcuts.h"
+#include "ATGUI/atgui.h"
+#include "ATGUI/SegoeUI.h"
+#include "Hooks/hooks.h"
+#include "ImGUI/fonts/KaiGenGothicCNRegular.h"
+#include "Utils/draw.h"
+#include "ImGUI/imgui_internal.h"
+
 SDL_GLContext context = nullptr;
 
 void SDL2::SwapWindow(SDL_Window* window)

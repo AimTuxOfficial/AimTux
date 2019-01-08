@@ -1,5 +1,11 @@
 #include "snipercrosshair.h"
 
+#include "../settings.h"
+#include "../interfaces.h"
+
+#include "../Utils/xorstring.h"
+#include "../Utils/draw.h"
+
 bool Settings::SniperCrosshair::enabled = false;
 
 

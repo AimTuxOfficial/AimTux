@@ -1,5 +1,10 @@
 #include "netvarmanager.h"
 
+#include <sstream>
+#include <fstream>
+
+#include "../interfaces.h"
+#include "../Utils/xorstring.h"
 std::vector<RecvTable*> NetVarManager::GetTables()
 {
 	std::vector<RecvTable*> tables;

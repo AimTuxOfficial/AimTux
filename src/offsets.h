@@ -1,7 +1,6 @@
 #pragma once
 
-#include <cstdio>
-#include "SDK/vector.h"
+#include <cstddef>
 
 struct COffsets
 {

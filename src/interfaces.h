@@ -1,13 +1,7 @@
 #pragma once
 
-#include <set>
-#include <fstream>
-#include <link.h> // dl_iterate_phdr
-
 #include "SDK/SDK.h"
 #include "Utils/vmt.h"
-#include "Utils/util.h"
-#include "Utils/xorstring.h"
 
 extern IBaseClientDLL* client;
 extern ISurface* surface;

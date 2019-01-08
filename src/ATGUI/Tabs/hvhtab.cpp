@@ -1,5 +1,11 @@
 #include "hvhtab.h"
 
+#include "../../interfaces.h"
+#include "../../Utils/xorstring.h"
+#include "../../settings.h"
+#include "../../Hacks/valvedscheck.h"
+#include "../../ImGUI/imgui_internal.h"
+
 void HvH::RenderTab()
 {
 	const char* yTypes[] = {

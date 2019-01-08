@@ -1,6 +1,18 @@
 #include "aimbot.h"
 #include "autowall.h"
 
+#include "../Utils/xorstring.h"
+#include "../Utils/math.h"
+#include "../Utils/entity.h"
+#include "../settings.h"
+#include "../interfaces.h"
+
+extern "C"
+{
+	#include <xdo.h>
+}
+
+
 // Default aimbot settings
 bool Settings::Aimbot::enabled = false;
 bool Settings::Aimbot::friendly = false;

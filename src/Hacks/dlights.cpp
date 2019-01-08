@@ -1,5 +1,11 @@
 #include "dlights.h"
 
+#include "../settings.h"
+#include "../interfaces.h"
+#include "../Utils/entity.h"
+
+#include "esp.h"
+
 bool Settings::Dlights::enabled = false;
 float Settings::Dlights::radius = 500.0f;
 

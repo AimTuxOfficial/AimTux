@@ -1,5 +1,8 @@
 #include "hooks.h"
 
+#include "../interfaces.h"
+#include "../settings.h"
+
 extern StartDrawingFn StartDrawing;
 extern FinishDrawingFn FinishDrawing;
 

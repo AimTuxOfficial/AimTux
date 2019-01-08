@@ -1,5 +1,25 @@
 #include "settings.h"
 
+#include <dirent.h>
+#include <fstream>
+#include <unistd.h>
+
+#include "json/json.h"
+#include "fonts.h"
+#include "Utils/draw.h"
+#include "Hacks/clantagchanger.h"
+#include "Hacks/skinchanger.h"
+#include "Hacks/tracereffect.h"
+#include "Utils/util.h"
+#include "Utils/util_items.h"
+#include "Utils/util_sdk.h"
+#include "Utils/xorstring.h"
+#include "config.h"
+#include "ATGUI/atgui.h"
+#include "Hacks/esp.h"
+#include "interfaces.h"
+
+
 void GetVal(Json::Value &config, int* setting)
 {
 	if (config.isNull())
@@ -483,12 +503,6 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings[XORSTR("UI")][XORSTR("Windows")][XORSTR("Spectators")][XORSTR("sizeX")] = Settings::UI::Windows::Spectators::sizeX;
 	settings[XORSTR("UI")][XORSTR("Windows")][XORSTR("Spectators")][XORSTR("sizeY")] = Settings::UI::Windows::Spectators::sizeY;
 
-	settings[XORSTR("UI")][XORSTR("Windows")][XORSTR("Walkbot")][XORSTR("posX")] = Settings::UI::Windows::Walkbot::posX;
-	settings[XORSTR("UI")][XORSTR("Windows")][XORSTR("Walkbot")][XORSTR("posY")] = Settings::UI::Windows::Walkbot::posY;
-	settings[XORSTR("UI")][XORSTR("Windows")][XORSTR("Walkbot")][XORSTR("sizeX")] = Settings::UI::Windows::Walkbot::sizeX;
-	settings[XORSTR("UI")][XORSTR("Windows")][XORSTR("Walkbot")][XORSTR("sizeY")] = Settings::UI::Windows::Walkbot::sizeY;
-	settings[XORSTR("UI")][XORSTR("Windows")][XORSTR("Walkbot")][XORSTR("open")] = Settings::UI::Windows::Walkbot::open;
-
 
 	settings[XORSTR("ClanTagChanger")][XORSTR("value")] = Settings::ClanTagChanger::value;
 	settings[XORSTR("ClanTagChanger")][XORSTR("enabled")] = Settings::ClanTagChanger::enabled;
@@ -541,10 +555,6 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings[XORSTR("JumpThrow")][XORSTR("key")] = Util::GetButtonName(Settings::JumpThrow::key);
 
 	settings[XORSTR("DisablePostProcessing")][XORSTR("enabled")] = Settings::DisablePostProcessing::enabled;
-
-	// settings[XORSTR("WalkBot")][XORSTR("enabled")] = Settings::WalkBot::enabled;
-	settings[XORSTR("WalkBot")][XORSTR("autobuy")] = Settings::WalkBot::autobuy;
-	settings[XORSTR("WalkBot")][XORSTR("autobuyAt")] = Settings::WalkBot::autobuyAt;
 
 	settings[XORSTR("GrenadeHelper")][XORSTR("enabled")] = Settings::GrenadeHelper::enabled;
 	settings[XORSTR("GrenadeHelper")][XORSTR("aimAssist")] = Settings::GrenadeHelper::aimAssist;
@@ -1005,19 +1015,12 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings[XORSTR("UI")][XORSTR("Windows")][XORSTR("Spectators")][XORSTR("sizeX")], &Settings::UI::Windows::Spectators::sizeX);
 	GetVal(settings[XORSTR("UI")][XORSTR("Windows")][XORSTR("Spectators")][XORSTR("sizeY")], &Settings::UI::Windows::Spectators::sizeY);
 
-	GetVal(settings[XORSTR("UI")][XORSTR("Windows")][XORSTR("Walkbot")][XORSTR("posX")], &Settings::UI::Windows::Walkbot::posX);
-	GetVal(settings[XORSTR("UI")][XORSTR("Windows")][XORSTR("Walkbot")][XORSTR("posY")], &Settings::UI::Windows::Walkbot::posY);
-	GetVal(settings[XORSTR("UI")][XORSTR("Windows")][XORSTR("Walkbot")][XORSTR("sizeX")], &Settings::UI::Windows::Walkbot::sizeX);
-	GetVal(settings[XORSTR("UI")][XORSTR("Windows")][XORSTR("Walkbot")][XORSTR("sizeY")], &Settings::UI::Windows::Walkbot::sizeY);
-	GetVal(settings[XORSTR("UI")][XORSTR("Windows")][XORSTR("Walkbot")][XORSTR("open")], &Settings::UI::Windows::Walkbot::open);
-
 	Settings::UI::Windows::Main::reload = true;
 	Settings::UI::Windows::Colors::reload = true;
 	Settings::UI::Windows::Config::reload = true;
 	Settings::UI::Windows::Playerlist::reload = true;
 	Settings::UI::Windows::Skinmodel::reload = true;
 	Settings::UI::Windows::Spectators::reload = true;
-	Settings::UI::Windows::Walkbot::reload = true;
 
 	GetVal(settings[XORSTR("ShowSpectators")][XORSTR("enabled")], &Settings::ShowSpectators::enabled);
 
@@ -1087,10 +1090,6 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings[XORSTR("GrenadeHelper")][XORSTR("infoSmoke")], &Settings::GrenadeHelper::infoSmoke);
 	GetVal(settings[XORSTR("GrenadeHelper")][XORSTR("infoFlash")], &Settings::GrenadeHelper::infoFlash);
 	GetVal(settings[XORSTR("GrenadeHelper")][XORSTR("infoMolotov")], &Settings::GrenadeHelper::infoMolotov);
-
-	// GetVal(settings[XORSTR("WalkBot")][XORSTR("enabled")], &Settings::WalkBot::enabled);
-	GetVal(settings[XORSTR("WalkBot")][XORSTR("autobuy")], &Settings::WalkBot::autobuy);
-	GetVal(settings[XORSTR("WalkBot")][XORSTR("autobuyAt")], &Settings::WalkBot::autobuyAt);
 
 	GetVal(settings[XORSTR("AutoKnife")][XORSTR("enabled")], &Settings::AutoKnife::enabled);
  	GetVal(settings[XORSTR("AutoKnife")][XORSTR("Filters")][XORSTR("enemies")], &Settings::AutoKnife::Filters::enemies);

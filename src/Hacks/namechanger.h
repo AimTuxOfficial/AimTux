@@ -1,6 +1,7 @@
 #pragma once
-#include "../SDK/SDK.h"
-#include "../settings.h"
+
+#include <string>
+#include <vector>
 
 namespace NameChanger
 {

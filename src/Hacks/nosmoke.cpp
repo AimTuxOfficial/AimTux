@@ -1,5 +1,9 @@
 #include "nosmoke.h"
 
+#include <vector>
+
+#include "../settings.h"
+#include "../interfaces.h"
 bool Settings::NoSmoke::enabled = false;
 
 std::vector<const char*> smoke_materials = {

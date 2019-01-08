@@ -5,6 +5,7 @@
 
 #include <unordered_map>
 #include <map>
+#include "vector.h"
 
 /* generic constants */
 #define LIFE_ALIVE 0
@@ -20,7 +21,6 @@ class CBaseClientState;
 struct CGlowObjectManager;
 
 /* function prototypes */
-typedef void* (*CreateInterfaceFn) (const char*, int*);
 typedef IClientMode* (*GetClientModeFn) (void);
 typedef CGlowObjectManager* (*GlowObjectManagerFn) (void);
 typedef bool (*MsgFunc_ServerRankRevealAllFn) (float*);

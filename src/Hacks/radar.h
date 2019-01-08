@@ -1,9 +1,5 @@
 #pragma once
 
-#include <set>
-#include "../settings.h"
-#include "../interfaces.h"
-
 namespace Radar
 {
 	enum EntityShape_t : int

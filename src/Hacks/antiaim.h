@@ -1,11 +1,6 @@
 #pragma once
 
-#include "../settings.h"
-#include "../SDK/SDK.h"
-#include "../Hooks/hooks.h"
-#include "../interfaces.h"
-#include "aimbot.h"
-#include <lua.hpp>
+#include "../SDK/IInputSystem.h"
 
 namespace AntiAim
 {

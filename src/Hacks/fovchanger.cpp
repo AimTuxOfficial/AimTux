@@ -1,5 +1,8 @@
 #include "fovchanger.h"
 
+#include "../settings.h"
+#include "../interfaces.h"
+
 bool Settings::FOVChanger::enabled = false;
 bool Settings::FOVChanger::ignoreScope = true;
 float Settings::FOVChanger::value = 100.f;

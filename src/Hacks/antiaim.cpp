@@ -1,5 +1,13 @@
 #include "antiaim.h"
 
+#include "aimbot.h"
+#include <lua.hpp>
+#include "../settings.h"
+#include "../Utils/xorstring.h"
+#include "../Hooks/hooks.h"
+#include "../Utils/math.h"
+#include "../interfaces.h"
+
 bool Settings::AntiAim::Yaw::enabled = false;
 bool Settings::AntiAim::Pitch::enabled = false;
 AntiAimType_Y Settings::AntiAim::Yaw::type = AntiAimType_Y::SPIN_FAST;

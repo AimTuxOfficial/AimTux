@@ -1,9 +1,12 @@
 #pragma once
 
-#include "../interfaces.h"
-#include "../settings.h"
+#include <memory>
+#include <unordered_map>
 
-class RecvPropHook;
+#include "../SDK/definitions.h"
+#include "../SDK/IGameEvent.h"
+
+#include "../Utils/recvproxyhook.h"
 
 extern GetLocalClientFn GetLocalClient;
 

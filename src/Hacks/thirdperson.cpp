@@ -1,5 +1,8 @@
 #include "thirdperson.h"
 
+#include "../settings.h"
+#include "../interfaces.h"
+
 bool Settings::ThirdPerson::enabled = false;
 float Settings::ThirdPerson::distance = 30.f;
 

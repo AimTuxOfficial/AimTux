@@ -1,5 +1,8 @@
 #pragma once
 
+#include "IAppSystem.h"
+#include "common.h"
+
 struct Vertex_t
 {
 	Vector2D m_Position;

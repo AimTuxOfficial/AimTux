@@ -1,5 +1,10 @@
 #include "valvedscheck.h"
 
+#include <cstring>
+
+#include "../Utils/xorstring.h"
+#include "../interfaces.h"
+
 bool ValveDSCheck::forceUT = false;
 
 void ValveDSCheck::FireGameEvent(IGameEvent* event)

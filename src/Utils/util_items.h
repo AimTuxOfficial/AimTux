@@ -1,10 +1,7 @@
 #pragma once
 
 #include <string>
-#include <map>
-#include <algorithm>
-#include "util.h"
-#include "../SDK/SDK.h"
+#include "../SDK/definitions.h" //ItemDefIndex
 
 namespace Util
 {

@@ -1,5 +1,15 @@
 #include "configs.h"
 
+#include <sys/stat.h>
+#include <sstream>
+
+#include "../../config.h"
+#include "../../settings.h"
+#include "../../Utils/xorstring.h"
+#include "../../ImGUI/imgui_internal.h"
+#include "../imgui.h"
+#include "../atgui.h"
+
 bool Configs::showWindow = false;
 
 void Configs::RenderWindow()

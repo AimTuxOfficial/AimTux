@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../SDK/SDK.h"
-#include "../settings.h"
+#include "../SDK/IInputSystem.h"
+#include "../SDK/definitions.h"
 
 namespace ShowRanks
 {

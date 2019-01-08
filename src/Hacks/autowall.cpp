@@ -1,4 +1,9 @@
 #include "autowall.h"
+
+#include "aimbot.h"
+#include "../Utils/math.h"
+#include "../interfaces.h"
+
 static float GetHitgroupDamageMultiplier(HitGroups iHitGroup)
 {
 	switch (iHitGroup)

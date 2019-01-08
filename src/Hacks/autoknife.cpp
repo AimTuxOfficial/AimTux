@@ -1,5 +1,9 @@
 #include "autoknife.h"
 
+#include "../settings.h"
+#include "../Utils/math.h"
+#include "../interfaces.h"
+
 bool Settings::AutoKnife::enabled = false;
 bool Settings::AutoKnife::Filters::enemies = true;
 bool Settings::AutoKnife::Filters::allies = false;

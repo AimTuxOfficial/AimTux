@@ -1,5 +1,10 @@
 #include "atgui.h"
 
+#include "../Hooks/hooks.h"
+#include "../Utils/xorstring.h"
+#include "../interfaces.h"
+#include "../settings.h"
+
 void UI::KeyBindButton(ButtonCode_t* key)
 {
 	const char* text = inputSystem->ButtonCodeToString(*key);

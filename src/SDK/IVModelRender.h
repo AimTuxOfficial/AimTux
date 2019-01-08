@@ -1,5 +1,9 @@
 #pragma once
 
+#include "IMaterial.h"
+#include "common.h"
+#include "definitions.h"
+
 typedef unsigned short ModelInstanceHandle_t;
 
 struct model_t

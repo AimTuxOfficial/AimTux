@@ -1,5 +1,9 @@
 #include "colors.h"
 
+#include "../../settings.h"
+#include "../../ImGUI/imgui_internal.h"
+#include "../atgui.h"
+
 bool Colors::showWindow = false;
 
 void Colors::RenderWindow()

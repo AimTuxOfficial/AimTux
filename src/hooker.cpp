@@ -1,5 +1,13 @@
 #include "hooker.h"
 
+#include <link.h>
+#include "Utils/patternfinder.h"
+#include "Utils/util.h"
+#include "Utils/vmt.h"
+#include "Utils/xorstring.h"
+#include "glhook.h"
+#include "interfaces.h"
+
 int* nPredictionRandomSeed = nullptr;
 CMoveData* g_MoveData = nullptr;
 bool* s_bOverridePostProcessingDisable = nullptr;

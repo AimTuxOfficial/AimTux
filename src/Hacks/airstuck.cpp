@@ -1,5 +1,8 @@
 #include "airstuck.h"
 
+#include "../settings.h"
+#include "../interfaces.h"
+
 bool Settings::Airstuck::enabled = false;
 ButtonCode_t Settings::Airstuck::key = ButtonCode_t::KEY_F;
 

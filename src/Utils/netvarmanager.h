@@ -1,18 +1,9 @@
 #pragma once
 
-#include <vector>
 #include <string>
 #include <vector>
-#include <strings.h>
-#include <string>
-#include <ios>
-#include <iomanip>
-#include <pwd.h>
-#include <zconf.h>
-#include <fstream>
 
-#include "../SDK/SDK.h"
-#include "../interfaces.h"
+#include "../SDK/IBaseClientDLL.h" //RecvTable/RecvProp
 
 namespace NetVarManager
 {

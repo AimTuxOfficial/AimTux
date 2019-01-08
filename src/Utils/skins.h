@@ -1,9 +1,6 @@
 #pragma once
 
-#include "util.h"
-#include "../SDK/SDK.h"
-#include "../interfaces.h"
-#include "../settings.h"
+#include <map>
 
 struct PaintNames_t
 {

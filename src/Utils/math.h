@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../SDK/SDK.h"
+#include "../SDK/vector.h"
+#include "../SDK/IInputSystem.h"
 
 namespace Math {
 	void inline SinCos(float radians, float *sine, float *cosine);

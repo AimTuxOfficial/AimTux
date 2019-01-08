@@ -1,5 +1,10 @@
 #include "draw.h"
 
+#include <SDL2/SDL.h>
+
+#include "../interfaces.h"
+#include "util.h"
+
 void Draw::Circle(Vector2D position, float points, float radius, Color color)
 {
 	float step = (float)M_PI * 2.0f / points;

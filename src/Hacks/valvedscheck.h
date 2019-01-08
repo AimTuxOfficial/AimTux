@@ -1,7 +1,6 @@
 #pragma once
 
-#include "../interfaces.h"
-#include "../Utils/xorstring.h"
+#include "../SDK/IGameEvent.h"
 
 namespace ValveDSCheck
 {

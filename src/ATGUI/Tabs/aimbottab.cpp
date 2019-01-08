@@ -1,3 +1,9 @@
+#include "aimbottab.h"
+
+#include "../../SDK/definitions.h"
+#include "../../settings.h"
+#include "../../Utils/xorstring.h"
+#include "../../ImGUI/imgui_internal.h"
 #include "../atgui.h"
 
 static ItemDefinitionIndex currentWeapon = ItemDefinitionIndex::INVALID;

@@ -1,7 +1,9 @@
 #pragma once
 
-#include "../settings.h"
-#include "../interfaces.h"
+#include <vector>
+#include <cstdint>
+#include "../SDK/definitions.h"
+#include "../SDK/IGameEvent.h"
 
 namespace Resolver
 {

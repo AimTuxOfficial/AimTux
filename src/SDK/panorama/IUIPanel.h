@@ -3,7 +3,6 @@
 
 namespace panorama
 {
-
     //Menu UI Root - "CSGOMainMenu"
     //In-Game UI Root - "CSGOHud"
     struct PanelArraySlot

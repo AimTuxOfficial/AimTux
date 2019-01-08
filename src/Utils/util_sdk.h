@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../SDK/SDK.h"
-#include "../interfaces.h"
-#include "util.h"
+#include <string>
+#include "../SDK/IInputSystem.h"
+#include "../SDK/IMaterial.h"
 
 namespace Util
 {

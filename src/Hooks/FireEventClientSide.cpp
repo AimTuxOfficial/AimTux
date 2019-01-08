@@ -1,5 +1,7 @@
 #include "hooks.h"
 
+#include "../interfaces.h"
+
 bool Hooks::FireEventClientSide(void* thisptr, IGameEvent* event)
 {
 	SkinChanger::FireEventClientSide(event);

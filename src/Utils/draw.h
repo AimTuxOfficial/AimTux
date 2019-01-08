@@ -1,13 +1,9 @@
 #pragma once
 
-#include "../interfaces.h"
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <wchar.h>
-#include "../fonts.h"
-#include "../ImGUI/imgui.h"
+#include "../SDK/vector.h"
+#include "../SDK/color.h"
+#include "../SDK/definitions.h"
+#include "../SDK/ISurface.h"
 
 enum ImFontFlags
 {

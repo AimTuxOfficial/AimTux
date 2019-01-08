@@ -1,6 +1,8 @@
 #include "entity.h"
 #include "math.h"
 
+#include "../interfaces.h"
+
 bool Entity::IsVisible(C_BasePlayer* player, int bone, float fov, bool smoke_check)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());

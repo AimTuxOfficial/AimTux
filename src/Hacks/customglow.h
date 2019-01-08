@@ -1,7 +1,6 @@
 #pragma once
 
-#include "../interfaces.h"
-#include "../settings.h"
+#include "../SDK/definitions.h"
 
 namespace CustomGlow
 {

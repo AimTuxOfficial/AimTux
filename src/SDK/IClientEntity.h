@@ -1,11 +1,17 @@
 #pragma once
 
 #include "vector.h"
+#include "common.h"
+#include "../offsets.h"
+#include "definitions.h"
 
 #define MAX_SHOOT_SOUNDS 16
 #define MAX_WEAPON_STRING 80
 #define MAX_WEAPON_PREFIX 16
 #define MAX_WEAPON_AMMO_NAME 32
+
+class model_t;
+class ClientClass;
 
 enum WeaponSound_t
 {

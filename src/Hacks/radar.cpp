@@ -1,5 +1,13 @@
 #include "radar.h"
 
+#include <set>
+
+#include "../ATGUI/atgui.h"
+#include "../interfaces.h"
+#include "../Utils/math.h"
+#include "../Utils/entity.h"
+#include "../settings.h"
+
 bool Settings::Radar::enabled = false;
 float Settings::Radar::zoom = 16.f;
 bool Settings::Radar::enemies = false;

@@ -1,5 +1,11 @@
 #include "tracereffect.h"
 
+#include <string>
+
+#include "../Utils/xorstring.h"
+#include "../settings.h"
+#include "../interfaces.h"
+
 bool Settings::TracerEffects::enabled = false;
 bool Settings::TracerEffects::serverSide = false;
 TracerEffects_t Settings::TracerEffects::effect = TracerEffects_t::TASER;

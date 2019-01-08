@@ -1,5 +1,13 @@
 #include "spammer.h"
 
+#include <sstream>
+
+#include "../Utils/xorstring.h"
+#include "esp.h"
+#include "../ImGUI/imgui_internal.h"
+#include "../settings.h"
+#include "../interfaces.h"
+
 SpammerType Settings::Spammer::type = SpammerType::SPAMMER_NONE;
 bool Settings::Spammer::say_team = false;
 bool Settings::Spammer::KillSpammer::enabled = false;

@@ -1,5 +1,11 @@
 #include "recoilcrosshair.h"
 
+#include "../Hooks/hooks.h"
+
+#include "../interfaces.h"
+#include "../settings.h"
+#include "../Utils/draw.h"
+
 bool Settings::Recoilcrosshair::enabled = false;
 bool Settings::Recoilcrosshair::showOnlyWhenShooting = false;
 

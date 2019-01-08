@@ -1,5 +1,9 @@
 #include "namechanger.h"
 
+#include "../Utils/util.h"
+#include "../Utils/xorstring.h"
+#include "../interfaces.h"
+
 std::string NameChanger::origName = "";
 int NameChanger::changes = -1;
 NameChanger::NC_Type NameChanger::type = NC_Type::NC_NORMAL;

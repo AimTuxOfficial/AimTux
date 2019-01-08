@@ -1,5 +1,10 @@
 #include "hooks.h"
 
+#include "../interfaces.h"
+#include "../shortcuts.h"
+#include "../ATGUI/atgui.h"
+#include "../GUI/gui.h"
+
 bool SetKeyCodeState::shouldListen = false;
 ButtonCode_t* SetKeyCodeState::keyOutput = nullptr;
 

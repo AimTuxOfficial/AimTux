@@ -1,16 +1,7 @@
 #pragma once
 
 #include <memory>
-#include <unordered_map>
-#include <sys/mman.h>
-#include <link.h>
-#include "Utils/patternfinder.h"
 #include "Utils/recvproxyhook.h"
-#include "SDK/SDK.h"
-#include "Utils/vmt.h"
-#include "Utils/util.h"
-#include "glhook.h"
-#include "interfaces.h"
 
 struct dlinfo_t
 {

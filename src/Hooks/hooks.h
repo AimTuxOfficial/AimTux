@@ -1,11 +1,7 @@
 #pragma once
 
 #include "../SDK/SDK.h"
-#include "../interfaces.h"
 #include "../Hacks/hacks.h"
-#include "../ATGUI/atgui.h"
-#include "../hooker.h"
-#include "../GUI/gui.h"
 
 typedef void (*FrameStageNotifyFn) (void*, ClientFrameStage_t);
 typedef void (*PaintTraverseFn) (void*, VPANEL, bool, bool);

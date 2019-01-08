@@ -1,7 +1,6 @@
 #pragma once
 
-#include "../settings.h"
-#include "../interfaces.h"
+#include "../SDK/IInputSystem.h"
 
 namespace Autoblock
 {

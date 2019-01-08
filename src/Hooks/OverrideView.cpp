@@ -1,5 +1,8 @@
 #include "hooks.h"
 
+#include "../interfaces.h"
+#include "../settings.h"
+
 float OverrideView::currentFOV = 90.0f;
 
 void Hooks::OverrideView(void* thisptr, CViewSetup* pSetup)

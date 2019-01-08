@@ -1,5 +1,7 @@
 #pragma once
 
+#include "CUtlMemory.h"
+
 template <class T, class A = CUtlMemory<T>> class CUtlVector
 {
 	typedef A CAllocator;

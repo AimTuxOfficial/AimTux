@@ -1,5 +1,8 @@
 #pragma once
 #include <cstring>
+#include <dlfcn.h>
+#include <cstdint>
+
 
 typedef void* (*InstantiateInterfaceFn) ();
 

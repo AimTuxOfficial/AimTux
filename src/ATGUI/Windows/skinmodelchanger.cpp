@@ -1,5 +1,13 @@
 #include "skinmodelchanger.h"
 
+#include "../../ImGUI/imgui.h"
+#include "../../ImGUI/imgui_internal.h"
+#include "../../settings.h"
+#include "../../Utils/xorstring.h"
+
+#include "../Tabs/modelstab.h"
+#include "../Tabs/skinstab.h"
+
 bool SkinModelChanger::showWindow = false;
 
 static int page = 0;

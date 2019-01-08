@@ -1,11 +1,13 @@
 #include "util.h"
 #include "../settings.h"
+#include "xorstring.h"
+#include "../SDK/IVModelInfo.h"
+#include "../interfaces.h"
 
-struct link_map_wrapper
-{
-    void* pointers[3];
-    struct link_map_wrapper* ptr;
-};
+#include <sstream>
+#include <chrono>
+#include <codecvt>
+#include <locale> //wstring_convert
 
 
 void Util::Log(char const * const format, ...)
@@ -46,107 +48,6 @@ std::string Util::ReplaceString(std::string subject, const std::string& search, 
 int Util::RandomInt(int min, int max)
 {
 	return rand()%(max-min + 1) + min;
-}
-/* https://stackoverflow.com/questions/3596781/how-to-detect-if-the-current-process-is-being-run-by-gdb */
-// This seems to be the best method. Forking and ptracing is ghetto
-int Util::IsDebuggerPresent()
-{
-	char buf[1024];
-	int debugger_present = 0;
-
-	int status_fd = open("/proc/self/status", O_RDONLY);
-	if (status_fd == -1)
-		return 0;
-
-	ssize_t num_read = read(status_fd, buf, sizeof(buf)-1);
-
-	if (num_read > 0)
-	{
-		static const char TracerPid[] = "TracerPid:";
-		char *tracer_pid;
-
-		buf[num_read] = 0;
-		tracer_pid    = strstr(buf, TracerPid);
-		if (tracer_pid)
-			debugger_present = !!atoi(tracer_pid + sizeof(TracerPid) - 1);
-	}
-
-	close(status_fd);
-	return debugger_present;
-}
-/* Sets prev/curr/next addresses so you can restore */
-void Util::RemoveLinkMapEntry(char *partialName, void **prev, void **curr, void **next)
-{
-    void *handle = dlopen(NULL, RTLD_NOW);
-    link_map_wrapper *p = (reinterpret_cast<link_map_wrapper*>(handle))->ptr;
-    link_map *map = reinterpret_cast<link_map*>((p->ptr));
-
-    while( map )
-    {
-        if( strstr(map->l_name, partialName) != NULL ) {
-            /* Record info */
-            *prev = map->l_prev;
-            *curr = map;
-            *next = map->l_next;
-            /* Skip this node Entry */
-            map->l_prev->l_next = map->l_next;
-            map->l_next->l_prev = map->l_prev;
-            return;
-        }
-        map = map->l_next;
-    }
-}
-/* True if found, false if not.*/
-bool Util::SearchLinkMap(char *partialName)
-{
-    void *handle = dlopen(NULL, RTLD_NOW);
-    link_map_wrapper *p = (reinterpret_cast<link_map_wrapper*>(handle))->ptr;
-    link_map *map = reinterpret_cast<link_map*>((p->ptr));
-
-    while( map )
-    {
-		Lmid_t lmid;
-		//void *libHandle = dlopen(map->l_name, RTLD_NOLOAD | RTLD_NOW);
-		dlinfo(map, RTLD_DI_LMID, &lmid);
-		cvar->ConsoleDPrintf("(%s)-(%d)\n", map->l_name, lmid);
-        if( strstr(map->l_name, partialName) != NULL ) {
-            return true;
-        }
-		//dlclose(libHandle);
-        map = map->l_next;
-    }
-    return false;
-}
-/* Sets addr if found, otherwise it is set to NULL */
-bool Util::SearchLinkMap(char *partialName, void **addr)
-{
-	void *handle = dlopen(NULL, RTLD_NOW);
-	link_map_wrapper *p = (reinterpret_cast<link_map_wrapper*>(handle))->ptr;
-	link_map *map = reinterpret_cast<link_map*>((p->ptr));
-	*addr = NULL;
-	while( map )
-	{
-		// cvar->ConsoleDPrintf("%s\n", map->l_name);
-		if( strstr(map->l_name, partialName) != NULL ) {
-			*addr = map;
-		}
-		map = map->l_next;
-	}
-	*addr = NULL;
-}
-/* Will this memory ever get de-allocated? Hopefully not */
-void Util::RestoreLinkMapEntry(void *prev, void *curr, void *next)
-{
-	if( prev )
-	{
-		link_map *previousEntry = reinterpret_cast<link_map*>(prev);
-		previousEntry->l_next = reinterpret_cast<link_map*>(curr);
-	}
-	if( next )
-	{
-		link_map *nextEntry = reinterpret_cast<link_map*>(next);
-		nextEntry->l_prev = reinterpret_cast<link_map*>(curr);
-	}
 }
 void Util::StdReplaceStr(std::string& replaceIn, const std::string& replace, const std::string& replaceWith)
 {

@@ -1,5 +1,8 @@
 #pragma once
 
+#include "common.h"
+#include "definitions.h"
+
 struct RecvProp;
 
 struct DVariant

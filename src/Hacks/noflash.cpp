@@ -1,5 +1,8 @@
 #include "noflash.h"
 
+#include "../settings.h"
+#include "../interfaces.h"
+
 bool Settings::Noflash::enabled = false;
 float Settings::Noflash::value = 160.0f;
 

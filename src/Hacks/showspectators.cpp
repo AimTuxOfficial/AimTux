@@ -1,5 +1,10 @@
 #include "showspectators.h"
 
+#include "../Utils/xorstring.h"
+#include "../settings.h"
+#include "../interfaces.h"
+#include "../ATGUI/atgui.h"
+
 bool Settings::ShowSpectators::enabled = false;
 
 std::list<int> ShowSpectators::GetObservervators(int playerId)

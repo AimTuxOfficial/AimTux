@@ -1,5 +1,9 @@
 #pragma once
 
+#include "vector.h"
+#include "IAppSystem.h"
+#include "common.h"
+
 #define MAX_SPLITSCREEN_CLIENT_BITS 2
 // this should == MAX_JOYSTICKS in InputEnums.h
 #define MAX_SPLITSCREEN_CLIENTS	( 1 << MAX_SPLITSCREEN_CLIENT_BITS ) // 4

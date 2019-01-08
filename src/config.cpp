@@ -1,5 +1,14 @@
 #include "config.h"
 
+#include "Utils/xorstring.h"
+#include "interfaces.h"
+
+#include <sstream>
+#include <dirent.h>
+#include <cstring>
+#include <sys/stat.h>
+#include <algorithm>
+
 Config::Config(const char* name, const char* path)
 {
 	this->name = (char*)name;

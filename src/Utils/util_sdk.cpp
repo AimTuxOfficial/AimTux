@@ -1,5 +1,9 @@
 #include "util_sdk.h"
 
+#include <sstream>
+#include "../interfaces.h"
+#include <algorithm>
+
 char Util::GetButtonString(ButtonCode_t key)
 {
 	switch (key)

@@ -1,5 +1,8 @@
 #include "hooks.h"
 
+#include "../interfaces.h"
+#include "../settings.h"
+
 float Hooks::GetViewModelFOV(void* thisptr)
 {
 	float fov = clientModeVMT->GetOriginalMethod<GetViewModelFOVFn>(36)(thisptr);

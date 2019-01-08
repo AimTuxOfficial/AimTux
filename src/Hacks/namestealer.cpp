@@ -1,5 +1,11 @@
 #include "namestealer.h"
 
+#include "namechanger.h"
+#include "../Utils/util.h"
+#include "../Utils/xorstring.h"
+#include "../settings.h"
+#include "../interfaces.h"
+
 bool Settings::NameStealer::enabled = false;
 int Settings::NameStealer::team = 1;
 

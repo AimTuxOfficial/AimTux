@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../SDK/SDK.h"
+
+#include "../SDK/IBaseClientDLL.h"
 
 // credits: emskye96
 class RecvPropHook

@@ -1,8 +1,6 @@
 #pragma once
 
-#include "../Utils/draw.h"
-#include "../interfaces.h"
-#include "../Utils/entity.h"
+#include "../SDK/IGameEvent.h"
 
 namespace Hitmarkers
 {

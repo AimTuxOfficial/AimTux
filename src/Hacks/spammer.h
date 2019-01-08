@@ -1,9 +1,6 @@
 #pragma once
 
-#include <vector>
-#include "../interfaces.h"
-#include "../settings.h"
-#include "../Utils/util.h"
+#include "../SDK/IGameEvent.h"
 
 namespace Spammer
 {

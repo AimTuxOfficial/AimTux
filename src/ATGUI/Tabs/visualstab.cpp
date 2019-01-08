@@ -1,5 +1,11 @@
 #include "visualstab.h"
 
+#include "../../settings.h"
+#include "../../Utils/xorstring.h"
+#include "../../ImGUI/imgui_internal.h"
+#include "../atgui.h"
+#include "../../Hacks/tracereffect.h"
+
 void Visuals::RenderTab()
 {
 	const char* BoxTypes[] = { "Flat 2D", "Frame 2D", "Box 3D", "Hitboxes" };

@@ -1,5 +1,7 @@
 #include "predictionsystem.h"
 
+#include "../interfaces.h"
+
 float m_flOldCurtime;
 float m_flOldFrametime;
 

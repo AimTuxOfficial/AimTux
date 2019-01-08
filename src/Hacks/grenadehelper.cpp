@@ -1,5 +1,17 @@
 #include "grenadehelper.h"
 
+#include "../Utils/xorstring.h"
+#include "../Utils/draw.h"
+#include "../Utils/math.h"
+#include "../config.h"
+#include "../fonts.h"
+#include "../settings.h"
+#include "../interfaces.h"
+
+#include "skinchanger.h" //GetLocalClient
+
+#include <sstream>
+
 std::vector<GrenadeInfo> Settings::GrenadeHelper::grenadeInfos = {};
 bool Settings::GrenadeHelper::enabled = false;
 bool Settings::GrenadeHelper::onlyMatchingInfos = true;

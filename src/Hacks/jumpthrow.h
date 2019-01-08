@@ -1,8 +1,6 @@
 #pragma once
 
-#include "../interfaces.h"
-#include "../settings.h"
-#include "../Utils/entity.h"
+#include "../SDK/IInputSystem.h"
 
 namespace JumpThrow
 {

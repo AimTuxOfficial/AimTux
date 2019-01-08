@@ -1,5 +1,9 @@
 #include "fakelag.h"
 
+#include "../settings.h"
+#include "../interfaces.h"
+#include "../Hooks/hooks.h"
+
 bool Settings::FakeLag::enabled = false;
 int Settings::FakeLag::value = 9;
 bool Settings::FakeLag::adaptive = false;

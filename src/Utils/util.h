@@ -1,18 +1,12 @@
 #pragma once
 
 #include <string>
-#include <sys/mman.h>
-#include <zconf.h>
 #include <vector>
-#include <map>
 #include <algorithm>
-#include <chrono>
-#include <locale>
-#include <codecvt>
-#include <sstream>
-#include <link.h>
+
 #include "../ImGUI/imgui.h"
-#include "../SDK/SDK.h"
+#include "../SDK/IClientEntity.h"
+#include "../SDK/color.h"
 
 namespace Util
 {
@@ -32,12 +26,6 @@ namespace Util
 	Color GetHealthColor(C_BasePlayer* player);
 	int RandomInt(int min, int max);
 	long GetEpochTime();
-	int IsDebuggerPresent();
-	void RemoveLinkMapEntry(char *partialName, void **prev, void **curr, void **next);
-	void RestoreLinkMapEntry(void *prev, void *curr, void *next);
-	void PrintLinkMapIDs();
-	bool SearchLinkMap(char *partialName);
-	bool SearchLinkMap(char *partialName, void **addr);
 
 	const std::map<int,int> * GetModelTypeBoneMap(C_BasePlayer* player);
 	ModelType GetModelTypeID(C_BasePlayer* player);

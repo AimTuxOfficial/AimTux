@@ -1,8 +1,7 @@
 #pragma once
 
-#include <list>
-#include "../SDK/SDK.h"
-#include "../interfaces.h"
+#include "../SDK/IClientEntity.h"
+#include "../SDK/definitions.h"
 
 namespace Entity
 {

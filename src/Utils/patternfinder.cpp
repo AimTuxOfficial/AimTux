@@ -1,5 +1,6 @@
 #include "patternfinder.h"
 #include "../hooker.h"
+#include "../Utils/util.h"
 
 // original code by dom1n1k and Patrick at GameDeception
 inline bool Compare(const unsigned char* pData, const unsigned char* bMask, const char* szMask)

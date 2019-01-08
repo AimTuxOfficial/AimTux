@@ -1,5 +1,7 @@
 #include "hooks.h"
 
+#include "../interfaces.h"
+
 void Hooks::FrameStageNotify(void* thisptr, ClientFrameStage_t stage)
 {
 	CustomGlow::FrameStageNotify(stage);

@@ -2,7 +2,14 @@
 
 #include "esp.h"
 #include "autowall.h"
-//#include "../Utils/skins.h"
+#include "../fonts.h"
+#include "../settings.h"
+#include "../interfaces.h"
+#include "../Utils/draw.h"
+#include "../Utils/math.h"
+#include "../Utils/entity.h"
+#include "../Utils/xorstring.h"
+#include "../Hooks/hooks.h"
 
 bool Settings::ESP::enabled = false;
 ButtonCode_t Settings::ESP::key = ButtonCode_t::KEY_Z;

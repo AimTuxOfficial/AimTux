@@ -1,5 +1,9 @@
 #include "resolver.h"
 
+#include "../Utils/xorstring.h"
+#include "../settings.h"
+#include "../interfaces.h"
+
 bool Settings::Resolver::resolveAll = false;
 std::vector<int64_t> Resolver::Players = { };
 

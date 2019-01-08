@@ -24,6 +24,8 @@ enum AppSystemTier_t
 	APP_SYSTEM_TIER_OTHER,
 };
 
+typedef void* (*CreateInterfaceFn) (const char*, int*);
+
 class IAppSystem
 {
 public:

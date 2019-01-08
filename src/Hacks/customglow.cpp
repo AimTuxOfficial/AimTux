@@ -1,5 +1,9 @@
 #include "customglow.h"
 
+#include <algorithm>
+
+#include "../interfaces.h"
+
 std::vector<std::pair<int, int>> custom_glow_entities;
 
 void CustomGlow::FrameStageNotify(ClientFrameStage_t stage)

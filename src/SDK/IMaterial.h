@@ -1,5 +1,9 @@
 #pragma once
 
+#include "color.h"
+#include <cstdint>
+#include "common.h"
+
 class IMaterialVar;
 typedef uint64_t VertexFormat_t;
 

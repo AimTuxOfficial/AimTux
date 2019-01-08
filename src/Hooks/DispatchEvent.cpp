@@ -1,5 +1,6 @@
 #include "hooks.h"
 
+#include "../interfaces.h"
 
 static unsigned char savedEvent[0x300];
 void Hooks::DispatchEvent( panorama::UIEngine *thisptr, panorama::IUIEvent *event ) {

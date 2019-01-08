@@ -1,5 +1,10 @@
 #include "chams.h"
 
+#include "../Utils/xorstring.h"
+#include "../settings.h"
+#include "../interfaces.h"
+#include "../Hooks/hooks.h"
+
 bool Settings::ESP::Chams::enabled = false;
 bool Settings::ESP::Chams::Arms::enabled = false;
 bool Settings::ESP::Chams::Weapon::enabled = false;

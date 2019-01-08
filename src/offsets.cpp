@@ -1,5 +1,6 @@
 #include "offsets.h"
 #include "Utils/netvarmanager.h"
+#include "Utils/xorstring.h"
 
 COffsets offsets;
 

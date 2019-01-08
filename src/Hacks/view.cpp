@@ -1,5 +1,8 @@
 #include "view.h"
 
+#include "../settings.h"
+#include "../interfaces.h"
+
 bool Settings::View::NoAimPunch::enabled = false;
 bool Settings::View::NoViewPunch::enabled = false;
 

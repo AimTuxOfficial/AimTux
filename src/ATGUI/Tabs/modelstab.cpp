@@ -1,5 +1,12 @@
 #include "modelstab.h"
 
+#include "../../Utils/xorstring.h"
+#include "../../SDK/definitions.h"
+#include "../../settings.h"
+#include "../../ImGUI/imgui_internal.h"
+#include "../../Hacks/skinchanger.h"
+#include "../imgui.h"
+
 void Models::RenderTab()
 {
 	static int originalModelCT = (int) ItemDefinitionIndex::WEAPON_KNIFE;

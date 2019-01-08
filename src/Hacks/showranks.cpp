@@ -1,5 +1,7 @@
 #include "showranks.h"
 
+#include "../settings.h"
+
 bool Settings::ShowRanks::enabled = false;
 
 void ShowRanks::CreateMove(CUserCmd* cmd)

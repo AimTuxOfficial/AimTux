@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../settings.h"
-
+#include "../SDK/panorama/types.h"
 namespace GUI
 {
 	/* CSGO Panels */

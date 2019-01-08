@@ -1,24 +1,15 @@
 #pragma once
 
-#include <unordered_map>
-#include <zconf.h>
-#include <fstream>
+#include <string>
 #include <vector>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <stdlib.h>
-#include "json/json.h"
-#include "SDK/SDK.h"
-#include "fonts.h"
-#include "Utils/draw.h"
-#include "Hacks/skinchanger.h"
-#include "Hacks/tracereffect.h"
-#include "Utils/util.h"
-#include "Utils/util_items.h"
+#include <unordered_map>
+#include "ImGUI/imgui.h"
+#include "SDK/IClientEntity.h"
+#include "SDK/IInputSystem.h"
+#include "SDK/definitions.h"
 #include "Utils/util_sdk.h"
-#include "config.h"
-#include "ATGUI/atgui.h"
-#include "Hacks/esp.h"
+#include "Utils/util_items.h"
+#include "Utils/util.h"
 
 enum class SmoothType : int
 {
@@ -381,15 +372,6 @@ namespace Settings
 				extern int posY;
 				extern int sizeX;
 				extern int sizeY;
-				extern bool reload; // True on config load, used to change Window Position.
-			}
-			namespace Walkbot
-			{
-				extern int posX;
-				extern int posY;
-				extern int sizeX;
-				extern int sizeY;
-				extern bool open;
 				extern bool reload; // True on config load, used to change Window Position.
 			}
 		}
@@ -1055,13 +1037,6 @@ namespace Settings
 		extern std::string actMapName;
 	}
 
-	namespace WalkBot
-	{
-		extern bool enabled;
-		extern bool forceReset;
-		extern bool autobuy;
-		extern int autobuyAt;
-	}
 	namespace TracerEffects
 	{
 		extern bool enabled;

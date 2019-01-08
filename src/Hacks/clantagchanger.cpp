@@ -1,5 +1,10 @@
 #include "clantagchanger.h"
 
+#include <sstream>
+#include "../settings.h"
+#include "../interfaces.h"
+
+
 char Settings::ClanTagChanger::value[30] = "";
 bool Settings::ClanTagChanger::animation = false;
 int Settings::ClanTagChanger::animationSpeed = 650;

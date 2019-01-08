@@ -1,5 +1,8 @@
 #pragma once
 
+#include <cstdint>
+#include "vector.h"
+
 struct CViewSetup
 {
 	char pad_0000[16];

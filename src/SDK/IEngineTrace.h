@@ -1,5 +1,9 @@
 #pragma once
 
+#include "definitions.h"
+#include "IClientEntity.h"
+#include "CUtlVector.h"
+
 class CTraceListData;
 class CPhysCollide;
 class Vector4D;

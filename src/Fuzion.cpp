@@ -1,15 +1,27 @@
-#include "Fuzion.h"
+#include <thread>
+#include <chrono>
+#include <fcntl.h>
+#include <sys/stat.h>
+
+#include "hooker.h"
+#include "interfaces.h"
+#include "Utils/util.h"
+#include "fonts.h"
+#include "Hooks/hooks.h"
+#include "glhook.h"
+
 #include "EventListener.h"
 #include "Utils/netvarmanager.h"
+#include "Utils/xorstring.h"
 
 static EventListener* eventListener = nullptr;
 
 const char *Util::logFileName = "/tmp/fuzion.log";
 std::vector<VMT*> createdVMTs;
 
-char Fuzion::buildID[NAME_MAX] = {
-#include "../build_id_hex" // Made by ./build script.
-};
+//char buildID[NAME_MAX] = {
+//#include "../build_id_hex" // Made by ./build script.
+//};
 
 void MainThread()
 {
@@ -161,16 +173,4 @@ void __attribute__((destructor)) Shutdown()
 	*s_bOverridePostProcessingDisable = false;
 
 	cvar->ConsoleColorPrintf(ColorRGBA(255, 0, 0), XORSTR("Fuzion Unloaded successfully.\n"));
-}
-void Fuzion::SelfShutdown()
-{
-    // Beta Feature.
-	// Does not Correctly/Fully Unload yet.
-    
-	Shutdown();
-    //void *self = dlopen()
-	/*
-	dlclose(self);
-	dlclose(self);
-	*/
 }

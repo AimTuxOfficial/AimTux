@@ -1,10 +1,7 @@
 #pragma once
 
-#include "../settings.h"
-#include "../SDK/SDK.h"
-#include "../interfaces.h"
-#include "../Utils/entity.h"
-#include "../Utils/math.h"
+#include "../SDK/IClientEntity.h"
+#include "../SDK/IInputSystem.h"
 
 namespace AutoKnife
 {

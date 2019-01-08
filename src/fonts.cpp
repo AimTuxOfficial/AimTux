@@ -1,5 +1,8 @@
 #include "fonts.h"
 
+#include "Utils/draw.h"
+#include "settings.h"
+
 HFont esp_font = 0;
 
 char* Settings::UI::Fonts::ESP::family = (char *) "Segoe UI";

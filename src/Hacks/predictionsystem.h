@@ -1,7 +1,6 @@
 #pragma once
 
-#include "../settings.h"
-#include "../SDK/SDK.h"
+#include "../SDK/IInputSystem.h"
 
 namespace PredictionSystem
 {

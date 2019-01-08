@@ -1,5 +1,13 @@
 #include "interfaces.h"
 
+#include "Utils/util.h"
+#include "Utils/xorstring.h"
+
+#include <set>
+#include <fstream>
+#include <link.h> // dl_iterate_phdr
+#include <sstream>
+
 IBaseClientDLL* client = nullptr;
 IClientMode* clientMode = nullptr;
 ICommandLine* commandline = nullptr;

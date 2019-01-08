@@ -1,5 +1,13 @@
 #include "skinchanger.h"
 
+#include <unordered_map>
+#include <memory>
+
+#include "../settings.h"
+#include "../interfaces.h"
+#include "../Utils/xorstring.h"
+
+
 bool Settings::Skinchanger::Skins::enabled = false;
 bool Settings::Skinchanger::Models::enabled = false;
 
