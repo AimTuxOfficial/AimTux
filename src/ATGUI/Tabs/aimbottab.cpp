@@ -8,6 +8,7 @@
 
 static ItemDefinitionIndex currentWeapon = ItemDefinitionIndex::INVALID;
 static bool enabled = false;
+static bool silent = false;
 static bool friendly = false;
 static bool moveMouse = false;
 static bool closestBone = false;
@@ -61,6 +62,7 @@ void UI::ReloadWeaponSettings()
 		index = currentWeapon;
 
 	enabled = Settings::Aimbot::weapons.at(index).enabled;
+	silent = Settings::Aimbot::weapons.at(index).silent;
 	friendly = Settings::Aimbot::weapons.at(index).friendly;
 	moveMouse = Settings::Aimbot::weapons.at(index).moveMouse;
 	closestBone = Settings::Aimbot::weapons.at(index).closestBone;
@@ -111,7 +113,7 @@ void UI::UpdateWeaponSettings()
 		Settings::Aimbot::weapons[currentWeapon] = AimbotWeapon_t();
 
 	AimbotWeapon_t settings = {
-			enabled, friendly, closestBone, engageLock, engageLockTR, engageLockTTR, bone, aimkey, aimkeyOnly,
+			enabled, silent, friendly, closestBone, engageLock, engageLockTR, engageLockTTR, bone, aimkey, aimkeyOnly,
 			smoothEnabled, smoothValue, smoothType, smoothSaltEnabled, smoothSaltMultiplier,
 			errorMarginEnabled, errorMarginValue,
 			autoAimEnabled, autoAimValue, aimStepEnabled, aimStepMin, aimStepMax,
@@ -420,9 +422,11 @@ void Aimbot::RenderTab()
 			ImGui::Separator();
 			ImGui::Columns(2, NULL, true);
 			{
-
-				if (ImGui::Checkbox(XORSTR("Mouse Movement"), &moveMouse))
-					UI::UpdateWeaponSettings();
+				if( !silent )
+				{
+					if (ImGui::Checkbox(XORSTR("Mouse Movement"), &moveMouse))
+						UI::UpdateWeaponSettings();
+				}
 	
 				switch (currentWeapon)
 				{
@@ -444,6 +448,11 @@ void Aimbot::RenderTab()
 						break;
 				}
 
+				if( !moveMouse )
+				{
+					if (ImGui::Checkbox(XORSTR("Silent Aim"), &silent))
+						UI::UpdateWeaponSettings();
+				}
 				if (ImGui::Checkbox(XORSTR("Smoke Check"), &smokeCheck))
 					UI::UpdateWeaponSettings();
 				if (ImGui::Checkbox(XORSTR("Prediction"), &predEnabled))

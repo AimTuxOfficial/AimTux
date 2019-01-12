@@ -37,4 +37,7 @@ namespace Hooker
 	void FindSDLInput();
 	void FindSetNamedSkybox();
 	void FindPanelArrayOffset();
+	void FindPlayerAnimStateOffset();
+    void FindPlayerAnimOverlayOffset();
+	void FindSequenceActivity();
 }

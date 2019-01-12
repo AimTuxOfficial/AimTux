@@ -256,7 +256,10 @@ struct COffsets
 
 namespace Offsets
 {
-	void GetOffsets();
+	void GetNetVarOffsets();
+
+	extern unsigned int playerAnimStateOffset;
+    extern unsigned int playerAnimOverlayOffset;
 }
 
 extern COffsets offsets;

@@ -4,14 +4,20 @@
 #include "common.h"
 #include "../offsets.h"
 #include "definitions.h"
+#include "CCSGOAnimState.h"
+#include "CUtlVector.h"
 
 #define MAX_SHOOT_SOUNDS 16
 #define MAX_WEAPON_STRING 80
 #define MAX_WEAPON_PREFIX 16
 #define MAX_WEAPON_AMMO_NAME 32
 
+
 class model_t;
 class ClientClass;
+
+typedef int (* GetSequenceActivityFn)( void*, int ); // C_BaseAnimating::GetSequenceActivity(int sequence).
+extern GetSequenceActivityFn GetSeqActivity;
 
 enum WeaponSound_t
 {
@@ -61,6 +67,21 @@ enum DataUpdateType_t
 	DATA_UPDATE_CREATED = 0,
 	DATA_UPDATE_DATATABLE_CHANGED,
 };
+
+class AnimationLayer
+{
+public:
+    char pad_0000[24];
+    int m_nOrder;
+    int m_nSequence; // 0x1C
+    float_t m_flPrevCycle;
+    float_t m_flWeight;
+    float_t m_flWeightDeltaRate;
+    float_t m_flPlaybackRate;
+    float_t m_flCycle;
+    void *m_pOwner; // 0x38 // player's thisptr
+    char pad_0038[8]; // 0x40
+}; //Size: 0x0048
 
 class ICollideable
 {
@@ -209,6 +230,21 @@ public:
 class C_BasePlayer : public C_BaseEntity
 {
 public:
+    int GetSequenceActivity(int sequence)
+    {
+        if( !GetSeqActivity )
+            return -1;
+        return GetSeqActivity( this, sequence );
+    }
+    CUtlVector<AnimationLayer>* GetAnimOverlay() {
+        return reinterpret_cast<CUtlVector<AnimationLayer>*>((uintptr_t)this + Offsets::playerAnimOverlayOffset);
+    }
+
+    CCSGOAnimState* GetAnimState()
+    {
+        return reinterpret_cast<CCSGOAnimState*>((uintptr_t)this + Offsets::playerAnimStateOffset);
+    }
+
 	QAngle* GetViewPunchAngle()
 	{
 		return (QAngle*)((uintptr_t)this + offsets.DT_BasePlayer.m_viewPunchAngle);

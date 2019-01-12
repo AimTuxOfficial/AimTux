@@ -1,6 +1,5 @@
 #include "aimbot.h"
 #include "airstuck.h"
-#include "antiaim.h"
 #include "asuswalls.h"
 #include "autoaccept.h"
 #include "autoblock.h"

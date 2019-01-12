@@ -152,7 +152,8 @@ void Visuals::RenderTab()
 				ImGui::Checkbox(XORSTR("Planting"), &Settings::ESP::Info::planting);
 				ImGui::Checkbox(XORSTR("Defusing"), &Settings::ESP::Info::defusing);
 				ImGui::Checkbox(XORSTR("Rescuing Hostage"), &Settings::ESP::Info::rescuing);
-			}
+                ImGui::Checkbox(XORSTR("Layers Debug"), &Settings::Debug::AnimLayers::draw);
+            }
 
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -261,7 +262,6 @@ void Visuals::RenderTab()
 				ImGui::Checkbox(XORSTR("BoneMap Debug"), &Settings::Debug::BoneMap::draw);
 				if( Settings::Debug::BoneMap::draw )
 					ImGui::Checkbox(XORSTR("Just Dots"), &Settings::Debug::BoneMap::justDrawDots);
-
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();

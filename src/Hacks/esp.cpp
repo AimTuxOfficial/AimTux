@@ -101,6 +101,8 @@ bool Settings::Debug::AutoAim::drawTarget = false;
 Vector Settings::Debug::AutoAim::target = {0, 0, 0};
 bool Settings::Debug::BoneMap::draw = false;
 bool Settings::Debug::BoneMap::justDrawDots = false;
+bool Settings::Debug::AnimLayers::draw = false;
+
 struct Footstep
 {
 	long expiration;
@@ -940,6 +942,13 @@ static void DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_in
 
 	if (Settings::ESP::Info::location)
 		stringsToShow.push_back(player->GetLastPlaceName());
+
+    if (Settings::Debug::AnimLayers::draw){
+        CUtlVector<AnimationLayer> *layers = player->GetAnimOverlay();
+        for ( int i = 0; i <= layers->Count(); i++ ){
+            stringsToShow.push_back( Util::GetActivityName(player->GetSequenceActivity(layers->operator[](i).m_nSequence)) );
+        }
+    }
 
 	int i = 0;
 	for (auto Text : stringsToShow)
