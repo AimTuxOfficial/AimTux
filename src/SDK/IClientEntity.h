@@ -242,7 +242,7 @@ public:
 
     CCSGOAnimState* GetAnimState()
     {
-        return reinterpret_cast<CCSGOAnimState*>((uintptr_t)this + Offsets::playerAnimStateOffset);
+        return *reinterpret_cast<CCSGOAnimState**>((uintptr_t)this + Offsets::playerAnimStateOffset);
     }
 
 	QAngle* GetViewPunchAngle()
@@ -455,10 +455,16 @@ public:
 class C_BaseAttributableItem : public C_BaseEntity
 {
 public:
+
 	ItemDefinitionIndex* GetItemDefinitionIndex()
 	{
 		return (ItemDefinitionIndex*)((uintptr_t)this + offsets.DT_BaseAttributableItem.m_iItemDefinitionIndex);
 	}
+
+    bool* GetInitialized()
+    {
+        return (bool*)((uintptr_t)this + offsets.DT_BaseAttributableItem.m_bInitialized);
+    }
 
 	int* GetItemIDHigh()
 	{

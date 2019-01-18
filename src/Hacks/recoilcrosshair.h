@@ -3,5 +3,5 @@
 namespace Recoilcrosshair
 {
 	//Hooks
-	void Paint();
+	void PaintHybrid();
 };

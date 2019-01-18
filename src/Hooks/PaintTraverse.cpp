@@ -1,6 +1,7 @@
 #include "hooks.h"
 
 #include "../interfaces.h"
+#include "../Hacks/esp.h"
 
 void Hooks::PaintTraverse(void* thisptr, VPANEL vgui_panel, bool force_repaint, bool allow_force)
 {

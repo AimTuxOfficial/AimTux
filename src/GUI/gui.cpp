@@ -3,10 +3,10 @@
 #include "../interfaces.h"
 
 /* CSGO Panels */
-panorama::IUIPanel* GUI::menuRoot = NULL;
-panorama::IUIPanel* GUI::hudRoot = NULL;
+panorama::IUIPanel* GUI::menuRoot = nullptr;
+panorama::IUIPanel* GUI::hudRoot = nullptr;
 /* Custom Panels */
-panorama::IUIPanel* GUI::fuzionMain = NULL;
+panorama::IUIPanel* GUI::fuzionMain = nullptr;
 
 // Javascript to force root panel to have our child and raise it.
 const char *cuckProtocol =
@@ -26,7 +26,7 @@ static panorama::IUIPanel* GetRoot( bool inGame ){
 
     if( !panoramaEngine->AccessUIEngine()->IsValidPanelPointer(panel) ){
         cvar->ConsoleDPrintf("[GUI::GetRoot]Failed to grab Last Event Target Panel!\n");
-        return NULL;
+        return nullptr;
     }
     panorama::IUIPanel *itr = panel;
     panorama::IUIPanel *ret = nullptr;

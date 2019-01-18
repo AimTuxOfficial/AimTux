@@ -13,7 +13,7 @@ public:
 		return getvfunc<oCreateMaterial>(this, 83)(this, pMaterialName, pVMTKeyValues);
 	}
 
-	IMaterial* FindMaterial(char const* pMaterialName, const char* pTextureGroupName, bool complain = true, const char* pComplainPrefix = NULL)
+	IMaterial* FindMaterial(char const* pMaterialName, const char* pTextureGroupName, bool complain = true, const char* pComplainPrefix = nullptr)
 	{
 		typedef IMaterial* (* oFindMaterial)(void*, char const*, const char*, bool, const char*);
 		return getvfunc<oFindMaterial>(this, 84)(this, pMaterialName, pTextureGroupName, complain, pComplainPrefix);

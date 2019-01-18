@@ -11,6 +11,14 @@
 #include "Utils/util_items.h"
 #include "Utils/util.h"
 
+
+enum class DrawingBackend : int {
+    SURFACE = 0,
+    IMGUI,
+
+    NUMBER_OF_TYPES
+};
+
 enum class SmoothType : int
 {
 	SLOW_END,
@@ -98,6 +106,28 @@ enum class SpammerType : int
 	SPAMMER_NONE,
 	SPAMMER_NORMAL,
 	SPAMMER_POSITIONS,
+};
+
+enum class AntiAimType_Y : int
+{
+	NONE,
+    MAX_DELTA_LEFT,
+	MAX_DELTA_RIGHT,
+    MAX_DELTA_FLIPPER,
+    MAX_DELTA_LBY_AVOID,
+};
+
+enum class AntiAimType_X : int
+{
+    STATIC_UP,
+    STATIC_DOWN,
+    DANCE,
+    FRONT,
+    STATIC_UP_FAKE,
+    STATIC_DOWN_FAKE,
+    LISP_DOWN,
+    ANGEL_DOWN,
+    ANGEL_UP,
 };
 
 struct AimbotWeapon_t
@@ -491,6 +521,39 @@ namespace Settings
 		}
 	}
 
+    namespace AntiAim
+    {
+        namespace AutoDisable
+        {
+            extern bool noEnemy;
+            extern bool knifeHeld;
+        }
+
+        namespace Yaw
+        {
+            extern bool enabled;
+            extern AntiAimType_Y type;
+            extern AntiAimType_Y typeFake;
+        }
+
+        namespace Pitch
+        {
+            extern bool enabled;
+            extern AntiAimType_X type;
+        }
+
+        namespace HeadEdge
+        {
+            extern bool enabled;
+            extern float distance;
+        }
+        namespace LBYBreaker
+        {
+            extern bool enabled;
+            extern float offset;
+        }
+    }
+
 	namespace Resolver
 	{
 		extern bool resolveAll;
@@ -499,6 +562,7 @@ namespace Settings
 	namespace ESP
 	{
 		extern bool enabled;
+        extern DrawingBackend backend;
 		extern ButtonCode_t key;
 		extern TeamColorType teamColorType;
 		extern HealthColorVar enemyColor;
@@ -978,6 +1042,10 @@ namespace Settings
  			extern bool allies;
  		}
  	}
+	namespace AngleIndicator
+	{
+		extern bool enabled;
+	}
     namespace Debug
     {
         namespace AutoWall
@@ -999,7 +1067,6 @@ namespace Settings
 			extern bool draw;
 		}
     }
-
 
 	void LoadDefaultsOrSave(std::string path);
 	void LoadConfig(std::string path);

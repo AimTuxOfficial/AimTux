@@ -89,8 +89,8 @@ void SDL2::SwapWindow(SDL_Window* window)
 	}
 
 	Draw::ImStart();
-	UI::SwapWindow();
-	Hooks::PaintImGui(); // Process ImGui Draw Commands
+		UI::SwapWindow();
+		Hooks::PaintImGui(); // Process ImGui Draw Commands
 	Draw::ImEnd();
 
 	UI::SetupColors();

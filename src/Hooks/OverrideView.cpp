@@ -3,6 +3,9 @@
 #include "../interfaces.h"
 #include "../settings.h"
 
+#include "../Hacks/fovchanger.h"
+#include "../Hacks/thirdperson.h"
+
 float OverrideView::currentFOV = 90.0f;
 
 void Hooks::OverrideView(void* thisptr, CViewSetup* pSetup)

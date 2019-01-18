@@ -210,7 +210,7 @@ void SplitSkins()
 
 		if (!Util::Items::IsGlove((ItemDefinitionIndex) modelCT))
 		{
-			ImGui::Columns(2, NULL, false);
+			ImGui::Columns(2, nullptr, false);
 
 			ImGui::InputInt(XORSTR("StatTrak##CT"), &skinStatTrakCT);
 			ImGui::NextColumn();
@@ -238,7 +238,7 @@ void SplitSkins()
 
 	ImGui::BeginChild(XORSTR("T Settings"), ImVec2(0, 0), true);
 	{
-		ImGui::Columns(3, NULL, false);
+		ImGui::Columns(3, nullptr, false);
 
 		ImGui::InputInt(XORSTR("ID##T"), &modelSkinT);
 		ImGui::NextColumn();
@@ -253,7 +253,7 @@ void SplitSkins()
 
 		if (!Util::Items::IsGlove((ItemDefinitionIndex) modelT))
 		{
-			ImGui::Columns(2, NULL, false);
+			ImGui::Columns(2, nullptr, false);
 
 			ImGui::InputInt(XORSTR("StatTrak##T"), &skinStatTrakT);
 			ImGui::NextColumn();
@@ -387,7 +387,7 @@ void CombinedSkins()
 
 		if (!Util::Items::IsGlove((ItemDefinitionIndex)selectedModel))
 		{
-			ImGui::Columns(2, NULL, false);
+			ImGui::Columns(2, nullptr, false);
 
 			ImGui::InputInt(XORSTR("StatTrak##Combined"), &skinStatTrak);
 			ImGui::NextColumn();
@@ -415,7 +415,7 @@ void CombinedSkins()
 
 void Skins::RenderTab()
 {
-	ImGui::Columns(2, NULL, false);
+	ImGui::Columns(2, nullptr, false);
 
 	if (ImGui::Checkbox(XORSTR("Enabled"), &Settings::Skinchanger::Skins::enabled))
 	{

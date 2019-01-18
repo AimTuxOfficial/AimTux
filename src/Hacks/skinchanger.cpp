@@ -155,6 +155,11 @@ void SkinChanger::FrameStageNotifyModels(ClientFrameStage_t stage)
 		if (!glove)
 			return;
 
+		/* Fixes rare crash caused by invalid entity - credits to spacebar */
+		IClientEntity *gloveEnt = (IClientEntity*)entityList->GetClientEntity(glove->GetIndex());
+		if( !gloveEnt )
+			return;
+
 		auto keyExists = localplayer->GetTeam() == TeamID::TEAM_COUNTER_TERRORIST ? Settings::Skinchanger::skinsCT.find(ItemDefinitionIndex::GLOVE_CT_SIDE) : Settings::Skinchanger::skinsT.find(ItemDefinitionIndex::GLOVE_T_SIDE);
 
 		if (keyExists != (localplayer->GetTeam() == TeamID::TEAM_COUNTER_TERRORIST ? Settings::Skinchanger::skinsCT.end() : Settings::Skinchanger::skinsT.end()))
@@ -170,6 +175,7 @@ void SkinChanger::FrameStageNotifyModels(ClientFrameStage_t stage)
 				{
 					glove->SetModelIndex(modelInfo->GetModelIndex(ItemDefinitionIndexMap.at(currentModel.itemDefinitionIndex).entityModel));
 					*glove->GetItemDefinitionIndex() = currentModel.itemDefinitionIndex;
+                    *glove->GetInitialized() = true;
 				}
 			}
 		}
@@ -235,6 +241,11 @@ void SkinChanger::FrameStageNotifySkins(ClientFrameStage_t stage)
 
 		C_BaseAttributableItem* glove = (C_BaseAttributableItem* ) entityList->GetClientEntity(localplayer->GetWearables()[0] & 0xFFF);
 		if (!glove)
+			return;
+
+		/* Fixes rare crash caused by invalid entity - credits to spacebar */
+		IClientEntity *gloveEnt = (IClientEntity*)entityList->GetClientEntity(glove->GetIndex());
+		if( !gloveEnt )
 			return;
 
 		if (localplayer->GetTeam() == TeamID::TEAM_COUNTER_TERRORIST || !Settings::Skinchanger::Skins::perTeam)

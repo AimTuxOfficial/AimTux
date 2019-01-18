@@ -1,6 +1,25 @@
 #include "hooks.h"
 
 #include "../interfaces.h"
+#include "../settings.h"
+
+#include "../Hacks/bhop.h"
+#include "../Hacks/autostrafe.h"
+#include "../Hacks/showranks.h"
+#include "../Hacks/autodefuse.h"
+#include "../Hacks/jumpthrow.h"
+#include "../Hacks/grenadehelper.h"
+#include "../Hacks/edgejump.h"
+#include "../Hacks/autoblock.h"
+#include "../Hacks/predictionsystem.h"
+#include "../Hacks/aimbot.h"
+#include "../Hacks/triggerbot.h"
+#include "../Hacks/autoknife.h"
+#include "../Hacks/antiaim.h"
+#include "../Hacks/airstuck.h"
+#include "../Hacks/fakelag.h"
+#include "../Hacks/esp.h"
+#include "../Hacks/tracereffect.h"
 
 bool CreateMove::sendPacket = true;
 QAngle CreateMove::lastTickViewAngles = QAngle(0, 0, 0);
@@ -15,7 +34,6 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
         uintptr_t rbp;
         asm volatile("mov %%rbp, %0" : "=r" (rbp));
         bool *sendPacket = ((*(bool **)rbp) - 0x18);
-        *sendPacket = CreateMove::sendPacket;
         CreateMove::sendPacket = true;
 
 		/* run code that affects movement before prediction */
@@ -32,6 +50,7 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 			Aimbot::CreateMove(cmd);
 			Triggerbot::CreateMove(cmd);
 			AutoKnife::CreateMove(cmd);
+            AntiAim::CreateMove(cmd);
 			Airstuck::CreateMove(cmd);
 			FakeLag::CreateMove(cmd);
 			ESP::CreateMove(cmd);
@@ -40,8 +59,11 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 
 		EdgeJump::PostPredictionCreateMove(cmd);
 
-		if (CreateMove::sendPacket)
-			CreateMove::lastTickViewAngles = cmd->viewangles;
+        *sendPacket = CreateMove::sendPacket;
+
+        if (CreateMove::sendPacket) {
+            CreateMove::lastTickViewAngles = cmd->viewangles;
+        }
 	}
 
 	return false;

@@ -23,7 +23,7 @@ void Util::Log(char const * const format, ...)
     } else {
         logFile = fopen(Util::logFileName, "a"); // append to log
     }
-    setbuf( logFile, NULL ); // Turn off buffered I/O, decreases performance but if crash occurs, no unflushed buffer.
+    setbuf( logFile, nullptr ); // Turn off buffered I/O, decreases performance but if crash occurs, no unflushed buffer.
     va_list args;
     va_start(args, format);
     vsnprintf(buffer, 4096, format, args);
@@ -140,7 +140,7 @@ const std::map<int,int> * Util::GetModelTypeBoneMap(C_BasePlayer* player)
 
 	switch( pStudioModel->numbones ) {
 		case 84: // Anarchists or Leet Krew
-			if (memchr(pStudioModel->name, 'h', sizeof(pStudioModel->name)) != NULL)// Anarchist
+			if (memchr(pStudioModel->name, 'h', sizeof(pStudioModel->name)) != nullptr)// Anarchist
 			{
 				return &BoneMapT_Anarchist;
 			}
@@ -151,11 +151,11 @@ const std::map<int,int> * Util::GetModelTypeBoneMap(C_BasePlayer* player)
 		case 85: // Leet Krew 2
 			return &BoneMapT_Leet2;
 		case 86: // Balkan, Phoenix, and Separatists
-			if (memchr(pStudioModel->name, 'h', sizeof(pStudioModel->name)) != NULL) // Phoenix
+			if (memchr(pStudioModel->name, 'h', sizeof(pStudioModel->name)) != nullptr) // Phoenix
 			{
 				return &BoneMapT_Phoenix;
 			}
-			else if (memmem(pStudioModel->name, sizeof(pStudioModel->name), "ba", 2) != NULL) // balkan
+			else if (memmem(pStudioModel->name, sizeof(pStudioModel->name), "ba", 2) != nullptr) // balkan
 			{
 				return &BoneMapT_Balkan;
 			} else // Separatist
@@ -163,7 +163,7 @@ const std::map<int,int> * Util::GetModelTypeBoneMap(C_BasePlayer* player)
 				return &BoneMapT_Separatist;
 			}
 		case 89: // FBI, GSG, and SEALS
-			if( memmem(pStudioModel->name, sizeof(pStudioModel->name), "sg", 2) != NULL ) // GSG
+			if( memmem(pStudioModel->name, sizeof(pStudioModel->name), "sg", 2) != nullptr ) // GSG
 			{
 				return &BoneMapCT_GSG;
 			}
@@ -172,7 +172,7 @@ const std::map<int,int> * Util::GetModelTypeBoneMap(C_BasePlayer* player)
 				return &BoneMapCT_Seals;
 			}
 		case 91: // SWAT, Professionals
-			if (memchr(pStudioModel->name, 'w', sizeof(pStudioModel->name)) != NULL) // SWAT
+			if (memchr(pStudioModel->name, 'w', sizeof(pStudioModel->name)) != nullptr) // SWAT
 			{
 				return &BoneMapCT_SWAT;
 			}
@@ -185,7 +185,7 @@ const std::map<int,int> * Util::GetModelTypeBoneMap(C_BasePlayer* player)
 		case 94: // IDF
 			return &BoneMapCT_IDF;
 		case 98: // FBI or SAS
-			if (memchr(pStudioModel->name, 'f', sizeof(pStudioModel->name)) != NULL) // FBI
+			if (memchr(pStudioModel->name, 'f', sizeof(pStudioModel->name)) != nullptr) // FBI
 			{
 				return &BoneMapCT_FBI;
 			} else {
@@ -203,7 +203,7 @@ ModelType Util::GetModelTypeID(C_BasePlayer* player)
 
 	switch( pStudioModel->numbones ) {
 		case 84: // Anarchists or Leet Krew
-			if (memchr(pStudioModel->name, 'h', sizeof(pStudioModel->name)) != NULL)// Anarchist
+			if (memchr(pStudioModel->name, 'h', sizeof(pStudioModel->name)) != nullptr)// Anarchist
 			{
 				return ModelType::ANARCHIST;
 			}
@@ -214,11 +214,11 @@ ModelType Util::GetModelTypeID(C_BasePlayer* player)
 		case 85:
 			return ModelType::LEETKREW2;
 		case 86: // Balkan, Phoenix, and Separatists
-			if (memchr(pStudioModel->name, 'h', sizeof(pStudioModel->name)) != NULL) // Phoenix
+			if (memchr(pStudioModel->name, 'h', sizeof(pStudioModel->name)) != nullptr) // Phoenix
 			{
 				return ModelType::PHOENIX;
 			}
-			else if (memmem(pStudioModel->name, sizeof(pStudioModel->name), "ba", 2) != NULL) // balkan
+			else if (memmem(pStudioModel->name, sizeof(pStudioModel->name), "ba", 2) != nullptr) // balkan
 			{
 				return ModelType::BALKAN;
 			} else // Separatist
@@ -226,11 +226,11 @@ ModelType Util::GetModelTypeID(C_BasePlayer* player)
 				return ModelType::SEPARATIST;
 			}
 		case 89: // FBI, GSG, and SEALS
-			if (memchr(pStudioModel->name, 'f', sizeof(pStudioModel->name)) != NULL) // FBI
+			if (memchr(pStudioModel->name, 'f', sizeof(pStudioModel->name)) != nullptr) // FBI
 			{
 				return ModelType::FBI;
 			}
-			else if( memmem(pStudioModel->name, sizeof(pStudioModel->name), "sg", 2) != NULL ) // GSG
+			else if( memmem(pStudioModel->name, sizeof(pStudioModel->name), "sg", 2) != nullptr ) // GSG
 			{
 				return ModelType::GSG;
 			}
@@ -239,7 +239,7 @@ ModelType Util::GetModelTypeID(C_BasePlayer* player)
 				return ModelType::SEALS;
 			}
 		case 91: // SWAT, Professionals
-			if (memchr(pStudioModel->name, 'w', sizeof(pStudioModel->name)) != NULL) // SWAT
+			if (memchr(pStudioModel->name, 'w', sizeof(pStudioModel->name)) != nullptr) // SWAT
 			{
 				return ModelType::SWAT;
 			}

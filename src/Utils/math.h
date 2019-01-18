@@ -4,9 +4,11 @@
 #include "../SDK/IInputSystem.h"
 
 namespace Math {
+    bool Cmpf( float f1, float f2, float epsilon = 0.005f );
 	void inline SinCos(float radians, float *sine, float *cosine);
 	void AngleVectors(const QAngle &angles, Vector &forward);
 	void NormalizeAngles(QAngle& angle);
+	void NormalizeYaw( float& yaw );
 	void ClampAngles(QAngle& angle);
 	void CorrectMovement(const QAngle &vOldAngles, CUserCmd* pCmd, float fOldForward, float fOldSidemove);
 	float GetFov(const QAngle &viewAngle, const QAngle &aimAngle);

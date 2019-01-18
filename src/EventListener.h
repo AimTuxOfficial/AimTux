@@ -1,5 +1,13 @@
 #pragma once
 
+#include "Hacks/aimbot.h"
+#include "Hacks/hitmarkers.h"
+#include "Hacks/namestealer.h"
+#include "Hacks/resolver.h"
+#include "Hacks/spammer.h"
+#include "Hacks/valvedscheck.h"
+#include "Hacks/skinchanger.h"
+
 class EventListener : public IGameEventListener2
 {
 public:

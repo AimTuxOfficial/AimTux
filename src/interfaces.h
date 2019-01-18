@@ -35,6 +35,7 @@ extern ILocalize* localize;
 extern ICommandLine* commandline;
 extern CInput* input;
 extern IPanoramaUIEngine* panoramaEngine;
+extern IFileSystem* fileSystem;
 
 extern VMT* panelVMT;
 extern VMT* clientVMT;

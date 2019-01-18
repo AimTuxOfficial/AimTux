@@ -14,13 +14,13 @@ typedef void* GetSymbolProc_t;
 
 
 #define FOR_EACH_SUBKEY(kvRoot, kvSubKey) \
-	for (KeyValues * kvSubKey = kvRoot->GetFirstSubKey(); kvSubKey != NULL; kvSubKey = kvSubKey->GetNextKey())
+	for (KeyValues * kvSubKey = kvRoot->GetFirstSubKey(); kvSubKey != nullptr; kvSubKey = kvSubKey->GetNextKey())
 
 #define FOR_EACH_TRUE_SUBKEY(kvRoot, kvSubKey) \
-	for (KeyValues * kvSubKey = kvRoot->GetFirstTrueSubKey(); kvSubKey != NULL; kvSubKey = kvSubKey->GetNextTrueSubKey())
+	for (KeyValues * kvSubKey = kvRoot->GetFirstTrueSubKey(); kvSubKey != nullptr; kvSubKey = kvSubKey->GetNextTrueSubKey())
 
 #define FOR_EACH_VALUE(kvRoot, kvValue) \
-	for (KeyValues * kvValue = kvRoot->GetFirstValue(); kvValue != NULL; kvValue = kvValue->GetNextValue())
+	for (KeyValues * kvValue = kvRoot->GetFirstValue(); kvValue != nullptr; kvValue = kvValue->GetNextValue())
 
 
 //-----------------------------------------------------------------------------
@@ -66,8 +66,8 @@ public:
 	//
 	// AutoDelete class to automatically free the keyvalues.
 	// Simply construct it with the keyvalues you allocated and it will free them when falls out of scope.
-	// When you decide that keyvalues shouldn't be deleted call Assign(NULL) on it.
-	// If you constructed AutoDelete(NULL) you can later assign the keyvalues to be deleted with Assign(pKeyValues).
+	// When you decide that keyvalues shouldn't be deleted call Assign(nullptr) on it.
+	// If you constructed AutoDelete(nullptr) you can later assign the keyvalues to be deleted with Assign(pKeyValues).
 	// You can also pass temporary KeyValues object as an argument to a function by wrapping it into KeyValues::AutoDelete
 	// instance:   call_my_function( KeyValues::AutoDelete( new KeyValues( "test" ) ) )
 	//
@@ -103,14 +103,14 @@ public:
 	// File access. Set UsesEscapeSequences true, if resource file/buffer uses Escape Sequences (eg \n, \t)
 	void UsesEscapeSequences( bool state ); // default false
 	void UsesConditionals( bool state ); // default true
-	bool LoadFromFile( void *filesystem, const char *resourceName, const char *pathID = NULL );
-	bool SaveToFile( void *filesystem, const char *resourceName, const char *pathID = NULL, bool sortKeys = false, bool bAllowEmptyString = false );
+	bool LoadFromFile( void *filesystem, const char *resourceName, const char *pathID = nullptr );
+	bool SaveToFile( void *filesystem, const char *resourceName, const char *pathID = nullptr, bool sortKeys = false, bool bAllowEmptyString = false );
 
 	// Read from a buffer...  Note that the buffer must be null terminated
-	bool LoadFromBuffer( char const *resourceName, const char *pBuffer, void* pFileSystem = NULL, const char *pPathID = NULL );
+	bool LoadFromBuffer( char const *resourceName, const char *pBuffer, void* pFileSystem = nullptr, const char *pPathID = nullptr );
 
 	// Read from a utlbuffer...
-	bool LoadFromBuffer( char const *resourceName, void*buf, void* pFileSystem = NULL, const char *pPathID = NULL );
+	bool LoadFromBuffer( char const *resourceName, void*buf, void* pFileSystem = nullptr, const char *pPathID = nullptr );
 
 	// Find a keyValue, create it if it is not found.
 	// Set bCreate to true to create the key if it doesn't already exist (which ensures a valid pointer will be returned)
@@ -128,7 +128,7 @@ public:
 	KeyValues *GetFirstSubKey() { return m_pSub; }	// returns the first subkey in the list
 	KeyValues *GetNextKey() { return m_pPeer; }		// returns the next subkey
 	void SetNextKey( KeyValues * pDat );
-	KeyValues *FindLastSubKey();	// returns the LAST subkey in the list.  This requires a linked list iteration to find the key.  Returns NULL if we don't have any children
+	KeyValues *FindLastSubKey();	// returns the LAST subkey in the list.  This requires a linked list iteration to find the key.  Returns nullptr if we don't have any children
 
 	//
 	// These functions can be used to treat it like a true key/values tree instead of
@@ -146,20 +146,20 @@ public:
 	KeyValues* GetFirstTrueSubKey();
 	KeyValues* GetNextTrueSubKey();
 
-	KeyValues* GetFirstValue();	// When you get a value back, you can use GetX and pass in NULL to get the value.
+	KeyValues* GetFirstValue();	// When you get a value back, you can use GetX and pass in nullptr to get the value.
 	KeyValues* GetNextValue();
 
 
 	// Data access
-	int   GetInt( const char *keyName = NULL, int defaultValue = 0 );
-	uint64_t GetUint64( const char *keyName = NULL, uint64_t defaultValue = 0 );
-	float GetFloat( const char *keyName = NULL, float defaultValue = 0.0f );
-	const char *GetString( const char *keyName = NULL, const char *defaultValue = "" );
-	const wchar_t *GetWString( const char *keyName = NULL, const wchar_t *defaultValue = L"" );
-	void *GetPtr( const char *keyName = NULL, void *defaultValue = ( void* )0 );
-	bool GetBool( const char *keyName = NULL, bool defaultValue = false );
-	Color GetColor( const char *keyName = NULL /* default value is all black */ );
-	bool  IsEmpty( const char *keyName = NULL );
+	int   GetInt( const char *keyName = nullptr, int defaultValue = 0 );
+	uint64_t GetUint64( const char *keyName = nullptr, uint64_t defaultValue = 0 );
+	float GetFloat( const char *keyName = nullptr, float defaultValue = 0.0f );
+	const char *GetString( const char *keyName = nullptr, const char *defaultValue = "" );
+	const wchar_t *GetWString( const char *keyName = nullptr, const wchar_t *defaultValue = L"" );
+	void *GetPtr( const char *keyName = nullptr, void *defaultValue = ( void* )0 );
+	bool GetBool( const char *keyName = nullptr, bool defaultValue = false );
+	Color GetColor( const char *keyName = nullptr /* default value is all black */ );
+	bool  IsEmpty( const char *keyName = nullptr );
 
 	// Data access
 	int   GetInt( int keySymbol, int defaultValue = 0 );
@@ -211,7 +211,7 @@ public:
 		TYPE_UINT64,
 		TYPE_NUMTYPES,
 	};
-	types_t GetDataType( const char *keyName = NULL );
+	types_t GetDataType( const char *keyName = nullptr );
 
 	// Virtual deletion function - ensures that KeyValues object is deleted from correct heap
 	void deleteThis();

@@ -90,6 +90,6 @@ public:
 	// Retrieve decal texture name from decal by index
 	virtual const char* Draw_DecalNameFromIndex(int nIndex) = 0;
 
-	// Given an elight key, find it. Does not search ordinary dlights. May return NULL.
+	// Given an elight key, find it. Does not search ordinary dlights. May return nullptr.
 	virtual dlight_t* GetElightByKey(int key) = 0;
 };

@@ -53,7 +53,7 @@ public:
 	void UnregisterGlowObject(int index)
 	{
 		m_GlowObjectDefinitions[index].m_nNextFreeSlot = m_nFirstFreeSlot;
-		m_GlowObjectDefinitions[index].m_pEntity = NULL;
+		m_GlowObjectDefinitions[index].m_pEntity = nullptr;
 		m_nFirstFreeSlot = index;
 	}
 

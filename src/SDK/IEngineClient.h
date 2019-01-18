@@ -72,6 +72,11 @@ public:
 		return getvfunc<oIsInGame>(this, 26)(this);
 	}
 
+	const VMatrix& WorldToScreenMatrix() {
+		typedef VMatrix& (* oWorldToScreenMatrix)( void* );
+		return getvfunc<oWorldToScreenMatrix>( this, 37 )( this );
+	}
+
 	bool IsTakingScreenshot()
 	{
 		typedef bool (* oIsTakingScreenshot)(void*);

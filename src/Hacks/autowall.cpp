@@ -49,7 +49,7 @@ static bool TraceToExit(Vector& end, trace_t* enter_trace, Vector start, Vector 
 		distance += 4.0f;
 		end = start + dir * distance;
 
-		auto point_contents = trace->GetPointContents(end, MASK_SHOT_HULL | CONTENTS_HITBOX, NULL);
+		auto point_contents = trace->GetPointContents(end, MASK_SHOT_HULL | CONTENTS_HITBOX, nullptr);
 
 		if (point_contents & MASK_SHOT_HULL && !(point_contents & CONTENTS_HITBOX))
 			continue;

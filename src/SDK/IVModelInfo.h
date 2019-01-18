@@ -126,7 +126,7 @@ struct mstudiobone_t {
 	inline void *pProcedure() const
 	{
 		if (procindex == 0)
-			return NULL;
+			return nullptr;
 		else
 			return (void *) (((unsigned char *) this) + procindex);
 	};
@@ -161,7 +161,7 @@ struct mstudiobbox_t {
 	char *pszHitboxName()
 	{
 		if (hitboxnameindex == 0)
-			return NULL;
+			return nullptr;
 
 		return ((char *) this) + hitboxnameindex;
 	}
@@ -226,7 +226,7 @@ struct studiohdr_t {
 	{
 		mstudiohitboxset_t const *s = pHitboxSet(set);
 		if (!s)
-			return NULL;
+			return nullptr;
 
 		return s->pHitbox(i);
 	};
@@ -371,7 +371,7 @@ struct studiohdr_t {
 
 	inline const char *KeyValueText() const
 	{
-		return keyvaluesize != 0 ? ((char *) this) + keyvalueindex : NULL;
+		return keyvaluesize != 0 ? ((char *) this) + keyvalueindex : nullptr;
 	}
 
 	int numlocalikautoplaylocks;

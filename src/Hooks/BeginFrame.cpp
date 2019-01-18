@@ -3,6 +3,13 @@
 #include "../Utils/skins.h"
 #include "../interfaces.h"
 
+#include "../Hacks/clantagchanger.h"
+#include "../Hacks/namechanger.h"
+#include "../Hacks/namestealer.h"
+#include "../Hacks/spammer.h"
+#include "../Hacks/radar.h"
+#include "../Hacks/disablepostprocessing.h"
+
 void Hooks::BeginFrame(void* thisptr, float frameTime)
 {
 	ClanTagChanger::BeginFrame(frameTime);

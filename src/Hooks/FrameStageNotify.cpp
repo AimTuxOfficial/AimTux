@@ -2,6 +2,15 @@
 
 #include "../interfaces.h"
 
+#include "../Hacks/customglow.h"
+#include "../Hacks/skinchanger.h"
+#include "../Hacks/noflash.h"
+#include "../Hacks/view.h"
+#include "../Hacks/resolver.h"
+#include "../Hacks/skybox.h"
+#include "../Hacks/asuswalls.h"
+#include "../Hacks/nosmoke.h"
+
 void Hooks::FrameStageNotify(void* thisptr, ClientFrameStage_t stage)
 {
 	CustomGlow::FrameStageNotify(stage);

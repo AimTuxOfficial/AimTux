@@ -1,5 +1,9 @@
 #include "math.h"
 
+bool Math::Cmpf( float f1, float f2, float epsilon ) {
+	return ( fabs( f1 - f2 ) < epsilon );
+}
+
 void inline Math::SinCos(float radians, float *sine, float *cosine)
 {
 	double __cosr, __sinr;
@@ -40,6 +44,13 @@ void Math::NormalizeAngles(QAngle& angle)
 
 	while (angle.y < -180.f)
 		angle.y += 360.f;
+}
+
+void Math::NormalizeYaw( float& yaw ) {
+	while ( yaw > 180.0f )
+		yaw -= 360.0f;
+	while ( yaw < -180.0f )
+		yaw += 360.0f;
 }
 
 void Math::ClampAngles(QAngle& angle)

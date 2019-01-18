@@ -59,14 +59,13 @@ static ImColor GetColor(GrenadeType type)
 }
 static void DrawGrenadeInfo(GrenadeInfo* info)
 {
-	Vector pos2d;
-	if (debugOverlay->ScreenPosition(Vector(info->pos.x, info->pos.y, info->pos.z), pos2d))
+	ImVec2 pos2d;
+	if( !Draw::HyWorldToScreen( Vector(info->pos.x, info->pos.y, info->pos.z), &pos2d ) )
 		return;
 
-	Color clr = Color::FromImColor(GetColor(info->gType));
 	float radius = 20;
-	Draw::Circle(Vector2D(pos2d.x, pos2d.y), 15, radius, clr);
-	Draw::Text(pos2d.x + radius, pos2d.y, info->name.c_str(), esp_font, clr);
+	Draw::HyCircle( pos2d.x, pos2d.y, radius, GetColor(info->gType), 15 );
+	Draw::HyText( pos2d.x + radius, pos2d.y, GetColor(info->gType), info->name.c_str(), esp_font );
 }
 static void DrawAimHelp(GrenadeInfo* info)
 {
@@ -75,20 +74,18 @@ static void DrawAimHelp(GrenadeInfo* info)
 	infoVec *= 150 / infoVec.Length();
 	infoVec += info->pos;
 
-	Vector posVec;
-	if (debugOverlay->ScreenPosition(infoVec, posVec))
+	ImVec2 posVec;
+	if( !Draw::HyWorldToScreen( infoVec, &posVec ) )
 		return;
 
 	int w, h;
-	engine->GetScreenSize(w, h);
-
-	Vector2D pos2d(posVec.x, posVec.y);
+	Draw::HyGetScreenSize( &w, &h );
 
 	// Draw Point to Throw to
-	Draw::FilledCircle(pos2d, 20, 5, Color::FromImColor(Settings::GrenadeHelper::aimDot.Color()));
+	Draw::HyCircleFilled(posVec, 5, Settings::GrenadeHelper::aimDot.Color(), 20 );
 
 	// Draw Help line
-	Draw::Line(Vector2D(w / 2, h / 2), pos2d, Color::FromImColor(Settings::GrenadeHelper::aimLine.Color()));
+	Draw::HyLine(ImVec2(w / 2, h / 2), posVec, Settings::GrenadeHelper::aimLine.Color());
 }
 static void AimAssist(CUserCmd* cmd)
 {
@@ -206,7 +203,7 @@ void GrenadeHelper::CreateMove(CUserCmd* cmd)
 	AimAssist(cmd);
 	shotLastTick = cmd->buttons & IN_ATTACK;
 }
-void GrenadeHelper::Paint()
+void GrenadeHelper::PaintHybrid()
 {
 	if (!Settings::ESP::enabled || !engine->IsInGame() || !Settings::GrenadeHelper::enabled)
 		return;

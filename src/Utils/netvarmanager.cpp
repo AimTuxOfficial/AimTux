@@ -27,7 +27,7 @@ std::vector<RecvTable*> NetVarManager::GetTables()
 RecvTable* NetVarManager::GetTable(std::vector<RecvTable*> tables, const char* tableName)
 {
 	if (tables.empty())
-		return NULL;
+		return nullptr;
 
 	for (unsigned long i = 0; i < tables.size(); i++)
 	{
@@ -40,7 +40,7 @@ RecvTable* NetVarManager::GetTable(std::vector<RecvTable*> tables, const char* t
 			return table;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 int NetVarManager::GetOffset(std::vector<RecvTable*> tables, const char* tableName, const char* propName)
@@ -138,7 +138,7 @@ void NetVarManager::DumpNetvars()
 {
 	std::stringstream ss;
 
-	for (ClientClass* pClass = client->GetAllClasses(); pClass != NULL; pClass = pClass->m_pNext)
+	for (ClientClass* pClass = client->GetAllClasses(); pClass != nullptr; pClass = pClass->m_pNext)
 	{
 		RecvTable* table = pClass->m_pRecvTable;
 		ss << NetVarManager::DumpTable(table, 0);

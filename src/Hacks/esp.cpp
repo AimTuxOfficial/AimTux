@@ -11,6 +11,9 @@
 #include "../Utils/xorstring.h"
 #include "../Hooks/hooks.h"
 
+#include <climits>
+#include <deque>
+
 bool Settings::ESP::enabled = false;
 ButtonCode_t Settings::ESP::key = ButtonCode_t::KEY_Z;
 TeamColorType Settings::ESP::teamColorType = TeamColorType::RELATIVE;
@@ -103,12 +106,26 @@ bool Settings::Debug::BoneMap::draw = false;
 bool Settings::Debug::BoneMap::justDrawDots = false;
 bool Settings::Debug::AnimLayers::draw = false;
 
-struct Footstep
-{
-	long expiration;
-	int entityId;
-	Vector position;
+/* The engine->WorldToScreenMatrix() function can't be called at all times
+ * So this is Updated in the Paint Hook for us */
+VMatrix vMatrix = {69.0f,69.0f,69.0f,69.0f,
+				   69.0f,69.0f,69.0f,69.0f,
+				   69.0f,69.0f,69.0f,69.0f,
+				   69.0f,69.0f,69.0f,69.0f};
+
+Vector2D barsSpacing = Vector2D( 0, 0 );
+
+struct Footstep {
+    Footstep( Vector *pos, long expireAt ){
+        position = *pos;
+        expiration = expireAt;
+    }
+    long expiration;
+    Vector position;
 };
+
+static std::deque<Footstep> playerFootsteps[64]; // entIndex -> Footstep.
+
 
 QAngle viewanglesBackup;
 std::vector<Footstep> footsteps;
@@ -159,10 +176,10 @@ static float GetArmourHealth(float flDamage, int ArmorValue)
 	return flNew;
 }
 
-static bool GetBox(C_BaseEntity* entity, int& x, int& y, int& w, int& h)
-{
+static bool GetBox( C_BaseEntity* entity, int& x, int& y, int& w, int& h ) {
 	// Variables
-	Vector vOrigin, min, max, flb, brt, blb, frt, frb, brb, blt, flt;
+	Vector vOrigin, min, max;
+	ImVec2 flb, brt, blb, frt, frb, brb, blt, flt; // think of these as Front-Left-Bottom/Front-Left-Top... Etc.
 	float left, top, right, bottom;
 
 	// Get the locations
@@ -171,24 +188,24 @@ static bool GetBox(C_BaseEntity* entity, int& x, int& y, int& w, int& h)
 	max = entity->GetCollideable()->OBBMaxs() + vOrigin;
 
 	// Points of a 3d bounding box
-	Vector points[] = { Vector(min.x, min.y, min.z),
-						Vector(min.x, max.y, min.z),
-						Vector(max.x, max.y, min.z),
-						Vector(max.x, min.y, min.z),
-						Vector(max.x, max.y, max.z),
-						Vector(min.x, max.y, max.z),
-						Vector(min.x, min.y, max.z),
-						Vector(max.x, min.y, max.z) };
+	Vector points[] = { Vector( min.x, min.y, min.z ),
+						Vector( min.x, max.y, min.z ),
+						Vector( max.x, max.y, min.z ),
+						Vector( max.x, min.y, min.z ),
+						Vector( max.x, max.y, max.z ),
+						Vector( min.x, max.y, max.z ),
+						Vector( min.x, min.y, max.z ),
+						Vector( max.x, min.y, max.z ) };
 
 	// Get screen positions
-	if (debugOverlay->ScreenPosition(points[3], flb) || debugOverlay->ScreenPosition(points[5], brt)
-		|| debugOverlay->ScreenPosition(points[0], blb) || debugOverlay->ScreenPosition(points[4], frt)
-		|| debugOverlay->ScreenPosition(points[2], frb) || debugOverlay->ScreenPosition(points[1], brb)
-		|| debugOverlay->ScreenPosition(points[6], blt) || debugOverlay->ScreenPosition(points[7], flt))
+	if ( !Draw::HyWorldToScreen( points[3], &flb ) || !Draw::HyWorldToScreen( points[5], &brt )
+		 || !Draw::HyWorldToScreen( points[0], &blb ) || !Draw::HyWorldToScreen( points[4], &frt )
+		 || !Draw::HyWorldToScreen( points[2], &frb ) || !Draw::HyWorldToScreen( points[1], &brb )
+		 || !Draw::HyWorldToScreen( points[6], &blt ) || !Draw::HyWorldToScreen( points[7], &flt ) )
 		return false;
 
 	// Put them in an array (maybe start them off in one later for speed?)
-	Vector arr[] = { flb, brt, blb, frt, frb, brb, blt, flt };
+	ImVec2 arr[] = { flb, brt, blb, frt, frb, brb, blt, flt };
 
 	// Init this shit
 	left = flb.x;
@@ -197,26 +214,26 @@ static bool GetBox(C_BaseEntity* entity, int& x, int& y, int& w, int& h)
 	bottom = flb.y;
 
 	// Find the bounding corners for our box
-	for (int i = 1; i < 8; i++)
-	{
-		if (left > arr[i].x)
+	for ( int i = 1; i < 8; i++ ) {
+		if ( left > arr[i].x )
 			left = arr[i].x;
-		if (bottom < arr[i].y)
+		if ( bottom < arr[i].y )
 			bottom = arr[i].y;
-		if (right < arr[i].x)
+		if ( right < arr[i].x )
 			right = arr[i].x;
-		if (top > arr[i].y)
+		if ( top > arr[i].y )
 			top = arr[i].y;
 	}
 
 	// Width / height
-	x = (int) left;
-	y = (int) top;
-	w = (int) (right - left);
-	h = (int) (bottom - top);
+	x = ( int ) left;
+	y = ( int ) top;
+	w = ( int ) ( right - left );
+	h = ( int ) ( bottom - top );
 
 	return true;
 }
+
 
 ImColor ESP::GetESPPlayerColor(C_BasePlayer* player, bool visible)
 {
@@ -278,232 +295,270 @@ ImColor ESP::GetESPPlayerColor(C_BasePlayer* player, bool visible)
 	return playerColor;
 }
 
-static void DrawBox(Color color, int x, int y, int w, int h, C_BaseEntity* entity)
-{
-	if (Settings::ESP::Boxes::type == BoxType::FRAME_2D)
-	{
-		int VertLine = (int) (w * 0.33f);
-		int HorzLine = (int) (h * 0.33f);
-		int squareLine = std::min(VertLine, HorzLine);
+bool ESP::WorldToScreen( const Vector &origin, ImVec2 * const screen ) {
+	float w = vMatrix[3][0] * origin.x
+			  + vMatrix[3][1] * origin.y
+			  + vMatrix[3][2] * origin.z
+			  + vMatrix[3][3];
+
+	if ( w < 0.01f ) // Is Not in front of our player
+		return false;
+
+	static float width = ImGui::GetWindowWidth();
+	static float height = ImGui::GetWindowHeight();
+	static float halfWidth = width / 2;
+	static float halfHeight = height / 2;
+
+	float inverseW = 1 / w;
+
+	screen->x = halfWidth +
+				(0.5f * ((vMatrix[0][0] * origin.x +
+						  vMatrix[0][1] * origin.y +
+						  vMatrix[0][2] * origin.z +
+						  vMatrix[0][3]) * inverseW) * width + 0.5f);
+
+	screen->y = halfHeight -
+				(0.5f * ((vMatrix[1][0] * origin.x +
+						  vMatrix[1][1] * origin.y +
+						  vMatrix[1][2] * origin.z +
+						  vMatrix[1][3]) * inverseW) * height + 0.5f);
+	return true;
+}
+
+static void DrawBox( ImColor color, int x, int y, int w, int h, C_BaseEntity* entity ) {
+	if ( Settings::ESP::Boxes::type == BoxType::FRAME_2D ) {
+		int VertLine = w / 3;
+		int HorzLine = h / 3;
+		int squareLine = std::min( VertLine, HorzLine );
 
 		// top-left corner / color
-		Draw::Rectangle(x, y, x + squareLine, y + 1, color);
-		Draw::Rectangle(x, y, x + 1, y + squareLine, color);
+		Draw::HyRectangle( x, y, x + squareLine, y + 1, color );
+		Draw::HyRectangle( x, y, x + 1, y + squareLine, color );
 
-		// top-left corner / outer outline
-		Draw::Rectangle(x - 1, y - 1, x + squareLine, y, Color(10, 10, 10, 190));
-		Draw::Rectangle(x - 1, y, x, y + squareLine, Color(10, 10, 10, 190));
 
-		// top-left corner / inner outline
-		Draw::Rectangle(x + 1, y + 1, x + squareLine, y + 2, Color(10, 10, 10, 190));
-		Draw::Rectangle(x + 1, y + 2, x + 2, y + squareLine, Color(10, 10, 10, 190));
 
 		// top-left corner / missing edges
-		Draw::Rectangle(x + squareLine, y - 1, x + squareLine + 1, y + 2, Color(10, 10, 10, 190));
-		Draw::Rectangle(x - 1, y + squareLine, x + 2, y + squareLine + 1, Color(10, 10, 10, 190));
+		Draw::HyRectangle( x + squareLine, y - 1, x + squareLine + 1, y + 2, ImColor( 10, 10, 10, 190 ) );
+		Draw::HyRectangle( x - 1, y + squareLine, x + 2, y + squareLine + 1, ImColor( 10, 10, 10, 190 ) );
 
 
 		// top-right corner / color
-		Draw::Rectangle(x + w - squareLine, y, x + w, y + 1, color);
-		Draw::Rectangle(x + w - 1, y, x + w, y + squareLine, color);
+		Draw::HyRectangle( x + w - squareLine, y, x + w, y + 1, color );
+		Draw::HyRectangle( x + w - 1, y, x + w, y + squareLine, color );
 
-		// top-right corner / outer outline
-		Draw::Rectangle(x + w - squareLine, y - 1, x + w + 1, y, Color(10, 10, 10, 190));
-		Draw::Rectangle(x + w, y, x + w + 1, y + squareLine, Color(10, 10, 10, 190));
 
-		// top-right corner / inner outline
-		Draw::Rectangle(x + w - squareLine, y + 1, x + w - 1, y + 2, Color(10, 10, 10, 190));
-		Draw::Rectangle(x + w - 2, y + 2, x + w - 1, y + squareLine, Color(10, 10, 10, 190));
 
 		// top-right corner / missing edges
-		Draw::Rectangle(x + w - squareLine - 1, y - 1, x + w - squareLine, y + 2, Color(10, 10, 10, 190));
-		Draw::Rectangle(x + w - 2, y + squareLine, x + w + 1, y + squareLine + 1, Color(10, 10, 10, 190));
+		Draw::HyRectangle( x + w - squareLine - 1, y - 1, x + w - squareLine, y + 2, ImColor( 10, 10, 10, 190 ) );
+		Draw::HyRectangle( x + w - 2, y + squareLine, x + w + 1, y + squareLine + 1, ImColor( 10, 10, 10, 190 ) );
 
 
 		// bottom-left corner / color
-		Draw::Rectangle(x, y + h - 1, x + squareLine, y + h, color);
-		Draw::Rectangle(x, y + h - squareLine, x + 1, y + h, color);
+		Draw::HyRectangle( x, y + h - 1, x + squareLine, y + h, color );
+		Draw::HyRectangle( x, y + h - squareLine, x + 1, y + h, color );
 
-		// bottom-left corner / outer outline
-		Draw::Rectangle(x - 1, y + h, x + squareLine, y + h + 1, Color(10, 10, 10, 190));
-		Draw::Rectangle(x - 1, y + h - squareLine, x, y + h, Color(10, 10, 10, 190));
 
-		// bottom-left corner / inner outline
-		Draw::Rectangle(x + 1, y + h - 2, x + squareLine, y + h - 1, Color(10, 10, 10, 190));
-		Draw::Rectangle(x + 1, y + h - squareLine, x + 2, y + h - 2, Color(10, 10, 10, 190));
 
 		// bottom-left corner / missing edges
-		Draw::Rectangle(x + squareLine, y + h - 2, x + squareLine + 1, y + h + 1, Color(10, 10, 10, 190));
-		Draw::Rectangle(x - 1, y + h - squareLine - 1, x + 2, y + h - squareLine, Color(10, 10, 10, 190));
+		Draw::HyRectangle( x + squareLine, y + h - 2, x + squareLine + 1, y + h + 1, ImColor( 10, 10, 10, 190 ) );
+		Draw::HyRectangle( x - 1, y + h - squareLine - 1, x + 2, y + h - squareLine, ImColor( 10, 10, 10, 190 ) );
 
 
 		// bottom-right corner / color
-		Draw::Rectangle(x + w - squareLine, y + h - 1, x + w, y + h, color);
-		Draw::Rectangle(x + w - 1, y + h - squareLine, x + w, y + h, color);
+		Draw::HyRectangle( x + w - squareLine, y + h - 1, x + w, y + h, color );
+		Draw::HyRectangle( x + w - 1, y + h - squareLine, x + w, y + h, color );
 
-		// bottom-right corner / outer outline
-		Draw::Rectangle(x + w - squareLine, y + h, x + w + 1, y + h + 1, Color(10, 10, 10, 190));
-		Draw::Rectangle(x + w, y + h - squareLine, x + w + 1, y + h + 1, Color(10, 10, 10, 190));
-
-		// bottom-right corner / inner outline
-		Draw::Rectangle(x + w - squareLine, y + h - 2, x + w - 1, y + h - 1, Color(10, 10, 10, 190));
-		Draw::Rectangle(x + w - 2, y + h - squareLine, x + w - 1, y + h - 2, Color(10, 10, 10, 190));
 
 		// bottom-right corner / missing edges
-		Draw::Rectangle(x + w - squareLine, y + h - 2, x + w - squareLine + 1, y + h + 1, Color(10, 10, 10, 190));
-		Draw::Rectangle(x + w - 2, y + h - squareLine - 1, x + w + 1, y + h - squareLine, Color(10, 10, 10, 190));
-	}
-	else if (Settings::ESP::Boxes::type == BoxType::FLAT_2D)
-	{
-		// color
-		Draw::Rectangle(x, y, x + w, y + h, color);
-		// outer outline
-		Draw::Rectangle(x + 1, y + 1, x + w - 1, y + h - 1, Color(10, 10, 10, 190));
-		// inner outline
-		Draw::Rectangle(x - 1, y - 1, x + w + 1, y + h + 1, Color(10, 10, 10, 190));
-	}
-	else if (Settings::ESP::Boxes::type == BoxType::BOX_3D)
-	{
+		Draw::HyRectangle( x + w - squareLine, y + h - 2, x + w - squareLine + 1, y + h + 1, ImColor( 10, 10, 10, 190 ) );
+		Draw::HyRectangle( x + w - 2, y + h - squareLine - 1, x + w + 1, y + h - squareLine, ImColor( 10, 10, 10, 190 ) );
+	} else if ( Settings::ESP::Boxes::type == BoxType::FLAT_2D ) {
+		int VertLine = ( int ) ( w * 0.33f );
+		int HorzLine = ( int ) ( h * 0.33f );
+		int squareLine = std::min( VertLine, HorzLine );
+
+		// top-left corner / color
+		Draw::HyRectangle( x, y, x + squareLine, y + 1, color );
+		Draw::HyRectangle( x, y, x + 1, y + squareLine, color );
+
+		// top-left corner / missing edges
+		Draw::HyRectangle( x + squareLine, y - 1, x + squareLine + 1, y + 2, ImColor( 10, 10, 10, 190 ) );
+		Draw::HyRectangle( x - 1, y + squareLine, x + 2, y + squareLine + 1, ImColor( 10, 10, 10, 190 ) );
+
+
+		// top-right corner / color
+		Draw::HyRectangle( x + w - squareLine, y, x + w, y + 1, color );
+		Draw::HyRectangle( x + w - 1, y, x + w, y + squareLine, color );
+
+		// top-right corner / missing edges
+		Draw::HyRectangle( x + w - squareLine - 1, y - 1, x + w - squareLine, y + 2, ImColor( 10, 10, 10, 190 ) );
+		Draw::HyRectangle( x + w - 2, y + squareLine, x + w + 1, y + squareLine + 1, ImColor( 10, 10, 10, 190 ) );
+
+
+		// bottom-left corner / color
+		Draw::HyRectangle( x, y + h - 1, x + squareLine, y + h, color );
+		Draw::HyRectangle( x, y + h - squareLine, x + 1, y + h, color );
+
+		// bottom-left corner / missing edges
+		Draw::HyRectangle( x + squareLine, y + h - 2, x + squareLine + 1, y + h + 1, ImColor( 10, 10, 10, 190 ) );
+		Draw::HyRectangle( x - 1, y + h - squareLine - 1, x + 2, y + h - squareLine, ImColor( 10, 10, 10, 190 ) );
+
+
+		// bottom-right corner / color
+		Draw::HyRectangle( x + w - squareLine, y + h - 1, x + w, y + h, color );
+		Draw::HyRectangle( x + w - 1, y + h - squareLine, x + w, y + h, color );
+
+		// bottom-right corner / missing edges
+		Draw::HyRectangle( x + w - squareLine, y + h - 2, x + w - squareLine + 1, y + h + 1, ImColor( 10, 10, 10, 190 ) );
+		Draw::HyRectangle( x + w - 2, y + h - squareLine - 1, x + w + 1, y + h - squareLine, ImColor( 10, 10, 10, 190 ) );
+
+		Draw::HyFilledRectangle( x, y, x + w, y + h, ImColor( color.Value.x, color.Value.y, color.Value.z, 21 * (1.0f/255.0f) ) );
+	} else if ( Settings::ESP::Boxes::type == BoxType::BOX_3D ) {
 		Vector vOrigin = entity->GetVecOrigin();
 		Vector min = entity->GetCollideable()->OBBMins() + vOrigin;
 		Vector max = entity->GetCollideable()->OBBMaxs() + vOrigin;
 
-		Vector points[] = { Vector(min.x, min.y, min.z),
-							Vector(min.x, max.y, min.z),
-							Vector(max.x, max.y, min.z),
-							Vector(max.x, min.y, min.z),
-							Vector(min.x, min.y, max.z),
-							Vector(min.x, max.y, max.z),
-							Vector(max.x, max.y, max.z),
-							Vector(max.x, min.y, max.z) };
+		Vector points[] = { Vector( min.x, min.y, min.z ),
+							Vector( min.x, max.y, min.z ),
+							Vector( max.x, max.y, min.z ),
+							Vector( max.x, min.y, min.z ),
+							Vector( min.x, min.y, max.z ),
+							Vector( min.x, max.y, max.z ),
+							Vector( max.x, max.y, max.z ),
+							Vector( max.x, min.y, max.z ) };
 
-		int edges[12][2] = { { 0, 1 }, { 1, 2 }, { 2, 3 }, { 3, 0 },
-							 { 4, 5 }, { 5, 6 }, { 6, 7 }, { 7, 4 },
-							 { 0, 4 }, { 1, 5 }, { 2, 6 }, { 3, 7 }, };
+		int edges[12][2] = {
+				{ 0, 1 },
+				{ 1, 2 },
+				{ 2, 3 },
+				{ 3, 0 },
+				{ 4, 5 },
+				{ 5, 6 },
+				{ 6, 7 },
+				{ 7, 4 },
+				{ 0, 4 },
+				{ 1, 5 },
+				{ 2, 6 },
+				{ 3, 7 },
+		};
 
-		for (const auto edge : edges)
-		{
-			Vector p1, p2;
-			if (debugOverlay->ScreenPosition(points[edge[0]], p1) || debugOverlay->ScreenPosition(points[edge[1]], p2))
+		for ( const auto edge : edges ) {
+			ImVec2 p1, p2;
+			if ( !Draw::HyWorldToScreen( points[edge[0]], &p1 ) ||
+				 !Draw::HyWorldToScreen( points[edge[1]], &p2 ) )
 				return;
-			Draw::Line(Vector2D(p1.x, p1.y), Vector2D(p2.x, p2.y), color);
+			Draw::HyLine( ImVec2( p1.x, p1.y ), ImVec2( p2.x, p2.y ), color );
 		}
-	}
-	else if (Settings::ESP::Boxes::type == BoxType::HITBOXES) /* credits to 1337floesen - https://www.unknowncheats.me/forum/counterstrike-global-offensive/157557-drawing-hitboxes.html */
-	{
-		static std::map<int, long> playerDrawTimes;
-		if( playerDrawTimes.find(entity->GetIndex()) == playerDrawTimes.end() ){ // haven't drawn this player yet
-			playerDrawTimes[entity->GetIndex()] = Util::GetEpochTime();
-		}
+	} /*else if ( Settings::ESP::Boxes::type == BoxType::HITBOXES )  credits to 1337floesen - https://www.unknowncheats.me/forum/counterstrike-global-offensive/157557-drawing-hitboxes.html */ //{
+	/*static std::map<int, long> playerDrawTimes;
+    if ( playerDrawTimes.find( entity->GetIndex() ) == playerDrawTimes.end() ) { // haven't drawn this player yet
+        playerDrawTimes[entity->GetIndex()] = Util::GetEpochTime();
+    }
 
-		matrix3x4_t matrix[128];
+    matrix3x4_t matrix[128];
 
-		if(!entity->SetupBones(matrix, 128, 0x00000100, globalVars->curtime))
-			return;
+    if ( !entity->SetupBones( matrix, 128, 0x00000100, globalVars->curtime ) )
+        return;
 
-		studiohdr_t *hdr = modelInfo->GetStudioModel(entity->GetModel());
-		mstudiohitboxset_t *set = hdr->pHitboxSet(0); // :^)
+    studiohdr_t* hdr = modelInfo->GetStudioModel( entity->GetModel() );
+    mstudiohitboxset_t* set = hdr->pHitboxSet( 0 ); // :^)
 
-		long diffTime = Util::GetEpochTime() - playerDrawTimes.at(entity->GetIndex());
-		if( diffTime >= 12 )
-		{
-			for( int i = 0; i < set->numhitboxes; i++ ){
-				mstudiobbox_t *hitbox = set->pHitbox(i);
-				if( !hitbox ) { continue; }
-				Vector vMin, vMax;
-				Math::VectorTransform(hitbox->bbmin, matrix[hitbox->bone], vMin);
-				Math::VectorTransform(hitbox->bbmax, matrix[hitbox->bone], vMax);
+    long diffTime = Util::GetEpochTime() - playerDrawTimes.at( entity->GetIndex() );
+    if ( diffTime >= 12 ) {
+        for ( int i = 0; i < set->numhitboxes; i++ ) {
+            mstudiobbox_t* hitbox = set->pHitbox( i );
+            if ( !hitbox ) {
+                continue;
+            }
+            Vector vMin, vMax;
+            Math::VectorTransform( hitbox->bbmin, matrix[hitbox->bone], vMin );
+            Math::VectorTransform( hitbox->bbmax, matrix[hitbox->bone], vMax );
 
-				debugOverlay->DrawPill(vMin, vMax, hitbox->radius , color.r, color.g, color.b, color.a, 0.025f);
-			}
-			playerDrawTimes[entity->GetIndex()] = Util::GetEpochTime();
-		}
-	}
+            debugOverlay->DrawPill( vMin, vMax, hitbox->radius, color.r, color.g, color.b, 0.025f, color.a, false );
+        }
+        playerDrawTimes[entity->GetIndex()] = Util::GetEpochTime();
+    }
+}*/
 }
 
-static void DrawEntity(C_BaseEntity* entity, const char* string, Color color)
-{
+static void DrawEntity( C_BaseEntity* entity, const char* string, ImColor color ) {
 	int x, y, w, h;
-	if (GetBox(entity, x, y, w, h))
-	{
-		DrawBox(color, x, y, w, h, entity);
+	if ( !GetBox( entity, x, y, w, h ) )
+		return;
 
-		Vector2D nameSize = Draw::GetTextSize(string, esp_font);
-		Draw::Text((int)(x + (w / 2) - (nameSize.x / 2)), y + h + 2, string, esp_font, Color(255, 255, 255, 255));
-	}
+	DrawBox( color, x, y, w, h, entity );
+	C_BasePlayer* localplayer = ( C_BasePlayer* ) entityList->GetClientEntity( engine->GetLocalPlayer() );
+	ImVec2 nameSize = Draw::HyGetTextSize( string, esp_font );
+	Draw::HyText(( int ) ( x + ( w / 2 ) - ( nameSize.x / 2 ) ), y + h + 2, color, string, esp_font );
 }
-static void DrawSkeleton(C_BasePlayer* player)
-{
-	studiohdr_t* pStudioModel = modelInfo->GetStudioModel(player->GetModel());
-	if (!pStudioModel)
+static void DrawSkeleton( C_BasePlayer* player ) {
+	studiohdr_t* pStudioModel = modelInfo->GetStudioModel( player->GetModel() );
+	if ( !pStudioModel )
 		return;
 
 	static matrix3x4_t pBoneToWorldOut[128];
-	if (player->SetupBones(pBoneToWorldOut, 128, 256, 0))
-	{
-		for (int i = 0; i < pStudioModel->numbones; i++)
-		{
-			mstudiobone_t* pBone = pStudioModel->pBone(i);
-			if (!pBone || !(pBone->flags & 256) || pBone->parent == -1)
-				continue;
+	if ( !player->SetupBones( pBoneToWorldOut, 128, 256, 0 ) )
+		return;
 
-			Vector vBonePos1;
-			if (debugOverlay->ScreenPosition(Vector(pBoneToWorldOut[i][0][3], pBoneToWorldOut[i][1][3], pBoneToWorldOut[i][2][3]), vBonePos1))
-				continue;
+	for ( int i = 0; i < pStudioModel->numbones; i++ ) {
+		mstudiobone_t* pBone = pStudioModel->pBone( i );
+		if ( !pBone || !( pBone->flags & 256 ) || pBone->parent == -1 )
+			continue;
 
-			Vector vBonePos2;
-			if (debugOverlay->ScreenPosition(Vector(pBoneToWorldOut[pBone->parent][0][3], pBoneToWorldOut[pBone->parent][1][3], pBoneToWorldOut[pBone->parent][2][3]), vBonePos2))
-				continue;
+		ImVec2 vBonePos1;
+		if ( !Draw::HyWorldToScreen( Vector( pBoneToWorldOut[i][0][3], pBoneToWorldOut[i][1][3], pBoneToWorldOut[i][2][3] ), &vBonePos1 ) )
+			continue;
 
-			Draw::Line(Vector2D(vBonePos1.x, vBonePos1.y), Vector2D(vBonePos2.x, vBonePos2.y), Color::FromImColor(Settings::ESP::Skeleton::color.Color()));
-		}
+		ImVec2 vBonePos2;
+		if ( !Draw::HyWorldToScreen( Vector( pBoneToWorldOut[pBone->parent][0][3], pBoneToWorldOut[pBone->parent][1][3], pBoneToWorldOut[pBone->parent][2][3] ), &vBonePos2 ) )
+			continue;
+
+		Draw::HyLine( ImVec2( vBonePos1.x, vBonePos1.y ), ImVec2( vBonePos2.x, vBonePos2.y ), Settings::ESP::Skeleton::color.Color());
 	}
 }
-
-static void DrawBulletTrace(C_BasePlayer* player)
-{
-	Vector src3D, dst3D, forward, src, dst;
+static void DrawBulletTrace( C_BasePlayer* player ) {
+	Vector src3D, dst3D, forward;
+	ImVec2 src, dst;
 	trace_t tr;
 	Ray_t ray;
 	CTraceFilter filter;
 
-	Math::AngleVectors(*player->GetEyeAngles(), forward);
+	Math::AngleVectors( *player->GetEyeAngles(), forward );
 	filter.pSkip = player;
 	src3D = player->GetEyePosition();
-	dst3D = src3D + (forward * 8192);
+	dst3D = src3D + ( forward * 8192 );
 
-	ray.Init(src3D, dst3D);
+	ray.Init( src3D, dst3D );
 
-	trace->TraceRay(ray, MASK_SHOT, &filter, &tr);
+	trace->TraceRay( ray, MASK_SHOT, &filter, &tr );
 
-	if (debugOverlay->ScreenPosition(src3D, src) || debugOverlay->ScreenPosition(tr.endpos, dst))
+	if ( !Draw::HyWorldToScreen( src3D, &src ) || !Draw::HyWorldToScreen( tr.endpos, &dst ) )
 		return;
 
-	Draw::Line((int)(src.x), (int)(src.y), (int)(dst.x), (int)(dst.y), Color::FromImColor(ESP::GetESPPlayerColor(player, true)));
-	Draw::FilledRectangle((int)(dst.x - 3), (int)(dst.y - 3), 6, 6, Color::FromImColor(ESP::GetESPPlayerColor(player, false)));
+	Draw::HyLine( src.x, src.y, dst.x, dst.y, ESP::GetESPPlayerColor( player, true ) );
+	Draw::HyFilledRectangle( ( int ) ( dst.x - 3 ), ( int ) ( dst.y - 3 ), 6, 6, ESP::GetESPPlayerColor( player, false ) );
 }
+static void DrawTracer( C_BasePlayer* player ) {
+	Vector src3D;
+	ImVec2 src;
+	src3D = player->GetVecOrigin() - Vector( 0, 0, 0 );
 
-static void DrawTracer(C_BasePlayer* player)
-{
-	Vector src3D, src;
-	src3D = player->GetVecOrigin() - Vector(0, 0, 0);
-
-	if (debugOverlay->ScreenPosition(src3D, src))
+	if ( !Draw::HyWorldToScreen( src3D, &src ) )
 		return;
 
-	int ScreenWidth, ScreenHeight;
-	engine->GetScreenSize(ScreenWidth, ScreenHeight);
+	int screenWidth, screenHeight;
+	Draw::HyGetScreenSize( &screenWidth, &screenHeight );
 
-	int x = (int)(ScreenWidth * 0.5f);
+	int x = screenWidth / 2;
 	int y = 0;
 
-	if (Settings::ESP::Tracers::type == TracerType::CURSOR)
-		y = (int)(ScreenHeight * 0.5f);
-	else if (Settings::ESP::Tracers::type == TracerType::BOTTOM)
-		y = ScreenHeight;
+	if ( Settings::ESP::Tracers::type == TracerType::CURSOR )
+		y = screenHeight / 2;
+	else if ( Settings::ESP::Tracers::type == TracerType::BOTTOM )
+		y = screenHeight;
 
-	bool bIsVisible = Entity::IsVisible(player, (int)Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck);
-	Draw::Line((int)(src.x), (int)(src.y), x, y, Color::FromImColor(ESP::GetESPPlayerColor(player, bIsVisible)));
+	bool bIsVisible = Entity::IsVisible( player, ( int ) Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck );
+	Draw::HyLine( ( int ) ( src.x ), ( int ) ( src.y ), x, y, ESP::GetESPPlayerColor( player, bIsVisible ) );
 }
 static void DrawAimbotSpot( ) {
 	C_BasePlayer* localplayer = ( C_BasePlayer* ) entityList->GetClientEntity( engine->GetLocalPlayer() );
@@ -517,78 +572,53 @@ static void DrawAimbotSpot( ) {
 	}
 	if ( Settings::Debug::AutoAim::target.IsZero() )
 		return;
-	Vector spot2D;
-	if( debugOverlay->ScreenPosition( Settings::Debug::AutoAim::target, spot2D) )
+
+	ImVec2 spot2D;
+	if( !Draw::HyWorldToScreen( Settings::Debug::AutoAim::target, &spot2D) )
 		return;
+
 	int width, height;
-	engine->GetScreenSize( width, height );
-	Draw::Line( Vector2D( width/2, height/2), Vector2D( spot2D.x, spot2D.y ), Color(45, 235, 60));
-	Draw::Circle( Vector2D( width/2, height/2), 12, 2.0f, Color(45, 235, 60));
-	Draw::Circle( Vector2D( spot2D.x, spot2D.y ), 12, 2.0f, Color(45, 235, 60));
+	Draw::HyGetScreenSize( &width, &height );
+	Draw::HyLine( width / 2, height / 2, spot2D.x, spot2D.y, ImColor( 45, 235, 60 ) );
+	Draw::HyCircle( width / 2, height / 2, 12, ImColor( 45, 235, 60 ) );
+	Draw::HyCircle( spot2D.x, spot2D.y, 12, ImColor( 45, 235, 60 ) );
 }
 static void DrawBoneMap( C_BasePlayer* player ) {
-	static HFont boneMapFont = Draw::CreateFont( XORSTR( "Andale Mono" ), 10, (int)FontFlags::FONTFLAG_DROPSHADOW );
-	static Vector bone2D;
+	static ImVec2 bone2D;
 	static Vector bone3D;
 	studiohdr_t* pStudioModel = modelInfo->GetStudioModel( player->GetModel() );
 
 	for( int i = 1; i < pStudioModel->numbones; i++ ){
 		bone3D = player->GetBonePosition( i );
-		if ( debugOverlay->ScreenPosition( bone3D, bone2D ) )
+		if ( !Draw::HyWorldToScreen( bone3D, &bone2D ) )
 			continue;
-		if( Settings::Debug::BoneMap::justDrawDots ){
-			Draw::FilledCircle( Vector2D( bone2D.x, bone2D.y ), 6, 2.0f, Color( 255, 10, 255, 255 ) );
-		} else {
-			char buffer[4];
-			snprintf(buffer, 4, "%d", i);
-			Draw::Text( Vector2D( bone2D.x, bone2D.y ), buffer, boneMapFont, Color( 255, 0, 255, 255 ) );
-		}
+		char buffer[32];
+		snprintf(buffer, 32, "%d", i);
+		Draw::HyText( bone2D.x, bone2D.y, ImColor( 255, 0, 255, 255 ), buffer, esp_font );
 	}
-	if( !Settings::Debug::BoneMap::justDrawDots ){
-		IEngineClient::player_info_t entityInformation;
-		engine->GetPlayerInfo( player->GetIndex(), &entityInformation );
-		cvar->ConsoleDPrintf( XORSTR( "(%s)-ModelName: %s, numBones: %d\n" ), entityInformation.name, pStudioModel->name, pStudioModel->numbones );
-	}
+	IEngineClient::player_info_t entityInformation;
+	engine->GetPlayerInfo( player->GetIndex(), &entityInformation );
+	cvar->ConsoleDPrintf( XORSTR( "(%s)-ModelName: %s, numBones: %d\n" ), entityInformation.name, pStudioModel->name, pStudioModel->numbones );
 }
-static void DrawAutoWall(C_BasePlayer *player)
-{
+static void DrawAutoWall(C_BasePlayer *player) {
 	const std::map<int, int> *modelType = Util::GetModelTypeBoneMap(player);
-
-	static HFont autowallFont = Draw::CreateFont(XORSTR("Andale Mono"), 8, (int)FontFlags::FONTFLAG_DROPSHADOW );
-	/*
-	Vector bone2D;
-	Vector bone3D = player->GetBonePosition((int)Bone::BONE_HEAD);
-	if( debugOverlay->ScreenPosition(Vector(bone3D.x, bone3D.y, bone3D.z), bone2D))
-		return;
-
-	Autowall::FireBulletData data;
-	float damage = Autowall::GetDamage(bone3D, !Settings::Aimbot::friendly, data);
-	std::stringstream stream;
-	stream << std::fixed << std::setprecision(1) << damage;
-	std::string output = stream.str();
-
-	Draw::Text(Vector2D(bone2D.x, bone2D.y), output.c_str(), autowallFont, Color(255, 0, 255, 255)); // hot pink
-	 */
-
 	for( int i = 0; i < 31; i++ )
 	{
 		auto bone = modelType->find(i);
 		if( bone == modelType->end() || bone->second <= (int)Bone::INVALID )
 			continue;
-		Vector bone2D;
+		ImVec2 bone2D;
 		Vector bone3D = player->GetBonePosition(bone->second);
-		if( debugOverlay->ScreenPosition(Vector(bone3D.x, bone3D.y, bone3D.z), bone2D) )
+		if ( !Draw::HyWorldToScreen( bone3D, &bone2D ) )
 			continue;
 
 		Autowall::FireBulletData data;
-		float damage = Autowall::GetDamage(bone3D, !Settings::Aimbot::friendly, data);
-		std::stringstream stream;
-		stream << std::fixed << std::setprecision(0) << damage;
-		std::string output = stream.str();
-
-		//Draw::Text(Vector2D(bone2D.x, bone2D.y), output.c_str(), autowallFont, Color::FromImColor(GetESPPlayerColor(player, true))); // for color from config
-		Draw::Text(Vector2D(bone2D.x, bone2D.y), output.c_str(), autowallFont, Color(255, 0, 255, 255)); // hot pink
+		int damage = (int)Autowall::GetDamage( bone3D, !Settings::Aimbot::friendly, data );
+		char buffer[4];
+		snprintf(buffer, sizeof(buffer), "%d", damage);
+		Draw::HyText( bone2D.x, bone2D.y, ImColor( 255, 0, 255, 255 ), buffer, esp_font );
 	}
+	return;
 	matrix3x4_t matrix[128];
 
 	if( !player->SetupBones(matrix, 128, 0x100, 0.f) )
@@ -631,76 +661,266 @@ static void DrawAutoWall(C_BasePlayer *player)
 
 
 	Autowall::FireBulletData data;
-	for( int i = 0; i < 11; i++ )
-	{
-		float damage = Autowall::GetDamage(headPoints[i], !Settings::Aimbot::friendly, data);
-		std::stringstream stream;
-		stream << std::fixed << std::setprecision(0) << damage;
-		std::string output = stream.str();
+	for ( int i = 0; i < 11; i++ ) {
+		int damage = (int)Autowall::GetDamage( headPoints[i], !Settings::Aimbot::friendly, data );
+		char buffer[4];
+		snprintf(buffer, sizeof(buffer), "%d", damage);
 
-		Vector string2D;
-		debugOverlay->ScreenPosition(headPoints[i], string2D);
-		Draw::Text(Vector2D(string2D.x, string2D.y), output.c_str(), autowallFont, Color(255, 0, 255, 255));
+		ImVec2 string2D;
+		if( !Draw::HyWorldToScreen( headPoints[i], &string2D ) )
+			continue;
+		Draw::HyText( string2D.x, string2D.y, ImColor( 255, 0, 255, 255 ), buffer , esp_font );
 	}
 }
 
-static void DrawHeaddot(C_BasePlayer* player)
-{
+static void CheckActiveSounds() {
+    static CUtlVector<SndInfo_t> sounds; // this has to be static.
+    static char buf[PATH_MAX];
+    static int lastSoundGuid = 0;  // the Unique sound playback ID's increment. It does not get reset to 0
+    sound->GetActiveSounds( sounds );
+    for ( int i = 0; i < sounds.Count(); i++ ){
+        if( sounds[i].m_nSoundSource <= 0 ) // environmental sounds.
+            continue;
+        if( sounds[i].m_nGuid <= lastSoundGuid ) // same sound we marked last time
+            continue;
+        if( sounds[i].m_nSoundSource == engine->GetLocalPlayer() )
+            continue;
 
-	Vector head2D;
-	Vector head3D = player->GetBonePosition((int) Bone::BONE_HEAD);
-	if (debugOverlay->ScreenPosition(Vector(head3D.x, head3D.y, head3D.z), head2D))
+        fileSystem->String( sounds[i].m_filenameHandle, buf, sizeof( buf ) );
+        if ( buf[0] != '~' )
+            continue;
+        if ( strstr( buf, XORSTR( "player/land" ) ) != nullptr ){
+            playerFootsteps[sounds[i].m_nSoundSource].push_back( Footstep( sounds[i].m_pOrigin, (Util::GetEpochTime() + Settings::ESP::Sounds::time) ) );
+
+            lastSoundGuid = sounds[i].m_nGuid;
+        } else if ( strstr( buf, XORSTR( "footstep" ) ) != nullptr ){
+            playerFootsteps[sounds[i].m_nSoundSource].push_back( Footstep( sounds[i].m_pOrigin, (Util::GetEpochTime() + Settings::ESP::Sounds::time) ) );
+
+            lastSoundGuid = sounds[i].m_nGuid;
+        }
+    }
+    // GetActiveSounds allocates new memory to our CUtlVector every time for some reason.
+    sounds.m_Size = 0; // Setting this to 0 makes it use the same memory each time instead of grabbing more.
+}
+
+static void DrawHeaddot( C_BasePlayer* player ) {
+
+	ImVec2 head2D;
+	Vector head3D = player->GetBonePosition( ( int ) Bone::BONE_HEAD );
+	if ( !Draw::HyWorldToScreen( Vector( head3D.x, head3D.y, head3D.z ), &head2D ) )
 		return;
 
 	bool bIsVisible = false;
-	if (Settings::ESP::Filters::visibilityCheck || Settings::ESP::Filters::legit)
-		bIsVisible = Entity::IsVisible(player, (int)Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck);
+	if ( Settings::ESP::Filters::visibilityCheck || Settings::ESP::Filters::legit )
+		bIsVisible = Entity::IsVisible( player, ( int ) Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck );
 
-	Draw::FilledCircle(Vector2D(head2D.x, head2D.y), 10, Settings::ESP::HeadDot::size, Color::FromImColor(ESP::GetESPPlayerColor(player, bIsVisible)));
-
-	/*
-	for( int bone = 127; bone >= (int)Bone::BONE_HIP; bone-- )
-	{
-		Vector bone2D;
-		Vector bone3D = player->GetBonePosition(bone);
-		if( debugOverlay->ScreenPosition(Vector(bone3D.x, bone3D.y, bone3D.z), bone2D))
-			continue;
-		char text[4]; // < 999
-		snprintf(text, sizeof(text), "%d", bone);
-		Draw::Text(Vector2D(bone2D.x, bone2D.y), text, esp_font, Color::FromImColor(GetESPPlayerColor(player, bIsVisible)));
-	}
-	*/
-	/*
-	matrix3x4_t matrix[128];
-
-	if( !player->SetupBones(matrix, 128, 0x100, 0.f) )
-		return;
-	model_t *pModel = player->GetModel();
-	if( !pModel )
-		return;
-
-	studiohdr_t *hdr = modelInfo->GetStudioModel(pModel);
-	if( !hdr )
-		return;
-
-	mstudiobbox_t *bbox = hdr->pHitbox((int)Hitbox::HITBOX_HEAD, 0); // bounding box
-	if( !bbox )
-		return;
-
-	Vector mins, maxs;
-	Math::VectorTransform(bbox->bbmin, matrix[bbox->bone], mins);
-	Math::VectorTransform(bbox->bbmax, matrix[bbox->bone], maxs);
-
-	Vector min2D, max2D;
-	debugOverlay->ScreenPosition(mins, min2D);
-	debugOverlay->ScreenPosition(maxs, max2D);
-
-	Draw::Text(Vector2D(min2D.x, min2D.y), "Min", esp_font, Color(255, 0, 255, 255));
-	Draw::Text(Vector2D(max2D.x, max2D.y), "Max", esp_font, Color(255, 0, 255, 255));
-	 */
+	Draw::HyCircleFilled( ImVec2( head2D.x, head2D.y ), Settings::ESP::HeadDot::size, ESP::GetESPPlayerColor( player, bIsVisible ), 10 );
 }
 
-static void DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_info_t player_info)
+static void DrawSounds( C_BasePlayer *player, ImColor playerColor ) {
+    static int checkEveryFour = 0; // HACK - it doesn't need to be checked every frame. This saves a lot of fps
+    if( checkEveryFour % 4 == 0 ){
+        CheckActiveSounds();
+        checkEveryFour = 0;
+    }
+    checkEveryFour++;
+    if ( playerFootsteps[player->GetIndex()].empty() )
+        return;
+
+    for ( auto it = playerFootsteps[player->GetIndex()].begin(); it != playerFootsteps[player->GetIndex()].end(); it++ ){
+        long diff = it->expiration - Util::GetEpochTime();
+
+        if ( diff <= 0 ){
+            playerFootsteps[player->GetIndex()].pop_front(); // This works because footsteps are a trail.
+            continue;
+        }
+
+        float percent = ( float ) diff / ( float ) Settings::ESP::Sounds::time;
+        Color drawColor = Color::FromImColor( playerColor );
+        drawColor.a = std::min( powf( percent * 2, 0.6f ), 1.f ) * drawColor.a; // fades out alpha when its below 0.5
+
+        float circleRadius = fabs( percent - 1.0f ) * 42.0f;
+        float points = circleRadius * 0.75f;
+
+        Draw::HyCircle3D( it->position, points, circleRadius, ImColor(drawColor.r, drawColor.g, drawColor.b, drawColor.a ) );
+    }
+}
+
+static void DrawPlayerHealthBars( C_BasePlayer* player, int x, int y, int w, int h, ImColor color ) {
+	int boxSpacing = Settings::ESP::Boxes::enabled ? 3 : 0;
+	ImColor barColor;
+
+	// clamp it to 100
+	int healthValue = std::max( 0, std::min( player->GetHealth(), 100 ) );
+	float HealthPerc = healthValue / 100.f;
+
+	int barx = x;
+	int bary = y;
+	int barw = w;
+	int barh = h;
+
+	if ( Settings::ESP::Bars::colorType == BarColorType::HEALTH_BASED )
+		barColor = ImColor(
+				std::min( 510 * ( 100 - healthValue ) / 100, 255 ),
+				std::min( 510 * healthValue / 100, 255 ),
+				25,
+				255
+		);
+	else if ( Settings::ESP::Bars::colorType == BarColorType::STATIC_COLOR )
+		barColor = color ;
+
+	if ( Settings::ESP::Bars::type == BarType::VERTICAL ) {
+		barw = 4; // outline(1px) + bar(2px) + outline(1px) = 6px;
+		barx -= barw + boxSpacing; // spacing(1px) + outline(1px) + bar(2px) + outline (1px) = 8 px
+		Draw::HyFilledRectangle( barx, bary, barx + barw, bary + barh, ImColor( 10, 10, 10, 255 ) );
+
+		if ( HealthPerc > 0 )
+			Draw::HyFilledRectangle( barx + 1, bary + ( barh * ( 1.f - HealthPerc ) ) + 1,
+									 barx + barw - 1, bary + barh - 1, barColor);
+
+		barsSpacing.x += barw;
+	} else if ( Settings::ESP::Bars::type == BarType::VERTICAL_RIGHT ) {
+		barx += barw + boxSpacing; // spacing(1px) + outline(1px) + bar(2px) + outline (1px) = 8 px
+		barw = 4; // outline(1px) + bar(2px) + outline(1px) = 6px;
+
+		Draw::HyFilledRectangle( barx, bary, barx + barw, bary + barh, ImColor( 10, 10, 10, 255 ) );
+
+		if ( HealthPerc > 0 )
+			Draw::HyFilledRectangle( barx + 1, bary + ( barh * ( 1.f - HealthPerc ) ) + 1, barx + barw - 1,
+									 bary + barh - 1, barColor );
+
+		barsSpacing.x += barw;
+	} else if ( Settings::ESP::Bars::type == BarType::HORIZONTAL ) {
+		bary += barh + boxSpacing; // player box(?px) + spacing(1px) + outline(1px) + bar(2px) + outline (1px) = 5 px
+		barh = 4; // outline(1px) + bar(2px) + outline(1px) = 4px;
+
+		Draw::HyFilledRectangle( barx, bary, barx + barw, bary + barh, ImColor( 10, 10, 10, 255 ) );
+
+		if ( HealthPerc > 0 ) {
+			barw *= HealthPerc;
+			Draw::HyRectangle( barx + 1, bary + 1, barx + barw - 1, bary + barh - 1, barColor );
+		}
+		barsSpacing.y += barh;
+	} else if ( Settings::ESP::Bars::type == BarType::HORIZONTAL_UP ) {
+		barh = 4; // outline(1px) + bar(2px) + outline(1px) = 4px;
+		bary -= barh + boxSpacing; // spacing(1px) + outline(1px) + bar(2px) + outline (1px) = 5 px
+
+		Draw::HyRectangle( barx - 1, bary - 1, barx + barw + 1, bary + barh + 1, ImColor( 255, 255, 255, 170 ) );
+		Draw::HyFilledRectangle( barx, bary, barx + barw, bary + barh, ImColor( 10, 10, 10, 255 ) );
+
+		if ( HealthPerc > 0 ) {
+			barw *= HealthPerc;
+			Draw::HyRectangle( barx + 1, bary + 1, barx + barw - 1, bary + barh - 1, barColor );
+		}
+		barsSpacing.y += barh;
+	}
+}
+
+static void DrawPlayerText( C_BasePlayer* player, int x, int y, int w, int h ) {
+	int boxSpacing = Settings::ESP::Boxes::enabled ? 3 : 0;
+	int lineNum = 1;
+	int nameOffset = ( int ) ( Settings::ESP::Bars::type == BarType::HORIZONTAL_UP ? boxSpacing + barsSpacing.y : 0 );
+
+	ImVec2 textSize = Draw::HyGetTextSize( XORSTR( "Hi" ) );
+	// draw name
+	if ( Settings::ESP::Info::name || Settings::ESP::Info::clan ) {
+		std::string displayString;
+		IEngineClient::player_info_t playerInfo;
+		engine->GetPlayerInfo( player->GetIndex(), &playerInfo );
+		if ( Settings::ESP::Info::clan )
+			displayString += std::string( ( *csPlayerResource )->GetClan( player->GetIndex() ) );
+
+		if ( Settings::ESP::Info::clan && Settings::ESP::Info::name )
+			displayString += " ";
+
+		if ( Settings::ESP::Info::name )
+			displayString += playerInfo.name;
+
+		ImVec2 nameSize = Draw::HyGetTextSize( displayString.c_str() );
+		Draw::HyText( x + ( w / 2 ) - ( nameSize.x / 2 ), ( y - textSize.y - nameOffset ),
+					  ImColor( 255, 255, 255, 255 ), displayString.c_str() );
+		lineNum++;
+	}
+
+	// draw steamid
+	if ( Settings::ESP::Info::steamId ) {
+		IEngineClient::player_info_t playerInfo;
+		engine->GetPlayerInfo( player->GetIndex(), &playerInfo );
+		ImVec2 rankSize = Draw::HyGetTextSize( playerInfo.guid );
+		Draw::HyText( ( x + ( w / 2 ) - ( rankSize.x / 2 ) ),( y - ( textSize.y * lineNum ) - nameOffset ),
+					  ImColor( 255, 255, 255, 255 ), playerInfo.guid );
+		lineNum++;
+	}
+
+	// draw rank
+	if ( Settings::ESP::Info::rank ) {
+		int rank = *( *csPlayerResource )->GetCompetitiveRanking( player->GetIndex() );
+
+		if ( rank >= 0 && rank < 19 ) {
+			ImVec2 rankSize = Draw::HyGetTextSize( ESP::ranks[rank] );
+			Draw::HyText( ( x + ( w / 2 ) - ( rankSize.x / 2 ) ), ( y - ( textSize.y * lineNum ) - nameOffset ),
+						  ImColor( 255, 255, 255, 255 ), ESP::ranks[rank] );
+		}
+	}
+
+	// health
+	if ( Settings::ESP::Info::health ) {
+		std::string buf = std::to_string( player->GetHealth() ) + XORSTR( " HP" );
+		Draw::HyText( x + w + boxSpacing, ( y + h - textSize.y ),
+					  ImColor( 255, 255, 255, 255 ), buf.c_str() );
+	}
+
+	// weapon
+	C_BaseCombatWeapon* activeWeapon = ( C_BaseCombatWeapon* ) entityList->GetClientEntityFromHandle( player->GetActiveWeapon() );
+	if ( Settings::ESP::Info::weapon && activeWeapon ) {
+		std::string modelName = Util::Items::GetItemDisplayName( *activeWeapon->GetItemDefinitionIndex() );
+		int offset = ( int ) ( Settings::ESP::Bars::type == BarType::HORIZONTAL ||
+							   Settings::ESP::Bars::type == BarType::INTERWEBZ ? boxSpacing + barsSpacing.y + 1 : 0 );
+
+		ImVec2 weaponTextSize = Draw::HyGetTextSize( modelName.c_str() );
+		Draw::HyText( ( x + ( w / 2 ) - ( weaponTextSize.x / 2 ) ), y + h + offset, ImColor( 255, 255, 255, 255 ),
+					  modelName.c_str() );
+	}
+	// draw info
+	std::vector<std::string> stringsToShow;
+
+	if ( Settings::ESP::Info::scoped && player->IsScoped() )
+		stringsToShow.push_back( XORSTR( "Scoped" ) );
+	/** This one doesn't work **/ //TODO: Fix
+	if ( Settings::ESP::Info::reloading && activeWeapon && activeWeapon->GetInReload() )
+		stringsToShow.push_back( XORSTR( "Reloading" ) );
+	/***************************/
+	if ( Settings::ESP::Info::flashed && player->GetFlashBangTime() - globalVars->curtime > 2.0f )
+		stringsToShow.push_back( XORSTR( "Flashed" ) );
+	if ( Settings::ESP::Info::planting && Entity::IsPlanting( player ) )
+		stringsToShow.push_back( XORSTR( "Planting" ) );
+	if ( Settings::ESP::Info::planting && player->GetIndex() == ( *csPlayerResource )->GetPlayerC4() )
+		stringsToShow.push_back( XORSTR( "Bomb Carrier" ) );
+	if ( Settings::ESP::Info::hasDefuser && player->HasDefuser() )
+		stringsToShow.push_back( XORSTR( "Kit" ) );
+	if ( Settings::ESP::Info::defusing && player->IsDefusing() )
+		stringsToShow.push_back( XORSTR( "Defusing" ) );
+	if ( Settings::ESP::Info::grabbingHostage && player->IsGrabbingHostage() )
+		stringsToShow.push_back( XORSTR( "Hostage Carrier" ) );
+	if ( Settings::ESP::Info::rescuing && player->IsRescuing() )
+		stringsToShow.push_back( XORSTR( "Rescuing" ) );
+	if ( Settings::ESP::Info::location )
+		stringsToShow.push_back( player->GetLastPlaceName() );
+	if (Settings::Debug::AnimLayers::draw){
+		CUtlVector<AnimationLayer> *layers = player->GetAnimOverlay();
+		for ( int i = 0; i <= layers->Count(); i++ ){
+			stringsToShow.push_back( Util::GetActivityName(player->GetSequenceActivity(layers->operator[](i).m_nSequence)) );
+		}
+	}
+
+
+	for( unsigned int i = 0; i < stringsToShow.size(); i++ ){
+		Draw::HyText( x + w + boxSpacing, ( y + ( i * ( textSize.y + 2 ) ) ), ImColor( 255, 255, 255, 255 ), stringsToShow[i].c_str() );
+	}
+}
+
+
+static void DrawPlayer(C_BasePlayer* player)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 	if (!localplayer)
@@ -725,237 +945,15 @@ static void DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_in
 
 	ImColor playerColor = ESP::GetESPPlayerColor(player, bIsVisible);
 
-	static Vector2D textSize = Draw::GetTextSize(XORSTR("Hi"), esp_font);
-
 	int x, y, w, h;
 	if (!GetBox(player, x, y, w, h))
 		return;
 
 	if (Settings::ESP::Boxes::enabled)
-		DrawBox(Color::FromImColor(playerColor), x, y, w, h, player);
+		DrawBox(playerColor, x, y, w, h, player);
 
-	int boxSpacing = Settings::ESP::Boxes::enabled ? 3 : 0;
-	Vector2D barsSpacing = Vector2D(0, 0);
-
-	// draw bars
 	if (Settings::ESP::Bars::enabled)
-	{
-		Color barColor;
-
-		// clamp it to 100
-		int HealthValue = std::max(0, std::min(player->GetHealth(), 100));
-		float HealthPerc = HealthValue / 100.f;
-
-		int barx = x;
-		int bary = y;
-		int barw = w;
-		int barh = h;
-
-		if (Settings::ESP::Bars::colorType == BarColorType::HEALTH_BASED)
-			barColor = Util::GetHealthColor(HealthValue);
-		else if (Settings::ESP::Bars::colorType== BarColorType::STATIC_COLOR)
-			barColor = Color::FromImColor(playerColor);
-
-		if (Settings::ESP::Bars::type == BarType::VERTICAL)
-		{
-			barw = 4; // outline(1px) + bar(2px) + outline(1px) = 6px;
-			barx -= barw + boxSpacing; // spacing(1px) + outline(1px) + bar(2px) + outline (1px) = 8 px
-
-			Draw::Rectangle(barx - 1, bary - 1, barx + barw + 1, bary + barh + 1, Color(255, 255, 255, 170));
-			Draw::FilledRectangle(barx, bary, barx + barw, bary + barh, Color(10, 10, 10, 255));
-
-			if (HealthPerc > 0)
-				Draw::FilledRectangle(barx + 1, bary + (barh * (1.f - HealthPerc)) + 1, barx + barw - 1, bary + barh - 1, barColor);
-
-			barsSpacing.x += barw;
-		}
-		else if (Settings::ESP::Bars::type == BarType::VERTICAL_RIGHT)
-		{
-			barx += barw + boxSpacing; // spacing(1px) + outline(1px) + bar(2px) + outline (1px) = 8 px
-			barw = 4; // outline(1px) + bar(2px) + outline(1px) = 6px;
-
-			Draw::Rectangle(barx - 1, bary - 1, barx + barw + 1, bary + barh + 1, Color(255, 255, 255, 170));
-			Draw::FilledRectangle(barx, bary, barx + barw, bary + barh, Color(10, 10, 10, 255));
-
-			if (HealthPerc > 0)
-				Draw::FilledRectangle(barx + 1, bary + (barh * (1.f - HealthPerc)) + 1, barx + barw - 1, bary + barh - 1, barColor);
-
-			barsSpacing.x += barw;
-		}
-		else if (Settings::ESP::Bars::type == BarType::HORIZONTAL)
-		{
-			bary += barh + boxSpacing; // player box(?px) + spacing(1px) + outline(1px) + bar(2px) + outline (1px) = 5 px
-			barh = 4; // outline(1px) + bar(2px) + outline(1px) = 4px;
-
-			Draw::Rectangle(barx - 1, bary - 1, barx + barw + 1, bary + barh + 1, Color(255, 255, 255, 170));
-			Draw::FilledRectangle(barx, bary, barx + barw, bary + barh, Color(10, 10, 10, 255));
-
-			if (HealthPerc > 0)
-			{
-				barw *= HealthPerc;
-				Draw::Rectangle(barx + 1, bary + 1, barx + barw - 1, bary + barh - 1, barColor);
-			}
-			barsSpacing.y += barh;
-		}
-		else if (Settings::ESP::Bars::type == BarType::HORIZONTAL_UP)
-		{
-			barh = 4; // outline(1px) + bar(2px) + outline(1px) = 4px;
-			bary -= barh + boxSpacing; // spacing(1px) + outline(1px) + bar(2px) + outline (1px) = 5 px
-
-			Draw::Rectangle(barx - 1, bary - 1, barx + barw + 1, bary + barh + 1, Color(255, 255, 255, 170));
-			Draw::FilledRectangle(barx, bary, barx + barw, bary + barh, Color(10, 10, 10, 255));
-
-			if (HealthPerc > 0)
-			{
-				barw *= HealthPerc;
-				Draw::Rectangle(barx + 1, bary + 1, barx + barw - 1, bary + barh - 1, barColor);
-			}
-			barsSpacing.y += barh;
-		}
-		else if (Settings::ESP::Bars::type == BarType::INTERWEBZ)
-		{
-			// pasted from ayyware and broken ( bg is 1px off to the left ) idc
-			bary += barh + boxSpacing;
-			barh = 4;
-
-			float Width = (w * HealthPerc);
-			barw = (int)(Width);
-
-			Vertex_t Verts[4];
-			Verts[0].Init(Vector2D(barx, bary));
-			Verts[1].Init(Vector2D(barx + w + 5, bary));
-			Verts[2].Init(Vector2D(barx + w, bary + 5));
-			Verts[3].Init(Vector2D(barx - 5, bary + 5));
-
-			Draw::TexturedPolygon(4, Verts, Color(10, 10, 10, 255));
-			Draw::PolyLine(Verts, 4, Color(255, 255, 255, 170));
-
-			Vertex_t Verts2[4];
-			Verts2[0].Init(Vector2D(barx + 1, bary + 1));
-			Verts2[1].Init(Vector2D(barx + barw + 5, bary + 1));
-			Verts2[2].Init(Vector2D(barx + barw, bary + 5));
-			Verts2[3].Init(Vector2D(barx - 4, bary + 5));
-
-			Draw::TexturedPolygon(4, Verts2, barColor);
-
-			Verts2[0].Init(Vector2D(barx + 1, bary + 1));
-			Verts2[1].Init(Vector2D(barx + barw + 2, bary + 1));
-			Verts2[2].Init(Vector2D(barx + barw, bary + 2));
-			Verts2[3].Init(Vector2D(barx - 2, bary + 2));
-
-			Draw::TexturedPolygon(4, Verts2, Color(255, 255, 255, 40));
-
-			barsSpacing.y += barh;
-		}
-	}
-
-	// draw name
-	int multiplier = 1;
-	int nameOffset = (int)(Settings::ESP::Bars::type == BarType::HORIZONTAL_UP ? boxSpacing + barsSpacing.y : 0);
-
-	if (Settings::ESP::Info::name || Settings::ESP::Info::clan)
-	{
-		std::string displayString;
-
-		if (Settings::ESP::Info::clan)
-			displayString += std::string((*csPlayerResource)->GetClan(index));
-
-		if (Settings::ESP::Info::clan && Settings::ESP::Info::name)
-			displayString += " ";
-
-		if (Settings::ESP::Info::name)
-			displayString += player_info.name;
-
-		Vector2D nameSize = Draw::GetTextSize(displayString.c_str(), esp_font);
-		Draw::Text((int)(x + (w / 2) - (nameSize.x / 2)), (int)(y - textSize.y - nameOffset), displayString.c_str(), esp_font, Color(255, 255, 255));
-		multiplier++;
-	}
-
-	// draw steamid
-	if (Settings::ESP::Info::steamId)
-	{
-		Vector2D rankSize = Draw::GetTextSize(player_info.guid, esp_font);
-		Draw::Text((int)(x + (w / 2) - (rankSize.x / 2)), (int)(y - (textSize.y * multiplier) - nameOffset), player_info.guid, esp_font, Color(255, 255, 255, 255));
-		multiplier++;
-	}
-
-	// draw rank
-	if (Settings::ESP::Info::rank)
-	{
-		int rank = *(*csPlayerResource)->GetCompetitiveRanking(index);
-
-		if (rank >= 0 && rank < 19)
-		{
-			Vector2D rankSize = Draw::GetTextSize(ESP::ranks[rank], esp_font);
-			Draw::Text((int)(x + (w / 2) - (rankSize.x / 2)), (int)(y - (textSize.y * multiplier) - nameOffset), ESP::ranks[rank], esp_font, Color(255, 255, 255, 255));
-		}
-	}
-
-	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(player->GetActiveWeapon());
-
-	// health
-	if (Settings::ESP::Info::health)
-	{
-		std::string buf = std::to_string(player->GetHealth()) + XORSTR(" HP");
-		Draw::Text(x + w + boxSpacing, (int)(y + h - textSize.y), buf.c_str(), esp_font, Color(255, 255, 255));
-	}
-
-	// weapon
-	if (Settings::ESP::Info::weapon && activeWeapon)
-	{
-		std::string modelName = Util::Items::GetItemDisplayName(*activeWeapon->GetItemDefinitionIndex());
-		int offset = (int)(Settings::ESP::Bars::type == BarType::HORIZONTAL || Settings::ESP::Bars::type == BarType::INTERWEBZ ? boxSpacing + barsSpacing.y + 1 : 0);
-
-		Vector2D weaponTextSize = Draw::GetTextSize(modelName.c_str(), esp_font);
-		Draw::Text((int)(x + (w / 2) - (weaponTextSize.x / 2)), y + h + offset, modelName.c_str(), esp_font, Color(255, 255, 255));
-	}
-
-	// draw info
-	std::vector<std::string> stringsToShow;
-
-	if (Settings::ESP::Info::scoped && player->IsScoped())
-		stringsToShow.push_back(XORSTR("Scoped"));
-
-	if (Settings::ESP::Info::reloading && activeWeapon && activeWeapon->GetInReload())
-		stringsToShow.push_back(XORSTR("Reloading"));
-
-	if (Settings::ESP::Info::flashed && player->GetFlashBangTime() - globalVars->curtime > 2.0f)
-		stringsToShow.push_back(XORSTR("Flashed"));
-
-	if (Settings::ESP::Info::planting && Entity::IsPlanting(player))
-		stringsToShow.push_back(XORSTR("Planting"));
-
-	if (Settings::ESP::Info::planting && index == (*csPlayerResource)->GetPlayerC4())
-		stringsToShow.push_back(XORSTR("Bomb Carrier"));
-
-	if (Settings::ESP::Info::hasDefuser && player->HasDefuser())
-		stringsToShow.push_back(XORSTR("Defuse kit"));
-
-	if (Settings::ESP::Info::defusing && player->IsDefusing())
-		stringsToShow.push_back(XORSTR("Defusing"));
-
-	if (Settings::ESP::Info::grabbingHostage && player->IsGrabbingHostage())
-		stringsToShow.push_back(XORSTR("Hostage Carrier"));
-
-	if (Settings::ESP::Info::rescuing && player->IsRescuing())
-		stringsToShow.push_back(XORSTR("Rescuing"));
-
-	if (Settings::ESP::Info::location)
-		stringsToShow.push_back(player->GetLastPlaceName());
-
-    if (Settings::Debug::AnimLayers::draw){
-        CUtlVector<AnimationLayer> *layers = player->GetAnimOverlay();
-        for ( int i = 0; i <= layers->Count(); i++ ){
-            stringsToShow.push_back( Util::GetActivityName(player->GetSequenceActivity(layers->operator[](i).m_nSequence)) );
-        }
-    }
-
-	int i = 0;
-	for (auto Text : stringsToShow)
-	{
-		Draw::Text(x + w + boxSpacing, (int)(y + (i * (textSize.y + 2))), Text.c_str(), esp_font, Color(255, 255, 255));
-		i++;
-	}
+		DrawPlayerHealthBars( player, x, y, w, h, playerColor );
 
 	if (Settings::ESP::Skeleton::enabled)
 		DrawSkeleton(player);
@@ -977,13 +975,21 @@ static void DrawPlayer(int index, C_BasePlayer* player, IEngineClient::player_in
 
 	if (Settings::Debug::AutoAim::drawTarget)
 		DrawAimbotSpot();
+
+    if (Settings::ESP::Sounds::enabled) {
+		DrawSounds( player, playerColor );
+	}
+
+
+	/* Checks various Text Settings */
+	DrawPlayerText( player, x, y, w, h );
 }
 
 static void DrawBomb(C_BaseCombatWeapon* bomb)
 {
 	if (!(*csGameRules) || !(*csGameRules)->IsBombDropped())
 		return;
-	DrawEntity(bomb, XORSTR("Bomb"), Color::FromImColor(Settings::ESP::bombColor.Color()));
+	DrawEntity(bomb, XORSTR("Bomb"), Settings::ESP::bombColor.Color());
 }
 
 static void DrawPlantedBomb(C_PlantedC4* bomb)
@@ -1014,12 +1020,12 @@ static void DrawPlantedBomb(C_PlantedC4* bomb)
 		displayText << XORSTR("Bomb: ") << std::fixed << std::showpoint << std::setprecision(1) << bombTimer << XORSTR(", damage: ") << (int) damage;
 	}
 
-	DrawEntity(bomb, displayText.str().c_str(), Color::FromImColor(color));
+	DrawEntity(bomb, displayText.str().c_str(), color);
 }
 
 static void DrawDefuseKit(C_BaseEntity* defuser)
 {
-	DrawEntity(defuser, XORSTR("Defuser"), Color::FromImColor(Settings::ESP::defuserColor.Color()));
+	DrawEntity(defuser, XORSTR("Defuser"), Settings::ESP::defuserColor.Color());
 }
 
 static void DrawDroppedWeapons(C_BaseCombatWeapon* weapon)
@@ -1038,22 +1044,22 @@ static void DrawDroppedWeapons(C_BaseCombatWeapon* weapon)
 		modelName += std::to_string(weapon->GetAmmo());
 	}
 
-	DrawEntity(weapon, modelName.c_str(), Color::FromImColor(Settings::ESP::weaponColor.Color()));
+	DrawEntity(weapon, modelName.c_str(), Settings::ESP::weaponColor.Color());
 }
 
 static void DrawHostage(C_BaseEntity* hostage)
 {
-	DrawEntity(hostage, XORSTR("Hostage"), Color::FromImColor(Settings::ESP::hostageColor.Color()));
+	DrawEntity(hostage, XORSTR("Hostage"), Settings::ESP::hostageColor.Color());
 }
 
 static void DrawChicken(C_BaseEntity* chicken)
 {
-	DrawEntity(chicken, XORSTR("Chicken"), Color::FromImColor(Settings::ESP::chickenColor.Color()));
+	DrawEntity(chicken, XORSTR("Chicken"), Settings::ESP::chickenColor.Color());
 }
 
 static void DrawFish(C_BaseEntity* fish)
 {
-	DrawEntity(fish, XORSTR("Fish"), Color::FromImColor(Settings::ESP::fishColor.Color()));
+	DrawEntity(fish, XORSTR("Fish"), Settings::ESP::fishColor.Color());
 }
 
 static void DrawThrowable(C_BaseEntity* throwable, ClientClass* client)
@@ -1115,73 +1121,9 @@ static void DrawThrowable(C_BaseEntity* throwable, ClientClass* client)
 		}
 	}
 
-	DrawEntity(throwable, nadeName.c_str(), Color::FromImColor(nadeColor));
+	DrawEntity(throwable, nadeName.c_str(), nadeColor);
 }
-
-
-static void CollectFootstep(int iEntIndex, const char *pSample)
-{
-	if (strstr(pSample, XORSTR("player/footsteps")) == NULL && strstr(pSample, XORSTR("player/land")) == NULL)
-		return;
-
-	if (iEntIndex == engine->GetLocalPlayer())
-		return;
-
-	Footstep footstep;
-	footstep.entityId = iEntIndex;
-	footstep.position = entityList->GetClientEntity(iEntIndex)->GetVecOrigin();
-	footstep.expiration = Util::GetEpochTime() + Settings::ESP::Sounds::time;
-
-	footsteps.push_back(footstep);
-}
-
-static void DrawSounds()
-{
-	for (unsigned int i = 0; i < footsteps.size(); i++)
-	{
-		long diff = footsteps[i].expiration - Util::GetEpochTime();
-
-		if (diff <= 0)
-		{
-			footsteps.erase(footsteps.begin() + i);
-			continue;
-		}
-
-		Vector pos2d;
-
-		if (debugOverlay->ScreenPosition(footsteps[i].position, pos2d))
-			continue;
-
-		C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-		if (!localplayer)
-			continue;
-
-		C_BasePlayer* player = (C_BasePlayer*) entityList->GetClientEntity(footsteps[i].entityId);
-		if (!player)
-			continue;
-
-		if (player->GetTeam() != localplayer->GetTeam() && !Settings::ESP::Filters::enemies)
-			continue;
-
-		if (player->GetTeam() == localplayer->GetTeam() && !Settings::ESP::Filters::allies)
-			continue;
-
-		bool bIsVisible = false;
-		if (Settings::ESP::Filters::visibilityCheck || Settings::ESP::Filters::legit)
-			bIsVisible = Entity::IsVisible(player, (int)Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck);
-
-		float percent = (float)diff / (float)Settings::ESP::Sounds::time;
-
-		Color playerColor = Color::FromImColor(ESP::GetESPPlayerColor(player, bIsVisible));
-		playerColor.a = std::min(powf(percent * 2, 0.6f), 1.f) * playerColor.a; // fades out alpha when its below 0.5
-
-		float circleRadius = fabs(percent - 1.f) * 42.f;
-		float points = circleRadius * 0.75f;
-
-		Draw::Circle3D(footsteps[i].position, points, circleRadius, playerColor);
-	}
-}
-
+/*
 static void DrawFOVCrosshair()
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
@@ -1232,6 +1174,7 @@ static void DrawFOVCrosshair()
 		Draw::Circle(Vector2D(width / 2, height / 2), 20, radius, Color::FromImColor(Settings::ESP::FOVCrosshair::color.Color()));
 
 }
+*/
 
 static void DrawGlow()
 {
@@ -1310,6 +1253,7 @@ static void DrawGlow()
 	}
 }
 
+/*
 static void DrawScope()
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
@@ -1362,11 +1306,120 @@ static void DrawSpread()
 		}
 	}
 }
+*/
 
+static void DrawFOVCrosshair()
+{
+    if ( !Settings::ESP::FOVCrosshair::enabled )
+        return;
 
+    C_BasePlayer* localplayer = ( C_BasePlayer* ) entityList->GetClientEntity( engine->GetLocalPlayer() );
+    if ( !localplayer->GetAlive() )
+        return;
 
+	if( Settings::Aimbot::AutoAim::fov > OverrideView::currentFOV )
+		return;
 
+    int width, height;
+    Draw::HyGetScreenSize( &width, &height );
 
+    float radius;
+    if ( Settings::Aimbot::AutoAim::realDistance ) {
+        Vector src3D, dst3D, forward;
+        trace_t tr;
+        Ray_t ray;
+        CTraceFilter filter;
+
+        QAngle angles = viewanglesBackup;
+        Math::AngleVectors( angles, forward );
+        filter.pSkip = localplayer;
+        src3D = localplayer->GetEyePosition();
+        dst3D = src3D + ( forward * 8192 );
+
+        ray.Init( src3D, dst3D );
+        trace->TraceRay( ray, MASK_SHOT, &filter, &tr );
+
+        QAngle leftViewAngles = QAngle( angles.x, angles.y - 90.f, 0.f );
+        Math::NormalizeAngles( leftViewAngles );
+        Math::AngleVectors( leftViewAngles, forward );
+        forward *= Settings::Aimbot::AutoAim::fov * 5.f;
+
+        Vector maxAimAt = tr.endpos + forward;
+
+        ImVec2 max2D;
+        if ( !ESP::WorldToScreen( maxAimAt, &max2D ) )
+            return;
+
+        radius = fabsf( width / 2 - max2D.x );
+    } else {
+        radius = ( ( Settings::Aimbot::AutoAim::fov / OverrideView::currentFOV ) * width ) / 2;
+    }
+
+    if ( Settings::ESP::FOVCrosshair::filled )
+        Draw::HyCircleFilled( width / 2, height / 2 , radius, Settings::ESP::FOVCrosshair::color.Color(), std::max(12, (int)radius*2) );
+    else
+        Draw::HyCircle( width / 2, height / 2, radius, Settings::ESP::FOVCrosshair::color.Color(), std::max(12, (int)radius*2) );
+}
+
+static void DrawSpread()
+{
+    if ( !Settings::ESP::Spread::enabled && !Settings::ESP::Spread::spreadLimit )
+        return;
+
+    C_BasePlayer* localplayer = ( C_BasePlayer* ) entityList->GetClientEntity( engine->GetLocalPlayer() );
+    if ( !localplayer )
+        return;
+
+    C_BaseCombatWeapon* activeWeapon = ( C_BaseCombatWeapon* ) entityList->GetClientEntityFromHandle(
+            localplayer->GetActiveWeapon() );
+    if ( !activeWeapon )
+        return;
+
+    if ( Settings::ESP::Spread::enabled ) {
+        int width, height;
+        Draw::HyGetScreenSize( &width, &height );
+
+        float cone = activeWeapon->GetSpread() + activeWeapon->GetInaccuracy();
+        if ( cone > 0.0f ) {
+            float radius = ( cone * height ) / 1.5f;
+            Draw::HyRectangle( ( ( width / 2 ) - radius ), ( height / 2 ) - radius + 1,
+                               ( width / 2 ) + radius + 1, ( height / 2 ) + radius + 2,
+                               Settings::ESP::Spread::color.Color() );
+        }
+    }
+    if ( Settings::ESP::Spread::spreadLimit ) {
+        int width, height;
+        Draw::HyGetScreenSize( &width, &height );
+
+        float cone = Settings::Aimbot::SpreadLimit::value;
+        if ( cone > 0.0f ) {
+            float radius = ( cone * height ) / 1.5f;
+            Draw::HyRectangle( ( ( width / 2 ) - radius ), ( height / 2 ) - radius + 1,
+                               ( width / 2 ) + radius + 1, ( height / 2 ) + radius + 2 ,
+                               Settings::ESP::Spread::spreadLimitColor.Color() );
+        }
+    }
+}
+
+static void DrawScope()
+{
+    C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+    if (!localplayer)
+        return;
+
+    C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+    if (!activeWeapon)
+        return;
+
+    if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_SG556 || *activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_AUG)
+        return;
+
+    int width, height;
+    Draw::HyGetScreenSize( &width, &height );
+
+    Draw::HyLine(0, height * 0.5, width, height * 0.5, ImColor(0, 0, 0, 255));
+    Draw::HyLine(width * 0.5, 0, width * 0.5, height, ImColor(0, 0, 0, 255));
+}
 
 bool ESP::PrePaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
 {
@@ -1375,7 +1428,7 @@ bool ESP::PrePaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_for
 
 	return true;
 }
-void ESP::Paint()
+void ESP::PaintHybrid()
 {
 	if (!Settings::ESP::enabled && !inputSystem->IsButtonDown(Settings::ESP::key))
 		return;
@@ -1402,9 +1455,7 @@ void ESP::Paint()
 			if (player->GetDormant() || !player->GetAlive())
 				continue;
 
-			IEngineClient::player_info_t playerInfo;
-			if (engine->GetPlayerInfo(i, &playerInfo))
-				DrawPlayer(i, player, playerInfo);
+			DrawPlayer(player);
 		}
 		if ((client->m_ClassID != EClassIds::CBaseWeaponWorldModel && (strstr(client->m_pNetworkName, XORSTR("Weapon")) || client->m_ClassID == EClassIds::CDEagle || client->m_ClassID == EClassIds::CAK47)) && Settings::ESP::Filters::weapons)
 		{
@@ -1443,8 +1494,6 @@ void ESP::Paint()
 		}
 	}
 
-	if (Settings::ESP::Sounds::enabled)
-		DrawSounds();
 	if (Settings::ESP::FOVCrosshair::enabled)
 		DrawFOVCrosshair();
 	if (Settings::ESP::Spread::enabled || Settings::ESP::Spread::spreadLimit)
@@ -1465,12 +1514,14 @@ void ESP::DrawModelExecute(void* thisptr, void* context, void *state, const Mode
 		DrawGlow();
 }
 
-void ESP::EmitSound(int iEntIndex, const char *pSample)
-{
-	if (Settings::ESP::Sounds::enabled)
-		CollectFootstep(iEntIndex, pSample);
-}
 void ESP::CreateMove(CUserCmd* cmd)
 {
 	viewanglesBackup = cmd->viewangles;
+}
+
+void ESP::PaintToUpdateMatrix( ) {
+	if( !engine->IsInGame() )
+		return;
+
+	vMatrix = engine->WorldToScreenMatrix();
 }

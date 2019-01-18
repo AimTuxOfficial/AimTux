@@ -2,7 +2,6 @@
 
 namespace SniperCrosshair
 {
-
 	//Hooks
-	void Paint();
+	void PaintHybrid();
 };

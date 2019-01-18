@@ -79,14 +79,14 @@ struct Ray_t
 	bool m_IsRay;
 	bool m_IsSwept;
 
-	Ray_t() : m_pWorldAxisTransform(NULL) { }
+	Ray_t() : m_pWorldAxisTransform(nullptr) { }
 
 	void Init(Vector vecStart, Vector vecEnd)
 	{
 		m_Delta = vecEnd - vecStart;
 		m_IsSwept = (m_Delta.LengthSqr() != 0);
 		m_Extents.x = m_Extents.y = m_Extents.z = 0.0f;
-		m_pWorldAxisTransform = NULL;
+		m_pWorldAxisTransform = nullptr;
 		m_IsRay = true;
 		m_StartOffset.x = m_StartOffset.y = m_StartOffset.z = 0.0f;
 		m_Start = vecStart;
@@ -127,7 +127,7 @@ class IEngineTrace
 {
 public:
 	// Returns the contents mask + entity at a particular world-space position
-	virtual int GetPointContents(const Vector &vecAbsPosition, int contentsMask = MASK_ALL, IHandleEntity** ppEntity = NULL) = 0;
+	virtual int GetPointContents(const Vector &vecAbsPosition, int contentsMask = MASK_ALL, IHandleEntity** ppEntity = nullptr) = 0;
 
 	// Returns the contents mask of the world only @ the world-space position (static props are ignored)
 	virtual int GetPointContents_WorldOnly(const Vector &vecAbsPosition, int contentsMask = MASK_ALL) = 0;

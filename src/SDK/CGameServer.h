@@ -47,11 +47,11 @@ public:
 	virtual bool IsHLTV() const = 0;
 	virtual bool IsReplay() const = 0;
 
-	virtual const char* GetPassword() const = 0; // returns the password or NULL if none set
+	virtual const char* GetPassword() const = 0; // returns the password or nullptr if none set
 
 	virtual void SetPaused(bool paused) = 0;
 	virtual void SetTimescale(float flTimescale) = 0;
-	virtual void SetPassword(const char* password) = 0; // set password (NULL to disable)
+	virtual void SetPassword(const char* password) = 0; // set password (nullptr to disable)
 
 	virtual void BroadcastMessage(INetMessage& msg, bool onlyActive = false, bool reliable = false) = 0;
 	virtual void BroadcastMessage(INetMessage& msg, IRecipientFilter& filter) = 0;

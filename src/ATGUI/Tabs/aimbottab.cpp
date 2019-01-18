@@ -145,7 +145,7 @@ void Aimbot::RenderTab()
 		UI::UpdateWeaponSettings();
 	ImGui::Separator();
 
-	ImGui::Columns(3, NULL, true);
+	ImGui::Columns(3, nullptr, true);
 	{
 		ImGui::SetColumnOffset(1, 200);
 		ImGui::PushItemWidth(-1);
@@ -185,7 +185,7 @@ void Aimbot::RenderTab()
 		{
 			ImGui::Text(XORSTR("Target"));
 			ImGui::Separator();
-			ImGui::Columns(2, NULL, false);
+			ImGui::Columns(2, nullptr, false);
 			{
 				if (ImGui::Checkbox(XORSTR("FriendlyFire"), &friendly))
 					UI::UpdateWeaponSettings();
@@ -223,7 +223,7 @@ void Aimbot::RenderTab()
 							UI::UpdateWeaponSettings();
 						ImGui::Separator();
 
-						ImGui::Columns(2, NULL, false);
+						ImGui::Columns(2, nullptr, false);
 						{
 							ImGui::Text(XORSTR("Player's Right Arm"));
 							if( ImGui::Checkbox(XORSTR("Collarbone"), &desiredBones[(int)DesiredBones::BONE_RIGHT_COLLARBONE]) )
@@ -307,7 +307,7 @@ void Aimbot::RenderTab()
 			ImGui::Separator();
 			ImGui::Text(XORSTR("Accuracy"));
 			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
+			ImGui::Columns(2, nullptr, true);
 			{
 				if (ImGui::Checkbox(XORSTR("Auto Aim"), &autoAimEnabled))
 					UI::UpdateWeaponSettings();
@@ -343,7 +343,7 @@ void Aimbot::RenderTab()
 			ImGui::Separator();
 			ImGui::Text(XORSTR("Humanizing"));
 			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
+			ImGui::Columns(2, nullptr, true);
 			{
 				if (ImGui::Checkbox(XORSTR("Smoothing"), &smoothEnabled))
 					UI::UpdateWeaponSettings();
@@ -387,7 +387,7 @@ void Aimbot::RenderTab()
 		{
 			ImGui::Text(XORSTR("Aimkey Only"));
 			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
+			ImGui::Columns(2, nullptr, true);
 			{
 				if (ImGui::Checkbox(XORSTR("Enabled"), &aimkeyOnly))
 					UI::UpdateWeaponSettings();
@@ -400,7 +400,7 @@ void Aimbot::RenderTab()
 			ImGui::Separator();
 			ImGui::Text(XORSTR("Casual / DM Only"));
 			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
+			ImGui::Columns(2, nullptr, true);
 			{
 				if (ImGui::Checkbox(XORSTR("Aim Step"), &aimStepEnabled))
 					UI::UpdateWeaponSettings();
@@ -420,7 +420,7 @@ void Aimbot::RenderTab()
 			ImGui::Separator();
 			ImGui::Text(XORSTR("Other"));
 			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
+			ImGui::Columns(2, nullptr, true);
 			{
 				if( !silent )
 				{
@@ -482,7 +482,7 @@ void Aimbot::RenderTab()
 			ImGui::Separator();
 			ImGui::Text(XORSTR("AutoWall"));
 			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
+			ImGui::Columns(2, nullptr, true);
 			{
 				if (ImGui::Checkbox(XORSTR("Enabled##AUTOWALL"), &autoWallEnabled))
 					UI::UpdateWeaponSettings();
@@ -509,7 +509,7 @@ void Aimbot::RenderTab()
 						UI::UpdateWeaponSettings();
 					ImGui::Separator();
 
-					ImGui::Columns(2, NULL, false);
+					ImGui::Columns(2, nullptr, false);
 					{
 						ImGui::Text(XORSTR("Player's Right Arm"));
 						if( ImGui::Checkbox(XORSTR("Collarbone"), &desiredBones[(int)DesiredBones::BONE_RIGHT_COLLARBONE]) )

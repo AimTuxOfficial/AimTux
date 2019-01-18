@@ -9,51 +9,46 @@
 bool Settings::Recoilcrosshair::enabled = false;
 bool Settings::Recoilcrosshair::showOnlyWhenShooting = false;
 
-void Recoilcrosshair::Paint()
-{
-	if (!Settings::ESP::enabled)
+void Recoilcrosshair::PaintHybrid( ) {
+	if( !Settings::Recoilcrosshair::enabled )
+		return;
+	C_BasePlayer* localplayer = ( C_BasePlayer* ) entityList->GetClientEntity( engine->GetLocalPlayer() );
+	if ( !localplayer || !localplayer->GetAlive() )
 		return;
 
-	if (!Settings::Recoilcrosshair::enabled)
+	if ( localplayer->GetShotsFired() < 1 && Settings::Recoilcrosshair::showOnlyWhenShooting )
 		return;
 
-	if (!engine->IsInGame())
-		return;
-
-	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer || !localplayer->GetAlive())
-		return;
-
-	if (localplayer->GetShotsFired() < 1 && Settings::Recoilcrosshair::showOnlyWhenShooting)
-		return;
-
-	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
-	if (!activeWeapon)
+	C_BaseCombatWeapon* activeWeapon = ( C_BaseCombatWeapon* ) entityList->GetClientEntityFromHandle(
+			localplayer->GetActiveWeapon() );
+	if ( !activeWeapon )
 		return;
 
 	CSWeaponType weaponType = activeWeapon->GetCSWpnData()->GetWeaponType();
-	if (weaponType != CSWeaponType::WEAPONTYPE_RIFLE && weaponType != CSWeaponType::WEAPONTYPE_SUBMACHINEGUN && weaponType != CSWeaponType::WEAPONTYPE_MACHINEGUN)
+	if ( weaponType != CSWeaponType::WEAPONTYPE_RIFLE && weaponType != CSWeaponType::WEAPONTYPE_SUBMACHINEGUN &&
+		 weaponType != CSWeaponType::WEAPONTYPE_MACHINEGUN )
 		return;
 
 	QAngle punchAngle = *localplayer->GetAimPunchAngle();
 
-	int ScreenWidth, ScreenHeight;
-	engine->GetScreenSize(ScreenWidth, ScreenHeight);
+	int screenWidth, screenHeight;
+	Draw::HyGetScreenSize( &screenWidth, &screenHeight );
 
-	int x = (int) (ScreenWidth * 0.5f);
-	int y = (int) (ScreenHeight * 0.5f);
-	int dx = ScreenWidth / OverrideView::currentFOV;
-	int dy = ScreenHeight / OverrideView::currentFOV;
+	int x = screenWidth / 2;
+	int y = screenHeight / 2;
+	int dx = screenWidth / OverrideView::currentFOV;
+	int dy = screenHeight / OverrideView::currentFOV;
 
-	int crosshairX = (int) (x - (dx * punchAngle.y));
-	int crosshairY = (int) (y + (dy * punchAngle.x));
+	int crosshairX = ( int ) ( x - ( dx * punchAngle.y ) );
+	int crosshairY = ( int ) ( y + ( dy * punchAngle.x ) );
 
 	// outline horizontal
-	Draw::FilledRectangle(Vector2D(crosshairX - 4, crosshairY - 1), Vector2D(crosshairX + 5, crosshairY + 2), Color(0, 0, 0, 170));
+	Draw::HyFilledRectangle( crosshairX - 4, crosshairY - 1, crosshairX + 5, crosshairY + 2, ImColor( 0, 0, 0, 225 ) );
 	// outline vertical
-	Draw::FilledRectangle(Vector2D(crosshairX - 1, crosshairY - 4), Vector2D(crosshairX + 2, crosshairY + 5), Color(0, 0, 0, 170));
+	Draw::HyFilledRectangle( crosshairX - 1, crosshairY - 4, crosshairX + 2, crosshairY + 5, ImColor( 0, 0, 0, 225 ) );
 	// line horizontal
-	Draw::Line(Vector2D(crosshairX - 3, crosshairY), Vector2D(crosshairX + 4, crosshairY), Color(255, 255, 255, 255));
+	Draw::HyLine( crosshairX - 3, crosshairY, crosshairX + 4, crosshairY, ImColor( 255, 255, 255, 255 ) );
 	// line vertical
-	Draw::Line(Vector2D(crosshairX, crosshairY + 3), Vector2D(crosshairX, crosshairY - 4), Color(255, 255, 255, 255));
+	Draw::HyLine( crosshairX, crosshairY + 3, crosshairX, crosshairY - 4, ImColor( 255, 255, 255, 255 ) );
 }
+

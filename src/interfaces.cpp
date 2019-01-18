@@ -40,6 +40,7 @@ ISurface* surface = nullptr;
 IEngineTrace* trace = nullptr;
 CViewRender* viewRender = nullptr;
 IPanoramaUIEngine* panoramaEngine = nullptr;
+IFileSystem* fileSystem = nullptr;
 
 
 void Interfaces::FindInterfaces()
@@ -67,6 +68,7 @@ void Interfaces::FindInterfaces()
 	localize = GetInterface<ILocalize>(XORSTR("./bin/linux64/localize_client.so"), XORSTR("Localize_"));
 	commandline = GetSymbolAddress<CommandLineFn>(XORSTR("./bin/linux64/libtier0_client.so"), XORSTR("CommandLine"))();
     panoramaEngine = GetInterface<IPanoramaUIEngine>(XORSTR("./bin/linux64/panorama_client.so"), XORSTR("PanoramaUIEngine001"), true);
+	fileSystem = GetInterface<IFileSystem>( XORSTR( "./bin/linux64/filesystem_stdio_client.so" ), XORSTR( "VFileSystem" ) );
 }
 
 void Interfaces::DumpInterfaces()

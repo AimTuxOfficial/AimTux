@@ -110,6 +110,7 @@ void Offsets::GetNetVarOffsets()
 	offsets.DT_BaseAttributableItem.m_nFallbackSeed = NetVarManager::GetOffset(tables, XORSTR("DT_BaseAttributableItem"), XORSTR("m_nFallbackSeed"));
 	offsets.DT_BaseAttributableItem.m_flFallbackWear = NetVarManager::GetOffset(tables, XORSTR("DT_BaseAttributableItem"), XORSTR("m_flFallbackWear"));
 	offsets.DT_BaseAttributableItem.m_nFallbackStatTrak = NetVarManager::GetOffset(tables, XORSTR("DT_BaseAttributableItem"), XORSTR("m_nFallbackStatTrak"));
+	offsets.DT_BaseAttributableItem.m_bInitialized = NetVarManager::GetOffset(tables, XORSTR("DT_BaseAttributableItem"), XORSTR("m_bInitialized"));
 
 	offsets.DT_BaseViewModel.m_nModelIndex = NetVarManager::GetOffset(tables, XORSTR("DT_BaseViewModel"), XORSTR("m_nModelIndex"));
 	offsets.DT_BaseViewModel.m_hWeapon = NetVarManager::GetOffset(tables, XORSTR("DT_BaseViewModel"), XORSTR("m_hWeapon"));

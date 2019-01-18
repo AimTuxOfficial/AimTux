@@ -128,6 +128,7 @@ struct COffsets
 		std::ptrdiff_t m_nFallbackSeed;
 		std::ptrdiff_t m_flFallbackWear;
 		std::ptrdiff_t m_nFallbackStatTrak;
+		std::ptrdiff_t m_bInitialized;
 	} DT_BaseAttributableItem;
 
 	struct

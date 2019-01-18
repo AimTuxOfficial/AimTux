@@ -136,7 +136,7 @@ void Colors::RenderWindow()
 		temp = ImGui::GetWindowPos();
 		Settings::UI::Windows::Colors::posX = (int)temp.x;
 		Settings::UI::Windows::Colors::posY = (int)temp.y;
-		ImGui::Columns(2, NULL, true);
+		ImGui::Columns(2, nullptr, true);
 		{
 			ImGui::PushItemWidth(-1);
 			ImGui::ListBox("##COLORSELECTION", &colorSelected, colorNames, IM_ARRAYSIZE(colorNames), 12);

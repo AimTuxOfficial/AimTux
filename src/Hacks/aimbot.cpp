@@ -76,7 +76,7 @@ QAngle RCSLastPunch;
 int Aimbot::targetAimbot = -1;
 const int headVectors = 11;
 
-static xdo_t *xdo = xdo_new(NULL);
+static xdo_t *xdo = xdo_new(nullptr);
 
 std::unordered_map<ItemDefinitionIndex, AimbotWeapon_t, Util::IntHash<ItemDefinitionIndex>> Settings::Aimbot::weapons = {
 		{ ItemDefinitionIndex::INVALID, { false, false, false, false, false, false, 700, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f,
@@ -288,9 +288,9 @@ static C_BasePlayer* GetClosestPlayerAndSpot(CUserCmd* cmd, bool visibleCheck, V
 	if (Settings::Aimbot::AutoAim::realDistance)
 		aimTargetType = AimTargetType::REAL_DISTANCE;
 
-	static C_BasePlayer* lockedOn = NULL;
+	static C_BasePlayer* lockedOn = nullptr;
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	C_BasePlayer* closestEntity = NULL;
+	C_BasePlayer* closestEntity = nullptr;
 
 	float bestFov = Settings::Aimbot::AutoAim::fov;
 	float bestRealDistance = Settings::Aimbot::AutoAim::fov * 5.f;
@@ -299,12 +299,12 @@ static C_BasePlayer* GetClosestPlayerAndSpot(CUserCmd* cmd, bool visibleCheck, V
 	{
 		if( lockedOn->GetAlive() && !Settings::Aimbot::AutoAim::closestBone && !Entity::IsSpotVisibleThroughEnemies(lockedOn, lockedOn->GetBonePosition((int)Settings::Aimbot::bone)) )
 		{
-			lockedOn = NULL;
-			return NULL;
+			lockedOn = nullptr;
+			return nullptr;
 		}
 		if (!(cmd->buttons & IN_ATTACK || inputSystem->IsButtonDown(Settings::Aimbot::aimkey)) || lockedOn->GetDormant())//|| !Entity::IsVisible(lockedOn, bestBone, 180.f, Settings::ESP::Filters::smokeCheck))
 		{
-			lockedOn = NULL;
+			lockedOn = nullptr;
 		}
 		else
 		{
@@ -314,10 +314,10 @@ static C_BasePlayer* GetClosestPlayerAndSpot(CUserCmd* cmd, bool visibleCheck, V
 				{
 					if(Util::GetEpochTime() - killTimes.back() > Settings::Aimbot::AutoAim::engageLockTTR) // if we got the kill over the TTR time, engage another foe.
 					{
-						lockedOn = NULL;
+						lockedOn = nullptr;
 					}
 				}
-				return NULL;
+				return nullptr;
 			}
 
 			if( Settings::Aimbot::AutoAim::closestBone )
@@ -325,7 +325,7 @@ static C_BasePlayer* GetClosestPlayerAndSpot(CUserCmd* cmd, bool visibleCheck, V
 				Vector tempSpot = GetClosestSpot(cmd, localplayer, lockedOn, aimTargetType);
 				if( tempSpot.IsZero() )
 				{
-					return NULL;
+					return nullptr;
 				}
 				*bestSpot = tempSpot;
 			}
@@ -426,12 +426,12 @@ static C_BasePlayer* GetClosestPlayerAndSpot(CUserCmd* cmd, bool visibleCheck, V
 			}
 			else
 			{
-				return NULL;
+				return nullptr;
 			}
 		}
 	}
 	if( bestSpot->IsZero() )
-		return NULL;
+		return nullptr;
 
 	/*
 	if( closestEntity )

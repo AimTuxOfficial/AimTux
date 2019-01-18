@@ -10,6 +10,13 @@
 #include "EventListener.h"
 #include "Utils/xorstring.h"
 
+#include "Hacks/aimbot.h" //XDO cleanup
+#include "Hacks/nosmoke.h"
+#include "Hacks/tracereffect.h"
+#include "Hacks/skinchanger.h"
+#include "Hacks/valvedscheck.h"
+
+
 static EventListener* eventListener = nullptr;
 
 const char *Util::logFileName = "/tmp/fuzion.log";
@@ -54,12 +61,6 @@ void MainThread()
     Offsets::GetNetVarOffsets();
     Fonts::SetupFonts();
 
-    //uiEngineVMT = new VMT(panoramaEngine->AccessUIEngine());
-    //uiEngineVMT->HookVM((void*)Hooks::RunScript, 110);
-    //uiEngineVMT->HookVM((void*)Hooks::CreatePanel, 140);
-    //uiEngineVMT->HookVM((void*)Hooks::DispatchEvent, 49);
-    //uiEngineVMT->ApplyVMT();
-
     clientVMT = new VMT(client);
     clientVMT->HookVM(Hooks::FrameStageNotify, 37);
 	clientVMT->ApplyVMT();
@@ -75,7 +76,6 @@ void MainThread()
     engineVGuiVMT->ApplyVMT();
 
     gameEventsVMT = new VMT(gameEvents);
-    gameEventsVMT->HookVM(Hooks::FireEvent, 9);
 	gameEventsVMT->HookVM(Hooks::FireEventClientSide, 10);
 	gameEventsVMT->ApplyVMT();
 
@@ -121,7 +121,7 @@ void MainThread()
 
 	//Settings::LoadSettings();
 
-	srand(time(NULL)); // Seed random # Generator so we can call rand() later
+	srand(time(nullptr)); // Seed random # Generator so we can call rand() later
 
     cvar->ConsoleColorPrintf(ColorRGBA(0, 225, 0), XORSTR("\nFuzion Successfully loaded.\n"));
 }

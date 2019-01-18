@@ -82,7 +82,7 @@ public:
 	void GetActiveSounds(CUtlVector<SndInfo_t>& sndlist)
 	{
 		typedef void (* oGetActiveSounds)(void*, CUtlVector<SndInfo_t>& sndlist);
-		getvfunc<oGetActiveSounds>(this, 18)(this, sndlist);
+		getvfunc<oGetActiveSounds>(this, 19)(this, sndlist);
 	}
 };
 

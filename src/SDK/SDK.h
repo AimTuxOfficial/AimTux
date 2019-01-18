@@ -28,6 +28,7 @@
 #include "IClientEntityList.h"
 #include "IClientMode.h"
 #include "ICvar.h"
+#include "IFileSystem.h"
 #include "IGameEvent.h"
 #include "ILocalize.h"
 #include "CGameServer.h"

@@ -49,8 +49,8 @@ static void DrawPlayer(void* thisptr, void* context, void *state, const ModelRen
 	if (entity != localplayer && entity->GetTeam() == localplayer->GetTeam() && !Settings::ESP::Filters::allies)
 		return;
 
-	IMaterial* visible_material = NULL;
-	IMaterial* hidden_material = NULL;
+	IMaterial* visible_material = nullptr;
+	IMaterial* hidden_material = nullptr;
 
 	switch (Settings::ESP::Chams::type)
 	{

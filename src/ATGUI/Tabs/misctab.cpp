@@ -29,7 +29,7 @@ void Misc::RenderTab()
 	const char* grenadeTypes[] = { "FLASH", "SMOKE", "MOLOTOV", "HEGRENADE" };
 	const char* throwTypes[] = { "NORMAL", "RUN", "JUMP", "WALK" };
 
-	ImGui::Columns(2, NULL, true);
+	ImGui::Columns(2, nullptr, true);
 	{
 		ImGui::BeginChild(XORSTR("Child1"), ImVec2(0, 0), true);
 		{
@@ -45,7 +45,7 @@ void Misc::RenderTab()
 			{	
 				ImGui::Text(XORSTR("Humanizing"));
 				ImGui::Separator();
-				ImGui::Columns(2, NULL, true);
+				ImGui::Columns(2, nullptr, true);
 				{
 					ImGui::Checkbox(XORSTR("Hop Chance"), &Settings::BHop::Chance::enabled);
 					ImGui::Checkbox(XORSTR("Min Hops"), &Settings::BHop::Hops::enabledMin);
@@ -61,7 +61,7 @@ void Misc::RenderTab()
 				ImGui::Separator();
 			}
 
-			ImGui::Columns(2, NULL, true);
+			ImGui::Columns(2, nullptr, true);
 			{
 				ImGui::Checkbox(XORSTR("Auto Strafe"), &Settings::AutoStrafe::enabled);
 				ImGui::Checkbox(XORSTR("Edge Jump"), &Settings::EdgeJump::enabled);
@@ -84,7 +84,7 @@ void Misc::RenderTab()
 			ImGui::Text(XORSTR("Spammer"));
 			ImGui::Separator();
 
-			ImGui::Columns(3, NULL, true);
+			ImGui::Columns(3, nullptr, true);
 			{
 				ImGui::Checkbox(XORSTR("Kill Messages"), &Settings::Spammer::KillSpammer::enabled);
 			}
@@ -132,7 +132,7 @@ void Misc::RenderTab()
 			ImGui::Columns(1);
 			ImGui::Checkbox(XORSTR("Radio Commands"), &Settings::Spammer::RadioSpammer::enabled);
 
-			ImGui::Columns(3, NULL, true);
+			ImGui::Columns(3, nullptr, true);
 			{
 				ImGui::Combo(XORSTR("###SPAMMERYPE"), (int*)&Settings::Spammer::type, spammerTypes, IM_ARRAYSIZE(spammerTypes));
 			}
@@ -201,7 +201,7 @@ void Misc::RenderTab()
 			ImGui::Separator();
 			ImGui::Text(XORSTR("FOV"));
 			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
+			ImGui::Columns(2, nullptr, true);
 			{
 				ImGui::Checkbox(XORSTR("FOV"), &Settings::FOVChanger::enabled);
 				ImGui::Checkbox(XORSTR("Viewmodel FOV"), &Settings::FOVChanger::viewmodelEnabled);
@@ -218,7 +218,7 @@ void Misc::RenderTab()
 			ImGui::Separator();
 			ImGui::Text(XORSTR("Third Person"));
 			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
+			ImGui::Columns(2, nullptr, true);
 			{
 				ImGui::Checkbox(XORSTR("Enabled"), &Settings::ThirdPerson::enabled);
 			}
@@ -232,7 +232,7 @@ void Misc::RenderTab()
 			ImGui::Separator();
 			ImGui::Text(XORSTR("Grenade Helper"));
 			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
+			ImGui::Columns(2, nullptr, true);
 			{
 				ImGui::Checkbox(XORSTR("Enabled ###ghenabled"), &Settings::GrenadeHelper::enabled);
 			}
@@ -313,9 +313,9 @@ void Misc::RenderTab()
 					auto lambda =[](void* data, int idx, const char** out_text)
 					{
 						*out_text = Settings::GrenadeHelper::grenadeInfos.at(idx).name.c_str();
-						return *out_text != NULL;
+						return *out_text != nullptr;
 					};
-					ImGui::ListBox("", &throwMessageCurrent, lambda, NULL, Settings::GrenadeHelper::grenadeInfos.size(), 7);
+					ImGui::ListBox("", &throwMessageCurrent, lambda, nullptr, Settings::GrenadeHelper::grenadeInfos.size(), 7);
 					ImGui::PopItemWidth();
 					ImGui::Columns(1);
 					if (ImGui::Button(XORSTR("Remove"),  ImVec2(ImGui::GetWindowWidth(), 30)))
@@ -345,7 +345,7 @@ void Misc::RenderTab()
 			ImGui::Separator();
 			ImGui::Checkbox(XORSTR("Enabled"), &Settings::ClanTagChanger::enabled);
 			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
+			ImGui::Columns(2, nullptr, true);
 			{
 				ImGui::PushItemWidth(-1);
 				if (ImGui::InputText(XORSTR("##CLANTAG"), Settings::ClanTagChanger::value, 30))
@@ -404,7 +404,7 @@ void Misc::RenderTab()
 
 				ImGui::EndPopup();
 			}
-			ImGui::Columns(2, NULL, true);
+			ImGui::Columns(2, nullptr, true);
 			{
 				if (ImGui::Checkbox(XORSTR("Name Stealer"), &Settings::NameStealer::enabled))
 					NameStealer::entityId = -1;
@@ -418,7 +418,7 @@ void Misc::RenderTab()
 			ImGui::Separator();
 			ImGui::Text(XORSTR("Other"));
 			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
+			ImGui::Columns(2, nullptr, true);
 			{
 				ImGui::Checkbox(XORSTR("Fake Lag"), &Settings::FakeLag::enabled);
 				ImGui::Checkbox(XORSTR("Adaptive Fake Lag"), &Settings::FakeLag::adaptive);

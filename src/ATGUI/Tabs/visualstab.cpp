@@ -8,6 +8,7 @@
 
 void Visuals::RenderTab()
 {
+	const char* BackendTypes[] = { "Surface (Valve)", "ImGUI (Custom/Faster)" };
 	const char* BoxTypes[] = { "Flat 2D", "Frame 2D", "Box 3D", "Hitboxes" };
 	const char* TracerTypes[] = { "Bottom", "Cursor" };
 	const char* BarTypes[] = { "Vertical Left", "Vertical Right", "Horizontal Below", "Horizontal Above", "Interwebz" };
@@ -62,16 +63,18 @@ void Visuals::RenderTab()
 			".50 Cal Low Glow", // 17
 	};
 
-	ImGui::Columns(2, NULL, true);
+	ImGui::Columns(2, nullptr, true);
 	{
 		ImGui::Checkbox(XORSTR("Enabled"), &Settings::ESP::enabled);
-		ImGui::NextColumn();
+        ImGui::Combo( XORSTR( "##BACKENDTYPE" ), (int*)&Settings::ESP::backend, BackendTypes, IM_ARRAYSIZE( BackendTypes ) );
+
+        ImGui::NextColumn();
 		ImGui::Text(XORSTR("Only on Key"));
 		UI::KeyBindButton(&Settings::ESP::key);
 	}
 	ImGui::Separator();
 
-	ImGui::Columns(2, NULL, true);
+	ImGui::Columns(2, nullptr, true);
 	{
 		ImGui::BeginChild(XORSTR("COL1"), ImVec2(0, 0), true);
 		{
@@ -79,7 +82,7 @@ void Visuals::RenderTab()
 			ImGui::BeginChild(XORSTR("ESP"), ImVec2(0, 0), true);
 			ImGui::Text(XORSTR("Type"));
 			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
+			ImGui::Columns(2, nullptr, true);
 			{
 				ImGui::Checkbox(XORSTR("Outline Box"), &Settings::ESP::Boxes::enabled);
 				ImGui::Checkbox(XORSTR("Chams"), &Settings::ESP::Chams::enabled);
@@ -112,7 +115,7 @@ void Visuals::RenderTab()
 			ImGui::Separator();
 			ImGui::Text(XORSTR("Filter"));
 			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
+			ImGui::Columns(2, nullptr, true);
 			{
 				ImGui::Checkbox(XORSTR("Enemies"), &Settings::ESP::Filters::enemies);
 				ImGui::Checkbox(XORSTR("Chickens"), &Settings::ESP::Filters::chickens);
@@ -130,7 +133,7 @@ void Visuals::RenderTab()
 			ImGui::Separator();
 			ImGui::Text(XORSTR("Player Information"));
 			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
+			ImGui::Columns(2, nullptr, true);
 			{
 				ImGui::Checkbox(XORSTR("Clan"), &Settings::ESP::Info::clan);
 				ImGui::Checkbox(XORSTR("Rank"), &Settings::ESP::Info::rank);
@@ -159,7 +162,7 @@ void Visuals::RenderTab()
 			ImGui::Separator();
 			ImGui::Text(XORSTR("World"));
 			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
+			ImGui::Columns(2, nullptr, true);
 			{
 				ImGui::Checkbox(XORSTR("Weapons"), &Settings::ESP::Filters::weapons);
 				ImGui::Checkbox(XORSTR("Throwables"), &Settings::ESP::Filters::throwables);
@@ -183,7 +186,7 @@ void Visuals::RenderTab()
 		{
 			ImGui::Text(XORSTR("Crosshair"));
 			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
+			ImGui::Columns(2, nullptr, true);
 			{
 				ImGui::Checkbox(XORSTR("Recoil Crosshair"), &Settings::Recoilcrosshair::enabled);
 				ImGui::Checkbox(XORSTR("FOV Circle"), &Settings::ESP::FOVCrosshair::enabled);
@@ -205,7 +208,7 @@ void Visuals::RenderTab()
 			ImGui::Separator();
 			ImGui::Text(XORSTR("Other Visual Settings"));
 			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
+			ImGui::Columns(2, nullptr, true);
 			{
 				ImGui::Checkbox(XORSTR("Arms"), &Settings::ESP::Chams::Arms::enabled);
 				ImGui::Checkbox(XORSTR("Dlights"), &Settings::Dlights::enabled);
@@ -232,7 +235,7 @@ void Visuals::RenderTab()
 					ImGui::Checkbox(XORSTR("Enable Tracers"), &Settings::TracerEffects::enabled);
                     ImGui::Checkbox(XORSTR("Server Sided?"), &Settings::TracerEffects::serverSide);
                     SetTooltip(XORSTR("Requires a Taser in your Inventory.\nCan only shoot one shot at a time\nOnly Works with Kisak Snot"));
-                    ImGui::Columns(2, NULL, false);
+                    ImGui::Columns(2, nullptr, false);
                     {
                         ImGui::SliderInt(XORSTR("##TracerFreq"),&Settings::TracerEffects::frequency, 0, 10, XORSTR("Freq: %0.f"));
                     }
@@ -267,7 +270,7 @@ void Visuals::RenderTab()
 			ImGui::Separator();
 			ImGui::Text(XORSTR("Radar"));
 			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
+			ImGui::Columns(2, nullptr, true);
 			{
 				ImGui::Checkbox(XORSTR("Radar"), &Settings::Radar::enabled);
 				ImGui::PushItemWidth(-1);
@@ -294,7 +297,7 @@ void Visuals::RenderTab()
 
 			ImGui::Text(XORSTR("Hitmarkers"));
 			ImGui::Separator();
-			ImGui::Columns(2, NULL, true);
+			ImGui::Columns(2, nullptr, true);
 			{
 				ImGui::Checkbox(XORSTR("Hitmarkers"), &Settings::ESP::Hitmarker::enabled);
 
