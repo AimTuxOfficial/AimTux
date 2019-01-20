@@ -177,15 +177,13 @@ static void CheckActiveSounds() {
         if ( strstr( buf, XORSTR( "player/land" ) ) != nullptr ){
             {
                 std::unique_lock<std::mutex> lock( footstepMutex );
-                Vector &copy = *sounds[i].m_pOrigin;
-                playerFootsteps[sounds[i].m_nSoundSource].push_back( Footstep( copy, ( Util::GetEpochTime( ) + Settings::ESP::Sounds::time ) ) );
+                playerFootsteps[sounds[i].m_nSoundSource].emplace_back( *sounds[i].m_pOrigin, ( Util::GetEpochTime( ) + Settings::ESP::Sounds::time ) );
             } // RAII mutex lock
             lastSoundGuid = sounds[i].m_nGuid;
         } else if ( strstr( buf, XORSTR( "footstep" ) ) != nullptr ){
             {
                 std::unique_lock<std::mutex> lock( footstepMutex );
-                Vector copy = *sounds[i].m_pOrigin;
-                playerFootsteps[sounds[i].m_nSoundSource].push_back( Footstep( copy, ( Util::GetEpochTime( ) + Settings::ESP::Sounds::time ) ) );
+                playerFootsteps[sounds[i].m_nSoundSource].emplace_back( *sounds[i].m_pOrigin, ( Util::GetEpochTime( ) + Settings::ESP::Sounds::time ) );
             } // RAII mutex lock
             lastSoundGuid = sounds[i].m_nGuid;
         }
