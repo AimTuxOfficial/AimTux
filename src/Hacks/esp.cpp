@@ -13,6 +13,7 @@
 
 #include <climits>
 #include <deque>
+#include <mutex>
 
 bool Settings::ESP::enabled = false;
 ButtonCode_t Settings::ESP::key = ButtonCode_t::KEY_Z;
@@ -116,19 +117,18 @@ VMatrix vMatrix = {69.0f,69.0f,69.0f,69.0f,
 Vector2D barsSpacing = Vector2D( 0, 0 );
 
 struct Footstep {
-    Footstep( Vector *pos, long expireAt ){
-        position = *pos;
+    Footstep( Vector &pos, long expireAt ){
+        position = pos;
         expiration = expireAt;
     }
     long expiration;
     Vector position;
 };
 
-static std::deque<Footstep> playerFootsteps[64]; // entIndex -> Footstep.
-
+std::mutex footstepMutex;
+std::deque<Footstep> playerFootsteps[64]; // entIndex -> Footstep.
 
 QAngle viewanglesBackup;
-std::vector<Footstep> footsteps;
 
 const char* ESP::ranks[] = {
 		"Unranked",
@@ -153,6 +153,46 @@ const char* ESP::ranks[] = {
 		"Supreme Master First Class",
 		"The Global Elite"
 };
+
+static void CheckActiveSounds() {
+    static CUtlVector<SndInfo_t> sounds; // this has to be static.
+    char buf[PATH_MAX];
+    static int lastSoundGuid = 0;  // the Unique sound playback ID's increment. It does not get reset to 0
+    sound->GetActiveSounds( sounds );
+    for ( int i = 0; i < sounds.Count(); i++ ){
+        if( sounds[i].m_nSoundSource <= 0 || sounds[i].m_nSoundSource > 63 ) // environmental sounds or out of bounds.
+            continue;
+        if( !sounds[i].m_pOrigin ) // no location
+            continue;
+        if( sounds[i].m_nGuid <= lastSoundGuid ) // same sound we marked last time
+            continue;
+        if( sounds[i].m_nSoundSource == engine->GetLocalPlayer() )
+            continue;
+
+        if( !fileSystem->String( sounds[i].m_filenameHandle, buf, sizeof( buf ) ) )
+            continue;
+        if ( buf[0] != '~' )
+            continue;
+
+        if ( strstr( buf, XORSTR( "player/land" ) ) != nullptr ){
+            {
+                std::unique_lock<std::mutex> lock( footstepMutex );
+                Vector &copy = *sounds[i].m_pOrigin;
+                playerFootsteps[sounds[i].m_nSoundSource].push_back( Footstep( copy, ( Util::GetEpochTime( ) + Settings::ESP::Sounds::time ) ) );
+            } // RAII mutex lock
+            lastSoundGuid = sounds[i].m_nGuid;
+        } else if ( strstr( buf, XORSTR( "footstep" ) ) != nullptr ){
+            {
+                std::unique_lock<std::mutex> lock( footstepMutex );
+                Vector copy = *sounds[i].m_pOrigin;
+                playerFootsteps[sounds[i].m_nSoundSource].push_back( Footstep( copy, ( Util::GetEpochTime( ) + Settings::ESP::Sounds::time ) ) );
+            } // RAII mutex lock
+            lastSoundGuid = sounds[i].m_nGuid;
+        }
+    }
+    // GetActiveSounds allocates new memory to our CUtlVector every time for some reason.
+    sounds.m_Size = 0; // Setting this to 0 makes it use the same memory each time instead of grabbing more.
+}
 
 // credits to Casual_Hacker from UC for this method (I modified it a lil bit)
 static float GetArmourHealth(float flDamage, int ArmorValue)
@@ -673,36 +713,6 @@ static void DrawAutoWall(C_BasePlayer *player) {
 	}
 }
 
-static void CheckActiveSounds() {
-    static CUtlVector<SndInfo_t> sounds; // this has to be static.
-    static char buf[PATH_MAX];
-    static int lastSoundGuid = 0;  // the Unique sound playback ID's increment. It does not get reset to 0
-    sound->GetActiveSounds( sounds );
-    for ( int i = 0; i < sounds.Count(); i++ ){
-        if( sounds[i].m_nSoundSource <= 0 ) // environmental sounds.
-            continue;
-        if( sounds[i].m_nGuid <= lastSoundGuid ) // same sound we marked last time
-            continue;
-        if( sounds[i].m_nSoundSource == engine->GetLocalPlayer() )
-            continue;
-
-        fileSystem->String( sounds[i].m_filenameHandle, buf, sizeof( buf ) );
-        if ( buf[0] != '~' )
-            continue;
-        if ( strstr( buf, XORSTR( "player/land" ) ) != nullptr ){
-            playerFootsteps[sounds[i].m_nSoundSource].push_back( Footstep( sounds[i].m_pOrigin, (Util::GetEpochTime() + Settings::ESP::Sounds::time) ) );
-
-            lastSoundGuid = sounds[i].m_nGuid;
-        } else if ( strstr( buf, XORSTR( "footstep" ) ) != nullptr ){
-            playerFootsteps[sounds[i].m_nSoundSource].push_back( Footstep( sounds[i].m_pOrigin, (Util::GetEpochTime() + Settings::ESP::Sounds::time) ) );
-
-            lastSoundGuid = sounds[i].m_nGuid;
-        }
-    }
-    // GetActiveSounds allocates new memory to our CUtlVector every time for some reason.
-    sounds.m_Size = 0; // Setting this to 0 makes it use the same memory each time instead of grabbing more.
-}
-
 static void DrawHeaddot( C_BasePlayer* player ) {
 
 	ImVec2 head2D;
@@ -718,31 +728,29 @@ static void DrawHeaddot( C_BasePlayer* player ) {
 }
 
 static void DrawSounds( C_BasePlayer *player, ImColor playerColor ) {
-    static int checkEveryFour = 0; // HACK - it doesn't need to be checked every frame. This saves a lot of fps
-    if( checkEveryFour % 4 == 0 ){
-        CheckActiveSounds();
-        checkEveryFour = 0;
-    }
-    checkEveryFour++;
-    if ( playerFootsteps[player->GetIndex()].empty() )
-        return;
+    std::unique_lock<std::mutex> lock( footstepMutex, std::try_to_lock );
+    if( lock.owns_lock() ){
+        if ( playerFootsteps[player->GetIndex()].empty() )
+            return;
 
-    for ( auto it = playerFootsteps[player->GetIndex()].begin(); it != playerFootsteps[player->GetIndex()].end(); it++ ){
-        long diff = it->expiration - Util::GetEpochTime();
+        for ( auto it = playerFootsteps[player->GetIndex()].begin(); it != playerFootsteps[player->GetIndex()].end(); it++ ){
+            long diff = it->expiration - Util::GetEpochTime();
 
-        if ( diff <= 0 ){
-            playerFootsteps[player->GetIndex()].pop_front(); // This works because footsteps are a trail.
-            continue;
+            if ( diff <= 0 ){
+                playerFootsteps[player->GetIndex()].pop_front(); // This works because footsteps are a trail.
+                continue;
+            }
+
+            float percent = ( float ) diff / ( float ) Settings::ESP::Sounds::time;
+            Color drawColor = Color::FromImColor( playerColor );
+            drawColor.a = std::min( powf( percent * 2, 0.6f ), 1.f ) * drawColor.a; // fades out alpha when its below 0.5
+
+            float circleRadius = fabs( percent - 1.0f ) * 42.0f;
+            float points = circleRadius * 0.75f;
+
+            Draw::HyCircle3D( it->position, points, circleRadius, ImColor(drawColor.r, drawColor.g, drawColor.b, drawColor.a ) );
         }
-
-        float percent = ( float ) diff / ( float ) Settings::ESP::Sounds::time;
-        Color drawColor = Color::FromImColor( playerColor );
-        drawColor.a = std::min( powf( percent * 2, 0.6f ), 1.f ) * drawColor.a; // fades out alpha when its below 0.5
-
-        float circleRadius = fabs( percent - 1.0f ) * 42.0f;
-        float points = circleRadius * 0.75f;
-
-        Draw::HyCircle3D( it->position, points, circleRadius, ImColor(drawColor.r, drawColor.g, drawColor.b, drawColor.a ) );
+        footstepMutex.unlock();
     }
 }
 
@@ -1517,6 +1525,10 @@ void ESP::DrawModelExecute(void* thisptr, void* context, void *state, const Mode
 void ESP::CreateMove(CUserCmd* cmd)
 {
 	viewanglesBackup = cmd->viewangles;
+
+    if( Settings::ESP::Sounds::enabled ){
+        CheckActiveSounds();
+    }
 }
 
 void ESP::PaintToUpdateMatrix( ) {

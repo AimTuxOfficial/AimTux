@@ -109,7 +109,7 @@ void MainThread()
 	surfaceVMT->ApplyVMT();
 
     viewRenderVMT = new VMT(viewRender);
-    viewRenderVMT->HookVM(Hooks::RenderSmokePostViewmodel, 41);
+    viewRenderVMT->HookVM(Hooks::RenderSmokePostViewmodel, 42);
     viewRenderVMT->ApplyVMT();
     
 	eventListener = new EventListener({ XORSTR("cs_game_disconnected"), XORSTR("player_connect_full"), XORSTR("player_death"), XORSTR("player_hurt"), XORSTR("switch_team") });
