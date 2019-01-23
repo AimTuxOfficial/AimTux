@@ -7,11 +7,6 @@
 #include "../settings.h"
 #include "../interfaces.h"
 
-extern "C"
-{
-	#include <xdo.h>
-}
-
 
 // Default aimbot settings
 bool Settings::Aimbot::enabled = false;
@@ -63,7 +58,6 @@ float Settings::Aimbot::Smooth::Salting::multiplier = 0.0f;
 bool Settings::Aimbot::AutoSlow::enabled = false;
 bool Settings::Aimbot::AutoSlow::goingToSlow = false;
 bool Settings::Aimbot::Prediction::enabled = false;
-bool Settings::Aimbot::moveMouse = false;
 
 bool Aimbot::aimStepInProgress = false;
 std::vector<int64_t> Aimbot::friends = { };
@@ -76,12 +70,10 @@ QAngle RCSLastPunch;
 int Aimbot::targetAimbot = -1;
 const int headVectors = 11;
 
-static xdo_t *xdo = xdo_new(nullptr);
-
 std::unordered_map<ItemDefinitionIndex, AimbotWeapon_t, Util::IntHash<ItemDefinitionIndex>> Settings::Aimbot::weapons = {
 		{ ItemDefinitionIndex::INVALID, { false, false, false, false, false, false, 700, Bone::BONE_HEAD, ButtonCode_t::MOUSE_MIDDLE, false, false, 1.0f,
 												SmoothType::SLOW_END, false, 0.0f, false, 0.0f, true, 180.0f, false, 25.0f, 35.0f, false, false, 2.0f, 2.0f,
-												false, false, false, false, false, false, false, false, 0.1f ,false, 10.0f, false, false, 5.0f, false } },
+												false, false, false, false, false, false, false, false, 0.1f ,false, 10.0f, false, false, 5.0f  } },
 };
 
 static QAngle ApplyErrorToAngle(QAngle* angles, float margin)
@@ -93,10 +85,6 @@ static QAngle ApplyErrorToAngle(QAngle* angles, float margin)
 	return error;
 }
 
-void Aimbot::XDOCleanup()
-{
-	xdo_free(xdo);
-}
 /* Fills points Vector. True if successful. False if not.  Credits for Original method - ReactiioN */
 static bool HeadMultiPoint(C_BasePlayer *player, Vector points[])
 {
@@ -708,24 +696,6 @@ static void NoShoot(C_BaseCombatWeapon* activeWeapon, C_BasePlayer* player, CUse
 	}
 }
 
-static void MoveMouse(CUserCmd* cmd, const QAngle &angle, const QAngle &oldAngle)
-{
-    if (angle == cmd->viewangles)
-        return;
-    if(!Settings::Aimbot::moveMouse)
-        return;
-	if(Settings::Aimbot::silent)
-		return;
-
-    float sensitivity = cvar->FindVar(XORSTR("sensitivity"))->GetFloat();
-    float m_pitch = cvar->FindVar(XORSTR("m_pitch"))->GetFloat();
-    float m_yaw = cvar->FindVar(XORSTR("m_yaw"))->GetFloat();
-
-    xdo_move_mouse_relative(xdo, (int) -( (angle.y - oldAngle.y) / (m_pitch * sensitivity) ),
-                            (int) ( (angle.x - oldAngle.x) / (m_yaw * sensitivity))
-    );
-}
-
 static void FixMouseDeltas(CUserCmd* cmd, const QAngle &angle, const QAngle &oldAngle)
 {
     if( !shouldAim )
@@ -825,16 +795,11 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	Smooth(player, angle);
 	NoShoot(activeWeapon, player, cmd);
 
-
     Math::NormalizeAngles(angle);
     Math::ClampAngles(angle);
 
-    if( Settings::Aimbot::moveMouse ){
-        MoveMouse(cmd, angle, oldAngle);
-    } else {
-        FixMouseDeltas(cmd, angle, oldAngle);
-        cmd->viewangles = angle;
-    }
+	FixMouseDeltas(cmd, angle, oldAngle);
+	cmd->viewangles = angle;
 
     Math::CorrectMovement(oldAngle, cmd, oldForward, oldSideMove);
 
@@ -922,5 +887,4 @@ void Aimbot::UpdateValues()
 		Settings::Aimbot::AutoAim::desiredBones[bone] = currentWeaponSetting.desiredBones[bone];
 
 	Settings::Aimbot::AutoAim::realDistance = currentWeaponSetting.autoAimRealDistance;
-	Settings::Aimbot::moveMouse = currentWeaponSetting.moveMouse;
 }

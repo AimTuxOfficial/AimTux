@@ -15,7 +15,7 @@ namespace ESP
 	bool WorldToScreen( const Vector &origin, ImVec2 * const screen );
 
 	//Hooks
-	void DrawModelExecute(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t* pCustomBoneToWorld);
+	void DrawModelExecute();
 	bool PrePaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force);
 	void PaintHybrid();
 	void PaintToUpdateMatrix();

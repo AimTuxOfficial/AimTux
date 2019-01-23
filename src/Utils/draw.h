@@ -52,7 +52,7 @@ namespace Draw {
 	void ImRectFilled( int x0, int y0, int x1, int y1, ImColor color, float rounding = 0.0f, int rounding_corners_flags = ~0 );
 	void ImRectFilled( ImVec2 a, ImVec2 b, ImColor color, float rounding = 0.0f, int rounding_corners_flags = ~0 );
 	void ImText( ImVec2 pos, ImColor color, const char* text_begin, const char* text_end = nullptr, float wrap_width = 0.0f,
-				 const ImVec4* cpu_fine_clip_rect = nullptr, ImFontFlags flags = ImFontFlags_None );
+				 const ImVec4* cpu_fine_clip_rect = nullptr, ImFontFlags flags = ImFontFlags_Outline );
 	void ImEnd();
 
 	// Hybrid Functions
@@ -61,7 +61,7 @@ namespace Draw {
 	ImVec2 HyGetTextSize( const char* text, HFont font = 0, const char* text_end = nullptr,
 						  bool hide_text_after_double_hash = false, float wrap_width = -1.0f);
 	void HyText( int x, int y, ImColor color, const char* text_begin, HFont font = 0, const char* text_end = nullptr,
-				 float wrap_width = 0.0f, const ImVec4* cpu_fine_clip_rect = nullptr, ImFontFlags = ImFontFlags_None );
+				 float wrap_width = 0.0f, const ImVec4* cpu_fine_clip_rect = nullptr, ImFontFlags = ImFontFlags_Outline );
 	void HyLine( int x0, int y0, int x1, int y1, ImColor color );
 	void HyLine( ImVec2 start, ImVec2 end, ImColor color );
 	void HyFilledRectangle( int x0, int y0, int x1, int y1, ImColor color, float rounding = 0.0f, int rounding_corners_flags = ~0 );

@@ -618,8 +618,8 @@ static void DrawAimbotSpot( ) {
 	int width, height;
 	Draw::HyGetScreenSize( &width, &height );
 	Draw::HyLine( width / 2, height / 2, spot2D.x, spot2D.y, ImColor( 45, 235, 60 ) );
-	Draw::HyCircle( width / 2, height / 2, 12, ImColor( 45, 235, 60 ) );
-	Draw::HyCircle( spot2D.x, spot2D.y, 12, ImColor( 45, 235, 60 ) );
+	Draw::HyCircle( width / 2, height / 2, 1, ImColor( 45, 235, 60 ) );
+	Draw::HyCircle( spot2D.x, spot2D.y, 1, ImColor( 45, 235, 60 ) );
 }
 static void DrawBoneMap( C_BasePlayer* player ) {
 	static ImVec2 bone2D;
@@ -1129,58 +1129,6 @@ static void DrawThrowable(C_BaseEntity* throwable, ClientClass* client)
 
 	DrawEntity(throwable, nadeName.c_str(), nadeColor);
 }
-/*
-static void DrawFOVCrosshair()
-{
-	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer->GetAlive())
-		return;
-
-	int width, height;
-	engine->GetScreenSize(width, height);
-
-	float radius;
-	if (Settings::Aimbot::AutoAim::realDistance)
-	{
-		Vector src3D, dst3D, forward;
-		trace_t tr;
-		Ray_t ray;
-		CTraceFilter filter;
-
-		QAngle angles = viewanglesBackup;
-		Math::AngleVectors(angles, forward);
-		filter.pSkip = localplayer;
-		src3D = localplayer->GetEyePosition();
-		dst3D = src3D + (forward * 8192);
-
-		ray.Init(src3D, dst3D);
-		trace->TraceRay(ray, MASK_SHOT, &filter, &tr);
-
-		QAngle leftViewAngles = QAngle(angles.x, angles.y - 90.f, 0.f);
-		Math::NormalizeAngles(leftViewAngles);
-		Math::AngleVectors(leftViewAngles, forward);
-		forward *= Settings::Aimbot::AutoAim::fov * 5.f;
-
-		Vector maxAimAt = tr.endpos + forward;
-
-		Vector max2D;
-		if (debugOverlay->ScreenPosition(maxAimAt, max2D))
-			return;
-
-		radius = fabsf(width / 2 - max2D.x);
-	}
-	else
-	{
-		radius = ((Settings::Aimbot::AutoAim::fov / OverrideView::currentFOV ) * width) /2;
-	}
-
-	if (Settings::ESP::FOVCrosshair::filled)
-		Draw::FilledCircle(Vector2D(width / 2, height / 2), 20, radius, Color::FromImColor(Settings::ESP::FOVCrosshair::color.Color()));
-	else
-		Draw::Circle(Vector2D(width / 2, height / 2), 20, radius, Color::FromImColor(Settings::ESP::FOVCrosshair::color.Color()));
-
-}
-*/
 
 static void DrawGlow()
 {
@@ -1258,61 +1206,6 @@ static void DrawGlow()
 		glow_object.m_bRenderWhenUnoccluded = false;
 	}
 }
-
-/*
-static void DrawScope()
-{
-	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer)
-		return;
-
-	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
-	if (!activeWeapon)
-		return;
-
-	if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_SG556 || *activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_AUG)
-		return;
-
-	int width, height;
-	engine->GetScreenSize(width, height);
-
-	Draw::Line(0, height * 0.5, width, height * 0.5, Color(0, 0, 0, 255));
-	Draw::Line(width * 0.5, 0, width * 0.5, height, Color(0, 0, 0, 255));
-}
-static void DrawSpread()
-{
-	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	if (!localplayer)
-		return;
-
-	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
-	if (!activeWeapon)
-		return;
-
-	if( Settings::ESP::Spread::enabled )
-	{
-		int width, height;
-		engine->GetScreenSize(width, height);
-
-		float cone = activeWeapon->GetSpread() + activeWeapon->GetInaccuracy();
-		if( cone > 0.0f ){
-			float radius = ( cone * height ) / 1.5f;
-			Draw::Rectangle(Vector2D(((width/2)-radius), (height/2)-radius+1), Vector2D( (width/2)+radius+1, (height/2)+radius+2), Color::FromImColor(Settings::ESP::Spread::color.Color()));
-		}
-	}
-	if( Settings::ESP::Spread::spreadLimit )
-	{
-		int width, height;
-		engine->GetScreenSize(width, height);
-
-		float cone = Settings::Aimbot::SpreadLimit::value;
-		if( cone > 0.0f ){
-			float radius = ( cone * height ) / 1.5f;
-			Draw::Rectangle(Vector2D(((width/2)-radius), (height/2)-radius+1), Vector2D( (width/2)+radius+1, (height/2)+radius+2), Color::FromImColor(Settings::ESP::Spread::spreadLimitColor.Color()));
-		}
-	}
-}
-*/
 
 static void DrawFOVCrosshair()
 {
@@ -1508,7 +1401,7 @@ void ESP::PaintHybrid()
 		DrawScope();
 }
 
-void ESP::DrawModelExecute(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t* pCustomBoneToWorld)
+void ESP::DrawModelExecute()
 {
 	if (!Settings::ESP::enabled)
 		return;

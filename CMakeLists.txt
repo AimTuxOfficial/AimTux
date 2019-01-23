@@ -45,4 +45,4 @@ EXCLUDE_FILES_FROM_DIR_IN_LIST("${SOURCE_FILES}" "${CMAKE_SOURCE_DIR}/src/ImGUI/
 include_directories(${INCLUDE_DIRS})
 
 add_library(Fuzion SHARED ${SOURCE_FILES})
-target_link_libraries(Fuzion SDL2 GL dl xdo)
+target_link_libraries(Fuzion SDL2 GL dl)

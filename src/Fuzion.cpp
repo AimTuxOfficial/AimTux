@@ -10,7 +10,6 @@
 #include "EventListener.h"
 #include "Utils/xorstring.h"
 
-#include "Hacks/aimbot.h" //XDO cleanup
 #include "Hacks/nosmoke.h"
 #include "Hacks/tracereffect.h"
 #include "Hacks/skinchanger.h"
@@ -144,7 +143,6 @@ void __attribute__((destructor)) Shutdown()
 	SDL2::UnhookWindow();
 	SDL2::UnhookPollEvent();
 
-	Aimbot::XDOCleanup();
 	NoSmoke::Cleanup();
 	TracerEffect::RestoreTracers();
 
