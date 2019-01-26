@@ -10,7 +10,8 @@
 #include "../Hacks/esp.h"
 
 DrawingBackend Settings::ESP::backend = DrawingBackend::IMGUI;
-DrawingBackend Draw::currentBackend = DrawingBackend::IMGUI;
+
+std::deque<DrawRequest> Draw::drawRequests = {};
 
 void Draw::Circle( Vector2D position, float points, float radius, Color color ) {
 	float step = ( float ) M_PI * 2.0f / points;
@@ -243,118 +244,89 @@ void Draw::ImEnd() {
 	ImGui::End();
 }
 
-bool Draw::HyWorldToScreen( const Vector& in, ImVec2 * const out )
-{
-	if ( Draw::currentBackend == DrawingBackend::SURFACE ){
-		Vector temp;
-		bool status = debugOverlay->ScreenPosition( in, temp );
-		*out = ImVec2(temp.x, temp.y);
-		return !status;
-	} else if ( Draw::currentBackend == DrawingBackend::IMGUI ){
-		return ESP::WorldToScreen( in, out );
-	} else {
-		cvar->ConsoleDPrintf(XORSTR( "(Draw::HyWorldToScreen): Unknown backend\n") );
-	}
-	return false;
+void Draw::AddLine( int x0, int y0, int x1, int y1, ImColor color ) {
+    DrawRequest req = {};
+    req.type = DRAW_LINE;
+    req.x0 = x0;
+    req.y0 = y0;
+    req.x1 = x1;
+    req.y1 = y1;
+    req.color = color;
+
+    drawRequests.push_back( req );
 }
 
-void Draw::HyGetScreenSize( int *width, int *height ) {
-	if ( Draw::currentBackend == DrawingBackend::SURFACE ){
-		engine->GetScreenSize( *width, *height );
-	} else if ( Draw::currentBackend == DrawingBackend::IMGUI ){
-		*width = (int)ImGui::GetWindowWidth();
-		*height = (int)ImGui::GetWindowHeight();
-	} else {
-		cvar->ConsoleDPrintf(XORSTR( "(Draw::HyGetScreenSize): Unknown backend\n") );
-		*width = 0;
-		*height = 0;
-	}
+void Draw::AddRect( int x0, int y0, int x1, int y1, ImColor color ) {
+    DrawRequest req = {};
+    req.type = DRAW_RECT;
+    req.x0 = x0;
+    req.y0 = y0;
+    req.x1 = x1;
+    req.y1 = y1;
+    req.color = color;
+
+    drawRequests.push_back( req );
 }
 
-ImVec2 Draw::HyGetTextSize( const char *text, HFont font, const char *text_end, bool hide_text_after_double_hash,
-							float wrap_width ) {
-	if ( Draw::currentBackend == DrawingBackend::SURFACE ){
-		if( font == 0 )
-			font = esp_font; // ghetto default
-		Vector2D pos = Draw::GetTextSize( text, font );
-		return ImVec2( pos.x, pos.y );
-	} else if ( Draw::currentBackend == DrawingBackend::IMGUI ){
-		return ImGui::CalcTextSize( text, text_end, hide_text_after_double_hash, wrap_width );
-	}
-	cvar->ConsoleDPrintf(XORSTR( "(Draw::HyGetTextSize): Unknown backend\n") );
-	return ImVec2( 0, 0 );
+void Draw::AddRectFilled( int x0, int y0, int x1, int y1, ImColor color ) {
+    DrawRequest req = {};
+    req.type = DRAW_RECT_FILLED;
+    req.x0 = x0;
+    req.y0 = y0;
+    req.x1 = x1;
+    req.y1 = y1;
+    req.color = color;
+
+    drawRequests.push_back( req );
 }
 
-void Draw::HyText( int x, int y, ImColor color, const char *text_begin, HFont font, const char *text_end, float wrap_width,
-				   const ImVec4 *cpu_fine_clip_rect, ImFontFlags flags ) {
-	if ( Draw::currentBackend == DrawingBackend::SURFACE ) {
-		if( font == 0 )
-			font = esp_font; // ghetto default
-		Draw::Text( x, y, text_begin, font, Color::FromImColor( color ) );
-	} else if ( Draw::currentBackend == DrawingBackend::IMGUI ) {
-		Draw::ImText( ImVec2( x, y ), color, text_begin, text_end, wrap_width, cpu_fine_clip_rect, flags );
-	}
-}
-void Draw::HyLine( int x0, int y0, int x1, int y1, ImColor color ) {
-	if ( Draw::currentBackend == DrawingBackend::SURFACE ) {
-		Draw::Line( x0, y0, x1, y1, Color::FromImColor( color ) );
-	} else if ( Draw::currentBackend == DrawingBackend::IMGUI ) {
-		Draw::ImLine( ImVec2( x0, y0 ), ImVec2( x1, y1 ), color );
-	}
+void Draw::AddCircle( int x0, int y0, float radius, ImColor color, int segments, float thickness ) {
+    DrawRequest req = {};
+    req.type = DRAW_CIRCLE;
+    req.x0 = x0;
+    req.y0 = y0;
+    req.circleRadius = radius;
+    req.circleSegments = segments;
+    req.thickness = thickness;
+    req.color = color;
+
+    drawRequests.push_back( req );
 }
 
-void Draw::HyLine( ImVec2 start, ImVec2 end, ImColor color ){
-	if ( Draw::currentBackend == DrawingBackend::SURFACE ) {
-		Draw::Line( Vector2D( start.x, start.y ), Vector2D( end.x, end.y ), Color::FromImColor( color ) );
-	} else if ( Draw::currentBackend == DrawingBackend::IMGUI ) {
-		Draw::ImLine( start, end, color );
-	}
+void Draw::AddCircleFilled( int x0, int y0, float radius, ImColor color, int segments ) {
+    DrawRequest req = {};
+    req.type = DRAW_CIRCLE_FILLED;
+    req.x0 = x0;
+    req.y0 = y0;
+    req.circleRadius = radius;
+    req.circleSegments = segments;
+    req.color = color;
+
+    drawRequests.push_back( req );
 }
 
-void Draw::HyRectangle( int x0, int y0, int x1, int y1, ImColor color, float rounding, int rounding_corners_flags ) {
-	if ( Draw::currentBackend == DrawingBackend::SURFACE ) {
-		Draw::Rectangle( x0, y0, x1, y1, Color::FromImColor( color ) );
-	} else if ( Draw::currentBackend == DrawingBackend::IMGUI ) {
-		Draw::ImRect( x0, y0 , x1, y1, color, rounding, rounding_corners_flags );
-	}
+void Draw::AddCircle3D( Vector &pos3D, float radius, ImColor color, int segments ) {
+    DrawRequest req = {};
+    req.type = DRAW_CIRCLE_3D;
+    req.pos = pos3D;
+    req.circleRadius = radius;
+    req.circleSegments = segments;
+    req.color = color;
+
+    drawRequests.push_back( req );
 }
 
-void Draw::HyFilledRectangle( int x0, int y0, int x1, int y1, ImColor color, float rounding, int rounding_corners_flags ) {
-	if ( Draw::currentBackend == DrawingBackend::SURFACE ) {
-		Draw::FilledRectangle( x0, y0, x1, y1, Color::FromImColor( color ) );
-	} else if ( Draw::currentBackend == DrawingBackend::IMGUI ) {
-		Draw::ImRectFilled( x0, y0, x1, y1, color, rounding, rounding_corners_flags );
-	}
-}
+void Draw::AddText( int x0, int y0, const char *text, ImColor color, ImFontFlags flags ) {
+    DrawRequest req = {};
+    if( text ){
+        strncpy( req.text, text, sizeof( req.text ) );
+        req.text[sizeof(req.text) - 1] = '\0';
+    }
+    req.type = DRAW_TEXT;
+    req.x0 = x0;
+    req.y0 = y0;
+    req.color = color;
+    req.fontflags = flags;
 
-void Draw::HyCircle( int x, int y, float radius, ImColor color, int num_segments, float thickness ) {
-	if ( Draw::currentBackend == DrawingBackend::SURFACE ) {
-		Draw::Circle( Vector2D( x, y ), num_segments, radius, Color::FromImColor(color) );
-	} else if ( Draw::currentBackend == DrawingBackend::IMGUI ) {
-		Draw::ImCircle( ImVec2( x, y ), color, radius, num_segments, thickness );
-	}
-}
-
-void Draw::HyCircleFilled( int x, int y, float radius, ImColor color, int num_segments ) {
-	if ( Draw::currentBackend == DrawingBackend::SURFACE ) {
-		Draw::FilledCircle( Vector2D( x, y ), num_segments, radius, Color::FromImColor(color) );
-	} else if ( Draw::currentBackend == DrawingBackend::IMGUI ) {
-		Draw::ImCircleFilled( ImVec2( x, y ), color, radius, num_segments );
-	}
-}
-
-void Draw::HyCircleFilled( ImVec2 pos, float radius, ImColor color, int num_segments ) {
-	if ( Draw::currentBackend == DrawingBackend::SURFACE ) {
-		Draw::FilledCircle( Vector2D( pos.x, pos.y ), num_segments, radius, Color::FromImColor(color) );
-	} else if ( Draw::currentBackend == DrawingBackend::IMGUI ) {
-		Draw::ImCircleFilled( pos, color, radius, num_segments );
-	}
-}
-
-void Draw::HyCircle3D( const Vector &position, float points, float radius, ImColor color ) {
-	if ( Draw::currentBackend == DrawingBackend::SURFACE ) {
-		Draw::Circle3D( position, points, radius, Color::FromImColor(color) );
-	} else if ( Draw::currentBackend == DrawingBackend::IMGUI ) {
-		Draw::ImCircle3D( position, points, radius, color );
-	}
+    drawRequests.push_back( req );
 }

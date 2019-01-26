@@ -8,7 +8,7 @@
 
 bool Settings::AngleIndicator::enabled = false;
 
-void AngleIndicator::PaintHybrid( ) {
+void AngleIndicator::Paint( ) {
     if( !Settings::AngleIndicator::enabled || !engine->IsInGame() )
         return;
 
@@ -20,7 +20,7 @@ void AngleIndicator::PaintHybrid( ) {
     static int width = 0;
     static int height = 0;
     if( width == 0 ){
-        Draw::HyGetScreenSize( &width, &height );
+        engine->GetScreenSize( width, height );
     }
     static int radius = 55;
     static int centerX = width / 3;
@@ -47,16 +47,16 @@ void AngleIndicator::PaintHybrid( ) {
     static ImColor realColor = ImColor( 225, 5, 5 );
     static ImColor lbyColor = ImColor( 135, 235, 169 );
 
-    Draw::HyCircle( centerX, centerY, radius, basicColor, 32 );
+    Draw::AddCircle( centerX, centerY, radius, basicColor, 32 );
 
-    Draw::HyLine( centerX, centerY, centerX, northY, fakeColor ); // Const North line
-    Draw::HyLine( centerX, centerY, leftDesyncMaxX, leftDesyncMaxY, basicColor ); // Left Max
-    Draw::HyLine( centerX, centerY, rightDesyncMaxX, rightDesyncMaxY, basicColor ); // Right Max
+    Draw::AddLine( centerX, centerY, centerX, northY, fakeColor ); // Const North line
+    Draw::AddLine( centerX, centerY, leftDesyncMaxX, leftDesyncMaxY, basicColor ); // Left Max
+    Draw::AddLine( centerX, centerY, rightDesyncMaxX, rightDesyncMaxY, basicColor ); // Right Max
 
     if( Settings::AntiAim::Yaw::enabled && ( Settings::AntiAim::Yaw::typeFake != Settings::AntiAim::Yaw::type)  ){
-        Draw::HyLine( centerX, centerY, realX, realY, realColor ); // Real Line
+        Draw::AddLine( centerX, centerY, realX, realY, realColor ); // Real Line
     }
     if( Settings::AntiAim::LBYBreaker::enabled ){
-        Draw::HyLine( centerX, centerY, lbyX, lbyY, lbyColor ); // LBY Line
+        Draw::AddLine( centerX, centerY, lbyX, lbyY, lbyColor ); // LBY Line
     }
 }

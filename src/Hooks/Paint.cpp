@@ -3,7 +3,7 @@
 #include "../interfaces.h"
 #include "../settings.h"
 #include "../Utils/draw.h"
-
+#include "../fonts.h"
 
 #include "../Hacks/esp.h"
 #include "../Hacks/dlights.h"
@@ -13,10 +13,12 @@
 #include "../Hacks/snipercrosshair.h"
 #include "../Hacks/angleindicator.h"
 
+#include <mutex>
+
 extern StartDrawingFn StartDrawing;
 extern FinishDrawingFn FinishDrawing;
 
-bool hasFinished = true;
+std::mutex drawMutex;
 
 void Hooks::Paint(void* thisptr, PaintMode_t mode)
 {
@@ -27,41 +29,84 @@ void Hooks::Paint(void* thisptr, PaintMode_t mode)
 
 	if (mode & PAINT_UIPANELS)
 	{
-		StartDrawing(surface);
-			ESP::PaintToUpdateMatrix(); // Just for updating the viewMatrix
-			Dlights::Paint();
+        int prevRecords = Draw::drawRequests.size(); // # of requests from last call
 
-			// Settings::ESP::backend has a chance to be changed by the user during drawing.
-			// So we use and set Draw::currentBackend
-			if( Settings::ESP::backend == DrawingBackend::SURFACE && hasFinished ){
-				Draw::currentBackend = DrawingBackend::SURFACE;
-				hasFinished = false;
+        ESP::PaintToUpdateMatrix(); // Just for updating the viewMatrix
+        /* These functions make drawRequests */
+        Dlights::Paint();
+        ESP::Paint();
+        GrenadeHelper::Paint();
+        Recoilcrosshair::Paint();
+        Hitmarkers::Paint();
+        SniperCrosshair::Paint();
+        AngleIndicator::Paint();
 
-				ESP::PaintHybrid();
-				GrenadeHelper::PaintHybrid();
-				Recoilcrosshair::PaintHybrid();
-				Hitmarkers::PaintHyrbid();
-				SniperCrosshair::PaintHybrid();
-				AngleIndicator::PaintHybrid();
-			}
-		FinishDrawing(surface);
-		hasFinished = true;
-	}
+        if( Settings::ESP::backend == DrawingBackend::SURFACE ){
+            StartDrawing(surface);
+            for( long unsigned int i = 0; i < Draw::drawRequests.size(); i++ ){
+                #define value Draw::drawRequests[i]
+                switch( value.type ){
+                    case DRAW_LINE:
+                        Draw::Line( value.x0, value.y0, value.x1, value.y1, Color::FromImColor( value.color ) );
+                        break;
+                    case DRAW_RECT:
+                        Draw::Rectangle( value.x0, value.y0, value.x1, value.y1, Color::FromImColor( value.color ) );
+                        break;
+                    case DRAW_RECT_FILLED:
+                        Draw::FilledRectangle( value.x0, value.y0, value.x1, value.y1, Color::FromImColor( value.color ) );
+                        break;
+                    case DRAW_CIRCLE:
+                        Draw::Circle( Vector2D( value.x0, value.y0 ), value.circleSegments, value.circleRadius, Color::FromImColor( value.color ) );
+                        break;
+                    case DRAW_CIRCLE_FILLED:
+                        Draw::FilledCircle( Vector2D( value.x0, value.y0 ), value.circleSegments, value.circleRadius, Color::FromImColor( value.color ) );
+                        break;
+                    case DRAW_CIRCLE_3D:
+                        Draw::Circle3D( value.pos, value.circleSegments, value.circleRadius, Color::FromImColor( value.color ) );
+                        break;
+                    case DRAW_TEXT:
+                        Draw::Text( value.x0, value.y0, value.text, esp_font, Color::FromImColor( value.color ) );
+                        break;
+                }
+            }
+            FinishDrawing(surface);
+        }
+        std::unique_lock<std::mutex> lock( drawMutex );
+        Draw::drawRequests.erase( Draw::drawRequests.begin( ), Draw::drawRequests.begin( ) + prevRecords );
+    }
 }
 
 void Hooks::PaintImGui()
 {
-	if( Settings::ESP::backend == DrawingBackend::IMGUI && hasFinished ){
-		Draw::currentBackend = DrawingBackend::IMGUI;
-		hasFinished = false;
+	if( Settings::ESP::backend != DrawingBackend::IMGUI )
+        return;
 
-		ESP::PaintHybrid();
-		GrenadeHelper::PaintHybrid();
-		Recoilcrosshair::PaintHybrid();
-		Hitmarkers::PaintHyrbid();
-		SniperCrosshair::PaintHybrid();
-		AngleIndicator::PaintHybrid();
+    std::unique_lock<std::mutex> lock( drawMutex );
 
-		hasFinished = true;
-	}
+    for( long unsigned int i = 0; i < Draw::drawRequests.size(); i++ ){
+        #define value Draw::drawRequests[i]
+        switch( value.type ){
+            case DRAW_LINE:
+                Draw::ImLine( ImVec2( value.x0, value.y0 ), ImVec2( value.x1, value.y1 ), value.color );
+                break;
+            case DRAW_RECT:
+                Draw::ImRect( value.x0, value.y0, value.x1, value.y1, value.color );
+                break;
+            case DRAW_RECT_FILLED:
+                Draw::ImRectFilled( value.x0, value.y0, value.x1, value.y1, value.color );
+                break;
+            case DRAW_CIRCLE:
+                Draw::ImCircle( ImVec2( value.x0, value.y0 ), value.color, value.circleRadius, value.circleSegments, value.thickness );
+                break;
+            case DRAW_CIRCLE_FILLED:
+                Draw::ImCircleFilled( ImVec2( value.x0, value.y0 ), value.color, value.circleRadius, value.circleSegments );
+                break;
+            case DRAW_CIRCLE_3D:
+                Draw::ImCircle3D( value.pos, value.circleSegments, value.circleRadius, value.color );
+                break;
+            case DRAW_TEXT:
+                Draw::ImText( ImVec2( value.x0, value.y0 ), value.color, value.text, nullptr, 0.0f, nullptr, value.fontflags );
+                break;
+        }
+    }
 }

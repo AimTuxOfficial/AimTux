@@ -3,5 +3,5 @@
 namespace AngleIndicator
 {
 
-    void PaintHybrid();
+    void Paint();
 }

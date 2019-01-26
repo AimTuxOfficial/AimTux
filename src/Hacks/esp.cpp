@@ -217,7 +217,7 @@ static float GetArmourHealth(float flDamage, int ArmorValue)
 static bool GetBox( C_BaseEntity* entity, int& x, int& y, int& w, int& h ) {
 	// Variables
 	Vector vOrigin, min, max;
-	ImVec2 flb, brt, blb, frt, frb, brb, blt, flt; // think of these as Front-Left-Bottom/Front-Left-Top... Etc.
+	Vector flb, brt, blb, frt, frb, brb, blt, flt; // think of these as Front-Left-Bottom/Front-Left-Top... Etc.
 	float left, top, right, bottom;
 
 	// Get the locations
@@ -236,14 +236,14 @@ static bool GetBox( C_BaseEntity* entity, int& x, int& y, int& w, int& h ) {
 						Vector( max.x, min.y, max.z ) };
 
 	// Get screen positions
-	if ( !Draw::HyWorldToScreen( points[3], &flb ) || !Draw::HyWorldToScreen( points[5], &brt )
-		 || !Draw::HyWorldToScreen( points[0], &blb ) || !Draw::HyWorldToScreen( points[4], &frt )
-		 || !Draw::HyWorldToScreen( points[2], &frb ) || !Draw::HyWorldToScreen( points[1], &brb )
-		 || !Draw::HyWorldToScreen( points[6], &blt ) || !Draw::HyWorldToScreen( points[7], &flt ) )
+	if ( debugOverlay->ScreenPosition( points[3], flb ) || debugOverlay->ScreenPosition( points[5], brt )
+		 || debugOverlay->ScreenPosition( points[0], blb ) || debugOverlay->ScreenPosition( points[4], frt )
+		 || debugOverlay->ScreenPosition( points[2], frb ) || debugOverlay->ScreenPosition( points[1], brb )
+		 || debugOverlay->ScreenPosition( points[6], blt ) || debugOverlay->ScreenPosition( points[7], flt ) )
 		return false;
 
 	// Put them in an array (maybe start them off in one later for speed?)
-	ImVec2 arr[] = { flb, brt, blb, frt, frb, brb, blt, flt };
+	Vector arr[] = { flb, brt, blb, frt, frb, brb, blt, flt };
 
 	// Init this shit
 	left = flb.x;
@@ -370,87 +370,87 @@ static void DrawBox( ImColor color, int x, int y, int w, int h, C_BaseEntity* en
 		int squareLine = std::min( VertLine, HorzLine );
 
 		// top-left corner / color
-		Draw::HyRectangle( x, y, x + squareLine, y + 1, color );
-		Draw::HyRectangle( x, y, x + 1, y + squareLine, color );
+		Draw::AddRect( x, y, x + squareLine, y + 1, color );
+		Draw::AddRect( x, y, x + 1, y + squareLine, color );
 
 
 
 		// top-left corner / missing edges
-		Draw::HyRectangle( x + squareLine, y - 1, x + squareLine + 1, y + 2, ImColor( 10, 10, 10, 190 ) );
-		Draw::HyRectangle( x - 1, y + squareLine, x + 2, y + squareLine + 1, ImColor( 10, 10, 10, 190 ) );
+		Draw::AddRect( x + squareLine, y - 1, x + squareLine + 1, y + 2, ImColor( 10, 10, 10, 190 ) );
+		Draw::AddRect( x - 1, y + squareLine, x + 2, y + squareLine + 1, ImColor( 10, 10, 10, 190 ) );
 
 
 		// top-right corner / color
-		Draw::HyRectangle( x + w - squareLine, y, x + w, y + 1, color );
-		Draw::HyRectangle( x + w - 1, y, x + w, y + squareLine, color );
+		Draw::AddRect( x + w - squareLine, y, x + w, y + 1, color );
+		Draw::AddRect( x + w - 1, y, x + w, y + squareLine, color );
 
 
 
 		// top-right corner / missing edges
-		Draw::HyRectangle( x + w - squareLine - 1, y - 1, x + w - squareLine, y + 2, ImColor( 10, 10, 10, 190 ) );
-		Draw::HyRectangle( x + w - 2, y + squareLine, x + w + 1, y + squareLine + 1, ImColor( 10, 10, 10, 190 ) );
+		Draw::AddRect( x + w - squareLine - 1, y - 1, x + w - squareLine, y + 2, ImColor( 10, 10, 10, 190 ) );
+		Draw::AddRect( x + w - 2, y + squareLine, x + w + 1, y + squareLine + 1, ImColor( 10, 10, 10, 190 ) );
 
 
 		// bottom-left corner / color
-		Draw::HyRectangle( x, y + h - 1, x + squareLine, y + h, color );
-		Draw::HyRectangle( x, y + h - squareLine, x + 1, y + h, color );
+		Draw::AddRect( x, y + h - 1, x + squareLine, y + h, color );
+		Draw::AddRect( x, y + h - squareLine, x + 1, y + h, color );
 
 
 
 		// bottom-left corner / missing edges
-		Draw::HyRectangle( x + squareLine, y + h - 2, x + squareLine + 1, y + h + 1, ImColor( 10, 10, 10, 190 ) );
-		Draw::HyRectangle( x - 1, y + h - squareLine - 1, x + 2, y + h - squareLine, ImColor( 10, 10, 10, 190 ) );
+		Draw::AddRect( x + squareLine, y + h - 2, x + squareLine + 1, y + h + 1, ImColor( 10, 10, 10, 190 ) );
+		Draw::AddRect( x - 1, y + h - squareLine - 1, x + 2, y + h - squareLine, ImColor( 10, 10, 10, 190 ) );
 
 
 		// bottom-right corner / color
-		Draw::HyRectangle( x + w - squareLine, y + h - 1, x + w, y + h, color );
-		Draw::HyRectangle( x + w - 1, y + h - squareLine, x + w, y + h, color );
+		Draw::AddRect( x + w - squareLine, y + h - 1, x + w, y + h, color );
+		Draw::AddRect( x + w - 1, y + h - squareLine, x + w, y + h, color );
 
 
 		// bottom-right corner / missing edges
-		Draw::HyRectangle( x + w - squareLine, y + h - 2, x + w - squareLine + 1, y + h + 1, ImColor( 10, 10, 10, 190 ) );
-		Draw::HyRectangle( x + w - 2, y + h - squareLine - 1, x + w + 1, y + h - squareLine, ImColor( 10, 10, 10, 190 ) );
+		Draw::AddRect( x + w - squareLine, y + h - 2, x + w - squareLine + 1, y + h + 1, ImColor( 10, 10, 10, 190 ) );
+		Draw::AddRect( x + w - 2, y + h - squareLine - 1, x + w + 1, y + h - squareLine, ImColor( 10, 10, 10, 190 ) );
 	} else if ( Settings::ESP::Boxes::type == BoxType::FLAT_2D ) {
 		int VertLine = ( int ) ( w * 0.33f );
 		int HorzLine = ( int ) ( h * 0.33f );
 		int squareLine = std::min( VertLine, HorzLine );
 
 		// top-left corner / color
-		Draw::HyRectangle( x, y, x + squareLine, y + 1, color );
-		Draw::HyRectangle( x, y, x + 1, y + squareLine, color );
+		Draw::AddRect( x, y, x + squareLine, y + 1, color );
+		Draw::AddRect( x, y, x + 1, y + squareLine, color );
 
 		// top-left corner / missing edges
-		Draw::HyRectangle( x + squareLine, y - 1, x + squareLine + 1, y + 2, ImColor( 10, 10, 10, 190 ) );
-		Draw::HyRectangle( x - 1, y + squareLine, x + 2, y + squareLine + 1, ImColor( 10, 10, 10, 190 ) );
+		Draw::AddRect( x + squareLine, y - 1, x + squareLine + 1, y + 2, ImColor( 10, 10, 10, 190 ) );
+		Draw::AddRect( x - 1, y + squareLine, x + 2, y + squareLine + 1, ImColor( 10, 10, 10, 190 ) );
 
 
 		// top-right corner / color
-		Draw::HyRectangle( x + w - squareLine, y, x + w, y + 1, color );
-		Draw::HyRectangle( x + w - 1, y, x + w, y + squareLine, color );
+		Draw::AddRect( x + w - squareLine, y, x + w, y + 1, color );
+		Draw::AddRect( x + w - 1, y, x + w, y + squareLine, color );
 
 		// top-right corner / missing edges
-		Draw::HyRectangle( x + w - squareLine - 1, y - 1, x + w - squareLine, y + 2, ImColor( 10, 10, 10, 190 ) );
-		Draw::HyRectangle( x + w - 2, y + squareLine, x + w + 1, y + squareLine + 1, ImColor( 10, 10, 10, 190 ) );
+		Draw::AddRect( x + w - squareLine - 1, y - 1, x + w - squareLine, y + 2, ImColor( 10, 10, 10, 190 ) );
+		Draw::AddRect( x + w - 2, y + squareLine, x + w + 1, y + squareLine + 1, ImColor( 10, 10, 10, 190 ) );
 
 
 		// bottom-left corner / color
-		Draw::HyRectangle( x, y + h - 1, x + squareLine, y + h, color );
-		Draw::HyRectangle( x, y + h - squareLine, x + 1, y + h, color );
+		Draw::AddRect( x, y + h - 1, x + squareLine, y + h, color );
+		Draw::AddRect( x, y + h - squareLine, x + 1, y + h, color );
 
 		// bottom-left corner / missing edges
-		Draw::HyRectangle( x + squareLine, y + h - 2, x + squareLine + 1, y + h + 1, ImColor( 10, 10, 10, 190 ) );
-		Draw::HyRectangle( x - 1, y + h - squareLine - 1, x + 2, y + h - squareLine, ImColor( 10, 10, 10, 190 ) );
+		Draw::AddRect( x + squareLine, y + h - 2, x + squareLine + 1, y + h + 1, ImColor( 10, 10, 10, 190 ) );
+		Draw::AddRect( x - 1, y + h - squareLine - 1, x + 2, y + h - squareLine, ImColor( 10, 10, 10, 190 ) );
 
 
 		// bottom-right corner / color
-		Draw::HyRectangle( x + w - squareLine, y + h - 1, x + w, y + h, color );
-		Draw::HyRectangle( x + w - 1, y + h - squareLine, x + w, y + h, color );
+		Draw::AddRect( x + w - squareLine, y + h - 1, x + w, y + h, color );
+		Draw::AddRect( x + w - 1, y + h - squareLine, x + w, y + h, color );
 
 		// bottom-right corner / missing edges
-		Draw::HyRectangle( x + w - squareLine, y + h - 2, x + w - squareLine + 1, y + h + 1, ImColor( 10, 10, 10, 190 ) );
-		Draw::HyRectangle( x + w - 2, y + h - squareLine - 1, x + w + 1, y + h - squareLine, ImColor( 10, 10, 10, 190 ) );
+		Draw::AddRect( x + w - squareLine, y + h - 2, x + w - squareLine + 1, y + h + 1, ImColor( 10, 10, 10, 190 ) );
+		Draw::AddRect( x + w - 2, y + h - squareLine - 1, x + w + 1, y + h - squareLine, ImColor( 10, 10, 10, 190 ) );
 
-		Draw::HyFilledRectangle( x, y, x + w, y + h, ImColor( color.Value.x, color.Value.y, color.Value.z, 21 * (1.0f/255.0f) ) );
+		Draw::AddRectFilled( x, y, x + w, y + h, ImColor( color.Value.x, color.Value.y, color.Value.z, 21 * (1.0f/255.0f) ) );
 	} else if ( Settings::ESP::Boxes::type == BoxType::BOX_3D ) {
 		Vector vOrigin = entity->GetVecOrigin();
 		Vector min = entity->GetCollideable()->OBBMins() + vOrigin;
@@ -481,11 +481,10 @@ static void DrawBox( ImColor color, int x, int y, int w, int h, C_BaseEntity* en
 		};
 
 		for ( const auto edge : edges ) {
-			ImVec2 p1, p2;
-			if ( !Draw::HyWorldToScreen( points[edge[0]], &p1 ) ||
-				 !Draw::HyWorldToScreen( points[edge[1]], &p2 ) )
+			Vector p1, p2;
+			if ( debugOverlay->ScreenPosition( points[edge[0]], p1 ) || debugOverlay->ScreenPosition( points[edge[1]], p2 ) )
 				return;
-			Draw::HyLine( ImVec2( p1.x, p1.y ), ImVec2( p2.x, p2.y ), color );
+			Draw::AddLine( p1.x, p1.y, p2.x, p2.y, color );
 		}
 	} /*else if ( Settings::ESP::Boxes::type == BoxType::HITBOXES )  credits to 1337floesen - https://www.unknowncheats.me/forum/counterstrike-global-offensive/157557-drawing-hitboxes.html */ //{
 	/*static std::map<int, long> playerDrawTimes;
@@ -525,9 +524,8 @@ static void DrawEntity( C_BaseEntity* entity, const char* string, ImColor color 
 		return;
 
 	DrawBox( color, x, y, w, h, entity );
-	C_BasePlayer* localplayer = ( C_BasePlayer* ) entityList->GetClientEntity( engine->GetLocalPlayer() );
-	ImVec2 nameSize = Draw::HyGetTextSize( string, esp_font );
-	Draw::HyText(( int ) ( x + ( w / 2 ) - ( nameSize.x / 2 ) ), y + h + 2, color, string, esp_font );
+	Vector2D nameSize = Draw::GetTextSize( string, esp_font );
+	Draw::AddText(( int ) ( x + ( w / 2 ) - ( nameSize.x / 2 ) ), y + h + 2, string, color );
 }
 static void DrawSkeleton( C_BasePlayer* player ) {
 	studiohdr_t* pStudioModel = modelInfo->GetStudioModel( player->GetModel() );
@@ -543,20 +541,20 @@ static void DrawSkeleton( C_BasePlayer* player ) {
 		if ( !pBone || !( pBone->flags & 256 ) || pBone->parent == -1 )
 			continue;
 
-		ImVec2 vBonePos1;
-		if ( !Draw::HyWorldToScreen( Vector( pBoneToWorldOut[i][0][3], pBoneToWorldOut[i][1][3], pBoneToWorldOut[i][2][3] ), &vBonePos1 ) )
+		Vector vBonePos1;
+		if ( debugOverlay->ScreenPosition( Vector( pBoneToWorldOut[i][0][3], pBoneToWorldOut[i][1][3], pBoneToWorldOut[i][2][3] ), vBonePos1 ) )
 			continue;
 
-		ImVec2 vBonePos2;
-		if ( !Draw::HyWorldToScreen( Vector( pBoneToWorldOut[pBone->parent][0][3], pBoneToWorldOut[pBone->parent][1][3], pBoneToWorldOut[pBone->parent][2][3] ), &vBonePos2 ) )
+		Vector vBonePos2;
+		if ( debugOverlay->ScreenPosition( Vector( pBoneToWorldOut[pBone->parent][0][3], pBoneToWorldOut[pBone->parent][1][3], pBoneToWorldOut[pBone->parent][2][3] ), vBonePos2 ) )
 			continue;
 
-		Draw::HyLine( ImVec2( vBonePos1.x, vBonePos1.y ), ImVec2( vBonePos2.x, vBonePos2.y ), Settings::ESP::Skeleton::color.Color());
+		Draw::AddLine( vBonePos1.x, vBonePos1.y, vBonePos2.x, vBonePos2.y, Settings::ESP::Skeleton::color.Color());
 	}
 }
 static void DrawBulletTrace( C_BasePlayer* player ) {
 	Vector src3D, dst3D, forward;
-	ImVec2 src, dst;
+	Vector src, dst;
 	trace_t tr;
 	Ray_t ray;
 	CTraceFilter filter;
@@ -570,22 +568,22 @@ static void DrawBulletTrace( C_BasePlayer* player ) {
 
 	trace->TraceRay( ray, MASK_SHOT, &filter, &tr );
 
-	if ( !Draw::HyWorldToScreen( src3D, &src ) || !Draw::HyWorldToScreen( tr.endpos, &dst ) )
+	if ( debugOverlay->ScreenPosition( src3D, src ) || debugOverlay->ScreenPosition( tr.endpos, dst ) )
 		return;
 
-	Draw::HyLine( src.x, src.y, dst.x, dst.y, ESP::GetESPPlayerColor( player, true ) );
-	Draw::HyFilledRectangle( ( int ) ( dst.x - 3 ), ( int ) ( dst.y - 3 ), 6, 6, ESP::GetESPPlayerColor( player, false ) );
+	Draw::AddLine( src.x, src.y, dst.x, dst.y, ESP::GetESPPlayerColor( player, true ) );
+	Draw::AddRectFilled( ( int ) ( dst.x - 3 ), ( int ) ( dst.y - 3 ), 6, 6, ESP::GetESPPlayerColor( player, false ) );
 }
 static void DrawTracer( C_BasePlayer* player ) {
 	Vector src3D;
-	ImVec2 src;
+	Vector src;
 	src3D = player->GetVecOrigin() - Vector( 0, 0, 0 );
 
-	if ( !Draw::HyWorldToScreen( src3D, &src ) )
+	if ( debugOverlay->ScreenPosition( src3D, src ) )
 		return;
 
 	int screenWidth, screenHeight;
-	Draw::HyGetScreenSize( &screenWidth, &screenHeight );
+	engine->GetScreenSize( screenWidth, screenHeight );
 
 	int x = screenWidth / 2;
 	int y = 0;
@@ -596,7 +594,7 @@ static void DrawTracer( C_BasePlayer* player ) {
 		y = screenHeight;
 
 	bool bIsVisible = Entity::IsVisible( player, ( int ) Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck );
-	Draw::HyLine( ( int ) ( src.x ), ( int ) ( src.y ), x, y, ESP::GetESPPlayerColor( player, bIsVisible ) );
+	Draw::AddLine( ( int ) ( src.x ), ( int ) ( src.y ), x, y, ESP::GetESPPlayerColor( player, bIsVisible ) );
 }
 static void DrawAimbotSpot( ) {
 	C_BasePlayer* localplayer = ( C_BasePlayer* ) entityList->GetClientEntity( engine->GetLocalPlayer() );
@@ -611,28 +609,28 @@ static void DrawAimbotSpot( ) {
 	if ( Settings::Debug::AutoAim::target.IsZero() )
 		return;
 
-	ImVec2 spot2D;
-	if( !Draw::HyWorldToScreen( Settings::Debug::AutoAim::target, &spot2D) )
+	Vector spot2D;
+	if( debugOverlay->ScreenPosition( Settings::Debug::AutoAim::target, spot2D) )
 		return;
 
 	int width, height;
-	Draw::HyGetScreenSize( &width, &height );
-	Draw::HyLine( width / 2, height / 2, spot2D.x, spot2D.y, ImColor( 45, 235, 60 ) );
-	Draw::HyCircle( width / 2, height / 2, 1, ImColor( 45, 235, 60 ) );
-	Draw::HyCircle( spot2D.x, spot2D.y, 1, ImColor( 45, 235, 60 ) );
+	engine->GetScreenSize( width, height );
+	Draw::AddLine( width / 2, height / 2, spot2D.x, spot2D.y, ImColor( 45, 235, 60 ) );
+	Draw::AddCircle( width / 2, height / 2, 1, ImColor( 45, 235, 60 ) );
+	Draw::AddCircle( spot2D.x, spot2D.y, 1, ImColor( 45, 235, 60 ) );
 }
 static void DrawBoneMap( C_BasePlayer* player ) {
-	static ImVec2 bone2D;
+	static Vector bone2D;
 	static Vector bone3D;
 	studiohdr_t* pStudioModel = modelInfo->GetStudioModel( player->GetModel() );
 
 	for( int i = 1; i < pStudioModel->numbones; i++ ){
 		bone3D = player->GetBonePosition( i );
-		if ( !Draw::HyWorldToScreen( bone3D, &bone2D ) )
+		if ( debugOverlay->ScreenPosition( bone3D, bone2D ) )
 			continue;
 		char buffer[32];
 		snprintf(buffer, 32, "%d", i);
-		Draw::HyText( bone2D.x, bone2D.y, ImColor( 255, 0, 255, 255 ), buffer, esp_font );
+		Draw::AddText( bone2D.x, bone2D.y,buffer, ImColor( 255, 0, 255, 255 ) );
 	}
 	IEngineClient::player_info_t entityInformation;
 	engine->GetPlayerInfo( player->GetIndex(), &entityInformation );
@@ -645,16 +643,16 @@ static void DrawAutoWall(C_BasePlayer *player) {
 		auto bone = modelType->find(i);
 		if( bone == modelType->end() || bone->second <= (int)Bone::INVALID )
 			continue;
-		ImVec2 bone2D;
+		Vector bone2D;
 		Vector bone3D = player->GetBonePosition(bone->second);
-		if ( !Draw::HyWorldToScreen( bone3D, &bone2D ) )
+		if ( debugOverlay->ScreenPosition( bone3D, bone2D ) )
 			continue;
 
 		Autowall::FireBulletData data;
 		int damage = (int)Autowall::GetDamage( bone3D, !Settings::Aimbot::friendly, data );
 		char buffer[4];
 		snprintf(buffer, sizeof(buffer), "%d", damage);
-		Draw::HyText( bone2D.x, bone2D.y, ImColor( 255, 0, 255, 255 ), buffer, esp_font );
+		Draw::AddText( bone2D.x, bone2D.y, buffer, ImColor( 255, 0, 255, 255 ) );
 	}
 	return;
 	matrix3x4_t matrix[128];
@@ -704,25 +702,25 @@ static void DrawAutoWall(C_BasePlayer *player) {
 		char buffer[4];
 		snprintf(buffer, sizeof(buffer), "%d", damage);
 
-		ImVec2 string2D;
-		if( !Draw::HyWorldToScreen( headPoints[i], &string2D ) )
+		Vector string2D;
+		if( debugOverlay->ScreenPosition( headPoints[i], string2D ) )
 			continue;
-		Draw::HyText( string2D.x, string2D.y, ImColor( 255, 0, 255, 255 ), buffer , esp_font );
+		Draw::AddText( string2D.x, string2D.y, buffer, ImColor( 255, 0, 255, 255 ) );
 	}
 }
 
 static void DrawHeaddot( C_BasePlayer* player ) {
 
-	ImVec2 head2D;
+	Vector head2D;
 	Vector head3D = player->GetBonePosition( ( int ) Bone::BONE_HEAD );
-	if ( !Draw::HyWorldToScreen( Vector( head3D.x, head3D.y, head3D.z ), &head2D ) )
+	if ( debugOverlay->ScreenPosition( Vector( head3D.x, head3D.y, head3D.z ), head2D ) )
 		return;
 
 	bool bIsVisible = false;
 	if ( Settings::ESP::Filters::visibilityCheck || Settings::ESP::Filters::legit )
 		bIsVisible = Entity::IsVisible( player, ( int ) Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck );
 
-	Draw::HyCircleFilled( ImVec2( head2D.x, head2D.y ), Settings::ESP::HeadDot::size, ESP::GetESPPlayerColor( player, bIsVisible ), 10 );
+	Draw::AddCircleFilled( head2D.x, head2D.y, Settings::ESP::HeadDot::size, ESP::GetESPPlayerColor( player, bIsVisible ), 10 );
 }
 
 static void DrawSounds( C_BasePlayer *player, ImColor playerColor ) {
@@ -746,7 +744,7 @@ static void DrawSounds( C_BasePlayer *player, ImColor playerColor ) {
             float circleRadius = fabs( percent - 1.0f ) * 42.0f;
             float points = circleRadius * 0.75f;
 
-            Draw::HyCircle3D( it->position, points, circleRadius, ImColor(drawColor.r, drawColor.g, drawColor.b, drawColor.a ) );
+            Draw::AddCircle3D( it->position, points, circleRadius, ImColor(drawColor.r, drawColor.g, drawColor.b, drawColor.a ) );
         }
         footstepMutex.unlock();
     }
@@ -778,10 +776,10 @@ static void DrawPlayerHealthBars( C_BasePlayer* player, int x, int y, int w, int
 	if ( Settings::ESP::Bars::type == BarType::VERTICAL ) {
 		barw = 4; // outline(1px) + bar(2px) + outline(1px) = 6px;
 		barx -= barw + boxSpacing; // spacing(1px) + outline(1px) + bar(2px) + outline (1px) = 8 px
-		Draw::HyFilledRectangle( barx, bary, barx + barw, bary + barh, ImColor( 10, 10, 10, 255 ) );
+		Draw::AddRectFilled( barx, bary, barx + barw, bary + barh, ImColor( 10, 10, 10, 255 ) );
 
 		if ( HealthPerc > 0 )
-			Draw::HyFilledRectangle( barx + 1, bary + ( barh * ( 1.f - HealthPerc ) ) + 1,
+			Draw::AddRectFilled( barx + 1, bary + ( barh * ( 1.f - HealthPerc ) ) + 1,
 									 barx + barw - 1, bary + barh - 1, barColor);
 
 		barsSpacing.x += barw;
@@ -789,10 +787,10 @@ static void DrawPlayerHealthBars( C_BasePlayer* player, int x, int y, int w, int
 		barx += barw + boxSpacing; // spacing(1px) + outline(1px) + bar(2px) + outline (1px) = 8 px
 		barw = 4; // outline(1px) + bar(2px) + outline(1px) = 6px;
 
-		Draw::HyFilledRectangle( barx, bary, barx + barw, bary + barh, ImColor( 10, 10, 10, 255 ) );
+		Draw::AddRectFilled( barx, bary, barx + barw, bary + barh, ImColor( 10, 10, 10, 255 ) );
 
 		if ( HealthPerc > 0 )
-			Draw::HyFilledRectangle( barx + 1, bary + ( barh * ( 1.f - HealthPerc ) ) + 1, barx + barw - 1,
+			Draw::AddRectFilled( barx + 1, bary + ( barh * ( 1.f - HealthPerc ) ) + 1, barx + barw - 1,
 									 bary + barh - 1, barColor );
 
 		barsSpacing.x += barw;
@@ -800,23 +798,23 @@ static void DrawPlayerHealthBars( C_BasePlayer* player, int x, int y, int w, int
 		bary += barh + boxSpacing; // player box(?px) + spacing(1px) + outline(1px) + bar(2px) + outline (1px) = 5 px
 		barh = 4; // outline(1px) + bar(2px) + outline(1px) = 4px;
 
-		Draw::HyFilledRectangle( barx, bary, barx + barw, bary + barh, ImColor( 10, 10, 10, 255 ) );
+		Draw::AddRectFilled( barx, bary, barx + barw, bary + barh, ImColor( 10, 10, 10, 255 ) );
 
 		if ( HealthPerc > 0 ) {
 			barw *= HealthPerc;
-			Draw::HyRectangle( barx + 1, bary + 1, barx + barw - 1, bary + barh - 1, barColor );
+			Draw::AddRect( barx + 1, bary + 1, barx + barw - 1, bary + barh - 1, barColor );
 		}
 		barsSpacing.y += barh;
 	} else if ( Settings::ESP::Bars::type == BarType::HORIZONTAL_UP ) {
 		barh = 4; // outline(1px) + bar(2px) + outline(1px) = 4px;
 		bary -= barh + boxSpacing; // spacing(1px) + outline(1px) + bar(2px) + outline (1px) = 5 px
 
-		Draw::HyRectangle( barx - 1, bary - 1, barx + barw + 1, bary + barh + 1, ImColor( 255, 255, 255, 170 ) );
-		Draw::HyFilledRectangle( barx, bary, barx + barw, bary + barh, ImColor( 10, 10, 10, 255 ) );
+		Draw::AddRect( barx - 1, bary - 1, barx + barw + 1, bary + barh + 1, ImColor( 255, 255, 255, 170 ) );
+		Draw::AddRectFilled( barx, bary, barx + barw, bary + barh, ImColor( 10, 10, 10, 255 ) );
 
 		if ( HealthPerc > 0 ) {
 			barw *= HealthPerc;
-			Draw::HyRectangle( barx + 1, bary + 1, barx + barw - 1, bary + barh - 1, barColor );
+			Draw::AddRect( barx + 1, bary + 1, barx + barw - 1, bary + barh - 1, barColor );
 		}
 		barsSpacing.y += barh;
 	}
@@ -827,7 +825,7 @@ static void DrawPlayerText( C_BasePlayer* player, int x, int y, int w, int h ) {
 	int lineNum = 1;
 	int nameOffset = ( int ) ( Settings::ESP::Bars::type == BarType::HORIZONTAL_UP ? boxSpacing + barsSpacing.y : 0 );
 
-	ImVec2 textSize = Draw::HyGetTextSize( XORSTR( "Hi" ) );
+	Vector2D textSize = Draw::GetTextSize( XORSTR( "Hi" ), esp_font );
 	// draw name
 	if ( Settings::ESP::Info::name || Settings::ESP::Info::clan ) {
 		std::string displayString;
@@ -842,9 +840,8 @@ static void DrawPlayerText( C_BasePlayer* player, int x, int y, int w, int h ) {
 		if ( Settings::ESP::Info::name )
 			displayString += playerInfo.name;
 
-		ImVec2 nameSize = Draw::HyGetTextSize( displayString.c_str() );
-		Draw::HyText( x + ( w / 2 ) - ( nameSize.x / 2 ), ( y - textSize.y - nameOffset ),
-					  ImColor( 255, 255, 255, 255 ), displayString.c_str() );
+		Vector2D nameSize = Draw::GetTextSize( displayString.c_str(), esp_font );
+		Draw::AddText( x + ( w / 2 ) - ( nameSize.x / 2 ), ( y - textSize.y - nameOffset ), displayString.c_str(), ImColor( 255, 255, 255, 255 ) );
 		lineNum++;
 	}
 
@@ -852,9 +849,8 @@ static void DrawPlayerText( C_BasePlayer* player, int x, int y, int w, int h ) {
 	if ( Settings::ESP::Info::steamId ) {
 		IEngineClient::player_info_t playerInfo;
 		engine->GetPlayerInfo( player->GetIndex(), &playerInfo );
-		ImVec2 rankSize = Draw::HyGetTextSize( playerInfo.guid );
-		Draw::HyText( ( x + ( w / 2 ) - ( rankSize.x / 2 ) ),( y - ( textSize.y * lineNum ) - nameOffset ),
-					  ImColor( 255, 255, 255, 255 ), playerInfo.guid );
+		Vector2D rankSize = Draw::GetTextSize( playerInfo.guid, esp_font );
+		Draw::AddText( ( x + ( w / 2 ) - ( rankSize.x / 2 ) ),( y - ( textSize.y * lineNum ) - nameOffset ), playerInfo.guid, ImColor( 255, 255, 255, 255 ) );
 		lineNum++;
 	}
 
@@ -863,17 +859,15 @@ static void DrawPlayerText( C_BasePlayer* player, int x, int y, int w, int h ) {
 		int rank = *( *csPlayerResource )->GetCompetitiveRanking( player->GetIndex() );
 
 		if ( rank >= 0 && rank < 19 ) {
-			ImVec2 rankSize = Draw::HyGetTextSize( ESP::ranks[rank] );
-			Draw::HyText( ( x + ( w / 2 ) - ( rankSize.x / 2 ) ), ( y - ( textSize.y * lineNum ) - nameOffset ),
-						  ImColor( 255, 255, 255, 255 ), ESP::ranks[rank] );
+			Vector2D rankSize = Draw::GetTextSize( ESP::ranks[rank], esp_font );
+			Draw::AddText( ( x + ( w / 2 ) - ( rankSize.x / 2 ) ), ( y - ( textSize.y * lineNum ) - nameOffset ), ESP::ranks[rank], ImColor( 255, 255, 255, 255 ) );
 		}
 	}
 
 	// health
 	if ( Settings::ESP::Info::health ) {
 		std::string buf = std::to_string( player->GetHealth() ) + XORSTR( " HP" );
-		Draw::HyText( x + w + boxSpacing, ( y + h - textSize.y ),
-					  ImColor( 255, 255, 255, 255 ), buf.c_str() );
+		Draw::AddText( x + w + boxSpacing, ( y + h - textSize.y ), buf.c_str(), ImColor( 255, 255, 255, 255 ) );
 	}
 
 	// weapon
@@ -883,9 +877,8 @@ static void DrawPlayerText( C_BasePlayer* player, int x, int y, int w, int h ) {
 		int offset = ( int ) ( Settings::ESP::Bars::type == BarType::HORIZONTAL ||
 							   Settings::ESP::Bars::type == BarType::INTERWEBZ ? boxSpacing + barsSpacing.y + 1 : 0 );
 
-		ImVec2 weaponTextSize = Draw::HyGetTextSize( modelName.c_str() );
-		Draw::HyText( ( x + ( w / 2 ) - ( weaponTextSize.x / 2 ) ), y + h + offset, ImColor( 255, 255, 255, 255 ),
-					  modelName.c_str() );
+		Vector2D weaponTextSize = Draw::GetTextSize( modelName.c_str(), esp_font );
+		Draw::AddText( ( x + ( w / 2 ) - ( weaponTextSize.x / 2 ) ), y + h + offset, modelName.c_str(), ImColor( 255, 255, 255, 255 ) );
 	}
 	// draw info
 	std::vector<std::string> stringsToShow;
@@ -921,7 +914,7 @@ static void DrawPlayerText( C_BasePlayer* player, int x, int y, int w, int h ) {
 
 
 	for( unsigned int i = 0; i < stringsToShow.size(); i++ ){
-		Draw::HyText( x + w + boxSpacing, ( y + ( i * ( textSize.y + 2 ) ) ), ImColor( 255, 255, 255, 255 ), stringsToShow[i].c_str() );
+		Draw::AddText( x + w + boxSpacing, ( y + ( i * ( textSize.y + 2 ) ) ), stringsToShow[i].c_str(), ImColor( 255, 255, 255, 255 ) );
 	}
 }
 
@@ -1220,7 +1213,7 @@ static void DrawFOVCrosshair()
 		return;
 
     int width, height;
-    Draw::HyGetScreenSize( &width, &height );
+	engine->GetScreenSize( width, height );
 
     float radius;
     if ( Settings::Aimbot::AutoAim::realDistance ) {
@@ -1255,9 +1248,9 @@ static void DrawFOVCrosshair()
     }
 
     if ( Settings::ESP::FOVCrosshair::filled )
-        Draw::HyCircleFilled( width / 2, height / 2 , radius, Settings::ESP::FOVCrosshair::color.Color(), std::max(12, (int)radius*2) );
+        Draw::AddCircleFilled( width / 2, height / 2 , radius, Settings::ESP::FOVCrosshair::color.Color(), std::max(12, (int)radius*2) );
     else
-        Draw::HyCircle( width / 2, height / 2, radius, Settings::ESP::FOVCrosshair::color.Color(), std::max(12, (int)radius*2) );
+        Draw::AddCircle( width / 2, height / 2, radius, Settings::ESP::FOVCrosshair::color.Color(), std::max(12, (int)radius*2) );
 }
 
 static void DrawSpread()
@@ -1276,24 +1269,24 @@ static void DrawSpread()
 
     if ( Settings::ESP::Spread::enabled ) {
         int width, height;
-        Draw::HyGetScreenSize( &width, &height );
+		engine->GetScreenSize( width, height );
 
         float cone = activeWeapon->GetSpread() + activeWeapon->GetInaccuracy();
         if ( cone > 0.0f ) {
             float radius = ( cone * height ) / 1.5f;
-            Draw::HyRectangle( ( ( width / 2 ) - radius ), ( height / 2 ) - radius + 1,
+            Draw::AddRect( ( ( width / 2 ) - radius ), ( height / 2 ) - radius + 1,
                                ( width / 2 ) + radius + 1, ( height / 2 ) + radius + 2,
                                Settings::ESP::Spread::color.Color() );
         }
     }
     if ( Settings::ESP::Spread::spreadLimit ) {
         int width, height;
-        Draw::HyGetScreenSize( &width, &height );
+		engine->GetScreenSize( width, height );
 
         float cone = Settings::Aimbot::SpreadLimit::value;
         if ( cone > 0.0f ) {
             float radius = ( cone * height ) / 1.5f;
-            Draw::HyRectangle( ( ( width / 2 ) - radius ), ( height / 2 ) - radius + 1,
+            Draw::AddRect( ( ( width / 2 ) - radius ), ( height / 2 ) - radius + 1,
                                ( width / 2 ) + radius + 1, ( height / 2 ) + radius + 2 ,
                                Settings::ESP::Spread::spreadLimitColor.Color() );
         }
@@ -1314,10 +1307,10 @@ static void DrawScope()
         return;
 
     int width, height;
-    Draw::HyGetScreenSize( &width, &height );
+	engine->GetScreenSize( width, height );
 
-    Draw::HyLine(0, height * 0.5, width, height * 0.5, ImColor(0, 0, 0, 255));
-    Draw::HyLine(width * 0.5, 0, width * 0.5, height, ImColor(0, 0, 0, 255));
+    Draw::AddLine(0, height * 0.5, width, height * 0.5, ImColor(0, 0, 0, 255));
+    Draw::AddLine(width * 0.5, 0, width * 0.5, height, ImColor(0, 0, 0, 255));
 }
 
 bool ESP::PrePaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)
@@ -1327,7 +1320,7 @@ bool ESP::PrePaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_for
 
 	return true;
 }
-void ESP::PaintHybrid()
+void ESP::Paint()
 {
 	if (!Settings::ESP::enabled && !inputSystem->IsButtonDown(Settings::ESP::key))
 		return;

@@ -6,6 +6,8 @@
 #include "../SDK/ISurface.h"
 #include "../settings.h"
 
+#include <deque>
+
 enum ImFontFlags
 {
 	ImFontFlags_None = 1 << 1,
@@ -13,9 +15,33 @@ enum ImFontFlags
 	ImFontFlags_Shadow = 1 << 3
 };
 
+enum DrawType
+{
+	DRAW_LINE,
+	DRAW_RECT,
+	DRAW_RECT_FILLED,
+	DRAW_CIRCLE,
+	DRAW_CIRCLE_FILLED,
+	DRAW_CIRCLE_3D,
+	DRAW_TEXT
+};
+struct DrawRequest
+{
+    DrawRequest(){}
+	DrawType type;
+	int x0, y0, x1, y1;
+	int circleSegments;
+    float circleRadius;
+    float thickness;
+	ImColor color;
+	ImFontFlags fontflags;
+    Vector pos;
+    char text[256];
+};
+
 namespace Draw {
 
-	extern DrawingBackend currentBackend;
+	extern std::deque<DrawRequest> drawRequests;
 
 	// Surface
 	void Circle( Vector2D position, float points, float radius, Color color );
@@ -55,19 +81,12 @@ namespace Draw {
 				 const ImVec4* cpu_fine_clip_rect = nullptr, ImFontFlags flags = ImFontFlags_Outline );
 	void ImEnd();
 
-	// Hybrid Functions
-	bool HyWorldToScreen( const Vector& in, ImVec2 * const out ); // True on Success, false if not on screen
-	void HyGetScreenSize( int *width, int *height );
-	ImVec2 HyGetTextSize( const char* text, HFont font = 0, const char* text_end = nullptr,
-						  bool hide_text_after_double_hash = false, float wrap_width = -1.0f);
-	void HyText( int x, int y, ImColor color, const char* text_begin, HFont font = 0, const char* text_end = nullptr,
-				 float wrap_width = 0.0f, const ImVec4* cpu_fine_clip_rect = nullptr, ImFontFlags = ImFontFlags_Outline );
-	void HyLine( int x0, int y0, int x1, int y1, ImColor color );
-	void HyLine( ImVec2 start, ImVec2 end, ImColor color );
-	void HyFilledRectangle( int x0, int y0, int x1, int y1, ImColor color, float rounding = 0.0f, int rounding_corners_flags = ~0 );
-	void HyRectangle( int x0, int y0, int x1, int y1, ImColor color, float rounding = 0.0f, int rounding_corners_flags = ~0 );
-	void HyCircle( int x, int y, float radius, ImColor color, int num_segments = 12, float thickness = 1.0f );
-	void HyCircleFilled( int x, int y, float radius, ImColor color, int num_segments = 12 );
-	void HyCircleFilled( ImVec2 pos, float radius, ImColor color, int num_segments );
-	void HyCircle3D( const Vector& position, float points, float radius, ImColor color );
+    // Functions to Add to DrawRequests
+    void AddLine( int x0, int y0, int x1, int y1, ImColor color );
+	void AddRect( int x0, int y0, int x1, int y1, ImColor color );
+	void AddRectFilled( int x0, int y0, int x1, int y1, ImColor color );
+	void AddCircle( int x0, int y0, float radius, ImColor color, int segments = 12, float thickness = 1.0f );
+	void AddCircleFilled( int x0, int y0, float radius, ImColor color, int segments = 12 );
+	void AddCircle3D( Vector &pos3D, float radius, ImColor color, int segments = 12 );
+	void AddText( int x0, int y0, const char *text, ImColor color, ImFontFlags flags = ImFontFlags_Outline );
 }

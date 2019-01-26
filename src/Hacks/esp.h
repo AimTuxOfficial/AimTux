@@ -17,7 +17,7 @@ namespace ESP
 	//Hooks
 	void DrawModelExecute();
 	bool PrePaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force);
-	void PaintHybrid();
+	void Paint();
 	void PaintToUpdateMatrix();
 	void CreateMove(CUserCmd* cmd);
 }

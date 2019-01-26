@@ -6,5 +6,5 @@ namespace Hitmarkers
 {
 	//Hooks
 	void FireGameEvent(IGameEvent* event);
-	void PaintHyrbid();
+	void Paint();
 }

@@ -10,5 +10,5 @@ namespace GrenadeHelper
 
 	//Hooks
 	void CreateMove(CUserCmd* cmd);//Actively Help to throw grenade
-	void PaintHybrid();//Draw the Grenade Helper Esp
+	void Paint();//Draw the Grenade Helper Esp
 }

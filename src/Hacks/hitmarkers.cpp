@@ -20,7 +20,7 @@ bool Settings::ESP::Hitmarker::Damage::enabled = false;
 std::vector<std::pair<int, long>> damages;
 long lastHitmarkerTimestamp = 0;
 
-void Hitmarkers::PaintHyrbid( ) {
+void Hitmarkers::Paint( ) {
 	if ( !Settings::ESP::enabled || !Settings::ESP::Hitmarker::enabled )
 		return;
 
@@ -42,7 +42,7 @@ void Hitmarkers::PaintHyrbid( ) {
 		return;
 
 	int width, height;
-	Draw::HyGetScreenSize( &width, &height );
+	engine->GetScreenSize( width, height );
 
 	ImColor color =Settings::ESP::Hitmarker::color.Color();
 	float sc = 1.0f/255.0f;
@@ -55,7 +55,7 @@ void Hitmarkers::PaintHyrbid( ) {
 			{ 1,  -1 }
 	};
 	for ( auto& it : sides )
-		Draw::HyLine( width / 2 + ( Settings::ESP::Hitmarker::innerGap * it[0] ),
+		Draw::AddLine( width / 2 + ( Settings::ESP::Hitmarker::innerGap * it[0] ),
 					  height / 2 + ( Settings::ESP::Hitmarker::innerGap * it[1] ),
 					  width / 2 + ( Settings::ESP::Hitmarker::size * it[0] ),
 					  height / 2 + ( Settings::ESP::Hitmarker::size * it[1] ), color );
@@ -63,7 +63,7 @@ void Hitmarkers::PaintHyrbid( ) {
 	if ( !Settings::ESP::Hitmarker::Damage::enabled )
 		return;
 
-	int textHeight = (int)Draw::HyGetTextSize( XORSTR( "[cool]" ), esp_font ).y;
+	int textHeight = (int)Draw::GetTextSize( XORSTR( "[cool]" ), esp_font ).y;
 
 	for ( unsigned int i = 0; i < damages.size(); i++ ) {
 		long timestamp = damages[i].second;
@@ -80,9 +80,8 @@ void Hitmarkers::PaintHyrbid( ) {
 		color.Value.w = Settings::ESP::Hitmarker::color.Color().Value.w;
 		color.Value.w = std::min( color.Value.w, (( hitDiff * ( color.Value.w / sc ) / duration * 2 ) *sc ));
 
-		Draw::HyText( width / 2 + Settings::ESP::Hitmarker::size + 4,
-					  height / 2 - Settings::ESP::Hitmarker::size - textHeight * i + 4, color,
-					  damageStr.c_str(), esp_font, nullptr, 0.0f, nullptr, ImFontFlags_Outline );
+		Draw::AddText( width / 2 + Settings::ESP::Hitmarker::size + 4,
+					  height / 2 - Settings::ESP::Hitmarker::size - textHeight * i + 4, damageStr.c_str(), color);
 
 	}
 }

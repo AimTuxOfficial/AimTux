@@ -9,7 +9,7 @@
 bool Settings::Recoilcrosshair::enabled = false;
 bool Settings::Recoilcrosshair::showOnlyWhenShooting = false;
 
-void Recoilcrosshair::PaintHybrid( ) {
+void Recoilcrosshair::Paint( ) {
 	if( !Settings::Recoilcrosshair::enabled )
 		return;
 	C_BasePlayer* localplayer = ( C_BasePlayer* ) entityList->GetClientEntity( engine->GetLocalPlayer() );
@@ -32,7 +32,7 @@ void Recoilcrosshair::PaintHybrid( ) {
 	QAngle punchAngle = *localplayer->GetAimPunchAngle();
 
 	int screenWidth, screenHeight;
-	Draw::HyGetScreenSize( &screenWidth, &screenHeight );
+	engine->GetScreenSize( screenWidth, screenHeight );
 
 	int x = screenWidth / 2;
 	int y = screenHeight / 2;
@@ -43,12 +43,12 @@ void Recoilcrosshair::PaintHybrid( ) {
 	int crosshairY = ( int ) ( y + ( dy * punchAngle.x ) );
 
 	// outline horizontal
-	Draw::HyFilledRectangle( crosshairX - 4, crosshairY - 1, crosshairX + 5, crosshairY + 2, ImColor( 0, 0, 0, 225 ) );
+	Draw::AddRectFilled( crosshairX - 4, crosshairY - 1, crosshairX + 5, crosshairY + 2, ImColor( 0, 0, 0, 225 ) );
 	// outline vertical
-	Draw::HyFilledRectangle( crosshairX - 1, crosshairY - 4, crosshairX + 2, crosshairY + 5, ImColor( 0, 0, 0, 225 ) );
+	Draw::AddRectFilled( crosshairX - 1, crosshairY - 4, crosshairX + 2, crosshairY + 5, ImColor( 0, 0, 0, 225 ) );
 	// line horizontal
-	Draw::HyLine( crosshairX - 3, crosshairY, crosshairX + 4, crosshairY, ImColor( 255, 255, 255, 255 ) );
+	Draw::AddLine( crosshairX - 3, crosshairY, crosshairX + 4, crosshairY, ImColor( 255, 255, 255, 255 ) );
 	// line vertical
-	Draw::HyLine( crosshairX, crosshairY + 3, crosshairX, crosshairY - 4, ImColor( 255, 255, 255, 255 ) );
+	Draw::AddLine( crosshairX, crosshairY + 3, crosshairX, crosshairY - 4, ImColor( 255, 255, 255, 255 ) );
 }
 
