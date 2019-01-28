@@ -1238,8 +1238,8 @@ static void DrawFOVCrosshair()
 
         Vector maxAimAt = tr.endpos + forward;
 
-        ImVec2 max2D;
-        if ( !ESP::WorldToScreen( maxAimAt, &max2D ) )
+        Vector max2D;
+        if ( debugOverlay->ScreenPosition( maxAimAt, max2D ) )
             return;
 
         radius = fabsf( width / 2 - max2D.x );
