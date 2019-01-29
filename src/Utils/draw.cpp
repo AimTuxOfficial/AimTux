@@ -13,8 +13,8 @@ DrawingBackend Settings::ESP::backend = DrawingBackend::IMGUI;
 
 std::deque<DrawRequest> Draw::drawRequests = {};
 
-void Draw::Circle( Vector2D position, float points, float radius, Color color ) {
-	float step = ( float ) M_PI * 2.0f / points;
+void Draw::Circle( Vector2D position, int segments, float radius, Color color ) {
+	float step = ( float ) M_PI * 2.0f / ( float )segments;
 
 	for ( float a = 0; a < ( M_PI * 2.0f ); a += step ) {
 		Vector2D start( radius * cosf( a ) + position.x, radius * sinf( a ) + position.y );
@@ -24,25 +24,24 @@ void Draw::Circle( Vector2D position, float points, float radius, Color color ) 
 }
 
 /* Valve does the heavy lifting on this function */
-void Draw::OutlinedCircle( int x0, int y0, int points, int radius, Color col ) {
+void Draw::OutlinedCircle( int x0, int y0, int segments, int radius, Color col ) {
 	surface->DrawSetColor( col );
-	surface->DrawOutlinedCircle( x0, y0, points, radius );
+	surface->DrawOutlinedCircle( x0, y0, segments, radius );
 }
 
-void Draw::FilledCircle( Vector2D position, float points, float radius, Color color ) {
+void Draw::FilledCircle( Vector2D position, int segments, float radius, Color color ) {
 	std::vector<Vertex_t> vertices;
-	float step = ( float ) M_PI * 2.0f / points;
+	float step = ( float ) M_PI * 2.0f / ( float )segments;
 
 	for ( float a = 0; a < ( M_PI * 2.0f ); a += step )
 		vertices.push_back( Vertex_t( Vector2D( radius * cosf( a ) + position.x, radius * sinf( a ) + position.y ) ) );
 
-	Draw::TexturedPolygon( ( int ) points, vertices.data(), color );
+	Draw::TexturedPolygon( ( int ) segments, vertices.data(), color );
 }
 
-void Draw::Circle3D( const Vector &position, float points, float radius, Color color ) {
-	float step = ( float ) M_PI * 2.0f / points;
+void Draw::Circle3D( const Vector &position, int segments, float radius, Color color ) {
+	float step = ( float ) M_PI * 2.0f / ( float )segments;
 
-	std::vector<Vector> points3d;
 	for ( float a = 0; a < ( M_PI * 2.0f ); a += step ) {
 		Vector start( radius * cosf( a ) + position.x, radius * sinf( a ) + position.y, position.z );
 		Vector end( radius * cosf( a + step ) + position.x, radius * sinf( a + step ) + position.y, position.z );
@@ -220,8 +219,8 @@ void Draw::ImLine( ImVec2 a, ImVec2 b, ImColor color, float thickness ) {
 	ImGui::GetWindowDrawList()->AddLine( a, b, color, thickness );
 }
 
-void Draw::ImCircle3D( Vector position, float points, float radius, ImColor color ) {
-	float step = ( float ) M_PI * 2.0f / points;
+void Draw::ImCircle3D( Vector position, int segments, float radius, ImColor color ) {
+	float step = ( float ) M_PI * 2.0f / ( float ) segments;
 
 	for ( float a = 0; a < ( M_PI * 2.0f ); a += step ) {
 
@@ -305,7 +304,7 @@ void Draw::AddCircleFilled( int x0, int y0, float radius, ImColor color, int seg
     drawRequests.push_back( req );
 }
 
-void Draw::AddCircle3D( Vector &pos3D, float radius, ImColor color, int segments ) {
+void Draw::AddCircle3D( const Vector &pos3D, float radius, ImColor color, int segments ) {
     DrawRequest req = {};
     req.type = DRAW_CIRCLE_3D;
     req.pos = pos3D;

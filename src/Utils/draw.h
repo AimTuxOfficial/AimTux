@@ -30,7 +30,7 @@ struct DrawRequest
     DrawRequest(){}
 	DrawType type;
 	int x0, y0, x1, y1;
-	int circleSegments;
+    int circleSegments;
     float circleRadius;
     float thickness;
 	ImColor color;
@@ -44,10 +44,10 @@ namespace Draw {
 	extern std::deque<DrawRequest> drawRequests;
 
 	// Surface
-	void Circle( Vector2D position, float points, float radius, Color color );
-	void OutlinedCircle( int x0, int y0, int points, int radius, Color col );
-	void FilledCircle( Vector2D position, float points, float radius, Color color );
-	void Circle3D( const Vector &position, float points, float radius, Color color );
+	void Circle( Vector2D position, int segments, float radius, Color color );
+	void OutlinedCircle( int x0, int y0, int segments, int radius, Color col );
+	void FilledCircle( Vector2D position, int segments, float radius, Color color );
+	void Circle3D( const Vector &position, int segments, float radius, Color color  );
 	void FilledRectangle( int x0, int y0, int x1, int y1, Color col );
 	void FilledRectangle( Vector2D start_pos, Vector2D end_pos, Color col );
 	void Rectangle( int x0, int y0, int x1, int y1, Color col );
@@ -69,7 +69,7 @@ namespace Draw {
 	// ImGui
 	void ImStart();
 	void ImCircle( ImVec2 point, ImColor color, float radius, int num_segments = 12, float thickness = 1.0f );
-	void ImCircle3D( Vector position, float points, float radius, ImColor color );
+	void ImCircle3D( Vector position, int segments, float radius, ImColor color );
 	void ImCircleFilled( ImVec2 point, ImColor color, float radius, int num_segments = 12 );
 	void ImImage( const char* const imagePath, ImVec2 a, ImVec2 b );
 	void ImLine( ImVec2 a, ImVec2 b, ImColor color, float thickness = 1.0f );
@@ -87,6 +87,6 @@ namespace Draw {
 	void AddRectFilled( int x0, int y0, int x1, int y1, ImColor color );
 	void AddCircle( int x0, int y0, float radius, ImColor color, int segments = 12, float thickness = 1.0f );
 	void AddCircleFilled( int x0, int y0, float radius, ImColor color, int segments = 12 );
-	void AddCircle3D( Vector &pos3D, float radius, ImColor color, int segments = 12 );
+	void AddCircle3D( const Vector &pos3D, float radius, ImColor color, int segments );
 	void AddText( int x0, int y0, const char *text, ImColor color, ImFontFlags flags = ImFontFlags_Outline );
 }

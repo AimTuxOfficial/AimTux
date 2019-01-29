@@ -742,9 +742,9 @@ static void DrawSounds( C_BasePlayer *player, ImColor playerColor ) {
             drawColor.a = std::min( powf( percent * 2, 0.6f ), 1.f ) * drawColor.a; // fades out alpha when its below 0.5
 
             float circleRadius = fabs( percent - 1.0f ) * 42.0f;
-            float points = circleRadius * 0.75f;
+            float points = std::max(12.0f, circleRadius * 0.75f);
 
-            Draw::AddCircle3D( it->position, points, circleRadius, ImColor(drawColor.r, drawColor.g, drawColor.b, drawColor.a ) );
+            Draw::AddCircle3D( it->position, circleRadius, ImColor(drawColor.r, drawColor.g, drawColor.b, drawColor.a ), (int)points );
         }
         footstepMutex.unlock();
     }
@@ -1410,7 +1410,7 @@ void ESP::CreateMove(CUserCmd* cmd)
 {
 	viewanglesBackup = cmd->viewangles;
 
-    if( Settings::ESP::Sounds::enabled ){
+    if( Settings::ESP::enabled && Settings::ESP::Sounds::enabled && (Settings::ESP::Filters::allies || Settings::ESP::Filters::enemies || Settings::ESP::Filters::localplayer) ){
         CheckActiveSounds();
     }
 }
