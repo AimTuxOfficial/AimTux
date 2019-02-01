@@ -302,9 +302,32 @@ void Hooker::FindInitKeyValues()
 
 void Hooker::FindLoadFromBuffer()
 {
+	// xref "%s.ctx" to ReadEncryptedKVFile()
+	// LoadFromBuffer is called near the end, right before _MemFreeScratch()
+	// 55 48 89 E5 41 57 41 56 41 55 41 54 49 89 D4 53 48 81 EC ?? ?? ?? ?? 48 85
+	// Start of LoadFromBuffer()
+	// 55                      push    rbp
+	// 48 89 E5                mov     rbp, rsp
+	// 41 57                   push    r15
+	// 41 56                   push    r14
+	// 41 55                   push    r13
+	// 41 54                   push    r12
+	// 49 89 D4                mov     r12, rdx
+	// 53                      push    rbx
+	// 48 81 EC 88 00 00 00    sub     rsp, 88h
+	// 48 85 D2                test    rdx, rdx
 	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("client_panorama_client.so"),
-																(unsigned char*) XORSTR("\x55\x48\x89\xE5\x41\x57\x41\x56\x41\x55\x41\x54\x49\x89\xD4\x53\x48\x83\xEC\x78\x48"),
-																XORSTR("xxxxxxxxxxxxxxxxxxxxx"));
+																(unsigned char*) XORSTR("\x55"
+																						"\x48\x89\xE5"
+																						"\x41\x57"
+																						"\x41\x56"
+																						"\x41\x55"
+																						"\x41\x54"
+																						"\x49\x89\xD4"
+																						"\x53"
+																						"\x48\x81\xEC\x00\x00\x00\x00"
+																						"\x48\x85"),
+																XORSTR("xxxxxxxxxxxxxxxxxxx????xx"));
 	LoadFromBuffer = reinterpret_cast<LoadFromBufferFn>(func_address);
 }
 /*
