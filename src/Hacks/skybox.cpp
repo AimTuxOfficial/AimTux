@@ -38,6 +38,9 @@ const char* skyBoxNames[] = {
 		"vietnam" // 22
 };
 
+int lastSetSkybox = -1;
+bool resetSkyBox = false;
+
 void SkyBox::FrameStageNotify(ClientFrameStage_t stage)
 {
 	if (!engine->IsInGame() && skyboxMaterials.size() > 0)
@@ -60,10 +63,17 @@ void SkyBox::FrameStageNotify(ClientFrameStage_t stage)
 		skyboxMaterials2.clear();
 	}
 
-	if( engine->IsInGame() && Settings::ESP::enabled && Settings::SkyBox::enabled )
-	{
-		SetNamedSkyBox(skyBoxNames[Settings::SkyBox::skyBoxNumber]); // Thanks to @Flawww
+	if( engine->IsInGame() && Settings::ESP::enabled && Settings::SkyBox::enabled ) {
+		if( lastSetSkybox != Settings::SkyBox::skyBoxNumber ){
+			SetNamedSkyBox(skyBoxNames[Settings::SkyBox::skyBoxNumber]); // Thanks to @Flawww
+			lastSetSkybox = Settings::SkyBox::skyBoxNumber;
+			resetSkyBox = true;
+		}
 		return;
+	} else if( resetSkyBox ){
+		SetNamedSkyBox( cvar->FindVar("sv_skyname")->strValue );
+		resetSkyBox = false;
+        lastSetSkybox = -1;
 	}
 
 	if (stage != ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_END)
