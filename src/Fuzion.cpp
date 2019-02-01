@@ -14,6 +14,7 @@
 #include "Hacks/tracereffect.h"
 #include "Hacks/skinchanger.h"
 #include "Hacks/valvedscheck.h"
+#include "settings.h"
 
 
 static EventListener* eventListener = nullptr;
@@ -138,7 +139,10 @@ int __attribute__((constructor)) Startup()
 /* Called when un-injecting the library */
 void __attribute__((destructor)) Shutdown()
 {
-	cvar->FindVar(XORSTR("cl_mouseenable"))->SetValue(1);
+    if( Settings::SkyBox::enabled ){
+        SetNamedSkyBox( cvar->FindVar("sv_skyname")->strValue );
+    }
+    cvar->FindVar(XORSTR("cl_mouseenable"))->SetValue(1);
 
 	SDL2::UnhookWindow();
 	SDL2::UnhookPollEvent();
