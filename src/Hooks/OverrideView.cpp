@@ -8,6 +8,8 @@
 
 float OverrideView::currentFOV = 90.0f;
 
+typedef void (*OverrideViewFn) (void*, CViewSetup*);
+
 void Hooks::OverrideView(void* thisptr, CViewSetup* pSetup)
 {
 	if (!Settings::ScreenshotCleaner::enabled || !engine->IsTakingScreenshot())

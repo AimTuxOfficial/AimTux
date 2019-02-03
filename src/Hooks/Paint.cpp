@@ -20,6 +20,8 @@ extern FinishDrawingFn FinishDrawing;
 
 std::mutex drawMutex;
 
+typedef void (*PaintFn) (void*, PaintMode_t);
+
 void Hooks::Paint(void* thisptr, PaintMode_t mode)
 {
 	engineVGuiVMT->GetOriginalMethod<PaintFn>(15)(thisptr, mode);

@@ -5,6 +5,8 @@
 
 #include "../Hacks/fovchanger.h"
 
+typedef float (*GetViewModelFOVFn) (void*);
+
 float Hooks::GetViewModelFOV(void* thisptr)
 {
 	float fov = clientModeVMT->GetOriginalMethod<GetViewModelFOVFn>(36)(thisptr);

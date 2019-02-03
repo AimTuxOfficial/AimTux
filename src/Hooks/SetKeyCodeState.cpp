@@ -8,6 +8,8 @@
 bool SetKeyCodeState::shouldListen = false;
 ButtonCode_t* SetKeyCodeState::keyOutput = nullptr;
 
+typedef void (*SetKeyCodeStateFn) (void*, ButtonCode_t, bool);
+
 void Hooks::SetKeyCodeState(void* thisptr, ButtonCode_t code, bool bPressed)
 {
 	if (SetKeyCodeState::shouldListen && bPressed)

@@ -11,6 +11,8 @@
 #include "../Hacks/asuswalls.h"
 #include "../Hacks/nosmoke.h"
 
+typedef void (*FrameStageNotifyFn) (void*, ClientFrameStage_t);
+
 void Hooks::FrameStageNotify(void* thisptr, ClientFrameStage_t stage)
 {
 	CustomGlow::FrameStageNotify(stage);

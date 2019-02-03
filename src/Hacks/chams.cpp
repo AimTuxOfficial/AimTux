@@ -25,6 +25,8 @@ IMaterial* materialChamsFlatIgnorez;
 IMaterial* materialChamsArms;
 IMaterial* materialChamsWeapons;
 
+typedef void (*DrawModelExecuteFn) (void*, void*, void*, const ModelRenderInfo_t&, matrix3x4_t*);
+
 static void DrawPlayer(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t* pCustomBoneToWorld)
 {
 	if (!Settings::ESP::Chams::enabled)

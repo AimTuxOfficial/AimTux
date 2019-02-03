@@ -10,6 +10,8 @@
 #include "../Hacks/radar.h"
 #include "../Hacks/disablepostprocessing.h"
 
+typedef void (*BeginFrameFn) (void*, float);
+
 void Hooks::BeginFrame(void* thisptr, float frameTime)
 {
 	ClanTagChanger::BeginFrame(frameTime);

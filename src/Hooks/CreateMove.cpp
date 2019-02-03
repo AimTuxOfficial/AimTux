@@ -24,6 +24,8 @@
 bool CreateMove::sendPacket = true;
 QAngle CreateMove::lastTickViewAngles = QAngle(0, 0, 0);
 
+typedef bool (*CreateMoveFn) (void*, float, CUserCmd*);
+
 bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 {
 	clientModeVMT->GetOriginalMethod<CreateMoveFn>(25)(thisptr, flInputSampleTime, cmd);

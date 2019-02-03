@@ -4,13 +4,14 @@
 #include <vector>
 #include <unordered_map>
 #include "ImGUI/imgui.h"
-#include "SDK/IClientEntity.h"
-#include "SDK/IInputSystem.h"
-#include "SDK/definitions.h"
 #include "Utils/util_sdk.h"
 #include "Utils/util_items.h"
 #include "Utils/util.h"
 
+#include "SDK/IClientEntity.h"
+#include "SDK/IInputSystem.h"
+#include "SDK/definitions.h"
+#include "SDK/Materialsystem_config.h"
 
 enum class DrawingBackend : int {
     SURFACE = 0,
@@ -735,6 +736,11 @@ namespace Settings
 			extern ColorVar color;
 			extern ColorVar spreadLimitColor;
 		}
+	}
+
+	namespace MaterialConfig {
+		extern bool enabled;
+		extern MaterialSystem_Config_t config;
 	}
 
 	namespace Dlights

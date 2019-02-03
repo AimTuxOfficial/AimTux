@@ -3,6 +3,8 @@
 #include "../interfaces.h"
 #include "../ATGUI/atgui.h"
 
+typedef int (*PumpWindowsMessageLoopFn) (void*, void*);
+
 int Hooks::PumpWindowsMessageLoop(void* thisptr, void* unknown)
 {
 	if (UI::isVisible && !SetKeyCodeState::shouldListen)

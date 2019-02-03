@@ -46,3 +46,4 @@
 #include "ICommandLine.h"
 #include "CBaseClientState.h"
 #include "panorama/PanoramaUIEngine.h"
+#include "Materialsystem_config.h"

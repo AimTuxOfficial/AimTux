@@ -6,6 +6,8 @@
 #include "../Hacks/chams.h"
 #include "../Hacks/esp.h"
 
+typedef void (*DrawModelExecuteFn) (void*, void*, void*, const ModelRenderInfo_t&, matrix3x4_t*);
+
 void Hooks::DrawModelExecute(void* thisptr, void* context, void *state, const ModelRenderInfo_t &pInfo, matrix3x4_t* pCustomBoneToWorld)
 {
 	if (!Settings::ScreenshotCleaner::enabled || !engine->IsTakingScreenshot())
