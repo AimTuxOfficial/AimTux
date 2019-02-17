@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [ ! -d ".git" ]; then
     read -p "This will delete local code changes. Are you sure? (y/n)" -n 1 -r
