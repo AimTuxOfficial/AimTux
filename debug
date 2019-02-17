@@ -1,28 +1,31 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Starts a GDB session on CS:GO, injects cheat if it is not already present.
 # Send SIGINT to CS:GO with: "kill -2 "$(pidof csgo_linux64)"".
 
+function echo_red {
+	echo -e "\\e[31m$*\\e[0m"
+}
+
 csgo_pid=$(pidof csgo_linux64)
 if [ -z "$csgo_pid" ]; then
-    /bin/echo -e "\\e[31mCS:GO needs to be open before you can inject...\\e[0m"
+    echo_red "CS:GO needs to be open before you can inject..."
     exit 1
 fi
 
 # pBypass for crash dumps being sent
 # You may also want to consider using -nobreakpad in your launch options.
 sudo rm -rf /tmp/dumps # Remove if it exists
-sudo mkdir /tmp/dumps # Make it as root
-sudo chmod 000 /tmp/dumps # No permissions
+sudo mkdir --mode=000 /tmp/dumps # Make it as root with no permissions
 
 if [ ! -f build_id ]; then
-    /bin/echo "Build ID not found. Please rebuild using the './build' script."
+    echo "Build ID not found. Please rebuild using the './build' script."
     exit
 fi
 
 filename=$(cat build_id)
 
 # https://www.kernel.org/doc/Documentation/security/Yama.txt
-sudo echo "2" | sudo tee /proc/sys/kernel/yama/ptrace_scope # Only allows root to inject code. This is temporary until reboot.
+echo "2" | sudo tee /proc/sys/kernel/yama/ptrace_scope # Only allows root to inject code. This is temporary until reboot.
 
 # Adjust the Sleep time below for your system if needed. 
 # This sends 2 interrupts to CS:GO after gdb attachs so gdb will drop into a shell.
@@ -30,10 +33,10 @@ sleep 3 && kill -2 "$csgo_pid" && sleep 1 && kill -2 "$csgo_pid" &
 
 # dlopen method Credits: Aixxe @ aixxe.net
 if grep -q "$filename" /proc/"$csgo_pid"/maps; then
-    (sudo echo -e "continue\\n"; cat) | sudo gdb -p "$csgo_pid"
+    (echo -e "continue\\n"; cat) | sudo gdb -p "$csgo_pid"
 else
     echo "Injecting build $filename"
     sudo cp "$filename" /"$filename"
-    (sudo echo -e "set confirm off\\nset \$dlopen = (void*(*)(char*, int)) dlopen\\ncall \$dlopen(\"/$filename\", 1)\\n"; cat) | sudo gdb -p "$csgo_pid"
+    (echo -e "set confirm off\\nset \$dlopen = (void*(*)(char*, int)) dlopen\\ncall \$dlopen(\"/$filename\", 1)\\n"; cat) | sudo gdb -p "$csgo_pid"
     sudo rm /"$filename"
 fi

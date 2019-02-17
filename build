@@ -1,10 +1,18 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #TODO: check distro and packages
+
+function echo_orange {
+	echo -e "\\e[33m$*\\e[0m"
+}
+
+function echo_red {
+	echo -e "\\e[31m$*\\e[0m"
+}
 
 cmake . || exit 1
 
 if ! hash patchelf 2>/dev/null; then
-    echo -e "\\e[31mYou need to install the \"patchelf\" command!\nUse your package manager to install it, or get source here:\nhttps://github.com/NixOS/patchelf\\e[0m"
+    echo_red -e "You need to install the \"patchelf\" command!\nUse your package manager to install it, or get source here:\nhttps://github.com/NixOS/patchelf"
     exit 1
 fi
 
@@ -29,7 +37,7 @@ if [ -f build_id ]; then
     filename=$(cat build_id)
     rm "$filename"
     if [ -f "/usr/lib/${filename}" ]; then
-    	echo -e "Note: Old file found at /usr/lib/{$filename}\n"
+    	echo -e "Note: Old file found at /usr/lib/${filename}\n"
         #sudo rm "/usr/lib/${filename}"
 
     fi
@@ -41,7 +49,7 @@ echo $BUILD_ID > build_id
 mv libFuzion.so "$BUILD_ID"
 
 strip -s -v "$BUILD_ID"
-patchelf --set-soname "$BUILD_ID" "$BUILD_ID" || echo -e "\\e[33mWarning: your patchelf version does not support \"--set-soname\"\nConsider building from source: https://github.com/NixOS/patchelf\\e[0m"
+patchelf --set-soname "$BUILD_ID" "$BUILD_ID" || echo_orange "Warning: your patchelf version does not support \"--set-soname\"\nConsider building from source: https://github.com/NixOS/patchelf"
 
 chmod 400 build_id # Make the build_id read-only for safety.
 

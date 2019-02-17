@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 sudo killall -9 csgo_linux64
 sudo killall -9 csgo.sh

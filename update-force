@@ -1,9 +1,6 @@
 #!/bin/bash
 
 if [ ! -d ".git" ]; then
-    echo "Not a git repository (or any of the parent directories): .git. Do NOT download the repository as a zip file from GitHub.com! Please download Fuzion by cloning the Git repository: 'git clone --recursive https://github.com/LWSS/Fuzion.git'"
-    exit
-else
     read -p "This will delete local code changes. Are you sure? (y/n)" -n 1 -r
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]
@@ -11,4 +8,7 @@ else
         git reset --hard
         ./update
     fi
+else
+    echo "Not a git repository (or any of the parent directories): .git. Do NOT download the repository as a zip file from GitHub.com! Please download Fuzion by cloning the Git repository: 'git clone --recursive https://github.com/LWSS/Fuzion.git'"
+    exit
 fi
