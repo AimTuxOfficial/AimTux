@@ -1,23 +1,34 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+function echo_green {
+	echo -e "\\e[32m$*\\e[0m"
+}
+
+function echo_orange {
+	echo -e "\\e[33m$*\\e[0m"
+}
+
+function echo_red {
+	echo -e "\\e[31m$*\\e[0m"
+}
 
 csgo_pid=$(pidof csgo_linux64)
 if [ -z "$csgo_pid" ]; then
-    /bin/echo -e "\\e[31mCS:GO needs to be open before you can inject...\\e[0m"
+    echo_red "CS:GO needs to be open before you can inject, exiting..."
     exit 1
 fi
 
 if [ ! -d ".git" ]; then
-    /bin/echo "We have detected that you have downloaded Fuzion-master.zip from GitHub.com. This is the WRONG way to download! Please download Fuzion by cloning the Git repository: 'git clone --recursive https://github.com/LWSS/Fuzion.git'"
+    echo "We have detected that you have downloaded Fuzion-master.zip from GitHub.com. This is the WRONG way to download! Please download Fuzion by cloning the Git repository: 'git clone --recursive https://github.com/LWSS/Fuzion.git'"
 fi
 
 # pBypass for crash dumps being sent
 # You may also want to consider using -nobreakpad in your launch options.
 sudo rm -rf /tmp/dumps # Remove if it exists
-sudo mkdir /tmp/dumps # Make it as root
-sudo chmod 000 /tmp/dumps # No permissions
+sudo mkdir --mode=000 /tmp/dumps # Make it as root with no permissions
 
 if [ ! -f build_id ]; then
-    /bin/echo "Build ID not found. Please rebuild using the './build' script."
+    echo "Build ID not found. Please rebuild using the './build' script."
     exit
 fi
 
@@ -25,13 +36,13 @@ filename=$(cat build_id)
 
 # Credit: Aixxe @ aixxe.net
 if grep -q "$filename" /proc/"$csgo_pid"/maps; then
-    /bin/echo -e "\\e[33mFuzion is already injected... Aborting...\\e[0m"
+    echo_orange "Fuzion is already injected, aborting..."
     exit
 fi
 echo "Injecting Build ID: $filename"
 
 # https://www.kernel.org/doc/Documentation/security/Yama.txt
-sudo echo "2" | sudo tee /proc/sys/kernel/yama/ptrace_scope # Only allows root to inject code. This is temporary until reboot.
+echo "2" | sudo tee /proc/sys/kernel/yama/ptrace_scope # Only allows root to inject code. This is temporary until reboot.
 
 sudo cp "$filename" "/usr/lib/${filename}"
 
@@ -59,7 +70,7 @@ sudo rm "/usr/lib/${filename}"
 last_line="${input##*$'\n'}"
 
 if [ "$last_line" != "\$1 = (void *) 0x0" ]; then
-    /bin/echo -e "\\e[32mSuccessfully injected!\\e[0m"
+    echo_green "Successfully injected!"
 else
-    /bin/echo -e "\\e[31mInjection failed, make sure you have compiled...\\e[0m"
+    echo_red "Injection failed, make sure you have compiled..."
 fi
