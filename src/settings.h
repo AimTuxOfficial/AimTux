@@ -849,6 +849,7 @@ namespace Settings
 		extern ColorVar bombDefusingColor;
 		extern ColorVar defuserColor;
 		extern float iconsScale;
+		extern ImVec2 pos;
 
 		namespace InGame
 		{

@@ -18,6 +18,7 @@ bool Settings::Radar::legit = false;
 bool Settings::Radar::visibilityCheck = false;
 bool Settings::Radar::smokeCheck = false;
 bool Settings::Radar::InGame::enabled = false;
+ImVec2 Settings::Radar::pos = ImVec2(0,0);
 TeamColorType Settings::Radar::teamColorType = TeamColorType::RELATIVE;
 HealthColorVar Settings::Radar::enemyColor = ImColor(255, 0, 0, 255);
 HealthColorVar Settings::Radar::enemyVisibleColor = ImColor(255, 255, 0, 255);
@@ -145,12 +146,14 @@ void Radar::RenderWindow()
 
 	ImGui::SetNextWindowSize(ImVec2(256, 256), ImGuiSetCond_FirstUseEver);
 	ImGui::SetNextWindowSizeConstraints(ImVec2(0, 0), ImVec2(FLT_MAX, FLT_MAX), SquareConstraint);
+	ImGui::SetNextWindowPos(Settings::Radar::pos, ImGuiSetCond_FirstUseEver);
 
 	if (ImGui::Begin("Radar", &Settings::Radar::enabled, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoTitleBar))
 	{
 		ImDrawList* draw_list = ImGui::GetWindowDrawList();
 
 		ImVec2 winpos = ImGui::GetWindowPos();
+		Settings::Radar::pos = winpos;
 		ImVec2 winsize = ImGui::GetWindowSize();
 
 		draw_list->AddLine(ImVec2(winpos.x + winsize.x * 0.5f, winpos.y), ImVec2(winpos.x + winsize.x * 0.5f, winpos.y + winsize.y), ImColor(70,70,70, 255), 1.f);
