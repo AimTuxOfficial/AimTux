@@ -49,11 +49,17 @@ sudo cp "$filename" "/usr/lib/${filename}"
 sudo killall -19 steam
 sudo killall -19 steamwebhelper
 
+lib_dir_name="lib"
+if [ $(getconf LONG_BIT) = 64 ]; then
+    lib_dir_name+="64"
+fi
+
 input="$(
 sudo gdb -n -q -batch-silent \
   -ex "set logging on" \
   -ex "set logging file /dev/null" \
   -ex "set logging redirect on" \
+  -ex "set auto-load safe-path /usr/share/gdb/auto-load/usr/$lib_dir_name/:/usr/$lib_dir_name/" \
   -ex "attach $csgo_pid" \
   -ex "set \$dlopen = (void*(*)(char*, int)) dlopen" \
   -ex "call \$dlopen(\"/usr/lib/$filename\", 1)" \
