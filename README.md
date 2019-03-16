@@ -90,7 +90,7 @@ Now, go back into CS:GO, if you are in the main menu of the game you should see 
 
 ![this](http://i.imgur.com/Gb0SV1u.png)
 
-*Note:* if you are getting crashes ( that are unrelated to game updates ) Try disabling shader precaching in your Steam Client -> Steam -> Settngs -> Shader Pre-Caching. 
+*Note:* if you are getting crashes ( that are unrelated to game updates ) Try disabling shader precaching in your Steam Client -> Steam -> Settings -> Shader Pre-Caching. 
 
 ## Using the hack
 
