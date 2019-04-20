@@ -133,73 +133,47 @@ enum class AntiAimType_X : int
 
 struct AimbotWeapon_t
 {
-	bool enabled, silent, friendly, closestBone, desiredBones[31], engageLock, engageLockTR;
-	int engageLockTTR;
-	Bone bone;
-	SmoothType smoothType;
-	ButtonCode_t aimkey;
-	bool aimkeyOnly, smoothEnabled, smoothSaltEnabled, errorMarginEnabled, autoAimEnabled, aimStepEnabled, rcsEnabled, rcsAlwaysOn, spreadLimitEnabled;
-	float smoothAmount, smoothSaltMultiplier, errorMarginValue, autoAimFov, aimStepMin, aimStepMax, rcsAmountX, rcsAmountY, autoWallValue, spreadLimit;
-	bool autoPistolEnabled, autoShootEnabled, autoScopeEnabled, noShootEnabled, ignoreJumpEnabled, smokeCheck, flashCheck, autoWallEnabled, autoAimRealDistance, autoSlow, predEnabled;
-
-	AimbotWeapon_t(bool enabled, bool silent, bool friendly, bool closestBone, bool engageLock, bool engageLockTR, int engageLockTTR, Bone bone, ButtonCode_t aimkey, bool aimkeyOnly,
-		   bool smoothEnabled, float smoothValue, SmoothType smoothType, bool smoothSaltEnabled, float smoothSaltMultiplier,
-		   bool errorMarginEnabled, float errorMarginValue,
-		   bool autoAimEnabled, float autoAimValue, bool aimStepEnabled, float aimStepMin, float aimStepMax,
-		   bool rcsEnabled, bool rcsAlwaysOn, float rcsAmountX, float rcsAmountY,
-		   bool autoPistolEnabled, bool autoShootEnabled, bool autoScopeEnabled,
-		   bool noShootEnabled, bool ignoreJumpEnabled, bool smokeCheck, bool flashCheck,
-		   bool spreadLimitEnabled, float spreadLimit,
-		   bool autoWallEnabled, float autoWallValue, bool autoAimRealDistance, bool autoSlow,
-		   bool predEnabled)
-	{
-		this->enabled = enabled;
-		this->silent = silent;
-		this->friendly = friendly;
-		this->closestBone = closestBone;
-		this->engageLock = engageLock;
-		this->engageLockTR = engageLockTR;
-		this->engageLockTTR = engageLockTTR;
-		this->bone = bone;
-		this->aimkey = aimkey;
-		this->aimkeyOnly = aimkeyOnly;
-		this->smoothEnabled = smoothEnabled;
-		this->smoothAmount = smoothValue;
-		this->smoothType = smoothType;
-		this->smoothSaltEnabled = smoothSaltEnabled;
-		this->smoothSaltMultiplier = smoothSaltMultiplier;
-		this->errorMarginEnabled = errorMarginEnabled;
-		this->errorMarginValue = errorMarginValue;
-		this->autoAimEnabled = autoAimEnabled;
-		this->autoAimFov = autoAimValue;
-		this->aimStepEnabled = aimStepEnabled;
-		this->aimStepMin = aimStepMin;
-		this->aimStepMax = aimStepMax;
-		this->rcsEnabled = rcsEnabled;
-		this->rcsAlwaysOn = rcsAlwaysOn;
-		this->rcsAmountX = rcsAmountX;
-		this->rcsAmountY = rcsAmountY;
-		this->autoPistolEnabled = autoPistolEnabled;
-		this->autoShootEnabled = autoShootEnabled;
-		this->autoScopeEnabled = autoScopeEnabled;
-		this->noShootEnabled = noShootEnabled;
-		this->ignoreJumpEnabled = ignoreJumpEnabled;
-		this->smokeCheck = smokeCheck;
-		this->flashCheck = flashCheck;
-		this->spreadLimitEnabled = spreadLimitEnabled;
-		this->spreadLimit = spreadLimit;
-		this->autoWallEnabled = autoWallEnabled;
-		this->autoWallValue = autoWallValue;
-		this->autoSlow = autoSlow;
-		this->predEnabled = predEnabled;
-
-		for (int bone = (int) DesiredBones::BONE_PELVIS; bone <= (int) DesiredBones::BONE_RIGHT_SOLE; bone++)
-			this->desiredBones[bone] = (desiredBones != nullptr ) ? desiredBones[bone] : false;
-
-		this->autoAimRealDistance = autoAimRealDistance;
-	}
-
-	AimbotWeapon_t() {};
+	bool enabled,
+		 silent,
+		 friendly,
+		 closestBone,
+	     engageLock,
+		 engageLockTR,
+		 aimkeyOnly,
+		 smoothEnabled,
+		 smoothSaltEnabled,
+		 errorMarginEnabled,
+		 autoAimEnabled,
+		 aimStepEnabled,
+		 rcsEnabled,
+		 rcsAlwaysOn,
+		 spreadLimitEnabled,
+		 autoPistolEnabled,
+		 autoShootEnabled,
+		 autoScopeEnabled,
+		 noShootEnabled,
+		 ignoreJumpEnabled,
+		 smokeCheck,
+		 flashCheck,
+		 autoWallEnabled,
+		 autoAimRealDistance,
+		 autoSlow,
+		 predEnabled;
+	int engageLockTTR = 700;
+	Bone bone = Bone::BONE_HEAD;
+	SmoothType smoothType = SmoothType::SLOW_END;
+	ButtonCode_t aimkey = ButtonCode_t ::MOUSE_MIDDLE;
+	float smoothAmount = 1.0f,
+		  smoothSaltMultiplier = 0.0f,
+		  errorMarginValue = 0.0f,
+		  autoAimFov = 180.0f,
+		  aimStepMin = 25.0f,
+		  aimStepMax = 35.0f,
+		  rcsAmountX = 2.0f,
+		  rcsAmountY = 2.0f,
+		  autoWallValue = 10.0f,
+		  spreadLimit = 1.0f;
+	bool desiredBones[31];
 
 	bool operator == (const AimbotWeapon_t& another) const
 	{
@@ -250,7 +224,7 @@ struct AimbotWeapon_t
 			this->predEnabled == another.predEnabled &&
 			this->autoAimRealDistance == another.autoAimRealDistance;
 	}
-};
+} const defaultSettings{};
 
 class ColorVar
 {

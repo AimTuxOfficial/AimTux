@@ -3,6 +3,7 @@
 #include "../Utils/xorstring.h"
 #include "../settings.h"
 #include "../interfaces.h"
+#include "antiaim.h"
 
 bool Settings::Resolver::resolveAll = false;
 std::vector<int64_t> Resolver::Players = { };
@@ -40,7 +41,10 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 
 			player_data.push_back(std::pair<C_BasePlayer*, QAngle>(player, *player->GetEyeAngles()));
 
-			player->GetEyeAngles()->y = *player->GetLowerBodyYawTarget();
+			//player->GetEyeAngles()->y = *player->GetLowerBodyYawTarget();
+			player->GetEyeAngles()->y = (rand() % 2) ?
+                                        player->GetEyeAngles()->y + (AntiAim::GetMaxDelta(player->GetAnimState()) * 0.66f) :
+                                        player->GetEyeAngles()->y - (AntiAim::GetMaxDelta(player->GetAnimState()) * 0.66f);
 		}
 	}
 	else if (stage == ClientFrameStage_t::FRAME_RENDER_END)
