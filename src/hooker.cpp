@@ -56,6 +56,8 @@ unsigned int Offsets::playerAnimOverlayOffset = 0;
 
 GetSequenceActivityFn GetSeqActivity;
 
+uintptr_t SetAbsOriginFnAddr;
+
 //RandomSeedFn RandomSeed;
 //RandomFloatFn RandomFloat;
 //RandomFloatExpFn RandomFloatExp;
@@ -479,4 +481,17 @@ void Hooker::FindSequenceActivity()
                                                                                                             "\x31"), XORSTR( "xxxx?xxxxxxxxxxx?xxx????xxxx?xxxxx?xxx?x" ) );
 
     GetSeqActivity = reinterpret_cast<GetSequenceActivityFn>( funcAddr );
+}
+
+void Hooker::FindAbsFunctions()
+{
+	// C_BaseEntity::SetAbsOrigin( )
+	// 55 48 89 E5 41 55 41 54 49 89 F4 53 48 89 FB 48 83 EC ?? E8 ?? ?? ?? ?? F3
+	SetAbsOriginFnAddr = PatternFinder::FindPatternInModule( XORSTR( "client_panorama_client.so" ),
+															 ( unsigned char* ) XORSTR("\x55\x48\x89\xE5\x41\x55\x41\x54\x49\x89\xF4\x53\x48\x89\xFB\x48\x83\xEC"
+																							   "\x00" //??
+																							   "\xE8"
+																							   "\x00\x00\x00\x00" //??
+																							   "\xF3"),
+															 XORSTR( "xxxxxxxxxxxxxxxxxx?x????x" ) );
 }

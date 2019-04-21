@@ -18,6 +18,7 @@ class ClientClass;
 
 typedef int (* GetSequenceActivityFn)( void*, int ); // C_BaseAnimating::GetSequenceActivity(int sequence).
 extern GetSequenceActivityFn GetSeqActivity;
+extern uintptr_t SetAbsOriginFnAddr;
 
 enum WeaponSound_t
 {
@@ -177,6 +178,22 @@ public:
 	IClientNetworkable* GetNetworkable()
 	{
 		return (IClientNetworkable*)((uintptr_t)this + 0x10);
+	}
+
+	const Vector& GetAbsOrigin( )
+	{
+		typedef const Vector& (* oGetAbsOrigin)(void*);
+		return getvfunc<oGetAbsOrigin>( this, 12 )( this );
+	}
+
+	void SetAbsOrigin( const Vector * const angles ) {
+		asm volatile ("mov %0, %%rdi;\n\t"
+				"mov %1, %%rsi;\n\t"
+				"call *%P2;"
+		:
+		:"r"(this), "r"(angles), "r"(SetAbsOriginFnAddr)
+		:"%rdi", "%rsi"
+		);
 	}
 
 	void SetModelIndex(int index)
@@ -421,6 +438,23 @@ public:
 
 		return Vector(hitbox[0][3], hitbox[1][3], hitbox[2][3]);
 	}
+	/*
+	inline Vector GetNoInterpBonePosition(int boneIndex)
+	{
+		matrix3x4_t BoneMatrix[MAXSTUDIOBONES];
+		Vector backup = this->GetAbsOrigin();
+		Vector noInterp = this->GetVecOrigin();
+		this->SetAbsOrigin( &noInterp );
+		if (!this->SetupBones(BoneMatrix, MAXSTUDIOBONES, BONE_USED_BY_HITBOX, 0)) {
+			this->SetAbsOrigin( &backup );
+			return this->GetAbsOrigin( );
+		}
+
+		matrix3x4_t hitbox = BoneMatrix[boneIndex];
+
+		this->SetAbsOrigin( &backup );
+		return Vector(hitbox[0][3], hitbox[1][3], hitbox[2][3]);
+	}*/
 
 	QAngle* GetVAngles()
 	{

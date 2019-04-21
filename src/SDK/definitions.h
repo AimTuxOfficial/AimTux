@@ -41,6 +41,9 @@ typedef ICommandLine* (*CommandLineFn) (void);
 //typedef float (*RandomGaussianFloatFn)(float, float);
 typedef bool (*SetNamedSkyBoxFn)(const char*);
 
+extern Vector lastRayStart;
+extern Vector lastRayEnd;
+
 enum class TeamID : int
 {
 	TEAM_UNASSIGNED,

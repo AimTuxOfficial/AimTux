@@ -618,6 +618,15 @@ static void DrawAimbotSpot( ) {
 	Draw::AddLine( width / 2, height / 2, spot2D.x, spot2D.y, ImColor( 45, 235, 60 ) );
 	Draw::AddCircle( width / 2, height / 2, 1, ImColor( 45, 235, 60 ) );
 	Draw::AddCircle( spot2D.x, spot2D.y, 1, ImColor( 45, 235, 60 ) );
+
+    Vector start2D;
+    Vector end2D;
+    if( debugOverlay->ScreenPosition( lastRayStart, start2D ) ){
+        start2D = Vector(0,0,0);
+    }
+    if( !debugOverlay->ScreenPosition( lastRayEnd, end2D ) ){
+        Draw::AddLine( start2D.x, start2D.y, end2D.x, end2D.y, ImColor( 255, 25, 25, 255 ) );
+    }
 }
 static void DrawBoneMap( C_BasePlayer* player ) {
 	static Vector bone2D;
@@ -628,9 +637,13 @@ static void DrawBoneMap( C_BasePlayer* player ) {
 		bone3D = player->GetBonePosition( i );
 		if ( debugOverlay->ScreenPosition( bone3D, bone2D ) )
 			continue;
-		char buffer[32];
-		snprintf(buffer, 32, "%d", i);
-		Draw::AddText( bone2D.x, bone2D.y,buffer, ImColor( 255, 0, 255, 255 ) );
+		if( Settings::Debug::BoneMap::justDrawDots ){
+			Draw::AddCircleFilled( bone2D.x, bone2D.y, 2.0f, ImColor( 255, 0, 255, 255 ), 10 );
+		} else {
+			char buffer[32];
+			snprintf(buffer, 32, "%d", i);
+			Draw::AddText( bone2D.x, bone2D.y,buffer, ImColor( 255, 0, 255, 255 ) );
+		}
 	}
 	IEngineClient::player_info_t entityInformation;
 	engine->GetPlayerInfo( player->GetIndex(), &entityInformation );

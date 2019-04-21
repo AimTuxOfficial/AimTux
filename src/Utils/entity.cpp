@@ -3,6 +3,9 @@
 
 #include "../interfaces.h"
 
+Vector lastRayStart;
+Vector lastRayEnd;
+
 bool Entity::IsVisible(C_BasePlayer* player, int bone, float fov, bool smoke_check)
 {
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
@@ -65,6 +68,9 @@ bool Entity::IsSpotVisible(C_BasePlayer* player, Vector spot, float fov, bool sm
 	Vector e_vecHead = spot;
 	Vector p_vecHead = localplayer->GetEyePosition();
 
+	lastRayStart = p_vecHead;
+	lastRayEnd = spot;
+
 	QAngle viewAngles;
 	engine->GetViewAngles(viewAngles);
 
@@ -81,9 +87,7 @@ bool Entity::IsSpotVisible(C_BasePlayer* player, Vector spot, float fov, bool sm
 
 	if (smoke_check && LineGoesThroughSmoke(p_vecHead, e_vecHead, true))
 		return false;
-
-	return tr.m_pEntityHit == player;
-
+	return (tr.m_pEntityHit==player || tr.fraction >= 0.98f);
 }
 
 bool Entity::IsVisibleThroughEnemies(C_BasePlayer *player, int bone, float fov, bool smoke_check)

@@ -57,6 +57,7 @@ void MainThread()
     Hooker::FindPlayerAnimStateOffset();
     Hooker::FindPlayerAnimOverlayOffset();
 	Hooker::FindSequenceActivity();
+    Hooker::FindAbsFunctions();
 
     Offsets::GetNetVarOffsets();
     Fonts::SetupFonts();

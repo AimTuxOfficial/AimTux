@@ -745,7 +745,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 
     Vector bestSpot = {0,0,0};
 	float bestDamage = 0.0f;
-	C_BasePlayer* player = GetClosestPlayerAndSpot(cmd, true, &bestSpot, &bestDamage);
+	C_BasePlayer* player = GetClosestPlayerAndSpot(cmd, !Settings::Aimbot::AutoWall::enabled, &bestSpot, &bestDamage);
 
 	if ( player ) {
 		if ( Settings::Aimbot::AutoAim::enabled ) {
@@ -777,8 +777,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 				newTarget = false;
 			}
 		}
-	}
-	if( !player ){ // No player to Shoot
+	} else { // No player to Shoot
         Settings::Debug::AutoAim::target = {0,0,0};
         newTarget = true;
         lastRandom = {0,0,0};
