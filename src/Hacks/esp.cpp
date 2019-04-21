@@ -619,11 +619,8 @@ static void DrawAimbotSpot( ) {
 	Draw::AddCircle( width / 2, height / 2, 1, ImColor( 45, 235, 60 ) );
 	Draw::AddCircle( spot2D.x, spot2D.y, 1, ImColor( 45, 235, 60 ) );
 
-    Vector start2D;
+    Vector start2D = Vector(0,0,0);
     Vector end2D;
-    if( debugOverlay->ScreenPosition( lastRayStart, start2D ) ){
-        start2D = Vector(0,0,0);
-    }
     if( !debugOverlay->ScreenPosition( lastRayEnd, end2D ) ){
         Draw::AddLine( start2D.x, start2D.y, end2D.x, end2D.y, ImColor( 255, 25, 25, 255 ) );
     }

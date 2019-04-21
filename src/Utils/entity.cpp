@@ -68,9 +68,6 @@ bool Entity::IsSpotVisible(C_BasePlayer* player, Vector spot, float fov, bool sm
 	Vector e_vecHead = spot;
 	Vector p_vecHead = localplayer->GetEyePosition();
 
-	lastRayStart = p_vecHead;
-	lastRayEnd = spot;
-
 	QAngle viewAngles;
 	engine->GetViewAngles(viewAngles);
 
