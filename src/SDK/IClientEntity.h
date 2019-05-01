@@ -699,24 +699,24 @@ public:
 		return *(bool*)((uintptr_t)this + offsets.DT_WeaponCSBase.m_bReloadVisuallyComplete);
 	}
 
-	CCSWeaponInfo* GetCSWpnData() {
+	CCSWeaponInfo* GetCSWpnData() { // "script file not found"
 		typedef CCSWeaponInfo* (* oGetCSWpnData)( void* );
-		return getvfunc<oGetCSWpnData>( this, 516 )( this );
+		return getvfunc<oGetCSWpnData>( this, 522 )( this ); // 516
 	}
 
 	float GetSpread() {
 		typedef float (* oGetSpread)( void* );
-		return getvfunc<oGetSpread>( this, 508 )( this );
+		return getvfunc<oGetSpread>( this, 514 )( this );
 	}
 
 	float GetInaccuracy() {
 		typedef float (* oGetInaccuracy)( void* );
-		return getvfunc<oGetInaccuracy>( this, 539 )( this );
+		return getvfunc<oGetInaccuracy>( this, 544 )( this );
 	}
 
 	void UpdateAccuracyPenalty() {
 		typedef void (* oUpdateAccuracyPenalty)( void* );
-		return getvfunc<oUpdateAccuracyPenalty>( this, 540 )( this );
+		return getvfunc<oUpdateAccuracyPenalty>( this, 545 )( this );
 	}
 };
 
