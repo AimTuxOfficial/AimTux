@@ -33,10 +33,10 @@ void Dlights::Paint()
 		if (player == localplayer)
 			continue;
 
-		if (!player->IsTeamMate(localplayer) && !Settings::ESP::Filters::enemies)
+		if (!Entity::IsTeamMate(player, localplayer) && !Settings::ESP::Filters::enemies)
 			return;
 
-		if (player->IsTeamMate(localplayer) && !Settings::ESP::Filters::allies)
+		if (Entity::IsTeamMate(player, localplayer) && !Settings::ESP::Filters::allies)
 			return;
 
 		bool bIsVisible = false;

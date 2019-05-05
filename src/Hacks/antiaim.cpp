@@ -4,6 +4,7 @@
 #include "../settings.h"
 #include "../Hooks/hooks.h"
 #include "../Utils/math.h"
+#include "../Utils/entity.h"
 #include "../interfaces.h"
 #include "valvedscheck.h"
 
@@ -107,7 +108,7 @@ static bool HasViableEnemy()
                 continue;
         }
 
-        if (Settings::Aimbot::friendly || !entity->IsTeamMate(localplayer))
+        if (Settings::Aimbot::friendly || !Entity::IsTeamMate(entity, localplayer))
             return true;
     }
 

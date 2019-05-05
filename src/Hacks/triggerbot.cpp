@@ -4,6 +4,7 @@
 #include "../settings.h"
 #include "../interfaces.h"
 #include "../Utils/math.h"
+#include "../Utils/entity.h"
 
 bool Settings::Triggerbot::enabled = false;
 bool Settings::Triggerbot::Filters::enemies = true;
@@ -99,10 +100,10 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 		|| player->GetImmune())
 		return;
 
-	if (!player->IsTeamMate(localplayer) && !Settings::Triggerbot::Filters::enemies)
+	if (!Entity::IsTeamMate(player, localplayer) && !Settings::Triggerbot::Filters::enemies)
 		return;
 
-	if (player->IsTeamMate(localplayer) && !Settings::Triggerbot::Filters::allies)
+	if (Entity::IsTeamMate(player, localplayer) && !Settings::Triggerbot::Filters::allies)
 		return;
 
 	bool filter;

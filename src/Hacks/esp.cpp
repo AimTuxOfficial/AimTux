@@ -291,7 +291,7 @@ ImColor ESP::GetESPPlayerColor(C_BasePlayer* player, bool visible)
 	{
 		if (Settings::ESP::teamColorType == TeamColorType::RELATIVE)
 		{
-			if (!player->IsTeamMate(localplayer))
+			if (!Entity::IsTeamMate(player, localplayer))
 			{
 				if (visible)
 					playerColor = Settings::ESP::enemyVisibleColor.Color(player);
@@ -940,10 +940,10 @@ static void DrawPlayer(C_BasePlayer* player)
 	if (player == localplayer && !Settings::ESP::Filters::localplayer)
 		return;
 
-	if (!player->IsTeamMate(localplayer) && !Settings::ESP::Filters::enemies)
+	if (!Entity::IsTeamMate(player, localplayer) && !Settings::ESP::Filters::enemies)
 		return;
 
-	if (player != localplayer && player->IsTeamMate(localplayer) && !Settings::ESP::Filters::allies)
+	if (player != localplayer && Entity::IsTeamMate(player, localplayer) && !Settings::ESP::Filters::allies)
 		return;
 
 	bool bIsVisible = false;
@@ -1165,7 +1165,7 @@ static void DrawGlow()
 			}
 			else
 			{
-				if (!glow_object.m_pEntity->IsTeamMate(localplayer))
+				if (!Entity::IsTeamMate(player, localplayer))
 				{
 					if (Entity::IsVisible(player, (int)Bone::BONE_HEAD))
 						color = Settings::ESP::Glow::enemyVisibleColor.Color(player);

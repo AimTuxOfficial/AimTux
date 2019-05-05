@@ -222,15 +222,9 @@ public:
 		return *(TeamID*)((uintptr_t)this + offsets.DT_BaseEntity.m_iTeamNum);
 	}
 	
-	bool IsTeamMate(C_BasePlayer* localPlayer) // TODO: Maybe localPlayer globally?
+	int GetSurvivalTeam()
 	{
-		if (Utils::IsDangerZone())
-		{
-			if ((uintptr_t)this + offsets.DT_CSPlayer.m_nSurvivalTeam == -1)
-				return *(bool*)false;
-			return *(bool*)((uintptr_t)localPlayer + offsets.DT_CSPlayer.m_nSurvivalTeam == (uintptr_t)this + offsets.DT_CSPlayer.m_nSurvivalTeam);
-		}
-		return *(bool*)((uintptr_t)localPlayer + offsets.DT_CSPlayer.m_nSurvivalTeam == (uintptr_t)this + offsets.DT_CSPlayer.m_nSurvivalTeam);
+		return *(int*)((uintptr_t)this + offsets.DT_CSPlayer.m_nSurvivalTeam);
 	}
 
 	Vector GetVecOrigin()

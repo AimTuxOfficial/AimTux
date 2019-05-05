@@ -406,11 +406,3 @@ Color Util::GetHealthColor(C_BasePlayer* player)
 			25
 	);
 }
-
-// TODO: Use interfaces since we are internal.
-bool Util::IsDangerZone()
-{
-	static auto game_mode = cvar->FindVar("game_mode");
-	static auto game_type = cvar->FindVar("game_type");
-	return game_mode->GetInt() == 0 && game_type->GetInt() == 6;
-}

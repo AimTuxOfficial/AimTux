@@ -3,6 +3,7 @@
 #include <sstream>
 
 #include "../Utils/xorstring.h"
+#include "../Utils/entity.h"
 #include "esp.h"
 #include "../ImGUI/imgui_internal.h"
 #include "../settings.h"
@@ -137,10 +138,10 @@ void Spammer::BeginFrame(float frameTime)
 				|| !player->GetAlive())
 				continue;
 
-			if (Settings::Spammer::PositionSpammer::team == 0 && !player->IsTeamMate(localplayer))
+			if (Settings::Spammer::PositionSpammer::team == 0 && !Entity::IsTeamMate(player, localplayer))
 				continue;
 
-			if (Settings::Spammer::PositionSpammer::team == 1 && player->IsTeamMate(localplayer))
+			if (Settings::Spammer::PositionSpammer::team == 1 && Entity::IsTeamMate(player, localplayer))
 				continue;
 
 			IEngineClient::player_info_t entityInformation;

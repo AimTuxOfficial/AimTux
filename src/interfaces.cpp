@@ -41,7 +41,7 @@ IEngineTrace* trace = nullptr;
 CViewRender* viewRender = nullptr;
 IPanoramaUIEngine* panoramaEngine = nullptr;
 IFileSystem* fileSystem = nullptr;
-IGameTypes* gameTypes = nullptr;
+//IGameTypes* gameTypes = nullptr;
 
 
 void Interfaces::FindInterfaces()

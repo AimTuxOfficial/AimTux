@@ -1,6 +1,7 @@
 #include "resolver.h"
 
 #include "../Utils/xorstring.h"
+#include "../Utils/entity.h"
 #include "../settings.h"
 #include "../interfaces.h"
 #include "antiaim.h"
@@ -30,7 +31,7 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 				|| player->GetDormant()
 				|| !player->GetAlive()
 				|| player->GetImmune()
-				|| player->IsTeamMate(localplayer))
+				|| Entity::IsTeamMate(player, localplayer))
 				continue;
 
 			IEngineClient::player_info_t entityInformation;
