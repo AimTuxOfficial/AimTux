@@ -115,10 +115,10 @@ void Hitmarkers::FireGameEvent(IGameEvent* event)
 	if (!hurt_player)
 		return;
 
-	if (hurt_player->GetTeam() == localplayer->GetTeam() && !Settings::ESP::Hitmarker::allies)
+	if (hurt_player->IsTeamMate(localplayer) && !Settings::ESP::Hitmarker::allies)
 		return;
 
-	if (hurt_player->GetTeam() != localplayer->GetTeam() && !Settings::ESP::Hitmarker::enemies)
+	if (!hurt_player->IsTeamMate(localplayer) && !Settings::ESP::Hitmarker::enemies)
 		return;
 
 	long now = Util::GetEpochTime();

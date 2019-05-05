@@ -47,3 +47,4 @@
 #include "CBaseClientState.h"
 #include "panorama/PanoramaUIEngine.h"
 #include "Materialsystem_config.h"
+//#include "IGameTypes.h"

@@ -30,7 +30,7 @@ void Resolver::FrameStageNotify(ClientFrameStage_t stage)
 				|| player->GetDormant()
 				|| !player->GetAlive()
 				|| player->GetImmune()
-				|| player->GetTeam() == localplayer->GetTeam())
+				|| player->IsTeamMate(localplayer))
 				continue;
 
 			IEngineClient::player_info_t entityInformation;

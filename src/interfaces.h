@@ -36,6 +36,7 @@ extern ICommandLine* commandline;
 extern CInput* input;
 extern IPanoramaUIEngine* panoramaEngine;
 extern IFileSystem* fileSystem;
+//extern IGameTypes* gameTypes;
 
 extern VMT* panelVMT;
 extern VMT* clientVMT;

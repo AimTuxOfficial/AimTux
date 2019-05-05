@@ -45,10 +45,10 @@ static void DrawPlayer(void* thisptr, void* context, void *state, const ModelRen
 	if (entity == localplayer && !Settings::ESP::Filters::localplayer)
 		return;
 
-	if (entity->GetTeam() != localplayer->GetTeam() && !Settings::ESP::Filters::enemies)
+	if (!entity->IsTeamMate(localplayer) && !Settings::ESP::Filters::enemies)
 		return;
 
-	if (entity != localplayer && entity->GetTeam() == localplayer->GetTeam() && !Settings::ESP::Filters::allies)
+	if (entity != localplayer && entity->IsTeamMate(localplayer) && !Settings::ESP::Filters::allies)
 		return;
 
 	IMaterial* visible_material = nullptr;
@@ -80,7 +80,7 @@ static void DrawPlayer(void* thisptr, void* context, void *state, const ModelRen
 		visible_material->ColorModulate(visColor);
 		hidden_material->ColorModulate(color);
 	}
-	else if (entity->GetTeam() == localplayer->GetTeam())
+	else if (entity->IsTeamMate(localplayer))
 	{
 		Color visColor = Color::FromImColor(Settings::ESP::Chams::allyVisibleColor.Color(entity));
 		Color color = Color::FromImColor(Settings::ESP::Chams::allyColor.Color(entity));
@@ -88,7 +88,7 @@ static void DrawPlayer(void* thisptr, void* context, void *state, const ModelRen
 		visible_material->ColorModulate(visColor);
 		hidden_material->ColorModulate(color);
 	}
-	else if (entity->GetTeam() != localplayer->GetTeam())
+	else if (!entity->IsTeamMate(localplayer))
 	{
 		Color visColor = Color::FromImColor(Settings::ESP::Chams::enemyVisibleColor.Color(entity));
 		Color color = Color::FromImColor(Settings::ESP::Chams::enemyColor.Color(entity));

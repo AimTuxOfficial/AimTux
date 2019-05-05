@@ -99,10 +99,10 @@ void Triggerbot::CreateMove(CUserCmd *cmd)
 		|| player->GetImmune())
 		return;
 
-	if (player->GetTeam() != localplayer->GetTeam() && !Settings::Triggerbot::Filters::enemies)
+	if (!player->IsTeamMate(localplayer) && !Settings::Triggerbot::Filters::enemies)
 		return;
 
-	if (player->GetTeam() == localplayer->GetTeam() && !Settings::Triggerbot::Filters::allies)
+	if (player->IsTeamMate(localplayer) && !Settings::Triggerbot::Filters::allies)
 		return;
 
 	bool filter;

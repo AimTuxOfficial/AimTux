@@ -137,10 +137,10 @@ void Spammer::BeginFrame(float frameTime)
 				|| !player->GetAlive())
 				continue;
 
-			if (Settings::Spammer::PositionSpammer::team == 0 && player->GetTeam() != localplayer->GetTeam())
+			if (Settings::Spammer::PositionSpammer::team == 0 && !player->IsTeamMate(localplayer))
 				continue;
 
-			if (Settings::Spammer::PositionSpammer::team == 1 && player->GetTeam() == localplayer->GetTeam())
+			if (Settings::Spammer::PositionSpammer::team == 1 && player->IsTeamMate(localplayer))
 				continue;
 
 			IEngineClient::player_info_t entityInformation;

@@ -47,6 +47,7 @@ void NameStealer::BeginFrame(float frameTime)
 
 		if ((*csPlayerResource) && (*csPlayerResource)->GetConnected(entityId))
 		{
+			// TODO: Replace with IsTeamMate().
 			if (Settings::NameStealer::team == 0 && (*csPlayerResource)->GetTeam(entityId) != localplayer->GetTeam())
 				break;
 

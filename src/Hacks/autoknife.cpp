@@ -124,10 +124,10 @@ void AutoKnife::CreateMove(CUserCmd *cmd)
 		|| player->GetImmune())
 		return;
 
-	if (player->GetTeam() != localplayer->GetTeam() && !Settings::AutoKnife::Filters::enemies)
+	if (!player->IsTeamMate(localplayer) && !Settings::AutoKnife::Filters::enemies)
 		return;
 
-	if (player->GetTeam() == localplayer->GetTeam() && !Settings::AutoKnife::Filters::allies)
+	if (player->IsTeamMate(localplayer) && !Settings::AutoKnife::Filters::allies)
 		return;
 
 	float playerDistance = localplayer->GetVecOrigin().DistTo(player->GetVecOrigin());

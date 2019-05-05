@@ -218,7 +218,7 @@ static bool SimulateFireBullet(C_BaseCombatWeapon* pWeapon, bool teamCheck, Auto
 			data.current_damage *= powf(weaponInfo->GetRangeModifier(), data.trace_length * 0.002f);
 
 			C_BasePlayer* player = (C_BasePlayer*) data.enter_trace.m_pEntityHit;
-			if (teamCheck && player->GetTeam() == localplayer->GetTeam())
+			if (teamCheck && player->IsTeamMate(localplayer))
 				return false;
 
 			ScaleDamage(data.enter_trace.hitgroup, player, weaponInfo->GetWeaponArmorRatio(), data.current_damage);

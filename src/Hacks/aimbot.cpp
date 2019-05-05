@@ -335,7 +335,7 @@ static C_BasePlayer* GetClosestPlayerAndSpot(CUserCmd* cmd, bool visibleCheck, V
 			|| player->GetImmune())
 			continue;
 
-		if (!Settings::Aimbot::friendly && player->GetTeam() == localplayer->GetTeam())
+		if (!Settings::Aimbot::friendly && player->IsTeamMate(localplayer))
 			continue;
 
 		if( !Aimbot::friends.empty() ) // check for friends, if any

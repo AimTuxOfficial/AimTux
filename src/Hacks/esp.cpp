@@ -15,6 +15,8 @@
 #include <deque>
 #include <mutex>
 
+// TODO: Add DangerZone Item ESP.
+
 bool Settings::ESP::enabled = false;
 ButtonCode_t Settings::ESP::key = ButtonCode_t::KEY_Z;
 TeamColorType Settings::ESP::teamColorType = TeamColorType::RELATIVE;
@@ -289,7 +291,7 @@ ImColor ESP::GetESPPlayerColor(C_BasePlayer* player, bool visible)
 	{
 		if (Settings::ESP::teamColorType == TeamColorType::RELATIVE)
 		{
-			if (player->GetTeam() != localplayer->GetTeam())
+			if (!player->IsTeamMate(localplayer))
 			{
 				if (visible)
 					playerColor = Settings::ESP::enemyVisibleColor.Color(player);
@@ -938,10 +940,10 @@ static void DrawPlayer(C_BasePlayer* player)
 	if (player == localplayer && !Settings::ESP::Filters::localplayer)
 		return;
 
-	if (player->GetTeam() != localplayer->GetTeam() && !Settings::ESP::Filters::enemies)
+	if (!player->IsTeamMate(localplayer) && !Settings::ESP::Filters::enemies)
 		return;
 
-	if (player != localplayer && player->GetTeam() == localplayer->GetTeam() && !Settings::ESP::Filters::allies)
+	if (player != localplayer && player->IsTeamMate(localplayer) && !Settings::ESP::Filters::allies)
 		return;
 
 	bool bIsVisible = false;
@@ -1163,7 +1165,7 @@ static void DrawGlow()
 			}
 			else
 			{
-				if (glow_object.m_pEntity->GetTeam() != localplayer->GetTeam())
+				if (!glow_object.m_pEntity->IsTeamMate(localplayer))
 				{
 					if (Entity::IsVisible(player, (int)Bone::BONE_HEAD))
 						color = Settings::ESP::Glow::enemyVisibleColor.Color(player);

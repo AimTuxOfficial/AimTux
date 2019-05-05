@@ -26,6 +26,7 @@ namespace Util
 	Color GetHealthColor(C_BasePlayer* player);
 	int RandomInt(int min, int max);
 	long GetEpochTime();
+	bool Util::IsDangerZone(); // TODO: Use interfaces since we are internal.
 
 	const std::map<int,int> * GetModelTypeBoneMap(C_BasePlayer* player);
 	ModelType GetModelTypeID(C_BasePlayer* player);

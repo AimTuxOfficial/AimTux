@@ -107,7 +107,7 @@ static bool HasViableEnemy()
                 continue;
         }
 
-        if (Settings::Aimbot::friendly || entity->GetTeam() != localplayer->GetTeam())
+        if (Settings::Aimbot::friendly || !entity->IsTeamMate(localplayer))
             return true;
     }
 
