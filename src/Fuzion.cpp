@@ -29,7 +29,7 @@ std::vector<VMT*> createdVMTs;
 void MainThread()
 {
 	Interfaces::FindInterfaces();
-    //Interfaces::DumpInterfaces();
+    Interfaces::DumpInterfaces();
     cvar->ConsoleDPrintf(XORSTR("Loading...\n"));
 	Hooker::FindSetNamedSkybox();
 	Hooker::FindViewRender();
@@ -126,6 +126,7 @@ void MainThread()
 	srand(time(nullptr)); // Seed random # Generator so we can call rand() later
 
     cvar->ConsoleColorPrintf(ColorRGBA(0, 225, 0), XORSTR("\nFuzion Successfully loaded.\n"));
+    cvar->ConsoleDPrintf("GameTypes @ %p\n", (void*)gameTypes);
 }
 /* Entrypoint to the Library. Called when loading */
 int __attribute__((constructor)) Startup()

@@ -34,6 +34,6 @@ void Hooks::SetKeyCodeState(void* thisptr, ButtonCode_t code, bool bPressed)
 
     if( code == ButtonCode_t::KEY_HOME && bPressed ){
         GUI::ToggleUI();
-    }
+	}
 	inputInternalVMT->GetOriginalMethod<SetKeyCodeStateFn>(92)(thisptr, code, bPressed);
 }

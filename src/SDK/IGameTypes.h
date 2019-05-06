@@ -1,7 +1,5 @@
 // Pasted from https://github.com/pmrowla/hl2sdk-csgo/blob/master/public/matchmaking/igametypes.h
-
 #pragma once
-
 namespace ELOGameType
 {
 	enum GameType
@@ -31,19 +29,19 @@ typedef ELOCalcMode::CalcMode ELOCalcMode_t;
 
 #define VENGINE_GAMETYPES_VERSION "VENGINE_GAMETYPES_VERSION002"
 
-abstract_class IGameTypes
+//xref "GamesTypes: no game types have been" to GameTypes::GetCurrentGameTypeNameID(void)
+class IGameTypes
 {
 public:
+	/*
 	class WeaponProgression
 	{
 	public:
 		CUtlString m_Name;
 		int m_Kills;
-	};
-	
-public:
-	virtual ~IGameTypes() {}
-	
+	};*/
+	virtual ~IGameTypes() = 0;
+
 	virtual bool Initialize( bool force ) = 0;
 	virtual bool IsInitialized() const = 0;
 	
@@ -62,7 +60,7 @@ public:
 	
 	virtual int GetCurrentGameType() const = 0;
 	virtual int GetCurrentGameMode() const = 0;
-	
+
 	virtual const char *GetCurrentMapName() = 0;
 	
 	virtual const char *GetCurrentGameTypeNameID() = 0;
@@ -70,7 +68,7 @@ public:
 	
 	virtual bool ApplyConvarsForCurrentMode( bool isMultiplayer ) = 0;
 	virtual void DisplayConvarsForCurrentMode() = 0;
-	
+	/*
 	virtual const CUtlVector< WeaponProgression > *GetWeaponProgressionForCurrentModeCT() = 0;
 	virtual const CUtlVector< WeaponProgression > *GetWeaponProgressionForCurrentModeT() = 0;
 	
@@ -131,4 +129,5 @@ public:
 	
 	virtual int GetCurrentServerNumSlots() = 0;
 	virtual int GetCurrentServerSettingInt(const char *settingName, int defaultValue) = 0;
+	 */
 };
