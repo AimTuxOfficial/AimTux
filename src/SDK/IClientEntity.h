@@ -221,6 +221,11 @@ public:
 	{
 		return *(TeamID*)((uintptr_t)this + offsets.DT_BaseEntity.m_iTeamNum);
 	}
+	
+	int GetSurvivalTeam()
+	{
+		return *(int*)((uintptr_t)this + offsets.DT_CSPlayer.m_nSurvivalTeam);
+	}
 
 	Vector GetVecOrigin()
 	{

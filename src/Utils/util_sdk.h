@@ -12,4 +12,6 @@ namespace Util
 
 	IMaterial* CreateMaterial(std::string type, std::string texture, bool ignorez, bool nofog, bool model, bool nocull, bool halflambert);
 	const char *GetActivityName(int actNum);
+
+	bool IsDangerZone(); // TODO: Use interfaces since we are internal.
 }

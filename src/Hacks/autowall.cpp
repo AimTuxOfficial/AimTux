@@ -2,6 +2,7 @@
 
 #include "aimbot.h"
 #include "../Utils/math.h"
+#include "../Utils/entity.h"
 #include "../interfaces.h"
 
 static float GetHitgroupDamageMultiplier(HitGroups iHitGroup)
@@ -218,7 +219,7 @@ static bool SimulateFireBullet(C_BaseCombatWeapon* pWeapon, bool teamCheck, Auto
 			data.current_damage *= powf(weaponInfo->GetRangeModifier(), data.trace_length * 0.002f);
 
 			C_BasePlayer* player = (C_BasePlayer*) data.enter_trace.m_pEntityHit;
-			if (teamCheck && player->GetTeam() == localplayer->GetTeam())
+			if (teamCheck && Entity::IsTeamMate(player, localplayer))
 				return false;
 
 			ScaleDamage(data.enter_trace.hitgroup, player, weaponInfo->GetWeaponArmorRatio(), data.current_damage);

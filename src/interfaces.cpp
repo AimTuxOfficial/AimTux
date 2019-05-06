@@ -41,6 +41,7 @@ IEngineTrace* trace = nullptr;
 CViewRender* viewRender = nullptr;
 IPanoramaUIEngine* panoramaEngine = nullptr;
 IFileSystem* fileSystem = nullptr;
+IGameTypes* gameTypes = nullptr;
 
 
 void Interfaces::FindInterfaces()
@@ -69,6 +70,7 @@ void Interfaces::FindInterfaces()
 	commandline = GetSymbolAddress<CommandLineFn>(XORSTR("./bin/linux64/libtier0_client.so"), XORSTR("CommandLine"))();
     panoramaEngine = GetInterface<IPanoramaUIEngine>(XORSTR("./bin/linux64/panorama_client.so"), XORSTR("PanoramaUIEngine001"), true);
 	fileSystem = GetInterface<IFileSystem>( XORSTR( "./bin/linux64/filesystem_stdio_client.so" ), XORSTR( "VFileSystem" ) );
+	gameTypes = GetInterface<IGameTypes>(XORSTR("./csgo/bin/linux64/matchmaking_client.so"), XORSTR("VENGINE_GAMETYPES_VERSION002"), true);
 }
 
 void Interfaces::DumpInterfaces()

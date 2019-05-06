@@ -1,6 +1,7 @@
 #include "hitmarkers.h"
 
 #include "../Utils/xorstring.h"
+#include "../Utils/entity.h"
 #include "../settings.h"
 #include "../fonts.h"
 #include "../settings.h"
@@ -115,10 +116,10 @@ void Hitmarkers::FireGameEvent(IGameEvent* event)
 	if (!hurt_player)
 		return;
 
-	if (hurt_player->GetTeam() == localplayer->GetTeam() && !Settings::ESP::Hitmarker::allies)
+	if (Entity::IsTeamMate(hurt_player, localplayer) && !Settings::ESP::Hitmarker::allies)
 		return;
 
-	if (hurt_player->GetTeam() != localplayer->GetTeam() && !Settings::ESP::Hitmarker::enemies)
+	if (!Entity::IsTeamMate(hurt_player, localplayer) && !Settings::ESP::Hitmarker::enemies)
 		return;
 
 	long now = Util::GetEpochTime();

@@ -115,6 +115,7 @@ struct COffsets
 		std::ptrdiff_t m_flFlashDuration;
 		std::ptrdiff_t m_flFlashMaxAlpha;
 		std::ptrdiff_t m_flLowerBodyYawTarget;
+		std::ptrdiff_t m_nSurvivalTeam;
 	} DT_CSPlayer;
 
 	struct

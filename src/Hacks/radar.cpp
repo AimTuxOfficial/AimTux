@@ -97,7 +97,7 @@ static ImColor GetRadarPlayerColor(C_BasePlayer* player, bool visible)
 
 	if (Settings::Radar::teamColorType == TeamColorType::RELATIVE)
 	{
-		if (player->GetTeam() != localplayer->GetTeam())
+		if (!Entity::IsTeamMate(player, localplayer))
 		{
 			if (visible)
 				playerColor = Settings::Radar::enemyVisibleColor.Color(player);
@@ -199,13 +199,13 @@ void Radar::RenderWindow()
 				if (player->GetDormant() || !player->GetAlive())
 					continue;
 
-				if (player->GetTeam() == localplayer->GetTeam() && !Settings::Radar::allies)
+				if (Entity::IsTeamMate(player, localplayer) && !Settings::Radar::allies)
 					continue;
 
-				if (player->GetTeam() != localplayer->GetTeam() && !Settings::Radar::enemies)
+				if (!Entity::IsTeamMate(player, localplayer) && !Settings::Radar::enemies)
 					continue;
 
-				bool bIsVisible = player->GetTeam() == localplayer->GetTeam() || (Settings::Radar::visibilityCheck && (*player->GetSpotted() || std::find(visible_players.begin(), visible_players.end(), i) != visible_players.end()));
+				bool bIsVisible = Entity::IsTeamMate(player, localplayer) || (Settings::Radar::visibilityCheck && (*player->GetSpotted() || std::find(visible_players.begin(), visible_players.end(), i) != visible_players.end()));
 				if (!bIsVisible && Settings::Radar::legit)
 					continue;
 

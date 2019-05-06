@@ -1,7 +1,8 @@
 #include "util_sdk.h"
+#include "../interfaces.h"
+#include "xorstring.h"
 
 #include <sstream>
-#include "../interfaces.h"
 #include <algorithm>
 
 static const char *ActivityStrings[] =
@@ -1089,4 +1090,9 @@ const char* Util::GetActivityName(int actNum) {
 		return "ACT_INVALID";
 	}
 	return ActivityStrings[actNum];
+}
+
+bool Util::IsDangerZone()
+{
+	return (gameTypes->GetCurrentGameType() == 6);
 }

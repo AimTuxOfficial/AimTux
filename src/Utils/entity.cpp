@@ -119,17 +119,14 @@ bool Entity::IsVisibleThroughEnemies(C_BasePlayer *player, int bone, float fov, 
 		return false;
 
 
-	if( tr.m_pEntityHit )
+	if (tr.m_pEntityHit)
 	{
-		if( tr.m_pEntityHit != player )
+		if (tr.m_pEntityHit != player)
 		{
-			if( tr.m_pEntityHit->GetTeam() == player->GetTeam() ) // if someone from the same team
-			{
+			if (Entity::IsTeamMate((C_BasePlayer*)tr.m_pEntityHit, player)) // if someone from the same team
 				return true;
-			}
-		} else{
-			return true;
 		}
+		else return true;
 	}
 	return false;
 }
@@ -165,17 +162,14 @@ bool Entity::IsSpotVisibleThroughEnemies(C_BasePlayer *player, Vector spot, floa
 		return false;
 
 
-	if( tr.m_pEntityHit )
+	if (tr.m_pEntityHit)
 	{
-		if( tr.m_pEntityHit != player )
+		if (tr.m_pEntityHit != player)
 		{
-			if( tr.m_pEntityHit->GetTeam() == player->GetTeam() ) // if someone from the same team
-			{
+			if (Entity::IsTeamMate((C_BasePlayer*)tr.m_pEntityHit, player)) // if someone from the same team
 				return true;
-			}
-		} else{
-			return true;
 		}
+		else return true;
 	}
 	return false;
 }
@@ -217,4 +211,12 @@ Bone Entity::GetBoneByName(C_BasePlayer* player, const char* boneName)
 	}
 
 	return Bone::INVALID;
+}
+
+bool Entity::IsTeamMate(C_BasePlayer* player, C_BasePlayer* localPlayer)
+{
+	if (Util::IsDangerZone())
+		return (localPlayer->GetSurvivalTeam() == -1) ? false : (localPlayer->GetSurvivalTeam() == player->GetSurvivalTeam());
+	else
+		return player->GetTeam() == localPlayer->GetTeam();
 }
