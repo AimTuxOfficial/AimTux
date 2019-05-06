@@ -126,7 +126,6 @@ void MainThread()
 	srand(time(nullptr)); // Seed random # Generator so we can call rand() later
 
     cvar->ConsoleColorPrintf(ColorRGBA(0, 225, 0), XORSTR("\nFuzion Successfully loaded.\n"));
-    cvar->ConsoleDPrintf("GameTypes @ %p\n", (void*)gameTypes);
 }
 /* Entrypoint to the Library. Called when loading */
 int __attribute__((constructor)) Startup()
