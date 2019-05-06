@@ -29,7 +29,7 @@ std::vector<VMT*> createdVMTs;
 void MainThread()
 {
 	Interfaces::FindInterfaces();
-    Interfaces::DumpInterfaces();
+    //Interfaces::DumpInterfaces();
     cvar->ConsoleDPrintf(XORSTR("Loading...\n"));
 	Hooker::FindSetNamedSkybox();
 	Hooker::FindViewRender();
