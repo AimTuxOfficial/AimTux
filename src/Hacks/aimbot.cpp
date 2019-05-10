@@ -49,6 +49,7 @@ float Settings::Aimbot::RCS::valueY = 2.0f;
 bool Settings::Aimbot::AutoCrouch::enabled = false;
 bool Settings::Aimbot::NoShoot::enabled = false;
 bool Settings::Aimbot::IgnoreJump::enabled = false;
+bool Settings::Aimbot::IgnoreEnemyJump::enabled = false;
 bool Settings::Aimbot::SmokeCheck::enabled = false;
 bool Settings::Aimbot::FlashCheck::enabled = false;
 bool Settings::Aimbot::SpreadLimit::enabled = false;
@@ -755,7 +756,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 
 	shouldAim = Settings::Aimbot::AutoShoot::enabled;
 
-	if (Settings::Aimbot::IgnoreJump::enabled && !(localplayer->GetFlags() & FL_ONGROUND))
+	if (Settings::Aimbot::IgnoreJump::enabled && (!(localplayer->GetFlags() & FL_ONGROUND) && localplayer->GetMoveType() != MOVETYPE_LADDER))
 		return;
 
 	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
@@ -770,37 +771,44 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	float bestDamage = 0.0f;
 	C_BasePlayer* player = GetClosestPlayerAndSpot(cmd, !Settings::Aimbot::AutoWall::enabled, &bestSpot, &bestDamage);
 
-	if ( player ) {
-		if ( Settings::Aimbot::AutoAim::enabled ) {
-			if ( cmd->buttons & IN_ATTACK && !Settings::Aimbot::aimkeyOnly )
+	if (player)
+	{
+		if (Settings::Aimbot::IgnoreEnemyJump::enabled (!(player->GetFlags() & FL_ONGROUND) && player->GetMoveType() != MOVETYPE_LADDER))
+			return;
+
+		if (Settings::Aimbot::AutoAim::enabled)
+		{
+			if (cmd->buttons & IN_ATTACK && !Settings::Aimbot::aimkeyOnly)
 				shouldAim = true;
 
-			if ( inputSystem->IsButtonDown( Settings::Aimbot::aimkey ) )
+			if (inputSystem->IsButtonDown(Settings::Aimbot::aimkey))
 				shouldAim = true;
 
 			Settings::Debug::AutoAim::target = bestSpot; // For Debug showing aimspot.
-			if ( shouldAim ) {
-				if ( Settings::Aimbot::Prediction::enabled ) {
-					localEye = VelocityExtrapolate( localplayer, localEye ); // get eye pos next tick
-					bestSpot = VelocityExtrapolate( player, bestSpot ); // get target pos next tick
+			if (shouldAim)
+			{
+				if (Settings::Aimbot::Prediction::enabled)
+				{
+					localEye = VelocityExtrapolate(localplayer, localEye); // get eye pos next tick
+					bestSpot = VelocityExtrapolate(player, bestSpot); // get target pos next tick
 				}
-				angle = Math::CalcAngle( localEye, bestSpot );
+				angle = Math::CalcAngle(localEye, bestSpot);
 
-				if ( Settings::Aimbot::ErrorMargin::enabled ) {
+				if (Settings::Aimbot::ErrorMargin::enabled)
+				{
 					static int lastShotFired = 0;
-					if ( ( localplayer->GetShotsFired( ) > lastShotFired ) || newTarget )//get new random spot when firing a shot or when aiming at a new target
-					{
-						lastRandom = ApplyErrorToAngle( &angle, Settings::Aimbot::ErrorMargin::value );
-					}
+					if ((localplayer->GetShotsFired() > lastShotFired) || newTarget) //get new random spot when firing a shot or when aiming at a new target
+						lastRandom = ApplyErrorToAngle(&angle, Settings::Aimbot::ErrorMargin::value);
 
 					angle += lastRandom;
-
-					lastShotFired = localplayer->GetShotsFired( );
+					lastShotFired = localplayer->GetShotsFired();
 				}
 				newTarget = false;
 			}
 		}
-	} else { // No player to Shoot
+	}
+	else // No player to Shoot
+	{
         Settings::Debug::AutoAim::target = {0,0,0};
         newTarget = true;
         lastRandom = {0,0,0};
@@ -894,6 +902,7 @@ void Aimbot::UpdateValues()
 	Settings::Aimbot::RCS::valueY = currentWeaponSetting.rcsAmountY;
 	Settings::Aimbot::NoShoot::enabled = currentWeaponSetting.noShootEnabled;
 	Settings::Aimbot::IgnoreJump::enabled = currentWeaponSetting.ignoreJumpEnabled;
+	Settings::Aimbot::IgnoreEnemyJump::enabled = currentWeaponSetting.ignoreEnemyJumpEnabled;
 	Settings::Aimbot::Smooth::Salting::enabled = currentWeaponSetting.smoothSaltEnabled;
 	Settings::Aimbot::Smooth::Salting::multiplier = currentWeaponSetting.smoothSaltMultiplier;
 	Settings::Aimbot::SmokeCheck::enabled = currentWeaponSetting.smokeCheck;
