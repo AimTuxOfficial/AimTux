@@ -620,6 +620,35 @@ static void AutoSlow(C_BasePlayer* player, float& forward, float& sideMove, floa
 	}
 }
 
+static void AutoCock(C_BasePlayer* player, C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd)
+{
+    if (!Settings::Aimbot::AutoShoot::enabled)
+        return;
+
+    if (Settings::Aimbot::AimStep::enabled && Aimbot::aimStepInProgress)
+        return;
+
+    if (*activeWeapon->GetItemDefinitionIndex() != ItemDefinitionIndex::WEAPON_REVOLVER)
+        return;
+
+    if(activeWeapon->GetAmmo() == 0)
+        return;
+    if (cmd->buttons & IN_USE)
+        return;
+
+    cmd->buttons |= IN_ATTACK;
+    float postponeFireReadyTime = activeWeapon->GetPostPoneReadyTime();
+    if (postponeFireReadyTime > 0)
+    {
+        if (postponeFireReadyTime < globalVars->curtime)
+        {
+            if (player)
+                return;
+            cmd->buttons &= ~IN_ATTACK;
+        }
+    }
+}
+
 static void AutoPistol(C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd)
 {
 	if (!Settings::Aimbot::AutoPistol::enabled)
@@ -631,10 +660,8 @@ static void AutoPistol(C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd)
 	if (activeWeapon->GetNextPrimaryAttack() < globalVars->curtime)
 		return;
 
-	if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
-		cmd->buttons &= ~IN_ATTACK2;
-	else
-		cmd->buttons &= ~IN_ATTACK;
+    if (*activeWeapon->GetItemDefinitionIndex() != ItemDefinitionIndex::WEAPON_REVOLVER)
+        cmd->buttons &= ~IN_ATTACK;
 }
 
 static void AutoShoot(C_BasePlayer* player, C_BaseCombatWeapon* activeWeapon, CUserCmd* cmd)
@@ -667,20 +694,13 @@ static void AutoShoot(C_BasePlayer* player, C_BaseCombatWeapon* activeWeapon, CU
 
 	float nextPrimaryAttack = activeWeapon->GetNextPrimaryAttack();
 
-	if (nextPrimaryAttack > globalVars->curtime)
-	{
-		if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
-			cmd->buttons &= ~IN_ATTACK2;
-		else
-			cmd->buttons &= ~IN_ATTACK;
-	}
-	else
-	{
-		if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER)
-			cmd->buttons |= IN_ATTACK2;
-		else
-			cmd->buttons |= IN_ATTACK;
-	}
+    if (!(*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_REVOLVER))
+    {
+        if (nextPrimaryAttack > globalVars->curtime)
+            cmd->buttons &= ~IN_ATTACK;
+        else
+            cmd->buttons |= IN_ATTACK;
+    }
 }
 
 static void NoShoot(C_BaseCombatWeapon* activeWeapon, C_BasePlayer* player, CUserCmd* cmd)
@@ -791,6 +811,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	AutoSlow(player, oldForward, oldSideMove, bestDamage, activeWeapon, cmd);
 	AutoPistol(activeWeapon, cmd);
 	AutoShoot(player, activeWeapon, cmd);
+	AutoCock(player, activeWeapon, cmd);
 	RCS(angle, player, cmd);
 	Smooth(player, angle);
 	NoShoot(activeWeapon, player, cmd);
