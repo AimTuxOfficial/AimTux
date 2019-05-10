@@ -443,7 +443,7 @@ namespace Settings
 			extern bool enabled;
 		}
 
-        namespace IgnoreJump
+		namespace IgnoreJump
 		{
 			extern bool enabled;
 		}
