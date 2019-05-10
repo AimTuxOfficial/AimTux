@@ -773,7 +773,7 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 
 	if (player)
 	{
-		if (Settings::Aimbot::IgnoreEnemyJump::enabled (!(player->GetFlags() & FL_ONGROUND) && player->GetMoveType() != MOVETYPE_LADDER))
+		if (Settings::Aimbot::IgnoreEnemyJump::enabled && (!(player->GetFlags() & FL_ONGROUND) && player->GetMoveType() != MOVETYPE_LADDER))
 			return;
 
 		if (Settings::Aimbot::AutoAim::enabled)
