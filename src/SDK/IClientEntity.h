@@ -699,6 +699,11 @@ public:
 		return *(float*)((uintptr_t)this + offsets.DT_WeaponCSBase.m_fAccuracyPenalty);
 	}
 
+    float GetPostPoneReadyTime()
+    {
+        return *(float*)((uintptr_t) this + offsets.DT_WeaponCSBase.m_flPostponeFireReadyTime);
+    }
+
 	bool GetReloadVisuallyComplete()
 	{
 		return *(bool*)((uintptr_t)this + offsets.DT_WeaponCSBase.m_bReloadVisuallyComplete);
