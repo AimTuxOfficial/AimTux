@@ -158,7 +158,7 @@ struct AimbotWeapon_t
 		 autoScopeEnabled,
 		 noShootEnabled,
 		 ignoreJumpEnabled,
-         ignoreEnemyJumpEnabled,
+		 ignoreEnemyJumpEnabled,
 		 smokeCheck,
 		 flashCheck,
 		 autoWallEnabled,
@@ -220,7 +220,7 @@ struct AimbotWeapon_t
 			this->autoScopeEnabled == another.autoScopeEnabled &&
 			this->noShootEnabled == another.noShootEnabled &&
 			this->ignoreJumpEnabled == another.ignoreJumpEnabled &&
-            this->ignoreEnemyJumpEnabled == another.ignoreEnemyJumpEnabled &&
+			this->ignoreEnemyJumpEnabled == another.ignoreEnemyJumpEnabled &&
 			this->smokeCheck == another.smokeCheck &&
 			this->flashCheck == another.flashCheck &&
 			this->spreadLimitEnabled == another.spreadLimitEnabled &&
@@ -448,7 +448,7 @@ namespace Settings
 			extern bool enabled;
 		}
 
-        namespace IgnoreEnemyJump
+		namespace IgnoreEnemyJump
 		{
 			extern bool enabled;
 		}
