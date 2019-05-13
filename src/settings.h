@@ -66,6 +66,11 @@ enum class BoxType : int
 	HITBOXES,
 };
 
+enum class SpriteType : int
+{
+	SPRITE_TUX,
+};
+
 enum class BarType : int
 {
 	VERTICAL,
@@ -619,6 +624,12 @@ namespace Settings
 		{
 			extern bool enabled;
 			extern BoxType type;
+		}
+
+		namespace Sprite
+		{
+			extern bool enabled;
+			extern SpriteType type;
 		}
 
 		namespace Bars

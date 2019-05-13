@@ -106,6 +106,18 @@ public:
 		return getvfunc<oDrawSetTexture>(this, 38)(this, textureID);
 	}
 
+	void DrawTexturedRect(int x0, int y0, int x1, int y1)
+	{
+		typedef void (* oDrawTexturedRect)(void*, int, int, int, int);
+		return getvfunc<oDrawTexturedRect>(this, 41)(this, x0, y0, x1, y1);
+	}
+
+	bool IsTextureIDValid(unsigned int textureID)
+	{
+		typedef bool (* oIsTextureIDValid)(void*, unsigned int);
+		return getvfunc<oIsTextureIDValid>(this, 42)(this, textureID);
+	}
+
 	int CreateNewTextureID(bool procedural)
 	{
 		typedef int (* oCreateNewTextureID)(void*, bool);
