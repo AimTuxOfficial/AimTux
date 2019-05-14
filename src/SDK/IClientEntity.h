@@ -221,7 +221,7 @@ public:
 	{
 		return *(TeamID*)((uintptr_t)this + offsets.DT_BaseEntity.m_iTeamNum);
 	}
-	
+
 	int GetSurvivalTeam()
 	{
 		return *(int*)((uintptr_t)this + offsets.DT_CSPlayer.m_nSurvivalTeam);
@@ -385,6 +385,11 @@ public:
 	int HasHelmet()
 	{
 		return *(int*)((uintptr_t)this + offsets.DT_CSPlayer.m_bHasHelmet);
+	}
+
+	bool IsFlashed() // Pasted from CSGOSimple.
+	{ // GetFlashBangTime() - globalVars->curtime > 2.0f
+		return *(float*)((uintptr_t)this->GetFlashMaxAlpha() - 0x8) > 200.0;
 	}
 
 	float GetFlashBangTime()

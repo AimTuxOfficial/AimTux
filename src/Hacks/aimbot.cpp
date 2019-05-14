@@ -379,7 +379,7 @@ static C_BasePlayer* GetClosestPlayerAndSpot(CUserCmd* cmd, bool visibleCheck, V
 			continue;
 		if ( Settings::Aimbot::SmokeCheck::enabled && LineGoesThroughSmoke( localplayer->GetEyePosition( ), eVecTarget, true ) )
 			continue;
-		if ( Settings::Aimbot::FlashCheck::enabled && localplayer->GetFlashBangTime( ) - globalVars->curtime > 2.0f )
+		if ( Settings::Aimbot::FlashCheck::enabled && localplayer->IsFlashed() )
 			continue;
 
 		if (Settings::Aimbot::AutoWall::enabled)

@@ -915,7 +915,7 @@ static void DrawPlayerText( C_BasePlayer* player, int x, int y, int w, int h ) {
 	if ( Settings::ESP::Info::reloading && activeWeapon && activeWeapon->GetInReload() )
 		stringsToShow.push_back( XORSTR( "Reloading" ) );
 	/***************************/
-	if ( Settings::ESP::Info::flashed && player->GetFlashBangTime() - globalVars->curtime > 2.0f )
+	if ( Settings::ESP::Info::flashed && player->IsFlashed())
 		stringsToShow.push_back( XORSTR( "Flashed" ) );
 	if ( Settings::ESP::Info::planting && Entity::IsPlanting( player ) )
 		stringsToShow.push_back( XORSTR( "Planting" ) );
