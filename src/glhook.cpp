@@ -71,7 +71,7 @@ void SDL2::SwapWindow(SDL_Window* window)
 
 	ImGui_ImplSdl_NewFrame(window);
 
-	//ImGui::GetIO().MouseDrawCursor = UI::isVisible;
+	ImGui::GetIO().MouseDrawCursor = UI::isVisible;
 	ImGui::GetIO().WantCaptureMouse = UI::isVisible;
 	ImGui::GetIO().WantCaptureKeyboard = UI::isVisible;
 
