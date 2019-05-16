@@ -11,6 +11,9 @@
 #include "../Utils/xorstring.h"
 #include "../Hooks/hooks.h"
 
+#include "../ATGUI/texture.h"
+#include "../Resources/tux.h"
+
 #include <climits>
 #include <deque>
 #include <mutex>
@@ -83,6 +86,8 @@ bool Settings::ESP::Info::rescuing = false;
 bool Settings::ESP::Info::location = false;
 bool Settings::ESP::Boxes::enabled = false;
 BoxType Settings::ESP::Boxes::type = BoxType::FRAME_2D;
+bool Settings::ESP::Sprite::enabled = false;
+SpriteType Settings::ESP::Sprite::type = SpriteType::SPRITE_TUX;
 bool Settings::ESP::Bars::enabled = false;
 BarColorType Settings::ESP::Bars::colorType = BarColorType::HEALTH_BASED;
 BarType Settings::ESP::Bars::type = BarType::HORIZONTAL;
@@ -518,6 +523,15 @@ static void DrawBox( ImColor color, int x, int y, int w, int h, C_BaseEntity* en
         playerDrawTimes[entity->GetIndex()] = Util::GetEpochTime();
     }
 }*/
+}
+
+static void DrawSprite( int x, int y, int w, int h, C_BaseEntity* entity ){
+	if ( Settings::ESP::Sprite::type == SpriteType::SPRITE_TUX ) {
+		static Texture sprite(tux_rgba, tux_width, tux_height);
+		
+		sprite.Draw(x, y, ((float)h/tux_height)*tux_width, h);
+	}
+	// TODO: Handle other sprites
 }
 
 static void DrawEntity( C_BaseEntity* entity, const char* string, ImColor color ) {
@@ -962,6 +976,9 @@ static void DrawPlayer(C_BasePlayer* player)
 
 	if (Settings::ESP::Boxes::enabled)
 		DrawBox(playerColor, x, y, w, h, player);
+
+        if (Settings::ESP::Sprite::enabled)
+                DrawSprite(x, y, w, h, player);
 
 	if (Settings::ESP::Bars::enabled)
 		DrawPlayerHealthBars( player, x, y, w, h, playerColor );
