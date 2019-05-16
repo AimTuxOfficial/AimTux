@@ -528,7 +528,7 @@ static void DrawBox( ImColor color, int x, int y, int w, int h, C_BaseEntity* en
 static void DrawSprite( int x, int y, int w, int h, C_BaseEntity* entity ){
 	if ( Settings::ESP::Sprite::type == SpriteType::SPRITE_TUX ) {
 		static Texture sprite(tux_rgba, tux_width, tux_height);
-		
+
 		sprite.Draw(x, y, ((float)h/tux_height)*tux_width, h);
 	}
 	// TODO: Handle other sprites
@@ -1276,6 +1276,8 @@ static void DrawFOVCrosshair()
 	}
 	else
 		radius = ((Settings::Aimbot::AutoAim::fov / OverrideView::currentFOV) * width) / 2;
+
+	radius = std::min(radius, (((180.f / OverrideView::currentFOV) * width) / 2)); // prevents a big radius (CTD).
 
 	if (Settings::ESP::FOVCrosshair::filled)
 		Draw::AddCircleFilled(width / 2, height / 2 , radius, Settings::ESP::FOVCrosshair::color.Color(), std::max(12, (int)radius*2));
