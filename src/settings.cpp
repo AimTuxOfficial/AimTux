@@ -748,6 +748,8 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings[XORSTR("ESP")][XORSTR("Info")][XORSTR("location")], &Settings::ESP::Info::location);
 	GetVal(settings[XORSTR("ESP")][XORSTR("Boxes")][XORSTR("enabled")], &Settings::ESP::Boxes::enabled);
 	GetVal(settings[XORSTR("ESP")][XORSTR("Boxes")][XORSTR("type")], (int*)& Settings::ESP::Boxes::type);
+	GetVal(settings[XORSTR("ESP")][XORSTR("Sprite")][XORSTR("enabled")], &Settings::ESP::Sprite::enabled);
+	GetVal(settings[XORSTR("ESP")][XORSTR("Sprite")][XORSTR("type")], (int*)&Settings::ESP::Sprite::type);
 	GetVal(settings[XORSTR("ESP")][XORSTR("Skeleton")][XORSTR("enabled")], &Settings::ESP::Skeleton::enabled);
 	GetVal(settings[XORSTR("ESP")][XORSTR("Skeleton")][XORSTR("color")], &Settings::ESP::Skeleton::color);
 	GetVal(settings[XORSTR("ESP")][XORSTR("Bars")][XORSTR("enabled")], &Settings::ESP::Bars::enabled);

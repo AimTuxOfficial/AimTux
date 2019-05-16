@@ -977,8 +977,8 @@ static void DrawPlayer(C_BasePlayer* player)
 	if (Settings::ESP::Boxes::enabled)
 		DrawBox(playerColor, x, y, w, h, player);
 
-        if (Settings::ESP::Sprite::enabled)
-                DrawSprite(x, y, w, h, player);
+	if (Settings::ESP::Sprite::enabled)
+        DrawSprite(x, y, w, h, player);
 
 	if (Settings::ESP::Bars::enabled)
 		DrawPlayerHealthBars( player, x, y, w, h, playerColor );
