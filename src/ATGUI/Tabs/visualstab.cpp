@@ -11,6 +11,7 @@ void Visuals::RenderTab()
 {
 	const char* BackendTypes[] = { "Surface (Valve)", "ImGUI (Custom/Faster)" };
 	const char* BoxTypes[] = { "Flat 2D", "Frame 2D", "Box 3D", "Hitboxes" };
+	const char* SpriteTypes[] = { "Tux" };
 	const char* TracerTypes[] = { "Bottom", "Cursor" };
 	const char* BarTypes[] = { "Vertical Left", "Vertical Right", "Horizontal Below", "Horizontal Above", "Interwebz" };
 	const char* BarColorTypes[] = { "Static", "Health Based" };
@@ -86,6 +87,7 @@ void Visuals::RenderTab()
 			ImGui::Columns(2, nullptr, true);
 			{
 				ImGui::Checkbox(XORSTR("Outline Box"), &Settings::ESP::Boxes::enabled);
+				ImGui::Checkbox(XORSTR("Sprite ESP"), &Settings::ESP::Sprite::enabled);
 				ImGui::Checkbox(XORSTR("Chams"), &Settings::ESP::Chams::enabled);
 				ImGui::Checkbox(XORSTR("Health"), &Settings::ESP::Bars::enabled);
 				ImGui::Checkbox(XORSTR("Tracers"), &Settings::ESP::Tracers::enabled);
@@ -101,6 +103,7 @@ void Visuals::RenderTab()
 			{
 				ImGui::PushItemWidth(-1);
 				ImGui::Combo(XORSTR("##BOXTYPE"), (int*)& Settings::ESP::Boxes::type, BoxTypes, IM_ARRAYSIZE(BoxTypes));
+				ImGui::Combo(XORSTR("##SPRITETYPE"), (int*)& Settings::ESP::Sprite::type, SpriteTypes, IM_ARRAYSIZE(SpriteTypes));
 				ImGui::Combo(XORSTR("##CHAMSTYPE"), (int*)& Settings::ESP::Chams::type, ChamsTypes, IM_ARRAYSIZE(ChamsTypes));
 				ImGui::Combo(XORSTR("##BARTYPE"), (int*)& Settings::ESP::Bars::type, BarTypes, IM_ARRAYSIZE(BarTypes));
 				ImGui::Combo(XORSTR("##TRACERTYPE"), (int*)& Settings::ESP::Tracers::type, TracerTypes, IM_ARRAYSIZE(TracerTypes));
