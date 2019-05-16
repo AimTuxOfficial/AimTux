@@ -284,7 +284,6 @@ public:
 
 	bool IsButtonDown(ButtonCode_t code)
 	{
-		//if (code == ButtonCode_t::KEY_DELETE) return true; // Allow "no key" on hacks.
 		typedef bool (* oIsButtonDown)(void*, ButtonCode_t);
 		return getvfunc<oIsButtonDown>(this, 15)(this, code);
 	}
@@ -297,7 +296,6 @@ public:
 
 	const char* ButtonCodeToString(ButtonCode_t code)
 	{
-		//if (code == ButtonCode_t::KEY_DELETE) return "-- NONE --"; // Stylizing UI::KeyBindButton.
 		typedef const char* (* oButtonCodeToString)(void*, ButtonCode_t);
 		return getvfunc<oButtonCodeToString>(this, 40)(this, code);
 	}

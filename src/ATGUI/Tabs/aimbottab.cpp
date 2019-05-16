@@ -489,21 +489,31 @@ void Aimbot::RenderTab()
 			{
 				if (ImGui::Checkbox(XORSTR("No Shoot"), &noShootEnabled))
 					UI::UpdateWeaponSettings();
-				if (ImGui::Checkbox(XORSTR("Auto Scope"), &autoScopeEnabled))
-					UI::UpdateWeaponSettings();
+
+				switch (currentWeapon)
+				{
+					case ItemDefinitionIndex::WEAPON_DEAGLE:
+					case ItemDefinitionIndex::WEAPON_ELITE:
+					case ItemDefinitionIndex::WEAPON_FIVESEVEN:
+					case ItemDefinitionIndex::WEAPON_GLOCK:
+					case ItemDefinitionIndex::WEAPON_TEC9:
+					case ItemDefinitionIndex::WEAPON_HKP2000:
+					case ItemDefinitionIndex::WEAPON_USP_SILENCER:
+					case ItemDefinitionIndex::WEAPON_P250:
+					case ItemDefinitionIndex::WEAPON_CZ75A:
+					case ItemDefinitionIndex::WEAPON_REVOLVER:
+						break;
+					default:
+						if (ImGui::Checkbox(XORSTR("Auto Scope"), &autoScopeEnabled))
+							UI::UpdateWeaponSettings();
+				}
+
 				if (ImGui::Checkbox(XORSTR("Flash Check"), &flashCheck))
 					UI::UpdateWeaponSettings();
-				ImGui::SetNextWindowSize(ImVec2((ImGui::GetWindowWidth()/4.25f),ImGui::GetWindowHeight()/8.f), ImGuiSetCond_Always);
-				if (ImGui::Button(XORSTR("Ignore Jump"), ImVec2(-1, 0)))
-					ImGui::OpenPopup(XORSTR("optionJump"));
-				if (ImGui::BeginPopup(XORSTR("optionJump")))
-				{
-					if (ImGui::Checkbox(XORSTR("Local"), &ignoreJumpEnabled))
-						UI::UpdateWeaponSettings();
-					if (ImGui::Checkbox(XORSTR("Enemies"), &ignoreEnemyJumpEnabled))
-						UI::UpdateWeaponSettings();
-					ImGui::EndPopup();
-				}
+				if (ImGui::Checkbox(XORSTR("Ignore Jump (Self)"), &ignoreJumpEnabled))
+					UI::UpdateWeaponSettings();
+				if (ImGui::Checkbox(XORSTR("Ignore Jump (Enemies)"), &ignoreEnemyJumpEnabled))
+					UI::UpdateWeaponSettings();
 			}
 
 
