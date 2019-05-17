@@ -40,9 +40,9 @@ void Misc::RenderTab()
 
 			ImGui::Columns(1);
 			ImGui::Separator();
-			
+
 			if (Settings::BHop::enabled)
-			{	
+			{
 				ImGui::Text(XORSTR("Humanizing"));
 				ImGui::Separator();
 				ImGui::Columns(2, nullptr, true);
@@ -68,15 +68,17 @@ void Misc::RenderTab()
 			}
 			ImGui::NextColumn();
 			{
-				ImGui::PushItemWidth(-1);
+				ImGui::PushItemWidth(Settings::AutoStrafe::type == AutostrafeType::AS_RAGE ? ImGui::CalcItemWidth() : -1);
 				ImGui::Combo(XORSTR("##STRAFETYPE"), (int*)& Settings::AutoStrafe::type, strafeTypes, IM_ARRAYSIZE(strafeTypes));
+
+				if (Settings::AutoStrafe::type == AutostrafeType::AS_RAGE)
+				{
+					ImGui::SameLine();
+					ImGui::Checkbox(XORSTR("Silent"), &Settings::AutoStrafe::silent);
+				}
+
 				ImGui::PopItemWidth();
 				UI::KeyBindButton(&Settings::EdgeJump::key);
-			}
-
-			if (Settings::AutoStrafe::type == AutostrafeType::AS_RAGE)
-			{
-				ImGui::Checkbox(XORSTR("Silent"), &Settings::AutoStrafe::silent);
 			}
 
 			ImGui::Columns(1);

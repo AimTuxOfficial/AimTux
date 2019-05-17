@@ -22,7 +22,7 @@ void BHop::CreateMove(CUserCmd* cmd)
 
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 
-	if (!localplayer)
+	if (!localplayer || !localplayer->GetAlive())
 		return;
 
 	if (localplayer->GetMoveType() == MOVETYPE_LADDER || localplayer->GetMoveType() == MOVETYPE_NOCLIP)

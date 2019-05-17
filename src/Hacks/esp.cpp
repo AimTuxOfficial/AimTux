@@ -528,7 +528,7 @@ static void DrawBox( ImColor color, int x, int y, int w, int h, C_BaseEntity* en
 static void DrawSprite( int x, int y, int w, int h, C_BaseEntity* entity ){
 	if ( Settings::ESP::Sprite::type == SpriteType::SPRITE_TUX ) {
 		static Texture sprite(tux_rgba, tux_width, tux_height);
-		
+
 		sprite.Draw(x, y, ((float)h/tux_height)*tux_width, h);
 	}
 	// TODO: Handle other sprites
@@ -915,7 +915,7 @@ static void DrawPlayerText( C_BasePlayer* player, int x, int y, int w, int h ) {
 	if ( Settings::ESP::Info::reloading && activeWeapon && activeWeapon->GetInReload() )
 		stringsToShow.push_back( XORSTR( "Reloading" ) );
 	/***************************/
-	if ( Settings::ESP::Info::flashed && player->GetFlashBangTime() - globalVars->curtime > 2.0f )
+	if ( Settings::ESP::Info::flashed && player->IsFlashed())
 		stringsToShow.push_back( XORSTR( "Flashed" ) );
 	if ( Settings::ESP::Info::planting && Entity::IsPlanting( player ) )
 		stringsToShow.push_back( XORSTR( "Planting" ) );
@@ -1231,55 +1231,58 @@ static void DrawGlow()
 
 static void DrawFOVCrosshair()
 {
-    if ( !Settings::ESP::FOVCrosshair::enabled )
-        return;
-
-    C_BasePlayer* localplayer = ( C_BasePlayer* ) entityList->GetClientEntity( engine->GetLocalPlayer() );
-    if ( !localplayer->GetAlive() )
-        return;
-
-	if( Settings::Aimbot::AutoAim::fov > OverrideView::currentFOV )
+	if (!Settings::ESP::FOVCrosshair::enabled)
 		return;
 
-    int width, height;
-	engine->GetScreenSize( width, height );
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer->GetAlive())
+		return;
 
-    float radius;
-    if ( Settings::Aimbot::AutoAim::realDistance ) {
-        Vector src3D, dst3D, forward;
-        trace_t tr;
-        Ray_t ray;
-        CTraceFilter filter;
+	if (Settings::Aimbot::AutoAim::fov > OverrideView::currentFOV)
+		return;
 
-        QAngle angles = viewanglesBackup;
-        Math::AngleVectors( angles, forward );
-        filter.pSkip = localplayer;
-        src3D = localplayer->GetEyePosition();
-        dst3D = src3D + ( forward * 8192 );
+	int width, height;
+	engine->GetScreenSize(width, height);
 
-        ray.Init( src3D, dst3D );
-        trace->TraceRay( ray, MASK_SHOT, &filter, &tr );
+	float radius;
+	if (Settings::Aimbot::AutoAim::realDistance)
+	{
+		Vector src3D, dst3D, forward;
+		trace_t tr;
+		Ray_t ray;
+		CTraceFilter filter;
 
-        QAngle leftViewAngles = QAngle( angles.x, angles.y - 90.f, 0.f );
-        Math::NormalizeAngles( leftViewAngles );
-        Math::AngleVectors( leftViewAngles, forward );
-        forward *= Settings::Aimbot::AutoAim::fov * 5.f;
+		QAngle angles = viewanglesBackup;
+		Math::AngleVectors(angles, forward);
+		filter.pSkip = localplayer;
+		src3D = localplayer->GetEyePosition();
+		dst3D = src3D + (forward * 8192);
 
-        Vector maxAimAt = tr.endpos + forward;
+		ray.Init(src3D, dst3D);
+		trace->TraceRay(ray, MASK_SHOT, &filter, &tr);
 
-        Vector max2D;
-        if ( debugOverlay->ScreenPosition( maxAimAt, max2D ) )
-            return;
+		QAngle leftViewAngles = QAngle(angles.x, angles.y - 90.f, 0.f);
+		Math::NormalizeAngles(leftViewAngles);
+		Math::AngleVectors(leftViewAngles, forward);
+		forward *= Settings::Aimbot::AutoAim::fov * 5.f;
 
-        radius = fabsf( width / 2 - max2D.x );
-    } else {
-        radius = ( ( Settings::Aimbot::AutoAim::fov / OverrideView::currentFOV ) * width ) / 2;
-    }
+		Vector maxAimAt = tr.endpos + forward;
 
-    if ( Settings::ESP::FOVCrosshair::filled )
-        Draw::AddCircleFilled( width / 2, height / 2 , radius, Settings::ESP::FOVCrosshair::color.Color(), std::max(12, (int)radius*2) );
-    else
-        Draw::AddCircle( width / 2, height / 2, radius, Settings::ESP::FOVCrosshair::color.Color(), std::max(12, (int)radius*2) );
+		Vector max2D;
+		if (debugOverlay->ScreenPosition(maxAimAt, max2D))
+			return;
+
+		radius = fabsf(width / 2 - max2D.x);
+	}
+	else
+		radius = ((Settings::Aimbot::AutoAim::fov / OverrideView::currentFOV) * width) / 2;
+
+	radius = std::min(radius, (((180.f / OverrideView::currentFOV) * width) / 2)); // prevents a big radius (CTD).
+
+	if (Settings::ESP::FOVCrosshair::filled)
+		Draw::AddCircleFilled(width / 2, height / 2 , radius, Settings::ESP::FOVCrosshair::color.Color(), std::max(12, (int)radius*2));
+	else
+		Draw::AddCircle(width / 2, height / 2, radius, Settings::ESP::FOVCrosshair::color.Color(), std::max(12, (int)radius*2));
 }
 
 static void DrawSpread()
