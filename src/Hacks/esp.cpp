@@ -918,10 +918,15 @@ static void DrawPlayerText( C_BasePlayer* player, int x, int y, int w, int h ) {
 
 	if ( Settings::ESP::Info::scoped && player->IsScoped() )
 		stringsToShow.push_back( XORSTR( "Scoped" ) );
-	/** This one doesn't work **/ //TODO: Fix
-	if ( Settings::ESP::Info::reloading && activeWeapon && activeWeapon->GetInReload() )
-		stringsToShow.push_back( XORSTR( "Reloading" ) );
-	/***************************/
+	if (Settings::ESP::Info::reloading)
+	{
+		CUtlVector<AnimationLayer> *layers = player->GetAnimOverlay();
+		for (int i = 0; i <= layers->Count(); i++)
+		{
+			if (player->GetSequenceActivity(layers->operator[](i).m_nSequence) == (int)CCSGOAnimStatePoses::ACT_CSGO_RELOAD && layers->operator[](i).m_flWeight != 0.f)
+				stringsToShow.push_back( XORSTR( "Reloading" ) );
+		}
+	}
 	if ( Settings::ESP::Info::flashed && player->IsFlashed())
 		stringsToShow.push_back( XORSTR( "Flashed" ) );
 	if ( Settings::ESP::Info::planting && Entity::IsPlanting( player ) )
