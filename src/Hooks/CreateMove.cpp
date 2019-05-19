@@ -4,6 +4,7 @@
 #include "../settings.h"
 
 #include "../Hacks/bhop.h"
+#include "../Hacks/noduckcooldown.h"
 #include "../Hacks/autostrafe.h"
 #include "../Hacks/showranks.h"
 #include "../Hacks/autodefuse.h"
@@ -40,6 +41,7 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 
 		/* run code that affects movement before prediction */
 		BHop::CreateMove(cmd);
+		NoDuckCooldown::CreateMove(cmd);
 		AutoStrafe::CreateMove(cmd);
 		ShowRanks::CreateMove(cmd);
 		AutoDefuse::CreateMove(cmd);

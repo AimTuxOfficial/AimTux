@@ -571,7 +571,7 @@ static void AutoCrouch(C_BasePlayer* player, CUserCmd* cmd)
 	if (!player)
 		return;
 
-	cmd->buttons |= IN_DUCK;
+	cmd->buttons |= IN_BULLRUSH | IN_DUCK;
 }
 
 static void AutoSlow(C_BasePlayer* player, float& forward, float& sideMove, float& bestDamage, C_BaseCombatWeapon* active_weapon, CUserCmd* cmd)
