@@ -62,6 +62,12 @@ namespace Util
 			{ ItemDefinitionIndexMap.at(i::WEAPON_KNIFE_SURVIVAL_BOWIE).entityName,	i::WEAPON_KNIFE_SURVIVAL_BOWIE },
 			{ ItemDefinitionIndexMap.at(i::WEAPON_KNIFE_BUTTERFLY).entityName,		i::WEAPON_KNIFE_BUTTERFLY },
 			{ ItemDefinitionIndexMap.at(i::WEAPON_KNIFE_PUSH).entityName,			i::WEAPON_KNIFE_PUSH },
+			{ ItemDefinitionIndexMap.at(i::WEAPON_KNIFE_URSUS).entityName,			i::WEAPON_KNIFE_URSUS },
+			{ ItemDefinitionIndexMap.at(i::WEAPON_KNIFE_GYPSY_JACKKNIFE).entityName,i::WEAPON_KNIFE_GYPSY_JACKKNIFE },
+			{ ItemDefinitionIndexMap.at(i::WEAPON_KNIFE_STILETTO).entityName,		i::WEAPON_KNIFE_STILETTO },
+			{ ItemDefinitionIndexMap.at(i::WEAPON_KNIFE_WIDOWMAKER).entityName,		i::WEAPON_KNIFE_WIDOWMAKER },
+			{ ItemDefinitionIndexMap.at(i::WEAPON_KNIFE_GHOST).entityName,			i::WEAPON_KNIFE_GHOST },
+			//{ ItemDefinitionIndexMap.at(i::WEAPON_KNIFEGG).entityName,				i::WEAPON_KNIFEGG },
 			{ ItemDefinitionIndexMap.at(i::GLOVE_STUDDED_BLOODHOUND).entityName, 	i::GLOVE_STUDDED_BLOODHOUND},
 			{ ItemDefinitionIndexMap.at(i::GLOVE_CT_SIDE).entityName,				i::GLOVE_CT_SIDE},
 			{ ItemDefinitionIndexMap.at(i::GLOVE_T_SIDE).entityName,				i::GLOVE_T_SIDE},
@@ -135,6 +141,12 @@ namespace Util
 				case ItemDefinitionIndex::WEAPON_KNIFE_FALCHION:
 				case ItemDefinitionIndex::WEAPON_KNIFE_SURVIVAL_BOWIE:
 				case ItemDefinitionIndex::WEAPON_KNIFE_PUSH:
+				case ItemDefinitionIndex::WEAPON_KNIFE_URSUS:
+				case ItemDefinitionIndex::WEAPON_KNIFE_GYPSY_JACKKNIFE:
+				case ItemDefinitionIndex::WEAPON_KNIFE_STILETTO:
+				case ItemDefinitionIndex::WEAPON_KNIFE_WIDOWMAKER:
+				case ItemDefinitionIndex::WEAPON_KNIFE_GHOST:
+				//case ItemDefinitionIndex::WEAPON_KNIFEGG:
 					return true;
 				default:
 					return false;
