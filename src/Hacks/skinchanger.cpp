@@ -33,6 +33,12 @@ std::unordered_map<ItemDefinitionIndex, AttribItem_t, Util::IntHash<ItemDefiniti
 		{ ItemDefinitionIndex::WEAPON_KNIFE_TACTICAL, { ItemDefinitionIndex::INVALID, 417, 0.0005f, -1, -1, -1, ""} },
 		{ ItemDefinitionIndex::WEAPON_KNIFE_PUSH, { ItemDefinitionIndex::INVALID, 417, 0.0005f, -1, -1, -1, ""} },
 		{ ItemDefinitionIndex::WEAPON_KNIFE_SURVIVAL_BOWIE, { ItemDefinitionIndex::INVALID, 417, 0.0005f, -1, -1, -1, ""} },
+		{ ItemDefinitionIndex::WEAPON_KNIFE_URSUS, { ItemDefinitionIndex::INVALID, 417, 0.0005f, -1, -1, -1, ""} },
+		{ ItemDefinitionIndex::WEAPON_KNIFE_GYPSY_JACKKNIFE, { ItemDefinitionIndex::INVALID, 417, 0.0005f, -1, -1, -1, ""} },
+		{ ItemDefinitionIndex::WEAPON_KNIFE_STILETTO, { ItemDefinitionIndex::INVALID, 417, 0.0005f, -1, -1, -1, ""} },
+		{ ItemDefinitionIndex::WEAPON_KNIFE_WIDOWMAKER, { ItemDefinitionIndex::INVALID, 417, 0.0005f, -1, -1, -1, ""} },
+		{ ItemDefinitionIndex::WEAPON_KNIFE_GHOST, { ItemDefinitionIndex::INVALID, 417, 0.0005f, -1, -1, -1, ""} },
+		//{ ItemDefinitionIndex::WEAPON_KNIFEGG, { ItemDefinitionIndex::INVALID, 417, 0.0005f, -1, -1, -1, ""} },
 		{ ItemDefinitionIndex::WEAPON_USP_SILENCER, { ItemDefinitionIndex::INVALID, 2, 0.0005f, -1, -1, -1, ""} },
 };
 
@@ -55,6 +61,12 @@ std::unordered_map<ItemDefinitionIndex, AttribItem_t, Util::IntHash<ItemDefiniti
 		{ ItemDefinitionIndex::WEAPON_KNIFE_TACTICAL, { ItemDefinitionIndex::INVALID, 417, 0.0005f, -1, -1, -1, ""} },
 		{ ItemDefinitionIndex::WEAPON_KNIFE_PUSH, { ItemDefinitionIndex::INVALID, 417, 0.0005f, -1, -1, -1, ""} },
 		{ ItemDefinitionIndex::WEAPON_KNIFE_SURVIVAL_BOWIE, { ItemDefinitionIndex::INVALID, 417, 0.0005f, -1, -1, -1, ""} },
+		{ ItemDefinitionIndex::WEAPON_KNIFE_URSUS, { ItemDefinitionIndex::INVALID, 417, 0.0005f, -1, -1, -1, ""} },
+		{ ItemDefinitionIndex::WEAPON_KNIFE_GYPSY_JACKKNIFE, { ItemDefinitionIndex::INVALID, 417, 0.0005f, -1, -1, -1, ""} },
+		{ ItemDefinitionIndex::WEAPON_KNIFE_STILETTO, { ItemDefinitionIndex::INVALID, 417, 0.0005f, -1, -1, -1, ""} },
+		{ ItemDefinitionIndex::WEAPON_KNIFE_WIDOWMAKER, { ItemDefinitionIndex::INVALID, 417, 0.0005f, -1, -1, -1, ""} },
+		{ ItemDefinitionIndex::WEAPON_KNIFE_GHOST, { ItemDefinitionIndex::INVALID, 417, 0.0005f, -1, -1, -1, ""} },
+		//{ ItemDefinitionIndex::WEAPON_KNIFEGG, { ItemDefinitionIndex::INVALID, 417, 0.0005f, -1, -1, -1, ""} },
 };
 
 std::unordered_map<std::string, std::string> killIcons = {};
@@ -448,6 +460,49 @@ void SkinChanger::SetViewModelSequence(const CRecvProxyData *pDataConst, void *p
 						m_nSequence--;
 				}
 			}
+			else if (szModel == "models/weapons/v_knife_ursus.mdl")
+			{
+				// Fix animations for the Ursus Knife.
+				switch (m_nSequence)
+				{
+					case SEQUENCE_DEFAULT_DRAW:
+						m_nSequence = Util::RandomInt(SEQUENCE_BUTTERFLY_DRAW, SEQUENCE_BUTTERFLY_DRAW2);
+						break;
+					case SEQUENCE_DEFAULT_LOOKAT01:
+						m_nSequence = Util::RandomInt(SEQUENCE_BUTTERFLY_LOOKAT01, 14);
+						break;
+					default:
+						m_nSequence++;
+				}
+			}
+			else if (szModel == "models/weapons/v_knife_stiletto.mdl")
+			{
+				// Fix animations for the Stiletto Knife.
+				switch (m_nSequence)
+				{
+					case SEQUENCE_DEFAULT_LOOKAT01:
+						m_nSequence = Util::RandomInt(12, 13);
+						break;
+				}
+			}
+			else if (szModel == "models/weapons/v_knife_widowmaker.mdl")
+			{
+				// Fix animations for the Talon Knife.
+				switch (m_nSequence)
+				{
+					case SEQUENCE_DEFAULT_LOOKAT01:
+						m_nSequence = Util::RandomInt(14, 15);
+						break;
+				}
+			}
+			//else if (szModel == "models/weapons/v_knife_gg.mdl")
+			//{
+			//		Fix animations for the Gold Knife.
+			//	switch (m_nSequence)
+			//	{
+			//		
+			//	}
+			//}
 
 			// Set the fixed sequence.
 			pData->m_Value.m_Int = m_nSequence;
