@@ -795,6 +795,11 @@ namespace Settings
 		}
 	}
 
+	namespace NoDuckCooldown
+	{
+		extern bool enabled;
+	}
+
 	namespace AutoStrafe
 	{
 		extern bool enabled;
