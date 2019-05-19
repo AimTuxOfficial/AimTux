@@ -3,13 +3,15 @@
 #include <cstdint>
 #include "vector.h"
 
-struct CViewSetup
-{
-	char pad_0000[16];
+struct CViewSetup {
+	int x;
+	int oldX;
+	int y;
+	int oldY;
 	int32_t width;
-	int32_t unscaledWidth;
+	int32_t oldWidth;
 	int32_t height;
-	int32_t unscaledHeight;
+	int32_t oldHeight;
 	char pad_0020[152];
 	float fov;
 	float fovViewModel;
@@ -28,6 +30,27 @@ struct CViewSetup
 	float m_flFarBlurRadius;
 	float m_nDoFQuality;
 	int32_t m_nMotionBlurMode;
+
+	float m_flShutterTime;
+	Vector m_vShutterOpenPosition;
+	QAngle m_shutterOpenAngles;
+	Vector m_vShutterClosePosition;
+	QAngle m_shutterCloseAngles;
+
+	float m_flOffCenterTop;
+	float m_flOffCenterBottom;
+	float m_flOffCenterLeft;
+	float m_flOffCenterRight;
+
+	bool m_bOffCenter : 1;
+	bool m_bRenderToSubrectOfLargerScreen : 1;
+	bool m_bDoBloomAndToneMapping : 1;
+	bool m_bDoDepthOfField : 1;
+	bool m_bHDRTarget : 1;
+	bool m_bDrawWorldNormal : 1;
+	bool m_bCullFrontFaces : 1;
+	bool m_bCacheFullSceneState : 1;
+	bool m_bRenderFlashlightDepthTranslucents : 1;
 };
 
 class CViewRender

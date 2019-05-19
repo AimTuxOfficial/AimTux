@@ -111,6 +111,7 @@ void MainThread()
 	surfaceVMT->ApplyVMT();
 
     viewRenderVMT = new VMT(viewRender);
+    viewRenderVMT->HookVM( ( void* ) Hooks::RenderView, 6 );
     viewRenderVMT->HookVM(Hooks::RenderSmokePostViewmodel, 42);
     viewRenderVMT->ApplyVMT();
     

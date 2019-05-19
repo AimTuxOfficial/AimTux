@@ -7,6 +7,7 @@ namespace Math {
     bool Cmpf( float f1, float f2, float epsilon = 0.005f );
 	void inline SinCos(float radians, float *sine, float *cosine);
 	void AngleVectors(const QAngle &angles, Vector &forward);
+	void AngleVectors( const Vector& angles, Vector* forward, Vector* right, Vector* up );
 	void NormalizeAngles(QAngle& angle);
 	void NormalizeYaw( float& yaw );
 	void ClampAngles(QAngle& angle);

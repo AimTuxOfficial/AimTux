@@ -91,6 +91,23 @@ struct Ray_t
 		m_StartOffset.x = m_StartOffset.y = m_StartOffset.z = 0.0f;
 		m_Start = vecStart;
 	}
+
+	void Init( Vector const& start, Vector const& end, Vector const& mins, Vector const& maxs ) {
+		m_Delta = end - start;
+
+		m_pWorldAxisTransform = NULL;
+		m_IsSwept = ( m_Delta.LengthSqr() != 0 );
+
+		m_Extents = maxs - mins;
+		m_Extents *= 0.5f;
+		m_IsRay = ( m_Extents.LengthSqr() < 1e-6 );
+
+		// Offset m_Start to be in the center of the box...
+		m_StartOffset = maxs + mins;
+		m_StartOffset *= 0.5f;
+		m_Start = start + m_StartOffset;
+		m_StartOffset *= -1.0f;
+	}
 };
 
 class ITraceFilter

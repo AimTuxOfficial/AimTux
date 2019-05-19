@@ -8,6 +8,7 @@
 #include "../Hacks/esp.h"
 #include "../Hacks/dlights.h"
 #include "../Hacks/grenadehelper.h"
+#include "../Hacks/grenadeprediction.h"
 #include "../Hacks/recoilcrosshair.h"
 #include "../Hacks/hitmarkers.h"
 #include "../Hacks/snipercrosshair.h"
@@ -42,6 +43,7 @@ void Hooks::Paint(void* thisptr, PaintMode_t mode)
         Hitmarkers::Paint();
         SniperCrosshair::Paint();
         AngleIndicator::Paint();
+        GrenadePrediction::Paint();
 
         if( Settings::ESP::backend == DrawingBackend::SURFACE ){
             StartDrawing(surface);
@@ -70,6 +72,7 @@ void Hooks::Paint(void* thisptr, PaintMode_t mode)
                         Draw::Text( value.x0, value.y0, value.text, esp_font, Color::FromImColor( value.color ) );
                         break;
                 }
+                #undef value
             }
             FinishDrawing(surface);
         }
@@ -110,5 +113,6 @@ void Hooks::PaintImGui()
                 Draw::ImText( ImVec2( value.x0, value.y0 ), value.color, value.text, nullptr, 0.0f, nullptr, value.fontflags );
                 break;
         }
+        #undef value
     }
 }

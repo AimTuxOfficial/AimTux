@@ -2,6 +2,8 @@
 
 #include "../SDK/SDK.h"
 
+#include <queue>
+
 namespace Hooks
 {
 	/* Client */
@@ -66,3 +68,17 @@ namespace SetKeyCodeState
 	extern bool shouldListen;
 	extern ButtonCode_t* keyOutput;
 }
+
+namespace RenderView
+{
+	struct RenderRequest
+	{
+		int destX, destY;
+		int width, height;
+		ITexture* tex;
+		IMaterial* mat;
+	};
+
+	extern std::queue<RenderView::RenderRequest> renderQueue;
+}
+typedef void (*RenderViewFn) (void*, CViewSetup&, CViewSetup&, unsigned int, int);

@@ -1024,6 +1024,12 @@ namespace Settings
 		extern std::string actMapName;
 	}
 
+	namespace GrenadePrediction
+	{
+		extern bool enabled;
+		extern ColorVar color;
+	}
+
 	namespace TracerEffects
 	{
 		extern bool enabled;
