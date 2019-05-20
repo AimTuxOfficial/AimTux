@@ -206,6 +206,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 		weaponSetting[XORSTR("AutoWall")][XORSTR("Value")] = i.second.autoWallValue;
 		weaponSetting[XORSTR("AutoSlow")][XORSTR("enabled")] = i.second.autoSlow;
 		weaponSetting[XORSTR("Prediction")][XORSTR("enabled")] = i.second.predEnabled;
+		weaponSetting[XORSTR("ScopeControl")][XORSTR("Enabled")] = i.second.scopeControlEnabled;
 
 		for (int bone = (int) DesiredBones::BONE_PELVIS; bone <= (int) DesiredBones::BONE_RIGHT_SOLE; bone++)
 			weaponSetting[XORSTR("DesiredBones")][XORSTR("Bones")][bone] = i.second.desiredBones[bone];
@@ -661,6 +662,7 @@ void Settings::LoadConfig(std::string path)
 				.autoAimRealDistance = weaponSetting[XORSTR( "AutoAim" )][XORSTR( "RealDistance" )].asBool(),
 				.autoSlow = weaponSetting[XORSTR( "AutoSlow" )][XORSTR( "enabled" )].asBool(),
 				.predEnabled = weaponSetting[XORSTR( "Prediction" )][XORSTR( "enabled" )].asBool(),
+				.scopeControlEnabled = weaponSetting[XORSTR( "ScopeControl" )][XORSTR( "Enabled" )].asBool(),
 
 				.engageLockTTR = weaponSetting[XORSTR( "engageLockTTR" )].asInt(),
 				.bone = (Bone) weaponSetting[XORSTR( "TargetBone" )].asInt(),

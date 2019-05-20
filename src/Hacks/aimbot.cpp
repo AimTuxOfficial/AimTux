@@ -59,6 +59,7 @@ float Settings::Aimbot::Smooth::Salting::multiplier = 0.0f;
 bool Settings::Aimbot::AutoSlow::enabled = false;
 bool Settings::Aimbot::AutoSlow::goingToSlow = false;
 bool Settings::Aimbot::Prediction::enabled = false;
+bool Settings::Aimbot::ScopeControl::enabled = false;
 
 bool Aimbot::aimStepInProgress = false;
 std::vector<int64_t> Aimbot::friends = { };
@@ -767,6 +768,12 @@ void Aimbot::CreateMove(CUserCmd* cmd)
 	if (weaponType == CSWeaponType::WEAPONTYPE_C4 || weaponType == CSWeaponType::WEAPONTYPE_GRENADE || weaponType == CSWeaponType::WEAPONTYPE_KNIFE)
 		return;
 
+	if (Settings::Aimbot::ScopeControl::enabled)
+	{
+		if (activeWeapon->GetCSWpnData()->GetZoomLevels() > 0 && !localplayer->IsScoped())
+			return;
+	}
+
     Vector bestSpot = {0,0,0};
 	float bestDamage = 0.0f;
 	C_BasePlayer* player = GetClosestPlayerAndSpot(cmd, !Settings::Aimbot::AutoWall::enabled, &bestSpot, &bestDamage);
@@ -912,6 +919,7 @@ void Aimbot::UpdateValues()
 	Settings::Aimbot::AutoWall::enabled = currentWeaponSetting.autoWallEnabled;
 	Settings::Aimbot::AutoWall::value = currentWeaponSetting.autoWallValue;
 	Settings::Aimbot::AutoSlow::enabled = currentWeaponSetting.autoSlow;
+	Settings::Aimbot::ScopeControl::enabled = currentWeaponSetting.scopeControlEnabled;
 
 	for (int bone = (int) DesiredBones::BONE_PELVIS; bone <= (int) DesiredBones::BONE_RIGHT_SOLE; bone++)
 		Settings::Aimbot::AutoAim::desiredBones[bone] = currentWeaponSetting.desiredBones[bone];

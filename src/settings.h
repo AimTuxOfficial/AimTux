@@ -171,7 +171,8 @@ struct AimbotWeapon_t
 		 autoWallEnabled,
 		 autoAimRealDistance,
 		 autoSlow,
-		 predEnabled;
+		 predEnabled,
+		 scopeControlEnabled;
 	int engageLockTTR = 700;
 	Bone bone = Bone::BONE_HEAD;
 	SmoothType smoothType = SmoothType::SLOW_END;
@@ -236,7 +237,8 @@ struct AimbotWeapon_t
 			this->autoWallValue == another.autoWallValue &&
 			this->autoSlow == another.autoSlow &&
 			this->predEnabled == another.predEnabled &&
-			this->autoAimRealDistance == another.autoAimRealDistance;
+			this->autoAimRealDistance == another.autoAimRealDistance &&
+			this->scopeControlEnabled == another.scopeControlEnabled;
 	}
 } const defaultSettings{};
 
@@ -477,6 +479,11 @@ namespace Settings
 		}
 
 		namespace Prediction
+		{
+			extern bool enabled;
+		}
+
+		namespace ScopeControl
 		{
 			extern bool enabled;
 		}

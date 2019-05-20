@@ -54,6 +54,7 @@ static float autoWallValue = 10.0f;
 static bool autoAimRealDistance = false;
 static bool autoSlow = false;
 static bool predEnabled = false;
+static bool scopeControlEnabled = false;
 
 void UI::ReloadWeaponSettings()
 {
@@ -102,6 +103,7 @@ void UI::ReloadWeaponSettings()
 	autoAimRealDistance = Settings::Aimbot::weapons.at(index).autoAimRealDistance;
 	autoSlow = Settings::Aimbot::weapons.at(index).autoSlow;
 	predEnabled = Settings::Aimbot::weapons.at(index).predEnabled;
+	scopeControlEnabled = Settings::Aimbot::weapons.at(index).scopeControlEnabled;
 
 	for (int bone = (int) DesiredBones::BONE_PELVIS; bone <= (int) DesiredBones::BONE_RIGHT_SOLE; bone++)
 		desiredBones[bone] = Settings::Aimbot::weapons.at(index).desiredBones[bone];
@@ -140,6 +142,7 @@ void UI::UpdateWeaponSettings()
 			.autoAimRealDistance = autoAimRealDistance,
 			.autoSlow = autoSlow,
 			.predEnabled = predEnabled,
+			.scopeControlEnabled = scopeControlEnabled,
 
 			.engageLockTTR = engageLockTTR,
 			.bone = bone,
@@ -505,6 +508,8 @@ void Aimbot::RenderTab()
 						break;
 					default:
 						if (ImGui::Checkbox(XORSTR("Auto Scope"), &autoScopeEnabled))
+							UI::UpdateWeaponSettings();
+						if (ImGui::Checkbox(XORSTR("Scope Control"), &scopeControlEnabled))
 							UI::UpdateWeaponSettings();
 				}
 
