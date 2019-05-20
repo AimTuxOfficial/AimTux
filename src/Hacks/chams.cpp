@@ -146,15 +146,8 @@ static void DrawArms(const ModelRenderInfo_t& pInfo)
 	if (!Settings::ESP::Chams::Arms::enabled)
 		mat = material->FindMaterial(modelName.c_str(), TEXTURE_GROUP_MODEL);
 
-	switch (Settings::ESP::Chams::Arms::type)
-	{
-		default:
-			break;
-		case ArmsType::DEFAULT:
-			mat->AlphaModulate(1.0f);
-			mat->ColorModulate(Settings::ESP::Chams::Arms::color.Color());
-			break;
-	}
+	mat->AlphaModulate(1.0f);
+	mat->ColorModulate(Settings::ESP::Chams::Arms::color.Color());
 
 	mat->SetMaterialVarFlag(MATERIAL_VAR_WIREFRAME, Settings::ESP::Chams::Arms::type == ArmsType::WIREFRAME);
 	mat->SetMaterialVarFlag(MATERIAL_VAR_NO_DRAW, Settings::ESP::Chams::Arms::type == ArmsType::NONE);
