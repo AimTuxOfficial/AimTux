@@ -576,7 +576,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	LoadColor(settings[XORSTR("GrenadeHelper")][XORSTR("infoFlash")], Settings::GrenadeHelper::infoFlash);
 
 	settings[XORSTR("GrenadePrediction")][XORSTR("enabled")] = Settings::GrenadePrediction::enabled;
-
+	LoadColor(settings[XORSTR("GrenadePrediction")][XORSTR("color")], Settings::GrenadePrediction::color);
 
 	settings[XORSTR("AutoKnife")][XORSTR("enabled")] = Settings::AutoKnife::enabled;
  	settings[XORSTR("AutoKnife")][XORSTR("Filters")][XORSTR("enemies")] = Settings::AutoKnife::Filters::enemies;
@@ -1103,6 +1103,7 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings[XORSTR("GrenadeHelper")][XORSTR("infoMolotov")], &Settings::GrenadeHelper::infoMolotov);
 
 	GetVal(settings[XORSTR("GrenadePrediction")][XORSTR("enabled")], &Settings::GrenadePrediction::enabled);
+	GetVal(settings[XORSTR("GrenadePrediction")][XORSTR("color")], &Settings::GrenadePrediction::color);
 
 	GetVal(settings[XORSTR("AutoKnife")][XORSTR("enabled")], &Settings::AutoKnife::enabled);
  	GetVal(settings[XORSTR("AutoKnife")][XORSTR("Filters")][XORSTR("enemies")], &Settings::AutoKnife::Filters::enemies);
