@@ -18,6 +18,7 @@ void Visuals::RenderTab()
 	const char* TeamColorTypes[] = { "Absolute", "Relative" };
 	const char* ChamsTypes[] = { "Normal", "Normal - XQZ", "Flat", "Flat - XQZ" };
 	const char* ArmsTypes[] = { "Default", "Wireframe", "None" };
+	const char* WeaponTypes[] = { "Default", "Wireframe", "None" };
 
 	const char* SkyBoxes[] = {
 			"cs_baggage_skybox_", // 0
@@ -215,11 +216,11 @@ void Visuals::RenderTab()
 			ImGui::Columns(2, nullptr, true);
 			{
 				ImGui::Checkbox(XORSTR("Arms"), &Settings::ESP::Chams::Arms::enabled);
+				ImGui::Checkbox(XORSTR("Weapons"), &Settings::ESP::Chams::Weapon::enabled);
 				ImGui::Checkbox(XORSTR("Dlights"), &Settings::Dlights::enabled);
 				ImGui::Checkbox(XORSTR("No Flash"), &Settings::Noflash::enabled);
 				ImGui::Checkbox(XORSTR("Show Footsteps"), &Settings::ESP::Sounds::enabled);
 				ImGui::Checkbox(XORSTR("No View Punch"), &Settings::View::NoViewPunch::enabled);
-				ImGui::Checkbox(XORSTR("Weapons"), &Settings::ESP::Chams::Weapon::enabled);
 				ImGui::Checkbox(XORSTR("No Sky"), &Settings::NoSky::enabled);
 				ImGui::Checkbox(XORSTR("No Smoke"), &Settings::NoSmoke::enabled);
 
@@ -395,6 +396,7 @@ void Visuals::RenderTab()
 			{
 				ImGui::PushItemWidth(-1);
 				ImGui::Combo(XORSTR("##ARMSTYPE"), (int*)& Settings::ESP::Chams::Arms::type, ArmsTypes, IM_ARRAYSIZE(ArmsTypes));
+				ImGui::Combo(XORSTR("##WEAPONTYPE"), (int*)& Settings::ESP::Chams::Weapon::type, WeaponTypes, IM_ARRAYSIZE(WeaponTypes));
 				ImGui::SliderFloat(XORSTR("##DLIGHTRADIUS"), &Settings::Dlights::radius, 0, 1000, XORSTR("Radius: %0.f"));
 				ImGui::SliderFloat(XORSTR("##NOFLASHAMOUNT"), &Settings::Noflash::value, 0, 255, XORSTR("Amount: %0.f"));
 				ImGui::SliderInt(XORSTR("##SOUNDSTIME"), &Settings::ESP::Sounds::time, 250, 5000, XORSTR("Timeout: %0.f"));

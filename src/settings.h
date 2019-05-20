@@ -99,6 +99,13 @@ enum class ArmsType : int
 	NONE,
 };
 
+enum class WeaponType : int
+{
+	DEFAULT,
+	WIREFRAME,
+	NONE,
+};
+
 enum class AimTargetType : int
 {
 	FOV,
@@ -690,6 +697,7 @@ namespace Settings
 			{
 				extern bool enabled;
 				extern ColorVar color;
+				extern WeaponType type;
 			}
 		}
 
