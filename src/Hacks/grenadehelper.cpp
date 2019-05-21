@@ -122,9 +122,6 @@ static void AimAssist(CUserCmd* cmd)
 
 	for (auto act = Settings::GrenadeHelper::grenadeInfos.begin(); act != Settings::GrenadeHelper::grenadeInfos.end(); act++)
 	{
-		char test[128];
-		sprintf(test, "\n1 - %i\n", (int)GetGrenadeType(activeWeapon));
-		cvar->ConsoleColorPrintf(ColorRGBA(0, 225, 0), test);
 		if (Settings::GrenadeHelper::onlyMatchingInfos && GetGrenadeType(activeWeapon) != act->gType)
 			continue;
 
@@ -232,9 +229,6 @@ void GrenadeHelper::Paint()
 
 	for (auto grenadeInfo = Settings::GrenadeHelper::grenadeInfos.begin(); grenadeInfo != Settings::GrenadeHelper::grenadeInfos.end(); grenadeInfo++)
 	{
-		char test[128];
-		sprintf(test, "\n2 - %i\n", (int)GetGrenadeType(activeWeapon));
-		cvar->ConsoleColorPrintf(ColorRGBA(0, 225, 0), test);
 		if (Settings::GrenadeHelper::onlyMatchingInfos && GetGrenadeType(activeWeapon) != grenadeInfo->gType)
 			continue;
 
