@@ -30,15 +30,23 @@ ColorVar Settings::GrenadeHelper::infoFlash = ImColor(255, 255, 0, 255);
 bool shotLastTick = false;
 std::string Settings::GrenadeHelper::actMapName = {};
 
-GrenadeType GetGrenadeType(C_BaseCombatWeapon *wpn)
+GrenadeType GetGrenadeType(C_BaseCombatWeapon* wpn)
 {
-	if (!strcmp(wpn->GetCSWpnData()->szClassName, XORSTR("weapon_hegrenade")))
-		return GrenadeType::HEGRENADE;
-	if (!strcmp(wpn->GetCSWpnData()->szClassName, XORSTR("weapon_smokegrenade")))
-		return GrenadeType::SMOKE;
-	if (!strcmp(wpn->GetCSWpnData()->szClassName, XORSTR("weapon_flashbang")) || !strcmp(wpn->GetCSWpnData()->szClassName, XORSTR("weapon_decoy")))
-		return GrenadeType::FLASH;
-	return GrenadeType::MOLOTOV;// "weapon_molotov", "weapon_incgrenade"
+	switch (*wpn->GetItemDefinitionIndex())
+	{
+		case ItemDefinitionIndex::WEAPON_HEGRENADE:
+			return GrenadeType::HEGRENADE;
+		case ItemDefinitionIndex::WEAPON_SMOKEGRENADE:
+			return GrenadeType::SMOKE;
+		case ItemDefinitionIndex::WEAPON_FLASHBANG:
+		case ItemDefinitionIndex::WEAPON_DECOY:
+			return GrenadeType::FLASH;
+		case ItemDefinitionIndex::WEAPON_MOLOTOV:
+		case ItemDefinitionIndex::WEAPON_INCGRENADE:
+			return GrenadeType::MOLOTOV;
+		default:
+			return (GrenadeType)-1;
+	}
 }
 
 static ImColor GetColor(GrenadeType type)
@@ -114,6 +122,9 @@ static void AimAssist(CUserCmd* cmd)
 
 	for (auto act = Settings::GrenadeHelper::grenadeInfos.begin(); act != Settings::GrenadeHelper::grenadeInfos.end(); act++)
 	{
+		char test[128];
+		sprintf(test, "\n1 - %i\n", (int)GetGrenadeType(activeWeapon));
+		cvar->ConsoleColorPrintf(ColorRGBA(0, 225, 0), test);
 		if (Settings::GrenadeHelper::onlyMatchingInfos && GetGrenadeType(activeWeapon) != act->gType)
 			continue;
 
@@ -221,6 +232,9 @@ void GrenadeHelper::Paint()
 
 	for (auto grenadeInfo = Settings::GrenadeHelper::grenadeInfos.begin(); grenadeInfo != Settings::GrenadeHelper::grenadeInfos.end(); grenadeInfo++)
 	{
+		char test[128];
+		sprintf(test, "\n2 - %i\n", (int)GetGrenadeType(activeWeapon));
+		cvar->ConsoleColorPrintf(ColorRGBA(0, 225, 0), test);
 		if (Settings::GrenadeHelper::onlyMatchingInfos && GetGrenadeType(activeWeapon) != grenadeInfo->gType)
 			continue;
 

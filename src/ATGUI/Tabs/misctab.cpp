@@ -272,18 +272,6 @@ void Misc::RenderTab()
 					static int tType = (int)ThrowType::NORMAL;
 					static int gType = (int)GrenadeType::SMOKE;
 
-					if (engine->IsInGame())
-					{
-						C_BasePlayer* localPlayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-						if (localPlayer)
-						{
-							C_BaseCombatWeapon *activeWeapon = (C_BaseCombatWeapon *) entityList->GetClientEntityFromHandle(
-									localPlayer->GetActiveWeapon());
-							if (activeWeapon &&
-								activeWeapon->GetCSWpnData()->GetWeaponType() == CSWeaponType::WEAPONTYPE_GRENADE)
-								gType = (int) GetGrenadeType(activeWeapon);
-						}
-					}
 					ImGui::Columns(1);
 					ImGui::PushItemWidth(500);
 					ImGui::InputText("", inputName, sizeof(inputName));
