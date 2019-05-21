@@ -583,6 +583,7 @@ namespace Settings
 		extern ColorVar flashbangColor;
 		extern ColorVar grenadeColor;
 		extern ColorVar molotovColor;
+		extern ColorVar infoColor;
 		extern HealthColorVar localplayerColor;
 
 		namespace Glow
@@ -633,6 +634,7 @@ namespace Settings
 			extern bool grabbingHostage;
 			extern bool rescuing;
 			extern bool location;
+			extern bool money;
 		}
 
 		namespace Skeleton
