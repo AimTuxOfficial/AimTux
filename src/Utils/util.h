@@ -15,7 +15,6 @@ namespace Util
 	void Log(char const * const format, ...);
 	std::string ReplaceString(std::string subject, const std::string& search, const std::string& replace);
 	void StdReplaceStr(std::string&, const std::string&, const std::string&);
-	void replaceAll(std::string& source, const std::string& from, const std::string& to);
 	const char* PadStringRight(std::string text, size_t value);
 	bool Contains(const std::string &word, const std::string &sentence);
 	std::string ToLower(std::string str);

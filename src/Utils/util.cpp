@@ -67,28 +67,6 @@ void Util::StdReplaceStr(std::string& replaceIn, const std::string& replace, con
 	}
 }
 
-void Util::replaceAll(std::string& source, const std::string& from, const std::string& to)
-{
-	std::string newString;
-	newString.reserve(source.length());  // avoids a few memory allocations
-
-	std::string::size_type lastPos = 0;
-	std::string::size_type findPos;
-
-	while (std::string::npos != (findPos = source.find(from, lastPos)))
-	{
-		newString.append(source, lastPos, findPos - lastPos);
-		newString += to;
-		lastPos = findPos + from.length();
-	}
-
-	// Care for the rest after last occurrence
-	newString += source.substr(lastPos);
-
-	source.swap(newString);
-}
-
-
 const char* Util::PadStringRight(std::string text, size_t value)
 {
 	text.insert(text.length(), value - text.length(), ' ');
