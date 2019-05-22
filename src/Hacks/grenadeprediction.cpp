@@ -438,13 +438,13 @@ void GrenadePrediction::RenderView( void* thisptr, CViewSetup& setup, CViewSetup
         LoadFromBuffer( keyValues, materialName.c_str(), materialData.str().c_str(), nullptr, NULL, nullptr );
 
         nadeViewMat = material->CreateMaterial( materialName.c_str(), keyValues );
-        nadeViewMat->AlphaModulate( Settings::GrenadePrediction::color.Color().Value.w );
-
         if ( !nadeViewMat ) {
             cvar->ConsoleDPrintf( XORSTR( "Could not Create Grenade View Material! (%s)\n" ), materialName.c_str() );
             renderCtx->Release();
             return;
         }
+
+        nadeViewMat->AlphaModulate( Settings::GrenadePrediction::color.Color().Value.w );
     }
     renderCtx->PopRenderTargetAndViewport();
 
