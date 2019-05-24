@@ -255,6 +255,28 @@ struct COffsets
 		std::ptrdiff_t m_numBestOfMaps;
 		std::ptrdiff_t m_arrTournamentActiveCasterAccounts;
 	} DT_CSGameRulesProxy;
+
+	struct
+	{
+		std::ptrdiff_t m_bBrokenOpen;
+		std::ptrdiff_t m_flRadius;
+	} DT_BRC4Target;
+
+	struct
+	{
+		std::ptrdiff_t m_vecAttentionTarget;
+		std::ptrdiff_t m_vecTargetOffset;
+		std::ptrdiff_t m_iHealth;
+		std::ptrdiff_t m_bHasTarget;
+	} DT_Dronegun;
+
+	struct
+	{
+		std::ptrdiff_t m_bRenderInPSPM;
+		std::ptrdiff_t m_bRenderInTablet;
+		std::ptrdiff_t m_iHealth;
+		std::ptrdiff_t m_iMaxHealth;
+	} DT_PhysPropLootCrate;
 };
 
 namespace Offsets

@@ -1147,6 +1147,8 @@ static void DrawSafe(C_BaseEntity* safe, C_BasePlayer* localplayer)
 {
 	if (Settings::ESP::DangerZone::drawDistEnabled && localplayer->GetVecOrigin().DistTo(safe->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist)
 		return;
+	if (*(bool*)((uintptr_t)safe + offsets.DT_BRC4Target.m_bBrokenOpen))
+		return;
     DrawEntity(safe, XORSTR("Safe"), Settings::ESP::DangerZone::safeColor.Color());
 }
 
@@ -1161,7 +1163,12 @@ static void DrawSentryTurret(C_BaseEntity *sentry, C_BasePlayer* localplayer)
 {
 	if (Settings::ESP::DangerZone::drawDistEnabled && localplayer->GetVecOrigin().DistTo(sentry->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist)
 		return;
-    DrawEntity(sentry, XORSTR("Sentry Turret"), Settings::ESP::DangerZone::dronegunColor.Color());
+
+	std::string name = XORSTR("Sentry Turret");
+	name += XORSTR(" | ");
+	name += std::to_string(*(int*)((uintptr_t)sentry + offsets.DT_Dronegun.m_iHealth));
+	name += XORSTR(" HP");
+    DrawEntity(sentry, name.c_str(), Settings::ESP::DangerZone::dronegunColor.Color());
 }
 
 static void DrawRadarJammer(C_BaseEntity *sentry, C_BasePlayer* localplayer)
@@ -1219,19 +1226,23 @@ static void DrawLootCrate(C_BaseEntity *crate, C_BasePlayer* localplayer)
     mdlName = mdlName.substr(mdlName.find_last_of('/') + 1);
     std::string crateName;
     if (mdlName.find(XORSTR("case_pistol")) != mdlName.npos)
-        crateName = "Pistol Case";
+        crateName = XORSTR("Pistol Case");
     else if (mdlName.find(XORSTR("light_weapon")) != mdlName.npos)
-        crateName = "SMG Case";
+        crateName = XORSTR("SMG Case");
     else if (mdlName.find(XORSTR("heavy_weapon")) != mdlName.npos)
-        crateName = "Heavy Case";
+        crateName = XORSTR("Heavy Case");
     else if (mdlName.find(XORSTR("explosive")) != mdlName.npos)
-        crateName = "Explosive Case";
+        crateName = XORSTR("Explosive Case");
     else if (mdlName.find(XORSTR("tools")) != mdlName.npos)
-        crateName = "Tools Case";
+        crateName = XORSTR("Tools Case");
     else if (mdlName.find(XORSTR("dufflebag")) != mdlName.npos)
-        crateName = "Duffle Bag";
+        crateName = XORSTR("Duffle Bag");
 	else if (mdlName.find(XORSTR("random")) != mdlName.npos)
-        crateName = "Airdrop";
+        crateName = XORSTR("Airdrop");
+
+		crateName += XORSTR(" | ");
+		crateName += std::to_string(*(int*)((uintptr_t)crate + offsets.DT_PhysPropLootCrate.m_iHealth));
+		crateName += XORSTR(" HP");
 
     DrawEntity(crate, crateName.c_str(), Settings::ESP::DangerZone::lootcrateColor.Color());
 }

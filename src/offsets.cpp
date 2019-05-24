@@ -218,4 +218,17 @@ void Offsets::GetNetVarOffsets()
 	offsets.DT_CSGameRulesProxy.m_arrProhibitedItemIndices = NetVarManager::GetOffset(tables, XORSTR("DT_CSGameRulesProxy"), XORSTR("m_arrProhibitedItemIndices"));
 	offsets.DT_CSGameRulesProxy.m_numBestOfMaps = NetVarManager::GetOffset(tables, XORSTR("DT_CSGameRulesProxy"), XORSTR("m_numBestOfMaps"));
 	offsets.DT_CSGameRulesProxy.m_arrTournamentActiveCasterAccounts = NetVarManager::GetOffset(tables, XORSTR("DT_CSGameRulesProxy"), XORSTR("m_arrTournamentActiveCasterAccounts"));
+
+	offsets.DT_BRC4Target.m_bBrokenOpen = NetVarManager::GetOffset(tables, XORSTR("DT_BRC4Target"), XORSTR("m_bBrokenOpen"));
+	offsets.DT_BRC4Target.m_flRadius = NetVarManager::GetOffset(tables, XORSTR("DT_BRC4Target"), XORSTR("m_flRadius"));
+
+	offsets.DT_Dronegun.m_vecAttentionTarget = NetVarManager::GetOffset(tables, XORSTR("DT_Dronegun"), XORSTR("m_vecAttentionTarget"));
+	offsets.DT_Dronegun.m_vecTargetOffset = NetVarManager::GetOffset(tables, XORSTR("DT_Dronegun"), XORSTR("m_vecTargetOffset"));
+	offsets.DT_Dronegun.m_iHealth = NetVarManager::GetOffset(tables, XORSTR("DT_Dronegun"), XORSTR("m_iHealth"));
+	offsets.DT_Dronegun.m_bHasTarget = NetVarManager::GetOffset(tables, XORSTR("DT_Dronegun"), XORSTR("m_bHasTarget"));
+
+	offsets.DT_PhysPropLootCrate.m_bRenderInPSPM = NetVarManager::GetOffset(tables, XORSTR("DT_PhysPropLootCrate"), XORSTR("m_bRenderInPSPM"));
+	offsets.DT_PhysPropLootCrate.m_bRenderInTablet = NetVarManager::GetOffset(tables, XORSTR("DT_PhysPropLootCrate"), XORSTR("m_bRenderInTablet"));
+	offsets.DT_PhysPropLootCrate.m_iHealth = NetVarManager::GetOffset(tables, XORSTR("DT_PhysPropLootCrate"), XORSTR("m_iHealth"));
+	offsets.DT_PhysPropLootCrate.m_iMaxHealth = NetVarManager::GetOffset(tables, XORSTR("DT_PhysPropLootCrate"), XORSTR("m_iMaxHealth"));
 }
