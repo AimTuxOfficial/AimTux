@@ -624,6 +624,7 @@ namespace Settings
 			extern bool steamId;
 			extern bool rank;
 			extern bool health;
+			extern bool armor;
 			extern bool weapon;
 			extern bool scoped;
 			extern bool reloading;
@@ -744,6 +745,37 @@ namespace Settings
 			extern bool spreadLimit; // show spreadLimit value
 			extern ColorVar color;
 			extern ColorVar spreadLimitColor;
+		}
+
+		namespace DangerZone
+		{
+			extern int drawDist;
+			extern bool drawDistEnabled;
+			extern bool upgrade;
+			extern bool lootcrate;
+			extern bool radarjammer;
+			extern bool ammobox;
+			extern bool safe;
+			extern bool dronegun;
+			extern bool drone;
+			extern bool breachcharge;
+			extern bool cash;
+			extern bool tablet;
+			extern bool healthshot;
+			extern bool melee;
+			extern ColorVar upgradeColor;
+			extern ColorVar lootcrateColor;
+			extern ColorVar radarjammerColor;
+			extern ColorVar ammoboxColor;
+			extern ColorVar safeColor;
+			extern ColorVar dronegunColor;
+			extern ColorVar droneColor;
+			extern ColorVar breachchargeColor;
+			extern ColorVar pbreachchargeColor;
+			extern ColorVar cashColor;
+			extern ColorVar tabletColor;
+			extern ColorVar healthshotColor;
+			extern ColorVar meleeColor;
 		}
 	}
 

@@ -162,11 +162,7 @@ struct MaterialSystem_Config_t
         m_VideoMode.m_Height = 480;
         m_VideoMode.m_RefreshRate = 60;
         dxSupportLevel = 0;
-        bCompressedTextures = true;
-        bFilterTextures = true;
         bFilterLightmaps = true;
-        bMipMapTextures = true;
-        bBufferPrimitives = true;
 
         m_fMonitorGamma = 2.2f;
         m_fGammaTVRangeMin = 16.0f;

@@ -301,6 +301,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings[XORSTR("ESP")][XORSTR("Info")][XORSTR("steam_id")] = Settings::ESP::Info::steamId;
 	settings[XORSTR("ESP")][XORSTR("Info")][XORSTR("rank")] = Settings::ESP::Info::rank;
 	settings[XORSTR("ESP")][XORSTR("Info")][XORSTR("health")] = Settings::ESP::Info::health;
+	settings[XORSTR("ESP")][XORSTR("Info")][XORSTR("armor")] = Settings::ESP::Info::armor;
 	settings[XORSTR("ESP")][XORSTR("Info")][XORSTR("weapon")] = Settings::ESP::Info::weapon;
 	settings[XORSTR("ESP")][XORSTR("Info")][XORSTR("scoped")] = Settings::ESP::Info::scoped;
 	settings[XORSTR("ESP")][XORSTR("Info")][XORSTR("reloading")] = Settings::ESP::Info::reloading;
@@ -356,6 +357,34 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings[XORSTR("ESP")][XORSTR("Spread")][XORSTR("spreadLimit")] = Settings::ESP::Spread::spreadLimit;
 	LoadColor(settings[XORSTR("ESP")][XORSTR("Spread")][XORSTR("color")], Settings::ESP::Spread::color);
 	LoadColor(settings[XORSTR("ESP")][XORSTR("Spread")][XORSTR("spreadLimitColor")], Settings::ESP::Spread::spreadLimitColor);
+
+	settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("drawDist")] = Settings::ESP::DangerZone::drawDist;
+	settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("drawDistEnabled")] = Settings::ESP::DangerZone::drawDistEnabled;
+	settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("upgrade")] = Settings::ESP::DangerZone::upgrade;
+	settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("lootcrate")] = Settings::ESP::DangerZone::lootcrate;
+	settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("radarjammer")] = Settings::ESP::DangerZone::radarjammer;
+	settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("ammobox")] = Settings::ESP::DangerZone::ammobox;
+	settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("safe")] = Settings::ESP::DangerZone::safe;
+	settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("dronegun")] = Settings::ESP::DangerZone::dronegun;
+	settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("drone")] = Settings::ESP::DangerZone::drone;
+	settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("breachcharge")] = Settings::ESP::DangerZone::breachcharge;
+	settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("cash")] = Settings::ESP::DangerZone::cash;
+	settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("tablet")] = Settings::ESP::DangerZone::tablet;
+	settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("healthshot")] = Settings::ESP::DangerZone::healthshot;
+	settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("melee")] = Settings::ESP::DangerZone::melee;
+	LoadColor(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("upgrade_color")], Settings::ESP::DangerZone::upgradeColor);
+	LoadColor(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("lootcrate_color")], Settings::ESP::DangerZone::lootcrateColor);
+	LoadColor(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("radarjammer_color")], Settings::ESP::DangerZone::radarjammerColor);
+	LoadColor(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("ammobox_color")], Settings::ESP::DangerZone::ammoboxColor);
+	LoadColor(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("safe_color")], Settings::ESP::DangerZone::safeColor);
+	LoadColor(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("dronegun_color")], Settings::ESP::DangerZone::dronegunColor);
+	LoadColor(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("drone_color")], Settings::ESP::DangerZone::droneColor);
+	LoadColor(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("breachcharge_color")], Settings::ESP::DangerZone::breachchargeColor);
+	LoadColor(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("breachcharge_placed_color")], Settings::ESP::DangerZone::pbreachchargeColor);
+	LoadColor(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("cash_color")], Settings::ESP::DangerZone::cashColor);
+	LoadColor(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("tablet_color")], Settings::ESP::DangerZone::tabletColor);
+	LoadColor(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("healthshot_color")], Settings::ESP::DangerZone::healthshotColor);
+	LoadColor(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("melee_color")], Settings::ESP::DangerZone::meleeColor);
 
 	settings[XORSTR("Dlights")][XORSTR("enabled")] = Settings::Dlights::enabled;
 	settings[XORSTR("Dlights")][XORSTR("radius")] = Settings::Dlights::radius;
@@ -772,6 +801,7 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings[XORSTR("ESP")][XORSTR("Info")][XORSTR("steam_id")], &Settings::ESP::Info::steamId);
 	GetVal(settings[XORSTR("ESP")][XORSTR("Info")][XORSTR("rank")], &Settings::ESP::Info::rank);
 	GetVal(settings[XORSTR("ESP")][XORSTR("Info")][XORSTR("health")], &Settings::ESP::Info::health);
+	GetVal(settings[XORSTR("ESP")][XORSTR("Info")][XORSTR("armor")], &Settings::ESP::Info::armor);
 	GetVal(settings[XORSTR("ESP")][XORSTR("Info")][XORSTR("weapon")], &Settings::ESP::Info::weapon);
 	GetVal(settings[XORSTR("ESP")][XORSTR("Info")][XORSTR("scoped")], &Settings::ESP::Info::scoped);
 	GetVal(settings[XORSTR("ESP")][XORSTR("Info")][XORSTR("reloading")], &Settings::ESP::Info::reloading);
@@ -827,6 +857,34 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings[XORSTR("ESP")][XORSTR("Spread")][XORSTR("spreadLimit")], &Settings::ESP::Spread::spreadLimit);
 	GetVal(settings[XORSTR("ESP")][XORSTR("Spread")][XORSTR("color")], &Settings::ESP::Spread::color);
 	GetVal(settings[XORSTR("ESP")][XORSTR("Spread")][XORSTR("spreadLimitColor")], &Settings::ESP::Spread::spreadLimitColor);
+
+	GetVal(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("drawDist")], &Settings::ESP::DangerZone::drawDist);
+	GetVal(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("drawDistEnabled")], &Settings::ESP::DangerZone::drawDistEnabled);
+	GetVal(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("upgrade")], &Settings::ESP::DangerZone::upgrade);
+	GetVal(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("lootcrate")], &Settings::ESP::DangerZone::lootcrate);
+	GetVal(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("radarjammer")], &Settings::ESP::DangerZone::radarjammer);
+	GetVal(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("ammobox")], &Settings::ESP::DangerZone::ammobox);
+	GetVal(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("safe")], &Settings::ESP::DangerZone::safe);
+	GetVal(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("dronegun")], &Settings::ESP::DangerZone::dronegun);
+	GetVal(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("drone")], &Settings::ESP::DangerZone::drone);
+	GetVal(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("breachcharge")], &Settings::ESP::DangerZone::breachcharge);
+	GetVal(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("cash")], &Settings::ESP::DangerZone::cash);
+	GetVal(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("tablet")], &Settings::ESP::DangerZone::tablet);
+	GetVal(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("healthshot")], &Settings::ESP::DangerZone::healthshot);
+	GetVal(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("melee")], &Settings::ESP::DangerZone::melee);
+	GetVal(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("upgrade_color")], &Settings::ESP::DangerZone::upgradeColor);
+	GetVal(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("lootcrate_color")], &Settings::ESP::DangerZone::lootcrateColor);
+	GetVal(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("radarjammer_color")], &Settings::ESP::DangerZone::radarjammerColor);
+	GetVal(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("ammobox_color")], &Settings::ESP::DangerZone::ammoboxColor);
+	GetVal(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("safe_color")], &Settings::ESP::DangerZone::safeColor);
+	GetVal(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("dronegun_color")], &Settings::ESP::DangerZone::dronegunColor);
+	GetVal(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("drone_color")], &Settings::ESP::DangerZone::droneColor);
+	GetVal(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("breachcharge_color")], &Settings::ESP::DangerZone::breachchargeColor);
+	GetVal(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("breachcharge_placed_color")], &Settings::ESP::DangerZone::pbreachchargeColor);
+	GetVal(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("cash_color")], &Settings::ESP::DangerZone::cashColor);
+	GetVal(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("tablet_color")], &Settings::ESP::DangerZone::tabletColor);
+	GetVal(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("healthshot_color")], &Settings::ESP::DangerZone::healthshotColor);
+	GetVal(settings[XORSTR("ESP")][XORSTR("DangerZone")][XORSTR("melee_color")], &Settings::ESP::DangerZone::meleeColor);
 
 	GetVal(settings[XORSTR("TracerEffects")][XORSTR("enabled")], &Settings::TracerEffects::enabled);
 	GetVal(settings[XORSTR("TracerEffects")][XORSTR("serverSide")], &Settings::TracerEffects::serverSide);

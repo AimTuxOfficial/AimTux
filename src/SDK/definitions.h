@@ -2930,7 +2930,20 @@ const std::map<ItemDefinitionIndex, DefItem_t> ItemDefinitionIndexMap = {
 		{ ItemDefinitionIndex::GLOVE_SLICK,					{ "#CSGO_Wearable_v_slick_glove", "slick_gloves", "models/weapons/v_models/arms/glove_slick/v_glove_slick.mdl" } },
 		{ ItemDefinitionIndex::GLOVE_LEATHER_WRAP,			{ "#CSGO_Wearable_v_leather_handwrap", "leather_handwraps", "models/weapons/v_models/arms/glove_handwrap_leathery/v_glove_handwrap_leathery.mdl" } },
 		{ ItemDefinitionIndex::GLOVE_MOTORCYCLE,			{ "#CSGO_Wearable_v_motorcycle_glove", "motorcycle_gloves", "models/weapons/v_models/arms/glove_motorcycle/v_glove_motorcycle.mdl" } },
-		{ ItemDefinitionIndex::GLOVE_SPECIALIST,			{ "#CSGO_Wearable_v_specialist_glove", "specialist_gloves", "models/weapons/v_models/arms/glove_specialist/v_glove_specialist.mdl" } }
+		{ ItemDefinitionIndex::GLOVE_SPECIALIST,			{ "#CSGO_Wearable_v_specialist_glove", "specialist_gloves", "models/weapons/v_models/arms/glove_specialist/v_glove_specialist.mdl" } },
+		{ ItemDefinitionIndex::WEAPON_FISTS,                { "#SFUI_WPNHUD_Fists", "weapon_fists", "models/weapons/v_fists.mdl", "fists"} },
+		{ ItemDefinitionIndex::WEAPON_SHIELD,               { "#SFUI_WPNHUD_Shield", "weapon_shield", "models/weapons/v_shield.mdf"} },
+		{ ItemDefinitionIndex::WEAPON_HEALTHSHOT,           { "#SFUI_WPNHUD_Healthshot", "weapon_healthshot", "models/weapons/v_healthshot.mdl"} },
+		{ ItemDefinitionIndex::WEAPON_TAGRENADE,            { "#SFUI_WPNHUD_TAGrenade", "weapon_tagrenade", "models/weapons/v_sonar_bomb.mdl"} },
+		{ ItemDefinitionIndex::WEAPON_BREACHCHARGE,         { "#SFUI_WPNHUD_BreachCharge", "weapon_breachcharge", "models/weapons/v_breachcharge.mdl", "breachcharge"} },
+		{ ItemDefinitionIndex::WEAPON_TABLET,               { "#SFUI_WPNHUD_Tablet", "weapon_tablet", "models/weapons/v_tablet.mdl"} },
+		{ ItemDefinitionIndex::WEAPON_AXE,                  { "#SFUI_WPNHUD_Axe", "weapon_axe", "models/weapons/v_axe.mdl", "axe"} },
+		{ ItemDefinitionIndex::WEAPON_HAMMER,               { "#SFUI_WPNHUD_Hammer", "weapon_hammer", "models/weapons/v_hammer.mdl", "hammer"} },
+		{ ItemDefinitionIndex::WEAPON_SPANNER,              { "#SFUI_WPNHUD_Spanner", "weapon_spanner", "models/weapons/v_spanner.mdl", "spanner"} },
+		{ ItemDefinitionIndex::WEAPON_FIREBOMB,             { "#SFUI_WPNHUD_FIREBOMB", "weapon_firebomb", "models/weapons/v_eq_molotov.mdl", "inferno"} },
+		{ ItemDefinitionIndex::WEAPON_DIVERSION,            { "#SFUI_WPNHUD_Diversion", "weapon_diversion", "models/weapons/v_eq_decoy.mdl", "decoy"} },
+		{ ItemDefinitionIndex::WEAPON_FRAG_GRENADE,         { "#SFUI_WPNHUD_frag_Grenade", "weapon_frag_grenade", "models/weapons/v_eq_fraggrenade.mdl", "hegrenade"} },
+		{ ItemDefinitionIndex::WEAPON_BUMPMINE, 			{ "#SFUI_WPNHUD_BUMPMINE", "weapon_bumpmine", "models/weapons/v_eq_fraggrenade.mdl"} }
 };
 
 #define FL_ONGROUND				(1<<0)	// At rest / on the ground

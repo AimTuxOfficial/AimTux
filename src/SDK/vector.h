@@ -192,7 +192,7 @@ inline Vector::Vector(float X, float Y, float Z)
 	CHECK_VALID(*this);
 }
 //===============================================
-inline Vector::Vector(void){ }
+inline Vector::Vector(void){ Zero(); }
 //===============================================
 inline void Vector::Zero()
 {
@@ -561,7 +561,7 @@ inline void VectorMA(const float * start, float scale, const float *direction, f
 class ALIGN16 VectorAligned : public Vector
 {
 public:
-	inline VectorAligned(void) {};
+	inline VectorAligned() = default;
 	inline VectorAligned(float X, float Y, float Z)
 	{
 		Init(X, Y, Z);

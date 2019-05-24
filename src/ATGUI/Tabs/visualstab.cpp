@@ -145,6 +145,7 @@ void Visuals::RenderTab()
 				ImGui::PushID(1);
 				ImGui::Checkbox(XORSTR("Health"), &Settings::ESP::Info::health);
 				ImGui::PopID();
+				ImGui::Checkbox(XORSTR("Armor"), &Settings::ESP::Info::armor);
 				ImGui::Checkbox(XORSTR("Scoped"), &Settings::ESP::Info::scoped);
 				ImGui::Checkbox(XORSTR("Flashed"), &Settings::ESP::Info::flashed);
 				ImGui::Checkbox(XORSTR("Defuse Kit"), &Settings::ESP::Info::hasDefuser);
@@ -181,6 +182,33 @@ void Visuals::RenderTab()
 				ImGui::Checkbox(XORSTR("Hostages"), &Settings::ESP::Filters::hostages);
 			}
 			ImGui::Columns(1);
+
+			ImGui::Separator();
+			ImGui::Text(XORSTR("Danger Zone"));
+			ImGui::Separator();
+			ImGui::Columns(2, nullptr, true);
+			{
+				ImGui::Checkbox(XORSTR("Loot Crates"), &Settings::ESP::DangerZone::lootcrate);
+				ImGui::Checkbox(XORSTR("Weapon Upgrades"), &Settings::ESP::DangerZone::upgrade);
+				ImGui::Checkbox(XORSTR("Ammo box"), &Settings::ESP::DangerZone::ammobox);
+				ImGui::Checkbox(XORSTR("Radar Jammer"), &Settings::ESP::DangerZone::radarjammer);
+				ImGui::Checkbox(XORSTR("Cash"), &Settings::ESP::DangerZone::cash);
+				ImGui::Checkbox(XORSTR("Drone"), &Settings::ESP::DangerZone::drone);
+				ImGui::Checkbox(XORSTR("Draw Distance"), &Settings::ESP::DangerZone::drawDistEnabled);
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::Checkbox(XORSTR("Safe"), &Settings::ESP::DangerZone::safe);
+				ImGui::Checkbox(XORSTR("Sentry Turret"), &Settings::ESP::DangerZone::dronegun);
+				ImGui::Checkbox(XORSTR("Melee"), &Settings::ESP::DangerZone::melee);
+				ImGui::Checkbox(XORSTR("Breach Charge"), &Settings::ESP::DangerZone::breachcharge);
+				ImGui::Checkbox(XORSTR("Tablet"), &Settings::ESP::DangerZone::tablet);
+				ImGui::Checkbox(XORSTR("Healthshot"), &Settings::ESP::DangerZone::healthshot);
+				if (Settings::ESP::DangerZone::drawDistEnabled)
+					ImGui::SliderInt(XORSTR("##DZDRAWDIST"), &Settings::ESP::DangerZone::drawDist, 1, 10000);
+			}
+			ImGui::Columns(1);
+
 			ImGui::EndChild();
 			ImGui::EndChild();
 		}

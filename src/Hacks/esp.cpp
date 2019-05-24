@@ -18,8 +18,6 @@
 #include <deque>
 #include <mutex>
 
-// TODO: Add DangerZone Item ESP.
-
 bool Settings::ESP::enabled = false;
 ButtonCode_t Settings::ESP::key = ButtonCode_t::KEY_Z;
 TeamColorType Settings::ESP::teamColorType = TeamColorType::RELATIVE;
@@ -75,6 +73,7 @@ bool Settings::ESP::Info::clan = false;
 bool Settings::ESP::Info::steamId = false;
 bool Settings::ESP::Info::rank = false;
 bool Settings::ESP::Info::health = false;
+bool Settings::ESP::Info::armor = false;
 bool Settings::ESP::Info::weapon = false;
 bool Settings::ESP::Info::scoped = false;
 bool Settings::ESP::Info::reloading = false;
@@ -108,6 +107,34 @@ float Settings::ESP::HeadDot::size = 2.f;
 
 bool Settings::ESP::Spread::enabled = false;
 bool Settings::ESP::Spread::spreadLimit = false;
+
+int Settings::ESP::DangerZone::drawDist = 500;
+bool Settings::ESP::DangerZone::drawDistEnabled = false;
+bool Settings::ESP::DangerZone::upgrade = false;
+bool Settings::ESP::DangerZone::lootcrate = false;
+bool Settings::ESP::DangerZone::radarjammer = false;
+bool Settings::ESP::DangerZone::ammobox = false;
+bool Settings::ESP::DangerZone::safe = false;
+bool Settings::ESP::DangerZone::dronegun = false;
+bool Settings::ESP::DangerZone::drone = false;
+bool Settings::ESP::DangerZone::breachcharge = false;
+bool Settings::ESP::DangerZone::cash = false;
+bool Settings::ESP::DangerZone::tablet = false;
+bool Settings::ESP::DangerZone::healthshot = false;
+bool Settings::ESP::DangerZone::melee = false;
+ColorVar Settings::ESP::DangerZone::upgradeColor = ImColor(255, 0, 0, 255);
+ColorVar Settings::ESP::DangerZone::lootcrateColor = ImColor(255, 0, 0, 255);
+ColorVar Settings::ESP::DangerZone::radarjammerColor = ImColor(255, 0, 0, 255);
+ColorVar Settings::ESP::DangerZone::ammoboxColor = ImColor(255, 0, 0, 255);
+ColorVar Settings::ESP::DangerZone::safeColor = ImColor(255, 0, 0, 255);
+ColorVar Settings::ESP::DangerZone::dronegunColor = ImColor(255, 0, 0, 255);
+ColorVar Settings::ESP::DangerZone::droneColor = ImColor(255, 0, 0, 255);
+ColorVar Settings::ESP::DangerZone::breachchargeColor = ImColor(255, 0, 0, 255);
+ColorVar Settings::ESP::DangerZone::pbreachchargeColor = ImColor(255, 0, 0, 255);
+ColorVar Settings::ESP::DangerZone::cashColor = ImColor(255, 0, 0, 255);
+ColorVar Settings::ESP::DangerZone::tabletColor = ImColor(255, 0, 0, 255);
+ColorVar Settings::ESP::DangerZone::healthshotColor = ImColor(255, 0, 0, 255);
+ColorVar Settings::ESP::DangerZone::meleeColor = ImColor(255, 0, 0, 255);
 
 bool Settings::Debug::AutoWall::debugView = false;
 bool Settings::Debug::AutoAim::drawTarget = false;
@@ -905,6 +932,12 @@ static void DrawPlayerText( C_BasePlayer* player, int x, int y, int w, int h ) {
 		Draw::AddText( x + w + boxSpacing, ( y + h - textSize.y ), buf.c_str(), Settings::ESP::infoColor.Color() );
 	}
 
+	// armor
+	if ( Settings::ESP::Info::armor ) {
+		std::string buf = std::to_string( player->GetArmor() ) + (player->HasHelmet() ? XORSTR(" AP*") : XORSTR(" AP"));
+		Draw::AddText( x + w + boxSpacing, ( y + h - (textSize.y / 4.5) ), buf.c_str(), Settings::ESP::infoColor.Color() );
+	}
+
 	// weapon
 	C_BaseCombatWeapon* activeWeapon = ( C_BaseCombatWeapon* ) entityList->GetClientEntityFromHandle( player->GetActiveWeapon() );
 	if ( Settings::ESP::Info::weapon && activeWeapon ) {
@@ -1110,6 +1143,123 @@ static void DrawFish(C_BaseEntity* fish)
 	DrawEntity(fish, XORSTR("Fish"), Settings::ESP::fishColor.Color());
 }
 
+static void DrawSafe(C_BaseEntity* safe, C_BasePlayer* localplayer)
+{
+	if (Settings::ESP::DangerZone::drawDistEnabled && localplayer->GetVecOrigin().DistTo(safe->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist)
+		return;
+    DrawEntity(safe, XORSTR("Safe"), Settings::ESP::DangerZone::safeColor.Color());
+}
+
+static void DrawAmmoBox(C_BaseEntity *ammobox, C_BasePlayer* localplayer)
+{
+	if (Settings::ESP::DangerZone::drawDistEnabled && localplayer->GetVecOrigin().DistTo(ammobox->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist)
+		return;
+    DrawEntity(ammobox, XORSTR("Ammo box"), Settings::ESP::DangerZone::ammoboxColor.Color());
+}
+
+static void DrawSentryTurret(C_BaseEntity *sentry, C_BasePlayer* localplayer)
+{
+	if (Settings::ESP::DangerZone::drawDistEnabled && localplayer->GetVecOrigin().DistTo(sentry->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist)
+		return;
+    DrawEntity(sentry, XORSTR("Sentry Turret"), Settings::ESP::DangerZone::dronegunColor.Color());
+}
+
+static void DrawRadarJammer(C_BaseEntity *sentry, C_BasePlayer* localplayer)
+{
+    DrawEntity(sentry, XORSTR("Radar Jammer"), Settings::ESP::DangerZone::radarjammerColor.Color());
+}
+
+static void DrawDrone(C_BaseEntity *drone, C_BasePlayer* localplayer)
+{
+	// TODO: Add Drone info (owner/package).
+	if (Settings::ESP::DangerZone::drawDistEnabled && localplayer->GetVecOrigin().DistTo(drone->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist)
+		return;
+    DrawEntity(drone, XORSTR("Drone"), Settings::ESP::DangerZone::droneColor.Color());
+}
+
+static void DrawBreachCharge(C_BaseEntity *charge, ClientClass* client, C_BasePlayer* localplayer)
+{
+	if (Settings::ESP::DangerZone::drawDistEnabled && localplayer->GetVecOrigin().DistTo(charge->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist)
+		return;
+	if (client->m_ClassID == EClassIds::CBreachCharge)
+    	DrawEntity(charge, XORSTR("Breach Charge"), Settings::ESP::DangerZone::breachchargeColor.Color());
+	else // client->m_ClassID == EClassIds::CBreachChargeProjectile
+		DrawEntity(charge, XORSTR("Breach Charge (placed)"), Settings::ESP::DangerZone::pbreachchargeColor.Color());
+}
+
+static void DrawCash(C_BaseEntity *cash, C_BasePlayer* localplayer)
+{
+	if (Settings::ESP::DangerZone::drawDistEnabled && localplayer->GetVecOrigin().DistTo(cash->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist)
+		return;
+    DrawEntity(cash, XORSTR("Cash"), Settings::ESP::DangerZone::cashColor.Color());
+}
+
+static void DrawTablet(C_BaseEntity *tablet, C_BasePlayer* localplayer)
+{
+	if (Settings::ESP::DangerZone::drawDistEnabled && localplayer->GetVecOrigin().DistTo(tablet->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist)
+		return;
+    DrawEntity(tablet, XORSTR("Tablet"), Settings::ESP::DangerZone::tabletColor.Color());
+}
+
+static void DrawHealthshot(C_BaseEntity *healthshot, C_BasePlayer* localplayer)
+{
+	if (Settings::ESP::DangerZone::drawDistEnabled && localplayer->GetVecOrigin().DistTo(healthshot->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist)
+		return;
+    DrawEntity(healthshot, XORSTR("Healthshot"), Settings::ESP::DangerZone::healthshotColor.Color());
+}
+
+static void DrawLootCrate(C_BaseEntity *crate, C_BasePlayer* localplayer)
+{
+	if (Settings::ESP::DangerZone::drawDistEnabled && localplayer->GetVecOrigin().DistTo(crate->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist)
+		return;
+    studiohdr_t* crateModel = modelInfo->GetStudioModel(crate->GetModel());
+    if (!crateModel)
+        return;
+    std::string mdlName = crateModel->name;
+    mdlName = mdlName.substr(mdlName.find_last_of('/') + 1);
+    std::string crateName;
+    if (mdlName.find(XORSTR("case_pistol")) != mdlName.npos)
+        crateName = "Pistol Case";
+    else if (mdlName.find(XORSTR("light_weapon")) != mdlName.npos)
+        crateName = "SMG Case";
+    else if (mdlName.find(XORSTR("heavy_weapon")) != mdlName.npos)
+        crateName = "Heavy Case";
+    else if (mdlName.find(XORSTR("explosive")) != mdlName.npos)
+        crateName = "Explosive Case";
+    else if (mdlName.find(XORSTR("tools")) != mdlName.npos)
+        crateName = "Tools Case";
+    else if (mdlName.find(XORSTR("dufflebag")) != mdlName.npos)
+        crateName = "Duffle Bag";
+	else if (mdlName.find(XORSTR("random")) != mdlName.npos)
+        crateName = "Airdrop";
+
+    DrawEntity(crate, crateName.c_str(), Settings::ESP::DangerZone::lootcrateColor.Color());
+}
+
+static void DrawMelee(C_BaseCombatWeapon *weapon, C_BasePlayer* localplayer) // TODO: Add drawDist
+{
+    if (!weapon)
+        return;
+
+    std::string modelName = Util::Items::GetItemDisplayName(*weapon->GetItemDefinitionIndex());
+    DrawEntity(weapon, modelName.c_str(), Settings::ESP::DangerZone::meleeColor.Color());
+}
+
+static void DrawDZItems(C_BaseEntity *item, C_BasePlayer* localplayer) // TODO: Fix?
+{
+	if (Settings::ESP::DangerZone::drawDistEnabled && localplayer->GetVecOrigin().DistTo(item->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist)
+		return;
+    studiohdr_t* itemModel = modelInfo->GetStudioModel(item->GetModel());
+
+    if (!itemModel)
+        return;
+
+    std::string mdlName = itemModel->name;
+    mdlName = mdlName.substr(mdlName.find_last_of('/') + 1);
+
+    DrawEntity(item, mdlName.c_str(), Settings::ESP::DangerZone::upgradeColor.Color());
+}
+
 static void DrawThrowable(C_BaseEntity* throwable, ClientClass* client)
 {
 	model_t* nadeModel = throwable->GetModel();
@@ -1171,6 +1321,73 @@ static void DrawThrowable(C_BaseEntity* throwable, ClientClass* client)
 
 	DrawEntity(throwable, nadeName.c_str(), nadeColor);
 }
+
+/*static void DrawItemESP(C_BaseEntity* ent) // pasted from CSGOSimple
+{
+	std::string itemstr = "Undefined";
+	const model_t* itemModel = ent->GetModel();
+
+	if (!itemModel)
+		return;
+
+	studiohdr_t* hdr = modelInfo->GetStudioModel(itemModel);
+
+	if (!hdr)
+		return;
+
+	itemstr = hdr->name;
+
+	if (ent->GetClientClass()->m_ClassID == EClassIds::CBumpMine)
+		itemstr = XORSTR("");
+	else if (itemstr.find(XORSTR("case_pistol")) != std::string::npos)
+		itemstr = XORSTR("Pistol Case");
+	else if (itemstr.find(XORSTR("case_light_weapon")) != std::string::npos)
+		itemstr = XORSTR("Light Case");
+	else if (itemstr.find(XORSTR("case_heavy_weapon")) != std::string::npos)
+		itemstr = XORSTR("Heavy Case");
+	else if (itemstr.find(XORSTR("case_explosive")) != std::string::npos)
+		itemstr = XORSTR("Explosive Case");
+	else if (itemstr.find(XORSTR("case_tools")) != std::string::npos)
+		itemstr = XORSTR("Tools Case");
+	else if (itemstr.find(XORSTR("random")) != std::string::npos)
+		itemstr = XORSTR("Airdrop");
+	else if (itemstr.find(XORSTR("dz_armor_helmet")) != std::string::npos)
+		itemstr = XORSTR("Full Armor");
+	else if (itemstr.find(XORSTR("dz_helmet")) != std::string::npos)
+		itemstr = XORSTR("Helmet");
+	else if (itemstr.find(XORSTR("dz_armor")) != std::string::npos)
+		itemstr = XORSTR("Armor");
+	else if (itemstr.find(XORSTR("upgrade_tablet")) != std::string::npos)
+		itemstr = XORSTR("Tablet Upgrade");
+	else if (itemstr.find(XORSTR("briefcase")) != std::string::npos)
+		itemstr = XORSTR("Briefcase");
+	else if (itemstr.find(XORSTR("parachutepack")) != std::string::npos)
+		itemstr = XORSTR("Parachute");
+	else if (itemstr.find(XORSTR("dufflebag")) != std::string::npos)
+		itemstr = XORSTR("Cash Dufflebag");
+	else if (itemstr.find(XORSTR("ammobox")) != std::string::npos)
+		itemstr = XORSTR("Ammobox");
+	else if (itemstr.find(XORSTR("dronegun")) != std::string::npos)
+		itemstr = XORSTR("Turrel");
+	else if (itemstr.find(XORSTR("exojump")) != std::string::npos)
+		itemstr = XORSTR("Exojump");
+	else if (itemstr.find(XORSTR("healthshot")) != std::string::npos)
+		itemstr = XORSTR("Healthshot");
+	else
+	{
+		/ *May be you will search some missing items..* /
+		static std::vector<std::string> unk_loot;
+		if (std::find(unk_loot.begin(), unk_loot.end(), itemstr) == unk_loot.end())
+		{
+			cvar->ConsoleColorPrintf(ColorRGBA(0, 225, 0), itemstr.c_str());
+			cvar->ConsoleColorPrintf(ColorRGBA(0, 225, 0), "\n");
+			unk_loot.push_back(itemstr);
+		}
+		return;
+	}
+
+	DrawEntity(ent, itemstr.c_str(), Settings::ESP::weaponColor.Color());
+}*/
 
 static void DrawGlow()
 {
@@ -1435,6 +1652,50 @@ void ESP::Paint()
 		else if (Settings::ESP::Filters::throwables && strstr(client->m_pNetworkName, XORSTR("Projectile")))
 		{
 			DrawThrowable(entity, client);
+		}
+		else if (Util::IsDangerZone())
+		{
+			if (Settings::ESP::DangerZone::safe && client->m_ClassID == EClassIds::CBRC4Target)
+				DrawSafe(entity, localplayer);
+
+			else if (Settings::ESP::DangerZone::dronegun && client->m_ClassID == EClassIds::CDronegun)
+				DrawSentryTurret(entity, localplayer);
+
+			else if (Settings::ESP::DangerZone::ammobox && client->m_ClassID == EClassIds::CPhysPropAmmoBox)
+				DrawAmmoBox(entity, localplayer);
+
+			else if (Settings::ESP::DangerZone::radarjammer && client->m_ClassID == EClassIds::CPhysPropRadarJammer)
+				DrawRadarJammer(entity, localplayer);
+
+			/*else if (Settings::ESP::DangerZone::barrel && client->m_ClassID == EClassIds::CPhysicsProp) // exploding_barrel.mdl
+				DrawExplosiveBarrel(entity, localplayer);*/
+
+			else if (Settings::ESP::DangerZone::drone && client->m_ClassID == EClassIds::CDrone)
+				DrawDrone(entity, localplayer);
+
+			else if (Settings::ESP::DangerZone::breachcharge && (client->m_ClassID == EClassIds::CBreachCharge || client->m_ClassID == EClassIds::CBreachChargeProjectile))
+				DrawBreachCharge(entity, client, localplayer);
+
+			else if (Settings::ESP::DangerZone::cash && client->m_ClassID == EClassIds::CItemCash)
+				DrawCash(entity, localplayer);
+
+			else if (Settings::ESP::DangerZone::tablet && client->m_ClassID == EClassIds::CTablet)
+				DrawTablet(entity, localplayer);
+
+			else if (Settings::ESP::DangerZone::healthshot && client->m_ClassID == EClassIds::CItem_Healthshot)
+				DrawHealthshot(entity, localplayer);
+
+			else if (Settings::ESP::DangerZone::lootcrate && client->m_ClassID == EClassIds::CPhysPropLootCrate)
+				DrawLootCrate(entity, localplayer);
+
+			else if (Settings::ESP::DangerZone::melee && (client->m_ClassID == EClassIds::CMelee || client->m_ClassID == EClassIds::CKnife))
+			{
+				C_BaseCombatWeapon* weapon = (C_BaseCombatWeapon*) entity;
+				DrawMelee(weapon, localplayer);
+			}
+
+			else if (Settings::ESP::DangerZone::upgrade && client->m_ClassID == EClassIds::CPhysPropWeaponUpgrade)
+				DrawDZItems(entity, localplayer);
 		}
 	}
 
