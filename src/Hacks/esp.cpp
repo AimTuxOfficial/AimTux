@@ -1316,7 +1316,7 @@ static void DrawDZItems(C_BaseEntity *item, C_BasePlayer* localplayer)
 		itemName = XORSTR("Tablet (drone)");
 	else if (mdlName.find(XORSTR("upgrade_tablet_zone")) != mdlName.npos)
 		itemName = XORSTR("Tablet (zone)");
-	else if (mdlName.find(XORSTR("upgrade_table_highres")) != mdlName.npos)
+	else if (mdlName.find(XORSTR("upgrade_table_hires")) != mdlName.npos)
 		itemName = XORSTR("Tablet (highres)");
 	else if (mdlName.find(XORSTR("briefcase")) != mdlName.npos)
 		itemName = XORSTR("Briefcase");
