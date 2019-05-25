@@ -201,9 +201,9 @@ void Visuals::RenderTab()
 				ImGui::Checkbox(XORSTR("Safe"), &Settings::ESP::DangerZone::safe);
 				ImGui::Checkbox(XORSTR("Sentry Turret"), &Settings::ESP::DangerZone::dronegun);
 				ImGui::Checkbox(XORSTR("Melee"), &Settings::ESP::DangerZone::melee);
-				ImGui::Checkbox(XORSTR("Breach Charge"), &Settings::ESP::DangerZone::breachcharge);
 				ImGui::Checkbox(XORSTR("Tablet"), &Settings::ESP::DangerZone::tablet);
 				ImGui::Checkbox(XORSTR("Healthshot"), &Settings::ESP::DangerZone::healthshot);
+				ImGui::Checkbox(XORSTR("Explosive Barrel"), &Settings::ESP::DangerZone::barrel);
 				if (Settings::ESP::DangerZone::drawDistEnabled)
 					ImGui::SliderInt(XORSTR("##DZDRAWDIST"), &Settings::ESP::DangerZone::drawDist, 1, 10000);
 			}

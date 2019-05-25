@@ -758,11 +758,11 @@ namespace Settings
 			extern bool upgrade;
 			extern bool lootcrate;
 			extern bool radarjammer;
+			extern bool barrel;
 			extern bool ammobox;
 			extern bool safe;
 			extern bool dronegun;
 			extern bool drone;
-			extern bool breachcharge;
 			extern bool cash;
 			extern bool tablet;
 			extern bool healthshot;
@@ -770,12 +770,11 @@ namespace Settings
 			extern ColorVar upgradeColor;
 			extern ColorVar lootcrateColor;
 			extern ColorVar radarjammerColor;
+			extern ColorVar barrelColor;
 			extern ColorVar ammoboxColor;
 			extern ColorVar safeColor;
 			extern ColorVar dronegunColor;
 			extern ColorVar droneColor;
-			extern ColorVar breachchargeColor;
-			extern ColorVar pbreachchargeColor;
 			extern ColorVar cashColor;
 			extern ColorVar tabletColor;
 			extern ColorVar healthshotColor;
