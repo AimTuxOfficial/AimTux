@@ -42,6 +42,8 @@ ColorVar Settings::ESP::decoyColor = ImColor(2255, 152, 0, 255);
 ColorVar Settings::ESP::flashbangColor = ImColor(255, 235, 59, 255);
 ColorVar Settings::ESP::grenadeColor = ImColor(244, 67, 54, 255);
 ColorVar Settings::ESP::molotovColor = ImColor(205, 32, 31, 255);
+ColorVar Settings::ESP::mineColor = ImColor(205, 32, 31, 255);
+ColorVar Settings::ESP::chargeColor = ImColor(205, 32, 31, 255);
 ColorVar Settings::ESP::allyInfoColor = ImColor(255, 255, 255, 255);
 ColorVar Settings::ESP::enemyInfoColor = ImColor(255, 255, 255, 255);
 ColorVar Settings::ESP::Skeleton::allyColor = ImColor(255, 255, 255, 255);
@@ -1389,6 +1391,18 @@ static void DrawThrowable(C_BaseEntity* throwable, ClientClass* client, C_BasePl
 		{
 			nadeName = XORSTR("Molotov");
 			nadeColor = Settings::ESP::molotovColor.Color();
+			break;
+		}
+		else if (strstr(mat->GetName(), XORSTR("bump_mine")))
+		{
+			nadeName = XORSTR("Bump Mine");
+			nadeColor = Settings::ESP::mineColor.Color();
+			break;
+		}
+		else if (strstr(mat->GetName(), XORSTR("c4"))) // breach charge
+		{
+			nadeName = XORSTR("Breach Charge");
+			nadeColor = Settings::ESP::chargeColor.Color();
 			break;
 		}
 	}

@@ -583,6 +583,8 @@ namespace Settings
 		extern ColorVar flashbangColor;
 		extern ColorVar grenadeColor;
 		extern ColorVar molotovColor;
+		extern ColorVar mineColor;
+		extern ColorVar chargeColor;
 		extern ColorVar allyInfoColor;
 		extern ColorVar enemyInfoColor;
 		extern HealthColorVar localplayerColor;
