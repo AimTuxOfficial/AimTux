@@ -44,7 +44,8 @@ ColorVar Settings::ESP::grenadeColor = ImColor(244, 67, 54, 255);
 ColorVar Settings::ESP::molotovColor = ImColor(205, 32, 31, 255);
 ColorVar Settings::ESP::allyInfoColor = ImColor(255, 255, 255, 255);
 ColorVar Settings::ESP::enemyInfoColor = ImColor(255, 255, 255, 255);
-ColorVar Settings::ESP::Skeleton::color = ImColor(255, 255, 255, 255);
+ColorVar Settings::ESP::Skeleton::allycolor = ImColor(255, 255, 255, 255);
+ColorVar Settings::ESP::Skeleton::enemyColor = ImColor(255, 255, 255, 255);
 ColorVar Settings::ESP::Spread::color = ImColor(15, 200, 45, 255);
 ColorVar Settings::ESP::Spread::spreadLimitColor = ImColor(20, 5, 150, 255);
 bool Settings::ESP::Glow::enabled = false;
@@ -580,7 +581,7 @@ static void DrawEntity( C_BaseEntity* entity, const char* string, ImColor color 
 	Vector2D nameSize = Draw::GetTextSize( string, esp_font );
 	Draw::AddText(( int ) ( x + ( w / 2 ) - ( nameSize.x / 2 ) ), y + h + 2, string, color );
 }
-static void DrawSkeleton( C_BasePlayer* player ) {
+static void DrawSkeleton( C_BasePlayer* player, C_BasePlayer* localplayer ) {
 	studiohdr_t* pStudioModel = modelInfo->GetStudioModel( player->GetModel() );
 	if ( !pStudioModel )
 		return;
@@ -602,7 +603,7 @@ static void DrawSkeleton( C_BasePlayer* player ) {
 		if ( debugOverlay->ScreenPosition( Vector( pBoneToWorldOut[pBone->parent][0][3], pBoneToWorldOut[pBone->parent][1][3], pBoneToWorldOut[pBone->parent][2][3] ), vBonePos2 ) )
 			continue;
 
-		Draw::AddLine( vBonePos1.x, vBonePos1.y, vBonePos2.x, vBonePos2.y, Settings::ESP::Skeleton::color.Color());
+		Draw::AddLine( vBonePos1.x, vBonePos1.y, vBonePos2.x, vBonePos2.y, Entity::IsTeamMate(player, localplayer) ? Settings::ESP::Skeleton::allyColor.Color() : Settings::ESP::Skeleton::enemyColor.Color());
 	}
 }
 static void DrawBulletTrace( C_BasePlayer* player ) {
@@ -936,7 +937,7 @@ static void DrawPlayerText( C_BasePlayer* player, C_BasePlayer* localplayer, int
 	// armor
 	if ( Settings::ESP::Info::armor ) {
 		std::string buf = std::to_string( player->GetArmor() ) + (player->HasHelmet() ? XORSTR(" AP*") : XORSTR(" AP"));
-		Draw::AddText( x + w + boxSpacing, ( y + h - (textSize.y / 4) ), buf.c_str(), Entity::IsTeamMate(player, localplayer) ? Settings::ESP::allyInfoColor.Color() : Settings::ESP::enemyInfoColor.Color() );
+		Draw::AddText( x + w + boxSpacing, ( y + h - (textSize.y / 3) ), buf.c_str(), Entity::IsTeamMate(player, localplayer) ? Settings::ESP::allyInfoColor.Color() : Settings::ESP::enemyInfoColor.Color() );
 	}
 
 	// weapon
@@ -1038,7 +1039,7 @@ static void DrawPlayer(C_BasePlayer* player)
 		DrawPlayerHealthBars( player, x, y, w, h, playerColor );
 
 	if (Settings::ESP::Skeleton::enabled)
-		DrawSkeleton(player);
+		DrawSkeleton(player, localplayer);
 
 	if (Settings::ESP::BulletTracers::enabled)
 		DrawBulletTrace(player);

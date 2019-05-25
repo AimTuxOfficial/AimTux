@@ -319,7 +319,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings[XORSTR("ESP")][XORSTR("Sprite")][XORSTR("enabled")] = Settings::ESP::Sprite::enabled;
 	settings[XORSTR("ESP")][XORSTR("Sprite")][XORSTR("type")] = (int) Settings::ESP::Sprite::type;
 	settings[XORSTR("ESP")][XORSTR("Skeleton")][XORSTR("enabled")] = Settings::ESP::Skeleton::enabled;
-	LoadColor(settings[XORSTR("ESP")][XORSTR("Skeleton")][XORSTR("color")], Settings::ESP::Skeleton::color);
+	LoadColor(settings[XORSTR("ESP")][XORSTR("Skeleton")][XORSTR("ally_color")], Settings::ESP::Skeleton::allyColor);
+	LoadColor(settings[XORSTR("ESP")][XORSTR("Skeleton")][XORSTR("enemy_color")], Settings::ESP::Skeleton::enemyColor);
 	settings[XORSTR("ESP")][XORSTR("Bars")][XORSTR("enabled")] = Settings::ESP::Bars::enabled;
 	settings[XORSTR("ESP")][XORSTR("Bars")][XORSTR("color_type")] = (int) Settings::ESP::Bars::colorType;
 	settings[XORSTR("ESP")][XORSTR("Bars")][XORSTR("type")] = (int) Settings::ESP::Bars::type;
@@ -820,7 +821,8 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings[XORSTR("ESP")][XORSTR("Sprite")][XORSTR("enabled")], &Settings::ESP::Sprite::enabled);
 	GetVal(settings[XORSTR("ESP")][XORSTR("Sprite")][XORSTR("type")], (int*)&Settings::ESP::Sprite::type);
 	GetVal(settings[XORSTR("ESP")][XORSTR("Skeleton")][XORSTR("enabled")], &Settings::ESP::Skeleton::enabled);
-	GetVal(settings[XORSTR("ESP")][XORSTR("Skeleton")][XORSTR("color")], &Settings::ESP::Skeleton::color);
+	GetVal(settings[XORSTR("ESP")][XORSTR("Skeleton")][XORSTR("ally_color")], &Settings::ESP::Skeleton::allyColor);
+	GetVal(settings[XORSTR("ESP")][XORSTR("Skeleton")][XORSTR("enemy_color")], &Settings::ESP::Skeleton::enemyColor);
 	GetVal(settings[XORSTR("ESP")][XORSTR("Bars")][XORSTR("enabled")], &Settings::ESP::Bars::enabled);
 	GetVal(settings[XORSTR("ESP")][XORSTR("Bars")][XORSTR("color_type")], (int*)& Settings::ESP::Bars::colorType);
 	GetVal(settings[XORSTR("ESP")][XORSTR("Bars")][XORSTR("type")], (int*)& Settings::ESP::Bars::type);
