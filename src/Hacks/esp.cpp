@@ -192,6 +192,14 @@ const char* ESP::ranks[] = {
 		"The Global Elite"
 };
 
+bool dzShouldDraw(C_BaseEntity* ent, C_BasePlayer* localplayer) // Ghetto way to fix a CTD.
+{
+	if (!localplayer || !ent || !localplayer->GetAlive())
+		return false;
+	return (Settings::ESP::DangerZone::drawDistEnabled &&
+			localplayer->GetVecOrigin().DistTo(ent->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist);
+}
+
 static void CheckActiveSounds() {
     static CUtlVector<SndInfo_t> sounds; // this has to be static.
     char buf[PATH_MAX];
@@ -1074,7 +1082,7 @@ static void DrawBomb(C_BaseCombatWeapon* bomb, C_BasePlayer* localplayer)
 		return;
 
 	// Draw Distance only in DangerZone
-	if (Util::IsDangerZone() && Settings::ESP::DangerZone::drawDistEnabled && localplayer->GetVecOrigin().DistTo(bomb->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist)
+	if (Util::IsDangerZone() && dzShouldDraw(bomb, localplayer))
 		return;
 
 	DrawEntity(bomb, XORSTR("Bomb"), Settings::ESP::bombColor.Color());
@@ -1083,7 +1091,7 @@ static void DrawBomb(C_BaseCombatWeapon* bomb, C_BasePlayer* localplayer)
 static void DrawPlantedBomb(C_PlantedC4* bomb, C_BasePlayer* localplayer)
 {
 	// Draw Distance only in DangerZone
-	if (Util::IsDangerZone() && Settings::ESP::DangerZone::drawDistEnabled && localplayer->GetVecOrigin().DistTo(bomb->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist)
+	if (Util::IsDangerZone() && dzShouldDraw(bomb, localplayer))
 		return;
 
 	ImColor color = bomb->GetBombDefuser() != -1 || bomb->IsBombDefused() ? Settings::ESP::bombDefusingColor.Color() : Settings::ESP::bombColor.Color();
@@ -1118,7 +1126,7 @@ static void DrawPlantedBomb(C_PlantedC4* bomb, C_BasePlayer* localplayer)
 static void DrawDefuseKit(C_BaseEntity* defuser, C_BasePlayer* localplayer)
 {
 	// Draw Distance only in DangerZone
-	if (Util::IsDangerZone() && Settings::ESP::DangerZone::drawDistEnabled && localplayer->GetVecOrigin().DistTo(defuser->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist)
+	if (Util::IsDangerZone() && dzShouldDraw(defuser, localplayer))
 		return;
 	DrawEntity(defuser, XORSTR("Defuser"), Settings::ESP::defuserColor.Color());
 }
@@ -1126,7 +1134,7 @@ static void DrawDefuseKit(C_BaseEntity* defuser, C_BasePlayer* localplayer)
 static void DrawDroppedWeapons(C_BaseCombatWeapon* weapon, C_BasePlayer* localplayer)
 {
 	// Draw Distance only in DangerZone
-	if (Util::IsDangerZone() && Settings::ESP::DangerZone::drawDistEnabled && localplayer->GetVecOrigin().DistTo(weapon->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist)
+	if (Util::IsDangerZone() && dzShouldDraw(weapon, localplayer))
 		return;
 
 	Vector vOrig = weapon->GetVecOrigin();
@@ -1149,7 +1157,7 @@ static void DrawDroppedWeapons(C_BaseCombatWeapon* weapon, C_BasePlayer* localpl
 static void DrawHostage(C_BaseEntity* hostage, C_BasePlayer* localplayer)
 {
 	// Draw Distance only in DangerZone
-	if (Util::IsDangerZone() && Settings::ESP::DangerZone::drawDistEnabled && localplayer->GetVecOrigin().DistTo(hostage->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist)
+	if (Util::IsDangerZone() && dzShouldDraw(hostage, localplayer))
 		return;
 
 	DrawEntity(hostage, XORSTR("Hostage"), Settings::ESP::hostageColor.Color());
@@ -1167,7 +1175,7 @@ static void DrawFish(C_BaseEntity* fish)
 
 static void DrawSafe(C_BaseEntity* safe, C_BasePlayer* localplayer)
 {
-	if (Settings::ESP::DangerZone::drawDistEnabled && localplayer->GetVecOrigin().DistTo(safe->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist)
+	if (dzShouldDraw(safe, localplayer))
 		return;
 	if (*(bool*)((uintptr_t)safe + offsets.DT_BRC4Target.m_bBrokenOpen))
 		return;
@@ -1176,14 +1184,14 @@ static void DrawSafe(C_BaseEntity* safe, C_BasePlayer* localplayer)
 
 static void DrawAmmoBox(C_BaseEntity *ammobox, C_BasePlayer* localplayer)
 {
-	if (Settings::ESP::DangerZone::drawDistEnabled && localplayer->GetVecOrigin().DistTo(ammobox->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist)
+	if (dzShouldDraw(ammobox, localplayer))
 		return;
     DrawEntity(ammobox, XORSTR("Ammo box"), Settings::ESP::DangerZone::ammoboxColor.Color());
 }
 
 static void DrawSentryTurret(C_BaseEntity *sentry, C_BasePlayer* localplayer)
 {
-	if (Settings::ESP::DangerZone::drawDistEnabled && localplayer->GetVecOrigin().DistTo(sentry->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist)
+	if (dzShouldDraw(sentry, localplayer))
 		return;
 
 	std::string name = XORSTR("Sentry Turret");
@@ -1196,7 +1204,7 @@ static void DrawSentryTurret(C_BaseEntity *sentry, C_BasePlayer* localplayer)
 static void DrawRadarJammer(C_BaseEntity *jammer, C_BasePlayer* localplayer)
 {
 	// Draw Distance only in DangerZone
-	if (Util::IsDangerZone() && Settings::ESP::DangerZone::drawDistEnabled && localplayer->GetVecOrigin().DistTo(jammer->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist)
+	if (dzShouldDraw(jammer, localplayer))
 		return;
     DrawEntity(jammer, XORSTR("Radar Jammer"), Settings::ESP::DangerZone::radarjammerColor.Color());
 }
@@ -1204,14 +1212,14 @@ static void DrawRadarJammer(C_BaseEntity *jammer, C_BasePlayer* localplayer)
 static void DrawDrone(C_BaseEntity *drone, C_BasePlayer* localplayer)
 {
 	// TODO: Add Drone info (owner/package).
-	if (Settings::ESP::DangerZone::drawDistEnabled && localplayer->GetVecOrigin().DistTo(drone->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist)
+	if (dzShouldDraw(drone, localplayer))
 		return;
     DrawEntity(drone, XORSTR("Drone"), Settings::ESP::DangerZone::droneColor.Color());
 }
 
 static void DrawBreachCharge(C_BaseEntity *charge, ClientClass* client, C_BasePlayer* localplayer)
 {
-	if (Settings::ESP::DangerZone::drawDistEnabled && localplayer->GetVecOrigin().DistTo(charge->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist)
+	if (dzShouldDraw(charge, localplayer))
 		return;
 	if (client->m_ClassID == EClassIds::CBreachCharge)
     	DrawEntity(charge, XORSTR("Breach Charge"), Settings::ESP::DangerZone::breachchargeColor.Color());
@@ -1221,28 +1229,28 @@ static void DrawBreachCharge(C_BaseEntity *charge, ClientClass* client, C_BasePl
 
 static void DrawCash(C_BaseEntity *cash, C_BasePlayer* localplayer)
 {
-	if (Settings::ESP::DangerZone::drawDistEnabled && localplayer->GetVecOrigin().DistTo(cash->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist)
+	if (dzShouldDraw(cash, localplayer))
 		return;
     DrawEntity(cash, XORSTR("Cash"), Settings::ESP::DangerZone::cashColor.Color());
 }
 
 static void DrawTablet(C_BaseEntity *tablet, C_BasePlayer* localplayer)
 {
-	if (Settings::ESP::DangerZone::drawDistEnabled && localplayer->GetVecOrigin().DistTo(tablet->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist)
+	if (dzShouldDraw(tablet, localplayer))
 		return;
     DrawEntity(tablet, XORSTR("Tablet"), Settings::ESP::DangerZone::tabletColor.Color());
 }
 
 static void DrawHealthshot(C_BaseEntity *healthshot, C_BasePlayer* localplayer)
 {
-	if (Settings::ESP::DangerZone::drawDistEnabled && localplayer->GetVecOrigin().DistTo(healthshot->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist)
+	if (dzShouldDraw(healthshot, localplayer))
 		return;
     DrawEntity(healthshot, XORSTR("Healthshot"), Settings::ESP::DangerZone::healthshotColor.Color());
 }
 
 static void DrawLootCrate(C_BaseEntity *crate, C_BasePlayer* localplayer)
 {
-	if (Settings::ESP::DangerZone::drawDistEnabled && localplayer->GetVecOrigin().DistTo(crate->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist)
+	if (dzShouldDraw(crate, localplayer))
 		return;
     studiohdr_t* crateModel = modelInfo->GetStudioModel(crate->GetModel());
     if (!crateModel)
@@ -1277,7 +1285,7 @@ static void DrawMelee(C_BaseCombatWeapon *weapon, C_BasePlayer* localplayer)
 	if (!weapon)
 		return;
 
-	if (Settings::ESP::DangerZone::drawDistEnabled && localplayer->GetVecOrigin().DistTo(weapon->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist)
+	if (dzShouldDraw(weapon, localplayer))
 		return;
 
     std::string modelName = Util::Items::GetItemDisplayName(*weapon->GetItemDefinitionIndex());
@@ -1286,7 +1294,7 @@ static void DrawMelee(C_BaseCombatWeapon *weapon, C_BasePlayer* localplayer)
 
 static void DrawDZItems(C_BaseEntity *item, C_BasePlayer* localplayer) // TODO: Fix?
 {
-	if (Settings::ESP::DangerZone::drawDistEnabled && localplayer->GetVecOrigin().DistTo(item->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist)
+	if (dzShouldDraw(item, localplayer))
 		return;
 
     studiohdr_t* itemModel = modelInfo->GetStudioModel(item->GetModel());
@@ -1303,7 +1311,7 @@ static void DrawDZItems(C_BaseEntity *item, C_BasePlayer* localplayer) // TODO: 
 static void DrawThrowable(C_BaseEntity* throwable, ClientClass* client, C_BasePlayer* localplayer)
 {
 	// Draw Distance only in DangerZone
-	if (Util::IsDangerZone() && Settings::ESP::DangerZone::drawDistEnabled && localplayer->GetVecOrigin().DistTo(throwable->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist)
+	if (Util::IsDangerZone() && dzShouldDraw(throwable, localplayer))
 		return;
 
 	model_t* nadeModel = throwable->GetModel();
