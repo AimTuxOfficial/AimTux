@@ -42,7 +42,8 @@ ColorVar Settings::ESP::decoyColor = ImColor(2255, 152, 0, 255);
 ColorVar Settings::ESP::flashbangColor = ImColor(255, 235, 59, 255);
 ColorVar Settings::ESP::grenadeColor = ImColor(244, 67, 54, 255);
 ColorVar Settings::ESP::molotovColor = ImColor(205, 32, 31, 255);
-ColorVar Settings::ESP::infoColor = ImColor(255, 255, 255, 255);
+ColorVar Settings::ESP::allyInfoColor = ImColor(255, 255, 255, 255);
+ColorVar Settings::ESP::enemyInfoColor = ImColor(255, 255, 255, 255);
 ColorVar Settings::ESP::Skeleton::color = ImColor(255, 255, 255, 255);
 ColorVar Settings::ESP::Spread::color = ImColor(15, 200, 45, 255);
 ColorVar Settings::ESP::Spread::spreadLimitColor = ImColor(20, 5, 150, 255);
@@ -882,7 +883,7 @@ static void DrawPlayerHealthBars( C_BasePlayer* player, int x, int y, int w, int
 	}
 }
 
-static void DrawPlayerText( C_BasePlayer* player, int x, int y, int w, int h ) {
+static void DrawPlayerText( C_BasePlayer* player, C_BasePlayer* localplayer, int x, int y, int w, int h ) {
 	int boxSpacing = Settings::ESP::Boxes::enabled ? 3 : 0;
 	int lineNum = 1;
 	int nameOffset = ( int ) ( Settings::ESP::Bars::type == BarType::HORIZONTAL_UP ? boxSpacing + barsSpacing.y : 0 );
@@ -903,7 +904,7 @@ static void DrawPlayerText( C_BasePlayer* player, int x, int y, int w, int h ) {
 			displayString += playerInfo.name;
 
 		Vector2D nameSize = Draw::GetTextSize( displayString.c_str(), esp_font );
-		Draw::AddText( x + ( w / 2 ) - ( nameSize.x / 2 ), ( y - textSize.y - nameOffset ), displayString.c_str(), Settings::ESP::infoColor.Color() );
+		Draw::AddText( x + ( w / 2 ) - ( nameSize.x / 2 ), ( y - textSize.y - nameOffset ), displayString.c_str(), Entity::IsTeamMate(player, localplayer) ? Settings::ESP::allyInfoColor.Color() : Settings::ESP::enemyInfoColor.Color() );
 		lineNum++;
 	}
 
@@ -912,7 +913,7 @@ static void DrawPlayerText( C_BasePlayer* player, int x, int y, int w, int h ) {
 		IEngineClient::player_info_t playerInfo;
 		engine->GetPlayerInfo( player->GetIndex(), &playerInfo );
 		Vector2D rankSize = Draw::GetTextSize( playerInfo.guid, esp_font );
-		Draw::AddText( ( x + ( w / 2 ) - ( rankSize.x / 2 ) ),( y - ( textSize.y * lineNum ) - nameOffset ), playerInfo.guid, Settings::ESP::infoColor.Color() );
+		Draw::AddText( ( x + ( w / 2 ) - ( rankSize.x / 2 ) ),( y - ( textSize.y * lineNum ) - nameOffset ), playerInfo.guid, Entity::IsTeamMate(player, localplayer) ? Settings::ESP::allyInfoColor.Color() : Settings::ESP::enemyInfoColor.Color() );
 		lineNum++;
 	}
 
@@ -922,20 +923,20 @@ static void DrawPlayerText( C_BasePlayer* player, int x, int y, int w, int h ) {
 
 		if ( rank >= 0 && rank < 19 ) {
 			Vector2D rankSize = Draw::GetTextSize( ESP::ranks[rank], esp_font );
-			Draw::AddText( ( x + ( w / 2 ) - ( rankSize.x / 2 ) ), ( y - ( textSize.y * lineNum ) - nameOffset ), ESP::ranks[rank], Settings::ESP::infoColor.Color() );
+			Draw::AddText( ( x + ( w / 2 ) - ( rankSize.x / 2 ) ), ( y - ( textSize.y * lineNum ) - nameOffset ), ESP::ranks[rank], Entity::IsTeamMate(player, localplayer) ? Settings::ESP::allyInfoColor.Color() : Settings::ESP::enemyInfoColor.Color() );
 		}
 	}
 
 	// health
 	if ( Settings::ESP::Info::health ) {
 		std::string buf = std::to_string( player->GetHealth() ) + XORSTR( " HP" );
-		Draw::AddText( x + w + boxSpacing, ( y + h - textSize.y ), buf.c_str(), Settings::ESP::infoColor.Color() );
+		Draw::AddText( x + w + boxSpacing, ( y + h - textSize.y ), buf.c_str(), Entity::IsTeamMate(player, localplayer) ? Settings::ESP::allyInfoColor.Color() : Settings::ESP::enemyInfoColor.Color() );
 	}
 
 	// armor
 	if ( Settings::ESP::Info::armor ) {
 		std::string buf = std::to_string( player->GetArmor() ) + (player->HasHelmet() ? XORSTR(" AP*") : XORSTR(" AP"));
-		Draw::AddText( x + w + boxSpacing, ( y + h - (textSize.y / 4) ), buf.c_str(), Settings::ESP::infoColor.Color() );
+		Draw::AddText( x + w + boxSpacing, ( y + h - (textSize.y / 4) ), buf.c_str(), Entity::IsTeamMate(player, localplayer) ? Settings::ESP::allyInfoColor.Color() : Settings::ESP::enemyInfoColor.Color() );
 	}
 
 	// weapon
@@ -946,7 +947,7 @@ static void DrawPlayerText( C_BasePlayer* player, int x, int y, int w, int h ) {
 							   Settings::ESP::Bars::type == BarType::INTERWEBZ ? boxSpacing + barsSpacing.y + 1 : 0 );
 
 		Vector2D weaponTextSize = Draw::GetTextSize( modelName.c_str(), esp_font );
-		Draw::AddText( ( x + ( w / 2 ) - ( weaponTextSize.x / 2 ) ), y + h + offset, modelName.c_str(), Settings::ESP::infoColor.Color() );
+		Draw::AddText( ( x + ( w / 2 ) - ( weaponTextSize.x / 2 ) ), y + h + offset, modelName.c_str(), Entity::IsTeamMate(player, localplayer) ? Settings::ESP::allyInfoColor.Color() : Settings::ESP::enemyInfoColor.Color() );
 	}
 	// draw info
 	std::vector<std::string> stringsToShow;
@@ -993,7 +994,7 @@ static void DrawPlayerText( C_BasePlayer* player, int x, int y, int w, int h ) {
 
 
 	for( unsigned int i = 0; i < stringsToShow.size(); i++ ){
-		Draw::AddText( x + w + boxSpacing, ( y + ( i * ( textSize.y + 2 ) ) ), stringsToShow[i].c_str(), Settings::ESP::infoColor.Color() );
+		Draw::AddText( x + w + boxSpacing, ( y + ( i * ( textSize.y + 2 ) ) ), stringsToShow[i].c_str(), Entity::IsTeamMate(player, localplayer) ? Settings::ESP::allyInfoColor.Color() : Settings::ESP::enemyInfoColor.Color() );
 	}
 }
 
@@ -1063,7 +1064,7 @@ static void DrawPlayer(C_BasePlayer* player)
 
 
 	/* Checks various Text Settings */
-	DrawPlayerText( player, x, y, w, h );
+	DrawPlayerText( player, localplayer, x, y, w, h );
 }
 
 static void DrawBomb(C_BaseCombatWeapon* bomb, C_BasePlayer* localplayer)
@@ -1286,6 +1287,7 @@ static void DrawDZItems(C_BaseEntity *item, C_BasePlayer* localplayer) // TODO: 
 {
 	if (Settings::ESP::DangerZone::drawDistEnabled && localplayer->GetVecOrigin().DistTo(item->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist)
 		return;
+
     studiohdr_t* itemModel = modelInfo->GetStudioModel(item->GetModel());
 
     if (!itemModel)
