@@ -1209,7 +1209,7 @@ static void DrawRadarJammer(C_BaseEntity *jammer, C_BasePlayer* localplayer)
     DrawEntity(jammer, XORSTR("Radar Jammer"), Settings::ESP::DangerZone::radarjammerColor.Color());
 }
 
-static void DrawExplosiveBarrel(C_BaseEntity *barrel, C_BasePlayer* localplayer)
+static void DrawExplosiveBarrel(C_BaseEntity *barrel, C_BasePlayer* localplayer) // TODO: Don't draw exploded barrels.
 {
 	if (dzShouldDraw(barrel, localplayer))
 		return;
@@ -1218,7 +1218,7 @@ static void DrawExplosiveBarrel(C_BaseEntity *barrel, C_BasePlayer* localplayer)
 		return;
 	std::string mdlName = barrelModel->name;
 	mdlName = mdlName.substr(mdlName.find_last_of('/') + 1);
-	if (mdlName.find(XORSTR("exploding_barrel")) == mdlName.npos)
+	if (mdlName.find(XORSTR("exploding_barrel.mdl")) == mdlName.npos)
 		return;
     DrawEntity(barrel, XORSTR("Explosive Barrel"), Settings::ESP::DangerZone::barrelColor.Color());
 }
