@@ -1292,7 +1292,7 @@ static void DrawMelee(C_BaseCombatWeapon *weapon, C_BasePlayer* localplayer)
     DrawEntity(weapon, modelName.c_str(), Settings::ESP::DangerZone::meleeColor.Color());
 }
 
-static void DrawDZItems(C_BaseEntity *item, C_BasePlayer* localplayer) // TODO: Fix?
+static void DrawDZItems(C_BaseEntity *item, C_BasePlayer* localplayer)
 {
 	if (dzShouldDraw(item, localplayer))
 		return;
@@ -1603,7 +1603,7 @@ void ESP::Paint()
 
 			DrawPlayer(player);
 		}
-		if ((client->m_ClassID != EClassIds::CBaseWeaponWorldModel && (strstr(client->m_pNetworkName, XORSTR("Weapon")) || client->m_ClassID == EClassIds::CDEagle || client->m_ClassID == EClassIds::CAK47)) && Settings::ESP::Filters::weapons)
+		if ((client->m_ClassID != EClassIds::CBaseWeaponWorldModel && (strstr(client->m_pNetworkName, XORSTR("Weapon")) || client->m_ClassID == EClassIds::CDEagle || client->m_ClassID == EClassIds::CAK47)) && client->m_ClassID != EClassIds::CPhysPropWeaponUpgrade && Settings::ESP::Filters::weapons)
 		{
 			C_BaseCombatWeapon* weapon = (C_BaseCombatWeapon*) entity;
 			DrawDroppedWeapons(weapon, localplayer);
