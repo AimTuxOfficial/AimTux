@@ -642,7 +642,8 @@ namespace Settings
 		namespace Skeleton
 		{
 			extern bool enabled;
-			extern ColorVar color;
+			extern ColorVar enemyColor;
+			extern ColorVar allyColor;
 		}
 
 		namespace Boxes
