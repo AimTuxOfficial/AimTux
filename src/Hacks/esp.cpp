@@ -1304,8 +1304,30 @@ static void DrawDZItems(C_BaseEntity *item, C_BasePlayer* localplayer)
 
     std::string mdlName = itemModel->name;
     mdlName = mdlName.substr(mdlName.find_last_of('/') + 1);
+    std::string itemName;
 
-    DrawEntity(item, mdlName.c_str(), Settings::ESP::DangerZone::upgradeColor.Color());
+	if (mdlName.find(XORSTR("dz_armor_helmet")) != mdlName.npos) // upgrade_...
+		itemName = XORSTR("Full Armor");
+	else if (mdlName.find(XORSTR("dz_armor")) != mdlName.npos)
+		itemName = XORSTR("Armor");
+	else if (mdlName.find(XORSTR("dz_helmet")) != mdlName.npos)
+		itemName = XORSTR("Helmet");
+	else if (mdlName.find(XORSTR("upgrade_tablet_drone")) != mdlName.npos)
+		itemName = XORSTR("Tablet (drone)");
+	else if (mdlName.find(XORSTR("upgrade_tablet_zone")) != mdlName.npos)
+		itemName = XORSTR("Tablet (zone)");
+	else if (mdlName.find(XORSTR("upgrade_table_highres")) != mdlName.npos)
+		itemName = XORSTR("Tablet (highres)");
+	else if (mdlName.find(XORSTR("briefcase")) != mdlName.npos)
+		itemName = XORSTR("Briefcase");
+	else if (mdlName.find(XORSTR("parachutepack")) != mdlName.npos)
+		itemName = XORSTR("Parachute");
+	else if (mdlName.find(XORSTR("exojump")) != mdlName.npos) // TODO: not working.
+		itemName = XORSTR("Exojump");
+	else
+		itemName = mdlName;
+
+    DrawEntity(item, itemName.c_str(), Settings::ESP::DangerZone::upgradeColor.Color());
 }
 
 static void DrawThrowable(C_BaseEntity* throwable, ClientClass* client, C_BasePlayer* localplayer)
@@ -1653,6 +1675,9 @@ void ESP::Paint()
 				DrawRadarJammer(entity, localplayer);
 
 			/*else if (Settings::ESP::DangerZone::barrel && client->m_ClassID == EClassIds::CPhysicsProp) // exploding_barrel.mdl
+				DrawExplosiveBarrel(entity, localplayer);*/
+
+			/*else if (Settings::ESP::DangerZone::bumpmine && client->m_ClassID == EClassIds::CBumpMine)
 				DrawExplosiveBarrel(entity, localplayer);*/
 
 			else if (Settings::ESP::DangerZone::drone && client->m_ClassID == EClassIds::CDrone)
