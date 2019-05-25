@@ -1209,7 +1209,7 @@ static void DrawRadarJammer(C_BaseEntity *jammer, C_BasePlayer* localplayer)
     DrawEntity(jammer, XORSTR("Radar Jammer"), Settings::ESP::DangerZone::radarjammerColor.Color());
 }
 
-static void DrawExplosiveBarrel(C_BaseEntity *barrel, C_BasePlayer* localplayer) // TODO: Don't draw exploded barrels.
+static void DrawExplosiveBarrel(C_BaseEntity *barrel, C_BasePlayer* localplayer)
 {
 	if (dzShouldDraw(barrel, localplayer))
 		return;
