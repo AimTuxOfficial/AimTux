@@ -197,8 +197,8 @@ bool dzShouldDraw(C_BaseEntity* ent, C_BasePlayer* localplayer) // Ghetto way to
 {
 	if (!localplayer || !ent || !localplayer->GetAlive())
 		return false;
-	return (Settings::ESP::DangerZone::drawDistEnabled &&
-			localplayer->GetVecOrigin().DistTo(ent->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist);
+	return !(Settings::ESP::DangerZone::drawDistEnabled &&
+			(localplayer->GetVecOrigin().DistTo(ent->GetVecOrigin()) > Settings::ESP::DangerZone::drawDist));
 }
 
 static void CheckActiveSounds() {
@@ -1083,7 +1083,7 @@ static void DrawBomb(C_BaseCombatWeapon* bomb, C_BasePlayer* localplayer)
 		return;
 
 	// Draw Distance only in DangerZone
-	if (Util::IsDangerZone() && dzShouldDraw(bomb, localplayer))
+	if (Util::IsDangerZone() && !dzShouldDraw(bomb, localplayer))
 		return;
 
 	DrawEntity(bomb, XORSTR("Bomb"), Settings::ESP::bombColor.Color());
@@ -1092,7 +1092,7 @@ static void DrawBomb(C_BaseCombatWeapon* bomb, C_BasePlayer* localplayer)
 static void DrawPlantedBomb(C_PlantedC4* bomb, C_BasePlayer* localplayer)
 {
 	// Draw Distance only in DangerZone
-	if (Util::IsDangerZone() && dzShouldDraw(bomb, localplayer))
+	if (Util::IsDangerZone() && !dzShouldDraw(bomb, localplayer))
 		return;
 
 	ImColor color = bomb->GetBombDefuser() != -1 || bomb->IsBombDefused() ? Settings::ESP::bombDefusingColor.Color() : Settings::ESP::bombColor.Color();
@@ -1127,7 +1127,7 @@ static void DrawPlantedBomb(C_PlantedC4* bomb, C_BasePlayer* localplayer)
 static void DrawDefuseKit(C_BaseEntity* defuser, C_BasePlayer* localplayer)
 {
 	// Draw Distance only in DangerZone
-	if (Util::IsDangerZone() && dzShouldDraw(defuser, localplayer))
+	if (Util::IsDangerZone() && !dzShouldDraw(defuser, localplayer))
 		return;
 	DrawEntity(defuser, XORSTR("Defuser"), Settings::ESP::defuserColor.Color());
 }
@@ -1135,7 +1135,7 @@ static void DrawDefuseKit(C_BaseEntity* defuser, C_BasePlayer* localplayer)
 static void DrawDroppedWeapons(C_BaseCombatWeapon* weapon, C_BasePlayer* localplayer)
 {
 	// Draw Distance only in DangerZone
-	if (Util::IsDangerZone() && dzShouldDraw(weapon, localplayer))
+	if (Util::IsDangerZone() && !dzShouldDraw(weapon, localplayer))
 		return;
 
 	Vector vOrig = weapon->GetVecOrigin();
@@ -1158,7 +1158,7 @@ static void DrawDroppedWeapons(C_BaseCombatWeapon* weapon, C_BasePlayer* localpl
 static void DrawHostage(C_BaseEntity* hostage, C_BasePlayer* localplayer)
 {
 	// Draw Distance only in DangerZone
-	if (Util::IsDangerZone() && dzShouldDraw(hostage, localplayer))
+	if (Util::IsDangerZone() && !dzShouldDraw(hostage, localplayer))
 		return;
 
 	DrawEntity(hostage, XORSTR("Hostage"), Settings::ESP::hostageColor.Color());
@@ -1176,7 +1176,7 @@ static void DrawFish(C_BaseEntity* fish)
 
 static void DrawSafe(C_BaseEntity* safe, C_BasePlayer* localplayer)
 {
-	if (dzShouldDraw(safe, localplayer))
+	if (!dzShouldDraw(safe, localplayer))
 		return;
 	if (*(bool*)((uintptr_t)safe + offsets.DT_BRC4Target.m_bBrokenOpen))
 		return;
@@ -1185,14 +1185,14 @@ static void DrawSafe(C_BaseEntity* safe, C_BasePlayer* localplayer)
 
 static void DrawAmmoBox(C_BaseEntity *ammobox, C_BasePlayer* localplayer)
 {
-	if (dzShouldDraw(ammobox, localplayer))
+	if (!dzShouldDraw(ammobox, localplayer))
 		return;
     DrawEntity(ammobox, XORSTR("Ammo box"), Settings::ESP::DangerZone::ammoboxColor.Color());
 }
 
 static void DrawSentryTurret(C_BaseEntity *sentry, C_BasePlayer* localplayer)
 {
-	if (dzShouldDraw(sentry, localplayer))
+	if (!dzShouldDraw(sentry, localplayer))
 		return;
 
 	std::string name = XORSTR("Sentry Turret");
@@ -1204,14 +1204,14 @@ static void DrawSentryTurret(C_BaseEntity *sentry, C_BasePlayer* localplayer)
 
 static void DrawRadarJammer(C_BaseEntity *jammer, C_BasePlayer* localplayer)
 {
-	if (dzShouldDraw(jammer, localplayer))
+	if (!dzShouldDraw(jammer, localplayer))
 		return;
     DrawEntity(jammer, XORSTR("Radar Jammer"), Settings::ESP::DangerZone::radarjammerColor.Color());
 }
 
 static void DrawExplosiveBarrel(C_BaseEntity *barrel, C_BasePlayer* localplayer)
 {
-	if (dzShouldDraw(barrel, localplayer))
+	if (!dzShouldDraw(barrel, localplayer))
 		return;
 	studiohdr_t* barrelModel = modelInfo->GetStudioModel(barrel->GetModel());
 	if (!barrelModel)
@@ -1226,35 +1226,35 @@ static void DrawExplosiveBarrel(C_BaseEntity *barrel, C_BasePlayer* localplayer)
 static void DrawDrone(C_BaseEntity *drone, C_BasePlayer* localplayer)
 {
 	// TODO: Add Drone info (owner/package).
-	if (dzShouldDraw(drone, localplayer))
+	if (!dzShouldDraw(drone, localplayer))
 		return;
     DrawEntity(drone, XORSTR("Drone"), Settings::ESP::DangerZone::droneColor.Color());
 }
 
 static void DrawCash(C_BaseEntity *cash, C_BasePlayer* localplayer)
 {
-	if (dzShouldDraw(cash, localplayer))
+	if (!dzShouldDraw(cash, localplayer))
 		return;
     DrawEntity(cash, XORSTR("Cash"), Settings::ESP::DangerZone::cashColor.Color());
 }
 
 static void DrawTablet(C_BaseEntity *tablet, C_BasePlayer* localplayer)
 {
-	if (dzShouldDraw(tablet, localplayer))
+	if (!dzShouldDraw(tablet, localplayer))
 		return;
     DrawEntity(tablet, XORSTR("Tablet"), Settings::ESP::DangerZone::tabletColor.Color());
 }
 
 static void DrawHealthshot(C_BaseEntity *healthshot, C_BasePlayer* localplayer)
 {
-	if (dzShouldDraw(healthshot, localplayer))
+	if (!dzShouldDraw(healthshot, localplayer))
 		return;
     DrawEntity(healthshot, XORSTR("Healthshot"), Settings::ESP::DangerZone::healthshotColor.Color());
 }
 
 static void DrawLootCrate(C_BaseEntity *crate, C_BasePlayer* localplayer)
 {
-	if (dzShouldDraw(crate, localplayer))
+	if (!dzShouldDraw(crate, localplayer))
 		return;
     studiohdr_t* crateModel = modelInfo->GetStudioModel(crate->GetModel());
     if (!crateModel)
@@ -1289,7 +1289,7 @@ static void DrawMelee(C_BaseCombatWeapon *weapon, C_BasePlayer* localplayer)
 	if (!weapon)
 		return;
 
-	if (dzShouldDraw(weapon, localplayer))
+	if (!dzShouldDraw(weapon, localplayer))
 		return;
 
     std::string modelName = Util::Items::GetItemDisplayName(*weapon->GetItemDefinitionIndex());
@@ -1298,7 +1298,7 @@ static void DrawMelee(C_BaseCombatWeapon *weapon, C_BasePlayer* localplayer)
 
 static void DrawDZItems(C_BaseEntity *item, C_BasePlayer* localplayer)
 {
-	if (dzShouldDraw(item, localplayer))
+	if (!dzShouldDraw(item, localplayer))
 		return;
 
     studiohdr_t* itemModel = modelInfo->GetStudioModel(item->GetModel());
@@ -1337,7 +1337,7 @@ static void DrawDZItems(C_BaseEntity *item, C_BasePlayer* localplayer)
 static void DrawThrowable(C_BaseEntity* throwable, ClientClass* client, C_BasePlayer* localplayer)
 {
 	// Draw Distance only in DangerZone
-	if (Util::IsDangerZone() && dzShouldDraw(throwable, localplayer))
+	if (Util::IsDangerZone() && !dzShouldDraw(throwable, localplayer))
 		return;
 
 	model_t* nadeModel = throwable->GetModel();
@@ -1643,18 +1643,15 @@ void ESP::Paint()
 		}
 		if ((client->m_ClassID != EClassIds::CBaseWeaponWorldModel && (strstr(client->m_pNetworkName, XORSTR("Weapon")) || client->m_ClassID == EClassIds::CDEagle || client->m_ClassID == EClassIds::CAK47 || client->m_ClassID == EClassIds::CBreachCharge || client->m_ClassID == EClassIds::CBumpMine)) && client->m_ClassID != EClassIds::CPhysPropWeaponUpgrade && Settings::ESP::Filters::weapons)
 		{
-			C_BaseCombatWeapon* weapon = (C_BaseCombatWeapon*) entity;
-			DrawDroppedWeapons(weapon, localplayer);
+			DrawDroppedWeapons((C_BaseCombatWeapon*) entity, localplayer);
 		}
 		else if (client->m_ClassID == EClassIds::CC4 && Settings::ESP::Filters::bomb)
 		{
-			C_BaseCombatWeapon* bomb = (C_BaseCombatWeapon*) entity;
-			DrawBomb(bomb, localplayer);
+			DrawBomb((C_BaseCombatWeapon*) entity, localplayer);
 		}
 		else if (client->m_ClassID == EClassIds::CPlantedC4 && Settings::ESP::Filters::bomb)
 		{
-			C_PlantedC4* pC4 = (C_PlantedC4*) entity;
-			DrawPlantedBomb(pC4, localplayer);
+			DrawPlantedBomb((C_PlantedC4*) entity, localplayer);
 		}
 		else if (client->m_ClassID == EClassIds::CHostage && Settings::ESP::Filters::hostages)
 		{
