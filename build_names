@@ -943,9 +943,6 @@ libgomp.so
 libgomp.so
 libgovirt.so
 libgovirt.so
-libgpg-error.so
-libgpg-error.so
-libgpg-error.so
 libgpgme.so
 libgpgme.so
 libgphoto2_port.so
@@ -1875,12 +1872,6 @@ libply-splash-core.so
 libply-splash-core.so
 libply-splash-graphics.so
 libply-splash-graphics.so
-libpng12.so
-libpng12.so
-libpng16.so
-libpng16.so
-libpng16.so
-libpng.so
 libpoldiff.so
 libpoldiff.so
 libpolkit-agent-1.so
