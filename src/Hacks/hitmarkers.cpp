@@ -16,6 +16,8 @@ int Settings::ESP::Hitmarker::duration = 2000;
 int Settings::ESP::Hitmarker::size = 16;
 int Settings::ESP::Hitmarker::innerGap = 5;
 bool Settings::ESP::Hitmarker::Damage::enabled = false;
+bool Settings::ESP::Hitmarker::Sounds::enabled = false;
+Sound Settings::ESP::Hitmarker::Sounds::sound = Sound::NONE;
 
 // int - damage dealt, long - timestamp
 std::vector<std::pair<int, long>> damages;
@@ -125,4 +127,47 @@ void Hitmarkers::FireGameEvent(IGameEvent* event)
 	long now = Util::GetEpochTime();
 	lastHitmarkerTimestamp = now;
 	damages.insert(damages.begin(), std::pair<int, long>(event->GetInt(XORSTR("dmg_health")), now));
+
+	if( Settings::ESP::Hitmarker::Sounds::enabled ){
+		switch( Settings::ESP::Hitmarker::Sounds::sound ){
+			case Sound::SPONGEBOB:
+				engine->ClientCmd_Unrestricted( "play training\\scoreregular" );
+				break;
+			case Sound::HALFLIFE:
+				engine->ClientCmd_Unrestricted( "play ui\\beep22" );
+				break;
+			case Sound::HALFLIFE2:
+				engine->ClientCmd_Unrestricted( "play common\\beep" );
+				break;
+			case Sound::HALFLIFE3:
+				engine->ClientCmd_Unrestricted( "play items\\medshot4" );
+				break;
+			case Sound::HALFLIFE4:
+				engine->ClientCmd_Unrestricted( "play buttons\\blip1" );
+				break;
+			case Sound::BBGUNBELL:
+				engine->ClientCmd_Unrestricted( "play training\\bell_impact" );
+				break;
+			case Sound::DOPAMINE:
+				engine->ClientCmd_Unrestricted( "play ui\\csgo_ui_crate_open" );
+				break;
+			case Sound::WUB:
+				engine->ClientCmd_Unrestricted( "play ui\\csgo_ui_store_rollover" );
+				break;
+			case Sound::PEDOYES:
+				engine->ClientCmd_Unrestricted( "play radio\\legacy_yesss" );
+				break;
+			case Sound::MEME:
+				engine->ClientCmd_Unrestricted( "play commander\\train_guntestcomplete_01" );
+				break;
+			case Sound::ERROR:
+				engine->ClientCmd_Unrestricted( "play error" );
+				break;
+			case Sound::ORCHESTRAL:
+				engine->ClientCmd_Unrestricted( "playvol player\\orch_hit_csharp_short 0.8" );
+				break;
+			default:
+				break;
+		}
+	}
 }

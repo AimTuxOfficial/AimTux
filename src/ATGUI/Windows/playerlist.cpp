@@ -136,10 +136,10 @@ void PlayerList::RenderWindow()
 					ImGui::Text("%s", entityInformation.name);
 					ImGui::NextColumn();
 
-					ImGui::Text("%s", entityInformation.guid);
+					ImGui::Text("%s", teamName);
 					ImGui::NextColumn();
 
-					ImGui::Text("%s", teamName);
+					ImGui::Text("%s", entityInformation.guid);
 					ImGui::NextColumn();
 
 					ImGui::Text("%s", (*csPlayerResource)->GetClan(it));

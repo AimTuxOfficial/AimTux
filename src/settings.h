@@ -71,6 +71,24 @@ enum class SpriteType : int
 	SPRITE_TUX,
 };
 
+enum class Sound : int {
+
+	NONE,
+	SPONGEBOB,
+	HALFLIFE,
+	HALFLIFE2,
+	HALFLIFE3,
+	HALFLIFE4,
+	BBGUNBELL,
+	DOPAMINE,
+	WUB,
+	PEDOYES,
+	MEME,
+	ERROR,
+	ORCHESTRAL,
+
+};
+
 enum class BarType : int
 {
 	VERTICAL,
@@ -734,6 +752,10 @@ namespace Settings
 			namespace Damage
 			{
 				extern bool enabled;
+			}
+			namespace Sounds {
+				extern bool enabled;
+				extern Sound sound;
 			}
 		}
 
