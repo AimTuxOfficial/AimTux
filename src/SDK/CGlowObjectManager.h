@@ -6,8 +6,8 @@
 
 struct GlowObjectDefinition_t
 {
-	C_BaseEntity* m_pEntity;
-	float m_flGlowColor[3];
+	C_BaseEntity* m_pEntity; // m_hEntity
+	float m_flGlowColor[3]; // Vector (m_vGlowColor)
 	float m_flGlowAlpha;
 	char unknown[4];
 	float flUnk;
@@ -18,7 +18,7 @@ struct GlowObjectDefinition_t
 	bool m_bFullBloomRender;
 	char unknown1[1];
 	int m_nFullBloomStencilTestValue;
-	int iUnk;
+	int m_nGlowStyle; // iUnk
 	int m_nSplitScreenSlot;
 	int m_nNextFreeSlot;
 
