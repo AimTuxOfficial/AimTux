@@ -31,13 +31,10 @@ void Recoilcrosshair::Paint( ) {
 
 	QAngle punchAngle = *localplayer->GetAimPunchAngle();
 
-	int screenWidth, screenHeight;
-	engine->GetScreenSize( screenWidth, screenHeight );
-
-	int x = screenWidth / 2;
-	int y = screenHeight / 2;
-	int dx = screenWidth / OverrideView::currentFOV;
-	int dy = screenHeight / OverrideView::currentFOV;
+	int x = Paint::engineWidth / 2;
+	int y = Paint::engineHeight / 2;
+	int dx = Paint::engineWidth / OverrideView::currentFOV;
+	int dy = Paint::engineHeight / OverrideView::currentFOV;
 
 	int crosshairX = ( int ) ( x - ( dx * punchAngle.y ) );
 	int crosshairY = ( int ) ( y + ( dy * punchAngle.x ) );

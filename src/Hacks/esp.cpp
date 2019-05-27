@@ -389,17 +389,11 @@ bool ESP::WorldToScreen( const Vector &origin, ImVec2 * const screen ) {
 	if ( w < 0.01f ) // Is Not in front of our player
 		return false;
 
-	static int iWidth = 0;
-	static int iHeight = 0;
-	static float width;
-	static float height;
-	if( !iWidth ){
-		engine->GetScreenSize(iWidth, iHeight);
-		width = (float)iWidth;//ImGui::GetWindowWidth();
-		height = (float)iHeight;//ImGui::GetWindowHeight();
-	}
-	static float halfWidth = width / 2;
-	static float halfHeight = height / 2;
+	float width = (float)Paint::engineWidth;
+	float height = (float)Paint::engineHeight;
+
+	float halfWidth = width / 2;
+	float halfHeight = height / 2;
 
 	float inverseW = 1 / w;
 
@@ -645,16 +639,13 @@ static void DrawTracer( C_BasePlayer* player ) {
 	if ( debugOverlay->ScreenPosition( src3D, src ) )
 		return;
 
-	int screenWidth, screenHeight;
-	engine->GetScreenSize( screenWidth, screenHeight );
-
-	int x = screenWidth / 2;
+	int x = Paint::engineWidth / 2;
 	int y = 0;
 
 	if ( Settings::ESP::Tracers::type == TracerType::CURSOR )
-		y = screenHeight / 2;
+		y = Paint::engineHeight / 2;
 	else if ( Settings::ESP::Tracers::type == TracerType::BOTTOM )
-		y = screenHeight;
+		y = Paint::engineHeight;
 
 	bool bIsVisible = Entity::IsVisible( player, ( int ) Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck );
 	Draw::AddLine( ( int ) ( src.x ), ( int ) ( src.y ), x, y, ESP::GetESPPlayerColor( player, bIsVisible ) );
@@ -676,10 +667,8 @@ static void DrawAimbotSpot( ) {
 	if( debugOverlay->ScreenPosition( Settings::Debug::AutoAim::target, spot2D) )
 		return;
 
-	int width, height;
-	engine->GetScreenSize( width, height );
-	Draw::AddLine( width / 2, height / 2, spot2D.x, spot2D.y, ImColor( 45, 235, 60 ) );
-	Draw::AddCircle( width / 2, height / 2, 1, ImColor( 45, 235, 60 ) );
+	Draw::AddLine( Paint::engineWidth / 2, Paint::engineHeight / 2, spot2D.x, spot2D.y, ImColor( 45, 235, 60 ) );
+	Draw::AddCircle( Paint::engineWidth / 2, Paint::engineHeight / 2, 1, ImColor( 45, 235, 60 ) );
 	Draw::AddCircle( spot2D.x, spot2D.y, 1, ImColor( 45, 235, 60 ) );
 
     Vector start2D = Vector(0,0,0);
@@ -1501,9 +1490,6 @@ static void DrawFOVCrosshair()
 	if (Settings::Aimbot::AutoAim::fov > OverrideView::currentFOV)
 		return;
 
-	int width, height;
-	engine->GetScreenSize(width, height);
-
 	float radius;
 	if (Settings::Aimbot::AutoAim::realDistance)
 	{
@@ -1532,17 +1518,17 @@ static void DrawFOVCrosshair()
 		if (debugOverlay->ScreenPosition(maxAimAt, max2D))
 			return;
 
-		radius = fabsf(width / 2 - max2D.x);
+		radius = fabsf(Paint::engineWidth / 2 - max2D.x);
 	}
 	else
-		radius = ((Settings::Aimbot::AutoAim::fov / OverrideView::currentFOV) * width) / 2;
+		radius = ((Settings::Aimbot::AutoAim::fov / OverrideView::currentFOV) * Paint::engineWidth) / 2;
 
-	radius = std::min(radius, (((180.f / OverrideView::currentFOV) * width) / 2)); // prevents a big radius (CTD).
+	radius = std::min(radius, (((180.f / OverrideView::currentFOV) * Paint::engineWidth) / 2)); // prevents a big radius (CTD).
 
 	if (Settings::ESP::FOVCrosshair::filled)
-		Draw::AddCircleFilled(width / 2, height / 2 , radius, Settings::ESP::FOVCrosshair::color.Color(), std::max(12, (int)radius*2));
+		Draw::AddCircleFilled(Paint::engineWidth / 2, Paint::engineHeight / 2 , radius, Settings::ESP::FOVCrosshair::color.Color(), std::max(12, (int)radius*2));
 	else
-		Draw::AddCircle(width / 2, height / 2, radius, Settings::ESP::FOVCrosshair::color.Color(), std::max(12, (int)radius*2));
+		Draw::AddCircle(Paint::engineWidth / 2, Paint::engineHeight / 2, radius, Settings::ESP::FOVCrosshair::color.Color(), std::max(12, (int)radius*2));
 }
 
 static void DrawSpread()
@@ -1560,26 +1546,20 @@ static void DrawSpread()
         return;
 
     if ( Settings::ESP::Spread::enabled ) {
-        int width, height;
-		engine->GetScreenSize( width, height );
-
         float cone = activeWeapon->GetSpread() + activeWeapon->GetInaccuracy();
         if ( cone > 0.0f ) {
-            float radius = ( cone * height ) / 1.5f;
-            Draw::AddRect( ( ( width / 2 ) - radius ), ( height / 2 ) - radius + 1,
-                               ( width / 2 ) + radius + 1, ( height / 2 ) + radius + 2,
+            float radius = ( cone * Paint::engineHeight ) / 1.5f;
+            Draw::AddRect( ( ( Paint::engineWidth / 2 ) - radius ), ( Paint::engineHeight / 2 ) - radius + 1,
+                               ( Paint::engineWidth / 2 ) + radius + 1, ( Paint::engineHeight / 2 ) + radius + 2,
                                Settings::ESP::Spread::color.Color() );
         }
     }
     if ( Settings::ESP::Spread::spreadLimit ) {
-        int width, height;
-		engine->GetScreenSize( width, height );
-
         float cone = Settings::Aimbot::SpreadLimit::value;
         if ( cone > 0.0f ) {
-            float radius = ( cone * height ) / 1.5f;
-            Draw::AddRect( ( ( width / 2 ) - radius ), ( height / 2 ) - radius + 1,
-                               ( width / 2 ) + radius + 1, ( height / 2 ) + radius + 2 ,
+            float radius = ( cone * Paint::engineHeight ) / 1.5f;
+            Draw::AddRect( ( ( Paint::engineWidth / 2 ) - radius ), ( Paint::engineHeight / 2 ) - radius + 1,
+                               ( Paint::engineWidth / 2 ) + radius + 1, ( Paint::engineHeight / 2 ) + radius + 2 ,
                                Settings::ESP::Spread::spreadLimitColor.Color() );
         }
     }
@@ -1598,11 +1578,8 @@ static void DrawScope()
     if (*activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_SG556 || *activeWeapon->GetItemDefinitionIndex() == ItemDefinitionIndex::WEAPON_AUG)
         return;
 
-    int width, height;
-	engine->GetScreenSize( width, height );
-
-    Draw::AddLine(0, height * 0.5, width, height * 0.5, ImColor(0, 0, 0, 255));
-    Draw::AddLine(width * 0.5, 0, width * 0.5, height, ImColor(0, 0, 0, 255));
+    Draw::AddLine(0, Paint::engineHeight * 0.5, Paint::engineWidth, Paint::engineHeight * 0.5, ImColor(0, 0, 0, 255));
+    Draw::AddLine(Paint::engineWidth * 0.5, 0, Paint::engineWidth * 0.5, Paint::engineHeight, ImColor(0, 0, 0, 255));
 }
 
 bool ESP::PrePaintTraverse(VPANEL vgui_panel, bool force_repaint, bool allow_force)

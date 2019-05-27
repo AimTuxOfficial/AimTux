@@ -7,6 +7,7 @@
 #include "../settings.h"
 #include "../interfaces.h"
 #include "../Utils/draw.h"
+#include "../Hooks/hooks.h"
 
 bool Settings::ESP::Hitmarker::enabled = false;
 bool Settings::ESP::Hitmarker::enemies = false;
@@ -44,9 +45,6 @@ void Hitmarkers::Paint( ) {
 	if ( diff <= 0 )
 		return;
 
-	int width, height;
-	engine->GetScreenSize( width, height );
-
 	ImColor color =Settings::ESP::Hitmarker::color.Color();
 	float sc = 1.0f/255.0f;
 	color.Value.w = std::min( color.Value.w, (( diff * (color.Value.w / sc ) / duration * 2 ) ) * sc);
@@ -58,10 +56,10 @@ void Hitmarkers::Paint( ) {
 			{ 1,  -1 }
 	};
 	for ( auto& it : sides )
-		Draw::AddLine( width / 2 + ( Settings::ESP::Hitmarker::innerGap * it[0] ),
-					  height / 2 + ( Settings::ESP::Hitmarker::innerGap * it[1] ),
-					  width / 2 + ( Settings::ESP::Hitmarker::size * it[0] ),
-					  height / 2 + ( Settings::ESP::Hitmarker::size * it[1] ), color );
+		Draw::AddLine( Paint::engineWidth / 2 + ( Settings::ESP::Hitmarker::innerGap * it[0] ),
+					   Paint::engineHeight / 2 + ( Settings::ESP::Hitmarker::innerGap * it[1] ),
+					   Paint::engineWidth / 2 + ( Settings::ESP::Hitmarker::size * it[0] ),
+					   Paint::engineHeight / 2 + ( Settings::ESP::Hitmarker::size * it[1] ), color );
 
 	if ( !Settings::ESP::Hitmarker::Damage::enabled )
 		return;
@@ -83,8 +81,8 @@ void Hitmarkers::Paint( ) {
 		color.Value.w = Settings::ESP::Hitmarker::color.Color().Value.w;
 		color.Value.w = std::min( color.Value.w, (( hitDiff * ( color.Value.w / sc ) / duration * 2 ) *sc ));
 
-		Draw::AddText( width / 2 + Settings::ESP::Hitmarker::size + 4,
-					  height / 2 - Settings::ESP::Hitmarker::size - textHeight * i + 4, damageStr.c_str(), color);
+		Draw::AddText( Paint::engineWidth / 2 + Settings::ESP::Hitmarker::size + 4,
+					   Paint::engineHeight / 2 - Settings::ESP::Hitmarker::size - textHeight * i + 4, damageStr.c_str(), color);
 
 	}
 }

@@ -9,6 +9,7 @@
 #include "../interfaces.h"
 
 #include "skinchanger.h" //GetLocalClient
+#include "../Hooks/hooks.h"
 
 #include <sstream>
 
@@ -86,14 +87,11 @@ static void DrawAimHelp(GrenadeInfo* info)
 	if( debugOverlay->ScreenPosition( infoVec, posVec ) )
 		return;
 
-	int w, h;
-	engine->GetScreenSize( w, h );
-
 	// Draw Point to Throw to
 	Draw::AddCircleFilled(posVec.x, posVec.y, 5, Settings::GrenadeHelper::aimDot.Color(), 20 );
 
 	// Draw Help line
-	Draw::AddLine(w / 2, h / 2, posVec.x, posVec.y, Settings::GrenadeHelper::aimLine.Color());
+	Draw::AddLine(Paint::engineWidth / 2, Paint::engineHeight / 2, posVec.x, posVec.y, Settings::GrenadeHelper::aimLine.Color());
 }
 static void AimAssist(CUserCmd* cmd)
 {

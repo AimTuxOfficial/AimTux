@@ -63,6 +63,12 @@ namespace OverrideView
 	extern float currentFOV;
 }
 
+namespace Paint
+{
+    extern int engineWidth; // updated in paint.
+    extern int engineHeight;
+}
+
 namespace SetKeyCodeState
 {
 	extern bool shouldListen;

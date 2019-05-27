@@ -5,6 +5,7 @@
 #include "antiaim.h"
 #include "../Utils/draw.h"
 #include "../Utils/math.h"
+#include "../Hooks/hooks.h"
 
 bool Settings::AngleIndicator::enabled = false;
 
@@ -17,15 +18,10 @@ void AngleIndicator::Paint( ) {
     if ( !localPlayer || !localPlayer->GetAlive() )
         return;
 
-    static int width = 0;
-    static int height = 0;
-    if( width == 0 ){
-        engine->GetScreenSize( width, height );
-    }
-    static int radius = 55;
-    static int centerX = width / 3;
-    static int centerY = height / 2;
-    static int northY = centerY - radius;
+    int radius = 55;
+    int centerX = Paint::engineWidth / 3;
+    int centerY = Paint::engineHeight / 2;
+    int northY = centerY - radius;
 
     float maxDesync = AntiAim::GetMaxDelta( localPlayer->GetAnimState() );
     float realDiff = AntiAim::lastFakeYaw - AntiAim::lastRealYaw;
