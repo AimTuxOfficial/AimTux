@@ -670,7 +670,7 @@ namespace Settings
 			extern bool enabled;
 			extern ColorVar enemyColor;
 			extern ColorVar allyColor;
-		}
+		}		
 
 		namespace Boxes
 		{
@@ -878,6 +878,13 @@ namespace Settings
 	namespace NoDuckCooldown
 	{
 		extern bool enabled;
+	}
+
+	namespace Eventlog
+	{
+		extern bool showEnemies;
+		extern bool showTeammates;
+		extern float duration;
 	}
 
 	namespace AutoStrafe
