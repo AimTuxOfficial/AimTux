@@ -670,7 +670,7 @@ namespace Settings
 			extern bool enabled;
 			extern ColorVar enemyColor;
 			extern ColorVar allyColor;
-		}		
+		}	
 
 		namespace Boxes
 		{
