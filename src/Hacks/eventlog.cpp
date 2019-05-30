@@ -13,11 +13,12 @@ std::vector<std::pair<std::string, long>> logToShow;
 long lastLogTimestamp = 0;
 bool Settings::Eventlog::showEnemies = false;
 bool Settings::Eventlog::showTeammates = false;
+bool Settings::Eventlog::showLocalplayer = false;
 float Settings::Eventlog::duration = 5000;
 ColorVar Settings::Eventlog::color = ImColor( 255, 79, 56, 255 );
 
 void Eventlog::Paint( ) {
-	if ( !Settings::Eventlog::showEnemies && !Settings::Eventlog::showTeammates )
+	if ( !Settings::Eventlog::showEnemies && !Settings::Eventlog::showTeammates && !Settings::Eventlog::showLocalplayer )
 		return;
 
 	if ( !engine->IsInGame() )
@@ -37,7 +38,7 @@ void Eventlog::Paint( ) {
 	if ( diff <= 0 )
 		return;
 
-	ImColor color =Settings::Eventlog::color.Color();
+	ImColor color = Settings::Eventlog::color.Color();
 	float sc = 1.0f/255.0f;
 	color.Value.w = std::min( color.Value.w, (( diff * (color.Value.w / sc ) / duration * 2 ) ) * sc);
 
@@ -66,7 +67,7 @@ void Eventlog::Paint( ) {
 
 void Eventlog::FireGameEvent(IGameEvent* event)
 {
-	if (!Settings::Eventlog::showEnemies && !Settings::Eventlog::showTeammates)
+	if (!Settings::Eventlog::showEnemies && !Settings::Eventlog::showTeammates && !Settings::Eventlog::showLocalplayer)
 		return;
 
 	if (!engine->IsInGame())
@@ -97,17 +98,26 @@ void Eventlog::FireGameEvent(IGameEvent* event)
 		if (!Entity::IsTeamMate(hurt_player, localplayer) && !Settings::Eventlog::showEnemies)
 			return;
 
-
-		IEngineClient::player_info_t damageToPlayer;		
-		engine->GetPlayerInfo(engine->GetPlayerForUserID(hurt_player_id), &damageToPlayer);
-
 		long now = Util::GetEpochTime();
 		lastLogTimestamp = now;
 
 		std::string damageLog = "damage: -";
 		damageLog += std::to_string(event->GetInt(XORSTR("dmg_health")));
-		damageLog += XORSTR(" to ");
-		damageLog += std::string(damageToPlayer.name);
+
+		if ((engine->GetPlayerForUserID(hurt_player_id) == engine->GetLocalPlayer() && (engine->GetPlayerForUserID(attacker_id) != engine->GetLocalPlayer()))){
+			damageLog += XORSTR(" from ");
+
+			IEngineClient::player_info_t damageFromPlayer;		
+			engine->GetPlayerInfo(engine->GetPlayerForUserID(attacker_id), &damageFromPlayer);
+			damageLog += std::string(damageFromPlayer.name);			
+		} else if ((engine->GetPlayerForUserID(hurt_player_id) != engine->GetLocalPlayer() && (engine->GetPlayerForUserID(attacker_id) == engine->GetLocalPlayer()))){
+			damageLog += XORSTR(" to ");
+
+			IEngineClient::player_info_t damageToPlayer;		
+			engine->GetPlayerInfo(engine->GetPlayerForUserID(hurt_player_id), &damageToPlayer);
+			damageLog += std::string(damageToPlayer.name);			
+		}
+		
 		if ((hurt_player->GetHealth()) - (event->GetInt(XORSTR("dmg_health"))) <= 0){
 			damageLog += XORSTR(" (dead)");
 		} else if ((hurt_player->GetHealth()) - (event->GetInt(XORSTR("dmg_health"))) > 0){
@@ -122,7 +132,7 @@ void Eventlog::FireGameEvent(IGameEvent* event)
 
 		int buyer_player_id = event->GetInt(XORSTR("userid"));
 
-		if (engine->GetPlayerForUserID(buyer_player_id) == engine->GetLocalPlayer())
+		if ((engine->GetPlayerForUserID(buyer_player_id) == engine->GetLocalPlayer()) && !Settings::Eventlog::showLocalplayer)
 			return;
 
 		C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
@@ -133,10 +143,10 @@ void Eventlog::FireGameEvent(IGameEvent* event)
 		if (!buyer_player)
 			return;
 
-		if (Entity::IsTeamMate(buyer_player, localplayer) && !Settings::Eventlog::showTeammates)
+		if ((localplayer != buyer_player) && Entity::IsTeamMate(buyer_player, localplayer) && !Settings::Eventlog::showTeammates)
 			return;
 
-		if (!Entity::IsTeamMate(buyer_player, localplayer) && !Settings::Eventlog::showEnemies)
+		if ((localplayer != buyer_player) && !Entity::IsTeamMate(buyer_player, localplayer) && !Settings::Eventlog::showEnemies)
 			return;
 
 
@@ -161,7 +171,7 @@ void Eventlog::FireGameEvent(IGameEvent* event)
 
 		int bomb_player_id = event->GetInt(XORSTR("userid"));
 
-		if (engine->GetPlayerForUserID(bomb_player_id) == engine->GetLocalPlayer())
+		if ((engine->GetPlayerForUserID(bomb_player_id) == engine->GetLocalPlayer()) && !Settings::Eventlog::showLocalplayer)
 			return;
 
 		C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
@@ -172,10 +182,10 @@ void Eventlog::FireGameEvent(IGameEvent* event)
 		if (!bomb_player)
 			return;
 
-		if (Entity::IsTeamMate(bomb_player, localplayer) && !Settings::Eventlog::showTeammates)
+		if ((localplayer != bomb_player) && Entity::IsTeamMate(bomb_player, localplayer) && !Settings::Eventlog::showTeammates)
 			return;
 
-		if (!Entity::IsTeamMate(bomb_player, localplayer) && !Settings::Eventlog::showEnemies)
+		if ((localplayer != bomb_player) && !Entity::IsTeamMate(bomb_player, localplayer) && !Settings::Eventlog::showEnemies)
 			return;
 
 
@@ -197,7 +207,7 @@ void Eventlog::FireGameEvent(IGameEvent* event)
 
 		int defuse_player_id = event->GetInt(XORSTR("userid"));
 
-		if (engine->GetPlayerForUserID(defuse_player_id) == engine->GetLocalPlayer())
+		if ((engine->GetPlayerForUserID(defuse_player_id) == engine->GetLocalPlayer()) && !Settings::Eventlog::showLocalplayer)
 			return;
 
 		C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
@@ -208,10 +218,10 @@ void Eventlog::FireGameEvent(IGameEvent* event)
 		if (!defuse_player)
 			return;
 
-		if (Entity::IsTeamMate(defuse_player, localplayer) && !Settings::Eventlog::showTeammates)
+		if ((localplayer != defuse_player) && Entity::IsTeamMate(defuse_player, localplayer) && !Settings::Eventlog::showTeammates)
 			return;
 
-		if (!Entity::IsTeamMate(defuse_player, localplayer) && !Settings::Eventlog::showEnemies)
+		if ((localplayer != defuse_player) && !Entity::IsTeamMate(defuse_player, localplayer) && !Settings::Eventlog::showEnemies)
 			return;
 
 
@@ -237,7 +247,7 @@ void Eventlog::FireGameEvent(IGameEvent* event)
 
 		int plant_player_id = event->GetInt(XORSTR("userid"));
 
-		if (engine->GetPlayerForUserID(plant_player_id) == engine->GetLocalPlayer())
+		if ((engine->GetPlayerForUserID(plant_player_id) == engine->GetLocalPlayer()) && !Settings::Eventlog::showLocalplayer)
 			return;
 
 		C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
@@ -248,10 +258,10 @@ void Eventlog::FireGameEvent(IGameEvent* event)
 		if (!planter_player)
 			return;
 
-		if (Entity::IsTeamMate(planter_player, localplayer) && !Settings::Eventlog::showTeammates)
+		if ((localplayer != planter_player) && Entity::IsTeamMate(planter_player, localplayer) && !Settings::Eventlog::showTeammates)
 			return;
 
-		if (!Entity::IsTeamMate(planter_player, localplayer) && !Settings::Eventlog::showEnemies)
+		if ((localplayer != planter_player) && !Entity::IsTeamMate(planter_player, localplayer) && !Settings::Eventlog::showEnemies)
 			return;
 
 
@@ -266,6 +276,76 @@ void Eventlog::FireGameEvent(IGameEvent* event)
 		//plantLog += std::to_string(event->GetInt("site"));
 
 		logToShow.insert(logToShow.begin(), std::pair<std::string, long>(plantLog, now));
+
+	} else if (strstr(event->GetName(), XORSTR("item_pickup"))){ 
+
+		int pickup_player_id = event->GetInt(XORSTR("userid"));
+
+		if ((engine->GetPlayerForUserID(pickup_player_id) == engine->GetLocalPlayer()) && !Settings::Eventlog::showLocalplayer)
+			return;
+
+		C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+		if (!localplayer)
+			return;
+
+		C_BasePlayer* pickup_player = (C_BasePlayer*) entityList->GetClientEntity(engine->GetPlayerForUserID(pickup_player_id));
+		if (!pickup_player)
+			return;
+
+		if ((localplayer != pickup_player) && Entity::IsTeamMate(pickup_player, localplayer) && !Settings::Eventlog::showTeammates)
+			return;
+
+		if ((localplayer != pickup_player) && !Entity::IsTeamMate(pickup_player, localplayer) && !Settings::Eventlog::showEnemies)
+			return;
+
+
+		IEngineClient::player_info_t pickupInformation;		
+		engine->GetPlayerInfo(engine->GetPlayerForUserID(pickup_player_id), &pickupInformation);
+
+		long now = Util::GetEpochTime();
+		lastLogTimestamp = now;
+
+		std::string pickupLog = std::string(pickupInformation.name);
+		pickupLog += " picked up ";
+		pickupLog += std::string(event->GetString(XORSTR("item")));
+
+		logToShow.insert(logToShow.begin(), std::pair<std::string, long>(pickupLog, now));
+
+	} else if (strstr(event->GetName(), XORSTR("item_remove"))){ 
+
+		int drop_player_id = event->GetInt(XORSTR("userid"));
+
+		if ((engine->GetPlayerForUserID(drop_player_id) == engine->GetLocalPlayer()) && !Settings::Eventlog::showLocalplayer)
+			return;
+
+		C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+		if (!localplayer)
+			return;
+
+		C_BasePlayer* drop_player = (C_BasePlayer*) entityList->GetClientEntity(engine->GetPlayerForUserID(drop_player_id));
+		if (!drop_player)
+			return;
+
+		if ((localplayer != drop_player) && Entity::IsTeamMate(drop_player, localplayer) && !Settings::Eventlog::showTeammates)
+			return;
+
+		if ((localplayer != drop_player) && !Entity::IsTeamMate(drop_player, localplayer) && !Settings::Eventlog::showEnemies)
+			return;
+
+		if (strstr(event->GetString(XORSTR("item")), XORSTR("knife")) || strstr(event->GetString(XORSTR("item")), XORSTR("vesthelm")))
+			return;
+
+		IEngineClient::player_info_t dropInformation;		
+		engine->GetPlayerInfo(engine->GetPlayerForUserID(drop_player_id), &dropInformation);
+
+		long now = Util::GetEpochTime();
+		lastLogTimestamp = now;
+
+		std::string dropLog = std::string(dropInformation.name);
+		dropLog += " dropped ";
+		dropLog += std::string(event->GetString(XORSTR("item")));
+
+		logToShow.insert(logToShow.begin(), std::pair<std::string, long>(dropLog, now));
 
 	}
 }
