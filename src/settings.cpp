@@ -592,6 +592,12 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings[XORSTR("NameStealer")][XORSTR("enabled")] = Settings::NameStealer::enabled;
 	settings[XORSTR("NameStealer")][XORSTR("team")] = Settings::NameStealer::team;
 
+	settings[XORSTR("Eventlog")][XORSTR("showEnemies")] = Settings::Eventlog::showEnemies;
+	settings[XORSTR("Eventlog")][XORSTR("showTeammates")] = Settings::Eventlog::showTeammates;
+	settings[XORSTR("Eventlog")][XORSTR("duration")] = Settings::Eventlog::duration;
+	LoadColor(settings[XORSTR("Eventlog")][XORSTR("color")], Settings::Eventlog::color);
+
+
 	settings[XORSTR("ThirdPerson")][XORSTR("enabled")] = Settings::ThirdPerson::enabled;
 	settings[XORSTR("ThirdPerson")][XORSTR("distance")] = Settings::ThirdPerson::distance;
 
@@ -1156,6 +1162,11 @@ void Settings::LoadConfig(std::string path)
 
 	GetVal(settings[XORSTR("NameStealer")][XORSTR("enabled")], &Settings::NameStealer::enabled);
 	GetVal(settings[XORSTR("NameStealer")][XORSTR("team")], &Settings::NameStealer::team);
+
+	GetVal(settings[XORSTR("Eventlog")][XORSTR("showEnemies")], &Settings::Eventlog::showEnemies);
+	GetVal(settings[XORSTR("Eventlog")][XORSTR("showTeammates")], &Settings::Eventlog::showTeammates);
+	GetVal(settings[XORSTR("Eventlog")][XORSTR("duration")], &Settings::Eventlog::duration);
+	GetVal(settings[XORSTR("Eventlog")][XORSTR("color")], &Settings::Eventlog::color);
 
 	GetVal(settings[XORSTR("ThirdPerson")][XORSTR("enabled")], &Settings::ThirdPerson::enabled);
 	GetVal(settings[XORSTR("ThirdPerson")][XORSTR("distance")], &Settings::ThirdPerson::distance);
