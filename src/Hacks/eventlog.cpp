@@ -14,6 +14,7 @@ long lastLogTimestamp = 0;
 bool Settings::Eventlog::showEnemies = false;
 bool Settings::Eventlog::showTeammates = false;
 float Settings::Eventlog::duration = 5000;
+ColorVar Settings::Eventlog::color = ImColor( 255, 79, 56, 255 );
 
 void Eventlog::Paint( ) {
 	if ( !Settings::Eventlog::showEnemies && !Settings::Eventlog::showTeammates )
@@ -36,7 +37,7 @@ void Eventlog::Paint( ) {
 	if ( diff <= 0 )
 		return;
 
-	ImColor color = Settings::GrenadePrediction::color.Color();
+	ImColor color =Settings::Eventlog::color.Color();
 	float sc = 1.0f/255.0f;
 	color.Value.w = std::min( color.Value.w, (( diff * (color.Value.w / sc ) / duration * 2 ) ) * sc);
 
@@ -54,7 +55,7 @@ void Eventlog::Paint( ) {
 
 		std::string showLog = logToShow[i].first;
 
-		color.Value.w = Settings::GrenadePrediction::color.Color().Value.w;
+		color.Value.w = Settings::Eventlog::color.Color().Value.w;
 		color.Value.w = std::min( color.Value.w, (( hitDiff * ( color.Value.w / sc ) / duration * 2 ) *sc ));
 
 		Draw::AddText( 20,
