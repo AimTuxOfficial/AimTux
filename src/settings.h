@@ -888,13 +888,6 @@ namespace Settings
 		extern bool enabled;
 	}
 
-	namespace Eventlog
-	{
-		extern bool showEnemies;
-		extern bool showTeammates;
-		extern float duration;
-	}
-
 	namespace AutoStrafe
 	{
 		extern bool enabled;
