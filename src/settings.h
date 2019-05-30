@@ -820,6 +820,14 @@ namespace Settings
 		extern bool enabled;
 		extern float radius;
 	}
+	
+	namespace Eventlog
+	{
+		extern bool showEnemies;
+		extern bool showTeammates;
+		extern float duration;
+		extern ColorVar color;
+	}	
 
 	namespace Spammer
 	{
