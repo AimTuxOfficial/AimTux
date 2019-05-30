@@ -825,6 +825,7 @@ namespace Settings
 	{
 		extern bool showEnemies;
 		extern bool showTeammates;
+		extern bool showLocalplayer;		
 		extern float duration;
 		extern ColorVar color;
 	}	
