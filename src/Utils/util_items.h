@@ -30,5 +30,6 @@ namespace Util
 		bool IsGlove(ItemDefinitionIndex index);
 		bool IsCTWeapon(ItemDefinitionIndex index);
 		bool IsTWeapon(ItemDefinitionIndex index);
+		bool IsScopeable(ItemDefinitionIndex index);
 	}
 }

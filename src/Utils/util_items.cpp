@@ -225,5 +225,21 @@ namespace Util
 					return false;
 			}
 		}
+
+		bool IsScopeable(ItemDefinitionIndex index)
+		{
+			switch (index)
+			{
+				case ItemDefinitionIndex::WEAPON_AUG:
+				case ItemDefinitionIndex::WEAPON_AWP:
+				case ItemDefinitionIndex::WEAPON_G3SG1:
+				case ItemDefinitionIndex::WEAPON_SCAR20:
+				case ItemDefinitionIndex::WEAPON_SG556:
+				case ItemDefinitionIndex::WEAPON_SSG08:
+					return true;
+				default:
+					return false;
+			}
+		}
 	}
 }
