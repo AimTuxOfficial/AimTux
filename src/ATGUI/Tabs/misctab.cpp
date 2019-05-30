@@ -244,6 +244,7 @@ void Misc::RenderTab()
 			{
 				ImGui::PushItemWidth(-1);
 				ImGui::SliderFloat(XORSTR("##LOGGERDURATION"), &Settings::Eventlog::duration, 1000.f, 5000.f, XORSTR("Log duration: %0.f"));
+				ImGui::Checkbox(XORSTR("Show LocalPlayer"), &Settings::Eventlog::showLocalplayer);
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
