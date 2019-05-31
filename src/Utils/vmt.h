@@ -1,42 +1,59 @@
 #pragma once
 
+#include "MemoryProtection.h"
+
 #include <cstdint>
-#include <cstddef>
 #include <vector>
 
 class VMT;
 extern std::vector<VMT*> createdVMTs;
 
-class VMT
+inline uint32_t CountVMs( void* interface )
 {
-private:
-	uintptr_t* vmt;
-public:
-	// New virtual method table
-	uintptr_t** interface = nullptr;
-
-	uintptr_t* original_vmt = nullptr;
+	uintptr_t** vmt = reinterpret_cast<uintptr_t**>(interface);
 
 	uint32_t methodCount = 0;
+
+	while ( vmt && (*vmt)[methodCount] && ( MemoryProtection::GetProtectionFlags( (*vmt)[methodCount] ) & PF_X ) )
+		methodCount++;
+
+	return methodCount;
+}
+
+class VMT
+{
+public:
+	uintptr_t* vmt;
+	uintptr_t** interface = nullptr;
+	uintptr_t* original_vmt = nullptr;
+	size_t method_count = 0;
+	bool hasRTTI = false;
+	int32_t rttiPrefix = 0;
 
 	~VMT( ){
 		ReleaseVMT();
 		delete[] vmt;
 	}
-	VMT(void* interface)
+	VMT(void* interface, bool copyRTTI = true, int32_t rttiPrefixAmount = 2)
 	{
 		this->interface = reinterpret_cast<uintptr_t**>(interface);
 
-		size_t method_count = 0;
-
-		while (reinterpret_cast<uintptr_t*>(*this->interface)[method_count])
-			method_count++;
+		method_count = CountVMs(interface) + 2 + rttiPrefixAmount;
 
 		original_vmt = *this->interface;
 
 		vmt = new uintptr_t[method_count];
+		// Copy the Original Vtable.
+		if( copyRTTI ){
+			memcpy(vmt, &original_vmt[-rttiPrefixAmount], (sizeof(uintptr_t) * method_count) + sizeof(uintptr_t));
+			hasRTTI = true;
+			rttiPrefix = rttiPrefixAmount;
+		} else {
+			memcpy(vmt, original_vmt, sizeof(uintptr_t) * method_count);
+		}
 
-		memcpy(vmt, original_vmt, sizeof(uintptr_t) * method_count);
+		// Make sure to "NULL terminate" our new array of pointers.
+		memset(&vmt[method_count], 0, sizeof(uintptr_t));
 
 		createdVMTs.push_back(this);
 	}
@@ -45,7 +62,7 @@ public:
 	template <typename func>
 	void HookVM(func method, size_t methodIndex)
 	{
-		vmt[methodIndex] = reinterpret_cast<uintptr_t>(method);
+		vmt[hasRTTI ? methodIndex + rttiPrefix : methodIndex] = reinterpret_cast<uintptr_t>(method);
 	}
 
 	template<typename Fn>
@@ -56,11 +73,19 @@ public:
 
 	void ApplyVMT()
 	{
-		*this->interface = vmt;
+		if( hasRTTI ) {
+			*this->interface = &vmt[rttiPrefix];
+		} else {
+			*this->interface = vmt;
+		}
 	}
 
 	void ReleaseVMT()
 	{
-		*this->interface = original_vmt;
+		if( !this->interface )
+			return;
+		if( *this->interface && original_vmt )
+			*this->interface = original_vmt;
 	}
+
 };
