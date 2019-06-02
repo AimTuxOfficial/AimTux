@@ -23,7 +23,7 @@ void SniperCrosshair::Paint( )
         return;
 
     C_BaseCombatWeapon *activeWeapon = (C_BaseCombatWeapon*)entityList->GetClientEntityFromHandle(localPlayer->GetActiveWeapon());
-    if( activeWeapon->GetCSWpnData()->GetWeaponType() != CSWeaponType::WEAPONTYPE_SNIPER_RIFLE )
+    if (!activeWeapon || activeWeapon->GetCSWpnData()->GetWeaponType() != CSWeaponType::WEAPONTYPE_SNIPER_RIFLE)
         return;
 
     int x = Paint::engineWidth / 2;
