@@ -1394,7 +1394,7 @@ static void DrawThrowable(C_BaseEntity* throwable, ClientClass* client, C_BasePl
 		{
 			nadeName = XORSTR("Breach Charge (placed)");
 			nadeColor = Settings::ESP::chargeColor.Color();
-			;
+			break;
 		}
 	}
 
