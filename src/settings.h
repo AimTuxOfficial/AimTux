@@ -670,7 +670,7 @@ namespace Settings
 			extern bool enabled;
 			extern ColorVar enemyColor;
 			extern ColorVar allyColor;
-		}	
+		}
 
 		namespace Boxes
 		{
@@ -827,6 +827,7 @@ namespace Settings
 		extern bool showTeammates;
 		extern bool showLocalplayer;		
 		extern float duration;
+		extern float lines;		
 		extern ColorVar color;
 	}	
 
