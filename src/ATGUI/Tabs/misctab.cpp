@@ -231,23 +231,6 @@ void Misc::RenderTab()
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
-			ImGui::Separator();
-			ImGui::Text(XORSTR("Event logger"));
-			ImGui::Separator();
-			ImGui::Columns(2, nullptr, true);
-			{
-				ImGui::Checkbox(XORSTR("Show Enemies"), &Settings::Eventlog::showEnemies);
-				ImGui::Checkbox(XORSTR("Show Allies"), &Settings::Eventlog::showTeammates);				
-
-			}
-			ImGui::NextColumn();
-			{
-				ImGui::PushItemWidth(-1);
-				ImGui::SliderFloat(XORSTR("##LOGGERDURATION"), &Settings::Eventlog::duration, 1000.f, 5000.f, XORSTR("Log duration: %0.f"));
-				ImGui::Checkbox(XORSTR("Show LocalPlayer"), &Settings::Eventlog::showLocalplayer);
-				ImGui::PopItemWidth();
-			}
-			ImGui::Columns(1);
 			ImGui::Separator();				
 			ImGui::Text(XORSTR("Grenade Helper"));
 			ImGui::Separator();
