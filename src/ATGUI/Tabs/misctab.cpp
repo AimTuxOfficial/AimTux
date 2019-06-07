@@ -231,7 +231,7 @@ void Misc::RenderTab()
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
-			ImGui::Separator();				
+			ImGui::Separator();	
 			ImGui::Text(XORSTR("Grenade Helper"));
 			ImGui::Separator();
 			ImGui::Columns(2, nullptr, true);
