@@ -15,6 +15,7 @@ bool Settings::Eventlog::showEnemies = false;
 bool Settings::Eventlog::showTeammates = false;
 bool Settings::Eventlog::showLocalplayer = false;
 float Settings::Eventlog::duration = 5000;
+float Settings::Eventlog::lines = 10;
 ColorVar Settings::Eventlog::color = ImColor( 255, 79, 56, 255 );
 
 void Eventlog::Paint( ) {
@@ -54,15 +55,18 @@ void Eventlog::Paint( ) {
 			continue;
 		}
 
+		if ( i >= Settings::Eventlog::lines )
+			return;
+
 		std::string showLog = logToShow[i].first;
 
 		color.Value.w = Settings::Eventlog::color.Color().Value.w;
 		color.Value.w = std::min( color.Value.w, (( hitDiff * ( color.Value.w / sc ) / duration * 2 ) *sc ));
 
-		Draw::AddText( 20,
-					   40 - textHeight * i, showLog.c_str(), color);
+		Draw::AddText( Paint::engineWidth / 5,
+					   Paint::engineHeight / 6.5 - textHeight * i, showLog.c_str(), color);
 
-	}	
+	}
 }
 
 void Eventlog::FireGameEvent(IGameEvent* event)
@@ -71,6 +75,10 @@ void Eventlog::FireGameEvent(IGameEvent* event)
 		return;
 
 	if (!engine->IsInGame())
+		return;
+
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+	if (!localplayer)
 		return;
 
 	if (strstr(event->GetName(), XORSTR("player_hurt"))){
@@ -84,9 +92,6 @@ void Eventlog::FireGameEvent(IGameEvent* event)
 		if (engine->GetPlayerForUserID(attacker_id) != engine->GetLocalPlayer())
 			return;
 
-		C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-		if (!localplayer)
-			return;
 
 		C_BasePlayer* hurt_player = (C_BasePlayer*) entityList->GetClientEntity(engine->GetPlayerForUserID(hurt_player_id));
 		if (!hurt_player)
@@ -135,10 +140,6 @@ void Eventlog::FireGameEvent(IGameEvent* event)
 		if ((engine->GetPlayerForUserID(buyer_player_id) == engine->GetLocalPlayer()) && !Settings::Eventlog::showLocalplayer)
 			return;
 
-		C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-		if (!localplayer)
-			return;
-
 		C_BasePlayer* buyer_player = (C_BasePlayer*) entityList->GetClientEntity(engine->GetPlayerForUserID(buyer_player_id));
 		if (!buyer_player)
 			return;
@@ -174,10 +175,6 @@ void Eventlog::FireGameEvent(IGameEvent* event)
 		if ((engine->GetPlayerForUserID(bomb_player_id) == engine->GetLocalPlayer()) && !Settings::Eventlog::showLocalplayer)
 			return;
 
-		C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-		if (!localplayer)
-			return;
-
 		C_BasePlayer* bomb_player = (C_BasePlayer*) entityList->GetClientEntity(engine->GetPlayerForUserID(bomb_player_id));
 		if (!bomb_player)
 			return;
@@ -208,10 +205,6 @@ void Eventlog::FireGameEvent(IGameEvent* event)
 		int defuse_player_id = event->GetInt(XORSTR("userid"));
 
 		if ((engine->GetPlayerForUserID(defuse_player_id) == engine->GetLocalPlayer()) && !Settings::Eventlog::showLocalplayer)
-			return;
-
-		C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-		if (!localplayer)
 			return;
 
 		C_BasePlayer* defuse_player = (C_BasePlayer*) entityList->GetClientEntity(engine->GetPlayerForUserID(defuse_player_id));
@@ -250,10 +243,6 @@ void Eventlog::FireGameEvent(IGameEvent* event)
 		if ((engine->GetPlayerForUserID(plant_player_id) == engine->GetLocalPlayer()) && !Settings::Eventlog::showLocalplayer)
 			return;
 
-		C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-		if (!localplayer)
-			return;
-
 		C_BasePlayer* planter_player = (C_BasePlayer*) entityList->GetClientEntity(engine->GetPlayerForUserID(plant_player_id));
 		if (!planter_player)
 			return;
@@ -284,10 +273,6 @@ void Eventlog::FireGameEvent(IGameEvent* event)
 		if ((engine->GetPlayerForUserID(pickup_player_id) == engine->GetLocalPlayer()) && !Settings::Eventlog::showLocalplayer)
 			return;
 
-		C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-		if (!localplayer)
-			return;
-
 		C_BasePlayer* pickup_player = (C_BasePlayer*) entityList->GetClientEntity(engine->GetPlayerForUserID(pickup_player_id));
 		if (!pickup_player)
 			return;
@@ -316,10 +301,6 @@ void Eventlog::FireGameEvent(IGameEvent* event)
 		int drop_player_id = event->GetInt(XORSTR("userid"));
 
 		if ((engine->GetPlayerForUserID(drop_player_id) == engine->GetLocalPlayer()) && !Settings::Eventlog::showLocalplayer)
-			return;
-
-		C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-		if (!localplayer)
 			return;
 
 		C_BasePlayer* drop_player = (C_BasePlayer*) entityList->GetClientEntity(engine->GetPlayerForUserID(drop_player_id));
