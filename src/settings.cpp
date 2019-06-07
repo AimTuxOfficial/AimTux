@@ -596,8 +596,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings[XORSTR("Eventlog")][XORSTR("showTeammates")] = Settings::Eventlog::showTeammates;
 	settings[XORSTR("Eventlog")][XORSTR("showLocalplayer")] = Settings::Eventlog::showLocalplayer;
 	settings[XORSTR("Eventlog")][XORSTR("duration")] = Settings::Eventlog::duration;
+	settings[XORSTR("Eventlog")][XORSTR("lines")] = Settings::Eventlog::lines;	
 	LoadColor(settings[XORSTR("Eventlog")][XORSTR("color")], Settings::Eventlog::color);
-
 
 	settings[XORSTR("ThirdPerson")][XORSTR("enabled")] = Settings::ThirdPerson::enabled;
 	settings[XORSTR("ThirdPerson")][XORSTR("distance")] = Settings::ThirdPerson::distance;
@@ -1168,6 +1168,7 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings[XORSTR("Eventlog")][XORSTR("showTeammates")], &Settings::Eventlog::showTeammates);
 	GetVal(settings[XORSTR("Eventlog")][XORSTR("showLocalplayer")], &Settings::Eventlog::showLocalplayer);
 	GetVal(settings[XORSTR("Eventlog")][XORSTR("duration")], &Settings::Eventlog::duration);
+	GetVal(settings[XORSTR("Eventlog")][XORSTR("lines")], &Settings::Eventlog::lines);	
 	GetVal(settings[XORSTR("Eventlog")][XORSTR("color")], &Settings::Eventlog::color);
 
 	GetVal(settings[XORSTR("ThirdPerson")][XORSTR("enabled")], &Settings::ThirdPerson::enabled);
