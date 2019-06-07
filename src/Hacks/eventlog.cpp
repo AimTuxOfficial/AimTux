@@ -19,6 +19,9 @@ float Settings::Eventlog::lines = 10;
 ColorVar Settings::Eventlog::color = ImColor( 255, 79, 56, 255 );
 
 void Eventlog::Paint( ) {
+	if ( !Settings::ESP::enabled )
+		return;	
+	
 	if ( !Settings::Eventlog::showEnemies && !Settings::Eventlog::showTeammates && !Settings::Eventlog::showLocalplayer )
 		return;
 
@@ -71,6 +74,9 @@ void Eventlog::Paint( ) {
 
 void Eventlog::FireGameEvent(IGameEvent* event)
 {
+	if (!Settings::ESP::enabled)
+		return;	
+	
 	if (!Settings::Eventlog::showEnemies && !Settings::Eventlog::showTeammates && !Settings::Eventlog::showLocalplayer)
 		return;
 
