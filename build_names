@@ -239,7 +239,6 @@ libbytesize.so
 libbz2.so
 libbz2.so
 libbz2.so
-libc-2.24.so
 libcacard.so
 libcacard.so
 libcairo-gobject.so
@@ -1170,8 +1169,6 @@ libhogweed.so
 libhogweed.so
 libhpdiscovery.so
 libhpdiscovery.so
-libhpipp.so
-libhpipp.so
 libhpip.so
 libhpip.so
 libhpmud.so
@@ -2888,9 +2885,6 @@ libxapian.so
 libxapian.so
 libxatracker.so
 libxatracker.so
-libXau.so
-libXau.so
-libXau.so
 libXaw7.so
 libXaw7.so
 libXaw.so
