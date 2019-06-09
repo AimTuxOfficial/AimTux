@@ -763,8 +763,6 @@ libgcr-3.so
 libgcr-3.so
 libgcr-base-3.so
 libgcr-base-3.so
-libgcr-ui-3.so
-libgcr-ui-3.so
 libgcrypt.so
 libgcrypt.so
 libgcrypt.so
@@ -1624,8 +1622,6 @@ libnm.so
 libnm.so
 libnm-util.so
 libnm-util.so
-libnotify.so
-libnotify.so
 libnpth.so
 libnpth.so
 libnsl-2.24.so
@@ -3043,8 +3039,6 @@ libxkbcommon.so
 libxkbcommon.so
 libxkbcommon-x11.so
 libxkbcommon-x11.so
-libxkbfile.so
-libxkbfile.so
 libxklavier.so
 libxklavier.so
 libxlutil.so
