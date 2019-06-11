@@ -102,6 +102,7 @@ public:
 	ConVar* pParent; // 0x0038
 	char* strDefault;// 0x0040
 	char* strValue;  // 0x0048
+	int32_t strLength;
 	ConVarType_t type; // 0x0050
 	float fValue; //0x0054
 	int32_t iValue;//0x0058
