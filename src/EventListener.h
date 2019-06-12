@@ -2,6 +2,7 @@
 
 #include "Hacks/aimbot.h"
 #include "Hacks/hitmarkers.h"
+#include "Hacks/eventlog.h"
 #include "Hacks/namestealer.h"
 #include "Hacks/resolver.h"
 #include "Hacks/spammer.h"
@@ -26,6 +27,7 @@ public:
 	{
 		Aimbot::FireGameEvent(event);
 		Hitmarkers::FireGameEvent(event);
+		Eventlog::FireGameEvent(event);		
 		NameStealer::FireGameEvent(event);
 		Resolver::FireGameEvent(event);
 		Spammer::FireGameEvent(event);
