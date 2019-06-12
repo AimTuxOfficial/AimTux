@@ -66,8 +66,7 @@ void Eventlog::Paint( ) {
 		color.Value.w = Settings::Eventlog::color.Color().Value.w;
 		color.Value.w = std::min( color.Value.w, (( hitDiff * ( color.Value.w / sc ) / duration * 2 ) *sc ));
 
-		Draw::AddText( Paint::engineWidth / 5,
-					   Paint::engineHeight / 6.5 - textHeight * i, showLog.c_str(), color);
+		Draw::AddText( Paint::engineWidth / 5, Paint::engineHeight / 6.5 - textHeight * i, showLog.c_str(), color);
 
 	}
 }
