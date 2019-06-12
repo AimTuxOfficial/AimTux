@@ -118,6 +118,7 @@ void Colors::RenderWindow()
 			{ "Grenade Helper - Molotov Info", &Settings::GrenadeHelper::infoMolotov },
 			{ "Grenade Helper - Flash Info", &Settings::GrenadeHelper::infoFlash },
 			{ "Grenade Prediction - Line", &Settings::GrenadePrediction::color },
+			{ "Event log", &Settings::Eventlog::color },
 			{ "Radar - Enemy", &Settings::Radar::enemyColor },
 			{ "Radar - Team", &Settings::Radar::allyColor },
 			{ "Radar - Enemy Visible", &Settings::Radar::enemyVisibleColor },
