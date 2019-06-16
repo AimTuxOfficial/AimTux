@@ -39,7 +39,7 @@ bool Entity::IsVisible(C_BasePlayer* player, int bone, float fov, bool smoke_che
 	ray.Init(p_vecHead, e_vecHead);
 	CTraceFilter traceFilter;
 	traceFilter.pSkip = localplayer;
-	trace->TraceRay(ray, MASK_SHOT, &traceFilter, &tr);
+	trace->TraceRay(ray, MASK_VISIBLE_AND_NPCS, &traceFilter, &tr);
 
 	if (smoke_check && LineGoesThroughSmoke(p_vecHead, e_vecHead, true))
 		return false;
@@ -80,7 +80,7 @@ bool Entity::IsSpotVisible(C_BasePlayer* player, Vector spot, float fov, bool sm
 	ray.Init(p_vecHead, e_vecHead);
 	CTraceFilter traceFilter;
 	traceFilter.pSkip = localplayer;
-	trace->TraceRay(ray, MASK_SHOT, &traceFilter, &tr);
+	trace->TraceRay(ray, MASK_VISIBLE_AND_NPCS, &traceFilter, &tr);
 
 	if (smoke_check && LineGoesThroughSmoke(p_vecHead, e_vecHead, true))
 		return false;
@@ -113,7 +113,7 @@ bool Entity::IsVisibleThroughEnemies(C_BasePlayer *player, int bone, float fov, 
 	ray.Init(p_vecHead, e_vecHead);
 	CTraceFilter traceFilter;
 	traceFilter.pSkip = localplayer;
-	trace->TraceRay(ray, MASK_SHOT, &traceFilter, &tr);
+	trace->TraceRay(ray, MASK_VISIBLE_AND_NPCS, &traceFilter, &tr);
 
 	if (smoke_check && LineGoesThroughSmoke(p_vecHead, e_vecHead, true))
 		return false;
@@ -156,7 +156,7 @@ bool Entity::IsSpotVisibleThroughEnemies(C_BasePlayer *player, Vector spot, floa
 	ray.Init(p_vecHead, e_vecHead);
 	CTraceFilter traceFilter;
 	traceFilter.pSkip = localplayer;
-	trace->TraceRay(ray, MASK_SHOT, &traceFilter, &tr);
+	trace->TraceRay(ray, MASK_VISIBLE_AND_NPCS, &traceFilter, &tr);
 
 	if (smoke_check && LineGoesThroughSmoke(p_vecHead, e_vecHead, true))
 		return false;
