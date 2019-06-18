@@ -953,8 +953,8 @@ static void DrawPlayerText( C_BasePlayer* player, C_BasePlayer* localplayer, int
 
 	if (Settings::ESP::Info::money)
 	{
-		char money[6];
-		sprintf(money, "$%d", player->GetMoney());
+		char money[8];
+        snprintf(money, 6, "$%d", player->GetMoney());
 		stringsToShow.push_back(money);
 	}
 	if ( Settings::ESP::Info::scoped && player->IsScoped() )
