@@ -23,8 +23,8 @@ bool Settings::AntiAim::AutoDisable::knifeHeld = false;
 bool Settings::AntiAim::LBYBreaker::enabled = false;
 float Settings::AntiAim::LBYBreaker::offset = 180.0f;
 
-float AntiAim::lastRealYaw = 0.0f;
-float AntiAim::lastFakeYaw = 0.0f;
+QAngle AntiAim::realAngle;
+QAngle AntiAim::fakeAngle;
 
 float AntiAim::GetMaxDelta( CCSGOAnimState *animState ) {
 
@@ -124,10 +124,10 @@ static void DoAntiAimY(C_BasePlayer *const localplayer, QAngle& angle, bool bSen
     switch (aa_type)
     {
         case AntiAimType_Y::MAX_DELTA_LEFT:
-            angle.y = AntiAim::lastFakeYaw - maxDelta;
+            angle.y = AntiAim::fakeAngle.y - maxDelta;
             break;
         case AntiAimType_Y::MAX_DELTA_RIGHT:
-            angle.y = AntiAim::lastFakeYaw + maxDelta;
+            angle.y = AntiAim::fakeAngle.y + maxDelta;
             break;
         case AntiAimType_Y::MAX_DELTA_FLIPPER:
             bFlip = !bFlip;
@@ -140,9 +140,9 @@ static void DoAntiAimY(C_BasePlayer *const localplayer, QAngle& angle, bool bSen
             break;
     }
     if( bSend ){
-        AntiAim::lastFakeYaw = angle.y;
+        AntiAim::fakeAngle.y = angle.y;
     } else {
-        AntiAim::lastRealYaw = angle.y;
+        AntiAim::realAngle.y = angle.y;
     }
 }
 
@@ -205,6 +205,8 @@ void AntiAim::CreateMove(CUserCmd* cmd)
     QAngle oldAngle = cmd->viewangles;
     float oldForward = cmd->forwardmove;
     float oldSideMove = cmd->sidemove;
+    
+    AntiAim::realAngle = AntiAim::fakeAngle = CreateMove::lastTickViewAngles;
 
     QAngle angle = cmd->viewangles;
 

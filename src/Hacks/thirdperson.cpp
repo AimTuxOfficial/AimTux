@@ -1,4 +1,5 @@
 #include "thirdperson.h"
+#include "antiaim.h"
 
 #include "../settings.h"
 #include "../interfaces.h"
@@ -6,66 +7,85 @@
 bool Settings::ThirdPerson::enabled = false;
 float Settings::ThirdPerson::distance = 30.f;
 
+ShowedAngle Settings::ThirdPerson::type = ShowedAngle::REAL;
+
 void ThirdPerson::OverrideView(CViewSetup *pSetup)
 {
-	if (!Settings::ThirdPerson::enabled) {
+	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+
+	if(!localplayer)
+		return;
+
+	C_BaseCombatWeapon* activeWeapon = (C_BaseCombatWeapon*) entityList->GetClientEntityFromHandle(localplayer->GetActiveWeapon());
+
+	if (activeWeapon && activeWeapon->GetCSWpnData() && activeWeapon->GetCSWpnData()->GetWeaponType() == CSWeaponType::WEAPONTYPE_GRENADE)
+	{
 		input->m_fCameraInThirdPerson = false;
 		return;
 	}
 
-	C_BasePlayer *localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
-	if(!localplayer || !localplayer->GetAlive())
-		return;
-
-	QAngle *view = localplayer->GetVAngles();
-	trace_t tr;
-	Ray_t ray;
-
-	Vector desiredCamOffset = Vector(cos(DEG2RAD(view->y)) * Settings::ThirdPerson::distance,
-								  sin(DEG2RAD(view->y)) * Settings::ThirdPerson::distance,
-								  sin(DEG2RAD(-view->x)) * Settings::ThirdPerson::distance
-							);
-
-	//cast a ray from the Current camera Origin to the Desired 3rd person Camera origin
-	ray.Init(localplayer->GetEyePosition(), (localplayer->GetEyePosition() - desiredCamOffset));
-	CTraceFilter traceFilter;
-	traceFilter.pSkip = localplayer;
-	trace->TraceRay(ray, MASK_SHOT, &traceFilter, &tr);
-
-	Vector diff = localplayer->GetEyePosition() - tr.endpos;
-
-	float distance2D = diff.Length2D();
-
-	bool horOK = distance2D > (Settings::ThirdPerson::distance - 2.0f);
-	bool vertOK = (abs(diff.z) - abs(desiredCamOffset.z) < 3.0f);
-
-	float cameraDistance;
-
-	if( horOK && vertOK )  // If we are clear of obstacles
+	if(localplayer->GetAlive() && Settings::ThirdPerson::enabled && !engine->IsTakingScreenshot())
 	{
-		cameraDistance= Settings::ThirdPerson::distance; // go ahead and set the distance to the setting
+		QAngle viewAngles;
+		engine->GetViewAngles(viewAngles);
+		trace_t tr;
+		Ray_t traceRay;
+		Vector eyePos = localplayer->GetEyePosition();
+
+		Vector camOff = Vector(cos(DEG2RAD(viewAngles.y)) * Settings::ThirdPerson::distance,
+							   sin(DEG2RAD(viewAngles.y)) * Settings::ThirdPerson::distance,
+							   sin(DEG2RAD(-viewAngles.x)) * Settings::ThirdPerson::distance);
+
+		traceRay.Init(eyePos, (eyePos - camOff));
+		CTraceFilter traceFilter;
+		traceFilter.pSkip = localplayer;
+		trace->TraceRay(traceRay, MASK_SHOT, &traceFilter, &tr);
+
+		Vector eyeDifference = eyePos - tr.endpos;
+
+		float distance2D = sqrt(abs(eyeDifference.x * eyeDifference.x) + abs(eyeDifference.y * eyeDifference.y));
+
+		bool dis2Dbool = distance2D > (Settings::ThirdPerson::distance - 2.0f);
+		bool eyebool = (abs(eyeDifference.z) - abs(camOff.z) < 3.0f);
+
+		float cameraDistance;
+
+		if(dis2Dbool && eyebool)
+			cameraDistance = Settings::ThirdPerson::distance;
+
+		else if(eyebool) cameraDistance = distance2D * 0.95f;
+		else cameraDistance = abs(eyeDifference.z) * 0.95f;
+
+		if(!input->m_fCameraInThirdPerson)
+			input->m_fCameraInThirdPerson = true;
+
+		input->m_vecCameraOffset = Vector(viewAngles.x, viewAngles.y, cameraDistance);
 	}
-	else
+	else if(input->m_fCameraInThirdPerson)
 	{
-		if( vertOK ) // if the Vertical Axis is OK
-		{
-			cameraDistance = distance2D * 0.95f;
-		}
-		else// otherwise we need to move closer to not go into the floor/ceiling
-		{
-			cameraDistance = abs(diff.z) * 0.95f;
-		}
+		input->m_fCameraInThirdPerson = false;
+		input->m_vecCameraOffset = Vector(0.f, 0.f, 0.f);
 	}
-	input->m_fCameraInThirdPerson = true;
-	input->m_vecCameraOffset.z = cameraDistance;
-/*
-	Vector temp = Vector(cos(DEG2RAD(view.y)) * Settings::ThirdPerson::distance,
-						 sin(DEG2RAD(view.y)) * Settings::ThirdPerson::distance,
-						 -view.x );
-
-	pSetup->origin -= temp;
-
-*/
-
 }
 
+
+void ThirdPerson::FrameStageNotify(ClientFrameStage_t stage)
+{
+	if (stage == ClientFrameStage_t::FRAME_RENDER_START && engine->IsInGame())
+	{
+		C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
+
+		if (localplayer && localplayer->GetAlive() && Settings::ThirdPerson::enabled && input->m_fCameraInThirdPerson)
+		{
+            switch (Settings::ThirdPerson::type)
+            {
+                case ShowedAngle::REAL:
+                    *localplayer->GetVAngles() = AntiAim::realAngle;
+                    break;
+                case ShowedAngle::FAKE:
+                    *localplayer->GetVAngles() = AntiAim::fakeAngle;
+                    break;
+            }
+		}
+	}
+}
