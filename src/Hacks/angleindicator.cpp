@@ -24,7 +24,7 @@ void AngleIndicator::Paint( ) {
     int northY = centerY - radius;
 
     float maxDesync = AntiAim::GetMaxDelta( localPlayer->GetAnimState() );
-    float realDiff = AntiAim::lastFakeYaw - AntiAim::lastRealYaw;
+    float realDiff = AntiAim::fakeAngle.y - AntiAim::realAngle.y;
     float lbyDiff = localPlayer->GetVAngles()->y - *localPlayer->GetLowerBodyYawTarget();
     Math::NormalizeYaw( realDiff );
     Math::NormalizeYaw( lbyDiff );

@@ -145,6 +145,12 @@ enum class SpammerType : int
 	SPAMMER_POSITIONS,
 };
 
+enum class ShowedAngle : int
+{
+    REAL,
+    FAKE,
+};
+
 enum class AntiAimType_Y : int
 {
 	NONE,
@@ -1084,6 +1090,7 @@ namespace Settings
 	{
 		extern bool enabled;
 		extern float distance;
+        extern ShowedAngle type;
 	}
 
 	namespace JumpThrow

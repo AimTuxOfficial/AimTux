@@ -5,9 +5,8 @@
 
 namespace AntiAim
 {
-    extern float lastRealYaw;
-    extern float lastFakeYaw;
-
+    extern QAngle realAngle;
+    extern QAngle fakeAngle;
 
     float GetMaxDelta( CCSGOAnimState *animState );
 

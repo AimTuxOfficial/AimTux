@@ -28,6 +28,7 @@ void Misc::RenderTab()
 	const char* teams[] = { "Allies", "Enemies", "Both" };
 	const char* grenadeTypes[] = { "FLASH", "SMOKE", "MOLOTOV", "HEGRENADE" };
 	const char* throwTypes[] = { "NORMAL", "RUN", "JUMP", "WALK" };
+	const char* angleTypes[] = { "Real", "Fake" };
 
 	ImGui::Columns(2, nullptr, true);
 	{
@@ -223,11 +224,13 @@ void Misc::RenderTab()
 			ImGui::Columns(2, nullptr, true);
 			{
 				ImGui::Checkbox(XORSTR("Enabled"), &Settings::ThirdPerson::enabled);
+			    ImGui::Text(XORSTR("Showed Angle"));
 			}
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
 				ImGui::SliderFloat(XORSTR("##TPCAMOFFSET"), &Settings::ThirdPerson::distance, 0.f, 500.f, XORSTR("Camera Offset: %0.f"));
+                ImGui::Combo(XORSTR("Showed Angle"), (int*)& Settings::ThirdPerson::type, angleTypes, IM_ARRAYSIZE(angleTypes));
 				ImGui::PopItemWidth();
 			}
 			ImGui::Columns(1);
