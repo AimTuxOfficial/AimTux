@@ -39,27 +39,10 @@ void ThirdPerson::OverrideView(CViewSetup *pSetup)
 		traceRay.Init(eyePos, (eyePos - camOff));
 		CTraceFilter traceFilter;
 		traceFilter.pSkip = localplayer;
-		trace->TraceRay(traceRay, MASK_SHOT, &traceFilter, &tr);
+		trace->TraceRay(traceRay, MASK_SOLID, &traceFilter, &tr);
 
-		Vector eyeDifference = eyePos - tr.endpos;
-
-		float distance2D = sqrt(abs(eyeDifference.x * eyeDifference.x) + abs(eyeDifference.y * eyeDifference.y));
-
-		bool dis2Dbool = distance2D > (Settings::ThirdPerson::distance - 2.0f);
-		bool eyebool = (abs(eyeDifference.z) - abs(camOff.z) < 3.0f);
-
-		float cameraDistance;
-
-		if(dis2Dbool && eyebool)
-			cameraDistance = Settings::ThirdPerson::distance;
-
-		else if(eyebool) cameraDistance = distance2D * 0.95f;
-		else cameraDistance = abs(eyeDifference.z) * 0.95f;
-
-		if(!input->m_fCameraInThirdPerson)
-			input->m_fCameraInThirdPerson = true;
-
-		input->m_vecCameraOffset = Vector(viewAngles.x, viewAngles.y, cameraDistance);
+        input->m_fCameraInThirdPerson = true;
+		input->m_vecCameraOffset = Vector(viewAngles.x, viewAngles.y, Settings::ThirdPerson::distance * ((tr.fraction < 1.0f) ? tr.fraction : 1.0f) );
 	}
 	else if(input->m_fCameraInThirdPerson)
 	{
