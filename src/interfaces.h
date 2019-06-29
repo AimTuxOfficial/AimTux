@@ -56,6 +56,8 @@ extern LineGoesThroughSmokeFn LineGoesThroughSmoke;
 extern InitKeyValuesFn InitKeyValues;
 extern LoadFromBufferFn LoadFromBuffer;
 
+extern GetLocalClientFn GetLocalClient;
+
 //extern RandomSeedFn RandomSeed;
 //extern RandomFloatFn RandomFloat;
 //extern RandomFloatExpFn RandomFloatExp;
