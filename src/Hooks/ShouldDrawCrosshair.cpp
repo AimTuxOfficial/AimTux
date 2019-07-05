@@ -9,13 +9,9 @@ typedef bool (*ShouldDrawCrosshairFn) (void*);
 
 bool Hooks::ShouldDrawCrosshair(void* thisptr)
 {
-	C_BasePlayer* localPlayer = ( C_BasePlayer* ) entityList->GetClientEntity( engine->GetLocalPlayer() );
-	
-	if( Settings::SniperCrosshair::enabled && localPlayer && localPlayer->GetAlive() )
-	{
-		if( SniperCrosshair::DrawCrosshair() )
-			return false;
-	}
+    bool ret = clientModeVMT->GetOriginalMethod<ShouldDrawCrosshairFn>(29)(thisptr);
+	if( SniperCrosshair::DrawCrosshair() )
+		return false;
 
-	clientModeVMT->GetOriginalMethod<ShouldDrawCrosshairFn>(29)(thisptr);
+	return ret;
 }
