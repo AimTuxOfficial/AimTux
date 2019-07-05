@@ -49,8 +49,7 @@ void Hooks::Paint(void* thisptr, PaintMode_t mode)
         GrenadeHelper::Paint();
         Recoilcrosshair::Paint();
         Hitmarkers::Paint();
-        Eventlog::Paint();        
-        SniperCrosshair::Paint();
+        Eventlog::Paint();
         AngleIndicator::Paint();
         GrenadePrediction::Paint();
 

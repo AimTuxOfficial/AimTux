@@ -639,6 +639,10 @@ public:
 		return *( CSWeaponType* ) ( ( uintptr_t )this + 0x140);
 	}
 
+	void SetWeaponType( CSWeaponType type ) {
+		*( CSWeaponType* ) ( ( uintptr_t )this + 0x140) = type;
+	}
+
 	int GetDamage() {
 		return *( int* ) ( ( uintptr_t )this + 0x16C);
 	}
@@ -712,6 +716,11 @@ public:
 	bool GetReloadVisuallyComplete()
 	{
 		return *(bool*)((uintptr_t)this + offsets.DT_WeaponCSBase.m_bReloadVisuallyComplete);
+	}
+
+	void DrawCrosshair() { // xref: CHudCrosshair
+		typedef void (* oDrawCrosshair)( void* );
+		return getvfunc<oDrawCrosshair>( this, 466 )( this );
 	}
 
 	CCSWeaponInfo* GetCSWpnData() { // "script file not found"

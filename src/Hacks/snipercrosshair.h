@@ -2,6 +2,5 @@
 
 namespace SniperCrosshair
 {
-	//Hooks
-	void Paint();
+	bool DrawCrosshair();
 };

@@ -10,9 +10,10 @@ namespace Hooks
 	void FrameStageNotify(void* thisptr, ClientFrameStage_t stage);
 
 	/* ClientMode */
-	bool CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd);
-	float GetViewModelFOV(void* thisptr);
 	void OverrideView(void* thisptr, CViewSetup* pSetup);
+	bool CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd);
+	bool ShouldDrawCrosshair(void* thisptr);
+	float GetViewModelFOV(void* thisptr);
 
 	/* GameEvents */
 	bool FireEventClientSide(void* thisptr, IGameEvent* event);

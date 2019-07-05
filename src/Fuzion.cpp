@@ -69,6 +69,7 @@ void MainThread()
     clientModeVMT = new VMT(clientMode);
     clientModeVMT->HookVM(Hooks::OverrideView, 19);
     clientModeVMT->HookVM(Hooks::CreateMove, 25);
+    clientModeVMT->HookVM(Hooks::ShouldDrawCrosshair, 29);
     clientModeVMT->HookVM(Hooks::GetViewModelFOV, 36);
     clientModeVMT->ApplyVMT();
 
