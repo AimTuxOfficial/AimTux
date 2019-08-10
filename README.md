@@ -13,6 +13,12 @@ Want to chat or play with other Fuzion users? Join us on Gitter!
 
 A fully featured internal hack for *CounterStrike : Global Offensive* written in C++.
 
+## AUR Installation
+
+* You can install Fuzion by using the AUR helper of your choice and installing the package [fuzion-git](https://aur.archlinux.org/packages/fuzion-git/)
+* Load Fuzion by using the command `fuzion-load`
+* Unload using `fuzion-unload`
+* As a development package, it will automatically update when you trigger your AUR helper, if a new commit has been pushed
 
 ## Compiling
 
@@ -150,3 +156,5 @@ Special thanks to the Original AimTux project: [https://github.com/AimTuxOfficia
 Special thanks to [@aixxe](http://www.github.com/aixxe/) ([aixxe.net](http://www.aixxe.net)) for the skin changer and with the initial project, as well as helping this project with source code (Available on [@aixxe's](http://www.github.com/aixxe/) github page.).
 
 This project was also originally based upon Atex's [Linux Basehook](http://unknowncheats.me/forum/counterstrike-global-offensive/181878-linux-basehook.html).
+
+[telans](https://github.com/telans) for the AUR package [fuzion-git](https://aur.archlinux.org/packages/fuzion-git/)
