@@ -1,4 +1,5 @@
 #include "playerlist.h"
+#include <sstream>
 
 #include "../../interfaces.h"
 #include "../../settings.h"
@@ -192,6 +193,14 @@ void PlayerList::RenderWindow()
 
 					strcpy(nickname, name.c_str());
 					NameChanger::SetName(Util::PadStringRight(name, name.length() + 1));
+				}
+
+				if (ImGui::Button(XORSTR("Votekick")))
+				{
+					std::ostringstream votekickCommand;
+					votekickCommand << XORSTR("callvote Kick ");
+					votekickCommand << entityInformation.userid;
+					engine->ClientCmd_Unrestricted(votekickCommand.str().c_str());
 				}
 
 				const char* clanTag = (*csPlayerResource)->GetClan(currentPlayer);
