@@ -447,6 +447,7 @@ void Misc::RenderTab()
 				UI::KeyBindButton(&Settings::Autoblock::key);
 				UI::KeyBindButton(&Settings::JumpThrow::key);
 				ImGui::Checkbox(XORSTR("Silent Defuse"), &Settings::AutoDefuse::silent);
+				ImGui::Checkbox(XORSTR("Attempt NoFall"), &Settings::NoFall::enabled);
 			}
 			ImGui::Columns(1);
 			ImGui::Separator();
