@@ -20,7 +20,10 @@ std::vector<Vector> grenadePath;
 int grenadeType = 0;
 float GrenadePrediction::cameraHeight = 100.0f;
 
-static void TraceHull( Vector& src, Vector& end, trace_t& tr ) {
+// will not work for more than 1 glass, but I dont think that's possible on any map
+static bool hitGlassAlready = false; // ghetto lmao, but i dont wanna parse breakable entities in bsp
+
+static void TraceHull( const Vector& src, const Vector& end, trace_t& tr, bool *hitGlass = nullptr ) {
     if ( !Settings::GrenadePrediction::enabled )
         return;
 
@@ -34,7 +37,16 @@ static void TraceHull( Vector& src, Vector& end, trace_t& tr ) {
     CTraceFilter filter;
     filter.pSkip = pLocal;
 
-    trace->TraceRay( ray, MASK_SOLID, &filter, &tr );
+    if( hitGlass ){
+        trace->TraceRay( ray, CONTENTS_WINDOW, &filter, &tr );
+        if( tr.fraction != 1.0f ){
+            *hitGlass = true;
+        }
+    }
+
+    int flag = MASK_SOLID;
+    flag &= ~(CONTENTS_WINDOW);
+    trace->TraceRay( ray, flag, &filter, &tr );
 }
 
 static void Setup( Vector& vecSrc, Vector& vecThrow, Vector viewangles ) {
@@ -156,17 +168,6 @@ static void AddGravityMove( Vector& move, Vector& vel, float frametime, bool ong
     }
 }
 
-static void PushEntity( Vector& src, const Vector& move, trace_t& tr ) {
-    if ( !Settings::GrenadePrediction::enabled )
-        return;
-
-    Vector vecAbsEnd = src;
-    vecAbsEnd += move;
-
-    // Trace through world
-    TraceHull( src, vecAbsEnd, tr );
-}
-
 static int PhysicsClipVelocity( const Vector& in, const Vector& normal, Vector& out, float overbounce ) {
     static const float STOP_EPSILON = 0.1f;
 
@@ -200,8 +201,6 @@ static int PhysicsClipVelocity( const Vector& in, const Vector& normal, Vector& 
 }
 
 static void ResolveFlyCollisionCustom( trace_t& tr, Vector& vecVelocity, float interval ) {
-    if ( !Settings::GrenadePrediction::enabled )
-        return;
 
     // Calculate elasticity
     float flSurfaceElasticity = 1.0;  // Assume all surfaces have the same elasticity
@@ -229,7 +228,12 @@ static void ResolveFlyCollisionCustom( trace_t& tr, Vector& vecVelocity, float i
     if ( tr.plane.normal.z > 0.7f ) {
         vecVelocity = vecAbsVelocity;
         vecAbsVelocity *= ( ( 1.0f - tr.fraction ) * interval ); //vecAbsVelocity.Mult((1.0f - tr.fraction) * interval);
-        PushEntity( tr.endpos, vecAbsVelocity, tr );
+
+        Vector vecAbsEnd = tr.endpos;
+        vecAbsEnd += vecAbsVelocity;
+
+        // Trace through world
+        TraceHull( tr.endpos, vecAbsEnd, tr );
     } else {
         vecVelocity = vecAbsVelocity;
     }
@@ -242,7 +246,17 @@ static int Step( Vector& vecSrc, Vector& vecThrow, int tick, float interval ) {
 
     // Push entity
     trace_t tr;
-    PushEntity( vecSrc, move, tr );
+    bool hitGlass = false;
+    Vector vecAbsEnd = vecSrc;
+    vecAbsEnd += move;
+
+    // Trace through world
+    TraceHull( vecSrc, vecAbsEnd, tr, &hitGlass );
+
+    if( hitGlass && !hitGlassAlready ){
+        vecThrow *= 0.4f;
+        hitGlassAlready = true;
+    }
 
     int result = 0;
     // Check ending conditions
@@ -263,9 +277,6 @@ static int Step( Vector& vecSrc, Vector& vecThrow, int tick, float interval ) {
 }
 
 static void Simulate( CViewSetup* setup ) {
-    if ( !Settings::GrenadePrediction::enabled )
-        return;
-
     Vector vecSrc, vecThrow;
     Setup( vecSrc, vecThrow, setup->angles );
 
@@ -306,6 +317,7 @@ void GrenadePrediction::OverrideView( CViewSetup* pSetup ) {
     C_BaseCSGrenade* grenade = ( C_BaseCSGrenade* ) activeWeapon;
 
     if ( grenade->GetPinPulled() ) {
+        hitGlassAlready = false;
         ItemDefinitionIndex itemDefinitionIndex = *activeWeapon->GetItemDefinitionIndex();
 
         grenadeType = ( int ) itemDefinitionIndex;
