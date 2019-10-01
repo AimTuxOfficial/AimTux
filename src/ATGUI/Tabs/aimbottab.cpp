@@ -6,6 +6,8 @@
 #include "../../ImGUI/imgui_internal.h"
 #include "../atgui.h"
 
+#pragma GCC diagnostic ignored "-Wformat-security"
+
 static ItemDefinitionIndex currentWeapon = ItemDefinitionIndex::INVALID;
 static bool enabled = false;
 static bool silent = false;

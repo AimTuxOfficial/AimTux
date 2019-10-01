@@ -9,6 +9,8 @@
 #include "../../Utils/skins.h"
 #include "../../Hacks/skinchanger.h"
 
+#pragma GCC diagnostic ignored "-Wformat-security"
+
 void SplitSkins()
 {
 	static int modelCT = 1;

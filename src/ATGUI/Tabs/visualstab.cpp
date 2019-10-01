@@ -7,6 +7,8 @@
 #include "../../Hacks/tracereffect.h"
 #include "../../Hacks/materialconfig.h"
 
+#pragma GCC diagnostic ignored "-Wformat-security"
+
 void Visuals::RenderTab()
 {
 	const char* BackendTypes[] = { "Surface (Valve)", "ImGUI (Custom/Faster)" };
@@ -215,7 +217,7 @@ void Visuals::RenderTab()
 			ImGui::Columns(2, nullptr, true);
 			{
 				ImGui::Checkbox(XORSTR("Show Enemies"), &Settings::Eventlog::showEnemies);
-				ImGui::Checkbox(XORSTR("Show Allies"), &Settings::Eventlog::showTeammates);				
+				ImGui::Checkbox(XORSTR("Show Allies"), &Settings::Eventlog::showTeammates);
 
 			}
 			ImGui::NextColumn();

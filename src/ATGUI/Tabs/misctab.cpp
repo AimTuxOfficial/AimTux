@@ -18,6 +18,8 @@
 #include "../../Hacks/clantagchanger.h"
 #include "../../Hacks/valvedscheck.h"
 
+#pragma GCC diagnostic ignored "-Wformat-security"
+
 static char nickname[127] = "";
 
 void Misc::RenderTab()

@@ -73,4 +73,22 @@ namespace Util
 			return std::hash<int>()((int) t);
 		}
 	};
+
+	template<typename N_t = size_t, N_t N>
+	constexpr N_t StrLen(const char (&string_literal)[N])
+	{
+		return N - 1;
+	}
+
+	template<typename N_t = size_t, N_t N>
+	constexpr N_t StrLen(const wchar_t (&string_literal)[N])
+	{
+		return N - 1;
+	}
+
+	template<typename N_t = size_t, typename T, N_t N>
+	constexpr N_t LengthOf(const T (&arr)[N])
+	{
+		return N;
+	}
 }

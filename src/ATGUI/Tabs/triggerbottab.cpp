@@ -5,6 +5,8 @@
 #include "../../ImGUI/imgui_internal.h"
 #include "../atgui.h"
 
+#pragma GCC diagnostic ignored "-Wformat-security"
+
 void Triggerbot::RenderTab()
 {
 	ImGui::Checkbox(XORSTR("Enabled"), &Settings::Triggerbot::enabled);
@@ -57,7 +59,7 @@ void Triggerbot::RenderTab()
  					ImGui::PushItemWidth(-1);
  					ImGui::Checkbox(XORSTR("Auto Knife"), &Settings::AutoKnife::enabled);
  					ImGui::Checkbox(XORSTR("On Key"), &Settings::AutoKnife::onKey);
- 
+
  			}
  			ImGui::NextColumn();
  			{
