@@ -24,7 +24,7 @@ void Util::Log(char const * const format, ...)
     } else {
         logFile = fopen(Util::logFileName, "a"); // append to log
     }
-    setbuf( logFile, nullptr ); // Turns off buffered I/O; decreases performance but if crash occurs, but no unflushed buffer.
+    setbuf( logFile, nullptr ); // Turns off buffered I/O; decreases performance, but no unflushed buffer if crash occurs.
     va_list args;
     va_start(args, format);
     vsnprintf(buffer, 4096, format, args);
