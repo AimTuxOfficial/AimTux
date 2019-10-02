@@ -208,7 +208,7 @@ void PlayerList::RenderWindow()
 				}
 
 				const char* clanTag = (*csPlayerResource)->GetClan(currentPlayer);
-				if (clanTag[0] && ImGui::Button(XORSTR("Steal clan tag")))
+				if (clanTag && clanTag[0] && ImGui::Button(XORSTR("Steal clan tag")))
 				{
 					Settings::ClanTagChanger::enabled = true;
 					strcpy(Settings::ClanTagChanger::value, clanTag);
