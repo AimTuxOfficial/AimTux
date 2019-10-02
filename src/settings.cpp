@@ -1269,22 +1269,10 @@ void Settings::LoadGrenadeInfo(std::string path)
 
 void remove_directory(const char* path)
 {
-    /*
-	electric26@Desktop:~/Storage/PProjects/C++$ ./a.out
-	ITERATIONS = 10'000'000'000
-	STR = "my name is jefff and i like trains.""
-	std::string s(STR): 498s
-	s = STR: 174s
-	s == ".": 91s
-	s == "..": 102s
-	strlen(STR): 7s
-	strcmp(STR, "."): 7s
-	strcmp(STR, ".."): 7s
-	electric26@Desktop:~/Storage/PProjects/C++$
-	*/
-
     DIR* dir = opendir(path);
     dirent* pdir;
+
+    const size_t path_len = strlen(path);
 
     while ((pdir = readdir(dir)))
     {
@@ -1292,7 +1280,7 @@ void remove_directory(const char* path)
 			continue;
 
 		std::string _path;
-		_path.reserve(strlen(path) + Util::StrLen("/") + strlen(pdir->d_name));
+		_path.reserve(path_len + Util::StrLen("/") + strlen(pdir->d_name));
 		_path.append(path);
 		_path += '/';
 		_path.append(pdir->d_name);
