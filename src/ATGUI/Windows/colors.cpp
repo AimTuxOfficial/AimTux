@@ -5,6 +5,8 @@
 #include "../../ImGUI/imgui_internal.h"
 #include "../atgui.h"
 
+#pragma GCC diagnostic ignored "-Wformat-security"
+
 bool Colors::showWindow = false;
 
 void Colors::RenderWindow()

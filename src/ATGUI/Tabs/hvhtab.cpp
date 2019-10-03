@@ -6,6 +6,8 @@
 #include "../../Hacks/valvedscheck.h"
 #include "../../ImGUI/imgui_internal.h"
 
+#pragma GCC diagnostic ignored "-Wformat-security"
+
 void HvH::RenderTab()
 {
     const char* yTypes[] = {

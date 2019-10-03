@@ -11,6 +11,8 @@
 #include "../../Hacks/clantagchanger.h"
 #include "../../Hacks/namechanger.h"
 
+#pragma GCC diagnostic ignored "-Wformat-security"
+
 bool PlayerList::showWindow = false;
 
 static char nickname[127] = "";
@@ -197,14 +199,16 @@ void PlayerList::RenderWindow()
 
 				if (ImGui::Button(XORSTR("Votekick")))
 				{
-					std::ostringstream votekickCommand;
-					votekickCommand << XORSTR("callvote Kick ");
-					votekickCommand << entityInformation.userid;
-					engine->ClientCmd_Unrestricted(votekickCommand.str().c_str());
+					std::string cmd;
+					//													userid
+					cmd.reserve((sizeof("callvote kick ") / sizeof("")) + 3);
+					cmd.append(XORSTR("callvote kick "));
+					cmd.append(std::to_string(entityInformation.userid));
+					engine->ClientCmd_Unrestricted(cmd.c_str());
 				}
 
 				const char* clanTag = (*csPlayerResource)->GetClan(currentPlayer);
-				if (clanTag && strlen(clanTag) > 0 && ImGui::Button(XORSTR("Steal clan tag")))
+				if (clanTag && clanTag[0] && ImGui::Button(XORSTR("Steal clan tag")))
 				{
 					Settings::ClanTagChanger::enabled = true;
 					strcpy(Settings::ClanTagChanger::value, clanTag);

@@ -596,7 +596,7 @@ void Settings::LoadDefaultsOrSave(std::string path)
 	settings[XORSTR("Eventlog")][XORSTR("showTeammates")] = Settings::Eventlog::showTeammates;
 	settings[XORSTR("Eventlog")][XORSTR("showLocalplayer")] = Settings::Eventlog::showLocalplayer;
 	settings[XORSTR("Eventlog")][XORSTR("duration")] = Settings::Eventlog::duration;
-	settings[XORSTR("Eventlog")][XORSTR("lines")] = Settings::Eventlog::lines;	
+	settings[XORSTR("Eventlog")][XORSTR("lines")] = Settings::Eventlog::lines;
 	LoadColor(settings[XORSTR("Eventlog")][XORSTR("color")], Settings::Eventlog::color);
 
 	settings[XORSTR("ThirdPerson")][XORSTR("enabled")] = Settings::ThirdPerson::enabled;
@@ -672,7 +672,7 @@ void Settings::LoadConfig(std::string path)
 		{
 			weaponID = (ItemDefinitionIndex) std::stoi(weaponDataKey);
 		}
-		catch (std::invalid_argument) // Not a number
+		catch (std::invalid_argument&) // Not a number
 		{
 			weaponID = Util::Items::GetItemIndex(weaponDataKey);
 		}
@@ -1007,7 +1007,7 @@ void Settings::LoadConfig(std::string path)
 		{
 			weaponID = std::stoi(skinDataKey);
 		}
-		catch(std::invalid_argument)
+		catch(std::invalid_argument&)
 		{
 			weaponID = (int) Util::Items::GetItemIndex(skinDataKey);
 		}
@@ -1044,7 +1044,7 @@ void Settings::LoadConfig(std::string path)
 		{
 			weaponID = std::stoi(skinDataKey);
 		}
-		catch(std::invalid_argument)
+		catch(std::invalid_argument&)
 		{
 			weaponID = (int) Util::Items::GetItemIndex(skinDataKey);
 		}
@@ -1170,7 +1170,7 @@ void Settings::LoadConfig(std::string path)
 	GetVal(settings[XORSTR("Eventlog")][XORSTR("showTeammates")], &Settings::Eventlog::showTeammates);
 	GetVal(settings[XORSTR("Eventlog")][XORSTR("showLocalplayer")], &Settings::Eventlog::showLocalplayer);
 	GetVal(settings[XORSTR("Eventlog")][XORSTR("duration")], &Settings::Eventlog::duration);
-	GetVal(settings[XORSTR("Eventlog")][XORSTR("lines")], &Settings::Eventlog::lines);	
+	GetVal(settings[XORSTR("Eventlog")][XORSTR("lines")], &Settings::Eventlog::lines);
 	GetVal(settings[XORSTR("Eventlog")][XORSTR("color")], &Settings::Eventlog::color);
 
 	GetVal(settings[XORSTR("ThirdPerson")][XORSTR("enabled")], &Settings::ThirdPerson::enabled);
@@ -1251,45 +1251,47 @@ void Settings::LoadGrenadeInfo(std::string path)
 	Json::Value array = data[XORSTR("smokeinfos")];
 	Settings::GrenadeHelper::grenadeInfos = {};
 
-	for(Json::Value::iterator it = array.begin(); it!=array.end(); ++it)
+	for (Json::Value::iterator it = array.begin(); it != array.end(); ++it)
 	{
-		Json::Value act = *it;
+		Json::Value& act = *it;
+
 		const char* name = act[XORSTR("name")].asCString();
+
 		GrenadeType gType = (GrenadeType)act[XORSTR("gType")].asInt();
 		ThrowType tType = (ThrowType)act[XORSTR("tType")].asInt();
 		Json::Value pos = act[XORSTR("pos")];
-		Vector posVec = Vector(pos[XORSTR("x")].asFloat(), pos[XORSTR("y")].asFloat(), pos[XORSTR("z")].asFloat());
+		Vector posVec(pos[XORSTR("x")].asFloat(), pos[XORSTR("y")].asFloat(), pos[XORSTR("z")].asFloat());
 		Json::Value angle = act[XORSTR("angle")];
-		QAngle vAngle = QAngle(angle[XORSTR("x")].asFloat(), angle[XORSTR("y")].asFloat(), 0);
-		Settings::GrenadeHelper::grenadeInfos.push_back(GrenadeInfo(gType, posVec, vAngle, tType, std::string(name)));
+		QAngle vAngle(angle[XORSTR("x")].asFloat(), angle[XORSTR("y")].asFloat(), 0.f);
+		Settings::GrenadeHelper::grenadeInfos.emplace_back(gType, posVec, vAngle, tType, name);
 	}
 }
 
 void remove_directory(const char* path)
 {
-	DIR* dir;
-	dirent* pdir;
+    DIR* dir = opendir(path);
+    dirent* pdir;
 
-	dir = opendir(path);
+    const size_t path_len = strlen(path);
 
-	while ((pdir = readdir(dir)))
-	{
+    while ((pdir = readdir(dir)))
+    {
 		if (strcmp(pdir->d_name, ".") == 0 || strcmp(pdir->d_name, "..") == 0)
 			continue;
 
+		std::string _path;
+		_path.reserve(path_len + Util::StrLen("/") + strlen(pdir->d_name));
+		_path.append(path);
+		_path += '/';
+		_path.append(pdir->d_name);
+
 		if (pdir->d_type == DT_DIR)
 		{
-			std::ostringstream _dir;
-			_dir << path << "/" << pdir->d_name;
-
-			remove_directory(_dir.str().c_str());
+			remove_directory(_path.c_str());
 		}
 		else if (pdir->d_type == DT_REG)
 		{
-			std::ostringstream file;
-			file << path << "/" << pdir->d_name;
-
-			unlink(file.str().c_str());
+			unlink(_path.c_str());
 		}
 	}
 

@@ -5,6 +5,8 @@
 #include "../interfaces.h"
 #include "../settings.h"
 
+#pragma GCC diagnostic ignored "-Wformat-security"
+
 void UI::KeyBindButton(ButtonCode_t* key)
 {
 	const char* text = inputSystem->ButtonCodeToString(*key);

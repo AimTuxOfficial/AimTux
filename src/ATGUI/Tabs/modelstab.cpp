@@ -7,6 +7,8 @@
 #include "../../Hacks/skinchanger.h"
 #include "../imgui.h"
 
+#pragma GCC diagnostic ignored "-Wformat-security"
+
 void Models::RenderTab()
 {
 	static int originalModelCT = (int) ItemDefinitionIndex::WEAPON_KNIFE;

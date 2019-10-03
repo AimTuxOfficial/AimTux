@@ -5,6 +5,8 @@
 #include "../interfaces.h"
 #include "../ATGUI/atgui.h"
 
+#pragma GCC diagnostic ignored "-Wformat-security"
+
 bool Settings::ShowSpectators::enabled = false;
 
 std::list<int> ShowSpectators::GetObservervators(int playerId)
