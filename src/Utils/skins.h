@@ -688,6 +688,26 @@ const std::map<int, PaintNames_t> itemSkins = {
 		{ 857, { "#PaintKit_aq_damascus_Tag", "aq_damascus_prisma" } },
 		{ 858, { "#PaintKit_aq_damascus_Tag", "aq_damascus_widow" } },
 
+		/* CS20 Case */
+
+		{ 902, { "#PaintKit_aq_m249_aztec_Tag", "aq_m249_aztec" } },
+		{ 903, { "#PaintKit_gs_dual_elites_classic_Tag", "gs_dual_elites_classic"} },
+		{ 904, { "#PaintKit_cu_famas_nuke_tension_Tag", "cu_famas_nuke_tension"} },
+		{ 905, { "#PaintKit_cu_tec9_flash_Tag", "cu_tec9_flash" } },
+		{ 906, { "#PaintKit_cu_fiveseven_gsg9_Tag", "cu_fiveseven_gsg9" } },
+		{ 907, { "#PaintKit_gs_p250_inferno_Tag", "gs_p250_inferno" } },
+		{ 908, { "#PaintKit_gs_mac10_dust_crate_Tag", "gs_mac10_dust_crate" } },
+		{ 909, { "#PaintKit_gs_mag7_popdog_Tag", "gs_mag7_popdog" } },
+		{ 910, { "#PaintKit_cu_mp9_hydra_Tag", "cu_mp9_hydra" } },
+		{ 911, { "#PaintKit_cu_p90_nostalgia_Tag", "cu_p90_nostalgia" } },
+		{ 913, { "#PaintKit_am_aug_death_by_doggy_Tag", "am_aug_death_by_doggy" } },
+		{ 914, { "#PaintKit_cu_scar_assault_Tag", "cu_scar_assault" } },
+		{ 915, { "#PaintKit_gs_mp5_fbi_Tag", "gs_mp5_fbi" } },
+		{ 916, { "#PaintKit_cu_ump_bomb_Tag", "cu_ump_bomb" } },
+		{ 917, { "#PaintKit_cu_awp_wildfire_Tag", "cu_awp_wildfire" } },
+		{ 918, { "#PaintKit_cu_glock_hero_Tag", "cu_glock_hero" } },
+		{ 919, { "#PaintKit_gs_famas_legacy_gold_Tag", "gs_famas_legacy_gold" } },
+
 		/* Gloves */
 		{ 10006, { "#PaintKit_bloodhound_black_silver_tag", "bloodhound_black_silver" } },
 		{ 10007, { "#PaintKit_bloodhound_snakeskin_brass_tag", "bloodhound_snakeskin_brass" } },

@@ -37,6 +37,7 @@ std::unordered_map<ItemDefinitionIndex, AttribItem_t, Util::IntHash<ItemDefiniti
 		{ ItemDefinitionIndex::WEAPON_KNIFE_GYPSY_JACKKNIFE, { ItemDefinitionIndex::INVALID, 417, 0.0005f, -1, -1, -1, ""} },
 		{ ItemDefinitionIndex::WEAPON_KNIFE_STILETTO, { ItemDefinitionIndex::INVALID, 417, 0.0005f, -1, -1, -1, ""} },
 		{ ItemDefinitionIndex::WEAPON_KNIFE_WIDOWMAKER, { ItemDefinitionIndex::INVALID, 417, 0.0005f, -1, -1, -1, ""} },
+		{ ItemDefinitionIndex::WEAPON_KNIFE_CSS, { ItemDefinitionIndex::INVALID, -1, 0.0005f, -1, -1, -1, ""} },
 		{ ItemDefinitionIndex::WEAPON_KNIFE_GHOST, { ItemDefinitionIndex::INVALID, 417, 0.0005f, -1, -1, -1, ""} },
 		//{ ItemDefinitionIndex::WEAPON_KNIFEGG, { ItemDefinitionIndex::INVALID, 417, 0.0005f, -1, -1, -1, ""} },
 		{ ItemDefinitionIndex::WEAPON_USP_SILENCER, { ItemDefinitionIndex::INVALID, 2, 0.0005f, -1, -1, -1, ""} },
@@ -65,6 +66,7 @@ std::unordered_map<ItemDefinitionIndex, AttribItem_t, Util::IntHash<ItemDefiniti
 		{ ItemDefinitionIndex::WEAPON_KNIFE_GYPSY_JACKKNIFE, { ItemDefinitionIndex::INVALID, 417, 0.0005f, -1, -1, -1, ""} },
 		{ ItemDefinitionIndex::WEAPON_KNIFE_STILETTO, { ItemDefinitionIndex::INVALID, 417, 0.0005f, -1, -1, -1, ""} },
 		{ ItemDefinitionIndex::WEAPON_KNIFE_WIDOWMAKER, { ItemDefinitionIndex::INVALID, 417, 0.0005f, -1, -1, -1, ""} },
+		{ ItemDefinitionIndex::WEAPON_KNIFE_CSS, { ItemDefinitionIndex::INVALID, 417, 0.0005f, -1, -1, -1, ""} },
 		{ ItemDefinitionIndex::WEAPON_KNIFE_GHOST, { ItemDefinitionIndex::INVALID, 417, 0.0005f, -1, -1, -1, ""} },
 		//{ ItemDefinitionIndex::WEAPON_KNIFEGG, { ItemDefinitionIndex::INVALID, 417, 0.0005f, -1, -1, -1, ""} },
 };

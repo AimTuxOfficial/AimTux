@@ -66,6 +66,7 @@ namespace Util
 			{ ItemDefinitionIndexMap.at(i::WEAPON_KNIFE_GYPSY_JACKKNIFE).entityName,	i::WEAPON_KNIFE_GYPSY_JACKKNIFE },
 			{ ItemDefinitionIndexMap.at(i::WEAPON_KNIFE_STILETTO).entityName,		i::WEAPON_KNIFE_STILETTO },
 			{ ItemDefinitionIndexMap.at(i::WEAPON_KNIFE_WIDOWMAKER).entityName,		i::WEAPON_KNIFE_WIDOWMAKER },
+			{ ItemDefinitionIndexMap.at(i::WEAPON_KNIFE_CSS).entityName,		i::WEAPON_KNIFE_CSS },
 			{ ItemDefinitionIndexMap.at(i::WEAPON_KNIFE_GHOST).entityName,			i::WEAPON_KNIFE_GHOST },
 			//{ ItemDefinitionIndexMap.at(i::WEAPON_KNIFEGG).entityName,			i::WEAPON_KNIFEGG },
 			{ ItemDefinitionIndexMap.at(i::GLOVE_STUDDED_BLOODHOUND).entityName, 		i::GLOVE_STUDDED_BLOODHOUND},
@@ -145,6 +146,7 @@ namespace Util
 				case ItemDefinitionIndex::WEAPON_KNIFE_GYPSY_JACKKNIFE:
 				case ItemDefinitionIndex::WEAPON_KNIFE_STILETTO:
 				case ItemDefinitionIndex::WEAPON_KNIFE_WIDOWMAKER:
+				case ItemDefinitionIndex::WEAPON_KNIFE_CSS:
 				case ItemDefinitionIndex::WEAPON_KNIFE_GHOST:
 				//case ItemDefinitionIndex::WEAPON_KNIFEGG:
 					return true;
