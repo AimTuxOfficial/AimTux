@@ -140,60 +140,9 @@ const std::map<int,int> * Util::GetModelTypeBoneMap(C_BasePlayer* player)
 	studiohdr_t* pStudioModel = modelInfo->GetStudioModel(player->GetModel());
 
 	switch( pStudioModel->numbones ) {
-		case 84: // Anarchists or Leet Krew
-			if (memchr(pStudioModel->name, 'h', sizeof(pStudioModel->name)) != nullptr)// Anarchist
-			{
-				return &BoneMapT_Anarchist;
-			}
-			else // Leet Krew
-			{
-				return &BoneMapT_Leet;
-			}
-		case 85: // Leet Krew 2
-			return &BoneMapT_Leet2;
-		case 86: // Balkan, Phoenix, and Separatists
-			if (memchr(pStudioModel->name, 'h', sizeof(pStudioModel->name)) != nullptr) // Phoenix
-			{
-				return &BoneMapT_Phoenix;
-			}
-			else if (memmem(pStudioModel->name, sizeof(pStudioModel->name), "ba", 2) != nullptr) // balkan
-			{
-				return &BoneMapT_Balkan;
-			} else // Separatist
-			{
-				return &BoneMapT_Separatist;
-			}
-		case 89: // FBI, GSG, and SEALS
-			if( memmem(pStudioModel->name, sizeof(pStudioModel->name), "sg", 2) != nullptr ) // GSG
-			{
-				return &BoneMapCT_GSG;
-			}
-			else // Seals
-			{
-				return &BoneMapCT_Seals;
-			}
-		case 91: // SWAT, Professionals
-			if (memchr(pStudioModel->name, 'w', sizeof(pStudioModel->name)) != nullptr) // SWAT
-			{
-				return &BoneMapCT_SWAT;
-			}
-			else // Professionals
-			{
-				return &BoneMapT_Professional;
-			}
-		case 93: // GIGN
-			return &BoneMapCT_GIGN;
-		case 94: // IDF
-			return &BoneMapCT_IDF;
-		case 98: // FBI or SAS
-			if (memchr(pStudioModel->name, 'f', sizeof(pStudioModel->name)) != nullptr) // FBI
-			{
-				return &BoneMapCT_FBI;
-			} else {
-				return &BoneMapCT_SAS;
-			}
 		default:
-			cvar->ConsoleDPrintf(XORSTR( "(Util::GetModelTypeBoneMap)- Warning. Model type \"%s\" Unknown. Using Generic boneMap\n" ), pStudioModel->name );
+			cvar->ConsoleDPrintf(XORSTR( "(Util::GetModelTypeBoneMap)- Warning. Model type \"%s\" Unknown. Using Generic boneMap. id(%d) @(%p)\n" ),
+								 pStudioModel->name, pStudioModel->id, (void*)pStudioModel );
 			return &BoneMapGeneric;
 	}
 }

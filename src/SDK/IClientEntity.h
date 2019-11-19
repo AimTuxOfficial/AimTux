@@ -720,27 +720,27 @@ public:
 
 	void DrawCrosshair() { // xref: CHudCrosshair
 		typedef void (* oDrawCrosshair)( void* );
-		return getvfunc<oDrawCrosshair>( this, 468 )( this );
+		return getvfunc<oDrawCrosshair>( this, 469 )( this );
 	}
 
-	CCSWeaponInfo* GetCSWpnData() { // "script file not found"
+	CCSWeaponInfo* GetCSWpnData() { // "script file not found" (client_panorama_client)
 		typedef CCSWeaponInfo* (* oGetCSWpnData)( void* );
-		return getvfunc<oGetCSWpnData>( this, 524 )( this );
+		return getvfunc<oGetCSWpnData>( this, 525 )( this );
 	}
 
 	float GetSpread() {
 		typedef float (* oGetSpread)( void* );
-		return getvfunc<oGetSpread>( this, 516 )( this );
+		return getvfunc<oGetSpread>( this, 517 )( this );
 	}
 
 	float GetInaccuracy() {
 		typedef float (* oGetInaccuracy)( void* );
-		return getvfunc<oGetInaccuracy>( this, 546 )( this );
+		return getvfunc<oGetInaccuracy>( this, 547 )( this );
 	}
 
 	void UpdateAccuracyPenalty() {
 		typedef void (* oUpdateAccuracyPenalty)( void* );
-		return getvfunc<oUpdateAccuracyPenalty>( this, 547 )( this );
+		return getvfunc<oUpdateAccuracyPenalty>( this, 548 )( this );
 	}
 };
 
