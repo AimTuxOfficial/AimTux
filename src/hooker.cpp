@@ -495,3 +495,54 @@ void Hooker::FindAbsFunctions()
 																							   "\xF3"),
 															 XORSTR( "xxxxxxxxxxxxxxxxxx?x????x" ) );
 }
+
+typedef CItemSystem* (* GetItemSystemFn)( );
+
+void Hooker::FindItemSystem()
+{
+    //xref almost any weapon name "weapon_glock" or "weapon_ak47"
+    //above the string find a very commonly used function that has about 100xrefs
+    // ItemSystem() proc near
+    // 55                      push    rbp
+    // 48 89 E5                mov     rbp, rsp
+    // 53                      push    rbx
+    // 48 89 FB                mov     rbx, rdi
+    // 48 83 EC 08             sub     rsp, 8
+    // 48 89 37                mov     [rdi], rsi
+    // E8 9C 69 E3 FF          call    GetItemSystemWrapper
+    // 48 8B 33                mov     rsi, [rbx]
+    // 48 8B 10                mov     rdx, [rax]
+    // 48 89 C7                mov     rdi, rax
+    // FF 92 48 01 00 00       call    qword ptr [rdx+148h]
+    // 48 89 43 08             mov     [rbx+8], rax
+    // E8 84 69 E3 FF          call    GetItemSystemWrapper
+    // 8B 40 3C                mov     eax, [rax+3Ch]
+    // 89 43 10                mov     [rbx+10h], eax
+    // 48 83 C4 08             add     rsp, 8
+    // 5B                      pop     rbx
+    // 5D                      pop     rbp
+    // C3                      retn
+    // -- GetItemSystemWrapper() --
+    // 55                      push    rbp
+    // 48 89 E5                mov     rbp, rsp
+    // E8 87 FB FD FF          call    GetItemSystem
+    // 5D                      pop     rbp
+    // 48 83 C0 08             add     rax, 8
+    // C3                      retn
+
+
+	uintptr_t funcAddr = PatternFinder::FindPatternInModule( XORSTR( "client_panorama_client.so" ), (unsigned char*) XORSTR("\x55\x48\x89\xE5\x53\x48\x89\xFB\x48\x83\xEC\x08\x48\x89\x37\xE8"
+																									"\x00\x00\x00\x00" // ??
+																									"\x48"), XORSTR( "xxxxxxxxxxxxxxxx????x" ) );
+    funcAddr += 15; // add 15 to get to (E8 9C 69 E3 FF          call    GetItemSystemWrapper)
+    funcAddr = GetAbsoluteAddress( funcAddr, 1, 5 ); // Deref to GetItemSystemWrapper()
+    funcAddr += 4; // add 4 to Get to GetItemSystem()
+    funcAddr = GetAbsoluteAddress( funcAddr, 1, 5 ); // Deref again for the final address.
+
+
+    GetItemSystemFn GetItemSystem = reinterpret_cast<GetItemSystemFn>( funcAddr );
+	uintptr_t itemSys = (uintptr_t)GetItemSystem();
+	cvar->ConsoleDPrintf("ItemSystem(%p)\n", itemSys);
+	itemSys += sizeof(void*); // 2nd vtable
+    itemSystem = (CItemSystem*)itemSys;
+}

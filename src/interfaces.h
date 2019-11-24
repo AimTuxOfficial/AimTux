@@ -37,6 +37,7 @@ extern CInput* input;
 extern IPanoramaUIEngine* panoramaEngine;
 extern IFileSystem* fileSystem;
 extern IGameTypes* gameTypes;
+extern CItemSystem* itemSystem;
 
 extern VMT* panelVMT;
 extern VMT* clientVMT;

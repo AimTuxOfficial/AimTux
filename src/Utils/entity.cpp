@@ -190,29 +190,6 @@ bool Entity::IsPlanting(C_BasePlayer* player)
 	return ((C_WeaponC4*)activeWeapon)->GetStartedArming();
 }
 
-Bone Entity::GetBoneByName(C_BasePlayer* player, const char* boneName)
-{
-	studiohdr_t* pStudioModel = modelInfo->GetStudioModel(player->GetModel());
-	if (!pStudioModel)
-		return Bone::INVALID;
-
-	matrix3x4_t pBoneToWorldOut[128];
-	if (!player->SetupBones(pBoneToWorldOut, 128, 256, 0))
-		return Bone::INVALID;
-
-	for (int i = 0; i < pStudioModel->numbones; i++)
-	{
-		mstudiobone_t *pBone = pStudioModel->pBone(i);
-		if (!pBone)
-			continue;
-
-		if (pBone->pszName() && strcmp(pBone->pszName(), boneName) == 0)
-			return (Bone)i;
-	}
-
-	return Bone::INVALID;
-}
-
 bool Entity::IsTeamMate(C_BasePlayer* player, C_BasePlayer* localPlayer)
 {
 	if (Util::IsDangerZone())

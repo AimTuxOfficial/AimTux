@@ -41,4 +41,5 @@ namespace Hooker
     void FindPlayerAnimOverlayOffset();
 	void FindSequenceActivity();
 	void FindAbsFunctions();
+	void FindItemSystem();
 }

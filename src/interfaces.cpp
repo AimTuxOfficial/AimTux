@@ -42,6 +42,7 @@ CViewRender* viewRender = nullptr;
 IPanoramaUIEngine* panoramaEngine = nullptr;
 IFileSystem* fileSystem = nullptr;
 IGameTypes* gameTypes = nullptr;
+CItemSystem* itemSystem = nullptr;
 
 
 void Interfaces::FindInterfaces()

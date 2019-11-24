@@ -48,3 +48,4 @@
 #include "panorama/PanoramaUIEngine.h"
 #include "Materialsystem_config.h"
 #include "IGameTypes.h"
+#include "CItemSystem.h"

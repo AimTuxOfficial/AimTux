@@ -8,6 +8,7 @@
 #include "../Utils/draw.h"
 #include "../Utils/math.h"
 #include "../Utils/entity.h"
+#include "../Utils/bonemaps.h"
 #include "../Utils/xorstring.h"
 #include "../Hooks/hooks.h"
 
@@ -143,6 +144,7 @@ bool Settings::Debug::AutoWall::debugView = false;
 bool Settings::Debug::AutoAim::drawTarget = false;
 Vector Settings::Debug::AutoAim::target = {0, 0, 0};
 bool Settings::Debug::BoneMap::draw = false;
+int Settings::Debug::BoneMap::modelID = 1253;
 bool Settings::Debug::BoneMap::justDrawDots = false;
 bool Settings::Debug::AnimLayers::draw = false;
 
@@ -647,7 +649,7 @@ static void DrawTracer( C_BasePlayer* player ) {
 	else if ( Settings::ESP::Tracers::type == TracerType::BOTTOM )
 		y = Paint::engineHeight;
 
-	bool bIsVisible = Entity::IsVisible( player, ( int ) Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck );
+	bool bIsVisible = Entity::IsVisible( player, BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck );
 	Draw::AddLine( ( int ) ( src.x ), ( int ) ( src.y ), x, y, ESP::GetESPPlayerColor( player, bIsVisible ) );
 }
 static void DrawAimbotSpot( ) {
@@ -682,15 +684,22 @@ static void DrawBoneMap( C_BasePlayer* player ) {
 	static Vector bone3D;
 	studiohdr_t* pStudioModel = modelInfo->GetStudioModel( player->GetModel() );
 
+	if( !pStudioModel )
+		return;
+
 	for( int i = 1; i < pStudioModel->numbones; i++ ){
 		bone3D = player->GetBonePosition( i );
-		if ( debugOverlay->ScreenPosition( bone3D, bone2D ) )
+        mstudiobone_t* pBone = pStudioModel->pBone( i );
+		if( !pBone )
+			continue;
+
+        if ( debugOverlay->ScreenPosition( bone3D, bone2D ) )
 			continue;
 		if( Settings::Debug::BoneMap::justDrawDots ){
 			Draw::AddCircleFilled( bone2D.x, bone2D.y, 2.0f, ImColor( 255, 0, 255, 255 ), 10 );
 		} else {
-			char buffer[32];
-			snprintf(buffer, 32, "%d", i);
+			char buffer[72];
+			snprintf(buffer, 72, "%d - %s", i, pBone->pszName());
 			Draw::AddText( bone2D.x, bone2D.y,buffer, ImColor( 255, 0, 255, 255 ) );
 		}
 	}
@@ -699,11 +708,11 @@ static void DrawBoneMap( C_BasePlayer* player ) {
 	cvar->ConsoleDPrintf( XORSTR( "(%s)-ModelName: %s, numBones: %d\n" ), entityInformation.name, pStudioModel->name, pStudioModel->numbones );
 }
 static void DrawAutoWall(C_BasePlayer *player) {
-	const std::map<int, int> *modelType = Util::GetModelTypeBoneMap(player);
+	const std::unordered_map<int, int> *modelType = BoneMaps::GetModelTypeBoneMap(player);
 	for( int i = 0; i < 31; i++ )
 	{
 		auto bone = modelType->find(i);
-		if( bone == modelType->end() || bone->second <= (int)Bone::INVALID )
+		if( bone == modelType->end() || bone->second <= BONE_INVALID )
 			continue;
 		Vector bone2D;
 		Vector bone3D = player->GetBonePosition(bone->second);
@@ -774,13 +783,13 @@ static void DrawAutoWall(C_BasePlayer *player) {
 static void DrawHeaddot( C_BasePlayer* player ) {
 
 	Vector head2D;
-	Vector head3D = player->GetBonePosition( ( int ) Bone::BONE_HEAD );
+	Vector head3D = player->GetBonePosition( BONE_HEAD );
 	if ( debugOverlay->ScreenPosition( Vector( head3D.x, head3D.y, head3D.z ), head2D ) )
 		return;
 
 	bool bIsVisible = false;
 	if ( Settings::ESP::Filters::visibilityCheck || Settings::ESP::Filters::legit )
-		bIsVisible = Entity::IsVisible( player, ( int ) Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck );
+		bIsVisible = Entity::IsVisible( player, BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck );
 
 	Draw::AddCircleFilled( head2D.x, head2D.y, Settings::ESP::HeadDot::size, ESP::GetESPPlayerColor( player, bIsVisible ), 10 );
 }
@@ -1016,7 +1025,7 @@ static void DrawPlayer(C_BasePlayer* player)
 	bool bIsVisible = false;
 	if (Settings::ESP::Filters::visibilityCheck || Settings::ESP::Filters::legit)
 	{
-		bIsVisible = Entity::IsVisible(player, (int)Bone::BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck);
+		bIsVisible = Entity::IsVisible(player, BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck);
 		if (!bIsVisible && Settings::ESP::Filters::legit)
 			return;
 	}
@@ -1433,7 +1442,7 @@ static void DrawGlow()
 			{
 				if (!Entity::IsTeamMate(player, localplayer))
 				{
-					if (Entity::IsVisible(player, (int)Bone::BONE_HEAD))
+					if (Entity::IsVisible(player, BONE_HEAD))
 						color = Settings::ESP::Glow::enemyVisibleColor.Color(player);
 					else
 						color = Settings::ESP::Glow::enemyColor.Color(player);

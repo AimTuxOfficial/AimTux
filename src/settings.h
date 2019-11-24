@@ -204,7 +204,7 @@ struct AimbotWeapon_t
 		 predEnabled,
 		 scopeControlEnabled;
 	int engageLockTTR = 700;
-	Bone bone = Bone::BONE_HEAD;
+	Bone bone = BONE_HEAD;
 	SmoothType smoothType = SmoothType::SLOW_END;
 	ButtonCode_t aimkey = ButtonCode_t ::MOUSE_MIDDLE;
 	float smoothAmount = 1.0f,
@@ -221,7 +221,7 @@ struct AimbotWeapon_t
 
 	bool operator == (const AimbotWeapon_t& another) const
 	{
-		for (int bone = (int) DesiredBones::BONE_PELVIS; bone <= (int) DesiredBones::BONE_RIGHT_SOLE; bone++)
+		for (int bone = BONE_PELVIS; bone <= BONE_RIGHT_SOLE; bone++)
 		{
 			if( this->desiredBones[bone] != another.desiredBones[bone] )
 				return false;
@@ -1171,6 +1171,7 @@ namespace Settings
 		{
 			extern bool draw;
 			extern bool justDrawDots;
+			extern int modelID; // in econItemMap, not itemdefindex
 		}
 		namespace AnimLayers
 		{
