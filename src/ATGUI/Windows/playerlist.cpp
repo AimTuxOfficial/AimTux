@@ -19,12 +19,15 @@ static char nickname[127] = "";
 
 void PlayerList::RenderWindow()
 {
+	static int currentPlayer = -1;
+	
 	if( Settings::UI::Windows::Playerlist::reload )
 	{
 		ImGui::SetNextWindowPos(ImVec2(Settings::UI::Windows::Playerlist::posX, Settings::UI::Windows::Playerlist::posY), ImGuiSetCond_Always);
 		ImGui::SetNextWindowSize(ImVec2(Settings::UI::Windows::Playerlist::sizeX, Settings::UI::Windows::Playerlist::sizeY), ImGuiSetCond_Always);
 		Settings::UI::Windows::Playerlist::reload = false;
 		PlayerList::showWindow = Settings::UI::Windows::Playerlist::open;
+		currentPlayer = -1;
 	}
 	else
 	{
@@ -46,8 +49,6 @@ void PlayerList::RenderWindow()
 		temp = ImGui::GetWindowPos();
 		Settings::UI::Windows::Playerlist::posX = (int)temp.x;
 		Settings::UI::Windows::Playerlist::posY = (int)temp.y;
-
-		static int currentPlayer = -1;
 
 		if (!engine->IsInGame() || (*csPlayerResource && !(*csPlayerResource)->GetConnected(currentPlayer)))
 			currentPlayer = -1;
