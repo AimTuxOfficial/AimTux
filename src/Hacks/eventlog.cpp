@@ -168,10 +168,12 @@ void Eventlog::FireGameEvent(IGameEvent* event)
 		std::string deletefromname = "weapon_";
 		std::string weaponname = event->GetString(XORSTR("weapon"));
 		std::string::size_type whereisstring = weaponname.find(deletefromname);
-		weaponname.erase(whereisstring, deletefromname.length());
-		boughtLog += weaponname;		
+		if( whereisstring != std::string::npos ){
+            weaponname.erase(whereisstring, deletefromname.length());
+            boughtLog += weaponname;
 
-		logToShow.insert(logToShow.begin(), std::pair<std::string, long>(boughtLog, now));
+            logToShow.insert(logToShow.begin(), std::pair<std::string, long>(boughtLog, now));
+		}
 
 	} else if (strstr(event->GetName(), XORSTR("enter_bombzone"))){
 
