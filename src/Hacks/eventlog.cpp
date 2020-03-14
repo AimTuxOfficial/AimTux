@@ -11,12 +11,6 @@
 
 std::vector<std::pair<std::string, long>> logToShow;
 long lastLogTimestamp = 0;
-bool Settings::Eventlog::showEnemies = false;
-bool Settings::Eventlog::showTeammates = false;
-bool Settings::Eventlog::showLocalplayer = false;
-float Settings::Eventlog::duration = 5000;
-float Settings::Eventlog::lines = 10;
-ColorVar Settings::Eventlog::color = ImColor( 255, 79, 56, 255 );
 
 void Eventlog::Paint( ) {
 	if ( !Settings::ESP::enabled )

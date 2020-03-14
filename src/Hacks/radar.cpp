@@ -8,31 +8,6 @@
 #include "../Utils/entity.h"
 #include "../settings.h"
 
-bool Settings::Radar::enabled = false;
-float Settings::Radar::zoom = 16.f;
-bool Settings::Radar::enemies = false;
-bool Settings::Radar::allies = false;
-bool Settings::Radar::bomb = false;
-bool Settings::Radar::defuser = false;
-bool Settings::Radar::legit = false;
-bool Settings::Radar::visibilityCheck = false;
-bool Settings::Radar::smokeCheck = false;
-bool Settings::Radar::InGame::enabled = false;
-ImVec2 Settings::Radar::pos = ImVec2(0,0);
-TeamColorType Settings::Radar::teamColorType = TeamColorType::RELATIVE;
-HealthColorVar Settings::Radar::enemyColor = ImColor(255, 0, 0, 255);
-HealthColorVar Settings::Radar::enemyVisibleColor = ImColor(255, 255, 0, 255);
-HealthColorVar Settings::Radar::allyColor = ImColor(0, 0, 255, 255);
-HealthColorVar Settings::Radar::allyVisibleColor = ImColor(0, 255, 0, 255);
-HealthColorVar Settings::Radar::tColor = ImColor(255, 0, 0, 255);
-HealthColorVar Settings::Radar::tVisibleColor = ImColor(255, 255, 0, 255);
-HealthColorVar Settings::Radar::ctColor = ImColor(0, 0, 255, 255);
-HealthColorVar Settings::Radar::ctVisibleColor = ImColor(0, 255, 0, 255);
-ColorVar Settings::Radar::bombColor = ImColor(156, 39, 176, 255);
-ColorVar Settings::Radar::bombDefusingColor = ImColor(213, 0, 249, 255);
-ColorVar Settings::Radar::defuserColor = ImColor(49, 27, 146, 255);
-float Settings::Radar::iconsScale = 4.5f;
-
 std::set<int> visible_players;
 static Vector2D WorldToRadar(const Vector location, const Vector origin, const QAngle angles, int width, float scale = 16.f)
 {

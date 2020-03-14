@@ -3,9 +3,6 @@
 #include "../settings.h"
 #include "../interfaces.h"
 
-bool Settings::EdgeJump::enabled = false;
-ButtonCode_t Settings::EdgeJump::key = ButtonCode_t::KEY_C;
-
 int flags_backup = 0;
 
 void EdgeJump::PrePredictionCreateMove(CUserCmd* cmd)

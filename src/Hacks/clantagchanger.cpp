@@ -4,13 +4,6 @@
 #include "../settings.h"
 #include "../interfaces.h"
 
-
-char Settings::ClanTagChanger::value[30] = "";
-bool Settings::ClanTagChanger::animation = false;
-int Settings::ClanTagChanger::animationSpeed = 650;
-bool Settings::ClanTagChanger::enabled = false; // TODO find a way to go back to the "official" clan tag for the player? -- Save the current clan tag, before editing, then restore it later
-ClanTagType Settings::ClanTagChanger::type = ClanTagType::STATIC;
-
 static std::vector<std::wstring> splitWords(std::wstring text)
 {
 	std::wistringstream stream(text);

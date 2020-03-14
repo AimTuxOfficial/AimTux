@@ -6,7 +6,6 @@
 #include "../interfaces.h"
 #include "antiaim.h"
 
-bool Settings::Resolver::resolveAll = false;
 std::vector<int64_t> Resolver::Players = { };
 
 std::vector<std::pair<C_BasePlayer*, QAngle>> player_data;

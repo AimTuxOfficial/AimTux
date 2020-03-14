@@ -4,8 +4,6 @@
 
 #include "../settings.h"
 #include "../interfaces.h"
-bool Settings::NoSmoke::enabled = false;
-SmokeType Settings::NoSmoke::type = SmokeType::NONE;
 
 std::vector<const char*> smoke_materials = {
 		"particle/vistasmokev1/vistasmokev1_fire",

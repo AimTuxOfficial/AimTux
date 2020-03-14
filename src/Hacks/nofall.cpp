@@ -6,7 +6,6 @@
 int lastFlags = 0;
 float heightDiff;
 bool shouldDuck = false;
-bool Settings::NoFall::enabled = false;
 
 void NoFall::PrePredictionCreateMove( CUserCmd *cmd ) {
     Ray_t ray;

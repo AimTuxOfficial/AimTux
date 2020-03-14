@@ -8,60 +8,6 @@
 #include "../settings.h"
 #include "../interfaces.h"
 
-
-// Default aimbot settings
-bool Settings::Aimbot::enabled = false;
-bool Settings::Aimbot::silent = false;
-bool Settings::Aimbot::friendly = false;
-Bone Settings::Aimbot::bone = BONE_HEAD;
-ButtonCode_t Settings::Aimbot::aimkey = ButtonCode_t::MOUSE_MIDDLE;
-bool Settings::Aimbot::aimkeyOnly = false;
-bool Settings::Aimbot::Smooth::enabled = false;
-float Settings::Aimbot::Smooth::value = 0.5f;
-SmoothType Settings::Aimbot::Smooth::type = SmoothType::SLOW_END;
-bool Settings::Aimbot::ErrorMargin::enabled = false;
-float Settings::Aimbot::ErrorMargin::value = 0.0f;
-bool Settings::Aimbot::AutoAim::enabled = false;
-float Settings::Aimbot::AutoAim::fov = 180.0f;
-bool Settings::Aimbot::AutoAim::realDistance = false;
-bool Settings::Aimbot::AutoAim::closestBone = false;
-bool Settings::Aimbot::AutoAim::desiredBones[] = {true, true, true, true, true, true, true, // center mass
-							  false, false, false, false, false, false, false, // left arm
-							  false, false, false, false, false, false, false, // right arm
-							  false, false, false, false, false, // left leg
-							  false, false, false, false, false  // right leg
-};
-bool Settings::Aimbot::AutoAim::engageLock = false;
-bool Settings::Aimbot::AutoAim::engageLockTR = false; // engage lock Target Reacquisition ( re-target after getting a kill when spraying ).
-int Settings::Aimbot::AutoAim::engageLockTTR = 700; // Time to Target Reacquisition in ms
-bool Settings::Aimbot::AutoWall::enabled = false;
-float Settings::Aimbot::AutoWall::value = 10.0f;
-bool Settings::Aimbot::AimStep::enabled = false;
-float Settings::Aimbot::AimStep::min = 25.0f;
-float Settings::Aimbot::AimStep::max = 35.0f;
-bool Settings::Aimbot::AutoPistol::enabled = false;
-bool Settings::Aimbot::AutoShoot::enabled = false;
-bool Settings::Aimbot::AutoShoot::velocityCheck = false;
-bool Settings::Aimbot::AutoShoot::autoscope = false;
-bool Settings::Aimbot::RCS::enabled = false;
-bool Settings::Aimbot::RCS::always_on = false;
-float Settings::Aimbot::RCS::valueX = 2.0f;
-float Settings::Aimbot::RCS::valueY = 2.0f;
-bool Settings::Aimbot::AutoCrouch::enabled = false;
-bool Settings::Aimbot::NoShoot::enabled = false;
-bool Settings::Aimbot::IgnoreJump::enabled = false;
-bool Settings::Aimbot::IgnoreEnemyJump::enabled = false;
-bool Settings::Aimbot::SmokeCheck::enabled = false;
-bool Settings::Aimbot::FlashCheck::enabled = false;
-bool Settings::Aimbot::SpreadLimit::enabled = false;
-float Settings::Aimbot::SpreadLimit::value = 0.1f;
-bool Settings::Aimbot::Smooth::Salting::enabled = false;
-float Settings::Aimbot::Smooth::Salting::multiplier = 0.0f;
-bool Settings::Aimbot::AutoSlow::enabled = false;
-bool Settings::Aimbot::AutoSlow::goingToSlow = false;
-bool Settings::Aimbot::Prediction::enabled = false;
-bool Settings::Aimbot::ScopeControl::enabled = false;
-
 bool Aimbot::aimStepInProgress = false;
 std::vector<int64_t> Aimbot::friends = { };
 std::vector<long> killTimes = { 0 }; // the Epoch time from when we kill someone
@@ -72,10 +18,6 @@ QAngle RCSLastPunch;
 
 int Aimbot::targetAimbot = -1;
 const int headVectors = 11;
-
-std::unordered_map<ItemDefinitionIndex, AimbotWeapon_t, Util::IntHash<ItemDefinitionIndex>> Settings::Aimbot::weapons = {
-		{ ItemDefinitionIndex::INVALID, defaultSettings },
-};
 
 static QAngle ApplyErrorToAngle(QAngle* angles, float margin)
 {
@@ -580,23 +522,18 @@ static void AutoSlow(C_BasePlayer* player, float& forward, float& sideMove, floa
 {
 
 	if (!Settings::Aimbot::AutoSlow::enabled){
-		Settings::Aimbot::AutoSlow::goingToSlow = false;
 		return;
 	}
 
 	if (!player){
-		Settings::Aimbot::AutoSlow::goingToSlow = false;
 		return;
 	}
 
 	float nextPrimaryAttack = active_weapon->GetNextPrimaryAttack();
 
 	if (nextPrimaryAttack > globalVars->curtime){
-		Settings::Aimbot::AutoSlow::goingToSlow = false;
 		return;
 	}
-
-	Settings::Aimbot::AutoSlow::goingToSlow = true;
 
 	C_BasePlayer* localplayer = (C_BasePlayer*) entityList->GetClientEntity(engine->GetLocalPlayer());
 

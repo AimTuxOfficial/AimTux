@@ -7,8 +7,6 @@
 
 #pragma GCC diagnostic ignored "-Wformat-security"
 
-bool Settings::ShowSpectators::enabled = false;
-
 std::list<int> ShowSpectators::GetObservervators(int playerId)
 {
 	std::list<int> list;

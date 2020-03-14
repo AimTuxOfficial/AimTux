@@ -3,9 +3,6 @@
 #include "../settings.h"
 #include "../interfaces.h"
 
-bool Settings::Noflash::enabled = false;
-float Settings::Noflash::value = 160.0f;
-
 void Noflash::FrameStageNotify(ClientFrameStage_t stage)
 {
 	if (!engine->IsInGame())

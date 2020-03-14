@@ -9,17 +9,6 @@
 #include "../Utils/draw.h"
 #include "../Hooks/hooks.h"
 
-bool Settings::ESP::Hitmarker::enabled = false;
-bool Settings::ESP::Hitmarker::enemies = false;
-bool Settings::ESP::Hitmarker::allies = false;
-ColorVar Settings::ESP::Hitmarker::color = ImColor(255, 0, 0, 255);
-int Settings::ESP::Hitmarker::duration = 2000;
-int Settings::ESP::Hitmarker::size = 16;
-int Settings::ESP::Hitmarker::innerGap = 5;
-bool Settings::ESP::Hitmarker::Damage::enabled = false;
-bool Settings::ESP::Hitmarker::Sounds::enabled = false;
-Sound Settings::ESP::Hitmarker::Sounds::sound = Sound::NONE;
-
 // int - damage dealt, long - timestamp
 std::vector<std::pair<int, long>> damages;
 long lastHitmarkerTimestamp = 0;

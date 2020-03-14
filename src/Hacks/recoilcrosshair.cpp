@@ -6,9 +6,6 @@
 #include "../settings.h"
 #include "../Utils/draw.h"
 
-bool Settings::Recoilcrosshair::enabled = false;
-bool Settings::Recoilcrosshair::showOnlyWhenShooting = false;
-
 void Recoilcrosshair::Paint( ) {
 	if( !Settings::Recoilcrosshair::enabled )
 		return;

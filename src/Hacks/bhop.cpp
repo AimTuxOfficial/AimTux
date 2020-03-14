@@ -3,14 +3,6 @@
 #include "../settings.h"
 #include "../interfaces.h"
 
-bool Settings::BHop::enabled = false;
-bool Settings::BHop::Chance::enabled = false;
-int Settings::BHop::Chance::value = 70;
-bool Settings::BHop::Hops::enabledMax = false;
-int Settings::BHop::Hops::Max = 7;
-bool Settings::BHop::Hops::enabledMin = false;
-int Settings::BHop::Hops::Min = 3;
-
 void BHop::CreateMove(CUserCmd* cmd)
 {
 	if (!Settings::BHop::enabled)

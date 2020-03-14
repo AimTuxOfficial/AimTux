@@ -9,30 +9,6 @@
 #include "../settings.h"
 #include "../interfaces.h"
 
-SpammerType Settings::Spammer::type = SpammerType::SPAMMER_NONE;
-bool Settings::Spammer::say_team = false;
-bool Settings::Spammer::KillSpammer::enabled = false;
-bool Settings::Spammer::KillSpammer::sayTeam = false;
-std::vector<std::string> Settings::Spammer::KillSpammer::messages = {
-		"",
-		"",
-};
-bool Settings::Spammer::RadioSpammer::enabled = false;
-std::vector<std::string> Settings::Spammer::NormalSpammer::messages = {
-		"",
-		"",
-		"",
-		""
-};
-int Settings::Spammer::PositionSpammer::team = 1;
-bool Settings::Spammer::PositionSpammer::showName = true;
-bool Settings::Spammer::PositionSpammer::showWeapon = true;
-bool Settings::Spammer::PositionSpammer::showRank = true;
-bool Settings::Spammer::PositionSpammer::showWins = true;
-bool Settings::Spammer::PositionSpammer::showHealth = true;
-bool Settings::Spammer::PositionSpammer::showMoney = true;
-bool Settings::Spammer::PositionSpammer::showLastplace = true;
-
 std::vector<int> killedPlayerQueue;
 
 void Spammer::BeginFrame(float frameTime)

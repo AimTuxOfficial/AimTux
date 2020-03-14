@@ -3,10 +3,6 @@
 #include "../settings.h"
 #include "../interfaces.h"
 
-bool Settings::NoSky::enabled = false;
-bool Settings::SkyBox::enabled = false;
-int Settings::SkyBox::skyBoxNumber = 0;
-ColorVar Settings::NoSky::color = ImColor(0, 0, 0, 255);
 float r1 = 0.0f, g1 = 0.0f, b1 = 0.0f, a1 = 0.0f;
 
 std::unordered_map<MaterialHandle_t, ImColor> skyboxMaterials;

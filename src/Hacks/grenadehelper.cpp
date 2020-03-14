@@ -13,23 +13,7 @@
 
 #include <sstream>
 
-std::vector<GrenadeInfo> Settings::GrenadeHelper::grenadeInfos = {};
-bool Settings::GrenadeHelper::enabled = false;
-bool Settings::GrenadeHelper::onlyMatchingInfos = true;
-bool Settings::GrenadeHelper::aimAssist = false;
-float Settings::GrenadeHelper::aimDistance = 75;
-float Settings::GrenadeHelper::aimFov = 45;
-float Settings::GrenadeHelper::aimStep = 5;
-
-ColorVar Settings::GrenadeHelper::aimDot = ImColor(10, 10, 200, 255);
-ColorVar Settings::GrenadeHelper::aimLine = ImColor(200, 200, 200, 255);
-ColorVar Settings::GrenadeHelper::infoHE = ImColor(7, 183, 7, 255);
-ColorVar Settings::GrenadeHelper::infoMolotov = ImColor(236, 0, 0, 255);
-ColorVar Settings::GrenadeHelper::infoSmoke = ImColor(172, 172, 172, 255);
-ColorVar Settings::GrenadeHelper::infoFlash = ImColor(255, 255, 0, 255);
-
 bool shotLastTick = false;
-std::string Settings::GrenadeHelper::actMapName = {};
 
 GrenadeType GetGrenadeType(C_BaseCombatWeapon* wpn)
 {

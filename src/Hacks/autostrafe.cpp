@@ -4,10 +4,6 @@
 #include "../interfaces.h"
 #include "../Utils/math.h"
 
-bool Settings::AutoStrafe::enabled = false;
-AutostrafeType Settings::AutoStrafe::type = AutostrafeType::AS_FORWARDS;
-bool Settings::AutoStrafe::silent = true;
-
 static void LegitStrafe(C_BasePlayer* localplayer, CUserCmd* cmd)
 {
 	if (localplayer->GetFlags() & FL_ONGROUND)

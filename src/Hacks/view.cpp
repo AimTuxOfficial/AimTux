@@ -3,9 +3,6 @@
 #include "../settings.h"
 #include "../interfaces.h"
 
-bool Settings::View::NoAimPunch::enabled = false;
-bool Settings::View::NoViewPunch::enabled = false;
-
 QAngle old_view_punch_angle;
 QAngle old_aim_punch_angle;
 

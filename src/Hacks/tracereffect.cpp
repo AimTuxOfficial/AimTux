@@ -6,11 +6,6 @@
 #include "../settings.h"
 #include "../interfaces.h"
 
-bool Settings::TracerEffects::enabled = false;
-bool Settings::TracerEffects::serverSide = false;
-TracerEffects_t Settings::TracerEffects::effect = TracerEffects_t::TASER;
-int Settings::TracerEffects::frequency = 1;
-
 struct tracerRecord
 {
     tracerRecord(void* addr, char *weapName, char *effName, int freq)

@@ -9,8 +9,6 @@
 #include "../ImGUI/imgui_internal.h"
 #include "../Hacks/esp.h"
 
-DrawingBackend Settings::ESP::backend = DrawingBackend::IMGUI;
-
 std::deque<DrawRequest> Draw::drawRequests = {};
 
 void Draw::Circle( Vector2D position, int segments, float radius, Color color ) {

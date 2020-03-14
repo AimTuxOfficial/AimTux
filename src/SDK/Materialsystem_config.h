@@ -140,6 +140,7 @@ struct MaterialSystem_Config_t
 
     MaterialSystem_Config_t()
     {
+        m_Flags = 0;
         // video config defaults
         SetFlag( MATSYS_VIDCFG_FLAGS_WINDOWED, false );
         SetFlag( MATSYS_VIDCFG_FLAGS_RESIZING, false );

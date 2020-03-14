@@ -8,21 +8,6 @@
 #include "../interfaces.h"
 #include "valvedscheck.h"
 
-bool Settings::AntiAim::Yaw::enabled = false;
-bool Settings::AntiAim::Pitch::enabled = false;
-
-AntiAimType_Y Settings::AntiAim::Yaw::type = AntiAimType_Y::NONE;
-AntiAimType_Y Settings::AntiAim::Yaw::typeFake = AntiAimType_Y::NONE;
-AntiAimType_X Settings::AntiAim::Pitch::type = AntiAimType_X::STATIC_DOWN;
-
-bool Settings::AntiAim::HeadEdge::enabled = false;
-float Settings::AntiAim::HeadEdge::distance = 25.0f;
-
-bool Settings::AntiAim::AutoDisable::noEnemy = false;
-bool Settings::AntiAim::AutoDisable::knifeHeld = false;
-bool Settings::AntiAim::LBYBreaker::enabled = false;
-float Settings::AntiAim::LBYBreaker::offset = 180.0f;
-
 QAngle AntiAim::realAngle;
 QAngle AntiAim::fakeAngle;
 

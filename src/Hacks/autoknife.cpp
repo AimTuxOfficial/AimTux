@@ -5,11 +5,6 @@
 #include "../Utils/entity.h"
 #include "../interfaces.h"
 
-bool Settings::AutoKnife::enabled = false;
-bool Settings::AutoKnife::Filters::enemies = true;
-bool Settings::AutoKnife::Filters::allies = false;
-bool Settings::AutoKnife::onKey = true;
-
 bool AutoKnife::IsPlayerBehind(C_BasePlayer* localplayer, C_BasePlayer* player)
 {
 	Vector toTarget = (localplayer->GetVecOrigin() - player->GetVecOrigin()).Normalize();

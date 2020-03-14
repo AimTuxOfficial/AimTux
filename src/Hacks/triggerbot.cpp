@@ -6,23 +6,6 @@
 #include "../Utils/math.h"
 #include "../Utils/entity.h"
 
-bool Settings::Triggerbot::enabled = false;
-bool Settings::Triggerbot::Filters::enemies = true;
-bool Settings::Triggerbot::Filters::allies = false;
-bool Settings::Triggerbot::Filters::walls = false;
-bool Settings::Triggerbot::Filters::smokeCheck = false;
-bool Settings::Triggerbot::Filters::flashCheck = false;
-bool Settings::Triggerbot::Filters::head = true;
-bool Settings::Triggerbot::Filters::chest = true;
-bool Settings::Triggerbot::Filters::stomach = true;
-bool Settings::Triggerbot::Filters::arms = true;
-bool Settings::Triggerbot::Filters::legs = true;
-bool Settings::Triggerbot::RandomDelay::enabled = true;
-int Settings::Triggerbot::RandomDelay::lowBound = 20;
-int Settings::Triggerbot::RandomDelay::highBound = 35;
-int Settings::Triggerbot::RandomDelay::lastRoll = 0;
-ButtonCode_t Settings::Triggerbot::key = ButtonCode_t::KEY_LALT;
-
 void Triggerbot::CreateMove(CUserCmd *cmd)
 {
 	if (!Settings::Triggerbot::enabled)
