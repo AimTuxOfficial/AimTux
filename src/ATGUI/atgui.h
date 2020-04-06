@@ -8,7 +8,7 @@ namespace UI
 	extern bool isVisible;
 
 	void SetVisible(bool visible);
-	void SwapWindow();
+	void DrawImWatermark();
 	void SetupColors();
 	void SetupWindows();
 	bool ColorPicker(float* col, bool alphabar);

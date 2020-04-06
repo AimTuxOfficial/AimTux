@@ -1,0 +1,35 @@
+build/*
+*/Debug/*
+*/Release/*
+*/ipch/*
+*/x64/*
+*.opensdf
+*.sdf
+*.suo
+*.user
+*.o
+*.obj
+*.exe
+*.log
+*.pdb
+*.ilk
+*.VC.db
+*.VC.VC.opendb
+
+## Xcode cruft
+.DS_Store
+project.xcworkspace
+xcuserdata
+
+## Emscripten output
+*.out.js
+*.out.wasm
+
+## Unix executables
+example_glfw_opengl2/example_glfw_opengl2
+example_glfw_opengl3/example_glfw_opengl3
+example_sdl_opengl2/example_sdl_opengl2
+example_sdl_opengl3/example_sdl_opengl3
+
+## Dear ImGui Ini files
+imgui.ini

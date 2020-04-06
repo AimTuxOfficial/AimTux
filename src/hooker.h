@@ -32,8 +32,6 @@ namespace Hooker
 	void FindLoadFromBuffer();
 	//void FindVstdlibFunctions();
 	void FindOverridePostProcessingDisable();
-	void HookSwapWindow();
-	void HookPollEvent();
 	void FindSDLInput();
 	void FindSetNamedSkybox();
 	void FindPanelArrayOffset();

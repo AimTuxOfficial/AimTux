@@ -42,9 +42,18 @@ endif(NOT CMAKE_BUILD_TYPE)
 
 file(GLOB_RECURSE SOURCE_FILES "${CMAKE_SOURCE_DIR}/src/*.cpp")
 EXCLUDE_FILES_FROM_DIR_IN_LIST("${SOURCE_FILES}" "${CMAKE_SOURCE_DIR}/src/ImGUI/examples/" FALSE)
-EXCLUDE_FILES_FROM_DIR_IN_LIST("${SOURCE_FILES}" "${CMAKE_SOURCE_DIR}/src/ImGUI/extra_fonts" FALSE)
+EXCLUDE_FILES_FROM_DIR_IN_LIST("${SOURCE_FILES}" "${CMAKE_SOURCE_DIR}/src/ImGUI/fonts" FALSE)
+EXCLUDE_FILES_FROM_DIR_IN_LIST("${SOURCE_FILES}" "${CMAKE_SOURCE_DIR}/src/ImGUI/misc" FALSE)
+list(APPEND SOURCE_FILES "${CMAKE_SOURCE_DIR}/src/ImGUI/examples/imgui_impl_glfw.cpp")
+list(APPEND SOURCE_FILES "${CMAKE_SOURCE_DIR}/src/ImGUI/examples/imgui_impl_opengles3.cpp")
+list(APPEND SOURCE_FILES "${CMAKE_SOURCE_DIR}/src/ImGUI/examples/libs/gl3w/GL/gl3w.c")
 
 include_directories(${INCLUDE_DIRS})
+#some of the imgui crap expects this to be set.
+include_directories("${CMAKE_SOURCE_DIR}/src/ImGUI/")
+include_directories("${CMAKE_SOURCE_DIR}/src/ImGUI/examples/")
+include_directories("${CMAKE_SOURCE_DIR}/src/ImGUI/examples/libs/")
+include_directories("${CMAKE_SOURCE_DIR}/src/ImGUI/examples/libs/gl3w/")
 
 add_library(Fuzion SHARED ${SOURCE_FILES})
-target_link_libraries(Fuzion SDL2 GL dl)
+target_link_libraries(Fuzion SDL2 GL dl glfw)

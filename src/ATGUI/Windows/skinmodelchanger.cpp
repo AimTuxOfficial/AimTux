@@ -60,7 +60,7 @@ void SkinModelChanger::RenderWindow()
 		return;
 	}
 
-	if (ImGui::Begin(XORSTR("Skin & Model Changer"), &SkinModelChanger::showWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
+	if (ImGui::Begin(XORSTR("Skin & Model Changer"), &SkinModelChanger::showWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar ))
 	{
 		Settings::UI::Windows::Skinmodel::open = true;
 		ImVec2 temp = ImGui::GetWindowSize();

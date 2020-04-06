@@ -58,7 +58,7 @@ static Vector2D WorldToRadar(const Vector location, const Vector origin, const Q
 
 	return Vector2D(xnew_diff, ynew_diff);
 }
-static void SquareConstraint(ImGuiSizeConstraintCallbackData *data)
+static void SquareConstraint(ImGuiSizeCallbackData *data)
 {
 	data->DesiredSize = ImVec2(std::max(data->DesiredSize.x, data->DesiredSize.y), std::max(data->DesiredSize.x, data->DesiredSize.y));
 }
@@ -123,7 +123,7 @@ void Radar::RenderWindow()
 	ImGui::SetNextWindowSizeConstraints(ImVec2(0, 0), ImVec2(FLT_MAX, FLT_MAX), SquareConstraint);
 	ImGui::SetNextWindowPos(Settings::Radar::pos, ImGuiSetCond_FirstUseEver);
 
-	if (ImGui::Begin("Radar", &Settings::Radar::enabled, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoTitleBar))
+	if (ImGui::Begin("Radar", &Settings::Radar::enabled, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoTitleBar))
 	{
 		ImDrawList* draw_list = ImGui::GetWindowDrawList();
 

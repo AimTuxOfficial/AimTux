@@ -32,7 +32,7 @@ void Configs::RenderWindow()
 		return;
 	}
 
-	if (ImGui::Begin(XORSTR("Configs"), &Configs::showWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders | ImGuiWindowFlags_NoResize))
+	if (ImGui::Begin(XORSTR("Configs"), &Configs::showWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize))
 	{
 		Settings::UI::Windows::Config::open = true;
 		ImVec2 temp = ImGui::GetWindowSize();

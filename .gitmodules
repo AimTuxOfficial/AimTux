@@ -1,3 +1,0 @@
-[submodule "src/ImGUI"]
-	path = src/ImGUI
-	url = https://github.com/LWSS/imgui.git
