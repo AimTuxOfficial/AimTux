@@ -10,7 +10,7 @@ function echo_red {
 }
 if test -z "$CXX"
 then
-   $CXX = "gcc"
+   CXX=g++
 fi
 
 cmake . || exit 1
