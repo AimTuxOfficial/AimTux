@@ -71,17 +71,8 @@ void Visuals::RenderTab()
 
 	ImGui::Columns(2, nullptr, true);
 	{
-		ImGui::Checkbox(XORSTR("Enabled"), &Settings::ESP::enabled);
+        ImGui::Checkbox(XORSTR("Enabled"), &Settings::ESP::enabled);
         ImGui::Combo( XORSTR( "##BACKENDTYPE" ), (int*)&Settings::ESP::backend, BackendTypes, IM_ARRAYSIZE( BackendTypes ) );
-
-        ImGui::NextColumn();
-		ImGui::Text(XORSTR("Only on Key"));
-		UI::KeyBindButton(&Settings::ESP::key);
-	}
-	ImGui::Separator();
-
-	ImGui::Columns(2, nullptr, true);
-	{
 		ImGui::BeginChild(XORSTR("COL1"), ImVec2(0, 0), true);
 		{
 			ImGui::Text(XORSTR("ESP"));
@@ -237,6 +228,8 @@ void Visuals::RenderTab()
 
 	ImGui::NextColumn();
 	{
+        ImGui::Text(XORSTR("Only on Key"));
+        UI::KeyBindButton(&Settings::ESP::key);
 		ImGui::BeginChild(XORSTR("Chams"), ImVec2(0, 0), true);
 		{
 			ImGui::Text(XORSTR("Crosshair"));
