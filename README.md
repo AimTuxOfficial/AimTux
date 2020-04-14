@@ -34,11 +34,11 @@ If you are having problems compiling make sure you've got the latest version of 
 
 __Ubuntu-Based / Debian:__
 ```bash
-sudo apt-get install cmake g++ gdb git libsdl2-dev zlib1g-dev patchelf
+sudo apt-get install cmake g++ gdb git libsdl2-dev zlib1g-dev patchelf glfw3 
 ```
 __Arch:__
 ```bash
-sudo pacman -S base-devel cmake gdb git sdl2 patchelf
+sudo pacman -S base-devel cmake gdb git sdl2 patchelf glfw-x11
 ```
 __Fedora:__
 ```bash
