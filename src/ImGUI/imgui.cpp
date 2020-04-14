@@ -9410,7 +9410,7 @@ bool ImGui::SliderBehavior(const ImRect& bb, ImGuiID id, ImGuiDataType data_type
 {
     // Draw frame
     ImGuiContext& g = *GImGui;
-    const ImU32 frame_col = GetColorU32(g.ActiveId == id ? ImGuiCol_FrameBgActive : g.HoveredId == id ? ImGuiCol_FrameBgHovered : ImGuiCol_FrameBg);
+    const ImU32 frame_col = GetColorU32(g.ActiveId == id ? ImGuiCol_FrameBgActive : g.HoveredId == id ? ImGuiCol_FrameBgHovered : ImGuiCol_Border);
     RenderNavHighlight(bb, id);
     RenderFrame(bb.Min, bb.Max, frame_col, true, g.Style.FrameRounding);
 
