@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-
+if test -z $CXX
+then
+   CXX=g++
+fi 
 cmake -DCMAKE_BUILD_TYPE="DEBUG"
 make -j"$(grep -c "^processor" /proc/cpuinfo)"
 mv libFuzion.so "$(cat build_id)"
