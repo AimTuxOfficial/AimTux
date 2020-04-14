@@ -37,7 +37,7 @@ void PlayerList::RenderWindow()
 		return;
 	}
 
-	if (ImGui::Begin(XORSTR("Player list"), &PlayerList::showWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_ShowBorders))
+	if (ImGui::Begin(XORSTR("Player list"), &PlayerList::showWindow, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar ))
 	{
 		Settings::UI::Windows::Playerlist::open = true;
 		ImVec2 temp = ImGui::GetWindowSize();

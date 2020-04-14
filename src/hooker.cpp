@@ -5,7 +5,7 @@
 #include "Utils/util.h"
 #include "Utils/vmt.h"
 #include "Utils/xorstring.h"
-#include "glhook.h"
+#include "sdlhook.h"
 #include "interfaces.h"
 #include "offsets.h"
 
@@ -27,12 +27,6 @@ VMT* launcherMgrVMT = nullptr;
 VMT* engineVGuiVMT = nullptr;
 VMT* soundVMT = nullptr;
 VMT* uiEngineVMT = nullptr;
-
-uintptr_t oSwapWindow;
-uintptr_t* swapWindowJumpAddress = nullptr;
-
-uintptr_t oPollEvent;
-uintptr_t* polleventJumpAddress = nullptr;
 
 MsgFunc_ServerRankRevealAllFn MsgFunc_ServerRankRevealAll;
 SendClanTagFn SendClanTag;
@@ -359,22 +353,6 @@ void Hooker::FindOverridePostProcessingDisable()
 	bool_address = GetAbsoluteAddress(bool_address, 2, 7);
 
 	s_bOverridePostProcessingDisable = reinterpret_cast<bool*>(bool_address);
-}
-
-void Hooker::HookSwapWindow()
-{
-	uintptr_t swapwindowFn = reinterpret_cast<uintptr_t>(dlsym(RTLD_NEXT, XORSTR("SDL_GL_SwapWindow")));
-	swapWindowJumpAddress = reinterpret_cast<uintptr_t*>(GetAbsoluteAddress(swapwindowFn, 3, 7));
-	oSwapWindow = *swapWindowJumpAddress;
-	*swapWindowJumpAddress = reinterpret_cast<uintptr_t>(&SDL2::SwapWindow);
-}
-
-void Hooker::HookPollEvent()
-{
-	uintptr_t polleventFn = reinterpret_cast<uintptr_t>(dlsym(RTLD_NEXT, XORSTR("SDL_PollEvent")));
-	polleventJumpAddress = reinterpret_cast<uintptr_t*>(GetAbsoluteAddress(polleventFn, 3, 7));
-	oPollEvent = *polleventJumpAddress;
-	*polleventJumpAddress = reinterpret_cast<uintptr_t>(&SDL2::PollEvent);
 }
 
 void Hooker::FindSDLInput()

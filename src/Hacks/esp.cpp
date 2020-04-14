@@ -517,7 +517,7 @@ static void DrawTracer( C_BasePlayer* player ) {
 	else if ( Settings::ESP::Tracers::type == TracerType::BOTTOM )
 		y = Paint::engineHeight;
 
-	bool bIsVisible = Entity::IsVisible( player, BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck );
+	bool bIsVisible = Entity::IsVisible( player, CONST_BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck );
 	Draw::AddLine( ( int ) ( src.x ), ( int ) ( src.y ), x, y, ESP::GetESPPlayerColor( player, bIsVisible ) );
 }
 static void DrawAimbotSpot( ) {
@@ -649,15 +649,16 @@ static void DrawAutoWall(C_BasePlayer *player) {
 }
 
 static void DrawHeaddot( C_BasePlayer* player ) {
+    Vector head2D;
+    Vector head3D;
 
-	Vector head2D;
-	Vector head3D = player->GetBonePosition( BONE_HEAD );
+    head3D = player->GetBonePosition( CONST_BONE_HEAD );
 	if ( debugOverlay->ScreenPosition( Vector( head3D.x, head3D.y, head3D.z ), head2D ) )
 		return;
 
 	bool bIsVisible = false;
 	if ( Settings::ESP::Filters::visibilityCheck || Settings::ESP::Filters::legit )
-		bIsVisible = Entity::IsVisible( player, BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck );
+		bIsVisible = Entity::IsVisible( player, CONST_BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck );
 
 	Draw::AddCircleFilled( head2D.x, head2D.y, Settings::ESP::HeadDot::size, ESP::GetESPPlayerColor( player, bIsVisible ), 10 );
 }
@@ -893,7 +894,7 @@ static void DrawPlayer(C_BasePlayer* player)
 	bool bIsVisible = false;
 	if (Settings::ESP::Filters::visibilityCheck || Settings::ESP::Filters::legit)
 	{
-		bIsVisible = Entity::IsVisible(player, BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck);
+		bIsVisible = Entity::IsVisible(player, CONST_BONE_HEAD, 180.f, Settings::ESP::Filters::smokeCheck);
 		if (!bIsVisible && Settings::ESP::Filters::legit)
 			return;
 	}
@@ -1310,7 +1311,7 @@ static void DrawGlow()
 			{
 				if (!Entity::IsTeamMate(player, localplayer))
 				{
-					if (Entity::IsVisible(player, BONE_HEAD))
+					if (Entity::IsVisible(player, CONST_BONE_HEAD))
 						color = Settings::ESP::Glow::enemyVisibleColor.Color(player);
 					else
 						color = Settings::ESP::Glow::enemyColor.Color(player);

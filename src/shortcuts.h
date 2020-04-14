@@ -1,7 +1,7 @@
 #pragma once
 
-#include "ImGUI/imgui_impl_sdl.h"
 #include "SDK/IInputSystem.h"
+#include <SDL2/SDL.h>
 
 namespace Shortcuts
 {

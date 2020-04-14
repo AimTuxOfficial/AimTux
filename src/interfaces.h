@@ -71,12 +71,6 @@ extern int* nPredictionRandomSeed;
 extern CMoveData* g_MoveData;
 extern bool* s_bOverridePostProcessingDisable;
 
-extern uintptr_t oSwapWindow;
-extern uintptr_t* swapWindowJumpAddress;
-
-extern uintptr_t oPollEvent;
-extern uintptr_t* polleventJumpAddress;
-
 namespace Interfaces
 {
 	void FindInterfaces();

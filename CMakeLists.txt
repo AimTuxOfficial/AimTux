@@ -28,7 +28,7 @@ FUNCTION (EXCLUDE_FILES_FROM_DIR_IN_LIST _InFileList _excludeDirName _verbose)
 ENDFUNCTION (EXCLUDE_FILES_FROM_DIR_IN_LIST)
 
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -ldl -fpic")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -ldl -fpic --no-gnu-unique") #gnu-unique will stop us from unloading.
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -ggdb")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -s -fvisibility=hidden -fvisibility-inlines-hidden")
 #set(CMAKE_CXX_FLAGS_MINSIZEREL "${CMAKE_CXX_FLAGS_MINSIZEREL} -std=c++17 -Wall -Wno-maybe-uninitialized -Wno-unused-result -ldl -fpic -shared")
@@ -42,9 +42,18 @@ endif(NOT CMAKE_BUILD_TYPE)
 
 file(GLOB_RECURSE SOURCE_FILES "${CMAKE_SOURCE_DIR}/src/*.cpp")
 EXCLUDE_FILES_FROM_DIR_IN_LIST("${SOURCE_FILES}" "${CMAKE_SOURCE_DIR}/src/ImGUI/examples/" FALSE)
-EXCLUDE_FILES_FROM_DIR_IN_LIST("${SOURCE_FILES}" "${CMAKE_SOURCE_DIR}/src/ImGUI/extra_fonts" FALSE)
+EXCLUDE_FILES_FROM_DIR_IN_LIST("${SOURCE_FILES}" "${CMAKE_SOURCE_DIR}/src/ImGUI/fonts" FALSE)
+EXCLUDE_FILES_FROM_DIR_IN_LIST("${SOURCE_FILES}" "${CMAKE_SOURCE_DIR}/src/ImGUI/misc" FALSE)
+list(APPEND SOURCE_FILES "${CMAKE_SOURCE_DIR}/src/ImGUI/examples/imgui_impl_glfw.cpp")
+list(APPEND SOURCE_FILES "${CMAKE_SOURCE_DIR}/src/ImGUI/examples/imgui_impl_opengles3.cpp")
+list(APPEND SOURCE_FILES "${CMAKE_SOURCE_DIR}/src/ImGUI/examples/libs/gl3w/GL/gl3w.c")
 
 include_directories(${INCLUDE_DIRS})
+#some of the imgui crap expects this to be set.
+include_directories("${CMAKE_SOURCE_DIR}/src/ImGUI/")
+include_directories("${CMAKE_SOURCE_DIR}/src/ImGUI/examples/")
+include_directories("${CMAKE_SOURCE_DIR}/src/ImGUI/examples/libs/")
+include_directories("${CMAKE_SOURCE_DIR}/src/ImGUI/examples/libs/gl3w/")
 
 add_library(Fuzion SHARED ${SOURCE_FILES})
-target_link_libraries(Fuzion SDL2 GL dl)
+target_link_libraries(Fuzion SDL2 GL dl glfw)

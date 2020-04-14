@@ -5,7 +5,7 @@
 #include "Utils/util.h"
 #include "fonts.h"
 #include "Hooks/hooks.h"
-#include "glhook.h"
+#include "sdlhook.h"
 
 #include "EventListener.h"
 #include "Utils/xorstring.h"
@@ -54,14 +54,15 @@ void MainThread()
 	Hooker::FindLoadFromBuffer();
 	//Hooker::FindVstdlibFunctions();
 	Hooker::FindOverridePostProcessingDisable();
-	Hooker::HookSwapWindow();
-	Hooker::HookPollEvent();
     Hooker::FindPanelArrayOffset();
     Hooker::FindPlayerAnimStateOffset();
     Hooker::FindPlayerAnimOverlayOffset();
 	Hooker::FindSequenceActivity();
     Hooker::FindAbsFunctions();
     Hooker::FindItemSystem();
+
+    SDL2::HookSwapWindow();
+    SDL2::HookPollEvent();
 
     Offsets::GetNetVarOffsets();
     Fonts::SetupFonts();
