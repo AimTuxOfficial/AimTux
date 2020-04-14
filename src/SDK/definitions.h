@@ -501,6 +501,19 @@ enum class EClassIds : int
 
 typedef int Bone;
 
+// These bones are the same on all CSGO models.
+enum
+{
+    CONST_BONE_HIP = 3,
+    CONST_BONE_LOWER_SPINE = 4,
+    CONST_BONE_MIDDLE_SPINE = 5,
+    CONST_BONE_UPPER_SPINE = 6,
+    CONST_BONE_NECK = 7,
+    CONST_BONE_HEAD = 8,
+};
+
+// This is a custom enum for the desired bones.
+// Does not match the csgo models, use the bonemaps instead.
 enum
 {
 	BONE_INVALID = -1,

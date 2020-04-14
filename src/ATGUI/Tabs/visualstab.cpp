@@ -73,6 +73,10 @@ void Visuals::RenderTab()
 	{
         ImGui::Checkbox(XORSTR("Enabled"), &Settings::ESP::enabled);
         ImGui::Combo( XORSTR( "##BACKENDTYPE" ), (int*)&Settings::ESP::backend, BackendTypes, IM_ARRAYSIZE( BackendTypes ) );
+        if( Settings::ESP::backend == DrawingBackend::IMGUI ){
+            ImGui::Checkbox( XORSTR( "Aliased Lines"), &Settings::UI::imGuiAliasedLines );
+            ImGui::Checkbox( XORSTR( "Aliased Fill"), &Settings::UI::imGuiAliasedFill );
+        }
 		ImGui::BeginChild(XORSTR("COL1"), ImVec2(0, 0), true);
 		{
 			ImGui::Text(XORSTR("ESP"));

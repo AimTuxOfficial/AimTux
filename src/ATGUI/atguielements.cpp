@@ -255,8 +255,8 @@ void UI::SetupColors()
 	style.ButtonTextAlign = ImVec2(0.5f, 0.5f);
 	style.DisplayWindowPadding = ImVec2(22, 22);
 	style.DisplaySafeAreaPadding = ImVec2(4, 4);
-	style.AntiAliasedLines = true;
-	style.AntiAliasedFill = true;
+	style.AntiAliasedLines = Settings::UI::imGuiAliasedLines;
+	style.AntiAliasedFill = Settings::UI::imGuiAliasedFill;
 	style.CurveTessellationTol = 1.25f;
 
 	style.Colors[ImGuiCol_Text] = Settings::UI::fontColor.Color();

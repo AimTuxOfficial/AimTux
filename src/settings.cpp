@@ -251,6 +251,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
 
 	settings[XORSTR("ESP")][XORSTR("enabled")] = Settings::ESP::enabled;
 	settings[XORSTR("ESP")][XORSTR("backend")] = (int)Settings::ESP::backend;
+    settings[XORSTR("UI")][XORSTR("imGuiAliasedLines")] = Settings::UI::imGuiAliasedLines;
+    settings[XORSTR("UI")][XORSTR("imGuiAliasedFill")] = Settings::UI::imGuiAliasedFill;
 	settings[XORSTR("ESP")][XORSTR("key")] = Util::GetButtonName(Settings::ESP::key);
 	LoadColor(settings[XORSTR("ESP")][XORSTR("enemy_color")], Settings::ESP::enemyColor);
 	LoadColor(settings[XORSTR("ESP")][XORSTR("enemy_visible_color")], Settings::ESP::enemyVisibleColor);
@@ -766,6 +768,8 @@ void Settings::LoadConfig(std::string path)
 
 	GetVal(settings[XORSTR("ESP")][XORSTR("enabled")], &Settings::ESP::enabled);
 	GetVal(settings[XORSTR("ESP")][XORSTR("backend")], (int*)&Settings::ESP::backend);
+    GetVal(settings[XORSTR("UI")][XORSTR("imGuiAliasedLines")], &Settings::UI::imGuiAliasedLines);
+    GetVal(settings[XORSTR("UI")][XORSTR("imGuiAliasedFill")], &Settings::UI::imGuiAliasedFill);
 	GetButtonCode(settings[XORSTR("ESP")][XORSTR("key")], &Settings::ESP::key);
 	GetVal(settings[XORSTR("ESP")][XORSTR("enemy_color")], &Settings::ESP::enemyColor);
 	GetVal(settings[XORSTR("ESP")][XORSTR("enemy_visible_color")], &Settings::ESP::enemyVisibleColor);
