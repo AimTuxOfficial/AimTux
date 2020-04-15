@@ -730,7 +730,7 @@ void Settings::LoadConfig(std::string path)
 
 		for (int bone = BONE_PELVIS; bone <= BONE_RIGHT_SOLE; bone++)
 			weapon.desiredBones[bone] = weaponSetting[XORSTR("DesiredBones")][XORSTR("Bones")][bone].asBool();
-		Settings::Aimbot::weapons.at(weaponID) = weapon;
+		Settings::Aimbot::weapons[weaponID] = weapon;
 	}
 
 	GetVal(settings[XORSTR("Aimbot")][XORSTR("AutoCrouch")][XORSTR("enabled")], &Settings::Aimbot::AutoCrouch::enabled);
@@ -1032,7 +1032,7 @@ void Settings::LoadConfig(std::string path)
 				skinSetting[XORSTR("CustomName")].asString(),
 		};
 
-		Settings::Skinchanger::skinsCT.at((ItemDefinitionIndex) weaponID) = skin;
+		Settings::Skinchanger::skinsCT[(ItemDefinitionIndex) weaponID] = skin;
 	}
 
 	for (Json::ValueIterator itr = settings[XORSTR("SkinChanger")][XORSTR("skinsT")].begin(); itr != settings[XORSTR("SkinChanger")][XORSTR("skinsT")].end(); itr++)
@@ -1069,7 +1069,7 @@ void Settings::LoadConfig(std::string path)
 				skinSetting[XORSTR("CustomName")].asString(),
 		};
 
-		Settings::Skinchanger::skinsT.at((ItemDefinitionIndex) weaponID) = skin;
+		Settings::Skinchanger::skinsT[(ItemDefinitionIndex) weaponID] = skin;
 	}
 
 	SkinChanger::forceFullUpdate = true;
