@@ -34,7 +34,7 @@ If you are having problems compiling make sure you've got the latest version of 
 
 __Ubuntu-Based / Debian:__
 ```bash
-sudo apt-get install cmake g++ gdb git libsdl2-dev zlib1g-dev patchelf glfw3 
+sudo apt-get install cmake g++ gdb git libsdl2-dev zlib1g-dev patchelf libglfw3-dev 
 ```
 __Arch:__
 ```bash
