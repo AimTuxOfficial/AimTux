@@ -667,17 +667,7 @@ void Settings::LoadConfig(std::string path)
 		std::string weaponDataKey = itr.key().asString();
 		auto weaponSetting = settings[XORSTR("Aimbot")][XORSTR("weapons")][weaponDataKey];
 
-		// XXX Using exception handling to deal with this is stupid, but I don't care to find a better solution
-		// XXX We can't use GetOrdinal() since the key type is a string...
-		ItemDefinitionIndex weaponID;
-		try
-		{
-			weaponID = (ItemDefinitionIndex) std::stoi(weaponDataKey);
-		}
-		catch (std::invalid_argument&) // Not a number
-		{
-			weaponID = Util::Items::GetItemIndex(weaponDataKey);
-		}
+		ItemDefinitionIndex weaponID = Util::Items::GetItemIndex(weaponDataKey);
 
 		if (Settings::Aimbot::weapons.find(weaponID) == Settings::Aimbot::weapons.end())
 			Settings::Aimbot::weapons[weaponID] = AimbotWeapon_t();
@@ -1003,18 +993,7 @@ void Settings::LoadConfig(std::string path)
 		std::string skinDataKey = itr.key().asString();
 		auto skinSetting = settings[XORSTR("SkinChanger")][XORSTR("skinsCT")][skinDataKey];
 
-		// XXX Using exception handling to deal with this is stupid, but I don't care to find a better solution
-		// XXX We can't use GetOrdinal() since the key type is a string...
-		unsigned int weaponID;
-
-		try
-		{
-			weaponID = std::stoi(skinDataKey);
-		}
-		catch(std::invalid_argument&)
-		{
-			weaponID = (int) Util::Items::GetItemIndex(skinDataKey);
-		}
+		ItemDefinitionIndex weaponID = (ItemDefinitionIndex) Util::Items::GetItemIndex(skinDataKey);
 
 		ItemDefinitionIndex defIndex = ItemDefinitionIndex::INVALID;
 		GetOrdinal<ItemDefinitionIndex, Util::Items::GetItemIndex>(skinSetting[XORSTR("ItemDefinitionIndex")], &defIndex);
@@ -1040,18 +1019,7 @@ void Settings::LoadConfig(std::string path)
 		std::string skinDataKey = itr.key().asString();
 		auto skinSetting = settings[XORSTR("SkinChanger")][XORSTR("skinsT")][skinDataKey];
 
-		// XXX Using exception handling to deal with this is stupid, but I don't care to find a better solution
-		// XXX We can't use GetOrdinal() since the key type is a string...
-		unsigned int weaponID;
-
-		try
-		{
-			weaponID = std::stoi(skinDataKey);
-		}
-		catch(std::invalid_argument&)
-		{
-			weaponID = (int) Util::Items::GetItemIndex(skinDataKey);
-		}
+		ItemDefinitionIndex weaponID = (ItemDefinitionIndex) Util::Items::GetItemIndex(skinDataKey);
 
 		ItemDefinitionIndex defIndex = ItemDefinitionIndex::INVALID;
 		GetOrdinal<ItemDefinitionIndex, Util::Items::GetItemIndex>(skinSetting[XORSTR("ItemDefinitionIndex")], &defIndex);
