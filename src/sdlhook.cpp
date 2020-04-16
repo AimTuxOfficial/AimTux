@@ -98,43 +98,10 @@ static void SwapWindow(SDL_Window* window)
 
         // Setup display size
         int w, h;
-        //int display_w, display_h;
         SDL_GetWindowSize(window, &w, &h);
-        //SDL_GL_GetDrawableSize(window, &display_w, &display_h);
         io.DisplaySize = ImVec2((float)w, (float)h);
-        //io.DisplayFramebufferScale = ImVec2(w > 0 ? ((float)display_w / w) : 0, h > 0 ? ((float)display_h / h) : 0);
 
         ImGui_ImplOpenGL3_Init("#version 100");
-/*
-		ImWchar SegoeUI_ranges[] = {
-				0x0020, 0x007E, // Basic Latin
-				0x00A0, 0x00FF, // Latin-1 Supplement
-				0x0100, 0x017F, // Latin Extended-A
-				0x0180, 0x024F, // Latin Extended-B
-				0x0370, 0x03FF, // Greek and Coptic
-				0x0400, 0x04FF, // Cyrillic
-				0x0500, 0x052F, // Cyrillic Supplementary
-				0
-		};
-
-
-		ImWchar KaiGenGothicCNRegular_ranges[] = {
-				0x3000, 0x30FF, // Punctuations, Hiragana, Katakana
-				0x31F0, 0x31FF, // Katakana Phonetic Extensions
-				0xFF00, 0xFFEF, // Half-width characters
-				0x4E00, 0x9FAF, // CJK Ideograms
-				0
-		};
-
-		ImFontConfig config;
-*/
-		// Add SegoeUI as default font
-        // io.Fonts->AddFontFromMemoryCompressedTTF(SegoeUI_compressed_data, SegoeUI_compressed_size, 18.0f, &config, SegoeUI_ranges);
-
-		// Enable MergeMode and add additional fonts
-		// config.MergeMode = true;
-        // io.Fonts->AddFontFromMemoryCompressedBase85TTF(KaiGenGothicCNRegular_compressed_data_base85, 14.0f, &config, KaiGenGothicCNRegular_ranges);
-        // io.Fonts->Build();
 
 		bFirst = false;
 	}
@@ -144,11 +111,11 @@ static void SwapWindow(SDL_Window* window)
 
     // Setup display size (every frame to accommodate for window resizing)
     int w, h;
-    //int display_w, display_h;
+    int display_w, display_h;
     SDL_GetWindowSize(window, &w, &h);
-    //SDL_GL_GetDrawableSize(window, &display_w, &display_h);
+    SDL_GL_GetDrawableSize(window, &display_w, &display_h);
     io.DisplaySize = ImVec2((float)w, (float)h);
-    //io.DisplayFramebufferScale = ImVec2(w > 0 ? ((float)display_w / w) : 0, h > 0 ? ((float)display_h / h) : 0);
+    io.DisplayFramebufferScale = ImVec2(w > 0 ? ((float)display_w / w) : 0, h > 0 ? ((float)display_h / h) : 0);
 
     static double lastTime = 0.0f;
     Uint32 time = SDL_GetTicks();
