@@ -22,6 +22,8 @@ extern FinishDrawingFn FinishDrawing;
 
 int Paint::engineWidth;
 int Paint::engineHeight;
+int Paint::windowWidth;
+int Paint::windowHeight;
 
 std::mutex drawMutex;
 
@@ -95,8 +97,8 @@ void Hooks::PaintImGui()
 
     float width = (float)Paint::engineWidth;
     float height = (float)Paint::engineHeight;
-    float imWidth = ImGui::GetWindowWidth();
-    float imHeight = ImGui::GetWindowHeight();
+    float imWidth = Paint::windowWidth;
+    float imHeight = Paint::windowHeight;
 
     for( const DrawRequest &value : Draw::drawRequests ){
         /* Convert in case there are stretched resolution users - DONT write to original struct! */

@@ -67,8 +67,12 @@ namespace OverrideView
 
 namespace Paint
 {
-    extern int engineWidth; // updated in paint.
+    // updated in paint.
+    extern int engineWidth;
     extern int engineHeight;
+    // updated in sdlhook (for stretched users, instead of stretching the whole imgui system, we can do it ourselves and leave the menu crisp)
+    extern int windowWidth;
+    extern int windowHeight;
 }
 
 namespace SetKeyCodeState

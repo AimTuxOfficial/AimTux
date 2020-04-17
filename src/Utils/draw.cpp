@@ -153,20 +153,6 @@ Vector2D Draw::GetTextSize( const char* text, HFont font ) {
 	return Vector2D( x_res, y_res );
 }
 
-void Draw::ImStart() {
-	int width, height;
-	SDL_GetWindowSize( SDL_GL_GetCurrentWindow(), &width, &height );
-
-	ImGui::SetNextWindowPos( ImVec2( 0, 0 ), ImGuiSetCond_Always );
-	ImGui::SetNextWindowSize( ImVec2( width, height ), ImGuiSetCond_Always );
-	ImGui::Begin( "",
-				  ( bool* ) true,
-				  ImVec2( width, height ),
-				  0.f,
-				  ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
-				  ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoInputs );
-}
-
 void Draw::ImText( ImVec2 pos, ImColor color, const char* text_begin, const char* text_end, float wrap_width,
 				   const ImVec4* cpu_fine_clip_rect, ImFontFlags flags ) {
     ImColor shading;
@@ -241,10 +227,6 @@ void Draw::ImCircle3D( Vector position, int segments, float radius, ImColor colo
 
 		Draw::ImLine( start2d, end2d, color );
 	}
-}
-
-void Draw::ImEnd() {
-	ImGui::End();
 }
 
 void Draw::AddLine( int x0, int y0, int x1, int y1, ImColor color ) {

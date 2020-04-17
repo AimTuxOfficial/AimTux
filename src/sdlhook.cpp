@@ -96,29 +96,23 @@ static void SwapWindow(SDL_Window* window)
         io.KeyMap[ImGuiKey_Y] = SDLK_y;
         io.KeyMap[ImGuiKey_Z] = SDLK_z;
 
-        // Setup display size
-        int w, h;
-        int display_w, display_h;
-        SDL_GetWindowSize(window, &w, &h);
-        SDL_GL_GetDrawableSize(window, &display_w, &display_h);
-        io.DisplaySize = ImVec2((float)w, (float)h);
-        io.DisplayFramebufferScale = ImVec2(w > 0 ? ((float)display_w / w) : 0, h > 0 ? ((float)display_h / h) : 0);
-        
         ImGui_ImplOpenGL3_Init("#version 100");
 
 		bFirst = false;
 	}
 
     ImGuiIO& io = ImGui::GetIO();
-    ImGui_ImplOpenGL3_NewFrame();
-
     // Setup display size (every frame to accommodate for window resizing)
     int w, h;
-    int display_w, display_h;
+    //int display_w, display_h;
     SDL_GetWindowSize(window, &w, &h);
-    SDL_GL_GetDrawableSize(window, &display_w, &display_h);
+    //SDL_GL_GetDrawableSize(window, &display_w, &display_h);
+    Paint::windowWidth = w;
+    Paint::windowHeight = h;
     io.DisplaySize = ImVec2((float)w, (float)h);
-    io.DisplayFramebufferScale = ImVec2(w > 0 ? ((float)display_w / w) : 0, h > 0 ? ((float)display_h / h) : 0);
+    //io.DisplayFramebufferScale = ImVec2( 1, 1 );
+
+    ImGui_ImplOpenGL3_NewFrame();
 
     static double lastTime = 0.0f;
     Uint32 time = SDL_GetTicks();
@@ -152,12 +146,15 @@ static void SwapWindow(SDL_Window* window)
     }
 
     ImGui::NewFrame();
-	Draw::ImStart();
-        UI::SetupColors();
-        UI::SetupWindows();
-		UI::DrawImWatermark();
-		Hooks::PaintImGui(); // Process ImGui Draw Commands
-	Draw::ImEnd();
+        ImGui::SetNextWindowPos( ImVec2( 0, 0 ), ImGuiCond_Always );
+        ImGui::SetNextWindowSize( ImVec2( w, h ), ImGuiCond_Always );
+        ImGui::SetNextWindowBgAlpha( 0.0f );
+        ImGui::Begin( "", (bool*)true, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove |ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoInputs  );
+            UI::SetupColors();
+            UI::SetupWindows();
+            UI::DrawImWatermark();
+            Hooks::PaintImGui(); // Process ImGui Draw Commands
+        ImGui::End();
 	ImGui::EndFrame();
 
 	ImGui::GetCurrentContext()->Font->DisplayOffset = ImVec2(0.f, 0.f);
