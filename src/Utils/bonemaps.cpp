@@ -44,8 +44,9 @@ static const std::unordered_map<int,int> boneMapGeneric =
 };
 
 bool BoneMaps::BuildAllBonemaps( ) {
-    if( boneMapsBuilt )
-        return true;
+    // Bonemaps do not seem to be valid between maps
+    //if( boneMapsBuilt )
+    //    return true;
 
     // Iterate over the Economy Item Schema.
     // Luckily, valve sells the models from other maps as skins.
