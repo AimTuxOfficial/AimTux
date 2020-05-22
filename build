@@ -8,6 +8,10 @@ function echo_orange {
 function echo_red {
 	echo -e "\\e[31m$*\\e[0m"
 }
+if test -z "$CXX"
+then
+   CXX=g++
+fi
 
 cmake . || exit 1
 
