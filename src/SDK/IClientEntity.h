@@ -723,7 +723,7 @@ public:
 		return getvfunc<oDrawCrosshair>( this, 471 )( this );
 	}
 
-	CCSWeaponInfo* GetCSWpnData() { // "script file not found" (client_panorama_client)
+	CCSWeaponInfo* GetCSWpnData() { // "script file not found" (client_client)
 		typedef CCSWeaponInfo* (* oGetCSWpnData)( void* );
 		return getvfunc<oGetCSWpnData>( this, 528 )( this );
 	}
