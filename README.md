@@ -28,7 +28,7 @@ A fully featured internal hack for *CounterStrike : Global Offensive* written in
 
 If you are having problems compiling make sure you've got the latest version of `g++`.
 
-[How to update g++](https://github.com/AimTuxOfficial/AimTux/wiki/Updating-your-compiler)
+[How to update g++](https://github.com/LWSS/Fuzion/wiki/Updating-your-compiler)
 
 ==================
 
