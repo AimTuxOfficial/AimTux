@@ -89,30 +89,44 @@ void Visuals::RenderTab()
 			w -= 20.f;
 		ImGui::BeginChild(XORSTR("Categories"), ImVec2(0, 0), true);
 		{
-			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(Settings::UI::mainColor.Color().Value.x, Settings::UI::mainColor.Color().Value.y, Settings::UI::mainColor.Color().Value.z, Settings::UI::mainColor.Color().Value.w));
-
-			if (current_category == Category::ESP)
-				ImGui::PopStyleColor();
-			if (ImGui::Button("ESP", ImVec2(w, w)))
+			if ( current_category == Category::ESP )
+			{
+			    if (ImGui::Button("ESP", ImVec2(w, w)))
 				current_category = Category::ESP;
-			if (current_category == Category::ESP)
-				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(Settings::UI::mainColor.Color().Value.x, Settings::UI::mainColor.Color().Value.y, Settings::UI::mainColor.Color().Value.z, Settings::UI::mainColor.Color().Value.w));
+			}
+			else
+			{
+			    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(Settings::UI::mainColor.Color().Value.x, Settings::UI::mainColor.Color().Value.y, Settings::UI::mainColor.Color().Value.z, Settings::UI::mainColor.Color().Value.w));
+			    if (ImGui::Button("ESP", ImVec2(w, w)))
+				current_category = Category::ESP;
+			    ImGui::PopStyleColor();
+			}
 
-			if (current_category == Category::LOCAL)
-				ImGui::PopStyleColor();
-			if (ImGui::Button("Local", ImVec2(w, w)))
+			if ( current_category == Category::LOCAL )
+			{
+			    if (ImGui::Button("Local", ImVec2(w, w)))
 				current_category = Category::LOCAL;
-			if (current_category == Category::LOCAL)
-				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(Settings::UI::mainColor.Color().Value.x, Settings::UI::mainColor.Color().Value.y, Settings::UI::mainColor.Color().Value.z, Settings::UI::mainColor.Color().Value.w));
+			}
+			else
+			{
+			    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(Settings::UI::mainColor.Color().Value.x, Settings::UI::mainColor.Color().Value.y, Settings::UI::mainColor.Color().Value.z, Settings::UI::mainColor.Color().Value.w));
+			    if (ImGui::Button("Local", ImVec2(w, w)))
+				current_category = Category::LOCAL;
+			    ImGui::PopStyleColor();
+			}
 
-			if (current_category == Category::WORLD)
-				ImGui::PopStyleColor();
-			if (ImGui::Button("World", ImVec2(w, w)))
+			if ( current_category == Category::WORLD )
+			{
+			    if (ImGui::Button("World", ImVec2(w, w)))
 				current_category = Category::WORLD;
-			if (current_category == Category::WORLD)
-				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(Settings::UI::mainColor.Color().Value.x, Settings::UI::mainColor.Color().Value.y, Settings::UI::mainColor.Color().Value.z, Settings::UI::mainColor.Color().Value.w));
-
-			ImGui::PopStyleColor();
+			}
+			else
+			{
+			    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(Settings::UI::mainColor.Color().Value.x, Settings::UI::mainColor.Color().Value.y, Settings::UI::mainColor.Color().Value.z, Settings::UI::mainColor.Color().Value.w));
+			    if (ImGui::Button("World", ImVec2(w, w)))
+				current_category = Category::WORLD;
+			    ImGui::PopStyleColor();
+			}
 		}
 		ImGui::EndChild();
 	}
