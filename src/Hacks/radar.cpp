@@ -294,6 +294,7 @@ static void InGameRadar(C_BasePlayer* player)
 		return;
 
 	*player->GetSpotted() = true;
+	*player->GetSpottedByMask() = -1;
 }
 
 

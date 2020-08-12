@@ -246,6 +246,11 @@ public:
 	{
 		return (bool*)((uintptr_t)this + offsets.DT_BaseEntity.m_bSpotted);
 	}
+
+	uint32_t *GetSpottedByMask()
+	{
+		return (uint32_t *)((uintptr_t)this + offsets.DT_BaseEntity.m_bSpottedByMask);
+	}
 };
 
 /* generic game classes */
