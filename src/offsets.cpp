@@ -31,6 +31,7 @@ void Offsets::GetNetVarOffsets()
 	offsets.DT_BaseEntity.m_MoveType = offsets.DT_BaseEntity.m_nRenderMode + 1;
 	offsets.DT_BaseEntity.m_Collision = NetVarManager::GetOffset(tables, XORSTR("DT_BaseEntity"), XORSTR("m_Collision"));
 	offsets.DT_BaseEntity.m_bSpotted = NetVarManager::GetOffset(tables, XORSTR("DT_BaseEntity"), XORSTR("m_bSpotted"));
+	offsets.DT_BaseEntity.m_bSpottedByMask = NetVarManager::GetOffset(tables, XORSTR("DT_BaseEntity"), XORSTR("m_bSpottedByMask"));
 
 	offsets.DT_BaseCombatCharacter.m_hActiveWeapon = NetVarManager::GetOffset(tables, XORSTR("DT_BaseCombatCharacter"), XORSTR("m_hActiveWeapon"));
 	offsets.DT_BaseCombatCharacter.m_hMyWeapons = NetVarManager::GetOffset(tables, XORSTR("DT_BaseCombatCharacter"), XORSTR("m_hMyWeapons")) / 2;
