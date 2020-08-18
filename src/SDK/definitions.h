@@ -24,7 +24,7 @@ struct CGlowObjectManager;
 /* function prototypes */
 typedef IClientMode* (*GetClientModeFn) (void);
 typedef CGlowObjectManager* (*GlowObjectManagerFn) (void);
-typedef bool (*MsgFunc_ServerRankRevealAllFn) (float*);
+typedef bool (*MsgFunc_ServerRankRevealAllFn) (void*);
 typedef void (*SendClanTagFn) (const char*, const char*);
 typedef void (*SetLocalPlayerReadyFn) (const char*);
 typedef ILauncherMgr* (*ILauncherMgrCreateFn) (void);
