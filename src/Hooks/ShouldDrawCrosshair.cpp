@@ -1,7 +1,6 @@
 #include "hooks.h"
 
 #include "../interfaces.h"
-#include "../settings.h"
 
 #include "../Hacks/snipercrosshair.h"
 

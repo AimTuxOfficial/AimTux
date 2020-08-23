@@ -12,7 +12,6 @@
 #include "../Hacks/recoilcrosshair.h"
 #include "../Hacks/hitmarkers.h"
 #include "../Hacks/eventlog.h"
-#include "../Hacks/snipercrosshair.h"
 #include "../Hacks/angleindicator.h"
 
 #include <mutex>

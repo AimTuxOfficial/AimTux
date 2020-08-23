@@ -5,7 +5,6 @@
 #include "ATGUI/atgui.h"
 #include "Hooks/hooks.h"
 #include "Resources/KaiGenGothicCNRegular.h"
-#include "Utils/draw.h"
 #include "ImGUI/examples/imgui_impl_opengles3.h"
 #include "ImGUI/examples/libs/gl3w/GL/gl3w.h"
 #include "ImGUI/imgui_internal.h" // for 	ImGui::GetCurrentContext()->Font->DisplayOffset

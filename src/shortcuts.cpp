@@ -4,8 +4,6 @@
 
 #include "Hacks/grenadeprediction.h"
 
-#include "../Utils/util.h"
-
 void Shortcuts::PollEvent(SDL_Event* event)
 {
 	if (((event->key.keysym.sym == SDLK_INSERT && event->type == SDL_KEYDOWN))

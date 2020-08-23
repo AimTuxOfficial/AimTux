@@ -2,9 +2,6 @@
 
 #include <vector>
 #include "../interfaces.h"
-#include "../settings.h"
-#include "../fonts.h"
-#include "../Utils/xorstring.h"
 #include <SDL2/SDL.h>
 #include "../ImGUI/imgui_internal.h"
 #include "../Hacks/esp.h"

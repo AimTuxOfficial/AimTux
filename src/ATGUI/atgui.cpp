@@ -2,7 +2,6 @@
 
 #include "../Utils/draw.h"
 #include "../interfaces.h"
-#include "../settings.h"
 #include "../Utils/xorstring.h"
 
 #include "Windows/colors.h"
