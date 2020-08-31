@@ -30,7 +30,7 @@ ENDFUNCTION (EXCLUDE_FILES_FROM_DIR_IN_LIST)
 if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall  -fpic -march=native -mtune=native -ftree-vectorize")
 else()
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -ldl -fpic -march=native -mtune=native -ftree-vectorize--no-gnu-unique") #gnu-unique will stop us from unloading.
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -ldl -fpic -march=native -mtune=native -ftree-vectorize --no-gnu-unique") #gnu-unique will stop us from unloading.
 endif()
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -ggdb")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -s -fvisibility=hidden -fvisibility-inlines-hidden")
