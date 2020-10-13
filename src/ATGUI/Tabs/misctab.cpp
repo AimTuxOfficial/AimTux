@@ -24,13 +24,13 @@ static char nickname[127] = "";
 
 void Misc::RenderTab()
 {
-	const char* strafeTypes[] = { "Forwards", "Backwards", "Left", "Right", "Rage" };
-	const char* animationTypes[] = { "Static", "Marquee", "Words", "Letters" };
-	const char* spammerTypes[] = { "None", "Normal", "Positions" };
-	const char* teams[] = { "Allies", "Enemies", "Both" };
-	const char* grenadeTypes[] = { "FLASH", "SMOKE", "MOLOTOV", "HEGRENADE" };
-	const char* throwTypes[] = { "NORMAL", "RUN", "JUMP", "WALK" };
-	const char* angleTypes[] = { "Real", "Fake" };
+	static const char* strafeTypes[] = { "Forwards", "Backwards", "Left", "Right", "Rage" };
+	static const char* animationTypes[] = { "Static", "Marquee", "Words", "Letters" };
+	static const char* spammerTypes[] = { "None", "Normal", "Positions" };
+	static const char* teams[] = { "Allies", "Enemies", "Both" };
+	static const char* grenadeTypes[] = { "FLASH", "SMOKE", "MOLOTOV", "HEGRENADE" };
+	static const char* throwTypes[] = { "NORMAL", "RUN", "JUMP", "WALK" };
+	static const char* angleTypes[] = { "Real", "Fake" };
 
 	ImGui::Columns(2, nullptr, true);
 	{

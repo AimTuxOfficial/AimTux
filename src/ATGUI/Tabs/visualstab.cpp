@@ -11,19 +11,19 @@
 
 void Visuals::RenderTab()
 {
-	const char* BackendTypes[] = { "Surface (Valve)", "ImGUI (Custom/Faster)" };
-	const char* BoxTypes[] = { "Flat 2D", "Frame 2D", "Box 3D", "Hitboxes" };
-	const char* SpriteTypes[] = { "Tux" };
-	const char* TracerTypes[] = { "Bottom", "Cursor" };
-	const char* BarTypes[] = { "Vertical Left", "Vertical Right", "Horizontal Below", "Horizontal Above", "Interwebz" };
-	const char* BarColorTypes[] = { "Static", "Health Based" };
-	const char* TeamColorTypes[] = { "Absolute", "Relative" };
-	const char* ChamsTypes[] = { "Normal", "Normal - XQZ", "Flat", "Flat - XQZ" };
-	const char* ArmsTypes[] = { "Default", "Wireframe", "None" };
-	const char* WeaponTypes[] = { "Default", "Wireframe", "None" };
-	const char* SmokeTypes[] = { "Wireframe", "None" };
-	const char* Sounds[] = { "None", "SpongeBob", "Half life", "Half life 2", "Half life 3", "Half life 4", "BB Gun Bell", "Dopamine", "Wub", "Pedo Yes!", "Meme", "Error", "Orchestral" };
-	const char* SkyBoxes[] = {
+	static const char* BackendTypes[] = { "Surface (Valve)", "ImGUI (Custom/Faster)" };
+	static const char* BoxTypes[] = { "Flat 2D", "Frame 2D", "Box 3D", "Hitboxes" };
+	static const char* SpriteTypes[] = { "Tux" };
+	static const char* TracerTypes[] = { "Bottom", "Cursor" };
+	static const char* BarTypes[] = { "Vertical Left", "Vertical Right", "Horizontal Below", "Horizontal Above", "Interwebz" };
+	static const char* BarColorTypes[] = { "Static", "Health Based" };
+	static const char* TeamColorTypes[] = { "Absolute", "Relative" };
+	static const char* ChamsTypes[] = { "Normal", "Normal - XQZ", "Flat", "Flat - XQZ" };
+	static const char* ArmsTypes[] = { "Default", "Wireframe", "None" };
+	static const char* WeaponTypes[] = { "Default", "Wireframe", "None" };
+	static const char* SmokeTypes[] = { "Wireframe", "None" };
+	static const char* Sounds[] = { "None", "SpongeBob", "Half life", "Half life 2", "Half life 3", "Half life 4", "BB Gun Bell", "Dopamine", "Wub", "Pedo Yes!", "Meme", "Error", "Orchestral" };
+	static const char* SkyBoxes[] = {
 			"cs_baggage_skybox_", // 0
 			"cs_tibet",
 			"embassy",
@@ -48,7 +48,7 @@ void Visuals::RenderTab()
 			"vertigoblue_hdr",
 			"vietnam" // 21
 	};
-	const char *tracerEffectNames[] = {
+	static const char *tracerEffectNames[] = {
 			"Assault Rifle", // 0
 			"Pistol",
 			"SMG",

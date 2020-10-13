@@ -57,8 +57,8 @@ void Colors::RenderWindow()
 			this->type = HEALTHCOLORVAR_TYPE;
 		}
 	};
-
-	ColorListVar colors[] = {
+	
+	static const ColorListVar colors[] = {
 			{ "UI Main", &Settings::UI::mainColor },
 			{ "UI Body", &Settings::UI::bodyColor },
 			{ "UI Font", &Settings::UI::fontColor },
