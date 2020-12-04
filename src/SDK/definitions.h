@@ -217,7 +217,7 @@ enum class ItemDefinitionIndex : short
 enum class EClassIds : int
 {
 	CAI_BaseNPC = 0,
-	CAK47,
+		CAK47,
 	CBaseAnimating,
 	CBaseAnimatingOverlay,
 	CBaseAttributableItem,
@@ -326,6 +326,7 @@ enum class EClassIds : int
 	CKnife,
 	CKnifeGG,
 	CLightGlow,
+	CMapVetoPickController,
 	CMaterialModifyControl,
 	CMelee,
 	CMolotovGrenade,
@@ -489,6 +490,7 @@ enum class EClassIds : int
 	CWeaponUMP45,
 	CWeaponUSP,
 	CWeaponXM1014,
+	CWeaponZoneRepulsor,
 	CWorld,
 	CWorldVguiText,
 	DustTrail,
