@@ -4,7 +4,6 @@
 #include "../Utils/entity.h"
 #include "../settings.h"
 #include "../interfaces.h"
-#include "../Hooks/hooks.h"
 
 IMaterial* materialChams;
 IMaterial* materialChamsIgnorez;
@@ -107,6 +106,11 @@ static void DrawPlayer(void* thisptr, void* context, void *state, const ModelRen
 static void DrawWeapon(const ModelRenderInfo_t& pInfo)
 {
 	if (!Settings::ESP::Chams::Weapon::enabled)
+		return;
+
+    	//turn weapon chams off while scoped so you can actually see with COD guns while scoped -Crazily.
+    	C_BasePlayer *localPlayer = (C_BasePlayer *) entityList->GetClientEntity(engine->GetLocalPlayer());
+    	if (localPlayer->IsScoped())
 		return;
 
 	std::string modelName = modelInfo->GetModelName(pInfo.pModel);
