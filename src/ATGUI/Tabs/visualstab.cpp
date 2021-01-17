@@ -473,6 +473,8 @@ void Visuals::RenderTab()
 					ImGui::Checkbox(XORSTR("Weapons"), &Settings::ESP::Filters::weapons);
 					ImGui::Checkbox(XORSTR("Throwables"), &Settings::ESP::Filters::throwables);
 					ImGui::Checkbox(XORSTR("Entity Glow"), &Settings::ESP::Glow::enabled);
+					ImGui::Checkbox( XORSTR("CSM Disabler"), &Settings::NoCSM::enabled );
+				    	SetTooltip( XORSTR( "Disables the game's Cascading Shadow Maps.\nCan Add around 30fps, but shadows look worse.\nBreaks skybox on re-enable." ) );
 				}
 				ImGui::NextColumn();
 				{

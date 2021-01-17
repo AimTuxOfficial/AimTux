@@ -70,6 +70,7 @@ extern SetNamedSkyBoxFn SetNamedSkyBox;
 extern int* nPredictionRandomSeed;
 extern CMoveData* g_MoveData;
 extern bool* s_bOverridePostProcessingDisable;
+extern ConVar *cl_csm_enabled;
 
 namespace Interfaces
 {

@@ -12,6 +12,7 @@
 int* nPredictionRandomSeed = nullptr;
 CMoveData* g_MoveData = nullptr;
 bool* s_bOverridePostProcessingDisable = nullptr;
+ConVar *cl_csm_enabled = nullptr;
 
 VMT* panelVMT = nullptr;
 VMT* clientVMT = nullptr;
@@ -507,7 +508,7 @@ void Hooker::FindItemSystem()
     // C3                      retn
 
 
-	uintptr_t funcAddr = PatternFinder::FindPatternInModule( XORSTR( "/client_client.so" ), (unsigned char*) XORSTR("\x55\x48\x89\xE5\x53\x48\x89\xFB\x48\x83\xEC\x08\x48\x89\x37\xE8"
+    uintptr_t funcAddr = PatternFinder::FindPatternInModule( XORSTR( "/client_client.so" ), (unsigned char*) XORSTR("\x55\x48\x89\xE5\x53\x48\x89\xFB\x48\x83\xEC\x08\x48\x89\x37\xE8"
 																									"\x00\x00\x00\x00" // ??
 																									"\x48"), XORSTR( "xxxxxxxxxxxxxxxx????x" ) );
     funcAddr += 15; // add 15 to get to (E8 9C 69 E3 FF          call    GetItemSystemWrapper)
@@ -517,8 +518,34 @@ void Hooker::FindItemSystem()
 
 
     GetItemSystemFn GetItemSystem = reinterpret_cast<GetItemSystemFn>( funcAddr );
-	uintptr_t itemSys = (uintptr_t)GetItemSystem();
-	cvar->ConsoleDPrintf("ItemSystem(%p)\n", itemSys);
-	itemSys += sizeof(void*); // 2nd vtable
+    uintptr_t itemSys = (uintptr_t)GetItemSystem();
+    cvar->ConsoleDPrintf("ItemSystem(%p)\n", itemSys);
+    itemSys += sizeof(void*); // 2nd vtable
     itemSystem = (CItemSystem*)itemSys;
+}
+
+void Hooker::FindCSMEnabled()
+{
+    //  sub_856E60 proc near
+    // "48 8B 05 ?? ?? ?? ?? 55 48 89 E5 41 54 53 48  89 FB 48 8D 3D ?? ?? ?? ?? FF 90 ?? ?? ?? ?? 48"
+    //	48 8B 05 19 C2 A3 01    mov     rax, cs:_cl_csm_enabled
+    //	55                      push    rbp
+    //	48 89 E5                mov     rbp, rsp
+    //	41 54                   push    r12
+    //	53                      push    rbx
+    //	48 89 FB                mov     rbx, rdi
+    //	48 8D 3D 08 C2 A3 01    lea     rdi, _cl_csm_enabled
+    //	FF 90 80 00 00 00       call    qword ptr [rax+80h]
+    //	48 8D 3D FC 27 FC 00    lea     rdi, aCsmEnabledI ; "CSM enabled: %i\n"
+    uintptr_t funcAddr = PatternFinder::FindPatternInModule( XORSTR("/client_client.so"),
+ (unsigned char*)XORSTR("\x48\x8B\x05"
+	"\x00\x00\x00\x00"
+	"\x55\x48\x89\xE5\x41\x54\x53\x48\x89\xFB\x48\x8D\x3D"
+	"\x00\x00\x00\x00"
+	"\xFF\x90"
+	"\x00\x00\x00\x00"
+	"\x48"),
+	XORSTR("xxx????xxxxxxxxxxxxx????xx????x") );
+
+    cl_csm_enabled = reinterpret_cast<ConVar*>( GetAbsoluteAddress( funcAddr, 3, 7 ) );
 }

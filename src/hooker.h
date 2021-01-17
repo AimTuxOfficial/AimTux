@@ -36,8 +36,9 @@ namespace Hooker
 	void FindSetNamedSkybox();
 	void FindPanelArrayOffset();
 	void FindPlayerAnimStateOffset();
-    void FindPlayerAnimOverlayOffset();
+    	void FindPlayerAnimOverlayOffset();
 	void FindSequenceActivity();
 	void FindAbsFunctions();
 	void FindItemSystem();
+	void FindCSMEnabled();
 }

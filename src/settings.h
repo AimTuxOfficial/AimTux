@@ -1168,6 +1168,11 @@ namespace Settings
 		inline bool enabled = false;
 	}
 
+	namespace NoCSM
+	{
+	    	inline bool enabled = false;
+	}
+
 	namespace DisablePostProcessing
 	{
 		inline bool enabled = false;
