@@ -4,7 +4,6 @@
 #include "../Utils/entity.h"
 #include "../settings.h"
 #include "../interfaces.h"
-#include "../Hooks/hooks.h"
 
 IMaterial* materialChams;
 IMaterial* materialChamsIgnorez;
@@ -55,47 +54,43 @@ static void DrawPlayer(void* thisptr, void* context, void *state, const ModelRen
 			hidden_material = materialChamsFlatIgnorez;
 			break;
 	}
-
-	visible_material->AlphaModulate(1.0f);
-	hidden_material->AlphaModulate(1.0f);
-
+	
+	ImColor visColor;
+	ImColor color;
+	
 	if (entity == localplayer)
 	{
-		Color visColor = Color::FromImColor(Settings::ESP::Chams::localplayerColor.Color(entity));
-		Color color = visColor;
-		color *= 0.45f;
-
-		visible_material->ColorModulate(visColor);
-		hidden_material->ColorModulate(color);
-
-		visible_material->AlphaModulate(Settings::ESP::Chams::localplayerColor.Color(entity).Value.w);
-		hidden_material->AlphaModulate(Settings::ESP::Chams::localplayerColor.Color(entity).Value.w);
+		visColor = Settings::ESP::Chams::localplayerColor.Color(entity);
+		color = visColor;
+		
+		color.Value.x *= 0.45f; // does same thing as color *= 0.45
+		color.Value.y *= 0.45f;
+		color.Value.z *= 0.45f;
 	}
 	else if (Entity::IsTeamMate(entity, localplayer))
 	{
-		Color visColor = Color::FromImColor(Settings::ESP::Chams::allyVisibleColor.Color(entity));
-		Color color = Color::FromImColor(Settings::ESP::Chams::allyColor.Color(entity));
-
-		visible_material->ColorModulate(visColor);
-		hidden_material->ColorModulate(color);
+		visColor = Settings::ESP::Chams::allyVisibleColor.Color(entity);
+		color = Settings::ESP::Chams::allyColor.Color(entity);
 	}
 	else if (!Entity::IsTeamMate(entity, localplayer))
 	{
-		Color visColor = Color::FromImColor(Settings::ESP::Chams::enemyVisibleColor.Color(entity));
-		Color color = Color::FromImColor(Settings::ESP::Chams::enemyColor.Color(entity));
-
-		visible_material->ColorModulate(visColor);
-		hidden_material->ColorModulate(color);
+		visColor = Settings::ESP::Chams::enemyVisibleColor.Color(entity);
+		color = Settings::ESP::Chams::enemyColor.Color(entity);
 	}
 	else
 	{
 		return;
 	}
-
-	if (entity->GetImmune())
-	{
-		visible_material->AlphaModulate(0.5f);
-		hidden_material->AlphaModulate(0.5f);
+	
+	visible_material->ColorModulate(visColor);
+	hidden_material->ColorModulate(color);
+	
+	if (entity->GetImmune()) {
+		visible_material->AlphaModulate(visColor.Value.w / 2);
+		hidden_material->AlphaModulate(color.Value.w / 2);
+	} else {
+		visible_material->AlphaModulate(visColor.Value.w);
+		hidden_material->AlphaModulate(color.Value.w);
 	}
 
 	if (!Settings::ESP::Filters::legit && (Settings::ESP::Chams::type == ChamsType::CHAMS_XQZ || Settings::ESP::Chams::type == ChamsType::CHAMS_FLAT_XQZ))
@@ -111,6 +106,11 @@ static void DrawPlayer(void* thisptr, void* context, void *state, const ModelRen
 static void DrawWeapon(const ModelRenderInfo_t& pInfo)
 {
 	if (!Settings::ESP::Chams::Weapon::enabled)
+		return;
+
+    	//turn weapon chams off while scoped so you can actually see with COD guns while scoped -Crazily.
+    	C_BasePlayer *localPlayer = (C_BasePlayer *) entityList->GetClientEntity(engine->GetLocalPlayer());
+    	if (localPlayer->IsScoped())
 		return;
 
 	std::string modelName = modelInfo->GetModelName(pInfo.pModel);

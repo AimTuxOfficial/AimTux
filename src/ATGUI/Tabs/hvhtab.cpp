@@ -10,11 +10,11 @@
 
 void HvH::RenderTab()
 {
-    const char* yTypes[] = {
+    static const char* yTypes[] = {
             "NONE", "MAX_DELTA_LEFT", "MAX_DELTA_RIGHT", "MAX_DELTA_FLIPPER", "MAX_DELTA_LBY_AVOID"
     };
 
-    const char* xTypes[] = {
+    static const char* xTypes[] = {
             "UP", "DOWN", "DANCE", "FRONT", // safe
             "FAKE UP", "FAKE DOWN", "LISP DOWN", "ANGEL DOWN", "ANGEL UP" // untrusted
     };
