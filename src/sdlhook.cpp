@@ -167,8 +167,8 @@ static void SwapWindow(SDL_Window* window)
 
 void SDL2::HookSwapWindow()
 {
-    uintptr_t swapwindowFn = reinterpret_cast<uintptr_t>(dlsym(RTLD_NEXT, "SDL_GL_SwapWindow"));
-    swapWindowJumpAddress = reinterpret_cast<uintptr_t*>(GetAbsoluteAddress(swapwindowFn, 3, 7));
+    uintptr_t swapwindowFn = reinterpret_cast<uintptr_t>(dlsym(RTLD_NEXT, "SDL_GL_SwapWindow")) + 1;
+    swapWindowJumpAddress = reinterpret_cast<uintptr_t*>(GetAbsoluteAddress(swapwindowFn, 1, 5));
     oSwapWindow = *swapWindowJumpAddress;
     oSDL_GL_SwapWindow = reinterpret_cast<SDL_GL_SwapWindow_t>(oSwapWindow);
     *swapWindowJumpAddress = reinterpret_cast<uintptr_t>(&SwapWindow);
@@ -188,8 +188,8 @@ static int PollEvent(SDL_Event* event)
 
 void SDL2::HookPollEvent()
 {
-    uintptr_t polleventFn = reinterpret_cast<uintptr_t>(dlsym(RTLD_NEXT, "SDL_PollEvent"));
-    polleventJumpAddress = reinterpret_cast<uintptr_t*>(GetAbsoluteAddress(polleventFn, 3, 7));
+    uintptr_t polleventFn = reinterpret_cast<uintptr_t>(dlsym(RTLD_NEXT, "SDL_PollEvent")) + 1;
+    polleventJumpAddress = reinterpret_cast<uintptr_t*>(GetAbsoluteAddress(polleventFn, 1, 5));
     oPollEvent = *polleventJumpAddress;
     oSDL_PollEvent = reinterpret_cast<SDL_PollEvent_t>(oPollEvent);
     *polleventJumpAddress = reinterpret_cast<uintptr_t>(&PollEvent);
