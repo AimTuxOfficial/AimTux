@@ -232,4 +232,15 @@ void Offsets::GetNetVarOffsets()
 	offsets.DT_PhysPropLootCrate.m_bRenderInTablet = NetVarManager::GetOffset(tables, XORSTR("DT_PhysPropLootCrate"), XORSTR("m_bRenderInTablet"));
 	offsets.DT_PhysPropLootCrate.m_iHealth = NetVarManager::GetOffset(tables, XORSTR("DT_PhysPropLootCrate"), XORSTR("m_iHealth"));
 	offsets.DT_PhysPropLootCrate.m_iMaxHealth = NetVarManager::GetOffset(tables, XORSTR("DT_PhysPropLootCrate"), XORSTR("m_iMaxHealth"));
+
+	offsets.DT_BaseAnimating.m_nSequence = NetVarManager::GetOffset(tables, XORSTR("DT_BaseAnimating"), XORSTR("m_nSequence"));
+	offsets.DT_BaseAnimating.m_bClientSideAnimation = NetVarManager::GetOffset(tables, XORSTR("DT_BaseAnimating"), XORSTR("m_bClientSideAnimation"));
+	offsets.DT_BaseAnimating.m_nSkin = NetVarManager::GetOffset(tables, XORSTR("DT_BaseAnimating"), XORSTR("m_nSkin"));
+	offsets.DT_BaseAnimating.m_nBody = NetVarManager::GetOffset(tables, XORSTR("DT_BaseAnimating"), XORSTR("m_nBody"));
+	offsets.DT_BaseAnimating.m_flPoseParameter = NetVarManager::GetOffset(tables, XORSTR("DT_BaseAnimating"), XORSTR("m_flPoseParameter"));
+	offsets.DT_BaseAnimating.m_nForceBone = NetVarManager::GetOffset(tables, XORSTR("DT_BaseAnimating"), XORSTR("m_nForceBone"));
+	offsets.DT_BaseAnimating.m_nHitboxSet = NetVarManager::GetOffset(tables, XORSTR("DT_BaseAnimating"), XORSTR("m_nHitboxSet"));
+	offsets.DT_BaseAnimating.m_nMuzzleFlashParity = NetVarManager::GetOffset(tables, XORSTR("DT_BaseAnimating"), XORSTR("m_nMuzzleFlashParity"));
+	offsets.DT_BaseAnimating.m_hLightingOrigin = NetVarManager::GetOffset(tables, XORSTR("DT_BaseAnimating"), XORSTR("m_hLightingOrigin"));
+	offsets.DT_BaseAnimating.m_bClientSideFrameReset = NetVarManager::GetOffset(tables, XORSTR("DT_BaseAnimating"), XORSTR("m_bClientSideFrameReset"));
 }

@@ -475,6 +475,11 @@ public:
 	{
 		return (QAngle*)((uintptr_t)this + offsets.DT_BasePlayer.deadflag + 0x4);
 	}
+
+	int GetHitboxSetCount()
+	{
+		return *(int*)((uintptr_t)this + offsets.DT_BaseAnimating.m_nHitboxSet);
+	}
 };
 
 class C_PlantedC4 : public C_BaseEntity
