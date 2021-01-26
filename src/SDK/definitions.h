@@ -560,14 +560,41 @@ enum
 	NUM_OF_BONES, // leave at bottom
 };
 
-enum class Hitbox : int
+enum Hitbox
 {
 	HITBOX_HEAD = 0,
 	HITBOX_NECK,
 	HITBOX_PELVIS,
-	HITBOX_SPINE,
-	HITBOX_LEGS,
-	HITBOX_ARMS,
+	HITBOX_STOMACH,
+	HITBOX_LOWER_CHEST,
+	HITBOX_CHEST,
+	HITBOX_UPPER_CHEST,
+	HITBOX_RIGHT_THIGH,
+	HITBOX_LEFT_THIGH,
+	HITBOX_RIGHT_CALF,
+	HITBOX_LEFT_CALF,
+	HITBOX_RIGHT_FOOT,
+	HITBOX_LEFT_FOOT,
+	HITBOX_RIGHT_HAND,
+	HITBOX_LEFT_HAND,
+	HITBOX_RIGHT_UPPER_ARM,
+	HITBOX_RIGHT_FOREARM,
+	HITBOX_LEFT_UPPER_ARM,
+	HITBOX_LEFT_FOREARM,
+	HITBOX_COUNT,
+};
+
+enum HitboxFlags
+{
+    HEAD = 1 << 0,
+    NECK = 1 << 1,
+    PELVIS = 1 << 2,
+    STOMACH = 1 << 3,
+    CHEST = 1 << 4,
+    LEGS = 1 << 5,
+    FEET = 1 << 6,
+    HANDS = 1 << 7,
+    ARMS = 1 << 8
 };
 
 enum class HitGroups : int
@@ -580,7 +607,8 @@ enum class HitGroups : int
 	HITGROUP_RIGHTARM,
 	HITGROUP_LEFTLEG,
 	HITGROUP_RIGHTLEG,
-	HITGROUP_GEAR
+    HITGROUP_NECK = 8,
+	HITGROUP_GEAR = 10,
 };
 
 enum class CSWeaponType : int

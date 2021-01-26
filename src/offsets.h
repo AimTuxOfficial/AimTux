@@ -278,6 +278,20 @@ struct COffsets
 		std::ptrdiff_t m_iHealth;
 		std::ptrdiff_t m_iMaxHealth;
 	} DT_PhysPropLootCrate;
+
+	struct
+	{
+		std::ptrdiff_t m_nSequence;
+		std::ptrdiff_t m_bClientSideAnimation;
+		std::ptrdiff_t m_nSkin;
+		std::ptrdiff_t m_nBody;
+		std::ptrdiff_t m_flPoseParameter;
+		std::ptrdiff_t m_nForceBone;
+		std::ptrdiff_t m_nHitboxSet;
+		std::ptrdiff_t m_nMuzzleFlashParity;
+		std::ptrdiff_t m_hLightingOrigin;
+		std::ptrdiff_t m_bClientSideFrameReset;
+	} DT_BaseAnimating;
 };
 
 namespace Offsets

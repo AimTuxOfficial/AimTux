@@ -9,7 +9,6 @@
 
 #include "EventListener.h"
 #include "Utils/xorstring.h"
-#include "Utils/bonemaps.h"
 
 #include "Hacks/nosmoke.h"
 #include "Hacks/tracereffect.h"
@@ -132,11 +131,6 @@ void MainThread()
     //Settings::LoadSettings();
 
     srand(time(nullptr)); // Seed random # Generator so we can call rand() later
-
-    // Build bonemaps here if we are already in-game
-    if( engine->IsInGame() ){
-        BoneMaps::BuildAllBonemaps();
-    }
 
     cvar->ConsoleColorPrintf(ColorRGBA(0, 225, 0), XORSTR("\nFuzion Successfully loaded.\n"));
 }
