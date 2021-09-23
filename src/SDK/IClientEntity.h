@@ -730,7 +730,7 @@ public:
 
 	void DrawCrosshair() { // returns a 1
 		typedef void (* oDrawCrosshair)( void* );
-		return getvfunc<oDrawCrosshair>( this, 471 )( this );
+		return getvfunc<oDrawCrosshair>( this, 472 )( this );
 	}
 
 	CCSWeaponInfo* GetCSWpnData() { // "script file not found" (client_client)
