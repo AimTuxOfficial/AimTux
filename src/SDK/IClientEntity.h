@@ -740,17 +740,17 @@ public:
 
 	float GetSpread() {
 		typedef float (* oGetSpread)( void* );
-		return getvfunc<oGetSpread>( this, 520 )( this );
+		return getvfunc<oGetSpread>( this, 521 )( this );
 	}
 
 	float GetInaccuracy() {
 		typedef float (* oGetInaccuracy)( void* );
-		return getvfunc<oGetInaccuracy>( this, 550 )( this );
+		return getvfunc<oGetInaccuracy>( this, 551 )( this );
 	}
 
 	void UpdateAccuracyPenalty() {
 		typedef void (* oUpdateAccuracyPenalty)( void* );
-		return getvfunc<oUpdateAccuracyPenalty>( this, 551 )( this );
+		return getvfunc<oUpdateAccuracyPenalty>( this, 552 )( this );
 	}
 };
 
