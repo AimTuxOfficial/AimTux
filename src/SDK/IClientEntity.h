@@ -658,35 +658,37 @@ public:
 	}
 
 	float GetWeaponArmorRatio() {
-		return *( float* ) ( ( uintptr_t )this + 0x170);
+		return *( float* ) ( ( uintptr_t )this + 0x174);
 	}
 
 	float GetPenetration() {
-		return *( float* ) ( ( uintptr_t )this + 0x178);
+		return *( float* ) ( ( uintptr_t )this + 0x17C);
 	}
 
 	float GetRange() {
-		return *( float* ) ( ( uintptr_t )this + 0x184);
-	}
-
-	float GetRangeModifier() {
 		return *( float* ) ( ( uintptr_t )this + 0x188);
 	}
 
-	float GetMaxPlayerSpeed() {
-		return *( float* ) ( ( uintptr_t )this + 0x1B0);
+	float GetRangeModifier() {
+		return *( float* ) ( ( uintptr_t )this + 0x18C);
 	}
 
+	float GetMaxPlayerSpeed() {
+		return *( float* ) ( ( uintptr_t )this + 0x1B8);
+	}
+
+	// i haven't updated the offset of this since 22 september 2021 (shark operation or whatever)
+	// should be 0x8 to 0x10 higher
 	int GetZoomLevels() { // Doesn't work correctly on some weapons.
 		return *( int* ) ( ( uintptr_t )this + 0x23C); // DT_WeaponCSBaseGun.m_zoomLevel ?
 	}
 
 	char* GetTracerEffect() {
-		return *( char** ) ( ( uintptr_t )this + 0x280);
+		return *( char** ) ( ( uintptr_t )this + 0x290);
 	}
 
 	int* GetTracerFrequency() {
-		return ( int* ) ( ( uintptr_t )this + 0x288);
+		return ( int* ) ( ( uintptr_t )this + 0x298);
 	}
 };
 
