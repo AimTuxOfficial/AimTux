@@ -611,6 +611,8 @@ void Settings::LoadDefaultsOrSave(std::string path)
 
 	settings[XORSTR("NoCSM")][XORSTR("enabled")] = Settings::NoCSM::enabled;
 
+	settings[XORSTR("SDRSettings")][XORSTR("nagleTime")] = Settings::SDRSettings::nagleTime;
+
 	settings[XORSTR("GrenadeHelper")][XORSTR("enabled")] = Settings::GrenadeHelper::enabled;
 	settings[XORSTR("GrenadeHelper")][XORSTR("aimAssist")] = Settings::GrenadeHelper::aimAssist;
 	settings[XORSTR("GrenadeHelper")][XORSTR("OnlyMatching")] = Settings::GrenadeHelper::onlyMatchingInfos;
@@ -1158,7 +1160,9 @@ void Settings::LoadConfig(std::string path)
 
 	GetVal(settings[XORSTR("NoCSM")][XORSTR("enabled")], &Settings::NoCSM::enabled);
 
-    	GetVal(settings[XORSTR("GrenadeHelper")][XORSTR("enabled")], &Settings::GrenadeHelper::enabled);
+    	GetVal(settings[XORSTR("SDRSettings")][XORSTR("nagleTime")], &Settings::SDRSettings::nagleTime);
+
+	GetVal(settings[XORSTR("GrenadeHelper")][XORSTR("enabled")], &Settings::GrenadeHelper::enabled);
 	GetVal(settings[XORSTR("GrenadeHelper")][XORSTR("aimAssist")], &Settings::GrenadeHelper::aimAssist);
 	GetVal(settings[XORSTR("GrenadeHelper")][XORSTR("OnlyMatching")], &Settings::GrenadeHelper::onlyMatchingInfos);
 	GetVal(settings[XORSTR("GrenadeHelper")][XORSTR("aimStep")], &Settings::GrenadeHelper::aimStep);

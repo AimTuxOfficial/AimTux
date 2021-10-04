@@ -13,6 +13,7 @@ int* nPredictionRandomSeed = nullptr;
 CMoveData* g_MoveData = nullptr;
 bool* s_bOverridePostProcessingDisable = nullptr;
 ConVar *cl_csm_enabled = nullptr;
+int32_t *g_nagleTime = nullptr;
 
 VMT* panelVMT = nullptr;
 VMT* clientVMT = nullptr;
@@ -548,4 +549,24 @@ void Hooker::FindCSMEnabled()
 	XORSTR("xxx????xxxxxxxxxxxxx????xx????x") );
 
     cl_csm_enabled = reinterpret_cast<ConVar*>( GetAbsoluteAddress( funcAddr, 3, 7 ) );
+}
+
+void Hooker::FindNagleTime()
+{
+    //https://github.com/ValveSoftware/GameNetworkingSockets/blob/master/src/steamnetworkingsockets/clientlib/csteamnetworkingsockets.cpp#L75
+    // Right below "MTU_PacketSize"
+    // C7 05 75 F9 5C 00 88 13 00 00       mov     cs:dword_6147FC, 5000   <-----------------
+    // 48 8D 3D D2 F8 5C 00                lea     rdi, unk_614760
+    // C7 05 60 F9 5C 00 01 00 00 00       mov     cs:dword_6147F8, 1
+    // C7 05 5E F9 5C 00 88 13 00 00       mov     cs:dword_614800, 5000
+    // C7 05 3C F9 5C 00 00 00 00 00       mov     cs:dword_6147E8, 0
+    // C7 05 36 F9 5C 00 20 4E 00 00       mov     cs:dword_6147EC, 20000
+    // E8 25 EE 07 00                      call    sub_C3CE0
+    uintptr_t line = PatternFinder::FindPatternInModule(XORSTR("/libsteamnetworkingsockets.so"),
+       (unsigned char*)XORSTR("\xC7\x05"
+			    "\x00\x00\x00\x00"
+			    "\x88\x13\x00\x00\x48"),
+			XORSTR("xx????xxxxx"));
+
+    g_nagleTime = (int32_t*)GetAbsoluteAddress(line + 27, 2, 10);
 }

@@ -1165,6 +1165,11 @@ namespace Settings
 	    	inline bool enabled = false;
 	}
 
+	namespace SDRSettings
+	{
+		inline int32_t nagleTime = 5000; // valve-default
+	}
+
 	namespace DisablePostProcessing
 	{
 		inline bool enabled = false;

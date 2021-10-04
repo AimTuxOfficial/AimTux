@@ -437,6 +437,8 @@ void Misc::RenderTab()
 				ImGui::Checkbox(XORSTR("Sniper Crosshair"), &Settings::SniperCrosshair::enabled);
 				ImGui::Checkbox(XORSTR("Disable post-processing"), &Settings::DisablePostProcessing::enabled);
 				ImGui::Checkbox(XORSTR("No Duck Cooldown"), &Settings::NoDuckCooldown::enabled);
+				ImGui::SliderInt(XORSTR("##NAGLETIME"), &Settings::SDRSettings::nagleTime, 0, 100'000, XORSTR("Nagle Time: %0.f"));
+			    	SetTooltip( XORSTR( "Number of Milliseconds the game's SDR networking will stack up packets for, before sending them out.\nSetting to 0 is optimal, default is 5000\nOnly effects Valve SDR servers") );
 			}
 			ImGui::NextColumn();
 			{

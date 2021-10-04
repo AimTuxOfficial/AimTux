@@ -41,4 +41,5 @@ namespace Hooker
 	void FindAbsFunctions();
 	void FindItemSystem();
 	void FindCSMEnabled();
+	void FindNagleTime();
 }

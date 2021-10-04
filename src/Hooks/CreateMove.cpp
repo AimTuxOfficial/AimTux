@@ -23,6 +23,7 @@
 #include "../Hacks/tracereffect.h"
 #include "../Hacks/nofall.h"
 #include "../Hacks/noCSM.h"
+#include "../Hacks/sdrsettings.h"
 
 bool CreateMove::sendPacket = true;
 QAngle CreateMove::lastTickViewAngles = QAngle(0, 0, 0);
@@ -45,6 +46,8 @@ bool Hooks::CreateMove(void* thisptr, float flInputSampleTime, CUserCmd* cmd)
 	BHop::CreateMove(cmd);
 	NoDuckCooldown::CreateMove(cmd);
 	NoCSM::CreateMove(cmd);
+	SDRSettings::CreateMove(cmd);
+
 	AutoStrafe::CreateMove(cmd);
 	ShowRanks::CreateMove(cmd);
 	AutoDefuse::CreateMove(cmd);

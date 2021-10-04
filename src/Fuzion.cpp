@@ -59,6 +59,7 @@ void MainThread()
     Hooker::FindAbsFunctions();
     Hooker::FindItemSystem();
     Hooker::FindCSMEnabled();
+    Hooker::FindNagleTime();
 
     SDL2::HookSwapWindow();
     SDL2::HookPollEvent();

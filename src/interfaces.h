@@ -71,6 +71,7 @@ extern int* nPredictionRandomSeed;
 extern CMoveData* g_MoveData;
 extern bool* s_bOverridePostProcessingDisable;
 extern ConVar *cl_csm_enabled;
+extern int32_t *g_nagleTime;
 
 namespace Interfaces
 {
