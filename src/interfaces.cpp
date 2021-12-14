@@ -69,7 +69,7 @@ void Interfaces::FindInterfaces()
 	sound = GetInterface<IEngineSound>(XORSTR("./bin/linux64/engine_client.so"), XORSTR("IEngineSoundClient"));
 	localize = GetInterface<ILocalize>(XORSTR("./bin/linux64/localize_client.so"), XORSTR("Localize_"));
 	commandline = GetSymbolAddress<CommandLineFn>(XORSTR("./bin/linux64/libtier0_client.so"), XORSTR("CommandLine"))();
-    panoramaEngine = GetInterface<IPanoramaUIEngine>(XORSTR("./bin/linux64/panorama_client.so"), XORSTR("PanoramaUIEngine001"), true);
+    panoramaEngine = GetInterface<IPanoramaUIEngine>(XORSTR("./bin/linux64/panorama_gl_client.so"), XORSTR("PanoramaUIEngine001"), true);
 	fileSystem = GetInterface<IFileSystem>( XORSTR( "./bin/linux64/filesystem_stdio_client.so" ), XORSTR( "VFileSystem" ) );
 	gameTypes = GetInterface<IGameTypes>(XORSTR("./csgo/bin/linux64/matchmaking_client.so"), XORSTR("VENGINE_GAMETYPES_VERSION002"), true);
 }
