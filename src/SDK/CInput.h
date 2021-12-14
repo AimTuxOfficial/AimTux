@@ -1,7 +1,7 @@
 class CInput
 {
 public:
-	char _pad0[0xB4];
+	char _pad0[0xC8];
 	bool m_fCameraInterceptingMouse;
 	bool m_fCameraInThirdPerson;
 	bool m_fCameraMovingWithMouse;
