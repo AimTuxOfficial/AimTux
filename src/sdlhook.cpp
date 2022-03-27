@@ -9,6 +9,7 @@
 #include "ImGUI/examples/libs/gl3w/GL/gl3w.h"
 #include "ImGUI/imgui_internal.h" // for 	ImGui::GetCurrentContext()->Font->DisplayOffset
 #include <SDL2/SDL.h>
+#include <algorithm> //clamp xd
 
 typedef void (*SDL_GL_SwapWindow_t) (SDL_Window*);
 typedef int (*SDL_PollEvent_t) (SDL_Event*);
@@ -36,13 +37,13 @@ static void HandleSDLEvent(SDL_Event * event)
 
             return;
         case SDL_MOUSEBUTTONDOWN:
-            if (event->button.button == SDL_BUTTON_LEFT) io.MouseDown[0] = true;
+	    if (event->button.button == SDL_BUTTON_LEFT) SDL2::isMouseDown = true;
             if (event->button.button == SDL_BUTTON_RIGHT) io.MouseDown[1] = true;
             if (event->button.button == SDL_BUTTON_MIDDLE) io.MouseDown[2] = true;
 
             return;
         case SDL_MOUSEBUTTONUP:
-            if (event->button.button == SDL_BUTTON_LEFT) io.MouseDown[0] = false;
+	    if (event->button.button == SDL_BUTTON_LEFT) SDL2::isMouseDown = false;
             if (event->button.button == SDL_BUTTON_RIGHT) io.MouseDown[1] = false;
             if (event->button.button == SDL_BUTTON_MIDDLE) io.MouseDown[2] = false;
 
@@ -53,13 +54,20 @@ static void HandleSDLEvent(SDL_Event * event)
             return;
         case SDL_KEYDOWN:
         case SDL_KEYUP:
-            int key = event->key.keysym.sym & ~SDLK_SCANCODE_MASK;
+	    #define key (event->key.keysym.sym & ~SDLK_SCANCODE_MASK)
             io.KeysDown[key] = (event->type == SDL_KEYDOWN);
             io.KeyShift = ((SDL_GetModState() & KMOD_SHIFT) != 0);
             io.KeyCtrl = ((SDL_GetModState() & KMOD_CTRL) != 0);
             io.KeyAlt = ((SDL_GetModState() & KMOD_ALT) != 0);
             io.KeySuper = ((SDL_GetModState() & KMOD_GUI) != 0);
 
+            return;
+        case SDL_MOUSEMOTION:
+	    SDL2::mouseX = event->motion.x;
+	    SDL2::mouseY = event->motion.y;
+	  //SDL2::mouseX += event->motion.xrel;
+	  //SDL2::mouseY += event->motion.yrel;
+	    //cvar->ConsoleDPrintf("x(%d) y(%d) xrel(%d) yrel(%d) -ourx(%d) oury(%d)\n", event->motion.x, event->motion.y, event->motion.xrel, event->motion.yrel, SDL2::mouseX, SDL2::mouseY);
             return;
     }
 }
@@ -118,10 +126,10 @@ static void SwapWindow(SDL_Window* window)
     double currentTime = time / 1000.0;
     io.DeltaTime = lastTime > 0.0 ? (float)(currentTime - lastTime) : (float)(1.0f / 60.0f);
 
-    io.MouseDrawCursor = UI::isVisible && engine->IsInGame();
+    io.MouseDrawCursor = UI::isVisible;
     io.WantCaptureMouse = UI::isVisible;
     io.WantCaptureKeyboard = UI::isVisible;
-
+    
     if (UI::isVisible && !SetKeyCodeState::shouldListen)
     {
         SDL_Event event;
@@ -134,15 +142,21 @@ static void SwapWindow(SDL_Window* window)
             HandleSDLEvent(&event);
         }
     }
-
+    
     if( io.WantCaptureMouse ){
-        int mx, my;
-        SDL_GetMouseState(&mx, &my);
-
-        io.MousePos = ImVec2((float)mx, (float)my);
-
+        int w, h;
+        SDL_GetWindowSize(window, &w, &h);
+      
+	SDL2::mouseX = std::clamp(SDL2::mouseX, 0, w);
+	SDL2::mouseY = std::clamp(SDL2::mouseY, 0, h);
+	
+        io.MousePos.x = SDL2::mouseX;
+        io.MousePos.y = SDL2::mouseY;
+	io.MouseDown[0] = SDL2::isMouseDown;
+	
         SDL_ShowCursor(io.MouseDrawCursor ? 0: 1);
     }
+    
 
     ImGui::NewFrame();
         ImGui::SetNextWindowPos( ImVec2( 0, 0 ), ImGuiCond_Always );
