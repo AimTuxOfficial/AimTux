@@ -6,6 +6,7 @@
 #include "fonts.h"
 #include "Hooks/hooks.h"
 #include "sdlhook.h"
+#include "steamapi.h"
 
 #include "EventListener.h"
 #include "Utils/xorstring.h"
@@ -63,6 +64,7 @@ void MainThread()
 
     SDL2::HookSwapWindow();
     SDL2::HookPollEvent();
+    SteamAPI::HookSteamInput();
 
     Offsets::GetNetVarOffsets();
     Fonts::SetupFonts();
@@ -156,6 +158,7 @@ void __attribute__((destructor)) Shutdown()
 
 	SDL2::UnhookWindow();
 	SDL2::UnhookPollEvent();
+	SteamAPI::UnhookSteamInput();
 
 	NoSmoke::Cleanup();
 	TracerEffect::RestoreTracers();

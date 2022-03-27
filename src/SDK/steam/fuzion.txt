@@ -1,0 +1,3 @@
+you can download old versions of the steamworks SDK here: https://partner.steamgames.com/downloads/list
+
+this is version: 152
