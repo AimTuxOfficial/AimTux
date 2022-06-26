@@ -443,7 +443,7 @@ void GrenadePrediction::RenderView( void* thisptr, CViewSetup& setup, CViewSetup
         std::string materialName = XORSTR( "KisakDoesNotSuck" );
         KeyValues* keyValues = new KeyValues( XORSTR( "UnlitGeneric" ) );
 
-        InitKeyValues( keyValues, XORSTR( "UnlitGeneric" ) );
+        InitKeyValues( keyValues, XORSTR( "UnlitGeneric" ), NULL, NULL);
         LoadFromBuffer( keyValues, materialName.c_str(), materialData.str().c_str(), nullptr, NULL, nullptr );
 
         nadeViewMat = material->CreateMaterial( materialName.c_str(), keyValues );
