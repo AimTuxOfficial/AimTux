@@ -32,7 +32,7 @@ typedef void (*StartDrawingFn) (void*);
 typedef void (*FinishDrawingFn) (void*);
 typedef CBaseClientState* (*GetLocalClientFn) (int);
 typedef bool (*LineGoesThroughSmokeFn) (Vector, Vector, int16_t);
-typedef void (*InitKeyValuesFn) (KeyValues*, const char*);
+typedef void (*InitKeyValuesFn)(KeyValues *, const char*, int, int);
 typedef void (*LoadFromBufferFn) (KeyValues*, const char*, const char*, void*, const char*, void*);
 typedef ICommandLine* (*CommandLineFn) (void);
 //typedef void (*RandomSeedFn)(int);

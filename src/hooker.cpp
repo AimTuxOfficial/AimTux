@@ -291,8 +291,8 @@ void Hooker::FindLineGoesThroughSmoke()
 void Hooker::FindInitKeyValues()
 {
 	uintptr_t func_address = PatternFinder::FindPatternInModule(XORSTR("/client_client.so"),
-																(unsigned char*) XORSTR("\x81\x27\x00\x00\x00\xFF\x55\x31\xC0\x48\x89\xE5\x5D"),
-																XORSTR("xxxxxxxxxxxxx"));
+																(unsigned char*) XORSTR("\x81\x27\x00\x00\x00\xFF\x55\x45\x31\xC0\x48\x89\xE5\x5D"),
+																XORSTR("xxxxxxxxxxxxxx"));
 	InitKeyValues = reinterpret_cast<InitKeyValuesFn>(func_address);
 }
 
